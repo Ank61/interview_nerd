@@ -67,3 +67,11 @@
     @apply bg-background text-foreground;
   }
 }
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus
+div:focus {
+    outline: none !important;
+}

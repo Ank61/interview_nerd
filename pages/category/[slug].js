@@ -4,6 +4,8 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import { ArrowLeft } from "lucide-react";
+import PrepareSection from "@/components/prepareSection";
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -42,7 +44,7 @@ export default function BasicTabs() {
 
   return (
     <Box>
-      <Box sx={{ display: "flex", justifyContent: "left", padding : 2 }}>
+      <Box sx={{ display: "flex", justifyContent: "left", padding: 2 }}>
         <ArrowLeft size={28} />
       </Box>
       <Box sx={{ width: "auto" }}>
@@ -55,12 +57,20 @@ export default function BasicTabs() {
             textColor="secondary"
             indicatorColor="secondary"
           >
-            <Tab sx={{fontWeight : 600 , textTransform:'none', fontSize: 17 }} label="Prepare" {...a11yProps(0)} />
-            <Tab sx={{fontWeight : 600 , textTransform:'none', fontSize: 17 }} label="Interview Questions" {...a11yProps(1)} />
+            <Tab
+              sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
+              label="Prepare"
+              {...a11yProps(0)}
+            />
+            <Tab
+              sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
+              label="Interview Questions"
+              {...a11yProps(1)}
+            />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          Item One
+          <PrepareSection />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           Item Two
