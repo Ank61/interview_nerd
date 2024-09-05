@@ -22,6 +22,7 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
+import { color } from "framer-motion";
 
 const invoices = [
   {
@@ -113,7 +114,7 @@ const advance = [
   },
 ];
 
-export default function PrepareSection() {
+export default function PrepareSection({textColor, themeBgColor}) {
     const [level, setLevel] = React.useState("Beginner");
   return (
     <>
@@ -132,13 +133,14 @@ export default function PrepareSection() {
       <TAB defaultValue="Beginner" value={level} className="w-[400px] mt-8">
         <TabsList className="grid w-full grid-cols-2 bg-white">
           <TabsTrigger
+            style={ level==="Beginner" ? { color :textColor ,backgroundColor:themeBgColor} : { color :"black" ,backgroundColor:"white"}}
             value="Beginner"
             onClick={() => setLevel("Beginner")}
-            className="bg-white text-black data-[state=active]:bg-black data-[state=active]:text-white"
           >
-            Beginner Topics
+            Beginner Topics {JSON.stringify(textColor)}
           </TabsTrigger>
           <TabsTrigger
+          style={ level !=="Beginner" ? { color :textColor ,backgroundColor:themeBgColor} : { color :"black" ,backgroundColor:"white"}}
             value="Advance"
             onClick={() => setLevel("Advance")}
             className="bg-white text-black data-[state=active]:bg-black data-[state=active]:text-white"

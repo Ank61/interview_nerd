@@ -34,7 +34,7 @@ export default function Home() {
           whileHover={{ boxShadow: "0px 10px 30px rgba(236, 238, 200, 0.8)" }}
           whileTap={{ boxShadow: "0px 10px 30px rgba(236, 238, 200, 0.8)" }}
           transition={{ duration: 0.3 }}
-          onClick={()=>router.push("/category/javascript")}
+          onClick={()=>router.push("/category/Javascript")}
           className="rounded-xl sm:mb-0 sm:flex-none sm:w-auto mb-4 rounded-2xl w-4/6 flex justify-center items-center"
         >
           <Card className="w-[350px] bg-yellow-50 border-yellow-50 cursor-pointer rounded-xl">
