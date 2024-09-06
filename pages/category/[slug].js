@@ -3,6 +3,7 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
+import { motion } from "framer-motion";
 import Box from "@mui/material/Box";
 import { ArrowLeft } from "lucide-react";
 import PrepareSection from "@/components/prepareSection";
@@ -163,6 +164,7 @@ export default function BasicTabs() {
   ];
 
   const [value, setValue] = React.useState(0);
+  const [interviewSelection, setInterviewSelection] = React.useState("Junior");
   const [level, setLevel] = React.useState("Beginner");
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
@@ -247,7 +249,7 @@ export default function BasicTabs() {
             <SearchIcon className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-400 dark:text-gray-600" />
           </div>
           <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
-            <TabsList className="grid w-full grid-cols-2 bg-white">
+            <TabsList className="grid w-full grid-cols-2 bg-white border">
               <TabsTrigger
                 value="Beginner"
                 onClick={() => setLevel("Beginner")}
@@ -405,7 +407,596 @@ export default function BasicTabs() {
           </TAB>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          Item Two
+          <TAB
+            defaultValue="Junior"
+            value={interviewSelection}
+            className="w-auto mt-2"
+          >
+            <TabsList className="grid w-full grid-cols-3 bg-white border">
+              <TabsTrigger
+                value="Junior"
+                onClick={() => setInterviewSelection("Junior")}
+                className={`bg-white text-black  ${
+                  topic === "Javascript"
+                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                    : ""
+                }`}
+              >
+                Junior
+              </TabsTrigger>
+              <TabsTrigger
+                value="Mid"
+                onClick={() => setInterviewSelection("Mid")}
+                className={`bg-white text-Javascript-text  ${
+                  topic === "Javascript"
+                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                    : ""
+                }`}
+              >
+                Mid
+              </TabsTrigger>
+              <TabsTrigger
+                value="Senior"
+                onClick={() => setInterviewSelection("Senior")}
+                className={`bg-white text-Javascript-text ${
+                  topic === "Javascript"
+                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                    : ""
+                }`}
+              >
+                Senior
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="Junior" className="mt-4">
+              <div className="flex flex-col gap-4 items-center justify-center">
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="Mid" className="mt-4">
+              <div className="flex flex-col gap-4 items-center justify-center">
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+
+                <div
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-lg p-3 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+            <TabsContent value="Senior" className="mt-4">
+              <div className="flex flex-col gap-4 items-center justify-center">
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div> <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <p className="text-sm text-gray-800 font-light">
+                      {" "}
+                      Build a Python app using Django and then deploy the app to
+                      App Platform using a Gunicorn HTTP server.{" "}
+                    </p>
+                  </div>
+                </motion.div>
+                
+              </div>
+            </TabsContent>
+          </TAB>
         </CustomTabPanel>
       </Box>
     </Box>
