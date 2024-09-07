@@ -56,6 +56,8 @@ module.exports = {
           text: "#745b10",
           topic: "#e4bc40",
           border: "#9c8a68",
+          lightTheme: "#fdf9d7",
+
         },
       },
       borderRadius: {
