@@ -6,7 +6,6 @@ import Tab from "@mui/material/Tab";
 import { motion } from "framer-motion";
 import Box from "@mui/material/Box";
 import { ArrowLeft } from "lucide-react";
-import PrepareSection from "@/components/prepareSection";
 import { useRouter } from "next/router";
 import { Hash } from "lucide-react";
 import {
@@ -305,7 +304,7 @@ export default function BasicTabs() {
                   {invoices.map((invoice) => (
                     <TableRow key={invoice.invoice}>
                       <TableCell
-                        className={`font-medium text-[17px] p-[2px] ${
+                        className={`font-medium text-[16px] p-[2px] ${
                           topic === "Javascript" ? "text-Javascript-text " : ""
                         }`}
                       >
@@ -313,6 +312,7 @@ export default function BasicTabs() {
                       </TableCell>
                       <TableCell className="text-center">
                         <Button
+                          onClick={()=>router.push(`/learn/${invoice.invoice}`)}
                           className={`w-5/6 mb-1 ${
                             topic === "Javascript"
                               ? " text-Javascript-text bg-white "
@@ -376,7 +376,9 @@ export default function BasicTabs() {
                         {invoice.invoice}
                       </TableCell>
                       <TableCell className="text-center">
-                        <Button className="w-5/6 mb-1 bg-white text-black border-2">
+                        <Button 
+                        onClick={()=>router.push("/learn/Javascript")}
+                        className="w-5/6 mb-1 bg-white text-black border-2">
                           <GraduationCap className="mr-2" />
                           Learn
                         </Button>
