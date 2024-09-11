@@ -13,7 +13,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -30,97 +29,8 @@ import {
   TabsTrigger,
 } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
-import { color } from "framer-motion";
-
-const invoices = [
-  {
-    invoice: "Hoisting",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "Currying",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "Memoization",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "Debouncing",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "Throttling",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "Parallelism",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "Concurrency",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
-
-const advance = [
-  {
-    invoice: "Hoisting 2",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "Currying 2",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "Memoization 2",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "Debouncing",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "Throttling",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "Parallelism",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "Concurrency",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
+import { prepareData } from "@/data/prepareData";
+import { Typography } from "@mui/material";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -168,6 +78,8 @@ export default function BasicTabs() {
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
   const topic = router.query.slug;
+  let selectedTopicData =
+    prepareData.filter((item) => item.category === topic)[0]?.type || [];
   React.useEffect(() => {
     const topic = router.query.slug;
     setTopicSelected(topic);
@@ -245,7 +157,11 @@ export default function BasicTabs() {
               style={{ textTransform: "none", outline: "none" }}
               className="rounded-lg border-Javascript-border appearance-none text-[15px] w-full  pl-10"
             />
-            <SearchIcon className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-400 dark:text-gray-600" />
+            <SearchIcon
+              className={`absolute left-2.5 top-2.5 w-5 h-5 ${
+                topic === "Javascript" ? "text-Javascript-bg" : "text-gray-400"
+              }`}
+            />
           </div>
           <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
             <TabsList className="grid w-full grid-cols-2 bg-white border">
@@ -274,11 +190,10 @@ export default function BasicTabs() {
             </TabsList>
             <TabsContent value="Beginner" className="mt-5">
               <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
                   <TableRow>
                     <TableHead
-                      className={`${
+                      className={`px-0 text-left ${
                         topic === "Javascript" ? "text-Javascript-text " : ""
                       }`}
                     >
@@ -291,117 +206,209 @@ export default function BasicTabs() {
                     >
                       Action
                     </TableHead>
-                    <TableHead
+                    {/* <TableHead
                       className={`text-center ${
                         topic === "Javascript" ? "text-Javascript-text " : ""
                       }`}
                     >
                       Status
-                    </TableHead>
+                    </TableHead> */}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {invoices.map((invoice) => (
-                    <TableRow key={invoice.invoice}>
-                      <TableCell
-                        className={`font-medium text-[16px] p-[2px] ${
-                          topic === "Javascript" ? "text-Javascript-text " : ""
-                        }`}
-                      >
-                        {invoice.invoice}
-                      </TableCell>
-                      <TableCell className="text-center">
-                        <Button
-                          onClick={()=>router.push(`/learn/${invoice.invoice}`)}
-                          className={`w-5/6 mb-1 ${
+                  {selectedTopicData.length > 0 &&
+                    selectedTopicData[0]?.concepts?.map((concept, index) => (
+                      <TableRow key={concept.topic}>
+                        <TableCell
+                          className={`text-left font-medium text-[15px] p-[0px] ${
                             topic === "Javascript"
-                              ? " text-Javascript-text bg-white "
-                              : ""
-                          } border-2 `}
-                        >
-                          <GraduationCap className={`mr-2 ${topic === "Javascript"
-                              ? " text-Javascript-text bg-white "
-                              : ""}`} />
-                          Learn
-                        </Button>
-                        <Button
-                          className={`w-5/6 bg-white text-black border-2 ${
-                            topic === "Javascript"
-                              ? " text-Javascript-text bg-white "
+                              ? "text-Javascript-text "
                               : ""
                           }`}
                         >
-                          <BookOpenCheck className="mr-2" />
-                          Practice
-                        </Button>
-                      </TableCell>
-                      <TableCell className="text-left">
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              duration: 0.8,
+                              delay: 0.2 * index,
+                              ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                          >
+                            {concept.topic}
+                          </motion.div>
+                        </TableCell>
+                        <TableCell className="text-right">
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              duration: 0.8,
+                              delay: 0.2 * index,
+                              ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                            onClick={() =>
+                              router.push(`/learn/${concept.topic}`)
+                            }
+                            className={`flex font-medium mb-1 border p-2 rounded-md ${
+                              topic === "Javascript"
+                                ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                : ""
+                            }`}
+                          >
+                            <GraduationCap
+                              className={`mr-2  ${
+                                topic === "Javascript"
+                                  ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                  : ""
+                              }`}
+                              size={"21px"}
+                            />
+                            Learn
+                          </motion.div>
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              duration: 0.8,
+                              delay: 0.2 * index,
+                              ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                            className={`flex font-medium bg-white border p-2 rounded-md ${
+                              topic === "Javascript"
+                                ? " text-Javascript-text bg-white "
+                                : ""
+                            }`}
+                          >
+                            <BookOpenCheck
+                              className={`mr-2 ${
+                                topic === "Javascript"
+                                  ? "text-Javascript-topic bg-white "
+                                  : ""
+                              }`}
+                              size={"19px"}
+                            />
+                            Practice
+                          </motion.div>
+                        </TableCell>
+                        {/* <TableCell className="text-left">
                         <Checkbox
                           color={`${
                             topic === "Javascript"
                               ? "text-Javascript-text bg-white"
                               : ""
                           }`}
-                          key={invoice.id}
+                          key={concept.topic}
                           className={`${
                             topic === "Javascript"
                               ? "text-Javascript-text bg-white"
                               : ""
                           }`}
                         />
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                      </TableCell> */}
+                      </TableRow>
+                    ))}
                 </TableBody>
               </Table>
             </TabsContent>
             <TabsContent value="Advance" className="mt-4">
               <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Topic</TableHead>
-                    <TableHead className="text-center">Action</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
+                    <TableHead
+                      className={`px-0 text-left ${
+                        topic === "Javascript" ? "text-Javascript-text " : ""
+                      }`}
+                    >
+                      Topic
+                    </TableHead>
+                    <TableHead
+                      className={`text-center ${
+                        topic === "Javascript" ? "text-Javascript-text " : ""
+                      }`}
+                    >
+                      Action
+                    </TableHead>
+                    {/* <TableHead
+                      className={`text-center ${
+                        topic === "Javascript" ? "text-Javascript-text " : ""
+                      }`}
+                    >
+                      Status
+                    </TableHead> */}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {advance.map((invoice) => (
-                    <TableRow key={invoice.invoice}>
+                  {selectedTopicData[1]?.concepts?.map((concept, index) => (
+                    <TableRow key={concept.topic} className="w-full">
                       <TableCell
-                        className={`font-medium text-[16px] p-[2px] ${
+                        className={`text-left font-medium text-[15px] p-[0px] ${
                           topic === "Javascript" ? "text-Javascript-text " : ""
                         }`}
                       >
-                        {invoice.invoice}
+                        <motion.div
+                          className="w-full"
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            duration: 0.8,
+                            delay: 0.2 * index,
+                            ease: [0, 0.71, 0.2, 1.01],
+                          }}
+                        >
+                          {concept.topic}
+                        </motion.div>
                       </TableCell>
-                      <TableCell className="text-center">
-                        <Button 
-                        onClick={()=>router.push("/learn/Javascript")}
-                        className="w-5/6 mb-1 bg-white text-black border-2">
-                          <GraduationCap className="mr-2" />
-                          Learn
-                        </Button>
-                        <Button className="w-5/6 bg-white text-black border-2">
-                          <BookOpenCheck className="mr-2" />
-                          Practice
-                        </Button>
-                      </TableCell>
-                      <TableCell
-                        className={`text-left ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-white "
-                            : ""
-                        }`}
-                      >
-                        <Checkbox
-                          key={invoice.id}
-                          className={`${
+                      <TableCell className="text-right">
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            duration: 0.8,
+                            delay: 0.2 * index,
+                            ease: [0, 0.71, 0.2, 1.01],
+                          }}
+                          onClick={() => router.push(`/learn/${concept.topic}`)}
+                          className={`flex font-medium mb-1 border p-2 rounded-md ${
                             topic === "Javascript"
-                              ? " text-Javascript-text bg-Javascript-text "
+                              ? " text-Javascript-text bg-white "
                               : ""
                           }`}
-                        />
+                        >
+                          <GraduationCap
+                            className={`mr-2  ${
+                              topic === "Javascript"
+                                ? " text-Javascript-topic bg-white "
+                                : ""
+                            }`}
+                            size={"21px"}
+                          />
+                          Learn
+                        </motion.div>
+                        <motion.div
+                          initial={{ opacity: 0, scale: 0.5 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          transition={{
+                            duration: 0.8,
+                            delay: 0.2 * index,
+                            ease: [0, 0.71, 0.2, 1.01],
+                          }}
+                          className={`flex font-medium bg-white border p-2 rounded-md ${
+                            topic === "Javascript"
+                              ? " text-Javascript-text bg-white "
+                              : ""
+                          }`}
+                        >
+                          <BookOpenCheck
+                            className={`mr-2 ${
+                              topic === "Javascript"
+                                ? "text-Javascript-topic bg-white "
+                                : ""
+                            }`}
+                            size={"19px"}
+                          />
+                          Practice
+                        </motion.div>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -452,13 +459,14 @@ export default function BasicTabs() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="Junior" className="mt-4">
-            <div className="flex flex-col gap-4 items-center justify-center">
+              <div className="flex flex-col gap-4 items-center justify-center">
                 <motion.div
                   animate={{ y: -10 }}
                   transition={{ type: "spring", stiffness: 130 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#">
+                  href="#"
+                >
                   <div className="col-span-11 xl:-ml-5">
                     <p
                       className={`font-semibold ${
@@ -480,7 +488,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -490,7 +498,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
 
@@ -501,7 +509,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -510,7 +518,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.05 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.05 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -535,7 +543,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -545,7 +553,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -554,7 +562,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.10 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.1 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -579,7 +587,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -589,7 +597,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -598,7 +606,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.15 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.15 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -623,7 +631,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -633,7 +641,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -642,7 +650,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 , delay:0.20}}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.2 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -667,7 +675,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -677,7 +685,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -686,7 +694,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.5 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.5 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -711,7 +719,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -721,51 +729,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5"/>
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -799,7 +763,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -809,7 +773,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -843,7 +807,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -853,7 +817,51 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
+                        Currying
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <div className="flex mt-2 justify-end">
+                      <span
+                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
+                          topic === "Javascript"
+                            ? " text-Javascript-text bg-Javascript-lightTheme"
+                            : ""
+                        }`}
+                      >
+                        <Hash size={"14px"} className="mr-0.5" />
+                        Hoisting
+                      </span>
+                      <span
+                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
+                          topic === "Javascript"
+                            ? " text-Javascript-text bg-Javascript-lightTheme"
+                            : ""
+                        }`}
+                      >
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -862,13 +870,14 @@ export default function BasicTabs() {
               </div>
             </TabsContent>
             <TabsContent value="Mid" className="mt-4">
-            <div className="flex flex-col gap-4 items-center justify-center">
+              <div className="flex flex-col gap-4 items-center justify-center">
                 <motion.div
                   animate={{ y: -10 }}
                   transition={{ type: "spring", stiffness: 130 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#">
+                  href="#"
+                >
                   <div className="col-span-11 xl:-ml-5">
                     <p
                       className={`font-semibold ${
@@ -890,7 +899,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -900,7 +909,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
 
@@ -911,7 +920,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -920,7 +929,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.05 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.05 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -945,7 +954,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -955,7 +964,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -964,7 +973,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.10 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.1 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -989,7 +998,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -999,7 +1008,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1008,7 +1017,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.15 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.15 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1033,7 +1042,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1043,7 +1052,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1052,7 +1061,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 , delay:0.20}}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.2 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1077,7 +1086,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1087,7 +1096,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1096,7 +1105,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.5 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.5 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1121,7 +1130,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1131,51 +1140,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5"/>
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1209,7 +1174,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1219,7 +1184,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1253,7 +1218,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1263,7 +1228,51 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
+                        Currying
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <div className="flex mt-2 justify-end">
+                      <span
+                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
+                          topic === "Javascript"
+                            ? " text-Javascript-text bg-Javascript-lightTheme"
+                            : ""
+                        }`}
+                      >
+                        <Hash size={"14px"} className="mr-0.5" />
+                        Hoisting
+                      </span>
+                      <span
+                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
+                          topic === "Javascript"
+                            ? " text-Javascript-text bg-Javascript-lightTheme"
+                            : ""
+                        }`}
+                      >
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1278,7 +1287,8 @@ export default function BasicTabs() {
                   transition={{ type: "spring", stiffness: 130 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#">
+                  href="#"
+                >
                   <div className="col-span-11 xl:-ml-5">
                     <p
                       className={`font-semibold ${
@@ -1300,7 +1310,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1310,7 +1320,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
 
@@ -1321,7 +1331,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1330,7 +1340,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.05 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.05 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1355,7 +1365,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1365,7 +1375,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1374,7 +1384,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.10 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.1 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1399,7 +1409,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1409,7 +1419,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1418,7 +1428,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.15 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.15 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1443,7 +1453,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1453,7 +1463,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1462,7 +1472,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 , delay:0.20}}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.2 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1487,7 +1497,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1497,7 +1507,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1506,7 +1516,7 @@ export default function BasicTabs() {
 
                 <motion.div
                   animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay:0.5 }}
+                  transition={{ type: "spring", stiffness: 130, delay: 0.5 }}
                   className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
                   href="#"
@@ -1531,7 +1541,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1541,51 +1551,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5"/>
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1619,7 +1585,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1629,7 +1595,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
@@ -1663,7 +1629,7 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"14px"} className="mr-0.5"/>
+                        <Hash size={"14px"} className="mr-0.5" />
                         Hoisting
                       </span>
                       <span
@@ -1673,7 +1639,51 @@ export default function BasicTabs() {
                             : ""
                         }`}
                       >
-                        <Hash size={"15px"} className="mr-0.5"/>
+                        <Hash size={"15px"} className="mr-0.5" />
+                        Currying
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  animate={{ y: -10 }}
+                  transition={{ type: "spring", stiffness: 130 }}
+                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
+                  href="#"
+                >
+                  <div className="col-span-11 xl:-ml-5">
+                    <p
+                      className={`font-semibold ${
+                        topic === "Javascript" ? " text-Javascript-text" : ""
+                      }`}
+                    >
+                      {" "}
+                      Deploy a Django App Using Gunicorn to App Platform{" "}
+                    </p>
+                  </div>
+
+                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
+                    <div className="flex mt-2 justify-end">
+                      <span
+                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
+                          topic === "Javascript"
+                            ? " text-Javascript-text bg-Javascript-lightTheme"
+                            : ""
+                        }`}
+                      >
+                        <Hash size={"14px"} className="mr-0.5" />
+                        Hoisting
+                      </span>
+                      <span
+                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
+                          topic === "Javascript"
+                            ? " text-Javascript-text bg-Javascript-lightTheme"
+                            : ""
+                        }`}
+                      >
+                        <Hash size={"15px"} className="mr-0.5" />
                         Currying
                       </span>
                     </div>
