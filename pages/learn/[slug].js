@@ -1,14 +1,13 @@
 "use client";
 import Box from "@mui/material/Box";
 import * as React from "react";
-import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
-import { Typography } from "@mui/material";
 import hljs from "highlight.js";
 import "highlight.js/styles/default.css";
 import { Button } from "@/components/ui/button";
 import { BookCheck } from "lucide-react";
 import { ArrowRight } from "lucide-react";
+import Header from "@/components/header";
 
 const codeSnippet = `
 function addThreeNumbers(a, b, c) {
@@ -65,27 +64,17 @@ export default function Learn() {
 
   return (
     <Box>
-      <Box
-        sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}
-      >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <ArrowLeft size={28} />
-        </Box>
-        {/* <Box sx={{ display: "flex", alignItems: "center" }}>
-            <span
-              className={`scroll-m-20 text-[22px] font-semibold tracking-tight text-Javascript-topic`}
-            >
-              {topic}
-            </span>
-        </Box> */}
-      </Box>
+      <Header topic={""}/>
       <Box sx={{ width: "auto" }} padding={3}>
         <h3 className="scroll-m-20 text-violet-800 text-2xl font-semibold tracking-tight">
           {topic}
         </h3>
         <div dangerouslySetInnerHTML={{ __html: code }} />
         <Box className="flex justify-between gap-4">
-          <Button onClick={()=> router.push(`/test/${topic}`)} className="bg-violet-50 text-md text-violet-800 w-full">
+          <Button
+            onClick={() => router.push(`/test/${topic}`)}
+            className="bg-violet-50 text-md text-violet-800 w-full"
+          >
             Take a Quiz <BookCheck size={"20px"} className="ml-3" />
           </Button>
           <Button className="bg-violet-50 text-md text-violet-800 w-full">

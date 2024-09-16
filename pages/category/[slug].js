@@ -31,6 +31,7 @@ import {
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { Typography } from "@mui/material";
+import Header from "@/components/header";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -93,25 +94,7 @@ export default function BasicTabs() {
 
   return (
     <Box>
-      <Box
-        sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}
-      >
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <ArrowLeft size={28} />
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          {indexSelected !== -1 && (
-            <span
-              className={`scroll-m-20 text-[22px] font-semibold tracking-tight ${
-                topic === "Javascript" ? "text-Javascript-topic" : ""
-              }`}
-            >
-              {topicSelected}
-            </span>
-          )}
-        </Box>
-      </Box>
-
+      <Header topic={topicSelected} indexSelected={indexSelected}/>
       <Box sx={{ width: "auto" }}>
         <Box>
           <Tabs
@@ -267,6 +250,7 @@ export default function BasicTabs() {
                             Learn
                           </motion.div>
                           <motion.div
+                            onClick={()=>router.push(`/test/${concept.topic}`)}
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{
@@ -276,14 +260,14 @@ export default function BasicTabs() {
                             }}
                             className={`flex font-medium bg-white border p-2 rounded-md ${
                               topic === "Javascript"
-                                ? " text-Javascript-text bg-white "
+                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
                             }`}
                           >
                             <BookOpenCheck
                               className={`mr-2 ${
                                 topic === "Javascript"
-                                  ? "text-Javascript-topic bg-white "
+                                  ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
                               }`}
                               size={"19px"}
@@ -386,6 +370,7 @@ export default function BasicTabs() {
                           Learn
                         </motion.div>
                         <motion.div
+                         onClick={()=>router.push(`/test/${concept.topic}`)}
                           initial={{ opacity: 0, scale: 0.5 }}
                           animate={{ opacity: 1, scale: 1 }}
                           transition={{
