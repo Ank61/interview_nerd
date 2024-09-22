@@ -3,7 +3,7 @@ import Box from "@mui/material/Box";
 import * as React from "react";
 import { useRouter } from "next/router";
 import hljs from "highlight.js";
-import "highlight.js/styles/default.css";
+import "highlight.js/styles/github.css";
 import { Button } from "@/components/ui/button";
 import { BookCheck } from "lucide-react";
 import { ArrowRight } from "lucide-react";
@@ -11,33 +11,37 @@ import Header from "@/components/header";
 import { prepareData } from "@/data/prepareData";
 
 export default function Learn() {
-  const [explanation , setExplanation] = React.useState('<></>');
+  const [explanation, setExplanation] = React.useState('');
   const router = useRouter();
   const topic = router.query.slug;
 
   React.useEffect(() => {
-    hljs.highlightAll();
     if (!topic || !prepareData) return;
     const selected = router.query.slug;
-    console.log("starting" , selected);
+    console.log("starting", selected);
     const matchingTopics = prepareData.flatMap(item =>
       item.type.flatMap(typeItem =>
         typeItem.concepts.filter(conceptItem => conceptItem.topic === selected)
       )
     );
-    setExplanation(matchingTopics[0]?.explanation)
-    console.log(matchingTopics);
+    setExplanation(matchingTopics[0]?.explanation);
   }, [router.query.slug]);
+
+  React.useEffect(() => {
+    if (explanation) {
+      hljs.highlightAll();
+    }
+  }, [explanation]);
 
   return (
     <Box width={'full'}>
-      <Header topic={""}/>
+      <Header topic={""} />
       <Box sx={{ width: "auto" }} padding={3}>
         <h3 className="scroll-m-20 text-violet-800 text-2xl font-semibold tracking-tight">
           {topic}
         </h3>
         <div className="w-full" dangerouslySetInnerHTML={{ __html: explanation }} />
-        <Box className="flex justify-between gap-4">
+        <Box className="flex justify-between gap-4 mt-10 mb-6">
           <Button
             onClick={() => router.push(`/test/${topic}`)}
             className="bg-violet-50 text-md text-violet-800 w-full"

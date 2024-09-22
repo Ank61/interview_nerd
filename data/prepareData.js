@@ -18,37 +18,94 @@ export const prepareData = [
      A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
      It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
    </p>
- 
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function outerFunction() {
+  const outerVariable = 'I am from the outer function!'; // Outer variable
+  function innerFunction() {
+    console.log(outerVariable); // Accessing the outer variable
+  }
+  return innerFunction; // Return the inner function
+}
+
+const closureFunction = outerFunction(); // Execute outerFunction
+closureFunction(); // Call the inner function
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
      Benefits of Closures
    </h4>
  
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
      <li style="margin-top: 0.5rem;">
       <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
-    <div class="overflow-y-auto p-4" dir="ltr"><code class="!whitespace-pre hljs language-javascript"><span class="hljs-keyword">function</span> <span class="hljs-title function_">createCounter</span>(<span class="hljs-params"></span>) {
-  <span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>;  <span class="hljs-comment">// Private variable</span>
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) {
-    count++;  <span class="hljs-comment">// Accessing outer scope variable</span>
-    <span class="hljs-keyword">return</span> count;
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function createCounter() {
+ let count = 0; // Private variable
+   return function() {
+    count++; // Accessing outer scope variable
+      return count;
+        };
+      }
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3
+ </code>
+  </pre>
+  </div>
+
+In this example, count is private to the createCounter function,
+ and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function memoize(fn) {
+const cache = {};
+return function(x) {
+    if (cache[x] !== undefined) {
+      return cache[x];  // Return cached result
+    } else {
+      const result = fn(x);
+      cache[x] = result;  // Store result in cache
+      return result;
+    }
   };
 }
 
-<span class="hljs-keyword">const</span> counter = <span class="hljs-title function_">createCounter</span>();
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">counter</span>()); <span class="hljs-comment">// 1</span>
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">counter</span>()); <span class="hljs-comment">// 2</span>
-<span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">counter</span>()); <span class="hljs-comment">// 3</span>
-</code></div>
-In this example, count is private to the createCounter function, and the inner function has access to it even after the outer function has finished executing.
-      </li>
-     <li style="margin-top: 0.5rem;">
-       Function Composition: It allows easier function composition in a
-       functional programming style.
-     </li>
-     <li style="margin-top: 0.5rem;">
-       Partial Application: Currying makes it easier to partially apply
-       functions, which means providing fewer arguments than a function
-       expects, creating a new function waiting for the remaining arguments.
+const square = memoize(x => x * x);
+console.log(square(4)); // 16 (calculated)
+console.log(square(4)); // 16 (cached)
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
+Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function multiplier(factor) {
+  return function(x) {
+    return x * factor;
+  };
+}
+
+const double = multiplier(2);
+const triple = multiplier(3);
+
+console.log(double(5)); // 10
+console.log(triple(5)); // 15
+</code></pre>
+    </div>
+    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
      </li>
    </ol>
  </div>`,
