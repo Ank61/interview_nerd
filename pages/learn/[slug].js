@@ -33,7 +33,7 @@ export default function Learn() {
         themeBgColor: item.themeBgColor,
         textColor: item.textColor,
         topicColor: item.topicColor,
-        lightColor: item?.lightColor || item.themeBgColor 
+        lightColor: item?.lightColor || item.themeBgColor,
       };
       return item.type.flatMap((typeItem) =>
         typeItem.concepts.filter(
@@ -56,31 +56,42 @@ export default function Learn() {
     <Box width={"full"}>
       <Header topic={theme.category || ""} />
       <Box sx={{ width: "auto" }} padding={3}>
-        <h3 style={{color : theme.textColor}} className={`scroll-m-20 text-2xl font-semibold tracking-tight`}>
+        <h3
+          style={{ color: theme.textColor }}
+          className={`scroll-m-20 text-2xl font-semibold tracking-tight`}
+        >
           {topic}
         </h3>
         <div
           className="w-full"
           dangerouslySetInnerHTML={{ __html: explanation }}
         />
-        <h4 style={{color : theme.textColor}} className="mt-6 scroll-m-20 text-xl font-semibold tracking-tight">
+        <h4
+          style={{ color: theme.textColor }}
+          className="mt-6 scroll-m-20 text-xl font-semibold tracking-tight"
+        >
           Interview Questions
         </h4>
         {interview?.map((questionItem, index) => (
           <Accordion
             key={index}
-            style={{borderColor : theme.topicColor}}
+            style={{ borderColor: theme.topicColor }}
             className="rounded-xl font-medium overflow-hidden mt-4 "
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon style={{color : theme.topicColor}} />}
+              expandIcon={
+                <ExpandMoreIcon style={{ color: theme.topicColor }} />
+              }
               aria-controls="panel1-content"
               id="panel1-header"
-              className="rounded-t-2xl"
             >
               {questionItem.question}
             </AccordionSummary>
             <AccordionDetails className="font-normal font-sans ">
+              <div
+                className="w-full"
+                dangerouslySetInnerHTML={{ __html: questionItem?.code }}
+              />
               <div
                 className="w-full"
                 dangerouslySetInnerHTML={{ __html: questionItem.solution }}
@@ -92,14 +103,21 @@ export default function Learn() {
         <Box className="flex justify-between gap-4 mt-10 mb-6">
           <Button
             onClick={() => router.push(`/test/${topic}`)}
-            style={{ backgroundColor : theme.themeBgColor, color : theme.textColor}}
+            style={{
+              backgroundColor: theme.themeBgColor,
+              color: theme.textColor,
+            }}
             className="text-md  w-full"
           >
             Take a Quiz <BookCheck size={"20px"} className="ml-3" />
           </Button>
           <Button
-          style={{ backgroundColor : theme.themeBgColor , color : theme.textColor }} 
-          className=" text-md  w-full">
+            style={{
+              backgroundColor: theme.themeBgColor,
+              color: theme.textColor,
+            }}
+            className=" text-md  w-full"
+          >
             Next Topic
             <ArrowRight size={"20px"} className="ml-3" />
           </Button>
