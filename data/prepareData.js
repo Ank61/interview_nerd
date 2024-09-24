@@ -110,7 +110,22 @@ console.log(triple(5)); // 15
      </li>
    </ol>
  </div>`,
-            examples: [""],
+            examples: [`function outest(){
+  var c = 12; 
+  function outer(b){ 
+    function inner(){
+      console.log(a, b, c); // try printing b and c  here
+    }
+    let a =10; // let instead of var
+    return inner;
+  }
+  return outer;
+}
+
+let a =100;
+// Passing argument here 
+var close = outest()("Hi Closures"); // this will give you outer function
+close(); // this will give you inner function and equivalent`],
             questions: [
               {
                 question: "How do closures work in JavaScript?",
@@ -189,9 +204,63 @@ closure(); // Outputs: "Hello"
                 solution:
                   "<p>Modern JavaScript engines employ sophisticated garbage collection techniques. They can often identify variables that are truly unreachable, even within closures, and collect them. For example, if a closure captures multiple variables but only uses some of them, the unused variables might be eligible for garbage collection. This optimization helps mitigate some of the memory concerns associated with closures.</p>",
               },
+              {
+                question: "What if var declaration is moved to Line 5, just before return statement? What will happen? Will it still be a Closure?",
+                code: `
+                  function outer(){ 
+                    function inner(){
+                      console.log(a);
+                    }
+                    var a = 10; // var declaration moved here
+                    return inner;
+                  }
+            
+                  var close = outer(); // this will give you outer function
+                  close(); // this will give you inner function and equivalent output
+                `,
+                solution: "Yes, it will still be a closure. It doesn’t matter what the sequence is or where the statement is placed. For a closure, what matters is that the function has access to its lexical environment. The output will remain the same."
+              },
+              {
+                question: "What if var is replaced by let in Line 5? What will happen?",
+                code: `
+                  function outer(){ 
+                    function inner(){
+                      console.log(a);
+                    }
+                    let a = 10; // let instead of var
+                    return inner;
+                  }
+            
+                  var close = outer(); // this will give you outer function
+                  close(); // this will give you inner function and equivalent output
+                `,
+                solution: "Replacing var with let will not affect the behavior. It will still be a closure and the output will be the same. Both var and let allow access to the variable within the closure's scope."
+              },
+              {
+                question: "What is Garbage Collector?",
+                code: `
+                  // Garbage Collector doesn't require specific code. It's part of the browser/JS engine.
+                `,
+                solution: "Garbage Collector is a program in the browser or JS engine that frees up unutilized memory. In languages like C and C++, memory management (allocation and deallocation) is the developer's responsibility. However, in high-level languages like JavaScript, the JS engine handles most of the work. When variables are no longer in use, the Garbage Collector removes them from memory to optimize performance."
+              },
+              {
+                question: "How are Closures and Garbage Collector related to each other?",
+                code: `
+                  function a(){
+                    var x = 10;
+                    return function b(){
+                      console.log(x);
+                    }
+                  }
+                  var y = a();
+                  // y() will still have access to 'x' due to closure, preventing garbage collection
+                `,
+                solution: "In the example, `function b()` is a closure. Normally, after executing `a()`, all its memory (including variable `x`) should be garbage collected. However, because `b()` is a closure and it refers to variable `x`, the memory for `x` is retained, since `y()` might call `b()` later. This can lead to memory accumulation. However, modern browsers like Chrome and JS engines like V8 have smart garbage collection mechanisms that can identify unreachable variables and collect them efficiently."
+              },
             ],
             links: [
-              "https://medium.com/@swati.developer17/part-13-closure-js-interview-questions-f31c1be77d3e",
+              "https://medium.com/@swati.developer17/part-13-closure-js-interview-questions-f31c1be77d3e","https://medium.com/@swati.developer17/part-12-settimeout-closures-interview-questions-cfa0d402831f",
+              "https://dev.to/jps27cse/exploring-asynchronous-javascript-callbacks-promises-and-asyncawait-16k6"
             ],
           },
           {
