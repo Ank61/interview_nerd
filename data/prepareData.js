@@ -5,7 +5,7 @@ export const prepareData = [
     themeBgColor: "#f8d444",
     textColor: "#745b10",
     topicColor: "#e4bc40",
-    lightColor : "#fefbe8",
+    lightColor: "#fefbe8",
     type: [
       {
         id: 1,
@@ -110,7 +110,8 @@ console.log(triple(5)); // 15
      </li>
    </ol>
  </div>`,
-            examples: [`function outest(){
+            examples: [
+              `function outest(){
   var c = 12; 
   function outer(b){ 
     function inner(){
@@ -125,7 +126,8 @@ console.log(triple(5)); // 15
 let a =100;
 // Passing argument here 
 var close = outest()("Hi Closures"); // this will give you outer function
-close(); // this will give you inner function and equivalent`],
+close(); // this will give you inner function and equivalent`,
+            ],
             questions: [
               {
                 question: "How do closures work in JavaScript?",
@@ -205,7 +207,8 @@ closure(); // Outputs: "Hello"
                   "<p>Modern JavaScript engines employ sophisticated garbage collection techniques. They can often identify variables that are truly unreachable, even within closures, and collect them. For example, if a closure captures multiple variables but only uses some of them, the unused variables might be eligible for garbage collection. This optimization helps mitigate some of the memory concerns associated with closures.</p>",
               },
               {
-                question: "What if var declaration is moved to Line 5, just before return statement? What will happen? Will it still be a Closure?",
+                question:
+                  "What if var declaration is moved to Line 5, just before return statement? What will happen? Will it still be a Closure?",
                 code: `
                   function outer(){ 
                     function inner(){
@@ -218,10 +221,12 @@ closure(); // Outputs: "Hello"
                   var close = outer(); // this will give you outer function
                   close(); // this will give you inner function and equivalent output
                 `,
-                solution: "Yes, it will still be a closure. It doesn’t matter what the sequence is or where the statement is placed. For a closure, what matters is that the function has access to its lexical environment. The output will remain the same."
+                solution:
+                  "Yes, it will still be a closure. It doesn’t matter what the sequence is or where the statement is placed. For a closure, what matters is that the function has access to its lexical environment. The output will remain the same.",
               },
               {
-                question: "What if var is replaced by let in Line 5? What will happen?",
+                question:
+                  "What if var is replaced by let in Line 5? What will happen?",
                 code: `
                 <pre><code className="language-javascript" style="font-size: 0.8rem;">
 function outer(){ 
@@ -235,14 +240,17 @@ return inner;
 var close = outer(); // this will give you outer function
 close(); // this will give you inner function and equivalent output
 </code></pre>`,
-                solution: "Replacing var with let will not affect the behavior. It will still be a closure and the output will be the same. Both var and let allow access to the variable within the closure's scope."
+                solution:
+                  "Replacing var with let will not affect the behavior. It will still be a closure and the output will be the same. Both var and let allow access to the variable within the closure's scope.",
               },
               {
                 question: "What is Garbage Collector?",
-                solution: "Garbage Collector is a program in the browser or JS engine that frees up unutilized memory. In languages like C and C++, memory management (allocation and deallocation) is the developer's responsibility. However, in high-level languages like JavaScript, the JS engine handles most of the work. When variables are no longer in use, the Garbage Collector removes them from memory to optimize performance."
+                solution:
+                  "Garbage Collector is a program in the browser or JS engine that frees up unutilized memory. In languages like C and C++, memory management (allocation and deallocation) is the developer's responsibility. However, in high-level languages like JavaScript, the JS engine handles most of the work. When variables are no longer in use, the Garbage Collector removes them from memory to optimize performance.",
               },
               {
-                question: "How are Closures and Garbage Collector related to each other?",
+                question:
+                  "How are Closures and Garbage Collector related to each other?",
                 code: ` <pre><code className="language-javascript">
 function a(){
   var x = 10;
@@ -253,25 +261,249 @@ function a(){
 var y = a();
 // y() will still have access to 'x' due to closure, preventing garbage collection
 </code></pre>`,
-                solution: "In the example, `function b()` is a closure. Normally, after executing `a()`, all its memory (including variable `x`) should be garbage collected. However, because `b()` is a closure and it refers to variable `x`, the memory for `x` is retained, since `y()` might call `b()` later. This can lead to memory accumulation. However, modern browsers like Chrome and JS engines like V8 have smart garbage collection mechanisms that can identify unreachable variables and collect them efficiently."
+                solution:
+                  "In the example, `function b()` is a closure. Normally, after executing `a()`, all its memory (including variable `x`) should be garbage collected. However, because `b()` is a closure and it refers to variable `x`, the memory for `x` is retained, since `y()` might call `b()` later. This can lead to memory accumulation. However, modern browsers like Chrome and JS engines like V8 have smart garbage collection mechanisms that can identify unreachable variables and collect them efficiently.",
               },
             ],
             links: [
-              "https://medium.com/@swati.developer17/part-13-closure-js-interview-questions-f31c1be77d3e","https://medium.com/@swati.developer17/part-12-settimeout-closures-interview-questions-cfa0d402831f",
-              "https://dev.to/jps27cse/exploring-asynchronous-javascript-callbacks-promises-and-asyncawait-16k6"
+              "https://medium.com/@swati.developer17/part-13-closure-js-interview-questions-f31c1be77d3e",
+              "https://medium.com/@swati.developer17/part-12-settimeout-closures-interview-questions-cfa0d402831f",
+              "https://dev.to/jps27cse/exploring-asynchronous-javascript-callbacks-promises-and-asyncawait-16k6",
             ],
           },
           {
             topic: "Promises and Asynchronous JavaScript",
             tags: [""],
-            explanation: `<div>Promises in JavaScript are used to handle asynchronous operations like fetching data from a server, reading files, or waiting for an event to happen without blocking the execution of other code. JavaScript is a single-threaded language, which means it can only perform one task at a time. To manage long-running tasks without freezing the interface or halting other code, JavaScript uses asynchronous patterns, such as Promises.
-
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+            Promises in JavaScript are used to handle asynchronous operations like fetching data from a server, reading files, or waiting for an event to happen without blocking the execution of other code. JavaScript is a single-threaded language, which means it can only perform one task at a time. To manage long-running tasks without freezing the interface or halting other code, JavaScript uses asynchronous patterns, such as Promises.
 A Promise is an object representing the eventual completion (or failure) of an asynchronous operation. It allows you to attach callbacks to handle the result once it's available, even if the task takes time.
-
+</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
 Key States of a Promise:
-Pending: The initial state. The operation has started but is not yet complete.
-Fulfilled: The operation completed successfully, and the Promise has a value.
-Rejected: The operation failed, and the Promise has an error reason.</div>`,
+</h4>
+<ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+     <h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 500; letter-spacing: -0.025em;">Pending: The initial state</h5>
+     </li> The operation has started but is not yet complete.
+<li style="margin-top: 0.5rem;">
+<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 500; letter-spacing: -0.025em;">
+Fulfilled:
+</h5>
+The operation completed successfully, and the Promise has a value.
+</li>
+<li style="margin-top: 0.5rem;">
+<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 500; letter-spacing: -0.025em;">
+Rejected:
+</h5>
+The operation failed, and the Promise has an error reason.
+</li>
+</ol>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+Syntax :
+</h4>
+The Promise constructor accepts a function as its argument, which includes two parameters: resolve and reject. These parameters are functions that are invoked to signal either the successful completion or failure of the asynchronous task.
+<p>
+After a promise is made, you can handle its result using the <b>.then()</b> and <b>.catch()</b> methods. Use .then() when the promise is successful, and use .catch() when something goes wrong and the promise fails.
+</p>
+<pre><code className="language-javascript" >
+function fetchDataFromServer() {
+  return new Promise((resolve, reject) => {
+    // Simulate an HTTP request to fetch data
+    setTimeout(() => {
+      const data = { id: 1, content: 'This is the fetched data' };
+      // Simulate a successful response
+      resolve(data);
+      // Simulate an error
+      // reject(new Error('Failed to fetch data'));
+    }, 2000);
+  });
+}
+// Using the fetchDataFromServer function
+fetchDataFromServer()
+  .then((data) => {
+    console.log('Data received:', data);
+    return data.content.toUpperCase();
+  })
+  .then((uppercasedData) => {
+    console.log('Uppercased data:', uppercasedData);
+  })
+  .catch((error) => {
+    console.error('Error:', error);
+  });
+</pre> 
+</code>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+Methods of Promise :
+</h4>
+
+<ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+<li style="margin-top: 0.5rem;">
+ <p>The <b>Promise.all()</b> method lets you handle multiple promises at the same time. You give it an array of promises (or values), and it returns a new promise. This new promise:</p>
+    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+        <li><strong>Resolves</strong> when all the promises in the array have finished successfully, returning an array of their results.</li>
+        <li><strong>Rejects</strong> if any one of the promises fails (rejects), stopping everything and giving the first error it encounters.</li>
+    </ul>
+
+    <p>It’s useful when you want to run several tasks in parallel and wait for all of them to finish before moving forward.</p>
+
+    <h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
+    <ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
+        <li>If you pass an array of promises, it will wait for all of them to resolve.</li>
+        <li>If one promise fails, <b>Promise.all()</b> immediately rejects and gives that error.</li>
+        <li>If there are non-promises in the array, they are treated as resolved values.</li>
+    </ul>
+        <p>Example:</p>
+        <pre><code className="language-javascript" >
+const promiseA = new Promise((resolve, reject) => { <br>
+&nbsp;&nbsp;setTimeout(resolve, 200, "value A"); <br>
+}); // will be resolved after 200ms <br><br>
+
+const promiseB = "non-promise value"; // non-promise value <br><br>
+
+const promiseC = new Promise((resolve, reject) => { <br>
+&nbsp;&nbsp;setTimeout(resolve, 400, "value C"); <br>
+}); // will be resolved after 400ms <br><br>
+
+Promise.all([promiseA, promiseB, promiseC]) <br>
+&nbsp;&nbsp;.then((values) => { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(values); // Output: [ 'value A', 'non-promise value', 'value C' ] <br>
+&nbsp;&nbsp;}) <br>
+&nbsp;&nbsp;.catch((err) => { <br>
+&nbsp;&nbsp;&nbsp;&nbsp;console.log(err); <br>
+&nbsp;&nbsp;});
+        </code>
+        </pre>
+        </li>
+           
+<li style="margin-top: 0.5rem;">
+ <p>The <b>Promise.any()</b> method allows you to handle multiple promises concurrently. You provide it with an iterable (typically an array) of promises, and it returns a new promise. This new promise:</p>
+    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+        <li><strong>Resolves</strong> as soon as any of the promises in the iterable fulfills, returning the value of that fulfilled promise.</li>
+        <li><strong>Rejects</strong> only if all of the promises in the iterable are rejected, returning an AggregateError containing all rejection reasons.</li>
+    </ul>
+    <p>It's particularly useful when you want to run several tasks in parallel and proceed as soon as any one of them completes successfully.</p>
+
+<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
+<ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li>It returns the first promise that fulfills, without waiting for other promises to complete.</li>
+    <li>It short-circuits after the first fulfillment, ignoring any subsequent rejections or fulfillments.</li>
+    <li>If the iterable contains non-promises, they are treated as already fulfilled promises.</li>
+</ul>
+    <pre><code className="language-javascript">
+const SlowlyDone = new Promise((resolve, reject) => {
+setTimeout(resolve, 500, "Done slowly");
+}); // resolves after 500ms
+
+const QuicklyDone = new Promise((resolve, reject) => {
+setTimeout(resolve, 100, "Done quickly");
+}); // resolves after 100ms
+
+const Rejection = new Promise((resolve, reject) => {
+setTimeout(reject, 100, "Rejected");
+}); // always rejected
+
+Promise.any([SlowlyDone, QuicklyDone, Rejection])
+.then((value) => {
+console.log(value); // Output: "Done quickly"
+})
+.catch((err) => {
+console.log(err);
+});
+</code>
+</pre>
+</li>
+
+<li style="margin-top: 0.5rem;">
+ <p>The <b>Promise.prototype.finally()</b> method is a powerful tool in the Promise chain. It returns a Promise and executes a specified callback function when a Promise settles, regardless of whether it was fulfilled or rejected. Key features include:</p>
+    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+        <li>Executes after a Promise is settled, whether resolved or rejected.</li>
+        <li>Helps eliminate code duplication between Promise's then() and catch() handlers.</li>
+        <li>Ideal for performing cleanup or finalizing operations, irrespective of the Promise's outcome.</li>
+    </ul>
+<p>This method is particularly useful when you need to perform certain actions or cleanups once a promise completes, regardless of its success or failure.</p>
+
+<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
+<ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li>Always runs when the promise settles, whether fulfilled or rejected.</li>
+    <li>Receives no arguments, making it unsuitable for processing the promise's result.</li>
+    <li>Returns a Promise, allowing for further chaining if necessary.</li>
+</ul>
+    <p>Example:</p>
+    <pre><code className="language-javascript">
+const addition = (a, b) =>
+new Promise((resolve, reject) => {
+if (typeof a === "number" && typeof b === "number") {
+resolve(a + b);
+} else {
+reject("Not a Number");
+}
+});
+addition(10, 5)
+.then((response) => {
+console.log(response);
+})
+.catch((err) => {
+console.log(err);
+})
+.finally(() => {
+console.log("Operation completed");
+});
+/* Expected output:
+15
+Operation completed */
+</code>
+</pre>
+</li>
+
+<li style="margin-top: 0.5rem;">
+ <p>The <b>Promise.race()</b> method is a unique tool in the Promise toolkit. It takes an iterable of promises and returns a new Promise that settles as soon as one of the input promises settles (either fulfills or rejects). Key characteristics include:</p>
+    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+        <li>Returns a Promise that adopts the state of the first settled promise in the iterable.</li>
+        <li>If the iterable is empty, the returned promise remains pending indefinitely.</li>
+        <li>Non-promise values or already settled promises in the iterable are treated as immediately settled promises.</li>
+    </ul>
+<p>This method is particularly useful when you want to proceed with the first available result or error from a set of asynchronous operations.</p>
+
+<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
+<ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li>Settles with the outcome of the first promise that settles, whether fulfilled or rejected.</li>
+    <li>Can be used to implement timeouts for asynchronous operations.</li>
+    <li>The order of promises in the iterable matters, as the fastest settling promise determines the outcome.</li>
+</ul>
+<pre><code className="language-javascript">
+const pro1 = new Promise(resolve => setTimeout(() => resolve("one"), 200));
+const pro2 = new Promise(resolve => setTimeout(() => resolve("two"), 100));
+Promise.race([pro1, pro2])
+.then(console.log)
+.catch(console.error);
+// Output: two
+
+const pro3 = new Promise((_, reject) => setTimeout(() => reject("rejected"), 300));
+const pro4 = new Promise(resolve => setTimeout(() => resolve("four"), 400));
+Promise.race([pro3, pro4])
+.then(console.log)
+.catch(console.error);
+// Output: rejected
+</code></pre>
+
+    <pre><code className="language-javascript">
+const pro1 = new Promise(resolve => setTimeout(() => resolve("one"), 200));
+const pro2 = new Promise(resolve => setTimeout(() => resolve("two"), 100));
+const pro3 = new Promise((_, reject) => setTimeout(() => reject("rejected"), 300));
+const pro4 = new Promise(resolve => setTimeout(() => resolve("four"), 400));
+Promise.race([pro1, pro2, pro3, pro4])
+.then(console.log)
+.catch(console.error);
+// Output: two
+</code></pre>
+<p>In this example, 'two' is output because pro2 settles first, demonstrating that Promise.race() responds to the fastest settling promise regardless of its position in the array.</p>
+</li> 
+</ol>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+Asynchronous:
+</h4>
+</div>`,
             examples: [""],
             questions: [
               {
@@ -282,10 +514,11 @@ Rejected: The operation failed, and the Promise has an error reason.</div>`,
                   In contrast, Promise.allSettled returns a promise that resolves after all promises have either resolved or rejected.
             
                   Example of Promise.all:
-                  Promise.all([promise1, promise2, promise3])
-                    .then(results => {
-                      // All promises resolved successfully
-                    })
+                  <pre><code className="language-javascript">
+Promise.all([promise1, promise2, promise3])
+  .then(results => {
+    // All promises resolved successfully
+    })
                     .catch(error => {
                       // Any promise rejected
                     });
@@ -301,7 +534,8 @@ Rejected: The operation failed, and the Promise has an error reason.</div>`,
                         }
                       });
                     });
-            
+</pre>
+</code>
                   Summary: Promise.all stops at the first rejection, while Promise.allSettled collects the outcomes of all promises, even if some reject.
                 `,
               },
@@ -521,6 +755,7 @@ Rejected: The operation failed, and the Promise has an error reason.</div>`,
               },
             ],
             links: [
+              "https://dev.to/swarnaliroy94/methods-of-promise-all-any-finally-o2e",
               "https://medium.com/deno-the-complete-reference/some-javascript-promise-interview-questions-2e2e6c668e89",
             ],
           },

@@ -94,7 +94,7 @@ export default function BasicTabs() {
 
   return (
     <Box>
-      <Header topic={topicSelected} indexSelected={indexSelected}/>
+      <Header topic={topicSelected} indexSelected={indexSelected} />
       <Box sx={{ width: "auto" }}>
         <Box>
           <Tabs
@@ -209,71 +209,123 @@ export default function BasicTabs() {
                               : ""
                           }`}
                         >
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              duration: 0.8,
-                              delay: 0.2 * index,
-                              ease: [0, 0.71, 0.2, 1.01],
-                            }}
-                          >
-                            {concept.topic}
-                          </motion.div>
+                          {index <= 5 ? (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                duration: 0.8,
+                                delay: 0.2 * index,
+                                ease: [0, 0.71, 0.2, 1.01],
+                              }}
+                            >
+                              {concept.topic}
+                            </motion.div>
+                          ) : (
+                            <div>{concept.topic}</div>
+                          )}
                         </TableCell>
                         <TableCell className="text-right">
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              duration: 0.8,
-                              delay: 0.2 * index,
-                              ease: [0, 0.71, 0.2, 1.01],
-                            }}
-                            onClick={() =>
-                              router.push(`/learn/${concept.topic}`)
-                            }
-                            className={`flex font-medium mb-1 border p-2 rounded-md ${
-                              topic === "Javascript"
-                                ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                : ""
-                            }`}
-                          >
-                            <GraduationCap
-                              className={`mr-2  ${
+                          {index <= 5 ? (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                duration: 0.8,
+                                delay: 0.2 * index,
+                                ease: [0, 0.71, 0.2, 1.01],
+                              }}
+                              onClick={() =>
+                                router.push(`/learn/${concept.topic}`)
+                              }
+                              className={`flex font-medium mb-1 border p-2 rounded-md ${
                                 topic === "Javascript"
-                                  ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
                               }`}
-                              size={"21px"}
-                            />
-                            Learn
-                          </motion.div>
-                          <motion.div
-                            onClick={()=>router.push(`/test/${concept.topic}`)}
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              duration: 0.8,
-                              delay: 0.2 * index,
-                              ease: [0, 0.71, 0.2, 1.01],
-                            }}
-                            className={`flex font-medium bg-white border p-2 rounded-md ${
-                              topic === "Javascript"
-                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                : ""
-                            }`}
-                          >
-                            <BookOpenCheck
-                              className={`mr-2 ${
+                            >
+                              <GraduationCap
+                                className={`mr-2  ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : ""
+                                }`}
+                                size={"21px"}
+                              />
+                              Learn
+                            </motion.div>
+                          ) : (
+                            <div
+                              onClick={() =>
+                                router.push(`/learn/${concept.topic}`)
+                              }
+                              className={`flex font-medium mb-1 border p-2 rounded-md ${
                                 topic === "Javascript"
-                                  ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
                               }`}
-                              size={"19px"}
-                            />
-                            Practice
-                          </motion.div>
+                            >
+                              <GraduationCap
+                                className={`mr-2  ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : ""
+                                }`}
+                                size={"21px"}
+                              />
+                              Learn
+                            </div>
+                          )}
+                          {index <= 5 ? (
+                            <motion.div
+                              onClick={() =>
+                                router.push(`/test/${concept.topic}`)
+                              }
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                duration: 0.8,
+                                delay: 0.2 * index,
+                                ease: [0, 0.71, 0.2, 1.01],
+                              }}
+                              className={`flex font-medium bg-white border p-2 rounded-md ${
+                                topic === "Javascript"
+                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                  : ""
+                              }`}
+                            >
+                              <BookOpenCheck
+                                className={`mr-2 ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : ""
+                                }`}
+                                size={"19px"}
+                              />
+                              Practice
+                            </motion.div>
+                          ) : (
+                            <div
+                              onClick={() =>
+                                router.push(`/test/${concept.topic}`)
+                              }
+                              className={`flex font-medium bg-white border p-2 rounded-md ${
+                                topic === "Javascript"
+                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                  : ""
+                              }`}
+                            >
+                              <BookOpenCheck
+                                className={`mr-2 ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : ""
+                                }`}
+                                size={"19px"}
+                              />
+                              Practice
+                            </div>
+                          )}
                         </TableCell>
                         {/* <TableCell className="text-left">
                         <Checkbox
@@ -330,70 +382,125 @@ export default function BasicTabs() {
                           topic === "Javascript" ? "text-Javascript-text " : ""
                         }`}
                       >
-                        <motion.div
-                          className="w-full"
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{
-                            duration: 0.8,
-                            delay: 0.2 * index,
-                            ease: [0, 0.71, 0.2, 1.01],
-                          }}
-                        >
-                          {concept.topic}
-                        </motion.div>
+                        {index <= 5 ? (
+                          <motion.div
+                            className="w-full"
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              duration: 0.8,
+                              delay: 0.2 * index,
+                              ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                          >
+                            {concept.topic}
+                          </motion.div>
+                        ) : (
+                          <div className="w-full">{concept.topic}</div>
+                        )}
                       </TableCell>
                       <TableCell className="text-right">
-                        <motion.div
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{
-                            duration: 0.8,
-                            delay: 0.2 * index,
-                            ease: [0, 0.71, 0.2, 1.01],
-                          }}
-                          onClick={() => router.push(`/learn/${concept.topic}`)}
-                          className={`flex font-medium mb-1 border p-2 rounded-md ${
-                            topic === "Javascript"
-                              ? " text-Javascript-text bg-white "
-                              : ""
-                          }`}
-                        >
-                          <GraduationCap
-                            className={`mr-2  ${
+                        {index <= 5 ? (
+                          <motion.div
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              duration: 0.8,
+                              delay: 0.2 * index,
+                              ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                            onClick={() =>
+                              router.push(`/learn/${concept.topic}`)
+                            }
+                            className={`flex font-medium mb-1 border p-2 rounded-md ${
                               topic === "Javascript"
-                                ? " text-Javascript-topic bg-white "
+                                ? " text-Javascript-text bg-white "
                                 : ""
                             }`}
-                            size={"21px"}
-                          />
-                          Learn
-                        </motion.div>
-                        <motion.div
-                         onClick={()=>router.push(`/test/${concept.topic}`)}
-                          initial={{ opacity: 0, scale: 0.5 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{
-                            duration: 0.8,
-                            delay: 0.2 * index,
-                            ease: [0, 0.71, 0.2, 1.01],
-                          }}
-                          className={`flex font-medium bg-white border p-2 rounded-md ${
-                            topic === "Javascript"
-                              ? " text-Javascript-text bg-white "
-                              : ""
-                          }`}
-                        >
-                          <BookOpenCheck
-                            className={`mr-2 ${
+                          >
+                            <GraduationCap
+                              className={`mr-2  ${
+                                topic === "Javascript"
+                                  ? " text-Javascript-topic bg-white "
+                                  : ""
+                              }`}
+                              size={"21px"}
+                            />
+                            Learn
+                          </motion.div>
+                        ) : (
+                          <div
+                            onClick={() =>
+                              router.push(`/learn/${concept.topic}`)
+                            }
+                            className={`flex font-medium mb-1 border p-2 rounded-md ${
                               topic === "Javascript"
-                                ? "text-Javascript-topic bg-white "
+                                ? " text-Javascript-text bg-white "
                                 : ""
                             }`}
-                            size={"19px"}
-                          />
-                          Practice
-                        </motion.div>
+                          >
+                            {" "}
+                            <GraduationCap
+                              className={`mr-2  ${
+                                topic === "Javascript"
+                                  ? " text-Javascript-topic bg-white "
+                                  : ""
+                              }`}
+                              size={"21px"}
+                            />
+                            Learn
+                          </div>
+                        )}
+                        {index <= 5 ? (
+                          <motion.div
+                            onClick={() =>
+                              router.push(`/test/${concept.topic}`)
+                            }
+                            initial={{ opacity: 0, scale: 0.5 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{
+                              duration: 0.8,
+                              delay: 0.2 * index,
+                              ease: [0, 0.71, 0.2, 1.01],
+                            }}
+                            className={`flex font-medium bg-white border p-2 rounded-md ${
+                              topic === "Javascript"
+                                ? " text-Javascript-text bg-white "
+                                : ""
+                            }`}
+                          >
+                            <BookOpenCheck
+                              className={`mr-2 ${
+                                topic === "Javascript"
+                                  ? "text-Javascript-topic bg-white "
+                                  : ""
+                              }`}
+                              size={"19px"}
+                            />
+                            Practice
+                          </motion.div>
+                        ) : (
+                          <div
+                            className={`flex font-medium bg-white border p-2 rounded-md ${
+                              topic === "Javascript"
+                                ? " text-Javascript-text bg-white "
+                                : ""
+                            }`}
+                            onClick={() =>
+                              router.push(`/test/${concept.topic}`)
+                            }
+                          >
+                            <BookOpenCheck
+                              className={`mr-2 ${
+                                topic === "Javascript"
+                                  ? "text-Javascript-topic bg-white "
+                                  : ""
+                              }`}
+                              size={"19px"}
+                            />
+                            Practice
+                          </div>
+                        )}
                       </TableCell>
                     </TableRow>
                   ))}
