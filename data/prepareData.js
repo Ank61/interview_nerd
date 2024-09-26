@@ -276,7 +276,7 @@ var y = a();
             tags: [""],
             explanation: `<div>
             <p style="line-height: 1.75; margin-top: 1.5rem;">
-            Promises in JavaScript are used to handle asynchronous operations like fetching data from a server, reading files, or waiting for an event to happen without blocking the execution of other code. JavaScript is a single-threaded language, which means it can only perform one task at a time. To manage long-running tasks without freezing the interface or halting other code, JavaScript uses asynchronous patterns, such as Promises.
+            Promises in JavaScript are used to handle asynchronous operations like fetching data from a server, reading files, or waiting for an event to happen without blocking the execution of other code.They provide a cleaner and more structured alternative to traditional callback-based asynchronous code. JavaScript is a single-threaded language, which means it can only perform one task at a time. To manage long-running tasks without freezing the interface or halting other code, JavaScript uses asynchronous patterns, such as Promises.
 A Promise is an object representing the eventual completion (or failure) of an asynchronous operation. It allows you to attach callbacks to handle the result once it's available, even if the task takes time.
 </p>
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
@@ -503,6 +503,162 @@ Promise.race([pro1, pro2, pro3, pro4])
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
 Asynchronous:
 </h4>
+<h2>Callbacks: The Original Approach</h2>
+<p>
+  In the early days of JavaScript, asynchronous tasks were handled using <strong>callbacks</strong>. A callback is a function passed as an argument to another function, which is called once the asynchronous task is completed.
+</p>
+
+<h4>Example of a Callback:</h4>
+<pre>
+<code>
+console.log("Start");
+
+// Simulate an API call with setTimeout
+function fetchData(callback) {
+  setTimeout(() => {
+    callback("Data retrieved from the server");
+  }, 2000);
+}
+
+fetchData((result) => {
+  console.log(result);
+});
+
+console.log("End");
+</code>
+</pre>
+
+<h4>Output:</h4>
+<pre>
+<code>
+Start
+End
+Data retrieved from the server
+</code>
+</pre>
+
+<h3>Problems with Callbacks:</h3>
+<ul>
+  <li>
+    <strong>Callback Hell:</strong> When multiple asynchronous tasks are chained together, it can result in deeply nested and hard-to-read code.
+  </li>
+  <li>
+    <strong>Error Handling:</strong> Managing errors across multiple callbacks becomes difficult and messy.
+  </li>
+</ul>
+
+<h4>Callback Hell Example:</h4>
+<pre>
+<code>
+fetchData((result1) => {
+  processResult(result1, (result2) => {
+    saveResult(result2, (result3) => {
+      console.log(result3);
+    });
+  });
+});
+</code>
+</pre>
+
+<p>This nesting structure is known as <strong>callback hell</strong> or the <strong>pyramid of doom</strong>, which makes code harder to understand and maintain.</p>
+<h2>Async/Await: Making Asynchronous Code Look Synchronous</h2>
+<p>
+  Introduced in ES2017, <strong>async/await</strong> is built on top of promises but provides a more concise and readable syntax. The <strong>await</strong> keyword makes JavaScript wait until a promise is resolved or rejected. It allows you to write asynchronous code that looks synchronous, making it much easier to read and maintain.
+</p>
+
+<h4>Example of Async/Await:</h4>
+<pre>
+<code>
+console.log("Start");
+
+async function fetchData() {
+  try {
+    const result = await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve("Data retrieved from the server");
+      }, 2000);
+    });
+    console.log(result);
+  } catch (error) {
+    console.log("Error:", error);
+  }
+}
+
+fetchData();
+
+console.log("End");
+</code>
+</pre>
+
+<h4>Output:</h4>
+<pre>
+<code>
+Start
+End
+Data retrieved from the server
+</code>
+</pre>
+
+<h3>Advantages of Async/Await:</h3>
+<ul>
+  <li>
+    <strong>Synchronous-Like Code:</strong> Makes asynchronous code look like synchronous code, which is easier to read and understand.
+  </li>
+  <li>
+    <strong>Error Handling:</strong> Errors can be handled using <code>try...catch</code>, which is more intuitive than using <code>.catch()</code> with promises.
+  </li>
+  <li>
+    <strong>Flat Structure:</strong> Eliminates promise chaining, making the code less nested and easier to follow.
+  </li>
+</ul>
+
+<h4>Refactored Example Using Async/Await:</h4>
+<pre>
+<code>
+async function handleData() {
+  try {
+    const result1 = await fetchData();
+    const result2 = await processResult(result1);
+    const result3 = await saveResult(result2);
+    console.log(result3);
+  } catch (error) {
+    console.error("Error:", error);
+  }
+}
+
+handleData();
+</code>
+</pre>
+
+<p>
+  Now, instead of chaining <code>.then()</code> calls, the asynchronous operations are executed in sequence, making the code look synchronous while still maintaining the benefits of asynchronous execution.
+</p>
+
+<h2>Evolution of Asynchronous JavaScript</h2>
+
+<h3>1. Callbacks</h3>
+<p>
+  Callbacks were the original way to handle asynchronous tasks in JavaScript. A callback is a function passed as an argument to another function, which is executed once the asynchronous operation completes.
+</p>
+<p>
+  <strong>Problem:</strong> Callbacks often led to deeply nested structures, commonly referred to as <em>callback hell</em>, making the code difficult to read and maintain.
+</p>
+
+<h3>2. Promises</h3>
+<p>
+  Promises improved the readability of asynchronous code by allowing <em>chaining</em>. They made it easier to work with multiple async tasks, helping developers avoid callback hell.
+</p>
+<p>
+  <strong>Drawback:</strong> While promises were an improvement, chaining multiple promises could still become verbose and hard to manage for complex tasks.
+</p>
+
+<h3>3. Async/Await</h3>
+<p>
+  The <strong>async/await</strong> approach is the most modern solution for handling asynchronous tasks. It simplifies async code by making it look synchronous, while still providing the power of promises under the hood.
+</p>
+<p>
+  <strong>Advantage:</strong> It provides a cleaner and more readable syntax, making it easier to handle async operations, especially when combined with <code>try...catch</code> for error handling.
+</p>
 </div>`,
             examples: [""],
             questions: [
