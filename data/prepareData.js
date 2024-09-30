@@ -928,10 +928,166 @@ Promise.all([promise1, promise2, promise3])
           {
             topic: "Higher-Order Functions",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<>Higher-Order Function
+A higher-order function is a function that either accepts one or more functions as arguments, returns a function as its result, or does both. This allows functions to be treated as first-class citizens in programming, enabling a more functional programming style.
+
+Examples:
+Functions as Arguments:
+
+Array Methods: The map, filter, and reduce methods of arrays in JavaScript are classic examples of higher-order functions because they take another function as an argument.
+javascript
+Copy code
+const numbers = [1, 2, 3, 4, 5];
+
+// Using map to square each number
+const squares = numbers.map(num => num * num); // [1, 4, 9, 16, 25]
+
+// Using filter to get even numbers
+const evens = numbers.filter(num => num % 2 === 0); // [2, 4]
+
+// Using reduce to sum all numbers
+const sum = numbers.reduce((acc, num) => acc + num, 0); // 15
+Functions as Return Values:
+
+A higher-order function can also return another function. This is useful for creating function factories or encapsulating behavior.
+javascript
+Copy code
+function createCounter() {
+  let count = 0;
+  return function() {
+    count += 1;
+    return count;
+  };
+}
+
+const counter = createCounter();
+console.log(counter()); // 1
+console.log(counter()); // 2
+console.log(counter()); // 3</>
+
+Practical Use Case :
+ Currying
+Higher-order functions can be used for currying, transforming a function that takes multiple arguments into a sequence of functions that each take a single argument.
+
+Example: Currying
+javascript
+Copy code
+function multiply(a) {
+  return function(b) {
+    return a * b;
+  };
+}
+
+const double = multiply(2);
+console.log(double(5)); // 10
+ Event Handling
+Higher-order functions are often used in event handling, allowing you to encapsulate behavior and create reusable event handlers.
+
+Example: Creating Event Handlers
+javascript
+Copy code
+function createClickHandler(message) {
+  return function() {
+    console.log(message);
+  };
+}
+
+const button1Handler = createClickHandler("Button 1 clicked!");
+const button2Handler = createClickHandler("Button 2 clicked!");
+
+// Assume button1 and button2 are DOM elements
+button1.addEventListener("click", button1Handler);
+button2.addEventListener("click", button2Handler);
+
+
+Function Composition
+Higher-order functions can be used to create composed functions that combine multiple behaviors.
+
+Example: Function Composition
+javascript
+Copy code
+const double = x => x * 2;
+const square = x => x * x;
+
+const compose = (f, g) => x => f(g(x));
+
+const doubleThenSquare = compose(square, double);
+console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
+`,
             examples: [""],
-            questions: [{}],
-            links: [""],
+            questions: [
+              {
+                question: "Explain the concept of the message queue in the context of the Event Loop.",
+                solution: "The message queue is where asynchronous events and their respective callback functions are held. When an asynchronous event occurs (like a timer completion or an HTTP request response), its callback is placed in the message queue."
+              },
+              {
+                question: "Can you explain the difference between the microtask queue and the task queue in JavaScript?",
+                solution: "Both queues are used to store callbacks, but the microtask queue (also known as Job Queue) has a higher priority and is processed before the task queue. Microtasks typically include Promises, whereas the task queue includes other asynchronous tasks like setTimeout callbacks."
+              },
+              {
+                question: "Can you explain the difference between setTimeout and setImmediate?",
+                solution: "`setTimeout` schedules a callback function to be executed after a specified delay (minimum of 4ms in browsers), whereas `setImmediate` schedules a callback to be executed in the next iteration of the Event Loop, but it’s not universally supported (primarily in Node.js)."
+              },
+              {
+                question: "Can you explain the concept of race conditions in JavaScript and how the Event Loop helps in preventing them?",
+                solution: "Race conditions occur when the output of code is dependent on the sequence/timing of asynchronous operations. The Event Loop ensures proper order of execution by queuing callbacks, preventing unpredictable outcomes in concurrent operations."
+              },
+              {
+                question: "Can you explain what the Message Queue is?",
+                solution: "The Message Queue in JavaScript stores callbacks from asynchronous operations like events or timeouts, which are processed by the Event Loop when the Call Stack is empty."
+              },
+              {
+                question: "What is process.nextTick() in Node.js?",
+                solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.\n\nCode Example:\n\nconsole.log('Start');\n\nprocess.nextTick(() => {\n    console.log('nextTick callback');\n});\n\nconsole.log('End');\n\n// Output:\n// Start\n// End\n// nextTick callback\n\nIn this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.`
+              },
+              {
+                question: `What will be printed after executing the code?\n\n
+      async function async1() {
+        console.log("async1 start");
+        await async2();
+        console.log("async1 end");
+      }
+      
+      async function async2() {
+        console.log("async2");
+      }
+      
+      console.log("script start");
+      
+      setTimeout(function () {
+        console.log("setTimeout");
+      }, 0);
+      
+      async1();
+      
+      new Promise(function (resolve) {
+        console.log("promise1");
+        resolve();
+      }).then(function () {
+        console.log("promise2");
+      });
+      
+      console.log("script end");`,
+                solution: `The difference from the previous question is that this question has async syntax. The answer is below, and we will analyze it line by line.\n\n
+      1. When the program is executed, it will first print "script start". Then, \`setTimeout\` will be put into the macrotask queue.
+      2. Next, it calls the \`async1\` function, prints "async1 start", then calls \`await async2()\` which causes "async2" to be printed.
+      3. \`await\` causes the rest of the \`async1\` function (printing "async1 end") to be put into the microtask queue.
+      4. The program continues executing and encounters the Promise. It prints "promise1", resolves the promise, and places \`.then\` (which prints "promise2") into the microtask queue.
+      5. The program finishes executing the main script and prints "script end".
+      6. After the main script is done, the event loop processes the microtasks. It first prints "async1 end" from the microtask queue, followed by "promise2".
+      7. Finally, the event loop processes the macrotasks, printing "setTimeout" from the macrotask queue.
+      \nThe final output will be:\n\n
+      "script start"
+      "async1 start"
+      "async2"
+      "promise1"
+      "script end"
+      "async1 end"
+      "promise2"
+      "setTimeout"`
+              }
+            ],
+            links: ["https://medium.com/@a35851150/interview-qustions-on-event-loop-in-js-901c567a1271"],
           },
           {
             topic: "Prototypal Inheritance",
