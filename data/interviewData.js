@@ -2,30 +2,46 @@ export const interviewData = [
   {
     id: 1,
     topic: "javascript",
-    categories: ["Internship", "Junior", "Mid", "Senior"], //represent exp
+    categories: "junior",
     tags: [
       {
         name: "hoisting",
-        link: "", //link to prepare these tags
+        link: "",
       },
     ],
-    prepareLink: "", //Our own links :Preparation
+    prepareLink: "",
     externallinks: [],
     question: "",
-    options: [
+    solution: "",
+  },
+  {
+    id: 2,
+    topic: "javascript",
+    categories: "mid",
+    tags: [
       {
-        id: 1,
-        option: "",
-      },
-      {
-        id: 2,
-        option: "",
-      },
-      {
-        id: 3,
-        option: "",
+        name: "currying",
+        link: "",
       },
     ],
-    answer: 1, //represents index of options
+    prepareLink: "",
+    externallinks: [],
+    question: "",
+    solution: "",
+  },
+  {
+    id: 3,
+    topic: "javascript",
+    categories: "promises",
+    tags: [
+      {
+        name: "hoisting",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    question: "",
+    solution: "",
   },
 ];
