@@ -918,11 +918,147 @@ Promise.all([promise1, promise2, promise3])
           {
             topic: "Event Loop, Microtasks, and Macrotasks",
             tags: [""],
-            explanation: "<></>",
+            explanation: `
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+        In JavaScript, the event loop is the mechanism that handles asynchronous operations and ensures that the JavaScript code is executed in an orderly fashion. JavaScript runs on a single thread, meaning it can only do one thing at a time. However, it manages to handle asynchronous tasks like I/O operations, network requests, and timers using the event loop.For synchronous operations javascript uses only Call Stack.
+        Web API's like geolocation API, web storage API or setTimeout() methods are asynchronous in nature and they do not run on call satck. So, they done block the execution in the call stack. Web API's responses are placed in callback queue.
+    </p>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+        To understand how the event loop works, it is important to differentiate between microtasks and macrotasks, also known as tasks. Both are types of asynchronous operations, but they are handled differently in terms of their execution priority.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Microtasks</h4>
+    <p>
+        Microtasks are the smaller, higher-priority tasks that need to be executed as soon as the current JavaScript execution stack (or "call stack") is empty.
+    </p>
+    <p>
+        Once the call stack is cleared, the event loop first looks at the microtask queue and executes all microtasks before moving on to other tasks (like macrotasks).
+    </p>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Common Microtasks:</h4>
+    <ul>
+        <li>Promises (e.g., <code>.then()</code>, <code>.catch()</code>, <code>.finally()</code>)</li>
+        <li>Await code block</li>
+        <li><code>process.nextTick()</code> in Node.js</li>
+    </ul>
+
+    <h3 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em">Characteristics:</h3>
+    <ul>
+        <li>Microtasks have a high priority, meaning once they are queued, they will be executed right after the current task (if the call stack is empty) and before any macrotask.</li>
+        <li>If more microtasks are added during the execution of other microtasks, they are continuously processed until the microtask queue is empty.</li>
+    </ul>
+
+    <h3>Example of a Microtask:</h3>
+    <pre><code class="language-javascript">
+console.log('Start'); // (1)
+
+setTimeout(() => {
+  console.log('Timeout'); // (4) Macro task
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log('Promise 1'); // (3) Micro task
+}).then(() => {
+  console.log('Promise 2'); // (3) Micro task
+});
+
+console.log('End'); // (2)
+    </code></pre>
+
+    <h4>Output:</h4>
+    <pre><code>
+Start
+End
+Promise 1
+Promise 2
+Timeout
+    </code></pre>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Explanation:</h4>
+    <ul>
+        <li>First, synchronous code (Start and End) runs.</li>
+        <li>Then, microtasks (Promise 1 and Promise 2) run before any macrotask like <code>setTimeout</code>.</li>
+        <li>Finally, the macrotask (<code>setTimeout</code>) is executed.</li>
+    </ul>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Macrotasks</h4>
+    <p>
+        Macrotasks (also called tasks) are lower-priority tasks and are handled after the microtask queue is emptied.
+    </p>
+    <p>
+        After the microtask queue is cleared, the event loop picks one macrotask from the macrotask queue and executes it. After this, the loop checks the microtask queue again, and so on.
+    </p>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Common Macrotasks:</h4>
+    <ul>
+        <li><code>setTimeout()</code></li>
+        <li><code>setInterval()</code></li>
+        <li><code>setImmediate()</code> (Node.js)</li>
+        <li>I/O operations (e.g., network requests)</li>
+        <li>UI rendering</li>
+    </ul>
+
+    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Characteristics:</h3>
+    <ul>
+        <li>Each macrotask is executed one at a time, and after the completion of each macrotask, the event loop checks the microtask queue before proceeding to the next macrotask.</li>
+        <li>Macrotasks are queued and executed one by one, after all pending microtasks.</li>
+    </ul>
+
+    <h3>Example of a Macrotask:</h3>
+    <pre><code class="language-javascript">
+console.log('Start'); // (1)
+
+setTimeout(() => {
+  console.log('Timeout 1'); // (5) Macro task
+}, 0);
+
+setTimeout(() => {
+  console.log('Timeout 2'); // (6) Macro task
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log('Promise 1'); // (3) Micro task
+}).then(() => {
+  console.log('Promise 2'); // (4) Micro task
+});
+
+console.log('End'); // (2)
+    </code></pre>
+
+    <h4>Output:</h4>
+    <pre><code>
+Start
+End
+Promise 1
+Promise 2
+Timeout 1
+Timeout 2
+    </code></pre>
+
+    <h4>Explanation:</h4>
+    <ul>
+        <li>After running synchronous code (Start and End), all microtasks are executed before any macrotask.</li>
+        <li>Once all microtasks (Promise 1 and Promise 2) are executed, the macrotasks (Timeout 1 and Timeout 2) are executed in the order they were scheduled.</li>
+    </ul>
+    <p>
+    Event loop check if the call task is empty or not. If it  is empty then even loop takes callback queue tasks and places in the Call Stack
+    </p>
+     <h1>Event Loop Sequence</h1>
+    <p>The event loop follows this sequence:</p>
+
+    <ol>
+        <li>Execute all synchronous code (directly within the script or the call stack).</li>
+        <li>Process the microtasks queue (execute all microtasks).</li>
+        <li>If no microtasks are left, pick one macrotask from the macrotask queue and execute it.</li>
+        <li>Repeat the process by checking for microtasks again, then execute another macrotask, and so on.</li>
+    </ol>
+    `,
             examples: [""],
             questions: [{}],
             links: [
               "https://www.hellojavascript.info/docs/browser-related-questions/miscellaneous-browser-questions/event-loop-microtasks-macrotasks",
+            "https://www.youtube.com/watch?v=eiC58R16hb8&t=664s"
             ],
           },
           {
