@@ -1058,7 +1058,7 @@ Timeout 2
             questions: [{}],
             links: [
               "https://www.hellojavascript.info/docs/browser-related-questions/miscellaneous-browser-questions/event-loop-microtasks-macrotasks",
-            "https://www.youtube.com/watch?v=eiC58R16hb8&t=664s"
+              "https://www.youtube.com/watch?v=eiC58R16hb8&t=664s",
             ],
           },
           {
@@ -1153,28 +1153,37 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
             examples: [""],
             questions: [
               {
-                question: "Explain the concept of the message queue in the context of the Event Loop.",
-                solution: "The message queue is where asynchronous events and their respective callback functions are held. When an asynchronous event occurs (like a timer completion or an HTTP request response), its callback is placed in the message queue."
+                question:
+                  "Explain the concept of the message queue in the context of the Event Loop.",
+                solution:
+                  "The message queue is where asynchronous events and their respective callback functions are held. When an asynchronous event occurs (like a timer completion or an HTTP request response), its callback is placed in the message queue.",
               },
               {
-                question: "Can you explain the difference between the microtask queue and the task queue in JavaScript?",
-                solution: "Both queues are used to store callbacks, but the microtask queue (also known as Job Queue) has a higher priority and is processed before the task queue. Microtasks typically include Promises, whereas the task queue includes other asynchronous tasks like setTimeout callbacks."
+                question:
+                  "Can you explain the difference between the microtask queue and the task queue in JavaScript?",
+                solution:
+                  "Both queues are used to store callbacks, but the microtask queue (also known as Job Queue) has a higher priority and is processed before the task queue. Microtasks typically include Promises, whereas the task queue includes other asynchronous tasks like setTimeout callbacks.",
               },
               {
-                question: "Can you explain the difference between setTimeout and setImmediate?",
-                solution: "`setTimeout` schedules a callback function to be executed after a specified delay (minimum of 4ms in browsers), whereas `setImmediate` schedules a callback to be executed in the next iteration of the Event Loop, but it’s not universally supported (primarily in Node.js)."
+                question:
+                  "Can you explain the difference between setTimeout and setImmediate?",
+                solution:
+                  "`setTimeout` schedules a callback function to be executed after a specified delay (minimum of 4ms in browsers), whereas `setImmediate` schedules a callback to be executed in the next iteration of the Event Loop, but it’s not universally supported (primarily in Node.js).",
               },
               {
-                question: "Can you explain the concept of race conditions in JavaScript and how the Event Loop helps in preventing them?",
-                solution: "Race conditions occur when the output of code is dependent on the sequence/timing of asynchronous operations. The Event Loop ensures proper order of execution by queuing callbacks, preventing unpredictable outcomes in concurrent operations."
+                question:
+                  "Can you explain the concept of race conditions in JavaScript and how the Event Loop helps in preventing them?",
+                solution:
+                  "Race conditions occur when the output of code is dependent on the sequence/timing of asynchronous operations. The Event Loop ensures proper order of execution by queuing callbacks, preventing unpredictable outcomes in concurrent operations.",
               },
               {
                 question: "Can you explain what the Message Queue is?",
-                solution: "The Message Queue in JavaScript stores callbacks from asynchronous operations like events or timeouts, which are processed by the Event Loop when the Call Stack is empty."
+                solution:
+                  "The Message Queue in JavaScript stores callbacks from asynchronous operations like events or timeouts, which are processed by the Event Loop when the Call Stack is empty.",
               },
               {
                 question: "What is process.nextTick() in Node.js?",
-                solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.\n\nCode Example:\n\nconsole.log('Start');\n\nprocess.nextTick(() => {\n    console.log('nextTick callback');\n});\n\nconsole.log('End');\n\n// Output:\n// Start\n// End\n// nextTick callback\n\nIn this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.`
+                solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.\n\nCode Example:\n\nconsole.log('Start');\n\nprocess.nextTick(() => {\n    console.log('nextTick callback');\n});\n\nconsole.log('End');\n\n// Output:\n// Start\n// End\n// nextTick callback\n\nIn this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.`,
               },
               {
                 question: `What will be printed after executing the code?\n\n
@@ -1220,15 +1229,32 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
       "script end"
       "async1 end"
       "promise2"
-      "setTimeout"`
-              }
+      "setTimeout"`,
+              },
             ],
-            links: ["https://medium.com/@a35851150/interview-qustions-on-event-loop-in-js-901c567a1271"],
+            links: [
+              "https://medium.com/@a35851150/interview-qustions-on-event-loop-in-js-901c567a1271",
+            ],
           },
           {
             topic: "Prototypal Inheritance",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<>Prototype inheritance is a feature in javascript which lets you share property and mehtods of other object so that you dont have to copy these properties everywhere.
+            Imagine you have an object like a "blueprint" that has some properties (like a name) and methods (like a function to say hello). Other objects can "inherit" or borrow those properties and methods, meaning they can use them even if they don't directly have them.
+
+For example:
+
+javascript
+Copy code
+const animal = {
+  speak() {
+    console.log("I am an animal");
+  }
+};
+
+const dog = Object.create(animal);  // dog borrows properties from animal
+dog.speak(); // Output: "I am an animal"
+Here, dog doesn't have a speak function on its own, but it looks at the animal object to find it and uses it.</>`,
             examples: [""],
             questions: [{}],
             links: [""],
