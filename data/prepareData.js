@@ -1243,9 +1243,6 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
             Imagine you have an object like a "blueprint" that has some properties (like a name) and methods (like a function to say hello). Other objects can "inherit" or borrow those properties and methods, meaning they can use them even if they don't directly have them.
 
 For example:
-
-javascript
-Copy code
 const animal = {
   speak() {
     console.log("I am an animal");
