@@ -22,6 +22,7 @@ import { BookOpenCheck } from "lucide-react";
 import { GraduationCap } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { interviewData } from "@/data/interviewData";
 import {
   Tabs as TAB,
   TabsContent,
@@ -64,6 +65,8 @@ function a11yProps(index) {
 
 export default function BasicTabs() {
   const router = useRouter();
+  const [interviewQues, setInterviewQues] = React.useState([]);
+
   const checkTopic = [
     {
       topic: "Javascript",
@@ -81,6 +84,7 @@ export default function BasicTabs() {
   const topic = router.query.slug;
   let selectedTopicData =
     prepareData.filter((item) => item.category === topic)[0]?.type || [];
+
   React.useEffect(() => {
     const topic = router.query.slug;
     setTopicSelected(topic);
@@ -88,12 +92,19 @@ export default function BasicTabs() {
     setIndexValue(topicIndex);
   }, [router.query.slug]);
 
+  React.useEffect(() => {
+    const filteredTopic = interviewData
+      .filter((data) => data.topic === topic)
+      .filter((item) => item.categories === interviewSelection);
+    setInterviewQues(filteredTopic[0]);
+  }, [interviewSelection, router.query.slug]);
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
   return (
-    <Box>
+    <Box className="w-full md:w-6/12 mx-auto">
       <Header topic={topicSelected} indexSelected={indexSelected} />
       <Box sx={{ width: "auto" }}>
         <Box>
@@ -138,7 +149,7 @@ export default function BasicTabs() {
               type="text"
               placeholder="Search topic"
               style={{ textTransform: "none", outline: "none" }}
-              className="rounded-lg border-Javascript-border appearance-none text-[15px] w-full  pl-10"
+              className="rounded-lg border-Javascript-border appearance-none text-[15px] w-full pl-10"
             />
             <SearchIcon
               className={`absolute left-2.5 top-2.5 w-5 h-5 ${
@@ -238,7 +249,7 @@ export default function BasicTabs() {
                               onClick={() =>
                                 router.push(`/learn/${concept.topic}`)
                               }
-                              className={`flex font-medium mb-1 border p-2 rounded-md ${
+                              className={`flex font-medium cursor-pointer mb-1 border p-2 rounded-md ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
@@ -259,7 +270,7 @@ export default function BasicTabs() {
                               onClick={() =>
                                 router.push(`/learn/${concept.topic}`)
                               }
-                              className={`flex font-medium mb-1 border p-2 rounded-md ${
+                              className={`flex font-medium cursor-pointer mb-1 border p-2 rounded-md ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
@@ -288,7 +299,7 @@ export default function BasicTabs() {
                                 delay: 0.2 * index,
                                 ease: [0, 0.71, 0.2, 1.01],
                               }}
-                              className={`flex font-medium bg-white border p-2 rounded-md ${
+                              className={`flex font-medium cursor-pointer bg-white border p-2 rounded-md ${
                                 topic === "Javascript"
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
@@ -309,7 +320,7 @@ export default function BasicTabs() {
                               onClick={() =>
                                 router.push(`/test/${concept.topic}`)
                               }
-                              className={`flex font-medium bg-white border p-2 rounded-md ${
+                              className={`flex font-medium bg-white cursor-pointer border p-2 rounded-md ${
                                 topic === "Javascript"
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
@@ -412,16 +423,16 @@ export default function BasicTabs() {
                             onClick={() =>
                               router.push(`/learn/${concept.topic}`)
                             }
-                            className={`flex font-medium mb-1 border p-2 rounded-md ${
+                            className={`flex font-medium mb-1 cursor-pointer border p-2 rounded-md ${
                               topic === "Javascript"
-                                ? " text-Javascript-text bg-white "
+                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
                             }`}
                           >
                             <GraduationCap
                               className={`mr-2  ${
                                 topic === "Javascript"
-                                  ? " text-Javascript-topic bg-white "
+                                  ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
                               }`}
                               size={"21px"}
@@ -433,9 +444,9 @@ export default function BasicTabs() {
                             onClick={() =>
                               router.push(`/learn/${concept.topic}`)
                             }
-                            className={`flex font-medium mb-1 border p-2 rounded-md ${
+                            className={`flex font-medium mb-1 cursor-pointer border p-2 rounded-md ${
                               topic === "Javascript"
-                                ? " text-Javascript-text bg-white "
+                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
                             }`}
                           >
@@ -443,7 +454,7 @@ export default function BasicTabs() {
                             <GraduationCap
                               className={`mr-2  ${
                                 topic === "Javascript"
-                                  ? " text-Javascript-topic bg-white "
+                                  ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
                               }`}
                               size={"21px"}
@@ -463,16 +474,16 @@ export default function BasicTabs() {
                               delay: 0.2 * index,
                               ease: [0, 0.71, 0.2, 1.01],
                             }}
-                            className={`flex font-medium bg-white border p-2 rounded-md ${
+                            className={`flex font-medium cursor-pointer bg-white border p-2 rounded-md ${
                               topic === "Javascript"
-                                ? " text-Javascript-text bg-white "
+                                ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
                             }`}
                           >
                             <BookOpenCheck
                               className={`mr-2 ${
                                 topic === "Javascript"
-                                  ? "text-Javascript-topic bg-white "
+                                  ? "text-Javascript-topic hover:bg-Javascript-bg"
                                   : ""
                               }`}
                               size={"19px"}
@@ -481,9 +492,9 @@ export default function BasicTabs() {
                           </motion.div>
                         ) : (
                           <div
-                            className={`flex font-medium bg-white border p-2 rounded-md ${
+                            className={`flex font-medium bg-white cursor-pointer border p-2 rounded-md ${
                               topic === "Javascript"
-                                ? " text-Javascript-text bg-white "
+                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
                             }`}
                             onClick={() =>
@@ -493,7 +504,7 @@ export default function BasicTabs() {
                             <BookOpenCheck
                               className={`mr-2 ${
                                 topic === "Javascript"
-                                  ? "text-Javascript-topic bg-white "
+                                  ? "text-Javascript-topic hover:bg-Javascript-bg"
                                   : ""
                               }`}
                               size={"19px"}
@@ -552,1235 +563,158 @@ export default function BasicTabs() {
             </TabsList>
             <TabsContent value="Junior" className="mt-4">
               <div className="flex flex-col gap-4 items-center justify-center">
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                {interviewQues?.questions.length > 0
+                  ? interviewQues?.questions?.map((item, index) => (
+                      <motion.div
+                        key={index}
+                        animate={{ y: -10 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 130,
+                          delay: 0.01 + index * 0.1,
+                        }}
+                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
+                        href="#"
+                      >
+                        <div className="col-span-11 xl:-ml-5">
+                          <p
+                            className={`font-semibold ${
+                              topic === "Javascript"
+                                ? " text-Javascript-text"
+                                : ""
+                            }`}
+                          >
+                            {" "}
+                            {item.question}
+                          </p>
+                        </div>
 
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                    {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                    <div className="flex mt-2 justify-center w-full">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs mr-2 font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs mr-2 font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.05 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.1 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.15 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.2 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.5 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
+                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
+                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
+                          <div className="flex mt-2 justify-end w-full">
+                            {item?.tags?.slice(0, 3).map((tags, index) => (
+                              <span
+                                key={index}
+                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
+                                    : ""
+                                }`}
+                              >
+                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
+                                {tags.name}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))
+                  : null}
               </div>
             </TabsContent>
             <TabsContent value="Mid" className="mt-4">
               <div className="flex flex-col gap-4 items-center justify-center">
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                {interviewQues?.questions.length > 0
+                  ? interviewQues?.questions?.map((item, index) => (
+                      <motion.div
+                        key={index}
+                        animate={{ y: -10 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 130,
+                          delay: 0.01 + index * 0.1,
+                        }}
+                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
+                        href="#"
+                      >
+                        <div className="col-span-11 xl:-ml-5">
+                          <p
+                            className={`font-semibold ${
+                              topic === "Javascript"
+                                ? " text-Javascript-text"
+                                : ""
+                            }`}
+                          >
+                            {" "}
+                            {item.question}
+                          </p>
+                        </div>
 
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                    {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                    <div className="flex mt-2 justify-center w-full">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs mr-2 font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs mr-2 font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.05 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.1 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.15 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.2 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.5 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
+                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
+                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
+                          <div className="flex mt-2 justify-end w-full">
+                            {item?.tags?.slice(0, 3).map((tags, index) => (
+                              <span
+                                key={index}
+                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
+                                    : ""
+                                }`}
+                              >
+                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
+                                {tags.name}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))
+                  : null}
               </div>
             </TabsContent>
             <TabsContent value="Senior" className="mt-4">
               <div className="flex flex-col gap-4 items-center justify-center">
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                {interviewQues?.questions.length > 0
+                  ? interviewQues?.questions?.map((item, index) => (
+                      <motion.div
+                        key={index}
+                        animate={{ y: -10 }}
+                        transition={{
+                          type: "spring",
+                          stiffness: 130,
+                          delay: 0.01 + index * 0.1,
+                        }}
+                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
+                        href="#"
+                      >
+                        <div className="col-span-11 xl:-ml-5">
+                          <p
+                            className={`font-semibold ${
+                              topic === "Javascript"
+                                ? " text-Javascript-text"
+                                : ""
+                            }`}
+                          >
+                            {" "}
+                            {item.question}
+                          </p>
+                        </div>
 
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                    {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                    <div className="flex mt-2 justify-center w-full">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs mr-2 font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs mr-2 font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.05 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.1 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.15 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.2 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130, delay: 0.5 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  animate={{ y: -10 }}
-                  transition={{ type: "spring", stiffness: 130 }}
-                  className={`rounded-xl w-full grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
-                ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                  href="#"
-                >
-                  <div className="col-span-11 xl:-ml-5">
-                    <p
-                      className={`font-semibold ${
-                        topic === "Javascript" ? " text-Javascript-text" : ""
-                      }`}
-                    >
-                      {" "}
-                      Deploy a Django App Using Gunicorn to App Platform{" "}
-                    </p>
-                  </div>
-
-                  <div className="md:col-start-2 col-span-11 xl:-ml-5">
-                    <div className="flex mt-2 justify-end">
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"14px"} className="mr-0.5" />
-                        Hoisting
-                      </span>
-                      <span
-                        className={`flex rounded-xl pl-2.5 pr-2.5 pt-1 pb-1 text-xs font-medium ${
-                          topic === "Javascript"
-                            ? " text-Javascript-text bg-Javascript-lightTheme"
-                            : ""
-                        }`}
-                      >
-                        <Hash size={"15px"} className="mr-0.5" />
-                        Currying
-                      </span>
-                    </div>
-                  </div>
-                </motion.div>
+                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
+                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
+                          <div className="flex mt-2 justify-end w-full">
+                            {item?.tags?.slice(0, 3).map((tags, index) => (
+                              <span
+                                key={index}
+                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
+                                    : ""
+                                }`}
+                              >
+                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
+                                {tags.name}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))
+                  : null}
               </div>
             </TabsContent>
           </TAB>

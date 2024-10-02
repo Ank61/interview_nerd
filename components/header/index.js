@@ -7,7 +7,7 @@ export default function Header({topic, indexSelected}){
         sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <ArrowLeft size={28} className={`${topic === "Javascript" ? "text-Javascript-text" : "text-violet-800"}`} onClick={()=>window.history.back()}/>
+          <ArrowLeft size={28} className={` cursor-pointer ${topic === "Javascript" ? "text-Javascript-text" : "text-violet-800"}`} onClick={()=>window.history.back()}/>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {indexSelected !== -1 && (
