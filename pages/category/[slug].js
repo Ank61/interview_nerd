@@ -563,7 +563,7 @@ export default function BasicTabs() {
             </TabsList>
             <TabsContent value="Junior" className="mt-4">
               <div className="flex flex-col gap-4 items-center justify-center">
-                {interviewQues?.questions.length > 0
+                {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
                       <motion.div
                         key={index}
@@ -615,7 +615,7 @@ export default function BasicTabs() {
             </TabsContent>
             <TabsContent value="Mid" className="mt-4">
               <div className="flex flex-col gap-4 items-center justify-center">
-                {interviewQues?.questions.length > 0
+                {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
                       <motion.div
                         key={index}
@@ -667,7 +667,7 @@ export default function BasicTabs() {
             </TabsContent>
             <TabsContent value="Senior" className="mt-4">
               <div className="flex flex-col gap-4 items-center justify-center">
-                {interviewQues?.questions.length > 0
+                {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
                       <motion.div
                         key={index}

@@ -1064,30 +1064,41 @@ Timeout 2
           {
             topic: "Higher-Order Functions",
             tags: [""],
-            explanation: `<>Higher-Order Function
+            explanation: `
+            <p style="margin-top: 1.0rem;">
 A higher-order function is a function that either accepts one or more functions as arguments, returns a function as its result, or does both. This allows functions to be treated as first-class citizens in programming, enabling a more functional programming style.
+</p>
 
-Examples:
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Examples:</h4>
+ <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number; ">
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.0rem;">
 Functions as Arguments:
+</span>
+</li>
 
 Array Methods: The map, filter, and reduce methods of arrays in JavaScript are classic examples of higher-order functions because they take another function as an argument.
 javascript
-Copy code
+ <pre><code class="language-javascript">
 const numbers = [1, 2, 3, 4, 5];
-
 // Using map to square each number
 const squares = numbers.map(num => num * num); // [1, 4, 9, 16, 25]
-
 // Using filter to get even numbers
 const evens = numbers.filter(num => num % 2 === 0); // [2, 4]
-
 // Using reduce to sum all numbers
 const sum = numbers.reduce((acc, num) => acc + num, 0); // 15
+</code>
+</pre>
+
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.0rem;">
 Functions as Return Values:
+</span>
+</li>
 
 A higher-order function can also return another function. This is useful for creating function factories or encapsulating behavior.
 javascript
-Copy code
+ <pre><code class="language-javascript">
 function createCounter() {
   let count = 0;
   return function() {
@@ -1100,14 +1111,20 @@ const counter = createCounter();
 console.log(counter()); // 1
 console.log(counter()); // 2
 console.log(counter()); // 3</>
+</code>
+</pre>
 
-Practical Use Case :
- Currying
-Higher-order functions can be used for currying, transforming a function that takes multiple arguments into a sequence of functions that each take a single argument.
-
-Example: Currying
-javascript
-Copy code
+<h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Practical Use Case :</h4>
+<ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number; "> 
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.0rem;">
+Currying
+</span>
+</li>
+<p>
+ Higher-order functions can be used for currying, transforming a function that takes multiple arguments into a sequence of functions that each take a single argument.
+</p>
+<pre><code class="language-javascript">
 function multiply(a) {
   return function(b) {
     return a * b;
@@ -1116,12 +1133,18 @@ function multiply(a) {
 
 const double = multiply(2);
 console.log(double(5)); // 10
- Event Handling
-Higher-order functions are often used in event handling, allowing you to encapsulate behavior and create reusable event handlers.
+</code>
+</pre>
 
+<li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.0rem;">
+Event Handling
+</span>
+</li>
+<p>
+Higher-order functions are often used in event handling, allowing you to encapsulate behavior and create reusable event handlers.
+</p>
 Example: Creating Event Handlers
-javascript
-Copy code
+<pre><code class="language-javascript">
 function createClickHandler(message) {
   return function() {
     console.log(message);
@@ -1134,14 +1157,19 @@ const button2Handler = createClickHandler("Button 2 clicked!");
 // Assume button1 and button2 are DOM elements
 button1.addEventListener("click", button1Handler);
 button2.addEventListener("click", button2Handler);
-
-
+</code>
+</pre>
+<li style="margin-top: 0.5rem;">
+<span style="font-weight: 600; font-size: 1.0rem;">
 Function Composition
+</span>
+</li>
+<p>
 Higher-order functions can be used to create composed functions that combine multiple behaviors.
+</p>
 
 Example: Function Composition
-javascript
-Copy code
+<pre><code class="language-javascript">
 const double = x => x * 2;
 const square = x => x * x;
 
@@ -1149,6 +1177,9 @@ const compose = (f, g) => x => f(g(x));
 
 const doubleThenSquare = compose(square, double);
 console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
+</code>
+</pre>
+</ol>
 `,
             examples: [""],
             questions: [
@@ -1186,11 +1217,12 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
                 solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.\n\nCode Example:\n\nconsole.log('Start');\n\nprocess.nextTick(() => {\n    console.log('nextTick callback');\n});\n\nconsole.log('End');\n\n// Output:\n// Start\n// End\n// nextTick callback\n\nIn this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.`,
               },
               {
-                question: `What will be printed after executing the code?\n\n
-      async function async1() {
-        console.log("async1 start");
+                question: `What will be printed after executing the code?`,
+                solution: `<pre><code className="language-javascript">
+     async function async1() {
+      console.log("async1 start");
         await async2();
-        console.log("async1 end");
+         console.log("async1 end");
       }
       
       async function async2() {
@@ -1212,8 +1244,10 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
         console.log("promise2");
       });
       
-      console.log("script end");`,
-                solution: `The difference from the previous question is that this question has async syntax. The answer is below, and we will analyze it line by line.\n\n
+      console.log("script end");
+      </code>
+      </pre>
+                <span>The difference from the previous question is that this question has async syntax. The answer is below, and we will analyze it line by line.\n\n
       1. When the program is executed, it will first print "script start". Then, \`setTimeout\` will be put into the macrotask queue.
       2. Next, it calls the \`async1\` function, prints "async1 start", then calls \`await async2()\` which causes "async2" to be printed.
       3. \`await\` causes the rest of the \`async1\` function (printing "async1 end") to be put into the microtask queue.
@@ -1229,7 +1263,7 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
       "script end"
       "async1 end"
       "promise2"
-      "setTimeout"`,
+      "setTimeout </span>"`,
               },
             ],
             links: [

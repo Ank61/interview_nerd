@@ -53,7 +53,7 @@ export default function Learn() {
   }, [explanation]);
 
   return (
-    <Box width={"full"}>
+    <Box className="w-full md:w-6/12 mx-auto">
       <Header topic={theme.category || ""} />
       <Box sx={{ width: "auto" }} padding={3}>
         <h3
