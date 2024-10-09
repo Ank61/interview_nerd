@@ -1477,9 +1477,222 @@ import { a } from './a.js';
           {
             topic: "Memoization",
             tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">Memoization is an optimization method used to improve the overall performance of capabilities by caching their formerly computed effects. When a memoized function is called with a given set of arguments, it first tests if the end result for the ones arguments is already saved in a cache. If so, it returns the cached end result instead of recalculating it. Otherwise, it computes the end result, stores it in the cache, and returns it.
+   </p>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+   Memoization is particularly beneficial in eventualities where a function is computationally high priced and is called frequently with the equal set of arguments. It helps keep away from redundant calculations and improves the performance of packages.
+   </p>
+
+    <pre><code className="language-javascript">
+    function memoize(fn) {
+    const cache = {};
+    return function (...args) {
+        const key = JSON.stringify(args);
+        if (cache[key]) {
+            console.log('Fetching from cache:', key);
+            return cache[key];
+        } else {
+            console.log('Calculating result for:', key);
+            const result = fn(...args);
+            cache[key] = result;
+            return result;
+        }
+    };
+}
+
+function slowFunction(num) {
+    // Simulate an expensive computation
+    let result = 0;
+    for (let i = 0; i <= num; i++) {
+        result += i;
+    }
+    return result;
+}
+
+const memoizedSlowFunction = memoize(slowFunction);
+
+console.log(memoizedSlowFunction(5));  // Calculating result
+console.log(memoizedSlowFunction(5));  // Fetching from cache
+
+    </code>
+    </pre>
+   </div>
+            </>`,
+            examples: [`let cache = {};
+const addTen = function(num){
+        if(num in cache){
+          console.log("Inside Memoization block")
+          return cache[num]
+        }else{
+          console.log("Inside Regular execution block")
+          cache[num] = num + 10;
+          return cache[num]
+        }
+}
+console.log(addTen(20))
+console.log(addTen(20))
+Output of above snippet would be
+
+Inside Regular execution block
+30
+Inside Memoization block
+30`],
+            questions: [{
+              question: "Can you write a memoization function for calculating the Fibonacci series?",
+              solution: `<p>Here’s a memoization function for calculating the Fibonacci series:</p>
+            <pre><code className="language-javascript">
+            function memoizedFibonacci() {
+              const cache = {};
+              return function fib(n) {
+                if (n < 2) {
+                  return n;
+                }
+                if (cache[n]) {
+                  return cache[n];
+                }
+                cache[n] = fib(n - 1) + fib(n - 2);
+                return cache[n];
+              };
+            }
+            
+            const fibonacci = memoizedFibonacci();
+            console.log(fibonacci(10)); // Outputs: 55
+            console.log(fibonacci(5));  // Outputs: 5
+            </code></pre>
+            <p>This function caches previously computed Fibonacci numbers in the <code>cache</code> object, reducing the number of recursive calls and improving performance.</p>`,
+            },
+            {
+              question: "Can you write a memoization function for finding the factorial of a number?",
+              solution: `<p>Here’s a memoization function for calculating the factorial of a number:</p>
+            <pre><code className="language-javascript">
+            function memoizedFactorial() {
+              const cache = {};
+              return function fact(n) {
+                if (n === 0 || n === 1) {
+                  return 1;
+                }
+                if (cache[n]) {
+                  return cache[n];
+                }
+                cache[n] = n * fact(n - 1);
+                return cache[n];
+              };
+            }
+            
+            const factorial = memoizedFactorial();
+            console.log(factorial(5));  // Outputs: 120
+            console.log(factorial(6));  // Outputs: 720
+            </code></pre>
+            <p>The <code>memoizedFactorial</code> function caches the results of previously computed factorials, speeding up future calls with the same input.</p>`,
+            },
+            {
+              question: "What is memoization in JavaScript?",
+              solution:
+                "<p>Memoization is an optimization technique used to speed up function execution by storing the results of expensive function calls and returning the cached result when the same inputs occur again. It prevents redundant calculations, improving performance.</p>",
+            },
+            {
+              question: "Can you provide an example of memoization in JavaScript?",
+              solution: `<p>Here’s a simple example of a memoization function:</p>
+            <pre><code className="language-javascript">
+            function memoize(fn) {
+              const cache = {};
+              return function(...args) {
+                const key = JSON.stringify(args);
+                if (cache[key]) {
+                  return cache[key];
+                } else {
+                  const result = fn(...args);
+                  cache[key] = result;
+                  return result;
+                }
+              };
+            }
+            
+            function slowFunction(num) {
+              let result = 0;
+              for (let i = 0; i <= num; i++) {
+                result += i;
+              }
+              return result;
+            }
+            
+            const memoizedSlowFunction = memoize(slowFunction);
+            
+            console.log(memoizedSlowFunction(5)); // Calculates result
+            console.log(memoizedSlowFunction(5)); // Returns cached result
+            </code></pre>
+            <p>In this example, the <code>memoize</code> function caches the results of the <code>slowFunction</code>. The second time it’s called with the same argument, it returns the cached result instead of recalculating it.</p>`,
+            },
+            {
+              question: "When should you use memoization?",
+              solution:
+                "<p>Memoization should be used when a function is computationally expensive and is frequently called with the same arguments. This can happen in recursive algorithms (e.g., Fibonacci) or in situations where data fetching is repeated with the same parameters.</p>",
+            },
+            {
+              question: "What are the trade-offs of memoization?",
+              solution:
+                "<p>While memoization can improve performance by reducing redundant calculations, it comes with the cost of increased memory usage to store cached results. For large input spaces, this memory overhead can become significant. You may need to implement cache eviction strategies for long-running applications.</p>",
+            },
+            {
+              question: "How does memoization improve recursive algorithms like Fibonacci?",
+              solution: `<p>Memoization optimizes recursive algorithms like Fibonacci by storing the results of subproblems to avoid redundant calculations. Without memoization, a naive recursive Fibonacci algorithm recalculates the same values multiple times, leading to an exponential time complexity. Memoization reduces this to linear time complexity (O(n)).</p>
+            <pre><code className="language-javascript">
+            function memoizedFibonacci() {
+              const cache = {};
+              return function fib(n) {
+                if (n < 2) {
+                  return n;
+                }
+                if (cache[n]) {
+                  return cache[n];
+                }
+                cache[n] = fib(n - 1) + fib(n - 2);
+                return cache[n];
+              };
+            }
+            
+            const fibonacci = memoizedFibonacci();
+            console.log(fibonacci(10)); // Efficiently calculates the 10th Fibonacci number
+            </code></pre>
+            <p>In this example, the Fibonacci function uses memoization to store the results of previously computed Fibonacci numbers in the <code>cache</code>, improving performance.</p>`,
+            },
+            {
+              question: "Can memoization be applied to all functions?",
+              solution:
+                "<p>No, memoization is best suited for pure functions, i.e., functions that return the same output given the same input without side effects. Functions that rely on external states or have non-deterministic behavior, such as generating random values or making network requests, are not suitable for memoization.</p>",
+            },
+            {
+              question: "How would you handle memoization for functions with complex inputs (objects or arrays)?",
+              solution: `<p>For functions with complex inputs like objects or arrays, memoization can be challenging because object references differ even if their contents are identical. One approach is to use <code>JSON.stringify()</code> to convert inputs into strings, which can be used as cache keys.</p>
+            <pre><code className="language-javascript">
+            function memoize(fn) {
+              const cache = {};
+              return function(...args) {
+                const key = JSON.stringify(args);
+                if (cache[key]) {
+                  return cache[key];
+                } else {
+                  const result = fn(...args);
+                  cache[key] = result;
+                  return result;
+                }
+              };
+            }
+            </code></pre>
+            <p>However, this approach can be inefficient for large, deeply nested objects, so specialized libraries like <code>lodash.memoize</code> or custom deep comparison functions might be needed for more complex cases.</p>`,
+            },
+            {
+              question: "What is the difference between memoization and caching?",
+              solution:
+                "<p>Memoization is a specific form of caching where the focus is on storing the results of function calls based on their input arguments. Caching, in a broader sense, refers to storing any kind of data for quick retrieval, such as HTTP responses or database queries. Memoization typically applies to individual function calls, while caching is more general-purpose.</p>",
+            },
+            {
+              question: "How would you implement cache eviction in a memoization system?",
+              solution:
+                "<p>To manage the memory overhead of memoization, you can implement cache eviction strategies such as Least Recently Used (LRU). In an LRU cache, the least recently accessed entries are removed when the cache reaches a certain size. This helps manage memory usage efficiently.</p>",
+            }
+            ],
             links: [""],
           },
           {

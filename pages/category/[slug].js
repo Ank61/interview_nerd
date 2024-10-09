@@ -236,7 +236,7 @@ export default function BasicTabs() {
                             <div>{concept.topic}</div>
                           )}
                         </TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="text-right md:flex">
                           {index <= 5 ? (
                             <motion.div
                               initial={{ opacity: 0, scale: 0.5 }}
@@ -249,11 +249,9 @@ export default function BasicTabs() {
                               onClick={() =>
                                 router.push(`/learn/${concept.topic}`)
                               }
-                              className={`flex font-medium cursor-pointer mb-1 border p-2 rounded-md ${
-                                topic === "Javascript"
-                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : ""
-                              }`}
+                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                                ${topic === "Javascript" ? " text-Javascript-text bg-white hover:bg-Javascript-bg": ""} 
+                              md:mb-0 `}
                             >
                               <GraduationCap
                                 className={`mr-2  ${
@@ -263,7 +261,7 @@ export default function BasicTabs() {
                                 }`}
                                 size={"21px"}
                               />
-                              Learn
+                              Learn 
                             </motion.div>
                           ) : (
                             <div
@@ -299,19 +297,20 @@ export default function BasicTabs() {
                                 delay: 0.2 * index,
                                 ease: [0, 0.71, 0.2, 1.01],
                               }}
-                              className={`flex font-medium cursor-pointer bg-white border p-2 rounded-md ${
+                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                                 topic === "Javascript"
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
                               }`}
                             >
                               <BookOpenCheck
-                                className={`mr-2 ${
+                              // style={{width: 12px}}
+                                className={`mr-2 w-[19px] ${
                                   topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                }`}
-                                size={"19px"}
+                                } md: w-[15px]`}
+                                // size={"19px"}
                               />
                               Practice
                             </motion.div>
@@ -331,8 +330,9 @@ export default function BasicTabs() {
                                   topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                }`}
-                                size={"19px"}
+                                }
+                                md:w-[19px]`}
+                                // size={"19px"}
                               />
                               Practice
                             </div>
