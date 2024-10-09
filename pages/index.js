@@ -29,15 +29,15 @@ import { ArrowRight } from "lucide-react";
 export default function Home() {
   const router = useRouter();
   return (
-    <div className="min-h-screen bg-white">
-      <header className="container mx-auto px-4 py-6">
+    <div className="min-h-screen bg-white flex flex-col">
+      <header className="flex-grow container mx-auto px-4 py-6">
         <nav className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">TechPrep</h1>
           <Button variant="outline">Sign In</Button>
         </nav>
       </header>
 
-      <main className="container mx-auto px-4 py-12">
+      <main className=" flex-grow container mx-auto px-4 py-12">
         <section className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-gray-900">
             Ace Your Tech Interviews
@@ -46,12 +46,12 @@ export default function Home() {
             Comprehensive preparation for JavaScript, React, Node.js, and
             Next.js interviews
           </p>
-          <Button
+          {/* <Button
             size="lg"
             className="bg-gray-900 text-white hover:bg-gray-800"
           >
             Start Preparing <ArrowRight className="ml-2" />
-          </Button>
+          </Button> */}
         </section>
 
         <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 justify-items-center content-center mx-auto mt-10">
