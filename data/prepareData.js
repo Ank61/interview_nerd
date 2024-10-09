@@ -1214,7 +1214,22 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
               },
               {
                 question: "What is process.nextTick() in Node.js?",
-                solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.\n\nCode Example:\n\nconsole.log('Start');\n\nprocess.nextTick(() => {\n    console.log('nextTick callback');\n});\n\nconsole.log('End');\n\n// Output:\n// Start\n// End\n// nextTick callback\n\nIn this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.`,
+                solution: `The \`process.nextTick()\` is a Node.js method that adds a callback to the "nextTick queue", which is processed after the current operation completes but before the Event Loop continues.
+                <pre><code className="language-javascript">
+                console.log('Start');
+                process.nextTick(() => {   
+                  console.log('nextTick callback');
+                  });
+                  console.log('End');
+                  // Output:
+                  // Start
+                  // End
+                  // nextTick callback
+                  </code>
+                  </pre>
+                  <p>
+                  In this example, process.nextTick() schedules the callback function to be invoked in the next iteration of the event loop, but before any other I/O events or timers fire. Despite its placement after the second console.log() statement, the 'nextTick callback' message is logged after 'End'.
+                  </p>`,
               },
               {
                 question: `What will be printed after executing the code?`,
@@ -1293,9 +1308,162 @@ Here, dog doesn't have a speak function on its own, but it looks at the animal o
           {
             topic: "Modules (ES6 Modules)",
             tags: [""],
-            explanation: "<></>",
+            explanation: `
+            <p>
+            ES6 (ECMAScript 2015) introduced a native module system to JavaScript, which allows developers to organize their code more efficiently and effectively. Modules are basically separate pieces of code that can be moved from one file to another and to another. This helps manage code dependencies, reuse, and maintenance on large code bases. Modules also act as the foundation of many JavaScript design patterns. Most of the JavaScript modules export an object literal, a function, or a constructor
+            </p>
+            <h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Benefite of using Modules</h4>
+            <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number; ">
+  <li style="margin-top: 0.5rem;"><strong>Encapsulation:</strong> Modules allow you to keep related code together and avoid polluting the global namespace.</li>
+  <li style="margin-top: 0.5rem;"><strong>Reusability:</strong> You can reuse code across different parts of the application or even across different projects.</li>
+  <li style="margin-top: 0.5rem;"><strong>Maintainability:</strong> It becomes easier to maintain large codebases by breaking the code into smaller, manageable modules.</li>
+  <li style="margin-top: 0.5rem;"><strong>Better Tooling:</strong> ES6 modules provide static structure, enabling better tooling, such as tree shaking (removing unused exports).</li>
+</ol>
+<h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Concepts</h4>
+<ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number;">
+  <li style="margin-top: 0.5rem;">
+    <strong>Exporting and Importing:</strong> ES6 modules allow you to explicitly export functions, variables, or classes from a module and import them into another module.
+    <ol>
+      <li style="margin-top: 0.5rem;">
+        <strong>Exporting:</strong> You can export values in two ways: named exports and default exports.
+        <ul>
+          <li style="margin-top: 0.5rem;">
+            <strong>Named Exports:</strong> You can export multiple items from a module.
+            <pre><code> // mathUtils.js
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;</code></pre>
+          </li>
+          <li style="margin-top: 0.5rem;">
+            <strong>Default Exports:</strong> A module can have one default export. This is useful when a module has one main thing to export.
+            <pre><code> // greeting.js
+const greet = (name) => Hello, {name};
+export default greet;</code></pre>
+          </li>
+        </ul>
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <strong>Importing:</strong> To use the exported values from one module in another, you import them.
+        <ul>
+          <li style="margin-top: 0.5rem;">
+            <strong>Importing Named Exports:</strong> You must use the same names as the exported variables.
+            <pre><code> // app.js
+import { add, subtract } from './mathUtils.js';
+console.log(add(5, 3)); // 8
+console.log(subtract(5, 3)); // 2;</code></pre>
+          </li>
+          <li style="margin-top: 0.5rem;">
+            <strong>Importing Default Exports:</strong> You can name the default import anything.
+            <pre><code> // app.js
+import greet from './greeting.js';
+console.log(greet('Alice')); // "Hello, Alice!";</code></pre>
+          </li>
+        </ul>
+      </li>
+    </ol>
+  </li>
+  <li style="margin-top: 0.5rem;">
+    <strong>Named Exports with Aliases:</strong> If you want to import an item using a different name, you can alias it during import.
+    <pre><code>import { add as sum } from './mathUtils.js';
+console.log(sum(5, 3)); // 8;</code></pre>
+  </li>
+  <li style="margin-top: 0.5rem;">
+    <strong>Import All from a Module:</strong> You can import everything from a module and assign it to a namespace object.
+    <pre><code>import * as math from './mathUtils.js';
+console.log(math.add(5, 3)); // 8
+console.log(math.subtract(5, 3)); // 2;</code></pre>
+  </li>
+  <li style="margin-top: 0.5rem;">
+    <strong>Re-exporting (Aggregating Modules):</strong> Sometimes you might want to re-export items from one module into another.
+    <pre><code> // moreUtils.js
+export * from './mathUtils.js';</code></pre>
+  </li>
+  <li style="margin-top: 0.5rem;">
+    <strong>Module Scope:</strong> Variables and functions defined inside a module are scoped to that module by default, meaning they are not accessible in the global scope unless explicitly exported.
+  </li>
+  <li style="margin-top: 0.5rem;">
+    <strong>Modules Are Static:</strong> ES6 modules are statically analyzed. This means that imports and exports are resolved at compile-time, not at runtime. It allows JavaScript engines to optimize modules better, and it ensures that circular dependencies are handled correctly.
+  </li>
+  <li style="margin-top: 0.5rem;">
+    <strong>Strict Mode by Default:</strong> All ES6 modules automatically use strict mode, which helps prevent certain bugs by enforcing stricter parsing and error handling in JavaScript.
+  </li>
+  <li style="margin-top: 0.5rem;">
+    <strong>Browser Support and Loading Modules:</strong> Browsers support ES6 modules with <code>&lt;script type="module"&gt;</code>. Using this, you can directly include modules in your HTML files:
+    <pre><code>&lt;script type="module"&gt;
+  import { add } from './mathUtils.js';
+  console.log(add(5, 3)); // 8
+&lt;/script&gt;</code></pre>
+    Modules Are Deferred: By default, ES6 modules in browsers are deferred, meaning they are only executed after the HTML document is completely parsed.
+    <br/>
+    Relative and Absolute Paths: When importing modules, you need to use file paths (relative or absolute). For example:
+    <pre><code>import { add } from './utils/math.js'; // relative path</code></pre>
+  </li>
+</ol>`,
             examples: [""],
-            questions: [{}],
+            questions: [{
+              question: "What are ES6 modules, and how do they differ from traditional JavaScript scripts?",
+              solution: `ES6 modules are a way to structure JavaScript code into reusable pieces. Unlike traditional scripts that can pollute the global namespace, modules encapsulate their code, allowing for better organization and maintainability. ES6 modules use the import and export keywords to share functionality between files.
+              <pre><code className="language-javascript">
+// math.js
+export const add = (a, b) => a + b;
+// app.js
+import { add } from './math.js';
+console.log(add(2, 3)); // 5
+</code></pre>`
+            },
+            {
+              question: "What is the difference between named exports and default exports?",
+              solution: `Named exports allow you to export multiple variables or functions from a module, while a default export allows you to export a single entity from a module.
+              <pre><code className="language-javascript">
+// Named exports
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;            
+// Default export
+const greet = (name) => \`Hello, \${name}!\`;
+export default greet;
+</code></pre>`
+            },
+            {
+              question: "How do you import a default export and a named export from a module?",
+              solution: `To import both a default export and named exports, you can do the following:
+              <pre><code className="language-javascript">
+import greet, { add, subtract } from './math.js';
+console.log(greet('Alice')); // "Hello, Alice!"
+console.log(add(5, 3)); // 8
+console.log(subtract(5, 3)); // 2
+</code></pre>`
+            },
+            {
+              question: "What is module scope, and how does it differ from global scope?",
+              solution: `Module scope means that variables and functions defined within a module are not accessible outside of that module unless they are explicitly exported. In contrast, global scope allows variables and functions to be accessed anywhere in the application.
+              <pre><code className="language-javascript">
+// math.js
+const privateVar = 42; // Not accessible outside this module
+export const publicVar = 'I am public'; // Accessible
+</code></pre>`
+            },
+            {
+              question: "What are re-exports in ES6 modules?",
+              solution: `Re-exports allow you to export items from one module into another. This can be useful for aggregating exports.
+              <pre><code className="language-javascript">
+// moreUtils.js
+export * from './mathUtils.js'; // Re-exports all exports from mathUtils.js
+</code></pre>`
+            },
+            {
+              question: "Can you explain circular dependencies in ES6 modules?",
+              solution: `Circular dependencies occur when two or more modules depend on each other. This can lead to issues where one module may not be fully defined when another module tries to use it. It's generally best to avoid circular dependencies or to refactor the code to eliminate them.
+              <pre><code className="language-javascript">
+// a.js
+import { b } from './b.js';
+// b.js
+import { a } from './a.js';
+</code></pre>`
+            },
+            {
+              question: "How do you load ES6 modules in a web browser?",
+              solution: `You can load ES6 modules in a web browser by using the script type="module" tag in your HTML file. This allows you to directly include and use modules.type="module" tag`
+            }
+            ],
             links: [""],
           },
           {

@@ -1,3 +1,5 @@
+//https://github.com/sudheerj/javascript-interview-questions
+//https://www.turing.com/interview-questions/javascript
 export const interviewData = [
   {
     id: 1,
