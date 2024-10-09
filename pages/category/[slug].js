@@ -19,9 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { BookOpenCheck } from "lucide-react";
-import { GraduationCap } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Button } from "@/components/ui/button";
+import { Code } from 'lucide-react';
 import { interviewData } from "@/data/interviewData";
 import {
   Tabs as TAB,
@@ -104,7 +102,7 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box className="w-full md:w-6/12 mx-auto">
+    <Box className="w-full md:w-7/12 lg:w-6/12 mx-auto">
       <Header topic={topicSelected} indexSelected={indexSelected} />
       <Box sx={{ width: "auto" }}>
         <Box>
@@ -149,7 +147,7 @@ export default function BasicTabs() {
               type="text"
               placeholder="Search topic"
               style={{ textTransform: "none", outline: "none" }}
-              className="rounded-lg border-Javascript-border appearance-none text-[15px] w-full pl-10"
+              className="rounded-lg  appearance-none text-[15px] w-full pl-10"
             />
             <SearchIcon
               className={`absolute left-2.5 top-2.5 w-5 h-5 ${
@@ -187,7 +185,7 @@ export default function BasicTabs() {
                 <TableHeader>
                   <TableRow>
                     <TableHead
-                      className={`px-0 text-left ${
+                      className={`px-0 text-center ${
                         topic === "Javascript" ? "text-Javascript-text " : ""
                       }`}
                     >
@@ -218,7 +216,7 @@ export default function BasicTabs() {
                             topic === "Javascript"
                               ? "text-Javascript-text "
                               : ""
-                          }`}
+                          } md:pl-4`}
                         >
                           {index <= 5 ? (
                             <motion.div
@@ -250,37 +248,43 @@ export default function BasicTabs() {
                                 router.push(`/learn/${concept.topic}`)
                               }
                               className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                                ${topic === "Javascript" ? " text-Javascript-text bg-white hover:bg-Javascript-bg": ""} 
-                              md:mb-0 `}
+                                ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : ""
+                                } 
+                              md:mb-0 md:mr-[3%] md:ml-auto `}
                             >
-                              <GraduationCap
-                                className={`mr-2  ${
+                              <BookOpenCheck
+                                className={`mr-2 w-[19px] ${
                                   topic === "Javascript"
                                     ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                }`}
-                                size={"21px"}
+                                } md: w-[15px]`}
+                                // size={"19px"}
                               />
-                              Learn 
+                              Learn
                             </motion.div>
                           ) : (
                             <div
                               onClick={() =>
                                 router.push(`/learn/${concept.topic}`)
                               }
-                              className={`flex font-medium cursor-pointer mb-1 border p-2 rounded-md ${
-                                topic === "Javascript"
-                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : ""
-                              }`}
+                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                                ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : ""
+                                } 
+                              md:mb-0 md:mr-[3%] md:ml-auto `}
                             >
-                              <GraduationCap
-                                className={`mr-2  ${
+                              <BookOpenCheck
+                                className={`mr-2 w-[19px]  ${
                                   topic === "Javascript"
                                     ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                }`}
-                                size={"21px"}
+                                } md: w-[15px]`}
+                                // size={"19px"}
                               />
                               Learn
                             </div>
@@ -303,8 +307,8 @@ export default function BasicTabs() {
                                   : ""
                               }`}
                             >
-                              <BookOpenCheck
-                              // style={{width: 12px}}
+                              <Code
+                                // style={{width: 12px}}
                                 className={`mr-2 w-[19px] ${
                                   topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
@@ -319,19 +323,19 @@ export default function BasicTabs() {
                               onClick={() =>
                                 router.push(`/test/${concept.topic}`)
                               }
-                              className={`flex font-medium bg-white cursor-pointer border p-2 rounded-md ${
+                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                                 topic === "Javascript"
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
                               }`}
                             >
-                              <BookOpenCheck
-                                className={`mr-2 ${
+                              <Code
+                                // style={{width: 12px}}
+                                className={`mr-2 w-[19px] ${
                                   topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                }
-                                md:w-[19px]`}
+                                } md: w-[15px]`}
                                 // size={"19px"}
                               />
                               Practice
@@ -410,7 +414,7 @@ export default function BasicTabs() {
                           <div className="w-full">{concept.topic}</div>
                         )}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="text-right md:flex">
                         {index <= 5 ? (
                           <motion.div
                             initial={{ opacity: 0, scale: 0.5 }}
@@ -423,19 +427,21 @@ export default function BasicTabs() {
                             onClick={() =>
                               router.push(`/learn/${concept.topic}`)
                             }
-                            className={`flex font-medium mb-1 cursor-pointer border p-2 rounded-md ${
-                              topic === "Javascript"
-                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                : ""
-                            }`}
+                            className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                              ${
+                                topic === "Javascript"
+                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                  : ""
+                              } 
+                            md:mb-0 md:mr-[3%] md:ml-auto `}
                           >
-                            <GraduationCap
-                              className={`mr-2  ${
+                            <BookOpenCheck
+                              className={`mr-2 w-[19px] ${
                                 topic === "Javascript"
                                   ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              }`}
-                              size={"21px"}
+                              } md: w-[15px]`}
+                              // size={"19px"}
                             />
                             Learn
                           </motion.div>
@@ -444,20 +450,22 @@ export default function BasicTabs() {
                             onClick={() =>
                               router.push(`/learn/${concept.topic}`)
                             }
-                            className={`flex font-medium mb-1 cursor-pointer border p-2 rounded-md ${
-                              topic === "Javascript"
-                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                : ""
-                            }`}
+                            className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                              ${
+                                topic === "Javascript"
+                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                  : ""
+                              } 
+                            md:mb-0 md:mr-[3%] md:ml-auto `}
                           >
                             {" "}
-                            <GraduationCap
-                              className={`mr-2  ${
+                            <BookOpenCheck
+                              className={`mr-2 w-[19px] ${
                                 topic === "Javascript"
                                   ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              }`}
-                              size={"21px"}
+                              } md: w-[15px]`}
+                              // size={"19px"}
                             />
                             Learn
                           </div>
@@ -474,40 +482,42 @@ export default function BasicTabs() {
                               delay: 0.2 * index,
                               ease: [0, 0.71, 0.2, 1.01],
                             }}
-                            className={`flex font-medium cursor-pointer bg-white border p-2 rounded-md ${
+                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                               topic === "Javascript"
-                                ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
                             }`}
                           >
-                            <BookOpenCheck
-                              className={`mr-2 ${
+                            <Code
+                              // style={{width: 12px}}
+                              className={`mr-2 w-[19px] ${
                                 topic === "Javascript"
-                                  ? "text-Javascript-topic hover:bg-Javascript-bg"
+                                  ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              }`}
-                              size={"19px"}
+                              } md: w-[15px]`}
+                              // size={"19px"}
                             />
                             Practice
                           </motion.div>
                         ) : (
                           <div
-                            className={`flex font-medium bg-white cursor-pointer border p-2 rounded-md ${
+                            onClick={() =>
+                              router.push(`/test/${concept.topic}`)
+                            }
+                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                               topic === "Javascript"
                                 ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
                             }`}
-                            onClick={() =>
-                              router.push(`/test/${concept.topic}`)
-                            }
                           >
-                            <BookOpenCheck
-                              className={`mr-2 ${
+                            <Code
+                              // style={{width: 12px}}
+                              className={`mr-2 w-[19px] ${
                                 topic === "Javascript"
-                                  ? "text-Javascript-topic hover:bg-Javascript-bg"
+                                  ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              }`}
-                              size={"19px"}
+                              } md: w-[15px]`}
+                              // size={"19px"}
                             />
                             Practice
                           </div>
