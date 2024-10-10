@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { BookOpenCheck } from "lucide-react";
-import { Code } from 'lucide-react';
+import { Code } from "lucide-react";
 import { interviewData } from "@/data/interviewData";
 import {
   Tabs as TAB,
