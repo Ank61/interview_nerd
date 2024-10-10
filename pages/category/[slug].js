@@ -245,7 +245,7 @@ export default function BasicTabs() {
                                 ease: [0, 0.71, 0.2, 1.01],
                               }}
                               onClick={() =>
-                                router.push(`/learn/${concept.topic}`)
+                                router.push(`/learn/${topic}/${concept.topic}`)
                               }
                               className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                                 ${
@@ -268,7 +268,7 @@ export default function BasicTabs() {
                           ) : (
                             <div
                               onClick={() =>
-                                router.push(`/learn/${concept.topic}`)
+                                router.push(`/learn/${topic}/${concept.topic}`)
                               }
                               className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                                 ${
@@ -292,7 +292,7 @@ export default function BasicTabs() {
                           {index <= 5 ? (
                             <motion.div
                               onClick={() =>
-                                router.push(`/test/${concept.topic}`)
+                                router.push(`/test/${topic}/${concept.topic}`)
                               }
                               initial={{ opacity: 0, scale: 0.5 }}
                               animate={{ opacity: 1, scale: 1 }}
@@ -321,7 +321,7 @@ export default function BasicTabs() {
                           ) : (
                             <div
                               onClick={() =>
-                                router.push(`/test/${concept.topic}`)
+                                router.push(`/test/${topic}/${concept.topic}`)
                               }
                               className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                                 topic === "Javascript"
@@ -425,7 +425,7 @@ export default function BasicTabs() {
                               ease: [0, 0.71, 0.2, 1.01],
                             }}
                             onClick={() =>
-                              router.push(`/learn/${concept.topic}`)
+                              router.push(`/learn/${topic}/${concept.topic}`)
                             }
                             className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
@@ -448,7 +448,7 @@ export default function BasicTabs() {
                         ) : (
                           <div
                             onClick={() =>
-                              router.push(`/learn/${concept.topic}`)
+                              router.push(`/learn/${topic}/${concept.topic}`)
                             }
                             className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
@@ -473,7 +473,7 @@ export default function BasicTabs() {
                         {index <= 5 ? (
                           <motion.div
                             onClick={() =>
-                              router.push(`/test/${concept.topic}`)
+                              router.push(`/test/${topic}/${concept.topic}`)
                             }
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -502,7 +502,7 @@ export default function BasicTabs() {
                         ) : (
                           <div
                             onClick={() =>
-                              router.push(`/test/${concept.topic}`)
+                              router.push(`/test/${topic}/${concept.topic}`)
                             }
                             className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                               topic === "Javascript"

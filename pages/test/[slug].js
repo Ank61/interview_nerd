@@ -1,92 +1,137 @@
 "use client";
 import Box from "@mui/material/Box";
 import * as React from "react";
-import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
-import { Typography } from "@mui/material";
 import hljs from "highlight.js";
 import "highlight.js/styles/default.css";
 import { Button } from "@/components/ui/button";
-import { BookCheck } from "lucide-react";
-import { ArrowRight } from "lucide-react";
-import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
 import Header from "@/components/header";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion"
+// import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
+import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp } from "lucide-react"
+import { prepareData } from "@/data/prepareData";
 
-const checkTopic = [
+// React.useEffect(() => {
+//   const topic = router.query.slug;
+//   setTopicSelected(topic);
+//   const topicIndex = checkTopic.findIndex((t) => t.topic === topic);
+//   setIndexValue(topicIndex);
+// }, [router.query.slug]);
+
+
+// Mock data for interview questions
+const questions = [
   {
-    topic: "Javascript",
-    themeBgColor: "#fefbe8",
-    textColor: "#745b10",
-    topicColor: "#e4bc40",
+    question: "What is the difference between 'let' and 'const' in JavaScript?",
+    explanation: "'let' allows you to declare variables that can be reassigned, while 'const' is used for variables whose values will not change after initialization. Both provide block scope, unlike 'var' which is function-scoped."
   },
-];
+  {
+    question: "Explain the concept of closures in JavaScript.",
+    explanation: "A closure is a function that has access to variables in its outer (enclosing) lexical scope, even after the outer function has returned. This allows for data privacy and the creation of function factories."
+  },
+  {
+    question: "What is the purpose of the 'useEffect' hook in React?",
+    explanation: "The 'useEffect' hook in React is used for side effects in function components. It serves the same purpose as componentDidMount, componentDidUpdate, and componentWillUnmount in class components, allowing you to perform operations like data fetching, subscriptions, or manually changing the DOM."
+  }
+]
 
-export default function Test() {
+export default function Component() {
+
   const router = useRouter();
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
   const [questionType, setQuestionType] = React.useState();
   const topic = router.query.slug;
 
-  // React.useEffect(() => {
-  //   const topic = router.query.slug;
-  //   setTopicSelected(topic);
-  //   const topicIndex = checkTopic.findIndex((t) => t.topic === topic);
-  //   setIndexValue(topicIndex);
-  // }, [router.query.slug]);
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [showExplanation, setShowExplanation] = useState(false)
+  const currentQuestion = questions[currentIndex]
 
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : prevIndex))
+    setShowExplanation(false)
+  }
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex < questions.length - 1 ? prevIndex + 1 : prevIndex))
+    setShowExplanation(false)
+  }
+
+  const toggleExplanation = () => {
+    setShowExplanation((prev) => !prev)
+  }
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }} className="w-full mx-auto md:w-7/12 lg:w-6/12">
-      <Header topic={topic} />
-      <Box sx={{ flexGrow: 1 }} padding={3}>
-        <h3 className="scroll-m-20 text-gray-600 text-xl font-semibold tracking-tight mt-5 ">
-          {/* <span className="text-slate-800 text-xl font-bold">Ques.</span> */}
-           How does the Redux store subscribe to changes in the state?
-        </h3>
-        <Box marginTop={3} className="ml-3">
-          <RadioGroup defaultValue="comfortable">
-            <div className="flex items-center space-x-2 ">
-              <RadioGroupItem value="default" id="r1" className="text-gray-600 "/>
-              <Label htmlFor="r1" className="text-lg cursor-pointer">
-                Default
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="comfortable" id="r2" className="text-gray-600"/>
-              <Label htmlFor="r2" className="text-lg cursor-pointer">
-                Comfortable
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="compact" id="r3" className="text-gray-600"/>
-              <Label htmlFor="r3" className="text-lg cursor-pointer">
-                Compact
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="Test" id="r4" className="text-gray-600"/>
-              <Label htmlFor="r4" className="text-lg cursor-pointer">
-                Test
-              </Label>
-            </div>
-          </RadioGroup>
-        </Box>
+    // <div className="container mx-auto p-4 max-w-2xl">
+    <Box sx={{ display: "flex", flexDirection: "column", height: "100vh" }} className="w-full mx-auto md:w-7/12 lg:w-6/12 relative ">
+      <Header topic={topic[topic.length - 1]} />
+      <Box sx={{ flexGrow: 1 }} padding={3} className="w-full">
+        <motion.div
+          key={currentIndex}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.3 }}
+        >
+          <h3 className="scroll-m-20 text-gray-600 text-lg font-semibold tracking-tight mt-8 mb-10">{currentIndex + 1}. {"  "} {currentQuestion.question}</h3>
+        </motion.div>
+        <Card className="w-full border-0 shadow-none">
+          <CardContent>
+            <motion.div
+              initial={false}
+              animate={{ backgroundColor: showExplanation ? "#f3f4f6" : "#ffffff" }}
+              transition={{
+                type: "spring",
+                stiffness: 130,
+                delay: 0.01
+              }}>
+              <Button
+                onClick={toggleExplanation}
+                variant="outline"
+                className="w-full flex items-center justify-center"
+              >
+                {showExplanation ? "Hide Explanation" : "Show Explanation"}
+                <motion.div
+                  initial={false}
+                  transition={{ duration: 0.3 }}
+                  className="ml-2"
+                >
+                  {showExplanation ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                </motion.div>
+              </Button>
+            </motion.div>
+            <AnimatePresence>
+              {showExplanation && (
+                <motion.div
+                  animate={{ y: 10 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 130,
+                  }}
+                  className="mt-4 p-4 bg-muted rounded-md overflow-hidden"
+                >
+                  {currentQuestion.explanation}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </CardContent>
+        </Card>
       </Box>
-
-      <Box
-        sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}
-        className="mb-7"
-      >
-        <Button className="bg-gray-100 text-md text-gray-600 w-full mr-2 hover:bg-gray-200">
-          <ArrowLeft size={"20px"} className="mr-3" /> Previous
+      <Box className="flex justify-between mt-10 w-full absolute bottom-0" sx={{ flexGrow: 1 }} padding={3} >
+        <Button onClick={handlePrevious} disabled={currentIndex === 0} variant="outline" className="w-28">
+          <ChevronLeft className="mr-2 h-4 w-4" />
+          Previous
         </Button>
-        <Button className="bg-gray-100 text-md text-gray-600 w-full hover:bg-gray-200 ">
-          Next <ArrowRight size={"20px"} className="ml-3" />
+        <div className="text-sm text-gray-500 mt-2">
+          Question {currentIndex + 1} of {questions.length}
+        </div>
+        <Button onClick={handleNext} disabled={currentIndex === questions.length - 1} variant="outline" className="w-28">
+          Next
+          <ChevronRight className="ml-2 h-4 w-4" />
         </Button>
       </Box>
-    </Box>
-  );
+    </Box >
+  )
 }

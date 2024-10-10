@@ -13,19 +13,21 @@ import Accordion from "@mui/material/Accordion";
 import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+// import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { ChevronDown } from 'lucide-react';
 import { Button as MaterialButton } from "@mui/material";
 
 export default function Learn() {
   const [explanation, setExplanation] = React.useState("");
   const [interview, setInterview] = React.useState([]);
+  const [nextTopic, setNextTopic] = React.useState("");
   const [theme, setTheme] = React.useState("");
   const router = useRouter();
   const topic = router.query.slug;
 
   React.useEffect(() => {
     if (!topic || !prepareData) return;
-    const selected = router.query.slug;
+    const selected = topic[topic.length-1];
     let themeColor;
     const matchingTopics = prepareData.flatMap((item) => {
       themeColor = {
@@ -37,7 +39,13 @@ export default function Learn() {
       };
       return item.type.flatMap((typeItem) =>
         typeItem.concepts.filter(
-          (conceptItem) => conceptItem.topic === selected
+          (conceptItem, index) => {
+            if (conceptItem.topic === selected) {
+              const next = typeItem.concepts[index + 1];
+              setNextTopic(next.topic);
+            }
+            return conceptItem.topic === selected
+          }
         )
       );
     });
@@ -60,13 +68,13 @@ export default function Learn() {
           style={{ color: theme.textColor }}
           className={`scroll-m-20 text-2xl font-semibold tracking-tight`}
         >
-          {topic}
+          {topic[topic.length-1]}
         </h3>
         <div
           className="w-full"
           dangerouslySetInnerHTML={{ __html: explanation }}
         />
-        <h4
+        {/* <h4
           style={{ color: theme.textColor }}
           className="mt-6 scroll-m-20 text-xl font-semibold tracking-tight"
         >
@@ -80,7 +88,7 @@ export default function Learn() {
           >
             <AccordionSummary
               expandIcon={
-                <ExpandMoreIcon style={{ color: theme.topicColor }} />
+                <ChevronDown style={{ color: theme.topicColor }} />
               }
               aria-controls="panel1-content"
               id="panel1-header"
@@ -98,7 +106,7 @@ export default function Learn() {
               />
             </AccordionDetails>
           </Accordion>
-        ))}
+        ))} */}
 
         <Box className="flex justify-between gap-4 mt-10 mb-6">
           <Button
@@ -109,7 +117,7 @@ export default function Learn() {
             }}
             className="text-md  w-full"
           >
-            Take a Quiz <BookCheck size={"20px"} className="ml-3" />
+            Interview Questions <BookCheck size={"20px"} className="ml-3" />
           </Button>
           <Button
             style={{
@@ -117,6 +125,7 @@ export default function Learn() {
               color: theme.textColor,
             }}
             className=" text-md  w-full"
+            onClick={() => router.push(`/learn/${nextTopic}`)}
           >
             Next Topic
             <ArrowRight size={"20px"} className="ml-3" />
