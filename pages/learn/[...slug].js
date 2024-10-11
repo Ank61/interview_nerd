@@ -23,7 +23,7 @@ export default function Learn() {
   const [nextTopic, setNextTopic] = React.useState("");
   const [theme, setTheme] = React.useState("");
   const router = useRouter();
-  const topic = router.query.slug;
+  const topic = router.query.slug || [];
 
   React.useEffect(() => {
     if (!topic || !prepareData) return;
@@ -68,7 +68,7 @@ export default function Learn() {
           style={{ color: theme.textColor }}
           className={`scroll-m-20 text-2xl font-semibold tracking-tight`}
         >
-          {topic[topic.length-1]}
+          {topic[topic?.length-1]}
         </h3>
         <div
           className="w-full"
