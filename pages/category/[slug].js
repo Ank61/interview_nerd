@@ -138,9 +138,8 @@ export default function BasicTabs() {
         </Box>
         <CustomTabPanel value={value} index={0}>
           <div
-            className={`relative rounded-lg border-1 ${
-              topic === "Javascript" ? "border-Javascript-border" : ""
-            } bg-gray-100 dark:bg-gray-800 w-full`}
+            className={`relative rounded-lg border-1 ${topic === "Javascript" ? "border-Javascript-border" : ""
+              } bg-gray-100 dark:bg-gray-800 w-full`}
             style={{ textTransform: "none", outline: "none" }}
           >
             <Input
@@ -150,9 +149,8 @@ export default function BasicTabs() {
               className="rounded-lg  appearance-none text-[15px] w-full pl-10"
             />
             <SearchIcon
-              className={`absolute left-2.5 top-2.5 w-5 h-5 ${
-                topic === "Javascript" ? "text-Javascript-bg" : "text-gray-400"
-              }`}
+              className={`absolute left-2.5 top-2.5 w-5 h-5 ${topic === "Javascript" ? "text-Javascript-bg" : "text-gray-400"
+                }`}
             />
           </div>
           <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
@@ -160,22 +158,20 @@ export default function BasicTabs() {
               <TabsTrigger
                 value="Beginner"
                 onClick={() => setLevel("Beginner")}
-                className={`bg-white text-black ${
-                  topic === "Javascript"
+                className={`bg-white text-black ${topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : ""
-                }`}
+                  }`}
               >
                 Beginner Topics
               </TabsTrigger>
               <TabsTrigger
                 value="Advance"
                 onClick={() => setLevel("Advance")}
-                className={`bg-white text-Javascript-text ${
-                  topic === "Javascript"
+                className={`bg-white text-Javascript-text ${topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : ""
-                }`}
+                  }`}
               >
                 Advance Topics
               </TabsTrigger>
@@ -185,16 +181,14 @@ export default function BasicTabs() {
                 <TableHeader>
                   <TableRow>
                     <TableHead
-                      className={`px-0 text-center ${
-                        topic === "Javascript" ? "text-Javascript-text " : ""
-                      }`}
+                      className={`px-0 ${topic === "Javascript" ? "text-Javascript-text " : ""
+                        } text-left md:text-center`}
                     >
                       Topic
                     </TableHead>
                     <TableHead
-                      className={`text-center ${
-                        topic === "Javascript" ? "text-Javascript-text " : ""
-                      }`}
+                      className={`text-center ${topic === "Javascript" ? "text-Javascript-text " : ""
+                        }`}
                     >
                       Action
                     </TableHead>
@@ -212,13 +206,12 @@ export default function BasicTabs() {
                     selectedTopicData[0]?.concepts?.map((concept, index) => (
                       <TableRow key={concept.topic}>
                         <TableCell
-                          className={`text-left font-medium text-[15px] p-[0px] ${
-                            topic === "Javascript"
+                          className={`text-left font-medium text-[15px] p-[0px] ${topic === "Javascript"
                               ? "text-Javascript-text "
                               : ""
-                          } md:pl-4`}
+                            } md:pl-4`}
                         >
-                          {index <= 5 ? (
+                          {index <= 8 ? (
                             <motion.div
                               initial={{ opacity: 0, scale: 0.5 }}
                               animate={{ opacity: 1, scale: 1 }}
@@ -235,7 +228,7 @@ export default function BasicTabs() {
                           )}
                         </TableCell>
                         <TableCell className="text-right md:flex">
-                          {index <= 5 ? (
+                          {index <= 8 ? (
                             <motion.div
                               initial={{ opacity: 0, scale: 0.5 }}
                               animate={{ opacity: 1, scale: 1 }}
@@ -244,25 +237,23 @@ export default function BasicTabs() {
                                 delay: 0.2 * index,
                                 ease: [0, 0.71, 0.2, 1.01],
                               }}
-                              
+
                               onClick={() =>
                                 router.push(`/learn/${topic}/${concept.topic}`)
                               }
                               className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                                ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : ""
+                                ${topic === "Javascript"
+                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                  : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
                             >
                               <BookOpenCheck
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
+                                className={`mr-2 w-[19px] ${topic === "Javascript"
                                     ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                } md: w-[15px]`}
-                                // size={"19px"}
+                                  } md: w-[15px]`}
+                              // size={"19px"}
                               />
                               Learn
                             </motion.div>
@@ -272,25 +263,23 @@ export default function BasicTabs() {
                                 router.push(`/learn/${topic}/${concept.topic}`)
                               }
                               className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                                ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : ""
+                                ${topic === "Javascript"
+                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                  : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
                             >
                               <BookOpenCheck
-                                className={`mr-2 w-[19px]  ${
-                                  topic === "Javascript"
+                                className={`mr-2 w-[19px]  ${topic === "Javascript"
                                     ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                } md: w-[15px]`}
-                                // size={"19px"}
+                                  } md: w-[15px]`}
+                              // size={"19px"}
                               />
                               Learn
                             </div>
                           )}
-                          {index <= 5 ? (
+                          {index <= 8 ? (
                             <motion.div
                               onClick={() =>
                                 router.push(`/test/${topic}/${concept.topic}`)
@@ -302,20 +291,18 @@ export default function BasicTabs() {
                                 delay: 0.2 * index,
                                 ease: [0, 0.71, 0.2, 1.01],
                               }}
-                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                topic === "Javascript"
+                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${topic === "Javascript"
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
-                              }`}
+                                }`}
                             >
                               <Code
                                 // style={{width: 12px}}
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
+                                className={`mr-2 w-[19px] ${topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                } md: w-[15px]`}
-                                // size={"19px"}
+                                  } md: w-[15px]`}
+                              // size={"19px"}
                               />
                               Practice
                             </motion.div>
@@ -324,20 +311,18 @@ export default function BasicTabs() {
                               onClick={() =>
                                 router.push(`/test/${topic}/${concept.topic}`)
                               }
-                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                topic === "Javascript"
+                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${topic === "Javascript"
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : ""
-                              }`}
+                                }`}
                             >
                               <Code
                                 // style={{width: 12px}}
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
+                                className={`mr-2 w-[19px] ${topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : ""
-                                } md: w-[15px]`}
-                                // size={"19px"}
+                                  } md: w-[15px]`}
+                              // size={"19px"}
                               />
                               Practice
                             </div>
@@ -368,16 +353,14 @@ export default function BasicTabs() {
                 <TableHeader>
                   <TableRow>
                     <TableHead
-                      className={`px-0 text-left ${
-                        topic === "Javascript" ? "text-Javascript-text " : ""
-                      }`}
+                      className={`px-0  ${topic === "Javascript" ? "text-Javascript-text " : ""
+                        } text-left md:text-center`}
                     >
                       Topic
                     </TableHead>
                     <TableHead
-                      className={`text-center ${
-                        topic === "Javascript" ? "text-Javascript-text " : ""
-                      }`}
+                      className={`text-center ${topic === "Javascript" ? "text-Javascript-text " : ""
+                        }`}
                     >
                       Action
                     </TableHead>
@@ -394,11 +377,10 @@ export default function BasicTabs() {
                   {selectedTopicData[1]?.concepts?.map((concept, index) => (
                     <TableRow key={concept.topic} className="w-full">
                       <TableCell
-                        className={`text-left font-medium text-[15px] p-[0px] ${
-                          topic === "Javascript" ? "text-Javascript-text " : ""
-                        }`}
+                        className={`text-left font-medium text-[15px] p-[0px] ${topic === "Javascript" ? "text-Javascript-text " : ""
+                          }`}
                       >
-                        {index <= 5 ? (
+                        {index <= 8 ? (
                           <motion.div
                             className="w-full"
                             initial={{ opacity: 0, scale: 0.5 }}
@@ -416,7 +398,7 @@ export default function BasicTabs() {
                         )}
                       </TableCell>
                       <TableCell className="text-right md:flex">
-                        {index <= 5 ? (
+                        {index <= 8 ? (
                           <motion.div
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
@@ -429,20 +411,18 @@ export default function BasicTabs() {
                               router.push(`/learn/${topic}/${concept.topic}`)
                             }
                             className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                              ${
-                                topic === "Javascript"
-                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : ""
+                              ${topic === "Javascript"
+                                ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
                           >
                             <BookOpenCheck
-                              className={`mr-2 w-[19px] ${
-                                topic === "Javascript"
+                              className={`mr-2 w-[19px] ${topic === "Javascript"
                                   ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              } md: w-[15px]`}
-                              // size={"19px"}
+                                } md: w-[15px]`}
+                            // size={"19px"}
                             />
                             Learn
                           </motion.div>
@@ -452,26 +432,24 @@ export default function BasicTabs() {
                               router.push(`/learn/${topic}/${concept.topic}`)
                             }
                             className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                              ${
-                                topic === "Javascript"
-                                  ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : ""
+                              ${topic === "Javascript"
+                                ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
                           >
                             {" "}
                             <BookOpenCheck
-                              className={`mr-2 w-[19px] ${
-                                topic === "Javascript"
+                              className={`mr-2 w-[19px] ${topic === "Javascript"
                                   ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              } md: w-[15px]`}
-                              // size={"19px"}
+                                } md: w-[15px]`}
+                            // size={"19px"}
                             />
                             Learn
                           </div>
                         )}
-                        {index <= 5 ? (
+                        {index <= 8 ? (
                           <motion.div
                             onClick={() =>
                               router.push(`/test/${topic}/${concept.topic}`)
@@ -483,20 +461,18 @@ export default function BasicTabs() {
                               delay: 0.2 * index,
                               ease: [0, 0.71, 0.2, 1.01],
                             }}
-                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                              topic === "Javascript"
+                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${topic === "Javascript"
                                 ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
-                            }`}
+                              }`}
                           >
                             <Code
                               // style={{width: 12px}}
-                              className={`mr-2 w-[19px] ${
-                                topic === "Javascript"
+                              className={`mr-2 w-[19px] ${topic === "Javascript"
                                   ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              } md: w-[15px]`}
-                              // size={"19px"}
+                                } md: w-[15px]`}
+                            // size={"19px"}
                             />
                             Practice
                           </motion.div>
@@ -505,20 +481,18 @@ export default function BasicTabs() {
                             onClick={() =>
                               router.push(`/test/${topic}/${concept.topic}`)
                             }
-                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                              topic === "Javascript"
+                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${topic === "Javascript"
                                 ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : ""
-                            }`}
+                              }`}
                           >
                             <Code
                               // style={{width: 12px}}
-                              className={`mr-2 w-[19px] ${
-                                topic === "Javascript"
+                              className={`mr-2 w-[19px] ${topic === "Javascript"
                                   ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : ""
-                              } md: w-[15px]`}
-                              // size={"19px"}
+                                } md: w-[15px]`}
+                            // size={"19px"}
                             />
                             Practice
                           </div>
@@ -541,33 +515,30 @@ export default function BasicTabs() {
               <TabsTrigger
                 value="Junior"
                 onClick={() => setInterviewSelection("Junior")}
-                className={`bg-white text-black  ${
-                  topic === "Javascript"
+                className={`bg-white text-black  ${topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : ""
-                }`}
+                  }`}
               >
                 Junior
               </TabsTrigger>
               <TabsTrigger
                 value="Mid"
                 onClick={() => setInterviewSelection("Mid")}
-                className={`bg-white text-Javascript-text  ${
-                  topic === "Javascript"
+                className={`bg-white text-Javascript-text  ${topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : ""
-                }`}
+                  }`}
               >
                 Mid
               </TabsTrigger>
               <TabsTrigger
                 value="Senior"
                 onClick={() => setInterviewSelection("Senior")}
-                className={`bg-white text-Javascript-text ${
-                  topic === "Javascript"
+                className={`bg-white text-Javascript-text ${topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : ""
-                }`}
+                  }`}
               >
                 Senior
               </TabsTrigger>
@@ -576,103 +547,99 @@ export default function BasicTabs() {
               <div className="flex flex-col gap-4 items-center justify-center">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <motion.div
-                        key={index}
-                        animate={{ y: -10 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 130,
-                          delay: 0.01 + index * 0.1,
-                        }}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                    <motion.div
+                      key={index}
+                      animate={{ y: -10 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 130,
+                        delay: 0.01 + index * 0.1,
+                      }}
+                      className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                        href="#"
-                      >
-                        <div className="col-span-11 xl:-ml-5">
-                          <p
-                            className={`font-semibold ${
-                              topic === "Javascript"
-                                ? " text-Javascript-text"
-                                : ""
+                      href="#"
+                    >
+                      <div className="col-span-11 xl:-ml-5">
+                        <p
+                          className={`md:ml-4 font-semibold ${topic === "Javascript"
+                              ? " text-Javascript-text"
+                              : ""
                             }`}
-                          >
-                            {" "}
-                            {item.question}
-                          </p>
-                        </div>
+                        >
+                          {" "}
+                          {item.question}
+                        </p>
+                      </div>
 
-                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                          <div className="flex mt-2 justify-end w-full">
-                            {item?.tags?.slice(0, 3).map((tags, index) => (
-                              <span
-                                key={index}
-                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
-                                    : ""
+                      <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
+                        {/* Max three Tags for a div. Map this div for more than 3 tags */}
+                        <div className="flex mt-2 justify-end w-full">
+                          {item?.tags?.slice(0, 3).map((tags, index) => (
+                            <span
+                              key={index}
+                              className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${topic === "Javascript"
+                                  ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
+                                  : ""
                                 }`}
-                              >
-                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
-                                {tags.name}
-                              </span>
-                            ))}
-                          </div>
+                            >
+                              <Hash size={"14px"} className="mr-0.5 mt-0.5" />
+                              {tags.name}
+                            </span>
+                          ))}
                         </div>
-                      </motion.div>
-                    ))
+                      </div>
+                    </motion.div>
+                  ))
                   : null}
               </div>
             </TabsContent>
             <TabsContent value="Mid" className="mt-4">
-              <div className="flex flex-col gap-4 items-center justify-center">
+              <div className="flex flex-col gap-4 items-center justify-center ">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <motion.div
-                        key={index}
-                        animate={{ y: -10 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 130,
-                          delay: 0.01 + index * 0.1,
-                        }}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                    <motion.div
+                      key={index}
+                      animate={{ y: -10 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 130,
+                        delay: 0.01 + index * 0.1,
+                      }}
+                      className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                        href="#"
-                      >
-                        <div className="col-span-11 xl:-ml-5">
-                          <p
-                            className={`font-semibold ${
-                              topic === "Javascript"
-                                ? " text-Javascript-text"
-                                : ""
+                      href="#"
+                    >
+                      <div className="col-span-11 xl:-ml-5">
+                        <p
+                          className={`md:ml-4 font-semibold ${topic === "Javascript"
+                              ? " text-Javascript-text"
+                              : ""
                             }`}
-                          >
-                            {" "}
-                            {item.question}
-                          </p>
-                        </div>
+                        >
+                          {" "}
+                          {item.question}
+                        </p>
+                      </div>
 
-                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                          <div className="flex mt-2 justify-end w-full">
-                            {item?.tags?.slice(0, 3).map((tags, index) => (
-                              <span
-                                key={index}
-                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
-                                    : ""
+                      <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
+                        {/* Max three Tags for a div. Map this div for more than 3 tags */}
+                        <div className="flex mt-2 justify-end w-full">
+                          {item?.tags?.slice(0, 3).map((tags, index) => (
+                            <span
+                              key={index}
+                              className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${topic === "Javascript"
+                                  ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
+                                  : ""
                                 }`}
-                              >
-                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
-                                {tags.name}
-                              </span>
-                            ))}
-                          </div>
+                            >
+                              <Hash size={"14px"} className="mr-0.5 mt-0.5" />
+                              {tags.name}
+                            </span>
+                          ))}
                         </div>
-                      </motion.div>
-                    ))
+                      </div>
+                    </motion.div>
+                  ))
                   : null}
               </div>
             </TabsContent>
@@ -680,51 +647,49 @@ export default function BasicTabs() {
               <div className="flex flex-col gap-4 items-center justify-center">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <motion.div
-                        key={index}
-                        animate={{ y: -10 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 130,
-                          delay: 0.01 + index * 0.1,
-                        }}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                    <motion.div
+                      key={index}
+                      animate={{ y: -10 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 130,
+                        delay: 0.01 + index * 0.1,
+                      }}
+                      className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
                 ${topic === "Javascript" ? " text-Javascript-text" : ""}`}
-                        href="#"
-                      >
-                        <div className="col-span-11 xl:-ml-5">
-                          <p
-                            className={`font-semibold ${
-                              topic === "Javascript"
-                                ? " text-Javascript-text"
-                                : ""
+                      href="#"
+                    >
+                      <div className="col-span-11 xl:-ml-5">
+                        <p
+                          className={`md:ml-4 font-semibold ${topic === "Javascript"
+                              ? " text-Javascript-text"
+                              : ""
                             }`}
-                          >
-                            {" "}
-                            {item.question}
-                          </p>
-                        </div>
+                        >
+                          {" "}
+                          {item.question}
+                        </p>
+                      </div>
 
-                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                          <div className="flex mt-2 justify-end w-full">
-                            {item?.tags?.slice(0, 3).map((tags, index) => (
-                              <span
-                                key={index}
-                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
-                                    : ""
+                      <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
+                        {/* Max three Tags for a div. Map this div for more than 3 tags */}
+                        <div className="flex mt-2 justify-end w-full">
+                          {item?.tags?.slice(0, 3).map((tags, index) => (
+                            <span
+                              key={index}
+                              className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${topic === "Javascript"
+                                  ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
+                                  : ""
                                 }`}
-                              >
-                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
-                                {tags.name}
-                              </span>
-                            ))}
-                          </div>
+                            >
+                              <Hash size={"14px"} className="mr-0.5 mt-0.5" />
+                              {tags.name}
+                            </span>
+                          ))}
                         </div>
-                      </motion.div>
-                    ))
+                      </div>
+                    </motion.div>
+                  ))
                   : null}
               </div>
             </TabsContent>

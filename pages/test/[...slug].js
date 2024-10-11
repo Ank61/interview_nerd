@@ -7,8 +7,8 @@ import "highlight.js/styles/default.css";
 import { Button } from "@/components/ui/button";
 import Header from "@/components/header";
 import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Card, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { List } from 'lucide-react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -53,7 +53,6 @@ export default function Component() {
     });
     setThemeColor(themeColor);
     setPracticeQuestions(matchingTopics[0]?.questions);
-    console.log("questions", matchingTopics[0]?.questions);
   }, [router.query.slug]);
 
   React.useEffect(() => {
@@ -77,39 +76,36 @@ export default function Component() {
   };
 
   return (
-    // <div className="container mx-auto p-4 max-w-2xl">
     <Box
       sx={{ display: "flex", flexDirection: "column", height: "100vh" }}
-      className="w-full mx-auto md:w-7/12 lg:w-6/12 relative "
-    >
+      className="w-full mx-auto md:w-7/12 lg:w-6/12 relative">
       <Header topic={topicSelected} />
+      <div className="text-sm text-gray-500 mt-2 font-medium text-right mr-4">
+        Question {currentIndex + 1} of {practiceQuestions?.length}
+      </div>
       <Box
         sx={{ flexGrow: 1 }}
         padding={3}
         className="w-full mt-[50%] md:mt-[25%] "
       >
+        {/* <Box sx={{ flexGrow: 1 }}
+          padding={3}
+          className="w-full" ><List className="text-slate-800"/></Box> */}
         <motion.div
           key={currentIndex}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: showExplanation ? -120 : 0 }}
           exit={{ opacity: 0, y: -20 }}
-          // transition={{ duration: 0.3 }}
           transition={{
             type: "spring",
             stiffness: 60,
             delay: 0.01,
-          }}
-        >
-          <h3
-            className="flex justify-center items  -center scroll-m-20 text-gray-600 text-lg 
-          font-semibold tracking-tight mt-8 mb-10"
-          >
+          }}>
+          <h3 className="flex justify-center items  -center scroll-m-20 text-gray-600 text-lg font-semibold tracking-tight mt-8 mb-10">
             <span className="mr-3">{currentIndex + 1}.</span>
             {currentQuestion.question}
           </h3>
         </motion.div>
-        {/* <Card className="w-full border-0 shadow-none">
-          <CardContent> */}
         <motion.div
           className="w-4/6 flex items-center cursor-pointer justify-center border rounded-lg mx-auto "
           initial={false}
@@ -125,10 +121,7 @@ export default function Component() {
             delay: 0.01,
           }}
         >
-          <motion.div
-            // animate={{ opacity: 1, y: showExplanation ? -30 : 0 }}
-            className="w-6/6 flex items-center justify-center mx-auto p-2 md:p-1"
-          >
+          <motion.div className="w-6/6 flex items-center justify-center mx-auto p-2 md:p-1">
             {showExplanation ? "Hide Solution" : "Show Solution"}
             <motion.div
               initial={false}
@@ -143,7 +136,6 @@ export default function Component() {
             </motion.div>
           </motion.div>
         </motion.div>
-        {/* <AnimatePresence> */}
         {showExplanation && (
           <motion.div
             initial={{ opacity: 0 }}
@@ -162,9 +154,6 @@ export default function Component() {
             />
           </motion.div>
         )}
-        {/* </AnimatePresence> */}
-        {/* </CardContent>
-        </Card> */}
       </Box>
       <Box
         className="flex justify-between mt-10 w-full absolute bottom-3 md:bottom-2"
@@ -180,9 +169,9 @@ export default function Component() {
           <ChevronLeft className="mr-2 h-4 w-4" />
           Previous
         </Button>
-        <div className="text-sm text-gray-500 mt-2">
+        {/* <div className="text-sm text-gray-500 mt-2">
           Question {currentIndex + 1} of {practiceQuestions?.length}
-        </div>
+        </div> */}
         <Button
           onClick={handleNext}
           disabled={currentIndex === practiceQuestions?.length - 1}

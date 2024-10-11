@@ -80,7 +80,7 @@ export default function Learn() {
         >
           Interview Questions
         </h4>
-        {interview?.map((questionItem, index) => (
+        {interview?.map((questionItem, index) => ( 
           <Accordion
             key={index}
             style={{ borderColor: theme.topicColor }}
