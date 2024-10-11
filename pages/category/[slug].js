@@ -244,6 +244,7 @@ export default function BasicTabs() {
                                 delay: 0.2 * index,
                                 ease: [0, 0.71, 0.2, 1.01],
                               }}
+                              
                               onClick={() =>
                                 router.push(`/learn/${topic}/${concept.topic}`)
                               }
