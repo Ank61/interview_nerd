@@ -20,6 +20,7 @@ import { Button as MaterialButton } from "@mui/material";
 export default function Learn() {
   const router = useRouter();
   const topic = router.query.slug || "";
+  const [topicSelected, setTopicSelected] = React.useState("");
   const [explanation, setExplanation] = React.useState("<></>");
   const [interview, setInterview] = React.useState([]);
   const [nextTopic, setNextTopic] = React.useState("");
@@ -28,6 +29,7 @@ export default function Learn() {
   React.useEffect(() => {
     // if (!topic || !prepareData) return;
     const selected = topic[topic.length-1];
+    setTopicSelected(topic[topic.length - 1]);
     let themeColor;
     const matchingTopics = prepareData.flatMap((item) => {
       themeColor = {
