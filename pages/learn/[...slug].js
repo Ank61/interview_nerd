@@ -26,8 +26,8 @@ export default function Learn() {
   const topic = router.query.slug || [];
 
   React.useEffect(() => {
-    if (!topic || !prepareData) return;
-    const selected = topic[topic.length-1];
+    // if (!topic || !prepareData) return;
+    const selected = topic[topic?.length-1];
     let themeColor;
     const matchingTopics = prepareData.flatMap((item) => {
       themeColor = {
