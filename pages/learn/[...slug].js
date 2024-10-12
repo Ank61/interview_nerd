@@ -18,16 +18,16 @@ import { ChevronDown } from 'lucide-react';
 import { Button as MaterialButton } from "@mui/material";
 
 export default function Learn() {
+  const topic = router.query.slug || "";
   const [explanation, setExplanation] = React.useState("");
   const [interview, setInterview] = React.useState([]);
   const [nextTopic, setNextTopic] = React.useState("");
   const [theme, setTheme] = React.useState("");
   const router = useRouter();
-  const topic = router.query.slug || [];
 
   React.useEffect(() => {
     // if (!topic || !prepareData) return;
-    const selected = topic[topic?.length-1];
+    const selected = topic[topic.length-1];
     let themeColor;
     const matchingTopics = prepareData.flatMap((item) => {
       themeColor = {
@@ -72,7 +72,7 @@ export default function Learn() {
         </h3>
         <div
           className="w-full"
-          dangerouslySetInnerHTML={{ __html: explanation }}
+          dangerouslySetInnerHTML={{ __html: explanation || <></> }}
         />
         {/* <h4
           style={{ color: theme.textColor }}
