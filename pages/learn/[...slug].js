@@ -20,7 +20,7 @@ import { Button as MaterialButton } from "@mui/material";
 export default function Learn() {
   const router = useRouter();
   const topic = router.query.slug || "";
-  const [explanation, setExplanation] = React.useState("");
+  const [explanation, setExplanation] = React.useState("<></>");
   const [interview, setInterview] = React.useState([]);
   const [nextTopic, setNextTopic] = React.useState("");
   const [theme, setTheme] = React.useState("");
@@ -50,7 +50,7 @@ export default function Learn() {
       );
     });
     setTheme(themeColor);
-    setInterview(matchingTopics[0]?.questions);
+    // setInterview(matchingTopics[0]?.questions);
     setExplanation(matchingTopics[0]?.explanation);
   }, [router.query.slug]);
 
@@ -72,7 +72,7 @@ export default function Learn() {
         </h3>
         <div
           className="w-full"
-          dangerouslySetInnerHTML={{ __html: explanation || "<></>" }}
+          dangerouslySetInnerHTML={{ __html: explanation, }}
         />
         {/* <h4
           style={{ color: theme.textColor }}
