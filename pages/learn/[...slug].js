@@ -54,7 +54,9 @@ export default function Learn() {
   }, [router.query.slug]);
 
   React.useEffect(() => {
-    hljs.highlightAll();
+    if (typeof window !== "undefined") {
+      hljs.highlightAll();
+    }
   }, [explanation]);
 
   return (
