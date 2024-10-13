@@ -30,7 +30,7 @@ const getSelectedTopicData = (topicSlug) => {
   return {
     selected,
     themeColor,
-    explanation: matchingTopic?.[0]?.explanation || "",
+    explanation: matchingTopic?.[0]?.explanation || "<></>",
     nextTopic: matchingTopic?.[1]?.topic || "",
   };
 };
@@ -60,10 +60,16 @@ export default function Learn() {
         >
           {selected}
         </h3>
-        <div
-          className="w-full"
-          dangerouslySetInnerHTML={{ __html: explanation }}
-        />
+        {explanation === "<></>" ? (
+          <div className="w-full">
+            Coming soon ...
+          </div>
+        ) : (
+          <div
+            className="w-full"
+            dangerouslySetInnerHTML={{ __html: explanation }}
+          />
+        )}
 
         <Box className="flex justify-between gap-4 mt-10 mb-6">
           <Button
