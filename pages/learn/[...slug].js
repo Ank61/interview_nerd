@@ -51,14 +51,11 @@ export default function Learn() {
     });
     setTheme(themeColor);
     setExplanation(matchingTopics[0]?.explanation);
-    if (explanation) {
-      hljs.highlightAll();
-    }
-  }, [router.query.slug, explanation]);
+  }, [router.query.slug]);
 
-  // React.useEffect(() => {
-  //   hljs.highlightAll();
-  // }, []);
+  React.useEffect(() => {
+    hljs.highlightAll();
+  }, [explanation]);
 
   return (
     <Box className="w-full md:w-6/12 mx-auto">
