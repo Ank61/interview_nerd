@@ -14,7 +14,7 @@ import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 // import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown } from "lucide-react";
 import { Button as MaterialButton } from "@mui/material";
 
 export default function Learn() {
@@ -40,34 +40,35 @@ export default function Learn() {
         lightColor: item?.lightColor || item.themeBgColor,
       };
       return item.type.flatMap((typeItem) =>
-        typeItem.concepts.filter(
-          (conceptItem, index) => {
-            if (conceptItem.topic === selected) {
-              const next = typeItem.concepts[index + 1];
-              setNextTopic(next.topic);
-            }
-            return conceptItem.topic === selected
+        typeItem.concepts.filter((conceptItem, index) => {
+          if (conceptItem.topic === selected) {
+            const next = typeItem.concepts[index + 1];
+            setNextTopic(next.topic);
           }
-        )
+          return conceptItem.topic === selected;
+        })
       );
     });
     setTheme(themeColor);
     setExplanation(matchingTopics[0]?.explanation);
-  }, [router.query.slug]);
+    if (explanation) {
+      hljs.highlightAll();
+    }
+  }, [router.query.slug, explanation]);
 
-  React.useEffect(() => {
-    hljs.highlightAll();
-  }, []);
+  // React.useEffect(() => {
+  //   hljs.highlightAll();
+  // }, []);
 
   return (
     <Box className="w-full md:w-6/12 mx-auto">
-      <Header topic={topicSelected}/>
+      <Header topic={topicSelected} />
       <Box sx={{ width: "auto" }} padding={3}>
         <h3
           style={{ color: theme.textColor }}
           className={`scroll-m-20 text-2xl font-semibold tracking-tight`}
         >
-          {topic[topic?.length-1]}
+          {topic[topic?.length - 1]}
         </h3>
         <div
           className="w-full"
