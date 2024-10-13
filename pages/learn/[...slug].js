@@ -59,9 +59,7 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
   );
 }
 
-// Fetch all possible paths at build time
 export async function getStaticPaths() {
-  // Prepare the paths based on available topics in prepareData
   const paths = prepareData.flatMap(item =>
     item.type.flatMap(typeItem =>
       typeItem.concepts.map(conceptItem => ({
@@ -72,18 +70,18 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // `false` means other routes will 404
+    fallback: false,
   };
 }
 
-// Fetch data for each individual page at build time
 export async function getStaticProps({ params }) {
   const slug = params.slug;
   const selected = slug[slug.length - 1];
-
-  // Find the matching topic from prepareData
   let themeColor;
-  const matchingTopics = prepareData.flatMap((item) => {
+  let nextTopic = null;  // Default value for next topic
+  let explanation = "";
+
+  prepareData.forEach((item) => {
     themeColor = {
       category: item.category,
       themeBgColor: item.themeBgColor,
@@ -91,26 +89,30 @@ export async function getStaticProps({ params }) {
       topicColor: item.topicColor,
       lightColor: item?.lightColor || item.themeBgColor,
     };
-    return item.type.flatMap((typeItem) =>
-      typeItem.concepts.filter((conceptItem, index) => {
+    
+    item.type.forEach((typeItem) => {
+      typeItem.concepts.forEach((conceptItem, index) => {
         if (conceptItem.topic === selected) {
+          explanation = conceptItem.explanation || "";
           const next = typeItem.concepts[index + 1];
-          return { nextTopic: next ? next.topic : null };
+          if (next) {
+            nextTopic = next.topic;  // Set the next topic if available
+          }
         }
-        return conceptItem.topic === selected;
-      })
-    );
+      });
+    });
   });
 
-  const explanation = matchingTopics[0]?.explanation || "";
-  const nextTopic = matchingTopics[0]?.nextTopic || "";
+  // Ensure explanation is always defined
+  explanation = explanation || "<p>No explanation available.</p>";
 
   return {
     props: {
       topic: selected,
       explanation,
-      nextTopic,
+      nextTopic: nextTopic || "",  // Default to empty string if no next topic
       theme: themeColor,
     },
   };
 }
+
