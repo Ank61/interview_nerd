@@ -98,6 +98,7 @@ export default function Home() {
             transition={{ duration: 0.3 }}
             whileTap={{ boxShadow: "0px 10px 30px rgba(206, 241, 248, 0.8)" }}
             className="rounded-xl sm:mb-0 sm:flex-none sm:w-auto mb-4 rounded-2xl w-4/6 flex justify-center items-center"
+            onClick={() => router.push("/category/React")}
           >
             <Card className="w-[350px] bg-cyan-50 border-cyan-50 cursor-pointer rounded-xl">
               <CardHeader className="flex justify-center items-center">
@@ -117,6 +118,7 @@ export default function Home() {
             transition={{ duration: 0.3 }}
             whileTap={{ boxShadow: "0px 10px 30px rgba(207, 242, 218, 0.8)" }}
             className="rounded-xl sm:mb-0 sm:flex-none sm:w-auto mb-4 rounded-2xl w-4/6 flex justify-center items-center"
+            onClick={()=>router.push("/category/Node")}
           >
             <Card className="w-[350px] bg-emerald-50 border-emerald-50 cursor-pointer rounded-xl">
               <CardHeader className="flex justify-center items-center">
