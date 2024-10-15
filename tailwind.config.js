@@ -57,7 +57,20 @@ module.exports = {
           topic: "#e4bc40",
           border: "#9c8a68",
           lightTheme: "#fdf9d7",
-
+        },
+        React: {
+          bg: "#BFFCFF",
+          text: "#12365F",
+          topic: "#12365F",
+          border: "#12365F",
+          lightTheme: "#ECFEFF",
+        },
+        Node: {
+          bg: "#BAF7DB",
+          text: "#0E5835",
+          topic: "#0E5835",
+          border: "#0E5835",
+          lightTheme: "#ecfdf5",
         },
       },
       borderRadius: {
