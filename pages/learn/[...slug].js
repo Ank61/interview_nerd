@@ -12,8 +12,12 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
   const router = useRouter();
   
   React.useEffect(() => {
-    hljs.highlightAll();
-  }, []);  // Run only on first render
+    try {
+      hljs.highlightAll();
+    } catch (error) {
+      console.error("Highlight.js error:", error);
+    }
+  }, []);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
