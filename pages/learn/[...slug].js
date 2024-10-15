@@ -1,4 +1,3 @@
-"use client"
 import Box from "@mui/material/Box";
 import * as React from "react";
 import hljs from "highlight.js";
@@ -71,7 +70,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false,
+    fallback: "blocking",
   };
 }
 
