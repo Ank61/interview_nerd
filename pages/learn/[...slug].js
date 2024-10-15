@@ -6,16 +6,22 @@ import { Button } from "@/components/ui/button";
 import { BookCheck } from "lucide-react";
 import { ArrowRight } from "lucide-react";
 import Header from "@/components/header";
-import { prepareData } from "@/data/prepareData";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import { ChevronDown } from "lucide-react";
+import { useRouter } from 'next/router';
+import { prepareData } from "@/data/prepareData";
 
 export default function Learn({ topic, explanation, nextTopic, theme }) {
+  const router = useRouter();
   React.useEffect(() => {
     hljs.highlightAll();
   }, [explanation]);
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Box className="w-full md:w-6/12 mx-auto">
@@ -70,9 +76,10 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: "blocking",
+    fallback: 'blocking',
   };
 }
+
 
 export async function getStaticProps({ params }) {
   const slug = params.slug;
