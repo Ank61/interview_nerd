@@ -3,21 +3,17 @@ import * as React from "react";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 import { Button } from "@/components/ui/button";
-import { BookCheck } from "lucide-react";
-import { ArrowRight } from "lucide-react";
+import { BookCheck, ArrowRight } from "lucide-react";
 import Header from "@/components/header";
-import Accordion from "@mui/material/Accordion";
-import AccordionSummary from "@mui/material/AccordionSummary";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import { ChevronDown } from "lucide-react";
 import { useRouter } from 'next/router';
 import { prepareData } from "@/data/prepareData";
 
 export default function Learn({ topic, explanation, nextTopic, theme }) {
   const router = useRouter();
+  
   React.useEffect(() => {
     hljs.highlightAll();
-  }, [explanation]);
+  }, []);  // Run only on first render
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -29,14 +25,18 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
       <Box sx={{ width: "auto" }} padding={3}>
         <h3
           style={{ color: theme.textColor }}
-          className={`scroll-m-20 text-2xl font-semibold tracking-tight`}
+          className="scroll-m-20 text-2xl font-semibold tracking-tight"
         >
           {topic}
         </h3>
-        <div
-          className="w-full"
-          dangerouslySetInnerHTML={{ __html: explanation }}
-        />
+        {explanation ? (
+          <div
+            className="w-full"
+            dangerouslySetInnerHTML={{ __html: explanation }}
+          />
+        ) : (
+          <p>No content available.</p>
+        )}
         <Box className="flex justify-between gap-4 mt-10 mb-6">
           <Button
             href={`/test/${topic}`}
@@ -66,13 +66,16 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
 }
 
 export async function getStaticPaths() {
-  const paths = prepareData.flatMap(item =>
-    item.type.flatMap(typeItem =>
-      typeItem.concepts.map(conceptItem => ({
-        params: { slug: [item.category, conceptItem.topic] },
-      }))
-    )
-  );
+  const paths = prepareData.reduce((acc, item) => {
+    return [
+      ...acc,
+      ...item.type.flatMap(typeItem =>
+        typeItem.concepts.map(conceptItem => ({
+          params: { slug: [item.category, conceptItem.topic] },
+        }))
+      ),
+    ];
+  }, []);
 
   return {
     paths,
@@ -80,46 +83,40 @@ export async function getStaticPaths() {
   };
 }
 
-
 export async function getStaticProps({ params }) {
   const slug = params.slug;
   const selected = slug[slug.length - 1];
-  let themeColor;
-  let nextTopic = null;  // Default value for next topic
+  let themeColor = {};
+  let nextTopic = null;
   let explanation = "";
 
   prepareData.forEach((item) => {
-    themeColor = {
-      category: item.category,
-      themeBgColor: item.themeBgColor,
-      textColor: item.textColor,
-      topicColor: item.topicColor,
-      lightColor: item?.lightColor || item.themeBgColor,
-    };
-    
-    item.type.forEach((typeItem) => {
-      typeItem.concepts.forEach((conceptItem, index) => {
-        if (conceptItem.topic === selected) {
-          explanation = conceptItem.explanation || "";
-          const next = typeItem.concepts[index + 1];
-          if (next) {
-            nextTopic = next.topic;  // Set the next topic if available
+    if (item.type) {
+      item.type.forEach(typeItem => {
+        typeItem.concepts.forEach((conceptItem, index) => {
+          if (conceptItem.topic === selected) {
+            themeColor = {
+              category: item.category,
+              themeBgColor: item.themeBgColor,
+              textColor: item.textColor,
+              topicColor: item.topicColor,
+              lightColor: item.lightColor || item.themeBgColor,
+            };
+            explanation = conceptItem.explanation || "";
+            const next = typeItem.concepts[index + 1];
+            if (next) nextTopic = next.topic;
           }
-        }
+        });
       });
-    });
+    }
   });
-
-  // Ensure explanation is always defined
-  explanation = explanation || "<p>No explanation available.</p>";
 
   return {
     props: {
       topic: selected,
-      explanation,
-      nextTopic: nextTopic || "",  // Default to empty string if no next topic
+      explanation: explanation || "<p>No explanation available.</p>",
+      nextTopic: nextTopic || "",
       theme: themeColor,
     },
   };
 }
-
