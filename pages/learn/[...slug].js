@@ -43,7 +43,7 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
         )}
         <Box className="flex justify-between gap-4 mt-10 mb-6">
           <Button
-            href={`/test/${topic}`}
+            onClick={()=>router.push(`/test/${topic}`)}
             style={{
               backgroundColor: theme?.themeBgColor,
               color: theme?.textColor,
@@ -114,7 +114,6 @@ export async function getStaticProps({ params }) {
       });
     }
   });
-
   return {
     props: {
       topic: selected,

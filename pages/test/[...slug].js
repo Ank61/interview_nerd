@@ -32,7 +32,6 @@ export default function Component() {
   const [showExplanation, setShowExplanation] = useState(false);
   const currentQuestion =
     practiceQuestions?.length > 0 && practiceQuestions[currentIndex];
-
   React.useEffect(() => {
     const selected = topic[topic.length - 1];
     setTopicSelected(topic[topic.length - 1]);
