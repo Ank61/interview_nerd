@@ -1922,7 +1922,7 @@ console.log(iterator.next()); // { value: undefined, done: true }
 
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Generators</h4>
 <p style="margin-top: 1.0rem;">
-  A generator is a unique type of function in JavaScript that can be paused and resumed during its execution. Generators help you define an iterative algorithm by writing a function that can yield multiple values, separately, based on how they are consumed.
+  A generator is a unique type of function in JavaScript that can be <span style="font-weight: 500">paused and resumed during its execution</span>. Generators help you define an iterative algorithm by writing a function that can <span style="font-weight: 500">yield multiple values</span>  , separately, based on how they are consumed.
 </p>
 
 <p style="margin-top: 1.0rem;">
@@ -1999,12 +1999,12 @@ processOrders(orders) is a generator function that takes an array of orders as i
 
 <h5 style="margin-top: 1.0rem;">Yielding Promises:</h5>
 <p>
-Each time yield is called, the generator pauses, and a promise is returned that simulates the processing time for the order.
+Each time yield is called, the generator pauses, and a promise is returned that simulates the processing time for the order.When the generator yields a value (in this case, a promise), it pauses execution at that point. The calling code can resume it by iterating or invoking .next().
 </p>
 `,
             examples: [""],
             questions: [{}],
-            links: [""],
+            links: ["https://www.geeksforgeeks.org/javascript-iterator/"],
           },
           {
             topic: "Context and This Keyword",

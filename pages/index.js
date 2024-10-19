@@ -37,7 +37,7 @@ export default function Home() {
         </nav>
       </header>
 
-      <main className=" flex-grow container mx-auto px-4 py-12">
+      <main className="flex-grow container mx-auto px-4 py-12">
         <section className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-gray-900">
             Ace Your Tech Interviews
@@ -54,7 +54,7 @@ export default function Home() {
           </Button> */}
         </section>
 
-        <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 justify-items-center content-center mx-auto mt-10">
+        <div className="grid xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2 gap-4 justify-items-center content-center mx-auto mt-10 ">
           <motion.div
             whileHover={{ boxShadow: "0px 10px 30px rgba(236, 238, 200, 0.8)" }}
             whileTap={{ boxShadow: "0px 10px 30px rgba(236, 238, 200, 0.8)" }}
