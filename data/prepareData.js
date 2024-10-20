@@ -1906,6 +1906,7 @@ Inside Memoization block
   </ul>
 </ul>
 
+
 <h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Example:</h4>
 <pre><code class="language-javascript">
 const iterator = [1, 2, 3][Symbol.iterator](); // Get iterator for the array
@@ -1928,6 +1929,8 @@ console.log(iterator.next()); // { value: undefined, done: true }
 <p style="margin-top: 1.0rem;">
   Generators are defined with the <code>function*</code> syntax and use the <code>yield</code> keyword to produce values.
 </p>
+<p>
+ Generators can help with memory management by only creating objects when needed, whereas regular functions create all objects at once.</p>
 
 <h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Example:</h4>
 <pre><code class="language-javascript">
@@ -1948,12 +1951,101 @@ console.log(gen.next()); // { value: undefined, done: true }
 Here’s a real-life example of the use of a generator function in JavaScript to simulate an order processing system. This example represents an e-commerce order success procedure, wherein items are processed in batches, and each object can be yielded until the order is complete.
 </p>
 
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Yield and Yield*</h4>
+<p style="margin-top: 1.0rem;">
+  The <code>yield</code> statement pauses the generator function and returns a value to the caller. The <code>yield*</code> statement, however, delegates control to another generator or iterable.
+</p>
+<pre><code class="language-javascript">
+function* delegatedGenerator() {
+  yield 'Hello';
+  yield* ['World', '!'];
+  return 'Done!';
+}
+
+const iterator = delegatedGenerator();
+console.log(iterator.next()); // { value: 'Hello', done: false }
+console.log(iterator.next()); // { value: 'World', done: false }
+console.log(iterator.next()); // { value: '!', done: false }
+console.log(iterator.next()); // { value: 'Done!', done: true }
+</code></pre>
+<p style="margin-top: 1.0rem;">
+  In this example, <code>yield*</code> delegates execution to an array, iterating over each element.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Return Statement</h4>
+<p style="margin-top: 1.0rem;">
+  The <code>return</code> statement in a generator ends its execution and returns a final value. This can be used alongside <code>yield</code> to return multiple values in sequence.
+</p>
+<pre><code class="language-javascript">
+function* returnGenerator() {
+  yield 'Hello';
+  yield 'World';
+  return 'Done!';
+}
+
+const iterator = returnGenerator();
+console.log(iterator.next()); // { value: 'Hello', done: false }
+console.log(iterator.next()); // { value: 'World', done: false }
+console.log(iterator.next()); // { value: 'Done!', done: true }
+</code></pre>
+<p style="margin-top: 1.0rem;">
+  The generator runs until the <code>return</code> statement is encountered, marking it complete with the final value.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Finally Statement</h4>
+<p style="margin-top: 1.0rem;">
+  The <code>finally</code> block ensures that cleanup code is executed after the generator finishes, even if an exception occurs during execution.
+
+  </p>
+<pre><code class="language-javascript">
+function* finallyGenerator() {
+  try {
+    yield 'Hello';
+    yield 'World';
+    throw new Error('Something went wrong');
+  } finally {
+    console.log('Cleaning up resources');
+  }
+}
+
+const iterator = finallyGenerator();
+console.log(iterator.next()); // { value: 'Hello', done: false }
+console.log(iterator.next()); // { value: 'World', done: false }
+console.log(iterator.next()); // Error: Something went wrong
+console.log(iterator.next()); // Cleaning up resources
+</code></pre>
+<p style="margin-top: 1.0rem;">
+  The <code>finally</code> block runs cleanup tasks regardless of whether an exception was thrown.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Throw Statement</h4>
+<p style="margin-top: 1.0rem;">
+  The <code>throw</code> statement is used to throw an exception from the generator. It can also be used to handle errors internally within the generator.
+</p>
+<pre><code class="language-javascript">
+function* throwGenerator() {
+  try {
+    yield 'Hello';
+    yield 'World';
+    throw new Error('Something went wrong');
+  } catch (e) {
+    console.log(e.message);
+  }
+}
+
+const iterator = throwGenerator();
+console.log(iterator.next()); // { value: 'Hello', done: false }
+console.log(iterator.next()); // { value: 'World', done: false }
+console.log(iterator.throw(new Error('Something else went wrong'))); // Error: Something else went wrong
+</code></pre>
+<p style="margin-top: 1.0rem;">
+  The <code>throw</code> method allows external errors to be injected into the generator, which can be caught and handled.
+</p>
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Real-Life Example: Order Processing System</h4>
 <p>
 In this scenario, we're going to create a generator function that processes orders in batches. The generator will yield each order object and simulate a delay, representing the time taken to process each item.
 </p>
 
-<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">JavaScript</h4>
 <pre><code class="language-javascript">
 // Generator function to simulate order processing
 function* processOrders(orders) {
@@ -2001,8 +2093,103 @@ processOrders(orders) is a generator function that takes an array of orders as i
 <p>
 Each time yield is called, the generator pauses, and a promise is returned that simulates the processing time for the order.When the generator yields a value (in this case, a promise), it pauses execution at that point. The calling code can resume it by iterating or invoking .next().
 </p>
+<h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Summary :</h4>
+<ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number;">
+  <li style="margin-top: 0.5rem;">Regular functions can return only a single value (or nothing), while generators can return multiple values using multiple <code>yield</code> statements.</li>
+  <li style="margin-top: 0.5rem;">The <code>yield</code> keyword should be used exclusively within generator functions.</li>
+  <li style="margin-top: 0.5rem;">The correct syntax for defining a generator function is <code>function* generatorFunc()</code> or <code>function *generatorFunc()</code>, both of which are valid.</li>
+  <li style="margin-top: 0.5rem;">A generator function is considered iterable.</li>
+  <li style="margin-top: 0.5rem;">The <code>yield*</code> syntax is used to delegate execution to another generator function (similar to recursion with generators).</li>
+  <li style="margin-top: 0.5rem;">Generators allow for processes to pause and resume execution, making them a powerful and versatile feature of JavaScript, even though they are not frequently utilized.</li>
+</ol>
+
 `,
-            examples: [""],
+            examples: [[
+              {
+                "questions": "Example 1: Fibonacci Sequence Generator",
+                "explanation": `
+                  <p>This generator produces the Fibonacci sequence up to a given number <code>n</code>. It starts with two numbers, 0 and 1, and continuously yields values until the next number exceeds <code>n</code>.</p>
+                  <pre><code>
+                  function* fibonacciGenerator(n) {
+                    let a = 0;
+                    let b = 1;
+                    while (a <= n) {
+                      yield a;
+                      [a, b] = [b, a + b]; // Destructuring to replace a and b
+                    }
+                  }
+            
+                  // Usage:
+                  const fibGen = fibonacciGenerator(10);
+                  for (const num of fibGen) {
+                    console.log(num);
+                  }
+            
+                  // Output: 0, 1, 1, 2, 3, 5, 8
+                  </code></pre>
+                  <ul>
+                    <li>Generates Fibonacci sequence.</li>
+                    <li>Stops when a number in the sequence exceeds <code>n</code>.</li>
+                    <li>Uses <code>yield</code> to pause and return each value.</li>
+                  </ul>
+                `
+              },
+              {
+                "questions": "Example 2: Lazy Loading an Array with a Generator",
+                "explanation": `
+                  <p>This generator implements a lazy loading mechanism by yielding chunks of data from an array in specified sizes. Instead of loading the entire array at once, it processes chunks lazily.</p>
+                  <pre><code>
+                  function* lazyLoadArray(data, chunkSize = 10) {
+                    for (let i = 0; i < data.length; i += chunkSize) {
+                      yield data.slice(i, i + chunkSize); // Yield chunks of array
+                    }
+                  }
+            
+                  const dataArray = [...Array(100).keys()]; // Array of 100 elements
+                  const lazyLoader = lazyLoadArray(dataArray);
+            
+                  // Usage:
+                  for (const chunk of lazyLoader) {
+                    console.log(chunk); // Logs chunks of the array
+                  }
+                  </code></pre>
+                  <ul>
+                    <li>Loads data in chunks to reduce memory usage.</li>
+                    <li>Supports lazy loading for pagination or infinite scrolling.</li>
+                    <li>Efficient for large datasets.</li>
+                  </ul>
+                `
+              },
+              {
+                "questions": "Example 3: Delayed Yielding of Array Elements",
+                "explanation": `
+                  <p>This generator yields elements of an array with a 1-second delay between each. It uses <code>setTimeout</code> to create the delay and pauses between yields.</p>
+                  <pre><code>
+                  function* delayedGenerator(arr) {
+                    for (const element of arr) {
+                      yield element;
+                      yield new Promise(resolve => setTimeout(resolve, 1000)); // 1-second delay
+                    }
+                  }
+            
+                  const arr = [1, 2, 3, 4, 5];
+                  const gen = delayedGenerator(arr);
+            
+                  for (const element of gen) {
+                    if (typeof element === 'number') {
+                      console.log(element); // Logs array elements
+                    }
+                  }
+                  </code></pre>
+                  <ul>
+                    <li>Delays between each element in the array.</li>
+                    <li>Uses <code>yield</code> to pause and wait for 1 second.</li>
+                    <li>Useful for pacing data processing or animations.</li>
+                  </ul>
+                `
+              }
+            ]
+            ],
             questions : [
               {
                 question: "What is a generator in JavaScript, and how is it different from a regular function?",
@@ -2085,14 +2272,226 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                 solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`
               }
             ],            
-            links: ["https://www.geeksforgeeks.org/javascript-iterator/"],
+            links: ["https://www.geeksforgeeks.org/javascript-iterator/","https://www.hellojavascript.info/docs/general-javascript-questions/generators-advance-interation/generators#can-generators-be-used-with-asyncawait", "https://atomicjuggernaut.hashnode.dev/javascript-interview-question-generator-function", "https://medium.com/deno-the-complete-reference/some-javascript-generators-memoization-interview-questions-c4a7c97fc3bd","https://medium.com/mighty-ghost-hack/js-interview-11-javascript-generator-88b163b0ea2f"],
           },
           {
             topic: "Context and This Keyword",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, context refers to the environment in which a bit of code is executed. It dictates how variables and functions behave and how they're accessed. Understanding context is important as it influences the value of the <code>this</code> keyword and affects how functions interact with objects and the scope in which they operate.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Types of Context in JavaScript</h4>
+
+<ol style="margin-top: 1.0rem; margin-left: 1.5rem;list-style-type: number;">
+  <li>
+    <strong>Global Context</strong>
+    <p style="margin-top: 0.5rem;">
+      <strong>Definition:</strong> The global context is the default context in which JavaScript code runs. When you execute JavaScript in a browser or Node.js environment, the primary code that runs operates in the global context.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <strong>Characteristics:</strong>
+    </p>
+    <ul style="margin-top: 0.5rem;">
+      <li>In a browser, <code>this</code> refers to the <code>window</code> object, while in Node.js, it refers to the global object.</li>
+      <li>Any variable or function declared inside the global context is added as a property of the global object.</li>
+    </ul>
+    <pre><code>// Example of global context
+console.log(this); // In a browser, logs the window object
+
+var globalVar = 'I am global';
+function globalFunc() {
+    console.log('I am a global function');
+}
+
+console.log(window.globalVar); // 'I am global' (in a browser)</code></pre>
+  </li>
+
+  <li>
+    <strong>Function Context</strong>
+    <p style="margin-top: 0.5rem;">
+      <strong>Definition:</strong> Each time a function is invoked, it has its own execution context. The behavior of <code>this</code> can change depending on how the function is called.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <strong>Characteristics:</strong>
+    </p>
+    <ul style="margin-top: 0.5rem;">
+      <li>If a function is called in the global context or as a standalone function (not as a method of an object), <code>this</code> refers to the global object (in non-strict mode). In strict mode, <code>this</code> will be undefined.</li>
+      <li>If a function is called as a method of an object, <code>this</code> refers to that object.</li>
+    </ul>
+    <pre><code>// Non-strict mode example
+function standaloneFunc() {
+    console.log(this); // In non-strict mode, logs the global object (window)
+}
+standaloneFunc();
+
+const obj = {
+    name: 'Alice',
+    greet: function() {
+        console.log('Hello', this.name); // 'this' refers to obj
+    }
+};
+obj.greet(); // Hello, Alice
+
+'use strict';
+
+function strictFunc() {
+    console.log(this); // Logs undefined
+}
+strictFunc();</code></pre>
+  </li>
+
+  <li>
+    <strong>Object Method Context</strong>
+    <p style="margin-top: 0.5rem;">
+      <strong>Definition:</strong> When a function is defined as a method of an object and is called using that object, <code>this</code> refers to the object from which the method was called.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <strong>Characteristics:</strong>
+    </p>
+    <pre><code>const car = {
+    make: 'Toyota',
+    model: 'Camry',
+    displayInfo: function() {
+        console.log(Car: this.make this.model); // 'this' refers to car
+    }
+};
+car.displayInfo(); // Car: Toyota Camry</code></pre>
+  </li>
+
+  <li>
+    <strong>Constructor Function Context</strong>
+    <p style="margin-top: 0.5rem;">
+      <strong>Definition:</strong> When a function is invoked as a constructor using the <code>new</code> keyword, a new object is created, and <code>this</code> refers to that new object.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <strong>Characteristics:</strong>
+    </p>
+    <pre><code>function Person(name) {
+    this.name = name; // 'this' refers to the new object being created
+}
+
+const person1 = new Person('Bob');
+console.log(person1.name); // Bob</code></pre>
+  </li>
+
+  <li>
+    <strong>Class Context (ES6 Classes)</strong>
+    <p style="margin-top: 0.5rem;">
+      <strong>Definition:</strong> In ES6, classes provide a cleaner syntax for creating objects and managing context. Methods defined inside classes have a context similar to that of constructor functions.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <strong>Characteristics:</strong>
+    </p>
+    <pre><code>class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    speak() {
+        console.log(this.name makes a noise.);
+    }
+}
+
+const dog = new Animal('Rover');
+dog.speak(); // Rover makes a noise.</code></pre>
+  </li>
+
+  <li>
+    <strong>Arrow Function Context</strong>
+    <p style="margin-top: 0.5rem;">
+      <strong>Definition:</strong> Arrow functions were introduced in ES6 and provide a different way to handle <code>this</code>. They do not have their own <code>this</code> context but instead inherit it from the surrounding lexical scope.
+    </p>
+    <p style="margin-top: 0.5rem;">
+      <strong>Characteristics:</strong>
+    </p>
+    <pre><code>const obj = {
+    name: 'Charlie',
+    greet: function() {
+        const innerFunc = () => {
+            console.log('Hello', this.name); // 'this' refers to obj
+        };
+        innerFunc();
+    }
+};
+obj.greet(); // Hello, Charlie</code></pre>
+  </li>
+</ol>
+`,
             examples: [""],
-            questions: [{}],
+            questions: [
+              {
+                "question": "What is the global context in JavaScript?",
+                "solution": "The global context is the default execution context for JavaScript code, where variables and functions are accessible globally. In a browser, 'this' refers to the 'window' object, while in Node.js, it refers to the global object."
+              },
+              {
+                "question": "How does 'this' behave in a regular function?",
+                "solution": "In a non-strict mode function, 'this' refers to the global object when the function is called as a standalone function. In strict mode, 'this' is undefined."
+              },
+              {
+                "question": "What is the difference between 'this' in a method and 'this' in a standalone function?",
+                "solution": "When a function is called as a method of an object, 'this' refers to that object. In contrast, if the function is called as a standalone function, 'this' refers to the global object (in non-strict mode) or is undefined (in strict mode)."
+              },
+              {
+                "question": "Explain how 'this' works in constructor functions.",
+                "solution": "'this' in a constructor function refers to the new object being created when the function is invoked with the 'new' keyword. Properties can be attached to 'this' to create instance properties."
+              },
+              {
+                "question": "What is the significance of the 'use strict' directive in relation to 'this'?",
+                "solution": "The 'use strict' directive enables strict mode, which changes the behavior of 'this' in functions. In strict mode, 'this' is undefined when the function is called as a standalone function, preventing accidental global variable creation."
+              },
+              {
+                "question": "How do arrow functions handle 'this' differently from regular functions?",
+                "solution": "Arrow functions do not have their own 'this' context. Instead, they inherit 'this' from the surrounding lexical scope. This makes them useful in scenarios where you want to maintain the context of 'this' from the enclosing function."
+              },
+              {
+                "question": "What happens when you use 'this' inside an arrow function?",
+                "solution": "'this' inside an arrow function refers to the 'this' value from the enclosing lexical context. This means that arrow functions do not create their own 'this', making them suitable for callbacks and methods where you need to preserve the outer context."
+              },
+              {
+                "question": "Can you explain how to use the 'bind', 'call', and 'apply' methods with respect to 'this'?",
+                "solution": "'bind' creates a new function with a specified 'this' value, allowing you to control the context of the function. 'call' and 'apply' immediately invoke a function with a specified 'this' value. The main difference is that 'call' accepts arguments separately, while 'apply' takes an array of arguments."
+              },
+              {
+                "question": "What is the 'yield*' keyword, and how does it relate to context in generators?",
+                "solution": "'yield*' is used to delegate execution to another generator function. It allows a generator to yield values from another generator, maintaining the context of the outer generator. This is useful for managing complex generator flows."
+              },
+              {
+                "question": "How does the execution context change when using `setTimeout` or `setInterval`?",
+                "solution": "When using `setTimeout` or `setInterval`, the context of 'this' inside the callback function defaults to the global object in non-strict mode or is undefined in strict mode. To maintain the context, you can use an arrow function or bind the function explicitly."
+              },
+              {
+                "question": "Explain how the 'this' keyword behaves in event handlers in JavaScript.",
+                "solution": "In event handlers, 'this' refers to the element that fired the event, unless the function is an arrow function. In arrow functions, 'this' retains the value from the surrounding lexical context."
+              },
+              {
+                "question": "What are the implications of using 'this' in nested functions, and how can you manage it?",
+                "solution": "In nested functions, 'this' can refer to different contexts, leading to unexpected behavior. To manage this, you can store the value of 'this' in a variable (commonly named 'self' or 'that') or use arrow functions, which preserve the outer context."
+              },
+              {
+                "question": "How does the context of 'this' change when a method is called using the 'apply' method?",
+                "solution": "'apply' allows you to invoke a function with a specified 'this' value, enabling you to set the context explicitly. This is particularly useful when calling methods from different objects or when using methods of one object on another."
+              },
+              {
+                "question": "What is the difference between using 'call', 'apply', and 'bind'? When would you use each?",
+                "solution": "'call' and 'apply' invoke a function immediately with a specified 'this' value, while 'bind' returns a new function that, when called, has its 'this' value set to the provided value. Use 'call' when you have a fixed number of arguments, 'apply' for variable arguments (array), and 'bind' to create a new function with a bound context."
+              },
+              {
+                "question": "How does the concept of context affect the performance of JavaScript applications?",
+                "solution": "Understanding context can affect performance in JavaScript applications, especially in scenarios involving frequent function calls or deep nesting. Using techniques like method binding and avoiding unnecessary context switching can optimize performance."
+              },
+              {
+                "question": "Can you provide an example of how context can lead to memory leaks in JavaScript?",
+                "solution": "Memory leaks can occur when functions retain references to variables or objects through closures, especially when using 'this' improperly. For example, if an event listener is added without removing it, it can prevent the enclosing context from being garbage collected, causing a memory leak."
+              },
+              {
+                "question": "What is the difference between the 'new' keyword and the 'class' syntax in JavaScript concerning 'this'?",
+                "solution": "Both 'new' and 'class' create instances where 'this' refers to the new object being created. However, 'class' provides a cleaner syntax with additional features like inheritance, whereas 'new' requires a constructor function and explicit handling of 'this'."
+              },
+              {
+                "question": "How do you handle context when working with promises and asynchronous code?",
+                "solution": "In asynchronous code, 'this' can change context based on how a function is called. To manage context, you can use arrow functions, which maintain the outer 'this', or bind the function to the desired context before passing it to the promise handler."
+              }
+            ],
             links: [""],
           },
           {
@@ -2104,11 +2503,455 @@ Each time yield is called, the generator pauses, and a promise is returned that 
             links: [""],
           },
           {
-            topic: "Destructuring and Rest/Spread Operators",
+            topic: "Destructuring and Spread Operators",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, destructuring and the rest/spread operators are powerful ES6 features that simplify working with arrays, objects, and parameters. They help make code cleaner, more readable, and concise. Let's break them down:
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Destructuring</h4>
+
+<p style="margin-top: 1.0rem;">
+  Destructuring allows you to unpack values from arrays or properties from objects into distinct variables. It offers a shorter syntax for extracting values without having to reference each element individually.
+</p>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">A) Array Destructuring</h5>
+<p style="margin-top: 0.5rem;">You can destructure arrays by assigning array values to variables in a single line.</p>
+
+<pre><code>// Example 1: Basic Array Destructuring
+const arr = [1, 2, 3];
+const [a, b, c] = arr;
+console.log(a); // 1
+console.log(b); // 2
+console.log(c); // 3
+
+// Example 2: Skipping Values
+const [x, , z] = arr; // Skipping the second element
+console.log(x); // 1
+console.log(z); // 3
+
+// Example 3: Using Rest Operator in Destructuring
+const [first, ...rest] = arr;
+console.log(first); // 1
+console.log(rest); // [2, 3]
+</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Object Destructuring</h5>
+<p style="margin-top: 0.5rem;">You can destructure objects by assigning object properties to variables.</p>
+
+<pre><code>// Example 1: Basic Object Destructuring
+const person = { name: 'Alice', age: 25 };
+const { name, age } = person;
+console.log(name); // Alice
+console.log(age); // 25
+
+// Example 2: Renaming Variables
+const { name: personName, age: personAge } = person;
+console.log(personName); // Alice
+console.log(personAge); // 25
+
+// Example 3: Destructuring with Default Values
+const { city = 'Unknown' } = person; // If 'city' doesn't exist, it gets 'Unknown' as default
+console.log(city); // Unknown
+</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">C) Destructuring in Function Parameters</h5>
+<p style="margin-top: 0.5rem;">You can use destructuring directly in function parameters for easier access to data.</p>
+
+<pre><code>// Destructuring Object in Function Parameters
+function greet({ name, age }) {
+  console.log('Hello name, you are age years old.');
+}
+greet(person); // Hello Alice, you are 25 years old.
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Rest and Spread Operators</h4>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">A) Spread Operator (...)</h5>
+<p style="margin-top: 0.5rem;">The spread operator allows you to spread out elements of an array or properties of an object into another array or object. It is useful for copying and combining arrays or objects.</p>
+
+<pre><code>// Example 1: Spreading Arrays
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+const combinedArr = [...arr1, ...arr2]; // Combines the two arrays
+console.log(combinedArr); // [1, 2, 3, 4]
+
+// Example 2: Copying Arrays
+const newArr = [...arr1]; // Copies arr1 into newArr
+console.log(newArr); // [1, 2]
+
+// Example 1: Spreading Objects
+const obj1 = { a: 1, b: 2 };
+const obj2 = { b: 3, c: 4 };
+const combinedObj = { ...obj1, ...obj2 }; // Combines obj1 and obj2, with obj2 overwriting b
+console.log(combinedObj); // { a: 1, b: 3, c: 4 }
+
+// Example 2: Copying Objects
+const newObj = { ...obj1 }; // Creates a copy of obj1
+console.log(newObj); // { a: 1, b: 2 }
+</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Rest Operator (...)</h5>
+<p style="margin-top: 0.5rem;">The rest operator is the inverse of the spread operator. It collects multiple elements into an array or multiple object properties into a single item.</p>
+
+<pre><code>// Collecting Rest of Elements
+const [first, ...restOfArray] = [1, 2, 3, 4];
+console.log(first); // 1
+console.log(restOfArray); // [2, 3, 4]
+
+// Example 1: Rest Parameters in Functions
+function sum(...numbers) {
+  return numbers.reduce((acc, curr) => acc + curr, 0);
+}
+console.log(sum(1, 2, 3)); // 6
+
+// Example 2: Mixing Rest and Regular Parameters
+function greet(greeting, ...names) {
+  console.log('greeting', names);
+}
+greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Differences Between Rest and Spread</h4>
+
+<ul style="margin-top: 1.0rem;">
+  <li><strong>Spread Operator (...):</strong> Used to spread out elements from an array or object. Example: <code>[...Arr]</code> or <code>{...Obj}</code></li>
+  <li><strong>Rest Operator (...):</strong> Used to collect multiple elements into an array or object. Example: <code>function(...Args)</code> or <code>const [a, ...Rest] = arr</code></li>
+</ul>
+`,
             examples: [""],
-            questions: [{}],
+            questions: [
+              {
+                question: "How can you destructure a dynamic property name from an object?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  You can destructure a dynamic property by using computed property names within an object destructuring pattern.
+                </p>
+                <pre><code>const prop = 'name';
+            const person = { name: 'Alice', age: 25 };
+            const { [prop]: dynamicValue } = person;
+            console.log(dynamicValue); // Alice
+                </code></pre>
+                `
+              },
+              {
+                question: "How can you merge two objects and overwrite properties using the spread operator?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
+                </p>
+                <pre><code>const obj1 = { a: 1, b: 2 };
+            const obj2 = { b: 3, c: 4 };
+            const mergedObj = { ...obj1, ...obj2 };
+            console.log(mergedObj); // { a: 1, b: 3, c: 4 }
+                </code></pre>
+                `
+              },
+              {
+                question: "What are some caveats of copying objects using the spread operator?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  The spread operator creates a shallow copy of the object, meaning nested objects are still referenced by the original object. Changes to the nested object will affect both the original and the copy.
+                </p>
+                <pre><code>const original = { a: 1, nested: { b: 2 } };
+            const copy = { ...original };
+            copy.nested.b = 3;
+            console.log(original.nested.b); // 3
+                </code></pre>
+                <p>To create a deep copy, you'd need to use methods like <code>JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code>_.cloneDeep()</code>.</p>
+                `
+              },
+              {
+                question: "Can you explain how destructuring works in function parameters?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
+                </p>
+                <p><strong>Example with an object:</strong></p>
+                <pre><code>function printUser({ name, age }) {
+              console.log(\`Name: \${name}, Age: \${age}\`);
+            }
+            const user = { name: 'John', age: 30 };
+            printUser(user); // Name: John, Age: 30
+                </code></pre>
+                <p><strong>Example with an array:</strong></p>
+                <pre><code>function sum([a, b]) {
+              return a + b;
+            }
+            console.log(sum([1, 2])); // 3
+                </code></pre>
+                `
+              },
+              {
+                question: "How can you use the spread operator to pass an array as arguments to a function?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  The spread operator allows you to pass elements of an array as individual arguments to a function.
+                </p>
+                <pre><code>function sum(a, b, c) {
+              return a + b + c;
+            }
+            const numbers = [1, 2, 3];
+            console.log(sum(...numbers)); // 6
+                </code></pre>
+                `
+              },
+              {
+                question: "What happens when you combine destructuring and default values?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code>undefined</code>.
+                </p>
+                <pre><code>const person = { name: 'John' };
+            const { name, age = 30 } = person;
+            console.log(name); // John
+            console.log(age);  // 30 (default value)
+                </code></pre>
+                <p>If the property exists but is explicitly set to <code>undefined</code>, the default value will still be used:</p>
+                <pre><code>const person = { name: 'John', age: undefined };
+            const { age = 25 } = person;
+            console.log(age); // 25
+                </code></pre>
+                `
+              },
+              {
+                question: "How can destructuring be used in combination with the rest parameter in function arguments?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
+                </p>
+                <p><strong>Example with an array:</strong></p>
+                <pre><code>function printFirstAndRest([first, ...rest]) {
+              console.log(first);  // First element
+              console.log(rest);   // Array of remaining elements
+            }
+            printFirstAndRest([1, 2, 3, 4]); 
+            // Logs: 1
+            // Logs: [2, 3, 4]
+                </code></pre>
+                <p><strong>Example with an object:</strong></p>
+                <pre><code>function printUser({ name, ...rest }) {
+              console.log(name);   // Name property
+              console.log(rest);   // Remaining properties as an object
+            }
+            printUser({ name: 'Alice', age: 25, city: 'NY' });
+            // Logs: Alice
+            // Logs: { age: 25, city: 'NY' }
+                </code></pre>
+                `
+              },
+              {
+                question: "How does the spread operator work when used with iterables like strings?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
+                </p>
+                <pre><code>const str = 'hello';
+            const arr = [...str];
+            console.log(arr); // ['h', 'e', 'l', 'l', 'o']
+            
+            function printChars(...chars) {
+              console.log(chars);
+            }
+            printChars(...str); // ['h', 'e', 'l', 'l', 'o']
+                </code></pre>
+                `
+              },
+              {
+                question: "How can you swap values using array destructuring?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  Array destructuring provides a clean way to swap values without needing a temporary variable.
+                </p>
+                <pre><code>let a = 1;
+            let b = 2;
+            [a, b] = [b, a];
+            console.log(a); // 2
+            console.log(b); // 1
+                </code></pre>
+                `
+              },
+              {
+                question: "How can you handle nested destructuring with default values?",
+                solution: `
+                <p style="margin-top: 0.5rem;">
+                  Nested destructuring can also have default values for nested properties.
+                </p>
+                <pre><code>const user = { name: 'John', address: { city: 'New York' } };
+            const { address: { city, zip = 10001 } } = user;
+            console.log(city); // New York
+            console.log(zip);  // 10001 (default value)
+                </code></pre>
+                `
+              },
+              {
+                question: "How can you destructure a dynamic property name from an object?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can destructure a dynamic property by using computed property names within an object destructuring pattern.
+                  </p>
+                  <pre><code>const prop = 'name';
+            const person = { name: 'Alice', age: 25 };
+            const { [prop]: dynamicValue } = person;
+            console.log(dynamicValue); // Alice
+                  </code></pre>
+                `
+              },
+              {
+                question: "How can you merge two objects and overwrite properties using the spread operator?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
+                  </p>
+                  <pre><code>const obj1 = { a: 1, b: 2 };
+            const obj2 = { b: 3, c: 4 };
+            const mergedObj = { ...obj1, ...obj2 };
+            console.log(mergedObj); // { a: 1, b: 3, c: 4 }
+                  </code></pre>
+                `
+              },
+              {
+                question: "What are some caveats of copying objects using the spread operator?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The spread operator creates a shallow copy of the object, which means nested objects are still referenced by the original object.
+                  </p>
+                  <pre><code>const original = { a: 1, nested: { b: 2 } };
+            const copy = { ...original };
+            copy.nested.b = 3;
+            console.log(original.nested.b); // 3
+                  </code></pre>
+                  <p>
+                    To create a deep copy, you'd need to use another method such as <code>JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code>_.cloneDeep()</code>.
+                  </p>
+                `
+              },
+              {
+                question: "Can you explain how destructuring works in function parameters?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
+                  </p>
+                  <pre><code>function printUser({ name, age }) {
+              console.log(\`Name: \${name}, Age: \${age}\`);
+            }
+            const user = { name: 'John', age: 30 };
+            printUser(user); // Name: John, Age: 30
+                  </code></pre>
+            
+                  <p style="margin-top: 0.5rem;">Example with an array:</p>
+                  <pre><code>function sum([a, b]) {
+              return a + b;
+            }
+            console.log(sum([1, 2])); // 3
+                  </code></pre>
+                `
+              },
+              {
+                question: "How can you use the spread operator to pass an array as arguments to a function?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The spread operator allows you to pass elements of an array as individual arguments to a function.
+                  </p>
+                  <pre><code>function sum(a, b, c) {
+              return a + b + c;
+            }
+            const numbers = [1, 2, 3];
+            console.log(sum(...numbers)); // 6
+                  </code></pre>
+                `
+              },
+              {
+                question: "What happens when you combine destructuring and default values?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code>undefined</code>.
+                  </p>
+                  <pre><code>const person = { name: 'John' };
+            const { name, age = 30 } = person;
+            console.log(name); // John
+            console.log(age);  // 30 (default value)
+                  </code></pre>
+                  <p>
+                    If the property exists but is explicitly set to <code>undefined</code>, the default value will still be used:
+                  </p>
+                  <pre><code>const person = { name: 'John', age: undefined };
+            const { age = 25 } = person;
+            console.log(age); // 25
+                  </code></pre>
+                `
+              },
+              {
+                question: "How can destructuring be used in combination with the rest parameter in function arguments?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
+                  </p>
+                  <pre><code>function printFirstAndRest([first, ...rest]) {
+              console.log(first);  // First element
+              console.log(rest);   // Array of remaining elements
+            }
+            printFirstAndRest([1, 2, 3, 4]);
+            // Logs: 1
+            // Logs: [2, 3, 4]
+                  </code></pre>
+            
+                  <p style="margin-top: 0.5rem;">Example with an object:</p>
+                  <pre><code>function printUser({ name, ...rest }) {
+              console.log(name);   // Name property
+              console.log(rest);   // Remaining properties as an object
+            }
+            printUser({ name: 'Alice', age: 25, city: 'NY' });
+            // Logs: Alice
+            // Logs: { age: 25, city: 'NY' }
+                  </code></pre>
+                `
+              },
+              {
+                question: "How does the spread operator work when used with iterables like strings?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
+                  </p>
+                  <pre><code>const str = 'hello';
+            const arr = [...str];
+            console.log(arr); // ['h', 'e', 'l', 'l', 'o']
+            
+            function printChars(...chars) {
+              console.log(chars);
+            }
+            printChars(...str); // ['h', 'e', 'l', 'l', 'o']
+                  </code></pre>
+                `
+              },
+              {
+                question: "How can you swap values using array destructuring?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Array destructuring provides a clean way to swap values without needing a temporary variable.
+                  </p>
+                  <pre><code>let a = 1;
+            let b = 2;
+            [a, b] = [b, a];
+            console.log(a); // 2
+            console.log(b); // 1
+                  </code></pre>
+                `
+              },
+              {
+                question: "How can you handle nested destructuring with default values?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Nested destructuring can also have default values for nested properties.
+                  </p>
+                  <pre><code>const user = { name: 'John', address: { city: 'New York' } };
+            const { address: { city, zip = 10001 } } = user;
+            console.log(city); // New York
+            console.log(zip);  // 10001 (default value)
+                  </code></pre>
+                `
+              }
+            ],
             links: [""],
           },
           {
