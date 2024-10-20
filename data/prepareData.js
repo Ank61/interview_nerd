@@ -1922,7 +1922,7 @@ console.log(iterator.next()); // { value: undefined, done: true }
 
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Generators</h4>
 <p style="margin-top: 1.0rem;">
-  A generator is a unique type of function in JavaScript that can be <span style="font-weight: 500">paused and resumed during its execution</span>. Generators help you define an iterative algorithm by writing a function that can <span style="font-weight: 500">yield multiple values</span>  , separately, based on how they are consumed.
+  A generator is a unique type of synchronous function in JavaScript that can be <span style="font-weight: 500">paused and resumed during its execution</span>. Generators help you define an iterative algorithm by writing a function that can <span style="font-weight: 500">yield multiple values</span>  , separately, based on how they are consumed.
 </p>
 
 <p style="margin-top: 1.0rem;">
@@ -2003,7 +2003,88 @@ Each time yield is called, the generator pauses, and a promise is returned that 
 </p>
 `,
             examples: [""],
-            questions: [{}],
+            questions : [
+              {
+                question: "What is a generator in JavaScript, and how is it different from a regular function?",
+                solution: "A generator in JavaScript is a special type of function that can pause and resume its execution. It is defined using the `function*` syntax. Unlike regular functions, which run to completion once invoked, generators allow you to pause the execution using `yield` and resume later with `next()`. This allows for more control over function execution and is useful for handling asynchronous code in a synchronous-like fashion."
+              },
+              {
+                question: "How do you create and use a generator in JavaScript?",
+                solution: `To create a generator, use the function* syntax. Inside the generator, use the 'yield' keyword to pause the execution and produce values. To use a generator, call it to return an iterator, then use the .next() method to resume execution and retrieve the next yielded value. Example: <pre><code class="language-javascript"> function* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); </code></pre>`
+              },
+              {
+                question: "What is the purpose of the `yield` keyword in a generator function?",
+                solution: "The `yield` keyword is used to pause the execution of a generator function and return a value to the calling code. The function can then be resumed from where it left off when `.next()` is called. Each `yield` statement can return different values in successive calls of `.next()`."
+              },
+              {
+                question: "What does the `.next()` method do in a generator function?",
+                solution: "The `.next()` method is used to resume the execution of a paused generator function. It returns an object with two properties: `value`, which is the value yielded by the generator, and `done`, which is a boolean indicating whether the generator has completed its execution."
+              },
+              {
+                question: "Explain how to handle asynchronous operations using generators.",
+                solution: `You can handle asynchronous operations using generators by yielding promises from the generator function and resuming execution once the promise resolves. This can be done manually using a loop or automatically with libraries like 'co' or 'async-await' (which is based on the concept of generators). Example: <pre><code class="language-javascript">\nfunction* asyncGenerator() {\n  const result1 = yield fetch('https://api.example.com/data1');\n  console.log(result1);\n  const result2 = yield fetch('https://api.example.com/data2');\n  console.log(result2);\n}\n</code></pre>`
+              },
+              {
+                question: "What are the advantages of using generators over promises or async/await?",
+                solution: "Generators provide fine-grained control over the execution of a function, allowing you to pause and resume execution at multiple points, which can be useful in some cases, such as iterating over large data sets or handling cooperative multitasking. However, for handling asynchronous code specifically, `async/await` is generally simpler and more readable, as it was built on top of the generator concept."
+              },
+              {
+                question: "How can you iterate over the values yielded by a generator?",
+                solution: `You can iterate over the values yielded by a generator using a 'for...of' loop, or by manually calling '.next()' on the generator object. Example using 'for...of' loop:<pre><code class="language-javascript">\nfunction* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nfor (const value of gen) {\n  console.log(value); // 1, 2, 3\n}\n </code></pre>`
+              },
+              {
+                question: "How does the `return` statement behave in a generator function?",
+                solution: "When `return` is called in a generator function, it terminates the generator and produces a value, just like `yield`. However, unlike `yield`, `return` also sets the `done` property of the `.next()` result to `true`, indicating that the generator has finished executing. Any further calls to `.next()` will not yield more values."
+              },
+              {
+                question: "What happens if you call `.next()` on a generator after it has finished?",
+                solution: "Once a generator has finished (either by returning or by exhausting all `yield` statements), subsequent calls to `.next()` will return an object with `value: undefined` and `done: true`, indicating that the generator is done and no more values will be yielded."
+              },
+              {
+                question: "Can a generator be used to produce an infinite sequence? Provide an example.",
+                solution: `Yes, a generator can be used to produce an infinite sequence by using an infinite loop inside the generator function. For example:<pre><code class="language-javascript">\nfunction* infiniteSequence() {\n  let i = 0;\n  while (true) {\n    yield i++;\n  }\n}\nconst gen = infiniteSequence();\nconsole.log(gen.next().value); // 0\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\n// And so on, infinitely...\n</code></pre>`
+              },
+              {
+                question: "How do you pass values back into a generator function?",
+                solution: `You can pass values back into a generator function by using the '.next(value)' method. The value passed will replace the 'yield' expression where the generator was paused. Example:\n<pre><code class="language-javascript">\nfunction* myGenerator() {\n  const first = yield 'First yield';\n  const second = yield first;\n  return second;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // 'First yield'\nconsole.log(gen.next(42).value); // 42\nconsole.log(gen.next(100).value); // 100\n</code></pre>`
+              },
+              {
+                question: "How would you implement a generator function that produces Fibonacci numbers indefinitely?",
+                solution: `A generator can be used to produce an infinite sequence of Fibonacci numbers by maintaining two variables for the last two numbers in the sequence and updating them on each iteration. Here's an implementation:<pre><code class="language-javascript">\nfunction* fibonacciGenerator() {\n  let [prev, current] = [0, 1];\n  while (true) {\n    yield current;\n    [prev, current] = [current, prev + current];\n  }\n}\nconst gen = fibonacciGenerator();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\nconsole.log(gen.next().value); // 3</code></pre>`
+              },
+              {
+                question: "What are the differences between using a generator and an iterator to traverse a sequence? When would you prefer one over the other?",
+                solution: "Both generators and iterators allow you to traverse sequences, but they differ in how they're implemented and used:\n1. **Iterators**: <span style='font-weight: 500;'>Iterators are objects</span> that implement the `next()` method, which returns `{ value, done }`. They require manual implementation of the iteration logic.\n2. **Generators**: <span style='font-weight: 500;'>Generators are functions</span> that automatically create an iterator when called. They manage the `next()` method and yield values on demand, making them simpler to implement for complex iteration logic.\n\n**When to prefer one:**\n- Use **iterators** when you need fine control over the iteration logic or when the iteration logic is tightly coupled with an object or class.\n- Use **generators** when you want a cleaner, easier-to-read implementation that handles state internally and produces values lazily."
+              },
+              {
+                question: "Can you explain how backpressure in asynchronous processing can be managed with generators?",
+                solution: "Backpressure occurs when a producer (like a data source) generates values faster than a consumer (like a network or file system) can process them. Generators can help manage backpressure by yielding control at each `yield` point, allowing the consumer to process values at its own pace. In an asynchronous context, a generator can yield Promises, and the consumer can `await` the result, ensuring that it only processes the next value when it's ready, thus preventing overload."
+              },
+              {
+                question: "Explain how you can combine a generator with `Promise.all` to handle multiple asynchronous tasks concurrently.",
+                solution: `To combine a generator with 'Promise.all', you can yield promises from the generator and collect them into an array. Once the generator yields all promises, you can use 'Promise.all()' to process them concurrently. Here's an example:<pre><code class="language-javascript">\nfunction* fetchMultiple(urls) {\n  for (const url of urls) {\n    yield fetch(url);\n  }\n}\n\nconst urls = ['https://api1.com', 'https://api2.com', 'https://api3.com'];\nconst gen = fetchMultiple(urls);\nconst promises = [...gen]; // Collect all promises\n\nPromise.all(promises).then((results) => {\n  console.log('All fetched:', results);\n}).catch((error) => {\n  console.error('Error fetching:', error);\n});\n</code></pre>`
+              },
+              {
+                question: "How would you implement a generator-based coroutine system in JavaScript?",
+                solution: `Coroutines are functions that can pause and resume execution, typically used in cooperative multitasking. Generators can be used to implement coroutines by 'yield'ing control back and forth between different generators. Here's a basic example of a coroutine system using generators:<pre><code class="language-javascript">\nfunction* coroutineA() {\n  console.log('Start A');\n  yield;\n  console.log('End A');\n}\n\nfunction* coroutineB() {\n  console.log('Start B');\n  yield;\n  console.log('End B');\n}\n\nconst a = coroutineA();\nconst b = coroutineB();\n\n// Coroutine scheduler\nfunction scheduler() {\n  a.next(); // Start A\n  b.next(); // Start B\n  a.next(); // End A\n  b.next(); // End B\n}\nscheduler();\n </code></pre>In this example, 'scheduler()' controls when each coroutine ('coroutineA' and 'coroutine') resumes execution.`
+              },
+              {
+                question: "How would you pause and resume an ongoing generator function from outside the generator?",
+                solution: `You can control a generator's execution from outside by calling '.next()', '.return()', or '.throw()' on the generator object. Here’s an example of how you can pause and resume:\n<pre><code class="language-javascript"> function* myGenerator() {\n  console.log('First part');\n  yield 'Paused';\n  console.log('Second part');\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // Logs: 'First part' and returns 'Paused'\nconsole.log(gen.next().value); // Logs: 'Second part' </code></pre>\nYou can resume the generator’s execution at any point by calling '.next()'.`
+              },
+              {
+                question: "How can you implement a generator that handles both synchronous and asynchronous operations?",
+                solution: `To handle both synchronous and asynchronous operations in a generator, you can 'yield' both synchronous values and promises. The consumer of the generator needs to handle the yielded values appropriately. For example:<pre><code class="language-javascript">\nfunction* mixedGenerator() {\n  const syncValue = 'Synchronous value';\n  yield syncValue;\n  const asyncValue = yield new Promise((resolve) => setTimeout(() => resolve('Asynchronous value'), 1000));\n  yield asyncValue;\n}\n\nasync function processGenerator() {\n  const gen = mixedGenerator();\n  let result = gen.next();\n  console.log(result.value); // 'Synchronous value'\n\n  result = await gen.next().value; // Waiting for async value\n  console.log(result); // 'Asynchronous value'\n\n  result = gen.next(result).value;\n  console.log(result); // 'Asynchronous value'\n}\nprocessGenerator();\n</code></pre>`
+              },
+              {
+                question: "What is the relationship between `async/await` and generators? Could you implement `async/await` using generators?",
+                solution: `The 'async/await' syntax in JavaScript is built on top of the generator pattern. In fact, you can implement 'async/await' using generators by yielding promises and manually resuming the generator when the promises resolve. Here’s a simplified version of how 'async/await' can be implemented using generators:\n<pre><code class="language-javascript">function asyncExecutor(generatorFunction) {\n  const generator = generatorFunction();\n\n  function handle(result) {\n    if (result.done) return result.value;\n    return result.value.then((value) => handle(generator.next(value)));\n  }\n\n  return handle(generator.next());\n}\n\nfunction* asyncTask() {\n  const result = yield new Promise((resolve) => setTimeout(() => resolve('Done!'), 1000));\n  console.log(result);\n}\n\nasyncExecutor(asyncTask);\n</code></pre>`
+              },
+              {
+                question: "Can you explain the memory advantages of using generators for large datasets?",
+                solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`
+              }
+            ],            
             links: ["https://www.geeksforgeeks.org/javascript-iterator/"],
           },
           {

@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import Header from "@/components/header";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { List } from 'lucide-react';
 import {
   ChevronLeft,
   ChevronRight,
@@ -77,7 +76,8 @@ export default function Component() {
   return (
     <Box
       sx={{ display: "flex", flexDirection: "column", height: "100vh" }}
-      className="w-full mx-auto md:w-7/12 lg:w-6/12 relative">
+      className="w-full mx-auto md:w-7/12 lg:w-6/12 relative"
+    >
       <Header topic={topicSelected} />
       <div className="text-sm text-gray-500 mt-2 font-medium text-right mr-4">
         Question {currentIndex + 1} of {practiceQuestions?.length}
@@ -99,7 +99,8 @@ export default function Component() {
             type: "spring",
             stiffness: 60,
             delay: 0.01,
-          }}>
+          }}
+        >
           <h3 className="flex justify-center items  -center scroll-m-20 text-gray-600 text-lg font-semibold tracking-tight mt-8 mb-10">
             <span className="mr-3">{currentIndex + 1}.</span>
             {currentQuestion.question}
@@ -145,17 +146,17 @@ export default function Component() {
             }}
             className="mt-1 p-4 bg-muted rounded-md overflow-hidden cursor-pointer"
           >
-            <div
-              className="w-full"
-              dangerouslySetInnerHTML={{
-                __html: currentQuestion.solution,
-              }}
-            />
+              <div
+                className="w-full"
+                dangerouslySetInnerHTML={{
+                  __html: currentQuestion.solution,
+                }}
+              />
           </motion.div>
         )}
       </Box>
       <Box
-        className="flex justify-between mt-10 w-full absolute bottom-3 md:bottom-2"
+        className="flex justify-between mt-10 w-full sticky bottom-3 md:bottom-2"
         sx={{ flexGrow: 1 }}
         padding={3}
       >
