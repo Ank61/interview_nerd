@@ -2957,7 +2957,111 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
           {
             topic: "Proxy and Reflect",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, <strong>Proxy</strong> and <strong>Reflect</strong> are advanced ES6 features that give developers control over object behavior and manipulation. They allow the interception of fundamental operations on objects and provide a way to perform default object operations. Let's break them down:
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Proxy</h4>
+
+<p style="margin-top: 1.0rem;">
+  A <strong>Proxy</strong> is used to create an intermediary between the code and an object, which allows you to customize the behavior of basic operations such as property lookup, assignment, and function invocation.
+</p>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">A) Creating a Proxy</h5>
+<p style="margin-top: 0.5rem;">
+  A Proxy takes two arguments: the target object and a handler object. The handler defines traps for intercepting operations like property access or assignment.
+</p>
+
+<pre><code>// Example 1: Basic Proxy
+const target = { name: 'Alice', age: 25 };
+
+const handler = {
+  get: function(target, prop) {
+    return prop in target ? target[prop] : 'Property prop not found!';
+  }
+};
+
+const proxy = new Proxy(target, handler);
+
+console.log(proxy.name); // Alice
+console.log(proxy.age);  // 25
+console.log(proxy.gender); // Property gender not found!
+</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Common Proxy Traps</h5>
+<p style="margin-top: 0.5rem;">
+  Proxies can intercept and redefine many object operations using traps such as <code>get</code>, <code>set</code>, <code>deleteProperty</code>, and <code>apply</code>.
+</p>
+
+<pre><code>// Example 2: Using set and deleteProperty Traps
+const handler = {
+  set: function(target, prop, value) {
+    if (prop === 'age' && typeof value !== 'number') {
+      throw new TypeError('Age must be a number');
+    }
+    target[prop] = value;
+    return true;
+  },
+  deleteProperty: function(target, prop) {
+    if (prop === 'name') {
+      throw new Error('Cannot delete name property');
+    }
+    delete target[prop];
+    return true;
+  }
+};
+
+const proxy = new Proxy(target, handler);
+
+// Setting properties
+proxy.age = 30; // Works fine
+// proxy.age = "thirty"; // Throws error
+
+// Deleting properties
+delete proxy.age; // Works fine
+// delete proxy.name; // Throws error
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Reflect</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Reflect</strong> is a built-in JavaScript object that provides methods for standard object operations. It allows you to perform default behavior when using traps in proxies and simplifies object manipulation.
+</p>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">A) Why Use Reflect?</h5>
+<p style="margin-top: 0.5rem;">
+  Reflect provides a consistent and functional API for operations like setting, getting, deleting properties, and more. It complements proxies by allowing developers to access default behaviors when needed.
+</p>
+
+<pre><code>// Example 3: Using Reflect with Proxy
+const handler = {
+  get: function(target, prop) {
+    console.log('Getting prop');
+    return Reflect.get(target, prop);
+  },
+  set: function(target, prop, value) {
+    console.log('Setting prop to value');
+    return Reflect.set(target, prop, value);
+  }
+};
+
+const proxy = new Proxy(target, handler);
+
+proxy.age = 32; // Logs: Setting age to 32
+console.log(proxy.age); // Logs: Getting age, 32
+</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Common Reflect Methods</h5>
+<p style="margin-top: 0.5rem;">
+  Reflect includes methods like <code>Reflect.get()</code>, <code>Reflect.set()</code>, <code>Reflect.deleteProperty()</code>, and <code>Reflect.apply()</code>, which are used to perform default operations on objects.
+</p>
+
+<pre><code>// Example 4: Reflect Methods
+Reflect.get(target, 'name'); // Alice
+Reflect.set(target, 'age', 40); // Sets age to 40
+Reflect.deleteProperty(target, 'age'); // Deletes the age property
+</code></pre>
+`,
             examples: [""],
             questions: [{}],
             links: [""],
