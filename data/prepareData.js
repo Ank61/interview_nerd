@@ -2104,10 +2104,11 @@ Each time yield is called, the generator pauses, and a promise is returned that 
 </ol>
 
 `,
-            examples: [[
-              {
-                "questions": "Example 1: Fibonacci Sequence Generator",
-                "explanation": `
+            examples: [
+              [
+                {
+                  questions: "Example 1: Fibonacci Sequence Generator",
+                  explanation: `
                   <p>This generator produces the Fibonacci sequence up to a given number <code>n</code>. It starts with two numbers, 0 and 1, and continuously yields values until the next number exceeds <code>n</code>.</p>
                   <pre><code>
                   function* fibonacciGenerator(n) {
@@ -2132,11 +2133,12 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Stops when a number in the sequence exceeds <code>n</code>.</li>
                     <li>Uses <code>yield</code> to pause and return each value.</li>
                   </ul>
-                `
-              },
-              {
-                "questions": "Example 2: Lazy Loading an Array with a Generator",
-                "explanation": `
+                `,
+                },
+                {
+                  questions:
+                    "Example 2: Lazy Loading an Array with a Generator",
+                  explanation: `
                   <p>This generator implements a lazy loading mechanism by yielding chunks of data from an array in specified sizes. Instead of loading the entire array at once, it processes chunks lazily.</p>
                   <pre><code>
                   function* lazyLoadArray(data, chunkSize = 10) {
@@ -2158,11 +2160,11 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Supports lazy loading for pagination or infinite scrolling.</li>
                     <li>Efficient for large datasets.</li>
                   </ul>
-                `
-              },
-              {
-                "questions": "Example 3: Delayed Yielding of Array Elements",
-                "explanation": `
+                `,
+                },
+                {
+                  questions: "Example 3: Delayed Yielding of Array Elements",
+                  explanation: `
                   <p>This generator yields elements of an array with a 1-second delay between each. It uses <code>setTimeout</code> to create the delay and pauses between yields.</p>
                   <pre><code>
                   function* delayedGenerator(arr) {
@@ -2186,93 +2188,127 @@ Each time yield is called, the generator pauses, and a promise is returned that 
                     <li>Uses <code>yield</code> to pause and wait for 1 second.</li>
                     <li>Useful for pacing data processing or animations.</li>
                   </ul>
-                `
-              }
-            ]
+                `,
+                },
+              ],
             ],
-            questions : [
+            questions: [
               {
-                question: "What is a generator in JavaScript, and how is it different from a regular function?",
-                solution: "A generator in JavaScript is a special type of function that can pause and resume its execution. It is defined using the `function*` syntax. Unlike regular functions, which run to completion once invoked, generators allow you to pause the execution using `yield` and resume later with `next()`. This allows for more control over function execution and is useful for handling asynchronous code in a synchronous-like fashion."
+                question:
+                  "What is a generator in JavaScript, and how is it different from a regular function?",
+                solution:
+                  "A generator in JavaScript is a special type of function that can pause and resume its execution. It is defined using the `function*` syntax. Unlike regular functions, which run to completion once invoked, generators allow you to pause the execution using `yield` and resume later with `next()`. This allows for more control over function execution and is useful for handling asynchronous code in a synchronous-like fashion.",
               },
               {
-                question: "How do you create and use a generator in JavaScript?",
-                solution: `To create a generator, use the function* syntax. Inside the generator, use the 'yield' keyword to pause the execution and produce values. To use a generator, call it to return an iterator, then use the .next() method to resume execution and retrieve the next yielded value. Example: <pre><code class="language-javascript"> function* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); </code></pre>`
+                question:
+                  "How do you create and use a generator in JavaScript?",
+                solution: `To create a generator, use the function* syntax. Inside the generator, use the 'yield' keyword to pause the execution and produce values. To use a generator, call it to return an iterator, then use the .next() method to resume execution and retrieve the next yielded value. Example: <pre><code class="language-javascript"> function* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); </code></pre>`,
               },
               {
-                question: "What is the purpose of the `yield` keyword in a generator function?",
-                solution: "The `yield` keyword is used to pause the execution of a generator function and return a value to the calling code. The function can then be resumed from where it left off when `.next()` is called. Each `yield` statement can return different values in successive calls of `.next()`."
+                question:
+                  "What is the purpose of the `yield` keyword in a generator function?",
+                solution:
+                  "The `yield` keyword is used to pause the execution of a generator function and return a value to the calling code. The function can then be resumed from where it left off when `.next()` is called. Each `yield` statement can return different values in successive calls of `.next()`.",
               },
               {
-                question: "What does the `.next()` method do in a generator function?",
-                solution: "The `.next()` method is used to resume the execution of a paused generator function. It returns an object with two properties: `value`, which is the value yielded by the generator, and `done`, which is a boolean indicating whether the generator has completed its execution."
+                question:
+                  "What does the `.next()` method do in a generator function?",
+                solution:
+                  "The `.next()` method is used to resume the execution of a paused generator function. It returns an object with two properties: `value`, which is the value yielded by the generator, and `done`, which is a boolean indicating whether the generator has completed its execution.",
               },
               {
-                question: "Explain how to handle asynchronous operations using generators.",
-                solution: `You can handle asynchronous operations using generators by yielding promises from the generator function and resuming execution once the promise resolves. This can be done manually using a loop or automatically with libraries like 'co' or 'async-await' (which is based on the concept of generators). Example: <pre><code class="language-javascript">\nfunction* asyncGenerator() {\n  const result1 = yield fetch('https://api.example.com/data1');\n  console.log(result1);\n  const result2 = yield fetch('https://api.example.com/data2');\n  console.log(result2);\n}\n</code></pre>`
+                question:
+                  "Explain how to handle asynchronous operations using generators.",
+                solution: `You can handle asynchronous operations using generators by yielding promises from the generator function and resuming execution once the promise resolves. This can be done manually using a loop or automatically with libraries like 'co' or 'async-await' (which is based on the concept of generators). Example: <pre><code class="language-javascript">\nfunction* asyncGenerator() {\n  const result1 = yield fetch('https://api.example.com/data1');\n  console.log(result1);\n  const result2 = yield fetch('https://api.example.com/data2');\n  console.log(result2);\n}\n</code></pre>`,
               },
               {
-                question: "What are the advantages of using generators over promises or async/await?",
-                solution: "Generators provide fine-grained control over the execution of a function, allowing you to pause and resume execution at multiple points, which can be useful in some cases, such as iterating over large data sets or handling cooperative multitasking. However, for handling asynchronous code specifically, `async/await` is generally simpler and more readable, as it was built on top of the generator concept."
+                question:
+                  "What are the advantages of using generators over promises or async/await?",
+                solution:
+                  "Generators provide fine-grained control over the execution of a function, allowing you to pause and resume execution at multiple points, which can be useful in some cases, such as iterating over large data sets or handling cooperative multitasking. However, for handling asynchronous code specifically, `async/await` is generally simpler and more readable, as it was built on top of the generator concept.",
               },
               {
-                question: "How can you iterate over the values yielded by a generator?",
-                solution: `You can iterate over the values yielded by a generator using a 'for...of' loop, or by manually calling '.next()' on the generator object. Example using 'for...of' loop:<pre><code class="language-javascript">\nfunction* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nfor (const value of gen) {\n  console.log(value); // 1, 2, 3\n}\n </code></pre>`
+                question:
+                  "How can you iterate over the values yielded by a generator?",
+                solution: `You can iterate over the values yielded by a generator using a 'for...of' loop, or by manually calling '.next()' on the generator object. Example using 'for...of' loop:<pre><code class="language-javascript">\nfunction* myGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\nconst gen = myGenerator();\nfor (const value of gen) {\n  console.log(value); // 1, 2, 3\n}\n </code></pre>`,
               },
               {
-                question: "How does the `return` statement behave in a generator function?",
-                solution: "When `return` is called in a generator function, it terminates the generator and produces a value, just like `yield`. However, unlike `yield`, `return` also sets the `done` property of the `.next()` result to `true`, indicating that the generator has finished executing. Any further calls to `.next()` will not yield more values."
+                question:
+                  "How does the `return` statement behave in a generator function?",
+                solution:
+                  "When `return` is called in a generator function, it terminates the generator and produces a value, just like `yield`. However, unlike `yield`, `return` also sets the `done` property of the `.next()` result to `true`, indicating that the generator has finished executing. Any further calls to `.next()` will not yield more values.",
               },
               {
-                question: "What happens if you call `.next()` on a generator after it has finished?",
-                solution: "Once a generator has finished (either by returning or by exhausting all `yield` statements), subsequent calls to `.next()` will return an object with `value: undefined` and `done: true`, indicating that the generator is done and no more values will be yielded."
+                question:
+                  "What happens if you call `.next()` on a generator after it has finished?",
+                solution:
+                  "Once a generator has finished (either by returning or by exhausting all `yield` statements), subsequent calls to `.next()` will return an object with `value: undefined` and `done: true`, indicating that the generator is done and no more values will be yielded.",
               },
               {
-                question: "Can a generator be used to produce an infinite sequence? Provide an example.",
-                solution: `Yes, a generator can be used to produce an infinite sequence by using an infinite loop inside the generator function. For example:<pre><code class="language-javascript">\nfunction* infiniteSequence() {\n  let i = 0;\n  while (true) {\n    yield i++;\n  }\n}\nconst gen = infiniteSequence();\nconsole.log(gen.next().value); // 0\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\n// And so on, infinitely...\n</code></pre>`
+                question:
+                  "Can a generator be used to produce an infinite sequence? Provide an example.",
+                solution: `Yes, a generator can be used to produce an infinite sequence by using an infinite loop inside the generator function. For example:<pre><code class="language-javascript">\nfunction* infiniteSequence() {\n  let i = 0;\n  while (true) {\n    yield i++;\n  }\n}\nconst gen = infiniteSequence();\nconsole.log(gen.next().value); // 0\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\n// And so on, infinitely...\n</code></pre>`,
               },
               {
-                question: "How do you pass values back into a generator function?",
-                solution: `You can pass values back into a generator function by using the '.next(value)' method. The value passed will replace the 'yield' expression where the generator was paused. Example:\n<pre><code class="language-javascript">\nfunction* myGenerator() {\n  const first = yield 'First yield';\n  const second = yield first;\n  return second;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // 'First yield'\nconsole.log(gen.next(42).value); // 42\nconsole.log(gen.next(100).value); // 100\n</code></pre>`
+                question:
+                  "How do you pass values back into a generator function?",
+                solution: `You can pass values back into a generator function by using the '.next(value)' method. The value passed will replace the 'yield' expression where the generator was paused. Example:\n<pre><code class="language-javascript">\nfunction* myGenerator() {\n  const first = yield 'First yield';\n  const second = yield first;\n  return second;\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // 'First yield'\nconsole.log(gen.next(42).value); // 42\nconsole.log(gen.next(100).value); // 100\n</code></pre>`,
               },
               {
-                question: "How would you implement a generator function that produces Fibonacci numbers indefinitely?",
-                solution: `A generator can be used to produce an infinite sequence of Fibonacci numbers by maintaining two variables for the last two numbers in the sequence and updating them on each iteration. Here's an implementation:<pre><code class="language-javascript">\nfunction* fibonacciGenerator() {\n  let [prev, current] = [0, 1];\n  while (true) {\n    yield current;\n    [prev, current] = [current, prev + current];\n  }\n}\nconst gen = fibonacciGenerator();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\nconsole.log(gen.next().value); // 3</code></pre>`
+                question:
+                  "How would you implement a generator function that produces Fibonacci numbers indefinitely?",
+                solution: `A generator can be used to produce an infinite sequence of Fibonacci numbers by maintaining two variables for the last two numbers in the sequence and updating them on each iteration. Here's an implementation:<pre><code class="language-javascript">\nfunction* fibonacciGenerator() {\n  let [prev, current] = [0, 1];\n  while (true) {\n    yield current;\n    [prev, current] = [current, prev + current];\n  }\n}\nconst gen = fibonacciGenerator();\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 1\nconsole.log(gen.next().value); // 2\nconsole.log(gen.next().value); // 3</code></pre>`,
               },
               {
-                question: "What are the differences between using a generator and an iterator to traverse a sequence? When would you prefer one over the other?",
-                solution: "Both generators and iterators allow you to traverse sequences, but they differ in how they're implemented and used:\n1. **Iterators**: <span style='font-weight: 500;'>Iterators are objects</span> that implement the `next()` method, which returns `{ value, done }`. They require manual implementation of the iteration logic.\n2. **Generators**: <span style='font-weight: 500;'>Generators are functions</span> that automatically create an iterator when called. They manage the `next()` method and yield values on demand, making them simpler to implement for complex iteration logic.\n\n**When to prefer one:**\n- Use **iterators** when you need fine control over the iteration logic or when the iteration logic is tightly coupled with an object or class.\n- Use **generators** when you want a cleaner, easier-to-read implementation that handles state internally and produces values lazily."
+                question:
+                  "What are the differences between using a generator and an iterator to traverse a sequence? When would you prefer one over the other?",
+                solution:
+                  "Both generators and iterators allow you to traverse sequences, but they differ in how they're implemented and used:\n1. **Iterators**: <span style='font-weight: 500;'>Iterators are objects</span> that implement the `next()` method, which returns `{ value, done }`. They require manual implementation of the iteration logic.\n2. **Generators**: <span style='font-weight: 500;'>Generators are functions</span> that automatically create an iterator when called. They manage the `next()` method and yield values on demand, making them simpler to implement for complex iteration logic.\n\n**When to prefer one:**\n- Use **iterators** when you need fine control over the iteration logic or when the iteration logic is tightly coupled with an object or class.\n- Use **generators** when you want a cleaner, easier-to-read implementation that handles state internally and produces values lazily.",
               },
               {
-                question: "Can you explain how backpressure in asynchronous processing can be managed with generators?",
-                solution: "Backpressure occurs when a producer (like a data source) generates values faster than a consumer (like a network or file system) can process them. Generators can help manage backpressure by yielding control at each `yield` point, allowing the consumer to process values at its own pace. In an asynchronous context, a generator can yield Promises, and the consumer can `await` the result, ensuring that it only processes the next value when it's ready, thus preventing overload."
+                question:
+                  "Can you explain how backpressure in asynchronous processing can be managed with generators?",
+                solution:
+                  "Backpressure occurs when a producer (like a data source) generates values faster than a consumer (like a network or file system) can process them. Generators can help manage backpressure by yielding control at each `yield` point, allowing the consumer to process values at its own pace. In an asynchronous context, a generator can yield Promises, and the consumer can `await` the result, ensuring that it only processes the next value when it's ready, thus preventing overload.",
               },
               {
-                question: "Explain how you can combine a generator with `Promise.all` to handle multiple asynchronous tasks concurrently.",
-                solution: `To combine a generator with 'Promise.all', you can yield promises from the generator and collect them into an array. Once the generator yields all promises, you can use 'Promise.all()' to process them concurrently. Here's an example:<pre><code class="language-javascript">\nfunction* fetchMultiple(urls) {\n  for (const url of urls) {\n    yield fetch(url);\n  }\n}\n\nconst urls = ['https://api1.com', 'https://api2.com', 'https://api3.com'];\nconst gen = fetchMultiple(urls);\nconst promises = [...gen]; // Collect all promises\n\nPromise.all(promises).then((results) => {\n  console.log('All fetched:', results);\n}).catch((error) => {\n  console.error('Error fetching:', error);\n});\n</code></pre>`
+                question:
+                  "Explain how you can combine a generator with `Promise.all` to handle multiple asynchronous tasks concurrently.",
+                solution: `To combine a generator with 'Promise.all', you can yield promises from the generator and collect them into an array. Once the generator yields all promises, you can use 'Promise.all()' to process them concurrently. Here's an example:<pre><code class="language-javascript">\nfunction* fetchMultiple(urls) {\n  for (const url of urls) {\n    yield fetch(url);\n  }\n}\n\nconst urls = ['https://api1.com', 'https://api2.com', 'https://api3.com'];\nconst gen = fetchMultiple(urls);\nconst promises = [...gen]; // Collect all promises\n\nPromise.all(promises).then((results) => {\n  console.log('All fetched:', results);\n}).catch((error) => {\n  console.error('Error fetching:', error);\n});\n</code></pre>`,
               },
               {
-                question: "How would you implement a generator-based coroutine system in JavaScript?",
-                solution: `Coroutines are functions that can pause and resume execution, typically used in cooperative multitasking. Generators can be used to implement coroutines by 'yield'ing control back and forth between different generators. Here's a basic example of a coroutine system using generators:<pre><code class="language-javascript">\nfunction* coroutineA() {\n  console.log('Start A');\n  yield;\n  console.log('End A');\n}\n\nfunction* coroutineB() {\n  console.log('Start B');\n  yield;\n  console.log('End B');\n}\n\nconst a = coroutineA();\nconst b = coroutineB();\n\n// Coroutine scheduler\nfunction scheduler() {\n  a.next(); // Start A\n  b.next(); // Start B\n  a.next(); // End A\n  b.next(); // End B\n}\nscheduler();\n </code></pre>In this example, 'scheduler()' controls when each coroutine ('coroutineA' and 'coroutine') resumes execution.`
+                question:
+                  "How would you implement a generator-based coroutine system in JavaScript?",
+                solution: `Coroutines are functions that can pause and resume execution, typically used in cooperative multitasking. Generators can be used to implement coroutines by 'yield'ing control back and forth between different generators. Here's a basic example of a coroutine system using generators:<pre><code class="language-javascript">\nfunction* coroutineA() {\n  console.log('Start A');\n  yield;\n  console.log('End A');\n}\n\nfunction* coroutineB() {\n  console.log('Start B');\n  yield;\n  console.log('End B');\n}\n\nconst a = coroutineA();\nconst b = coroutineB();\n\n// Coroutine scheduler\nfunction scheduler() {\n  a.next(); // Start A\n  b.next(); // Start B\n  a.next(); // End A\n  b.next(); // End B\n}\nscheduler();\n </code></pre>In this example, 'scheduler()' controls when each coroutine ('coroutineA' and 'coroutine') resumes execution.`,
               },
               {
-                question: "How would you pause and resume an ongoing generator function from outside the generator?",
-                solution: `You can control a generator's execution from outside by calling '.next()', '.return()', or '.throw()' on the generator object. Here’s an example of how you can pause and resume:\n<pre><code class="language-javascript"> function* myGenerator() {\n  console.log('First part');\n  yield 'Paused';\n  console.log('Second part');\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // Logs: 'First part' and returns 'Paused'\nconsole.log(gen.next().value); // Logs: 'Second part' </code></pre>\nYou can resume the generator’s execution at any point by calling '.next()'.`
+                question:
+                  "How would you pause and resume an ongoing generator function from outside the generator?",
+                solution: `You can control a generator's execution from outside by calling '.next()', '.return()', or '.throw()' on the generator object. Here’s an example of how you can pause and resume:\n<pre><code class="language-javascript"> function* myGenerator() {\n  console.log('First part');\n  yield 'Paused';\n  console.log('Second part');\n}\nconst gen = myGenerator();\nconsole.log(gen.next().value); // Logs: 'First part' and returns 'Paused'\nconsole.log(gen.next().value); // Logs: 'Second part' </code></pre>\nYou can resume the generator’s execution at any point by calling '.next()'.`,
               },
               {
-                question: "How can you implement a generator that handles both synchronous and asynchronous operations?",
-                solution: `To handle both synchronous and asynchronous operations in a generator, you can 'yield' both synchronous values and promises. The consumer of the generator needs to handle the yielded values appropriately. For example:<pre><code class="language-javascript">\nfunction* mixedGenerator() {\n  const syncValue = 'Synchronous value';\n  yield syncValue;\n  const asyncValue = yield new Promise((resolve) => setTimeout(() => resolve('Asynchronous value'), 1000));\n  yield asyncValue;\n}\n\nasync function processGenerator() {\n  const gen = mixedGenerator();\n  let result = gen.next();\n  console.log(result.value); // 'Synchronous value'\n\n  result = await gen.next().value; // Waiting for async value\n  console.log(result); // 'Asynchronous value'\n\n  result = gen.next(result).value;\n  console.log(result); // 'Asynchronous value'\n}\nprocessGenerator();\n</code></pre>`
+                question:
+                  "How can you implement a generator that handles both synchronous and asynchronous operations?",
+                solution: `To handle both synchronous and asynchronous operations in a generator, you can 'yield' both synchronous values and promises. The consumer of the generator needs to handle the yielded values appropriately. For example:<pre><code class="language-javascript">\nfunction* mixedGenerator() {\n  const syncValue = 'Synchronous value';\n  yield syncValue;\n  const asyncValue = yield new Promise((resolve) => setTimeout(() => resolve('Asynchronous value'), 1000));\n  yield asyncValue;\n}\n\nasync function processGenerator() {\n  const gen = mixedGenerator();\n  let result = gen.next();\n  console.log(result.value); // 'Synchronous value'\n\n  result = await gen.next().value; // Waiting for async value\n  console.log(result); // 'Asynchronous value'\n\n  result = gen.next(result).value;\n  console.log(result); // 'Asynchronous value'\n}\nprocessGenerator();\n</code></pre>`,
               },
               {
-                question: "What is the relationship between `async/await` and generators? Could you implement `async/await` using generators?",
-                solution: `The 'async/await' syntax in JavaScript is built on top of the generator pattern. In fact, you can implement 'async/await' using generators by yielding promises and manually resuming the generator when the promises resolve. Here’s a simplified version of how 'async/await' can be implemented using generators:\n<pre><code class="language-javascript">function asyncExecutor(generatorFunction) {\n  const generator = generatorFunction();\n\n  function handle(result) {\n    if (result.done) return result.value;\n    return result.value.then((value) => handle(generator.next(value)));\n  }\n\n  return handle(generator.next());\n}\n\nfunction* asyncTask() {\n  const result = yield new Promise((resolve) => setTimeout(() => resolve('Done!'), 1000));\n  console.log(result);\n}\n\nasyncExecutor(asyncTask);\n</code></pre>`
+                question:
+                  "What is the relationship between `async/await` and generators? Could you implement `async/await` using generators?",
+                solution: `The 'async/await' syntax in JavaScript is built on top of the generator pattern. In fact, you can implement 'async/await' using generators by yielding promises and manually resuming the generator when the promises resolve. Here’s a simplified version of how 'async/await' can be implemented using generators:\n<pre><code class="language-javascript">function asyncExecutor(generatorFunction) {\n  const generator = generatorFunction();\n\n  function handle(result) {\n    if (result.done) return result.value;\n    return result.value.then((value) => handle(generator.next(value)));\n  }\n\n  return handle(generator.next());\n}\n\nfunction* asyncTask() {\n  const result = yield new Promise((resolve) => setTimeout(() => resolve('Done!'), 1000));\n  console.log(result);\n}\n\nasyncExecutor(asyncTask);\n</code></pre>`,
               },
               {
-                question: "Can you explain the memory advantages of using generators for large datasets?",
-                solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`
-              }
-            ],            
-            links: ["https://www.geeksforgeeks.org/javascript-iterator/","https://www.hellojavascript.info/docs/general-javascript-questions/generators-advance-interation/generators#can-generators-be-used-with-asyncawait", "https://atomicjuggernaut.hashnode.dev/javascript-interview-question-generator-function", "https://medium.com/deno-the-complete-reference/some-javascript-generators-memoization-interview-questions-c4a7c97fc3bd","https://medium.com/mighty-ghost-hack/js-interview-11-javascript-generator-88b163b0ea2f"],
+                question:
+                  "Can you explain the memory advantages of using generators for large datasets?",
+                solution: `Generators are useful for working with large datasets because they produce values lazily, meaning they generate one value at a time and do not load the entire dataset into memory. This allows you to handle sequences of data that are too large to fit into memory all at once. For example, you can use a generator to iterate over lines of a large file without reading the entire file into memory:<pre><code class="language-javascript">\nfunction* fileLineGenerator(file) {\n  const fileStream = require('fs').createReadStream(file);\n  for await (const line of fileStream) {\n    yield line;\n  }\n}\n</code></pre>`,
+              },
+            ],
+            links: [
+              "https://www.geeksforgeeks.org/javascript-iterator/",
+              "https://www.hellojavascript.info/docs/general-javascript-questions/generators-advance-interation/generators#can-generators-be-used-with-asyncawait",
+              "https://atomicjuggernaut.hashnode.dev/javascript-interview-question-generator-function",
+              "https://medium.com/deno-the-complete-reference/some-javascript-generators-memoization-interview-questions-c4a7c97fc3bd",
+              "https://medium.com/mighty-ghost-hack/js-interview-11-javascript-generator-88b163b0ea2f",
+            ],
           },
           {
             topic: "Context and This Keyword",
@@ -2293,10 +2329,10 @@ Each time yield is called, the generator pauses, and a promise is returned that 
       <strong>Characteristics:</strong>
     </p>
     <ul style="margin-top: 0.5rem;">
-      <li>In a browser, <code>this</code> refers to the <code>window</code> object, while in Node.js, it refers to the global object.</li>
+      <li>In a browser, <code class="language-javascript">this</code> refers to the <code class="language-javascript">window</code> object, while in Node.js, it refers to the global object.</li>
       <li>Any variable or function declared inside the global context is added as a property of the global object.</li>
     </ul>
-    <pre><code>// Example of global context
+    <pre><code class="language-javascript">// Example of global context
 console.log(this); // In a browser, logs the window object
 
 var globalVar = 'I am global';
@@ -2310,16 +2346,16 @@ console.log(window.globalVar); // 'I am global' (in a browser)</code></pre>
   <li>
     <strong>Function Context</strong>
     <p style="margin-top: 0.5rem;">
-      <strong>Definition:</strong> Each time a function is invoked, it has its own execution context. The behavior of <code>this</code> can change depending on how the function is called.
+      <strong>Definition:</strong> Each time a function is invoked, it has its own execution context. The behavior of <code class="language-javascript">this</code> can change depending on how the function is called.
     </p>
     <p style="margin-top: 0.5rem;">
       <strong>Characteristics:</strong>
     </p>
     <ul style="margin-top: 0.5rem;">
-      <li>If a function is called in the global context or as a standalone function (not as a method of an object), <code>this</code> refers to the global object (in non-strict mode). In strict mode, <code>this</code> will be undefined.</li>
-      <li>If a function is called as a method of an object, <code>this</code> refers to that object.</li>
+      <li>If a function is called in the global context or as a standalone function (not as a method of an object), <code class="language-javascript">this</code> refers to the global object (in non-strict mode). In strict mode, <code class="language-javascript">this</code> will be undefined.</li>
+      <li>If a function is called as a method of an object, <code class="language-javascript">this</code> refers to that object.</li>
     </ul>
-    <pre><code>// Non-strict mode example
+    <pre><code class="language-javascript">// Non-strict mode example
 function standaloneFunc() {
     console.log(this); // In non-strict mode, logs the global object (window)
 }
@@ -2344,12 +2380,12 @@ strictFunc();</code></pre>
   <li>
     <strong>Object Method Context</strong>
     <p style="margin-top: 0.5rem;">
-      <strong>Definition:</strong> When a function is defined as a method of an object and is called using that object, <code>this</code> refers to the object from which the method was called.
+      <strong>Definition:</strong> When a function is defined as a method of an object and is called using that object, <code class="language-javascript">this</code> refers to the object from which the method was called.
     </p>
     <p style="margin-top: 0.5rem;">
       <strong>Characteristics:</strong>
     </p>
-    <pre><code>const car = {
+    <pre><code class="language-javascript">const car = {
     make: 'Toyota',
     model: 'Camry',
     displayInfo: function() {
@@ -2362,12 +2398,12 @@ car.displayInfo(); // Car: Toyota Camry</code></pre>
   <li>
     <strong>Constructor Function Context</strong>
     <p style="margin-top: 0.5rem;">
-      <strong>Definition:</strong> When a function is invoked as a constructor using the <code>new</code> keyword, a new object is created, and <code>this</code> refers to that new object.
+      <strong>Definition:</strong> When a function is invoked as a constructor using the <code class="language-javascript">new</code> keyword, a new object is created, and <code class="language-javascript">this</code> refers to that new object.
     </p>
     <p style="margin-top: 0.5rem;">
       <strong>Characteristics:</strong>
     </p>
-    <pre><code>function Person(name) {
+    <pre><code class="language-javascript">function Person(name) {
     this.name = name; // 'this' refers to the new object being created
 }
 
@@ -2383,7 +2419,7 @@ console.log(person1.name); // Bob</code></pre>
     <p style="margin-top: 0.5rem;">
       <strong>Characteristics:</strong>
     </p>
-    <pre><code>class Animal {
+    <pre><code class="language-javascript">class Animal {
     constructor(name) {
         this.name = name;
     }
@@ -2399,12 +2435,12 @@ dog.speak(); // Rover makes a noise.</code></pre>
   <li>
     <strong>Arrow Function Context</strong>
     <p style="margin-top: 0.5rem;">
-      <strong>Definition:</strong> Arrow functions were introduced in ES6 and provide a different way to handle <code>this</code>. They do not have their own <code>this</code> context but instead inherit it from the surrounding lexical scope.
+      <strong>Definition:</strong> Arrow functions were introduced in ES6 and provide a different way to handle <code class="language-javascript">this</code>. They do not have their own <code class="language-javascript">this</code> context but instead inherit it from the surrounding lexical scope.
     </p>
     <p style="margin-top: 0.5rem;">
       <strong>Characteristics:</strong>
     </p>
-    <pre><code>const obj = {
+    <pre><code class="language-javascript">const obj = {
     name: 'Charlie',
     greet: function() {
         const innerFunc = () => {
@@ -2420,77 +2456,110 @@ obj.greet(); // Hello, Charlie</code></pre>
             examples: [""],
             questions: [
               {
-                "question": "What is the global context in JavaScript?",
-                "solution": "The global context is the default execution context for JavaScript code, where variables and functions are accessible globally. In a browser, 'this' refers to the 'window' object, while in Node.js, it refers to the global object."
+                question: "What is the global context in JavaScript?",
+                solution:
+                  "The global context is the default execution context for JavaScript code, where variables and functions are accessible globally. In a browser, 'this' refers to the 'window' object, while in Node.js, it refers to the global object.",
               },
               {
-                "question": "How does 'this' behave in a regular function?",
-                "solution": "In a non-strict mode function, 'this' refers to the global object when the function is called as a standalone function. In strict mode, 'this' is undefined."
+                question: "How does 'this' behave in a regular function?",
+                solution:
+                  "In a non-strict mode function, 'this' refers to the global object when the function is called as a standalone function. In strict mode, 'this' is undefined.",
               },
               {
-                "question": "What is the difference between 'this' in a method and 'this' in a standalone function?",
-                "solution": "When a function is called as a method of an object, 'this' refers to that object. In contrast, if the function is called as a standalone function, 'this' refers to the global object (in non-strict mode) or is undefined (in strict mode)."
+                question:
+                  "What is the difference between 'this' in a method and 'this' in a standalone function?",
+                solution:
+                  "When a function is called as a method of an object, 'this' refers to that object. In contrast, if the function is called as a standalone function, 'this' refers to the global object (in non-strict mode) or is undefined (in strict mode).",
               },
               {
-                "question": "Explain how 'this' works in constructor functions.",
-                "solution": "'this' in a constructor function refers to the new object being created when the function is invoked with the 'new' keyword. Properties can be attached to 'this' to create instance properties."
+                question: "Explain how 'this' works in constructor functions.",
+                solution:
+                  "'this' in a constructor function refers to the new object being created when the function is invoked with the 'new' keyword. Properties can be attached to 'this' to create instance properties.",
               },
               {
-                "question": "What is the significance of the 'use strict' directive in relation to 'this'?",
-                "solution": "The 'use strict' directive enables strict mode, which changes the behavior of 'this' in functions. In strict mode, 'this' is undefined when the function is called as a standalone function, preventing accidental global variable creation."
+                question:
+                  "What is the significance of the 'use strict' directive in relation to 'this'?",
+                solution:
+                  "The 'use strict' directive enables strict mode, which changes the behavior of 'this' in functions. In strict mode, 'this' is undefined when the function is called as a standalone function, preventing accidental global variable creation.",
               },
               {
-                "question": "How do arrow functions handle 'this' differently from regular functions?",
-                "solution": "Arrow functions do not have their own 'this' context. Instead, they inherit 'this' from the surrounding lexical scope. This makes them useful in scenarios where you want to maintain the context of 'this' from the enclosing function."
+                question:
+                  "How do arrow functions handle 'this' differently from regular functions?",
+                solution:
+                  "Arrow functions do not have their own 'this' context. Instead, they inherit 'this' from the surrounding lexical scope. This makes them useful in scenarios where you want to maintain the context of 'this' from the enclosing function.",
               },
               {
-                "question": "What happens when you use 'this' inside an arrow function?",
-                "solution": "'this' inside an arrow function refers to the 'this' value from the enclosing lexical context. This means that arrow functions do not create their own 'this', making them suitable for callbacks and methods where you need to preserve the outer context."
+                question:
+                  "What happens when you use 'this' inside an arrow function?",
+                solution:
+                  "'this' inside an arrow function refers to the 'this' value from the enclosing lexical context. This means that arrow functions do not create their own 'this', making them suitable for callbacks and methods where you need to preserve the outer context.",
               },
               {
-                "question": "Can you explain how to use the 'bind', 'call', and 'apply' methods with respect to 'this'?",
-                "solution": "'bind' creates a new function with a specified 'this' value, allowing you to control the context of the function. 'call' and 'apply' immediately invoke a function with a specified 'this' value. The main difference is that 'call' accepts arguments separately, while 'apply' takes an array of arguments."
+                question:
+                  "Can you explain how to use the 'bind', 'call', and 'apply' methods with respect to 'this'?",
+                solution:
+                  "'bind' creates a new function with a specified 'this' value, allowing you to control the context of the function. 'call' and 'apply' immediately invoke a function with a specified 'this' value. The main difference is that 'call' accepts arguments separately, while 'apply' takes an array of arguments.",
               },
               {
-                "question": "What is the 'yield*' keyword, and how does it relate to context in generators?",
-                "solution": "'yield*' is used to delegate execution to another generator function. It allows a generator to yield values from another generator, maintaining the context of the outer generator. This is useful for managing complex generator flows."
+                question:
+                  "What is the 'yield*' keyword, and how does it relate to context in generators?",
+                solution:
+                  "'yield*' is used to delegate execution to another generator function. It allows a generator to yield values from another generator, maintaining the context of the outer generator. This is useful for managing complex generator flows.",
               },
               {
-                "question": "How does the execution context change when using `setTimeout` or `setInterval`?",
-                "solution": "When using `setTimeout` or `setInterval`, the context of 'this' inside the callback function defaults to the global object in non-strict mode or is undefined in strict mode. To maintain the context, you can use an arrow function or bind the function explicitly."
+                question:
+                  "How does the execution context change when using `setTimeout` or `setInterval`?",
+                solution:
+                  "When using `setTimeout` or `setInterval`, the context of 'this' inside the callback function defaults to the global object in non-strict mode or is undefined in strict mode. To maintain the context, you can use an arrow function or bind the function explicitly.",
               },
               {
-                "question": "Explain how the 'this' keyword behaves in event handlers in JavaScript.",
-                "solution": "In event handlers, 'this' refers to the element that fired the event, unless the function is an arrow function. In arrow functions, 'this' retains the value from the surrounding lexical context."
+                question:
+                  "Explain how the 'this' keyword behaves in event handlers in JavaScript.",
+                solution:
+                  "In event handlers, 'this' refers to the element that fired the event, unless the function is an arrow function. In arrow functions, 'this' retains the value from the surrounding lexical context.",
               },
               {
-                "question": "What are the implications of using 'this' in nested functions, and how can you manage it?",
-                "solution": "In nested functions, 'this' can refer to different contexts, leading to unexpected behavior. To manage this, you can store the value of 'this' in a variable (commonly named 'self' or 'that') or use arrow functions, which preserve the outer context."
+                question:
+                  "What are the implications of using 'this' in nested functions, and how can you manage it?",
+                solution:
+                  "In nested functions, 'this' can refer to different contexts, leading to unexpected behavior. To manage this, you can store the value of 'this' in a variable (commonly named 'self' or 'that') or use arrow functions, which preserve the outer context.",
               },
               {
-                "question": "How does the context of 'this' change when a method is called using the 'apply' method?",
-                "solution": "'apply' allows you to invoke a function with a specified 'this' value, enabling you to set the context explicitly. This is particularly useful when calling methods from different objects or when using methods of one object on another."
+                question:
+                  "How does the context of 'this' change when a method is called using the 'apply' method?",
+                solution:
+                  "'apply' allows you to invoke a function with a specified 'this' value, enabling you to set the context explicitly. This is particularly useful when calling methods from different objects or when using methods of one object on another.",
               },
               {
-                "question": "What is the difference between using 'call', 'apply', and 'bind'? When would you use each?",
-                "solution": "'call' and 'apply' invoke a function immediately with a specified 'this' value, while 'bind' returns a new function that, when called, has its 'this' value set to the provided value. Use 'call' when you have a fixed number of arguments, 'apply' for variable arguments (array), and 'bind' to create a new function with a bound context."
+                question:
+                  "What is the difference between using 'call', 'apply', and 'bind'? When would you use each?",
+                solution:
+                  "'call' and 'apply' invoke a function immediately with a specified 'this' value, while 'bind' returns a new function that, when called, has its 'this' value set to the provided value. Use 'call' when you have a fixed number of arguments, 'apply' for variable arguments (array), and 'bind' to create a new function with a bound context.",
               },
               {
-                "question": "How does the concept of context affect the performance of JavaScript applications?",
-                "solution": "Understanding context can affect performance in JavaScript applications, especially in scenarios involving frequent function calls or deep nesting. Using techniques like method binding and avoiding unnecessary context switching can optimize performance."
+                question:
+                  "How does the concept of context affect the performance of JavaScript applications?",
+                solution:
+                  "Understanding context can affect performance in JavaScript applications, especially in scenarios involving frequent function calls or deep nesting. Using techniques like method binding and avoiding unnecessary context switching can optimize performance.",
               },
               {
-                "question": "Can you provide an example of how context can lead to memory leaks in JavaScript?",
-                "solution": "Memory leaks can occur when functions retain references to variables or objects through closures, especially when using 'this' improperly. For example, if an event listener is added without removing it, it can prevent the enclosing context from being garbage collected, causing a memory leak."
+                question:
+                  "Can you provide an example of how context can lead to memory leaks in JavaScript?",
+                solution:
+                  "Memory leaks can occur when functions retain references to variables or objects through closures, especially when using 'this' improperly. For example, if an event listener is added without removing it, it can prevent the enclosing context from being garbage collected, causing a memory leak.",
               },
               {
-                "question": "What is the difference between the 'new' keyword and the 'class' syntax in JavaScript concerning 'this'?",
-                "solution": "Both 'new' and 'class' create instances where 'this' refers to the new object being created. However, 'class' provides a cleaner syntax with additional features like inheritance, whereas 'new' requires a constructor function and explicit handling of 'this'."
+                question:
+                  "What is the difference between the 'new' keyword and the 'class' syntax in JavaScript concerning 'this'?",
+                solution:
+                  "Both 'new' and 'class' create instances where 'this' refers to the new object being created. However, 'class' provides a cleaner syntax with additional features like inheritance, whereas 'new' requires a constructor function and explicit handling of 'this'.",
               },
               {
-                "question": "How do you handle context when working with promises and asynchronous code?",
-                "solution": "In asynchronous code, 'this' can change context based on how a function is called. To manage context, you can use arrow functions, which maintain the outer 'this', or bind the function to the desired context before passing it to the promise handler."
-              }
+                question:
+                  "How do you handle context when working with promises and asynchronous code?",
+                solution:
+                  "In asynchronous code, 'this' can change context based on how a function is called. To manage context, you can use arrow functions, which maintain the outer 'this', or bind the function to the desired context before passing it to the promise handler.",
+              },
             ],
             links: [""],
           },
@@ -2518,7 +2587,7 @@ obj.greet(); // Hello, Charlie</code></pre>
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">A) Array Destructuring</h5>
 <p style="margin-top: 0.5rem;">You can destructure arrays by assigning array values to variables in a single line.</p>
 
-<pre><code>// Example 1: Basic Array Destructuring
+<pre><code class="language-javascript">// Example 1: Basic Array Destructuring
 const arr = [1, 2, 3];
 const [a, b, c] = arr;
 console.log(a); // 1
@@ -2539,7 +2608,7 @@ console.log(rest); // [2, 3]
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Object Destructuring</h5>
 <p style="margin-top: 0.5rem;">You can destructure objects by assigning object properties to variables.</p>
 
-<pre><code>// Example 1: Basic Object Destructuring
+<pre><code class="language-javascript">// Example 1: Basic Object Destructuring
 const person = { name: 'Alice', age: 25 };
 const { name, age } = person;
 console.log(name); // Alice
@@ -2558,7 +2627,7 @@ console.log(city); // Unknown
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">C) Destructuring in Function Parameters</h5>
 <p style="margin-top: 0.5rem;">You can use destructuring directly in function parameters for easier access to data.</p>
 
-<pre><code>// Destructuring Object in Function Parameters
+<pre><code class="language-javascript">// Destructuring Object in Function Parameters
 function greet({ name, age }) {
   console.log('Hello name, you are age years old.');
 }
@@ -2570,7 +2639,7 @@ greet(person); // Hello Alice, you are 25 years old.
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">A) Spread Operator (...)</h5>
 <p style="margin-top: 0.5rem;">The spread operator allows you to spread out elements of an array or properties of an object into another array or object. It is useful for copying and combining arrays or objects.</p>
 
-<pre><code>// Example 1: Spreading Arrays
+<pre><code class="language-javascript">// Example 1: Spreading Arrays
 const arr1 = [1, 2];
 const arr2 = [3, 4];
 const combinedArr = [...arr1, ...arr2]; // Combines the two arrays
@@ -2594,7 +2663,7 @@ console.log(newObj); // { a: 1, b: 2 }
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Rest Operator (...)</h5>
 <p style="margin-top: 0.5rem;">The rest operator is the inverse of the spread operator. It collects multiple elements into an array or multiple object properties into a single item.</p>
 
-<pre><code>// Collecting Rest of Elements
+<pre><code class="language-javascript">// Collecting Rest of Elements
 const [first, ...restOfArray] = [1, 2, 3, 4];
 console.log(first); // 1
 console.log(restOfArray); // [2, 3, 4]
@@ -2615,113 +2684,120 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Differences Between Rest and Spread</h4>
 
 <ul style="margin-top: 1.0rem;">
-  <li><strong>Spread Operator (...):</strong> Used to spread out elements from an array or object. Example: <code>[...Arr]</code> or <code>{...Obj}</code></li>
-  <li><strong>Rest Operator (...):</strong> Used to collect multiple elements into an array or object. Example: <code>function(...Args)</code> or <code>const [a, ...Rest] = arr</code></li>
+  <li><strong>Spread Operator (...):</strong> Used to spread out elements from an array or object. Example: <code class="language-javascript">[...Arr]</code> or <code class="language-javascript">{...Obj}</code></li>
+  <li><strong>Rest Operator (...):</strong> Used to collect multiple elements into an array or object. Example: <code class="language-javascript">function(...Args)</code> or <code class="language-javascript">const [a, ...Rest] = arr</code></li>
 </ul>
 `,
             examples: [""],
             questions: [
               {
-                question: "How can you destructure a dynamic property name from an object?",
+                question:
+                  "How can you destructure a dynamic property name from an object?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   You can destructure a dynamic property by using computed property names within an object destructuring pattern.
                 </p>
-                <pre><code>const prop = 'name';
+                <pre><code class="language-javascript">const prop = 'name';
             const person = { name: 'Alice', age: 25 };
             const { [prop]: dynamicValue } = person;
             console.log(dynamicValue); // Alice
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "How can you merge two objects and overwrite properties using the spread operator?",
+                question:
+                  "How can you merge two objects and overwrite properties using the spread operator?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
                 </p>
-                <pre><code>const obj1 = { a: 1, b: 2 };
+                <pre><code class="language-javascript">const obj1 = { a: 1, b: 2 };
             const obj2 = { b: 3, c: 4 };
             const mergedObj = { ...obj1, ...obj2 };
             console.log(mergedObj); // { a: 1, b: 3, c: 4 }
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "What are some caveats of copying objects using the spread operator?",
+                question:
+                  "What are some caveats of copying objects using the spread operator?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator creates a shallow copy of the object, meaning nested objects are still referenced by the original object. Changes to the nested object will affect both the original and the copy.
                 </p>
-                <pre><code>const original = { a: 1, nested: { b: 2 } };
+                <pre><code class="language-javascript">const original = { a: 1, nested: { b: 2 } };
             const copy = { ...original };
             copy.nested.b = 3;
             console.log(original.nested.b); // 3
                 </code></pre>
-                <p>To create a deep copy, you'd need to use methods like <code>JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code>_.cloneDeep()</code>.</p>
-                `
+                <p>To create a deep copy, you'd need to use methods like <code class="language-javascript">JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code class="language-javascript">_.cloneDeep()</code>.</p>
+                `,
               },
               {
-                question: "Can you explain how destructuring works in function parameters?",
+                question:
+                  "Can you explain how destructuring works in function parameters?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
                 </p>
                 <p><strong>Example with an object:</strong></p>
-                <pre><code>function printUser({ name, age }) {
+                <pre><code class="language-javascript">function printUser({ name, age }) {
               console.log(\`Name: \${name}, Age: \${age}\`);
             }
             const user = { name: 'John', age: 30 };
             printUser(user); // Name: John, Age: 30
                 </code></pre>
                 <p><strong>Example with an array:</strong></p>
-                <pre><code>function sum([a, b]) {
+                <pre><code class="language-javascript">function sum([a, b]) {
               return a + b;
             }
             console.log(sum([1, 2])); // 3
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "How can you use the spread operator to pass an array as arguments to a function?",
+                question:
+                  "How can you use the spread operator to pass an array as arguments to a function?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator allows you to pass elements of an array as individual arguments to a function.
                 </p>
-                <pre><code>function sum(a, b, c) {
+                <pre><code class="language-javascript">function sum(a, b, c) {
               return a + b + c;
             }
             const numbers = [1, 2, 3];
             console.log(sum(...numbers)); // 6
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "What happens when you combine destructuring and default values?",
+                question:
+                  "What happens when you combine destructuring and default values?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
-                  You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code>undefined</code>.
+                  You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code class="language-javascript">undefined</code>.
                 </p>
-                <pre><code>const person = { name: 'John' };
+                <pre><code class="language-javascript">const person = { name: 'John' };
             const { name, age = 30 } = person;
             console.log(name); // John
             console.log(age);  // 30 (default value)
                 </code></pre>
-                <p>If the property exists but is explicitly set to <code>undefined</code>, the default value will still be used:</p>
-                <pre><code>const person = { name: 'John', age: undefined };
+                <p>If the property exists but is explicitly set to <code class="language-javascript">undefined</code>, the default value will still be used:</p>
+                <pre><code class="language-javascript">const person = { name: 'John', age: undefined };
             const { age = 25 } = person;
             console.log(age); // 25
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "How can destructuring be used in combination with the rest parameter in function arguments?",
+                question:
+                  "How can destructuring be used in combination with the rest parameter in function arguments?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
                 </p>
                 <p><strong>Example with an array:</strong></p>
-                <pre><code>function printFirstAndRest([first, ...rest]) {
+                <pre><code class="language-javascript">function printFirstAndRest([first, ...rest]) {
               console.log(first);  // First element
               console.log(rest);   // Array of remaining elements
             }
@@ -2730,7 +2806,7 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             // Logs: [2, 3, 4]
                 </code></pre>
                 <p><strong>Example with an object:</strong></p>
-                <pre><code>function printUser({ name, ...rest }) {
+                <pre><code class="language-javascript">function printUser({ name, ...rest }) {
               console.log(name);   // Name property
               console.log(rest);   // Remaining properties as an object
             }
@@ -2738,15 +2814,16 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             // Logs: Alice
             // Logs: { age: 25, city: 'NY' }
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "How does the spread operator work when used with iterables like strings?",
+                question:
+                  "How does the spread operator work when used with iterables like strings?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
                 </p>
-                <pre><code>const str = 'hello';
+                <pre><code class="language-javascript">const str = 'hello';
             const arr = [...str];
             console.log(arr); // ['h', 'e', 'l', 'l', 'o']
             
@@ -2755,7 +2832,7 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             }
             printChars(...str); // ['h', 'e', 'l', 'l', 'o']
                 </code></pre>
-                `
+                `,
               },
               {
                 question: "How can you swap values using array destructuring?",
@@ -2763,76 +2840,81 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                 <p style="margin-top: 0.5rem;">
                   Array destructuring provides a clean way to swap values without needing a temporary variable.
                 </p>
-                <pre><code>let a = 1;
+                <pre><code class="language-javascript">let a = 1;
             let b = 2;
             [a, b] = [b, a];
             console.log(a); // 2
             console.log(b); // 1
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "How can you handle nested destructuring with default values?",
+                question:
+                  "How can you handle nested destructuring with default values?",
                 solution: `
                 <p style="margin-top: 0.5rem;">
                   Nested destructuring can also have default values for nested properties.
                 </p>
-                <pre><code>const user = { name: 'John', address: { city: 'New York' } };
+                <pre><code class="language-javascript">const user = { name: 'John', address: { city: 'New York' } };
             const { address: { city, zip = 10001 } } = user;
             console.log(city); // New York
             console.log(zip);  // 10001 (default value)
                 </code></pre>
-                `
+                `,
               },
               {
-                question: "How can you destructure a dynamic property name from an object?",
+                question:
+                  "How can you destructure a dynamic property name from an object?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     You can destructure a dynamic property by using computed property names within an object destructuring pattern.
                   </p>
-                  <pre><code>const prop = 'name';
+                  <pre><code class="language-javascript">const prop = 'name';
             const person = { name: 'Alice', age: 25 };
             const { [prop]: dynamicValue } = person;
             console.log(dynamicValue); // Alice
                   </code></pre>
-                `
+                `,
               },
               {
-                question: "How can you merge two objects and overwrite properties using the spread operator?",
+                question:
+                  "How can you merge two objects and overwrite properties using the spread operator?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     When merging objects using the spread operator, properties in the object listed later will overwrite properties from the earlier object.
                   </p>
-                  <pre><code>const obj1 = { a: 1, b: 2 };
+                  <pre><code class="language-javascript">const obj1 = { a: 1, b: 2 };
             const obj2 = { b: 3, c: 4 };
             const mergedObj = { ...obj1, ...obj2 };
             console.log(mergedObj); // { a: 1, b: 3, c: 4 }
                   </code></pre>
-                `
+                `,
               },
               {
-                question: "What are some caveats of copying objects using the spread operator?",
+                question:
+                  "What are some caveats of copying objects using the spread operator?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator creates a shallow copy of the object, which means nested objects are still referenced by the original object.
                   </p>
-                  <pre><code>const original = { a: 1, nested: { b: 2 } };
+                  <pre><code class="language-javascript">const original = { a: 1, nested: { b: 2 } };
             const copy = { ...original };
             copy.nested.b = 3;
             console.log(original.nested.b); // 3
                   </code></pre>
                   <p>
-                    To create a deep copy, you'd need to use another method such as <code>JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code>_.cloneDeep()</code>.
+                    To create a deep copy, you'd need to use another method such as <code class="language-javascript">JSON.parse(JSON.stringify(obj))</code> or a deep-cloning utility like Lodash's <code class="language-javascript">_.cloneDeep()</code>.
                   </p>
-                `
+                `,
               },
               {
-                question: "Can you explain how destructuring works in function parameters?",
+                question:
+                  "Can you explain how destructuring works in function parameters?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
                   </p>
-                  <pre><code>function printUser({ name, age }) {
+                  <pre><code class="language-javascript">function printUser({ name, age }) {
               console.log(\`Name: \${name}, Age: \${age}\`);
             }
             const user = { name: 'John', age: 30 };
@@ -2840,54 +2922,57 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                   </code></pre>
             
                   <p style="margin-top: 0.5rem;">Example with an array:</p>
-                  <pre><code>function sum([a, b]) {
+                  <pre><code class="language-javascript">function sum([a, b]) {
               return a + b;
             }
             console.log(sum([1, 2])); // 3
                   </code></pre>
-                `
+                `,
               },
               {
-                question: "How can you use the spread operator to pass an array as arguments to a function?",
+                question:
+                  "How can you use the spread operator to pass an array as arguments to a function?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator allows you to pass elements of an array as individual arguments to a function.
                   </p>
-                  <pre><code>function sum(a, b, c) {
+                  <pre><code class="language-javascript">function sum(a, b, c) {
               return a + b + c;
             }
             const numbers = [1, 2, 3];
             console.log(sum(...numbers)); // 6
                   </code></pre>
-                `
+                `,
               },
               {
-                question: "What happens when you combine destructuring and default values?",
+                question:
+                  "What happens when you combine destructuring and default values?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
-                    You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code>undefined</code>.
+                    You can assign default values while destructuring, which will be used if the property doesn't exist or the value is <code class="language-javascript">undefined</code>.
                   </p>
-                  <pre><code>const person = { name: 'John' };
+                  <pre><code class="language-javascript">const person = { name: 'John' };
             const { name, age = 30 } = person;
             console.log(name); // John
             console.log(age);  // 30 (default value)
                   </code></pre>
                   <p>
-                    If the property exists but is explicitly set to <code>undefined</code>, the default value will still be used:
+                    If the property exists but is explicitly set to <code class="language-javascript">undefined</code>, the default value will still be used:
                   </p>
-                  <pre><code>const person = { name: 'John', age: undefined };
+                  <pre><code class="language-javascript">const person = { name: 'John', age: undefined };
             const { age = 25 } = person;
             console.log(age); // 25
                   </code></pre>
-                `
+                `,
               },
               {
-                question: "How can destructuring be used in combination with the rest parameter in function arguments?",
+                question:
+                  "How can destructuring be used in combination with the rest parameter in function arguments?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     Destructuring can be combined with the rest parameter to gather remaining elements into an array or object.
                   </p>
-                  <pre><code>function printFirstAndRest([first, ...rest]) {
+                  <pre><code class="language-javascript">function printFirstAndRest([first, ...rest]) {
               console.log(first);  // First element
               console.log(rest);   // Array of remaining elements
             }
@@ -2897,7 +2982,7 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                   </code></pre>
             
                   <p style="margin-top: 0.5rem;">Example with an object:</p>
-                  <pre><code>function printUser({ name, ...rest }) {
+                  <pre><code class="language-javascript">function printUser({ name, ...rest }) {
               console.log(name);   // Name property
               console.log(rest);   // Remaining properties as an object
             }
@@ -2905,15 +2990,16 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             // Logs: Alice
             // Logs: { age: 25, city: 'NY' }
                   </code></pre>
-                `
+                `,
               },
               {
-                question: "How does the spread operator work when used with iterables like strings?",
+                question:
+                  "How does the spread operator work when used with iterables like strings?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     The spread operator can be used to spread the elements of any iterable, such as strings, into an array or function.
                   </p>
-                  <pre><code>const str = 'hello';
+                  <pre><code class="language-javascript">const str = 'hello';
             const arr = [...str];
             console.log(arr); // ['h', 'e', 'l', 'l', 'o']
             
@@ -2922,7 +3008,7 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             }
             printChars(...str); // ['h', 'e', 'l', 'l', 'o']
                   </code></pre>
-                `
+                `,
               },
               {
                 question: "How can you swap values using array destructuring?",
@@ -2930,27 +3016,28 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                   <p style="margin-top: 0.5rem;">
                     Array destructuring provides a clean way to swap values without needing a temporary variable.
                   </p>
-                  <pre><code>let a = 1;
+                  <pre><code class="language-javascript">let a = 1;
             let b = 2;
             [a, b] = [b, a];
             console.log(a); // 2
             console.log(b); // 1
                   </code></pre>
-                `
+                `,
               },
               {
-                question: "How can you handle nested destructuring with default values?",
+                question:
+                  "How can you handle nested destructuring with default values?",
                 solution: `
                   <p style="margin-top: 0.5rem;">
                     Nested destructuring can also have default values for nested properties.
                   </p>
-                  <pre><code>const user = { name: 'John', address: { city: 'New York' } };
+                  <pre><code class="language-javascript">const user = { name: 'John', address: { city: 'New York' } };
             const { address: { city, zip = 10001 } } = user;
             console.log(city); // New York
             console.log(zip);  // 10001 (default value)
                   </code></pre>
-                `
-              }
+                `,
+              },
             ],
             links: [""],
           },
@@ -2958,7 +3045,8 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
             topic: "Proxy and Reflect",
             tags: [""],
             explanation: `<p style="margin-top: 1.0rem;">
-  In JavaScript, <strong>Proxy</strong> and <strong>Reflect</strong> are advanced ES6 features that give developers control over object behavior and manipulation. They allow the interception of fundamental operations on objects and provide a way to perform default object operations. Let's break them down:
+            Proxy is an object that will be created from another object(target object), Using this proxy object we can intercept/modify all the operations that are happening on the object
+  In JavaScript, Proxy and <strong>Reflect</strong> are advanced ES6 features that give developers control over object behavior and manipulation. They allow the interception of fundamental operations on objects and provide a way to perform default object operations. Let's break them down:
 </p>
 
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Proxy</h4>
@@ -2972,7 +3060,7 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
   A Proxy takes two arguments: the target object and a handler object. The handler defines traps for intercepting operations like property access or assignment.
 </p>
 
-<pre><code>// Example 1: Basic Proxy
+<pre><code class="language-javascript">// Example 1: Basic Proxy
 const target = { name: 'Alice', age: 25 };
 
 const handler = {
@@ -2990,10 +3078,10 @@ console.log(proxy.gender); // Property gender not found!
 
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Common Proxy Traps</h5>
 <p style="margin-top: 0.5rem;">
-  Proxies can intercept and redefine many object operations using traps such as <code>get</code>, <code>set</code>, <code>deleteProperty</code>, and <code>apply</code>.
+  Proxies can intercept and redefine many object operations using traps such as <code class="language-javascript">get</code>, <code class="language-javascript">set</code>, <code class="language-javascript">deleteProperty</code>, and <code class="language-javascript">apply</code>.
 </p>
 
-<pre><code>// Example 2: Using set and deleteProperty Traps
+<pre><code class="language-javascript">// Example 2: Using set and deleteProperty Traps
 const handler = {
   set: function(target, prop, value) {
     if (prop === 'age' && typeof value !== 'number') {
@@ -3022,18 +3110,28 @@ delete proxy.age; // Works fine
 // delete proxy.name; // Throws error
 </code></pre>
 
+<p style="margin-top: 1.0rem;">
+target — is the object for which we want to create a proxy, it can be any sort of object, including a native array, a function, or even another proxy.
+
+handler — is the object which contains all the traps (operations to intercept) on the object
+
+</p>
+
 <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Reflect</h4>
 
 <p style="margin-top: 1.0rem;">
   <strong>Reflect</strong> is a built-in JavaScript object that provides methods for standard object operations. It allows you to perform default behavior when using traps in proxies and simplifies object manipulation.
-</p>
+  </p>
+  <p style="margin-top: 1.0rem;">Reflect is a global object which has only static methods which are the same as the proxy handler traps
+It is similar to a Math object, it only has static methods and we cannot create any instance out of it.
+The major use of Reflect is to provide a way to forward the operation that is happening inside the trap to the original target object.</p>
 
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">A) Why Use Reflect?</h5>
 <p style="margin-top: 0.5rem;">
   Reflect provides a consistent and functional API for operations like setting, getting, deleting properties, and more. It complements proxies by allowing developers to access default behaviors when needed.
 </p>
 
-<pre><code>// Example 3: Using Reflect with Proxy
+<pre><code class="language-javascript">// Example 3: Using Reflect with Proxy
 const handler = {
   get: function(target, prop) {
     console.log('Getting prop');
@@ -3053,7 +3151,7 @@ console.log(proxy.age); // Logs: Getting age, 32
 
 <h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">B) Common Reflect Methods</h5>
 <p style="margin-top: 0.5rem;">
-  Reflect includes methods like <code>Reflect.get()</code>, <code>Reflect.set()</code>, <code>Reflect.deleteProperty()</code>, and <code>Reflect.apply()</code>, which are used to perform default operations on objects.
+  Reflect includes methods like <code class="language-javascript">Reflect.get()</code>, <code class="language-javascript">Reflect.set()</code>, <code class="language-javascript">Reflect.deleteProperty()</code>, and <code class="language-javascript">Reflect.apply()</code>, which are used to perform default operations on objects.
 </p>
 
 <pre><code>// Example 4: Reflect Methods
@@ -3061,17 +3159,697 @@ Reflect.get(target, 'name'); // Alice
 Reflect.set(target, 'age', 40); // Sets age to 40
 Reflect.deleteProperty(target, 'age'); // Deletes the age property
 </code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 500;">Some of the common use cases of proxies are:</h5>
+<ol style="margin-top: 0.5rem; list-style-type: number;">
+  <li>To implement custom behavior for any operation</li>
+  <li>To log the actions happening on the object</li>
+  <li>To validate & format the value</li>
+  <li>To sanitize inputs before writing to the object</li>
+</ol>
 `,
             examples: [""],
-            questions: [{}],
-            links: [""],
+            questions: [
+              {
+                question:
+                  "What is a Proxy in JavaScript, and what is its primary purpose?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A Proxy in JavaScript is an object that allows you to intercept and redefine fundamental operations performed on a target object, such as property access, assignment, and function invocation. It provides custom behavior for these operations by using a handler object that contains 'traps' for each type of operation.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "How can you intercept property access using a Proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can intercept property access by defining a <code>get</code> trap inside the handler object. The <code>get</code> trap takes the target object and the property name as arguments, allowing you to customize the behavior when a property is accessed.
+                  </p>
+                  <pre><code>const handler = {
+              get: (target, prop) => prop in target ? target[prop] : 'Property not found'
+            };
+            const proxy = new Proxy(target, handler);
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "How would you use a Proxy to validate a value before setting it on an object property?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can use the <code>set</code> trap in the handler object to validate a value before assigning it to a property. This trap takes the target object, property name, and the value being set as arguments.
+                  </p>
+                  <pre><code>const handler = {
+              set: (target, prop, value) => {
+                if (prop === 'age' && typeof value !== 'number') {
+                  throw new Error('Age must be a number');
+                }
+                target[prop] = value;
+                return true;
+              }
+            };
+            const proxy = new Proxy(target, handler);
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "What are traps in a Proxy, and can you name a few examples?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Traps are the methods defined in the handler object that intercept operations performed on the target object. Some common traps include <code>get</code> (for property access), <code>set</code> (for property assignment), <code>deleteProperty</code> (for property deletion), and <code>apply</code> (for function invocation).
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Can you demonstrate how to log property access and assignment using a Proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To log property access and assignment, you can define <code>get</code> and <code>set</code> traps in the handler object.
+                  </p>
+                  <pre><code>const handler = {
+              get: (target, prop) => {
+                console.log('Getting property ' + prop);
+                return target[prop];
+              },
+              set: (target, prop, value) => {
+                console.log('Setting property ' + prop + ' to ' + value);
+                target[prop] = value;
+                return true;
+              }
+            };
+            const proxy = new Proxy({ name: 'Alice' }, handler);
+            proxy.name; // Logs 'Getting property name'
+            proxy.name = 'Bob'; // Logs 'Setting property name to Bob'
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "What is the difference between the Proxy and Reflect objects in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <code>Proxy</code> object allows you to intercept and redefine basic operations on an object, while the <code>Reflect</code> object provides methods for performing default operations on objects (such as property access, assignment, and deletion). <code>Reflect</code> is often used inside Proxy traps to access the default behavior of operations.
+                  </p>
+                  <pre><code>const handler = {
+              get: (target, prop) => Reflect.get(target, prop)
+            };
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "How can you use the `deleteProperty` trap to prevent certain properties from being deleted?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can use the <code>deleteProperty</code> trap to intercept and prevent specific properties from being deleted. If deletion is not allowed, you can throw an error or return false.
+                  </p>
+                  <pre><code>const handler = {
+              deleteProperty: (target, prop) => {
+                if (prop === 'name') {
+                  throw new Error('Cannot delete name property');
+                }
+                delete target[prop];
+                return true;
+              }
+            };
+            const proxy = new Proxy({ name: 'Alice', age: 25 }, handler);
+            delete proxy.age; // Works
+            // delete proxy.name; // Throws error
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "Why might you want to use the Reflect object in combination with Proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The Reflect object allows you to call the default behavior of an operation inside a Proxy trap. This is useful when you want to modify or extend the behavior of an operation, but still want to retain the original behavior.
+                  </p>
+                  <pre><code>const handler = {
+              get: (target, prop) => {
+                console.log('Accessing ' + prop);
+                return Reflect.get(target, prop);
+              }
+            };
+            const proxy = new Proxy(target, handler);
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "How can you create virtual or computed properties using a Proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can create virtual or computed properties using the <code>get</code> trap in a Proxy. For example, you can define a virtual 'fullName' property that returns a computed value based on the 'firstName' and 'lastName' properties of the target object.
+                  </p>
+                  <pre><code>const handler = {
+              get: (target, prop) => {
+                if (prop === 'fullName') {
+                  return target.firstName + ' ' + target.lastName;
+                }
+                return target[prop];
+              }
+            };
+            const proxy = new Proxy({ firstName: 'John', lastName: 'Doe' }, handler);
+            console.log(proxy.fullName); // 'John Doe'
+                  </code></pre>
+                `,
+              },
+              {
+                question: "How do you create a Proxy in JavaScript?",
+                solution: `
+                  <pre><code>const target = {};
+            const handler = {};
+            const proxy = new Proxy(target, handler);</code></pre>
+                  <p style="margin-top: 0.5rem;">Here, <code>target</code> is the object you want to wrap, and <code>handler</code> contains the traps that intercept operations on the target object.</p>
+                `,
+              },
+              {
+                question:
+                  "Can you explain the function of the proxy object in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The proxy object intercepts and redefines core operations on a target object, such as getting or setting properties, making it easier to control how the object behaves under certain conditions.
+                  </p>
+                `,
+              },
+              {
+                question: "What is a trap in the context of a Proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A trap is a method in the handler object that intercepts and customizes an operation on the target object, like accessing a property (<code>get</code>), setting a property (<code>set</code>), or deleting a property (<code>deleteProperty</code>).
+                  </p>
+                `,
+              },
+              {
+                question: "What can we intercept with a JavaScript proxy trap?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can intercept operations such as property access (<code>get</code>), property assignment (<code>set</code>), property deletion (<code>deleteProperty</code>), function invocation (<code>apply</code>), and more.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Does the proxy overwrite the variable when you implement a proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    No, the proxy does not overwrite the variable. It wraps around the original object, allowing operations to be intercepted and customized without modifying the target object itself.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Can you explain the function of the proxy set method?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <code>set</code> method in the proxy's handler intercepts property assignments, allowing you to customize or validate the value before it is assigned to a property.
+                  </p>
+                `,
+              },
+              {
+                question: "What is meant by invariants in JavaScript proxies?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Invariants are rules enforced by the JavaScript engine, ensuring that certain properties of objects cannot be violated by proxies. For example, if a property is non-configurable, it cannot be deleted by a proxy.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Is there a way to iterate over an object’s keys using a method that uses the [[OwnPropertyKeys]] internal method?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Yes, the <code>ownKeys</code> trap can be used in a Proxy to intercept the iteration of an object's keys and customize the behavior of <code>Object.keys()</code> and similar methods.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Do private (#) properties and methods require proxies in a class?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    No, private properties and methods (denoted by <code>#</code>) cannot be accessed or modified by proxies since they are not part of the object's accessible properties.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "What is the benefit of using a Proxy vs. a wrapper function?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A Proxy offers more flexibility than a wrapper function because it allows you to intercept and customize a wide range of operations on an object, such as property access, property assignment, and method invocation, without changing the object's API or structure.
+                  </p>
+                `,
+              },
+              {
+                question: "What is the Reflect API in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The Reflect API is a built-in JavaScript object that provides static methods for performing common object operations like setting, deleting, or defining properties, and it works in conjunction with Proxy objects to access default behaviors.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Can you explain the function of the Reflect built-in JavaScript object?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The Reflect object provides methods that correspond to the fundamental operations you can perform on objects, such as <code>Reflect.get</code> for getting property values, <code>Reflect.set</code> for setting property values, and <code>Reflect.apply</code> for calling functions.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "What are some common methods provided by the Reflect API?",
+                solution: `
+                  <pre><code>Reflect.get() // Access a property
+            Reflect.set() // Set a property
+            Reflect.apply() // Call a function
+            Reflect.defineProperty() // Define a new property
+            Reflect.deleteProperty() // Delete a property
+            Reflect.has() // Check if a property exists</code></pre>
+                `,
+              },
+              {
+                question:
+                  "How does the Reflect API relate to Proxies in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The Reflect API is often used inside Proxy traps to call the default behavior of an intercepted operation. For example, the <code>get</code> trap in a Proxy might use <code>Reflect.get</code> to retrieve the property’s default value.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Does the JavaScript proxy built-in object have any limitations?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Yes, Proxies cannot intercept operations on private properties or methods (denoted by <code>#</code>), and they also cannot intercept operations that rely on object identity, such as <code>===</code> comparisons.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Is it possible to proxy an inherited class with private fields in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    No, private fields and methods (denoted by <code>#</code>) cannot be intercepted by a Proxy since they are hidden from external access and only accessible within the class itself.
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "Can proxies intercept an object used in a strict equality test?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    No, proxies cannot intercept <code>===</code> or strict equality tests. The proxy will be treated as equal to itself, but it cannot modify the result of comparisons with other objects.
+                  </p>
+                `,
+              },
+              {
+                question: "What is a revocable JavaScript proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A revocable Proxy allows you to disable the proxy after it has been created. This can be useful in scenarios where you want to stop intercepting operations after a certain point.
+                  </p>
+                  <pre><code>const { proxy, revoke } = Proxy.revocable(target, handler);
+            proxy.name = 'Alice'; // Works
+            revoke(); // Disables the proxy
+            proxy.name; // Throws an error
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "Why would you use a WeakMap when attempting to revoke a proxy?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A WeakMap can be used to store the proxy's target object, ensuring that the proxy is garbage-collected when it is no longer needed. This prevents memory leaks when revoking proxies in long-running applications.
+                  </p>
+                `,
+              },
+            ],
+            links: [
+              "https://www.hellojavascript.info/docs/general-javascript-questions/miscellaneous-js-questions/proxy-and-reflect#what-are-some-common-use-cases-for-proxies",
+              "https://enlear.academy/javascript-proxy-and-reflect-c74cceb0dcc8",
+            ],
           },
           {
             topic: "Falsy and Truthy",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, falsy and truthy values are utilized in conditional statements to decide the flow of logic. A value is considered falsy if it evaluates to false when used in a Boolean context, and truthy if it evaluates to true.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Falsy Values</h4>
+
+<p style="margin-top: 1.0rem;">
+  Falsy values are those that, when evaluated in a Boolean context, return false. There are only a few values in JavaScript that are falsy:
+</p>
+
+<ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc; ">
+  <li><code className="language-javascript">false</code></li>
+  <li><code className="language-javascript">0</code> (the number zero)</li>
+  <li><code className="language-javascript">""</code> (empty string)</li>
+  <li><code className="language-javascript">null</code></li>
+  <li><code className="language-javascript">undefined</code></li>
+  <li><code className="language-javascript">NaN</code> (Not-a-Number)</li>
+</ol>
+
+<p style="margin-top: 1.0rem;">
+  Any time one of these values is used in a condition, JavaScript treats it as false.
+</p>
+
+<pre><code className="language-javascript">if (0) {
+  console.log('This will not execute'); // 0 is falsy
+}
+
+if ("") {
+  console.log('This will not execute'); // Empty string is falsy
+}
+
+if (null) {
+  console.log('This will not execute'); // null is falsy
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Truthy Values</h4>
+
+<p style="margin-top: 1.0rem;">
+  Everything else in JavaScript is considered truthy. Even values that might seem like they should be falsy are truthy in JavaScript. Some examples of truthy values:
+</p>
+
+<ol style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li><code className="language-javascript">true</code></li>
+  <li>Any non-zero number (e.g., <code className="language-javascript">1</code>, <code className="language-javascript">-100</code>)</li>
+  <li>Any non-empty string (e.g., <code className="language-javascript">"hello"</code>)</li>
+  <li>Arrays (<code className="language-javascript">[]</code>)</li>
+  <li>Objects (<code className="language-javascript">{}</code>)</li>
+  <li>Any other object</li>
+</ol>
+
+<pre><code className="language-javascript" >
+if (1) {
+  console.log('This will execute'); // 1 is truthy
+}
+
+if ("hello") {
+  console.log('This will execute'); // Non-empty string is truthy
+}
+
+if ([]) {
+  console.log('This will execute'); // An empty array is truthy
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Falsy and Truthy in Conditional Statements</h4>
+
+<p style="margin-top: 1.0rem;">
+  In JavaScript, these values are often used in <code className="language-javascript">if</code> statements and loops to control flow based on their truthiness.
+</p>
+
+<pre><code className="language-javascript">let value = "JavaScript";
+
+if (value) {
+  console.log('This will execute'); // The non-empty string "JavaScript" is truthy
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Usage Example</h4>
+
+<p style="margin-top: 1.0rem;">
+  The concept of falsy and truthy values is essential in JavaScript when checking conditions without explicitly using Boolean values (<code className="language-javascript">true</code> or <code className="language-javascript">false</code>).
+</p>
+
+<pre><code className="language-javascript">let username = ""; // Falsy because it's an empty string
+let displayName = username || "Guest"; // Fallback to "Guest" if username is falsy
+
+console.log(displayName); // Outputs: "Guest"
+</code></pre>
+
+<pre><code className="language-javascript">
+Boolean(false);         // false
+Boolean(undefined);     // false
+Boolean(null);          // false
+Boolean('');            // false
+Boolean(NaN);           // false
+Boolean(0);             // false
+Boolean(-0);            // false
+Boolean(0n);            // false
+
+Boolean(true);          // true
+Boolean('hi');          // true
+Boolean(1);             // true
+Boolean([]);            // true
+Boolean([0]);           // true
+Boolean([1]);           // true
+Boolean({});            // true
+Boolean({ a: 1 });      // true
+</code></pre>
+`,
             examples: [""],
-            questions: [{}],
+            questions: [
+              {
+                question: "What are falsy values in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Falsy values in JavaScript are values that, when evaluated in a Boolean context, return false. These values include:
+                    <ul style="margin-top: 0.5rem;">
+                      <li><code>false</code></li>
+                      <li><code>0</code> (the number zero)</li>
+                      <li><code>""</code> (empty string)</li>
+                      <li><code>null</code></li>
+                      <li><code>undefined</code></li>
+                      <li><code>NaN</code> (Not-a-Number)</li>
+                    </ul>
+                  </p>
+                `,
+              },
+              {
+                question: "What are truthy values in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Truthy values are all values in JavaScript that are not falsy. These include:
+                    <ul style="margin-top: 0.5rem;">
+                      <li><code>true</code></li>
+                      <li>Any non-zero number (e.g., <code>1</code>, <code>-100</code>)</li>
+                      <li>Any non-empty string (e.g., <code>"hello"</code>)</li>
+                      <li>Arrays (<code>[]</code>)</li>
+                      <li>Objects (<code>{}</code>)</li>
+                    </ul>
+                  </p>
+                `,
+              },
+              {
+                question:
+                  "How does JavaScript treat falsy values in conditional statements?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    When falsy values are used in conditional statements, JavaScript treats them as false. For example:
+                  </p>
+                  <pre><code>if (0) {
+              console.log('This will not execute'); // 0 is falsy
+            }</code></pre>
+                `,
+              },
+              {
+                question:
+                  "How does JavaScript treat truthy values in conditional statements?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    When truthy values are used in conditional statements, JavaScript treats them as true. For example:
+                  </p>
+                  <pre><code>if (1) {
+              console.log('This will execute'); // 1 is truthy
+            }</code></pre>
+                `,
+              },
+              {
+                question:
+                  "Can you give an example of using falsy and truthy values in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Here is an example of using falsy and truthy values in JavaScript for assigning default values:
+                  </p>
+                  <pre><code>let username = ""; // Falsy because it's an empty string
+            let displayName = username || "Guest"; // Fallback to "Guest" if username is falsy
+            console.log(displayName); // Outputs: "Guest"</code></pre>
+                `,
+              },
+              {
+                question:
+                  "What is the difference between falsy and truthy values in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Falsy values evaluate to false in a Boolean context, while truthy values evaluate to true. Falsy values include <code>false</code>, <code>0</code>, <code>""</code>, <code>null</code>, <code>undefined</code>, and <code>NaN</code>. Everything else is truthy.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the Truthy and Falsy values?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A truthy value is similar to true, while a falsy value is similar to false. The falsy values in JavaScript include:
+                    <ul style="margin-top: 0.5rem;">
+                      <li><code>0</code></li>
+                      <li><code>""</code> (empty string)</li>
+                      <li><code>undefined</code></li>
+                      <li><code>null</code></li>
+                      <li><code>NaN</code></li>
+                      <li><code>false</code></li>
+                    </ul>
+                    The truthy values include:
+                    <ul style="margin-top: 0.5rem;">
+                      <li><code>"0"</code></li>
+                      <li><code>" "</code> (a space string)</li>
+                      <li><code>[]</code> (empty array)</li>
+                      <li><code>{}</code> (empty object)</li>
+                      <li><code>'false'</code> (string)</li>
+                    </ul>
+                    If we use one of these values in an if-else statement, the evaluation will reflect their truthiness or falsiness.
+                  </p>
+                  <pre><code>console.log(0 ? 'Truth' : 'Falsy'); // Outputs: Falsy
+            console.log("0" ? 'Truth' : 'Falsy'); // Outputs: Truth
+                  </code></pre>
+                `,
+              },
+              {
+                question: "What is the difference between null and undefined?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    <strong>null</strong> represents an intentional absence of any value, while <strong>undefined</strong> means a variable has been declared but not assigned a value.
+                  </p>
+                  <pre><code>let a = null; // a is explicitly set to null
+            let b; // b is undefined because it has not been assigned a value
+                  </code></pre>
+                `,
+              },
+              {
+                question:
+                  "What is the difference between double equal (==) and triple equal (===)?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    <strong>Double equal (==)</strong> checks for equality after performing type coercion, while <strong>Triple equal (===)</strong> checks for both value and type without coercion.
+                  </p>
+                  <pre><code>console.log(5 == '5'); // true (type coercion)
+            console.log(5 === '5'); // false (no type coercion)
+                  </code></pre>
+                `,
+              },
+              {
+                question: "What is the 'this' keyword?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <strong>'this'</strong> keyword refers to the object that is currently executing the JavaScript code. Each function execution has a reference to its executing context.
+                  </p>
+                  <pre><code>const obj = {
+              value: 10,
+              getValue: function() {
+                return this.value;
+              }
+            };
+            console.log(obj.getValue()); // Outputs: 10
+                  </code></pre>
+                `,
+              },
+              {
+                question: "How to check for a prime number?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A prime number is a natural number greater than 1 that is not divisible by any number other than itself and 1. For example, 2, 3, 5, and 7 are prime numbers.
+                  </p>
+                  <pre><code>function isPrime(num) {
+              for (let i = 2; i < num; i++) {
+                if (num % i === 0) return false;
+              }
+              return num > 1;
+            }
+            console.log(isPrime(5)); // Outputs: true
+                  </code></pre>
+                `,
+              },
+              {
+                question: "Find the largest element of an array.",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can find the largest element in an array using a loop.
+                  </p>
+                  <pre><code>const arr = [1, 3, 5, 2, 4];
+            let largest = arr[0];
+            for (let i = 1; i < arr.length; i++) {
+              if (arr[i] > largest) {
+                largest = arr[i];
+              }
+            }
+            console.log(largest); // Outputs: 5
+                  </code></pre>
+                `,
+              },
+              {
+                question: "How to use the JavaScript callback function?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A callback function is a function passed as an argument to another function. This allows for asynchronous programming and event handling.
+                  </p>
+                  <pre><code>function greet(name, callback) {
+              console.log('Hello ' + name);
+              callback();
+            }
+            greet('Alice', function() {
+              console.log('This is a callback function!');
+            });
+                  </code></pre>
+                `,
+              },
+              {
+                question: "What is the difference between Let and Const?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    <strong>Let</strong> allows you to declare variables that can be reassigned, while <strong>Const</strong> declares variables that cannot be reassigned after their initial assignment.
+                  </p>
+                  <pre><code>let a = 1;
+            a = 2; // Allowed
+            
+            const b = 1;
+            // b = 2; // Not allowed - TypeError
+                  </code></pre>
+                `,
+              },
+              {
+                question: "What are the advantages of the Arrow function?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Arrow functions provide a more concise syntax for writing functions and lexically bind the <strong>'this'</strong> value.
+                  </p>
+                  <pre><code>const add = (x, y) => x + y;
+            console.log(add(2, 3)); // Outputs: 5
+                  </code></pre>
+                `,
+              },
+              {
+                question: "What is Closure in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A closure is a function that retains access to its lexical scope even when the function is executed outside that scope.
+                  </p>
+                  <pre><code>function outer() {
+              let count = 0;
+              return function inner() {
+                count++;
+                return count;
+              };
+            }
+            const counter = outer();
+            console.log(counter()); // Outputs: 1
+            console.log(counter()); // Outputs: 2
+                  </code></pre>
+                `,
+              },
+            ],
             links: [""],
           },
           {
@@ -3529,7 +4307,7 @@ Methods of Promise :
 <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
 <li style="margin-top: 0.5rem;">
  <p>The <b>Promise.all()</b> method lets you handle multiple promises at the same time. You give it an array of promises (or values), and it returns a new promise. This new promise:</p>
-    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
         <li><strong>Resolves</strong> when all the promises in the array have finished successfully, returning an array of their results.</li>
         <li><strong>Rejects</strong> if any one of the promises fails (rejects), stopping everything and giving the first error it encounters.</li>
     </ul>
@@ -3699,7 +4477,7 @@ Asynchronous:
 
 <h4>Example of a Callback:</h4>
 <pre>
-<code>
+<code className="language-javascript">
 console.log("Start");
 
 // Simulate an API call with setTimeout
@@ -3719,7 +4497,7 @@ console.log("End");
 
 <h4>Output:</h4>
 <pre>
-<code>
+<code className="language-javascript">
 Start
 End
 Data retrieved from the server
@@ -3738,7 +4516,7 @@ Data retrieved from the server
 
 <h4>Callback Hell Example:</h4>
 <pre>
-<code>
+<code className="language-javascript">
 fetchData((result1) => {
   processResult(result1, (result2) => {
     saveResult(result2, (result3) => {
@@ -3757,7 +4535,7 @@ fetchData((result1) => {
 
 <h4>Example of Async/Await:</h4>
 <pre>
-<code>
+<code className="language-javascript">
 console.log("Start");
 
 async function fetchData() {
@@ -3781,7 +4559,7 @@ console.log("End");
 
 <h4>Output:</h4>
 <pre>
-<code>
+<code className="language-javascript">
 Start
 End
 Data retrieved from the server
@@ -3794,7 +4572,7 @@ Data retrieved from the server
     <strong>Synchronous-Like Code:</strong> Makes asynchronous code look like synchronous code, which is easier to read and understand.
   </li>
   <li>
-    <strong>Error Handling:</strong> Errors can be handled using <code>try...catch</code>, which is more intuitive than using <code>.catch()</code> with promises.
+    <strong>Error Handling:</strong> Errors can be handled using <code className="language-javascript">try...catch</code>, which is more intuitive than using <code className="language-javascript">.catch()</code> with promises.
   </li>
   <li>
     <strong>Flat Structure:</strong> Eliminates promise chaining, making the code less nested and easier to follow.
@@ -3803,7 +4581,7 @@ Data retrieved from the server
 
 <h4>Refactored Example Using Async/Await:</h4>
 <pre>
-<code>
+<code className="language-javascript">
 async function handleData() {
   try {
     const result1 = await fetchData();
@@ -3820,7 +4598,7 @@ handleData();
 </pre>
 
 <p>
-  Now, instead of chaining <code>.then()</code> calls, the asynchronous operations are executed in sequence, making the code look synchronous while still maintaining the benefits of asynchronous execution.
+  Now, instead of chaining <code className="language-javascript">.then()</code> calls, the asynchronous operations are executed in sequence, making the code look synchronous while still maintaining the benefits of asynchronous execution.
 </p>
 
 <h2>Evolution of Asynchronous JavaScript</h2>
@@ -3846,7 +4624,7 @@ handleData();
   The <strong>async/await</strong> approach is the most modern solution for handling asynchronous tasks. It simplifies async code by making it look synchronous, while still providing the power of promises under the hood.
 </p>
 <p>
-  <strong>Advantage:</strong> It provides a cleaner and more readable syntax, making it easier to handle async operations, especially when combined with <code>try...catch</code> for error handling.
+  <strong>Advantage:</strong> It provides a cleaner and more readable syntax, making it easier to handle async operations, especially when combined with <code className="language-javascript">try...catch</code> for error handling.
 </p>
 </div>`,
             examples: [""],
@@ -4127,9 +4905,9 @@ Promise.all([promise1, promise2, promise3])
     
     <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Common Microtasks:</h4>
     <ul>
-        <li>Promises (e.g., <code>.then()</code>, <code>.catch()</code>, <code>.finally()</code>)</li>
+        <li>Promises (e.g., <code className="language-javascript">.then()</code>, <code className="language-javascript">.catch()</code>, <code className="language-javascript">.finally()</code>)</li>
         <li>Await code block</li>
-        <li><code>process.nextTick()</code> in Node.js</li>
+        <li><code className="language-javascript">process.nextTick()</code> in Node.js</li>
     </ul>
 
     <h3 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em">Characteristics:</h3>
@@ -4156,7 +4934,7 @@ console.log('End'); // (2)
     </code></pre>
 
     <h4>Output:</h4>
-    <pre><code>
+    <pre><code className="language-javascript">
 Start
 End
 Promise 1
@@ -4167,8 +4945,8 @@ Timeout
     <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Explanation:</h4>
     <ul>
         <li>First, synchronous code (Start and End) runs.</li>
-        <li>Then, microtasks (Promise 1 and Promise 2) run before any macrotask like <code>setTimeout</code>.</li>
-        <li>Finally, the macrotask (<code>setTimeout</code>) is executed.</li>
+        <li>Then, microtasks (Promise 1 and Promise 2) run before any macrotask like <code className="language-javascript">setTimeout</code>.</li>
+        <li>Finally, the macrotask (<code className="language-javascript">setTimeout</code>) is executed.</li>
     </ul>
 
     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Macrotasks</h4>
@@ -4181,9 +4959,9 @@ Timeout
 
     <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Common Macrotasks:</h4>
     <ul>
-        <li><code>setTimeout()</code></li>
-        <li><code>setInterval()</code></li>
-        <li><code>setImmediate()</code> (Node.js)</li>
+        <li><code className="language-javascript">setTimeout()</code></li>
+        <li><code className="language-javascript">setInterval()</code></li>
+        <li><code className="language-javascript">setImmediate()</code> (Node.js)</li>
         <li>I/O operations (e.g., network requests)</li>
         <li>UI rendering</li>
     </ul>
@@ -4216,7 +4994,7 @@ console.log('End'); // (2)
     </code></pre>
 
     <h4>Output:</h4>
-    <pre><code>
+    <pre><code className="language-javascript">
 Start
 End
 Promise 1
@@ -4518,13 +5296,13 @@ Here, dog doesn't have a speak function on its own, but it looks at the animal o
         <ul>
           <li style="margin-top: 0.5rem;">
             <strong>Named Exports:</strong> You can export multiple items from a module.
-            <pre><code> // mathUtils.js
+            <pre><code className="language-javascript"> // mathUtils.js
 export const add = (a, b) => a + b;
 export const subtract = (a, b) => a - b;</code></pre>
           </li>
           <li style="margin-top: 0.5rem;">
             <strong>Default Exports:</strong> A module can have one default export. This is useful when a module has one main thing to export.
-            <pre><code> // greeting.js
+            <pre><code className="language-javascript"> // greeting.js
 const greet = (name) => Hello, {name};
 export default greet;</code></pre>
           </li>
@@ -4535,14 +5313,14 @@ export default greet;</code></pre>
         <ul>
           <li style="margin-top: 0.5rem;">
             <strong>Importing Named Exports:</strong> You must use the same names as the exported variables.
-            <pre><code> // app.js
+            <pre><code className="language-javascript"> // app.js
 import { add, subtract } from './mathUtils.js';
 console.log(add(5, 3)); // 8
 console.log(subtract(5, 3)); // 2;</code></pre>
           </li>
           <li style="margin-top: 0.5rem;">
             <strong>Importing Default Exports:</strong> You can name the default import anything.
-            <pre><code> // app.js
+            <pre><code className="language-javascript"> // app.js
 import greet from './greeting.js';
 console.log(greet('Alice')); // "Hello, Alice!";</code></pre>
           </li>
@@ -4552,18 +5330,18 @@ console.log(greet('Alice')); // "Hello, Alice!";</code></pre>
   </li>
   <li style="margin-top: 0.5rem;">
     <strong>Named Exports with Aliases:</strong> If you want to import an item using a different name, you can alias it during import.
-    <pre><code>import { add as sum } from './mathUtils.js';
+    <pre><code className="language-javascript">import { add as sum } from './mathUtils.js';
 console.log(sum(5, 3)); // 8;</code></pre>
   </li>
   <li style="margin-top: 0.5rem;">
     <strong>Import All from a Module:</strong> You can import everything from a module and assign it to a namespace object.
-    <pre><code>import * as math from './mathUtils.js';
+    <pre><code className="language-javascript">import * as math from './mathUtils.js';
 console.log(math.add(5, 3)); // 8
 console.log(math.subtract(5, 3)); // 2;</code></pre>
   </li>
   <li style="margin-top: 0.5rem;">
     <strong>Re-exporting (Aggregating Modules):</strong> Sometimes you might want to re-export items from one module into another.
-    <pre><code> // moreUtils.js
+    <pre><code className="language-javascript"> // moreUtils.js
 export * from './mathUtils.js';</code></pre>
   </li>
   <li style="margin-top: 0.5rem;">
@@ -4576,15 +5354,15 @@ export * from './mathUtils.js';</code></pre>
     <strong>Strict Mode by Default:</strong> All ES6 modules automatically use strict mode, which helps prevent certain bugs by enforcing stricter parsing and error handling in JavaScript.
   </li>
   <li style="margin-top: 0.5rem;">
-    <strong>Browser Support and Loading Modules:</strong> Browsers support ES6 modules with <code>&lt;script type="module"&gt;</code>. Using this, you can directly include modules in your HTML files:
-    <pre><code>&lt;script type="module"&gt;
+    <strong>Browser Support and Loading Modules:</strong> Browsers support ES6 modules with <code className="language-javascript">&lt;script type="module"&gt;</code>. Using this, you can directly include modules in your HTML files:
+    <pre><code className="language-javascript">&lt;script type="module"&gt;
   import { add } from './mathUtils.js';
   console.log(add(5, 3)); // 8
 &lt;/script&gt;</code></pre>
     Modules Are Deferred: By default, ES6 modules in browsers are deferred, meaning they are only executed after the HTML document is completely parsed.
     <br/>
     Relative and Absolute Paths: When importing modules, you need to use file paths (relative or absolute). For example:
-    <pre><code>import { add } from './utils/math.js'; // relative path</code></pre>
+    <pre><code className="language-javascript">import { add } from './utils/math.js'; // relative path</code></pre>
   </li>
 </ol>`,
             examples: [""],
@@ -4759,7 +5537,7 @@ Inside Memoization block
             console.log(fibonacci(10)); // Outputs: 55
             console.log(fibonacci(5));  // Outputs: 5
             </code></pre>
-            <p>This function caches previously computed Fibonacci numbers in the <code>cache</code> object, reducing the number of recursive calls and improving performance.</p>`,
+            <p>This function caches previously computed Fibonacci numbers in the <code className="language-javascript">cache</code> object, reducing the number of recursive calls and improving performance.</p>`,
               },
               {
                 question:
