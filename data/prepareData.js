@@ -3855,9 +3855,169 @@ Boolean({ a: 1 });      // true
           {
             topic: "Map",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, a <strong>Map</strong> is a set of key-value pairs where both the keys and the values may be of any data type. Unlike traditional objects where the keys are strings or symbols, Maps allow any type of key (including objects, functions, or any primitive type). Maps also offer better performance for frequent additions and deletions of key-value pairs when compared to regular objects.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Features of a Map</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Key Flexibility:</strong> In objects, keys are always strings. In Maps, keys can be of any type: strings, numbers, objects, or even functions.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Preserves Order:</strong> Maps maintain the insertion order of the key-value pairs. When you iterate over the map, it returns entries in the order in which they were added.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Size:</strong> Maps have a built-in <code>size</code> property that tells you how many key-value pairs are in the map.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Performance:</strong> Operations like <code>get</code>, <code>set</code>, and <code>delete</code> in Maps are generally more efficient than similar operations in objects, especially when the collection size is large.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Creating a Map</h4>
+
+<p style="margin-top: 1.0rem;">
+  You can create a Map using the <code>Map</code> constructor, and you can initialize it with an array of key-value pairs.
+</p>
+
+<pre><code className="language-javascript">
+const myMap = new Map([
+  ['name', 'John'],
+  ['age', 30]
+]);
+console.log(myMap); // Map { 'name' => 'John', 'age' => 30 }
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Map Methods</h4>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li><code>set(key, value)</code>: Adds or updates an element in the Map.</li>
+  <li><code>get(key)</code>: Retrieves the value associated with the specified key.</li>
+  <li><code>has(key)</code>: Checks if the Map contains the specified key.</li>
+  <li><code>delete(key)</code>: Removes the key and its associated value.</li>
+  <li><code>clear()</code>: Removes all elements from the Map.</li>
+  <li><code>size</code>: Returns the number of key-value pairs in the Map.</li>
+</ul>
+
+<pre><code className="language-javascript">
+// Creating an empty Map
+const userMap = new Map();
+
+// Adding key-value pairs
+userMap.set('name', 'Alice');
+userMap.set('age', 25);
+userMap.set('isMember', true);
+
+// Getting values from the Map
+console.log(userMap.get('name')); // Output: 'Alice'
+console.log(userMap.get('age'));  // Output: 25
+
+// Checking if a key exists
+console.log(userMap.has('isMember')); // Output: true
+console.log(userMap.has('email'));    // Output: false
+
+// Removing a key-value pair
+userMap.delete('age');
+
+// Getting the size of the Map
+console.log(userMap.size); // Output: 2
+
+// Iterating over the Map using for...of
+for (const [key, value] of userMap) {
+  console.log('key: value');
+}
+
+// Output:
+// name: Alice
+// isMember: true
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">WeakMap</h4>
+
+<p style="margin-top: 1.0rem;">
+  A <strong>WeakMap</strong> is a version of Map that holds "weak" references to keys, which are always objects. If no other references to the key exist, the key can be garbage collected. This makes WeakMap ideal for storing temporary data or metadata related to objects without preventing the objects from being garbage collected.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">WeakMap Key Points</h4>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li>Keys must be objects: You cannot use primitive types as keys in a WeakMap.</li>
+  <li>No <code>size</code> property: You cannot iterate over the keys, values, or entries of a WeakMap because the references are weak and may be garbage collected.</li>
+  <li>Use case: WeakMap is often used for data that only needs to be temporarily associated with an object and can be cleaned up automatically when the object is no longer needed.</li>
+</ul>
+
+<pre><code className="language-javascript">
+const weakMap = new WeakMap();
+const obj1 = {};
+const obj2 = {};
+
+// Setting key-value pairs
+weakMap.set(obj1, 'data for obj1');
+weakMap.set(obj2, 'data for obj2');
+
+// Getting values
+console.log(weakMap.get(obj1)); // Output: 'data for obj1'
+
+// Checking existence
+console.log(weakMap.has(obj2)); // Output: true
+
+// Deleting a key-value pair
+weakMap.delete(obj2);
+
+// obj2 is now eligible for garbage collection
+</code></pre>
+`,
             examples: [""],
-            questions: [{}],
+            questions: [
+              {
+                question: "What are the performance implications of using Maps versus Objects for large datasets in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps provide better performance than Objects for large datasets in specific scenarios, particularly when frequent additions and deletions of key-value pairs are required. This is because Maps are optimized for such operations, whereas Objects need to handle key-string conversion and prototype chain traversal, which can introduce overhead. Additionally, Maps maintain insertion order and allow non-string keys, making them more versatile for complex data structures, but with the trade-off of slightly more memory consumption compared to Objects.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the internal implementation of Map in JavaScript ensure order preservation, and what are the potential trade-offs?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps in JavaScript maintain order by internally using linked lists or similar structures to track the insertion order of key-value pairs. This allows the <code>for...of</code> loop and methods like <code>entries()</code>, <code>keys()</code>, and <code>values()</code> to return items in the order of insertion. The trade-off is that order tracking introduces additional memory overhead and may lead to slower operations compared to unordered data structures. Moreover, maintaining this order could marginally affect performance in very large Maps when iterating or deleting elements.
+                  </p>
+                `,
+              },
+              {
+                question: "In what scenarios would a WeakMap's garbage collection behavior become crucial for maintaining application performance?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A WeakMap’s garbage collection behavior becomes critical in scenarios where you need to associate temporary or auxiliary data with objects without preventing those objects from being garbage collected. For example, in cases like DOM element caching, memoization of function results, or storing metadata for objects that have a limited lifecycle, WeakMap ensures that once an object is no longer needed and no other references exist, the object and its associated data are automatically garbage collected. This helps in preventing memory leaks and reduces the overall memory footprint in long-running applications or memory-sensitive environments.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the weak reference mechanism in a WeakMap affect the ability to enumerate or inspect keys and values?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    WeakMaps use weak references for keys, meaning that the JavaScript engine can garbage collect a key-value pair when there are no other references to the key object. As a result, WeakMaps do not support enumeration or inspection of keys and values through methods like <code>for...of</code>, <code>keys()</code>, or <code>values()</code>. This design ensures that the garbage collection process is transparent and automatic, but it also means that you cannot track or inspect the contents of a WeakMap programmatically, except by directly querying individual keys via the <code>get()</code> method.
+                  </p>
+                `,
+              },
+              {
+                question: "Why are WeakMaps considered useful for managing memory in complex JavaScript applications, and how does this relate to the concept of 'memory leaks'?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    WeakMaps are especially useful in complex JavaScript applications where objects might need to be temporarily linked to additional data, such as DOM elements or components. If a regular Map or Object were used in these cases, the referenced objects would not be garbage collected as long as they are held as keys in the Map, leading to potential memory leaks where unused memory is not released. WeakMaps avoid this issue by allowing the garbage collector to clean up key-value pairs when no other references to the key object exist. This automatic memory management helps in maintaining the performance and scalability of large applications, preventing memory from being held unnecessarily.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the limitations of using WeakMaps in terms of key types, and why does JavaScript enforce these restrictions?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The primary limitation of WeakMaps is that keys must be objects, not primitive values like strings or numbers. This restriction exists because WeakMaps rely on weak references, which only work with objects. Primitive values in JavaScript are immutable and not stored by reference, meaning that weak referencing them would be meaningless since primitives can't be garbage collected or tracked in the same way as objects.
+                  </p>
+                `,
+              }
+            ],            
             links: [""],
           },
           {
