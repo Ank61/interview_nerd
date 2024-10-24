@@ -4016,16 +4016,619 @@ weakMap.delete(obj2);
                     The primary limitation of WeakMaps is that keys must be objects, not primitive values like strings or numbers. This restriction exists because WeakMaps rely on weak references, which only work with objects. Primitive values in JavaScript are immutable and not stored by reference, meaning that weak referencing them would be meaningless since primitives can't be garbage collected or tracked in the same way as objects.
                   </p>
                 `,
-              }
+              },
+              {
+                question: "How does the choice of key types in a Map affect lookup performance, and what best practices should be followed when using complex keys?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    In Maps, keys can be of any type, including objects, unlike Objects, where keys must be strings or symbols. When using primitive values as keys, Map lookup performance is very fast since these are compared by value. However, when using complex objects as keys, the lookup performance can be slightly slower because Map checks object reference equality (i.e., if two objects are not the same instance, they are treated as different keys). For optimal performance, it’s recommended to use primitive types for keys when possible. If objects must be used as keys, ensure that key reuse (using the same object instance) is well-controlled to avoid unexpected behavior.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the memory and performance trade-offs of using Map versus Object for storing large numbers of key-value pairs in JavaScript?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps generally consume more memory than Objects because they store additional metadata to support features such as preserving key insertion order and allowing non-string keys. However, Maps are optimized for scenarios involving frequent insertions and deletions, making them faster for these operations compared to Objects, which incur overhead due to string key conversion and potential prototype chain lookups. Maps also provide consistent performance for key lookups and deletions, regardless of the size of the dataset, whereas Object performance can degrade with large datasets due to hash collisions. Therefore, for large datasets with frequent operations, Maps offer better overall performance at the cost of higher memory consumption.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the iteration behavior of Map differ from that of Object, and when should iteration order be a deciding factor in choosing between them?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps guarantee iteration order, meaning that elements are iterated in the order in which they were inserted. In contrast, Objects do not guarantee a reliable iteration order, especially for non-integer keys, and older JavaScript engines may iterate keys in arbitrary order. When order of elements is important for your application, such as when rendering items in a specific sequence or when processing key-value pairs in insertion order, a Map is the preferred choice. The trade-off, however, is that Maps have a slightly higher overhead due to the need to track insertion order, so if order is irrelevant, Object may be more efficient.
+                  </p>
+                `,
+              },
+              {
+                question: "In what scenarios would the use of Map's size property provide a performance advantage over calculating an Object's size using Object.keys().length?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <code>size</code> property of a Map provides constant-time access to the number of entries, making it highly efficient. In contrast, calculating the number of entries in an Object requires iterating over its keys using <code>Object.keys(obj).length</code>, which has linear-time complexity. This difference is especially significant in performance-critical applications where the size of the dataset is frequently queried. For large data structures or when needing to check the size of a collection multiple times, using Map provides a clear advantage, as accessing the <code>size</code> property is instantaneous regardless of the number of elements stored.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the implications of Map's structural equality requirement for object keys, and how can developers manage the use of object keys effectively?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps in JavaScript use reference equality for object keys, meaning that two distinct object instances with the same properties will be considered different keys. This can lead to unexpected behavior if object keys are created dynamically and not reused consistently. To manage this effectively, developers should ensure that the same object reference is reused if the same key is intended to be accessed multiple times. Alternatively, using a unique identifier or stringified version of the object as a key can help mitigate issues related to reference equality. This strategy is particularly useful when working with objects that are recreated during execution.
+                  </p>
+                `,
+              },
+              {
+                question: "How can Maps be leveraged to implement a cache in JavaScript, and what are the advantages and potential pitfalls of this approach?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps can be used to implement a simple cache by storing key-value pairs where the keys represent input data and the values represent cached results. Since Maps maintain insertion order and allow any data type as keys, they are well-suited for caching complex data structures. A key advantage of using Maps is the <code>has()</code> method, which enables fast lookup to check if an item is already cached. However, one pitfall is that Maps do not automatically manage cache size or expiration, so developers must implement strategies like manually clearing the Map or limiting its size to avoid excessive memory usage. For more advanced scenarios, <code>WeakMap</code> could be used for caching data with a limited lifecycle.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the spread operator (...) affect Maps in JavaScript, and what are the performance implications of converting Maps to Arrays and vice versa?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The spread operator can be used to convert a Map into an Array by spreading its entries, such as <code>[...myMap]</code>. Similarly, a Map can be created from an Array of key-value pairs by passing the array to the Map constructor. While these operations are convenient, they involve iterating over the entire Map or Array, which can be expensive for large datasets. The performance of such conversions depends on the size of the data structure. When working with large Maps or Arrays, it's important to minimize the frequency of such conversions to avoid performance bottlenecks.
+                  </p>
+                `,
+              },
+              {
+                question: "How do Maps handle NaN as a key, and how does this differ from the behavior of Objects with NaN properties?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps in JavaScript treat <code>NaN</code> as equal to itself, meaning that <code>map.set(NaN, 'value1')</code> followed by <code>map.set(NaN, 'value2')</code> will overwrite the original value, as both instances of <code>NaN</code> are considered the same key. In contrast, Objects treat <code>NaN</code> like any other property, but since object keys are strings, <code>NaN</code> is implicitly converted to the string "NaN". As a result, multiple <code>NaN</code> values can be added to an Object without overwriting each other, but this could lead to unexpected behavior, especially if numeric values are expected. Maps, with their strict treatment of <code>NaN</code> as equal, provide a more predictable approach.
+                  </p>
+                `,
+              },
+              {
+                question: "How does Map's insertion order preservation affect the performance of frequent reordering operations, and what alternatives exist for faster insertion and sorting?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Map preserves the order of entries as they are inserted, which can slow down operations that involve frequent reordering, such as moving entries to the front or the back of the Map. This is because Maps are optimized for maintaining a stable insertion order, not for efficient reordering. In scenarios where reordering is frequent, a combination of an array and a plain object (for fast lookups) may provide better performance. Using an array for order and an object for quick access allows for more efficient manipulation, but at the cost of losing Map-specific features like non-string keys and the <code>size</code> property.
+                  </p>
+                `,
+              },
+              {
+                question: "How does JavaScript's garbage collection mechanism interact with entries in a Map, and when could this lead to potential memory retention issues?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps in JavaScript strongly reference both their keys and values, meaning that as long as a key-value pair is in the Map, neither the key nor the value will be garbage collected. This can lead to potential memory retention issues, especially if large objects are used as keys or values and are no longer needed. The garbage collector will not reclaim the memory for these objects as long as they remain referenced by the Map. To mitigate this, developers should ensure that unnecessary entries are removed from the Map using <code>map.delete(key)</code>, or consider using a <code>WeakMap</code> if they only need weak references for the keys.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the differences between Map and WeakMap in terms of key management and performance for long-running applications?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The key difference between Map and WeakMap lies in key management. In a Map, keys can be of any type and are strongly referenced, meaning that they won't be garbage collected until they are explicitly removed. This can be problematic in long-running applications where memory usage may grow indefinitely if unused keys are not cleaned up. In contrast, WeakMap keys must be objects and are weakly referenced, allowing the garbage collector to automatically remove key-value pairs when the key is no longer referenced elsewhere. For long-running applications, using WeakMaps for short-lived objects can improve performance by reducing memory consumption and preventing memory leaks.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the <code>forEach</code> method in Map differ from iterating with a <code>for...of</code> loop, and what are the performance implications of each?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <code>forEach</code> method in Map executes a provided function once for each key-value pair, allowing custom iteration logic. It is generally considered less efficient than a <code>for...of</code> loop because <code>forEach</code> requires invoking a callback for each iteration, which introduces additional function call overhead. In contrast, <code>for...of</code> is more performant for simple iteration as it directly retrieves each entry without the need for function calls. When performance is critical, especially in large Maps, using <code>for...of</code> is preferable due to its lower overhead, while <code>forEach</code> is useful for more complex scenarios where custom logic is needed during iteration.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the considerations for using Map versus Set in terms of performance and functionality, and when should each be preferred?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps and Sets serve different purposes in JavaScript. Maps are designed for key-value pairs, where each key can be of any type, while Sets are designed to store unique values without key-value associations. In terms of performance, both Maps and Sets offer fast lookup times (O(1) complexity) for their respective data types. However, Maps incur additional overhead for managing key-value pairs, while Sets are more lightweight since they only store values. Sets are preferable when you need to store unique values and perform operations like unions or intersections, while Maps should be used when key-value relationships are needed. Choosing the correct structure is crucial for optimizing both performance and memory usage.
+                  </p>
+                `,
+              },
+              {
+                question: "How can Maps be used to implement a Least Recently Used (LRU) cache, and what considerations should be taken into account for performance optimization?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps can be used to implement a Least Recently Used (LRU) cache by tracking insertion order and moving accessed entries to the end of the Map to denote recent usage. The cache can be optimized by using the <code>delete</code> and <code>set</code> methods to remove the least recently used entry (the first item in the Map) and then reinsert it at the end when accessed. However, frequent reordering can introduce performance overhead, so developers should limit the cache size and ensure that eviction logic is efficient. A hybrid approach, using both a Map and a doubly-linked list, can further optimize performance by reducing the cost of reordering entries.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the trade-offs of using Maps with custom iterators, and how can custom iteration logic improve performance or flexibility?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Custom iterators in Maps allow for more flexible iteration logic, such as skipping certain entries or performing operations in a specific order. While they provide greater control, custom iterators can introduce additional complexity and potential performance costs, especially if the iteration logic involves frequent lookups or modifications to the Map. The trade-off is between flexibility and performance—custom iterators allow fine-tuned control over the iteration process but may slow down iteration compared to using built-in methods like <code>for...of</code> or <code>entries()</code>. To improve performance, developers should ensure that custom iteration logic is optimized for the specific use case and avoid unnecessary modifications during iteration.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the limitations of using Maps with non-primitive keys and how does this affect equality checks?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps allow any object type to be used as a key, unlike Objects, which only allow strings or symbols. However, this comes with a caveat: Map uses the <code>SameValueZero</code> algorithm for key comparison, meaning that two objects are considered distinct even if they have identical properties. For example, <code>map.set({}, 'value1')</code> followed by <code>map.set({}, 'value2')</code> will result in two separate entries, because the two empty objects are different instances. This limitation makes Map unsuitable for cases where you need deep equality comparisons of object keys, as Map only checks references, not the values or structure of the objects.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the size of a Map affect performance when performing lookups, and how can you optimize lookups in very large Maps?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps in JavaScript have constant time complexity O(1) for lookups, but this performance can degrade slightly as the size of the Map grows due to internal hash table management. For very large Maps, optimizing lookups involves minimizing hash collisions by ensuring that keys are sufficiently unique. Additionally, splitting large Maps into smaller, more manageable chunks, such as using a Map of Maps or implementing a sharding mechanism, can help distribute the load and improve lookup performance. It's also advisable to avoid storing complex or large objects as keys, as this can slow down hash calculation and reference checks.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the trade-offs of using Maps with large datasets in memory-constrained environments, and how can you mitigate memory issues?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    While Maps offer efficient key-value storage, their memory consumption can be significant, especially with large datasets. This is due to Maps storing both keys and values in a separate structure from the main execution environment, which can result in higher memory overhead compared to Objects. In memory-constrained environments, this could lead to performance degradation or out-of-memory errors. To mitigate memory issues, developers can use <code>WeakMaps</code> for objects with short lifecycles, manually clear unused entries with <code>map.delete(key)</code>, or implement data eviction strategies, such as LRU caching, to remove less frequently used entries and free up memory.
+                  </p>
+                `,
+              },
+              {
+                question: "What considerations should be made when using Maps for concurrent data operations in JavaScript, especially in multithreaded environments like Web Workers?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    JavaScript is single-threaded by default, meaning that operations on Maps are generally safe from race conditions. However, in multithreaded environments like Web Workers or when using SharedArrayBuffer, concurrent access to Maps must be managed carefully. Since Maps are not inherently thread-safe, simultaneous read and write operations across threads can lead to inconsistent states or data corruption. To handle this, you should either avoid sharing Maps between threads, use message passing to synchronize data between workers, or implement locking mechanisms using external libraries that provide concurrency control, ensuring that only one thread can modify the Map at a time.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the garbage collection behavior of objects in Maps differ from WeakMaps, and when should you prefer one over the other?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Maps strongly reference both their keys and values, meaning that objects stored as keys or values in a Map will not be garbage collected until they are explicitly removed from the Map. This is different from WeakMaps, where keys are weakly referenced and can be garbage collected when no other references to the key exist. WeakMaps are preferable when you need to associate metadata or temporary data with objects and ensure that memory is released when the object is no longer in use. Maps should be used when strong references to keys and values are required for the duration of their lifetime in memory.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the best practices for ensuring optimal performance when frequently adding and deleting key-value pairs in a large Map?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To optimize performance when frequently adding and deleting key-value pairs in a large Map, it's important to minimize the number of rehashing operations. Rehashing occurs when the Map’s internal capacity is exceeded, leading to costly resizing operations. To avoid frequent resizing, it's recommended to pre-allocate a large initial size for the Map if you expect a large dataset. Additionally, batching operations, such as adding or removing multiple entries at once, can reduce the overhead of multiple rehashes. Regularly cleaning up unused entries using <code>map.delete(key)</code> will also ensure that the Map's memory footprint remains manageable.
+                  </p>
+                `,
+              },
+              {
+                question: "How can you improve the efficiency of Map operations when working with hierarchical or nested data structures?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    When working with hierarchical or nested data structures in Maps, performance can degrade if deeply nested lookups are frequent. To improve efficiency, consider flattening the data structure where possible or using a Map of Maps. This allows you to avoid deep lookups by grouping related key-value pairs into separate Maps, effectively reducing the depth of nested operations. Additionally, using a caching mechanism to store frequently accessed nested data can help avoid redundant lookups. It's also beneficial to use well-structured key naming conventions that allow for faster access and retrieval.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the <code>Symbol.iterator</code> property enhance the flexibility of Maps, and what are the potential use cases for customizing iteration behavior?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <code>Symbol.iterator</code> property in Maps allows for custom iteration behavior by defining how the Map should be iterated over using constructs like <code>for...of</code> or spread syntax. This can be useful for customizing iteration logic, such as skipping certain entries, filtering results, or iterating in a specific order. Potential use cases include iterating over Maps with conditional logic (e.g., only iterating over entries that match a certain criterion) or modifying how key-value pairs are returned, such as swapping the key and value in each iteration. Custom iterators provide enhanced flexibility in how Maps are processed, especially in scenarios where fine-grained control over iteration is required.
+                  </p>
+                `,
+              }            
             ],            
             links: [""],
           },
           {
             topic: "Set",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, a <strong>Set</strong> is an integrated object that allows you to store unique values of any type, whether primitive values or object references. Unlike arrays, Sets automatically enforce uniqueness, meaning you can't have duplicate elements in a Set.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Features of Sets</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Unique Values:</strong> A Set only stores unique elements, ensuring there are no duplicates. If you attempt to add a value that already exists in the Set, it will be ignored.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Order of Elements:</strong> Sets preserve the insertion order of values. When you iterate over a Set, elements are returned in the order they were added.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Flexibility in Value Types:</strong> Sets can store values of any type, including primitive values (like strings, numbers, booleans) and object references.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Creating a Set</h4>
+
+<p style="margin-top: 1.0rem;">
+  You can create a Set using the Set constructor:
+</p>
+
+<pre><code className="language-javascript">
+const mySet = new Set();
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  You can also initialize a Set with an iterable, such as an array:
+</p>
+
+<pre><code className="language-javascript">
+const mySet = new Set([1, 2, 3, 3, 4]);
+console.log(mySet); // Output: Set { 1, 2, 3, 4 }
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  In the example above, 3 is added only once since Sets enforce uniqueness.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Common Methods and Properties</h4>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li><code>add(value)</code>: Adds a new value to the Set.</li>
+</ul>
+
+<pre><code className="language-javascript">
+const mySet = new Set();
+mySet.add(10);
+mySet.add(20);
+console.log(mySet); // Output: Set { 10, 20 }
+</code></pre>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li><code>has(value)</code>: Checks if a specific value exists in the Set. Returns true or false.</li>
+</ul>
+
+<pre><code className="language-javascript">
+console.log(mySet.has(10)); // Output: true
+console.log(mySet.has(30)); // Output: false
+</code></pre>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li><code>delete(value)</code>: Removes a specific value from the Set.</li>
+</ul>
+
+<pre><code className="language-javascript">
+mySet.delete(10);
+console.log(mySet); // Output: Set { 20 }
+</code></pre>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li><code>size</code>: Returns the number of elements in the Set.</li>
+</ul>
+
+<pre><code className="language-javascript">
+console.log(mySet.size); // Output: 1
+</code></pre>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li><code>clear()</code>: Removes all elements from the Set.</li>
+</ul>
+
+<pre><code className="language-javascript">
+mySet.clear();
+console.log(mySet.size); // Output: 0
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Iterating Over a Set</h4>
+
+<p style="margin-top: 1.0rem;">
+  You can iterate through the elements of a Set using methods like <code>forEach()</code>, or by using a <code>for...of</code> loop:
+</p>
+
+<pre><code className="language-javascript">
+// forEach
+const set = new Set([1, 2, 3]);
+set.forEach(value => {
+  console.log(value); // Output: 1, 2, 3 (each in a new line)
+});
+</code></pre>
+
+<pre><code className="language-javascript">
+// for...of loop
+for (let value of set) {
+  console.log(value); // Output: 1, 2, 3
+}
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Working with Sets and Arrays</h4>
+
+<p style="margin-top: 1.0rem;">
+  Convert a Set to an Array:
+</p>
+
+<pre><code className="language-javascript">
+const set = new Set([1, 2, 3]);
+const array = [...set];
+console.log(array); // Output: [1, 2, 3]
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  Convert an Array to a Set (to remove duplicates):
+</p>
+
+<pre><code className="language-javascript">
+const array = [1, 2, 2, 3, 4, 4, 5];
+const uniqueSet = new Set(array);
+const uniqueArray = [...uniqueSet];
+console.log(uniqueArray); // Output: [1, 2, 3, 4, 5]
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Set Operations</h4>
+
+<p style="margin-top: 1.0rem;">
+  Union: Combine the elements of two Sets.
+</p>
+
+<pre><code className="language-javascript">
+const setA = new Set([1, 2, 3]);
+const setB = new Set([3, 4, 5]);
+
+const unionSet = new Set([...setA, ...setB]);
+console.log(unionSet); // Output: Set { 1, 2, 3, 4, 5 }
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  Intersection: Find the common elements between two Sets.
+</p>
+
+<pre><code className="language-javascript">
+const intersectionSet = new Set([...setA].filter(x => setB.has(x)));
+console.log(intersectionSet); // Output: Set { 3 }
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  Difference: Find elements that are in one Set but not in another.
+</p>
+
+<pre><code className="language-javascript">
+const differenceSet = new Set([...setA].filter(x => !setB.has(x)));
+console.log(differenceSet); // Output: Set { 1, 2 }
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  Subset: Check if one Set is a subset of another.
+</p>
+
+<pre><code className="language-javascript">
+const isSubset = [...setA].every(x => setB.has(x));
+console.log(isSubset); // Output: false
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">WeakSet</h4>
+
+<p style="margin-top: 1.0rem;">
+  A <strong>WeakSet</strong> is similar to a Set, but it only holds weak references to its values, which must be objects. If there are no other references to an object stored in a WeakSet, the object can be garbage collected, helping manage memory.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Key differences between WeakSet and Set:</strong>
+</p>
+
+<ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+  <li>Only objects can be stored in a WeakSet (no primitives like numbers or strings).</li>
+  <li>No enumeration methods: You cannot iterate over a WeakSet or access its contents. There are no <code>forEach()</code>, <code>size</code>, <code>keys()</code>, or <code>values()</code> methods.</li>
+</ul>
+
+<pre><code className="language-javascript">
+const weakSet = new WeakSet();
+const obj1 = { name: 'John' };
+const obj2 = { age: 30 };
+
+weakSet.add(obj1);
+weakSet.add(obj2);
+
+console.log(weakSet.has(obj1)); // Output: true
+
+weakSet.delete(obj1);
+console.log(weakSet.has(obj1)); // Output: false
+</code></pre>`,
             examples: [""],
-            questions: [{}],
+            questions: [
+              {
+                question: "What are the key differences between Sets and Arrays in JavaScript, and when would you prefer to use a Set?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets are collections of unique values, meaning they automatically prevent duplicate entries. In contrast, Arrays can contain duplicates and maintain the order of elements. You would prefer to use a Set when you need to ensure uniqueness, such as when storing a list of user IDs or tags. Additionally, Sets offer optimized performance for certain operations, like checking for existence (O(1) complexity), compared to the O(n) complexity for Arrays using <code>Array.includes()</code>.
+                  </p>
+                `,
+              },
+              {
+                question: "How do you efficiently convert an Array with potential duplicates into a Set and back into an Array?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To convert an Array into a Set, simply pass the Array to the Set constructor: <code>const uniqueSet = new Set(array);</code>. This removes any duplicate values. To convert the Set back into an Array, use the spread operator: <code>const uniqueArray = [...uniqueSet];</code>. This is a common pattern for deduplication in JavaScript.
+                  </p>
+                `,
+              },
+              {
+                question: "What are some performance considerations when using Sets with large datasets, and how can you mitigate potential issues?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets have average time complexities of O(1) for add, delete, and has operations, but performance can degrade with very large datasets due to memory overhead and garbage collection. To mitigate potential issues, it's essential to avoid storing large objects or deeply nested structures as Set elements. If necessary, use <code>WeakSet</code> for temporary object storage, as it allows for automatic garbage collection of objects that are no longer in use.
+                  </p>
+                `,
+              },
+              {
+                question: "How does the garbage collection behavior of Sets differ from WeakSets, and in what scenarios should you choose one over the other?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets maintain strong references to their values, preventing them from being garbage collected as long as they remain in the Set. In contrast, WeakSets hold weak references to their objects, allowing for garbage collection if no other references to those objects exist. Choose Sets when you need to keep the values alive for the duration of the Set’s lifetime, and use WeakSets when associating metadata or transient data with objects that may be freed by the garbage collector.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the implications of using Sets in terms of memory usage compared to Arrays, especially when storing large amounts of data?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets generally consume more memory than Arrays because they maintain additional internal structures to ensure uniqueness and optimize performance. When dealing with large datasets, this can lead to increased memory usage and potential performance issues. To manage memory effectively, avoid unnecessary duplication of data by leveraging Sets for deduplication only when needed. Additionally, consider using Typed Arrays for numeric data, which can be more memory-efficient.
+                  </p>
+                `,
+              },
+              {
+                question: "How can you customize iteration over a Set using the <code>Symbol.iterator</code> property, and what use cases might benefit from this customization?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <code>Symbol.iterator</code> property allows you to define custom iteration behavior for a Set. For example, you might want to skip certain values or return values in a specific order. A use case for this customization could involve creating a Set of user roles and needing to filter out certain roles during iteration. Custom iterators enhance flexibility, allowing for tailored processing of the Set entries.
+                  </p>
+                `,
+              },
+              {
+                question: "What are the best practices for ensuring optimal performance when frequently adding and removing elements from a large Set?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To optimize performance with a large Set, batch operations whenever possible instead of adding or removing elements one at a time. Minimize frequent mutations, as Sets can incur overhead when resizing their internal storage. If a Set becomes too large or experiences high mutation rates, consider transitioning to another data structure or implementing a data eviction strategy to manage the size and ensure performance remains stable.
+                  </p>
+                `,
+              },
+              {
+                question: "How can you determine if two Sets are equal in JavaScript, considering their contents?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To check if two Sets are equal, you need to compare their sizes first; if they differ, they are not equal. Then, iterate through one Set and check if each element exists in the other Set using the <code>has()</code> method. Keep in mind that Set equality checks require a deep comparison of their elements if they contain objects, as Sets do not consider objects equal based on their contents but rather their references.
+                  </p>
+                `,
+              },
+              {
+                question: "What methods are available for manipulating Sets in JavaScript, and how do they differ from Array methods?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets provide several methods for manipulation, including <code>add(value)</code>, <code>delete(value)</code>, and <code>clear()</code>, which allow you to add, remove, and clear all values, respectively. Unlike Arrays, Sets do not have methods like <code>push()</code> or <code>pop()</code>, as they do not maintain order or allow duplicates. This makes Sets more suitable for scenarios where you need unique values without concern for ordering.
+                  </p>
+                `,
+              },
+              {
+                question: "Can you explain the performance implications of using Sets for large datasets versus using an object for unique keys?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets provide O(1) time complexity for add, delete, and has operations, making them efficient for maintaining unique values. However, they may consume more memory than objects due to their internal data structures. Objects also have O(1) average time complexity for property access, but they can contain duplicate keys. If your data primarily consists of unique keys without associated values, Sets might be the better choice for performance and memory efficiency.
+                  </p>
+                `,
+              },
+              {
+                question: "What is the significance of the order of elements in a Set, and how does it differ from that of an Array?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets maintain the insertion order of elements, allowing you to iterate through them in the order they were added. However, unlike Arrays, Sets do not have indexing, so you cannot access elements by position. This characteristic makes Sets suitable for use cases where the order of unique values is important, but direct indexing is not needed.
+                  </p>
+                `,
+              },
+              {
+                question: "How can you convert a Set back to a Map, and what would be the use case for this transformation?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can convert a Set back to a Map by using the <code>Map</code> constructor and providing an iterable. For example: <code>const mapFromSet = new Map([...set].map(value => [value, someDefaultValue]));</code>. This transformation is useful when you want to associate additional data with each unique value from the Set, allowing you to leverage Map's key-value structure while starting from unique elements.
+                  </p>
+                `,
+              },
+              {
+                question: "What is a practical scenario where you would use a Set instead of a Map?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A practical scenario for using a Set instead of a Map is when you need to track a list of unique user IDs for authentication. In this case, you only need to store the IDs without any associated data. A Set provides efficient membership checking and ensures that each user ID is unique, making it ideal for this use case. Using a Map would be unnecessary overhead since you don't need key-value pairs.
+                  </p>
+                `,
+              },
+              {
+                question: "How do Sets handle primitive types and object references, and what implications does this have for data storage?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets treat primitive types as unique values based on their value, while object references are treated as unique based on their reference. For example, two objects with the same properties are considered different if they are distinct instances. This behavior has implications for data storage: if you store objects in a Set, you must be aware that identical objects (with the same content) will not be treated as duplicates unless they are the same reference, which can lead to unexpected results.
+                  </p>
+                `,
+              },
+              {
+                question: "Can you explain the difference between <code>Set.prototype.forEach</code> and the traditional <code>for...of</code> loop when iterating over Sets?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Both <code>Set.prototype.forEach</code> and the <code>for...of</code> loop allow you to iterate over the values in a Set, but they differ in syntax and use cases. <code>forEach</code> accepts a callback function and can pass additional arguments (the value and the Set itself) to the function. In contrast, <code>for...of</code> is simpler and more concise, iterating directly over the values without needing a callback. You might prefer <code>for...of</code> for cleaner code when no additional arguments or complex logic are required.
+                  </p>
+                `,
+              },
+              {
+                question: "How can you create a Set of objects, and what precautions should you take when doing so?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    You can create a Set of objects by simply passing an array of objects to the Set constructor: <code>const mySet = new Set([{ id: 1 }, { id: 2 }, { id: 1 }]);</code>. However, because Sets consider object references, two different object instances with the same properties will be treated as distinct entries. To ensure uniqueness based on object properties rather than references, you may need to implement a custom method to compare objects before adding them to the Set.
+                  </p>
+                `,
+              },
+              {
+                question: "What happens when you attempt to add the same object to a Set multiple times?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    When you attempt to add the same object instance to a Set multiple times, it will only be stored once, as Sets enforce uniqueness. If you have the same object reference, subsequent calls to <code>add()</code> will not change the Set. However, if you create a new object with the same properties, that new instance will be considered unique and added to the Set as a separate entry.
+                  </p>
+                `,
+              },
+              {
+                question: "What is the difference between a Set and a WeakSet, and when should you choose one over the other?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    A Set holds strong references to its values, meaning the values will not be garbage collected as long as they are in the Set. In contrast, a WeakSet holds weak references, allowing for garbage collection of its objects if there are no other references to them. You should choose a WeakSet when you want to associate metadata with objects and want those objects to be automatically cleaned up when they are no longer in use. A Set is preferable when you need to maintain a list of values and require the ability to iterate over them.
+                  </p>
+                `,
+              },
+              {
+                question: "How can you efficiently determine if a large dataset contains duplicates using Sets?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To determine if a large dataset contains duplicates using Sets, you can create a Set from the dataset. As you iterate through the dataset, attempt to add each element to the Set. If you encounter an element that already exists in the Set (using the <code>has</code> method), it indicates a duplicate. This approach is efficient because it leverages the O(1) time complexity of Sets for insertions and lookups, making it a suitable solution for large datasets.
+                  </p>
+                `,
+              },
+              {
+                question: "What happens when you use non-primitive values as keys in a Set, and how does this affect equality checks?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    In a Set, non-primitive values (like objects or arrays) are treated based on reference equality, not structural equality. This means that two objects with the same properties will be considered distinct entries in the Set if they are different instances. For example, <code>const a = {}; const b = {}; mySet.add(a); mySet.add(b);</code> will result in two separate entries, even though <code>a</code> and <code>b</code> have identical structures. This behavior can lead to unexpected results when trying to check for duplicates based on content.
+                  </p>
+                `,
+              },
+              {
+                question: "How can you create a Set from an Array and ensure unique values while ignoring case sensitivity?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To create a Set from an Array while ensuring unique values that ignore case sensitivity, you can use the <code>map</code> method to convert all elements to a common case (e.g., lowercase) before passing them to the Set constructor: <code>const uniqueSet = new Set(array.map(item => item.toLowerCase()));</code>. This will ensure that values like "Apple" and "apple" are treated as the same entry in the Set.
+                  </p>
+                `,
+              },
+              {
+                question: "What are some common use cases for utilizing Sets in JavaScript applications?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Common use cases for utilizing Sets include:
+                    <ul>
+                      <li><strong>Removing duplicates:</strong> Easily filter out duplicate values from arrays.</li>
+                      <li><strong>Membership tests:</strong> Quickly check for the existence of a value in a dataset.</li>
+                      <li><strong>Tracking unique items:</strong> Maintain a collection of unique identifiers, such as user IDs or product SKUs.</li>
+                      <li><strong>Combining datasets:</strong> Easily union and intersection operations on multiple datasets to find common or unique values.</li>
+                    </ul>
+                  </p>
+                `,
+              },
+              {
+                question: "How can you use the <code>Set.prototype.values()</code> method, and how does it compare to <code>Set.prototype.entries()</code>?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    The <code>Set.prototype.values()</code> method returns a new iterator object that contains the values for each element in the Set, in insertion order. This method is similar to the <code>Set.prototype.entries()</code> method, which returns an iterator of [value, value] pairs. Since Sets only store unique values (without keys), both methods effectively yield the same values, but <code>values()</code> is typically used for clarity when you are only interested in the values.
+                  </p>
+                `,
+              },
+              {
+                question: "What is the performance impact of using a Set versus an Array when frequently checking for the existence of elements?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    Sets provide O(1) average time complexity for existence checks using the <code>has</code> method, making them much faster than Arrays, which require O(n) time complexity for the same operation using the <code>includes</code> method. Therefore, when working with large datasets where frequent membership checks are necessary, using a Set will significantly improve performance compared to using an Array.
+                  </p>
+                `,
+              },
+              {
+                question: "How do you handle complex data structures, like Sets of objects, and ensure they remain unique based on certain properties?",
+                solution: `
+                  <p style="margin-top: 0.5rem;">
+                    To ensure uniqueness based on specific properties in a Set of objects, you can use a helper structure, like a Map, to track seen properties while adding objects to the Set. For example, iterate over your objects, and for each object, check if its unique property exists in the Map before adding it to the Set. If not, add the object to both the Set and the Map: 
+                  <code>
+                    const seen = new Map(); 
+                    const uniqueSet = new Set(); 
+                    array.forEach(item => { 
+                      if (!seen.has(item.uniqueProperty)) { 
+                        seen.set(item.uniqueProperty, true); 
+                        uniqueSet.add(item); 
+                      } 
+                    });
+                  </code>
+                  This approach will ensure that only unique objects based on the specified property are added to the Set.
+                  </p>
+                `,
+              },
+            ],
             links: [""],
           },
         ],
