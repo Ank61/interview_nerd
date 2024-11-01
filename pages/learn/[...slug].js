@@ -114,6 +114,7 @@ export async function getStaticProps({ params }) {
       });
     }
   });
+  console.log("explanation",explanation)
   return {
     props: {
       topic: selected,

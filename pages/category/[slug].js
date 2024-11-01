@@ -462,7 +462,7 @@ export default function BasicTabs() {
                             : topic === "React"
                             ? "text-React-text"
                             : ""
-                        }`}
+                        } md:pl-4`}
                       >
                         {index <= 8 ? (
                           <motion.div
