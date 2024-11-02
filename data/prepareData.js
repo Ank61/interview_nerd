@@ -6478,7 +6478,92 @@ fetchData()
           {
             topic: "EventLoop",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, the <strong>Event Loop</strong> is crucial for handling asynchronous operations, enabling non-blocking behavior. Although JavaScript is single-threaded—executing code line by line—the Event Loop allows it to manage multiple tasks, such as HTTP requests, user interactions, and timers, without waiting for each one to complete.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">How the Event Loop Works</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Call Stack:</strong> This is a structure that tracks function calls in the order they should execute. Each function call is added to the call stack and removed once completed.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Web APIs:</strong> The browser (or Node.js) provides Web APIs like <code>setTimeout</code>, <code>fetch</code>, and DOM events. When an asynchronous function is called, the task is passed to the Web API without immediate execution on the main call stack.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Callback Queue:</strong> After an asynchronous task completes, its callback function goes into the callback queue. It waits until the main thread is free to execute.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Event Loop:</strong> The Event Loop monitors the call stack and callback queue. When the call stack is empty, it takes the first callback from the callback queue and moves it onto the call stack, creating a continuous cycle for handling asynchronous operations.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Example: Event Loop in Action</h4>
+
+<pre><code class="language-javascript">
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Inside setTimeout");
+}, 1000);
+
+console.log("End");
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  Execution begins with <code>console.log("Start")</code>, so "Start" is printed. <code>setTimeout</code> is called, sending the task to the Web API and continuing to the next line. <code>console.log("End")</code> executes, so "End" is printed. After 1 second, the <code>setTimeout</code> callback moves to the callback queue, and once the call stack is clear, it executes and prints "Inside setTimeout".
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Concepts Inside the Event Loop</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Synchronous vs. Asynchronous:</strong> Synchronous code blocks the call stack, while asynchronous code does not, allowing JavaScript to handle other tasks in the meantime.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Microtasks:</strong> Microtasks, such as Promise callbacks, have higher priority than the regular callback queue. After each task completes, the Event Loop processes all pending microtasks before moving to the next callback.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Callback Queue Priority:</strong> The Event Loop clears microtasks before handling callbacks (e.g., <code>setTimeout</code>), ensuring microtasks are prioritized.
+</p>
+
+<pre><code class="language-javascript">
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Timeout");
+}, 0);
+
+Promise.resolve().then(() => {
+  console.log("Promise");
+});
+
+console.log("End");
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  <code>console.log("Start")</code> executes, printing "Start". <code>setTimeout</code> is called, queuing the callback in the callback queue with 0 delay. A resolved Promise queues its <code>.then()</code> callback in the microtask queue. <code>console.log("End")</code> executes, printing "End". The Event Loop checks the microtask queue and executes the Promise callback, printing "Promise". Finally, the Event Loop moves to the callback queue and executes the <code>setTimeout</code> callback, printing "Timeout".
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Output:</strong> Start, End, Promise, Timeout
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Why the Event Loop Matters</h4>
+
+<p style="margin-top: 1.0rem;">
+  The Event Loop is essential for managing asynchronous tasks in JavaScript, enabling:
+</p>
+
+<ul style="margin-top: 1.0rem;">
+  <li><strong>Non-blocking I/O:</strong> JavaScript can handle network requests without halting code execution.</li>
+  <li><strong>Responsive User Interfaces:</strong> Efficient event handling and animations.</li>
+  <li><strong>Efficient Task Management:</strong> JavaScript manages heavy processing without freezing the main thread.</li>
+</ul>
+`,
             examples: [""],
             questions: [
                 {
@@ -6575,7 +6660,114 @@ fetchData()
           {
             topic: "IIFE",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  An Immediately Invoked Function Expression (IIFE) in JavaScript is a function that executes as soon as it is defined. This type of function is useful for creating a local scope, preventing variables and functions that are only needed temporarily from polluting the global scope. IIFEs are often employed when an isolated execution context is needed, such as to safeguard variable values or avoid naming conflicts.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Syntax of an IIFE</h4>
+
+<p style="margin-top: 1.0rem;">
+  An IIFE is created by wrapping a function in parentheses and immediately invoking it. The syntax is:
+</p>
+
+<pre><code class="language-javascript">
+(function() {
+  // Code here is executed immediately
+  console.log("IIFE executed!");
+})();
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  Here, <code>(function() ... )</code> is a function expression, and <code>()</code> at the end immediately invokes it. Without wrapping the function in parentheses, JavaScript would treat it as a function declaration, which requires a name and cannot be invoked immediately.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Why Use an IIFE?</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Avoid Global Variables:</strong> Wrapping code in an IIFE ensures that any variables defined within are scoped only to that function, thus preventing them from affecting or being affected by the global scope, which is crucial for modular code.
+</p>
+
+<pre><code class="language-javascript">
+(function() {
+  let count = 10;
+  console.log(count); // Outputs: 10
+})();
+
+console.log(count); // Error: count is not defined
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  In this example, <code>count</code> is only accessible within the IIFE and does not exist outside of it.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Private Variables and Encapsulation:</strong> IIFEs are also useful for creating private variables that remain inaccessible outside the function, promoting encapsulation.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Avoid Naming Conflicts:</strong> IIFEs help prevent conflicts when working with libraries or code snippets that may contain variables or functions with similar names, as they keep these separate from other code.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Execute Code Immediately:</strong> IIFEs are commonly used to execute code right away, such as when initializing variables or setting up event listeners.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Passing Parameters to an IIFE</h4>
+
+<p style="margin-top: 1.0rem;">
+  IIFEs can accept parameters, making them flexible for initialization tasks. For instance, you might pass the <code>window</code> or <code>document</code> objects to an IIFE to avoid accessing them repeatedly within the function:
+</p>
+
+<pre><code class="language-javascript">
+(function(window, document) {
+  // This IIFE has access to 'window' and 'document'
+  const title = document.querySelector("title");
+  console.log("Title of the page:", title.textContent);
+})(window, document);
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Arrow Function IIFE</h4>
+
+<p style="margin-top: 1.0rem;">
+  You can also create an IIFE using arrow function syntax:
+</p>
+
+<pre><code class="language-javascript">
+(() => {
+  console.log("Arrow function IIFE executed!");
+})();
+</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Use Cases for IIFE</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Modular Code:</strong> Organizing code into isolated blocks to avoid clashes between different parts of a program.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Initialization Code:</strong> Executing code immediately after it loads, such as setting up event listeners or initializing variables.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Frameworks and Libraries:</strong> Libraries often use IIFEs to prevent global namespace pollution and to structure code.
+</p>
+
+<pre><code class="language-javascript">
+const MathModule = (function() {
+  const pi = 3.1415;
+
+  function circleArea(radius) {
+    return pi * radius * radius;
+  }
+
+  return {
+    circleArea: circleArea
+  };
+})();
+
+console.log(MathModule.circleArea(5)); // Outputs the area of a circle with radius 5
+</code></pre>
+`,
             examples: [""],
             questions: [
               {
@@ -6711,7 +6903,106 @@ fetchData()
           {
             topic: "Binding",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, binding refers to setting or fixing the value of <code>this</code> in a function so that it has a specific context when it’s called, regardless of where or how it is used. Binding can be particularly useful when passing functions as callbacks or using them in contexts where the default <code>this</code> value might change.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">How Binding Works</h4>
+
+<p style="margin-top: 1.0rem;">
+  JavaScript provides three main methods for explicitly controlling <code>this</code>: <code>call()</code>, <code>apply()</code>, and <code>bind()</code>. These methods allow you to set <code>this</code> to a specific object for a function when it is executed, which is particularly useful in scenarios such as:
+</p>
+<ul>
+  <li>Event Handlers: <code>this</code> may refer to the event target rather than the desired object.</li>
+  <li>Callbacks: <code>this</code> can lose its reference to the intended context.</li>
+  <li>Functional Programming: Helpful for creating functions with specific contexts.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. The <code>bind()</code> Method</h4>
+
+<p style="margin-top: 1.0rem;">
+  <code>bind()</code> creates a new function with <code>this</code> set to the value provided as an argument. It does not invoke the function immediately but instead returns a new function that can be called later.
+</p>
+
+<pre><code class="language-javascript">
+const person = {
+  name: "Alice",
+  greet: function() {
+    console.log("Hello, " + this.name);
+  }
+};
+
+// Binding 'greet' to 'person'
+const greetPerson = person.greet.bind(person);
+
+// Calling greetPerson later
+greetPerson(); // Output: Hello, Alice
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  In this example, calling <code>bind()</code> on <code>greet</code> with <code>person</code> ensures that the function’s <code>this</code> refers to <code>person</code> even when <code>greetPerson</code> is called later.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. <code>call()</code> and <code>apply()</code> for Immediate Execution</h4>
+
+<p style="margin-top: 1.0rem;">
+  While <code>bind()</code> returns a new function that can be called later, <code>call()</code> and <code>apply()</code> immediately execute the function with a specified <code>this</code> context.
+</p>
+<ul>
+  <li><code>call()</code>: Takes arguments individually.</li>
+  <li><code>apply()</code>: Takes arguments as an array.</li>
+</ul>
+
+<pre><code class="language-javascript">
+const person = { name: "Alice" };
+
+function greet(greeting) {
+  console.log(greeting + ", " + this.name);
+}
+
+greet.call(person, "Hello"); // Output: Hello, Alice
+greet.apply(person, ["Hi"]); // Output: Hi, Alice
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  In this example, <code>call()</code> and <code>apply()</code> set <code>this</code> to <code>person</code> and immediately invoke <code>greet</code>.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Binding in Arrow Functions</h4>
+
+<p style="margin-top: 1.0rem;">
+  Arrow functions in JavaScript do not have their own <code>this</code> context. Instead, they inherit <code>this</code> from the scope in which they are defined. This makes <code>bind()</code> ineffective for arrow functions since their <code>this</code> is fixed based on where they’re created, not where they’re called.
+</p>
+
+<pre><code class="language-javascript">
+const person = {
+  name: "Alice",
+  greet: () => {
+    console.log("Hello, " + this.name); // 'this' is inherited from the outer scope, not 'person'
+  }
+};
+
+person.greet(); // Output: Hello, undefined
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  In this example, <code>greet</code> is an arrow function, so <code>this</code> does not refer to <code>person</code>. Instead, it takes <code>this</code> from the surrounding lexical scope, where <code>this.name</code> is <code>undefined</code>.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Why Use Binding?</h4>
+
+<p style="margin-top: 1.0rem;">
+  Binding is useful in many situations:
+</p>
+<ul>
+  <li><strong>Consistent <code>this</code> reference</strong>: Ensures that functions operate on the expected object.</li>
+  <li><strong>Flexible reusability</strong>: Allows you to pass methods as callbacks or event handlers with confidence they’ll use the correct <code>this</code>.</li>
+  <li><strong>Functional programming patterns</strong>: Helps set up partially applied functions with <code>bind()</code> by fixing some arguments.</li>
+</ul>
+
+<p style="margin-top: 1.0rem;">
+  In summary, binding gives you control over the context (<code>this</code>) of your functions, enabling more predictable behavior across different JavaScript programming situations.
+</p>`,
             examples: [""],
             questions: [
               {
@@ -6829,9 +7120,230 @@ fetchData()
           {
             topic: "Async and Defer",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<p style="margin-top: 1.0rem;">
+  In JavaScript, <strong>async</strong> and <strong>defer</strong> are attributes for <code>&lt;script&gt;</code> tags that control how scripts load and execute relative to the HTML document. These attributes help optimize the loading of external JavaScript files, improving webpage performance.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">How They Work</h4>
+
+<h5 style="margin-top: 1.25rem; font-size: 1.15rem;">Default Script Loading Behavior</h5>
+<p style="margin-top: 1.0rem;">
+  By default, when a <code>&lt;script src="script.js"&gt;</code> tag is added in the <code>&lt;head&gt;</code>, the browser:
+</p>
+
+<ul style="margin-top: 1.0rem;">
+  <li>Pauses HTML parsing to fetch and execute the JavaScript file.</li>
+  <li>Blocks page rendering until the script is fully loaded and executed.</li>
+</ul>
+
+<p style="margin-top: 1.0rem;">
+  This can slow down the page load, especially if there are multiple or large JavaScript files at the top of the page.
+</p>
+
+<h5 style="margin-top: 1.25rem; font-size: 1.15rem;">Async Attribute</h5>
+<p style="margin-top: 1.0rem;">
+  The <code>async</code> attribute allows the browser to:
+</p>
+
+<ul style="margin-top: 1.0rem;">
+  <li>Fetch the script asynchronously without blocking HTML parsing.</li>
+  <li>Execute the script as soon as it’s downloaded, potentially before or after HTML parsing completes.</li>
+</ul>
+
+<pre><code class="language-html">
+&lt;script src="script.js" async&gt;&lt;/script&gt;
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Key Points of async:</strong>
+</p>
+
+<ul style="margin-top: 1.0rem;">
+  <li><strong>Execution order is not guaranteed:</strong> Scripts with <code>async</code> load independently and execute in whichever order they finish loading.</li>
+  <li><strong>Good for independent scripts:</strong> Ideal for scripts that don’t rely on the DOM or other scripts, such as analytics or ad scripts.</li>
+</ul>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example Scenario:</strong>
+</p>
+
+<pre><code class="language-html">
+&lt;script src="analytics.js" async&gt;&lt;/script&gt;
+&lt;script src="ads.js" async&gt;&lt;/script&gt;
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  Both scripts load simultaneously, but the browser executes whichever finishes downloading first. This can speed up page load times but may result in unpredictable execution order.
+</p>
+
+<h5 style="margin-top: 1.25rem; font-size: 1.15rem;">Defer Attribute</h5>
+<p style="margin-top: 1.0rem;">
+  The <code>defer</code> attribute also loads scripts asynchronously, but:
+</p>
+
+<ul style="margin-top: 1.0rem;">
+  <li>Ensures script execution only after the entire HTML document is parsed.</li>
+  <li>Executes scripts in the order they appear in the HTML.</li>
+</ul>
+
+<pre><code class="language-html">
+&lt;script src="script.js" defer&gt;&lt;/script&gt;
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Key Points of defer:</strong>
+</p>
+
+<ul style="margin-top: 1.0rem;">
+  <li><strong>Execution order is preserved:</strong> Scripts with <code>defer</code> execute in the order they appear in HTML, regardless of load times.</li>
+  <li><strong>Good for DOM-dependent scripts:</strong> Ideal for scripts that rely on the fully loaded HTML, such as those that manipulate the DOM or depend on other scripts.</li>
+</ul>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example Scenario:</strong>
+</p>
+
+<pre><code class="language-html">
+&lt;script src="main.js" defer&gt;&lt;/script&gt;
+&lt;script src="helper.js" defer&gt;&lt;/script&gt;
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  The browser loads both scripts in parallel but executes <code>main.js</code> first, followed by <code>helper.js</code>, only after the HTML is fully parsed.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Comparison of async, defer, and Default Loading</h4>
+
+<table style="margin-top: 1.0rem; width: 100%; border-collapse: collapse;">
+  <thead>
+    <tr>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Attribute</th>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Load Behavior</th>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Execution Timing</th>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Order of Execution</th>
+      <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Best Use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">async</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Asynchronous</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Immediately after download</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Unpredictable</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Independent scripts (analytics, ads)</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">defer</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Asynchronous</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">After HTML parsing completes</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Sequential</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">DOM-dependent scripts</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid #ddd; padding: 8px;">Default</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Synchronous</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">When encountered in HTML</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Sequential</td>
+      <td style="border: 1px solid #ddd; padding: 8px;">Critical scripts needed early</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Summary</h4>
+
+<ul style="margin-top: 1.0rem;">
+  <li><strong>async:</strong> Loads scripts asynchronously and executes them immediately, without a guarantee of order.</li>
+  <li><strong>defer:</strong> Loads scripts asynchronously but defers execution until HTML parsing completes, ensuring order.</li>
+</ul>
+
+<p style="margin-top: 1.0rem;">
+  Use <code>async</code> for scripts that don’t rely on the DOM or other scripts and <code>defer</code> for those that do.
+</p>
+`,
             examples: [""],
-            questions: [{}],
+            questions: [
+              {
+                "question": "What is the difference between async and defer attributes in JavaScript?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  The <code>async</code> attribute allows the script to be executed as soon as it is available, without waiting for the HTML document to finish parsing. In contrast, the <code>defer</code> attribute ensures that the script is executed only after the HTML document has been completely parsed. Furthermore, scripts with <code>defer</code> are executed in the order they appear in the HTML.
+                </p>`
+              },
+              {
+                "question": "How does the async attribute affect the loading of scripts?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  When a script is loaded with the <code>async</code> attribute, it downloads asynchronously and executes immediately once it's downloaded, potentially before the HTML document is fully parsed. This can lead to scripts executing in a different order than they appear in the HTML, which is important to consider for dependencies between scripts.
+                </p>`
+              },
+              {
+                "question": "What scenarios would you use the defer attribute over async?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  You would use the <code>defer</code> attribute for scripts that depend on the DOM being fully loaded, such as scripts that manipulate elements or rely on other scripts to have been executed first. This ensures that all elements are available before the script runs, preventing potential errors.
+                </p>`
+              },
+              {
+                "question": "Can you provide an example of using the async attribute in a script tag?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  Here’s an example of a script using the <code>async</code> attribute:
+                </p>
+                <pre><code class="language-html">
+            &lt;script src="analytics.js" async&gt;&lt;/script&gt;
+                </code></pre>`
+              },
+              {
+                "question": "What happens if both async and defer attributes are present on a script tag?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  If both <code>async</code> and <code>defer</code> attributes are present on a script tag, the <code>async</code> attribute takes precedence. The script will be executed as soon as it is available, ignoring the defer behavior.
+                </p>`
+              },
+              {
+                "question": "Why is it important to optimize script loading with async and defer?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  Optimizing script loading with <code>async</code> and <code>defer</code> can significantly improve webpage performance. It reduces render-blocking, allowing HTML to be parsed and displayed to the user more quickly. This enhances the overall user experience and can lead to better SEO rankings as page load times are a factor in search engine algorithms.
+                </p>`
+              },
+              {
+                "question": "How do async and defer attributes affect the execution order of multiple scripts?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  When multiple scripts are loaded with the <code>async</code> attribute, they can execute in any order as soon as they finish downloading. This can lead to unpredictable behavior if scripts depend on each other. In contrast, scripts with the <code>defer</code> attribute will always execute in the order they are declared in the HTML, after the document has been fully parsed, ensuring consistent execution order.
+                </p>`
+              },
+              {
+                "question": "What potential issues can arise when using async for scripts that manipulate the DOM?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  Using the <code>async</code> attribute for scripts that manipulate the DOM can lead to issues where the script tries to access DOM elements that haven’t been created yet. Since <code>async</code> scripts can execute as soon as they are downloaded, they may run before the DOM is ready, resulting in errors or unexpected behavior. In such cases, using <code>defer</code> is more appropriate.
+                </p>`
+              },
+              {
+                "question": "How do the async and defer attributes impact page load performance and user experience?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  Both <code>async</code> and <code>defer</code> attributes improve page load performance by allowing HTML parsing to continue while scripts are loading. This reduces render-blocking behavior. <code>async</code> is beneficial for scripts that don't depend on the DOM, while <code>defer</code> is ideal for scripts that require DOM elements to be fully available. Using these attributes appropriately leads to a smoother user experience and faster load times.
+                </p>`
+              },
+              {
+                "question": "Can you explain the impact of script execution timing when using async and defer in relation to the DOMContentLoaded event?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  The <code>DOMContentLoaded</code> event fires when the initial HTML document has been completely loaded and parsed, without waiting for stylesheets, images, or subframes to finish loading. Scripts with the <code>defer</code> attribute will execute after the DOM has been fully constructed but before the <code>DOMContentLoaded</code> event. However, scripts with the <code>async</code> attribute can execute at any time, even before <code>DOMContentLoaded</code> has been fired, which can lead to unexpected behavior if those scripts manipulate the DOM.
+                </p>`
+              },
+              {
+                "question": "In what scenarios would you recommend avoiding the use of async and defer attributes?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  You should avoid using <code>async</code> for scripts that depend on the execution order or that interact with the DOM. Similarly, avoid using both attributes for critical scripts that are necessary for page functionality and require complete control over the loading sequence. For example, inline scripts that need to be executed in a specific order should not use these attributes.
+                </p>`
+              },
+              {
+                "question": "How can you dynamically load scripts with async and defer attributes in JavaScript?",
+                "solution": `<p style="margin-top: 1.0rem;">
+                  You can dynamically load scripts in JavaScript by creating a <code>&lt;script&gt;</code> element and setting its <code>src</code> attribute to the desired script URL. You can also set the <code>async</code> or <code>defer</code> attributes directly on this element before appending it to the document:
+                </p>
+                <pre><code class="language-javascript">
+            const script = document.createElement('script');
+            script.src = 'example.js';
+            script.async = true; // or script.defer = true;
+            document.head.appendChild(script);
+                </code></pre>`
+              }
+            ],
             links: [""],
           },
         ],
