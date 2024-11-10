@@ -138,6 +138,19 @@ export default function BasicTabs() {
                       color: "var(--react-topic)",
                     },
                   }
+                : topic === "Node"
+                ? {
+                    marginTop: 2,
+                    "& .MuiTabs-indicator": {
+                      backgroundColor: "var(--node-bg)",
+                    },
+                    "& .MuiTab-root": {
+                      color: "var(--node-text)",
+                    },
+                    "& .MuiTab-root.Mui-selected": {
+                      color: "var(--node-topic)",
+                    },
+                  }
                 : {}
             }
           >
@@ -160,6 +173,8 @@ export default function BasicTabs() {
                 ? "border-Javascript-border"
                 : topic === "React"
                 ? "border-React-border "
+                : topic === "Node"
+                ? "border-Node-border "
                 : ""
             } bg-gray-100 dark:bg-gray-800 w-full`}
             style={{ textTransform: "none", outline: "none" }}
@@ -185,11 +200,13 @@ export default function BasicTabs() {
               <TabsTrigger
                 value="Beginner"
                 onClick={() => setLevel("Beginner")}
-                className={`bg-white text-black ${
+                className={`bg-white ${
                   topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : topic === "React"
                     ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
+                    : topic === "Node"
+                    ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text"
                     : ""
                 }`}
               >
@@ -198,11 +215,13 @@ export default function BasicTabs() {
               <TabsTrigger
                 value="Advance"
                 onClick={() => setLevel("Advance")}
-                className={`bg-white text-Javascript-text ${
+                className={`bg-white ${
                   topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : topic === "React"
                     ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
+                    : topic === "Node"
+                    ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text "
                     : ""
                 }`}
               >
@@ -219,6 +238,8 @@ export default function BasicTabs() {
                           ? "text-Javascript-text "
                           : topic === "React"
                           ? "text-React-text "
+                          : topic === "Node"
+                          ? "text-Node-text "
                           : ""
                       } text-left md:text-center`}
                     >
@@ -230,6 +251,8 @@ export default function BasicTabs() {
                           ? "text-Javascript-text "
                           : topic === "React"
                           ? "text-React-text "
+                          : topic === "React"
+                          ? "text-Node-text "
                           : ""
                       }`}
                     >
@@ -292,6 +315,8 @@ export default function BasicTabs() {
                                     ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                     : topic === "React"
                                     ? "text-React-text bg-white hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text bg-white hover:bg-Node-bg"
                                     : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -302,9 +327,10 @@ export default function BasicTabs() {
                                     ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : topic === "React"
                                     ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : ""
                                 } md: w-[15px]`}
-                                // size={"19px"}
                               />
                               Learn
                             </motion.div>
@@ -353,19 +379,21 @@ export default function BasicTabs() {
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : topic === "React"
                                   ? "text-React-text bg-white hover:bg-React-bg"
+                                  : topic === "Node"
+                                  ? "text-Node-text bg-white hover:bg-Node-bg"
                                   : ""
                               }`}
                             >
                               <Code
-                                // style={{width: 12px}}
                                 className={`mr-2 w-[19px] ${
                                   topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : topic === "React"
                                     ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : ""
                                 } md: w-[15px]`}
-                                // size={"19px"}
                               />
                               Practice
                             </motion.div>
@@ -379,19 +407,21 @@ export default function BasicTabs() {
                                   ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : topic === "React"
                                   ? "text-React-text bg-white hover:bg-React-bg"
+                                  : topic === "Node"
+                                  ? "text-Node-text bg-white hover:bg-Node-bg"
                                   : ""
                               }`}
                             >
                               <Code
-                                // style={{width: 12px}}
                                 className={`mr-2 w-[19px] ${
                                   topic === "Javascript"
                                     ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : topic === "React"
                                     ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : ""
                                 } md: w-[15px]`}
-                                // size={"19px"}
                               />
                               Practice
                             </div>
@@ -461,6 +491,8 @@ export default function BasicTabs() {
                             ? "text-Javascript-text "
                             : topic === "React"
                             ? "text-React-text"
+                            : topic === "Node"
+                            ? "text-Node-text"
                             : ""
                         } md:pl-4`}
                       >
@@ -500,6 +532,8 @@ export default function BasicTabs() {
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : topic === "React"
                                   ? "text-React-text bg-white hover:bg-React-bg"
+                                  : topic === "Node"
+                                  ? "text-Node-text bg-white hover:bg-Node-bg"
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -510,9 +544,10 @@ export default function BasicTabs() {
                                   ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : topic === "React"
                                   ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                  : topic === "Node"
+                                  ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                   : ""
                               } md: w-[15px]`}
-                              // size={"19px"}
                             />
                             Learn
                           </motion.div>
@@ -527,6 +562,8 @@ export default function BasicTabs() {
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : topic === "React"
                                   ? "text-React-text bg-white hover:bg-React-bg "
+                                  : topic === "Node"
+                                  ? "text-Node-text bg-white hover:bg-Node-bg "
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -538,9 +575,10 @@ export default function BasicTabs() {
                                   ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : topic === "React"
                                   ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                  : topic === "Node"
+                                  ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                   : ""
                               } md: w-[15px]`}
-                              // size={"19px"}
                             />
                             Learn
                           </div>
@@ -562,19 +600,21 @@ export default function BasicTabs() {
                                 ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : topic === "React"
                                 ? "text-React-text bg-white hover:bg-React-bg "
+                                : topic === "Node"
+                                ? "text-Node-text bg-white hover:bg-Node-bg "
                                 : ""
                             }`}
                           >
                             <Code
-                              // style={{width: 12px}}
                               className={`mr-2 w-[19px] ${
                                 topic === "Javascript"
                                   ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : topic === "React"
                                   ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                  : topic === "Node"
+                                  ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                   : ""
                               } md: w-[15px]`}
-                              // size={"19px"}
                             />
                             Practice
                           </motion.div>
@@ -623,11 +663,13 @@ export default function BasicTabs() {
               <TabsTrigger
                 value="Junior"
                 onClick={() => setInterviewSelection("Junior")}
-                className={`bg-white text-black  ${
+                className={`bg-white ${
                   topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : topic === "React"
                     ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                    : topic === "Node"
+                    ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : ""
                 }`}
               >
@@ -636,11 +678,13 @@ export default function BasicTabs() {
               <TabsTrigger
                 value="Mid"
                 onClick={() => setInterviewSelection("Mid")}
-                className={`bg-white text-Javascript-text  ${
+                className={`bg-white ${
                   topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : topic === "React"
                     ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                    : topic === "Node"
+                    ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : ""
                 }`}
               >
@@ -649,11 +693,13 @@ export default function BasicTabs() {
               <TabsTrigger
                 value="Senior"
                 onClick={() => setInterviewSelection("Senior")}
-                className={`bg-white text-Javascript-text ${
+                className={`bg-white ${
                   topic === "Javascript"
                     ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                     : topic === "React"
                     ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                    : topic === "Node"
+                    ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : ""
                 }`}
               >
