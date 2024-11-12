@@ -9623,102 +9623,51 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "V8 Engine",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+            explanation: `<p style="margin-top: 1.0rem;">
+  The V8 engine is the open-source JavaScript engine developed by Google, initially for its Chrome browser, but it is also at the core of Node.js. V8 compiles and executes JavaScript code directly in machine code format, making JavaScript applications run much faster than traditional interpretation-based engines. Here’s how V8 works and its role in Node.js:
+</p>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Just-In-Time (JIT) Compilation</h4>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+<p style="margin-top: 1.0rem;">
+  V8 utilizes JIT compilation, which compiles JavaScript code into machine code during execution. This process optimizes code while it runs, making it faster. JIT compilation combines the benefits of interpreted code (quick startup) and compiled code (improved performance over time). Inline caching is a technique V8 uses to speed up property access in objects, further enhancing performance.
+</p>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Memory Management and Garbage Collection</h4>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+<p style="margin-top: 1.0rem;">
+  V8 manages memory allocation and garbage collection for JavaScript objects. It has a sophisticated garbage collector that frees up memory that’s no longer in use, reducing memory leaks and optimizing available memory for applications. V8’s garbage collector is generational, meaning it separates short-lived objects (like function variables) from long-lived ones to optimize garbage collection cycles.
+</p>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">3. Role in Node.js</h4>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+<p style="margin-top: 1.0rem;">
+  <strong>Execution of JavaScript Outside the Browser:</strong> Node.js uses V8 to execute JavaScript code on the server side. Node provides libraries and a runtime environment around V8 to interact with file systems, networks, and operating systems, which are outside the scope of standard JavaScript in browsers.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Asynchronous Execution and Event Loop:</strong> While V8 itself doesn’t handle asynchronous execution, Node.js combines it with its own event loop and libuv to enable non-blocking I/O operations, making it suitable for high-concurrency applications.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Native Bindings:</strong> Node.js uses C++ bindings to interact with system-level resources and libraries, and V8 enables JavaScript code to interact with these C++ bindings, expanding JavaScript’s capabilities in Node.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">4. Optimization Techniques</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Hidden Classes:</strong> V8 optimizes object creation by using hidden classes, allowing JavaScript objects to have a structure similar to classes in traditional languages, boosting access speed.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Code Optimizer:</strong> V8 has two optimizing compilers – one for initial execution and another to recompile frequently executed code (hot code) for maximum performance.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">5. V8 and Node.js Ecosystem</h4>
+
+<p style="margin-top: 1.0rem;">
+  Since Node.js relies on V8, it inherits updates and performance improvements to V8. The Node.js team aligns major releases with V8 updates, ensuring Node developers benefit from the latest V8 optimizations.
+</p>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -9743,102 +9692,98 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Event Loop",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+            explanation: `<p style="margin-top: 1.0rem;">
+  The Event Loop is a core idea in Node.js that enables asynchronous, non-blocking I/O operations, making it well-suited for managing high concurrency without multi-threading. Here’s a breakdown of how it works and why it’s essential in the Node.js environment:
+</p>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Single-Threaded Model</h4>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+<p style="margin-top: 1.0rem;">
+  Node.js operates on a single thread using JavaScript, which is synchronous by nature. However, through the event loop, it can handle multiple requests asynchronously, allowing non-blocking operations. Instead of creating multiple threads for handling tasks, Node.js relies on a single thread and the event loop to manage asynchronous operations, such as reading from a file, making HTTP requests, or querying a database.
+</p>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Components of the Event Loop</h4>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+<p style="margin-top: 1.0rem;">
+  The event loop has several phases where different types of tasks are handled:
+</p>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+<p style="margin-top: 1.0rem;">
+  <strong>Timers Phase:</strong> Executes callbacks scheduled by <code>setTimeout</code> and <code>setInterval</code>.
+</p>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+<p style="margin-top: 1.0rem;">
+  <strong>Pending Callbacks Phase:</strong> Executes I/O callbacks deferred from the previous cycle, such as errors in TCP operations.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Idle/Prepare Phase:</strong> Internal use only; Node.js prepares for the next phases in the loop.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Poll Phase:</strong> Retrieves new I/O events and executes I/O-related callbacks, as long as the queue isn’t empty or the poll phase’s timeout hasn’t expired.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Check Phase:</strong> Executes callbacks from <code>setImmediate</code>.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Close Callbacks Phase:</strong> Executes close event callbacks, such as when a socket or connection closes.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">3. Asynchronous Execution with Callbacks, Promises, and async/await</h4>
+
+<p style="margin-top: 1.0rem;">
+  Node.js uses callbacks, Promises, and <code>async/await</code> syntax to manage asynchronous operations within the event loop. These asynchronous operations (like reading files, database queries, or API calls) are offloaded to the background, allowing the main thread to continue executing other code without waiting. Once the asynchronous task completes, its callback or Promise is queued for execution in the event loop, ensuring that tasks are executed in the order they complete.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">4. Non-Blocking I/O and libuv</h4>
+
+<p style="margin-top: 1.0rem;">
+  Node.js’s event loop is powered by libuv, a C++ library that provides the foundation for asynchronous I/O. libuv handles thread pooling and delegates tasks to the appropriate system resources, allowing Node.js to handle multiple I/O operations efficiently on a single thread.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">5. Event Loop Example</h4>
+
+<pre style="margin-top: 1.0rem; background-color: #f5f5f5; padding: 1.0rem;">
+  <code>
+    console.log('Start');
+
+    setTimeout(() => {
+      console.log('Timer 1');
+    }, 0);
+
+    setImmediate(() => {
+      console.log('Immediate 1');
+    });
+
+    Promise.resolve().then(() => {
+      console.log('Promise 1');
+    });
+
+    console.log('End');
+  </code>
+</pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Expected Output:</strong><br>
+  Start<br>
+  End<br>
+  Promise 1<br>
+  Immediate 1<br>
+  Timer 1
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Explanation:</strong> The synchronous code (Start and End) runs first. Promises (microtasks) are prioritized in the event loop, so Promise 1 executes next. Then, <code>setImmediate</code> callbacks execute before the <code>setTimeout</code> callbacks when both are scheduled with zero delay.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">6. Event Loop’s Importance in High-Concurrency Applications</h4>
+
+<p style="margin-top: 1.0rem;">
+  By allowing non-blocking I/O and managing asynchronous operations, the event loop enables Node.js to serve multiple clients simultaneously without needing additional threads. This design makes Node.js ideal for I/O-heavy applications, like real-time web applications, REST APIs, and streaming services, where high concurrency and quick response times are critical.
+</p>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -9863,102 +9808,122 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Global Objects",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+            explanation: `<p style="margin-top: 1.0rem;">
+  In Node.js, global objects are available in all modules, meaning they can be accessed from anywhere within the Node.js application without needing to import them explicitly. These objects provide various functionalities, such as managing the execution environment, interacting with the file system, and handling timers. Here are the key global objects in Node.js:
+</p>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Global</h4>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+<p style="margin-top: 1.0rem;">
+  The <code>global</code> object is the foundational object in Node.js, similar to <code>window</code> in browsers. Variables defined globally (outside of any function or module) are attached to <code>global</code>, though this is typically discouraged to avoid potential conflicts.
+</p>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+<p style="margin-top: 1.0rem;">
+  <strong>Example usage:</strong><br>
+  <code>global.myVariable = "Hello, World!";</code><br>
+  <code>console.log(global.myVariable);</code> // Output: Hello, World!
+</p>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Process</h4>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+<p style="margin-top: 1.0rem;">
+  <code>process</code> provides information about the current Node.js process, including environment variables, runtime settings, and memory usage.
+</p>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+<p style="margin-top: 1.0rem;">
+  <strong>Common properties and methods:</strong><br>
+  <code>process.env</code>: Access environment variables.<br>
+  <code>process.argv</code>: Retrieve command-line arguments.<br>
+  <code>process.exit()</code>: Exit the current process.<br>
+  <code>process.cwd()</code>: Get the current working directory.<br>
+  <code>process.memoryUsage()</code>: Get memory usage information.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example:</strong><br>
+  <code>console.log(process.env.NODE_ENV);</code> // Output: development (or other environment setting)
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">3. Console</h4>
+
+<p style="margin-top: 1.0rem;">
+  <code>console</code> provides standard output functionalities for logging messages, debugging, and handling error output. This object is similar to <code>console</code> in the browser.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Common methods:</strong><br>
+  <code>console.log()</code>: Print general messages.<br>
+  <code>console.error()</code>: Print error messages.<br>
+  <code>console.warn()</code>: Print warning messages.<br>
+  <code>console.table()</code>: Print tabular data.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example:</strong><br>
+  <code>console.log("This is a log message");</code><br>
+  <code>console.error("This is an error message");</code>
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">4. Buffer</h4>
+
+<p style="margin-top: 1.0rem;">
+  <code>Buffer</code> allows handling binary data directly, which is essential for working with data from files, network connections, and more.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example:</strong><br>
+  <code>const buffer = Buffer.from("Hello, Node.js");</code><br>
+  <code>console.log(buffer);</code> // Output: &lt;Buffer 48 65 6c 6c 6f 2c 20 4e 6f 64 65 2e 6a 73&gt;
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">5. __dirname and __filename</h4>
+
+<p style="margin-top: 1.0rem;">
+  <code>__dirname</code> provides the directory path of the current module file.<br>
+  <code>__filename</code> gives the absolute path of the current module file. These are not properties of the global object but are accessible globally.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example:</strong><br>
+  <code>console.log(__dirname);</code> // Output: /Users/username/project<br>
+  <code>console.log(__filename);</code> // Output: /Users/username/project/app.js
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">6. setTimeout(), setInterval(), clearTimeout(), clearInterval()</h4>
+
+<p style="margin-top: 1.0rem;">
+  These timer functions are global, enabling you to handle asynchronous operations with delays.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example:</strong><br>
+  <code>const timeoutId = setTimeout(() => console.log("Executed after 1 second"), 1000);</code><br>
+  <code>clearTimeout(timeoutId);</code> // Prevents the timeout from executing
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">7. Module and exports</h4>
+
+<p style="margin-top: 1.0rem;">
+  <code>module</code> and <code>exports</code> are objects related to the CommonJS module system, allowing code to be exported from one file and imported into another.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example:</strong><br>
+  <code>module.exports = myFunction;</code><br>
+  <code>// In another file</code><br>
+  <code>const myFunction = require('./myModule');</code>
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">8. require</h4>
+
+<p style="margin-top: 1.0rem;">
+  <code>require</code> is a function used to import modules, JSON files, or local files.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Example:</strong><br>
+  <code>const fs = require('fs');</code> // Import the file system module
+</p>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -9983,102 +9948,108 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Modules System",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
+            explanation: `<p style="margin-top: 1.0rem;">
+  Node.js has a module system that allows developers to encapsulate code into separate files and libraries, making it easier to reuse, manage, and organize. The system is based on CommonJS and ES modules, both of which define a standard format for including dependencies and sharing code between files.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. CommonJS Modules</h4>
+
+<p style="margin-top: 1.0rem;">
+  Node.js initially adopted the CommonJS module system, which is widely used and recognized through the use of <code>require</code> and <code>module.exports</code>.
+</p>
+
+<h5 style="margin-top: 1.0rem;">Importing Modules</h5>
+
+<p style="margin-top: 1.0rem;">
+  Use <code>require()</code> to import a module:
+</p>
+
+<pre><code>const fs = require('fs'); // Built-in module
+const customModule = require('./customModule'); // User-defined module
+</code></pre>
+
+<h5 style="margin-top: 1.0rem;">Exporting Modules</h5>
+
+<p style="margin-top: 1.0rem;">
+  To make functions, objects, or variables available outside a file, use <code>module.exports</code>:
+</p>
+
+<pre><code>// customModule.js
+const sayHello = () => console.log('Hello, World!');
+module.exports = sayHello;
+</code></pre>
+
+<pre><code>// main.js
+const sayHello = require('./customModule');
+sayHello(); // Output: Hello, World!
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Key features:</strong><br>
+  <strong>Synchronous loading:</strong> Modules are loaded synchronously in the order they are called.<br>
+  <strong>Encapsulation:</strong> Each module has its own scope, preventing pollution of the global scope.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. ES Modules (ECMAScript Modules or ESM)</h4>
+
+<p style="margin-top: 1.0rem;">
+  Starting from Node.js version 12, Node supports ES modules, which use <code>import</code> and <code>export</code> syntax. This is the standardized module system in JavaScript.
+</p>
+
+<h5 style="margin-top: 1.0rem;">Importing and Exporting</h5>
+
+<pre><code>// In ES module file (customModule.mjs)
+export const sayHello = () => console.log('Hello, ES Modules!');
+</code></pre>
+
+<pre><code>// Importing in another file (main.mjs)
+import sayHello from './customModule.mjs';
+sayHello(); // Output: Hello, ES Modules!
+</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Differences from CommonJS:</strong><br>
+  <strong>Asynchronous loading:</strong> ES modules are loaded asynchronously.<br>
+  <strong>Strict mode:</strong> All ES modules are executed in strict mode by default.<br>
+  <strong>File extension:</strong> <code>.mjs</code> or by specifying <code>"type": "module"</code> in <code>package.json</code>.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">3. Types of Modules in Node.js</h4>
+
+<ul style="margin-top: 1.0rem;">
+  <li><strong>Core Modules:</strong> Node.js comes with built-in modules like <code>fs</code> (File System), <code>http</code>, <code>path</code>, etc., which can be required without installing.</li>
+  <li><strong>User-defined Modules:</strong> These are custom modules created by developers, usually found in separate files within a project.</li>
+  <li><strong>Third-party Modules:</strong> Modules from external sources (like npm) are installed using npm and stored in the <code>node_modules</code> directory. They are typically included in a project’s <code>package.json</code> file.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">4. Package Management with package.json</h4>
+
+<p style="margin-top: 1.0rem;">
+  Node.js projects typically include a <code>package.json</code> file, which:
+</p>
+
+<ul style="margin-top: 1.0rem;">
+  <li>Lists all dependencies,</li>
+  <li>Specifies the entry file,</li>
+  <li>Provides metadata about the project.</li>
+</ul>
+
+<pre><code>{
+  "name": "example",
+  "version": "1.0.0",
+  "main": "main.js",
+  "type": "module", // Specifies that ES module syntax is used
+  "dependencies": {
+    "express": "^4.17.1"
   }
-  return innerFunction; // Return the inner function
 }
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
-
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
-
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
 </code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
 
-const double = multiplier(2);
-const triple = multiplier(3);
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">5. Module Caching</h4>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+<p style="margin-top: 1.0rem;">
+  Node.js caches modules when they are first loaded, meaning subsequent <code>require</code> or <code>import</code> calls for the same module will return the cached instance. This improves performance by avoiding redundant loading but means that module states persist between loads until the cache is cleared.
+</p>`,
             examples: [
               `function outest(){
   var c = 12; 
