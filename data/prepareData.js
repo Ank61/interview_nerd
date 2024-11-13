@@ -10667,116 +10667,132 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "yarn Basics",
             tags: [""],
-            explanation: `  <h1>Yarn - Dependency Management for Node.js</h1>
-    <p>In the context of Node.Js, Yarn is a quick, dependable, and steady dependency control tool for JavaScript projects. It was created by Facebook as an alternative to npm (Node Package Manager) to address some shortcomings in npm, such as speed, determinism (regular installs), and security.</p>
+            explanation: `<p style="margin-top: 1.0rem;">
+  In the context of Node.js, Yarn is a quick, dependable, and steady dependency control tool for JavaScript projects. It was created by Facebook as an alternative to npm (Node Package Manager) to address some shortcomings in npm, including speed, determinism (consistent installs), and security.
+</p>
 
-    <h2>1. Why Yarn?</h2>
-    <ul>
-        <li><strong>Speed:</strong> Yarn is typically faster than npm, especially when installing dependencies, due to caching and parallel operations.</li>
-        <li><strong>Deterministic Installs:</strong> Yarn uses a lock file (yarn.lock) to ensure that the dependencies installed are exactly the same across all environments.</li>
-        <li><strong>Offline Mode:</strong> Yarn caches every package it installs, so if you need to install the same package again, you don't have to download it from the registry (it can be done offline).</li>
-        <li><strong>Security:</strong> Yarn performs checksums on each package to ensure integrity during installation, adding a layer of security.</li>
-    </ul>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Why Yarn?</h4>
 
-    <h2>2. Installing Yarn</h2>
-    <p>Before using Yarn, you need to install it. You can install Yarn globally using npm, Homebrew, or other package managers.</p>
-    <pre><code>Install using npm:
-npm install -g yarn
+<p style="margin-top: 1.0rem;">
+  <strong>Speed:</strong> Yarn is typically faster than npm, especially when installing dependencies, due to caching and parallel operations.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Deterministic Installs:</strong> Yarn uses a lock file (<code>yarn.lock</code>) to ensure that the dependencies installed are exactly the same across all environments.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Offline Mode:</strong> Yarn caches every package it installs, so if you need to install the same package again, you don’t have to download it from the registry (it can be done offline).
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Security:</strong> Yarn performs checksums on each package to ensure integrity during installation, adding a layer of protection.
+</p>
 
-Alternatively, if you're using Homebrew (macOS):
-brew install yarn</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Installing Yarn</h4>
 
-    <h2>3. Basic Commands</h2>
-    <p>Yarn offers similar commands to npm, but with some optimizations. Here's a breakdown of the most commonly used commands:</p>
-    
-    <h3>yarn init</h3>
-    <p>This command is used to initialize a new project and generate a package.json file.</p>
-    <pre><code>yarn init</code></pre>
-    <p>This will prompt you to answer a few questions about your project (name, version, description, etc.), and then create the package.json file.</p>
+<p style="margin-top: 1.0rem;">
+  Before using Yarn, you need to install it. You can install Yarn globally using npm, Homebrew, or other package managers.
+</p>
 
-    <h3>yarn add &lt;package&gt;</h3>
-    <p>To install a package and add it as a dependency in your package.json, use the yarn add command.</p>
-    <pre><code>yarn add express</code></pre>
-    <p>This installs the express package and adds it to the dependencies section in package.json.</p>
-    <p>You can also install specific versions or packages with certain flags:</p>
-    <pre><code>Install a specific version:
-yarn add react@16.8.0
+<p style="margin-top: 1.0rem;">
+  <strong>Install using npm:</strong><br>
+  <code>npm install -g yarn</code>
+</p>
 
-Install a package as a dev dependency (useful for tools like testing libraries, linters, etc.):
-yarn add --dev jest
+<p style="margin-top: 1.0rem;">
+  Alternatively, if you're using Homebrew (macOS):<br>
+  <code>brew install yarn</code>
+</p>
 
-Install a package globally (accessible anywhere on your system):
-yarn global add create-react-app</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">3. Basic Commands</h4>
 
-    <h3>yarn install</h3>
-    <p>To install all dependencies listed in the package.json, run:</p>
-    <pre><code>yarn install</code></pre>
-    <p>This command is similar to npm install and is the primary way to install the project's dependencies. It will respect the yarn.lock file (which ensures deterministic installs).</p>
+<p style="margin-top: 1.0rem;">
+  Yarn offers similar commands to npm but with some optimizations. Here's a breakdown of the most commonly used commands:
+</p>
 
-    <h3>yarn remove &lt;package&gt;</h3>
-    <p>To remove a package from the project and package.json, use the yarn remove command:</p>
-    <pre><code>yarn remove express</code></pre>
-    <p>This will uninstall express and remove it from dependencies in package.json.</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Initialize a new project:</strong><br>
+  <code>yarn init</code>
+</p>
 
-    <h3>yarn upgrade &lt;package&gt;</h3>
-    <p>To upgrade a specific package to its latest version or a specific version:</p>
-    <pre><code>yarn upgrade express</code></pre>
-    <p>You can also upgrade to a specific version:</p>
-    <pre><code>yarn upgrade express@4.17.1</code></pre>
-    <p>To upgrade all packages to their latest version, you can use:</p>
-    <pre><code>yarn upgrade --latest</code></pre>
+<p style="margin-top: 1.0rem;">
+  <strong>Add a package:</strong><br>
+  <code>yarn add &lt;package&gt;</code><br>
+  Example: <code>yarn add express</code>
+</p>
 
-    <h3>yarn run &lt;script&gt;</h3>
-    <p>You can run a script defined in your package.json using the yarn run command. This is similar to npm run &lt;script&gt;.</p>
-    <pre><code>If you have a script in package.json like this:
+<p style="margin-top: 1.0rem;">
+  <strong>Install all dependencies:</strong><br>
+  <code>yarn install</code>
+</p>
 
-"scripts": {
-  "start": "node index.js"
-}
+<p style="margin-top: 1.0rem;">
+  <strong>Remove a package:</strong><br>
+  <code>yarn remove &lt;package&gt;</code><br>
+  Example: <code>yarn remove express</code>
+</p>
 
-You can run the script using:
+<p style="margin-top: 1.0rem;">
+  <strong>Upgrade a package:</strong><br>
+  <code>yarn upgrade &lt;package&gt;</code><br>
+  Example: <code>yarn upgrade express</code>
+</p>
 
-yarn run start
-Or simply:
+<p style="margin-top: 1.0rem;">
+  <strong>Run a script:</strong><br>
+  <code>yarn run &lt;script&gt;</code><br>
+  Example: <code>yarn run start</code>
+</p>
 
-yarn start
-(Yarn automatically looks for the start script and executes it).</code></pre>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">4. Lock File (<code>yarn.lock</code>)</h4>
 
-    <h3>yarn global</h3>
-    <p>Yarn also supports installing packages globally, which allows you to run tools and commands globally across projects.</p>
-    <pre><code>yarn global add create-react-app</code></pre>
-    <p>This installs create-react-app globally, making it available as a command.</p>
+<p style="margin-top: 1.0rem;">
+  Yarn uses a lock file called <code>yarn.lock</code> to lock the exact version of every package (including transitive dependencies). This helps avoid the "works on my machine" problem by ensuring that everyone who installs dependencies gets the exact same version of each package.
+</p>
 
-    <h2>4. Lock File (yarn.lock)</h2>
-    <p>Yarn uses a lock file called yarn.lock to lock the exact version of every package (including transitive dependencies). This helps avoid the "works on my machine" problem by ensuring that everyone who installs dependencies gets the exact same version of each package.</p>
-    <p>The yarn.lock file is automatically generated when you run yarn install and will be updated whenever dependencies are added or removed. It should be committed to your version control system (e.g., Git) to ensure consistency across different environments.</p>
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">5. Offline Mode</h4>
 
-    <h2>5. Offline Mode</h2>
-    <p>Yarn caches all packages it installs in a global cache directory. If you install the same package again, Yarn can install it from the cache rather than downloading it again from the registry.</p>
-    <p>To enable offline mode:</p>
-    <pre><code>Run yarn install to install the dependencies.
-Yarn caches them, so you can later run yarn install again without an internet connection.</code></pre>
+<p style="margin-top: 1.0rem;">
+  Yarn caches all packages it installs in a global cache directory. If you install the same package again, Yarn can install it from the cache rather than downloading it again from the registry.
+</p>
 
-    <h2>6. Workspaces</h2>
-    <p>Yarn supports workspaces, which are a set of features in Yarn that offer a way to organize multiple packages within a single repository (monorepo).</p>
-    <p>Workspaces help with dependency management across multiple packages within a single project, allowing you to manage interdependencies more easily.</p>
-    <p>To set up workspaces, add the following to your package.json:</p>
-    <pre><code>{
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">6. Workspaces</h4>
+
+<p style="margin-top: 1.0rem;">
+  Yarn supports workspaces, which offer a way to organize multiple packages within a single repository (monorepo), allowing you to manage interdependencies more easily.
+</p>
+
+<p style="margin-top: 1.0rem;">
+  Example configuration in <code>package.json</code>:
+</p>
+
+<pre style="margin-top: 1.0rem; background-color: #f5f5f5; padding: 1.0rem;">
+  <code>
+{
   "private": true,
   "workspaces": [
     "packages/*"
   ]
-}</code></pre>
-    <p>Then you can manage dependencies within each workspace.</p>
+}
+  </code>
+</pre>
 
-    <h2>7. Comparison with npm</h2>
-    <p>While Yarn and npm are similar, there are some key differences:</p>
-    <ul>
-        <li><strong>Speed:</strong> Yarn tends to be faster because it installs packages in parallel and uses caching.</li>
-        <li><strong>Deterministic Installs:</strong> Yarn uses the yarn.lock file to lock the versions of installed dependencies, ensuring consistent installs.</li>
-        <li><strong>Offline Support:</strong> Yarn’s caching system allows for installations even when offline.</li>
-        <li><strong>Commands:</strong> Yarn has slightly different commands (e.g., yarn add vs. npm install), but the basic functionality is the same.</li>
-    </ul>`,
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">7. Comparison with npm</h4>
+
+<p style="margin-top: 1.0rem;">
+  While Yarn and npm are similar, there are some key differences:
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Speed:</strong> Yarn tends to be faster because it installs packages in parallel and uses caching.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Deterministic Installs:</strong> Yarn uses the <code>yarn.lock</code> file to lock the versions of installed dependencies, ensuring consistent installs.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Offline Support:</strong> Yarn’s caching system allows for installations even when offline.
+</p>
+<p style="margin-top: 1.0rem;">
+  <strong>Commands:</strong> Yarn has slightly different commands (e.g., <code>yarn add</code> vs. <code>npm install</code>), but the basic functionality is the same.
+</p>`,
             examples: [
               `function outest(){
   var c = 12; 
