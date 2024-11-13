@@ -10074,102 +10074,96 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "CommonJS Modules",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+            explanation: `  <h1>CommonJS Modules in Node.js</h1>
+  <p>In Node.js, the CommonJS module system is the original and widely used module format that enables developers to organize and share code across files. CommonJS modules are particularly known for their <code>require</code> and <code>module.exports</code> syntax, and they run synchronously, making them ideal for server-side JavaScript like Node.js.</p>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+  <h2>How CommonJS Modules Work</h2>
+  <h3>Loading Modules with <code>require()</code>:</h3>
+  <p>To import a module in CommonJS, you use the <code>require()</code> function. This function synchronously loads the module and returns an object that contains the module’s exported members.</p>
+  <pre><code>const fs = require('fs'); // Built-in module
+const customModule = require('./customModule'); // User-defined module
+  </code></pre>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+  <h3>Exporting with <code>module.exports</code> and <code>exports</code>:</h3>
+  <ul>
+    <li>Each module in Node.js has a unique scope and its own <code>module</code> object.</li>
+    <li><code>module.exports</code> is an object that represents the contents a module exposes to other files.</li>
+    <li>You can attach functions, objects, and other data to <code>module.exports</code>, which are then available to files that <code>require()</code> the module.</li>
+  </ul>
+  
+  <pre><code>// customModule.js
+const greet = () => console.log('Hello, CommonJS!');
+module.exports = greet; // Export function
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+// main.js
+const greet = require('./customModule');
+greet(); // Output: Hello, CommonJS!
+  </code></pre>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+  <h3>Using <code>exports</code> as a Shortcut:</h3>
+  <p><code>exports</code> is a shortcut to <code>module.exports</code> provided by Node.js. You can use <code>exports</code> to add properties to the <code>module.exports</code> object.</p>
+  <pre><code>// customModule.js
+exports.greet = () => console.log('Hello from CommonJS!');
 
-const double = multiplier(2);
-const triple = multiplier(3);
+// main.js
+const customModule = require('./customModule');
+customModule.greet(); // Output: Hello from CommonJS!
+  </code></pre>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+  <p><strong>Important Note:</strong> If you reassign <code>exports</code> directly (e.g., <code>exports = ...</code>), it will break the reference to <code>module.exports</code>, so always use <code>module.exports</code> when reassigning an entire export object.</p>
+
+  <h2>Key Features of CommonJS in Node.js</h2>
+  <h3>Synchronous Loading:</h3>
+  <p>CommonJS modules load synchronously, which means the module must be fully loaded before the code continues. This is usually fine for server-side applications but is not ideal for the browser, where asynchronous loading is preferred.</p>
+
+  <h3>Encapsulation:</h3>
+  <p>Each module in Node.js has its own scope and doesn’t pollute the global scope. Variables, functions, and objects defined inside a module are local to that module unless explicitly exported.</p>
+
+  <h3>Caching:</h3>
+  <p>Node.js caches modules after they are loaded, meaning any subsequent <code>require()</code> calls for the same module will return the cached version instead of reloading it. This caching improves performance by preventing redundant loading but also means that changes to a module won’t be picked up unless the cache is cleared or the application restarts.</p>
+  <pre><code>const myModule = require('./myModule');
+// myModule is cached after this initial load
+  </code></pre>
+
+  <h2>CommonJS Module Example</h2>
+  <p>Let's see an example with multiple exports:</p>
+  <pre><code>// mathModule.js
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+
+module.exports = {
+  add,
+  subtract
+};
+  </code></pre>
+  <p>Now, import it in another file:</p>
+  <pre><code>// main.js
+const math = require('./mathModule');
+
+console.log(math.add(5, 3)); // Output: 8
+console.log(math.subtract(5, 3)); // Output: 2
+  </code></pre>
+
+  <h2>CommonJS Module Structure in Node.js</h2>
+  <ul>
+    <li><strong>Built-in Core Modules:</strong> Node.js comes with many pre-built modules, like <code>fs</code>, <code>http</code>, <code>path</code>, etc., that provide essential functionalities.</li>
+    <li><strong>Third-party Modules:</strong> Installed via npm, these modules extend Node.js with additional capabilities.</li>
+    <li><strong>User-defined Modules:</strong> Custom modules you define in your project to encapsulate specific functionality.</li>
+  </ul>
+
+  <h2>Advantages and Limitations of CommonJS</h2>
+  <h3>Advantages:</h3>
+  <ul>
+    <li>Simple, synchronous, and widely supported in the Node.js environment.</li>
+    <li>Module scope ensures encapsulation.</li>
+    <li>Built-in caching improves performance for repeated <code>require</code> calls.</li>
+  </ul>
+
+  <h3>Limitations:</h3>
+  <ul>
+    <li>Synchronous nature makes it unsuitable for use in environments where asynchronous loading is preferred (like the browser).</li>
+    <li>Not as modern or flexible as ES modules, which have native support in JavaScript across both client and server environments.</li>
+  </ul>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -10194,102 +10188,145 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "ES6 Modules",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
+            explanation: `<p>In Node.Js, ES6 modules (also called ES modules or ECMAScript modules) provide a modern, standardized way of structuring and importing/exporting code, offering advantages over the older CommonJS system, like asynchronous loading and better integration with frontend JavaScript. ES modules use the <code>import</code> and <code>export</code> syntax, which has become the standard for JavaScript modules in both the browser and Node.</p>
+
+<h2>Setting Up ES6 Modules in Node.Js</h2>
+<p>To use ES modules in Node.Js, you need to specify your module type. You can do this in two ways:</p>
+
+<h3>Setting "type": "module" in package.json:</h3>
+<p>Adding <code>"type": "module"</code> in your <code>package.json</code> file will enable ES6 module syntax for all <code>.js</code> files in your project.</p>
+
+<pre><code>{
+  "name": "my-app",
+  "version": "1.0.0",
+  "type": "module"
+}</code></pre>
+
+<h3>Using .mjs File Extension:</h3>
+<p>If you don’t want to set <code>"type": "module"</code> in <code>package.json</code>, you can use the <code>.mjs</code> extension for files that should be treated as ES modules.</p>
+
+<h2>Importing and Exporting in ES6 Modules</h2>
+
+<h3>Named Exports:</h3>
+<p>You can export multiple variables or functions by marking them with the <code>export</code> keyword. Other files can then selectively import them by name.</p>
+
+<pre><code>// math.js
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;
+
+// main.js
+import { add, subtract } from './math.js';
+console.log(add(5, 3)); // Output: 8
+console.log(subtract(5, 3)); // Output: 2</code></pre>
+
+<h3>Default Exports:</h3>
+<p>A module can have a single default export, often used for the primary function or class a module provides.</p>
+
+<pre><code>// greet.js
+export default function greet(name) {
+  return Hello, name!;
 }
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+// main.js
+import greet from './greet.js';
+console.log(greet('World')); // Output: Hello, World!</code></pre>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+<h3>Importing All (* as Syntax):</h3>
+<p>You can import everything from a module using <code>* as</code> syntax, which is useful if you want to keep all exports under a single namespace.</p>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+<pre><code>// main.js
+import * as math from './math.js';
+console.log(math.add(5, 3)); // Output: 8
+console.log(math.subtract(5, 3)); // Output: 2</code></pre>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+<h2>Key Features of ES6 Modules</h2>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+<h3>Asynchronous Loading:</h3>
+<p>Unlike CommonJS, ES6 modules are loaded asynchronously, improving performance, especially in environments like the browser where non-blocking loading is essential.</p>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+<h3>Strict Mode by Default:</h3>
+<p>All ES6 modules are in strict mode by default, making your code more secure and error-free by enforcing stricter parsing and error handling.</p>
+
+<h3>File Extension Requirement:</h3>
+<p>In ES modules, you must include the full file extension (e.g., <code>.js</code>, <code>.mjs</code>) in the import statements.</p>
+
+<h3>Top-Level await:</h3>
+<p>ES6 modules allow using <code>await</code> at the top level, which is useful for handling asynchronous code without wrapping it in an <code>async</code> function (Node 14+).</p>
+
+<pre><code>// asyncExample.js
+const response = await fetch('https://api.example.com/data');
+const data = await response.json();
+console.log(data);</code></pre>
+
+<h2>Differences from CommonJS</h2>
+<table>
+  <tr>
+    <th>Feature</th>
+    <th>CommonJS</th>
+    <th>ES6 Modules</th>
+  </tr>
+  <tr>
+    <td>Syntax</td>
+    <td><code>require</code>, <code>module.exports</code></td>
+    <td><code>import</code>, <code>export</code></td>
+  </tr>
+  <tr>
+    <td>Loading Type</td>
+    <td>Synchronous</td>
+    <td>Asynchronous</td>
+  </tr>
+  <tr>
+    <td>File Extension</td>
+    <td>.js</td>
+    <td>.js, .mjs</td>
+  </tr>
+</table>
+
+<h2>Example of a Full ES6 Module Setup</h2>
+<p>Here’s an example project structure with ES6 modules:</p>
+
+<pre><code>project-folder/
+├── package.json
+├── math.js
+└── main.js</code></pre>
+
+<p><code>package.json</code></p>
+
+<pre><code>{
+  "name": "es6-module-example",
+  "version": "1.0.0",
+  "type": "module"
+}</code></pre>
+
+<p><code>math.js</code></p>
+
+<pre><code>// Named exports
+export const add = (a, b) => a + b;
+export const subtract = (a, b) => a - b;
+
+// Default export
+export default function multiply(a, b) {
+  return a * b;
+}</code></pre>
+
+<p><code>main.js</code></p>
+
+<pre><code>import multiply, { add, subtract } from './math.js';
+
+console.log(add(5, 3)); // Output: 8
+console.log(subtract(5, 3)); // Output: 2
+console.log(multiply(5, 3)); // Output: 15</code></pre>
+
+<h2>Limitations of ES6 Modules in Node.js</h2>
+
+<h3>Interop with CommonJS:</h3>
+<p>Mixing CommonJS (<code>require</code>) and ES6 modules (<code>import/export</code>) in the same project can lead to compatibility issues. For example, you might need to use <code>.default</code> when importing CommonJS modules into ES modules.</p>
+
+<h3>Cannot Use Conditional Imports/Exports:</h3>
+<p>ES6 module imports and exports must be statically analyzable, so you cannot use variables or conditions to import/export dynamically.</p>
+
+<h3>File Extension Required:</h3>
+<p>Forgetting the file extension (e.g., <code>.js</code>, <code>.mjs</code>) will cause import errors.</p>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -10314,102 +10351,131 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Package.json",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+            explanation: `<p style="margin-top: 1.0rem;">
+  In Node.js, <code>package.json</code> is a critical configuration document that defines the metadata, dependencies, and scripts for a project. It’s vital for managing the project’s package dependencies and configuration, making it easier to share and collaborate on projects.
+</p>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Basic Structure of package.json</h4>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+<pre style="margin-top: 1.0rem; background-color: #f9f9f9; padding: 1rem;">
+<code>{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "A sample Node.js application",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["node", "example", "app"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {},
+  "type": "module"
+}</code>
+</pre>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Important Properties in package.json</h4>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+<p style="margin-top: 1.0rem;">
+  <strong>name:</strong> Specifies the name of the package. Should be lowercase and cannot contain spaces; hyphens (-) or underscores (_) are typically used to separate words.<br>
+  <strong>Example:</strong> <code>"name": "my-app"</code>
+</p>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+<p style="margin-top: 1.0rem;">
+  <strong>version:</strong> Defines the current version of the package, following semantic versioning (MAJOR.MINOR.PATCH).<br>
+  <strong>Example:</strong> <code>"version": "1.0.0"</code>
+</p>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+<p style="margin-top: 1.0rem;">
+  <strong>description:</strong> Provides a short summary of the package. Useful for documentation and when publishing to registries like npm.<br>
+  <strong>Example:</strong> <code>"description": "A sample Node.js application"</code>
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>main:</strong> Specifies the entry point for the application, typically the main JavaScript file.<br>
+  <strong>Example:</strong> <code>"main": "index.js"</code>
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>scripts:</strong> Defines commands that can be run via <code>npm run &lt;script-name&gt;</code>.<br>
+  <strong>Example:</strong> 
+</p>
+<pre style="background-color: #f9f9f9; padding: 1rem;">
+<code>"scripts": {
+  "start": "node index.js",
+  "test": "jest"
+}</code>
+</pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>keywords:</strong> An array of strings that categorize the project. Useful for searchability on npm and similar registries.<br>
+  <strong>Example:</strong> <code>"keywords": ["node", "example", "app"]</code>
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>author:</strong> The name of the author or creator of the package.<br>
+  <strong>Example:</strong> <code>"author": "Your Name"</code>
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>license:</strong> Specifies the license type for the project (e.g., MIT, ISC, Apache-2.0).<br>
+  <strong>Example:</strong> <code>"license": "MIT"</code>
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Dependencies</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>dependencies:</strong> Lists the libraries or packages that the project needs to run in production.<br>
+  <strong>Example:</strong>
+</p>
+<pre style="background-color: #f9f9f9; padding: 1rem;">
+<code>"dependencies": {
+  "express": "^4.17.1",
+  "mongoose": "^5.10.0"
+}</code>
+</pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>devDependencies:</strong> Lists packages needed only for development, such as testing or build tools.<br>
+  <strong>Example:</strong>
+</p>
+<pre style="background-color: #f9f9f9; padding: 1rem;">
+<code>"devDependencies": {
+  "jest": "^26.4.2",
+  "eslint": "^7.8.1"
+}</code>
+</pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Additional Properties</h4>
+
+<p style="margin-top: 1.0rem;">
+  <strong>type:</strong> Specifies the module type for the project.<br>
+  <strong>Example:</strong> <code>"type": "module"</code>
+</p>
+
+<p style="margin-top: 1.0rem;">
+  <strong>engines:</strong> Specifies the Node.js version compatibility for the project.<br>
+  <strong>Example:</strong>
+</p>
+<pre style="background-color: #f9f9f9; padding: 1rem;">
+<code>"engines": {
+  "node": ">=14.0.0"
+}</code>
+</pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>browserslist:</strong> Specifies the supported browser environments.<br>
+  <strong>Example:</strong>
+</p>
+<pre style="background-color: #f9f9f9; padding: 1rem;">
+<code>"browserslist": [
+  ">0.2%",
+  "not dead",
+  "not op_mini all"
+]</code>
+</pre>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -10434,102 +10500,149 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "npm Basics",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
+            explanation: `<p style="margin-top: 1.0rem;">
+  NPM (Node Package Manager) is a vital tool in the Node.js environment, widely used to manage and share JavaScript applications and dependencies. It offers access to thousands of libraries and modules, enabling developers to add functionalities without needing to reinvent the wheel. Here’s a breakdown of NPM basics within the context of Node.js.
+</p>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Installing Node.js and NPM</h4>
+
+<p style="margin-top: 1.0rem;">
+  NPM is automatically installed when you install Node.js. You can check the installed versions of Node.js and NPM by running:
+</p>
+<pre style="margin-top: 1.0rem;"><code>node -v<br>npm -v</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. NPM Commands</h4>
+
+<p style="margin-top: 1.0rem;">
+  NPM has several commands to help manage dependencies, packages, and project configurations:
+</p>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 600;">Initializing a Project</h5>
+<p style="margin-top: 1.0rem;">
+  To start using NPM in your project, create a <code>package.json</code> file with:
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm init</code></pre>
+<p style="margin-top: 1.0rem;">
+  This command guides you through creating a <code>package.json</code> file, which contains metadata about your project. To skip the prompts, use <code>npm init -y</code>.
+</p>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 600;">Installing Packages</h5>
+<p style="margin-top: 1.0rem;">
+  <strong>Local Installation</strong> (project-specific): Installs packages in the <code>node_modules</code> directory within the project folder.
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm install &lt;package-name&gt;</code><br>Example: <code>npm install express</code></pre>
+
+<p style="margin-top: 1.0rem;">
+  <strong>Global Installation:</strong> Installs packages globally, useful for tools and CLIs.
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm install -g &lt;package-name&gt;</code><br>Example: <code>npm install -g nodemon</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 600;">Development Dependencies</h5>
+<p style="margin-top: 1.0rem;">
+  Installed packages needed only during development (e.g., testing frameworks, linters):
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm install &lt;package-name&gt; --save-dev</code><br>Example: <code>npm install jest --save-dev</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 600;">Listing Installed Packages</h5>
+<p style="margin-top: 1.0rem;">
+  To view all packages installed in your project, use:
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm list</code></pre>
+<p style="margin-top: 1.0rem;">
+  For globally installed packages:
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm list -g --depth=0</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 600;">Removing Packages</h5>
+<p style="margin-top: 1.0rem;">
+  To uninstall a package, use:
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm uninstall &lt;package-name&gt;</code></pre>
+
+<h5 style="margin-top: 1.0rem; font-size: 1.15rem; font-weight: 600;">Updating Packages</h5>
+<p style="margin-top: 1.0rem;">
+  To update a specific package to the latest version:
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm update &lt;package-name&gt;</code></pre>
+<p style="margin-top: 1.0rem;">
+  To check if any installed package has an available update:
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm outdated</code></pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">3. The package.json File</h4>
+
+<p style="margin-top: 1.0rem;">
+  The <code>package.json</code> file is the core configuration file for an NPM project.
+</p>
+<pre style="margin-top: 1.0rem;">
+<code>
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "An example Node.js project",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"No tests specified\" && exit 1"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "author": "John Doe",
+  "license": "ISC"
 }
+</code>
+</pre>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">4. Package Versioning</h4>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+<p style="margin-top: 1.0rem;">
+  NPM uses Semantic Versioning (SemVer) to track versions. For example, ^1.2.3 means:
+</p>
+<ul style="margin-top: 1.0rem;">
+  <li><strong>1</strong>: Major version - breaking changes.</li>
+  <li><strong>2</strong>: Minor version - new features, backward-compatible.</li>
+  <li><strong>3</strong>: Patch version - bug fixes, backward-compatible.</li>
+</ul>
+<p style="margin-top: 1.0rem;">
+  <strong>Caret (^):</strong> Allows updates that don't change the leftmost non-zero digit. <br>
+  <strong>Tilde (~):</strong> Allows updates to the latest patch version.
+</p>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">5. NPM Scripts</h4>
+
+<p style="margin-top: 1.0rem;">
+  NPM allows you to define scripts for tasks like starting a server or running tests.
+</p>
+<pre style="margin-top: 1.0rem;">
+<code>
+"scripts": {
+  "start": "node index.js",
+  "dev": "nodemon index.js",
+  "test": "jest"
 }
+</code>
+</pre>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">6. The node_modules Directory and package-lock.json</h4>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+<p style="margin-top: 1.0rem;">
+  <strong>node_modules:</strong> Directory where all locally installed packages are stored. <br>
+  <strong>package-lock.json:</strong> Records the exact versions of each installed dependency, ensuring consistency.
+</p>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">7. NPM Registry and Publishing Packages</h4>
+
+<p style="margin-top: 1.0rem;">
+  The NPM Registry is a public database of JavaScript packages. You can create and publish your own package to the registry with:
+</p>
+<pre style="margin-top: 1.0rem;"><code>npm publish</code></pre>
+<p style="margin-top: 1.0rem;">
+  To publish packages, you need an NPM account and must log in using <code>npm login</code>.
+</p>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -10554,102 +10667,116 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "yarn Basics",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
+            explanation: `  <h1>Yarn - Dependency Management for Node.js</h1>
+    <p>In the context of Node.Js, Yarn is a quick, dependable, and steady dependency control tool for JavaScript projects. It was created by Facebook as an alternative to npm (Node Package Manager) to address some shortcomings in npm, such as speed, determinism (regular installs), and security.</p>
+
+    <h2>1. Why Yarn?</h2>
+    <ul>
+        <li><strong>Speed:</strong> Yarn is typically faster than npm, especially when installing dependencies, due to caching and parallel operations.</li>
+        <li><strong>Deterministic Installs:</strong> Yarn uses a lock file (yarn.lock) to ensure that the dependencies installed are exactly the same across all environments.</li>
+        <li><strong>Offline Mode:</strong> Yarn caches every package it installs, so if you need to install the same package again, you don't have to download it from the registry (it can be done offline).</li>
+        <li><strong>Security:</strong> Yarn performs checksums on each package to ensure integrity during installation, adding a layer of security.</li>
+    </ul>
+
+    <h2>2. Installing Yarn</h2>
+    <p>Before using Yarn, you need to install it. You can install Yarn globally using npm, Homebrew, or other package managers.</p>
+    <pre><code>Install using npm:
+npm install -g yarn
+
+Alternatively, if you're using Homebrew (macOS):
+brew install yarn</code></pre>
+
+    <h2>3. Basic Commands</h2>
+    <p>Yarn offers similar commands to npm, but with some optimizations. Here's a breakdown of the most commonly used commands:</p>
+    
+    <h3>yarn init</h3>
+    <p>This command is used to initialize a new project and generate a package.json file.</p>
+    <pre><code>yarn init</code></pre>
+    <p>This will prompt you to answer a few questions about your project (name, version, description, etc.), and then create the package.json file.</p>
+
+    <h3>yarn add &lt;package&gt;</h3>
+    <p>To install a package and add it as a dependency in your package.json, use the yarn add command.</p>
+    <pre><code>yarn add express</code></pre>
+    <p>This installs the express package and adds it to the dependencies section in package.json.</p>
+    <p>You can also install specific versions or packages with certain flags:</p>
+    <pre><code>Install a specific version:
+yarn add react@16.8.0
+
+Install a package as a dev dependency (useful for tools like testing libraries, linters, etc.):
+yarn add --dev jest
+
+Install a package globally (accessible anywhere on your system):
+yarn global add create-react-app</code></pre>
+
+    <h3>yarn install</h3>
+    <p>To install all dependencies listed in the package.json, run:</p>
+    <pre><code>yarn install</code></pre>
+    <p>This command is similar to npm install and is the primary way to install the project's dependencies. It will respect the yarn.lock file (which ensures deterministic installs).</p>
+
+    <h3>yarn remove &lt;package&gt;</h3>
+    <p>To remove a package from the project and package.json, use the yarn remove command:</p>
+    <pre><code>yarn remove express</code></pre>
+    <p>This will uninstall express and remove it from dependencies in package.json.</p>
+
+    <h3>yarn upgrade &lt;package&gt;</h3>
+    <p>To upgrade a specific package to its latest version or a specific version:</p>
+    <pre><code>yarn upgrade express</code></pre>
+    <p>You can also upgrade to a specific version:</p>
+    <pre><code>yarn upgrade express@4.17.1</code></pre>
+    <p>To upgrade all packages to their latest version, you can use:</p>
+    <pre><code>yarn upgrade --latest</code></pre>
+
+    <h3>yarn run &lt;script&gt;</h3>
+    <p>You can run a script defined in your package.json using the yarn run command. This is similar to npm run &lt;script&gt;.</p>
+    <pre><code>If you have a script in package.json like this:
+
+"scripts": {
+  "start": "node index.js"
 }
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+You can run the script using:
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+yarn run start
+Or simply:
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+yarn start
+(Yarn automatically looks for the start script and executes it).</code></pre>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+    <h3>yarn global</h3>
+    <p>Yarn also supports installing packages globally, which allows you to run tools and commands globally across projects.</p>
+    <pre><code>yarn global add create-react-app</code></pre>
+    <p>This installs create-react-app globally, making it available as a command.</p>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+    <h2>4. Lock File (yarn.lock)</h2>
+    <p>Yarn uses a lock file called yarn.lock to lock the exact version of every package (including transitive dependencies). This helps avoid the "works on my machine" problem by ensuring that everyone who installs dependencies gets the exact same version of each package.</p>
+    <p>The yarn.lock file is automatically generated when you run yarn install and will be updated whenever dependencies are added or removed. It should be committed to your version control system (e.g., Git) to ensure consistency across different environments.</p>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+    <h2>5. Offline Mode</h2>
+    <p>Yarn caches all packages it installs in a global cache directory. If you install the same package again, Yarn can install it from the cache rather than downloading it again from the registry.</p>
+    <p>To enable offline mode:</p>
+    <pre><code>Run yarn install to install the dependencies.
+Yarn caches them, so you can later run yarn install again without an internet connection.</code></pre>
+
+    <h2>6. Workspaces</h2>
+    <p>Yarn supports workspaces, which are a set of features in Yarn that offer a way to organize multiple packages within a single repository (monorepo).</p>
+    <p>Workspaces help with dependency management across multiple packages within a single project, allowing you to manage interdependencies more easily.</p>
+    <p>To set up workspaces, add the following to your package.json:</p>
+    <pre><code>{
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}</code></pre>
+    <p>Then you can manage dependencies within each workspace.</p>
+
+    <h2>7. Comparison with npm</h2>
+    <p>While Yarn and npm are similar, there are some key differences:</p>
+    <ul>
+        <li><strong>Speed:</strong> Yarn tends to be faster because it installs packages in parallel and uses caching.</li>
+        <li><strong>Deterministic Installs:</strong> Yarn uses the yarn.lock file to lock the versions of installed dependencies, ensuring consistent installs.</li>
+        <li><strong>Offline Support:</strong> Yarn’s caching system allows for installations even when offline.</li>
+        <li><strong>Commands:</strong> Yarn has slightly different commands (e.g., yarn add vs. npm install), but the basic functionality is the same.</li>
+    </ul>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -10674,102 +10801,43 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Asynchronous Programming",
             tags: [""],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+            explanation: ` <div style="background-color: #ffffff; padding: 20px; max-width: 900px; margin: auto; margin-top: 50px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h1 style="text-align: center; color: #2c3e50;">Asynchronous Programming in Node.Js</h1>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+        <p>Asynchronous programming is a essential idea in Node.Js that permits non-blockading operations, permitting the server to address multiple obligations simultaneously with out watching for one undertaking to complete earlier than beginning the following. This is crucial for overall performance in web packages in which I/O operations (like analyzing files, making network requests, or querying databases) are not unusual and can take significant time.</p>
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+        <p>In conventional synchronous programming, every task should finish before the following one starts offevolved. This results in blockading operations that lessen overall performance, mainly in I/O-heavy applications. Asynchronous programming in Node.Js helps avoid this issue with the aid of permitting responsibilities to run inside the heritage even as other operations keep to execute.</p>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+        <h2 style="color: #2980b9;">Key Concepts and Best Practices in Asynchronous Programming</h2>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+        <h3 style="color: #8e44ad;">Event Loop and Non-blocking I/O</h3>
+        <p>Node.Js operates on a unmarried-threaded event loop that allows asynchronous operations. When an I/O operation is known as, Node.Js sends it to the system (like studying a document or making an HTTP request), and whilst looking forward to the reaction, it keeps to execute other code. Once the I/O operation finishes, it notifies Node.Js through activities or callbacks, which can be then dealt with by means of the event loop.</p>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+        <h3 style="color: #8e44ad;">Concurrency, Not Parallelism</h3>
+        <p>Asynchronous programming in Node.Js doesn't imply the machine is jogging multiple tasks in parallel. Rather, it’s about coping with many duties concurrently with out blocking the main thread. For example, if you're reading files at the equal time, Node.Js doesn’t await the first document to finish studying before starting the second one. Both operations are treated in parallel via the working system, and Node.Js keeps executing the program with out anticipating each operation to complete.</p>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+        <h3 style="color: #8e44ad;">Efficiency in I/O-heavy Operations</h3>
+        <p>Node.Js’s non-blocking off nature is particularly efficient for coping with I/O operations like community requests, database queries, or report analyzing, where looking ahead to a reaction may be time-ingesting. Instead of conserving up the server, Node.Js can deal with other requests whilst awaiting responses. This improves scalability and throughput, particularly in real-time programs, APIs, and microservices.</p>
+
+        <h3 style="color: #8e44ad;">Improved Scalability</h3>
+        <p>By handling a couple of requests asynchronously with out watching for every one to complete, Node.Js can scale greater efficiently. For example, in a conventional multi-threaded server (like those the use of Java or PHP), every incoming request would possibly require a separate thread, which can fast emerge as useful resource-extensive. In comparison, Node.Js handles requests in a unmarried thread, the usage of the event loop and non-blockading I/O to keep resource intake low. This allows Node.Js to deal with lots of concurrent connections with minimum overhead.</p>
+
+        <h3 style="color: #8e44ad;">Optimizing Server Performance</h3>
+        <p>Asynchronous code execution reduces wait instances, preventing the server from being blocked on responsibilities that don't require lively CPU utilization. This is specifically beneficial for APIs that perform complex or time-eating duties, along with querying databases, interacting with external services, or rendering massive media documents, which would in any other case gradual down the server if done synchronously.</p>
+
+        <h3 style="color: #8e44ad;">Managing Resources Efficiently</h3>
+        <p>With asynchronous programming, the gadget can use assets extra correctly by using now not protecting onto threads at the same time as awaiting I/O operations to complete. This facilitates lessen useful resource consumption, making Node.Js applications extraordinarily green, especially beneath excessive load. This is key for programs where performance is vital, together with real-time web applications, gaming, and statistics streaming.</p>
+
+        <h3 style="color: #2980b9;">Best Practices for Asynchronous Programming</h3>
+
+        <ul style="list-style-type: square; margin-left: 20px;">
+            <li><strong>Leverage Asynchronous APIs:</strong> Node.Js gives a plethora of asynchronous APIs (e.g., record device operations, database queries, HTTP requests). Always decide upon those asynchronous APIs over their synchronous counterparts to preserve the utility responsive.</li>
+            <li><strong>Use Efficient Resource Management:</strong> Asynchronous programming allows better resource control. Always ensure that lengthy-jogging obligations are performed asynchronously in order that the principle thread remains unblocked.</li>
+            <li><strong>Error Handling:</strong> Asynchronous code often entails callbacks or guarantees. Proper blunders coping with is important to make sure that your software doesn’t fail silently. Always trap errors or manage rejections appropriately in callbacks, guarantees, or async/watch for patterns.</li>
+            <li><strong>Monitoring and Debugging:</strong> Asynchronous applications can be tougher to debug due to the event-driven nature of the gadget. It's crucial to use right logging and mistakes monitoring gear, together with console.log, logging libraries, or monitoring solutions like New Relic or Datadog, to tune events and errors in asynchronous code.</li>
+            <li><strong>Non-blockading Libraries:</strong> For complex operations, which include file manipulation, database queries, or network requests, continually use non-blocking libraries or frameworks constructed for Node.Js. This ensures that I/O operations do no longer block the event loop.</li>
+        </ul>
+    </div>`,
             examples: [
               `function outest(){
   var c = 12; 
