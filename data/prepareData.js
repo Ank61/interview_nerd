@@ -10880,100 +10880,221 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     In Node.js, callbacks are functions that can be passed as arguments to other functions and are invoked (or "called back") after an operation is complete. They are essential for handling asynchronous operations, allowing you to perform tasks like file reading, HTTP requests, and database queries without blocking the main thread.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Callback Example
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     In Node.js, callbacks are frequently used in asynchronous operations where tasks run in the background, and the main thread doesn't wait for them to finish before moving on to the next instruction. Here’s a simple example:
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
+const fs = require('fs');
+
+// Read a file asynchronously
+fs.readFile('example.txt', 'utf8', (error, data) => {
+  if (error) {
+    console.error("Error reading file:", error);
+  } else {
+    console.log("File content:", data);
   }
-  return innerFunction; // Return the inner function
-}
+});
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
+console.log("Reading file...");
+</code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Here:
+   </p>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li>The <code>fs.readFile</code> function takes a filename, encoding, and a callback function.</li>
+     <li>The callback function is called once the file reading operation is finished.</li>
+     <li><code>console.log("Reading file...");</code> executes immediately, even though <code>fs.readFile</code> hasn't completed, showcasing the non-blocking nature of Node.js.</li>
+   </ul>
+   
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Types of Callbacks in Node.js
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
      <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
+       <span style="font-weight: 600; font-size: 1.1rem;">Synchronous Callback:</span> A callback function can also be synchronous (executed immediately within the function call itself). Although less common in Node, synchronous callbacks can be useful.
+       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+function greet(name, callback) {
+  console.log("Hello, " + name);
+  callback();
 }
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
+greet("Alice", () => {
+  console.log("Greeting complete.");
+});
 </code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+       </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">Asynchronous Callback:</span> Used for tasks like file reading, network requests, and database queries, which take time to complete and should not block the execution of other code.
+       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+setTimeout(() => {
+  console.log("This runs asynchronously after 2 seconds");
+}, 2000);
 
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
+console.log("This runs immediately");
 </code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
+       </div>
      </li>
    </ol>
- </div>`,
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Examples with Callbacks
+   </h4>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Asynchronous operations with multiple callbacks can result in "callback hell" or the "pyramid of doom," a nested structure that is difficult to read and maintain.
+   </p>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600;">
+     Example 1: Callback Hell
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+fs.readFile('file1.txt', 'utf8', (err, data1) => {
+  if (err) throw err;
+  fs.readFile('file2.txt', 'utf8', (err, data2) => {
+    if (err) throw err;
+    fs.readFile('file3.txt', 'utf8', (err, data3) => {
+      if (err) throw err;
+      console.log(data1, data2, data3);
+    });
+  });
+});
+</code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Each file-reading operation depends on the previous one, leading to a nested structure. This can be solved using Promises or async/await in modern JavaScript.
+   </p>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600;">
+     Example 2: Custom Callback Function
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function getDataFromServer(url, callback) {
+  setTimeout(() => {
+    const data = { name: "Sample Data" };  // Simulate a response
+    callback(null, data);  // First argument is error, second is data
+  }, 2000);
+}
+
+getDataFromServer("https://api.example.com", (error, data) => {
+  if (error) {
+    console.error("Error fetching data:", error);
+  } else {
+    console.log("Data received:", data);
+  }
+});
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Error-First Callbacks
+   </h4>
+
+   <p style="line-height: 1.75;">
+     Node.js follows an error-first callback pattern where the first argument of the callback function is reserved for an error (if any), and the remaining arguments are for the result.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function divideNumbers(a, b, callback) {
+  if (b === 0) {
+    callback("Cannot divide by zero", null);
+  } else {
+    callback(null, a / b);
+  }
+}
+
+divideNumbers(4, 2, (error, result) => {
+  if (error) {
+    console.error("Error:", error);
+  } else {
+    console.log("Result:", result);
+  }
+});
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Usage: Sequential Execution
+   </h4>
+
+   <p style="line-height: 1.75;">
+     To run asynchronous functions in a specific order, you can use callbacks to manage the flow.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function step1(callback) {
+  setTimeout(() => {
+    console.log("Step 1 complete");
+    callback();
+  }, 1000);
+}
+
+function step2(callback) {
+  setTimeout(() => {
+    console.log("Step 2 complete");
+    callback();
+  }, 1000);
+}
+
+function step3(callback) {
+  setTimeout(() => {
+    console.log("Step 3 complete");
+    callback();
+  }, 1000);
+}
+
+// Sequential execution
+step1(() => {
+  step2(() => {
+    step3(() => {
+      console.log("All steps completed");
+    });
+  });
+});
+</code></pre>
+   </div>
+
+   <p style="line-height: 1.75;">
+     This sequential execution is achieved using callback nesting, but adding more steps can lead to callback hell.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Avoiding Callback Hell with Promises
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function readFilePromise(filename) {
+  return new Promise((resolve, reject) => {
+    fs.readFile(filename, 'utf8', (err, data) => {
+      if (err) reject(err);
+      else resolve(data);
+    });
+  });
+}
+
+readFilePromise('file1.txt')
+  .then(data1 => readFilePromise('file2.txt'))
+  .then(data2 => readFilePromise('file3.txt'))
+  .then(data3 => console.log(data1, data2, data3))
+  .catch(error => console.error("Error reading files:", error));
+</code></pre>
+   </div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Promises and async/await offer cleaner ways to handle sequential asynchronous operations, reducing the risk of callback hell.
+   </p>
+</div>`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11000,100 +11121,209 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     In Node.js, Promises provide a way to handle asynchronous operations. A Promise represents an operation that hasn’t completed yet but is expected to in the future. Instead of using callbacks, Promises offer a cleaner syntax and make chaining asynchronous tasks more manageable.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Concepts of Promises
+   </h4>
+   <p style="line-height: 1.75;">
+     A Promise can be in one of three states:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li>Pending: The initial state, neither fulfilled nor rejected.</li>
+     <li>Fulfilled: The operation was successful.</li>
+     <li>Rejected: The operation failed.</li>
+   </ol>
+   <p style="line-height: 1.75;">
+     Each Promise has:
+   </p>
+   <ul style="margin-left: 1.5rem;">
+     <li><code>.then()</code>: Executes when the Promise is fulfilled (for success).</li>
+     <li><code>.catch()</code>: Executes when the Promise is rejected (for errors).</li>
+     <li><code>.finally()</code>: Executes when the Promise is settled (either fulfilled or rejected).</li>
+   </ul>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating and Using a Basic Promise
+   </h4>
+   <p style="line-height: 1.75;">
+     To create a Promise, we use the Promise constructor, passing in a function with two arguments: <code>resolve</code> and <code>reject</code>.
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+const fetchData = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const data = { user: 'John Doe', age: 25 };
+      resolve(data); // Resolve with data
+    }, 1000);
+  });
+};
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
+fetchData()
+  .then(data => {
+    console.log('Data received:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+</code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     In this example, <code>fetchData()</code> simulates fetching data asynchronously. The Promise resolves after 1 second, and we handle the response with <code>.then()</code>.
+   </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Handling Errors with .catch()
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <p style="line-height: 1.75;">
+     If an error occurs during the asynchronous operation, we can use <code>.reject()</code> to handle it with <code>.catch()</code>:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+const fetchDataWithError = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      reject(new Error('Failed to fetch data'));
+    }, 1000);
+  });
+};
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
-
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
+fetchDataWithError()
+  .then(data => {
+    console.log('Data received:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+  });
 </code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Chaining Promises
+   </h4>
+   <p style="line-height: 1.75;">
+     One of the main advantages of Promises is chaining multiple asynchronous operations.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+const getUser = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve({ id: 1, name: 'Alice' }), 1000);
+  });
+};
 
-const double = multiplier(2);
-const triple = multiplier(3);
+const getUserPosts = (userId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => resolve([{ id: 101, content: 'Post 1' }, { id: 102, content: 'Post 2' }]), 1000);
+  });
+};
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
+getUser()
+  .then(user => {
+    console.log('User:', user);
+    return getUserPosts(user.id);
+  })
+  .then(posts => {
+    console.log('Posts:', posts);
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+  });
 </code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
+   </div>
+   <p style="line-height: 1.75;">
+     Here, we first fetch the user and then fetch their posts, chaining these operations together.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Examples of Promises in Node.js
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li>
+       <span style="font-weight: 600; font-size: 1.1rem;">Using Promise.all() for Concurrent Promises:</span>
+       <p style="line-height: 1.75;">Promise.all() is used to wait for multiple promises to complete. If one promise fails, the entire chain fails.</p>
+       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+const fetchUser = () => new Promise(resolve => setTimeout(() => resolve({ id: 1, name: 'Alice' }), 1000));
+const fetchPosts = () => new Promise(resolve => setTimeout(() => resolve(['Post 1', 'Post 2']), 1500));
+const fetchComments = () => new Promise(resolve => setTimeout(() => resolve(['Comment 1', 'Comment 2']), 1200));
+
+Promise.all([fetchUser(), fetchPosts(), fetchComments()])
+  .then(results => {
+    const [user, posts, comments] = results;
+    console.log('User:', user);
+    console.log('Posts:', posts);
+    console.log('Comments:', comments);
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+  });
+</code></pre>
+       </div>
+     </li>
+     <li>
+       <span style="font-weight: 600; font-size: 1.1rem;">Using Promise.race() to Get the First Fulfilled or Rejected Promise:</span>
+       <p style="line-height: 1.75;">Promise.race() returns the result of the first resolved or rejected promise.</p>
+       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+const fetchFromAPI1 = () => new Promise(resolve => setTimeout(() => resolve('API1 result'), 2000));
+const fetchFromAPI2 = () => new Promise(resolve => setTimeout(() => resolve('API2 result'), 1000));
+
+Promise.race([fetchFromAPI1(), fetchFromAPI2()])
+  .then(result => {
+    console.log('First result:', result); // Logs 'API2 result' since it resolves first
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+  });
+</code></pre>
+       </div>
+     </li>
+     <li>
+       <span style="font-weight: 600; font-size: 1.1rem;">async/await Syntax with Promises:</span>
+       <p style="line-height: 1.75;">With async/await, we can write asynchronous code that reads like synchronous code. async functions always return a promise.</p>
+       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+const fetchDataAsync = async () => {
+  try {
+    const user = await getUser();
+    console.log('User:', user);
+    const posts = await getUserPosts(user.id);
+    console.log('Posts:', posts);
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
+};
+
+fetchDataAsync();
+</code></pre>
+       </div>
+     </li>
+     <li>
+       <span style="font-weight: 600; font-size: 1.1rem;">Promise.allSettled() to Handle Multiple Promises:</span>
+       <p style="line-height: 1.75;">Promise.allSettled() waits for all promises to settle, regardless of whether they are fulfilled or rejected.</p>
+       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-javascript">
+const fetchDataWithErrors = () => {
+  return Promise.allSettled([fetchUser(), fetchPosts(), fetchComments()])
+    .then(results => {
+      results.forEach(result => {
+        if (result.status === 'fulfilled') {
+          console.log('Success:', result.value);
+        } else {
+          console.log('Error:', result.reason);
+        }
+      });
+    });
+};
+
+fetchDataWithErrors();
+</code></pre>
+       </div>
      </li>
    </ol>
- </div>`,
+   <p style="line-height: 1.75;">
+     These advanced Promise techniques help you manage complex asynchronous workflows in Node.js.
+   </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11120,100 +11350,205 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     In Node.js, async/await is a modern syntax that makes handling asynchronous code cleaner and more readable. It is built on top of JavaScript Promises, allowing asynchronous operations to be written in a way that resembles synchronous code, without the need for chaining .then() statements or using callbacks.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basics of async/await
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">async:</span> Declaring a function as async means it will return a Promise. Inside an async function, you can use await to pause execution until a Promise is resolved.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">await:</span> The await keyword can only be used inside an async function. It waits for a Promise to resolve and returns the result, or if the Promise is rejected, it throws an error.
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Example 1: Basic async/await
+   </h4>
+   <p style="line-height: 1.75;">
+     Let’s consider a function that fetches data from a database or an API.
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
+const fetchData = async () => {
+  try {
+    const result = await database.query("SELECT * FROM users");
+    console.log("Fetched data:", result);
+  } catch (error) {
+    console.error("Error fetching data:", error);
   }
-  return innerFunction; // Return the inner function
-}
+};
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
+fetchData();
+</code></pre>
   </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
+   <p style="line-height: 1.75;">
+    In this example:
+     <ul style="line-height: 1.75;">
+        <li>The await keyword waits for database.query() to finish.</li>
+        <li>If the query resolves successfully, the result is logged.</li>
+        <li>If an error occurs, it’s caught in the catch block.</li>
+     </ul>
+   </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     How async/await Simplifies Callback Functions
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <p style="line-height: 1.75;">
+     Traditionally, asynchronous operations in Node.js relied heavily on callbacks and Promise chaining, leading to complex code known as "callback hell." Here’s an example without async/await:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
-
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
+function fetchData() {
+  return database.query("SELECT * FROM users")
+    .then(result => {
+      console.log("Fetched data:", result);
       return result;
-    }
-  };
+    })
+    .catch(error => {
+      console.error("Error fetching data:", error);
+    });
 }
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
+fetchData();
 </code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+  </div>
+   <p style="line-height: 1.75;">
+     Using async/await as in the previous example makes the code more readable, especially when there are multiple asynchronous calls.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Examples
+   </h4>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Example 3: Multiple await Statements
+   </h4>
+   <p style="line-height: 1.75;">
+     If you have multiple asynchronous operations that depend on each other, async/await helps make the code sequential and easier to follow.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+const getUserData = async (userId) => {
+  try {
+    const user = await database.query(SELECT * FROM users WHERE id = userId);
+    const userPosts = await database.query(SELECT * FROM posts WHERE user_id = userId);
+    
+    console.log("User data:", user);
+    console.log("User posts:", userPosts);
+    
+    return { user, userPosts };
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+};
 
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
+getUserData(1);
 </code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+  </div>
+   <p style="line-height: 1.75;">
+     In this example:
+     <ul style="line-height: 1.75;">
+        <li>Each await pauses the execution until the Promise is resolved.</li>
+        <li>This sequential execution is helpful when userPosts depends on user being fetched first.</li>
+     </ul>
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Example 4: Parallel Execution with Promise.all
+   </h4>
+   <p style="line-height: 1.75;">
+     Sometimes, you may want to perform multiple asynchronous operations independently, where they don’t depend on each other. In this case, you can use Promise.all with await for better performance.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const getMultipleData = async () => {
+  try {
+    const [users, posts, comments] = await Promise.all([
+      database.query("SELECT * FROM users"),
+      database.query("SELECT * FROM posts"),
+      database.query("SELECT * FROM comments")
+    ]);
+    
+    console.log("Users:", users);
+    console.log("Posts:", posts);
+    console.log("Comments:", comments);
+    
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
+};
+
+getMultipleData();
+</code></pre>
+  </div>
+   <p style="line-height: 1.75;">
+     In this example:
+     <ul style="line-height: 1.75;">
+        <li>All three database queries execute in parallel, reducing the overall execution time.</li>
+        <li>Promise.all waits for all Promises to resolve and returns their results as an array.</li>
+     </ul>
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling Errors in async/await
+   </h4>
+   <p style="line-height: 1.75;">
+     With async/await, error handling is more straightforward. You can use try/catch blocks to manage errors gracefully, instead of handling them individually with .catch() on each Promise.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fetchUserData = async (userId) => {
+  try {
+    const user = await database.query(SELECT * FROM users WHERE id = userId);
+    if (!user) throw new Error("User not found");
+
+    const userPosts = await database.query(SELECT * FROM posts WHERE user_id = $userId);
+    if (userPosts.length === 0) throw new Error("No posts found for this user");
+
+    return { user, userPosts };
+  } catch (error) {
+    console.error("Error fetching user data:", error.message);
+  }
+};
+
+fetchUserData(1);
+</code></pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Example 5: Using async/await in Loops
+   </h4>
+   <p style="line-height: 1.75;">
+     In certain cases, you may need to fetch data in a loop. Using await inside loops can become inefficient, as it forces sequential execution. If possible, use Promise.all with an array of Promises instead.
+   </p>
+   <h5 style="margin-top: 1.5rem; font-size: 1rem; font-weight: 600;">
+     Inefficient loop (sequential execution):
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const getUserDataInLoop = async (userIds) => {
+  const usersData = [];
+  for (const id of userIds) {
+    const userData = await fetchUserData(id);  // This waits for each fetch to finish
+    usersData.push(userData);
+  }
+  return usersData;
+};
+
+getUserDataInLoop([1, 2, 3]);
+</code></pre>
+  </div>
+   <h5 style="margin-top: 1.5rem; font-size: 1rem; font-weight: 600;">
+     Efficient loop (parallel execution):
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const getUserDataInParallel = async (userIds) => {
+  const userPromises = userIds.map(id => fetchUserData(id));  // Create an array of promises
+  return await Promise.all(userPromises);  // Wait for all promises to resolve in parallel
+};
+
+getUserDataInParallel([1, 2, 3]);
+</code></pre>
+  </div>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11240,100 +11575,259 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     The File System Module (fs) in Node.js allows you to interact with the file system. It provides methods to read, write, delete, and manipulate files and directories. It is part of Node's core API, so you don't need to install any external libraries to use it.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Concepts
+   </h4>
+   <p style="line-height: 1.75;">
+     Synchronous vs Asynchronous Operations:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Synchronous (Blocking) :</span> The operation completes before moving to the next.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Asynchronous (Non-blocking) :</span> The operation is performed in the background, and you get a callback when the operation is done.
+     </li>
+   </ol>
+
+   <p style="line-height: 1.75;">
+     Callbacks and Promises:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      Many methods use callbacks for handling results or errors.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      The fs.promises API offers a promise-based alternative to asynchronous methods.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Examples
+   </h4>
+   <p style="line-height: 1.75;">
+     1. Reading a File
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+const fs = require('fs');
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
+// Read file synchronously
+const data = fs.readFileSync('example.txt', 'utf8');
+console.log(data);  // Will block execution until the file is read
+      </code></pre>
   </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  <p style="line-height: 1.75;">
+    Asynchronous:
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+const fs = require('fs');
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
+// Read file asynchronously
+fs.readFile('example.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log(data);  // Will run once the file is read
+});
+      </code></pre>
   </div>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <p style="line-height: 1.75;">
+     2. Writing to a File
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+const fs = require('fs');
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+// Write to file synchronously
+fs.writeFileSync('output.txt', 'Hello, World!');
+console.log('File written successfully!');
+      </code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Asynchronous:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+const fs = require('fs');
 
-const double = multiplier(2);
-const triple = multiplier(3);
+// Write to file asynchronously
+fs.writeFile('output.txt', 'Hello, World!', (err) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('File written successfully!');
+});
+      </code></pre>
+   </div>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+   <p style="line-height: 1.75;">
+     3. Appending to a File
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Append data synchronously
+fs.appendFileSync('output.txt', '\nThis is appended text.');
+console.log('Text appended successfully!');
+      </code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Asynchronous:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Append data asynchronously
+fs.appendFile('output.txt', '\nThis is appended text.', (err) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('Text appended successfully!');
+});
+      </code></pre>
+   </div>
+
+   <p style="line-height: 1.75;">
+     4. Deleting a File
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Delete file synchronously
+fs.unlinkSync('output.txt');
+console.log('File deleted successfully!');
+      </code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Asynchronous:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Delete file asynchronously
+fs.unlink('output.txt', (err) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('File deleted successfully!');
+});
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Examples
+   </h4>
+
+   <p style="line-height: 1.75;">
+     1. Reading a Directory
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Read a directory asynchronously
+fs.readdir('./', (err, files) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('Files in current directory:', files);
+});
+      </code></pre>
+   </div>
+
+   <p style="line-height: 1.75;">
+     2. Creating a Directory
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Create a directory synchronously
+fs.mkdirSync('newDirectory');
+console.log('Directory created successfully!');
+      </code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Asynchronous:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Create a directory asynchronously
+fs.mkdir('newDirectory', (err) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('Directory created successfully!');
+});
+      </code></pre>
+   </div>
+
+   <p style="line-height: 1.75;">
+     3. Watching for File Changes
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Watch a file for changes
+fs.watch('example.txt', (eventType, filename) => {
+  if (filename) {
+    console.log($filename file changed);
+  } else {
+    console.log('A change occurred, but filename is unknown');
+  }
+});
+      </code></pre>
+   </div>
+
+   <p style="line-height: 1.75;">
+     4. Renaming a File
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Rename file synchronously
+fs.renameSync('oldName.txt', 'newName.txt');
+console.log('File renamed successfully!');
+      </code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Asynchronous:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+// Rename file asynchronously
+fs.rename('oldName.txt', 'newName.txt', (err) => {
+  if (err) {
+    console.error(err);
+    return;
+  }
+  console.log('File renamed successfully!');
+});
+      </code></pre>
+   </div>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11360,100 +11854,231 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     The HTTP module in Node.js is a core module that provides utilities for creating HTTP servers and clients. It allows Node.js to communicate over the HTTP protocol, which is essential for most web applications. Using the HTTP module, you can handle incoming HTTP requests, send responses, create servers, and interact with other web servers.
    </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Usage of the HTTP Module
+   </h4>
+
+   <p style="line-height: 1.75;">
+     The HTTP module allows you to create a basic HTTP server to listen to client requests and send responses. Below is a simple example that demonstrates how to create an HTTP server that listens on a specific port and responds with a message.
+   </p>
+   
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+const http = require('http');
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
+// Create the server
+const server = http.createServer((req, res) => {
+  // Set the response HTTP header
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+
+  // Send the response body
+  res.end('Hello, world!');
+});
+
+// The server listens on port 3000
+server.listen(3000, () => {
+  console.log('Server is running at http://localhost:3000/');
+});
  </code>
   </pre>
   </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  
+  <p style="line-height: 1.75;">
+    In this example:
+    <ul style="margin-top: 1rem;">
+      <li><strong>http.createServer()</strong> creates a new HTTP server.</li>
+      <li>The callback function <strong>(req, res)</strong> receives the request object (<strong>req</strong>) and response object (<strong>res</strong>).</li>
+      <li><strong>res.writeHead(200)</strong> sends the status code (200 for OK) and the response headers.</li>
+      <li><strong>res.end()</strong> sends the response body and ends the request-response cycle.</li>
+    </ul>
+    When you visit <strong>http://localhost:3000/</strong> in your browser, you will see the message "Hello, world!".
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling Routes and Request Methods
+   </h4>
+
+   <p style="line-height: 1.75;">
+     In real-world applications, you often need to handle different routes (like / and /about) and HTTP request methods (GET, POST, etc.). The following example demonstrates how to handle multiple routes and methods.
+   </p>
+   
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  // Handle GET request on the root route
+  if (req.method === 'GET' && req.url === '/') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end('<h1>Welcome to the Home Page</h1>');
+  }
+  // Handle GET request on the /about route
+  else if (req.method === 'GET' && req.url === '/about') {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end('<h1>About Us</h1>');
+  }
+  // Handle any other routes
+  else {
+    res.writeHead(404, { 'Content-Type': 'text/html' });
+    res.end('<h1>Page Not Found</h1>');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
  </code>
   </pre>
   </div>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <p style="line-height: 1.75;">
+    In this example, the server handles two routes: <strong>/</strong> (Home Page) and <strong>/about</strong> (About Us). If the user requests any other route, the server responds with a <strong>404 Page Not Found</strong> message.
+  </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Usage of the HTTP Module
+   </h4>
+
+   <p style="line-height: 1.75;">
+     The HTTP module can also be used for making HTTP requests to external servers (as a client). Below is an example that demonstrates how to send a GET request to an external API, such as OpenWeatherMap.
+   </p>
+   
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+const http = require('http');
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+// Making a GET request to an external API
+http.get('http://api.openweathermap.org/data/2.5/weather?q=London&appid=your_api_key', (response) => {
+  let data = '';
+
+  // A chunk of data has been received
+  response.on('data', (chunk) => {
+    data += chunk;
+  });
+
+  // The response has been completely received
+  response.on('end', () => {
+    const weatherData = JSON.parse(data);
+    console.log('Weather in London:', weatherData.weather[0].description);
+  });
+}).on('error', (err) => {
+  console.log('Error:', err.message);
+});
+ </code>
+  </pre>
+  </div>
+
+   <p style="line-height: 1.75;">
+    In this example:
+    <ul style="margin-top: 1rem;">
+      <li>The <strong>http.get()</strong> method sends a GET request to an external API (in this case, OpenWeatherMap).</li>
+      <li>The response is streamed in chunks, and we use <strong>response.on('data', ...)</strong> to capture these chunks.</li>
+      <li>Once all data is received, <strong>response.on('end', ...)</strong> triggers, and we parse the JSON data to display the weather description.</li>
+    </ul>
+  </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling POST Requests and Request Bodies
+   </h4>
+
+   <p style="line-height: 1.75;">
+     When handling POST requests, you often need to read the body of the request. Below is an example where the server accepts a JSON payload and writes it to a file.
+   </p>
+   
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+const http = require('http');
+const fs = require('fs');
 
-const double = multiplier(2);
-const triple = multiplier(3);
+const server = http.createServer((req, res) => {
+  if (req.method === 'POST' && req.url === '/submit') {
+    let body = '';
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+    // Read the data chunks from the request body
+    req.on('data', (chunk) => {
+      body += chunk;
+    });
+
+    // When the entire body has been received, parse it
+    req.on('end', () => {
+      const parsedData = JSON.parse(body);
+
+      // Save data to a file (as an example)
+      fs.writeFileSync('data.json', JSON.stringify(parsedData));
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ message: 'Data received successfully' }));
+    });
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/html' });
+    res.end('<h1>Page Not Found</h1>');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
+ </code>
+  </pre>
+  </div>
+
+   <p style="line-height: 1.75;">
+    In this example:
+    <ul style="margin-top: 1rem;">
+      <li>The server handles the POST request to the <strong>/submit</strong> route.</li>
+      <li>We accumulate the request data (since POST bodies can be large) using <strong>req.on('data', ...)</strong>.</li>
+      <li>Once all the data is received (<strong>req.on('end', ...)</strong>), we parse it and write it to a file.</li>
+      <li>Finally, we send a success message back to the client.</li>
+    </ul>
+  </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling Timeouts and Custom Error Handling
+   </h4>
+
+   <p style="line-height: 1.75;">
+     You can also handle timeouts and custom error responses in the HTTP server. Below is an example where we set a timeout for a request and handle potential errors.
+   </p>
+   
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  // Set timeout for the request
+  req.setTimeout(5000, () => {
+    res.writeHead(408, { 'Content-Type': 'text/html' });
+    res.end('<h1>Request Timeout</h1>');
+  });
+
+  // Simulate a delayed response (for testing timeout)
+  setTimeout(() => {
+    res.writeHead(200, { 'Content-Type': 'text/html' });
+    res.end('<h1>Request Completed</h1>');
+  }, 6000); // Delay the response by 6 seconds, exceeding the timeout
+});
+
+server.listen(3000, () => {
+  console.log('Server is running on http://localhost:3000');
+});
+ </code>
+  </pre>
+  </div>
+
+   <p style="line-height: 1.75;">
+    In this example:
+    <ul style="margin-top: 1rem;">
+      <li>We set a timeout of 5000 milliseconds (5 seconds) on the incoming request using <strong>req.setTimeout()</strong>.</li>
+      <li>If the request takes longer than the set timeout, a 408 Request Timeout error is returned.</li>
+      <li>We simulate a delayed response using <strong>setTimeout()</strong>, which intentionally exceeds the timeout and triggers the error.</li>
+    </ul>
+  </p>
+
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11479,101 +12104,234 @@ close(); // this will give you inner function and equivalent`,
             topic: "Streams",
             tags: [""],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Streams in Node.js provide a powerful and efficient way to handle data that can be read or written incrementally, without needing to load the entire data set into memory. Streams are particularly useful when working with large files or real-time data, as they allow for more memory-efficient operations.
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+  
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Types of Streams in Node.js
+  </h4>
+  
+  <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: square;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Readable Streams:</span> Used for reading data.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const fs = require('fs');
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
+const readableStream = fs.createReadStream('largeFile.txt', 'utf8');
+
+readableStream.on('data', (chunk) => {
+  console.log('Received a chunk of data:', chunk);
+});
+
+readableStream.on('end', () => {
+  console.log('Finished reading the file.');
+});
+
+readableStream.on('error', (err) => {
+  console.error('Error reading the file:', err);
+});
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Writable Streams:</span> Used for writing data.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const fs = require('fs');
+
+const writableStream = fs.createWriteStream('output.txt');
+
+writableStream.write('Hello, this is a stream writing data.\n');
+writableStream.write('Writing more data.\n');
+
+writableStream.end(() => {
+  console.log('Finished writing data to file.');
+});
+
+writableStream.on('error', (err) => {
+  console.error('Error writing data:', err);
+});
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Duplex Streams:</span> Can both read and write data.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const net = require('net');
+
+const server = net.createServer((socket) => {
+  socket.write('Hello client!');  // Send data to the client
+
+  socket.on('data', (data) => {
+    console.log('Received from client:', data.toString());
+    socket.write('Thanks for the message!');
+  });
+});
+
+server.listen(8000, () => {
+  console.log('Server listening on port 8000');
+});
+        </code></pre>
+      </div>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Transform Streams:</span> A type of duplex stream that can modify or transform data as it is written and read.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const fs = require('fs');
+const zlib = require('zlib');
+
+const readableStream = fs.createReadStream('largeFile.txt');
+const writableStream = fs.createWriteStream('largeFile.txt.gz');
+const gzip = zlib.createGzip();
+
+readableStream.pipe(gzip).pipe(writableStream);
+
+writableStream.on('finish', () => {
+  console.log('File has been compressed successfully!');
+});
+        </code></pre>
+      </div>
+    </li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Use Case: Real-Time Data Processing
+  </h4>
+  <p style="line-height: 1.75;">
+    Example 1: Streaming JSON Data from a Database (Simulating a Large Dataset)
+    If you are working with a large JSON dataset (say, from a database or an API), you might want to process the data in chunks rather than loading the entire dataset into memory. This can be done using streams.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { Readable } = require('stream');
+
+class JsonStream extends Readable {
+  constructor(data, options) {
+    super(options);
+    this.data = data;
+    this.index = 0;
+  }
+
+  _read(size) {
+    if (this.index < this.data.length) {
+      this.push(JSON.stringify(this.data[this.index]));
+      this.index++;
+    } else {
+      this.push(null);
+    }
+  }
+}
+
+const data = [{ id: 1, name: 'John' }, { id: 2, name: 'Jane' }, { id: 3, name: 'Doe' }];
+const jsonStream = new JsonStream(data);
+
+jsonStream.on('data', (chunk) => {
+  console.log('Received chunk:', chunk.toString());
+});
+
+jsonStream.on('end', () => {
+  console.log('No more data in the stream.');
+});
+    </code></pre>
   </div>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Use Case: File Upload and Download
+  </h4>
+  
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+    File Upload Example (Streaming File from Client to Server)
+  </h5>
+  <p style="line-height: 1.75;">
+    In scenarios like file uploads, streams are used to transfer large files from the client to the server efficiently without loading the whole file into memory.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+const server = http.createServer((req, res) => {
+  if (req.method === 'POST' && req.url === '/upload') {
+    const filePath = path.join(__dirname, 'uploadedFile.txt');
+    const writeStream = fs.createWriteStream(filePath);
 
-const double = multiplier(2);
-const triple = multiplier(3);
+    req.pipe(writeStream); // Pipe the incoming request stream to the write stream (to save file)
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+    req.on('end', () => {
+      res.end('File uploaded successfully!');
+    });
+
+    req.on('error', (err) => {
+      res.statusCode = 500;
+      res.end('Error uploading file: ' + err.message);
+    });
+  } else {
+    res.statusCode = 404;
+    res.end('Not Found');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server listening on port 3000...');
+});
+    </code></pre>
+  </div>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+    File Download Example (Streaming File from Server to Client)
+  </h5>
+  <p style="line-height: 1.75;">
+    For efficient file downloads, you can stream the file content from the server to the client.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+
+const server = http.createServer((req, res) => {
+  if (req.method === 'GET' && req.url === '/download') {
+    const filePath = path.join(__dirname, 'largeFile.txt');
+    const readStream = fs.createReadStream(filePath);
+
+    res.setHeader('Content-Disposition', 'attachment; filename="largeFile.txt"');
+    res.setHeader('Content-Type', 'text/plain');
+
+    readStream.pipe(res);
+
+    readStream.on('end', () => {
+      console.log('File download completed.');
+    });
+
+    readStream.on('error', (err) => {
+      res.statusCode = 500;
+      res.end('Error downloading file: ' + err.message);
+    });
+  } else {
+    res.statusCode = 404;
+    res.end('Not Found');
+  }
+});
+
+server.listen(3000, () => {
+  console.log('Server listening on port 3000...');
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Conclusion
+  </h4>
+  <p style="line-height: 1.75;">
+    Streams are a crucial tool in Node.js for handling large amounts of data efficiently. By understanding the different types of streams and how to use them, you can build high-performance applications that handle data-intensive tasks such as file uploads, downloads, and real-time data processing.
+  </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11600,100 +12358,171 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     Buffers in Node.js are used to handle raw binary data directly. They are instances of the Buffer class and are particularly useful when dealing with binary data, especially when interacting with streams or file operations. Unlike JavaScript strings, which are UTF-16 encoded, Buffers are raw memory allocations capable of storing data in various encoding formats like UTF-8, hex, base64, etc.
    </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Why Buffers?
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+   <p style="line-height: 1.75;">
+     JavaScript strings are designed for handling text and are not efficient when working with binary data. Buffers provide an efficient way to manipulate raw binary data, making them widely used in operations such as network protocols and file system I/O.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating Buffers
+   </h4>
+   <p style="line-height: 1.75;">
+     Buffers can be created in the following ways:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
-
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
+      <span style="font-weight: 600; font-size: 1.1rem;">Buffer.alloc(size):</span> Allocates a new buffer of a specified size, filled with zeroes.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const buffer1 = Buffer.alloc(10);
+        </code></pre>
+      </div>
+     </li>
      <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
-
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
-
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
+      <span style="font-weight: 600; font-size: 1.1rem;">Buffer.allocUnsafe(size):</span> Allocates a new buffer of the specified size without initializing it, which can be more performant but may contain uninitialized data.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const buffer2 = Buffer.allocUnsafe(10); // May contain junk data
+        </code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Buffer.from():</span> Creates a buffer from an array, string, or another buffer.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const buffer3 = Buffer.from('Hello Node.js');
+        </code></pre>
+      </div>
      </li>
    </ol>
- </div>`,
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Buffer Operations
+   </h4>
+   <p style="line-height: 1.75;">
+     Once a buffer is created, you can perform various operations on it such as reading, writing, slicing, and comparing.
+   </p>
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Reading Data from a Buffer
+   </h5>
+   <p style="line-height: 1.75;">
+     Buffers can be read byte-by-byte using methods like .readUInt8(), .readUInt16LE(), etc.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">
+const buffer = Buffer.from([0x10, 0x20, 0x30, 0x40]);
+
+console.log(buffer.readUInt8(0)); // 16
+console.log(buffer.readUInt8(1)); // 32
+console.log(buffer.readUInt8(2)); // 48
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Writing Data to a Buffer
+   </h5>
+   <p style="line-height: 1.75;">
+     You can modify the contents of a buffer using the .write() method.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">
+const buffer = Buffer.alloc(10);
+buffer.write('Hello', 0, 'utf8');
+console.log(buffer.toString()); // 'Hello'
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Slicing Buffers
+   </h5>
+   <p style="line-height: 1.75;">
+     You can extract portions of a buffer using the .slice() method.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">
+const buffer = Buffer.from('Buffer slicing example');
+const slicedBuffer = buffer.slice(0, 6);  // 'Buffer'
+console.log(slicedBuffer.toString()); // 'Buffer'
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Converting Buffers to Strings
+   </h5>
+   <p style="line-height: 1.75;">
+     Buffers can be converted into a string representation using the .toString() method.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">
+const buffer = Buffer.from('Node.js Buffer!');
+console.log(buffer.toString('utf8'));  // 'Node.js Buffer!'
+console.log(buffer.toString('hex'));   // '4e6f64652e6a732042756666657221'
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Buffer Length
+   </h5>
+   <p style="line-height: 1.75;">
+     You can check the length of a buffer using the .length property.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">
+const buffer = Buffer.from('Hello');
+console.log(buffer.length); // 5
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Example: Working with Binary Data
+   </h4>
+   <p style="line-height: 1.75;">
+     In real-world scenarios, Buffers are frequently used to interact with binary data, such as reading/writing files, network communication, or working with multimedia content. Below is an example of reading and manipulating binary data in a file.
+   </p>
+
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Reading a File in Binary Form
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">
+const fs = require('fs');
+
+fs.readFile('example.bin', (err, data) => {
+  if (err) throw err;
+  console.log('File content as buffer:', data);
+  console.log('First byte of the file:', data.readUInt8(0));
+});
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Modifying and Writing to a Binary File
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">
+const fs = require('fs');
+const buffer = Buffer.alloc(10);
+buffer.writeUInt8(0x10, 0);  // First byte = 16
+buffer.writeUInt8(0x20, 1);  // Second byte = 32
+
+fs.writeFile('output.bin', buffer, (err) => {
+  if (err) throw err;
+  console.log('Binary data written to file!');
+});
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Conclusion
+   </h4>
+   <p style="line-height: 1.75;">
+     Buffers are a powerful feature in Node.js that provides efficient handling of binary data. Understanding their operations is crucial for tasks that require manipulation of raw data, such as file handling, streams, and network communication. By utilizing buffers, developers can ensure performance optimization and avoid data corruption during I/O operations.
+   </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11720,100 +12549,221 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     Event Emitters are a fundamental concept in Node.js. They allow objects to emit named events and other objects to listen for and respond to those events. This pattern is used extensively across built-in modules such as <code>http</code>, <code>fs</code>, and <code>stream</code>.
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+const EventEmitter = require('events');
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+
+// Event listener
+myEmitter.on('event', () => {
+  console.log('An event occurred!');
+});
+
+// Emitting the event
+myEmitter.emit('event');  // Output: An event occurred!
  </code>
   </pre>
   </div>
  <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  In this basic example, we create an instance of the <code>EventEmitter</code> class and register an event listener for the <code>'event'</code> event. When the <code>emit</code> method is called, the listener is triggered and the message "An event occurred!" is logged to the console.
   </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Advanced Example: Emitting Events with Arguments
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <p style="line-height: 1.75;">
+     Event Emitters can pass additional arguments to the event listeners when an event is emitted.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+const EventEmitter = require('events');
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
+class MyEmitter extends EventEmitter {}
+
+const myEmitter = new MyEmitter();
+
+// Event listener with arguments
+myEmitter.on('greet', (name, age) => {
+  console.log(Hello $name, you are $age years old.);
+});
+
+// Emitting the event with arguments
+myEmitter.emit('greet', 'Alice', 30);  // Output: Hello Alice, you are 30 years old.
  </code>
   </pre>
   </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling Asynchronous Events
+   </h4>
+   <p style="line-height: 1.75;">
+     Node.js Event Emitters are often used in asynchronous contexts. Below is an example that demonstrates how an event can trigger asynchronous actions.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
+const EventEmitter = require('events');
+const fs = require('fs');
+
+class FileReader extends EventEmitter {}
+
+const fileReader = new FileReader();
+
+// Listen to the 'read' event
+fileReader.on('read', (filename) => {
+  fs.readFile(filename, 'utf8', (err, data) => {
+    if (err) {
+      fileReader.emit('error', err);
     } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
+      console.log('File content:', data);
     }
-  };
-}
+  });
+});
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+// Listen to the 'error' event
+fileReader.on('error', (err) => {
+  console.error('Error reading file:', err);
+});
+
+// Emitting the 'read' event to trigger reading the file
+fileReader.emit('read', 'example.txt');
+ </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+   In this example, when the <code>'read'</code> event is emitted, it triggers reading a file asynchronously using <code>fs.readFile</code>. If the file is read successfully, the content is logged to the console; if an error occurs, an <code>'error'</code> event is emitted and handled.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     EventEmitter for Custom Event Handling in Server Context
+   </h4>
+   <p style="line-height: 1.75;">
+     In a more advanced scenario, an EventEmitter can be used in server applications to handle custom events, such as incoming requests, data processing, and response handling.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+const EventEmitter = require('events');
+const http = require('http');
 
-const double = multiplier(2);
-const triple = multiplier(3);
+class RequestEmitter extends EventEmitter {}
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+const requestEmitter = new RequestEmitter();
+
+// Listen for a custom event to process the request
+requestEmitter.on('processRequest', (req, res) => {
+  console.log(Processing request for $req.url);
+  res.end('Request processed');
+});
+
+// Create HTTP server
+const server = http.createServer((req, res) => {
+  // Emit a custom event when a request is received
+  requestEmitter.emit('processRequest', req, res);
+});
+
+server.listen(3000, () => {
+  console.log('Server running at http://localhost:3000');
+});
+ </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+   This example shows how an EventEmitter can be used in a server to listen for custom events, such as processing requests and sending responses.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling Multiple Listeners for the Same Event
+   </h4>
+   <p style="line-height: 1.75;">
+     Event Emitters in Node.js can have multiple listeners for the same event. Each listener will be called in the order in which they were added.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const EventEmitter = require('events');
+
+class MultiListenerEmitter extends EventEmitter {}
+
+const emitter = new MultiListenerEmitter();
+
+emitter.on('event', () => {
+  console.log('Listener 1');
+});
+
+emitter.on('event', () => {
+  console.log('Listener 2');
+});
+
+// Emitting the event
+emitter.emit('event');  
+// Output:
+// Listener 1
+// Listener 2
+ </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+   In this example, multiple listeners are registered for the same <code>'event'</code>, and each listener is executed in order when the event is emitted.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Once-Only Listeners
+   </h4>
+   <p style="line-height: 1.75;">
+     Sometimes, you only want to listen to an event once. You can use the <code>once()</code> method to ensure the listener is only triggered once.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const EventEmitter = require('events');
+
+class OnceEmitter extends EventEmitter {}
+
+const onceEmitter = new OnceEmitter();
+
+// Listen for the 'onceEvent' only once
+onceEmitter.once('onceEvent', () => {
+  console.log('This will only be logged once!');
+});
+
+// Emitting the event multiple times
+onceEmitter.emit('onceEvent');  // Output: This will only be logged once!
+onceEmitter.emit('onceEvent');  // No output
+ </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+   The <code>once()</code> method ensures that the event listener is triggered only once, no matter how many times the event is emitted.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     EventEmitter with Error Handling
+   </h4>
+   <p style="line-height: 1.75;">
+     Node.js uses Event Emitters extensively for error handling. For example, <code>http</code> uses Event Emitters to handle connection errors.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const EventEmitter = require('events');
+
+class NetworkEmitter extends EventEmitter {}
+
+const networkEmitter = new NetworkEmitter();
+
+// Listen for error events
+networkEmitter.on('error', (err) => {
+  console.error('An error occurred:', err);
+});
+
+// Emitting an error event
+networkEmitter.emit('error', new Error('Network disconnected'));
+ </code>
+  </pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Conclusion
+   </h4>
+   <p style="line-height: 1.75;">
+     Event Emitters are a powerful tool in Node.js, enabling asynchronous programming, custom event handling, and error handling. They allow for clean, decoupled code that can respond to specific events as they occur. By understanding how to create, emit, and listen for events, you can build highly responsive and scalable applications.
+   </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11839,101 +12789,187 @@ close(); // this will give you inner function and equivalent`,
             topic: "URL Module",
             tags: [""],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The URL module in Node.js provides utilities for parsing, resolving, and manipulating URLs (Uniform Resource Locators). It is part of the Node.js core API and allows you to handle URLs in a structured way, which is important when working with web applications, APIs, or any service that involves URLs.
+    In recent versions of Node.js (from v10 onward), the URL class has become more powerful and is recommended over the older url.parse() and url.format() methods.
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
-
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { URL, URLSearchParams } = require('url');
+    </code></pre>
   </div>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Concepts of the URL Module
+  </h4>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">URL Class :</span> The URL class is used to represent a parsed URL object.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">URLSearchParams :</span> The URLSearchParams interface provides utility methods to work with query parameters in the URL.
+    </li>
+  </ol>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Basic URL Module Usage
+  </h4>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+  <p style="line-height: 1.75;">
+    The URL module is usually used to:
+  </p>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">Parse a URL.</li>
+    <li style="margin-top: 0.5rem;">Extract specific parts of a URL (like hostname, pathname, search query, etc.).</li>
+    <li style="margin-top: 0.5rem;">Manipulate or construct new URLs.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Parsing a URL
+  </h4>
+  <p style="line-height: 1.75;">
+    Using the URL class, you can easily parse a URL string and access its components:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { URL } = require('url');
+
+const urlString = 'https://example.com:8080/pathname/?search=test&sort=desc#hash';
+const myUrl = new URL(urlString);
+
+console.log(myUrl.hostname); // 'example.com'
+console.log(myUrl.port);     // '8080'
+console.log(myUrl.pathname); // '/pathname/'
+console.log(myUrl.search);   // '?search=test&sort=desc'
+console.log(myUrl.hash);     // '#hash'
+    </code></pre>
+  </div>
+
+  <p style="line-height: 1.75;">
+    In this example, you can extract parts such as:
+    <ul style="margin-left: 2rem;">
+      <li><strong>hostname:</strong> The domain name or IP address of the server.</li>
+      <li><strong>port:</strong> The port number used by the server.</li>
+      <li><strong>pathname:</strong> The path in the URL (the specific resource).</li>
+      <li><strong>search:</strong> The query string, including the "?" character.</li>
+      <li><strong>hash:</strong> The anchor in the URL (everything after the #).</li>
+    </ul>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Modifying URL Components
+  </h4>
+  <p style="line-height: 1.75;">
+    Once a URL is parsed into a URL object, you can modify its components directly:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { URL } = require('url');
+
+const urlString = 'https://example.com:8080/pathname/?search=test&sort=desc#hash';
+const myUrl = new URL(urlString);
+
+// Modifying parts of the URL
+myUrl.hostname = 'newdomain.com';
+myUrl.pathname = '/newpath';
+myUrl.search = '?search=updated&sort=asc';
+myUrl.hash = '#newhash';
+
+console.log(myUrl.toString()); // 'https://newdomain.com:8080/newpath/?search=updated&sort=asc#newhash'
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Creating a New URL Object from Base URL
+  </h4>
+  <p style="line-height: 1.75;">
+    You can create a new URL based on a relative URL and a base URL. This is particularly useful for resolving relative links:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { URL } = require('url');
+
+const baseUrl = 'https://example.com';
+const relativeUrl = '/path/to/resource';
+const myUrl = new URL(relativeUrl, baseUrl);
+
+console.log(myUrl.toString()); // 'https://example.com/path/to/resource'
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. URLSearchParams for Query Parameters
+  </h4>
+  <p style="line-height: 1.75;">
+    The URLSearchParams object allows you to work with the query string (the part after the ? in the URL). You can append, delete, or iterate through query parameters.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Adding and Modifying Query Parameters:
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { URL, URLSearchParams } = require('url');
+
+const urlString = 'https://example.com/path?search=test';
+const myUrl = new URL(urlString);
+
+// Append a new parameter
+myUrl.searchParams.append('sort', 'desc');
+
+// Modify an existing parameter
+myUrl.searchParams.set('search', 'updated');
+
+// Delete a parameter
+myUrl.searchParams.delete('sort');
+
+console.log(myUrl.toString()); // 'https://example.com/path?search=updated'
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Iterating over Query Parameters:
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { URL } = require('url');
+
+const urlString = 'https://example.com/path?search=test&sort=desc';
+const myUrl = new URL(urlString);
+
+myUrl.searchParams.forEach((value, name) => {
+  console.log($name}: $value});
+});
+// Output:
+// search: test
+// sort: desc
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Getting Specific Query Parameters:
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const { URL } = require('url');
+
+const urlString = 'https://example.com/path?search=test&sort=desc';
+const myUrl = new URL(urlString);
+
+console.log(myUrl.searchParams.get('search')); // 'test'
+console.log(myUrl.searchParams.get('sort'));   // 'desc'
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Conclusion
+  </h4>
+  <p style="line-height: 1.75;">
+    The URL module is a versatile tool that simplifies working with URLs. It provides easy ways to parse, modify, and manipulate URLs, as well as handle query parameters. Whether you’re handling user input, API requests, or dynamically generating links, mastering the URL module is crucial for Node.js developers.
+  </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -11960,100 +12996,212 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     Routing in Node.js is the mechanism for defining endpoints (URLs) for your application and associating them with handler functions that execute logic when those endpoints are accessed. In a typical Node.js environment, routing is handled by frameworks like Express.
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+const express = require('express');
+const app = express();
+const port = 3000;
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
+// Basic route handling
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
+
+// Start the server
+app.listen(port, () => {
+  console.log(Server is running on http://localhost:$port});
+});
  </code>
   </pre>
   </div>
  <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  In this example, we create an Express server, define a basic route for the root URL ('/') using the app.get method, and send a response ("Hello, World!") to the client. The server listens on port 3000.
   </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Handling Different HTTP Methods
    </h4>
  
    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <span style="font-weight: 600; font-size: 1.1rem;">POST, PUT, DELETE:</span> You can use different HTTP methods for different operations, such as creating, updating, or deleting data.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+app.post('/submit', (req, res) => {
+  res.send('Data submitted successfully!');
+});
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
+app.put('/update', (req, res) => {
+  res.send('Data updated successfully!');
+});
+
+app.delete('/delete', (req, res) => {
+  res.send('Data deleted successfully!');
+});
  </code>
   </pre>
   </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
-
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
-
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
      </li>
    </ol>
- </div>`,
+ 
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Routing Examples
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route Parameters:</span> Route parameters allow you to capture dynamic values from the URL.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Capture a dynamic user ID from the URL
+app.get('/user/:id', (req, res) => {
+  const userId = req.params.id;
+  res.send(User ID is: $userId});
+});
+ </code>
+  </pre>
+  </div>
+      </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Query Parameters:</span> Query parameters are passed as part of the URL and can be accessed using req.query.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+app.get('/search', (req, res) => {
+  const query = req.query.q;
+  res.send(Search query is: $query});
+});
+ </code>
+  </pre>
+  </div>
+      </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Middleware for Route Handling:</span> Middleware is used to perform pre-processing, validation, or logging before handling the route.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const logRequest = (req, res, next) => {
+  console.log($req.method} request to $req.url});
+  next();
+};
+
+app.use(logRequest);  // Apply to all routes
+
+app.get('/', (req, res) => {
+  res.send('Welcome to the homepage!');
+});
+ </code>
+  </pre>
+  </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Async Route Handlers:</span> Handle asynchronous operations, such as database calls, using async/await.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const mongoose = require('mongoose');
+const User = require('./models/User');
+
+app.get('/user/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+ </code>
+  </pre>
+  </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Nested Routes:</span> Organize routes in a hierarchical way for better management.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const userRouter = express.Router();
+
+// Nested routes for '/users'
+userRouter.get('/', (req, res) => {
+  res.send('List of users');
+});
+
+userRouter.get('/:id', (req, res) => {
+  res.send(User with ID $req.params.id});
+});
+
+// Use the userRouter for any route that starts with '/users'
+app.use('/users', userRouter);
+ </code>
+  </pre>
+  </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Handling:</span> Centralized error handling helps in managing errors across routes.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// A route that throws an error
+app.get('/error', (req, res) => {
+  throw new Error('Something went wrong');
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+});
+ </code>
+  </pre>
+  </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route Protection:</span> Protect certain routes with authentication and authorization middleware.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const authMiddleware = (req, res, next) => {
+  if (!req.headers['authorization']) {
+    return res.status(403).send('Forbidden');
+  }
+  next();
+};
+
+app.get('/protected', authMiddleware, (req, res) => {
+  res.send('This is a protected route');
+});
+ </code>
+  </pre>
+  </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route Grouping with Express Routers:</span> Group related routes together to make the code modular and easier to manage.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const express = require('express');
+const app = express();
+const port = 3000;
+
+const productRouter = express.Router();
+
+// Product related routes
+productRouter.get('/', (req, res) => {
+  res.send('List of products');
+});
+productRouter.get('/:id', (req, res) => {
+  res.send(Product with ID $req.params.id});
+});
+
+// Use the productRouter for any route starting with '/products'
+app.use('/products', productRouter);
+
+app.listen(port, () => {
+  console.log(Server running on http://localhost:$port});
+});
+ </code>
+  </pre>
+  </div>
+     </li>
+   </ol>
+ </div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -12080,100 +13228,220 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     Error handling in Node.js is essential to building robust applications, as it ensures that issues are managed gracefully without crashing the application. In Node.js, error handling can be managed through synchronous and asynchronous methods, with particular attention to async programming, callback patterns, promises, and async/await syntax.
    </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Types of Errors in Node.js
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
-
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
+       <span style="font-weight: 600; font-size: 1.1rem;">Synchronous Errors:</span> These occur during synchronous code execution and can be caught using try-catch blocks.
+     </li>
      <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
-
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
-
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
+       <span style="font-weight: 600; font-size: 1.1rem;">Asynchronous Errors:</span> These arise from asynchronous code, such as callbacks, promises, and async/await. They need special handling because they don’t immediately propagate in the usual call stack.
      </li>
    </ol>
- </div>`,
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Error Handling with Callbacks
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs');
+
+fs.readFile('example.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error('File read error:', err.message);
+    return; // Always return after handling an error to prevent further execution.
+  }
+  console.log('File content:', data);
+});
+ </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Error Handling with Promises
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs').promises;
+
+fs.readFile('example.txt', 'utf8')
+  .then(data => console.log('File content:', data))
+  .catch(err => console.error('File read error:', err.message));
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Error Handling with Async/Await
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fs = require('fs').promises;
+
+async function readFileContent() {
+  try {
+    const data = await fs.readFile('example.txt', 'utf8');
+    console.log('File content:', data);
+  } catch (err) {
+    console.error('File read error:', err.message);
+  }
+}
+
+readFileContent();
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Centralized Error Handling
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const express = require('express');
+const app = express();
+
+app.get('/error', (req, res, next) => {
+  try {
+    throw new Error('Something went wrong!');
+  } catch (error) {
+    next(error);
+  }
+});
+
+app.use((err, req, res, next) => {
+  console.error('Error occurred:', err.message);
+  res.status(500).json({ error: err.message });
+});
+
+app.listen(3000, () => console.log('Server running on port 3000'));
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling Uncaught Exceptions and Unhandled Rejections
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Catch Uncaught Exceptions
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err.message);
+  process.exit(1);
+});
+
+// Catch Unhandled Promise Rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection:', reason.message);
+});
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Error Handling with Custom Error Classes
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'NotFoundError';
+    this.statusCode = 404;
+  }
+}
+
+class ValidationError extends Error {
+  constructor(message) {
+    super(message);
+    this.name = 'ValidationError';
+    this.statusCode = 400;
+  }
+
+function getUser(id) {
+  if (id !== 1) throw new NotFoundError('User not found');
+}
+
+try {
+  getUser(2);
+} catch (error) {
+  if (error instanceof NotFoundError) {
+    console.error('Not Found:', error.message);
+  } else {
+    console.error('An error occurred:', error.message);
+  }
+}
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Graceful Shutdown
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const http = require('http');
+const server = http.createServer((req, res) => {
+  throw new Error('Unexpected Error');
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('Uncaught Exception:', err.message);
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(1);
+  });
+});
+
+server.listen(3000, () => console.log('Server running on port 3000'));
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Logging and Monitoring
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const winston = require('winston');
+
+const logger = winston.createLogger({
+  level: 'error',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.File({ filename: 'error.log' })
+  ],
+});
+
+try {
+  throw new Error('Something went wrong!');
+} catch (err) {
+  logger.error(err.message);
+}
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Retry Mechanism for Transient Errors
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const axios = require('axios');
+
+async function fetchDataWithRetry(url, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const response = await axios.get(url);
+      return response.data;
+    } catch (err) {
+      if (i === retries - 1) throw err;
+      console.log(Retrying... ($i + 1}));
+    }
+  }
+}
+
+fetchDataWithRetry('https://example.com/api')
+  .then(data => console.log('Data:', data))
+  .catch(err => console.error('Failed to fetch data:', err.message));
+</code></pre>
+   </div>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -12200,100 +13468,188 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     Middleware in Node.js, especially in frameworks like Express, is essentially a series of functions that execute in the request-response cycle. Middleware functions can modify requests, responses, or handle errors. Middleware is commonly used for tasks such as logging, authentication, error handling, parsing, and data validation. In an interview context, it’s valuable to demonstrate an understanding of how middleware works, as well as some advanced use cases and examples.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Middleware Structure
+   </h4>
+   <p style="line-height: 1.75;">
+     Middleware functions in Node.js receive three parameters: req (the request object), res (the response object), and next (a function that passes control to the next middleware). Here’s a basic example:
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
+app.use((req, res, next) => {
+  console.log(Request Method: $req.method}, Request URL: $req.url});
+  next(); // Passes control to the next middleware function
+});
  </code>
   </pre>
   </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
+  <p style="line-height: 1.75;">
+    In this example, the middleware logs the HTTP request method and URL, and then passes control to the next middleware using the next() function.
   </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Types of Middleware
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Application-level Middleware: Defined directly on the Express app instance.</li>
+     <li style="margin-top: 0.5rem;">Router-level Middleware: Defined on an Express router instance and typically used for route grouping.</li>
+     <li style="margin-top: 0.5rem;">Error-handling Middleware: Takes four parameters (err, req, res, next) and is used to manage errors.</li>
+   </ul>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Middleware Examples
+   </h4>
+   <p style="line-height: 1.75;">
+     Example 1: Request Logging with Advanced Logging Libraries<br/>
+     Instead of a simple console.log, integrating a logging library like Winston gives you advanced capabilities like log levels, file-based logging, and more.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+const express = require('express');
+const winston = require('winston');
+const app = express();
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({ filename: 'logs/combined.log' }),
+  ],
+});
+
+app.use((req, res, next) => {
+  logger.info(Request URL: $req.url} | Method: $req.method});
+  next();
+});
  </code>
   </pre>
   </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+  <p style="line-height: 1.75;">
+    In this example, logs are not only printed to the console but also stored in a file, which is useful for production.
+  </p>
+  <p style="line-height: 1.75;">
+     Example 2: Authentication Middleware with JSON Web Tokens (JWT)<br/>
+     A middleware to validate JSON Web Tokens can secure endpoints by checking if the user is authenticated before accessing the route.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
+const jwt = require('jsonwebtoken');
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+const authenticateToken = (req, res, next) => {
+  const token = req.header('Authorization')?.split(' ')[1];
+  if (!token) return res.status(401).send('Access Denied');
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.status(403).send('Invalid Token');
+    req.user = user; // Attach user info to request
+    next();
+  });
+};
+
+app.use('/secure-endpoint', authenticateToken, (req, res) => {
+  res.send('You have access to this secure endpoint!');
+});
+ </code>
+  </pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Example 3: Rate Limiting Middleware<br/>
+     Rate limiting prevents abuse by limiting the number of requests a client can make in a certain timeframe. Here’s an example using express-rate-limit:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+const rateLimit = require('express-rate-limit');
 
-const double = multiplier(2);
-const triple = multiplier(3);
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per window
+  message: 'Too many requests from this IP, please try again later.',
+});
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+app.use(limiter); // Apply to all requests
+ </code>
+  </pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Example 4: Custom Error-Handling Middleware<br/>
+     In production, instead of showing raw error messages to users, custom error-handling middleware can handle and log errors gracefully.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something broke!');
+});
+ </code>
+  </pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Example 5: Validation Middleware with Joi<br/>
+     Middleware can validate incoming request data. Here’s an example using the joi library to validate JSON payloads.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const Joi = require('joi');
+
+const validateUser = (req, res, next) => {
+  const schema = Joi.object({
+    username: Joi.string().min(3).required(),
+    email: Joi.string().email().required(),
+  });
+
+  const { error } = schema.validate(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  next();
+};
+
+app.post('/register', validateUser, (req, res) => {
+  res.send('User registered successfully!');
+});
+ </code>
+  </pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Example 6: Response Caching Middleware<br/>
+     Implement caching for heavy operations or frequently accessed data using Redis:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const redis = require('redis');
+const client = redis.createClient();
+
+const cacheMiddleware = (req, res, next) => {
+  const { id } = req.params;
+
+  client.get(id, (err, data) => {
+    if (err) throw err;
+    if (data) return res.json(JSON.parse(data));
+    next(); // Continue to the route handler if not cached
+  });
+};
+
+app.get('/data/:id', cacheMiddleware, async (req, res) => {
+  const data = await fetchDataFromDB(req.params.id);
+  client.setex(req.params.id, 600, JSON.stringify(data)); // Cache data for 10 mins
+  res.json(data);
+});
+ </code>
+  </pre>
+  </div>
+   <p style="line-height: 1.75;">
+     This middleware first checks if data is in Redis cache. If it is, it sends the cached response; if not, it continues to the route handler, fetches data, and stores it in the cache.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Important Middleware Patterns and Best Practices
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Order Matters: Place middleware that requires prior authentication (like authorization checks) after authentication middleware.</li>
+     <li style="margin-top: 0.5rem;">Use async/await or Promises Carefully: To handle asynchronous code in middleware, always await asynchronous functions or use .then().catch().</li>
+     <li style="margin-top: 0.5rem;">Error Handling: Always include error-handling middleware to handle unexpected issues gracefully.</li>
+   </ul>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -12320,100 +13676,200 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     In Node.js, environment variables are key-value pairs set outside the application code, usually on the operating system level, which help configure application settings. They’re often used to store sensitive information, such as API keys, database credentials, and configuration options that might vary across environments (development, testing, production). Environment variables can make applications more secure, flexible, and easier to configure across different deployment setups.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. Accessing Environment Variables in Node.js
+   </h4>
+   <p style="line-height: 1.75;">
+     Node.js accesses environment variables through <code>process.env</code>. The <code>process</code> global object is available in all modules, so you can access environment variables from anywhere in your application.
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
+const port = process.env.PORT || 3000;
+console.log(Server running on port $port});
+      </code></pre>
   </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
+  <p style="line-height: 1.75;">
+     Here, <code>process.env.PORT</code> will use the value from the environment variable if it exists; otherwise, it defaults to 3000.
+   </p>
+
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     2. Using dotenv to Manage Environment Variables
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <p style="line-height: 1.75;">
+     In real-world applications, environment variables are usually stored in a <code>.env</code> file during development. The <code>dotenv</code> package is a popular tool for loading environment variables from a <code>.env</code> file into <code>process.env</code>.
+   </p>
+   <p style="line-height: 1.75;">
+     To set this up:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install dotenv
+      </code></pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Create a <code>.env</code> file:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-plaintext">
+PORT=4000
+API_KEY=supersecretapikey123
+      </code></pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Load <code>dotenv</code> in your application:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+require('dotenv').config();
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
+const apiKey = process.env.API_KEY;
+console.log(API Key: $apiKey});
+      </code></pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Note: Avoid committing <code>.env</code> files to version control for security reasons.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     3. Using Environment Variables for Different Environments
+   </h4>
+   <p style="line-height: 1.75;">
+     For different environments (e.g., development, testing, production), you can create environment-specific configuration files like <code>.env.development</code>, <code>.env.production</code>, and load them based on <code>NODE_ENV</code>.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+require('dotenv').config({
+  path: .env.$process.env.NODE_ENV || 'development'}
+});
+
+const dbUri = process.env.DATABASE_URI;
+console.log(Database URI: $dbUri});
+      </code></pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Now you can specify different database URIs for development and production in respective <code>.env</code> files:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-plaintext">
+# .env.development
+DATABASE_URI=mongodb://localhost/dev_db
+
+# .env.production
+DATABASE_URI=mongodb://localhost/prod_db
+      </code></pre>
   </div>
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     4. Handling Sensitive Data Securely
+   </h4>
+   <p style="line-height: 1.75;">
+     Environment variables are especially useful for securely storing sensitive data such as API keys, tokens, and database credentials. Here’s an advanced example for configuring secure API calls using environment variables.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
+const axios = require('axios');
+
+const apiKey = process.env.API_KEY;
+const apiSecret = process.env.API_SECRET;
+
+const fetchSecureData = async () => {
+  try {
+    const response = await axios.get('https://api.example.com/data', {
+      headers: {
+        'Authorization': Bearer $apiKey}:$apiSecret}
+      }
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+};
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     5. Advanced Example: Configuring Microservices with Environment Variables
+   </h4>
+   <p style="line-height: 1.75;">
+     In a microservices architecture, each service can have its own configuration. Environment variables allow services to be configured independently without hardcoding sensitive information.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-plaintext">
+# auth-service
+AUTH_JWT_SECRET=myjwtsecret
+AUTH_JWT_EXPIRATION=3600
+
+# data-service
+DATA_DB_URI=mongodb://localhost/data_service_db
+DATA_API_ENDPOINT=https://api.example.com/data
+      </code></pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Each service can independently load its respective variables, keeping configuration isolated and secure.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     6. Environment Variable Validation
+   </h4>
+   <p style="line-height: 1.75;">
+     To avoid misconfigurations, validate environment variables on application startup. The <code>joi</code> package is often used for validation.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const Joi = require('joi');
+require('dotenv').config();
+
+const envSchema = Joi.object({
+  PORT: Joi.number().default(3000),
+  API_KEY: Joi.string().required(),
+  NODE_ENV: Joi.string().valid('development', 'production', 'test').required()
+}).unknown().required();
+
+const { error, value: envVars } = envSchema.validate(process.env);
+if (error) {
+  throw new Error(Config validation error: $error.message});
 }
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+console.log(App running on port $envVars.PORT});
+      </code></pre>
+  </div>
 
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
-   </ol>
- </div>`,
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     7. Dynamic Configuration with Environment Variables
+   </h4>
+   <p style="line-height: 1.75;">
+     Environment variables can also be dynamically adjusted without code changes. For example, in cloud environments or container orchestration platforms like Kubernetes, you can adjust environment variables directly in the deployment configuration.
+   </p>
+   <p style="line-height: 1.75;">
+     Example in Kubernetes:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-yaml">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+      - name: my-app
+        image: my-app-image:v1
+        env:
+        - name: PORT
+          value: "8080"
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: api-secret
+              key: apiKey
+      </code></pre>
+  </div>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -12436,104 +13892,212 @@ close(); // this will give you inner function and equivalent`,
             links: [],
           },
           {
-            topic: "Basic Authentication",
+            topic: "Authentication and Authorization",
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     Authentication and Authorization are essential concepts in web applications that control user access and ensure security. 
+     Authentication verifies the identity of a user, typically through credentials such as username, password, or tokens. 
+     Authorization determines what actions or resources an authenticated user can access or perform within the application.
    </p>
+
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const app = express();
+
+app.use(express.json());
+
+const SECRET_KEY = 'yourSecretKeyHere';
+
+const users = [
+  { id: 1, username: 'admin', password: 'adminpass', role: 'admin' },
+  { id: 2, username: 'user', password: 'userpass', role: 'user' },
+];
+
+function authenticate(username, password) {
+  return users.find(user => user.username === username && user.password === password);
 }
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+function generateToken(user) {
+  return jwt.sign({ id: user.id, role: user.role }, SECRET_KEY, { expiresIn: '1h' });
+}
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+function verifyToken(req, res, next) {
+  const token = req.headers['authorization'];
+  if (!token) return res.status(403).send('Token required');
+  
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(401).send('Invalid token');
+    req.user = decoded;
+    next();
+  });
+}
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
+function authorize(roles = []) {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return res.status(403).send('Access denied');
     }
+    next();
   };
 }
+      </code></pre>
+   </div>
 
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
+   <p style="line-height: 1.75;">
+     The example above sets up a basic authentication and authorization flow in Node.js using JWT tokens and role-based access control. 
+     When users log in with their credentials, we authenticate them and generate a JWT token. 
+     For protected routes, the token is verified to ensure the user is authenticated.
+   </p>
 
-const double = multiplier(2);
-const triple = multiplier(3);
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Authentication and Authorization Process
+   </h4>
 
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Login and Token Generation:</span> 
+      When a user logs in, we authenticate their credentials and generate a JWT token if they are valid.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const user = authenticate(username, password);
+  if (!user) return res.status(401).send('Invalid credentials');
+  
+  const token = generateToken(user);
+  res.json({ token });
+});
+        </code></pre>
+      </div>
+     </li>
+
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Protected Route with Token Verification:</span> 
+      For protected routes, the verifyToken middleware ensures that the request contains a valid JWT token.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+app.get('/dashboard', verifyToken, (req, res) => {
+  res.send(Welcome to your dashboard, user $req.user.id});
+});
+        </code></pre>
+      </div>
      </li>
    </ol>
- </div>`,
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Authorization Example (Role-Based Access Control)
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Role-Based Access Control (RBAC):</span> 
+      With role-based authorization, users with different roles can access different resources. 
+      For instance, only 'admin' users can access the admin dashboard, while both 'admin' and 'user' roles can access the profile route.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+app.get('/admin', verifyToken, authorize(['admin']), (req, res) => {
+  res.send('Admin dashboard');
+});
+
+app.get('/profile', verifyToken, authorize(['admin', 'user']), (req, res) => {
+  res.send('User profile');
+});
+        </code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Granular Authorization with Permissions
+   </h4>
+
+   <p style="line-height: 1.75;">
+     For more granular control, permissions can be used in conjunction with roles. Each role has specific permissions that determine what actions they can perform.
+     Here’s how we define permissions for roles and check them before allowing access to routes:
+   </p>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const rolePermissions = {
+  admin: ['view_dashboard', 'manage_users', 'view_reports'],
+  user: ['view_dashboard'],
+};
+
+function checkPermissions(permission) {
+  return (req, res, next) => {
+    const { role } = req.user;
+    if (!rolePermissions[role].includes(permission)) {
+      return res.status(403).send('Permission denied');
+    }
+    next();
+  };
+}
+
+app.get('/reports', verifyToken, checkPermissions('view_reports'), (req, res) => {
+  res.send('Viewing reports');
+});
+
+app.get('/users', verifyToken, checkPermissions('manage_users'), (req, res) => {
+  res.send('Managing users');
+});
+      </code></pre>
+   </div>
+
+   <p style="line-height: 1.75;">
+     In this case, permissions such as 'view_reports' or 'manage_users' are checked for the user’s role before they can access the routes.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Handling Multiple Sessions and Token Revocation
+   </h4>
+
+   <p style="line-height: 1.75;">
+     For managing multiple sessions or logout, tokens can be blacklisted or refresh tokens can be used to invalidate expired or used tokens. Here is how token revocation and refresh tokens work:
+   </p>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const blacklist = new Set();
+
+function invalidateToken(token) {
+  blacklist.add(token);
+}
+
+function isTokenRevoked(token) {
+  return blacklist.has(token);
+}
+
+app.post('/logout', verifyToken, (req, res) => {
+  invalidateToken(req.headers['authorization']);
+  res.send('Logged out');
+});
+
+function verifyToken(req, res, next) {
+  const token = req.headers['authorization'];
+  if (isTokenRevoked(token)) return res.status(401).send('Token revoked');
+  
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(401).send('Invalid token');
+    req.user = decoded;
+    next();
+  });
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Refresh Tokens
+   </h4>
+
+   <p style="line-height: 1.75;">
+     With refresh tokens, you can issue a short-lived access token and a longer-lived refresh token. The access token is used for routing access, while the refresh token can be exchanged for a new access token once the original expires.
+     Ensure the refresh token is stored securely, such as in HTTP-only cookies.
+   </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
