@@ -14124,100 +14124,148 @@ close(); // this will give you inner function and equivalent`,
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+      In Node.js, process management is crucial for handling applications with complex workflows, high loads, or the need for efficient resource utilization. Node.js is single-threaded by default, meaning that it runs code on a single thread, which can limit performance for CPU-intensive tasks. To handle complex or resource-intensive processes, Node.js offers several techniques and tools for process management:
    </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      1. The process Object
+   </h4>
+   <p style="line-height: 1.75;">
+      The <code>process</code> object is a global that provides control over the Node.js process lifecycle, such as environment information, process ID, and exit codes.
+   </p>
+   <p>Example: Monitoring Resource Usage. Use the <code>process.memoryUsage()</code> and <code>process.cpuUsage()</code> methods to log memory and CPU usage periodically.</p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
+setInterval(() => {
+  const memoryUsage = process.memoryUsage();
+  const cpuUsage = process.cpuUsage();
+  console.log(Memory Usage: $JSON.stringify(memoryUsage)});
+  console.log(CPU Usage: $JSON.stringify(cpuUsage)});
+}, 5000);
+</code></pre>
+   </div>
 
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+      2. Child Processes
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   <p style="line-height: 1.75;">
+      The <code>child_process</code> module allows you to spawn new processes that can run independently of the main process, useful for CPU-intensive tasks that might block the main event loop.
+   </p>
+   <p>Example: Using fork for CPU-Intensive Computation</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
+// main.js
+const { fork } = require('child_process');
+const computeProcess = fork('./compute.js');
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
+computeProcess.on('message', (result) => {
+  console.log(Result from child process: $result});
+});
+computeProcess.send({ num: 1000000 });
 
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
+// compute.js (Child Process)
+process.on('message', (data) => {
+  const result = expensiveComputation(data.num);
+  process.send(result);
+});
+function expensiveComputation(num) {
+  let sum = 0;
+  for (let i = 0; i < num; i++) {
+    sum += i;
+  }
+  return sum;
 }
-
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
 </code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      3. Cluster Module
+   </h4>
+   <p style="line-height: 1.75;">
+      The <code>cluster</code> module allows you to scale your application by creating child processes (workers) that share the same server port, enabling a Node.js application to leverage multi-core systems.
+   </p>
+   <p>Example: Load Balancing HTTP Requests</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
+// clusterServer.js
+const cluster = require('cluster');
+const http = require('http');
+const os = require('os');
+
+if (cluster.isMaster) {
+  const numCPUs = os.cpus().length;
+  for (let i = 0; i < numCPUs; i++) cluster.fork();
+  cluster.on('exit', (worker) => cluster.fork());
+} else {
+  http.createServer((req, res) => {
+    res.writeHead(200);
+    res.end(Handled by worker: $process.pid}\n);
+  }).listen(8000);
 }
-
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
 </code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
-     </li>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      4. Worker Threads
+   </h4>
+   <p style="line-height: 1.75;">
+      For CPU-bound tasks that need to run asynchronously, <code>worker_threads</code> provides a way to offload processing to background threads with shared memory.
+   </p>
+   <p>Example: Offloading CPU-Intensive Task to a Worker Thread</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// main.js
+const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
+if (isMainThread) {
+  const worker = new Worker(__filename, { workerData: 1000000 });
+  worker.on('message', (result) => console.log(Result from worker: $result}));
+} else {
+  const result = expensiveComputation(workerData);
+  parentPort.postMessage(result);
+}
+function expensiveComputation(num) {
+  let sum = 0;
+  for (let i = 0; i < num; i++) sum += i;
+  return sum;
+}
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      5. Process Management Tools (e.g., PM2)
+   </h4>
+   <p style="line-height: 1.75;">
+      For production environments, tools like PM2 manage multiple Node.js processes with features like automatic restarts, monitoring, and zero-downtime restarts.
+   </p>
+   <p>Example: Managing Processes with PM2</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Start the app with 4 instances
+pm2 start app.js -i 4
+
+# Monitor running processes
+pm2 monit
+
+# Restart on crash
+pm2 start app.js --watch
+
+# Zero-downtime reload
+pm2 reload app.js
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Summary of Process Management in Node.js
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li><b>The process Object:</b> Manage the main process, including memory and CPU usage monitoring.</li>
+     <li><b>Child Processes:</b> Execute tasks independently of the main process for parallelization.</li>
+     <li><b>Cluster Module:</b> Utilize multiple CPU cores by creating worker processes sharing the same server port.</li>
+     <li><b>Worker Threads:</b> Run CPU-bound tasks in separate threads, allowing shared memory with reduced overhead.</li>
+     <li><b>PM2 and Other Tools:</b> Manage and monitor processes in production with automatic scaling, clustering, and fault tolerance.</li>
    </ol>
- </div>`,
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14242,7 +14290,232 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Express Basics",
             tags: [""],
-            explanation: ``,
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Express.js is a popular, lightweight web application framework for Node.js. It's designed to make building APIs and web servers simpler by providing a robust set of tools and features. Here’s a breakdown of Express basics along with more advanced examples.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Setting up Express
+  </h4>
+  <p style="line-height: 1.75;">
+    First, create a basic Express server.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Basic middleware for parsing JSON bodies
+app.use(express.json());
+
+app.listen(PORT, () => {
+  console.log(Server is running on http://localhost:$PORT});
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Routing Basics
+  </h4>
+  <p style="line-height: 1.75;">
+    Express uses routing to manage HTTP requests for specific endpoints. Here's how to set up simple routes for GET, POST, PUT, and DELETE.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Basic GET route
+app.get('/', (req, res) => {
+  res.send('Hello, Express!');
+});
+
+// Route with a dynamic parameter
+app.get('/users/:id', (req, res) => {
+  res.send(User ID: $req.params.id});
+});
+
+// POST route
+app.post('/users', (req, res) => {
+  const user = req.body;
+  res.status(201).json({ message: 'User created', user });
+});
+
+// PUT route
+app.put('/users/:id', (req, res) => {
+  const updatedUser = req.body;
+  res.json({ message: User $req.params.id} updated, updatedUser });
+});
+
+// DELETE route
+app.delete('/users/:id', (req, res) => {
+  res.json({ message: User $req.params.id} deleted });
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Middleware in Express
+  </h4>
+  <p style="line-height: 1.75;">
+    Middleware functions have access to the request, response, and next() function, allowing chaining multiple middleware.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Custom middleware for logging requests
+app.use((req, res, next) => {
+  console.log($req.method} $req.url});
+  next();
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced Middleware Example
+  </h4>
+  <p style="line-height: 1.75;">
+    Using middleware for authentication:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const authMiddleware = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  try {
+    req.user = verifyToken(token);
+    next();
+  } catch (error) {
+    res.status(403).json({ message: 'Forbidden' });
+  }
+};
+
+app.get('/secure-data', authMiddleware, (req, res) => {
+  res.json({ message: 'This is secure data', user: req.user });
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Advanced Routing with Express Router
+  </h4>
+  <p style="line-height: 1.75;">
+    Organize routes with express.Router in larger applications.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const userRouter = express.Router();
+
+userRouter.get('/', (req, res) => {
+  res.send('Get all users');
+});
+userRouter.post('/', (req, res) => {
+  res.send('Create a user');
+});
+userRouter.get('/:id', (req, res) => {
+  res.send(Get user with ID: $req.params.id});
+});
+
+app.use('/users', userRouter);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Error Handling Middleware
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!' });
+});
+
+app.get('/error', (req, res, next) => {
+  const error = new Error('Intentional error');
+  next(error);
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Serving Static Files
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+app.use(express.static('public'));
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    7. Advanced: Rate Limiting Middleware
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const rateLimit = require('express-rate-limit');
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests, try later',
+});
+
+app.use(limiter);
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    8. Advanced: Handling Async/Await with Routes
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+app.get('/async-data', async (req, res, next) => {
+  try {
+    const data = await someAsyncFunction();
+    res.json(data);
+  } catch (error) {
+    next(error);
+  }
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    9. Using Environment Variables with dotenv
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+require('dotenv').config();
+
+app.get('/config', (req, res) => {
+  res.json({ apiKey: process.env.API_KEY });
+});
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    10. Testing with Supertest and Jest (Advanced)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const request = require('supertest');
+const express = require('express');
+const app = express();
+
+app.get('/test', (req, res) => {
+  res.status(200).send('Hello, Test!');
+});
+
+describe('GET /test', () => {
+  it('responds with Hello, Test!', async () => {
+    const response = await request(app).get('/test');
+    expect(response.text).toEqual('Hello, Test!');
+  });
+});
+    </code></pre>
+  </div>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14267,7 +14540,190 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Routing in Express",
             tags: [""],
-            explanation: ``,
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    In Express, routing is a way to define the structure and behavior of an application’s endpoints. Each route specifies an HTTP request (e.g., GET, POST, PUT, DELETE) and the path to respond to, allowing for modular handling of user actions and data management.
+  </p>
+  
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Basic Routing in Express
+  </h4>
+  
+  <p style="line-height: 1.75;">
+    At its core, routing in Express is simple and can look something like this:
+  </p>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const express = require('express');
+const app = express();
+
+// GET request to homepage
+app.get('/', (req, res) => {
+  res.send('Welcome to the homepage!');
+});
+
+// POST request to login route
+app.post('/login', (req, res) => {
+  // Logic to handle login
+  res.send('Login successful!');
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+    </code></pre>
+  </div>
+  
+  <p style="line-height: 1.75;">
+    Each route handler (e.g., app.get('/route')) listens for a request and sends an appropriate response.
+  </p>
+  
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced Routing Concepts
+  </h4>
+  
+  <h5 style="font-weight: 600; margin-top: 1rem;">Router Middleware:</h5>
+  <p style="line-height: 1.75;">
+    Express provides a Router instance, which enables modular and mountable route handlers. This is useful for grouping routes and organizing large applications.
+  </p>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const express = require('express');
+const app = express();
+const userRouter = express.Router();
+
+// Define routes for user-related actions
+userRouter.get('/:id', (req, res) => {
+  const userId = req.params.id;
+  res.send(User info for user ID: $userId});
+});
+
+userRouter.put('/:id', (req, res) => {
+  const userId = req.params.id;
+  // Logic to update user info
+  res.send(User info updated for user ID: $userId});
+});
+
+// Mount the router on /users path
+app.use('/users', userRouter);
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});
+    </code></pre>
+  </div>
+  
+  <h5 style="font-weight: 600; margin-top: 1rem;">Route Parameters:</h5>
+  <p style="line-height: 1.75;">
+    Parameters allow for dynamic route handling. For example, <code>:id</code> is a parameter in the path <code>/users/:id</code>, allowing access to specific user data by ID.
+  </p>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+userRouter.get('/:id/orders/:orderId', (req, res) => {
+  const { id, orderId } = req.params;
+  res.send(Order $orderId} details for user $id});
+});
+    </code></pre>
+  </div>
+  
+  <h5 style="font-weight: 600; margin-top: 1rem;">Query Parameters:</h5>
+  <p style="line-height: 1.75;">
+    Query parameters can be used to filter or modify data returned by a route.
+  </p>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+userRouter.get('/:id/orders', (req, res) => {
+  const { id } = req.params;
+  const { status } = req.query;  // e.g., status=completed
+  res.send(Orders for user $id} with status: $status});
+});
+    </code></pre>
+  </div>
+  
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Middleware in Express
+  </h4>
+  
+  <p style="line-height: 1.75;">
+    Middleware functions are functions that have access to the request and response objects and the next function in the request-response cycle. They allow pre-processing or post-processing of requests, which is useful for tasks like logging, authentication, and error handling.
+  </p>
+  
+  <h5 style="font-weight: 600; margin-top: 1rem;">Example of Basic Middleware for Logging</h5>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const logMiddleware = (req, res, next) => {
+  console.log(Request Method: $req.method}, URL: $req.url});
+  next();  // Proceed to the next middleware or route handler
+};
+
+app.use(logMiddleware);
+    </code></pre>
+  </div>
+  
+  <h5 style="font-weight: 600; margin-top: 1rem;">Example of Middleware for Authentication</h5>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const authMiddleware = (req, res, next) => {
+  const token = req.headers['authorization'];
+  
+  if (token === 'secret-token') {  // Just an example; real apps use more secure methods.
+    next(); // Token is valid, proceed to the next handler
+  } else {
+    res.status(401).send('Unauthorized');
+  }
+};
+
+// Protected route using authentication middleware
+app.get('/protected', authMiddleware, (req, res) => {
+  res.send('You have access to this protected route!');
+});
+    </code></pre>
+  </div>
+  
+  <h5 style="font-weight: 600; margin-top: 1rem;">Using Multiple Middleware Functions</h5>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const checkAdmin = (req, res, next) => {
+  if (req.headers['x-role'] === 'admin') {
+    next();
+  } else {
+    res.status(403).send('Access forbidden: Admins only');
+  }
+};
+
+app.get('/admin', authMiddleware, checkAdmin, (req, res) => {
+  res.send('Welcome, Admin!');
+});
+    </code></pre>
+  </div>
+  
+  <h5 style="font-weight: 600; margin-top: 1rem;">Error-Handling Middleware</h5>
+  
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const errorHandler = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Something went wrong!');
+};
+
+// Trigger an error intentionally on this route
+app.get('/error', (req, res) => {
+  throw new Error('Intentional Error!');
+});
+
+// Register the error-handling middleware
+app.use(errorHandler);
+    </code></pre>
+  </div>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14292,7 +14748,149 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Static Files",
             tags: [""],
-            explanation: ``,
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     In Node.js, static files refer to assets that don't change dynamically, such as images, CSS, JavaScript, HTML files, fonts, and other resources needed to render a website or web application. Serving static files efficiently is essential in building fast and responsive web applications. Here's an overview of how static files work in Node.js, along with advanced examples for setting up and optimizing them.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How Node.js Serves Static Files
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">File Server:</span> Node.js can act as a file server, serving static files from a directory. However, manually handling each file request can be cumbersome and inefficient.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Express Static Middleware:</span> With frameworks like Express, the <code>express.static</code> middleware simplifies serving static files. This middleware handles caching, request path mapping, and file delivery.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Example with Express Static Middleware
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// Middleware to serve static files from the 'public' directory
+app.use('/static', express.static(path.join(__dirname, 'public')));
+
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
+});
+</code></pre>
+  </div>
+
+   <p style="line-height: 1.75;">
+    In this example, any file in the <code>public</code> directory is accessible at http://localhost:3000/static/filename. For instance, if you have an image logo.png in public, it can be accessed at http://localhost:3000/static/logo.png.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Concepts in Serving Static Files
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cache Control:</span> Improve performance by setting cache headers for static files. This allows browsers to cache files locally and avoid unnecessary requests to the server.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+app.use('/static', express.static(path.join(__dirname, 'public'), {
+    maxAge: '1d', // Cache static files for 1 day
+    etag: false   // Disable ETag headers for simplicity
+}));
+</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Versioning and Cache Busting:</span> To ensure users see the latest version of your files, append versioning strings or file hashes. This is usually done during the build process.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Serving Compressed Files:</span> Compressing static files can reduce load times. Use the <code>compression</code> middleware to enable Gzip or Brotli compression.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const compression = require('compression');
+app.use(compression());
+
+app.use('/static', express.static(path.join(__dirname, 'public')));
+</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Content Delivery Network (CDN):</span> For higher scalability, you can serve static files via a CDN. A CDN caches static assets across multiple data centers, delivering them from locations closest to users.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Example: Conditional Caching and Dynamic Compression
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const express = require('express');
+const path = require('path');
+const compression = require('compression');
+const app = express();
+
+// Use compression with custom options for better control
+app.use(compression({
+    threshold: 1024, // Compress files larger than 1KB
+    filter: (req, res) => {
+        // Only compress HTML and JavaScript files
+        return /text|javascript|json/.test(res.getHeader('Content-Type'));
+    }
+}));
+
+// Middleware for serving static files with advanced caching
+app.use('/static', (req, res, next) => {
+    const fileExtension = path.extname(req.url);
+
+    if (fileExtension === '.css' || fileExtension === '.js') {
+        res.setHeader('Cache-Control', 'public, max-age=604800'); // Cache for 1 week
+    } else if (fileExtension === '.html') {
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate'); // No caching for HTML
+    }
+
+    next();
+}, express.static(path.join(__dirname, 'public')));
+
+app.listen(3000, () => {
+    console.log('Server running on http://localhost:3000');
+});
+</code></pre>
+    </div>
+
+   <p style="line-height: 1.75;">
+    In this example:
+   </p>
+   <ul style="margin-left: 1.5rem; list-style-type: disc;">
+      <li><strong>Dynamic Compression:</strong> Only certain types of files (HTML, JavaScript, JSON) are compressed.</li>
+      <li><strong>Conditional Caching:</strong> Static files have different caching policies based on their file type. CSS and JavaScript files are cached for a week, while HTML files aren’t cached to ensure users see the latest content.</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Other Advanced Techniques
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Service Workers:</span> Service workers allow caching of static files on the client side, enabling offline access and faster load times by caching resources directly in the user's browser.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Implement security headers, such as Content-Security-Policy and X-Content-Type-Options, to protect static files from malicious attacks.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const helmet = require('helmet');
+app.use(helmet({
+    contentSecurityPolicy: false,
+}));
+app.use('/static', express.static(path.join(__dirname, 'public')));
+</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lazy Loading:</span> For media-rich applications, lazy load images and videos to save bandwidth and load time.
+     </li>
+   </ol>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14317,7 +14915,120 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Body Parser",
             tags: [""],
-            explanation: ``,
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     In Node.js, the <strong>Body Parser</strong> is a middleware used to handle incoming request data in an HTTP request. When building APIs, especially RESTful APIs, parsing the request body is essential for handling different types of data, such as JSON, URL-encoded data, or text. Body Parser simplifies this by providing an easy way to parse incoming request payloads.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How Body Parser Works
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Body Parser sits between the server and request handler, examining incoming requests and parsing the payload based on the content type. For instance, if JSON data is sent with <code>Content-Type: application/json</code>, Body Parser will parse it as JSON, allowing the server to access the request data directly as an object.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Usage
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     To use Body Parser in a Node.js application, install it first, then set it up as middleware in an Express server to handle JSON and URL-encoded payloads.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const express = require('express'); 
+const bodyParser = require('body-parser');
+const app = express();
+
+// Parse application/json data 
+app.use(bodyParser.json());
+
+// Parse application/x-www-form-urlencoded data 
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.post('/data', (req, res) => { 
+  res.send(req.body); // Parsed request body 
+});
+
+app.listen(3000, () => console.log('Server started on port 3000'));
+ </code>
+  </pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Here, Body Parser parses both JSON and URL-encoded payloads, making them accessible on <code>req.body</code>.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Examples
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Custom Parsing Logic:</span> Sometimes, we need to parse the body based on specific conditions, like certain content types or request headers. 
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+app.use((req, res, next) => { 
+  if (req.is('text/*')) { 
+    req.body = ''; 
+    req.setEncoding('utf8'); 
+    req.on('data', chunk => req.body += chunk); 
+    req.on('end', next); 
+  } else { 
+    next(); 
+  }
+});
+
+app.post('/text-data', (req, res) => { 
+  res.send(req.body); // Text content is manually parsed 
+}); 
+ </code></pre>
+      </div>
+      Here, if a request contains <code>Content-Type: text/*</code>, the text data is parsed manually.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Limiting Payload Size:</span> Limiting the request body size helps prevent potential memory overload from large payloads.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+app.use(bodyParser.json({ limit: '10kb' })); // Limit JSON payloads to 10 KB 
+app.use(bodyParser.urlencoded({ limit: '5kb', extended: true })); // Limit URL-encoded data to 5 KB
+
+app.post('/limited', (req, res) => { 
+  res.send('Payload processed within size limits.'); 
+});
+ </code></pre>
+      </div>
+      This example restricts JSON payloads to 10 KB and URL-encoded data to 5 KB.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Raw or Binary Data:</span> For endpoints handling raw or binary data, like images, Body Parser’s <code>raw</code> or <code>text</code> parsing options allow handling binary data directly.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+app.use(bodyParser.raw({ type: 'application/octet-stream', limit: '1mb' }));
+
+app.post('/upload', (req, res) => { 
+  const buffer = req.body; // Binary data 
+  // Process binary data, such as saving an image 
+  res.send(Received binary data of $buffer.length} bytes.); 
+}); 
+ </code></pre>
+      </div>
+      This configuration processes binary data with <code>Content-Type: application/octet-stream</code>.
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Body Parser
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">
+      <strong>Ease of Use:</strong> Simplifies parsing of JSON and URL-encoded payloads.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <strong>Flexibility:</strong> Supports multiple content types, including JSON, text, raw, and URL-encoded.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <strong>Security:</strong> Limiting payload size helps protect against attacks that involve large payloads.
+     </li>
+   </ul>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Body Parser is a foundational tool for handling HTTP request data, making it easier to work with APIs in Node.js applications and efficiently handle different data types for various use cases.
+   </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14342,7 +15053,195 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "CORS in Express",
             tags: [""],
-            explanation: ``,
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     CORS (Cross-Origin Resource Sharing) is a security feature implemented by web browsers to prevent malicious websites from accessing resources and data from other domains without proper authorization. In the context of a web application, it regulates how a web page from one origin can make requests to a server hosted on another origin (e.g., different domain, protocol, or port).
+   </p>
+   <p style="line-height: 1.75;">
+     In Node.js and Express, CORS is handled using middleware, which allows or blocks requests from different origins based on configuration.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const express = require('express');
+const cors = require('cors');
+const app = express();
+
+// Enable CORS for all domains
+app.use(cors());
+
+app.get('/', (req, res) => {
+  res.json({ message: "Hello from Express!" });
+});
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+ </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+    In this basic example, by using <code>app.use(cors())</code>, all incoming requests from any origin are allowed.
+  </p>
+  
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced CORS Configuration
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Allow Specific Origins :</span> You can specify which origins are allowed to make requests:
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const corsOptions = {
+  origin: 'https://yourfrontenddomain.com',
+};
+
+app.use(cors(corsOptions));
+</code></pre>
+    </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Allow Specific HTTP Methods and Headers :</span> Sometimes, you need to specify which HTTP methods and headers are allowed:
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const corsOptions = {
+  origin: 'https://yourfrontenddomain.com',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Only allow these methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Only allow these headers
+};
+
+app.use(cors(corsOptions));
+</code></pre>
+    </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Enabling Preflight Requests :</span> For HTTP methods like PUT, DELETE, or requests with custom headers, browsers will send a preflight request (HTTP OPTIONS) to check the server’s CORS policy. You can explicitly handle these preflight requests:
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+app.options('*', cors()); // Preflight for all routes
+</code></pre>
+    </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic CORS Based on Request Origin :</span> You might want to allow CORS dynamically based on the request’s origin. For instance, if the origin is localhost, allow CORS, but restrict it otherwise:
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const corsOptions = (req, callback) => {
+  const allowedOrigins = ['http://localhost:3000', 'https://yourfrontenddomain.com'];
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    callback(null, { origin: true }); // Allow CORS
+  } else {
+    callback(null, { origin: false }); // Block CORS
+  }
+};
+
+app.use(cors(corsOptions));
+</code></pre>
+    </div>
+    </li>
+  </ol>
+  
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Handling CORS for Specific Routes
+  </h4>
+  <p style="line-height: 1.75;">
+    Instead of enabling CORS globally, you can apply it to specific routes:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+app.get('/public', cors(), (req, res) => {
+  res.json({ message: 'This route allows CORS' });
+});
+
+app.get('/private', (req, res) => {
+  res.json({ message: 'This route does NOT allow CORS' });
+});
+ </code>
+  </pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    CORS with Authentication
+  </h4>
+  <p style="line-height: 1.75;">
+    When using CORS with authentication (e.g., sending JWTs or cookies), you need to set the credentials option to true and allow specific origins:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const corsOptions = {
+  origin: 'https://yourfrontenddomain.com',
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // Allow cookies and credentials
+};
+
+app.use(cors(corsOptions));
+
+app.get('/profile', (req, res) => {
+  res.json({ user: 'John Doe' });
+});
+ </code>
+  </pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Handling Errors for CORS Requests
+  </h4>
+  <p style="line-height: 1.75;">
+    Sometimes, CORS-related errors may occur, and you may want to provide more informative error messages. You can handle errors using a middleware:
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+app.use((err, req, res, next) => {
+  if (err instanceof cors.CorsError) {
+    res.status(500).json({ error: 'CORS error' });
+  } else {
+    next(err);
+  }
+});
+ </code>
+  </pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced: CORS with OPTIONS Requests (Preflight Requests)
+  </h4>
+  <p style="line-height: 1.75;">
+    Preflight requests are sent automatically by browsers to determine if the actual request is safe to send. You may need to manage these explicitly when configuring APIs with complex headers or methods.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+app.options('/upload', cors()); // Handle preflight request for specific routes
+app.post('/upload', cors(), (req, res) => {
+  res.json({ message: 'File uploaded' });
+});
+ </code>
+  </pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Using CORS in Production
+  </h4>
+  <p style="line-height: 1.75;">
+    In production, always restrict CORS to the specific domains you trust. Avoid allowing all origins with <code>cors()</code> without restrictions, as this may lead to security vulnerabilities.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Summary
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+    <li>Use <code>cors()</code> middleware to enable CORS in your Express app.</li>
+    <li>Customize CORS with options like <code>origin</code>, <code>methods</code>, <code>allowedHeaders</code>, and <code>credentials</code>.</li>
+    <li>Handle preflight requests explicitly for routes with complex headers or methods.</li>
+    <li>Always restrict CORS to trusted domains in production for security.</li>
+  </ol>
+
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14367,7 +15266,157 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Node.js Debugging",
             tags: [""],
-            explanation: ``,
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Debugging in Node.js is a critical skill for developers, especially when dealing with complex code and asynchronous execution. Node.js provides several tools and techniques to inspect and troubleshoot your application, making it easier to identify bugs and performance issues. This is essential for improving the quality of the code and for maintaining and scaling applications effectively.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const http = require('http');
+
+const server = http.createServer((req, res) => {
+  console.log('Request received');
+  res.end('Hello, Node.js');
+});
+
+server.listen(3000, () => {
+  console.log('Server is listening on port 3000');
+});
+      </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+    In the simple example above, we create a basic HTTP server using Node.js. To debug this, we can use various methods, including built-in debugging tools, logging, and advanced debugging techniques like the Node.js Inspector or third-party debugging libraries.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Methods for Debugging Node.js Applications
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Console Logging:</span> 
+       One of the simplest ways to debug Node.js applications is using <code>console.log</code> to print out variable values, track function calls, and identify where an error occurs. However, for larger applications, this can become cumbersome, so other debugging methods may be more appropriate.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const addNumbers = (a, b) => {
+  console.log(Adding numbers: $a}, $b}); // Debugging line
+  return a + b;
+};
+
+console.log(addNumbers(5, 10));
+</code></pre>
+    </div>
+      </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using the Node.js Inspector:</span> 
+       Node.js comes with a built-in debugging tool known as the Inspector. You can launch it using <code>node inspect</code> or <code>node --inspect</code> to start an interactive debugging session that allows you to step through code, set breakpoints, and inspect variable values.
+       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Start the application with debugging enabled
+node --inspect-brk app.js // Breaks on the first line
+
+// This code is inside the app.js
+const fs = require('fs');
+
+fs.readFile('example.txt', 'utf8', (err, data) => {
+  if (err) {
+    console.error('File reading error', err);
+    return;
+  }
+  console.log(data);
+});
+</code></pre>
+      </div>
+      </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Debugger Statements:</span> 
+       You can also add <code>debugger</code> statements in your code to pause execution at specific points and inspect variables and the call stack. This is particularly helpful when used with the Node.js Inspector.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const multiply = (a, b) => {
+  debugger; // Code will pause here for inspection
+  return a * b;
+};
+
+console.log(multiply(5, 6));
+</code></pre>
+      </div>
+      </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Third-Party Debuggers (e.g., Visual Studio Code):</span>
+      Many IDEs, like Visual Studio Code, come with built-in support for Node.js debugging. With VSCode, you can launch a Node.js application and set breakpoints in the editor, inspect variables, and even step through asynchronous code, making it easier to debug complex applications.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+    // Use this configuration in VSCode's launch.json
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "workspaceFolder}/app.js"
+    }
+</code></pre>
+      </div>
+      </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Debugging Techniques
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Profiling Performance:</span>
+      Node.js provides tools to profile performance and detect bottlenecks. You can use the <code>--inspect</code> flag to open Chrome DevTools for performance profiling, helping identify long-running functions or memory issues.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+      // Start profiling
+      node --inspect --trace-warnings app.js
+      </code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Asynchronous Debugging:</span> 
+      Asynchronous code can be tricky to debug because of its non-blocking nature. Using the <code>async_hooks</code> module in Node.js can help track asynchronous calls and understand the flow of asynchronous operations.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+      const async_hooks = require('async_hooks');
+      const fs = require('fs');
+
+      const hook = async_hooks.createHook({
+        init(asyncId, type, triggerAsyncId, resource) {
+          fs.writeSync(1, Async hook initialized for $type}\n);
+        }
+      });
+      hook.enable();
+      </code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Logging with External Libraries:</span> 
+      For complex applications, external libraries such as <code>winston</code> or <code>pino</code> provide advanced logging features. They allow logging in various formats, log rotation, and even remote logging.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+      const winston = require('winston');
+
+      const logger = winston.createLogger({
+        level: 'info',
+        transports: [
+          new winston.transports.Console(),
+          new winston.transports.File({ filename: 'app.log' })
+        ]
+      });
+
+      logger.info('Application started');
+      </code></pre>
+      </div>
+     </li>
+   </ol>
+   <p style="line-height: 1.75;">
+    Node.js debugging is an essential skill for ensuring the smooth operation of applications, particularly as they grow in complexity. By leveraging built-in tools, external libraries, and advanced techniques such as asynchronous debugging and performance profiling, developers can effectively troubleshoot issues and improve the overall performance of their Node.js applications.
+   </p>
+ </div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14392,7 +15441,181 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "REST APIs Basics",
             tags: [""],
-            explanation: ``,
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     REST (Representational State Transfer) is an architectural style for designing networked applications that use HTTP to transfer data. RESTful APIs are stateless, meaning that the server doesn't retain any client state between requests. They are designed to be simple and scalable. Below is an overview of REST API basics within the context of Node.js and some advanced examples:
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. Principles of REST API:
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">1.1 Statelessness :</span> Each request from the client to the server must contain all the necessary information to process the request. The server doesn't retain any client state between requests.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+         <pre><code className="language-javascript">
+function exampleRequest() {
+  const requestData = {
+    authToken: '12345', // Authentication token sent with each request
+    sessionData: { /* other data */ }
+  };
+  // Make request to server
+}
+         </code></pre>
+      </div>
+      In this example, each HTTP request contains necessary information like authentication and session data, making it stateless.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">1.2 Client-Server Architecture :</span> The client (frontend) and server (backend) are separate entities. The client interacts through API requests, while the server handles processing and data.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+         <pre><code className="language-javascript">
+app.get('/users', (req, res) => {
+  const users = getUsersFromDatabase();
+  res.status(200).json(users);
+});
+         </code></pre>
+      </div>
+      In this example, the client sends a GET request to fetch user details, and the server responds with user information in JSON format.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">1.3 Stateless Operations :</span> Each request from a client must contain all the necessary information to complete the operation. No server-side state should be kept between requests.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+         <pre><code className="language-javascript">
+app.post('/submit-form', (req, res) => {
+  const { formData } = req.body;
+  processFormData(formData); // No need to store prior request info
+  res.status(200).send('Form submitted successfully');
+});
+         </code></pre>
+      </div>
+      This example demonstrates that each POST request contains all the data needed to process it, without relying on previous requests.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">1.4 Standardized HTTP Methods :</span> REST APIs commonly use standard HTTP methods: GET (retrieve), POST (create), PUT (update), DELETE (delete).
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+         <pre><code className="language-javascript">
+app.get('/products', (req, res) => {
+  res.status(200).json(products); // GET request to fetch products
+});
+
+app.post('/users', (req, res) => {
+  const newUser = createUser(req.body); // POST request to create a new user
+});
+         </code></pre>
+      </div>
+      In this example, GET is used to retrieve products, and POST is used to add a new user.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">1.5 Resource-Based URIs :</span> Use URLs that indicate the resource being acted upon. The URL should be easy to understand and describe the action or the resource.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+         <pre><code className="language-javascript">
+app.get('/users', (req, res) => {
+  // Retrieves all users
+});
+
+app.get('/products', (req, res) => {
+  // Retrieves all products
+});
+         </code></pre>
+      </div>
+      In these examples, the resource is indicated by the URL (/users, /products), which clearly identifies the entity being interacted with.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">1.6 Stateless Responses :</span> Responses should include all necessary data for clients to understand the result of the request and may be in JSON format.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+         <pre><code className="language-javascript">
+app.get('/user/:id', (req, res) => {
+  const user = getUserById(req.params.id);
+  if (user) {
+    res.status(200).json(user); // Return user data in response
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+         </code></pre>
+      </div>
+      In this example, the server returns the necessary data (user information) in the response.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     2. Advanced REST API Examples with Node.js:
+   </h4>
+
+   <h5 style="font-size: 1.125rem; font-weight: 600;">
+     2.1 Creating a Simple REST API in Node.js Using Express:
+   </h5>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const express = require('express');
+const app = express();
+const PORT = 3000;
+
+app.use(express.json());
+
+const users = [
+    { id: 1, name: 'John Doe', email: 'john@example.com' },
+    { id: 2, name: 'Jane Doe', email: 'jane@example.com' }
+];
+
+// GET Request - Retrieve all users
+app.get('/users', (req, res) => {
+    res.status(200).json(users);
+});
+
+app.listen(PORT, () => {
+  console.log(Server running at http://localhost:$PORT});
+});
+      </code></pre>
+   </div>
+
+   <h5 style="font-size: 1.125rem; font-weight: 600;">
+     2.2 Caching and Rate Limiting:
+   </h5>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // Limit to 100 requests per window per IP
+});
+app.use('/api/', limiter);
+      </code></pre>
+   </div>
+
+   <h5 style="font-size: 1.125rem; font-weight: 600;">
+     2.3 Error Handling and Validation:
+   </h5>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal Server Error' });
+});
+      </code></pre>
+   </div>
+
+   <h5 style="font-size: 1.125rem; font-weight: 600;">
+     2.4 Security Best Practices:
+   </h5>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const jwt = require('jsonwebtoken');
+
+app.post('/login', (req, res) => {
+  const { username, password } = req.body;
+  const token = jwt.sign({ username }, 'secret', { expiresIn: '1h' });
+  res.status(200).json({ token });
+});
+      </code></pre>
+   </div>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14417,32 +15640,213 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "MVC Architecture",
             tags: [""],
-            explanation: ``,
-            examples: [
-              `function outest(){
-  var c = 12; 
-  function outer(b){ 
-    function inner(){
-      console.log(a, b, c); // try printing b and c  here
-    }
-    let a =10; // let instead of var
-    return inner;
-  }
-  return outer;
-}
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The Model-View-Controller (MVC) architecture is a widely-used design pattern that helps separate the concerns in software applications. It breaks down an application into three interconnected components, allowing for modularization and maintainability. The components are:
+  </p>
 
-let a =100;
-// Passing argument here 
-var close = outest()("Hi Closures"); // this will give you outer function
-close(); // this will give you inner function and equivalent`,
-            ],
-            questions: [],
-            links: [],
-          },
-          {
-            topic: "Error Handling",
-            tags: [""],
-            explanation: ``,
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Model
+  </h4>
+  <p style="line-height: 1.75;">
+    The Model in MVC refers to the structure of the data, often interacting directly with the database. In Node.js, models can be created using Object Relational Mapping (ORM) libraries like Sequelize, Mongoose, or Prisma.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// model/User.js (with Mongoose)
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+});
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
+</code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    In this example, the User model defines the schema for user data, and Mongoose will handle the database interactions such as inserting, querying, or deleting users.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. View
+  </h4>
+  <p style="line-height: 1.75;">
+    The View is responsible for rendering HTML or JSON data to the client. In a Node.js application, EJS, Pug, or Handlebars can be used to render dynamic views. Alternatively, for an API-based application, the "view" might just be JSON data sent back to the client.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// views/index.ejs (using EJS templating engine)
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Home</title>
+</head>
+<body>
+  <h1>Welcome, <%= user.name %></h1>
+  <p>Your email is: <%= user.email %></p>
+</body>
+</html>
+</code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    Here, the user.name and user.email are dynamically injected from the controller, which sends the data to the view for rendering.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Controller
+  </h4>
+  <p style="line-height: 1.75;">
+    The Controller handles user requests, processes them (with help from the model), and updates the view. In a Node.js application, controllers often manage routes and interact with models to fetch or manipulate data, then send the appropriate response to the client.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// controllers/userController.js
+const User = require('../models/User');
+
+exports.createUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const user = new User({ name, email, password });
+    await user.save();
+    res.status(201).json({ message: 'User created successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create user', error });
+  }
+};
+
+exports.getUser = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve user', error });
+  }
+};
+</code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    In this controller example, the createUser function handles POST requests to create a new user, while the getUser function fetches user data based on the id parameter. Both functions interact with the User model to manipulate data and send appropriate responses.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced Examples in Node.js
+  </h4>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Using Services for Business Logic
+  </h4>
+  <p style="line-height: 1.75;">
+    While MVC can be implemented in its simplest form, more complex applications benefit from breaking the controller logic further into services. Services encapsulate business logic, making the controllers thinner and easier to maintain.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// services/userService.js
+const User = require('../models/User');
+
+exports.createUser = async (name, email, password) => {
+  const user = new User({ name, email, password });
+  await user.save();
+  return user;
+};
+
+exports.getUserById = async (id) => {
+  return await User.findById(id);
+};
+</code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    Now, the controller simply delegates the actual work to the service layer.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// controllers/userController.js
+const userService = require('../services/userService');
+
+exports.createUser = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+    const user = await userService.createUser(name, email, password);
+    res.status(201).json({ message: 'User created successfully', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to create user', error });
+  }
+};
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Error Handling with Middleware
+  </h4>
+  <p style="line-height: 1.75;">
+    In large-scale Node.js applications, centralized error handling is essential for maintaining code quality and readability. Express middleware can be used to handle errors globally and ensure consistent error responses.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// middlewares/errorHandler.js
+module.exports = (err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Internal Server Error', error: err.message });
+};
+</code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    In this case, the errorHandler middleware catches all errors from routes and controllers and sends a standardized error response to the client.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// app.js
+const express = require('express');
+const errorHandler = require('./middlewares/errorHandler');
+
+const app = express();
+
+app.use(express.json());
+
+// Your routes and controllers here...
+
+app.use(errorHandler); // Use error handling middleware
+
+app.listen(3000, () => {
+  console.log('Server started on port 3000');
+});
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Asynchronous Data Handling and Validation
+  </h4>
+  <p style="line-height: 1.75;">
+    Modern applications often require asynchronous data handling, and the MVC pattern can be used to manage this complexity. In Node.js, async/await is often used for handling asynchronous database operations.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+// services/userService.js
+const User = require('../models/User');
+const { validationResult } = require('express-validator');
+
+exports.createUser = async (name, email, password) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    throw new Error('Validation failed');
+  }
+  const user = new User({ name, email, password });
+  await user.save();
+  return user;
+};
+</code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    The service method performs validation using express-validator before proceeding to interact with the database.
+  </p>
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -14467,32 +15871,174 @@ close(); // this will give you inner function and equivalent`,
           {
             topic: "Path Module",
             tags: [""],
-            explanation: ``,
-            examples: [
-              `function outest(){
-  var c = 12; 
-  function outer(b){ 
-    function inner(){
-      console.log(a, b, c); // try printing b and c  here
-    }
-    let a =10; // let instead of var
-    return inner;
-  }
-  return outer;
-}
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The path module in Node.js is a core utility module that helps you work with and manipulate file and directory paths. It provides an easy way to interact with file system paths in a way that is platform-independent. This is particularly useful when building cross-platform applications, as path formats vary across operating systems (e.g., Windows uses backslashes \, while Unix-based systems like Linux and macOS use forward slashes /).
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Features of the path Module:
+  </h4>
+  <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+    <li>Platform-independent file paths</li>
+    <li>Path normalization</li>
+    <li>Handling absolute and relative paths</li>
+    <li>Joining paths safely</li>
+    <li>Extracting path components (directory, file name, extension, etc.)</li>
+  </ul>
 
-let a =100;
-// Passing argument here 
-var close = outest()("Hi Closures"); // this will give you outer function
-close(); // this will give you inner function and equivalent`,
-            ],
-            questions: [],
-            links: [],
-          },
-          {
-            topic: "Environment Variables",
-            tags: [""],
-            explanation: ``,
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Core Methods of the path Module
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">path.join([...paths]) :</span> 
+      This method is used to join multiple path segments together into a single path. It handles the proper separators based on the operating system.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const fullPath = path.join('/user', 'docs', 'myfile.txt');
+console.log(fullPath);  // Output on UNIX: '/user/docs/myfile.txt'
+// Output on Windows: '\ user\docs\myfile.txt
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">path.resolve([...paths]) :</span> 
+      This method resolves a sequence of paths into an absolute path. If the paths are relative, it will convert them into an absolute path, based on the current working directory.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+// Resolving relative path into an absolute path
+const absolutePath = path.resolve('user', 'docs', 'myfile.txt');
+console.log(absolutePath);  // Output will be an absolute path depending on your current working directory
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">path.basename(path, [ext]) :</span> 
+      Returns the last portion of the path, i.e., the file name. Optionally, you can pass the file extension to remove it from the output.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const fileName = path.basename('/user/docs/myfile.txt');
+console.log(fileName); // Output: 'myfile.txt'
+
+const fileNameWithoutExt = path.basename('/user/docs/myfile.txt', '.txt');
+console.log(fileNameWithoutExt); // Output: 'myfile'
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">path.dirname(path) :</span> 
+      Returns the directory part of the given path, excluding the file name.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const dirName = path.dirname('/user/docs/myfile.txt');
+console.log(dirName); // Output: '/user/docs'
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">path.extname(path) :</span> 
+      Returns the extension of the file from the given path.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const ext = path.extname('/user/docs/myfile.txt');
+console.log(ext); // Output: '.txt'
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">path.isAbsolute(path) :</span> 
+      Checks if the given path is an absolute path or not.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const isAbsolutePath = path.isAbsolute('/user/docs/myfile.txt');
+console.log(isAbsolutePath); // Output: true
+
+const isRelativePath = path.isAbsolute('docs/myfile.txt');
+console.log(isRelativePath); // Output: false
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">path.relative(from, to) :</span> 
+      Returns the relative path from one location to another. This is helpful when you need to convert an absolute path to a relative one.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const relativePath = path.relative('/user/docs', '/user/docs/myfile.txt');
+console.log(relativePath); // Output: 'myfile.txt'
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced Examples
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">Example 1: Normalizing Paths :</span> 
+      Sometimes paths can have redundant or inconsistent slashes. The path.normalize() method can help clean up paths by resolving them to a standard format.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const weirdPath = '/user/docs/../myfile.txt';
+const normalizedPath = path.normalize(weirdPath);
+console.log(normalizedPath); // Output: '/user/myfile.txt'
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">Example 2: Combining Path Operations :</span> 
+      You can chain multiple path methods to achieve complex operations, like resolving relative paths and extracting file extensions.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const path = require('path');
+
+const filePath = path.join('user', 'docs', 'myfile.txt');
+const absolutePath = path.resolve(filePath);
+const ext = path.extname(absolutePath);
+
+console.log(Absolute Path: $absolutePath);
+console.log(Extension: $ext});
+        </code></pre>
+      </div>
+    </li>
+    <li>
+      <span style="font-weight: 600; font-size: 1.1rem;">Example 3: Working with Path in an Express Project :</span> 
+      In an Express application, you might use the path module to serve static files. This is a practical use case where you join paths to serve resources and prevent path traversal vulnerabilities.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const express = require('express');
+const path = require('path');
+const app = express();
+
+// Serve static files
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve an HTML file with absolute path
+app.get('/', (req, res) => {
+  const filePath = path.resolve(__dirname, 'public', 'index.html');
+  res.sendFile(filePath);
+});
+
+app.listen(3000, () => {
+  console.log('Server running on http://localhost:3000');
+});
+`,
             examples: [
               `function outest(){
   var c = 12; 
