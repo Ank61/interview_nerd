@@ -7367,100 +7367,119 @@ person.greet(); // Output: Hello, undefined
             tags: [""],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A closure is a combination of a function and its lexical scope, which allows the function to access variables from its outer scope even after the outer function has completed execution.
-     It is mostly used when we have to preserve data between function calls or we have to cache the result of an expensive function calls ( recalculate the same result multiple times ).
+     React is a JavaScript library for building user interfaces, primarily for single-page applications (SPAs). It is maintained by Meta (Facebook) and a large open-source community. React allows developers to create fast, scalable, and reusable UI components efficiently.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use React?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Component-Based Architecture:</span> UI is broken into reusable components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtual DOM:</span> Improves performance by updating only changed parts of the real DOM.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">One-Way Data Binding:</span> Ensures a predictable flow of data, making debugging easier.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX (JavaScript XML):</span> Enables writing HTML-like code within JavaScript.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Hooks (React 16.8+):</span> Allow functional components to manage state and lifecycle without classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Strong Community & Ecosystem:</span> Large support, third-party libraries, and tools.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Features of React
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX (JavaScript XML):</span> A syntax extension to JavaScript that looks like HTML.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Components:</span> Reusable, independent UI pieces.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">State and Props:</span>
+      <ul>
+        <li>State – Stores dynamic data within a component.</li>
+        <li>Props – Passes data between components.</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtual DOM:</span> Minimizes direct manipulation of the real DOM, improving efficiency.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Methods:</span> Class components have lifecycle methods (e.g., componentDidMount, componentWillUnmount).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Hooks:</span> Functions like useState, useEffect, useContext that add state and side-effects to functional components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">React Router:</span> For navigation in SPAs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Redux (or Context API):</span> For global state management.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Example of a React Component
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import React from 'react';
+
+function Greeting(props) {
+  return <h1>Hello, {props.name}!</h1>;
+}
+
+export default Greeting;
+ </code></pre>
+  </div>
+   <p style="line-height: 1.75;">
+    Usage:
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-function outerFunction() {
-  const outerVariable = 'I am from the outer function!'; // Outer variable
-  function innerFunction() {
-    console.log(outerVariable); // Accessing the outer variable
-  }
-  return innerFunction; // Return the inner function
-}
-
-const closureFunction = outerFunction(); // Execute outerFunction
-closureFunction(); // Call the inner function
- </code>
-  </pre>
+<Greeting name="John" />
+ </code></pre>
   </div>
- <p style="line-height: 1.75;">
-  In the example of a closure, we define an outerFunction that contains a variable, outerVariable, and an inner function, innerFunction. The inner function logs outerVariable to the console. When outerFunction is called, it returns innerFunction, which is then stored in the variable closureFunction. Calling closureFunction() executes innerFunction, which retains access to outerVariable even after outerFunction has completed.
-  </p>
+   
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Closures
+     Main Features of React
    </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Privacy (Encapsulation) :</span> Closures allow you to create private variables and functions that can't be accessed directly from outside. This is useful for encapsulating state within a function and ensuring that it isn't exposed.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function createCounter() {
- let count = 0; // Private variable
-   return function() {
-    count++; // Accessing outer scope variable
-      return count;
-        };
-      }
-
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3
- </code>
-  </pre>
-  </div>
-
-In this example, count is private to the createCounter function,
- and the inner function has access to it even after the outer function has finished executing. No other variable or function can access the count variable from outside the function but only the inner one. Outer function encapsulates the count in itself. 
-      </li>
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX (JavaScript XML):</span> React uses JSX, a syntax extension for JavaScript that looks like HTML but allows embedding JavaScript expressions.
+     </li>
      <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">Memoization :</span>Closures are usefull in storing the result of expensive function calls so that one can use the result again and again without recalculating the result multiple times.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function memoize(fn) {
-const cache = {};
-return function(x) {
-    if (cache[x] !== undefined) {
-      return cache[x];  // Return cached result
-    } else {
-      const result = fn(x);
-      cache[x] = result;  // Store result in cache
-      return result;
-    }
-  };
-}
-
-const square = memoize(x => x * x);
-console.log(square(4)); // 16 (calculated)
-console.log(square(4)); // 16 (cached)
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Function Factories :</span> 
-Closures allow you to generate new functions with their own private state based on parameters passed to the outer function.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-javascript">
-function multiplier(factor) {
-  return function(x) {
-    return x * factor;
-  };
-}
-
-const double = multiplier(2);
-const triple = multiplier(3);
-
-console.log(double(5)); // 10
-console.log(triple(5)); // 15
-</code></pre>
-    </div>
-    In this case, the factor variable is "remembered" by each closure (the returned function), allowing different behavior depending on the value of factor.
+      <span style="font-weight: 600; font-size: 1.1rem;">Component-Based Architecture:</span> UI is divided into independent, reusable components. This promotes modularity and maintainability.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtual DOM:</span> React uses a virtual DOM to efficiently update the real DOM by comparing the old and new virtual DOM and applying only the necessary changes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">One-Way Data Binding:</span> Data flows from parent to child components, which ensures predictable state changes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Hooks:</span> React introduced hooks in version 16.8, enabling functional components to manage state, side-effects, context, etc.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Unidirectional Data Flow:</span> React promotes one-way data flow, where the state is passed from parent to child components through props.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Methods:</span> Class components have lifecycle methods, and functional components can use hooks to replicate lifecycle behavior.
      </li>
    </ol>
- </div>`,
+</div>
+`,
             examples: [
               `function outest(){
   var c = 12; 
@@ -7626,391 +7645,153 @@ var y = a();
             topic: "JSX Syntax",
             tags: [""],
             explanation: `<div>
-            <p style="line-height: 1.75; margin-top: 1.5rem;">
-            Promises in JavaScript are used to handle asynchronous operations like fetching data from a server, reading files, or waiting for an event to happen without blocking the execution of other code.They provide a cleaner and more structured alternative to traditional callback-based asynchronous code. JavaScript is a single-threaded language, which means it can only perform one task at a time. To manage long-running tasks without freezing the interface or halting other code, JavaScript uses asynchronous patterns, such as Promises.
-A Promise is an object representing the eventual completion (or failure) of an asynchronous operation. It allows you to attach callbacks to handle the result once it's available, even if the task takes time.
-</p>
-<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-Key States of a Promise:
-</h4>
-<ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-     <h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 500; letter-spacing: -0.025em;">Pending: The initial state</h5>
-     </li> The operation has started but is not yet complete.
-<li style="margin-top: 0.5rem;">
-<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 500; letter-spacing: -0.025em;">
-Fulfilled:
-</h5>
-The operation completed successfully, and the Promise has a value.
-</li>
-<li style="margin-top: 0.5rem;">
-<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 500; letter-spacing: -0.025em;">
-Rejected:
-</h5>
-The operation failed, and the Promise has an error reason.
-</li>
-</ol>
-<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-Syntax :
-</h4>
-The Promise constructor accepts a function as its argument, which includes two parameters: resolve and reject. These parameters are functions that are invoked to signal either the successful completion or failure of the asynchronous task.
-<p>
-After a promise is made, you can handle its result using the <b>.then()</b> and <b>.catch()</b> methods. Use .then() when the promise is successful, and use .catch() when something goes wrong and the promise fails.
-</p>
-<pre><code className="language-javascript" >
-function fetchDataFromServer() {
-  return new Promise((resolve, reject) => {
-    // Simulate an HTTP request to fetch data
-    setTimeout(() => {
-      const data = { id: 1, content: 'This is the fetched data' };
-      // Simulate a successful response
-      resolve(data);
-      // Simulate an error
-      // reject(new Error('Failed to fetch data'));
-    }, 2000);
-  });
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    JSX (JavaScript XML) is a syntax extension for JavaScript used in React to describe UI components. It allows you to write HTML-like code within JavaScript, which is then transpiled into regular JavaScript using tools like Babel.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key JSX Syntax Concepts:
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX Elements:</span> JSX looks like HTML but follows JavaScript rules.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const element = <h1>Hello, World!</h1>;
+// Compiles to:
+const element = React.createElement("h1", null, "Hello, World!");
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Embedding JavaScript Expressions:</span> You can embed JavaScript expressions inside {}.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const name = "Alice";
+const element = <h1>Hello, {name}!</h1>;
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX Attributes:</span> Attributes in JSX use camelCase.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const element = <button onClick={handleClick}>Click me</button>;
+
+// class in HTML becomes className in JSX.
+const element = <div className="container">Content</div>;
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX with Conditional Rendering:</span> Using ternary operators or && for conditional rendering.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const isLoggedIn = true;
+const message = <h1>{isLoggedIn ? "Welcome back!" : "Please log in"}</h1>;
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX with Loops:</span> You can use .map() to render lists.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const items = ["Apple", "Banana", "Orange"];
+const list = <ul>{items.map(item => <li key={item}>{item}</li>)}</ul>;
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Fragments in JSX:</span> Avoid unnecessary <div> wrappers using React Fragments.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+<>
+  <h1>Title</h1>
+  <p>Description</p>
+</>
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX Must Return a Single Parent Element:</span> Wrap multiple elements in a parent element or a fragment.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+return (
+  <div>
+    <h1>Title</h1>
+    <p>Some text</p>
+  </div>
+);
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX Inside Functions:</span> JSX can be returned from a function.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function Welcome(props) {
+  return <h1>Hello, {props.name}!</h1>;
 }
-// Using the fetchDataFromServer function
-fetchDataFromServer()
-  .then((data) => {
-    console.log('Data received:', data);
-    return data.content.toUpperCase();
-  })
-  .then((uppercasedData) => {
-    console.log('Uppercased data:', uppercasedData);
-  })
-  .catch((error) => {
-    console.error('Error:', error);
-  });
-</pre> 
-</code>
-<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-Methods of Promise :
-</h4>
+        </code></pre>
+      </div>
+    </li>
+  </ol>
 
-<ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-<li style="margin-top: 0.5rem;">
- <p>The <b>Promise.all()</b> method lets you handle multiple promises at the same time. You give it an array of promises (or values), and it returns a new promise. This new promise:</p>
-    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-        <li><strong>Resolves</strong> when all the promises in the array have finished successfully, returning an array of their results.</li>
-        <li><strong>Rejects</strong> if any one of the promises fails (rejects), stopping everything and giving the first error it encounters.</li>
-    </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced JSX Topics:
+  </h4>
 
-    <p>It’s useful when you want to run several tasks in parallel and wait for all of them to finish before moving forward.</p>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Spread Operator in JSX:</span> Pass props using spread syntax.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+const person = { name: "Alice", age: 25 };
+const element = <Person {...person} />;
+// Equivalent to: <Person name="Alice" age={25} />
+        </code></pre>
+      </div>
+    </li>
 
-    <h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
-    <ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
-        <li>If you pass an array of promises, it will wait for all of them to resolve.</li>
-        <li>If one promise fails, <b>Promise.all()</b> immediately rejects and gives that error.</li>
-        <li>If there are non-promises in the array, they are treated as resolved values.</li>
-    </ul>
-        <p>Example:</p>
-        <pre><code className="language-javascript" >
-const promiseA = new Promise((resolve, reject) => { <br>
-&nbsp;&nbsp;setTimeout(resolve, 200, "value A"); <br>
-}); // will be resolved after 200ms <br><br>
-
-const promiseB = "non-promise value"; // non-promise value <br><br>
-
-const promiseC = new Promise((resolve, reject) => { <br>
-&nbsp;&nbsp;setTimeout(resolve, 400, "value C"); <br>
-}); // will be resolved after 400ms <br><br>
-
-Promise.all([promiseA, promiseB, promiseC]) <br>
-&nbsp;&nbsp;.then((values) => { <br>
-&nbsp;&nbsp;&nbsp;&nbsp;console.log(values); // Output: [ 'value A', 'non-promise value', 'value C' ] <br>
-&nbsp;&nbsp;}) <br>
-&nbsp;&nbsp;.catch((err) => { <br>
-&nbsp;&nbsp;&nbsp;&nbsp;console.log(err); <br>
-&nbsp;&nbsp;});
-        </code>
-        </pre>
-        </li>
-           
-<li style="margin-top: 0.5rem;">
- <p>The <b>Promise.any()</b> method allows you to handle multiple promises concurrently. You provide it with an iterable (typically an array) of promises, and it returns a new promise. This new promise:</p>
-    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-        <li><strong>Resolves</strong> as soon as any of the promises in the iterable fulfills, returning the value of that fulfilled promise.</li>
-        <li><strong>Rejects</strong> only if all of the promises in the iterable are rejected, returning an AggregateError containing all rejection reasons.</li>
-    </ul>
-    <p>It's particularly useful when you want to run several tasks in parallel and proceed as soon as any one of them completes successfully.</p>
-
-<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
-<ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li>It returns the first promise that fulfills, without waiting for other promises to complete.</li>
-    <li>It short-circuits after the first fulfillment, ignoring any subsequent rejections or fulfillments.</li>
-    <li>If the iterable contains non-promises, they are treated as already fulfilled promises.</li>
-</ul>
-    <pre><code className="language-javascript">
-const SlowlyDone = new Promise((resolve, reject) => {
-setTimeout(resolve, 500, "Done slowly");
-}); // resolves after 500ms
-
-const QuicklyDone = new Promise((resolve, reject) => {
-setTimeout(resolve, 100, "Done quickly");
-}); // resolves after 100ms
-
-const Rejection = new Promise((resolve, reject) => {
-setTimeout(reject, 100, "Rejected");
-}); // always rejected
-
-Promise.any([SlowlyDone, QuicklyDone, Rejection])
-.then((value) => {
-console.log(value); // Output: "Done quickly"
-})
-.catch((err) => {
-console.log(err);
-});
-</code>
-</pre>
-</li>
-
-<li style="margin-top: 0.5rem;">
- <p>The <b>Promise.prototype.finally()</b> method is a powerful tool in the Promise chain. It returns a Promise and executes a specified callback function when a Promise settles, regardless of whether it was fulfilled or rejected. Key features include:</p>
-    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-        <li>Executes after a Promise is settled, whether resolved or rejected.</li>
-        <li>Helps eliminate code duplication between Promise's then() and catch() handlers.</li>
-        <li>Ideal for performing cleanup or finalizing operations, irrespective of the Promise's outcome.</li>
-    </ul>
-<p>This method is particularly useful when you need to perform certain actions or cleanups once a promise completes, regardless of its success or failure.</p>
-
-<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
-<ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li>Always runs when the promise settles, whether fulfilled or rejected.</li>
-    <li>Receives no arguments, making it unsuitable for processing the promise's result.</li>
-    <li>Returns a Promise, allowing for further chaining if necessary.</li>
-</ul>
-    <p>Example:</p>
-    <pre><code className="language-javascript">
-const addition = (a, b) =>
-new Promise((resolve, reject) => {
-if (typeof a === "number" && typeof b === "number") {
-resolve(a + b);
-} else {
-reject("Not a Number");
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Event Handling in JSX:</span> Events are written in camelCase.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function handleClick(event) {
+  console.log("Button clicked", event);
 }
-});
-addition(10, 5)
-.then((response) => {
-console.log(response);
-})
-.catch((err) => {
-console.log(err);
-})
-.finally(() => {
-console.log("Operation completed");
-});
-/* Expected output:
-15
-Operation completed */
-</code>
-</pre>
-</li>
+const element = <button onClick={handleClick}>Click me</button>;
+        </code></pre>
+      </div>
+    </li>
 
-<li style="margin-top: 0.5rem;">
- <p>The <b>Promise.race()</b> method is a unique tool in the Promise toolkit. It takes an iterable of promises and returns a new Promise that settles as soon as one of the input promises settles (either fulfills or rejects). Key characteristics include:</p>
-    <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-        <li>Returns a Promise that adopts the state of the first settled promise in the iterable.</li>
-        <li>If the iterable is empty, the returned promise remains pending indefinitely.</li>
-        <li>Non-promise values or already settled promises in the iterable are treated as immediately settled promises.</li>
-    </ul>
-<p>This method is particularly useful when you want to proceed with the first available result or error from a set of asynchronous operations.</p>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSX and Forms:</span> Controlled components use value and onChange.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function Form() {
+  const [inputValue, setInputValue] = React.useState("");
 
-<h5 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Key Points:</h5>
-<ul style="margin-top: 0.4rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li>Settles with the outcome of the first promise that settles, whether fulfilled or rejected.</li>
-    <li>Can be used to implement timeouts for asynchronous operations.</li>
-    <li>The order of promises in the iterable matters, as the fastest settling promise determines the outcome.</li>
-</ul>
-<pre><code className="language-javascript">
-const pro1 = new Promise(resolve => setTimeout(() => resolve("one"), 200));
-const pro2 = new Promise(resolve => setTimeout(() => resolve("two"), 100));
-Promise.race([pro1, pro2])
-.then(console.log)
-.catch(console.error);
-// Output: two
+  const handleChange = (event) => {
+    setInputValue(event.target.value);
+  };
 
-const pro3 = new Promise((_, reject) => setTimeout(() => reject("rejected"), 300));
-const pro4 = new Promise(resolve => setTimeout(() => resolve("four"), 400));
-Promise.race([pro3, pro4])
-.then(console.log)
-.catch(console.error);
-// Output: rejected
-</code></pre>
-
-    <pre><code className="language-javascript">
-const pro1 = new Promise(resolve => setTimeout(() => resolve("one"), 200));
-const pro2 = new Promise(resolve => setTimeout(() => resolve("two"), 100));
-const pro3 = new Promise((_, reject) => setTimeout(() => reject("rejected"), 300));
-const pro4 = new Promise(resolve => setTimeout(() => resolve("four"), 400));
-Promise.race([pro1, pro2, pro3, pro4])
-.then(console.log)
-.catch(console.error);
-// Output: two
-</code></pre>
-<p>In this example, 'two' is output because pro2 settles first, demonstrating that Promise.race() responds to the fastest settling promise regardless of its position in the array.</p>
-</li> 
-</ol>
-<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-Asynchronous:
-</h4>
-<h2>Callbacks: The Original Approach</h2>
-<p>
-  In the early days of JavaScript, asynchronous tasks were handled using <strong>callbacks</strong>. A callback is a function passed as an argument to another function, which is called once the asynchronous task is completed.
-</p>
-
-<h4>Example of a Callback:</h4>
-<pre>
-<code className="language-javascript">
-console.log("Start");
-
-// Simulate an API call with setTimeout
-function fetchData(callback) {
-  setTimeout(() => {
-    callback("Data retrieved from the server");
-  }, 2000);
+  return <input type="text" value={inputValue} onChange={handleChange} />;
 }
-
-fetchData((result) => {
-  console.log(result);
-});
-
-console.log("End");
-</code>
-</pre>
-
-<h4>Output:</h4>
-<pre>
-<code className="language-javascript">
-Start
-End
-Data retrieved from the server
-</code>
-</pre>
-
-<h3>Problems with Callbacks:</h3>
-<ul>
-  <li>
-    <strong>Callback Hell:</strong> When multiple asynchronous tasks are chained together, it can result in deeply nested and hard-to-read code.
-  </li>
-  <li>
-    <strong>Error Handling:</strong> Managing errors across multiple callbacks becomes difficult and messy.
-  </li>
-</ul>
-
-<h4>Callback Hell Example:</h4>
-<pre>
-<code className="language-javascript">
-fetchData((result1) => {
-  processResult(result1, (result2) => {
-    saveResult(result2, (result3) => {
-      console.log(result3);
-    });
-  });
-});
-</code>
-</pre>
-
-<p>This nesting structure is known as <strong>callback hell</strong> or the <strong>pyramid of doom</strong>, which makes code harder to understand and maintain.</p>
-<h2>Async/Await: Making Asynchronous Code Look Synchronous</h2>
-<p>
-  Introduced in ES2017, <strong>async/await</strong> is built on top of promises but provides a more concise and readable syntax. The <strong>await</strong> keyword makes JavaScript wait until a promise is resolved or rejected. It allows you to write asynchronous code that looks synchronous, making it much easier to read and maintain.
-</p>
-
-<h4>Example of Async/Await:</h4>
-<pre>
-<code className="language-javascript">
-console.log("Start");
-
-async function fetchData() {
-  try {
-    const result = await new Promise((resolve, reject) => {
-      setTimeout(() => {
-        resolve("Data retrieved from the server");
-      }, 2000);
-    });
-    console.log(result);
-  } catch (error) {
-    console.log("Error:", error);
-  }
-}
-
-fetchData();
-
-console.log("End");
-</code>
-</pre>
-
-<h4>Output:</h4>
-<pre>
-<code className="language-javascript">
-Start
-End
-Data retrieved from the server
-</code>
-</pre>
-
-<h3>Advantages of Async/Await:</h3>
-<ul>
-  <li>
-    <strong>Synchronous-Like Code:</strong> Makes asynchronous code look like synchronous code, which is easier to read and understand.
-  </li>
-  <li>
-    <strong>Error Handling:</strong> Errors can be handled using <code className="language-javascript">try...catch</code>, which is more intuitive than using <code className="language-javascript">.catch()</code> with promises.
-  </li>
-  <li>
-    <strong>Flat Structure:</strong> Eliminates promise chaining, making the code less nested and easier to follow.
-  </li>
-</ul>
-
-<h4>Refactored Example Using Async/Await:</h4>
-<pre>
-<code className="language-javascript">
-async function handleData() {
-  try {
-    const result1 = await fetchData();
-    const result2 = await processResult(result1);
-    const result3 = await saveResult(result2);
-    console.log(result3);
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
-handleData();
-</code>
-</pre>
-
-<p>
-  Now, instead of chaining <code className="language-javascript">.then()</code> calls, the asynchronous operations are executed in sequence, making the code look synchronous while still maintaining the benefits of asynchronous execution.
-</p>
-
-<h2>Evolution of Asynchronous JavaScript</h2>
-
-<h3>1. Callbacks</h3>
-<p>
-  Callbacks were the original way to handle asynchronous tasks in JavaScript. A callback is a function passed as an argument to another function, which is executed once the asynchronous operation completes.
-</p>
-<p>
-  <strong>Problem:</strong> Callbacks often led to deeply nested structures, commonly referred to as <em>callback hell</em>, making the code difficult to read and maintain.
-</p>
-
-<h3>2. Promises</h3>
-<p>
-  Promises improved the readability of asynchronous code by allowing <em>chaining</em>. They made it easier to work with multiple async tasks, helping developers avoid callback hell.
-</p>
-<p>
-  <strong>Drawback:</strong> While promises were an improvement, chaining multiple promises could still become verbose and hard to manage for complex tasks.
-</p>
-
-<h3>3. Async/Await</h3>
-<p>
-  The <strong>async/await</strong> approach is the most modern solution for handling asynchronous tasks. It simplifies async code by making it look synchronous, while still providing the power of promises under the hood.
-</p>
-<p>
-  <strong>Advantage:</strong> It provides a cleaner and more readable syntax, making it easier to handle async operations, especially when combined with <code className="language-javascript">try...catch</code> for error handling.
-</p>
-</div>`,
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+</div>
+`,
             examples: [""],
             questions: [
               {
@@ -8269,142 +8050,159 @@ Promise.all([promise1, promise2, promise3])
           {
             topic: "Functional Components",
             tags: [""],
-            explanation: `
-    <p style="line-height: 1.75; margin-top: 1.5rem;">
-        In JavaScript, the event loop is the mechanism that handles asynchronous operations and ensures that the JavaScript code is executed in an orderly fashion. JavaScript runs on a single thread, meaning it can only do one thing at a time. However, it manages to handle asynchronous tasks like I/O operations, network requests, and timers using the event loop.For synchronous operations javascript uses only Call Stack.
-        Web API's like geolocation API, web storage API or setTimeout() methods are asynchronous in nature and they do not run on call satck. So, they done block the execution in the call stack. Web API's responses are placed in callback queue.
-    </p>
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.5rem; font-weight: 600;">
+    Functional Components in React (Interview Guide)
+  </h4>
 
   <p style="line-height: 1.75; margin-top: 1.5rem;">
-        To understand how the event loop works, it is important to differentiate between microtasks and macrotasks, also known as tasks. Both are types of asynchronous operations, but they are handled differently in terms of their execution priority.
-    </p>
+    Functional components are a key concept in React, and interviewers often ask about them to assess your understanding of modern React practices. Here's a structured breakdown for your interview preparation:
+  </p>
 
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">1. Microtasks</h4>
-    <p>
-        Microtasks are the smaller, higher-priority tasks that need to be executed as soon as the current JavaScript execution stack (or "call stack") is empty.
-    </p>
-    <p>
-        Once the call stack is cleared, the event loop first looks at the microtask queue and executes all microtasks before moving on to other tasks (like macrotasks).
-    </p>
-    
-    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Common Microtasks:</h4>
-    <ul>
-        <li>Promises (e.g., <code className="language-javascript">.then()</code>, <code className="language-javascript">.catch()</code>, <code className="language-javascript">.finally()</code>)</li>
-        <li>Await code block</li>
-        <li><code className="language-javascript">process.nextTick()</code> in Node.js</li>
-    </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    1. What is a Functional Component?
+  </h4>
 
-    <h3 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em">Characteristics:</h3>
-    <ul>
-        <li>Microtasks have a high priority, meaning once they are queued, they will be executed right after the current task (if the call stack is empty) and before any macrotask.</li>
-        <li>If more microtasks are added during the execution of other microtasks, they are continuously processed until the microtask queue is empty.</li>
-    </ul>
+  <p style="line-height: 1.75;">
+    A functional component in React is a JavaScript function that returns JSX (React elements) to render the UI. Unlike class components, functional components do not use <code>this</code> and are simpler and more readable.
+  </p>
 
-    <h3>Example of a Microtask:</h3>
-    <pre><code class="language-javascript">
-console.log('Start'); // (1)
-
-setTimeout(() => {
-  console.log('Timeout'); // (4) Macro task
-}, 0);
-
-Promise.resolve().then(() => {
-  console.log('Promise 1'); // (3) Micro task
-}).then(() => {
-  console.log('Promise 2'); // (3) Micro task
-});
-
-console.log('End'); // (2)
-    </code></pre>
-
-    <h4>Output:</h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
     <pre><code className="language-javascript">
-Start
-End
-Promise 1
-Promise 2
-Timeout
+function Greeting(props) {
+  return &lt;h1&gt;Hello, {props.name}!&lt;/h1&gt;;
+}
+
+// Using ES6 arrow function
+const Greeting = ({ name }) => &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;
     </code></pre>
+  </div>
 
-    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Explanation:</h4>
-    <ul>
-        <li>First, synchronous code (Start and End) runs.</li>
-        <li>Then, microtasks (Promise 1 and Promise 2) run before any macrotask like <code className="language-javascript">setTimeout</code>.</li>
-        <li>Finally, the macrotask (<code className="language-javascript">setTimeout</code>) is executed.</li>
-    </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Difference Between Functional and Class Components
+  </h4>
 
-    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">2. Macrotasks</h4>
-    <p>
-        Macrotasks (also called tasks) are lower-priority tasks and are handled after the microtask queue is emptied.
-    </p>
-    <p>
-        After the microtask queue is cleared, the event loop picks one macrotask from the macrotask queue and executes it. After this, the loop checks the microtask queue again, and so on.
-    </p>
+  <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+    <tr>
+      <th style="border: 1px solid black; padding: 8px;">Feature</th>
+      <th style="border: 1px solid black; padding: 8px;">Functional Component</th>
+      <th style="border: 1px solid black; padding: 8px;">Class Component</th>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Syntax</td>
+      <td style="border: 1px solid black; padding: 8px;">Simple function</td>
+      <td style="border: 1px solid black; padding: 8px;">ES6 Class</td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">State Management</td>
+      <td style="border: 1px solid black; padding: 8px;">Uses <code>useState</code> hook</td>
+      <td style="border: 1px solid black; padding: 8px;">Uses <code>this.state</code></td>
+    </tr>
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">Lifecycle Methods</td>
+      <td style="border: 1px solid black; padding: 8px;">Uses hooks like <code>useEffect</code></td>
+      <td style="border: 1px solid black; padding: 8px;">Uses lifecycle methods (componentDidMount, etc.)</td>
+    </tr>
+  </table>
 
-    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Common Macrotasks:</h4>
-    <ul>
-        <li><code className="language-javascript">setTimeout()</code></li>
-        <li><code className="language-javascript">setInterval()</code></li>
-        <li><code className="language-javascript">setImmediate()</code> (Node.js)</li>
-        <li>I/O operations (e.g., network requests)</li>
-        <li>UI rendering</li>
-    </ul>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. How to Use State in Functional Components?
+  </h4>
 
-    <h4 style="margin-top: 1.5rem; font-size: 1.0rem; font-weight: 600; letter-spacing: -0.025em;">Characteristics:</h3>
-    <ul>
-        <li>Each macrotask is executed one at a time, and after the completion of each macrotask, the event loop checks the microtask queue before proceeding to the next macrotask.</li>
-        <li>Macrotasks are queued and executed one by one, after all pending microtasks.</li>
-    </ul>
+  <p style="line-height: 1.75;">
+    Functional components manage state using the <code>useState</code> hook.
+  </p>
 
-    <h3>Example of a Macrotask:</h3>
-    <pre><code class="language-javascript">
-console.log('Start'); // (1)
-
-setTimeout(() => {
-  console.log('Timeout 1'); // (5) Macro task
-}, 0);
-
-setTimeout(() => {
-  console.log('Timeout 2'); // (6) Macro task
-}, 0);
-
-Promise.resolve().then(() => {
-  console.log('Promise 1'); // (3) Micro task
-}).then(() => {
-  console.log('Promise 2'); // (4) Micro task
-});
-
-console.log('End'); // (2)
-    </code></pre>
-
-    <h4>Output:</h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
     <pre><code className="language-javascript">
-Start
-End
-Promise 1
-Promise 2
-Timeout 1
-Timeout 2
+import { useState } from "react";
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  return (
+    &lt;div&gt;
+      &lt;p&gt;Count: {count}&lt;/p&gt;
+      &lt;button onClick={() => setCount(count + 1)}&gt;Increment&lt;/button&gt;
+    &lt;/div&gt;
+  );
+};
     </code></pre>
+  </div>
 
-    <h4>Explanation:</h4>
-    <ul>
-        <li>After running synchronous code (Start and End), all microtasks are executed before any macrotask.</li>
-        <li>Once all microtasks (Promise 1 and Promise 2) are executed, the macrotasks (Timeout 1 and Timeout 2) are executed in the order they were scheduled.</li>
-    </ul>
-    <p>
-    Event loop check if the call task is empty or not. If it  is empty then even loop takes callback queue tasks and places in the Call Stack
-    </p>
-     <h1>Event Loop Sequence</h1>
-    <p>The event loop follows this sequence:</p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. How to Use Lifecycle Methods in Functional Components?
+  </h4>
 
-    <ol>
-        <li>Execute all synchronous code (directly within the script or the call stack).</li>
-        <li>Process the microtasks queue (execute all microtasks).</li>
-        <li>If no microtasks are left, pick one macrotask from the macrotask queue and execute it.</li>
-        <li>Repeat the process by checking for microtasks again, then execute another macrotask, and so on.</li>
-    </ol>
-    `,
+  <p style="line-height: 1.75;">
+    Functional components use the <code>useEffect</code> hook instead of lifecycle methods like <code>componentDidMount</code> and <code>componentDidUpdate</code>.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+import { useEffect, useState } from "react";
+
+const Timer = () => {
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => setSeconds((s) => s + 1), 1000);
+    return () => clearInterval(interval); // Cleanup function (componentWillUnmount)
+  }, []);
+
+  return &lt;p&gt;Time: {seconds} seconds&lt;/p&gt;;
+};
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Performance Optimization of Functional Components
+  </h4>
+
+  <p style="line-height: 1.75;">
+    To improve performance, React provides:
+  </p>
+
+  <ol style="margin-top: 1rem;">
+    <li><strong>React.memo:</strong> Prevents unnecessary re-renders when props do not change.</li>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import React from "react";
+
+const ExpensiveComponent = React.memo(({ value }) => {
+  console.log("Rendering...");
+  return &lt;p&gt;Value: {value}&lt;/p&gt;;
+});
+      </code></pre>
+    </div>
+
+    <li><strong>useCallback:</strong> Optimizes function references.</li>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const increment = useCallback(() => setCount(count + 1), [count]);
+      </code></pre>
+    </div>
+
+    <li><strong>useMemo:</strong> Optimizes expensive computations.</li>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const expensiveValue = useMemo(() => computeExpensiveValue(count), [count]);
+      </code></pre>
+    </div>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. When to Use Functional Components?
+  </h4>
+
+  <p style="line-height: 1.75;">
+    - When you don’t need lifecycle methods (React 16 and below).<br>
+    - When working with React Hooks (modern approach).<br>
+    - When you want better performance and cleaner code.
+  </p>
+
+</div>
+`,
             examples: [""],
             questions: [{}],
             links: [
@@ -8415,122 +8213,224 @@ Timeout 2
           {
             topic: "Class Components",
             tags: [""],
-            explanation: `
-            <p style="margin-top: 1.0rem;">
-A higher-order function is a function that either accepts one or more functions as arguments, returns a function as its result, or does both. This allows functions to be treated as first-class citizens in programming, enabling a more functional programming style.
-</p>
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Class components in React are a way to define components using ES6 classes. They were the primary method for creating stateful components before React Hooks were introduced in React 16.8. Here’s what you need to know about them for an interview:
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. What is a Class Component?
+   </h4>
+   <p style="line-height: 1.75;">
+     A class component is a JavaScript class that extends React.Component and includes a render() method, which returns the JSX to be displayed.
+   </p>
 
-<h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Examples:</h4>
- <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number; ">
-<li style="margin-top: 0.5rem;">
-<span style="font-weight: 600; font-size: 1.0rem;">
-Functions as Arguments:
-</span>
-</li>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     2. Basic Syntax
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import React, { Component } from "react";
 
-Array Methods: The map, filter, and reduce methods of arrays in JavaScript are classic examples of higher-order functions because they take another function as an argument.
-javascript
- <pre><code class="language-javascript">
-const numbers = [1, 2, 3, 4, 5];
-// Using map to square each number
-const squares = numbers.map(num => num * num); // [1, 4, 9, 16, 25]
-// Using filter to get even numbers
-const evens = numbers.filter(num => num % 2 === 0); // [2, 4]
-// Using reduce to sum all numbers
-const sum = numbers.reduce((acc, num) => acc + num, 0); // 15
-</code>
-</pre>
-
-<li style="margin-top: 0.5rem;">
-<span style="font-weight: 600; font-size: 1.0rem;">
-Functions as Return Values:
-</span>
-</li>
-
-A higher-order function can also return another function. This is useful for creating function factories or encapsulating behavior.
-javascript
- <pre><code class="language-javascript">
-function createCounter() {
-  let count = 0;
-  return function() {
-    count += 1;
-    return count;
-  };
+class MyComponent extends Component {
+  render() {
+    return <h1>Hello from Class Component!</h1>;
+  }
 }
 
-const counter = createCounter();
-console.log(counter()); // 1
-console.log(counter()); // 2
-console.log(counter()); // 3</>
-</code>
-</pre>
+export default MyComponent;
+ </code>
+  </pre>
+  </div>
 
-<h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Practical Use Case :</h4>
-<ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number; "> 
-<li style="margin-top: 0.5rem;">
-<span style="font-weight: 600; font-size: 1.0rem;">
-Currying
-</span>
-</li>
-<p>
- Higher-order functions can be used for currying, transforming a function that takes multiple arguments into a sequence of functions that each take a single argument.
-</p>
-<pre><code class="language-javascript">
-function multiply(a) {
-  return function(b) {
-    return a * b;
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     3. Features of Class Components
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li>Supports state management (this.state)</li>
+     <li>Uses lifecycle methods (e.g., componentDidMount, componentDidUpdate)</li>
+     <li>Access to props using this.props</li>
+     <li>Requires this binding for event handlers</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     4. State Management in Class Components
+   </h4>
+   <p style="line-height: 1.75;">
+     State is a JavaScript object that holds dynamic data. It is managed using this.state and updated using this.setState().
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class Counter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
   };
+
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.increment}>Increment</button>
+      </div>
+    );
+  }
 }
 
-const double = multiply(2);
-console.log(double(5)); // 10
-</code>
-</pre>
+export default Counter;
+ </code>
+  </pre>
+  </div>
 
-<li style="margin-top: 0.5rem;"><span style="font-weight: 600; font-size: 1.0rem;">
-Event Handling
-</span>
-</li>
-<p>
-Higher-order functions are often used in event handling, allowing you to encapsulate behavior and create reusable event handlers.
-</p>
-Example: Creating Event Handlers
-<pre><code class="language-javascript">
-function createClickHandler(message) {
-  return function() {
-    console.log(message);
-  };
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     5. Lifecycle Methods
+   </h4>
+   <p style="line-height: 1.75;">
+     Class components use lifecycle methods to manage component behavior at different stages:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+Lifecycle Method     Purpose
+constructor()        Initializes state & binds methods
+render()             Renders JSX
+componentDidMount() Runs after first render (e.g., API calls)
+componentDidUpdate() Runs after state/props update
+componentWillUnmount() Cleanup (e.g., removing event listeners)
+ </code>
+  </pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Example:
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class LifecycleDemo extends Component {
+  constructor(props) {
+    super(props);
+    console.log("Constructor: Initializing state");
+  }
+
+  componentDidMount() {
+    console.log("ComponentDidMount: Component mounted");
+  }
+
+  componentDidUpdate() {
+    console.log("ComponentDidUpdate: State updated");
+  }
+
+  componentWillUnmount() {
+    console.log("ComponentWillUnmount: Cleanup");
+  }
+
+  render() {
+    return <h1>Lifecycle Methods Example</h1>;
+  }
 }
+ </code>
+  </pre>
+  </div>
 
-const button1Handler = createClickHandler("Button 1 clicked!");
-const button2Handler = createClickHandler("Button 2 clicked!");
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     6. Handling Events in Class Components
+   </h4>
+   <p style="line-height: 1.75;">
+     Event handlers must be explicitly bound to this when using class components.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class ClickButton extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { clicked: false };
+    this.handleClick = this.handleClick.bind(this); // Binding necessary
+  }
 
-// Assume button1 and button2 are DOM elements
-button1.addEventListener("click", button1Handler);
-button2.addEventListener("click", button2Handler);
-</code>
-</pre>
-<li style="margin-top: 0.5rem;">
-<span style="font-weight: 600; font-size: 1.0rem;">
-Function Composition
-</span>
-</li>
-<p>
-Higher-order functions can be used to create composed functions that combine multiple behaviors.
-</p>
+  handleClick() {
+    this.setState({ clicked: true });
+  }
 
-Example: Function Composition
-<pre><code class="language-javascript">
-const double = x => x * 2;
-const square = x => x * x;
+  render() {
+    return (
+      <button onClick={this.handleClick}>
+        {this.state.clicked ? "Clicked!" : "Click Me"}
+      </button>
+    );
+  }
+}
+ </code>
+  </pre>
+  </div>
 
-const compose = (f, g) => x => f(g(x));
+   <p style="line-height: 1.75;">
+     Alternatively, use an arrow function to avoid binding:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+handleClick = () => {
+  this.setState({ clicked: true });
+};
+ </code>
+  </pre>
+  </div>
 
-const doubleThenSquare = compose(square, double);
-console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
-</code>
-</pre>
-</ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     7. Class Components vs Functional Components
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+Feature                Class Components             Functional Components
+State                 Uses this.state             Uses useState Hook
+Lifecycle            Uses lifecycle methods       Uses useEffect Hook
+Syntax               Class-based                  Function-based
+Performance          Slightly slower              Faster due to optimizations
+ </code>
+  </pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     8. Why Use Functional Components Instead?
+   </h4>
+   <p style="line-height: 1.75;">
+     Hooks (useState, useEffect, etc.) make functional components more readable and powerful. Easier to read & maintain. Better performance due to avoiding this and unnecessary re-renders.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Example Functional Component (Replaces Class Component):
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import { useState } from "react";
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+};
+ </code>
+  </pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     9. When to Use Class Components Today?
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li>Maintaining legacy React applications.</li>
+     <li>Working with libraries that still require class components.</li>
+     <li>Learning older React concepts for interviews.</li>
+   </ul>
+
+   <p style="line-height: 1.75;">
+     However, most new projects use functional components with Hooks.
+   </p>
+</div>
 `,
             examples: [""],
             questions: [
@@ -8639,19 +8539,272 @@ console.log(doubleThenSquare(3)); // (3 * 2) ^ 2 = 36
           {
             topic: "Component Lifecycle",
             tags: [""],
-            explanation: `<>Prototype inheritance is a feature in javascript which lets you share property and mehtods of other object so that you dont have to copy these properties everywhere.
-            Imagine you have an object like a "blueprint" that has some properties (like a name) and methods (like a function to say hello). Other objects can "inherit" or borrow those properties and methods, meaning they can use them even if they don't directly have them.
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     In React, the Component Lifecycle refers to the different stages a component goes through from creation to destruction. This is crucial for understanding how components behave and when to execute logic at specific points. The lifecycle is divided into three main phases:
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. Mounting Phase (Component Creation)
+   </h4>
+   <p style="line-height: 1.75;">
+     Occurs when the component is being created and inserted into the DOM.
+   </p>
+   <p style="line-height: 1.75;">
+     <strong>Key Methods:</strong>
+   </p>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li>constructor(props): Called first, used to initialize state and bind event handlers.</li>
+     <li>static getDerivedStateFromProps(props, state): Used to update state based on changes in props before rendering.</li>
+     <li>render(): Returns JSX to define the UI.</li>
+     <li>componentDidMount(): Called after the component is rendered. Best place for API calls, event listeners, or subscriptions.</li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     2. Updating Phase (Component Re-render)
+   </h4>
+   <p style="line-height: 1.75;">
+     Happens when a component's state or props change.
+   </p>
+   <p style="line-height: 1.75;">
+     <strong>Key Methods:</strong>
+   </p>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li>static getDerivedStateFromProps(props, state): Runs again before updating if props change.</li>
+     <li>shouldComponentUpdate(nextProps, nextState): Determines if re-rendering is needed (default: true). Can be optimized for performance.</li>
+     <li>render(): Updates the UI with new data.</li>
+     <li>getSnapshotBeforeUpdate(prevProps, prevState): Captures information (e.g., scroll position) before DOM updates.</li>
+     <li>componentDidUpdate(prevProps, prevState, snapshot): Called after re-rendering. Ideal for updating the DOM or making API calls based on previous state/props.</li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     3. Unmounting Phase (Component Removal)
+   </h4>
+   <p style="line-height: 1.75;">
+     Triggered when a component is removed from the DOM.
+   </p>
+   <p style="line-height: 1.75;">
+     <strong>Key Method:</strong>
+   </p>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li>componentWillUnmount(): Used for cleanup (e.g., removing event listeners, clearing timers).</li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     4. Error Handling (New Lifecycle Methods)
+   </h4>
+   <p style="line-height: 1.75;">
+     Used to catch errors in a component tree.
+   </p>
+   <p style="line-height: 1.75;">
+     <strong>Key Methods:</strong>
+   </p>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li>static getDerivedStateFromError(error): Updates state to display an error fallback UI.</li>
+     <li>componentDidCatch(error, info): Logs error details (useful for debugging).</li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Functional Components with Hooks (Alternative)
+   </h4>
+   <p style="line-height: 1.75;">
+     With React Hooks, lifecycle methods are handled using <code>useEffect()</code>:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import { useState, useEffect } from "react";
 
-For example:
-const animal = {
-  speak() {
-    console.log("I am an animal");
+function Example() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Component Mounted");
+
+    return () => {
+      console.log("Component Unmounted");
+    };
+  }, []); // Empty dependency array -> runs only on mount & unmount
+
+  useEffect(() => {
+    console.log("Count Updated:", count);
+  }, [count]); // Runs when count changes
+
+  return <button onClick={() => setCount(count + 1)}>Click {count}</button>;
+}
+      </code>
+  </pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Summary Table
+   </h4>
+   <table style="margin-top: 1.5rem; width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+     <thead>
+       <tr>
+         <th style="padding: 8px; text-align: left;">Phase</th>
+         <th style="padding: 8px; text-align: left;">Class Component Method</th>
+         <th style="padding: 8px; text-align: left;">Functional Component Equivalent</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td style="padding: 8px;">Mounting</td>
+         <td style="padding: 8px;">constructor, getDerivedStateFromProps, render, componentDidMount</td>
+         <td style="padding: 8px;">useEffect(() => {}, [])</td>
+       </tr>
+       <tr>
+         <td style="padding: 8px;">Updating</td>
+         <td style="padding: 8px;">getDerivedStateFromProps, shouldComponentUpdate, render, getSnapshotBeforeUpdate, componentDidUpdate</td>
+         <td style="padding: 8px;">useEffect(() => {}, [dependencies])</td>
+       </tr>
+       <tr>
+         <td style="padding: 8px;">Unmounting</td>
+         <td style="padding: 8px;">componentWillUnmount</td>
+         <td style="padding: 8px;">Cleanup function inside useEffect</td>
+       </tr>
+       <tr>
+         <td style="padding: 8px;">Error Handling</td>
+         <td style="padding: 8px;">getDerivedStateFromError, componentDidCatch</td>
+         <td style="padding: 8px;">Use Error Boundaries</td>
+       </tr>
+     </tbody>
+   </table>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Example: Understanding React Lifecycle Methods
+   </h4>
+   <p style="line-height: 1.75;">
+     This example shows a counter component where lifecycle methods log messages to the console:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import React, { Component } from "react";
+
+class LifecycleDemo extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+    console.log("Constructor: Component is being created");
   }
-};
 
-const dog = Object.create(animal);  // dog borrows properties from animal
-dog.speak(); // Output: "I am an animal"
-Here, dog doesn't have a speak function on its own, but it looks at the animal object to find it and uses it.</>`,
+  static getDerivedStateFromProps(props, state) {
+    console.log("getDerivedStateFromProps: Sync state with props if needed");
+    return null; // No state changes
+  }
+
+  componentDidMount() {
+    console.log("componentDidMount: Component mounted in DOM");
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log("shouldComponentUpdate: Should re-render?", nextState.count !== this.state.count);
+    return true; // Allow re-render
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    console.log("getSnapshotBeforeUpdate: Capture state before update");
+    return null; // No data captured
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("componentDidUpdate: Component updated");
+  }
+
+  componentWillUnmount() {
+    console.log("componentWillUnmount: Cleanup before unmounting");
+  }
+
+  increment = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    console.log("Render: Updating UI");
+    return (
+      <div>
+        <h2>Lifecycle Demo</h2>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.increment}>Increment</button>
+      </div>
+    );
+  }
+}
+
+export default LifecycleDemo;
+      </code>
+  </pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Functional Component Alternative (Using Hooks)
+   </h4>
+   <p style="line-height: 1.75;">
+     The same behavior can be achieved using React Hooks:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import React, { useState, useEffect } from "react";
+
+function LifecycleDemo() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Component Mounted");
+
+    return () => {
+      console.log("Component Will Unmount");
+    };
+  }, []);
+
+  useEffect(() => {
+    console.log("Component Updated: Count is now", count);
+  }, [count]);
+
+  return (
+    <div>
+      <h2>Lifecycle Demo (Hooks)</h2>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default LifecycleDemo;
+      </code>
+  </pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences
+   </h4>
+   <table style="margin-top: 1.5rem; width: 100%; border: 1px solid #ddd; border-collapse: collapse;">
+     <thead>
+       <tr>
+         <th style="padding: 8px; text-align: left;">Aspect</th>
+         <th style="padding: 8px; text-align: left;">Class Component</th>
+         <th style="padding: 8px; text-align: left;">Functional Component</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td style="padding: 8px;">Lifecycle Methods</td>
+         <td style="padding: 8px;">Uses methods like componentDidMount, componentDidUpdate</td>
+         <td style="padding: 8px;">Uses useEffect() for side effects</td>
+       </tr>
+       <tr>
+         <td style="padding: 8px;">State Management</td>
+         <td style="padding: 8px;">Uses this.state and setState()</td>
+         <td style="padding: 8px;">Uses useState()</td>
+       </tr>
+       <tr>
+         <td style="padding: 8px;">Cleanup</td>
+         <td style="padding: 8px;">componentWillUnmount()</td>
+         <td style="padding: 8px;">Cleanup inside useEffect()</td>
+       </tr>
+     </tbody>
+   </table>
+</div>
+`,
             examples: [""],
             questions: [{}],
             links: [""],
@@ -8659,96 +8812,143 @@ Here, dog doesn't have a speak function on its own, but it looks at the animal o
           {
             topic: "UseState Hook",
             tags: [""],
-            explanation: `
-            <p>
-            ES6 (ECMAScript 2015) introduced a native module system to JavaScript, which allows developers to organize their code more efficiently and effectively. Modules are basically separate pieces of code that can be moved from one file to another and to another. This helps manage code dependencies, reuse, and maintenance on large code bases. Modules also act as the foundation of many JavaScript design patterns. Most of the JavaScript modules export an object literal, a function, or a constructor
-            </p>
-            <h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Benefite of using Modules</h4>
-            <ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number; ">
-  <li style="margin-top: 0.5rem;"><strong>Encapsulation:</strong> Modules allow you to keep related code together and avoid polluting the global namespace.</li>
-  <li style="margin-top: 0.5rem;"><strong>Reusability:</strong> You can reuse code across different parts of the application or even across different projects.</li>
-  <li style="margin-top: 0.5rem;"><strong>Maintainability:</strong> It becomes easier to maintain large codebases by breaking the code into smaller, manageable modules.</li>
-  <li style="margin-top: 0.5rem;"><strong>Better Tooling:</strong> ES6 modules provide static structure, enabling better tooling, such as tree shaking (removing unused exports).</li>
-</ol>
-<h4 style="margin-top: 1.0rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">Key Concepts</h4>
-<ol style="margin-top: 1.0rem; margin-left: 1.5rem; list-style-type: number;">
-  <li style="margin-top: 0.5rem;">
-    <strong>Exporting and Importing:</strong> ES6 modules allow you to explicitly export functions, variables, or classes from a module and import them into another module.
-    <ol>
-      <li style="margin-top: 0.5rem;">
-        <strong>Exporting:</strong> You can export values in two ways: named exports and default exports.
-        <ul>
-          <li style="margin-top: 0.5rem;">
-            <strong>Named Exports:</strong> You can export multiple items from a module.
-            <pre><code className="language-javascript"> // mathUtils.js
-export const add = (a, b) => a + b;
-export const subtract = (a, b) => a - b;</code></pre>
-          </li>
-          <li style="margin-top: 0.5rem;">
-            <strong>Default Exports:</strong> A module can have one default export. This is useful when a module has one main thing to export.
-            <pre><code className="language-javascript"> // greeting.js
-const greet = (name) => Hello, {name};
-export default greet;</code></pre>
-          </li>
-        </ul>
-      </li>
-      <li style="margin-top: 0.5rem;">
-        <strong>Importing:</strong> To use the exported values from one module in another, you import them.
-        <ul>
-          <li style="margin-top: 0.5rem;">
-            <strong>Importing Named Exports:</strong> You must use the same names as the exported variables.
-            <pre><code className="language-javascript"> // app.js
-import { add, subtract } from './mathUtils.js';
-console.log(add(5, 3)); // 8
-console.log(subtract(5, 3)); // 2;</code></pre>
-          </li>
-          <li style="margin-top: 0.5rem;">
-            <strong>Importing Default Exports:</strong> You can name the default import anything.
-            <pre><code className="language-javascript"> // app.js
-import greet from './greeting.js';
-console.log(greet('Alice')); // "Hello, Alice!";</code></pre>
-          </li>
-        </ul>
-      </li>
-    </ol>
-  </li>
-  <li style="margin-top: 0.5rem;">
-    <strong>Named Exports with Aliases:</strong> If you want to import an item using a different name, you can alias it during import.
-    <pre><code className="language-javascript">import { add as sum } from './mathUtils.js';
-console.log(sum(5, 3)); // 8;</code></pre>
-  </li>
-  <li style="margin-top: 0.5rem;">
-    <strong>Import All from a Module:</strong> You can import everything from a module and assign it to a namespace object.
-    <pre><code className="language-javascript">import * as math from './mathUtils.js';
-console.log(math.add(5, 3)); // 8
-console.log(math.subtract(5, 3)); // 2;</code></pre>
-  </li>
-  <li style="margin-top: 0.5rem;">
-    <strong>Re-exporting (Aggregating Modules):</strong> Sometimes you might want to re-export items from one module into another.
-    <pre><code className="language-javascript"> // moreUtils.js
-export * from './mathUtils.js';</code></pre>
-  </li>
-  <li style="margin-top: 0.5rem;">
-    <strong>Module Scope:</strong> Variables and functions defined inside a module are scoped to that module by default, meaning they are not accessible in the global scope unless explicitly exported.
-  </li>
-  <li style="margin-top: 0.5rem;">
-    <strong>Modules Are Static:</strong> ES6 modules are statically analyzed. This means that imports and exports are resolved at compile-time, not at runtime. It allows JavaScript engines to optimize modules better, and it ensures that circular dependencies are handled correctly.
-  </li>
-  <li style="margin-top: 0.5rem;">
-    <strong>Strict Mode by Default:</strong> All ES6 modules automatically use strict mode, which helps prevent certain bugs by enforcing stricter parsing and error handling in JavaScript.
-  </li>
-  <li style="margin-top: 0.5rem;">
-    <strong>Browser Support and Loading Modules:</strong> Browsers support ES6 modules with <code className="language-javascript">&lt;script type="module"&gt;</code>. Using this, you can directly include modules in your HTML files:
-    <pre><code className="language-javascript">&lt;script type="module"&gt;
-  import { add } from './mathUtils.js';
-  console.log(add(5, 3)); // 8
-&lt;/script&gt;</code></pre>
-    Modules Are Deferred: By default, ES6 modules in browsers are deferred, meaning they are only executed after the HTML document is completely parsed.
-    <br/>
-    Relative and Absolute Paths: When importing modules, you need to use file paths (relative or absolute). For example:
-    <pre><code className="language-javascript">import { add } from './utils/math.js'; // relative path</code></pre>
-  </li>
-</ol>`,
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The useState Hook is one of the fundamental hooks in React that allows functional components to manage state. It returns an array containing two values: 
+     <strong>The current state</strong> and a function to update the state.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is useState?
+   </h4>
+   <p style="line-height: 1.75;">
+     useState is a React Hook that allows you to add state management to functional components. It returns an array with two elements:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import { useState } from "react";
+
+const [state, setState] = useState(initialValue);
+state → Stores the current value.
+setState(newValue) → Updates the state.
+initialValue → The initial state value (can be a number, string, object, or function).
+      </code>
+  </pre>
+  </div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Example
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import React, { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+      </code>
+  </pre>
+  </div>
+   <p style="line-height: 1.75;">
+     The state variable count starts at 0. Clicking the button updates the state using setCount(count + 1), causing the component to re-render.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using useState with Objects
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function UserProfile() {
+  const [user, setUser] = useState({ name: "Alice", age: 25 });
+
+  const updateAge = () => {
+    setUser({ ...user, age: user.age + 1 }); // Spread operator ensures we don’t lose name
+  };
+
+  return (
+    <div>
+      <p>Name: {user.name}</p>
+      <p>Age: {user.age}</p>
+      <button onClick={updateAge}>Increase Age</button>
+    </div>
+  );
+}
+      </code>
+  </pre>
+  </div>
+   <p style="line-height: 1.75;">
+     Always spread the previous state (...user) when updating objects to avoid losing other properties.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Lazy Initialization
+   </h4>
+   <p style="line-height: 1.75;">
+     You can pass a function to useState to compute the initial state lazily.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const [expensiveValue, setExpensiveValue] = useState(() => {
+  console.log("Computing initial value...");
+  return 100; // Only runs once when the component mounts
+});
+      </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+    If the initial state is expensive to calculate, it prevents unnecessary computations on every render.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Updating State Based on Previous State
+   </h4>
+   <p style="line-height: 1.75;">
+     When updating state based on the previous value, always use a function inside setState:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const [count, setCount] = useState(0);
+
+const increment = () => {
+  setCount(prevCount => prevCount + 1); // Ensures correct updates in async operations
+};
+      </code>
+  </pre>
+  </div>
+  <p style="line-height: 1.75;">
+    If multiple state updates happen quickly, using prevCount ensures updates are not lost due to stale state values.
+  </p>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Common Interview Questions on useState
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">What is useState?</span> 
+      A Hook that allows functional components to manage local state.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">How does useState work?</span> 
+      It returns an array [state, setState] where state holds the current value and setState updates it.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Why do we use the function form in setState?</span>
+      To ensure updates are based on the latest state, especially in asynchronous operations.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">What happens if we update state without the spread operator in objects/arrays?</span>
+      React replaces the old state completely, potentially losing other properties.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Does useState merge state like setState in class components?</span> 
+      No, useState does not merge state automatically; we must manually spread objects.
+    </li>
+  </ol>
+</div>
+`,
             examples: [""],
             questions: [
               {
@@ -8826,7 +9026,174 @@ import { a } from './a.js';
           {
             topic: "UseEffect Hook",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The <strong>useEffect</strong> Hook in React is used to handle side effects in functional components. It replaces lifecycle methods like <code>componentDidMount</code>, <code>componentDidUpdate</code>, and <code>componentWillUnmount</code> used in class components.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Concepts:
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li><strong>Runs after render:</strong> <code>useEffect</code> runs after the component renders.</li>
+     <li><strong>Side Effects:</strong> It is used for fetching data, DOM manipulation, event listeners, etc.</li>
+     <li><strong>Dependency Array:</strong> Controls when the effect runs.</li>
+   </ul>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Syntax:
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import { useEffect, useState } from "react";
+
+function ExampleComponent() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    console.log("Effect ran");
+
+    return () => {
+      console.log("Cleanup (if needed)");
+    };
+  }, [count]); // Effect runs when 'count' changes
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Behavior Based on Dependency Array:
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li><strong>No Dependency Array</strong> (<code>useEffect(() => { ... })</code>) - Runs on every render.</li>
+     <li><strong>Empty Dependency Array</strong> (<code>useEffect(() => { ... }, [])</code>) - Runs only once after the initial render.</li>
+     <li><strong>Specific Dependencies</strong> (<code>useEffect(() => { ... }, [count])</code>) - Runs only when <code>count</code> changes.</li>
+   </ul>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Cleanup Function:
+   </h4>
+   <p style="line-height: 1.75;">
+     The cleanup function is used for unsubscribing or cleaning up resources. It runs before the effect re-runs and when the component unmounts.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+useEffect(() => {
+  const interval = setInterval(() => {
+    console.log("Interval running...");
+  }, 1000);
+
+  return () => clearInterval(interval); // Cleanup on unmount
+}, []);
+      </code></pre>
+   </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. When does useEffect run?
+   </h4>
+   <p style="line-height: 1.75;">
+     By default, <code>useEffect</code> runs after every render. If a dependency array is provided, it runs only when dependencies change. If an empty dependency array (<code>[]</code>) is provided, it runs only once after the initial render.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     2. How do you mimic componentDidMount, componentDidUpdate, and componentWillUnmount?
+   </h4>
+   <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+     componentDidMount (Runs once after the initial render)
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+useEffect(() => {
+  console.log("Component mounted");
+}, []); // Empty dependency array
+      </code></pre>
+   </div>
+   <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+     componentDidUpdate (Runs when dependencies change)
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+useEffect(() => {
+  console.log("Component updated");
+}, [dependency]); // Runs when 'dependency' changes
+      </code></pre>
+   </div>
+   <h5 style="margin-top: 1rem; font-size: 1.125rem; font-weight: 600;">
+     componentWillUnmount (Cleanup before unmounting)
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+useEffect(() => {
+  console.log("Component mounted");
+
+  return () => {
+    console.log("Component unmounted");
+  };
+}, []); // Runs once, cleanup on unmount
+      </code></pre>
+   </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     3. How to avoid unnecessary API calls in useEffect?
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li><strong>Use dependency array</strong> to only call the API when needed:</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+useEffect(() => {
+  fetchData();
+}, [dependency]); // API runs only when 'dependency' changes
+      </code></pre>
+   </div>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li><strong>Use a flag</strong> to prevent multiple calls (for example, inside event handlers):</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+const fetchData = useCallback(() => {
+  if (!dataLoaded) {
+    fetch("https://api.example.com/data").then(...);
+    setDataLoaded(true);
+  }
+}, [dataLoaded]);
+      </code></pre>
+   </div>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li><strong>Use debouncing</strong> to limit API calls when a user types in an input field.</li>
+   </ul>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     4. What happens if you don’t provide a dependency array?
+   </h4>
+   <p style="line-height: 1.75;">
+     The effect runs after every render, leading to potential performance issues (e.g., infinite API calls).
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+useEffect(() => {
+  fetchData(); // This will be called on every render!
+});
+      </code></pre>
+   </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     5. What is the purpose of the cleanup function?
+   </h4>
+   <p style="line-height: 1.75;">
+     The cleanup function prevents memory leaks by cleaning up resources like event listeners, timers, or subscriptions. It runs before the effect re-runs and when the component unmounts.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+useEffect(() => {
+  const interval = setInterval(() => {
+    console.log("Running...");
+  }, 1000);
+
+  return () => clearInterval(interval); // Cleanup when component unmounts
+}, []);
+      </code></pre>
+   </div>
+</div>
+`,
             examples: [""],
             questions: [{}],
             links: [""],
@@ -8835,47 +9202,194 @@ import { a } from './a.js';
             topic: "Props vs State",
             tags: [""],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">Memoization is an optimization method used to improve the overall performance of capabilities by caching their formerly computed effects. When a memoized function is called with a given set of arguments, it first tests if the end result for the ones arguments is already saved in a cache. If so, it returns the cached end result instead of recalculating it. Otherwise, it computes the end result, stores it in the cache, and returns it.
-   </p>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-   Memoization is particularly beneficial in eventualities where a function is computationally high priced and is called frequently with the equal set of arguments. It helps keep away from redundant calculations and improves the performance of packages.
+     In React, Props and State are two key concepts used for managing data and rendering UI. Understanding their differences is crucial for interviews.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. Props (Properties)
+   </h4>
+   <p style="line-height: 1.75;">
+     Props are read-only and immutable. They are used to pass data from a parent component to a child component. Props help make components reusable and configurable. Since props are immutable, a child component cannot modify the props it receives. They enable unidirectional data flow (parent → child).
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function ChildComponent({ name }) {
+  return <h1>Hello, {name}!</h1>;
+}
+
+function ParentComponent() {
+  return <ChildComponent name="Alice" />;
+}
+      </code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Here, "Alice" is passed as a prop (name) from ParentComponent to ChildComponent.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     2. State
+   </h4>
+   <p style="line-height: 1.75;">
+     State is mutable and managed within a component. It is used to store and update dynamic data in a component. When the state changes, React re-renders the component. State is often used for user interactions, form handling, API data, etc.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+   <p style="line-height: 1.75;">
+     Here, count is stateful and changes when the button is clicked.
    </p>
 
-    <pre><code className="language-javascript">
-    function memoize(fn) {
-    const cache = {};
-    return function (...args) {
-        const key = JSON.stringify(args);
-        if (cache[key]) {
-            console.log('Fetching from cache:', key);
-            return cache[key];
-        } else {
-            console.log('Calculating result for:', key);
-            const result = fn(...args);
-            cache[key] = result;
-            return result;
-        }
-    };
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences:
+   </h4>
+   <table style="width: 100%; margin-top: 1.5rem; border-collapse: collapse;">
+     <thead>
+       <tr>
+         <th style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Feature</th>
+         <th style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Props</th>
+         <th style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">State</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td style="border: 1px solid #ddd; padding: 8px;">Mutability</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Immutable</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Mutable</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #ddd; padding: 8px;">Where it’s defined</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Parent component</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Inside the component</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #ddd; padding: 8px;">Who can modify it?</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Parent only</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Component itself</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #ddd; padding: 8px;">Re-render on change?</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">No</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Yes</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #ddd; padding: 8px;">Use case</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Passing data from parent to child</td>
+         <td style="border: 1px solid #ddd; padding: 8px;">Managing component data</td>
+       </tr>
+     </tbody>
+   </table>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Interview Questions on Props vs State
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Can a child component modify props?</span>
+      <p style="line-height: 1.75;">
+        No, props are read-only. A child can only use the values received.
+      </p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Can a component have both props and state?</span>
+      <p style="line-height: 1.75;">
+        Yes, a component can receive props and also manage its own state.
+      </p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">When should you use state instead of props?</span>
+      <p style="line-height: 1.75;">
+        Use state when the data changes over time, like user inputs or API responses. Use props for static or externally controlled data.
+      </p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">How does state affect performance?</span>
+      <p style="line-height: 1.75;">
+        Changing state triggers a re-render, so excessive state updates can impact performance. Use React’s optimization techniques like useMemo or React.memo when needed.
+      </p>
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. State Lifting
+   </h4>
+   <p style="line-height: 1.75;">
+     State lifting refers to moving the state from a child component to a common ancestor when two or more child components need to access or modify the same state. This is a common pattern when you need to share state across multiple components.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+function ParentComponent() {
+  const [value, setValue] = useState("");
+
+  return (
+    <div>
+      <ChildA value={value} />
+      <ChildB onChange={setValue} />
+    </div>
+  );
 }
 
-function slowFunction(num) {
-    // Simulate an expensive computation
-    let result = 0;
-    for (let i = 0; i <= num; i++) {
-        result += i;
-    }
-    return result;
+function ChildA({ value }) {
+  return <p>Value from Parent: {value}</p>;
 }
 
-const memoizedSlowFunction = memoize(slowFunction);
-
-console.log(memoizedSlowFunction(5));  // Calculating result
-console.log(memoizedSlowFunction(5));  // Fetching from cache
-
-    </code>
-    </pre>
+function ChildB({ onChange }) {
+  return <button onClick={() => onChange("New Value")}>Change Value</button>;
+}
+      </code></pre>
    </div>
-            </>`,
+   <p style="line-height: 1.75;">
+     In this example, the state value is lifted to the parent (ParentComponent), and both ChildA and ChildB access or modify it.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     2. Props-Drilling
+   </h4>
+   <p style="line-height: 1.75;">
+     Props drilling occurs when you need to pass props from a parent component to many layers of nested child components. While this is simple, it can become cumbersome as your component tree deepens, leading to unnecessary complexity and potential performance issues.
+   </p>
+   <p style="line-height: 1.75;">
+     Solution: Context API
+   </p>
+   <p style="line-height: 1.75;">
+     To avoid props-drilling, React provides the Context API for sharing state across deeply nested components without passing props manually.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+import React, { createContext, useContext, useState } from "react";
+
+const MyContext = createContext();
+
+function ParentComponent() {
+  const [state, setState] = useState("Shared State");
+
+  return (
+    <MyContext.Provider value={state}>
+      <ChildComponent />
+    </MyContext.Provider>
+  );
+}
+
+function ChildComponent() {
+  const state = useContext(MyContext);
+  return <h1>{state}</h1>;
+}
+      </code></pre>
+   </div>
+</div>
+`,
             examples: [
               `let cache = {};
 const addTen = function(num){
@@ -9065,7 +9579,151 @@ Inside Memoization block
           {
             topic: "Conditional Rendering",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Conditional rendering in React determines what UI elements to render based on a given condition.
+    It allows components to dynamically display different content based on state, props, or logic.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Ways to Implement Conditional Rendering
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using if Statements:</span>  
+      When you have multiple conditions that require separate logic, using if statements ensures clarity and flexibility.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function Greeting({ isLoggedIn }) {
+    if (isLoggedIn) {
+        return &lt;h1&gt;Welcome Back!&lt;/h1&gt;;
+    } else {
+        return &lt;h1&gt;Please Sign In&lt;/h1&gt;;
+    }
+}
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Ternary Operator (? :):</span>  
+      A compact and concise way to conditionally render UI elements when dealing with two possible outcomes.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function Greeting({ isLoggedIn }) {
+    return isLoggedIn ? &lt;h1&gt;Welcome Back!&lt;/h1&gt; : &lt;h1&gt;Please Sign In&lt;/h1&gt;;
+}
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Logical && Operator:</span>  
+      The && operator is useful for rendering elements only when a condition is true, avoiding unnecessary else conditions.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function Notification({ hasMessage }) {
+    return (
+        &lt;div&gt;
+            &lt;h1&gt;Dashboard&lt;/h1&gt;
+            {hasMessage && &lt;p&gt;You have new messages!&lt;/p&gt;}
+        &lt;/div&gt;
+    );
+}
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using switch Statement:</span>  
+      Best suited for handling multiple conditions in a structured manner.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function Status({ status }) {
+    switch (status) {
+        case 'loading':
+            return &lt;p&gt;Loading...&lt;/p&gt;;
+        case 'success':
+            return &lt;p&gt;Data Loaded Successfully!&lt;/p&gt;;
+        case 'error':
+            return &lt;p&gt;Error Occurred!&lt;/p&gt;;
+        default:
+            return &lt;p&gt;Unknown Status&lt;/p&gt;;
+    }
+}
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using IIFE (Immediately Invoked Function Expressions):</span>  
+      This pattern is useful when a function needs to execute immediately within JSX.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function Greeting({ isLoggedIn }) {
+    return (
+        &lt;&gt;
+            {(() => {
+                if (isLoggedIn) return &lt;h1&gt;Welcome Back!&lt;/h1&gt;;
+                return &lt;h1&gt;Please Sign In&lt;/h1&gt;;
+            })()}
+        &lt;/&gt;
+    );
+}
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Higher-Order Components (HOCs):</span>  
+      HOCs allow for conditional rendering by wrapping components with additional functionality.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function withAuth(Component) {
+    return function WrappedComponent(props) {
+        return props.isLoggedIn ? &lt;Component {...props} /&gt; : &lt;h1&gt;Please Sign In&lt;/h1&gt;;
+    };
+}
+        </code></pre>
+      </div>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Using Render Props:</span>  
+      A flexible approach that allows components to determine rendering logic based on the provided props.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+function AuthRender({ isLoggedIn, render }) {
+    return render(isLoggedIn);
+}
+
+function App() {
+    return (
+        &lt;AuthRender
+            isLoggedIn={true}
+            render={(isLoggedIn) => (isLoggedIn ? &lt;h1&gt;Welcome Back!&lt;/h1&gt; : &lt;h1&gt;Please Sign In&lt;/h1&gt;)}
+        /&gt;
+    );
+}
+        </code></pre>
+      </div>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Points for Interviews
+  </h4>
+
+  <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;">React re-renders the component when state or props change.</li>
+    <li style="margin-top: 0.5rem;">Avoid unnecessary conditional rendering to optimize performance.</li>
+    <li style="margin-top: 0.5rem;">Use <code>React.memo</code> or <code>useMemo</code> to prevent unnecessary re-renders.</li>
+    <li style="margin-top: 0.5rem;">The <code>&&</code> operator is useful for rendering UI without an else condition.</li>
+    <li style="margin-top: 0.5rem;">Use ternary for concise inline conditions, but avoid deeply nested ternaries for readability.</li>
+  </ul>
+</div>
+`,
             examples: [""],
             questions: [{}],
             links: [""],
@@ -9073,7 +9731,132 @@ Inside Memoization block
           {
             topic: "Lists and Keys",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Lists in React
+  </h4>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Rendering lists in React typically involves iterating over an array and creating a set of components. The most common way to handle this is using JavaScript's <code>.map()</code> function. This enables you to transform an array into a list of JSX elements.
+  </p>
+  <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">Basic Example of a List:</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const fruits = ['Apple', 'Banana', 'Orange'];
+
+function FruitList() {
+  return (
+    <ul>
+      {fruits.map((fruit) => (
+        <li>{fruit}</li> // Note: No key here, it's fine for simple examples
+      ))}
+    </ul>
+  );
+}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    In the above example, we're mapping over the <code>fruits</code> array and returning a <code>&lt;li&gt;</code> for each element. However, without keys, React has no way of tracking the individual list items when they change.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Keys in React
+  </h4>
+  <p style="line-height: 1.75;">
+    A <strong>key</strong> is a unique identifier for elements in a list or array. It is passed as a prop to each element. This helps React optimize the re-rendering process by quickly determining which items in the list have changed.
+  </p>
+
+  <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">Example with Proper Keys:</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+const users = [
+  { id: 1, name: 'Alice' },
+  { id: 2, name: 'Bob' },
+  { id: 3, name: 'Charlie' }
+];
+
+function UserList() {
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    Here, the key is the <code>id</code> field, ensuring that each <code>&lt;li&gt;</code> has a unique identifier. This helps React track changes to each list item correctly.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Potential Pitfalls When Using Keys
+  </h4>
+  <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">Using Indexes as Keys:</h5>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+{fruits.map((fruit, index) => (
+  <li key={index}>{fruit}</li>
+))}
+    </code></pre>
+  </div>
+  <p style="line-height: 1.75;">
+    Using indexes as keys can be problematic when:
+    <ul style="margin-left: 1.5rem;">
+      <li>Reordering Items: If the list order changes, React may incorrectly assume that items haven't changed.</li>
+      <li>Adding or Removing Items: React might associate the wrong state or component with a list item.</li>
+    </ul>
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Key Performance Considerations
+  </h4>
+  <p style="line-height: 1.75;">
+    Keys play a critical role in performance:
+  </p>
+  <ul style="margin-left: 1.5rem;">
+    <li>React uses keys to track the identity of each component.</li>
+    <li>If keys are set incorrectly, React may re-render the entire list instead of just the changed components.</li>
+    <li>React's reconciliation process becomes more efficient when the keys are correct, especially in large lists.</li>
+  </ul>
+
+  <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">How React’s Diffing Algorithm Works with Keys:</h5>
+  <ul style="margin-left: 1.5rem;">
+    <li>It compares the current tree with the previous tree.</li>
+    <li>React finds components with the same keys and reuses them.</li>
+    <li>Components with different keys are removed and replaced.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Common Interview Questions and Answers
+  </h4>
+  <ul style="margin-left: 1.5rem;">
+    <li><strong>Q: What is the role of the <code>key</code> prop in a React list?</strong>
+      <br>A: The <code>key</code> prop helps React identify which elements have changed, been added, or removed. It ensures that React only re-renders the necessary components, improving performance.</li>
+
+    <li><strong>Q: Why shouldn’t I use array indices as keys?</strong>
+      <br>A: Array indices can cause issues when the list is reordered, added to, or deleted. React may mix up the components and state, leading to bugs or inefficient updates.</li>
+
+    <li><strong>Q: What happens if you don't use keys in React lists?</strong>
+      <br>A: React will use the index of the item as the key by default, but this can lead to inefficiencies or bugs when elements are reordered or modified.</li>
+
+    <li><strong>Q: Can I use strings or numbers as keys?</strong>
+      <br>A: Yes! Keys can be any type of data (string, number, etc.), as long as they are unique and stable within the context of the list.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Conclusion
+  </h4>
+  <p style="line-height: 1.75;">
+    In summary:
+  </p>
+  <ul style="margin-left: 1.5rem;">
+    <li>Lists in React are rendered using <code>.map()</code>, which dynamically generates JSX elements.</li>
+    <li>Keys help React efficiently track and update list items during re-renders.</li>
+    <li>Always try to use unique, stable keys (like <code>id</code>) instead of indexes to avoid performance issues or bugs.</li>
+  </ul>
+</div>
+`,
             examples: [""],
             questions: [{}],
             links: [""],
@@ -9081,7 +9864,147 @@ Inside Memoization block
           {
             topic: "Event Handling",
             tags: [""],
-            explanation: "<></>",
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Event handling in React is similar to how events are handled in plain JavaScript, but there are some key differences due to React's declarative nature and its synthetic event system. Here's a breakdown of the key concepts for explaining event handling in a React interview:
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Synthetic Events
+  </h4>
+  <p style="line-height: 1.75;">
+    React creates a cross-browser wrapper around the browser’s native events called <b>SyntheticEvent</b>. It normalizes events so they behave consistently across different browsers.
+    This means you don't need to worry about cross-browser issues like you might have to with vanilla JavaScript event handling.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Event Binding
+  </h4>
+  <p style="line-height: 1.75;">
+    In React, event handlers like <b>onClick</b>, <b>onChange</b>, <b>onSubmit</b>, etc., are passed as props to the component.
+    Unlike in plain JavaScript where you use <b>addEventListener</b>, in React, event handlers are passed directly within JSX attributes as functions.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Passing Event Handlers
+  </h4>
+  <p style="line-height: 1.75;">
+    Event handlers are written in camelCase (e.g., <b>onClick</b>, <b>onChange</b>, <b>onSubmit</b>).
+    You can define an event handler directly inside JSX or reference a method in the component.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function MyComponent() {
+  const handleClick = () => {
+    alert('Button clicked');
+  };
+
+  return &lt;button onClick={handleClick}&gt;Click me&lt;/button&gt;;
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Handling this Keyword
+  </h4>
+  <p style="line-height: 1.75;">
+    In class components, the <b>this</b> keyword in event handlers can be tricky because the event handler functions are not bound to the component instance by default.
+    To handle this, you need to either bind the method in the constructor or use arrow functions, which automatically bind <b>this</b>.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleClick() {
+    alert('Button clicked');
+  }
+
+  render() {
+    return &lt;button onClick={this.handleClick}&gt;Click me&lt;/button&gt;;
+  }
+}
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Event Object
+  </h4>
+  <p style="line-height: 1.75;">
+    React’s synthetic events provide an event object as an argument to the event handler. This is similar to the native event object.
+    It contains properties like <b>target</b>, <b>type</b>, <b>preventDefault()</b>, <b>stopPropagation()</b>, and many others.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function handleSubmit(event) {
+  event.preventDefault(); // Prevents the default form submission
+  console.log('Form submitted');
+}
+
+return &lt;form onSubmit={handleSubmit}&gt;Submit&lt;/form&gt;;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    6. Passing Arguments to Event Handlers
+  </h4>
+  <p style="line-height: 1.75;">
+    You can pass additional arguments to event handlers, but you need to use an arrow function or <b>.bind</b> to ensure that the correct arguments are passed.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function handleClick(id) {
+  alert(Button id clicked);
+}
+
+return &lt;button onClick={() => handleClick(1)}&gt;Click me&lt;/button&gt;;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    7. Event Delegation in React
+  </h4>
+  <p style="line-height: 1.75;">
+    React uses event delegation internally. Instead of attaching an event listener to each DOM element, React attaches a single event listener to the root of the document, and events bubble up from the target element. React handles the event propagation behind the scenes.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    8. Key Events
+  </h4>
+  <p style="line-height: 1.75;">
+    React handles key events like <b>onKeyPress</b>, <b>onKeyDown</b>, and <b>onKeyUp</b>. These events are useful for detecting keyboard interactions.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function handleKeyPress(event) {
+  console.log('Key pressed:', event.key);
+}
+
+return &lt;input onKeyPress={handleKeyPress} /&gt;;
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    9. Preventing Default Behavior
+  </h4>
+  <p style="line-height: 1.75;">
+    In some cases, you might want to prevent the default behavior of an event, such as submitting a form or following a link. This can be done using <b>event.preventDefault()</b>.
+  </p>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-javascript">
+function handleFormSubmit(event) {
+  event.preventDefault();
+  console.log('Form submission prevented');
+}
+
+return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
+    </code></pre>
+  </div>
+</div>
+`,
             examples: [""],
             questions: [{}],
             links: [""],
