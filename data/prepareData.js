@@ -5853,7 +5853,8 @@ sayHelloToCharlie(); // Output: Hello, Charlie
             examples: [""],
             questions: [
               {
-                question: "What is the difference between call, apply, and bind in JavaScript?",
+                question:
+                  "What is the difference between call, apply, and bind in JavaScript?",
                 solution: `<p>The primary difference lies in how they invoke functions and handle arguments:</p>
                 <ul>
                   <li><strong>call:</strong> Invokes the function immediately with a specified <code>this</code> context and individual arguments.</li>
@@ -5862,7 +5863,8 @@ sayHelloToCharlie(); // Output: Hello, Charlie
                 </ul>`,
               },
               {
-                question: "Can you provide an example where using apply is more beneficial than call?",
+                question:
+                  "Can you provide an example where using apply is more beneficial than call?",
                 solution: `<p>Sure! If you have an array of numbers that you want to find the maximum of using <code>Math.max</code>, <code>apply</code> is more convenient:</p>
                 <pre><code class="language-javascript">
             const numbers = [1, 2, 3, 4, 5];
@@ -5881,7 +5883,8 @@ sayHelloToCharlie(); // Output: Hello, Charlie
                 </code></pre>`,
               },
               {
-                question: "How does the 'this' keyword behave in an arrow function?",
+                question:
+                  "How does the 'this' keyword behave in an arrow function?",
                 solution: `<p>Arrow functions do not have their own <code>this</code> context. Instead, they lexically bind <code>this</code>, meaning it inherits the <code>this</code> from the enclosing execution context at the time they are defined. This behavior makes arrow functions suitable for methods that require the context of the outer function:</p>
                 <pre><code class="language-javascript">
             const obj = {
@@ -5895,7 +5898,8 @@ sayHelloToCharlie(); // Output: Hello, Charlie
                 </code></pre>`,
               },
               {
-                question: "How would you implement the bind() function from scratch in JavaScript?",
+                question:
+                  "How would you implement the bind() function from scratch in JavaScript?",
                 solution: `<p style="margin-top: 1.0rem;">
                   Implementing a custom <code>bind</code> function should involve returning a new function that captures the context (<code>this</code>) and, optionally, additional arguments.
                 </p>
@@ -5909,13 +5913,15 @@ sayHelloToCharlie(); // Output: Hello, Charlie
                 </code></pre>`,
               },
               {
-                question: "Explain how bind() is useful in the context of event handling in JavaScript.",
+                question:
+                  "Explain how bind() is useful in the context of event handling in JavaScript.",
                 solution: `<p style="margin-top: 1.0rem;">
                   <code>bind()</code> is commonly used in event handling to ensure that <code>this</code> within an event handler refers to a specific object or component, such as when using class methods in React.
                 </p>`,
               },
               {
-                question: "What will be the output of the following code, and why?",
+                question:
+                  "What will be the output of the following code, and why?",
                 solution: `<pre><code class="language-javascript">
             const person = { name: 'Emma', getName() { return this.name; } };
             const getName = person.getName;
@@ -5929,13 +5935,15 @@ sayHelloToCharlie(); // Output: Hello, Charlie
                 </p>`,
               },
               {
-                question: "What issues could arise if you forget to bind a function that relies on this when passed as a callback?",
+                question:
+                  "What issues could arise if you forget to bind a function that relies on this when passed as a callback?",
                 solution: `<p style="margin-top: 1.0rem;">
                   Not binding <code>this</code> in asynchronous callbacks or event listeners can result in unexpected behavior, as <code>this</code> may not refer to the intended object, leading to runtime errors or unexpected outputs.
                 </p>`,
               },
               {
-                question: "How does this work in the context of setTimeout and how can bind() resolve related issues?",
+                question:
+                  "How does this work in the context of setTimeout and how can bind() resolve related issues?",
                 solution: `<p style="margin-top: 1.0rem;">
                   <code>setTimeout</code> calls functions with <code>this</code> defaulting to the global scope (or <code>undefined</code> in strict mode). Using <code>bind()</code> with <code>setTimeout</code> allows setting <code>this</code> to the desired context.
                 </p>`,
@@ -6059,8 +6067,9 @@ fetchData()
             examples: [""],
             questions: [
               {
-                "question": "What is method chaining in JavaScript, and how does it improve code readability?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is method chaining in JavaScript, and how does it improve code readability?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Method chaining in JavaScript is a design pattern that allows multiple methods to be called in a single statement on an object. By returning <code>this</code> in each method, it enables successive calls on the same object, enhancing readability and conciseness.
                 </p>
                 <pre><code class="language-javascript">
@@ -6075,26 +6084,29 @@ fetchData()
               }
             }
             new Calculator().add(10).add(5); // Outputs: 15
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "How does method chaining work in libraries like jQuery?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How does method chaining work in libraries like jQuery?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Libraries like jQuery use method chaining by returning <code>this</code> from each method, which refers to the object itself. This allows successive calls to be executed in sequence.
                 </p>
                 <pre><code class="language-javascript">
             $("#element").addClass("highlight").fadeIn().css("color", "blue");
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "Why is it necessary to return <code>this</code> in methods that participate in chaining?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Why is it necessary to return <code>this</code> in methods that participate in chaining?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Returning <code>this</code> enables the current object to be referenced in the chain, allowing for additional method calls on the same object. Without returning <code>this</code>, chaining would break.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Can you provide an example of a custom class that implements method chaining?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can you provide an example of a custom class that implements method chaining?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Here’s an example of a custom class that uses method chaining to perform arithmetic operations:
                 </p>
                 <pre><code class="language-javascript">
@@ -6114,11 +6126,12 @@ fetchData()
               }
             }
             const result = new Calculator().add(10).subtract(3).add(5); // Outputs: 12
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What are some advantages and common use cases of method chaining?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What are some advantages and common use cases of method chaining?",
+                solution: `<p style="margin-top: 1.0rem;">
                   <strong>Advantages:</strong>
                 </p>
                 <ul style="margin-top: 1.0rem;">
@@ -6134,22 +6147,24 @@ fetchData()
             
             // Array manipulations
             const result = [1, 2, 3].filter(num => num > 1).map(num => num * 2);
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What are some best practices to keep in mind when using method chaining?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What are some best practices to keep in mind when using method chaining?",
+                solution: `<p style="margin-top: 1.0rem;">
                   When using method chaining, consider these best practices:
                 </p>
                 <ul style="margin-top: 1.0rem;">
                   <li><strong>Return <code>this</code>:</strong> Ensure methods that should be chained return <code>this</code>.</li>
                   <li><strong>Error Handling:</strong> Handle errors within methods to prevent the chain from breaking.</li>
                   <li><strong>Limit Chain Length:</strong> Avoid overly long chains to maintain readability.</li>
-                </ul>`
+                </ul>`,
               },
               {
-                "question": "How can method chaining be useful in JavaScript Promises?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How can method chaining be useful in JavaScript Promises?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Method chaining is commonly used with JavaScript Promises to create a sequential flow of asynchronous operations. Each <code>.then()</code> method returns a new Promise, allowing subsequent calls.
                 </p>
                 <pre><code class="language-javascript">
@@ -6157,28 +6172,31 @@ fetchData()
               .then(processData)
               .then(displayData)
               .catch(handleError);
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What are some potential drawbacks of method chaining in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What are some potential drawbacks of method chaining in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   While method chaining can enhance readability, it has some drawbacks:
                 </p>
                 <ul style="margin-top: 1.0rem;">
                   <li><strong>Debugging Complexity:</strong> Long chains can make it harder to identify the source of errors.</li>
                   <li><strong>Reduced Readability:</strong> Excessively long chains can decrease readability and be harder to maintain.</li>
                   <li><strong>Unintentional State Mutation:</strong> Mutating objects in chained methods may lead to unintended side effects.</li>
-                </ul>`
+                </ul>`,
               },
               {
-                "question": "Can method chaining be achieved with functions that do not return <code>this</code>?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can method chaining be achieved with functions that do not return <code>this</code>?",
+                solution: `<p style="margin-top: 1.0rem;">
                   No, method chaining requires each method in the chain to return <code>this</code> or a new instance of the object to continue the chain. Without this, chaining will break as the object reference is lost.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How would you handle errors within a chain of methods to prevent breaking the chain?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How would you handle errors within a chain of methods to prevent breaking the chain?",
+                solution: `<p style="margin-top: 1.0rem;">
                   To handle errors gracefully in method chaining, you can add condition checks or use <code>try-catch</code> blocks within the methods. This keeps the chain intact while managing errors.
                 </p>
                 <pre><code class="language-javascript">
@@ -6196,11 +6214,12 @@ fetchData()
                 return this;
               }
             }
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "How does returning <code>this</code> differ from returning a new instance in method chaining?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How does returning <code>this</code> differ from returning a new instance in method chaining?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Returning <code>this</code> maintains operations on the same object, useful for stateful modifications. Returning a new instance, on the other hand, creates a fresh object each time, which is helpful for immutable patterns.
                 </p>
                 <pre><code class="language-javascript">
@@ -6214,11 +6233,12 @@ fetchData()
               }
             }
             const result = new ImmutableCalculator(0).add(5).add(10);
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "Can method chaining be combined with other design patterns?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can method chaining be combined with other design patterns?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Yes, method chaining can be combined with other patterns like the <strong>Fluent Interface</strong> and <strong>Builder Pattern</strong>. These patterns focus on creating a readable, chainable API, especially for constructing objects.
                 </p>
                 <pre><code class="language-javascript">
@@ -6237,20 +6257,22 @@ fetchData()
               }
             }
             const pizza = new PizzaBuilder().addTopping("cheese").addTopping("pepperoni").build();
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What would happen if one method in the chain does not return <code>this</code>?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What would happen if one method in the chain does not return <code>this</code>?",
+                solution: `<p style="margin-top: 1.0rem;">
                   If one method in the chain fails to return <code>this</code>, the chain will break, as <code>undefined</code> or another return value will be passed to the next method, causing an error if further chaining is attempted.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How do you decide whether to use method chaining or separate statements?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How do you decide whether to use method chaining or separate statements?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The choice depends on readability and complexity. If a sequence of operations is simple and related, chaining is effective. For more complex or unrelated operations, separate statements may improve readability.
-                </p>`
-              }
+                </p>`,
+              },
             ],
             links: [""],
           },
@@ -6261,14 +6283,16 @@ fetchData()
             examples: [""],
             questions: [
               {
-                "question": "What is callback hell, and why does it occur in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is callback hell, and why does it occur in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Callback hell refers to the situation where multiple nested callbacks lead to complex, hard-to-read, and maintain code, often in asynchronous operations. It occurs because JavaScript heavily relies on callbacks to handle asynchronous tasks, leading to a "pyramid of doom" structure as callbacks become deeply nested.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Can you provide an example of callback hell in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can you provide an example of callback hell in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   A typical example involves several asynchronous operations like reading a file, processing the data, and saving it to another file. As each operation relies on the previous one, nesting callbacks leads to unreadable code:
                 </p>
                 <pre><code class="language-javascript">
@@ -6282,22 +6306,23 @@ fetchData()
                 });
               });
             });
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What are some common solutions to avoid callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What are some common solutions to avoid callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Common solutions include:
                 </p>
                 <ul style="margin-top: 1.0rem;">
                   <li><strong>Modularizing Callbacks:</strong> Break complex callback chains into smaller, named functions to improve readability.</li>
                   <li><strong>Using Promises:</strong> Promises provide a more structured way to handle asynchronous operations, making chaining simpler.</li>
                   <li><strong>Async/Await:</strong> Async/await syntax allows writing asynchronous code in a synchronous style, reducing nested callbacks.</li>
-                </ul>`
+                </ul>`,
               },
               {
-                "question": "How do Promises help to reduce callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "How do Promises help to reduce callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Promises offer a way to flatten nested callbacks by chaining <code>.then()</code> methods, providing a more readable structure. Each <code>.then()</code> handles the success of the previous step, while <code>.catch()</code> can handle errors at the end of the chain.
                 </p>
                 <pre><code class="language-javascript">
@@ -6305,17 +6330,18 @@ fetchData()
               .then(processData)
               .then(saveData)
               .catch(handleError);
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What is the difference between callback hell and the promise chain?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is the difference between callback hell and the promise chain?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Callback hell occurs when functions are deeply nested within each other, leading to unreadable code. Promise chaining, however, keeps each asynchronous function at the same level of indentation, making the sequence of actions clearer and reducing nesting.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Can async/await eliminate callback hell? How?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "Can async/await eliminate callback hell? How?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Yes, async/await can eliminate callback hell by allowing asynchronous code to be written in a synchronous style. By using <code>await</code>, each asynchronous function call is handled sequentially without requiring nested callbacks, making the code easier to read.
                 </p>
                 <pre><code class="language-javascript">
@@ -6329,11 +6355,12 @@ fetchData()
                 console.error(error);
               }
             }
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What are named functions, and how can they help with callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What are named functions, and how can they help with callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Named functions are functions given a specific name, making it easier to reuse and maintain them. By separating each step of a callback sequence into named functions, it’s possible to avoid deep nesting and improve readability.
                 </p>
                 <pre><code class="language-javascript">
@@ -6346,23 +6373,26 @@ fetchData()
                 writeFile(result, () => console.log("Done"));
               });
             });
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "How does error handling in callback hell compare to handling errors with promises?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How does error handling in callback hell compare to handling errors with promises?",
+                solution: `<p style="margin-top: 1.0rem;">
                   In callback hell, each nested callback typically requires its own error handling, making the code repetitive and harder to read. With Promises, errors can be handled centrally using <code>.catch()</code>, simplifying the process.
-                </p>`
+                </p>`,
               },
               {
-                "question": "When would you choose callbacks over promises or async/await?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "When would you choose callbacks over promises or async/await?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Callbacks are still useful for small, synchronous code or when working with legacy code that relies on them. They may also be preferred in environments where promises and async/await syntax are unsupported.
-                </p>`
+                </p>`,
               },
               {
-                "question": "What are some best practices to avoid callback hell when using callbacks?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What are some best practices to avoid callback hell when using callbacks?",
+                solution: `<p style="margin-top: 1.0rem;">
                   To minimize callback hell:
                 </p>
                 <ul style="margin-top: 1.0rem;">
@@ -6370,17 +6400,19 @@ fetchData()
                   <li><strong>Limit nesting levels:</strong> Keep the nesting of callbacks to a minimum to avoid excessive indentation.</li>
                   <li><strong>Handle errors carefully:</strong> Ensure that each callback has proper error handling to prevent cascading issues.</li>
                   <li><strong>Consider Promises or async/await:</strong> For complex asynchronous code, use promises or async/await if possible.</li>
-                </ul>`
+                </ul>`,
               },
               {
-                "question": "How does callback hell impact performance and maintainability?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How does callback hell impact performance and maintainability?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Callback hell can make code difficult to maintain because deeply nested callbacks are hard to read and debug. Although callback hell itself doesn't necessarily impact performance, the risk of introducing bugs or errors increases with complexity, potentially leading to performance issues and maintenance challenges.
-                </p>`
+                </p>`,
               },
               {
-                "question": "What role does recursion play in managing callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What role does recursion play in managing callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Recursion can sometimes be used as an alternative to avoid deeply nested callbacks. Instead of chaining callbacks, a recursive function can be designed to handle repetitive asynchronous tasks, especially in cases like looping through asynchronous operations.
                 </p>
                 <pre><code class="language-javascript">
@@ -6389,23 +6421,26 @@ fetchData()
               const [task, ...remainingTasks] = tasks;
               task(() => processTasks(remainingTasks));
             }
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "How do libraries like async.js help manage callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How do libraries like async.js help manage callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Libraries like <code>async.js</code> provide utilities for managing asynchronous workflows without excessive nesting. They offer methods like <code>async.series</code>, <code>async.parallel</code>, and <code>async.waterfall</code> to control flow and handle tasks in series or parallel, reducing callback depth and improving readability.
-                </p>`
+                </p>`,
               },
               {
-                "question": "What is the 'pyramid of doom' and how is it related to callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is the 'pyramid of doom' and how is it related to callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The "pyramid of doom" is a term describing the heavily indented structure caused by nested callbacks in callback hell. This pyramid-like structure makes code difficult to read and understand, as each callback relies on the previous one, causing excessive nesting and poor readability.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How do error-first callbacks help in asynchronous JavaScript code?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How do error-first callbacks help in asynchronous JavaScript code?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Error-first callbacks follow a convention where the first argument of a callback function represents an error object. This approach standardizes error handling, allowing developers to check for errors at each step of an asynchronous operation and avoid chaining unnecessary operations if an error occurs.
                 </p>
                 <pre><code class="language-javascript">
@@ -6416,29 +6451,33 @@ fetchData()
                 console.log(result);
               });
             });
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What are some use cases where callbacks are preferred over promises or async/await?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What are some use cases where callbacks are preferred over promises or async/await?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Callbacks are often preferred for simple event listeners, timers, or when working with older APIs that may not support promises. They are also useful in cases where synchronous processing is sufficient, or if minimal code is required without the need for additional chaining.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Why is error handling more challenging with callback hell compared to promises?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Why is error handling more challenging with callback hell compared to promises?",
+                solution: `<p style="margin-top: 1.0rem;">
                   With callback hell, each nested callback requires its own error handling logic, making the code repetitive and harder to maintain. In contrast, promises centralize error handling with a single <code>.catch()</code> at the end of a chain, simplifying error management and improving readability.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How can JavaScript ES6+ features help reduce callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How can JavaScript ES6+ features help reduce callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   ES6+ introduced promises and, later, async/await, both of which help reduce callback hell. Promises allow chaining of asynchronous calls without excessive nesting, while async/await offers a syntax similar to synchronous code, greatly enhancing readability and reducing the need for deeply nested callbacks.
-                </p>`
+                </p>`,
               },
               {
-                "question": "What is an example of callback hell in handling sequential asynchronous requests?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is an example of callback hell in handling sequential asynchronous requests?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Sequential asynchronous requests, like fetching data from multiple endpoints, can quickly result in callback hell if each step depends on the previous one:
                 </p>
                 <pre><code class="language-javascript">
@@ -6452,11 +6491,11 @@ fetchData()
                 });
               });
             });
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "How does async.waterfall help with callback hell?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "How does async.waterfall help with callback hell?",
+                solution: `<p style="margin-top: 1.0rem;">
                   <code>async.waterfall</code> from the <code>async.js</code> library helps manage callback hell by passing the result of one function to the next. This keeps each step of a process at the same level of indentation, improving readability and allowing easy management of sequential async operations.
                 </p>
                 <pre><code class="language-javascript">
@@ -6470,8 +6509,8 @@ fetchData()
             ], function (err, result) {
               console.log(result);
             });
-                </code></pre>`
-              }
+                </code></pre>`,
+              },
             ],
             links: [""],
           },
@@ -6566,69 +6605,79 @@ console.log("End");
 `,
             examples: [""],
             questions: [
-                {
-                  "question": "What is the Event Loop in JavaScript, and why is it necessary?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+              {
+                question:
+                  "What is the Event Loop in JavaScript, and why is it necessary?",
+                solution: `<p style="margin-top: 1.0rem;">
                     The Event Loop is a mechanism in JavaScript that manages the execution of asynchronous code, ensuring that non-blocking operations complete without interrupting the main execution thread. It continuously checks the call stack and task queue, processing tasks in a way that keeps JavaScript's single-threaded nature performant.
-                  </p>`
-                },
-                {
-                  "question": "Explain the role of the Call Stack in the Event Loop process.",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "Explain the role of the Call Stack in the Event Loop process.",
+                solution: `<p style="margin-top: 1.0rem;">
                     The Call Stack is a data structure that keeps track of function calls in the order they need to be executed. In JavaScript, when a function is called, it's added to the Call Stack, and when it finishes, it is removed. The Event Loop only pushes tasks to the Call Stack when it's empty, ensuring synchronous code executes first.
-                  </p>`
-                },
-                {
-                  "question": "How does the task queue work in JavaScript's Event Loop?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "How does the task queue work in JavaScript's Event Loop?",
+                solution: `<p style="margin-top: 1.0rem;">
                     The task queue, also called the callback queue, holds asynchronous tasks like I/O events or timers that are ready for execution. When the Call Stack is empty, the Event Loop moves tasks from the task queue to the Call Stack for execution, following a FIFO (First In, First Out) order.
-                  </p>`
-                },
-                {
-                  "question": "What is the microtask queue, and how does it differ from the task queue?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "What is the microtask queue, and how does it differ from the task queue?",
+                solution: `<p style="margin-top: 1.0rem;">
                     The microtask queue is a high-priority queue where tasks like <code>Promises</code> and <code>MutationObserver</code> callbacks are stored. Microtasks are executed immediately after the current stack is cleared and before tasks in the task queue, giving them priority over regular async tasks.
-                  </p>`
-                },
-                {
-                  "question": "How are setTimeout and Promises prioritized by the Event Loop?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "How are setTimeout and Promises prioritized by the Event Loop?",
+                solution: `<p style="margin-top: 1.0rem;">
                     <code>setTimeout</code> callbacks are added to the task queue and are processed after the call stack is cleared. Promises, however, go into the microtask queue, which has higher priority, so they are executed before any task queue items once the call stack is empty.
-                  </p>`
-                },
-                {
-                  "question": "What happens if a function in the call stack is slow or blocks for a long time?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "What happens if a function in the call stack is slow or blocks for a long time?",
+                solution: `<p style="margin-top: 1.0rem;">
                     Since JavaScript is single-threaded, a slow or blocking function will keep other tasks from executing. It can delay the Event Loop from processing the task and microtask queues, making the application unresponsive until the blocking function completes.
-                  </p>`
-                },
-                {
-                  "question": "What are 'ticks' in the context of the Event Loop?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question: "What are 'ticks' in the context of the Event Loop?",
+                solution: `<p style="margin-top: 1.0rem;">
                     A 'tick' refers to a single iteration of the Event Loop. Each tick represents a cycle where the Event Loop checks the call stack, moves tasks from the microtask queue, and then from the task queue to the call stack if available, before moving to the next tick.
-                  </p>`
-                },
-                {
-                  "question": "Describe the order of execution for synchronous and asynchronous tasks in the Event Loop.",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "Describe the order of execution for synchronous and asynchronous tasks in the Event Loop.",
+                solution: `<p style="margin-top: 1.0rem;">
                     The Event Loop executes synchronous tasks first, clearing the call stack. Once empty, it checks the microtask queue (for Promises, MutationObservers) and executes those tasks. Only after the microtask queue is empty does it move to tasks in the task queue, like <code>setTimeout</code> or <code>setInterval</code> callbacks.
-                  </p>`
-                },
-                {
-                  "question": "How does the Event Loop impact the performance of JavaScript applications?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "How does the Event Loop impact the performance of JavaScript applications?",
+                solution: `<p style="margin-top: 1.0rem;">
                     The Event Loop's efficient handling of asynchronous tasks prevents blocking, keeping JavaScript applications responsive. However, if too many tasks are queued or if there are blocking operations, it can slow down the Event Loop, causing performance bottlenecks and lag in the user interface.
-                  </p>`
-                },
-                {
-                  "question": "What is the relationship between the Event Loop and JavaScript’s single-threaded nature?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "What is the relationship between the Event Loop and JavaScript’s single-threaded nature?",
+                solution: `<p style="margin-top: 1.0rem;">
                     JavaScript is single-threaded, meaning only one piece of code executes at a time. The Event Loop enables non-blocking behavior by managing asynchronous tasks in separate queues, allowing JavaScript to handle tasks concurrently without creating new threads, simulating multitasking.
-                  </p>`
-                },
-                {
-                  "question": "How would you use async/await to simplify Event Loop handling in JavaScript?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "How would you use async/await to simplify Event Loop handling in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                     <code>async/await</code> syntax makes asynchronous code appear more synchronous and readable. With <code>await</code>, JavaScript pauses the function execution until the Promise resolves, and the Event Loop can continue handling other tasks while waiting, making it simpler to manage asynchronous logic without deeply nested callbacks.
                   </p>
                   <pre><code class="language-javascript">
@@ -6640,20 +6689,22 @@ console.log("End");
                   console.error(error);
                 }
               }
-                  </code></pre>`
-                },
-                {
-                  "question": "Can you explain how the browser handles long-running tasks while keeping the UI responsive?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </code></pre>`,
+              },
+              {
+                question:
+                  "Can you explain how the browser handles long-running tasks while keeping the UI responsive?",
+                solution: `<p style="margin-top: 1.0rem;">
                     Browsers handle long-running tasks by using the Event Loop, offloading asynchronous operations to separate queues. With APIs like <code>requestAnimationFrame</code> and <code>setTimeout</code>, JavaScript can split intensive tasks into smaller, non-blocking segments, allowing UI updates between cycles and keeping the interface responsive.
-                  </p>`
-                },
-                {
-                  "question": "How does the Event Loop differ in Node.js compared to the browser?",
-                  "solution": `<p style="margin-top: 1.0rem;">
+                  </p>`,
+              },
+              {
+                question:
+                  "How does the Event Loop differ in Node.js compared to the browser?",
+                solution: `<p style="margin-top: 1.0rem;">
                     In Node.js, the Event Loop has additional phases to handle file system and network I/O efficiently. It includes phases for timers, I/O callbacks, idle and prepare, poll, check, and close callbacks, allowing Node.js to manage asynchronous operations outside the browser environment with optimized performance.
-                  </p>`
-                },
+                  </p>`,
+              },
             ],
             links: [""],
           },
@@ -6771,41 +6822,43 @@ console.log(MathModule.circleArea(5)); // Outputs the area of a circle with radi
             examples: [""],
             questions: [
               {
-                "question": "What is an Immediately Invoked Function Expression (IIFE) in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is an Immediately Invoked Function Expression (IIFE) in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   An IIFE is a function that is defined and executed immediately after its creation. It is enclosed in parentheses and followed by another set of parentheses to invoke it. This pattern is used to create a local scope and avoid polluting the global namespace.
                 </p>
                 <pre><code class="language-javascript">
             (function() {
               console.log('I am an IIFE!');
             })(); // Output: I am an IIFE!
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What are the benefits of using an IIFE?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "What are the benefits of using an IIFE?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The primary benefits of using an IIFE include:
                 </p>
                 <ul style="margin-top: 1.0rem;">
                   <li><strong>Encapsulation:</strong> Variables and functions defined inside an IIFE are not accessible from the outside, preventing conflicts.</li>
                   <li><strong>Isolation:</strong> It creates a private scope, allowing the use of variables without affecting the global scope.</li>
                   <li><strong>Initialization:</strong> IIFEs are often used to initialize variables or perform setup tasks in a contained manner.</li>
-                </ul>`
+                </ul>`,
               },
               {
-                "question": "How do you pass arguments to an IIFE?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "How do you pass arguments to an IIFE?",
+                solution: `<p style="margin-top: 1.0rem;">
                   You can pass arguments to an IIFE just like a regular function by including parameters in the function definition and providing arguments in the invocation parentheses:
                 </p>
                 <pre><code class="language-javascript">
             (function(name) {
               console.log('Hello, ' + name);
             })('Alice'); // Output: Hello, Alice
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "Can you explain how IIFEs help in module pattern creation?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can you explain how IIFEs help in module pattern creation?",
+                solution: `<p style="margin-top: 1.0rem;">
                   IIFEs are commonly used in the module pattern to create private variables and expose public methods. This pattern allows you to encapsulate functionality while exposing a limited API:
                 </p>
                 <pre><code class="language-javascript">
@@ -6824,17 +6877,19 @@ console.log(MathModule.circleArea(5)); // Outputs the area of a circle with radi
             
             counter.increment();
             console.log(counter.getCount()); // Output: 1
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What is the difference between an IIFE and a regular function?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is the difference between an IIFE and a regular function?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The main difference is that an IIFE is executed immediately after it's defined, while a regular function must be called explicitly. Additionally, IIFEs create their own scope, preventing variable leakage into the global namespace.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How do IIFEs relate to the concept of closures in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How do IIFEs relate to the concept of closures in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   IIFEs can create closures by defining inner functions that can access the IIFE's scope even after it has executed. This allows you to maintain private state:
                 </p>
                 <pre><code class="language-javascript">
@@ -6849,11 +6904,11 @@ console.log(MathModule.circleArea(5)); // Outputs the area of a circle with radi
             
             console.log(createCounter()); // Output: 1
             console.log(createCounter()); // Output: 2
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "Can you provide an example of nesting IIFEs?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "Can you provide an example of nesting IIFEs?",
+                solution: `<p style="margin-top: 1.0rem;">
                   IIFEs can be nested to create multiple levels of encapsulation. Here’s an example:
                 </p>
                 <pre><code class="language-javascript">
@@ -6868,35 +6923,37 @@ console.log(MathModule.circleArea(5)); // Outputs the area of a circle with radi
               // console.log(innerVar); // Error: innerVar is not defined
             })();
             
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "When should you consider using an IIFE in your code?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "When should you consider using an IIFE in your code?",
+                solution: `<p style="margin-top: 1.0rem;">
                   You should consider using an IIFE when you want to:
                 </p>
                 <ul style="margin-top: 1.0rem;">
                   <li>Encapsulate functionality and prevent global namespace pollution.</li>
                   <li>Initialize variables or perform setup operations without leaving traces in the global scope.</li>
                   <li>Create modules that expose specific methods while keeping other parts private.</li>
-                </ul>`
+                </ul>`,
               },
               {
-                "question": "What are the potential downsides of using IIFEs?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "What are the potential downsides of using IIFEs?",
+                solution: `<p style="margin-top: 1.0rem;">
                   While IIFEs are useful, they can also lead to potential downsides such as:
                 </p>
                 <ul style="margin-top: 1.0rem;">
                   <li><strong>Overhead:</strong> If overused, they can introduce unnecessary complexity to your code.</li>
                   <li><strong>Readability:</strong> Excessive nesting of IIFEs can reduce readability and make the code harder to follow.</li>
-                </ul>`
+                </ul>`,
               },
               {
-                "question": "How do IIFEs support JavaScript's functional programming aspects?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How do IIFEs support JavaScript's functional programming aspects?",
+                solution: `<p style="margin-top: 1.0rem;">
                   IIFEs align with functional programming by allowing the creation of functions that can be executed immediately and have their own scope. This supports higher-order functions, where functions can be passed as arguments and returned as values, promoting a functional style in JavaScript.
-                </p>`
-              }
+                </p>`,
+              },
             ],
             links: [""],
           },
@@ -7006,14 +7063,14 @@ person.greet(); // Output: Hello, undefined
             examples: [""],
             questions: [
               {
-                "question": "What is function binding in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "What is function binding in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Function binding in JavaScript refers to the process of setting the value of <code>this</code> for a function. It ensures that a function is executed in the context of a specific object, regardless of how it is called. This is typically achieved using the <code>bind()</code> method.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How does the bind() method work?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "How does the bind() method work?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The <code>bind()</code> method creates a new function that, when called, has its <code>this</code> keyword set to the provided value. It can also accept a list of arguments that will be prepended to the arguments provided to the new function when it is called.
                 </p>
                 <pre><code class="language-javascript">
@@ -7026,17 +7083,19 @@ person.greet(); // Output: Hello, undefined
             
             const greetAlice = person.greet.bind(person);
             greetAlice(); // Output: Hello, Alice
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What is the difference between bind() and call()/apply()?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is the difference between bind() and call()/apply()?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The main difference is that <code>bind()</code> returns a new function with a fixed <code>this</code> context, while <code>call()</code> and <code>apply()</code> invoke the function immediately with the specified context. <code>call()</code> takes individual arguments, while <code>apply()</code> takes an array of arguments.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Can you provide an example where binding is necessary?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can you provide an example where binding is necessary?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Binding is especially useful in event handlers to maintain the correct context of <code>this</code>. Here’s an example:
                 </p>
                 <pre><code class="language-javascript">
@@ -7049,11 +7108,12 @@ person.greet(); // Output: Hello, undefined
             };
             
             button.addEventListener('click', person.greet.bind(person)); // Correctly binds 'this' to person
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What happens if you use bind() with a non-existent method?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What happens if you use bind() with a non-existent method?",
+                solution: `<p style="margin-top: 1.0rem;">
                   If you attempt to bind a method that does not exist on an object, it will return a new function that, when called, will throw a <code>TypeError</code> since it cannot find the method to execute.
                 </p>
                 <pre><code class="language-javascript">
@@ -7063,23 +7123,25 @@ person.greet(); // Output: Hello, undefined
             
             const greet = person.greet.bind(person); // greet is not defined on person
             greet(); // TypeError: person.greet is not a function
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "How does binding help in functional programming in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How does binding help in functional programming in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Binding can aid functional programming by allowing functions to be passed around with a specific context, enabling more flexible and reusable code. It allows functions to carry their context along with them when they are passed as arguments.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Can you bind a function to multiple contexts?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "Can you bind a function to multiple contexts?",
+                solution: `<p style="margin-top: 1.0rem;">
                   No, a function can only be bound to a single context at a time. Each time you call <code>bind()</code>, it creates a new function with the specified <code>this</code> context. You cannot bind one function to multiple objects simultaneously.
-                </p>`
+                </p>`,
               },
               {
-                "question": "What is partial application in the context of bind()?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is partial application in the context of bind()?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Partial application refers to the process of fixing a number of arguments to a function, which can be accomplished using <code>bind()</code>. By binding arguments to a function, you can create a new function with fewer parameters.
                 </p>
                 <pre><code class="language-javascript">
@@ -7089,11 +7151,11 @@ person.greet(); // Output: Hello, undefined
             
             const double = multiply.bind(null, 2); // Binds 2 to the first parameter
             console.log(double(5)); // Output: 10
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "Can you use bind() with arrow functions?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question: "Can you use bind() with arrow functions?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Using <code>bind()</code> with arrow functions does not change their <code>this</code> context because arrow functions do not have their own <code>this</code>. They inherit <code>this</code> from their enclosing lexical scope.
                 </p>
                 <pre><code class="language-javascript">
@@ -7106,14 +7168,15 @@ person.greet(); // Output: Hello, undefined
             
             const greetAlice = person.greet.bind(person);
             greetAlice(); // Output: Hello, undefined
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "How can you remove the binding from a function created with bind()?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How can you remove the binding from a function created with bind()?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Once a function is bound using <code>bind()</code>, you cannot unbind it. The binding is permanent for that instance of the function. To change the context, you would need to create a new bound function with <code>bind()</code> again.
-                </p>`
-              }
+                </p>`,
+              },
             ],
             links: [""],
           },
@@ -7263,77 +7326,89 @@ person.greet(); // Output: Hello, undefined
             examples: [""],
             questions: [
               {
-                "question": "What is the difference between async and defer attributes in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What is the difference between async and defer attributes in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The <code>async</code> attribute allows the script to be executed as soon as it is available, without waiting for the HTML document to finish parsing. In contrast, the <code>defer</code> attribute ensures that the script is executed only after the HTML document has been completely parsed. Furthermore, scripts with <code>defer</code> are executed in the order they appear in the HTML.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How does the async attribute affect the loading of scripts?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How does the async attribute affect the loading of scripts?",
+                solution: `<p style="margin-top: 1.0rem;">
                   When a script is loaded with the <code>async</code> attribute, it downloads asynchronously and executes immediately once it's downloaded, potentially before the HTML document is fully parsed. This can lead to scripts executing in a different order than they appear in the HTML, which is important to consider for dependencies between scripts.
-                </p>`
+                </p>`,
               },
               {
-                "question": "What scenarios would you use the defer attribute over async?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What scenarios would you use the defer attribute over async?",
+                solution: `<p style="margin-top: 1.0rem;">
                   You would use the <code>defer</code> attribute for scripts that depend on the DOM being fully loaded, such as scripts that manipulate elements or rely on other scripts to have been executed first. This ensures that all elements are available before the script runs, preventing potential errors.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Can you provide an example of using the async attribute in a script tag?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can you provide an example of using the async attribute in a script tag?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Here’s an example of a script using the <code>async</code> attribute:
                 </p>
                 <pre><code class="language-html">
             &lt;script src="analytics.js" async&gt;&lt;/script&gt;
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                "question": "What happens if both async and defer attributes are present on a script tag?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What happens if both async and defer attributes are present on a script tag?",
+                solution: `<p style="margin-top: 1.0rem;">
                   If both <code>async</code> and <code>defer</code> attributes are present on a script tag, the <code>async</code> attribute takes precedence. The script will be executed as soon as it is available, ignoring the defer behavior.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Why is it important to optimize script loading with async and defer?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Why is it important to optimize script loading with async and defer?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Optimizing script loading with <code>async</code> and <code>defer</code> can significantly improve webpage performance. It reduces render-blocking, allowing HTML to be parsed and displayed to the user more quickly. This enhances the overall user experience and can lead to better SEO rankings as page load times are a factor in search engine algorithms.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How do async and defer attributes affect the execution order of multiple scripts?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How do async and defer attributes affect the execution order of multiple scripts?",
+                solution: `<p style="margin-top: 1.0rem;">
                   When multiple scripts are loaded with the <code>async</code> attribute, they can execute in any order as soon as they finish downloading. This can lead to unpredictable behavior if scripts depend on each other. In contrast, scripts with the <code>defer</code> attribute will always execute in the order they are declared in the HTML, after the document has been fully parsed, ensuring consistent execution order.
-                </p>`
+                </p>`,
               },
               {
-                "question": "What potential issues can arise when using async for scripts that manipulate the DOM?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "What potential issues can arise when using async for scripts that manipulate the DOM?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Using the <code>async</code> attribute for scripts that manipulate the DOM can lead to issues where the script tries to access DOM elements that haven’t been created yet. Since <code>async</code> scripts can execute as soon as they are downloaded, they may run before the DOM is ready, resulting in errors or unexpected behavior. In such cases, using <code>defer</code> is more appropriate.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How do the async and defer attributes impact page load performance and user experience?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How do the async and defer attributes impact page load performance and user experience?",
+                solution: `<p style="margin-top: 1.0rem;">
                   Both <code>async</code> and <code>defer</code> attributes improve page load performance by allowing HTML parsing to continue while scripts are loading. This reduces render-blocking behavior. <code>async</code> is beneficial for scripts that don't depend on the DOM, while <code>defer</code> is ideal for scripts that require DOM elements to be fully available. Using these attributes appropriately leads to a smoother user experience and faster load times.
-                </p>`
+                </p>`,
               },
               {
-                "question": "Can you explain the impact of script execution timing when using async and defer in relation to the DOMContentLoaded event?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "Can you explain the impact of script execution timing when using async and defer in relation to the DOMContentLoaded event?",
+                solution: `<p style="margin-top: 1.0rem;">
                   The <code>DOMContentLoaded</code> event fires when the initial HTML document has been completely loaded and parsed, without waiting for stylesheets, images, or subframes to finish loading. Scripts with the <code>defer</code> attribute will execute after the DOM has been fully constructed but before the <code>DOMContentLoaded</code> event. However, scripts with the <code>async</code> attribute can execute at any time, even before <code>DOMContentLoaded</code> has been fired, which can lead to unexpected behavior if those scripts manipulate the DOM.
-                </p>`
+                </p>`,
               },
               {
-                "question": "In what scenarios would you recommend avoiding the use of async and defer attributes?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "In what scenarios would you recommend avoiding the use of async and defer attributes?",
+                solution: `<p style="margin-top: 1.0rem;">
                   You should avoid using <code>async</code> for scripts that depend on the execution order or that interact with the DOM. Similarly, avoid using both attributes for critical scripts that are necessary for page functionality and require complete control over the loading sequence. For example, inline scripts that need to be executed in a specific order should not use these attributes.
-                </p>`
+                </p>`,
               },
               {
-                "question": "How can you dynamically load scripts with async and defer attributes in JavaScript?",
-                "solution": `<p style="margin-top: 1.0rem;">
+                question:
+                  "How can you dynamically load scripts with async and defer attributes in JavaScript?",
+                solution: `<p style="margin-top: 1.0rem;">
                   You can dynamically load scripts in JavaScript by creating a <code>&lt;script&gt;</code> element and setting its <code>src</code> attribute to the desired script URL. You can also set the <code>async</code> or <code>defer</code> attributes directly on this element before appending it to the document:
                 </p>
                 <pre><code class="language-javascript">
@@ -7341,8 +7416,8 @@ person.greet(); // Output: Hello, undefined
             script.src = 'example.js';
             script.async = true; // or script.defer = true;
             document.head.appendChild(script);
-                </code></pre>`
-              }
+                </code></pre>`,
+              },
             ],
             links: [""],
           },
@@ -24016,4 +24091,1071 @@ var y = a();
       },
     ],
   },
+  {
+    id: 4,
+    category: "Typescript",
+    themeBgColor: "#3178c6",
+    textColor: "#1e3a8a",
+    topicColor: "#2563eb",
+    lightColor: "#eff6ff",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "Type Annotations",
+            tags: [""],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Type annotations in TypeScript allow you to specify the types of variables, function parameters, and return values. This provides compile-time type checking and improves code reliability by catching type-related errors before runtime.
+     Type annotations help with better IDE support, documentation, and code maintainability.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Variable type annotations
+let name: string = "John";
+let age: number = 30;
+let isActive: boolean = true;
+
+// Function type annotations
+function greet(name: string): string {
+  return \`Hello, \${name}!\`;
+}
+
+// Array type annotations
+let numbers: number[] = [1, 2, 3, 4, 5];
+let fruits: Array<string> = ["apple", "banana", "orange"];
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  In this example, we define variables with explicit type annotations. The \`name\` variable is typed as string, \`age\` as number, and \`isActive\` as boolean. The \`greet\` function specifies that it takes a string parameter and returns a string. Arrays can be typed using either bracket notation or the Array generic type.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Type Annotations
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Compile-time Error Detection :</span> Type annotations help catch errors during development rather than at runtime. This prevents many common bugs and makes your code more reliable.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+function divide(a: number, b: number): number {
+  if (b === 0) {
+    throw new Error("Division by zero");
+  }
+  return a / b;
+}
+
+// This will cause a compile-time error
+// divide("10", "2"); // Error: Argument of type 'string' is not assignable to parameter of type 'number'
+
+// Correct usage
+console.log(divide(10, 2)); // 5
+ </code>
+  </pre>
+  </div>
+
+The TypeScript compiler will catch the error when you try to pass strings to a function expecting numbers, preventing runtime errors and making your code more robust.
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">Better IDE Support :</span> Type annotations enable enhanced IntelliSense, autocompletion, and refactoring capabilities in modern IDEs and editors.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+function processUser(user: User): void {
+  // IDE will provide autocompletion for user properties
+  console.log(user.name); // Autocomplete will show 'name', 'email', 'id'
+  console.log(user.email);
+}
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">Self-Documenting Code :</span> 
+Type annotations serve as inline documentation, making it clear what types of data functions expect and return.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Without types (JavaScript)
+function calculateArea(length, width) {
+  return length * width;
+}
+
+// With types (TypeScript) - self-documenting
+function calculateArea(length: number, width: number): number {
+  return length * width;
+}
+</code></pre>
+    </div>
+    The TypeScript version immediately tells you what types of parameters are expected and what type of value will be returned, making the code more readable and maintainable.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              `// Basic type annotations
+let message: string = "Hello TypeScript";
+let count: number = 42;
+let isComplete: boolean = false;
+
+// Function with type annotations
+function add(x: number, y: number): number {
+  return x + y;
+}
+
+// Object type annotation
+let person: { name: string; age: number } = {
+  name: "Alice",
+  age: 25
+};
+
+// Array type annotations
+let scores: number[] = [85, 92, 78, 96];
+let names: string[] = ["John", "Jane", "Bob"];`,
+            ],
+            questions: [
+              {
+                question: "What are type annotations in TypeScript?",
+                solution:
+                  "<p>Type annotations in TypeScript are a way to explicitly specify the types of variables, function parameters, and return values. They use a colon (:) followed by the type name. Type annotations help catch errors at compile time, provide better IDE support, and make code more self-documenting and maintainable.</p>",
+              },
+              {
+                question: "How do you annotate primitive types in TypeScript?",
+                solution: `<p>Primitive types in TypeScript are annotated using the colon syntax:</p>
+             <pre><code className="language-typescript">
+let name: string = "John";
+let age: number = 30;
+let isActive: boolean = true;
+let value: null = null;
+let data: undefined = undefined;
+            </code></pre>
+           <p>TypeScript supports all JavaScript primitive types: string, number, boolean, null, undefined, symbol, and bigint.</p>`,
+              },
+              {
+                question: "What's the difference between explicit and implicit typing?",
+                solution:
+                  "<p>Explicit typing uses type annotations to specify types directly (let name: string = 'John'), while implicit typing relies on TypeScript's type inference to determine types automatically (let name = 'John'). TypeScript can often infer types correctly, but explicit annotations provide clarity and prevent unexpected type changes.</p>",
+              },
+              {
+                question: "How do you type function parameters and return values?",
+                solution:
+                  "<p>Function parameters are typed by adding a colon and type after the parameter name. Return types are specified after the parameter list with a colon and type. For example: function greet(name: string): string { return `Hello, ${name}!`; }. If a function doesn't return a value, use the 'void' type.</p>",
+              },
+              {
+                question: "Can you provide examples of array type annotations?",
+                solution:
+                  "<p>Arrays can be typed in two ways: using bracket notation (number[]) or the Array generic type (Array<number>). For example: let numbers: number[] = [1, 2, 3]; or let numbers: Array<number> = [1, 2, 3]; Both approaches are equivalent and provide the same type safety.</p>",
+              },
+              {
+                question: "What happens if you don't provide type annotations?",
+                solution:
+                  "<p>If you don't provide type annotations, TypeScript will use type inference to determine the type based on the assigned value. If TypeScript can't infer the type, it will default to 'any' type, which disables type checking for that variable. It's generally better to provide explicit annotations for clarity and type safety.</p>",
+              },
+              {
+                question: "How do you handle optional parameters in functions?",
+                solution:
+                  "<p>Optional parameters are marked with a question mark (?) after the parameter name. For example: function greet(name: string, title?: string): string. Optional parameters must come after required parameters, and they have a type that includes 'undefined' as a possibility.</p>",
+              },
+              {
+                question: "What are union types and how do you use them?",
+                solution:
+                  "<p>Union types allow a variable to hold values of multiple types, specified using the pipe (|) operator. For example: let id: string | number = 'abc123'; This means 'id' can be either a string or a number. Union types are useful when a value can legitimately be one of several types.</p>",
+              },
+              {
+                question: "How do you type objects in TypeScript?",
+                solution:
+                  "<p>Objects can be typed using object type annotations with curly braces. For example: let person: { name: string; age: number } = { name: 'John', age: 30 }; You can also use interfaces or type aliases for more complex object structures and better reusability.</p>",
+              },
+              {
+                question: "What is the 'any' type and when should you use it?",
+                solution:
+                  "<p>The 'any' type disables TypeScript's type checking and allows any value to be assigned to a variable. It should be used sparingly, mainly when migrating JavaScript code to TypeScript or when working with dynamic content where the type is truly unknown. Overusing 'any' defeats the purpose of using TypeScript.</p>",
+              },
+              {
+                question: "How do type annotations help with code maintainability?",
+                solution:
+                  "<p>Type annotations improve code maintainability by providing clear contracts for functions and variables, making refactoring safer, enabling better IDE support with autocompletion and error detection, and serving as inline documentation that helps other developers understand the code's intentions and requirements.</p>",
+              },
+              {
+                question: "What are some best practices for using type annotations?",
+                solution:
+                  "<p>Best practices include: always annotate function parameters and return types, use explicit annotations for complex types even if inference works, prefer specific types over 'any', use union types for values that can be multiple types, leverage interfaces for object types, and be consistent with your typing style across the codebase.</p>",
+              },
+            ],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html",
+              "https://www.typescriptlang.org/docs/handbook/basic-types.html",
+              "https://typescript-tutorial.net/typescript-tutorial/typescript-types/",
+            ],
+          },
+          {
+            topic: "Interfaces",
+            tags: [""],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Interfaces in TypeScript define the structure of objects by specifying what properties and methods an object should have. They serve as contracts that ensure objects conform to a specific shape, providing type safety and better code organization.
+     Interfaces are purely a compile-time construct and don't generate any JavaScript code.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+interface Person {
+  name: string;
+  age: number;
+  email: string;
+  isActive: boolean;
+}
+
+// Using the interface
+const user: Person = {
+  name: "John Doe",
+  age: 30,
+  email: "john@example.com",
+  isActive: true
+};
+
+// Function using interface
+function greetPerson(person: Person): string {
+  return \`Hello, \${person.name}! You are \${person.age} years old.\`;
+}
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  In this example, we define a Person interface that specifies the required properties and their types. Any object that implements this interface must have all these properties with the correct types. This ensures type safety and helps catch errors at compile time.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Interface Features
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optional Properties :</span> You can make properties optional using the question mark (?) operator. This allows objects to implement the interface without having all properties.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+interface User {
+  id: number;
+  name: string;
+  email?: string; // Optional property
+  phone?: string; // Optional property
+}
+
+const user1: User = { id: 1, name: "Alice" }; // Valid
+const user2: User = { id: 2, name: "Bob", email: "bob@example.com" }; // Also valid
+ </code>
+  </pre>
+  </div>
+
+Optional properties provide flexibility while maintaining type safety, allowing objects to have varying structures while still conforming to the interface.
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">Readonly Properties :</span> You can make properties readonly using the readonly modifier, preventing them from being modified after initialization.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+interface Config {
+  readonly apiUrl: string;
+  readonly timeout: number;
+  retries?: number;
+}
+
+const config: Config = {
+  apiUrl: "https://api.example.com",
+  timeout: 5000,
+  retries: 3
+};
+
+// config.apiUrl = "https://new-api.com"; // Error: Cannot assign to 'apiUrl' because it is a read-only property
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">Method Signatures :</span> 
+Interfaces can define method signatures, specifying the parameters and return types of functions that objects should implement.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+interface Calculator {
+  add(a: number, b: number): number;
+  subtract(a: number, b: number): number;
+  multiply(a: number, b: number): number;
+}
+
+const calc: Calculator = {
+  add: (a, b) => a + b,
+  subtract: (a, b) => a - b,
+  multiply: (a, b) => a * b
+};
+</code></pre>
+    </div>
+    Method signatures in interfaces ensure that implementing objects have the required functions with the correct parameter types and return types.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              `// Basic interface
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+
+// Interface with optional properties
+interface OrderItem {
+  productId: number;
+  quantity: number;
+  discount?: number;
+}
+
+// Interface with methods
+interface AuthService {
+  login(username: string, password: string): boolean;
+  logout(): void;
+  isLoggedIn(): boolean;
+}
+
+// Using interfaces
+const product: Product = {
+  id: 1,
+  name: "Laptop",
+  price: 999.99,
+  category: "Electronics"
+};`,
+            ],
+            questions: [
+              {
+                question: "What are interfaces in TypeScript?",
+                solution:
+                  "<p>Interfaces in TypeScript are contracts that define the structure of objects. They specify what properties and methods an object should have, including their types. Interfaces provide compile-time type checking and help ensure objects conform to a specific shape, improving code reliability and maintainability.</p>",
+              },
+              {
+                question: "How do you define an interface in TypeScript?",
+                solution: `<p>An interface is defined using the 'interface' keyword followed by the interface name and a block containing property definitions:</p>
+             <pre><code className="language-typescript">
+interface Person {
+  name: string;
+  age: number;
+  email: string;
+}
+            </code></pre>
+           <p>Each property is defined with its name, followed by a colon and its type. The interface serves as a blueprint for objects.</p>`,
+              },
+              {
+                question: "What are optional properties in interfaces?",
+                solution:
+                  "<p>Optional properties are defined using the question mark (?) after the property name. They allow objects to implement the interface without having all properties defined. For example: 'email?: string' means the email property is optional and can be undefined.</p>",
+              },
+              {
+                question: "How do readonly properties work in interfaces?",
+                solution:
+                  "<p>Readonly properties are defined using the 'readonly' modifier before the property name. Once initialized, these properties cannot be modified. For example: 'readonly id: number' creates a property that can only be set during object creation and cannot be changed afterward.</p>",
+              },
+              {
+                question: "Can interfaces define method signatures?",
+                solution:
+                  "<p>Yes, interfaces can define method signatures by specifying the method name, parameters, and return type. For example: 'calculateTotal(items: Item[]): number' defines a method that takes an array of items and returns a number. Objects implementing this interface must provide this method.</p>",
+              },
+              {
+                question: "What's the difference between interfaces and type aliases?",
+                solution:
+                  "<p>Interfaces are primarily used for object shapes and can be extended or implemented by classes. Type aliases are more flexible and can represent any type, including unions, primitives, and complex types. Interfaces support declaration merging, while type aliases do not. Both serve similar purposes for object typing.</p>",
+              },
+              {
+                question: "How do you extend interfaces?",
+                solution:
+                  "<p>Interfaces can be extended using the 'extends' keyword, allowing one interface to inherit properties from another. For example: 'interface Employee extends Person { employeeId: number; }' creates an Employee interface that includes all Person properties plus additional ones.</p>",
+              },
+              {
+                question: "Can you implement multiple interfaces?",
+                solution:
+                  "<p>Yes, classes can implement multiple interfaces by listing them after the 'implements' keyword, separated by commas. For example: 'class User implements Person, Serializable'. The class must then provide implementations for all methods and properties defined in both interfaces.</p>",
+              },
+              {
+                question: "What is interface declaration merging?",
+                solution:
+                  "<p>Interface declaration merging allows you to declare the same interface multiple times, and TypeScript will merge them into a single interface. This is useful for extending existing interfaces or adding properties to library interfaces. All declarations with the same name are automatically merged.</p>",
+              },
+              {
+                question: "How do you handle function types in interfaces?",
+                solution:
+                  "<p>Function types in interfaces can be defined in several ways: as method signatures 'methodName(params): returnType', as function properties 'property: (params) => returnType', or as call signatures '(params): returnType' for interfaces that represent functions themselves.</p>",
+              },
+              {
+                question: "Can interfaces have index signatures?",
+                solution:
+                  "<p>Yes, interfaces can have index signatures to allow objects with dynamic property names. For example: '[key: string]: any' allows any string key with any value type. Index signatures are useful for objects with unknown property names but known value types.</p>",
+              },
+              {
+                question: "What are the best practices for using interfaces?",
+                solution:
+                  "<p>Best practices include: using PascalCase for interface names, preferring interfaces over type aliases for object shapes, keeping interfaces focused and cohesive, using optional properties judiciously, leveraging readonly for immutable data, and organizing related interfaces in the same module or namespace.</p>",
+              },
+            ],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/objects.html",
+              "https://www.typescriptlang.org/docs/handbook/interfaces.html",
+              "https://typescript-tutorial.net/typescript-tutorial/typescript-interface/",
+            ],
+          },
+          {
+            topic: "Enums",
+            tags: [""],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Enums in TypeScript allow you to define a set of named constants, making your code more readable and maintainable. They provide a way to give friendly names to sets of numeric or string values, reducing the likelihood of errors from using magic numbers or strings.
+     Enums are useful for representing a fixed set of values like days of the week, colors, user roles, or status codes.   </p><div style="padding: 2px; border-radius: 8px; font-size: 14px;"><pre><code className="language-typescript">
+// Numeric enum (default)
+enum Direction {
+  Up,    // 0
+  Down,  // 1
+  Left,  // 2
+  Right  // 3
+}
+
+// String enum
+enum Status {
+  Pending = "PENDING",
+  Approved = "APPROVED",
+  Rejected = "REJECTED"
+}
+
+// Using enums
+let playerDirection: Direction = Direction.Up;
+let orderStatus: Status = Status.Pending;
+
+console.log(playerDirection); // 0
+console.log(orderStatus); // "PENDING"</code></pre></div><p style="line-height: 1.75;">
+  In this example, we define two types of enums: a numeric enum for directions and a string enum for status values. Numeric enums automatically assign values starting from 0, while string enums require explicit values. Both provide type safety and make code more expressive.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Enums
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Numeric Enums :</span> These are the default enum type where values are automatically assigned starting from 0, or you can specify custom numeric values.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+enum LogLevel {
+  Error = 1,
+  Warning = 2,
+  Info = 3,
+  Debug = 4
+}
+
+// Auto-incrementing from specified value
+enum HttpStatus {
+  OK = 200,
+  NotFound = 404,
+  InternalServerError = 500
+}
+
+function log(level: LogLevel, message: string) {
+  console.log(\`[\${LogLevel[level]}] \${message}\`);
+}
+
+log(LogLevel.Error, "Something went wrong!"); // [Error] Something went wrong!
+ </code>
+  </pre>
+  </div>
+
+Numeric enums support reverse mapping, allowing you to get the enum name from its value using bracket notation.
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">String Enums :</span> String enums require explicit values and provide better readability and debugging experience since the values are meaningful strings.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+enum Color {
+  Red = "red",
+  Green = "green",
+  Blue = "blue"
+}
+
+enum ApiEndpoint {
+  Users = "/api/users",
+  Posts = "/api/posts",
+  Comments = "/api/comments"
+}
+
+function setThemeColor(color: Color) {
+  document.body.style.backgroundColor = color;
+}
+
+setThemeColor(Color.Blue); // Sets background to "blue"
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">Const Enums :</span> 
+Const enums are inlined at compile time, resulting in more efficient code by removing the enum object from the generated JavaScript.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+const enum FileType {
+  PDF = "pdf",
+  Image = "image",
+  Video = "video"
+}
+
+// This gets inlined to: if (type === "pdf")
+if (type === FileType.PDF) {
+  // Handle PDF
+}
+
+// Regular enum would generate an object, const enum inlines the values
+</code></pre>
+    </div>
+    Const enums provide better performance but lose some runtime features like reverse mapping and iteration.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              `// Days of the week enum
+enum DayOfWeek {
+  Monday,
+  Tuesday,
+  Wednesday,
+  Thursday,
+  Friday,
+  Saturday,
+  Sunday
+}
+
+// User roles with string values
+enum UserRole {
+  Admin = "admin",
+  Moderator = "moderator",
+  User = "user",
+  Guest = "guest"
+}
+
+// HTTP methods
+enum HttpMethod {
+  GET = "GET",
+  POST = "POST",
+  PUT = "PUT",
+  DELETE = "DELETE"
+}
+
+// Using enums in functions
+function checkPermission(role: UserRole): boolean {
+  return role === UserRole.Admin || role === UserRole.Moderator;
+}
+
+const hasPermission = checkPermission(UserRole.Admin); // true`,
+            ],
+            questions: [
+              {
+                question: "What are enums in TypeScript?",
+                solution:
+                  "<p>Enums in TypeScript are a way to define a set of named constants, providing friendly names to sets of numeric or string values. They improve code readability and maintainability by replacing magic numbers or strings with meaningful names, and provide compile-time type checking.</p>",
+              },
+              {
+                question: "What's the difference between numeric and string enums?",
+                solution: `<p>Numeric enums automatically assign values starting from 0 (or a specified number), while string enums require explicit string values:</p>
+             <pre><code className="language-typescript">
+enum NumericEnum { A, B, C } // A=0, B=1, C=2
+enum StringEnum { A = "a", B = "b", C = "c" }
+            </code></pre>
+           <p>Numeric enums support reverse mapping, while string enums provide better debugging and serialization.</p>`,
+              },
+              {
+                question: "How do you access enum values?",
+                solution:
+                  "<p>Enum values are accessed using dot notation: EnumName.ValueName. For example, if you have 'enum Color { Red, Green, Blue }', you access values as Color.Red, Color.Green, etc. The actual value depends on whether it's a numeric or string enum.</p>",
+              },
+              {
+                question: "What is reverse mapping in enums?",
+                solution:
+                  "<p>Reverse mapping allows you to get the enum key from its numeric value using bracket notation. For example, if 'enum Direction { Up, Down }', then Direction[0] returns 'Up' and Direction[1] returns 'Down'. This only works with numeric enums, not string enums.</p>",
+              },
+              {
+                question: "What are const enums and when should you use them?",
+                solution:
+                  "<p>Const enums are inlined at compile time, replacing enum references with their literal values in the generated JavaScript. They're more efficient but lose runtime features like reverse mapping and iteration. Use them when you need better performance and don't require runtime enum operations.</p>",
+              },
+              {
+                question: "Can you mix numeric and string values in an enum?",
+                solution:
+                  "<p>Yes, you can create heterogeneous enums with mixed numeric and string values, but it's generally not recommended as it can be confusing. For example: 'enum Mixed { A = 1, B = 'hello', C = 2 }'. It's better to use either all numeric or all string values for consistency.</p>",
+              },
+              {
+                question: "How do enums help with type safety?",
+                solution:
+                  "<p>Enums provide compile-time type checking by restricting variables to only accept valid enum values. This prevents typos and invalid values. For example, a function parameter typed as 'Color' can only accept Color.Red, Color.Green, or Color.Blue, not arbitrary strings or numbers.</p>",
+              },
+              {
+                question: "Can you iterate over enum values?",
+                solution:
+                  "<p>You can iterate over numeric enums using Object.keys(), Object.values(), or Object.entries(). For string enums, you typically need to manually create an array of values. However, const enums cannot be iterated over since they're inlined at compile time.</p>",
+              },
+              {
+                question: "What's the generated JavaScript for enums?",
+                solution:
+                  "<p>Numeric enums generate an object with both forward and reverse mappings. String enums generate a simpler object with only forward mappings. Const enums generate no object - they're inlined. Understanding the generated code helps with debugging and performance considerations.</p>",
+              },
+              {
+                question: "How do you use enums with switch statements?",
+                solution:
+                  "<p>Enums work well with switch statements for exhaustive checking. TypeScript can warn if you haven't handled all enum cases. Use enum values as case labels: 'case Color.Red:'. This provides better type safety than using raw strings or numbers.</p>",
+              },
+              {
+                question: "Are there any drawbacks to using enums?",
+                solution:
+                  "<p>Enums add runtime overhead (except const enums), can make code more verbose, and numeric enums can be error-prone due to auto-incrementing values. They also create objects in the generated JavaScript, which might not be ideal for all use cases. Consider alternatives like union types for simpler scenarios.</p>",
+              },
+              {
+                question: "What are some best practices for using enums?",
+                solution:
+                  "<p>Best practices include: using PascalCase for enum names and values, preferring string enums for better debugging, using const enums for performance-critical code, keeping enum values meaningful and consistent, and avoiding heterogeneous enums. Document enum purposes and consider using union types for simple cases.</p>",
+              },
+            ],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/enums.html",
+              "https://typescript-tutorial.net/typescript-tutorial/typescript-enum/",
+              "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#enums",
+            ],
+          },
+          {
+            topic: "Union and Intersection Types",
+            tags: [""],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Union and intersection types are powerful TypeScript features that allow you to work with types in flexible ways. Union types (|) allow a value to be one of several types, while intersection types (&) combine multiple types into one. These features enable more expressive and precise type definitions.
+     Union types are useful when a value can be multiple types, while intersection types are useful when you need to combine features from multiple types.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Union types - value can be one of several types
+type StringOrNumber = string | number;
+type Status = "loading" | "success" | "error";
+
+let id: StringOrNumber = "abc123"; // Valid
+id = 456; // Also valid
+
+let currentStatus: Status = "loading"; // Valid
+// currentStatus = "pending"; // Error: not in union
+
+// Intersection types - combine multiple types
+type Name = { firstName: string; lastName: string };
+type Age = { age: number };
+type Person = Name & Age; // Has all properties
+
+const person: Person = {
+  firstName: "John",
+  lastName: "Doe",
+  age: 30
+};
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  In this example, StringOrNumber can be either a string or number, and Status can be one of three specific string values. The Person type combines Name and Age types, requiring all properties from both types. This provides flexibility while maintaining type safety.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Working with Union and Intersection Types
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Type Guards :</span> When working with union types, you often need to narrow down the type to safely access type-specific properties or methods. Type guards help determine the actual type at runtime.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+function processId(id: string | number): string {
+  if (typeof id === "string") {
+    return id.toUpperCase(); // Safe to use string methods
+  } else {
+    return id.toString(); // Safe to use number methods
+  }
+}
+
+// Discriminated unions
+interface LoadingState { status: "loading" }
+interface SuccessState { status: "success"; data: string }
+interface ErrorState { status: "error"; message: string }
+
+type AppState = LoadingState | SuccessState | ErrorState;
+
+function handleState(state: AppState) {
+  switch (state.status) {
+    case "loading":
+      return "Loading...";
+    case "success":
+      return state.data; // TypeScript knows this has data
+    case "error":
+      return \`Error: \${state.message}\`; // TypeScript knows this has message
+  }
+}
+ </code>
+  </pre>
+  </div>
+
+Type guards and discriminated unions help you safely work with union types by narrowing down the possibilities.
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">Combining Types :</span> Intersection types are useful for combining multiple type definitions, creating new types that have all properties from the intersected types.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+interface Timestamped {
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type UserWithTimestamps = User & Timestamped;
+
+const user: UserWithTimestamps = {
+  id: 1,
+  name: "Alice",
+  email: "alice@example.com",
+  createdAt: new Date(),
+  updatedAt: new Date()
+};
+
+// Mixing types and interfaces
+type DatabaseEntity = { id: number } & Timestamped;
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">Advanced Patterns :</span> 
+Union and intersection types can be combined with other TypeScript features to create sophisticated type systems and patterns.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Optional properties with unions
+type PartialUser = {
+  id: number;
+  name?: string;
+  email?: string;
+} | {
+  id: number;
+  name: string;
+  email: string;
+};
+
+// Function overloads with unions
+function format(value: string): string;
+function format(value: number): string;
+function format(value: string | number): string {
+  return typeof value === "string" ? value : value.toString();
+}
+
+// Conditional types with unions
+type NonNullable<T> = T extends null | undefined ? never : T;
+type StringOrNumber = NonNullable<string | number | null>; // string | number
+</code></pre>
+    </div>
+    These advanced patterns show how union and intersection types can be used to create complex, yet type-safe APIs.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              `// Basic union types
+type Theme = "light" | "dark";
+type Size = "small" | "medium" | "large";
+
+// Union with different types
+type Input = string | number | boolean;
+
+// Function with union parameter
+function setValue(value: Input): void {
+  console.log(\`Setting value: \${value}\`);
+}
+
+// Intersection types
+type Coordinates = { x: number; y: number };
+type Color = { color: string };
+type ColoredPoint = Coordinates & Color;
+
+const point: ColoredPoint = {
+  x: 10,
+  y: 20,
+  color: "red"
+};
+
+// Array of union types
+const mixedArray: (string | number)[] = ["hello", 42, "world", 123];`,
+            ],
+            questions: [
+              {
+                question: "What are union types in TypeScript?",
+                solution:
+                  "<p>Union types allow a variable to hold values of multiple types, specified using the pipe (|) operator. For example, 'string | number' means a value can be either a string or a number. Union types provide flexibility while maintaining type safety by allowing only the specified types.</p>",
+              },
+              {
+                question: "What are intersection types in TypeScript?",
+                solution: `<p>Intersection types combine multiple types into one using the ampersand (&) operator. The resulting type has all properties from all intersected types:</p>
+             <pre><code className="language-typescript">
+type A = { x: number };
+type B = { y: string };
+type C = A & B; // { x: number; y: string }
+            </code></pre>
+           <p>Intersection types are useful for combining features from different types or interfaces.</p>`,
+              },
+              {
+                question: "How do you work with union types safely?",
+                solution:
+                  "<p>To work with union types safely, use type guards to narrow down the type before accessing type-specific properties. Common type guards include 'typeof', 'instanceof', 'in' operator, and custom type predicates. This ensures you only access properties that exist on the current type.</p>",
+              },
+              {
+                question: "What are discriminated unions?",
+                solution:
+                  "<p>Discriminated unions are union types where each variant has a common property (discriminant) with a unique literal type. This allows TypeScript to distinguish between variants in switch statements or conditionals. For example, objects with a 'type' property that has different string literal values.</p>",
+              },
+              {
+                question: "Can you combine union and intersection types?",
+                solution:
+                  "<p>Yes, you can combine union and intersection types to create complex type expressions. For example, '(A & B) | (C & D)' creates a union where each variant is an intersection. However, be careful about readability and consider using type aliases for complex combinations.</p>",
+              },
+              {
+                question: "What happens when you intersect conflicting types?",
+                solution:
+                  "<p>When you intersect types with conflicting properties (same name, different types), the result is 'never' for that property. For example, '{ x: string } & { x: number }' results in '{ x: never }', which is essentially unusable. Avoid conflicting properties in intersection types.</p>",
+              },
+              {
+                question: "How do union types work with arrays?",
+                solution:
+                  "<p>Union types work with arrays by allowing array elements to be any of the union types. For example, '(string | number)[]' creates an array that can contain strings and numbers. You'll need type guards when processing individual elements to access type-specific methods.</p>",
+              },
+              {
+                question: "What's the difference between union types and enum?",
+                solution:
+                  "<p>Union types with string literals ('type Status = 'loading' | 'success' | 'error'') are similar to string enums but exist only at compile time. Enums generate runtime objects, while union types are purely compile-time constructs. Union types are often preferred for simple cases due to their simplicity.</p>",
+              },
+              {
+                question: "How do you create optional properties with union types?",
+                solution:
+                  "<p>Optional properties can be created by including 'undefined' in a union type or using the optional operator (?). For example, 'name: string | undefined' or 'name?: string'. Both approaches make the property optional, but they behave slightly differently in terms of presence checking.</p>",
+              },
+              {
+                question: "Can functions have union types for parameters and return values?",
+                solution:
+                  "<p>Yes, functions can have union types for both parameters and return values. For example, 'function process(input: string | number): string |
+      },
+      {
+        id: 2,
+        label: "Advanced",
+        concepts: [
+          {
+            topic: "Generic Types",
+            tags: [""],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Generic types in TypeScript allow you to create reusable components that work with multiple types rather than a single one. Generics provide a way to make components type-safe while maintaining flexibility. They are denoted by angle brackets with type parameters (usually T, U, V, etc.).
+     Generics enable you to write functions, classes, and interfaces that work with various types while preserving type information.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Generic function
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+// Usage with different types
+let stringResult = identity<string>("hello"); // Type: string
+let numberResult = identity<number>(42); // Type: number
+let booleanResult = identity<boolean>(true); // Type: boolean
+
+// Generic interface
+interface GenericIdentityFn<T> {
+  (arg: T): T;
+}
+
+let myIdentity: GenericIdentityFn<number> = identity;
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  In this example, the \`identity\` function uses a generic type parameter T, which allows it to work with any type while preserving the type information. When you call \`identity<string>("hello")\`, TypeScript knows the return type is string. The GenericIdentityFn interface demonstrates how generics can be used with interfaces.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Generic Concepts
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Generic Constraints :</span> You can constrain generic types to have certain properties or extend specific types using the \`extends\` keyword. This allows you to access properties on the generic type safely.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+interface Lengthwise {
+  length: number;
+}
+
+function loggingIdentity<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length); // Now we know it has a .length property
+  return arg;
+}
+
+// Works with strings, arrays, etc.
+loggingIdentity("hello"); // length: 5
+loggingIdentity([1, 2, 3, 4]); // length: 4
+// loggingIdentity(42); // Error: number doesn't have length property
+ </code>
+  </pre>
+  </div>
+
+By constraining T to extend Lengthwise, we ensure that any type passed to the function has a length property, making our function more type-safe while still being generic.
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">Mapped Types :</span> Mapped types allow you to create new types by transforming properties of existing types. They're particularly useful for creating utility types.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+type Partial<T> = {
+  [P in keyof T]?: T[P];
+};
+
+type Required<T> = {
+  [P in keyof T]-?: T[P];
+};
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type PartialUser = Partial<User>; // All properties optional
+type RequiredUser = Required<User>; // All properties required
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">Conditional Types :</span> 
+Conditional types allow you to create types that depend on a condition, similar to conditional expressions but for types. They follow the pattern \`T extends U ? X : Y\`.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+type ApiResponse<T> = T extends string 
+  ? { message: T } 
+  : T extends number 
+  ? { code: T } 
+  : { data: T };
+
+type StringResponse = ApiResponse<string>; // { message: string }
+type NumberResponse = ApiResponse<number>; // { code: number }
+type ObjectResponse = ApiResponse<object>; // { data: object }
+</code></pre>
+    </div>
+    Conditional types enable powerful type transformations and are the foundation for many advanced TypeScript utilities and patterns.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              `// Generic class example
+class DataHolder<T> {
+  private data: T;
+  
+  constructor(value: T) {
+    this.data = value;
+  }
+  
+  getData(): T {
+    return this.data;
+  }
+  
+  setData(value: T): void {
+    this.data = value;
+  }
+}
+
+const stringHolder = new DataHolder<string>("Hello");
+const numberHolder = new DataHolder<number>(42);
+const booleanHolder = new DataHolder<boolean>(true);
+
+// Generic with multiple type parameters
+function combine<T, U>(first: T, second: U): [T, U] {
+  return [first, second];
+}
+
+const result = combine<string, number>("hello", 42); // Type: [string, number]`,
+            ],
+            questions: [
+              {
+                question: "What are generic types in TypeScript?",
+                solution:
+                  "<p>Generic types are a way to create reusable components that work with multiple types while preserving type safety. They use type parameters (usually T, U, V) in angle brackets to represent types that will be specified when the generic is used. Generics allow you to write flexible, type-safe code that works with various data types.</p>",
+              },
+              {
+                question: "How do you create a generic function?",
+                solution: `<p>A generic function is created by adding type parameters in angle brackets after the function name:</p>
+             <pre><code className="language-typescript">
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+// Usage
+let result = identity<string>("hello");
+let num = identity<number>(42);
+            </code></pre>
+           <p>The type parameter T represents a type that will be determined when the function is called, allowing the same function to work with different types while maintaining type safety.</p>`,
+              },
+              {
+                question: "What are generic constraints and why are they useful?",
+                solution:
+                  "<p>Generic constraints limit the types that can be used with a generic by using the 'extends' keyword. They're useful when you need to access specific properties or methods on the generic type. For example, 'T extends { length: number }' ensures T has a length property, allowing you to safely access it within the generic function.</p>",
+              },
+              {
+                question: "How do you use generics with interfaces?",
+                solution:
+                  "<p>Interfaces can be made generic by adding type parameters after the interface name. For example: 'interface Container<T> { value: T; }'. This allows you to create different versions of the interface for different types while maintaining the same structure. You can then use it like 'Container<string>' or 'Container<number>'.</p>",
+              },
+              {
+                question: "What are mapped types and how do they work?",
+                solution:
+                  "<p>Mapped types create new types by transforming properties of existing types. They use the syntax '[P in keyof T]' to iterate over properties of type T. For example, 'type Partial<T> = { [P in keyof T]?: T[P] }' creates a new type where all properties of T are optional. Mapped types are the foundation for many utility types in TypeScript.</p>",
+              },
+              {
+                question: "Can you explain conditional types in TypeScript?",
+                solution:
+                  "<p>Conditional types allow you to create types based on conditions using the syntax 'T extends U ? X : Y'. If T extends U, the type resolves to X; otherwise, it resolves to Y. They're useful for creating complex type transformations and are essential for advanced TypeScript patterns and utility types.</p>",
+              },
+              {
+                question: "What is the difference between generic classes and generic functions?",
+                solution:
+                  "<p>Generic classes define type parameters at the class level, making them available to all methods and properties within the class. Generic functions define type parameters at the function level, scoped only to that function. Classes maintain the generic type throughout their lifetime, while functions resolve the generic type per call.</p>",
+              },
+              {
+                question: "How do you use multiple generic type parameters?",
+                solution:
+                  "<p>Multiple generic type parameters are separated by commas in the angle brackets. For example: 'function combine<T, U>(first: T, second: U): [T, U]'. Each parameter can be constrained independently, and they can reference each other in constraints like 'function example<T, U extends keyof T>(obj: T, key: U)'.</p>",
+              },
+              {
+                question: "What are some built-in utility types that use generics?",
+                solution:
+                  "<p>TypeScript provides many built-in utility types using generics, including: Partial<T> (makes all properties optional), Required<T> (makes all properties required), Pick<T, K> (picks specific properties), Omit<T, K> (omits specific properties), Record<K, T> (creates object type with specific keys), and many others.</p>",
+              },
+              {
+                question: "How do generics help with type inference?",
+                solution:
+                  "<p>Generics work with TypeScript's type inference system. Often, you don't need to explicitly specify the generic type because TypeScript can infer it from usage. For example, 'identity('hello')' infers T as string. This makes generics powerful and easy to use while maintaining type safety.</p>",
+              },
+              {
+                question: "What are the performance implications of using generics?",
+                solution:
+                  "<p>Generics have no runtime performance impact because they're a compile-time feature. TypeScript erases all type information during compilation, so generic code runs as regular JavaScript. The benefits are purely at development time: better type safety, IDE support, and error detection without affecting runtime performance.</p>",
+              },
+              {
+                question: "How do you debug complex generic types?",
+                solution:
+                  "<p>Debugging complex generic types can be done using: type aliases to break down complex types into smaller parts, the 'typeof' operator to inspect inferred types, IDE hover information to see resolved types, and utility types like 'Extends' to test type relationships. TypeScript's compiler can also provide detailed error messages for generic constraints.</p>",
+              },
+            ],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/generics.html",
+              "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html",
+              "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
+            ],
+          },
+        ],
+      },
+    ],
+  }
 ];
