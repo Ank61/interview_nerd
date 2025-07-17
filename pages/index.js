@@ -15,6 +15,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Star, Users, BookOpen, TrendingUp } from "lucide-react";
 
+
 export default function Home() {
   const router = useRouter();
   return (
