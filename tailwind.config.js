@@ -2,10 +2,10 @@
 module.exports = {
   darkMode: ["class"],
   content: [
-    './pages/**/*.{js,jsx}',
-    './components/**/*.{js,jsx}',
-    './app/**/*.{js,jsx}',
-    './src/**/*.{js,jsx}',
+    "./pages/**/*.{js,jsx}",
+    "./components/**/*.{js,jsx}",
+    "./app/**/*.{js,jsx}",
+    "./src/**/*.{js,jsx}",
   ],
   prefix: "",
   theme: {
@@ -72,6 +72,13 @@ module.exports = {
           border: "#0E5835",
           lightTheme: "#ecfdf5",
         },
+        TypeScript: {
+          bg: "#DEEEFF",
+          text: "#1E3A8A",
+          topic: "#1E3A8A",
+          border: "#1E3A8A",
+          lightTheme: "#F0F7FF",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -95,4 +102,4 @@ module.exports = {
     },
   },
   plugins: [require("tailwindcss-animate")],
-}
+};

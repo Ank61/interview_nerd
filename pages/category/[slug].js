@@ -151,6 +151,19 @@ export default function BasicTabs() {
                       color: "var(--node-topic)",
                     },
                   }
+                : topic === "Typescript"
+                ? {
+                    marginTop: 2,
+                    "& .MuiTabs-indicator": {
+                      backgroundColor: "var(--ts-bg)",
+                    },
+                    "& .MuiTab-root": {
+                      color: "var(--ts-text)",
+                    },
+                    "& .MuiTab-root.Mui-selected": {
+                      color: "var(--ts-topic)",
+                    },
+                  }
                 : {}
             }
           >
@@ -674,6 +687,8 @@ export default function BasicTabs() {
                     ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
                     : topic === "Node"
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                    : topic === "Typescript"
+                    ? "data-[state=active]:text-ts-text data-[state=active]:bg-TypeScript-bg"
                     : ""
                 }`}
               >
@@ -689,6 +704,8 @@ export default function BasicTabs() {
                     ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
                     : topic === "Node"
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                    : topic === "Typescript"
+                    ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
                     : ""
                 }`}
               >
@@ -704,6 +721,8 @@ export default function BasicTabs() {
                     ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
                     : topic === "Node"
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                    : topic === "Typescript"
+                    ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
                     : ""
                 }`}
               >
@@ -727,7 +746,9 @@ export default function BasicTabs() {
                   topic === "Javascript"
                     ? " text-Javascript-text"
                     : topic === "React"
-                    ? "text-React-text "
+                    ? "text-React-text"
+                    : topic === "Typescript"
+                    ? "text-TypeScript-text"
                     : ""
                 }`}
                         href="#"
@@ -739,6 +760,8 @@ export default function BasicTabs() {
                                 ? " text-Javascript-text"
                                 : topic === "React"
                                 ? "text-React-text "
+                                : topic === "Typescript"
+                                ? "text-TypeScript-text "
                                 : ""
                             }`}
                           >
@@ -758,6 +781,8 @@ export default function BasicTabs() {
                                     ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
                                     : topic === "React"
                                     ? "text-React-text bg-React-lightTheme hover:bg-React-bg"
+                                    : topic === "Typescript"
+                                    ? "text-TypeScript-text bg-TypeScript-lightTheme hover:bg-TypeScript-bg"
                                     : ""
                                 }`}
                               >
@@ -790,6 +815,8 @@ export default function BasicTabs() {
                     ? " text-Javascript-text"
                     : topic === "React"
                     ? "text-React-text"
+                    : topic === "Typescript"
+                    ? "text-TypeScript-text"
                     : ""
                 }`}
                         href="#"
@@ -801,6 +828,8 @@ export default function BasicTabs() {
                                 ? " text-Javascript-text"
                                 : topic === "React"
                                 ? "text-React-text"
+                                : topic === "Typescript"
+                                ? "text-TypeScript-text"
                                 : ""
                             }`}
                           >
@@ -820,6 +849,8 @@ export default function BasicTabs() {
                                     ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
                                     : topic === "React"
                                     ? "text-React-text bg-React-lightTheme hover:bg-React-bg"
+                                    : topic === "Typescript"
+                                    ? "text-TypeScript-text bg-TypeScript-lightTheme hover:bg-TypeScript-bg"
                                     : ""
                                 }`}
                               >
@@ -852,6 +883,8 @@ export default function BasicTabs() {
                     ? " text-Javascript-text"
                     : topic === "React"
                     ? "text-React-text"
+                    : topic === "Typescript"
+                    ? "text-TypeScript-text"
                     : ""
                 }`}
                         href="#"
@@ -863,6 +896,8 @@ export default function BasicTabs() {
                                 ? " text-Javascript-text"
                                 : topic === "React"
                                 ? "text-React-text"
+                                : topic === "Typescript"
+                                ? "text-TypeScript-text"
                                 : ""
                             }`}
                           >
@@ -882,6 +917,8 @@ export default function BasicTabs() {
                                     ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
                                     : topic === "React"
                                     ? "text-React-text bg-React-lightTheme hover:bg-React-bg"
+                                    : topic === "Typescript"
+                                    ? "text-TypeScript-text bg-TypeScript-lightTheme hover:bg-TypeScript-bg"
                                     : ""
                                 }`}
                               >
