@@ -26591,6 +26591,635 @@ let num = identity<number>(42);
               "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
             ],
           },
+          {
+            topic: "Template Literal Types",
+            tags: [""],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Template literal types allow you to create new string literal types by combining and manipulating existing string literal types. They use the same syntax as JavaScript template literals but operate at the type level. This powerful feature enables you to create precise string types that can represent patterns, validate formats, and provide excellent autocomplete support.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Basic template literal type
+type World = "world";
+type Greeting = \`hello \${World}\`; // "hello world"
+
+// With union types
+type Color = "red" | "blue" | "green";
+type Quantity = "one" | "two" | "many";
+type ColorfulItems = \`\${Quantity} \${Color} item\${Quantity extends "one" ? "" : "s"}\`;
+// "one red item" | "two red items" | "many red items" | "one blue item" | etc.
+
+// Event names pattern
+type EventName<T extends string> = \`on\${Capitalize<T>}\`;
+type ClickEvent = EventName<"click">; // "onClick"
+type HoverEvent = EventName<"hover">; // "onHover"
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  Template literal types shine when creating type-safe APIs, CSS-in-JS libraries, and configuration objects where string patterns matter. They work seamlessly with TypeScript's intrinsic string manipulation utilities like \`Uppercase\`, \`Lowercase\`, \`Capitalize\`, and \`Uncapitalize\`.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Template Literal Patterns
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Pattern Matching :</span> Template literal types can be used with conditional types to extract parts of strings, enabling powerful pattern matching capabilities.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+type ExtractRouteParams<T extends string> = 
+  T extends \`\${string}/:\${infer Param}/\${infer Rest}\`
+    ? { [K in Param | keyof ExtractRouteParams<Rest>]: string }
+    : T extends \`\${string}/:\${infer Param}\`
+    ? { [K in Param]: string }
+    : {};
+
+type UserRoute = ExtractRouteParams<"/users/:id/posts/:postId">;
+// { id: string; postId: string; }
+ </code>
+  </pre>
+  </div>
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">CSS Property Types :</span> Template literal types are excellent for creating type-safe CSS-in-JS solutions where property names and values need to follow specific patterns.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+type CSSUnit = "px" | "em" | "rem" | "%";
+type Size = \`\${number}\${CSSUnit}\`;
+type Color = \`#\${string}\` | \`rgb(\${number}, \${number}, \${number})\`;
+
+interface StyledProps {
+  width?: Size;
+  height?: Size;
+  color?: Color;
+  margin?: Size;
+  padding?: Size;
+}
+
+// Usage with full type checking
+const styles: StyledProps = {
+  width: "100px",
+  height: "50%",
+  color: "#ff0000",
+  margin: "1rem"
+};
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">SQL Query Builder :</span> 
+Template literal types can create type-safe SQL query builders where column names and operations are validated at compile time.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+type QueryBuilder<T, Selected extends keyof T = keyof T> = {
+  select<K extends keyof T>(...columns: K[]): QueryBuilder<T, K>;
+  where<K extends keyof T>(column: K, value: T[K]): QueryBuilder<T, Selected>;
+  orderBy<K extends keyof T>(column: K, direction?: "ASC" | "DESC"): QueryBuilder<T, Selected>;
+  build(): \`SELECT \${string} FROM \${string}\`;
+};
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+// Type-safe query building
+const query = new QueryBuilder<User>()
+  .select("id", "name")
+  .where("email", "user@example.com")
+  .orderBy("name", "ASC")
+  .build();
+</code></pre>
+    </div>
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              `// API endpoint type generation
+type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
+type ApiEndpoint<T extends string> = \`/api/\${T}\`;
+type ApiMethod<M extends HttpMethod, E extends string> = \`\${M} \${ApiEndpoint<E>}\`;
+
+type UserEndpoints = 
+  | ApiMethod<"GET", "users">
+  | ApiMethod<"POST", "users">
+  | ApiMethod<"PUT", "users/:id">
+  | ApiMethod<"DELETE", "users/:id">;
+
+// Environment variable type checking
+type EnvPrefix = "REACT_APP_" | "NODE_";
+type EnvVar<T extends string> = \`\${EnvPrefix}\${Uppercase<T>}\`;
+
+type AppConfig = {
+  [K in EnvVar<"api_url" | "debug_mode" | "version">]: string;
+};
+// Results in: "REACT_APP_API_URL" | "REACT_APP_DEBUG_MODE" | etc.
+
+// Path manipulation
+type JoinPath<T extends string, U extends string> = \`\${T}/\${U}\`;
+type BasePath = "/api/v1";
+type ResourcePath = JoinPath<BasePath, "users" | "posts" | "comments">;
+// "/api/v1/users" | "/api/v1/posts" | "/api/v1/comments"`,
+            ],
+            questions: [
+              {
+                question: "What are template literal types in TypeScript?",
+                solution:
+                  "<p>Template literal types are a TypeScript feature that allows you to create new string literal types by combining and manipulating existing string literal types. They use template literal syntax at the type level to create precise string patterns, enabling type-safe string manipulation and validation.</p>",
+              },
+              {
+                question: "How do you create a basic template literal type?",
+                solution: `<p>You create template literal types using backticks and \${} syntax, similar to JavaScript template literals:</p>
+             <pre><code className="language-typescript">
+type Name = "John";
+type Greeting = \`Hello, \${Name}!\`; // "Hello, John!"
+
+type Color = "red" | "blue";
+type Message = \`The color is \${Color}\`; // "The color is red" | "The color is blue"
+            </code></pre>`,
+              },
+              {
+                question:
+                  "What are the built-in string manipulation utilities?",
+                solution:
+                  "<p>TypeScript provides four intrinsic string manipulation utilities: Uppercase<T> (converts to uppercase), Lowercase<T> (converts to lowercase), Capitalize<T> (capitalizes first letter), and Uncapitalize<T> (uncapitalizes first letter). These work with template literal types to transform strings at the type level.</p>",
+              },
+              {
+                question:
+                  "How can you extract parts of strings using template literals?",
+                solution:
+                  "<p>You can extract parts of strings using the 'infer' keyword in conditional types combined with template literals. For example: 'T extends `prefix-${infer Rest}` ? Rest : never' extracts everything after 'prefix-' from a string type.</p>",
+              },
+              {
+                question:
+                  "What are practical use cases for template literal types?",
+                solution:
+                  "<p>Template literal types are useful for: creating type-safe APIs with specific endpoint patterns, CSS-in-JS libraries with property validation, event handling with naming conventions, configuration objects with structured keys, and SQL query builders with column validation.</p>",
+              },
+              {
+                question: "How do template literals work with union types?",
+                solution:
+                  "<p>When used with union types, template literals create a cartesian product of all possible combinations. For example: `${A | B}-${X | Y}` creates four possible types: 'A-X' | 'A-Y' | 'B-X' | 'B-Y'. This enables powerful pattern generation.</p>",
+              },
+              {
+                question: "Can you use template literals for pattern matching?",
+                solution:
+                  "<p>Yes, template literals combined with conditional types and 'infer' enable powerful pattern matching. You can extract parameters from URL patterns, parse structured strings, and validate formats at compile time, making them excellent for type-safe parsers and validators.</p>",
+              },
+              {
+                question:
+                  "What are the performance implications of template literal types?",
+                solution:
+                  "<p>Template literal types have no runtime performance impact since they're purely compile-time constructs. However, complex template literal types can slow down TypeScript compilation, especially with large union types or deep nesting. Use them judiciously for best compiler performance.</p>",
+              },
+              {
+                question: "How do you debug complex template literal types?",
+                solution:
+                  "<p>Debug template literal types by: breaking them into smaller type aliases, using TypeScript's type display in IDEs, creating test types to verify behavior, and using conditional types to inspect intermediate results. The TypeScript playground is also helpful for experimenting with complex patterns.</p>",
+              },
+              {
+                question: "Can template literals be used with mapped types?",
+                solution:
+                  "<p>Yes, template literals work excellently with mapped types to transform object keys. For example: 'type Getters<T> = { [K in keyof T as `get${Capitalize<K>}`]: () => T[K] }' creates getter methods for all properties in an object type.</p>",
+              },
+            ],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html",
+              "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
+              "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html",
+            ],
+          },
+          {
+            topic: "Decorator Pattern & Metadata",
+            tags: [""],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Decorators are a powerful TypeScript feature that allows you to modify or extend the behavior of classes, methods, properties, and parameters at design time. They use the @decorator syntax and are functions that are called with specific parameters depending on what they're decorating. Decorators enable meta-programming capabilities and are widely used in frameworks like Angular, NestJS, and TypeORM.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Enable decorators in tsconfig.json
+// "experimentalDecorators": true,
+// "emitDecoratorMetadata": true
+
+// Class decorator
+function Component(config: { selector: string; template: string }) {
+  return function <T extends { new (...args: any[]): {} }>(constructor: T) {
+    return class extends constructor {
+      selector = config.selector;
+      template = config.template;
+    };
+  };
+}
+
+// Method decorator
+function LogMethod(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  descriptor.value = function (...args: any[]) {
+    console.log(\`Calling \${propertyKey} with args:\`, args);
+    return originalMethod.apply(this, args);
+  };
+}
+
+@Component({
+  selector: 'app-user',
+  template: '<div>User Component</div>'
+})
+class UserComponent {
+  @LogMethod
+  getName(id: number): string {
+    return \`User \${id}\`;
+  }
+}
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  Decorators provide a clean way to add functionality to classes and their members without modifying their core logic. They're executed at class definition time, not instantiation time, making them perfect for configuration, validation, and meta-programming tasks.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Decorator Patterns
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Metadata Reflection :</span> Using the reflect-metadata library, decorators can store and retrieve metadata about classes, methods, and properties, enabling powerful runtime introspection.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+import "reflect-metadata";
+
+// Metadata keys
+const VALIDATION_KEY = Symbol("validation");
+const ROUTE_KEY = Symbol("route");
+
+// Property decorator for validation
+function IsRequired(target: any, propertyKey: string) {
+  const existingRules = Reflect.getMetadata(VALIDATION_KEY, target) || [];
+  existingRules.push({ property: propertyKey, rule: "required" });
+  Reflect.defineMetadata(VALIDATION_KEY, existingRules, target);
+}
+
+// Method decorator for routes
+function Route(path: string, method: string = "GET") {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    Reflect.defineMetadata(ROUTE_KEY, { path, method }, target, propertyKey);
+  };
+}
+
+class UserController {
+  @IsRequired
+  username: string;
+
+  @Route("/users/:id", "GET")
+  getUser(id: string) {
+    return { id, username: this.username };
+  }
+}
+
+// Validation function using metadata
+function validate(instance: any): boolean {
+  const rules = Reflect.getMetadata(VALIDATION_KEY, instance) || [];
+  return rules.every(rule => {
+    if (rule.rule === "required") {
+      return instance[rule.property] != null;
+    }
+    return true;
+  });
+}
+ </code>
+  </pre>
+  </div>
+      </li>
+     <li style="margin-top: 0.5rem;">
+     <span style="font-weight: 600; font-size: 1.1rem;">Decorator Factories :</span> Higher-order functions that return decorators, allowing for parameterized decoration and dynamic behavior based on configuration.
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Decorator factory for caching
+function Cache(ttl: number = 60000) {
+  const cache = new Map();
+  
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    
+    descriptor.value = function (...args: any[]) {
+      const key = JSON.stringify(args);
+      
+      if (cache.has(key)) {
+        const { value, timestamp } = cache.get(key);
+        if (Date.now() - timestamp < ttl) {
+          return value;
+        }
+      }
+      
+      const result = originalMethod.apply(this, args);
+      cache.set(key, { value: result, timestamp: Date.now() });
+      return result;
+    };
+  };
+}
+
+// Decorator factory for rate limiting
+function RateLimit(requestsPerMinute: number) {
+  const requests = new Map();
+  
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    
+    descriptor.value = function (...args: any[]) {
+      const now = Date.now();
+      const windowStart = now - 60000; // 1 minute window
+      
+      if (!requests.has(this)) {
+        requests.set(this, []);
+      }
+      
+      const userRequests = requests.get(this);
+      const recentRequests = userRequests.filter(time => time > windowStart);
+      
+      if (recentRequests.length >= requestsPerMinute) {
+        throw new Error("Rate limit exceeded");
+      }
+      
+      recentRequests.push(now);
+      requests.set(this, recentRequests);
+      
+      return originalMethod.apply(this, args);
+    };
+  };
+}
+
+class ApiService {
+  @Cache(30000) // 30 seconds cache
+  @RateLimit(100) // 100 requests per minute
+  async fetchData(id: string): Promise<any> {
+    // Expensive operation
+    return fetch(\`/api/data/\${id}\`).then(r => r.json());
+  }
+}
+</code></pre>
+    </div>
+       </li>
+     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+      <span style="font-weight: 600; font-size: 1.1rem; ">Dependency Injection :</span> 
+Decorators can implement sophisticated dependency injection systems, automatically resolving and injecting dependencies into class constructors and methods.
+ <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Service registry
+const serviceRegistry = new Map();
+
+// Injectable decorator
+function Injectable(token?: string) {
+  return function <T extends { new (...args: any[]): {} }>(constructor: T) {
+    const serviceToken = token || constructor.name;
+    serviceRegistry.set(serviceToken, constructor);
+    return constructor;
+  };
+}
+
+// Inject decorator
+function Inject(token: string) {
+  return function (target: any, propertyKey: string | symbol | undefined, parameterIndex: number) {
+    const existingTokens = Reflect.getMetadata("design:paramtypes", target) || [];
+    existingTokens[parameterIndex] = token;
+    Reflect.defineMetadata("design:paramtypes", existingTokens, target);
+  };
+}
+
+// Container class
+class Container {
+  static resolve<T>(token: string): T {
+    const ServiceClass = serviceRegistry.get(token);
+    if (!ServiceClass) {
+      throw new Error(\`Service \${token} not found\`);
+    }
+    
+    const paramTypes = Reflect.getMetadata("design:paramtypes", ServiceClass) || [];
+    const dependencies = paramTypes.map(paramType =>`,
+          },
+          //       {
+          //         id: 2,
+          //         label: "Advanced",
+          //         concepts: [
+          //           {
+          //             topic: "Generic Types",
+          //             tags: [""],
+          //             explanation: `<div>
+          //    <p style="line-height: 1.75; margin-top: 1.5rem;">
+          //      Generic types in TypeScript allow you to create reusable components that work with multiple types rather than a single one. Generics provide a way to make components type-safe while maintaining flexibility. They are denoted by angle brackets with type parameters (usually T, U, V, etc.).
+          //      Generics enable you to write functions, classes, and interfaces that work with various types while preserving type information.
+          //    </p>
+          //    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          //       <pre><code className="language-typescript">
+          // // Generic function
+          // function identity<T>(arg: T): T {
+          //   return arg;
+          // }
+
+          // // Usage with different types
+          // let stringResult = identity<string>("hello"); // Type: string
+          // let numberResult = identity<number>(42); // Type: number
+          // let booleanResult = identity<boolean>(true); // Type: boolean
+
+          // // Generic interface
+          // interface GenericIdentityFn<T> {
+          //   (arg: T): T;
+          // }
+
+          // let myIdentity: GenericIdentityFn<number> = identity;
+          //  </code>
+          //   </pre>
+          //   </div>
+          //  <p style="line-height: 1.75;">
+          //   In this example, the \`identity\` function uses a generic type parameter T, which allows it to work with any type while preserving the type information. When you call \`identity<string>("hello")\`, TypeScript knows the return type is string. The GenericIdentityFn interface demonstrates how generics can be used with interfaces.
+          //   </p>
+          //    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+          //      Advanced Generic Concepts
+          //    </h4>
+
+          //    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
+          //      <li style="margin-top: 0.5rem;">
+          //       <span style="font-weight: 600; font-size: 1.1rem;">Generic Constraints :</span> You can constrain generic types to have certain properties or extend specific types using the \`extends\` keyword. This allows you to access properties on the generic type safely.
+          //  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          //       <pre><code className="language-typescript">
+          // interface Lengthwise {
+          //   length: number;
+          // }
+
+          // function loggingIdentity<T extends Lengthwise>(arg: T): T {
+          //   console.log(arg.length); // Now we know it has a .length property
+          //   return arg;
+          // }
+
+          // // Works with strings, arrays, etc.
+          // loggingIdentity("hello"); // length: 5
+          // loggingIdentity([1, 2, 3, 4]); // length: 4
+          // // loggingIdentity(42); // Error: number doesn't have length property
+          //  </code>
+          //   </pre>
+          //   </div>
+
+          // By constraining T to extend Lengthwise, we ensure that any type passed to the function has a length property, making our function more type-safe while still being generic.
+          //       </li>
+          //      <li style="margin-top: 0.5rem;">
+          //      <span style="font-weight: 600; font-size: 1.1rem;">Mapped Types :</span> Mapped types allow you to create new types by transforming properties of existing types. They're particularly useful for creating utility types.
+          //      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          //       <pre><code className="language-typescript">
+          // type Partial<T> = {
+          //   [P in keyof T]?: T[P];
+          // };
+
+          // type Required<T> = {
+          //   [P in keyof T]-?: T[P];
+          // };
+
+          // interface User {
+          //   id: number;
+          //   name: string;
+          //   email: string;
+          // }
+
+          // type PartialUser = Partial<User>; // All properties optional
+          // type RequiredUser = Required<User>; // All properties required
+          // </code></pre>
+          //     </div>
+          //        </li>
+          //      <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+          //       <span style="font-weight: 600; font-size: 1.1rem; ">Conditional Types :</span>
+          // Conditional types allow you to create types that depend on a condition, similar to conditional expressions but for types. They follow the pattern \`T extends U ? X : Y\`.
+          //  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          //       <pre><code className="language-typescript">
+          // type NonNullable<T> = T extends null | undefined ? never : T;
+
+          // type ApiResponse<T> = T extends string
+          //   ? { message: T }
+          //   : T extends number
+          //   ? { code: T }
+          //   : { data: T };
+
+          // type StringResponse = ApiResponse<string>; // { message: string }
+          // type NumberResponse = ApiResponse<number>; // { code: number }
+          // type ObjectResponse = ApiResponse<object>; // { data: object }
+          // </code></pre>
+          //     </div>
+          //     Conditional types enable powerful type transformations and are the foundation for many advanced TypeScript utilities and patterns.
+          //      </li>
+          //    </ol>
+          //  </div>`,
+          //             examples: [
+          //               `// Generic class example
+          // class DataHolder<T> {
+          //   private data: T;
+
+          //   constructor(value: T) {
+          //     this.data = value;
+          //   }
+
+          //   getData(): T {
+          //     return this.data;
+          //   }
+
+          //   setData(value: T): void {
+          //     this.data = value;
+          //   }
+          // }
+
+          // const stringHolder = new DataHolder<string>("Hello");
+          // const numberHolder = new DataHolder<number>(42);
+          // const booleanHolder = new DataHolder<boolean>(true);
+
+          // // Generic with multiple type parameters
+          // function combine<T, U>(first: T, second: U): [T, U] {
+          //   return [first, second];
+          // }
+
+          // const result = combine<string, number>("hello", 42); // Type: [string, number]`,
+          //             ],
+          //             questions: [
+          //               {
+          //                 question: "What are generic types in TypeScript?",
+          //                 solution:
+          //                   "<p>Generic types are a way to create reusable components that work with multiple types while preserving type safety. They use type parameters (usually T, U, V) in angle brackets to represent types that will be specified when the generic is used. Generics allow you to write flexible, type-safe code that works with various data types.</p>",
+          //               },
+          //               {
+          //                 question: "How do you create a generic function?",
+          //                 solution: `<p>A generic function is created by adding type parameters in angle brackets after the function name:</p>
+          //              <pre><code className="language-typescript">
+          // function identity<T>(arg: T): T {
+          //   return arg;
+          // }
+
+          // // Usage
+          // let result = identity<string>("hello");
+          // let num = identity<number>(42);
+          //             </code></pre>
+          //            <p>The type parameter T represents a type that will be determined when the function is called, allowing the same function to work with different types while maintaining type safety.</p>`,
+          //               },
+          //               {
+          //                 question:
+          //                   "What are generic constraints and why are they useful?",
+          //                 solution:
+          //                   "<p>Generic constraints limit the types that can be used with a generic by using the 'extends' keyword. They're useful when you need to access specific properties or methods on the generic type. For example, 'T extends { length: number }' ensures T has a length property, allowing you to safely access it within the generic function.</p>",
+          //               },
+          //               {
+          //                 question: "How do you use generics with interfaces?",
+          //                 solution:
+          //                   "<p>Interfaces can be made generic by adding type parameters after the interface name. For example: 'interface Container<T> { value: T; }'. This allows you to create different versions of the interface for different types while maintaining the same structure. You can then use it like 'Container<string>' or 'Container<number>'.</p>",
+          //               },
+          //               {
+          //                 question: "What are mapped types and how do they work?",
+          //                 solution:
+          //                   "<p>Mapped types create new types by transforming properties of existing types. They use the syntax '[P in keyof T]' to iterate over properties of type T. For example, 'type Partial<T> = { [P in keyof T]?: T[P] }' creates a new type where all properties of T are optional. Mapped types are the foundation for many utility types in TypeScript.</p>",
+          //               },
+          //               {
+          //                 question: "Can you explain conditional types in TypeScript?",
+          //                 solution:
+          //                   "<p>Conditional types allow you to create types based on conditions using the syntax 'T extends U ? X : Y'. If T extends U, the type resolves to X; otherwise, it resolves to Y. They're useful for creating complex type transformations and are essential for advanced TypeScript patterns and utility types.</p>",
+          //               },
+          //               {
+          //                 question:
+          //                   "What is the difference between generic classes and generic functions?",
+          //                 solution:
+          //                   "<p>Generic classes define type parameters at the class level, making them available to all methods and properties within the class. Generic functions define type parameters at the function level, scoped only to that function. Classes maintain the generic type throughout their lifetime, while functions resolve the generic type per call.</p>",
+          //               },
+          //               {
+          //                 question: "How do you use multiple generic type parameters?",
+          //                 solution:
+          //                   "<p>Multiple generic type parameters are separated by commas in the angle brackets. For example: 'function combine<T, U>(first: T, second: U): [T, U]'. Each parameter can be constrained independently, and they can reference each other in constraints like 'function example<T, U extends keyof T>(obj: T, key: U)'.</p>",
+          //               },
+          //               {
+          //                 question:
+          //                   "What are some built-in utility types that use generics?",
+          //                 solution:
+          //                   "<p>TypeScript provides many built-in utility types using generics, including: Partial<T> (makes all properties optional), Required<T> (makes all properties required), Pick<T, K> (picks specific properties), Omit<T, K> (omits specific properties), Record<K, T> (creates object type with specific keys), and many others.</p>",
+          //               },
+          //               {
+          //                 question: "How do generics help with type inference?",
+          //                 solution:
+          //                   "<p>Generics work with TypeScript's type inference system. Often, you don't need to explicitly specify the generic type because TypeScript can infer it from usage. For example, 'identity('hello')' infers T as string. This makes generics powerful and easy to use while maintaining type safety.</p>",
+          //               },
+          //               {
+          //                 question:
+          //                   "What are the performance implications of using generics?",
+          //                 solution:
+          //                   "<p>Generics have no runtime performance impact because they're a compile-time feature. TypeScript erases all type information during compilation, so generic code runs as regular JavaScript. The benefits are purely at development time: better type safety, IDE support, and error detection without affecting runtime performance.</p>",
+          //               },
+          //               {
+          //                 question: "How do you debug complex generic types?",
+          //                 solution:
+          //                   "<p>Debugging complex generic types can be done using: type aliases to break down complex types into smaller parts, the 'typeof' operator to inspect inferred types, IDE hover information to see resolved types, and utility types like 'Extends' to test type relationships. TypeScript's compiler can also provide detailed error messages for generic constraints.</p>",
+          //               },
+          //             ],
+          //             links: [
+          //               "https://www.typescriptlang.org/docs/handbook/2/generics.html",
+          //               "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html",
+          //               "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
+          //             ],
+          //           },
+          //         ],
+          //       },
         ],
       },
     ],
