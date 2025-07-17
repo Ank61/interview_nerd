@@ -25585,6 +25585,791 @@ function isNotNull<T>(value: T | null): value is T {
               "https://basarat.gitbook.io/typescript/type-system/typeguard",
             ],
           },
+          {
+            topic: "Generics",
+            tags: [
+              "typescript",
+              "generics",
+              "type-parameters",
+              "reusability",
+              "constraints",
+            ],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      Generics in TypeScript allow you to create reusable components that work with multiple types while maintaining type safety. They enable you to write flexible, type-safe code by parameterizing types, making functions, classes, and interfaces work with a variety of types without sacrificing compile-time type checking.
+      Generics provide a way to make components work over a variety of types rather than a single one, allowing users to consume these components and use their own types.
+    </p>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Basic generic function
+function identity<T>(arg: T): T {
+  return arg;
+}
+
+// Usage with different types
+const stringResult = identity<string>("hello");
+const numberResult = identity<number>(42);
+const booleanResult = identity(true); // Type inference
+
+// Generic array function
+function getFirstElement<T>(arr: T[]): T | undefined {
+  return arr[0];
+}
+
+const firstNumber = getFirstElement([1, 2, 3]); // number | undefined
+const firstString = getFirstElement(["a", "b", "c"]); // string | undefined
+      </code></pre>
+    </div>
+    
+    <p style="line-height: 1.75;">
+      In this example, the generic type parameter T allows the function to work with any type while preserving the relationship between input and output types. TypeScript can often infer the generic type from usage context.
+    </p>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Generic Constraints
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Basic constraint
+interface Lengthwise {
+  length: number;
+}
+
+function logLength<T extends Lengthwise>(arg: T): T {
+  console.log(arg.length);
+  return arg;
+}
+
+// Works with arrays, strings, etc.
+logLength("hello"); // string has length
+logLength([1, 2, 3]); // array has length
+// logLength(42); // Error: number doesn't have length
+
+// Keyof constraint
+function getProperty<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+
+const person = { name: "John", age: 30 };
+const name = getProperty(person, "name"); // string
+const age = getProperty(person, "age"); // number
+      </code></pre>
+    </div>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Generic Classes and Interfaces
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Generic interface
+interface Repository<T> {
+  create(item: T): T;
+  findById(id: string): T | undefined;
+  update(id: string, item: Partial<T>): T;
+  delete(id: string): boolean;
+}
+
+// Generic class
+class Stack<T> {
+  private items: T[] = [];
+  
+  push(item: T): void {
+    this.items.push(item);
+  }
+  
+  pop(): T | undefined {
+    return this.items.pop();
+  }
+  
+  peek(): T | undefined {
+    return this.items[this.items.length - 1];
+  }
+  
+  isEmpty(): boolean {
+    return this.items.length === 0;
+  }
+}
+
+const numberStack = new Stack<number>();
+const stringStack = new Stack<string>();
+      </code></pre>
+    </div>
+  </div>`,
+            examples: [
+              `// Generic utility types
+type ApiResponse<T> = {
+  data: T;
+  status: number;
+  message: string;
+};
+
+type User = {
+  id: number;
+  name: string;
+  email: string;
+};
+
+const userResponse: ApiResponse<User> = {
+  data: { id: 1, name: "John", email: "john@example.com" },
+  status: 200,
+  message: "Success"
+};
+
+// Generic function with multiple type parameters
+function merge<T, U>(first: T, second: U): T & U {
+  return { ...first, ...second };
+}
+
+const merged = merge({ name: "John" }, { age: 30 });
+// merged type is { name: string } & { age: number }`,
+
+              `// Advanced generic patterns
+class EventEmitter<T extends Record<string, any[]>> {
+  private listeners: {
+    [K in keyof T]?: Array<(...args: T[K]) => void>;
+  } = {};
+  
+  on<K extends keyof T>(event: K, listener: (...args: T[K]) => void): void {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    this.listeners[event]!.push(listener);
+  }
+  
+  emit<K extends keyof T>(event: K, ...args: T[K]): void {
+    const eventListeners = this.listeners[event];
+    if (eventListeners) {
+      eventListeners.forEach(listener => listener(...args));
+    }
+  }
+}
+
+// Usage
+type Events = {
+  userLogin: [string, number]; // username, timestamp
+  userLogout: [string];
+  error: [Error];
+};
+
+const emitter = new EventEmitter<Events>();
+emitter.on('userLogin', (username, timestamp) => {
+  console.log(\`User \${username} logged in at \${timestamp}\`);
+});`,
+
+              `// Generic conditional types
+type NonNullable<T> = T extends null | undefined ? never : T;
+
+type ApiResult<T> = T extends string 
+  ? { text: T }
+  : T extends number 
+  ? { value: T }
+  : T extends boolean 
+  ? { flag: T }
+  : { data: T };
+
+// Mapped types with generics
+type Optional<T> = {
+  [K in keyof T]?: T[K];
+};
+
+type Required<T> = {
+  [K in keyof T]-?: T[K];
+};
+
+type ReadOnly<T> = {
+  readonly [K in keyof T]: T[K];
+};
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+type PartialUser = Optional<User>; // All properties optional
+type RequiredUser = Required<User>; // All properties required
+type ReadOnlyUser = ReadOnly<User>; // All properties readonly`,
+            ],
+
+            questions: [
+              {
+                question: "What are generics in TypeScript?",
+                solution:
+                  "<p>Generics are a way to create reusable components that work with multiple types while maintaining type safety. They allow you to parameterize types using type variables (like T), enabling functions, classes, and interfaces to work with various types without sacrificing compile-time type checking.</p>",
+              },
+              {
+                question: "How do you constrain generic types?",
+                solution: `<p>You can constrain generic types using the 'extends' keyword:</p>
+        <pre><code className="language-typescript">
+function process<T extends string | number>(value: T): T {
+  return value;
+}
+        </code></pre>
+        <p>This ensures T can only be string or number types.</p>`,
+              },
+              {
+                question: "What is the keyof constraint in generics?",
+                solution: `<p>The keyof constraint ensures a generic type parameter is a key of another type:</p>
+        <pre><code className="language-typescript">
+function getProp<T, K extends keyof T>(obj: T, key: K): T[K] {
+  return obj[key];
+}
+        </code></pre>
+        <p>This guarantees that K is a valid property key of T.</p>`,
+              },
+              {
+                question: "How do generic classes work?",
+                solution:
+                  "<p>Generic classes use type parameters to create reusable class definitions that work with multiple types. The type parameter is specified when creating an instance of the class, and all methods and properties can use this type parameter to maintain type safety throughout the class.</p>",
+              },
+              {
+                question: "What are generic interfaces?",
+                solution:
+                  "<p>Generic interfaces define contracts that can work with multiple types. They use type parameters to specify the shape of objects while allowing the specific types to be determined when the interface is used. This enables creating flexible, reusable interface definitions.</p>",
+              },
+              {
+                question: "How does type inference work with generics?",
+                solution:
+                  "<p>TypeScript can often infer generic types from usage context, eliminating the need to explicitly specify type parameters. For example, when calling a generic function with specific arguments, TypeScript can deduce the generic type from the argument types.</p>",
+              },
+              {
+                question: "What are conditional types in generics?",
+                solution: `<p>Conditional types allow you to create types that depend on a condition:</p>
+        <pre><code className="language-typescript">
+type ApiResult<T> = T extends string ? { text: T } : { data: T };
+        </code></pre>
+        <p>The resulting type depends on whether T extends string.</p>`,
+              },
+              {
+                question: "How do you use multiple generic type parameters?",
+                solution: `<p>You can use multiple type parameters separated by commas:</p>
+        <pre><code className="language-typescript">
+function merge<T, U>(first: T, second: U): T & U {
+  return { ...first, ...second };
+}
+        </code></pre>
+        <p>This allows functions to work with multiple different types simultaneously.</p>`,
+              },
+              {
+                question: "What are mapped types with generics?",
+                solution:
+                  "<p>Mapped types use generics to transform existing types by iterating over their properties. Common examples include making all properties optional, required, or readonly. They use the 'in keyof' syntax to iterate over type properties and apply transformations.</p>",
+              },
+              {
+                question: "How do you create generic utility types?",
+                solution:
+                  "<p>Generic utility types are reusable type transformations that accept type parameters. Examples include Partial<T>, Required<T>, and custom utilities. They help create consistent type transformations across your codebase while maintaining type safety.</p>",
+              },
+              {
+                question: "What are the benefits of using generics?",
+                solution:
+                  "<p>Generics provide type safety, code reusability, better IntelliSense support, and compile-time error checking. They eliminate the need for any types or function overloads, making code more maintainable and less prone to runtime errors while preserving type information.</p>",
+              },
+              {
+                question:
+                  "How do you handle generic constraints with complex types?",
+                solution:
+                  "<p>Complex generic constraints can combine multiple conditions using intersection types, union types, and conditional types. You can create sophisticated type relationships that ensure generic parameters meet specific structural requirements while maintaining flexibility.</p>",
+              },
+            ],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/generics.html",
+              "https://www.typescriptlang.org/docs/handbook/2/generic-constraints.html",
+              "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
+              "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html",
+              "https://basarat.gitbook.io/typescript/type-system/generics",
+            ],
+          },
+          {
+            topic: "Utility Types",
+            tags: [
+              "typescript",
+              "utility-types",
+              "mapped-types",
+              "conditional-types",
+              "type-manipulation",
+            ],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      Utility types in TypeScript are pre-built generic types that help transform and manipulate existing types. They provide common type transformations like making properties optional, required, or readonly, and enable powerful type-level programming. These utilities help reduce boilerplate code and create more maintainable type definitions.
+      TypeScript provides many built-in utility types, and you can also create custom utility types to solve specific problems in your codebase.
+    </p>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Basic utility types
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  age: number;
+}
+
+// Make all properties optional
+type PartialUser = Partial<User>;
+// { id?: number; name?: string; email?: string; age?: number; }
+
+// Make all properties required
+type RequiredUser = Required<PartialUser>;
+// { id: number; name: string; email: string; age: number; }
+
+// Make all properties readonly
+type ReadonlyUser = Readonly<User>;
+// { readonly id: number; readonly name: string; ... }
+
+// Pick specific properties
+type UserSummary = Pick<User, 'id' | 'name'>;
+// { id: number; name: string; }
+
+// Omit specific properties
+type UserWithoutId = Omit<User, 'id'>;
+// { name: string; email: string; age: number; }
+      </code></pre>
+    </div>
+    
+    <p style="line-height: 1.75;">
+      These utility types are particularly useful when working with APIs, forms, and data transformations where you need different variations of the same base type structure.
+    </p>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Advanced Utility Types
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Record type
+type UserRoles = 'admin' | 'user' | 'guest';
+type RolePermissions = Record<UserRoles, string[]>;
+// { admin: string[]; user: string[]; guest: string[]; }
+
+// Exclude and Extract
+type Status = 'pending' | 'approved' | 'rejected';
+type ActiveStatus = Exclude<Status, 'rejected'>; // 'pending' | 'approved'
+type FinalStatus = Extract<Status, 'approved' | 'rejected'>; // 'approved' | 'rejected'
+
+// NonNullable
+type MaybeString = string | null | undefined;
+type DefiniteString = NonNullable<MaybeString>; // string
+
+// ReturnType and Parameters
+function createUser(name: string, age: number): User {
+  return { id: 1, name, email: '', age };
+}
+
+type CreateUserReturn = ReturnType<typeof createUser>; // User
+type CreateUserParams = Parameters<typeof createUser>; // [string, number]
+
+// ConstructorParameters
+class Database {
+  constructor(host: string, port: number) {}
+}
+
+type DbConstructorParams = ConstructorParameters<typeof Database>; // [string, number]
+      </code></pre>
+    </div>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Custom Utility Types
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Make specific properties optional
+type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+
+type UserWithOptionalEmail = PartialBy<User, 'email'>;
+// { id: number; name: string; email?: string; age: number; }
+
+// Make specific properties required
+type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+
+// Deep readonly
+type DeepReadonly<T> = {
+  readonly [P in keyof T]: T[P] extends object ? DeepReadonly<T[P]> : T[P];
+};
+
+// Flatten nested objects
+type Flatten<T> = T extends object
+  ? T extends infer O
+    ? { [K in keyof O]: O[K] }
+    : never
+  : T;
+
+// Get function names from an object
+type FunctionPropertyNames<T> = {
+  [K in keyof T]: T[K] extends Function ? K : never;
+}[keyof T];
+
+type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+      </code></pre>
+    </div>
+  </div>`,
+
+            examples: [
+              `// Form handling with utility types
+interface UserForm {
+  name: string;
+  email: string;
+  age: number;
+  password: string;
+}
+
+// Form state with all optional fields
+type FormState = Partial<UserForm>;
+
+// Form errors
+type FormErrors = Partial<Record<keyof UserForm, string>>;
+
+// API payload (without password)
+type UserApiPayload = Omit<UserForm, 'password'>;
+
+// Form validation
+function validateForm(form: FormState): FormErrors {
+  const errors: FormErrors = {};
+  
+  if (!form.name) errors.name = 'Name is required';
+  if (!form.email) errors.email = 'Email is required';
+  if (!form.age || form.age < 0) errors.age = 'Valid age is required';
+  
+  return errors;
+}`,
+
+              `// API response handling
+interface ApiResponse<T> {
+  data: T;
+  status: number;
+  message: string;
+}
+
+type UserResponse = ApiResponse<User>;
+type UsersResponse = ApiResponse<User[]>;
+
+// Create update types
+type UserUpdate = Partial<Omit<User, 'id'>>;
+type UserCreate = Omit<User, 'id'>;
+
+// Database operations
+interface Repository<T> {
+  create(item: Omit<T, 'id'>): Promise<T>;
+  update(id: number, item: Partial<Omit<T, 'id'>>): Promise<T>;
+  findById(id: number): Promise<T | null>;
+  delete(id: number): Promise<boolean>;
+}
+
+const userRepository: Repository<User> = {
+  create: async (userData: UserCreate) => ({ id: 1, ...userData }),
+  update: async (id: number, updates: UserUpdate) => ({ id, name: '', email: '', age: 0, ...updates }),
+  findById: async (id: number) => null,
+  delete: async (id: number) => true,
+};`,
+
+              `// Event system with utility types
+interface EventMap {
+  'user:created': { user: User };
+  'user:updated': { user: User; changes: Partial<User> };
+  'user:deleted': { userId: number };
+  'system:error': { error: Error };
+}
+
+type EventName = keyof EventMap;
+type EventData<T extends EventName> = EventMap[T];
+
+class EventEmitter {
+  private listeners: {
+    [K in EventName]?: Array<(data: EventData<K>) => void>;
+  } = {};
+  
+  on<T extends EventName>(event: T, listener: (data: EventData<T>) => void): void {
+    if (!this.listeners[event]) {
+      this.listeners[event] = [];
+    }
+    (this.listeners[event] as any[]).push(listener);
+  }
+  
+  emit<T extends EventName>(event: T, data: EventData<T>): void {
+    const eventListeners = this.listeners[event];
+    if (eventListeners) {
+      eventListeners.forEach(listener => listener(data));
+    }
+  }
+}
+
+// Usage
+const emitter = new EventEmitter();
+emitter.on('user:created', ({ user }) => {
+  console.log(\`User created: \${user.name}\`);
+});`,
+            ],
+            questions: [
+              {
+                question: "What are utility types in TypeScript?",
+                solution:
+                  "<p>Utility types are pre-built generic types that help transform and manipulate existing types. They provide common type transformations like making properties optional (Partial), required (Required), or readonly (Readonly), enabling powerful type-level programming and reducing boilerplate code.</p>",
+              },
+              {
+                question: "What does the Partial<T> utility type do?",
+                solution: `<p>Partial<T> makes all properties of type T optional:</p>
+        <pre><code className="language-typescript">
+interface User { name: string; age: number; }
+type PartialUser = Partial<User>; // { name?: string; age?: number; }
+        </code></pre>
+        <p>This is useful for update operations where you might only change some properties.</p>`,
+              },
+              {
+                question: "How does Pick<T, K> work?",
+                solution: `<p>Pick<T, K> creates a new type by selecting specific properties from T:</p>
+        <pre><code className="language-typescript">
+type UserSummary = Pick<User, 'id' | 'name'>; // { id: number; name: string; }
+        </code></pre>
+        <p>It's useful for creating smaller types from larger interfaces.</p>`,
+              },
+              {
+                question: "What's the difference between Omit and Exclude?",
+                solution:
+                  "<p>Omit removes properties from object types, while Exclude removes types from union types. Omit<User, 'id'> removes the id property from User. Exclude<'a' | 'b' | 'c', 'a'> removes 'a' from the union, leaving 'b' | 'c'.</p>",
+              },
+              {
+                question: "How does the Record<K, T> utility type work?",
+                solution: `<p>Record<K, T> creates a type with keys K and values T:</p>
+        <pre><code className="language-typescript">
+type UserRoles = 'admin' | 'user' | 'guest';
+type RolePermissions = Record<UserRoles, string[]>;
+// { admin: string[]; user: string[]; guest: string[]; }
+        </code></pre>
+        <p>It's useful for creating object types with known keys.</p>`,
+              },
+              {
+                question: "What are ReturnType and Parameters utility types?",
+                solution:
+                  "<p>ReturnType<T> extracts the return type of a function, while Parameters<T> extracts the parameter types as a tuple. These are useful for type inference from existing functions without duplicating type information.</p>",
+              },
+              {
+                question: "How do you create custom utility types?",
+                solution: `<p>Custom utility types use mapped types and conditional types:</p>
+        <pre><code className="language-typescript">
+type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
+        </code></pre>
+        <p>This makes only specific properties optional while keeping others required.</p>`,
+              },
+              {
+                question: "What is the NonNullable<T> utility type?",
+                solution: `<p>NonNullable<T> removes null and undefined from type T:</p>
+        <pre><code className="language-typescript">
+type MaybeString = string | null | undefined;
+type DefiniteString = NonNullable<MaybeString>; // string
+        </code></pre>
+        <p>It's useful for ensuring values are defined.</p>`,
+              },
+              {
+                question: "How do utility types help with API design?",
+                solution:
+                  "<p>Utility types help create consistent API types by deriving related types from base interfaces. For example, using Omit<User, 'id'> for creation payloads and Partial<User> for update payloads ensures consistency and reduces duplication.</p>",
+              },
+              {
+                question: "What are mapped types in utility types?",
+                solution:
+                  "<p>Mapped types iterate over properties of a type and transform them. They use the syntax [K in keyof T] to iterate over keys and apply transformations. Most utility types are implemented using mapped types under the hood.</p>",
+              },
+              {
+                question: "How do conditional types work in utility types?",
+                solution: `<p>Conditional types use the extends keyword to create types based on conditions:</p>
+        <pre><code className="language-typescript">
+type IsArray<T> = T extends any[] ? true : false;
+        </code></pre>
+        <p>They enable complex type transformations based on type structure.</p>`,
+              },
+              {
+                question: "What are the benefits of using utility types?",
+                solution:
+                  "<p>Utility types provide type safety, reduce code duplication, ensure consistency across related types, enable powerful type transformations, and make code more maintainable. They help create robust type systems without manual type definitions.</p>",
+              },
+            ],
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/utility-types.html",
+              "https://www.typescriptlang.org/docs/handbook/2/mapped-types.html",
+              "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
+              "https://www.typescriptlang.org/docs/handbook/2/template-literal-types.html",
+              "https://basarat.gitbook.io/typescript/type-system/mapped-types",
+            ],
+          },
+          {
+            topic: "Classes and Inheritance",
+            tags: [
+              "typescript",
+              "classes",
+              "inheritance",
+              "polymorphism",
+              "access-modifiers",
+              "abstract-classes",
+            ],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      Classes in TypeScript provide a way to define blueprints for objects with properties and methods. They support modern object-oriented programming concepts including inheritance, encapsulation, and polymorphism. TypeScript enhances JavaScript classes with type annotations, access modifiers, and additional features like abstract classes and interfaces.
+      Inheritance allows classes to extend other classes, promoting code reuse and creating hierarchical relationships between related types.
+    </p>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Basic class definition
+class Person {
+  // Properties with type annotations
+  name: string;
+  age: number;
+  
+  // Constructor
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+  
+  // Method
+  greet(): string {
+    return \`Hello, I'm \${this.name} and I'm \${this.age} years old.\`;
+  }
+  
+  // Getter
+  get description(): string {
+    return \`\${this.name} (\${this.age})\`;
+  }
+  
+  // Setter
+  set newAge(age: number) {
+    if (age > 0) {
+      this.age = age;
+    }
+  }
+}
+
+// Creating instances
+const person = new Person("Alice", 30);
+console.log(person.greet());
+console.log(person.description);
+person.newAge = 31;
+      </code></pre>
+    </div>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Access Modifiers
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+class BankAccount {
+  public accountNumber: string;      // Accessible everywhere
+  private balance: number;           // Only accessible within class
+  protected ownerId: string;         // Accessible in class and subclasses
+  readonly createdAt: Date;          // Cannot be modified after initialization
+  
+  constructor(accountNumber: string, initialBalance: number, ownerId: string) {
+    this.accountNumber = accountNumber;
+    this.balance = initialBalance;
+    this.ownerId = ownerId;
+    this.createdAt = new Date();
+  }
+  
+  // Public method
+  public deposit(amount: number): void {
+    if (amount > 0) {
+      this.balance += amount;
+    }
+  }
+  
+  // Private method
+  private validateTransaction(amount: number): boolean {
+    return amount > 0 && amount <= this.balance;
+  }
+  
+  // Protected method
+  protected updateBalance(amount: number): void {
+    this.balance += amount;
+  }
+  
+  // Public getter for private property
+  public getBalance(): number {
+    return this.balance;
+  }
+}
+
+// Usage
+const account = new BankAccount("12345", 1000, "user123");
+account.deposit(500);
+console.log(account.getBalance()); // 1500
+// account.balance = 2000; // Error: balance is private
+      </code></pre>
+    </div>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Inheritance and Polymorphism
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Base class
+class Animal {
+  protected name: string;
+  
+  constructor(name: string) {
+    this.name = name;
+  }
+  
+  move(distance: number): void {
+    console.log(\`\${this.name} moved \${distance} meters\`);
+  }
+  
+  makeSound(): void {
+    console.log("Some generic animal sound");
+  }
+}
+
+// Derived class
+class Dog extends Animal {
+  breed: string;
+  
+  constructor(name: string, breed: string) {
+    super(name); // Call parent constructor
+    this.breed = breed;
+  }
+  
+  // Override parent method
+  makeSound(): void {
+    console.log(\`\${this.name} barks: Woof! Woof!\`);
+  }
+  
+  // Add new method
+  wagTail(): void {
+    console.log(\`\${this.name} wags tail happily\`);
+  }
+}
+
+class Cat extends Animal {
+  constructor(name: string) {
+    super(name);
+  }
+  
+  makeSound(): void {
+    console.log(\`\${this.name} meows: Meow!\`);
+  }
+}
+
+// Polymorphism in action
+const animals: Animal[] = [
+  new Dog("Buddy", "Golden Retriever"),
+  new Cat("Whiskers")
+];
+
+animals.forEach(animal => {
+  animal.makeSound(); // Calls appropriate override
+});
+      </code></pre>
+    </div>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Abstract Classes
+    </h4>`,
+          },
         ],
       },
       {
