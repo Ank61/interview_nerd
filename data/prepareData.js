@@ -24094,7 +24094,7 @@ var y = a();
   {
     id: 4,
     category: "Typescript",
-    themeBgColor: "#3178c6",
+    themeBgColor: "#DEEEFF",
     textColor: "#1e3a8a",
     topicColor: "#2563eb",
     lightColor: "#eff6ff",
@@ -24237,12 +24237,14 @@ let data: undefined = undefined;
            <p>TypeScript supports all JavaScript primitive types: string, number, boolean, null, undefined, symbol, and bigint.</p>`,
               },
               {
-                question: "What's the difference between explicit and implicit typing?",
+                question:
+                  "What's the difference between explicit and implicit typing?",
                 solution:
                   "<p>Explicit typing uses type annotations to specify types directly (let name: string = 'John'), while implicit typing relies on TypeScript's type inference to determine types automatically (let name = 'John'). TypeScript can often infer types correctly, but explicit annotations provide clarity and prevent unexpected type changes.</p>",
               },
               {
-                question: "How do you type function parameters and return values?",
+                question:
+                  "How do you type function parameters and return values?",
                 solution:
                   "<p>Function parameters are typed by adding a colon and type after the parameter name. Return types are specified after the parameter list with a colon and type. For example: function greet(name: string): string { return `Hello, ${name}!`; }. If a function doesn't return a value, use the 'void' type.</p>",
               },
@@ -24277,12 +24279,14 @@ let data: undefined = undefined;
                   "<p>The 'any' type disables TypeScript's type checking and allows any value to be assigned to a variable. It should be used sparingly, mainly when migrating JavaScript code to TypeScript or when working with dynamic content where the type is truly unknown. Overusing 'any' defeats the purpose of using TypeScript.</p>",
               },
               {
-                question: "How do type annotations help with code maintainability?",
+                question:
+                  "How do type annotations help with code maintainability?",
                 solution:
                   "<p>Type annotations improve code maintainability by providing clear contracts for functions and variables, making refactoring safer, enabling better IDE support with autocompletion and error detection, and serving as inline documentation that helps other developers understand the code's intentions and requirements.</p>",
               },
               {
-                question: "What are some best practices for using type annotations?",
+                question:
+                  "What are some best practices for using type annotations?",
                 solution:
                   "<p>Best practices include: always annotate function parameters and return types, use explicit annotations for complex types even if inference works, prefer specific types over 'any', use union types for values that can be multiple types, leverage interfaces for object types, and be consistent with your typing style across the codebase.</p>",
               },
@@ -24459,7 +24463,8 @@ interface Person {
                   "<p>Yes, interfaces can define method signatures by specifying the method name, parameters, and return type. For example: 'calculateTotal(items: Item[]): number' defines a method that takes an array of items and returns a number. Objects implementing this interface must provide this method.</p>",
               },
               {
-                question: "What's the difference between interfaces and type aliases?",
+                question:
+                  "What's the difference between interfaces and type aliases?",
                 solution:
                   "<p>Interfaces are primarily used for object shapes and can be extended or implemented by classes. Type aliases are more flexible and can represent any type, including unions, primitives, and complex types. Interfaces support declaration merging, while type aliases do not. Both serve similar purposes for object typing.</p>",
               },
@@ -24502,11 +24507,15 @@ interface Person {
           },
           {
             topic: "Enums",
-            tags: [""],
+            tags: ["typescript", "enums", "constants", "type-safety"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Enums in TypeScript allow you to define a set of named constants, making your code more readable and maintainable. They provide a way to give friendly names to sets of numeric or string values, reducing the likelihood of errors from using magic numbers or strings.
-     Enums are useful for representing a fixed set of values like days of the week, colors, user roles, or status codes.   </p><div style="padding: 2px; border-radius: 8px; font-size: 14px;"><pre><code className="language-typescript">
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      Enums in TypeScript allow you to define a set of named constants, making your code more readable and maintainable. They provide a way to give friendly names to sets of numeric or string values, reducing the likelihood of errors from using magic numbers or strings.
+      Enums are useful for representing a fixed set of values like days of the week, colors, user roles, or status codes.
+    </p>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
 // Numeric enum (default)
 enum Direction {
   Up,    // 0
@@ -24527,18 +24536,24 @@ let playerDirection: Direction = Direction.Up;
 let orderStatus: Status = Status.Pending;
 
 console.log(playerDirection); // 0
-console.log(orderStatus); // "PENDING"</code></pre></div><p style="line-height: 1.75;">
-  In this example, we define two types of enums: a numeric enum for directions and a string enum for status values. Numeric enums automatically assign values starting from 0, while string enums require explicit values. Both provide type safety and make code more expressive.
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Types of Enums
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number; ">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Numeric Enums :</span> These are the default enum type where values are automatically assigned starting from 0, or you can specify custom numeric values.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
+console.log(orderStatus); // "PENDING"
+      </code></pre>
+    </div>
+    
+    <p style="line-height: 1.75;">
+      In this example, we define two types of enums: a numeric enum for directions and a string enum for status values. Numeric enums automatically assign values starting from 0, while string enums require explicit values. Both provide type safety and make code more expressive.
+    </p>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Types of Enums
+    </h4>
+    
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Numeric Enums:</span> These are the default enum type where values are automatically assigned starting from 0, or you can specify custom numeric values.
+        
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-typescript">
 enum LogLevel {
   Error = 1,
   Warning = 2,
@@ -24558,16 +24573,19 @@ function log(level: LogLevel, message: string) {
 }
 
 log(LogLevel.Error, "Something went wrong!"); // [Error] Something went wrong!
- </code>
-  </pre>
-  </div>
-
-Numeric enums support reverse mapping, allowing you to get the enum name from its value using bracket notation.
+          </code></pre>
+        </div>
+        
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Numeric enums support reverse mapping, allowing you to get the enum name from its value using bracket notation.
+        </p>
       </li>
-     <li style="margin-top: 0.5rem;">
-     <span style="font-weight: 600; font-size: 1.1rem;">String Enums :</span> String enums require explicit values and provide better readability and debugging experience since the values are meaningful strings.
-     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
+      
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">String Enums:</span> String enums require explicit values and provide better readability and debugging experience since the values are meaningful strings.
+        
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-typescript">
 enum Color {
   Red = "red",
   Green = "green",
@@ -24585,14 +24603,16 @@ function setThemeColor(color: Color) {
 }
 
 setThemeColor(Color.Blue); // Sets background to "blue"
-</code></pre>
-    </div>
-       </li>
-     <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
-      <span style="font-weight: 600; font-size: 1.1rem; ">Const Enums :</span> 
-Const enums are inlined at compile time, resulting in more efficient code by removing the enum object from the generated JavaScript.
- <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-typescript">
+          </code></pre>
+        </div>
+      </li>
+      
+      <li style="margin-top: 0.5rem; letter-spacing: -0.025em;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Const Enums:</span> 
+        Const enums are inlined at compile time, resulting in more efficient code by removing the enum object from the generated JavaScript.
+        
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-typescript">
 const enum FileType {
   PDF = "pdf",
   Image = "image",
@@ -24605,12 +24625,43 @@ if (type === FileType.PDF) {
 }
 
 // Regular enum would generate an object, const enum inlines the values
-</code></pre>
+          </code></pre>
+        </div>
+        
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          Const enums provide better performance but lose some runtime features like reverse mapping and iteration.
+        </p>
+      </li>
+    </ol>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Advanced Enum Features
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-typescript">
+// Computed enum members
+enum ComputedEnum {
+  A = 1,
+  B = A * 2,
+  C = Math.floor(Math.random() * 100)
+}
+
+// Heterogeneous enums (mixed types - not recommended)
+enum Mixed {
+  No = 0,
+  Yes = "YES"
+}
+
+// Ambient enums (declare only)
+declare enum AmbientEnum {
+  A = 1,
+  B,
+  C = 2
+}
+      </code></pre>
     </div>
-    Const enums provide better performance but lose some runtime features like reverse mapping and iteration.
-     </li>
-   </ol>
- </div>`,
+  </div>`,
             examples: [
               `// Days of the week enum
 enum DayOfWeek {
@@ -24645,6 +24696,74 @@ function checkPermission(role: UserRole): boolean {
 }
 
 const hasPermission = checkPermission(UserRole.Admin); // true`,
+
+              `// Enum with custom numeric values
+enum Priority {
+  Low = 1,
+  Medium = 5,
+  High = 10,
+  Critical = 100
+}
+
+// Theme configuration enum
+enum Theme {
+  Light = "light",
+  Dark = "dark",
+  Auto = "auto"
+}
+
+// Using enums in switch statements
+function handleTheme(theme: Theme): string {
+  switch (theme) {
+    case Theme.Light:
+      return "Setting light theme";
+    case Theme.Dark:
+      return "Setting dark theme";
+    case Theme.Auto:
+      return "Setting auto theme";
+    default:
+      return "Unknown theme";
+  }
+}`,
+
+              `// Enum for API response status
+enum ResponseStatus {
+  Success = "success",
+  Error = "error",
+  Loading = "loading",
+  Idle = "idle"
+}
+
+// File extension enum
+enum FileExtension {
+  JavaScript = ".js",
+  TypeScript = ".ts",
+  JSON = ".json",
+  CSS = ".css",
+  HTML = ".html"
+}
+
+// Event types for a simple state machine
+enum EventType {
+  Start = "START",
+  Stop = "STOP",
+  Pause = "PAUSE",
+  Resume = "RESUME",
+  Reset = "RESET"
+}
+
+// Using enum in type definitions
+interface ApiResponse<T> {
+  data: T;
+  status: ResponseStatus;
+  message: string;
+}
+
+const response: ApiResponse<string> = {
+  data: "Hello World",
+  status: ResponseStatus.Success,
+  message: "Request completed successfully"
+};`,
             ],
             questions: [
               {
@@ -24653,13 +24772,14 @@ const hasPermission = checkPermission(UserRole.Admin); // true`,
                   "<p>Enums in TypeScript are a way to define a set of named constants, providing friendly names to sets of numeric or string values. They improve code readability and maintainability by replacing magic numbers or strings with meaningful names, and provide compile-time type checking.</p>",
               },
               {
-                question: "What's the difference between numeric and string enums?",
+                question:
+                  "What's the difference between numeric and string enums?",
                 solution: `<p>Numeric enums automatically assign values starting from 0 (or a specified number), while string enums require explicit string values:</p>
-             <pre><code className="language-typescript">
+        <pre><code className="language-typescript">
 enum NumericEnum { A, B, C } // A=0, B=1, C=2
 enum StringEnum { A = "a", B = "b", C = "c" }
-            </code></pre>
-           <p>Numeric enums support reverse mapping, while string enums provide better debugging and serialization.</p>`,
+        </code></pre>
+        <p>Numeric enums support reverse mapping, while string enums provide better debugging and serialization.</p>`,
               },
               {
                 question: "How do you access enum values?",
@@ -24716,6 +24836,8 @@ enum StringEnum { A = "a", B = "b", C = "c" }
               "https://www.typescriptlang.org/docs/handbook/enums.html",
               "https://typescript-tutorial.net/typescript-tutorial/typescript-enum/",
               "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html#enums",
+              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions",
+              "https://basarat.gitbook.io/typescript/type-system/enums",
             ],
           },
           {
@@ -24930,14 +25052,540 @@ type C = A & B; // { x: number; y: string }
                   "<p>Union types with string literals ('type Status = 'loading' | 'success' | 'error'') are similar to string enums but exist only at compile time. Enums generate runtime objects, while union types are purely compile-time constructs. Union types are often preferred for simple cases due to their simplicity.</p>",
               },
               {
-                question: "How do you create optional properties with union types?",
+                question:
+                  "How do you create optional properties with union types?",
                 solution:
                   "<p>Optional properties can be created by including 'undefined' in a union type or using the optional operator (?). For example, 'name: string | undefined' or 'name?: string'. Both approaches make the property optional, but they behave slightly differently in terms of presence checking.</p>",
               },
               {
-                question: "Can functions have union types for parameters and return values?",
+                question:
+                  "Can functions have union types for parameters and return values?",
                 solution:
-                  "<p>Yes, functions can have union types for both parameters and return values. For example, 'function process(input: string | number): string |
+                  "<p>Yes, functions can have union types for both parameters and return values. For example, 'function process(input: string | number): string",
+              },
+            ],
+          },
+          {
+            topic: "Type Guards and Narrowing",
+            tags: [
+              "typescript",
+              "type-guards",
+              "narrowing",
+              "type-safety",
+              "runtime-checks",
+            ],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      Type Guards in TypeScript are runtime checks that help narrow down the type of a variable within a specific code block. They allow you to safely access properties and methods that are only available on certain types, providing both compile-time type safety and runtime validation.
+      Type narrowing is the process of refining union types to more specific types based on runtime checks, making your code more type-safe and predictable.
+    </p>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// Basic type guard example
+function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}
+
+function processValue(value: string | number) {
+  if (isString(value)) {
+    // TypeScript knows value is string here
+    console.log(value.toUpperCase());
+  } else {
+    // TypeScript knows value is number here
+    console.log(value.toFixed(2));
+  }
+}
+
+// Using built-in type guards
+function handleInput(input: string | number | null) {
+  if (typeof input === 'string') {
+    return input.length; // string methods available
+  } else if (typeof input === 'number') {
+    return input * 2; // number methods available
+  } else {
+    return 0; // input is null
+  }
+}
+      </code></pre>
+    </div>
+    
+    <p style="line-height: 1.75;">
+      In this example, we demonstrate both custom type guards (isString) and built-in type guards (typeof). The TypeScript compiler automatically narrows the type within each conditional block, allowing safe access to type-specific properties and methods.
+    </p>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Types of Type Guards
+    </h4>
+    
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">typeof Guards:</span> The most common type guard for primitive types, checking the runtime type of a value.
+        
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-typescript">
+function processInput(input: string | number | boolean) {
+  if (typeof input === 'string') {
+    return input.charAt(0); // string methods
+  } else if (typeof input === 'number') {
+    return input.toFixed(2); // number methods
+  } else {
+    return input ? 'true' : 'false'; // boolean methods
+  }
+}
+
+// Array check
+function processArray(value: unknown) {
+  if (Array.isArray(value)) {
+    return value.length; // array methods available
+  }
+  return 0;
+}
+          </code></pre>
+        </div>
+        
+        <p style="line-height: 1.75; margin-top: 0.5rem;">
+          typeof guards work with primitive types: 'string', 'number', 'boolean', 'undefined', 'object', 'function', and 'symbol'.
+        </p>
+      </li>
+      
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">instanceof Guards:</span> Used to check if an object is an instance of a specific class or constructor function.
+        
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-typescript">
+class Dog {
+  bark() { return 'Woof!'; }
+}
+
+class Cat {
+  meow() { return 'Meow!'; }
+}
+
+function makeSound(animal: Dog | Cat) {
+  if (animal instanceof Dog) {
+    return animal.bark(); // Dog methods available
+  } else {
+    return animal.meow(); // Cat methods available
+  }
+}
+
+// Built-in types
+function processError(error: unknown) {
+  if (error instanceof Error) {
+    console.log(error.message); // Error properties available
+  }
+}
+          </code></pre>
+        </div>
+      </li>
+      
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">in Operator:</span> Checks if a property exists on an object, useful for discriminating between object types.
+        
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-typescript">
+interface Bird {
+  fly(): void;
+  layEggs(): void;
+}
+
+interface Fish {
+  swim(): void;
+  layEggs(): void;
+}
+
+function move(animal: Bird | Fish) {
+  if ('fly' in animal) {
+    animal.fly(); // Bird methods available
+  } else {
+    animal.swim(); // Fish methods available
+  }
+}
+
+// Property existence check
+function processObject(obj: { name?: string; age?: number }) {
+  if ('name' in obj && obj.name) {
+    console.log(obj.name.toUpperCase()); // name is defined
+  }
+}
+          </code></pre>
+        </div>
+      </li>
+      
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Custom Type Guards:</span> User-defined functions that return a type predicate (value is Type).
+        
+        <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+          <pre><code className="language-typescript">
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+interface Admin {
+  id: number;
+  name: string;
+  permissions: string[];
+}
+
+function isAdmin(user: User | Admin): user is Admin {
+  return 'permissions' in user;
+}
+
+function isUser(user: User | Admin): user is User {
+  return 'email' in user;
+}
+
+function processAccount(account: User | Admin) {
+  if (isAdmin(account)) {
+    console.log(account.permissions); // Admin properties
+  } else {
+    console.log(account.email); // User properties
+  }
+}
+
+// Null/undefined checks
+function isNotNull<T>(value: T | null | undefined): value is T {
+  return value !== null && value !== undefined;
+}
+          </code></pre>
+        </div>
+      </li>
+    </ol>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Discriminated Unions
+    </h4>
+    
+    <p style="line-height: 1.75; margin-top: 1rem;">
+      Discriminated unions use a common property to distinguish between different types, making type narrowing more reliable and expressive.
+    </p>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-typescript">
+interface Circle {
+  kind: 'circle';
+  radius: number;
+}
+
+interface Rectangle {
+  kind: 'rectangle';
+  width: number;
+  height: number;
+}
+
+interface Triangle {
+  kind: 'triangle';
+  base: number;
+  height: number;
+}
+
+type Shape = Circle | Rectangle | Triangle;
+
+function getArea(shape: Shape): number {
+  switch (shape.kind) {
+    case 'circle':
+      return Math.PI * shape.radius ** 2;
+    case 'rectangle':
+      return shape.width * shape.height;
+    case 'triangle':
+      return (shape.base * shape.height) / 2;
+    default:
+      // Exhaustiveness check
+      const exhaustiveCheck: never = shape;
+      throw new Error(\`Unhandled shape: \${exhaustiveCheck}\`);
+  }
+}
+      </code></pre>
+    </div>
+    
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Advanced Type Narrowing Techniques
+    </h4>
+    
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-typescript">
+// Truthiness narrowing
+function processValue(value: string | null | undefined) {
+  if (value) {
+    // value is string (truthy)
+    console.log(value.toUpperCase());
+  }
+}
+
+// Equality narrowing
+function processStatus(status: 'loading' | 'success' | 'error' | null) {
+  if (status === 'loading') {
+    // status is exactly 'loading'
+    console.log('Loading...');
+  } else if (status !== null) {
+    // status is 'success' | 'error'
+    console.log(\`Status: \${status}\`);
+  }
+}
+
+// Control flow analysis
+function processUser(user: { name: string } | null) {
+  if (!user) {
+    return; // Early return
+  }
+  
+  // TypeScript knows user is not null here
+  console.log(user.name.toUpperCase());
+}
+      </code></pre>
+    </div>
+  </div>`,
+
+            examples: [
+              `// API Response handling with type guards
+interface ApiSuccess<T> {
+  success: true;
+  data: T;
+}
+
+interface ApiError {
+  success: false;
+  error: string;
+  code: number;
+}
+
+type ApiResponse<T> = ApiSuccess<T> | ApiError;
+
+function isApiSuccess<T>(response: ApiResponse<T>): response is ApiSuccess<T> {
+  return response.success === true;
+}
+
+function handleApiResponse<T>(response: ApiResponse<T>) {
+  if (isApiSuccess(response)) {
+    // response.data is available and type-safe
+    console.log('Success:', response.data);
+  } else {
+    // response.error and response.code are available
+    console.log(\`Error \${response.code}: \${response.error}\`);
+  }
+}
+
+// Usage
+const userResponse: ApiResponse<{ name: string; id: number }> = {
+  success: true,
+  data: { name: 'John', id: 1 }
+};
+
+handleApiResponse(userResponse);`,
+
+              `// Event handling with discriminated unions
+interface ClickEvent {
+  type: 'click';
+  button: 'left' | 'right';
+  position: { x: number; y: number };
+}
+
+interface KeyboardEvent {
+  type: 'keydown' | 'keyup';
+  key: string;
+  ctrlKey: boolean;
+  altKey: boolean;
+}
+
+interface MouseMoveEvent {
+  type: 'mousemove';
+  position: { x: number; y: number };
+  buttons: number;
+}
+
+type UIEvent = ClickEvent | KeyboardEvent | MouseMoveEvent;
+
+function handleEvent(event: UIEvent) {
+  switch (event.type) {
+    case 'click':
+      console.log(\`Click at (\${event.position.x}, \${event.position.y})\`);
+      break;
+    case 'keydown':
+    case 'keyup':
+      console.log(\`Key \${event.key} \${event.type}\`);
+      break;
+    case 'mousemove':
+      console.log(\`Mouse moved to (\${event.position.x}, \${event.position.y})\`);
+      break;
+  }
+}
+
+// Type guard for specific event types
+function isKeyboardEvent(event: UIEvent): event is KeyboardEvent {
+  return event.type === 'keydown' || event.type === 'keyup';
+}`,
+
+              `// Complex object validation with type guards
+interface DatabaseUser {
+  id: number;
+  username: string;
+  email: string;
+  profile?: {
+    firstName: string;
+    lastName: string;
+    avatar?: string;
+  };
+}
+
+function isValidUser(obj: any): obj is DatabaseUser {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.id === 'number' &&
+    typeof obj.username === 'string' &&
+    typeof obj.email === 'string' &&
+    (obj.profile === undefined || isValidProfile(obj.profile))
+  );
+}
+
+function isValidProfile(obj: any): obj is NonNullable<DatabaseUser['profile']> {
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    typeof obj.firstName === 'string' &&
+    typeof obj.lastName === 'string' &&
+    (obj.avatar === undefined || typeof obj.avatar === 'string')
+  );
+}
+
+// Safe API data processing
+function processUserData(rawData: unknown) {
+  if (isValidUser(rawData)) {
+    // rawData is now typed as DatabaseUser
+    console.log(\`User: \${rawData.username}\`);
+    
+    if (rawData.profile) {
+      console.log(\`Name: \${rawData.profile.firstName} \${rawData.profile.lastName}\`);
+    }
+  } else {
+    throw new Error('Invalid user data received');
+  }
+}
+
+// Array type guards
+function isStringArray(arr: unknown[]): arr is string[] {
+  return arr.every(item => typeof item === 'string');
+}
+
+function isNumberArray(arr: unknown[]): arr is number[] {
+  return arr.every(item => typeof item === 'number');
+}`,
+            ],
+
+            questions: [
+              {
+                question: "What are type guards in TypeScript?",
+                solution:
+                  "<p>Type guards are runtime checks that help TypeScript narrow down the type of a variable within a specific code block. They allow you to safely access properties and methods that are only available on certain types, providing both compile-time type safety and runtime validation.</p>",
+              },
+              {
+                question:
+                  "What's the difference between typeof and instanceof type guards?",
+                solution: `<p>typeof is used for primitive types (string, number, boolean, etc.) while instanceof is used for objects and classes:</p>
+        <pre><code className="language-typescript">
+// typeof for primitives
+if (typeof value === 'string') { }
+
+// instanceof for objects/classes
+if (value instanceof Date) { }
+        </code></pre>
+        <p>typeof checks the primitive type, while instanceof checks the constructor chain.</p>`,
+              },
+              {
+                question: "How do custom type guards work?",
+                solution: `<p>Custom type guards are functions that return a type predicate (value is Type). They perform runtime checks and tell TypeScript what type a value is:</p>
+        <pre><code className="language-typescript">
+function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}
+        </code></pre>
+        <p>The 'value is string' return type is a type predicate that narrows the type when the function returns true.</p>`,
+              },
+              {
+                question:
+                  "What are discriminated unions and how do they help with type narrowing?",
+                solution:
+                  "<p>Discriminated unions use a common property (discriminant) to distinguish between different types in a union. This makes type narrowing more reliable and enables exhaustive checking in switch statements. The discriminant property helps TypeScript understand which specific type you're working with.</p>",
+              },
+              {
+                question: "How does the 'in' operator work for type narrowing?",
+                solution: `<p>The 'in' operator checks if a property exists on an object and narrows the type accordingly:</p>
+        <pre><code className="language-typescript">
+if ('fly' in animal) {
+  animal.fly(); // animal is Bird
+} else {
+  animal.swim(); // animal is Fish
+}
+        </code></pre>
+        <p>This is useful for discriminating between object types based on their properties.</p>`,
+              },
+              {
+                question: "What is control flow analysis in TypeScript?",
+                solution:
+                  "<p>Control flow analysis is TypeScript's ability to track the type of variables through different code paths. It considers if statements, early returns, and other control flow constructs to narrow types automatically. For example, after a null check, TypeScript knows the variable is not null in subsequent code.</p>",
+              },
+              {
+                question: "How can you create type guards for complex objects?",
+                solution: `<p>For complex objects, create type guards that check each required property:</p>
+        <pre><code className="language-typescript">
+function isUser(obj: any): obj is User {
+  return obj && 
+    typeof obj.id === 'number' && 
+    typeof obj.name === 'string';
+}
+        </code></pre>
+        <p>You can combine multiple checks and even call other type guards for nested objects.</p>`,
+              },
+              {
+                question: "What is truthiness narrowing?",
+                solution:
+                  "<p>Truthiness narrowing occurs when TypeScript eliminates falsy values (null, undefined, false, 0, '') from a union type based on truthiness checks. For example, if you check 'if (value)', TypeScript narrows out null and undefined from the type within that block.</p>",
+              },
+              {
+                question:
+                  "How do you handle exhaustiveness checking with discriminated unions?",
+                solution: `<p>Use the 'never' type to ensure all cases are handled:</p>
+        <pre><code className="language-typescript">
+default:
+  const exhaustiveCheck: never = shape;
+  throw new Error(\`Unhandled case: \${exhaustiveCheck}\`);
+        </code></pre>
+        <p>This will cause a compile error if you add a new type to the union without handling it.</p>`,
+              },
+              {
+                question: "Can type guards be used with generic types?",
+                solution: `<p>Yes, type guards can work with generics by using type parameters:</p>
+        <pre><code className="language-typescript">
+function isNotNull<T>(value: T | null): value is T {
+  return value !== null;
+}
+        </code></pre>
+        <p>This creates a reusable type guard that works with any type T.</p>`,
+              },
+              {
+                question: "What are some common patterns for type narrowing?",
+                solution:
+                  "<p>Common patterns include: early returns for null checks, switch statements with discriminated unions, typeof checks for primitives, instanceof for classes, 'in' operator for object properties, and custom type guards for complex validation. Each pattern helps TypeScript understand the specific type in different contexts.</p>",
+              },
+              {
+                question: "How do type guards help with error handling?",
+                solution:
+                  "<p>Type guards enable safe error handling by validating data structure before accessing properties. They're especially useful for API responses, user input validation, and working with external data where you can't guarantee the type. This prevents runtime errors and makes your code more robust.</p>",
+              },
+            ],
+
+            links: [
+              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html",
+              "https://www.typescriptlang.org/docs/handbook/advanced-types.html#type-guards-and-differentiating-types",
+              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#discriminated-unions",
+              "https://www.typescriptlang.org/docs/handbook/2/narrowing.html#using-type-predicates",
+              "https://basarat.gitbook.io/typescript/type-system/typeguard",
+            ],
+          },
+        ],
       },
       {
         id: 2,
@@ -25098,7 +25746,8 @@ let num = identity<number>(42);
            <p>The type parameter T represents a type that will be determined when the function is called, allowing the same function to work with different types while maintaining type safety.</p>`,
               },
               {
-                question: "What are generic constraints and why are they useful?",
+                question:
+                  "What are generic constraints and why are they useful?",
                 solution:
                   "<p>Generic constraints limit the types that can be used with a generic by using the 'extends' keyword. They're useful when you need to access specific properties or methods on the generic type. For example, 'T extends { length: number }' ensures T has a length property, allowing you to safely access it within the generic function.</p>",
               },
@@ -25118,7 +25767,8 @@ let num = identity<number>(42);
                   "<p>Conditional types allow you to create types based on conditions using the syntax 'T extends U ? X : Y'. If T extends U, the type resolves to X; otherwise, it resolves to Y. They're useful for creating complex type transformations and are essential for advanced TypeScript patterns and utility types.</p>",
               },
               {
-                question: "What is the difference between generic classes and generic functions?",
+                question:
+                  "What is the difference between generic classes and generic functions?",
                 solution:
                   "<p>Generic classes define type parameters at the class level, making them available to all methods and properties within the class. Generic functions define type parameters at the function level, scoped only to that function. Classes maintain the generic type throughout their lifetime, while functions resolve the generic type per call.</p>",
               },
@@ -25128,7 +25778,8 @@ let num = identity<number>(42);
                   "<p>Multiple generic type parameters are separated by commas in the angle brackets. For example: 'function combine<T, U>(first: T, second: U): [T, U]'. Each parameter can be constrained independently, and they can reference each other in constraints like 'function example<T, U extends keyof T>(obj: T, key: U)'.</p>",
               },
               {
-                question: "What are some built-in utility types that use generics?",
+                question:
+                  "What are some built-in utility types that use generics?",
                 solution:
                   "<p>TypeScript provides many built-in utility types using generics, including: Partial<T> (makes all properties optional), Required<T> (makes all properties required), Pick<T, K> (picks specific properties), Omit<T, K> (omits specific properties), Record<K, T> (creates object type with specific keys), and many others.</p>",
               },
@@ -25138,7 +25789,8 @@ let num = identity<number>(42);
                   "<p>Generics work with TypeScript's type inference system. Often, you don't need to explicitly specify the generic type because TypeScript can infer it from usage. For example, 'identity('hello')' infers T as string. This makes generics powerful and easy to use while maintaining type safety.</p>",
               },
               {
-                question: "What are the performance implications of using generics?",
+                question:
+                  "What are the performance implications of using generics?",
                 solution:
                   "<p>Generics have no runtime performance impact because they're a compile-time feature. TypeScript erases all type information during compilation, so generic code runs as regular JavaScript. The benefits are purely at development time: better type safety, IDE support, and error detection without affecting runtime performance.</p>",
               },
@@ -25157,5 +25809,5 @@ let num = identity<number>(42);
         ],
       },
     ],
-  }
+  },
 ];

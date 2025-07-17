@@ -28,6 +28,11 @@
     --node-topic: #0E5835;
     --node-border: #0E5835;
     --node-lightBackground: #ecfdf5 ;
+    --ts-bg: #DEEEFF;
+    --ts-text: #1E3A8A;
+    --ts-topic: #1E3A8A;
+    --ts-border: #1E3A8A;
+    --ts-lightBackground: #F0F7FF ;
     --next-bg: #E1E1E1;
     --next-text: #5D5D5D;
     --next-topic: #5D5D5D;

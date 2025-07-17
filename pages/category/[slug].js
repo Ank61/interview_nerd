@@ -317,6 +317,8 @@ export default function BasicTabs() {
                                     ? "text-React-text bg-white hover:bg-React-bg"
                                     : topic === "Node"
                                     ? "text-Node-text bg-white hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-ts-text bg-white hover:bg-ts-bg"
                                     : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -329,6 +331,8 @@ export default function BasicTabs() {
                                     ? "text-React-text hover:text-React-text hover:bg-React-bg"
                                     : topic === "Node"
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-ts-text hover:text-ts-text hover:bg-ts-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
