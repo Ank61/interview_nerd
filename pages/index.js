@@ -10,6 +10,7 @@ import react from "../images/react.png";
 import next from "../images/next.png";
 import node from "../images/node_logo.png";
 import js from "../images/js_logo.png";
+import ts from "../images/ts.png";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -133,6 +134,26 @@ export default function Home() {
               <CardContent className="text-blue-700 font-medium text-md flex flex-col items-center">
                 + 52 questions
                 <span className="text-xs text-gray-500 mt-1">Express, async, event loop, and more.</span>
+              </CardContent>
+            </Card>
+          </motion.div>
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            transition={{ duration: 0.2 }}
+            className="w-full max-w-xs flex flex-col items-center cursor-pointer group"
+            onClick={() => router.push("/category/Typescript")}
+          >
+            <Card className="w-full bg-white border border-gray-200 rounded-lg group-hover:shadow-md transition-all">
+              <CardHeader className="flex flex-col items-center">
+                <div className="bg-gray-100 rounded-lg p-2 mb-2">
+                  <Image src={ts} width={40} height={40} alt="Typescript" />
+                </div>
+                <CardTitle className="pt-2 text-gray-900">TypeScript</CardTitle>
+              </CardHeader>
+              <CardContent className="text-blue-700 font-medium text-md flex flex-col items-center">
+                + 30 questions
+                <span className="text-xs text-gray-500 mt-1">Types, interfaces, generics, and more.</span>
               </CardContent>
             </Card>
           </motion.div>
