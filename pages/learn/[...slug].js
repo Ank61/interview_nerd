@@ -5,12 +5,18 @@ import "highlight.js/styles/github.css";
 import { Button } from "@/components/ui/button";
 import { BookCheck, ArrowRight } from "lucide-react";
 import Header from "@/components/header";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 import { prepareData } from "@/data/prepareData";
 
-export default function Learn({ topic, explanation, nextTopic, theme }) {
+export default function Learn({
+  topic,
+  explanation,
+  nextTopic,
+  theme,
+  category,
+}) {
   const router = useRouter();
-  
+  console.log("NextTopic", nextTopic, `/learn/${topic}/${nextTopic}`, category);
   React.useEffect(() => {
     try {
       hljs.highlightAll();
@@ -25,7 +31,7 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
 
   return (
     <Box className="w-full md:w-6/12 mx-auto">
-      <Header topic={topic} />
+      <Header topic={category || topic} />
       <Box sx={{ width: "auto" }} padding={3}>
         <h3
           style={{ color: theme.textColor }}
@@ -43,7 +49,7 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
         )}
         <Box className="flex justify-between gap-4 mt-10 mb-6">
           <Button
-            onClick={()=>router.push(`/test/${topic}`)}
+            onClick={() => router.push(`/test/${topic}`)}
             style={{
               backgroundColor: theme?.themeBgColor,
               color: theme?.textColor,
@@ -53,7 +59,8 @@ export default function Learn({ topic, explanation, nextTopic, theme }) {
             Interview Questions <BookCheck size={"20px"} className="ml-3" />
           </Button>
           <Button
-            href={`/learn/${nextTopic}`}
+            onClick={() => router.push(`/learn/${topic}/${nextTopic}`)}
+            // href={`/learn/${topic}/${nextTopic}`}
             style={{
               backgroundColor: theme?.themeBgColor,
               color: theme?.textColor,
@@ -73,8 +80,8 @@ export async function getStaticPaths() {
   const paths = prepareData.reduce((acc, item) => {
     return [
       ...acc,
-      ...item.type.flatMap(typeItem =>
-        typeItem.concepts.map(conceptItem => ({
+      ...item.type.flatMap((typeItem) =>
+        typeItem.concepts.map((conceptItem) => ({
           params: { slug: [item.category, conceptItem.topic] },
         }))
       ),
@@ -83,7 +90,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 }
 
@@ -93,12 +100,14 @@ export async function getStaticProps({ params }) {
   let themeColor = {};
   let nextTopic = null;
   let explanation = "";
+  let category = "";
 
   prepareData.forEach((item) => {
     if (item.type) {
-      item.type.forEach(typeItem => {
+      item.type.forEach((typeItem) => {
         typeItem.concepts.forEach((conceptItem, index) => {
           if (conceptItem.topic === selected) {
+            category = item?.category || selected;
             themeColor = {
               category: item.category,
               themeBgColor: item.themeBgColor,
@@ -108,7 +117,9 @@ export async function getStaticProps({ params }) {
             };
             explanation = conceptItem.explanation || "";
             const next = typeItem.concepts[index + 1];
-            if (next) nextTopic = next.topic;
+            if (next) {
+              nextTopic = next.topic;
+            }
           }
         });
       });
@@ -120,6 +131,7 @@ export async function getStaticProps({ params }) {
       explanation: explanation || "<p>No explanation available.</p>",
       nextTopic: nextTopic || "",
       theme: themeColor,
+      category: category,
     },
   };
 }
