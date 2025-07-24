@@ -33,6 +33,8 @@ export default function Home() {
               <a href="#categories" className="text-gray-700 hover:text-blue-700 transition">Categories</a>
               <a href="#testimonials" className="text-gray-700 hover:text-blue-700 transition">Testimonials</a>
               <a href="#contact" className="text-gray-700 hover:text-blue-700 transition">Contact</a>
+              <Link href="/auth/login" className="text-gray-700 hover:text-blue-700 transition">Login</Link>
+              <Link href="/auth/signup" className="text-gray-700 hover:text-blue-700 transition">Signup</Link>
             </div>
           </div>
         </nav>

@@ -59,8 +59,7 @@ export default function Learn({
             Interview Questions <BookCheck size={"20px"} className="ml-3" />
           </Button>
           <Button
-            onClick={() => router.push(`/learn/${topic}/${nextTopic}`)}
-            // href={`/learn/${topic}/${nextTopic}`}
+            onClick={() => router.push(`/learn/${category}/${nextTopic}`)}
             style={{
               backgroundColor: theme?.themeBgColor,
               color: theme?.textColor,

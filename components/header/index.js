@@ -7,13 +7,15 @@ export default function Header({topic, indexSelected}){
         sx={{ display: "flex", justifyContent: "space-between", padding: 2 }}
       >
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <ArrowLeft size={28} className={` cursor-pointer ${topic === "Javascript" ? "text-Javascript-text" : "text-slate-800"}`} onClick={()=>window.history.back()}/>
+          <ArrowLeft size={28} className={` cursor-pointer ${topic === "Javascript" ? "text-Javascript-text" : 
+            topic === "Typescript" ? "text-Typescript-text": "text-slate-800"}`} onClick={()=>window.history.back()}/>
         </Box>
         <Box sx={{ display: "flex", alignItems: "center" }}>
           {indexSelected !== -1 && (
             <span
               className={`scroll-m-20 text-[22px] font-semibold tracking-tight ${
-                topic === "Javascript" ? "text-Javascript-topic" : "text-slate-800"
+                topic === "Javascript" ? "text-Javascript-topic": topic === "Typescript" ? 
+                "text-Typescript-topic" : "text-slate-800"
               }`}
             >
               {topic}

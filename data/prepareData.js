@@ -2,7 +2,7 @@ export const prepareData = [
   {
     id: 1,
     category: "Javascript",
-    themeBgColor: "#f8d444",
+    themeBgColor: "#FFF59A",
     textColor: "#745b10",
     topicColor: "#e4bc40",
     lightColor: "#fefbe8",
@@ -7428,7 +7428,7 @@ person.greet(); // Output: Hello, undefined
   {
     id: 2,
     category: "React",
-    themeBgColor: "#72F8FF",
+    themeBgColor: "#DBFDFF",
     textColor: "#12365F",
     topicColor: "#12365F",
     lightColor: "#ECFEFF",
@@ -10489,7 +10489,7 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
   {
     id: 3,
     category: "Node",
-    themeBgColor: "#BAF7DB",
+    themeBgColor: "#DFFDEF",
     textColor: "#0E5835",
     topicColor: "#0E5835",
     lightColor: "#ecfdf5",
@@ -24094,10 +24094,10 @@ var y = a();
   {
     id: 4,
     category: "Typescript",
-    themeBgColor: "#DEEEFF",
-    textColor: "#1e3a8a",
-    topicColor: "#2563eb",
-    lightColor: "#eff6ff",
+    themeBgColor: "#E9F4FF",
+    textColor: "#225485",
+    topicColor: "#225485",
+    lightColor: "#E9F4FF",
     type: [
       {
         id: 1,

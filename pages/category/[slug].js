@@ -188,6 +188,8 @@ export default function BasicTabs() {
                 ? "border-React-border "
                 : topic === "Node"
                 ? "border-Node-border "
+                : topic === "Typescript"
+                ? "border-Typescript-border "
                 : ""
             } bg-gray-100 dark:bg-gray-800 w-full`}
             style={{ textTransform: "none", outline: "none" }}
@@ -204,6 +206,10 @@ export default function BasicTabs() {
                   ? "text-Javascript-bg"
                   : topic === "React"
                   ? "text-React-bg "
+                  : topic === "Node"
+                  ? "text-Node-bg "
+                  : topic === "Typescript"
+                  ? "text-Typescript-bg "
                   : "text-gray-400"
               }`}
             />
@@ -220,6 +226,7 @@ export default function BasicTabs() {
                     ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
                     : topic === "Node"
                     ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text"
+                    : topic === "Typescript" ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text"
                     : ""
                 }`}
               >
@@ -235,6 +242,8 @@ export default function BasicTabs() {
                     ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
                     : topic === "Node"
                     ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text "
+                    : topic === "Typescript" ? 
+                    "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text "
                     : ""
                 }`}
               >
@@ -253,6 +262,8 @@ export default function BasicTabs() {
                           ? "text-React-text "
                           : topic === "Node"
                           ? "text-Node-text "
+                          : topic === "Typescript"
+                          ? "text-Typescript-text "
                           : ""
                       } text-left md:text-center`}
                     >
@@ -264,8 +275,10 @@ export default function BasicTabs() {
                           ? "text-Javascript-text "
                           : topic === "React"
                           ? "text-React-text "
-                          : topic === "React"
+                          : topic === "Node"
                           ? "text-Node-text "
+                          : topic === "Typescript"
+                          ? "text-Typescript-text "
                           : ""
                       }`}
                     >
@@ -290,6 +303,10 @@ export default function BasicTabs() {
                               ? "text-Javascript-text "
                               : topic === "React"
                               ? "text-React-text "
+                              : topic === "Node"
+                              ? "text-Node-text "
+                              : topic === "Typescript"
+                              ? "text-Typescript-text "
                               : ""
                           } md:pl-4`}
                         >
@@ -331,7 +348,7 @@ export default function BasicTabs() {
                                     : topic === "Node"
                                     ? "text-Node-text bg-white hover:bg-Node-bg"
                                     : topic === "Typescript"
-                                    ? "text-ts-text bg-white hover:bg-ts-bg"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
                                     : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -345,7 +362,7 @@ export default function BasicTabs() {
                                     : topic === "Node"
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : topic === "Typescript"
-                                    ? "text-ts-text hover:text-ts-text hover:bg-ts-bg"
+                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -362,6 +379,10 @@ export default function BasicTabs() {
                                     ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
                                     : topic === "React"
                                     ? "text-React-text bg-white hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text bg-white hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
                                     : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -372,9 +393,12 @@ export default function BasicTabs() {
                                     ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                     : topic === "React"
                                     ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
                                     : ""
                                 } md: w-[15px]`}
-                                // size={"19px"}
                               />
                               Learn
                             </div>
@@ -398,6 +422,8 @@ export default function BasicTabs() {
                                   ? "text-React-text bg-white hover:bg-React-bg"
                                   : topic === "Node"
                                   ? "text-Node-text bg-white hover:bg-Node-bg"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
                                   : ""
                               }`}
                             >
@@ -409,6 +435,8 @@ export default function BasicTabs() {
                                     ? "text-React-text hover:text-React-text hover:bg-React-bg"
                                     : topic === "Node"
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -426,6 +454,8 @@ export default function BasicTabs() {
                                   ? "text-React-text bg-white hover:bg-React-bg"
                                   : topic === "Node"
                                   ? "text-Node-text bg-white hover:bg-Node-bg"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
                                   : ""
                               }`}
                             >
@@ -437,6 +467,8 @@ export default function BasicTabs() {
                                     ? "text-React-text hover:text-React-text hover:bg-React-bg"
                                     : topic === "Node"
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -474,6 +506,8 @@ export default function BasicTabs() {
                           ? "text-Javascript-text "
                           : topic === "React"
                           ? "text-React-text"
+                          : topic === "Typescript"
+                          ? "text-Typescript-text"
                           : ""
                       } text-left md:text-center`}
                     >
@@ -485,6 +519,8 @@ export default function BasicTabs() {
                           ? "text-Javascript-text "
                           : topic === "React"
                           ? "text-React-text"
+                          : topic === "Typescript"
+                          ? "text-Typescript-text"
                           : ""
                       }`}
                     >
@@ -510,6 +546,8 @@ export default function BasicTabs() {
                             ? "text-React-text"
                             : topic === "Node"
                             ? "text-Node-text"
+                            : topic === "Typescript"
+                            ? "text-Typescript-text"
                             : ""
                         } md:pl-4`}
                       >
@@ -551,6 +589,8 @@ export default function BasicTabs() {
                                   ? "text-React-text bg-white hover:bg-React-bg"
                                   : topic === "Node"
                                   ? "text-Node-text bg-white hover:bg-Node-bg"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -563,6 +603,8 @@ export default function BasicTabs() {
                                   ? "text-React-text hover:bg-React-bg hover:text-React-text"
                                   : topic === "Node"
                                   ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
                                   : ""
                               } md: w-[15px]`}
                             />
@@ -581,6 +623,8 @@ export default function BasicTabs() {
                                   ? "text-React-text bg-white hover:bg-React-bg "
                                   : topic === "Node"
                                   ? "text-Node-text bg-white hover:bg-Node-bg "
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -594,6 +638,8 @@ export default function BasicTabs() {
                                   ? "text-React-text hover:bg-React-bg hover:text-React-text"
                                   : topic === "Node"
                                   ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
                                   : ""
                               } md: w-[15px]`}
                             />
@@ -619,7 +665,9 @@ export default function BasicTabs() {
                                 ? "text-React-text bg-white hover:bg-React-bg "
                                 : topic === "Node"
                                 ? "text-Node-text bg-white hover:bg-Node-bg "
-                                : ""
+                                : topic === "Typescript"
+                                ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                  : ""
                             }`}
                           >
                             <Code
@@ -630,6 +678,8 @@ export default function BasicTabs() {
                                   ? "text-React-text hover:bg-React-bg hover:text-React-text"
                                   : topic === "Node"
                                   ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
                                   : ""
                               } md: w-[15px]`}
                             />
@@ -645,6 +695,8 @@ export default function BasicTabs() {
                                 ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                 : topic === "React"
                                 ? "text-React-text bg-white hover:bg-React-bg "
+                                : topic === "Typescript"
+                                ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
                                 : ""
                             }`}
                           >
@@ -655,6 +707,8 @@ export default function BasicTabs() {
                                   ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                   : topic === "React"
                                   ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
                                   : ""
                               } md: w-[15px]`}
                               // size={"19px"}
@@ -688,7 +742,7 @@ export default function BasicTabs() {
                     : topic === "Node"
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : topic === "Typescript"
-                    ? "data-[state=active]:text-ts-text data-[state=active]:bg-TypeScript-bg"
+                    ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
                     : ""
                 }`}
               >
@@ -705,7 +759,7 @@ export default function BasicTabs() {
                     : topic === "Node"
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : topic === "Typescript"
-                    ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
+                    ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
                     : ""
                 }`}
               >
