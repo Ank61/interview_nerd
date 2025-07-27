@@ -15,10 +15,12 @@ import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Star, Users, BookOpen, TrendingUp } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
 
 
 export default function Home() {
   const router = useRouter();
+  const { data: session, status } = useSession();
   return (
     <div className="min-h-screen bg-white flex flex-col text-gray-900">
       <header className="relative w-full bg-gradient-to-b from-blue-50 to-white border-b border-blue-100">
@@ -33,8 +35,24 @@ export default function Home() {
               <a href="#categories" className="text-gray-700 hover:text-blue-700 transition">Categories</a>
               <a href="#testimonials" className="text-gray-700 hover:text-blue-700 transition">Testimonials</a>
               <a href="#contact" className="text-gray-700 hover:text-blue-700 transition">Contact</a>
-              <Link href="/auth/login" className="text-gray-700 hover:text-blue-700 transition">Login</Link>
-              <Link href="/auth/signup" className="text-gray-700 hover:text-blue-700 transition">Signup</Link>
+              {session ? (
+                <>
+                  {/* <div className="flex items-center gap-2">
+                    {session.user?.image && (
+                      <img src={session.user.image} alt={session.user.name || "User"} className="w-7 h-7 rounded-full border" />
+                    )}
+                    <span className="text-gray-700 font-semibold">{session.user?.name || session.user?.email}</span>
+                  </div> */}
+                  <Button size="sm" className="bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition shadow-md" onClick={() => signOut({ callbackUrl: "/" })}>
+                    Logout
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Link href="/auth/login" className="text-gray-700 hover:text-blue-700 transition">Login</Link>
+                  <Link href="/auth/signup" className="text-gray-700 hover:text-blue-700 transition">Signup</Link>
+                </>
+              )}
             </div>
           </div>
         </nav>
