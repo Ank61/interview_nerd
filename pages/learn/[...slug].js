@@ -59,14 +59,28 @@ export const getStaticPaths = async () => ({
 export const getStaticProps = async ({ params }) => {
   const slugPath = params.slug.join('/');
   const mdFile = path.join(process.cwd(), 'content', `${slugPath}.md`);
-  const explanation = await renderMarkdown(readFileSync(mdFile, 'utf8'));
-  const props = await getLesson(params.slug);
 
-  // …lookup the rest of your fields exactly like before…
-  return {
-    props: { topic, explanation, nextTopic, theme, category },
-  };
+  try {
+    const raw = readFileSync(mdFile, 'utf8');
+    const explanation = await renderMarkdown(raw);
+    const lesson = lookupLesson(slugPath);
+    if (!lesson) throw new Error(`No lesson data for ${slugPath}`);
+
+    return {
+      props: {
+        topic: lesson.topic,
+        explanation,
+        nextTopic: lesson.nextTopic,
+        theme: lesson.theme,
+        category: lesson.category,
+      },
+    };
+  } catch (err) {
+    console.error('Prerender error:', slugPath, err);
+    return { notFound: true 
+  }
 };
+}
 
 //InitIal 
 // import Box from "@mui/material/Box";
