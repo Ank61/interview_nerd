@@ -65,14 +65,14 @@ export default function BasicTabs() {
   const router = useRouter();
   const [interviewQues, setInterviewQues] = React.useState([]);
 
-  const checkTopic = [
-    {
-      topic: "Javascript",
-      themeBgColor: "#fefbe8",
-      textColor: "#745b10",
-      topicColor: "#e4bc40",
-    },
-  ];
+  // const checkTopic = [
+  //   {
+  //     topic: "Javascript",
+  //     themeBgColor: "#fefbe8",
+  //     textColor: "#745b10",
+  //     topicColor: "#e4bc40",
+  //   },
+  // ];
 
   const [value, setValue] = React.useState(0);
   const [interviewSelection, setInterviewSelection] = React.useState("Junior");
@@ -84,9 +84,8 @@ export default function BasicTabs() {
     prepareData.filter((item) => item.category === topic)[0]?.type || [];
 
   React.useEffect(() => {
-    const topic = router.query.slug;
     setTopicSelected(topic);
-    const topicIndex = checkTopic.findIndex((t) => t.topic === topic);
+    const topicIndex = prepareData.findIndex((t) => t.category === topic);
     setIndexValue(topicIndex);
   }, [router.query.slug]);
 
@@ -103,7 +102,7 @@ export default function BasicTabs() {
 
   return (
     <Box className="w-full md:w-7/12 lg:w-6/12 mx-auto">
-      <Header topic={topicSelected} indexSelected={indexSelected} />
+      <Header topic={topic} indexSelected={indexSelected} />
       <Box sx={{ width: "auto" }}>
         <Box>
           <Tabs

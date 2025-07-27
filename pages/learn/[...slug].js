@@ -1,3 +1,4 @@
+"use client"
 import Box from "@mui/material/Box";
 import * as React from "react";
 import hljs from "highlight.js";
@@ -47,7 +48,11 @@ export default function Learn({
         ) : (
           <p>No content available.</p>
         )}
-        <Box className="flex justify-between gap-4 mt-10 mb-6">
+      </Box>
+      <Box 
+        // className="flex justify-between gap-4 mt-10 mb-6"
+        className="flex justify-between gap-4 mt-10 mb-6 ml-3 mr-3"
+        >
           <Button
             onClick={() => router.push(`/test/${topic}`)}
             style={{
@@ -56,7 +61,7 @@ export default function Learn({
             }}
             className="text-md w-full"
           >
-            Interview Questions <BookCheck size={"20px"} className="ml-3" />
+            Questions <BookCheck size={"20px"} className="ml-3" />
           </Button>
           <Button
             onClick={() => router.push(`/learn/${category}/${nextTopic}`)}
@@ -70,7 +75,6 @@ export default function Learn({
             <ArrowRight size={"20px"} className="ml-3" />
           </Button>
         </Box>
-      </Box>
     </Box>
   );
 }
