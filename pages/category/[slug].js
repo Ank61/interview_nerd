@@ -1,4 +1,20 @@
 
+/**
+ * Category Page - Optimized for Performance
+ * 
+ * This page uses:
+ * 1. Static Generation (getStaticPaths + getStaticProps) for pre-built pages
+ * 2. Local data instead of API calls for instant loading
+ * 3. ISR (Incremental Static Regeneration) with 1-hour revalidation
+ * 4. Client-side search filtering for real-time UX
+ * 
+ * Performance Benefits:
+ * - Pages are pre-built at build time
+ * - No server-side data fetching on each request
+ * - Instant page loads with local data
+ * - Reduced server load and faster TTFB
+ */
+
 import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
@@ -7,7 +23,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Box from "@mui/material/Box";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
-import { Hash, X, BookOpen } from "lucide-react";
+import { Hash, X, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -20,6 +36,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { BookOpenCheck } from "lucide-react";
 import { Code } from "lucide-react";
+// Using local data for better performance - no API calls needed
 import { interviewData } from "@/data/interviewData";
 import {
   Tabs as TAB,
@@ -31,6 +48,39 @@ import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { Typography } from "@mui/material";
 import Header from "@/components/header";
+
+// Static generation functions
+export async function getStaticPaths() {
+  // Define all possible topics
+  const topics = ['Javascript', 'React', 'Node', 'Typescript'];
+  
+  const paths = topics.map((topic) => ({
+    params: { slug: topic },
+  }));
+
+  return {
+    paths,
+    fallback: false, // Return 404 for any paths not returned by getStaticPaths
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const { slug } = params;
+  
+  // Filter data for the specific topic
+  const topicPrepareData = prepareData.find(item => item.category === slug);
+  const topicInterviewData = interviewData.filter(item => item.topic === slug);
+  
+  return {
+    props: {
+      topicPrepareData: topicPrepareData || null,
+      topicInterviewData: topicInterviewData || [],
+      topic: slug,
+    },
+    // Revalidate every hour (3600 seconds)
+    revalidate: 3600,
+  };
+}
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -61,6 +111,151 @@ function a11yProps(index) {
   };
 }
 
+// Accordion Question Component
+function AccordionQuestion({ question, topic, index }) {
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.1,
+        ease: [0, 0.71, 0.2, 1.01],
+      }}
+      className={`rounded-lg border bg-white shadow-sm overflow-hidden border-gray-200
+      }`}
+    >
+      {/* Header */}
+      <div
+        onClick={toggleAccordion}
+        className={`flex items-center justify-between p-4 cursor-pointer transition-colors hover:bg-gray-50`}
+      >
+        <div className="flex-1">
+          <h3
+            className={`font-medium text-sm leading-relaxed ${
+              topic === "Javascript"
+                ? "text-Javascript-text"
+                : topic === "React"
+                ? "text-React-text"
+                : topic === "Node"
+                ? "text-Node-text"
+                : topic === "Typescript"
+                ? "text-Typescript-text"
+                : "text-gray-900"
+            }`}
+          >
+            {question.question}
+          </h3>
+          
+          {/* Tags */}
+          {question.tags && question.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {question.tags.slice(0, 3).map((tag, tagIndex) => (
+                <span
+                  key={tagIndex}
+                  className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ${
+                    topic === "Javascript"
+                      ? "bg-Javascript-lightTheme text-Javascript-text"
+                      : topic === "React"
+                      ? "bg-React-lightTheme text-React-text"
+                      : topic === "Node"
+                      ? "bg-Node-lightTheme text-Node-text"
+                      : topic === "Typescript"
+                      ? "bg-Typescript-lightTheme text-Typescript-text"
+                      : "bg-gray-100 text-gray-700"
+                  }`}
+                >
+                  <Hash className="w-3 h-3 mr-1" />
+                  {tag.name}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        <div className="ml-4 flex items-center">
+          {isOpen ? (
+            <ChevronUp
+              className={`w-5 h-5 transition-transform ${
+                topic === "Javascript"
+                  ? "text-Javascript-text"
+                  : topic === "React"
+                  ? "text-React-text"
+                  : topic === "Node"
+                  ? "text-Node-text"
+                  : topic === "Typescript"
+                  ? "text-Typescript-text"
+                  : "text-gray-500"
+              }`}
+            />
+          ) : (
+            <ChevronDown
+              className={`w-5 h-5 transition-transform ${
+                topic === "Javascript"
+                  ? "text-Javascript-text"
+                  : topic === "React"
+                  ? "text-React-text"
+                  : topic === "Node"
+                  ? "text-Node-text"
+                  : topic === "Typescript"
+                  ? "text-Typescript-text"
+                  : "text-gray-500"
+              }`}
+            />
+          )}
+        </div>
+      </div>
+
+      {/* Content */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className="p-4 ">
+              <div className="mb-4">
+                <h4 className="text-sm font-medium text-gray-700 mb-2">Answer:</h4>
+                <div className={`p-3 rounded-md ${
+                  topic === "Javascript"
+                    ? "bg-Javascript-lightTheme border border-Javascript-border"
+                    : topic === "React"
+                    ? "bg-React-lightTheme border border-React-border"
+                    : topic === "Node"
+                    ? "bg-Node-lightTheme border border-Node-border"
+                    : topic === "Typescript"
+                    ? "bg-Typescript-lightTheme border border-Typescript-border"
+                    : "bg-white border border-gray-200"
+                }`}>
+                  {question.solution ? (
+                    <div 
+                      className="prose prose-sm max-w-none text-sm"
+                      dangerouslySetInnerHTML={{ __html: question.solution }}
+                    />
+                  ) : (
+                    <p className="text-gray-500 italic text-sm">
+                      Answer not available yet. This question is under development.
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+}
+
 // Question Modal Component
 function QuestionModal({ isOpen, onClose, question, topic }) {
   if (!isOpen || !question) return null;
@@ -87,74 +282,35 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
             className="fixed inset-4 z-50 flex items-center justify-center p-4"
           >
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
-              {/* Header */}
-              <div className={`flex items-center justify-between p-6 border-b ${
-                topic === "Javascript"
-                  ? "bg-Javascript-bg text-Javascript-text"
-                  : topic === "React"
-                  ? "bg-React-bg text-React-text"
-                  : topic === "Node"
-                  ? "bg-Node-bg text-Node-text"
-                  : topic === "Typescript"
-                  ? "bg-Typescript-bg text-Typescript-text"
-                  : "bg-gray-100"
-              }`}>
-                <div className="flex items-center space-x-3">
-                  <BookOpen className="w-6 h-6" />
-                  <h2 className="text-xl font-semibold">Question Answer</h2>
-                </div>
-                <button
-                  onClick={onClose}
-                  className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-
-              {/* Content */}
               <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
                 {/* Question */}
                 <div className="mb-6">
-                  <h3 className="text-lg font-semibold mb-3 text-gray-800">
-                    Question:
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800 flex justify-between items-center">
+                    Question: 
+                    <button
+                      onClick={onClose}
+                      className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors"
+                    >
+                      <X className={`w-6 h-6 ${
+                        topic === "Javascript"
+                          ? "text-Javascript-text"
+                          : topic === "React"
+                          ? "text-React-text"
+                          : topic === "Node"
+                          ? "text-Node-text"
+                          : topic === "Typescript"
+                          ? "text-Typescript-text"
+                          : "text-gray-600"
+                      }`} />
+                    </button>
                   </h3>
                   <p className="text-gray-700 leading-relaxed">
                     {question.question}
                   </p>
                 </div>
 
-                {/* Tags */}
-                {question.tags && question.tags.length > 0 && (
-                  <div className="mb-6">
-                    <h4 className="text-sm font-medium text-gray-600 mb-2">
-                      Tags:
-                    </h4>
-                    <div className="flex flex-wrap gap-2">
-                      {question.tags.map((tag, index) => (
-                        <span
-                          key={index}
-                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
-                            topic === "Javascript"
-                              ? "bg-Javascript-lightTheme text-Javascript-text"
-                              : topic === "React"
-                              ? "bg-React-lightTheme text-React-text"
-                              : topic === "Node"
-                              ? "bg-Node-lightTheme text-Node-text"
-                              : topic === "Typescript"
-                              ? "bg-Typescript-lightTheme text-Typescript-text"
-                              : "bg-gray-100 text-gray-700"
-                          }`}
-                        >
-                          <Hash className="w-3 h-3 mr-1" />
-                          {tag.name}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
                 {/* Answer */}
-                <div>
+                <div >
                   <h3 className="text-lg font-semibold mb-3 text-gray-800">
                     Answer:
                   </h3>
@@ -210,42 +366,33 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
   );
 }
 
-export default function BasicTabs() {
+export default function BasicTabs({ topicPrepareData, topicInterviewData, topic }) {
   const router = useRouter();
   const [interviewQues, setInterviewQues] = React.useState([]);
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-
-  // const checkTopic = [
-  //   {
-  //     topic: "Javascript",
-  //     themeBgColor: "#fefbe8",
-  //     textColor: "#745b10",
-  //     topicColor: "#e4bc40",
-  //   },
-  // ];
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const [value, setValue] = React.useState(0);
   const [interviewSelection, setInterviewSelection] = React.useState("Junior");
   const [level, setLevel] = React.useState("Beginner");
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
-  const topic = router.query.slug;
-  let selectedTopicData =
-    prepareData.filter((item) => item.category === topic)[0]?.type || [];
+  
+  // Use static data instead of filtering on client
+  let selectedTopicData = topicPrepareData?.type || [];
 
   React.useEffect(() => {
     setTopicSelected(topic);
     const topicIndex = prepareData.findIndex((t) => t.category === topic);
     setIndexValue(topicIndex);
-  }, [router.query.slug]);
+  }, [topic]);
 
   React.useEffect(() => {
-    const filteredTopic = interviewData
-      .filter((data) => data.topic === topic)
+    const filteredTopic = topicInterviewData
       .filter((item) => item.categories === interviewSelection);
-    setInterviewQues(filteredTopic[0]);
-  }, [interviewSelection, router.query.slug]);
+    setInterviewQues(filteredTopic[0] || {});
+  }, [interviewSelection, topicInterviewData]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -260,6 +407,21 @@ export default function BasicTabs() {
     setIsModalOpen(false);
     setSelectedQuestion(null);
   };
+
+  // Filter prepare data based on search query
+  const filteredPrepareData = React.useMemo(() => {
+    if (!selectedTopicData || selectedTopicData.length === 0) return [];
+    
+    if (!searchQuery.trim()) return selectedTopicData;
+    
+    return selectedTopicData.map(level => ({
+      ...level,
+      concepts: level.concepts?.filter(concept => {
+        const query = searchQuery.toLowerCase();
+        return concept.topic.toLowerCase().includes(query);
+      }) || []
+    })).filter(level => level.concepts.length > 0);
+  }, [selectedTopicData, searchQuery]);
 
   return (
     <Box className="w-full md:w-7/12 lg:w-6/12 mx-auto">
@@ -356,9 +518,11 @@ export default function BasicTabs() {
           >
             <Input
               type="text"
-              placeholder="Search topic"
+              placeholder="Search topics..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               style={{ textTransform: "none", outline: "none" }}
-              className="rounded-lg  appearance-none text-[15px] w-full pl-10"
+              className="rounded-lg appearance-none text-[14px] w-full pl-10"
             />
             <SearchIcon
               className={`absolute left-2.5 top-2.5 w-5 h-5 ${
@@ -369,7 +533,7 @@ export default function BasicTabs() {
                   : topic === "Node"
                   ? "text-Node-bg "
                   : topic === "Typescript"
-                  ? "text-Typescript-bg "
+                  ? "text-Typescript-text "
                   : "text-gray-400"
               }`}
             />
@@ -454,8 +618,8 @@ export default function BasicTabs() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {selectedTopicData.length > 0 &&
-                    selectedTopicData[0]?.concepts?.map((concept, index) => (
+                  {filteredPrepareData.length > 0 && filteredPrepareData[0]?.concepts?.length > 0 ? (
+                    filteredPrepareData[0]?.concepts?.map((concept, index) => (
                       <TableRow key={concept.topic}>
                         <TableCell
                           className={`text-left font-medium text-[15px] p-[0px] ${
@@ -652,7 +816,16 @@ export default function BasicTabs() {
                         />
                       </TableCell> */}
                       </TableRow>
-                    ))}
+                    ))
+                  ) : searchQuery.trim() ? (
+                    <TableRow>
+                      <TableCell colSpan={2} className="text-center py-8 text-gray-500">
+                        <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                        <p className="text-sm font-medium">No topics found</p>
+                        <p className="text-xs">Try adjusting your search terms</p>
+                      </TableCell>
+                    </TableRow>
+                  ) : null}
                 </TableBody>
               </Table>
             </TabsContent>
@@ -696,7 +869,8 @@ export default function BasicTabs() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {selectedTopicData[1]?.concepts?.map((concept, index) => (
+                  {filteredPrepareData.length > 1 && filteredPrepareData[1]?.concepts?.length > 0 ? (
+                    filteredPrepareData[1]?.concepts?.map((concept, index) => (
                     <TableRow key={concept.topic} className="w-full">
                       <TableCell
                         className={`text-left font-medium text-[15px] p-[0px] ${
@@ -878,7 +1052,16 @@ export default function BasicTabs() {
                         )}
                       </TableCell>
                     </TableRow>
-                  ))}
+                  ))
+                ) : searchQuery.trim() ? (
+                  <TableRow>
+                    <TableCell colSpan={2} className="text-center py-8 text-gray-500">
+                      <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                      <p className="text-sm font-medium">No topics found</p>
+                      <p className="text-xs">Try adjusting your search terms</p>
+                    </TableCell>
+                  </TableRow>
+                ) : null}
                 </TableBody>
               </Table>
             </TabsContent>
@@ -944,205 +1127,43 @@ export default function BasicTabs() {
               </TabsTrigger>
             </TabsList>
             <TabsContent value="Junior" className="mt-4">
-              <div className="flex flex-col gap-4 items-center justify-center">
+              <div className="flex flex-col gap-3">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <motion.div
-                        key={index}
-                        animate={{ y: -10 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 130,
-                          delay: 0.01 + index * 0.1,
-                        }}
-                        onClick={() => handleQuestionClick(item)}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg transition-all duration-200 hover:scale-[1.02]
-                ${
-                  topic === "Javascript"
-                    ? " text-Javascript-text hover:border-Javascript-border"
-                    : topic === "React"
-                    ? "text-React-text hover:border-React-border"
-                    : topic === "Typescript"
-                    ? "text-TypeScript-text hover:border-Typescript-border"
-                    : ""
-                }`}
-                      >
-                        <div className="col-span-11 xl:-ml-5">
-                          <p
-                            className={`md:ml-4 font-semibold ${
-                              topic === "Javascript"
-                                ? " text-Javascript-text"
-                                : topic === "React"
-                                ? "text-React-text "
-                                : topic === "Typescript"
-                                ? "text-TypeScript-text "
-                                : ""
-                            }`}
-                          >
-                            {" "}
-                            {item.question}
-                          </p>
-                        </div>
-
-                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                          <div className="flex mt-2 justify-end w-full">
-                            {item?.tags?.slice(0, 3).map((tags, index) => (
-                              <span
-                                key={index}
-                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-React-lightTheme hover:bg-React-bg"
-                                    : topic === "Typescript"
-                                    ? "text-TypeScript-text bg-TypeScript-lightTheme hover:bg-TypeScript-bg"
-                                    : ""
-                                }`}
-                              >
-                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
-                                {tags.name}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
+                      <AccordionQuestion 
+                        key={index} 
+                        question={item} 
+                        topic={topic} 
+                        index={index}
+                      />
                     ))
                   : null}
               </div>
             </TabsContent>
             <TabsContent value="Mid" className="mt-4">
-              <div className="flex flex-col gap-4 items-center justify-center ">
+              <div className="flex flex-col gap-3">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <motion.div
-                        key={index}
-                        animate={{ y: -10 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 130,
-                          delay: 0.01 + index * 0.1,
-                        }}
-                        onClick={() => handleQuestionClick(item)}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg transition-all duration-200 hover:scale-[1.02]
-                ${
-                  topic === "Javascript"
-                    ? " text-Javascript-text hover:border-Javascript-border"
-                    : topic === "React"
-                    ? "text-React-text hover:border-React-border"
-                    : topic === "Typescript"
-                    ? "text-TypeScript-text hover:border-Typescript-border"
-                    : ""
-                }`}
-                      >
-                        <div className="col-span-11 xl:-ml-5">
-                          <p
-                            className={`md:ml-4 font-semibold ${
-                              topic === "Javascript"
-                                ? " text-Javascript-text"
-                                : topic === "React"
-                                ? "text-React-text"
-                                : topic === "Typescript"
-                                ? "text-TypeScript-text"
-                                : ""
-                            }`}
-                          >
-                            {" "}
-                            {item.question}
-                          </p>
-                        </div>
-
-                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                          <div className="flex mt-2 justify-end w-full">
-                            {item?.tags?.slice(0, 3).map((tags, index) => (
-                              <span
-                                key={index}
-                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-React-lightTheme hover:bg-React-bg"
-                                    : topic === "Typescript"
-                                    ? "text-TypeScript-text bg-TypeScript-lightTheme hover:bg-TypeScript-bg"
-                                    : ""
-                                }`}
-                              >
-                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
-                                {tags.name}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
+                      <AccordionQuestion 
+                        key={index} 
+                        question={item} 
+                        topic={topic} 
+                        index={index}
+                      />
                     ))
                   : null}
               </div>
             </TabsContent>
             <TabsContent value="Senior" className="mt-4">
-              <div className="flex flex-col gap-4 items-center justify-center">
+              <div className="flex flex-col gap-3">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <motion.div
-                        key={index}
-                        animate={{ y: -10 }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 130,
-                          delay: 0.01 + index * 0.1,
-                        }}
-                        onClick={() => handleQuestionClick(item)}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg transition-all duration-200 hover:scale-[1.02]
-                ${
-                  topic === "Javascript"
-                    ? " text-Javascript-text hover:border-Javascript-border"
-                    : topic === "React"
-                    ? "text-React-text hover:border-React-border"
-                    : topic === "Typescript"
-                    ? "text-TypeScript-text hover:border-Typescript-border"
-                    : ""
-                }`}
-                      >
-                        <div className="col-span-11 xl:-ml-5">
-                          <p
-                            className={`md:ml-4 font-semibold ${
-                              topic === "Javascript"
-                                ? " text-Javascript-text"
-                                : topic === "React"
-                                ? "text-React-text"
-                                : topic === "Typescript"
-                                ? "text-TypeScript-text"
-                                : ""
-                            }`}
-                          >
-                            {" "}
-                            {item.question}
-                          </p>
-                        </div>
-
-                        <div className="md:col-start-2 col-span-11 xl:-ml-5 w-full">
-                          {/* Max three Tags for a div. Map this div for more than 3 tags */}
-                          <div className="flex mt-2 justify-end w-full">
-                            {item?.tags?.slice(0, 3).map((tags, index) => (
-                              <span
-                                key={index}
-                                className={`flex rounded-xl cursor-pointer pl-2.5 pr-2.5 pt-1 pb-1 mr-2 text-xs font-medium ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-Javascript-lightTheme hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-React-lightTheme hover:bg-React-bg"
-                                    : topic === "Typescript"
-                                    ? "text-TypeScript-text bg-TypeScript-lightTheme hover:bg-TypeScript-bg"
-                                    : ""
-                                }`}
-                              >
-                                <Hash size={"14px"} className="mr-0.5 mt-0.5" />
-                                {tags.name}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </motion.div>
+                      <AccordionQuestion 
+                        key={index} 
+                        question={item} 
+                        topic={topic} 
+                        index={index}
+                      />
                     ))
                   : null}
               </div>

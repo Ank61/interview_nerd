@@ -76,7 +76,7 @@ module.exports = {
           bg: "#E9F4FF",
           text: "#225485",
           topic: "#225485",
-          border: "#1E3A8A",
+          border: "#C3E1FF",
           lightTheme: "#E9F4FF",
         },
       },
