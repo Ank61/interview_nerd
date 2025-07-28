@@ -3,11 +3,11 @@ import * as React from "react";
 import PropTypes from "prop-types";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Box from "@mui/material/Box";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/router";
-import { Hash } from "lucide-react";
+import { Hash, X, BookOpen } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -61,9 +61,160 @@ function a11yProps(index) {
   };
 }
 
+// Question Modal Component
+function QuestionModal({ isOpen, onClose, question, topic }) {
+  if (!isOpen || !question) return null;
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          />
+          
+          {/* Modal */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="fixed inset-4 z-50 flex items-center justify-center p-4"
+          >
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-hidden">
+              {/* Header */}
+              <div className={`flex items-center justify-between p-6 border-b ${
+                topic === "Javascript"
+                  ? "bg-Javascript-bg text-Javascript-text"
+                  : topic === "React"
+                  ? "bg-React-bg text-React-text"
+                  : topic === "Node"
+                  ? "bg-Node-bg text-Node-text"
+                  : topic === "Typescript"
+                  ? "bg-Typescript-bg text-Typescript-text"
+                  : "bg-gray-100"
+              }`}>
+                <div className="flex items-center space-x-3">
+                  <BookOpen className="w-6 h-6" />
+                  <h2 className="text-xl font-semibold">Question Answer</h2>
+                </div>
+                <button
+                  onClick={onClose}
+                  className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+
+              {/* Content */}
+              <div className="p-6 overflow-y-auto max-h-[calc(90vh-140px)]">
+                {/* Question */}
+                <div className="mb-6">
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800">
+                    Question:
+                  </h3>
+                  <p className="text-gray-700 leading-relaxed">
+                    {question.question}
+                  </p>
+                </div>
+
+                {/* Tags */}
+                {question.tags && question.tags.length > 0 && (
+                  <div className="mb-6">
+                    <h4 className="text-sm font-medium text-gray-600 mb-2">
+                      Tags:
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {question.tags.map((tag, index) => (
+                        <span
+                          key={index}
+                          className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
+                            topic === "Javascript"
+                              ? "bg-Javascript-lightTheme text-Javascript-text"
+                              : topic === "React"
+                              ? "bg-React-lightTheme text-React-text"
+                              : topic === "Node"
+                              ? "bg-Node-lightTheme text-Node-text"
+                              : topic === "Typescript"
+                              ? "bg-Typescript-lightTheme text-Typescript-text"
+                              : "bg-gray-100 text-gray-700"
+                          }`}
+                        >
+                          <Hash className="w-3 h-3 mr-1" />
+                          {tag.name}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Answer */}
+                <div>
+                  <h3 className="text-lg font-semibold mb-3 text-gray-800">
+                    Answer:
+                  </h3>
+                  <div className={`p-4 rounded-lg ${
+                    topic === "Javascript"
+                      ? "bg-Javascript-lightTheme border border-Javascript-border"
+                      : topic === "React"
+                      ? "bg-React-lightTheme border border-React-border"
+                      : topic === "Node"
+                      ? "bg-Node-lightTheme border border-Node-border"
+                      : topic === "Typescript"
+                      ? "bg-Typescript-lightTheme border border-Typescript-border"
+                      : "bg-gray-50 border border-gray-200"
+                  }`}>
+                    {question.solution ? (
+                      <div 
+                        className="prose prose-sm max-w-none"
+                        dangerouslySetInnerHTML={{ __html: question.solution }}
+                      />
+                    ) : (
+                      <p className="text-gray-500 italic">
+                        Answer not available yet. This question is under development.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="flex justify-end p-6 border-t bg-gray-50">
+                <button
+                  onClick={onClose}
+                  className={`px-6 py-2 rounded-lg font-medium transition-colors ${
+                    topic === "Javascript"
+                      ? "bg-Javascript-bg text-Javascript-text hover:bg-Javascript-border"
+                      : topic === "React"
+                      ? "bg-React-bg text-React-text hover:bg-React-border"
+                      : topic === "Node"
+                      ? "bg-Node-bg text-Node-text hover:bg-Node-border"
+                      : topic === "Typescript"
+                      ? "bg-Typescript-bg text-Typescript-text hover:bg-Typescript-border"
+                      : "bg-gray-600 text-white hover:bg-gray-700"
+                  }`}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
+
 export default function BasicTabs() {
   const router = useRouter();
   const [interviewQues, setInterviewQues] = React.useState([]);
+  const [selectedQuestion, setSelectedQuestion] = React.useState(null);
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   // const checkTopic = [
   //   {
@@ -98,6 +249,16 @@ export default function BasicTabs() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleQuestionClick = (question) => {
+    setSelectedQuestion(question);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedQuestion(null);
   };
 
   return (
@@ -794,17 +955,17 @@ export default function BasicTabs() {
                           stiffness: 130,
                           delay: 0.01 + index * 0.1,
                         }}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                        onClick={() => handleQuestionClick(item)}
+                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg transition-all duration-200 hover:scale-[1.02]
                 ${
                   topic === "Javascript"
-                    ? " text-Javascript-text"
+                    ? " text-Javascript-text hover:border-Javascript-border"
                     : topic === "React"
-                    ? "text-React-text"
+                    ? "text-React-text hover:border-React-border"
                     : topic === "Typescript"
-                    ? "text-TypeScript-text"
+                    ? "text-TypeScript-text hover:border-Typescript-border"
                     : ""
                 }`}
-                        href="#"
                       >
                         <div className="col-span-11 xl:-ml-5">
                           <p
@@ -862,17 +1023,17 @@ export default function BasicTabs() {
                           stiffness: 130,
                           delay: 0.01 + index * 0.1,
                         }}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                        onClick={() => handleQuestionClick(item)}
+                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg transition-all duration-200 hover:scale-[1.02]
                 ${
                   topic === "Javascript"
-                    ? " text-Javascript-text"
+                    ? " text-Javascript-text hover:border-Javascript-border"
                     : topic === "React"
-                    ? "text-React-text"
+                    ? "text-React-text hover:border-React-border"
                     : topic === "Typescript"
-                    ? "text-TypeScript-text"
+                    ? "text-TypeScript-text hover:border-Typescript-border"
                     : ""
                 }`}
-                        href="#"
                       >
                         <div className="col-span-11 xl:-ml-5">
                           <p
@@ -930,17 +1091,17 @@ export default function BasicTabs() {
                           stiffness: 130,
                           delay: 0.01 + index * 0.1,
                         }}
-                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg
+                        onClick={() => handleQuestionClick(item)}
+                        className={`rounded-xl w-full cursor-pointer grid grid-cols-12 bg-white shadow-md mt-2 p-4 gap-2 items-center hover:shadow-lg transition-all duration-200 hover:scale-[1.02]
                 ${
                   topic === "Javascript"
-                    ? " text-Javascript-text"
+                    ? " text-Javascript-text hover:border-Javascript-border"
                     : topic === "React"
-                    ? "text-React-text"
+                    ? "text-React-text hover:border-React-border"
                     : topic === "Typescript"
-                    ? "text-TypeScript-text"
+                    ? "text-TypeScript-text hover:border-Typescript-border"
                     : ""
                 }`}
-                        href="#"
                       >
                         <div className="col-span-11 xl:-ml-5">
                           <p
@@ -989,6 +1150,14 @@ export default function BasicTabs() {
           </TAB>
         </CustomTabPanel>
       </Box>
+
+      {/* Question Modal */}
+      <QuestionModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        question={selectedQuestion}
+        topic={topic}
+      />
     </Box>
   );
 }

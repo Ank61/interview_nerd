@@ -9,7 +9,6 @@ import Header from "@/components/header";
 import { useRouter } from "next/router";
 // import { prepareData } from "@/data/prepareData";
 
-// For SSG DB access
 import connectDB from "@/lib/mongodb";
 import PrepareData from "@/models/PrepareData";
 
