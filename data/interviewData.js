@@ -1047,4 +1047,1217 @@ export const interviewData = [
       },
     ],
   },
+  {
+    id: 7,
+    topic: "SQL",
+    categories: "Junior",
+    tags: [{ name: "basics", link: "" }],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is SQL?",
+        solution:
+          "SQL stands for Structured Query Language, it is a language used for creating, storing, fetching and updating of data and database objects in RDBMS.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "List the types of SQL commands.",
+        solution: "DDL, DML, DCL, TCL.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Give the DDL commands.",
+        solution: "CREATE, ALTER, DROP, TRUNCATE, RENAME.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Give the DML commands.",
+        solution: "SELECT, INSERT, UPDATE, DELETE.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Give the DCL commands.",
+        solution: "GRANT, REVOKE, DENY.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Give the TCL commands.",
+        solution: "COMMIT, ROLLBACK, SAVEPOINT.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Define a table.",
+        solution:
+          "A structured collection of related data organized into rows and columns.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a primary key?",
+        solution:
+          "A column or set of columns that uniquely identifies each row; cannot be NULL.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a foreign key?",
+        solution:
+          "A field in one table that references the primary key in another table.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Difference between DELETE and TRUNCATE.",
+        solution:
+          "DELETE removes rows one-by-one (can rollback); TRUNCATE removes all rows at once (faster, no WHERE).",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Difference between DROP and TRUNCATE.",
+        solution:
+          "DROP deletes the table structure; TRUNCATE keeps structure but removes all rows.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a subquery?",
+        solution:
+          "A query nested inside another query, usually in WHERE clause.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is an alias?",
+        solution:
+          "Temporary name for table/column: SELECT first_name AS fname FROM employees.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is ORDER BY?",
+        solution:
+          "Sorts result set: SELECT * FROM products ORDER BY price DESC.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Difference WHERE vs HAVING",
+        solution:
+          "WHERE filters rows before grouping; HAVING filters groups after GROUP BY.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a view?",
+        solution:
+          "Virtual table based on SELECT query; hides underlying table structure.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a stored procedure?",
+        solution:
+          "Pre-compiled SQL statements executed as a unit; encapsulates logic.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a trigger?",
+        solution:
+          "Automatically fires on INSERT/UPDATE/DELETE events; enforces business rules.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Name five aggregate functions",
+        solution: "SUM, COUNT, AVG, MIN, MAX.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a self-join?",
+        solution:
+          "Joining a table to itself, e.g., employee-manager relationship.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Explain INNER JOIN with example",
+        solution: "Returns matching rows from both tables.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Explain LEFT JOIN with example",
+        solution: "Returns all rows from left table plus matches from right.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Explain RIGHT JOIN with example",
+        solution: "Returns all rows from right table plus matches from left.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Explain FULL JOIN with example",
+        solution: "Returns all rows when there is a match in either table.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a NULL value?",
+        solution: "Unknown or missing; use IS NULL/IS NOT NULL to test.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is NOT NULL constraint?",
+        solution: "Ensures column cannot store NULL.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is UNIQUE constraint?",
+        solution: "Ensures all values in column are different.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Difference UNIQUE vs PRIMARY KEY",
+        solution:
+          "UNIQUE allows one NULL; PRIMARY KEY disallows NULL and is only one per table.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a composite key?",
+        solution: "Primary key composed of multiple columns.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What are SQL constraints?",
+        solution:
+          "Rules enforced on data: NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK, DEFAULT, INDEX.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is CHECK constraint?",
+        solution: "Ensures values satisfy a condition: CHECK (age >= 18).",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is DEFAULT constraint?",
+        solution: "Supplies default value when none provided.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is an index?",
+        solution:
+          "Database object that speeds up retrieval; like a book index.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is DDL?",
+        solution:
+          "Data Definition Language: CREATE, ALTER, DROP, TRUNCATE, RENAME.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is DML?",
+        solution: "Data Manipulation Language: SELECT, INSERT, UPDATE, DELETE.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is DCL?",
+        solution: "Data Control Language: GRANT, REVOKE, DENY.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is TCL?",
+        solution: "Transaction Control Language: COMMIT, ROLLBACK, SAVEPOINT.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a transaction?",
+        solution:
+          "Sequence of operations executed as a single unit; follows ACID.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Explain ACID properties",
+        solution: "Atomicity, Consistency, Isolation, Durability.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is COMMIT?",
+        solution: "Saves all changes permanently.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is ROLLBACK?",
+        solution: "Undo changes since last COMMIT.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is SAVEPOINT?",
+        solution: "Breakpoint inside transaction; partial rollback possible.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Difference between DBMS and RDBMS",
+        solution:
+          "RDBMS uses relational model and enforces relationships via foreign keys.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is normalization?",
+        solution: "Process to reduce redundancy; 1NF, 2NF, 3NF, BCNF.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is denormalization?",
+        solution: "Adding redundancy for performance after normalization.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "Difference SQL vs NoSQL",
+        solution:
+          "SQL = structured, ACID, fixed schema; NoSQL = flexible, horizontal scaling.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a schema?",
+        solution:
+          "Logical container of database objects; allows grouping and security.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a sequence?",
+        solution:
+          "Database object that generates numeric values in order; used for auto-increment.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a synonym?",
+        solution:
+          "Alias for a table, view or another database object; simplifies references.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a cursor?",
+        solution:
+          "Database object that allows row-by-row processing instead of set-based.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a database link?",
+        solution:
+          "Connection between two databases that allows querying remote tables.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a composite index?",
+        solution: "Index created on multiple columns; order matters for usage.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a covering index?",
+        solution:
+          "Index that includes all columns needed for a query, eliminating table lookup.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a filtered index?",
+        solution:
+          "Non-clustered index with WHERE clause, reducing size and improving performance.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a full-text index?",
+        solution:
+          "Special index for fast searching of text within CHAR/VARCHAR columns.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a spatial index?",
+        solution:
+          "Index optimized for spatial data types like geometry and geography.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a unique index?",
+        solution: "Index that enforces uniqueness of the indexed column(s).",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a clustered index?",
+        solution:
+          "Index that determines physical order of table rows; only one per table.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a non-clustered index?",
+        solution:
+          "Index separate from table data; can have multiple per table.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is index fragmentation?",
+        solution:
+          "Logical or physical disorder of index pages; rebuild or reorganize to fix.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a table scan?",
+        solution:
+          "Reading every row in the table because no index can be used.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is an index seek?",
+        solution: "Using index to directly find rows; faster than scan.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is an index lookup?",
+        solution:
+          "After index seek, additional lookup to fetch remaining columns from table.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a bookmark lookup?",
+        solution: "Old term for index lookup in SQL Server.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a key lookup?",
+        solution:
+          "Modern term for bookmark lookup; occurs when non-clustered index doesn't cover query.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a RID lookup?",
+        solution:
+          "Row identifier lookup used in heap tables without clustered index.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a query execution plan?",
+        solution:
+          "Graphical or textual representation showing how database engine executes SQL statement.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a cost-based optimizer?",
+        solution:
+          "Database component that chooses execution plan based on estimated cost.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a rule-based optimizer?",
+        solution:
+          "Older optimizer that chooses plans based on fixed rules rather than statistics.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is statistics in SQL?",
+        solution:
+          "Information about data distribution in tables and indexes used by optimizer.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is auto update statistics?",
+        solution:
+          "Automatically refresh statistics when data changes significantly.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is a histogram?",
+        solution:
+          "Statistics object showing data distribution across value ranges.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is density vector?",
+        solution:
+          "Statistics component showing uniqueness of column combinations.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is parameter sniffing?",
+        solution:
+          "Query plan optimized for first parameter value may be suboptimal for others.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is plan cache?",
+        solution: "Memory area storing compiled execution plans for reuse.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is plan reuse?",
+        solution: "Using existing cached plan instead of recompiling same SQL.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is plan aging?",
+        solution: "Process of removing unused plans from cache to free memory.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is recompilation?",
+        solution:
+          "Generating new execution plan when existing one is no longer optimal.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is statement-level recompilation?",
+        solution: "Recompiling only affected statement when statistics change.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is procedure-level recompilation?",
+        solution: "Recompiling entire stored procedure when changes occur.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is plan guide?",
+        solution:
+          "Hint mechanism to enforce specific execution plan for query.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is query hint?",
+        solution:
+          "Directive within SQL statement to influence optimizer decisions.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is table hint?",
+        solution: "Hint affecting how table is accessed, like INDEX hint.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is join hint?",
+        solution: "Hint specifying join algorithm like LOOP, MERGE, or HASH.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is force order hint?",
+        solution: "Hint to enforce join order as written in query.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is maxdop hint?",
+        solution: "Maximum degree of parallelism hint to limit CPU usage.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is deadlock?",
+        solution:
+          "Situation where two transactions block each other waiting for resources.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is deadlock victim?",
+        solution:
+          "Transaction chosen by database engine to be rolled back to break deadlock.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is blocking?",
+        solution:
+          "One transaction waiting for lock held by another transaction.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is lock escalation?",
+        solution:
+          "Process of converting many fine-grained locks into fewer coarse-grained locks.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is isolation level?",
+        solution: "Degree to which transactions are isolated from each other.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is read uncommitted?",
+        solution:
+          "Isolation level allowing dirty reads but highest concurrency.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is read committed?",
+        solution:
+          "Isolation level preventing dirty reads but allowing non-repeatable reads.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is repeatable read?",
+        solution:
+          "Isolation level preventing dirty and non-repeatable reads but allowing phantom reads.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is serializable?",
+        solution:
+          "Highest isolation level preventing all concurrency anomalies.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is snapshot isolation?",
+        solution:
+          "Isolation level using row versioning instead of locks for consistency.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is dirty read?",
+        solution: "Reading uncommitted changes from another transaction.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is non-repeatable read?",
+        solution:
+          "Different results when reading same row twice due to updates.",
+        tags: [{ name: "basics", link: "" }],
+      },
+      {
+        question: "What is phantom read?",
+        solution: "New rows appearing in result set between two reads.",
+        tags: [{ name: "basics", link: "" }],
+      },
+    ],
+  },
+  {
+    id: 8,
+    topic: "SQL",
+    categories: "Mid",
+    tags: [{ name: "intermediate", link: "" }],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "How do you delete records older than one year efficiently?",
+        solution:
+          "Use batches: DELETE … WHERE transaction_date < NOW() - INTERVAL '1 year' and commit in chunks.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Design a Parking Lot schema.",
+        solution:
+          "Tables: ParkingSpot(id, type, occupied), ParkingTicket(id, spot_id, start_time, end_time).",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Write SQL to find the 2nd highest salary.",
+        solution:
+          "SELECT MAX(salary) FROM employees WHERE salary < (SELECT MAX(salary) FROM employees);",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Explain covering index.",
+        solution:
+          "Index that includes all columns needed for a query, eliminating table lookup.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Difference between UNION and UNION ALL.",
+        solution:
+          "UNION removes duplicates; UNION ALL keeps duplicates and is faster.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a correlated subquery?",
+        solution:
+          "Subquery referencing outer query columns; runs once per outer row.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "How to find duplicate rows?",
+        solution:
+          "SELECT col, COUNT(*) FROM table GROUP BY col HAVING COUNT(*) > 1;",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "How to remove duplicates?",
+        solution:
+          "Use ROW_NUMBER() to keep latest row and delete others, or DISTINCT.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a window function?",
+        solution:
+          "Function that operates on a set of rows (window) related to current row: ROW_NUMBER(), RANK(), DENSE_RANK(), LAG(), LEAD().",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Write a query to get running total.",
+        solution:
+          "SELECT amount, SUM(amount) OVER (ORDER BY date) AS running_total FROM sales;",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a common table expression (CTE)?",
+        solution:
+          "Temporary named result set defined by SELECT, used for recursion and readability.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is recursive CTE?",
+        solution:
+          "CTE that references itself to handle hierarchical data, e.g., org chart.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "How to pivot rows to columns?",
+        solution:
+          "SQL Server: PIVOT operator; MySQL: conditional aggregation with CASE.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "How to unpivot columns to rows?",
+        solution:
+          "SQL Server: UNPIVOT operator; MySQL: UNION ALL of CASE expressions.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a materialized view?",
+        solution:
+          "Stores query result physically; refreshed on schedule or on demand.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is an indexed view?",
+        solution:
+          "View with clustered index; improves performance but has restrictions.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Difference between view and table?",
+        solution:
+          "View is virtual, no data storage; table is physical with data.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "How to update through a view?",
+        solution:
+          "Only if view meets updateability rules (single table, no aggregates, no DISTINCT).",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is WITH CHECK OPTION?",
+        solution: "Ensures updated/inserted rows satisfy view WHERE clause.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a stored procedure?",
+        solution:
+          "Pre-compiled SQL statements executed as a unit; encapsulates logic.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Difference between stored procedure and function?",
+        solution:
+          "Procedure may return multiple result sets and has side effects; function returns single value and must be deterministic.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is an output parameter?",
+        solution: "Parameter in stored procedure that returns value to caller.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a trigger?",
+        solution:
+          "Automatically fires on INSERT/UPDATE/DELETE events; enforces business rules.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "Difference between AFTER and INSTEAD OF triggers?",
+        solution: "AFTER runs after operation; INSTEAD OF replaces operation.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What are inserted and deleted tables in triggers?",
+        solution:
+          "Special tables holding new and old versions of affected rows.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a cursor?",
+        solution:
+          "Database object that allows row-by-row processing instead of set-based.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a dynamic cursor?",
+        solution: "Reflects data changes made by others while cursor is open.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a static cursor?",
+        solution:
+          "Snapshot of data at cursor creation; insensitive to changes.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a keyset cursor?",
+        solution: "Rows and order fixed, but data values can change.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a forward-only cursor?",
+        solution: "Cursor that can only move forward through result set.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a scroll cursor?",
+        solution:
+          "Cursor that can move forward, backward, first, last, absolute, relative.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "How to avoid cursors?",
+        solution:
+          "Use set-based operations, window functions, CTEs, or table variables.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a transaction?",
+        solution:
+          "Sequence of operations executed as a single unit; follows ACID.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is ACID?",
+        solution:
+          "Atomicity, Consistency, Isolation, Durability properties of transactions.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is atomicity?",
+        solution: "All operations in transaction succeed or none are applied.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is consistency?",
+        solution:
+          "Transaction brings database from one valid state to another.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is isolation?",
+        solution: "Concurrent transactions do not interfere with each other.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is durability?",
+        solution: "Committed changes persist even in case of system failure.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is COMMIT?",
+        solution: "Saves all changes permanently.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is ROLLBACK?",
+        solution: "Undo changes since last COMMIT.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is SAVEPOINT?",
+        solution: "Breakpoint inside transaction; partial rollback possible.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is SET TRANSACTION?",
+        solution:
+          "Statement to set isolation level or other transaction properties.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is READ UNCOMMITTED?",
+        solution:
+          "Isolation level allowing dirty reads but highest concurrency.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is READ COMMITTED?",
+        solution:
+          "Isolation level preventing dirty reads but allowing non-repeatable reads.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is REPEATABLE READ?",
+        solution:
+          "Isolation level preventing dirty and non-repeatable reads but allowing phantom reads.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is SERIALIZABLE?",
+        solution:
+          "Highest isolation level preventing all concurrency anomalies.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is SNAPSHOT isolation?",
+        solution:
+          "Uses row versioning to provide transaction-level consistency.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is dirty read?",
+        solution: "Reading uncommitted changes from another transaction.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is non-repeatable read?",
+        solution:
+          "Different results when reading same row twice due to updates.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is phantom read?",
+        solution: "New rows appearing in result set between two reads.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is lock escalation?",
+        solution:
+          "Converting many fine-grained locks into fewer coarse-grained locks.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is a deadlock?",
+        solution:
+          "Situation where two transactions block each other waiting for resources.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is deadlock victim?",
+        solution:
+          "Transaction chosen by database engine to be rolled back to break deadlock.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is blocking?",
+        solution:
+          "One transaction waiting for lock held by another transaction.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is lock timeout?",
+        solution:
+          "Maximum time a transaction waits for a lock before giving up.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is NOWAIT?",
+        solution:
+          "Returns immediately if lock cannot be obtained instead of waiting.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is READPAST?",
+        solution: "Skip locked rows instead of waiting when reading data.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is UPDLOCK?",
+        solution:
+          "Hint to take update locks instead of shared locks when reading.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is TABLOCK?",
+        solution: "Hint to take table-level lock instead of row/page locks.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is TABLOCKX?",
+        solution: "Hint to take exclusive table-level lock.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is PAGLOCK?",
+        solution: "Hint to take page-level locks instead of row locks.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is ROWLOCK?",
+        solution: "Hint to take row-level locks instead of page/table locks.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is NOLOCK?",
+        solution: "Hint equivalent to READ UNCOMMITTED; allows dirty reads.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is XLOCK?",
+        solution: "Hint to take exclusive lock.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is SERIALIZABLE hint?",
+        solution: "Equivalent to SERIALIZABLE isolation level.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is REPEATABLEREAD hint?",
+        solution: "Equivalent to REPEATABLE READ isolation level.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is READCOMMITTED hint?",
+        solution: "Equivalent to READ COMMITTED isolation level.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is READUNCOMMITTED hint?",
+        solution: "Equivalent to READ UNCOMMITTED isolation level.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is deadlock graph?",
+        solution:
+          "XML representation showing resources and processes involved in deadlock.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is wait statistics?",
+        solution:
+          "System information showing what resources SQL Server is waiting for.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is blocking chain?",
+        solution: "Series of blocking relationships between multiple sessions.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+      {
+        question: "What is resource semaphore?",
+        solution: "Memory grant mechanism for query execution.",
+        tags: [{ name: "intermediate", link: "" }],
+      },
+    ],
+  },
+  {
+    id: 9,
+    topic: "SQL",
+    categories: "Senior",
+    tags: [{ name: "advanced", link: "" }],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "How to optimize DELETE of millions of rows?",
+        solution:
+          "Batch deletes, disable non-clustered indexes temporarily, use minimal logging, partition switch.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is read committed snapshot isolation (RCSI)?",
+        solution: "SQL Server row-versioning that reduces blocking.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "Design a sharding strategy.",
+        solution:
+          "Choose shard key (e.g., customer_id), range vs hash sharding, handle cross-shard queries.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "Explain lock escalation.",
+        solution:
+          "SQL Server converts many fine-grained locks into a single coarse lock to reduce overhead.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "How to detect deadlocks?",
+        solution: "Use SQL Profiler, extended events, trace flags 1204/1222.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is delayed durability?",
+        solution:
+          "Transaction logs flushed later; faster commits, risk of data loss.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "Difference between OLTP and OLAP indexes?",
+        solution:
+          "OLTP: narrow, many seeks; OLAP: wide, covering, columnstore.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "How to partition a large table?",
+        solution:
+          "Use partition function/scheme by date or hash; improves maintenance & performance.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is page splitting?",
+        solution:
+          "When inserting into full index page, half rows moved to new page; causes fragmentation.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "Explain lock escalation",
+        solution:
+          "SQL Server converts many fine-grained locks into single coarse lock to reduce overhead.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is automatic plan correction?",
+        solution:
+          "SQL 2017+ feature that forces last good plan if regression detected.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "Describe database sharding pitfalls",
+        solution: "Cross-shard joins, rebalancing, distributed transactions.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "How to perform online index rebuild?",
+        solution:
+          "ALTER INDEX ... REBUILD WITH (ONLINE = ON); maintains availability.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is a columnstore index?",
+        solution:
+          "Stores data column-wise for high compression & analytics performance.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "How to handle tempdb contention?",
+        solution: "Multiple data files, trace flag 1117/1118, SSD storage.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is ghost records cleanup?",
+        solution: "Background process that removes deleted rows from indexes.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "Explain query store",
+        solution:
+          "SQL Server feature capturing query plans and performance metrics for troubleshooting.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is adaptive query processing?",
+        solution:
+          "SQL Server 2017+ feature adjusting execution plan based on runtime conditions.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is batch mode processing?",
+        solution:
+          "Executes operators on batches of ~1000 rows instead of row-by-row for columnstore indexes.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is row mode processing?",
+        solution: "Traditional execution processing one row at a time.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is cardinality estimator?",
+        solution:
+          "Component that estimates number of rows returned by each operator.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is memory grant?",
+        solution:
+          "Amount of memory reserved for query execution operations like sorts and hashes.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is spill to tempdb?",
+        solution:
+          "When memory grant insufficient, operations spill to tempdb for sorting/hashing.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is query timeout?",
+        solution:
+          "Maximum time a query can run before being terminated by system.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is connection pooling?",
+        solution:
+          "Reusing database connections to reduce overhead of establishing new ones.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is database mirroring?",
+        solution:
+          "High availability feature maintaining copy of database on another server.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is Always On availability groups?",
+        solution:
+          "SQL Server feature providing high availability and disaster recovery with multiple replicas.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is log shipping?",
+        solution:
+          "Process of backing up transaction logs and restoring to standby server.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is replication?",
+        solution:
+          "Process of copying and synchronizing data across multiple databases.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What are replication types?",
+        solution: "Snapshot, transactional, merge, peer-to-peer.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is change data capture (CDC)?",
+        solution: "Records all changes to tables for auditing or ETL purposes.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is change tracking?",
+        solution:
+          "Lightweight alternative to CDC that only tracks which rows changed.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is temporal tables?",
+        solution:
+          "SQL Server 2016+ feature automatically tracking historical versions of rows.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is stretch database?",
+        solution: "SQL Server feature archiving cold data to Azure cloud.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is polybase?",
+        solution:
+          "Technology to query external data sources like Hadoop or Azure blob storage.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is in-memory OLTP?",
+        solution:
+          "SQL Server feature storing tables entirely in memory for extreme performance.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is natively compiled stored procedure?",
+        solution:
+          "Stored procedure compiled to native code for in-memory tables.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is memory-optimized table variable?",
+        solution:
+          "Table variable stored in memory using same technology as in-memory tables.",
+        tags: [{ name: "advanced", link: "" }],
+      },
+      {
+        question: "What is durable vs non-durable in-memory tables?",
+        solution:
+          "Durable persists to disk; non-durable only in memory (lost on restart).",
+        tags: [{ name: "advanced", link: "" }],
+      },
+    ],
+  },
 ];
