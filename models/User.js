@@ -13,9 +13,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: function() {
-      return !this.googleId; // Password only required if not using Google auth
-    },
+    default : ""
   },
   googleId: {
     type: String,
@@ -72,15 +70,20 @@ const userSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
       }
-    }]
+    }],
+  },
+  learnedPrepareTopics: {
+    type: [{
+      topic: { type: String, required: true },
+      concept: { type: String, required: true },
+      completedAt: { type: Date, default: Date.now }
+    }],
+    default: []
   }
 }, {
   timestamps: true
 });
 
-// Index for faster queries
-userSchema.index({ email: 1 });
-userSchema.index({ googleId: 1 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 

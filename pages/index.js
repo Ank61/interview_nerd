@@ -14,13 +14,20 @@ import ts from "../images/ts.png";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Star, Users, BookOpen, TrendingUp } from "lucide-react";
+import { ArrowRight, Star, Users, BookOpen, TrendingUp, Menu, X } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
+import { useState } from "react";
 
 
 export default function Home() {
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col text-gray-900">
       <header className="relative w-full bg-gradient-to-b from-blue-50 to-white border-b border-blue-100">
@@ -30,6 +37,8 @@ export default function Home() {
               <svg width="32" height="32" fill="none" viewBox="0 0 48 48" className="text-blue-600"><circle cx="24" cy="24" r="24" fill="#2563eb" fillOpacity="0.08"/><path d="M24 14v12l8 4" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
               <span className="font-bold text-lg text-gray-900">Interview Nerd</span>
             </div>
+            
+            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-8 text-sm font-medium">
               <a href="#features" className="text-gray-700 hover:text-blue-700 transition">Features</a>
               <a href="#categories" className="text-gray-700 hover:text-blue-700 transition">Categories</a>
@@ -37,12 +46,6 @@ export default function Home() {
               <a href="#contact" className="text-gray-700 hover:text-blue-700 transition">Contact</a>
               {session ? (
                 <>
-                  {/* <div className="flex items-center gap-2">
-                    {session.user?.image && (
-                      <img src={session.user.image} alt={session.user.name || "User"} className="w-7 h-7 rounded-full border" />
-                    )}
-                    <span className="text-gray-700 font-semibold">{session.user?.name || session.user?.email}</span>
-                  </div> */}
                   <Button size="sm" className="bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition shadow-md" onClick={() => signOut({ callbackUrl: "/" })}>
                     Logout
                   </Button>
@@ -54,7 +57,88 @@ export default function Home() {
                 </>
               )}
             </div>
+
+            {/* Mobile Menu Button */}
+            <div className="md:hidden">
+              <button
+                onClick={toggleMobileMenu}
+                className="text-gray-700 hover:text-blue-700 transition p-2"
+              >
+                {isMobileMenuOpen ? (
+                  <X className="w-6 h-6" />
+                ) : (
+                  <Menu className="w-6 h-6" />
+                )}
+              </button>
+            </div>
           </div>
+
+          {/* Mobile Navigation Menu */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+              <div className="container mx-auto px-4 py-4 space-y-4">
+                <a 
+                  href="#features" 
+                  className="block text-gray-700 hover:text-blue-700 transition py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Features
+                </a>
+                <a 
+                  href="#categories" 
+                  className="block text-gray-700 hover:text-blue-700 transition py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Categories
+                </a>
+                <a 
+                  href="#testimonials" 
+                  className="block text-gray-700 hover:text-blue-700 transition py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Testimonials
+                </a>
+                <a 
+                  href="#contact" 
+                  className="block text-gray-700 hover:text-blue-700 transition py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Contact
+                </a>
+                <div className="border-t border-gray-200 pt-4">
+                  {session ? (
+                    <Button 
+                      size="sm" 
+                      className="w-full bg-blue-600 text-white font-semibold px-6 py-2 rounded hover:bg-blue-700 transition shadow-md" 
+                      onClick={() => {
+                        signOut({ callbackUrl: "/" });
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  ) : (
+                    <div className="space-y-2">
+                      <Link 
+                        href="/auth/login" 
+                        className="block text-gray-700 hover:text-blue-700 transition py-2 text-center"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Login
+                      </Link>
+                      <Link 
+                        href="/auth/signup" 
+                        className="block text-gray-700 hover:text-blue-700 transition py-2 text-center"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Signup
+                      </Link>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </nav>
         <div className="container mx-auto px-4 pt-32 pb-20 flex flex-col items-center text-center relative z-10">
           <span className="uppercase tracking-widest text-xs text-blue-700 font-semibold mb-4">Ace Your Next Interview</span>

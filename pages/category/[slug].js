@@ -36,6 +36,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { BookOpenCheck } from "lucide-react";
 import { Code } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useSession } from "next-auth/react";
 // Using local data for better performance - no API calls needed
 import { interviewData } from "@/data/interviewData";
 import {
@@ -382,6 +384,64 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
   // Use static data instead of filtering on client
   let selectedTopicData = topicPrepareData?.type || [];
 
+  // Add state for learned concepts
+  const [learnedConcepts, setLearnedConcepts] = React.useState({});
+  const { data: session } = useSession();
+
+  // Load learned concepts from localStorage on mount
+  React.useEffect(() => {
+    const stored = localStorage.getItem("learnedConcepts");
+    if (stored) {
+      setLearnedConcepts(JSON.parse(stored));
+    }
+  }, []);
+
+  // Helper to get unique key for a concept
+  const getConceptKey = (topic, concept) => `${topic}__${concept}`;
+
+  // Handler for checkbox toggle
+  const handleLearnedToggle = async (concept) => {
+    const key = getConceptKey(topic, concept.topic);
+    const wasChecked = !!learnedConcepts[key];
+    
+    setLearnedConcepts((prev) => {
+      const updated = { ...prev, [key]: !prev[key] };
+      localStorage.setItem("learnedConcepts", JSON.stringify(updated));
+      return updated;
+    });
+    
+    // If user is logged in, sync with database
+    if (session?.user?.id) {
+      try {
+        if (!wasChecked) {
+          // Adding - call POST API
+          await fetch("/api/auth/learned-topic", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: session.user.id,
+              topic,
+              concept: concept.topic,
+            }),
+          });
+        } else {
+          // Removing - call DELETE API
+          await fetch("/api/auth/learned-topic", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: session.user.id,
+              topic,
+              concept: concept.topic,
+            }),
+          });
+        }
+      } catch (err) {
+        console.error("Failed to update learned topic in DB", err);
+      }
+    }
+  };
+
   React.useEffect(() => {
     setTopicSelected(topic);
     const topicIndex = prepareData.findIndex((t) => t.category === topic);
@@ -393,6 +453,24 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
       .filter((item) => item.categories === interviewSelection);
     setInterviewQues(filteredTopic[0] || {});
   }, [interviewSelection, topicInterviewData]);
+
+  React.useEffect(() => {
+    if (session?.user?.id) {
+      console.log("User.id", session)
+      fetch(`/api/auth/learned-topic?userId=${session.user.id}`)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data.learnedPrepareTopics)) {
+            // Map to { [key]: true }
+            const dbLearned = {};
+            data.learnedPrepareTopics.forEach(item => {
+              dbLearned[getConceptKey(item.topic, item.concept)] = true;
+            });
+            setLearnedConcepts(dbLearned);
+          }
+        });
+    }
+  }, [session?.user?.id, topic]);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -608,13 +686,23 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                     >
                       Action
                     </TableHead>
-                    {/* <TableHead
-                      className={`text-center ${
-                        topic === "Javascript" ? "text-Javascript-text " : ""
-                      }`}
-                    >
-                      Status
-                    </TableHead> */}
+                    {session?.user?.id && (
+                      <TableHead
+                        className={`text-center ${
+                          topic === "Javascript"
+                            ? "text-Javascript-text "
+                            : topic === "React"
+                            ? "text-React-text "
+                            : topic === "Node"
+                            ? "text-Node-text "
+                            : topic === "Typescript"
+                            ? "text-Typescript-text "
+                            : ""
+                        }`}
+                      >
+                        Status
+                      </TableHead>
+                    )}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -800,26 +888,20 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                             </div>
                           )}
                         </TableCell>
-                        {/* <TableCell className="text-left">
-                        <Checkbox
-                          color={`${
-                            topic === "Javascript"
-                              ? "text-Javascript-text bg-white"
-                              : ""
-                          }`}
-                          key={concept.topic}
-                          className={`${
-                            topic === "Javascript"
-                              ? "text-Javascript-text bg-white"
-                              : ""
-                          }`}
-                        />
-                      </TableCell> */}
+                        {session?.user?.id && (
+                          <TableCell className="text-center">
+                            <Checkbox
+                              checked={!!learnedConcepts[getConceptKey(topic, concept.topic)]}
+                              onCheckedChange={() => handleLearnedToggle(concept)}
+                              aria-label="Mark as learned"
+                            />
+                          </TableCell>
+                        )}
                       </TableRow>
                     ))
                   ) : searchQuery.trim() ? (
                     <TableRow>
-                      <TableCell colSpan={2} className="text-center py-8 text-gray-500">
+                      <TableCell colSpan={3} className="text-center py-8 text-gray-500">
                         <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
                         <p className="text-sm font-medium">No topics found</p>
                         <p className="text-xs">Try adjusting your search terms</p>
