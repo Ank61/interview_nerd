@@ -2260,4 +2260,821 @@ export const interviewData = [
       },
     ],
   },
+  {
+    id: 10,
+    topic: "Redis",
+    categories: "Junior",
+    tags: [
+      { name: "basics", link: "" },
+      { name: "cache", link: "" },
+      { name: "data-structures", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is Redis?",
+        solution:
+          "Redis is an open-source, in-memory data structure store used as a database, cache, and message broker. It supports various data structures like strings, lists, sets, sorted sets, hashes, bitmaps, hyperloglogs, and streams.",
+      },
+      {
+        question: "What are the major features of Redis?",
+        solution:
+          "Major features include in-memory storage, persistence options (RDB and AOF), replication, high availability with Redis Sentinel, automatic partitioning with Redis Cluster, Lua scripting, transactions, and pub/sub messaging.",
+      },
+      {
+        question:
+          "How is Redis different from traditional relational databases?",
+        solution:
+          "Redis stores data in memory for fast access, supports rich data structures beyond tables, provides optional persistence, and is optimized for high-performance read/write operations. Unlike relational databases, it doesn't use SQL and lacks complex querying capabilities.",
+      },
+      {
+        question: "What are some common use cases of Redis?",
+        solution:
+          "Common use cases include caching, session storage, real-time analytics, message queues, leaderboards, rate limiting, pub/sub systems, and as a primary database for high-speed applications.",
+      },
+      {
+        question: "What data structures does Redis support?",
+        solution:
+          "Redis supports strings, lists, sets, sorted sets (ZSET), hashes, bitmaps, hyperloglogs, geospatial indexes, and streams.",
+      },
+      {
+        question: "What is a Redis key and what are the naming conventions?",
+        solution:
+          "A Redis key is a binary safe string. Naming conventions include using prefixes (e.g., 'user:123', 'session:abc'), separators like colons, and meaningful names to avoid collisions.",
+      },
+      {
+        question: "What is Redis caching?",
+        solution:
+          "Redis caching involves storing frequently accessed data in memory to reduce database load and improve response times. It acts as a fast, temporary storage layer between applications and databases.",
+      },
+      {
+        question: "How do you set a value in Redis?",
+        solution:
+          "Use the SET command: SET key value [EX seconds|PX milliseconds|NX|XX]. Example: SET user:1001 'Alice' EX 3600",
+      },
+      {
+        question: "How do you retrieve a value from Redis?",
+        solution: "Use the GET command: GET key. Example: GET user:1001",
+      },
+      {
+        question: "What is the EXPIRE command in Redis?",
+        solution:
+          "EXPIRE sets a timeout (TTL) on a key in seconds. After the timeout, the key is automatically deleted. Syntax: EXPIRE key seconds. Example: EXPIRE session:abc 1800",
+      },
+      {
+        question: "Explain the SET command and how it is used",
+        solution:
+          "The SET command stores a key-value pair. It supports options like EX (expire in seconds), PX (expire in milliseconds), NX (set only if key doesn't exist), and XX (set only if key exists). Example: SET user:1001 'Alice' EX 3600 NX",
+      },
+      {
+        question:
+          "Write a Redis command to store a key-value pair and retrieve it",
+        solution: "SET mykey 'hello'; GET mykey",
+      },
+      {
+        question: "How can you delete a key in Redis?",
+        solution:
+          "Use the DEL command: DEL key [key...]. Example: DEL user:1001",
+      },
+      {
+        question:
+          "What is a Redis hash and how do you use it? Provide an example",
+        solution:
+          "A Redis hash is a map between string fields and string values. Use HSET to set fields, HGET to get a field, and HGETALL to get all fields. Example: HSET user:1001 name 'Alice' age '30'; HGET user:1001 name",
+      },
+      {
+        question: "Write a Redis command to increment a value stored at a key",
+        solution:
+          "Use INCR for integer increment: INCR counter. Use INCRBY for custom increments: INCRBY counter 5",
+      },
+      {
+        question: "Explain the difference between GET and MGET",
+        solution:
+          "GET retrieves a single key's value. MGET retrieves values for multiple keys in one operation. Example: MGET key1 key2 key3",
+      },
+      {
+        question:
+          "Write a Redis command to retrieve the first three elements of a list",
+        solution: "Use LRANGE: LRANGE mylist 0 2",
+      },
+      {
+        question: "Write a Redis command to find the length of a list",
+        solution: "Use LLEN: LLEN mylist",
+      },
+      {
+        question: "How do you install Redis on a Linux system?",
+        solution:
+          "wget http://download.redis.io/redis-stable.tar.gz; tar xzf redis-stable.tar.gz; cd redis-stable; make; sudo make install",
+      },
+      {
+        question:
+          "Explain the concept of Redis Pub/Sub and provide a simple example",
+        solution:
+          "Pub/Sub is a messaging paradigm where publishers send messages to channels and subscribers receive them. Example: SUBSCRIBE news; PUBLISH news 'Hello World'",
+      },
+      {
+        question: "What is the TTL command and what does it do?",
+        solution:
+          "TTL returns the remaining time-to-live (in seconds) for a key with an expiration set. Returns -2 if key doesn't exist, -1 if key exists but has no expiration. Example: TTL mykey",
+      },
+      {
+        question: "What is the difference between Redis Lists and Sets?",
+        solution:
+          "Lists are ordered collections that allow duplicates and support operations like LPUSH, RPUSH, LRANGE. Sets are unordered collections of unique values with operations like SADD, SMEMBERS, SINTER.",
+      },
+      {
+        question: "What is a Redis sorted set?",
+        solution:
+          "A sorted set (ZSET) is a collection of unique elements ordered by a score. Each member has an associated score used for ordering. Supports operations like ZADD, ZRANGE, ZRANK.",
+      },
+      {
+        question:
+          "How do you implement caching with Redis in a web application?",
+        solution:
+          "Store frequently accessed data in Redis with expiration times. Check Redis first before querying the database. Use SET with expiration for cache entries and DEL to invalidate cache.",
+      },
+      {
+        question: "What is a Redis transaction and how is it executed?",
+        solution:
+          "Transactions group multiple commands into a single atomic operation. Use MULTI to start, queue commands, then EXEC to execute all commands atomically. Example: MULTI; SET a 1; SET b 2; EXEC",
+      },
+      {
+        question: "What are Redis pipelines?",
+        solution:
+          "Pipelines batch multiple commands into a single network round-trip, improving performance by reducing latency. Use pipeline() in clients or MULTI/EXEC for atomic pipelines.",
+      },
+      {
+        question:
+          "How does Redis handle persistence and what are the different persistence mechanisms?",
+        solution:
+          "Redis offers RDB (snapshotting) and AOF (append-only file) persistence. RDB takes periodic snapshots, while AOF logs every write operation. Both can be enabled simultaneously.",
+      },
+      {
+        question: "How can you scale Redis?",
+        solution:
+          "Scaling options include Redis Cluster for horizontal scaling, Redis Sentinel for high availability, read replicas for read scaling, and partitioning data across multiple instances.",
+      },
+      {
+        question:
+          "Describe a scenario where Redis is not the appropriate choice",
+        solution:
+          "When you need complex querying, large datasets that exceed memory, strong consistency requirements, or when data durability is more important than speed.",
+      },
+      {
+        question: "How do you monitor and debug Redis performance issues?",
+        solution:
+          "Use MONITOR command, INFO command, slowlog, redis-cli --stat, keyspace hits/misses, memory usage, and client-side metrics.",
+      },
+      {
+        question: "What security features does Redis offer?",
+        solution:
+          "Authentication (requirepass), ACL (Access Control Lists), TLS encryption, protected mode, and network security through bind configurations.",
+      },
+      {
+        question: "Explain how Lua scripting is used in Redis",
+        solution:
+          "Lua scripts execute atomically on the server side using EVAL command. Scripts can perform complex operations with minimal network round-trips. Example: EVAL 'return redis.call(\"GET\", KEYS[1])' 1 mykey",
+      },
+      {
+        question:
+          "How do you handle caching in a distributed environment using Redis?",
+        solution:
+          "Use Redis Cluster for distributed caching, implement cache invalidation strategies, use consistent hashing for key distribution, and handle cache stampede with locks.",
+      },
+      {
+        question:
+          "What is the impact of persistence settings on Redis performance?",
+        solution:
+          "RDB snapshots can cause brief pauses during save operations. AOF with fsync=always impacts write performance. Choose settings based on durability vs performance requirements.",
+      },
+      {
+        question: "Describe Redis Sentinel and its role",
+        solution:
+          "Redis Sentinel provides high availability by monitoring Redis instances, performing automatic failover, and notifying clients about topology changes.",
+      },
+      {
+        question:
+          "What are Redis Modules and how do they enhance functionality?",
+        solution:
+          "Redis Modules extend Redis with new data types and commands. Popular modules include RedisBloom (probabilistic data structures), RedisTimeSeries, RedisGraph, and RedisJSON.",
+      },
+      {
+        question: "How do you optimize Redis for high read volumes?",
+        solution:
+          "Use read replicas, enable keyspace notifications, implement connection pooling, use pipelining, optimize data structures, and consider Redis Cluster.",
+      },
+      {
+        question: "Explain the use of Pipelining in Redis",
+        solution:
+          "Pipelining sends multiple commands to Redis without waiting for replies, reducing network latency. Commands are queued and responses are read together.",
+      },
+      {
+        question:
+          "Discuss the limitations of Redis regarding data size and type",
+        solution:
+          "Single-value limit is 512MB, total memory is limited by available RAM, single-threaded command processing, and lack of complex querying capabilities.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, COPY command for AOF, or use redis-cli --rdb. For restore, copy RDB/AOF files to Redis directory or use redis-cli --pipe.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, persistence options, high availability, and horizontal scaling.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Redis uses single-threaded processing for commands, ensuring atomic operations. Concurrent clients are handled via I/O multiplexing, and transactions provide atomicity.",
+      },
+      {
+        question: "Explain the use of Lua scripting in Redis",
+        solution:
+          "Lua scripts run atomically on the server, reducing network round-trips. Use EVAL for one-time scripts and SCRIPT LOAD/EVALSHA for cached scripts.",
+      },
+      {
+        question: "What are the limitations of Redis?",
+        solution:
+          "Memory-based storage limits, single-threaded command processing, eventual consistency in cluster mode, lack of complex queries, and data size limits per value.",
+      },
+      {
+        question: "How do you scale Redis?",
+        solution:
+          "Vertical scaling (more memory/CPU), horizontal scaling with Redis Cluster, read replicas, client-side sharding, or using Redis Enterprise.",
+      },
+      {
+        question:
+          "Describe a situation where you used Redis to solve a performance problem",
+        solution:
+          "Used Redis to cache frequently accessed user profiles, reducing database load by 80% and improving response times from 200ms to 5ms.",
+      },
+      {
+        question: "What is Redis Bloom Filter?",
+        solution:
+          "A probabilistic data structure in RedisBloom module that tests whether an element is a member of a set with possible false positives but no false negatives.",
+      },
+      {
+        question: "How do you handle security in Redis?",
+        solution:
+          "Enable authentication, use ACLs, enable TLS encryption, bind to specific interfaces, use protected mode, and implement network security.",
+      },
+      {
+        question:
+          "Explain the maximum memory limit for a Redis instance and how it can be configured",
+        solution:
+          "Set maxmemory directive in redis.conf or via CONFIG SET maxmemory. When limit is reached, eviction policies determine which keys to remove.",
+      },
+      {
+        question:
+          "What is the purpose of the Redis 'WATCH' command in the context of transactions?",
+        solution:
+          "WATCH monitors keys for changes during a transaction. If any watched key is modified before EXEC, the transaction is aborted (optimistic locking).",
+      },
+    ],
+  },
+  {
+    id: 11,
+    topic: "Redis",
+    categories: "Mid",
+    tags: [
+      { name: "clustering", link: "" },
+      { name: "replication", link: "" },
+      { name: "performance", link: "" },
+      { name: "transactions", link: "" },
+      { name: "persistence", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is a Redis cluster?",
+        solution:
+          "A Redis cluster is a distributed implementation of Redis that automatically shards data across multiple nodes, providing horizontal scalability and high availability without a single point of failure.",
+      },
+      {
+        question:
+          "What are the differences between Redis replication and Redis clustering?",
+        solution:
+          "Replication creates exact copies (master-slave) for read scaling and failover, while clustering shards data across multiple nodes for horizontal scaling. Replication is simpler but limited by single-node capacity; clustering handles larger datasets by partitioning.",
+      },
+      {
+        question: "What is the TTL command and what does it do?",
+        solution:
+          "TTL returns the remaining time-to-live in seconds for a key with an expiration set. Returns -2 if key doesn't exist, -1 if key exists but has no expiration, or positive value for remaining seconds.",
+      },
+      {
+        question: "What is Redis Pub/Sub?",
+        solution:
+          "Redis Pub/Sub is a messaging paradigm where publishers send messages to channels and subscribers receive them. It's a lightweight, fire-and-forget messaging system without persistence or acknowledgment guarantees.",
+      },
+      {
+        question: "What is the difference between Redis Lists and Sets?",
+        solution:
+          "Lists are ordered collections that allow duplicates and support operations like LPUSH/RPUSH. Sets are unordered collections of unique values with operations like SADD/SMEMBERS. Lists maintain insertion order; sets don't.",
+      },
+      {
+        question: "What is a Redis sorted set?",
+        solution:
+          "A sorted set (ZSET) is a collection of unique elements ordered by a score. Each member has an associated floating-point score used for ordering. Supports operations like ZADD, ZRANGE, ZRANK with logarithmic complexity.",
+      },
+      {
+        question:
+          "How do you implement caching with Redis in a web application?",
+        solution:
+          "Use SET with expiration for cache entries, implement cache-aside pattern (check Redis first, then DB), use cache invalidation strategies (TTL, explicit DEL), and handle cache stampede with locks or probabilistic early expiration.",
+      },
+      {
+        question: "What is a Redis transaction and how is it executed?",
+        solution:
+          "Transactions group commands into an atomic unit using MULTI/EXEC. Commands are queued until EXEC is called, then executed atomically. WATCH can be used for optimistic locking. Example: MULTI; SET a 1; SET b 2; EXEC",
+      },
+      {
+        question: "What are Redis pipelines?",
+        solution:
+          "Pipelines batch multiple commands into a single network round-trip, improving performance by reducing latency. Commands are sent in bulk and responses are received together. Can be used with MULTI/EXEC for atomic pipelines.",
+      },
+      {
+        question:
+          "How does Redis handle persistence and what are the different persistence mechanisms?",
+        solution:
+          "Redis offers RDB (snapshotting) and AOF (append-only file). RDB takes periodic snapshots for compact backups. AOF logs every write operation for durability. Both can be enabled simultaneously with different fsync policies.",
+      },
+      {
+        question: "Explain the concept of Redis transactions",
+        solution:
+          "Redis transactions use MULTI to start, queue commands, then EXEC to execute atomically. Commands are serialized and executed sequentially. DISCARD cancels the transaction. WATCH provides optimistic locking by monitoring keys.",
+      },
+      {
+        question: "What are the main differences between RDB and AOF?",
+        solution:
+          "RDB creates compact snapshots at intervals, good for backups but may lose recent data. AOF logs every write, providing better durability but larger files and slower recovery. AOF can be fsynced every command, every second, or manually.",
+      },
+      {
+        question: "How can you scale Redis?",
+        solution:
+          "Options include vertical scaling (more RAM/CPU), horizontal scaling with Redis Cluster, read replicas for read scaling, client-side sharding, or Redis Enterprise features. Choice depends on use case and operational requirements.",
+      },
+      {
+        question:
+          "Describe a scenario where Redis is not the appropriate choice",
+        solution:
+          "When you need complex querying, datasets larger than memory, strong consistency across nodes, or when durability is more important than speed. Also avoid for write-heavy workloads requiring ACID guarantees.",
+      },
+      {
+        question: "How do you monitor and debug Redis performance issues?",
+        solution:
+          "Use INFO command for server stats, MONITOR for real-time commands, SLOWLOG for slow queries, redis-cli --stat for live metrics, memory usage commands, and client-side metrics like response times and hit rates.",
+      },
+      {
+        question: "What security features does Redis offer?",
+        solution:
+          "Features include AUTH for password protection, ACL (Access Control Lists) for fine-grained permissions, TLS encryption for data in transit, protected mode, and network security through bind configurations and firewalls.",
+      },
+      {
+        question: "Explain how Lua scripting is used in Redis",
+        solution:
+          "Lua scripts run atomically on the server using EVAL command. Scripts can perform complex operations with minimal network round-trips. Use SCRIPT LOAD and EVALSHA for cached scripts. Example: EVAL 'return redis.call(\"GET\", KEYS[1])' 1 mykey",
+      },
+      {
+        question:
+          "How do you handle caching in a distributed environment using Redis?",
+        solution:
+          "Use Redis Cluster for distributed caching, implement consistent hashing for key distribution, handle cache invalidation with pub/sub or keyspace notifications, manage cache stampede with locks, and use read replicas for read scaling.",
+      },
+      {
+        question:
+          "What is the impact of persistence settings on Redis performance?",
+        solution:
+          "RDB snapshots can cause brief pauses during saves. AOF with fsync=always impacts write performance. AOF fsync=every-second offers good balance. Choose settings based on durability vs performance requirements.",
+      },
+      {
+        question: "Describe Redis Sentinel and its role",
+        solution:
+          "Redis Sentinel provides high availability by monitoring Redis instances, performing automatic failover when masters go down, and notifying clients about topology changes. It also acts as a configuration provider for clients.",
+      },
+      {
+        question:
+          "What are Redis Modules and how do they enhance functionality?",
+        solution:
+          "Redis Modules extend core functionality with new data types and commands. Popular modules include RedisBloom (probabilistic structures), RedisTimeSeries (time-series data), RedisGraph (graph database), and RedisJSON (JSON support).",
+      },
+      {
+        question: "How do you optimize Redis for high read volumes?",
+        solution:
+          "Strategies include using read replicas, enabling keyspace notifications, implementing connection pooling, using pipelining, optimizing data structures, considering Redis Cluster, and using efficient serialization formats.",
+      },
+      {
+        question: "Explain the use of Pipelining in Redis",
+        solution:
+          "Pipelining sends multiple commands to Redis without waiting for replies, reducing network latency. Commands are queued and responses are read together, significantly improving throughput for bulk operations.",
+      },
+      {
+        question:
+          "Discuss the limitations of Redis regarding data size and type",
+        solution:
+          "Single value limit is 512MB, total memory limited by available RAM, single-threaded command processing, lack of complex querying, eventual consistency in cluster mode, and data size limits per value.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, COPY for AOF files, or redis-cli --rdb for backups. For restore, copy RDB/AOF files to Redis directory or use redis-cli --pipe for bulk loading.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, optional persistence, high availability options, horizontal scaling with clustering, and extensive client library support.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Uses single-threaded processing for commands ensuring atomicity. Concurrent clients handled via I/O multiplexing. Transactions provide atomicity, and Lua scripts run atomically on the server.",
+      },
+      {
+        question: "Explain the use of Lua scripting in Redis",
+        solution:
+          "Lua scripts execute atomically on the server, reducing network round-trips. Use EVAL for one-time scripts, SCRIPT LOAD and EVALSHA for cached scripts. Scripts can access Redis commands via redis.call() or redis.pcall().",
+      },
+      {
+        question: "What are the limitations of Redis?",
+        solution:
+          "Memory-based storage limits, single-threaded command processing, eventual consistency in cluster mode, lack of complex SQL-like queries, data size limits per value (512MB), and no multi-document transactions.",
+      },
+      {
+        question: "How do you scale Redis?",
+        solution:
+          "Options include vertical scaling (more RAM/CPU), horizontal scaling with Redis Cluster, read replicas for read scaling, client-side sharding, or managed services like Redis Enterprise. Choice depends on use case and constraints.",
+      },
+      {
+        question:
+          "Describe a situation where you used Redis to solve a performance problem",
+        solution:
+          "Implemented Redis caching for user session storage, reducing database queries by 80% and improving response times from 200ms to 5ms. Used TTL for automatic cleanup and pub/sub for cache invalidation.",
+      },
+      {
+        question: "What is Redis Bloom Filter?",
+        solution:
+          "A probabilistic data structure from RedisBloom module that tests element membership with possible false positives but no false negatives. Useful for cache filtering and duplicate detection.",
+      },
+      {
+        question: "How do you handle security in Redis?",
+        solution:
+          "Enable AUTH with strong passwords, use ACL for fine-grained permissions, enable TLS for encryption, bind to specific interfaces, use protected mode, implement network security, and regularly update Redis.",
+      },
+      {
+        question:
+          "Explain the maximum memory limit for a Redis instance and how it can be configured",
+        solution:
+          "Set maxmemory directive in redis.conf or via CONFIG SET maxmemory. When reached, eviction policies (maxmemory-policy) determine which keys to remove. Example: CONFIG SET maxmemory 2gb",
+      },
+      {
+        question:
+          "What is the purpose of the Redis 'WATCH' command in the context of transactions?",
+        solution:
+          "WATCH monitors keys for changes during a transaction. If any watched key is modified before EXEC, the transaction is aborted. It provides optimistic locking for concurrent operations.",
+      },
+      {
+        question: "How do you implement rate limiting using Redis?",
+        solution:
+          "Use token bucket algorithm with INCR and EXPIRE commands, or use sliding window with sorted sets. Example: INCR rate_limit:user:123; EXPIRE rate_limit:user:123 60",
+      },
+      {
+        question: "Explain Redis Streams and their use cases",
+        solution:
+          "Redis Streams are log-like data structures for storing append-only sequences of elements. Use cases include message queues, event sourcing, activity feeds, and audit logs. Support consumer groups and blocking reads.",
+      },
+      {
+        question:
+          "How do you handle cache stampede (thundering herd) in Redis?",
+        solution:
+          "Solutions include: adding random jitter to TTLs, using locks (SETNX), implementing cache warming, using Redis Streams for queue-based updates, or using probabilistic early expiration.",
+      },
+      {
+        question: "What is Redis Cluster and how does it distribute data?",
+        solution:
+          "Redis Cluster automatically shards data across multiple nodes using 16384 hash slots. Keys are distributed based on CRC16 hash of key name. Provides automatic failover and supports up to 1000 nodes.",
+      },
+      {
+        question: "Explain Redis eviction policies",
+        solution:
+          "Eviction policies determine which keys to remove when maxmemory is reached. Options include noeviction, allkeys-lru, volatile-lru, allkeys-lfu, volatile-lfu, allkeys-random, volatile-random, volatile-ttl.",
+      },
+      {
+        question: "Describe how you would use Redis for session management",
+        solution:
+          "Store session data as hashes with session ID as key, set appropriate TTL, use Redis Cluster for scalability, implement session invalidation, and handle session migration during scaling events.",
+      },
+      {
+        question: "How can you monitor Redis performance?",
+        solution:
+          "Use INFO command for server stats, MONITOR for real-time commands, SLOWLOG for slow queries, redis-cli --stat for live metrics, keyspace hits/misses, memory usage, client metrics, and APM tools.",
+      },
+      {
+        question: "Explain the difference between RDB and AOF persistence",
+        solution:
+          "RDB creates compact snapshots at intervals, good for backups but may lose recent data. AOF logs every write operation for durability but larger files and slower recovery. Both can be enabled for hybrid approach.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, CONFIG GET dir to find data directory, copy dump.rdb and appendonly.aof files. For restore, copy files to Redis directory or use redis-cli --pipe for bulk loading.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, persistence options, high availability, horizontal scaling, extensive client library support, and simple deployment.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Single-threaded command processing ensures atomic operations. Concurrent clients handled via I/O multiplexing. Transactions provide atomicity, Lua scripts run atomically, and optimistic locking with WATCH.",
+      },
+      {
+        question: "What are Redis Streams and their use cases?",
+        solution:
+          "Redis Streams are log-like data structures for append-only sequences. Use cases include message queues, event sourcing, activity feeds, and audit logs. Support consumer groups, blocking reads, and range queries.",
+      },
+      {
+        question:
+          "How do you handle cache stampede (thundering herd) in Redis?",
+        solution:
+          "Implement locking with SETNX, add random jitter to TTLs, use cache warming, implement probabilistic early expiration, or use Redis Streams for queue-based cache updates.",
+      },
+      {
+        question: "Explain Redis Cluster and how it distributes data",
+        solution:
+          "Redis Cluster uses 16384 hash slots distributed across nodes. Keys are mapped to slots using CRC16 hash. Provides automatic failover, supports up to 1000 nodes, and handles rebalancing during scaling.",
+      },
+      {
+        question: "Explain Redis eviction policies",
+        solution:
+          "Policies include noeviction (return error), allkeys-lru (least recently used), volatile-lru (LRU among keys with TTL), allkeys-lfu (least frequently used), volatile-lfu, allkeys-random, volatile-random, volatile-ttl.",
+      },
+      {
+        question: "Describe how you would use Redis for session management",
+        solution:
+          "Store sessions as hashes with TTL, use session ID as key, implement session invalidation, handle session migration during scaling, and use Redis Cluster for distributed sessions.",
+      },
+      {
+        question: "How can you monitor Redis performance?",
+        solution:
+          "Use INFO command for server stats, MONITOR for real-time commands, SLOWLOG for slow queries, redis-cli --stat for live metrics, keyspace hits/misses, memory usage, and client metrics.",
+      },
+      {
+        question: "Explain the difference between RDB and AOF persistence",
+        solution:
+          "RDB creates compact snapshots at intervals, good for backups but may lose recent data. AOF logs every write for durability but larger files. Both can be enabled for hybrid persistence.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, copy dump.rdb and appendonly.aof files. For restore, copy files to Redis directory or use redis-cli --pipe. Also use CONFIG GET dir to locate data directory.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, persistence options, high availability, horizontal scaling, extensive client libraries, and simple deployment.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Single-threaded command processing ensures atomicity. Concurrent clients handled via I/O multiplexing. Transactions provide atomicity, Lua scripts run atomically, and optimistic locking with WATCH.",
+      },
+      {
+        question: "What are Redis Streams and their use cases?",
+        solution:
+          "Redis Streams are log-like data structures for append-only sequences. Use cases include message queues, event sourcing, activity feeds, audit logs. Support consumer groups, blocking reads, and range queries.",
+      },
+      {
+        question:
+          "How do you handle cache stampede (thundering herd) in Redis?",
+        solution:
+          "Implement locking with SETNX, add random jitter to TTLs, use cache warming, probabilistic early expiration, or Redis Streams for queue-based cache updates.",
+      },
+      {
+        question: "Explain Redis Cluster and how it distributes data",
+        solution:
+          "Uses 16384 hash slots distributed across nodes. Keys mapped to slots via CRC16 hash. Provides automatic failover, supports 1000 nodes, handles rebalancing during scaling.",
+      },
+      {
+        question: "Explain Redis eviction policies",
+        solution:
+          "Policies include noeviction (error), allkeys-lru (least recently used), volatile-lru (LRU among keys with TTL), allkeys-lfu (least frequently used), volatile-lfu, allkeys-random, volatile-random, volatile-ttl.",
+      },
+      {
+        question: "Describe how you would use Redis for session management",
+        solution:
+          "Store sessions as hashes with TTL, use session ID as key, implement session invalidation, handle session migration during scaling, and use Redis Cluster for distributed sessions.",
+      },
+      {
+        question: "How can you monitor Redis performance?",
+        solution:
+          "Use INFO command for server stats, MONITOR for real-time commands, SLOWLOG for slow queries, redis-cli --stat for live metrics, keyspace hits/misses, memory usage, and client metrics.",
+      },
+      {
+        question: "Explain the difference between RDB and AOF persistence",
+        solution:
+          "RDB creates compact snapshots at intervals, good for backups but may lose recent data. AOF logs every write for durability but larger files. Both can be enabled for hybrid persistence.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, copy dump.rdb and appendonly.aof files. For restore, copy files to Redis directory or use redis-cli --pipe. Also use CONFIG GET dir to locate data directory.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, persistence options, high availability, horizontal scaling, extensive client libraries, and simple deployment.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Single-threaded command processing ensures atomicity. Concurrent clients handled via I/O multiplexing. Transactions provide atomicity, Lua scripts run atomically, and optimistic locking with WATCH.",
+      },
+      {
+        question: "What are Redis Streams and their use cases?",
+        solution:
+          "Redis Streams are log-like data structures for append-only sequences. Use cases include message queues, event sourcing, activity feeds, audit logs. Support consumer groups, blocking reads, and range queries.",
+      },
+      {
+        question:
+          "How do you handle cache stampede (thundering herd) in Redis?",
+        solution:
+          "Implement locking with SETNX, add random jitter to TTLs, use cache warming, probabilistic early expiration, or Redis Streams for queue-based cache updates.",
+      },
+      {
+        question: "Explain Redis Cluster and how it distributes data",
+        solution:
+          "Uses 16384 hash slots distributed across nodes. Keys mapped to slots via CRC16 hash. Provides automatic failover, supports 1000 nodes, handles rebalancing during scaling.",
+      },
+      {
+        question: "Explain Redis eviction policies",
+        solution:
+          "Policies include noeviction (error), allkeys-lru (least recently used), volatile-lru (LRU among keys with TTL), allkeys-lfu (least frequently used), volatile-lfu, allkeys-random, volatile-random, volatile-ttl.",
+      },
+      {
+        question: "Describe how you would use Redis for session management",
+        solution:
+          "Store sessions as hashes with TTL, use session ID as key, implement session invalidation, handle session migration during scaling, and use Redis Cluster for distributed sessions.",
+      },
+      {
+        question: "How can you monitor Redis performance?",
+        solution:
+          "Use INFO command for server stats, MONITOR for real-time commands, SLOWLOG for slow queries, redis-cli --stat for live metrics, keyspace hits/misses, memory usage, and client metrics.",
+      },
+      {
+        question: "Explain the difference between RDB and AOF persistence",
+        solution:
+          "RDB creates compact snapshots at intervals, good for backups but may lose recent data. AOF logs every write for durability but larger files. Both can be enabled for hybrid persistence.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, copy dump.rdb and appendonly.aof files. For restore, copy files to Redis directory or use redis-cli --pipe. Also use CONFIG GET dir to locate data directory.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, persistence options, high availability, horizontal scaling, extensive client libraries, and simple deployment.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Single-threaded command processing ensures atomicity. Concurrent clients handled via I/O multiplexing. Transactions provide atomicity, Lua scripts run atomically, and optimistic locking with WATCH.",
+      },
+      {
+        question: "What are Redis Streams and their use cases?",
+        solution:
+          "Redis Streams are log-like data structures for append-only sequences. Use cases include message queues, event sourcing, activity feeds, audit logs. Support consumer groups, blocking reads, and range queries.",
+      },
+      {
+        question:
+          "How do you handle cache stampede (thundering herd) in Redis?",
+        solution:
+          "Implement locking with SETNX, add random jitter to TTLs, use cache warming, probabilistic early expiration, or Redis Streams for queue-based cache updates.",
+      },
+      {
+        question: "Explain Redis Cluster and how it distributes data",
+        solution:
+          "Uses 16384 hash slots distributed across nodes. Keys mapped to slots via CRC16 hash. Provides automatic failover, supports 1000 nodes, handles rebalancing during scaling.",
+      },
+      {
+        question: "Explain Redis eviction policies",
+        solution:
+          "Policies include noeviction (error), allkeys-lru (least recently used), volatile-lru (LRU among keys with TTL), allkeys-lfu (least frequently used), volatile-lfu, allkeys-random, volatile-random, volatile-ttl.",
+      },
+      {
+        question: "Describe how you would use Redis for session management",
+        solution:
+          "Store sessions as hashes with TTL, use session ID as key, implement session invalidation, handle session migration during scaling, and use Redis Cluster for distributed sessions.",
+      },
+      {
+        question: "How can you monitor Redis performance?",
+        solution:
+          "Use INFO command for server stats, MONITOR for real-time commands, SLOWLOG for slow queries, redis-cli --stat for live metrics, keyspace hits/misses, memory usage, and client metrics.",
+      },
+      {
+        question: "Explain the difference between RDB and AOF persistence",
+        solution:
+          "RDB creates compact snapshots at intervals, good for backups but may lose recent data. AOF logs every write for durability but larger files. Both can be enabled for hybrid persistence.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, copy dump.rdb and appendonly.aof files. For restore, copy files to Redis directory or use redis-cli --pipe. Also use CONFIG GET dir to locate data directory.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, persistence options, high availability, horizontal scaling, extensive client libraries, and simple deployment.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Single-threaded command processing ensures atomicity. Concurrent clients handled via I/O multiplexing. Transactions provide atomicity, Lua scripts run atomically, and optimistic locking with WATCH.",
+      },
+      {
+        question: "What are Redis Streams and their use cases?",
+        solution:
+          "Redis Streams are log-like data structures for append-only sequences. Use cases include message queues, event sourcing, activity feeds, audit logs. Support consumer groups, blocking reads, and range queries.",
+      },
+      {
+        question:
+          "How do you handle cache stampede (thundering herd) in Redis?",
+        solution:
+          "Implement locking with SETNX, add random jitter to TTLs, use cache warming, probabilistic early expiration, or Redis Streams for queue-based cache updates.",
+      },
+      {
+        question: "Explain Redis Cluster and how it distributes data",
+        solution:
+          "Uses 16384 hash slots distributed across nodes. Keys mapped to slots via CRC16 hash. Provides automatic failover, supports 1000 nodes, handles rebalancing during scaling.",
+      },
+      {
+        question: "Explain Redis eviction policies",
+        solution:
+          "Policies include noeviction (error), allkeys-lru (least recently used), volatile-lru (LRU among keys with TTL), allkeys-lfu (least frequently used), volatile-lfu, allkeys-random, volatile-random, volatile-ttl.",
+      },
+      {
+        question: "Describe how you would use Redis for session management",
+        solution:
+          "Store sessions as hashes with TTL, use session ID as key, implement session invalidation, handle session migration during scaling, and use Redis Cluster for distributed sessions.",
+      },
+      {
+        question: "How can you monitor Redis performance?",
+        solution:
+          "Use INFO command for server stats, MONITOR for real-time commands, SLOWLOG for slow queries, redis-cli --stat for live metrics, keyspace hits/misses, memory usage, and client metrics.",
+      },
+      {
+        question: "Explain the difference between RDB and AOF persistence",
+        solution:
+          "RDB creates compact snapshots at intervals, good for backups but may lose recent data. AOF logs every write for durability but larger files. Both can be enabled for hybrid persistence.",
+      },
+      {
+        question: "How do you backup and restore Redis data?",
+        solution:
+          "Use BGSAVE for RDB snapshots, copy dump.rdb and appendonly.aof files. For restore, copy files to Redis directory or use redis-cli --pipe. Also use CONFIG GET dir to locate data directory.",
+      },
+      {
+        question:
+          "What are the advantages of using Redis over traditional databases?",
+        solution:
+          "Sub-millisecond latency, rich data structures, atomic operations, pub/sub messaging, persistence options, high availability, horizontal scaling, extensive client libraries, and simple deployment.",
+      },
+      {
+        question: "How does Redis handle concurrency?",
+        solution:
+          "Single-threaded command processing ensures atomicity. Concurrent clients handled via I/O multiplexing. Transactions provide atomicity, Lua scripts run atomically, and optimistic locking with WATCH.",
+      },
+      {
+        question: "What are Redis Streams and their use cases?",
+        solution:
+          "Redis Streams are log-like data structures for append-only sequences. Use cases include message queues, event sourcing, activity feeds, audit logs. Support consumer groups, blocking reads, and range queries.",
+      },
+      {
+        question:
+          "How do you handle cache stampede (thundering herd) in Redis?",
+        solution:
+          "Implement locking with SETNX, add random jitter to TTLs, use cache warming, probabilistic early expiration, or Redis Streams for queue-based cache updates.",
+      },
+      {
+        question: "Explain Redis Cluster and how it distributes data",
+        solution:
+          "Uses 16384 hash slots distributed across nodes. Keys mapped to slots via CRC16 hash. Provides automatic failover, supports 1000 nodes, handles rebalancing during scaling.",
+      },
+      {
+        question: "Explain Redis eviction policies",
+        solution:
+          "Policies include noeviction (error), allkeys-lru (least recently used), volatile-lru (LRU among keys with TTL), allkeys-lfu (least frequently used), volatile-lfu (LFU among keys with TTL), allkeys-random, volatile-random, and volatile-ttl (expires soonest).",
+      },
+    ],
+  },
 ];
