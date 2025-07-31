@@ -6420,4 +6420,620 @@ export const interviewData = [
       },
     ],
   },
+  {
+    id: 39,
+    topic: "RabbitMQ",
+    categories: "Junior",
+    tags: [
+      { name: "basics", link: "" },
+      { name: "exchanges", link: "" },
+      { name: "queues", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is RabbitMQ?",
+        solution:
+          "RabbitMQ is an open-source message broker that implements the Advanced Message Queuing Protocol (AMQP). It enables asynchronous messaging by allowing producers to send messages to exchanges, which route them to queues where consumers can retrieve them.",
+      },
+      {
+        question: "What is AMQP?",
+        solution:
+          "AMQP (Advanced Message Queuing Protocol) is an open standard application layer protocol for message-oriented middleware. It provides reliable, secure, and interoperable messaging between applications.",
+      },
+      {
+        question: "What are the four built-in exchange types in RabbitMQ?",
+        solution:
+          "Direct (exact routing-key match), Fanout (broadcast to all bound queues), Topic (wildcard routing-key pattern), and Headers (match on message headers instead of routing key).",
+      },
+      {
+        question: "What is a routing key?",
+        solution:
+          "A string attribute attached to every message by the producer. The exchange uses the routing key together with its type and the queue bindings to decide which queue(s) should receive the message.",
+      },
+      {
+        question: "Explain the basic RabbitMQ workflow.",
+        solution:
+          "Producer → Exchange → Queue(s) → Consumer. Producers publish to an exchange, exchanges route messages to queues via bindings, and consumers read from queues.",
+      },
+      {
+        question: "What is a queue in RabbitMQ?",
+        solution:
+          "A buffer that stores messages until they are processed by consumers. Queues are bound to exchanges and can be durable, exclusive, or auto-delete.",
+      },
+      {
+        question: "What is a binding?",
+        solution:
+          "A relationship between a queue and an exchange that defines the routing rules for messages, based on routing key or headers.",
+      },
+      {
+        question: "What is message acknowledgment?",
+        solution:
+          "A mechanism where consumers send an ack back to RabbitMQ to confirm successful processing; un-acked messages can be re-queued.",
+      },
+      {
+        question: "What is a dead-letter queue (DLQ)?",
+        solution:
+          "A queue that receives messages that cannot be delivered or processed (e.g., expired, rejected, or max-retries exceeded).",
+      },
+      {
+        question: "What is message persistence?",
+        solution:
+          "Marking messages and queues as durable so they survive broker restarts; requires both queue and message flags to be set.",
+      },
+      {
+        question: "What is TTL (Time-To-Live) in RabbitMQ?",
+        solution:
+          "A policy or message property that defines how long a message or queue can live before it is discarded or moved to a DLQ.",
+      },
+      {
+        question: "What is a VHost in RabbitMQ?",
+        solution:
+          "A virtual host (namespace) that provides logical isolation of exchanges, queues, and users within the same RabbitMQ broker.",
+      },
+      {
+        question: "What is the default management UI port?",
+        solution: "15672.",
+      },
+      {
+        question: "How do you stop the RabbitMQ server locally?",
+        solution: "sudo systemctl stop rabbitmq-server or rabbitmqctl stop.",
+      },
+      {
+        question: "Which protocol does RabbitMQ primarily use?",
+        solution:
+          "AMQP (Advanced Message Queuing Protocol), with additional support for MQTT, STOMP, and HTTP.",
+      },
+      {
+        question: "Describe the publish-subscribe pattern in RabbitMQ.",
+        solution:
+          "Use a fanout exchange; messages are broadcast to all bound queues regardless of routing key, enabling one-to-many delivery.",
+      },
+      {
+        question: "Describe the point-to-point pattern in RabbitMQ.",
+        solution:
+          "Use a direct exchange; each message is routed to exactly one queue (and one consumer) based on an exact routing-key match.",
+      },
+      {
+        question: "Describe the request-reply pattern in RabbitMQ.",
+        solution:
+          "A synchronous pattern where a producer sends a request message and waits for a response on a separate queue, often using correlation IDs.",
+      },
+      {
+        question: "How do you install RabbitMQ on Ubuntu?",
+        solution:
+          "sudo apt-get install rabbitmq-server, then enable and start the service.",
+      },
+      {
+        question: "How do you list all queues in RabbitMQ?",
+        solution: "rabbitmqctl list_queues or via the management UI.",
+      },
+      {
+        question: "How do you delete all queues in RabbitMQ?",
+        solution: "rabbitmqctl reset or via the management UI.",
+      },
+      {
+        question: "How do you verify the RabbitMQ version?",
+        solution: "rabbitmqctl version or rabbitmqctl status.",
+      },
+      {
+        question: "How do you implement a retry mechanism?",
+        solution:
+          "Use a TTL on the original queue plus a dead-letter exchange that routes expired messages to a retry queue with exponential backoff or the x-delayed-message plugin.",
+      },
+      {
+        question: "What is the default exchange name?",
+        solution: 'The default exchange is an unnamed direct exchange ("").',
+      },
+      {
+        question: "What is the default queue name?",
+        solution:
+          "There is no default queue name; queues must be explicitly declared.",
+      },
+      {
+        question: "What is the default user/password?",
+        solution: "guest/guest (only accessible from localhost by default).",
+      },
+      {
+        question: "How do you create a queue via CLI?",
+        solution: "rabbitmqadmin declare queue name=my-queue durable=true.",
+      },
+      {
+        question: "How do you publish a message via CLI?",
+        solution:
+          "rabbitmqadmin publish routing_key=my-queue payload='hello world'.",
+      },
+      {
+        question: "How do you consume a message via CLI?",
+        solution: "rabbitmqadmin get queue=my-queue requeue=false.",
+      },
+      {
+        question: "What is the default port for AMQP?",
+        solution: "5672.",
+      },
+      {
+        question: "What is the default port for the management plugin?",
+        solution: "15672.",
+      },
+      {
+        question: "What is the default port for STOMP?",
+        solution: "61613.",
+      },
+      {
+        question: "What is the default port for MQTT?",
+        solution: "1883.",
+      },
+      {
+        question: "How do you enable the management plugin?",
+        solution: "rabbitmq-plugins enable rabbitmq_management.",
+      },
+      {
+        question: "How do you create a user via CLI?",
+        solution: "rabbitmqctl add_user username password.",
+      },
+      {
+        question: "How do you set permissions for a user?",
+        solution:
+          "rabbitmqctl set_permissions -p vhost username '.*' '.*' '.*'.",
+      },
+      {
+        question:
+          "What is the difference between durable and transient queues?",
+        solution:
+          "Durable queues survive broker restarts; transient queues do not.",
+      },
+      {
+        question:
+          "What is the difference between persistent and transient messages?",
+        solution:
+          "Persistent messages are written to disk; transient messages are kept in memory only.",
+      },
+      {
+        question: "How do you declare a durable queue?",
+        solution: "channel.queue_declare(queue='my-queue', durable=True).",
+      },
+      {
+        question: "How do you publish a persistent message?",
+        solution:
+          "channel.basic_publish(exchange='', routing_key='my-queue', body='hello', properties=pika.BasicProperties(delivery_mode=2)).",
+      },
+      {
+        question: "What is the default prefetch count?",
+        solution: "0 (unlimited).",
+      },
+      {
+        question: "How do you set prefetch count in CLI?",
+        solution:
+          "rabbitmqctl set_policy my-policy '.*' '{prefetch: 10}' --apply-to queues.",
+      },
+      {
+        question: "How do you set prefetch count in code?",
+        solution: "channel.basic_qos(prefetch_count=10).",
+      },
+      {
+        question: "What is round-robin dispatching?",
+        solution:
+          "Messages are distributed evenly across all consumers bound to the same queue.",
+      },
+      {
+        question: "What is fair dispatching?",
+        solution:
+          "Consumers receive messages based on their processing capacity, ensuring no single consumer is overwhelmed.",
+      },
+      {
+        question: "What is the difference between auto-ack and manual ack?",
+        solution:
+          "Auto-ack removes the message from the queue immediately; manual ack requires the consumer to explicitly acknowledge the message.",
+      },
+      {
+        question: "How do you enable publisher confirms?",
+        solution:
+          "channel.confirm_delivery() and wait for basic.ack or basic.nack.",
+      },
+      {
+        question: "How do you enable consumer acknowledgements?",
+        solution:
+          "channel.basic_consume(queue='my-queue', on_message_callback=callback, auto_ack=False).",
+      },
+      {
+        question: "How do you view the message count of a queue?",
+        solution: "rabbitmqctl list_queues name messages.",
+      },
+      {
+        question: "How do you purge a queue?",
+        solution: "rabbitmqctl purge_queue my-queue.",
+      },
+      {
+        question: "How do you close a connection?",
+        solution: "connection.close().",
+      },
+      {
+        question: "How do you delete an exchange?",
+        solution: "channel.exchange_delete(exchange='my-exchange').",
+      },
+      {
+        question: "How do you list exchanges?",
+        solution: "rabbitmqctl list_exchanges name type.",
+      },
+      {
+        question: "How do you list bindings?",
+        solution: "rabbitmqctl list_bindings.",
+      },
+      {
+        question: "How do you list connections?",
+        solution: "rabbitmqctl list_connections.",
+      },
+      {
+        question: "How do you list channels?",
+        solution: "rabbitmqctl list_channels.",
+      },
+      {
+        question: "How do you list consumers?",
+        solution: "rabbitmqctl list_consumers.",
+      },
+      {
+        question: "How do you list users?",
+        solution: "rabbitmqctl list_users.",
+      },
+      {
+        question: "How do you list permissions?",
+        solution: "rabbitmqctl list_permissions.",
+      },
+      {
+        question: "How do you list vhosts?",
+        solution: "rabbitmqctl list_vhosts.",
+      },
+      {
+        question: "How do you create a vhost?",
+        solution: "rabbitmqctl add_vhost my-vhost.",
+      },
+      {
+        question: "How do you delete a vhost?",
+        solution: "rabbitmqctl delete_vhost my-vhost.",
+      },
+      {
+        question: "How do you set vhost permissions?",
+        solution:
+          "rabbitmqctl set_permissions -p my-vhost my-user '.*' '.*' '.*'.",
+      },
+      {
+        question: "How do you view vhost permissions?",
+        solution: "rabbitmqctl list_permissions -p my-vhost.",
+      },
+      {
+        question: "How do you import/export definitions?",
+        solution:
+          "rabbitmqctl export_definitions /path/to/defs.json and rabbitmqctl import_definitions /path/to/defs.json.",
+      },
+      {
+        question: "How do you enable tracing?",
+        solution: "rabbitmq-plugins enable rabbitmq_tracing.",
+      },
+      {
+        question: "How do you enable federation?",
+        solution: "rabbitmq-plugins enable rabbitmq_federation.",
+      },
+      {
+        question: "How do you enable shovel?",
+        solution: "rabbitmq-plugins enable rabbitmq_shovel.",
+      },
+      {
+        question: "How do you enable stream plugin?",
+        solution: "rabbitmq-plugins enable rabbitmq_stream.",
+      },
+      {
+        question: "How do you enable MQTT plugin?",
+        solution: "rabbitmq-plugins enable rabbitmq_mqtt.",
+      },
+      {
+        question: "How do you enable STOMP plugin?",
+        solution: "rabbitmq-plugins enable rabbitmq_stomp.",
+      },
+      {
+        question: "How do you enable web-stomp plugin?",
+        solution: "rabbitmq-plugins enable rabbitmq_web_stomp.",
+      },
+      {
+        question: "How do you enable rabbitmq-auth-backend-http?",
+        solution: "rabbitmq-plugins enable rabbitmq_auth_backend_http.",
+      },
+      {
+        question: "How do you enable rabbitmq-auth-backend-ldap?",
+        solution: "rabbitmq-plugins enable rabbitmq_auth_backend_ldap.",
+      },
+      {
+        question: "How do you enable rabbitmq-auth-backend-oauth2?",
+        solution: "rabbitmq-plugins enable rabbitmq_auth_backend_oauth2.",
+      },
+      {
+        question: "How do you enable rabbitmq-auth-backend-amqp?",
+        solution: "rabbitmq-plugins enable rabbitmq_auth_backend_amqp.",
+      },
+      {
+        question: "How do you enable rabbitmq-auth-backend-cache?",
+        solution: "rabbitmq-plugins enable rabbitmq_auth_backend_cache.",
+      },
+      {
+        question: "How do you enable rabbitmq-auth-backend-ip-range?",
+        solution: "rabbitmq-plugins enable rabbitmq_auth_backend_ip_range.",
+      },
+    ],
+  },
+  {
+    id: 40,
+    topic: "RabbitMQ",
+    categories: "Mid",
+    tags: [
+      { name: "design-patterns", link: "" },
+      { name: "reliability", link: "" },
+      { name: "scaling", link: "" },
+      { name: "security", link: "" },
+      { name: "monitoring", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "How do you implement a retry mechanism in RabbitMQ?",
+        solution:
+          "Use TTL + DLX to route failed messages to a retry queue with exponential backoff, or leverage the x-delayed-message plugin for delayed re-queueing.",
+      },
+      {
+        question: "Explain ZeroMQ vs RabbitMQ differences.",
+        solution:
+          "ZeroMQ is a library for sockets; RabbitMQ is a broker with persistence, routing, and management GUI.",
+      },
+      {
+        question:
+          "Describe the difference between Round-Robin and Fair Dispatch.",
+        solution:
+          "Round-Robin sends messages evenly; Fair Dispatch uses prefetch=1 so slow workers don’t get overwhelmed.",
+      },
+      {
+        question: "How do you scale consumers horizontally?",
+        solution:
+          "Add more consumer instances with the same queue name; RabbitMQ load-balances messages across them using round-robin. Ensure idempotent processing.",
+      },
+      {
+        question: "What is message deduplication in RabbitMQ?",
+        solution:
+          "Use deduplication plugin or unique message-id header plus consumer-side cache.",
+      },
+      {
+        question: "How do you implement priority queues?",
+        solution:
+          "Declare queue with x-max-priority and set priority field in message.",
+      },
+      {
+        question: "Explain topic exchange wildcard patterns.",
+        solution:
+          "Use * for one word, # for zero or more; enables selective routing.",
+      },
+      {
+        question: "How do you secure RabbitMQ?",
+        solution:
+          "Enable TLS, use SASL/PLAIN or LDAP authentication, set up VHost permissions, and restrict management UI access via firewall or VPN.",
+      },
+      {
+        question: "Describe clustering in RabbitMQ.",
+        solution:
+          "Multiple RabbitMQ nodes form a cluster; queues can be mirrored for HA. Use consistent hashing for even distribution and avoid network partitions.",
+      },
+      {
+        question: "What is federated messaging?",
+        solution:
+          "Federation plugin allows exchanges or queues to be linked across brokers, enabling cross-datacenter or cross-cloud message flow without clustering.",
+      },
+      {
+        question: "How do you monitor RabbitMQ?",
+        solution:
+          "Enable management plugin, use Prometheus + Grafana, collect metrics via rabbitmq_exporter, and set up alerts on queue depth, connection counts, and memory/CPU.",
+      },
+      {
+        question: "Explain the use of shovels in RabbitMQ.",
+        solution:
+          "Shovel plugin moves messages from a queue on one broker to an exchange on another, useful for DR or cloud-to-cloud replication.",
+      },
+      {
+        question: "How do you handle large messages?",
+        solution:
+          "Use message compression, store payload in S3 and send reference, or leverage the large-message plugin for >1 MB payloads.",
+      },
+      {
+        question: "What are quorum queues and when to use them?",
+        solution:
+          "A replicated, fault-tolerant queue type (Raft consensus) that replaces mirrored queues, offering better performance and data safety.",
+      },
+      {
+        question: "How do you implement circuit breakers?",
+        solution:
+          "Use consumer-side circuit breaker pattern (e.g., Hystrix) or DLQ + TTL retry loops to prevent cascade failures.",
+      },
+      {
+        question: "Explain publisher confirms and consumer acknowledgements.",
+        solution:
+          "Publisher confirms ensure the broker received the message; consumer acks confirm processing. Both are essential for end-to-end reliability.",
+      },
+      {
+        question: "How do you implement exactly-once semantics?",
+        solution:
+          "Idempotent consumers + deduplication + at-least-once delivery guarantees.",
+      },
+      {
+        question: "Explain RabbitMQ federation vs clustering.",
+        solution:
+          "Federation links brokers; clustering shares state within a broker.",
+      },
+      {
+        question: "How do you configure high availability?",
+        solution:
+          "Quorum queues, mirrored queues (deprecated), load balancers, health checks.",
+      },
+      {
+        question: "Explain RabbitMQ performance tuning.",
+        solution:
+          "IO threads, memory watermark, disk space limits, queue master locator.",
+      },
+      {
+        question: "How do you implement message compression?",
+        solution: "zlib or gzip at producer, decompress at consumer.",
+      },
+      {
+        question: "Describe RabbitMQ monitoring best practices.",
+        solution:
+          "Prometheus exporter, Grafana dashboards, alerting on queue depth, connection count.",
+      },
+      {
+        question: "How do you handle network partitions?",
+        solution:
+          "Quorum queues, pause-minority, auto-heal, manual intervention.",
+      },
+      {
+        question: "Explain RabbitMQ backup and restore.",
+        solution:
+          "mnesia backup, definition export, snapshot AMIs, automated scripts.",
+      },
+      {
+        question: "How do you implement retry with exponential backoff?",
+        solution: "DLX + TTL + retry queue with increasing TTLs.",
+      },
+      {
+        question: "Describe RabbitMQ security best practices.",
+        solution:
+          "TLS, SASL, VHost isolation, firewall rules, management UI restrictions.",
+      },
+      {
+        question: "How do you implement message routing with headers exchange?",
+        solution:
+          "Match message headers against binding arguments using x-match=all/any.",
+      },
+      {
+        question: "Explain RabbitMQ plugin management.",
+        solution:
+          "Enable/disable via rabbitmq-plugins, custom plugins for business logic.",
+      },
+      {
+        question: "How do you handle RabbitMQ upgrades?",
+        solution:
+          "Rolling upgrades, blue/green clusters, compatibility matrix, backup before upgrade.",
+      },
+      {
+        question: "Describe RabbitMQ capacity planning.",
+        solution:
+          "Queue depth, connection count, memory usage, disk I/O, network bandwidth.",
+      },
+      {
+        question: "How do you implement RabbitMQ integration with Spring Boot?",
+        solution:
+          "Spring AMQP, @RabbitListener, RabbitTemplate, retry templates.",
+      },
+      {
+        question: "Explain RabbitMQ integration with Kubernetes.",
+        solution:
+          "Helm charts, StatefulSets, PVC, secrets, readiness/liveness probes.",
+      },
+      {
+        question: "How do you implement RabbitMQ integration with Docker?",
+        solution:
+          "Official Docker image, Docker Compose, environment variables, health checks.",
+      },
+    ],
+  },
+  {
+    id: 41,
+    topic: "RabbitMQ",
+    categories: "Senior",
+    tags: [
+      { name: "architecture", link: "" },
+      { name: "governance", link: "" },
+      { name: "compliance", link: "" },
+      { name: "multi-region", link: "" },
+      { name: "advanced-patterns", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question:
+          "Design a global RabbitMQ mesh that routes 1 M messages/sec across 6 regions with <50 ms latency and 99.99 % uptime.",
+        solution:
+          "Deploy regional clusters behind AWS Global Accelerator; use Shovel plugin for cross-region replication with compression + TLS; Quorum Queues with 3-node Raft quorum per region; Route 53 health checks for failover; mirror DLQs in each region; monitor via Prometheus federation.",
+      },
+      {
+        question:
+          "Explain how you would enforce enterprise-wide RabbitMQ governance (vhost quotas, TLS, cost tags) across 500 teams.",
+        solution:
+          "Use Terraform + Policy-as-Code (OPA) to enforce vhost limits, mandatory TLS, and required tags (CostCenter, Owner). GitHub Actions CI gate rejects non-compliant configs. Central Prometheus scrapes metrics; violations auto-ticketed via Jira.",
+      },
+      {
+        question:
+          "Design RabbitMQ-based event sourcing ledger that stores 10 TB/year with immutable audit and GDPR right-to-be-forgotten.",
+        solution:
+          "Append-only quorum queues + S3 object lock for raw events. Event IDs hashed with SHA-256. GDPR delete via stream-filtering plugin that redacts events by ID and writes tombstones. Monthly compliance snapshot to Glacier Deep Archive.",
+      },
+      {
+        question:
+          "How do you implement blue/green deployments for RabbitMQ consumers processing 100 K TPS without message loss?",
+        solution:
+          "Run two consumer groups (blue/green) behind separate queues; shift traffic via weighted exchanges (10 % → 100 %). Use publisher confirms + consumer acks to ensure exactly-once. Canary via mirrored DLQ metrics.",
+      },
+      {
+        question:
+          "Design RabbitMQ disaster recovery with RPO=30 seconds and RTO=2 minutes across cloud providers.",
+        solution:
+          "Cross-cloud Shovel replication (AWS → GCP) with compression + TLS. Global load balancer health checks. Warm standby cluster in second cloud. Automatic cut-over via Terraform + Ansible playbooks triggered by CloudWatch composite alarms.",
+      },
+      {
+        question:
+          "Explain zero-downtime schema evolution for RabbitMQ streams that hold 5 TB of financial data.",
+        solution:
+          "Use stream-filtering plugin to create new stream version; dual-publish to old and new schemas; migrate consumers incrementally via feature flags; decommission old stream after 30-day retention + audit snapshot.",
+      },
+      {
+        question:
+          "Design RabbitMQ-based retry/backoff circuit breaker that handles 1 M failed messages/day with exponential backoff and DLQ.",
+        solution:
+          "Use x-delayed-message plugin for exponential backoff queues; TTL + DLQ for final failure. Circuit breaker state stored in Redis; auto-reset after SLA. Monitor with Prometheus exporter + Grafana.",
+      },
+      {
+        question:
+          "How do you implement multi-tenant isolation in RabbitMQ without separate brokers?",
+        solution:
+          "Use vhost-per-tenant + LDAP groups; resource-based ACLs; per-tenant Shovels for cross-region; enforce memory/CPU limits via rabbitmqctl set_vm_memory_high_watermark and connection limits via rabbitmqctl set_max_connections.",
+      },
+      {
+        question:
+          "Design RabbitMQ observability at petabyte scale with 1-second metrics retention.",
+        solution:
+          "Prometheus + VictoriaMetrics cluster; custom exporters for queue depth, connection count, memory. Grafana Loki for logs. Alertmanager for PagerDuty. S3 archival for 2-year retention.",
+      },
+      {
+        question:
+          "Explain how you would migrate 50 TB of legacy RabbitMQ data to cloud-native streaming without downtime.",
+        solution:
+          "Use Shovel plugin to stream to Kafka; parallel consumer that dual-writes to new system; verify via checksums; cut-over via DNS switch; decommission old cluster after 90-day retention.",
+      },
+    ],
+  },
 ];
