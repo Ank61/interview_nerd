@@ -37,7 +37,8 @@ const componentData = {
         description: "Simple Storage Service, data lifecycle, and storage classes",
         questions: 10,
         iconName: "Database",
-        color: "bg-blue-100"
+        color: "bg-blue-100",
+        customLink: "/s3"
       },
       {
         name: "Lambda & Serverless",
@@ -253,8 +254,12 @@ export default function ComponentPage({ componentData, componentName }) {
   const router = useRouter();
   const IconComponent = iconMap[componentData.iconName];
 
-  const handleTopicClick = (topicName) => {
-    router.push(`/category/${componentName}/${topicName.replace(/\s+/g, '')}`);
+  const handleTopicClick = (topic) => {
+    if (topic.customLink) {
+      router.push(topic.customLink);
+    } else {
+      router.push(`/category/${componentName}/${topic.name.replace(/\s+/g, '')}`);
+    }
   };
 
   const handleBackClick = () => {
@@ -313,7 +318,7 @@ export default function ComponentPage({ componentData, componentName }) {
               >
                 <Card 
                   className="h-full cursor-pointer hover:shadow-lg transition-all duration-200 border-0 shadow-sm"
-                  onClick={() => handleTopicClick(topic.name)}
+                  onClick={() => handleTopicClick(topic)}
                 >
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">

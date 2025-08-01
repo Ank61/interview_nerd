@@ -24092,7 +24092,7 @@ var y = a();
     ],
   },
   {
-    id: 4,
+    id: 5,
     category: "Typescript",
     themeBgColor: "#E9F4FF",
     textColor: "#225485",
@@ -26998,6 +26998,1412 @@ class Container {
     
     const paramTypes = Reflect.getMetadata("design:paramtypes", ServiceClass) || [];
     const dependencies = paramTypes.map(paramType =>`,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 6,
+    category: "AWS S3",
+    themeBgColor: "#FFEFEF",
+    textColor: "#8B2635",
+    topicColor: "#8B2635",
+    lightColor: "#FFEFEF",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "What is S3?",
+            tags: ["basics", "object-storage"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Amazon S3 (Simple Storage Service) is AWS’s fully-managed, infinitely-scalable object storage designed for 11×9’s (99.999 999 999 %) durability, 99.99 % availability, millisecond latency, and virtually unlimited throughput. Objects are stored redundantly across multiple facilities and devices in a Region using erasure-coding and continuous integrity checks.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Quick start
+aws s3 mb s3://my-unique-bucket --region us-east-1
+aws s3 cp ./localfile.txt s3://my-unique-bucket/
+aws s3 ls s3://my-unique-bucket
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  An <strong>object</strong> = data (0 B–5 TB) + key + metadata + version-id + storage-class. A <strong>bucket</strong> is a globally-unique DNS container for objects, created in a specific AWS Region.
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Concepts
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Durability 11×9’s:</span> Data is redundantly stored across multiple AZs using erasure-coding. Automatic corruption detection and repair.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Unlimited Scale:</span> Pay-as-you-go, virtually infinite storage and throughput.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage Classes:</span> Standard, IA, Glacier, Deep Archive, Intelligent-Tiering.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              "// Bucket naming rules\naws s3 mb s3://my-unique-bucket-2025 --region eu-west-1",
+            ],
+            questions: [
+              {
+                question: "What is Amazon S3?",
+                solution:
+                  "<p>Amazon S3 is AWS’s fully-managed object storage offering 11×9’s durability, 99.99 % availability, millisecond latency, and unlimited scale for any amount of data.</p>",
+              },
+              {
+                question: "How does S3 ensure 11×9’s durability?",
+                solution:
+                  "<p>By redundantly storing objects across multiple AZs using erasure-coding and continuous integrity checks to detect and repair lost redundancy automatically.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="S3 Product Page" wc="">https://aws.amazon.com/s3/</url>',
+            ],
+          },
+          {
+            topic: "Buckets & Objects",
+            tags: ["buckets", "objects", "keys"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A <strong>bucket</strong> is a global namespace container created in a specific Region; names must be 3-63 chars, lowercase, DNS-compatible. An <strong>object</strong> holds up to 5 TB of data plus metadata and is identified by a key (path).
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Create bucket
+aws s3api create-bucket \
+  --bucket my-unique-bucket \
+  --create-bucket-configuration LocationConstraint=us-west-2
+
+# Upload object
+aws s3 cp ./photo.jpg s3://my-unique-bucket/images/2025/08/photo.jpg
+ </code>
+  </pre>
+  </div>
+ <p style="line-height: 1.75;">
+  Key limits: 1,024 UTF-8 bytes. Object size: 0 B–5 TB (multipart for >5 GB).
+  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Bucket & Object Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Naming Conventions:</span> Lowercase, no underscores, use prefixes for organization.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Rules:</span> Automate transitions to cheaper storage or deletion.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              "// Naming best practice\naws s3 mb s3://com-mycompany-prod-logs-2025",
+            ],
+            questions: [
+              {
+                question: "What is an S3 bucket?",
+                solution:
+                  "<p>A bucket is a globally-unique DNS container for objects, created in a specific AWS Region with naming rules of 3–63 lowercase chars, numbers, and hyphens.</p>",
+              },
+              {
+                question: "Maximum object size in S3?",
+                solution: "<p>0 B to 5 TB. For >5 GB use multipart upload.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Storage Classes",
+            tags: ["storage-classes", "cost", "lifecycle"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     S7 storage classes balance cost, availability, and retrieval time:
+   </p>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Standard:</strong> 99.999% availability, ms latency, highest cost.</li>
+     <li><strong>Standard-IA:</strong> Lower cost, infrequent access.</li>
+     <li><strong>Intelligent-Tiering:</strong> Auto-moves objects based on usage.</li>
+     <li><strong>Glacier Instant:</strong> ms retrieval, archive.</li>
+     <li><strong>Glacier Flexible:</strong> Minutes–hours retrieval.</li>
+     <li><strong>Deep Archive:</strong> Lowest cost, hours retrieval.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws s3 cp ./file.dat s3://bucket/ \
+  --storage-class GLACIER
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Lifecycle JSON\naws s3api put-bucket-lifecycle-configuration --bucket b --lifecycle-configuration file://lifecycle.json",
+            ],
+            questions: [
+              {
+                question: "List the basic S3 storage classes.",
+                solution:
+                  "<p>S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, S3 Glacier Deep Archive.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Versioning & Lifecycle",
+            tags: ["versioning", "lifecycle", "mfa-delete"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     <strong>Versioning</strong> keeps every version of an object; once enabled, can only be suspended. <strong>Lifecycle</strong> rules automate transitions or deletions by age, prefix, or tags.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "Rules": [{
+    "ID": "to-glacier",
+    "Status": "Enabled",
+    "Transitions": [{ "Days": 30, "StorageClass": "GLACIER" }],
+    "Expiration": { "Days": 365 }
+  }]
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Enable versioning\naws s3api put-bucket-versioning --bucket b --versioning-configuration Status=Enabled",
+            ],
+            questions: [
+              {
+                question: "What is S3 versioning?",
+                solution:
+                  "<p>Versioning keeps multiple versions of an object in the same bucket; once enabled it can only be suspended, never disabled.</p>",
+              },
+              {
+                question: "How do you create an S3 bucket?",
+                solution:
+                  "<p>aws s3 mb s3://bucket-name [--region region] or via Console/SDK/CloudFormation with name, region, encryption, etc.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Access Control",
+            tags: ["acl", "bucket-policy", "iam"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     <strong>Bucket Policy</strong> JSON document attached to bucket, <strong>ACL</strong> legacy grants, <strong>IAM</strong> user/role policies. Policies support IP, VPC, conditions.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": "*",
+    "Action": "s3:GetObject",
+    "Resource": "arn:aws:s3:::mybucket/*"
+  }]
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Grant public read\naws s3api put-bucket-policy --bucket b --policy file://policy.json",
+            ],
+            questions: [
+              {
+                question: "What is an S3 ACL?",
+                solution:
+                  "<p>ACLs are legacy access control lists (READ, WRITE, etc.) on objects/buckets; bucket policies are preferred.</p>",
+              },
+              {
+                question: "What is an S3 bucket policy?",
+                solution:
+                  "<p>JSON policy attached to bucket defining who can do what on which objects under what conditions.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Upload & Download",
+            tags: ["upload", "download", "pre-signed-urls"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Upload via Console, CLI, SDK, multipart for >5 GB. Download via Console, CLI, SDK, pre-signed URL (temporary credentials).
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Upload
+aws s3 cp ./file s3://bucket/path/
+
+# Pre-signed URL (1h)
+aws s3 presign s3://bucket/file --expires-in 3600
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Multipart upload\naws s3api create-multipart-upload --bucket b --key big.iso",
+            ],
+            questions: [
+              {
+                question: "How do you upload an object to S3?",
+                solution:
+                  "<p>Use AWS Console, CLI (aws s3 cp), SDK putObject/multipart, or REST API; AWS encrypts and replicates automatically.</p>",
+              },
+              {
+                question: "What is an S3 pre-signed URL?",
+                solution:
+                  "<p>Time-limited URL with embedded AWS credentials granting temporary access to objects, valid up to 7 days.</p>",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advanced",
+        concepts: [
+          {
+            topic: "Performance & Optimization",
+            tags: ["performance", "optimization", "transfer-acceleration"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Techniques to maximize throughput and minimize latency:
+   </p>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>CloudFront:</strong> Global edge cache for GETs.</li>
+     <li><strong>S3 Transfer Acceleration:</strong> Uses CloudFront edges for faster uploads via AWS backbone.</li>
+     <li><strong>Multipart Upload:</strong> Parallel parts, resume capability, 10k parts max.</li>
+     <li><strong>Parallel Requests:</strong> Distribute across prefixes to avoid hot partitions.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Enable acceleration
+aws s3api put-bucket-accelerate-configuration \
+  --bucket mybucket --accelerate-configuration Status=Enabled
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// High-performance upload\naws s3 cp ./big.iso s3://bucket/ --storage-class STANDARD --expected-size 5368709120",
+            ],
+            questions: [
+              {
+                question:
+                  "How do you optimize S3 performance for high-traffic applications?",
+                solution:
+                  "<p>Use CloudFront CDN, multipart upload, Transfer Acceleration, parallel requests, and prefix sharding.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Encryption",
+            tags: ["encryption", "sse-s3", "sse-kms", "sse-c"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>SSE-S3:</strong> AES-256, AWS-managed keys.</li>
+     <li><strong>SSE-KMS:</strong> Customer-managed CMKs, CloudTrail audit.</li>
+     <li><strong>SSE-C:</strong> Customer-provided keys, HTTPS only.</li>
+     <li><strong>Client-side:</strong> Encrypt before upload.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws s3api put-bucket-encryption --bucket b \
+  --server-side-encryption-configuration '{
+    \"Rules\": [{
+      \"ApplyServerSideEncryptionByDefault\": {
+        \"SSEAlgorithm\": \"aws:kms\",
+        \"KMSMasterKeyID\": \"arn:aws:kms:...\"}}]}'
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              '// CMK policy\naws kms create-key --description "S3 encryption key"',
+            ],
+            questions: [
+              {
+                question: "What are S3 encryption options?",
+                solution:
+                  "<p>Server-side: SSE-S3 (AWS-managed), SSE-KMS (customer key), SSE-C (customer-provided); client-side encryption; bucket default encryption.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Replication & Eventing",
+            tags: ["replication", "crr", "srr", "event-notifications"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>CRR:</strong> Cross-region replication for DR, needs versioning & IAM.</li>
+     <li><strong>SRR:</strong> Same-region replication for compliance.</li>
+     <li><strong>Event Notifications:</strong> PUT/DELETE triggers → SNS/SQS/Lambda/EventBridge.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "QueueConfigurations": [{
+    "QueueArn": "arn:aws:sqs:...",
+    "Events": ["s3:ObjectCreated:*"]
+  }]
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Enable CRR\naws s3api put-bucket-replication --bucket src --replication-configuration file://crr.json",
+            ],
+            questions: [
+              {
+                question: "Explain S3 Cross-Region Replication (CRR).",
+                solution:
+                  "<p>CRR asynchronously replicates objects to another Region for disaster-recovery, compliance, or latency; requires versioning and IAM role.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Governance & Compliance",
+            tags: ["object-lock", "inventory", "access-logging"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Object Lock:</strong> WORM (governance or compliance mode).</li>
+     <li><strong>S3 Inventory:</strong> Daily/weekly CSV/ORC reports of objects.</li>
+     <li><strong>Access Logging:</strong> Detailed request logs to separate bucket.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws s3api put-object-lock-configuration --bucket b \
+  --object-lock-configuration '{
+    \"ObjectLockEnabled\":\"Enabled\",
+    \"Rule\":{\"DefaultRetention\":{\"Mode\":\"COMPLIANCE\",\"Days\":365}}}'
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Inventory setup\naws s3api put-bucket-inventory-configuration --bucket b --id daily --inventory-configuration file://inv.json",
+            ],
+            questions: [
+              {
+                question: "What is S3 Object Lock?",
+                solution:
+                  "<p>Object Lock provides WORM (Write Once Read Many) protection in governance or compliance mode for regulatory requirements.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Cost Optimization",
+            tags: ["cost", "lifecycle", "intelligent-tiering"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>S3 Storage Lens:</strong> Org-wide analytics & recommendations.</li>
+     <li><strong>Intelligent-Tiering:</strong> Auto-moves objects by access pattern.</li>
+     <li><strong>Lifecycle Policies:</strong> Transition to Glacier or delete old data.</li>
+     <li><strong>Requester Pays:</strong> Shift cost to downloader.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws s3control create-storage-lens-group \
+  --account-id 123456789012 \
+  --storage-lens-group file://sl.json
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Intelligent-Tiering lifecycle\naws s3api put-bucket-lifecycle-configuration --bucket b --lifecycle-configuration file://tier.json",
+            ],
+            questions: [
+              {
+                question:
+                  "How do you implement S3 cost optimization at enterprise scale?",
+                solution:
+                  "<p>Use Storage Class Analysis, Intelligent-Tiering, lifecycle policies, S3 Inventory, requester pays, and Cost Explorer.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Petabyte-scale Data Lake",
+            tags: ["data-lake", "athena", "lake-formation"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Partitioning:</strong> Hive-style prefixes (year=YYYY/month=MM/day=DD).</li>
+     <li><strong>Athena:</strong> Serverless SQL via Glue Catalog.</li>
+     <li><strong>Lake Formation:</strong> Fine-grained IAM & cross-account sharing.</li>
+     <li><strong>Access Points:</strong> Tenant-specific endpoints.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+CREATE EXTERNAL TABLE logs (
+  ...
+) PARTITIONED BY (year INT, month INT, day INT)
+STORED AS PARQUET
+LOCATION 's3://datalake/logs/';
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Register resource\naws lakeformation register-resource --resource-arn arn:aws:s3:::datalake --use-service-linked-role",
+            ],
+            questions: [
+              {
+                question: "Design a petabyte-scale data lake on S3.",
+                solution:
+                  "<p>Use Hive-partitioned buckets, lifecycle policies, Athena for queries, Lake Formation for governance, and S3 Access Points for multi-tenant access.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Enterprise Governance",
+            tags: ["governance", "control-tower", "organizations", "scp"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Control Tower:</strong> Multi-account governance.</li>
+     <li><strong>SCPs:</strong> Org-level policy guardrails.</li>
+     <li><strong>Config Rules:</strong> Compliance checks (e.g., encryption).</li>
+     <li><strong>Tagging:</strong> Cost allocation & automation.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "Effect": "Deny",
+  "Action": "s3:PutObject",
+  "Resource": "*",
+  "Condition": {
+    "StringNotEquals": {
+      "s3:x-amz-server-side-encryption": "aws:kms"
+    }
+  }
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// SCP to enforce encryption\naws organizations create-policy --content file://scp.json --type SERVICE_CONTROL_POLICY",
+            ],
+            questions: [
+              {
+                question:
+                  "How do you implement S3 governance at enterprise scale?",
+                solution:
+                  "<p>AWS Control Tower, SCPs for org policies, Config rules for compliance, tagging strategy, and Organizations for multi-account management.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Multi-Region Architecture",
+            tags: ["multi-region", "crr", "latency", "failover"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>CRR:</strong> Cross-region replication for DR, compliance, latency.</li>
+     <li><strong>Route 53:</strong> Latency-based routing & health checks.</li>
+     <li><strong>CloudFront:</strong> Global edge caching & failover.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Cross-region replication
+aws s3api put-bucket-replication \
+  --bucket primary \
+  --replication-configuration file://crr.json
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Health check\naws route53 create-health-check --health-check-config file://hc.json",
+            ],
+            questions: [
+              {
+                question: "Explain S3 multi-region architecture patterns.",
+                solution:
+                  "<p>CRR for DR, Transfer Acceleration for global access, Route 53 latency routing, CloudFront edge caching, and failover health checks.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Security Architecture",
+            tags: ["security", "vpc-endpoints", "encryption", "compliance"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>VPC Endpoints:</strong> Private S3 access via Gateway/Interface.</li>
+     <li><strong>KMS CMKs:</strong> Customer-managed keys with IAM policies.</li>
+     <li><strong>Object Lock:</strong> WORM for regulatory compliance.</li>
+     <li><strong>Access Logging:</strong> Audit trails.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# VPC endpoint
+aws ec2 create-vpc-endpoint \
+  --vpc-id vpc-123 \
+  --service-name com.amazonaws.us-east-1.s3 \
+  --route-table-ids rtb-123
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              '// CMK policy\naws kms create-key --description "S3 CMK" --policy file://key-policy.json',
+            ],
+            questions: [
+              {
+                question:
+                  "Design S3 security architecture for compliance workloads.",
+                solution:
+                  "<p>Bucket policies with IP/VPC conditions, VPC endpoints, Object Lock, SSE-KMS with CMKs, access logging, and Config rules.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Disaster Recovery & Backup",
+            tags: ["backup", "dr", "aws-backup", "cross-account"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>AWS Backup:</strong> Central policies & cross-account vaults.</li>
+     <li><strong>CRR + Versioning:</strong> Multi-region DR.</li>
+     <li><strong>Object Lock:</strong> Immutable backups.</li>
+     <li><strong>Restore Testing:</strong> Automated drills.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws backup create-backup-plan --backup-plan file://plan.json
+aws backup create-backup-vault --backup-vault-name dr-vault
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Cross-account backup\naws backup create-backup-vault --backup-vault-name dr-vault --encryption-key-arn arn:aws:kms:us-west-2:111122223333:key/abcd",
+            ],
+            questions: [
+              {
+                question: "Design S3 backup and disaster recovery strategy.",
+                solution:
+                  "<p>Cross-region replication, AWS Backup with cross-account vaults, lifecycle retention policies, Object Lock for immutability, and automated restore testing.</p>",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 22,
+    category: "AWS SQS",
+    themeBgColor: "#E6F7FF",
+    textColor: "#0066CC",
+    topicColor: "#0066CC",
+    lightColor: "#E6F7FF",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "What is SQS?",
+            tags: ["basics", "messaging"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Amazon Simple Queue Service (SQS) is a fully-managed message queuing service that decouples application components, enabling reliable, scalable, and asynchronous communication. It eliminates the need to build and maintain message brokers.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Quick start
+aws sqs create-queue --queue-name MyQueue
+aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/123/MyQueue --message-body "Hello"
+ </code>
+  </pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Concepts
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Queue Types:</span> Standard (at-least-once, best-effort order) and FIFO (exactly-once, strict order).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Message Size:</span> Up to 256 KB; larger payloads use S3 pointers.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              "// Create queue\naws sqs create-queue --queue-name MyQueue",
+            ],
+            questions: [
+              {
+                question: "What is Amazon SQS?",
+                solution:
+                  "<p>Amazon SQS is a fully-managed message queuing service that decouples applications, enabling reliable, scalable, asynchronous communication without managing brokers.</p>",
+              },
+              {
+                question: "What are the two types of SQS queues?",
+                solution:
+                  "<p>Standard queues (at-least-once delivery, best-effort ordering) and FIFO queues (exactly-once processing, strict FIFO order).</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="SQS Product Page" wc="">https://aws.amazon.com/sqs/</url>',
+            ],
+          },
+          {
+            topic: "Queues & Messages",
+            tags: ["queues", "messages", "operations"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A <strong>queue</strong> is a logical container for messages; each message carries up to 256 KB of data plus attributes. Messages are retained for 1 min–14 days (default 4 days).
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Send message
+aws sqs send-message \
+  --queue-url https://sqs.us-east-1.amazonaws.com/123/MyQueue \
+  --message-body "Hello"
+
+# Receive
+aws sqs receive-message \
+  --queue-url https://sqs.us-east-1.amazonaws.com/123/MyQueue \
+  --max-number-of-messages 10
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Create FIFO queue\naws sqs create-queue --queue-name MyQueue.fifo --attributes FifoQueue=true",
+            ],
+            questions: [
+              {
+                question: "How do you create an SQS queue?",
+                solution:
+                  "<p>aws sqs create-queue --queue-name my-queue [--attributes] or via Console/SDK/CloudFormation.</p>",
+              },
+              {
+                question: "Maximum message size in SQS?",
+                solution:
+                  "<p>256 KB; larger payloads store reference in S3 (e.g., via S3 pointers).</p>",
+              },
+            ],
+          },
+          {
+            topic: "Visibility Timeout & Long Polling",
+            tags: ["visibility-timeout", "long-polling", "retries"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>VisibilityTimeout:</strong> Period (0–12 h, default 30 s) a message is invisible after receipt.</li>
+     <li><strong>Long Polling:</strong> Reduces empty receives by waiting up to 20 s for messages.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws sqs receive-message \
+  --queue-url https://sqs.../MyQueue \
+  --wait-time-seconds 20 \
+  --visibility-timeout 60
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Set visibility timeout\naws sqs set-queue-attributes --queue-url https://sqs.../MyQueue --attributes VisibilityTimeout=60",
+            ],
+            questions: [
+              {
+                question: "What is SQS visibility timeout?",
+                solution:
+                  "<p>The period (0–12 h) a message is invisible to other consumers after being received, preventing duplicate processing.</p>",
+              },
+              {
+                question: "What is SQS long polling?",
+                solution:
+                  "<p>Long polling waits up to 20 s for messages, reducing empty receives and cost.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Dead-Letter Queues",
+            tags: ["dlq", "error-handling", "retries"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A <strong>Dead-Letter Queue (DLQ)</strong> receives messages that fail after maxReceiveCount. Helps isolate and debug failures.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "deadLetterTargetArn": "arn:aws:sqs:us-east-1:123:MyDLQ",
+  "maxReceiveCount": 3
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              '// Set DLQ\naws sqs set-queue-attributes --queue-url https://sqs.../MyQueue --attributes RedrivePolicy=\'{"deadLetterTargetArn":"arn:aws:sqs:us-east-1:123:MyDLQ","maxReceiveCount":3}\'',
+            ],
+            questions: [
+              {
+                question: "What is SQS dead-letter queue?",
+                solution:
+                  "<p>A separate queue receiving messages that failed processing after maxReceiveCount, aiding debugging and isolation.</p>",
+              },
+              {
+                question: "How do you set up SQS dead-letter queue?",
+                solution:
+                  "<p>Create DLQ, then set RedrivePolicy on source queue with DLQ ARN and maxReceiveCount.</p>",
+              },
+            ],
+          },
+          {
+            topic: "FIFO & Deduplication",
+            tags: ["fifo", "deduplication", "ordering"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>FIFO Queue:</strong> Exactly-once processing, strict order, ends in .fifo.</li>
+     <li><strong>Deduplication:</strong> 5-min window via deduplication ID or content-based.</li>
+     <li><strong>MessageGroupId:</strong> Groups messages for parallel ordered processing.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws sqs create-queue \
+  --queue-name MyQueue.fifo \
+  --attributes FifoQueue=true,ContentBasedDeduplication=true
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Send with group\naws sqs send-message --queue-url https://sqs.../MyQueue.fifo --message-body 'Order' --message-group-id orders",
+            ],
+            questions: [
+              {
+                question: "How do you create an SQS FIFO queue?",
+                solution:
+                  "<p>Name ends in .fifo, set FifoQueue=true; supports message groups and deduplication.</p>",
+              },
+              {
+                question: "What is SQS message deduplication?",
+                solution:
+                  "<p>In FIFO queues, prevents duplicates using deduplication ID or content; 5-min window.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Monitoring & Encryption",
+            tags: ["monitoring", "encryption", "kms"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>CloudWatch:</strong> Metrics like ApproximateNumberOfMessagesVisible.</li>
+     <li><strong>SSE-KMS:</strong> Customer-managed keys for at-rest encryption.</li>
+     <li><strong>Queue Policy:</strong> JSON IAM policy attached to queue.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws sqs set-queue-attributes \
+  --queue-url https://sqs.../MyQueue \
+  --attributes KmsMasterKeyId=alias/aws/sqs
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Alarm on depth\naws cloudwatch put-metric-alarm --alarm-name QueueDepth --metric-name ApproximateNumberOfMessagesVisible",
+            ],
+            questions: [
+              {
+                question: "How do you monitor SQS queues?",
+                solution:
+                  "<p>Use CloudWatch metrics (ApproximateNumberOfMessagesVisible, etc.) and alarms.</p>",
+              },
+              {
+                question: "What is SQS queue encryption?",
+                solution:
+                  "<p>Encryption at rest via SSE-SQS (AWS) or SSE-KMS (customer key).</p>",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 3,
+        label: "Advanced",
+        concepts: [
+          {
+            topic: "Enterprise Architecture Patterns",
+            tags: ["microservices", "decoupling", "patterns"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Design patterns for resilient, scalable systems:
+   </p>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Queue-per-Service:</strong> Each microservice owns its queue.</li>
+     <li><strong>FIFO for Order:</strong> Strict ordering with message groups.</li>
+     <li><strong>DLQ Circuit Breaker:</strong> Isolate failures and monitor.</li>
+     <li><strong>EventBridge + SQS:</strong> Event buses routing to queues.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "OrderService": "order-events.fifo",
+  "InventoryService": "inventory-updates",
+  "DLQ": "order-events-dlq.fifo"
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// CloudFormation microservice stack\naws cloudformation deploy --template-file microservice.yml --stack-name order-service",
+            ],
+            questions: [
+              {
+                question: "Design an SQS-based microservices architecture.",
+                solution:
+                  "<p>Use queue-per-service, FIFO for order, DLQs for errors, EventBridge for routing, CloudWatch for monitoring, and auto-scaling.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Cross-Account & Cross-Region",
+            tags: ["cross-account", "cross-region", "replication"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>IAM Roles:</strong> Assume-role policies for cross-account access.</li>
+     <li><strong>Resource Policies:</strong> Queue policies granting external accounts.</li>
+     <li><strong>Lambda Replicator:</strong> Forward messages across regions.</li>
+     <li><strong>EventBridge Global:</strong> Route events to regional queues.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "Principal": {"AWS": "arn:aws:iam::222222222222:root"},
+  "Action": "sqs:SendMessage",
+  "Resource": "arn:aws:sqs:us-east-1:111111111111:MyQueue"
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Cross-account send\naws sts assume-role --role-arn arn:aws:iam::222222222222:role/SQSSender --role-session-name xacct",
+            ],
+            questions: [
+              {
+                question: "How do you implement SQS cross-account governance?",
+                solution:
+                  "<p>IAM roles with assume-role policies, queue resource policies, centralized logging, Config rules, and Organizations SCPs.</p>",
+              },
+            ],
+          },
+          {
+            topic: "High-Throughput & Auto-Scaling",
+            tags: ["throughput", "autoscaling", "performance"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Burst Mode:</strong> FIFO supports 3000 msg/s per queue.</li>
+     <li><strong>Lambda Concurrency:</strong> Auto-scale consumers.</li>
+     <li><strong>Message Batching:</strong> Send/Receive up to 10 msgs/API.</li>
+     <li><strong>Connection Pooling:</strong> SDK best practices.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+aws lambda create-event-source-mapping \
+  --function-name processor \
+  --event-source-arn arn:aws:sqs:us-east-1:123:MyQueue \
+  --batch-size 10 \
+  --parallelization-factor 10
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Auto-scaling policy\naws application-autoscaling register-scalable-target --service-namespace lambda --resource-id function:processor --min-capacity 5 --max-capacity 100",
+            ],
+            questions: [
+              {
+                question:
+                  "Explain SQS performance tuning for high-throughput applications.",
+                solution:
+                  "<p>Use Standard queues for max TPS, FIFO message groups, Lambda concurrency, batching, long polling, and CloudWatch scaling.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Disaster Recovery & Backup",
+            tags: ["dr", "backup", "failover"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Cross-Region DLQs:</strong> Replicate failed messages.</li>
+     <li><strong>Message Replay:</strong> Store in S3 for re-drive.</li>
+     <li><strong>Health Checks:</strong> Route 53 for failover.</li>
+     <li><strong>Backup Queues:</strong> Periodic CloudFormation exports.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Export queue config
+aws cloudformation describe-stack-resources --stack-name my-stack
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Lambda replay from S3\naws lambda invoke --function-name replay-handler --payload file://replay.json",
+            ],
+            questions: [
+              {
+                question: "Design SQS backup and disaster recovery strategy.",
+                solution:
+                  "<p>Cross-region DLQs, message replay via S3, health-check failover, Config compliance rules, and automated restore testing.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Event-Driven & Serverless Orchestration",
+            tags: ["event-driven", "serverless", "step-functions"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Step Functions:</strong> Orchestrate Lambda tasks via SQS.</li>
+     <li><strong>EventBridge:</strong> Route events to multiple queues.</li>
+     <li><strong>Circuit Breaker:</strong> DLQ-based health monitoring.</li>
+     <li><strong>State Machines:</strong> Retry, parallel, choice states.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "Comment": "Order workflow",
+  "StartAt": "ValidateOrder",
+  "States": {
+    "ValidateOrder": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::sqs:sendMessage.waitForTaskToken",
+      "Parameters": {"QueueUrl": "...", "MessageBody.$": "$"}
+    }
+  }
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Deploy state machine\naws stepfunctions create-state-machine --definition file://workflow.json --name OrderWorkflow",
+            ],
+            questions: [
+              {
+                question: "Design SQS-based event-driven architecture.",
+                solution:
+                  "<p>EventBridge for routing, SQS for decoupling, Lambda for processing, DLQs for errors, Step Functions for orchestration, CloudWatch for monitoring.</p>",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 25,
+    category: "AWS SNS",
+    themeBgColor: "#E8F5E9",
+    textColor: "#2E7D32",
+    topicColor: "#2E7D32",
+    lightColor: "#E8F5E9",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "What is SNS?",
+            tags: ["basics", "pub-sub"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Amazon Simple Notification Service (SNS) is a fully-managed pub/sub messaging service that decouples senders and receivers. Publishers send messages to topics, and SNS delivers copies to every subscribed endpoint. It supports 10 M messages/day and 100 K topics/region.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Create topic
+aws sns create-topic --name MyTopic
+
+# Subscribe email
+aws sns subscribe \
+  --topic-arn arn:aws:sns:us-east-1:123456789012:MyTopic \
+  --protocol email \
+  --notification-endpoint user@example.com
+ </code>
+  </pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Concepts
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Topic Types:</span> Standard (best-effort order) and FIFO (strict order, dedup).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Message Size:</span> 256 KB; larger payloads via S3 pointers.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              '// Quick publish\naws sns publish --topic-arn arn:aws:sns:us-east-1:123456789012:MyTopic --message "Hello"',
+            ],
+            questions: [
+              {
+                question: "What is Amazon SNS?",
+                solution:
+                  "<p>Amazon SNS is a fully-managed pub/sub service that decouples publishers from subscribers, delivering messages to multiple endpoints via topics.</p>",
+              },
+              {
+                question: "What are SNS topics?",
+                solution:
+                  "<p>Logical access points (channels) where publishers send messages and subscribers receive copies. Topics can be Standard or FIFO.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="SNS Product Page" wc="">https://aws.amazon.com/sns/</url>',
+            ],
+          },
+          {
+            topic: "Topics & Subscriptions",
+            tags: ["topics", "subscriptions", "protocols"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A <strong>topic</strong> is a named channel; each <strong>subscription</strong> specifies a protocol (HTTP, Email, SMS, SQS, Lambda, etc.) and an endpoint. FIFO topics enforce ordering and deduplication.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Create FIFO topic
+aws sns create-topic \
+  --name MyFifoTopic.fifo \
+  --attributes FifoTopic=true,ContentBasedDeduplication=true
+
+# Subscribe Lambda
+aws sns subscribe \
+  --topic-arn arn:aws:sns:us-east-1:123456789012:MyFifoTopic.fifo \
+  --protocol lambda \
+  --notification-endpoint arn:aws:lambda:us-east-1:123456789012:function:processor
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Create topic with display name\naws sns create-topic --name Alerts --attributes DisplayName=SystemAlerts",
+            ],
+            questions: [
+              {
+                question: "How do you create an SNS topic?",
+                solution:
+                  "<p>aws sns create-topic --name my-topic [--attributes] or via Console/SDK/CloudFormation.</p>",
+              },
+              {
+                question: "What are SNS subscription protocols?",
+                solution:
+                  "<p>HTTP/HTTPS, Email/Email-JSON, SMS, SQS, Lambda, mobile push (APNS, FCM), Firehose.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Message Filtering & Attributes",
+            tags: ["filtering", "attributes", "routing"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Message Filtering:</strong> JSON policies on subscriptions to receive subset of messages.</li>
+     <li><strong>Message Attributes:</strong> Key-value metadata for routing logic.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "sport": ["rugby", "football"],
+  "price": [{"numeric": [">", 100]}]
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              '// Subscribe with filter\naws sns subscribe --topic-arn arn:aws:sns:us-east-1:123456789012:MyTopic --protocol email --notification-endpoint alerts@corp.com --attributes FilterPolicy=\'{"priority":["high"]}\'',
+            ],
+            questions: [
+              {
+                question: "What is SNS message filtering?",
+                solution:
+                  "<p>JSON-based policies on subscriptions so each subscriber receives only relevant messages via attribute filters.</p>",
+              },
+              {
+                question: "How do you publish a message to SNS?",
+                solution:
+                  "<p>aws sns publish --topic-arn <arn> --message 'Hello' [--subject] [--message-attributes].</p>",
+              },
+            ],
+          },
+          {
+            topic: "Mobile Push & SMS",
+            tags: ["mobile-push", "sms", "platform-applications"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Mobile Push:</strong> APNS, FCM, ADM, WNS via platform applications.</li>
+     <li><strong>SMS:</strong> Promotional vs Transactional, origination numbers.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Create platform application
+aws sns create-platform-application \
+  --name MyApp \
+  --platform GCM \
+  --attributes PlatformCredential=AIzaSy...
+
+# Publish SMS
+aws sns publish --phone-number +1234567890 --message "Alert!"
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              '// Send push\naws sns publish --target-arn arn:aws:sns:us-east-1:123456789012:endpoint/GCM/MyApp/abc --message \'{"GCM":"{\\"data\\":{\\"key\\":\\"value\\"}}"}\'',
+            ],
+            questions: [
+              {
+                question: "What is SNS mobile push notifications?",
+                solution:
+                  "<p>Push notifications to iOS, Android via platform endpoints (APNS, FCM, ADM, WNS, MPNS).</p>",
+              },
+              {
+                question: "How do you configure SNS SMS messaging?",
+                solution:
+                  "<p>Request sandbox access, set origination numbers, choose Promotional/Transactional, use Publish with PhoneNumber.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Access Policies & Encryption",
+            tags: ["policies", "encryption", "kms"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Topic Policy:</strong> JSON IAM policy attached to topic.</li>
+     <li><strong>SSE-KMS:</strong> Customer-managed keys for encryption.</li>
+     <li><strong>DLQ:</strong> SQS queue for failed deliveries.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Principal": {"AWS": "*"},
+    "Action": "sns:Publish",
+    "Resource": "arn:aws:sns:us-east-1:123456789012:MyTopic"
+  }]
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Set encryption\naws sns set-topic-attributes --topic-arn arn:aws:sns:us-east-1:123456789012:MyTopic --attribute-name KmsMasterKeyId --attribute-value alias/aws/sns",
+            ],
+            questions: [
+              {
+                question: "What is SNS access policy?",
+                solution:
+                  "<p>JSON IAM policy attached to topic defining publish/subscribe permissions and cross-account access.</p>",
+              },
+              {
+                question: "How do you configure SNS topic encryption?",
+                solution:
+                  "<p>Set KmsMasterKeyId attribute to AWS managed or customer KMS key for encryption in transit and at rest.</p>",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advanced",
+        concepts: [
+          {
+            topic: "Global Fan-Out & Filtering",
+            tags: ["fan-out", "filtering", "performance"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Fan-Out:</strong> One message → many consumers (SQS, Lambda, HTTP, etc.).</li>
+     <li><strong>Filtering:</strong> JSON policies with =, !=, exists, numeric, OR.</li>
+     <li><strong>Raw Message Delivery:</strong> Skip SNS envelope for SQS/Lambda.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-yaml">
+# CloudFormation fan-out
+MyTopic:
+  Type: AWS::SNS::Topic
+MyQueue:
+  Type: AWS::SQS::Queue
+Subscription:
+  Type: AWS::SNS::Subscription
+  Properties:
+    TopicArn: !Ref MyTopic
+    Protocol: sqs
+    Endpoint: !GetAtt MyQueue.Arn
+    RawMessageDelivery: true
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Batch publish\naws sns publish-batch --topic-arn arn:aws:sns:us-east-1:123456789012:MyTopic --publish-batch-request-entries file://batch.json",
+            ],
+            questions: [
+              {
+                question: "How do you implement SNS fan-out pattern?",
+                solution:
+                  "<p>Subscribe multiple endpoints (SQS, Lambda, HTTP) to one topic; each receives a full copy for parallel processing.</p>",
+              },
+              {
+                question: "Explain SNS message filtering in detail.",
+                solution:
+                  "<p>JSON filter policies on subscriptions support =, !=, exists, numeric ranges, OR conditions; only matching messages are delivered.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Multi-Account Governance",
+            tags: ["governance", "organizations", "compliance"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>SCPs:</strong> Org-level guardrails (encryption, public-block).</li>
+     <li><strong>Config Rules:</strong> Audit encryption, policy exposure.</li>
+     <li><strong>Service Catalog:</strong> Standardized topic templates.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "Effect": "Deny",
+  "Action": "sns:CreateTopic",
+  "Condition": {
+    "StringNotEquals": {
+      "aws:RequestedRegion": ["us-east-1", "eu-west-1"]
+    }
+  }
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Deploy guardrail\naws organizations attach-policy --policy-id p-FullAWSAccess --target-id ou-123",
+            ],
+            questions: [
+              {
+                question:
+                  "How do you implement SNS governance at enterprise scale?",
+                solution:
+                  "<p>SCPs for encryption/tagging, Config rules for compliance, Service Catalog for templates, centralized logging, and tagging for cost allocation.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Cross-Region & DR",
+            tags: ["cross-region", "dr", "failover"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>CRR:</strong> EventBridge global endpoints replicate topics.</li>
+     <li><strong>Route 53:</strong> Health checks + weighted routing.</li>
+     <li><strong>Backup:</strong> Topic + subscription CloudFormation exports.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Create global endpoint
+aws events create-endpoint \
+  --name GlobalSNS \
+  --routing-config '{"FailoverConfig":{"Primary":{"HealthCheck":"arn:aws:route53:::health-check/abc"}}}'
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Health check\naws route53 create-health-check --health-check-config file://hc.json",
+            ],
+            questions: [
+              {
+                question: "Explain SNS cross-region patterns.",
+                solution:
+                  "<p>EventBridge global endpoints replicate topics, Route 53 health checks for failover, CloudFormation backup, and Config compliance across regions.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Event-Driven & Serverless",
+            tags: ["event-driven", "step-functions", "lambda"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Step Functions:</strong> Orchestrate Lambda via SNS triggers.</li>
+     <li><strong>EventBridge:</strong> Route events to topics, transform, filter.</li>
+     <li><strong>Circuit Breaker:</strong> DLQ + CloudWatch alarms.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-yaml">
+StateMachine:
+  Type: AWS::StepFunctions::StateMachine
+  Properties:
+    DefinitionString:
+      !Sub |
+      {
+        "Comment": "Fan-out workflow",
+        "StartAt": "Publish",
+        "States": {
+          "Publish": {
+            "Type": "Task",
+            "Resource": "arn:aws:states:::sns:publish",
+            "Parameters": {
+              "TopicArn": "\${MyTopic}",
+              "Message.$": "$.event"
+            },
+            "Next": "Wait"
+          }
+        }
+      }
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Lambda trigger\naws lambda create-event-source-mapping --function-name processor --event-source-arn arn:aws:sns:us-east-1:123456789012:MyTopic",
+            ],
+            questions: [
+              {
+                question: "Design SNS-based event-driven architecture.",
+                solution:
+                  "<p>EventBridge for routing, SNS for fan-out, Lambda for processing, DLQs for errors, Step Functions for orchestration, CloudWatch for monitoring.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Compliance & Security Architecture",
+            tags: ["compliance", "encryption", "audit"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>SOX/HIPAA:</strong> Immutable audit trails via S3 + Object Lock.</li>
+     <li><strong>PCI-DSS:</strong> VPC endpoints, encryption, private subnets.</li>
+     <li><strong>Config Rules:</strong> Public-block, encryption, retention.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+{
+  "ConfigRuleName": "SNS-Encrypted",
+  "Source": {"Owner": "AWS", "SourceIdentifier": "SNS_ENCRYPTED_KMS"}
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Enable Config rule\naws configservice put-config-rule --config-rule file://rule.json",
+            ],
+            questions: [
+              {
+                question: "Design SNS architecture for regulatory compliance.",
+                solution:
+                  "<p>KMS encryption, VPC endpoints, Config rules, Object-Lock S3 audit, CloudTrail logs, SCPs for encryption and public-block.</p>",
+              },
+            ],
           },
         ],
       },
