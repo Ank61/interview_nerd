@@ -10,8 +10,8 @@ import bcrypt from 'bcryptjs';
 export default NextAuth({
   providers: [
     GoogleProvider({
-      clientId: "249587580613-7l5b1dbq0cbg9lgaqbe51a633ogo7db1.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
     CredentialsProvider({
       name: 'credentials',
@@ -56,6 +56,38 @@ export default NextAuth({
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   callbacks: {
+    async signIn({ user, account, profile }) {
+      // Handle Google OAuth sign-in
+      if (account?.provider === 'google') {
+        try {
+          await connectDB();
+          
+          // Check if user already exists
+          const existingUser = await User.findOne({ email: user.email.toLowerCase() });
+          
+          if (!existingUser) {
+            // Create new user for Google OAuth
+            const newUser = new User({
+              name: user.name,
+              email: user.email.toLowerCase(),
+              image: user.image,
+              isVerified: true,
+              role: 'user',
+              createdAt: new Date(),
+            });
+            
+            await newUser.save();
+          }
+          
+          return true;
+        } catch (error) {
+          console.error('Error during Google sign-in:', error);
+          return false;
+        }
+      }
+      
+      return true;
+    },
     async jwt({ token, user, account }) {
       if (account && user) {
         token.accessToken = account.access_token;
@@ -74,4 +106,5 @@ export default NextAuth({
     signUp: '/auth/signup',
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === 'development',
 }); 
