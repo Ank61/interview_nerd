@@ -50,7 +50,7 @@ const componentData = {
         questions: 10,
         iconName: "Database",
         color: "bg-blue-100",
-        customLink: "/s3",
+        customLink: "/category/AWS S3",
       },
       {
         name: "Lambda & Serverless",

@@ -6,10 +6,6 @@ import { Button } from "@/components/ui/button";
 import { BookCheck, ArrowRight } from "lucide-react";
 import Header from "@/components/header";
 import { useRouter } from "next/router";
-// import { prepareData } from "@/data/prepareData";
-
-// import connectDB from "@/lib/mongodb";
-// import PrepareData from "@/models/PrepareData";
 import { prepareData } from "@/data/prepareData";
 
 export default function Learn({
@@ -20,14 +16,21 @@ export default function Learn({
   category,
 }) {
   const router = useRouter();
-  console.log("NextTopic", nextTopic, `/learn/${topic}/${nextTopic}`, category);
+  const [hydrated, setHydrated] = React.useState(false);
+
   React.useEffect(() => {
-    try {
-      hljs.highlightAll();
-    } catch (error) {
-      console.error("Highlight.js error:", error);
-    }
+    setHydrated(true);
   }, []);
+
+  React.useEffect(() => {
+    if (hydrated) {
+      try {
+        hljs.highlightAll();
+      } catch (error) {
+        console.error("Highlight.js error:", error);
+      }
+    }
+  }, [hydrated]);
 
   if (router.isFallback) {
     return <div>Loading...</div>;
@@ -43,19 +46,18 @@ export default function Learn({
         >
           {topic}
         </h3>
-        {explanation ? (
+
+        {hydrated && explanation ? (
           <div
             className="w-full"
             dangerouslySetInnerHTML={{ __html: explanation }}
           />
         ) : (
-          <p>No content available.</p>
+          <p>Loading content...</p>
         )}
       </Box>
-      <Box
-        // className="flex justify-between gap-4 mt-10 mb-6"
-        className="flex justify-between gap-4 mt-10 mb-6 ml-3 mr-3"
-      >
+
+      <Box className="flex justify-between gap-4 mt-10 mb-6 ml-3 mr-3">
         <Button
           onClick={() => router.push(`/test/${topic}`)}
           style={{
@@ -83,10 +85,6 @@ export default function Learn({
 }
 
 export async function getStaticPaths() {
-  // await connectDB();
-  // const allData = await PrepareData.find({}).lean();
-
-  // Get paths from database
   const dbPaths = prepareData.reduce((acc, item) => {
     return [
       ...acc,
@@ -98,20 +96,7 @@ export async function getStaticPaths() {
     ];
   }, []);
 
-  // Get paths from static data (for topics not in database like AWS S3)
-  const staticPaths = prepareData.reduce((acc, item) => {
-    return [
-      ...acc,
-      ...item.type.flatMap((typeItem) =>
-        typeItem.concepts.map((conceptItem) => ({
-          params: { slug: [item.category, conceptItem.topic] },
-        }))
-      ),
-    ];
-  }, []);
-
-  // Combine and deduplicate paths
-  const allPaths = [...dbPaths, ...staticPaths];
+  const allPaths = [...dbPaths];
   const uniquePaths = allPaths.filter(
     (path, index, self) =>
       index ===
@@ -129,7 +114,6 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // await connectDB();
   const slug = params.slug;
   const selected = slug[slug.length - 1];
   let themeColor = {};
@@ -137,37 +121,6 @@ export async function getStaticProps({ params }) {
   let explanation = "";
   let category = "";
 
-  // First try to find data in database
-  // const allData = await PrepareData.find({}).lean();
-  // let foundInDb = false;
-
-  // allData.forEach((item) => {
-  //   if (item.type) {
-  //     item.type.forEach((typeItem) => {
-  //       typeItem.concepts.forEach((conceptItem, index) => {
-  //         if (conceptItem.topic === selected) {
-  //           foundInDb = true;
-  //           category = item?.category || selected;
-  //           themeColor = {
-  //             category: item.category,
-  //             themeBgColor: item.themeBgColor,
-  //             textColor: item.textColor,
-  //             topicColor: item.topicColor,
-  //             lightColor: item.lightColor || item.themeBgColor,
-  //           };
-  //           explanation = conceptItem.explanation || "";
-  //           const next = typeItem.concepts[index + 1];
-  //           if (next) {
-  //             nextTopic = next.topic;
-  //           }
-  //         }
-  //       });
-  //     });
-  //   }
-  // });
-
-  // If not found in database, try static data
-  // if (!foundInDb) {
   prepareData.forEach((item) => {
     if (item.type) {
       item.type.forEach((typeItem) => {
@@ -191,7 +144,6 @@ export async function getStaticProps({ params }) {
       });
     }
   });
-  // }
 
   return {
     props: {
@@ -203,3 +155,126 @@ export async function getStaticProps({ params }) {
     },
   };
 }
+
+// export async function getStaticPaths() {
+//   // await connectDB();
+//   // const allData = await PrepareData.find({}).lean();
+
+//   // Get paths from database
+//   const dbPaths = prepareData.reduce((acc, item) => {
+//     return [
+//       ...acc,
+//       ...item.type.flatMap((typeItem) =>
+//         typeItem.concepts.map((conceptItem) => ({
+//           params: { slug: [item.category, conceptItem.topic] },
+//         }))
+//       ),
+//     ];
+//   }, []);
+
+//   // Get paths from static data (for topics not in database like AWS S3)
+//   const staticPaths = prepareData.reduce((acc, item) => {
+//     return [
+//       ...acc,
+//       ...item.type.flatMap((typeItem) =>
+//         typeItem.concepts.map((conceptItem) => ({
+//           params: { slug: [item.category, conceptItem.topic] },
+//         }))
+//       ),
+//     ];
+//   }, []);
+
+//   // Combine and deduplicate paths
+//   const allPaths = [...dbPaths, ...staticPaths];
+//   const uniquePaths = allPaths.filter(
+//     (path, index, self) =>
+//       index ===
+//       self.findIndex(
+//         (p) =>
+//           p.params.slug[0] === path.params.slug[0] &&
+//           p.params.slug[1] === path.params.slug[1]
+//       )
+//   );
+
+//   return {
+//     paths: uniquePaths,
+//     fallback: "blocking",
+//   };
+// }
+
+// export async function getStaticProps({ params }) {
+//   // await connectDB();
+//   const slug = params.slug;
+//   const selected = slug[slug.length - 1];
+//   console.log("selected");
+//   let themeColor = {};
+//   let nextTopic = null;
+//   let explanation = "";
+//   let category = "";
+
+//   // First try to find data in database
+//   // const allData = await PrepareData.find({}).lean();
+//   // let foundInDb = false;
+
+//   // allData.forEach((item) => {
+//   //   if (item.type) {
+//   //     item.type.forEach((typeItem) => {
+//   //       typeItem.concepts.forEach((conceptItem, index) => {
+//   //         if (conceptItem.topic === selected) {
+//   //           foundInDb = true;
+//   //           category = item?.category || selected;
+//   //           themeColor = {
+//   //             category: item.category,
+//   //             themeBgColor: item.themeBgColor,
+//   //             textColor: item.textColor,
+//   //             topicColor: item.topicColor,
+//   //             lightColor: item.lightColor || item.themeBgColor,
+//   //           };
+//   //           explanation = conceptItem.explanation || "";
+//   //           const next = typeItem.concepts[index + 1];
+//   //           if (next) {
+//   //             nextTopic = next.topic;
+//   //           }
+//   //         }
+//   //       });
+//   //     });
+//   //   }
+//   // });
+
+//   // If not found in database, try static data
+//   // if (!foundInDb) {
+//   prepareData.forEach((item) => {
+//     if (item.type) {
+//       item.type.forEach((typeItem) => {
+//         typeItem.concepts.forEach((conceptItem, index) => {
+//           if (conceptItem.topic === selected) {
+//             category = item?.category || selected;
+//             themeColor = {
+//               category: item.category,
+//               themeBgColor: item.themeBgColor,
+//               textColor: item.textColor,
+//               topicColor: item.topicColor,
+//               lightColor: item.lightColor || item.themeBgColor,
+//             };
+//             explanation = conceptItem.explanation || "";
+//             const next = typeItem.concepts[index + 1];
+//             if (next) {
+//               nextTopic = next.topic;
+//             }
+//           }
+//         });
+//       });
+//     }
+//   });
+//   // }
+
+//   return {
+//     props: {
+//       topic: selected,
+//       explanation: explanation || "<p>No explanation available.</p>",
+//       nextTopic: nextTopic || "",
+//       theme: themeColor,
+//       category: category,
+//     },
+//   };
+// }

@@ -4,7 +4,20 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { motion, AnimatePresence } from "framer-motion";
 import Box from "@mui/material/Box";
-import { ArrowLeft, Hash, BookOpen, ChevronDown, ChevronUp, SearchIcon, Star, Clock, Target, Zap, BookOpenCheck, CheckCircle } from "lucide-react";
+import {
+  ArrowLeft,
+  Hash,
+  BookOpen,
+  ChevronDown,
+  ChevronUp,
+  SearchIcon,
+  Star,
+  Clock,
+  Target,
+  Zap,
+  BookOpenCheck,
+  CheckCircle,
+} from "lucide-react";
 import { useRouter } from "next/router";
 import {
   Table,
@@ -28,7 +41,13 @@ import {
 import { prepareData } from "@/data/prepareData";
 import { Typography } from "@mui/material";
 import Header from "@/components/header";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -89,7 +108,10 @@ function AccordionQuestion({ question, topic, index }) {
               {question.question}
             </h3>
             <div className="flex items-center gap-3 mt-2">
-              <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
+              <Badge
+                variant="secondary"
+                className="bg-blue-100 text-blue-700 hover:bg-blue-200"
+              >
                 <Target className="w-3 h-3 mr-1" />
                 {topic}
               </Badge>
@@ -122,7 +144,9 @@ function AccordionQuestion({ question, topic, index }) {
                   <CheckCircle className="w-5 h-5 text-blue-600" />
                   <h4 className="font-semibold text-blue-900">Answer</h4>
                 </div>
-                <p className="text-blue-800 leading-relaxed">{question.solution}</p>
+                <p className="text-blue-800 leading-relaxed">
+                  {question.solution}
+                </p>
               </div>
             </div>
           </motion.div>
@@ -132,11 +156,9 @@ function AccordionQuestion({ question, topic, index }) {
   );
 }
 
-
-
 function TopicCard({ concept, isLearned, onToggleLearned, topicName }) {
   const router = useRouter();
-  
+
   const handleViewDetails = () => {
     // Navigate to the learn page with the format /learn/[category]/[topic]
     router.push(`/learn/${topicName}/${concept.topic}`);
@@ -154,7 +176,9 @@ function TopicCard({ concept, isLearned, onToggleLearned, topicName }) {
             <BookOpen className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 text-lg">{concept.topic}</h3>
+            <h3 className="font-semibold text-gray-900 text-lg">
+              {concept.topic}
+            </h3>
             <p className="text-sm text-gray-600">{topicName}</p>
           </div>
         </div>
@@ -165,7 +189,7 @@ function TopicCard({ concept, isLearned, onToggleLearned, topicName }) {
           </Badge>
         )}
       </div>
-      
+
       <div className="flex items-center justify-between">
         <Button
           onClick={handleViewDetails}
@@ -175,7 +199,7 @@ function TopicCard({ concept, isLearned, onToggleLearned, topicName }) {
           <BookOpenCheck className="w-4 h-4 mr-2" />
           View Details
         </Button>
-        
+
         {onToggleLearned && (
           <div className="flex items-center gap-2">
             <Checkbox
@@ -201,11 +225,15 @@ export default function S3Page() {
   const [level, setLevel] = React.useState("Beginner");
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
-  
+
   // Get S3 data
-  const topicPrepareData = prepareData.find(item => item.category === "AWS S3");
-  const topicInterviewData = interviewData.filter(item => item.topic === "AWS S3");
-  
+  const topicPrepareData = prepareData.find(
+    (item) => item.category === "AWS S3"
+  );
+  const topicInterviewData = interviewData.filter(
+    (item) => item.topic === "AWS S3"
+  );
+
   // Use static data instead of filtering on client
   let selectedTopicData = topicPrepareData?.type || [];
 
@@ -228,13 +256,13 @@ export default function S3Page() {
   const handleLearnedToggle = async (concept) => {
     const key = getConceptKey("AWS S3", concept.topic);
     const wasChecked = !!learnedConcepts[key];
-    
+
     setLearnedConcepts((prev) => {
       const updated = { ...prev, [key]: !prev[key] };
       localStorage.setItem("learnedConcepts", JSON.stringify(updated));
       return updated;
     });
-    
+
     // If user is logged in, sync with database
     if (session?.user?.id) {
       try {
@@ -274,20 +302,21 @@ export default function S3Page() {
   }, []);
 
   React.useEffect(() => {
-    const filteredTopic = topicInterviewData
-      .filter((item) => item.categories === interviewSelection);
+    const filteredTopic = topicInterviewData.filter(
+      (item) => item.categories === interviewSelection
+    );
     setInterviewQues(filteredTopic[0] || {});
   }, [interviewSelection, topicInterviewData]);
 
   React.useEffect(() => {
     if (session?.user?.id) {
       fetch(`/api/auth/learned-topic?userId=${session.user.id}`)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (Array.isArray(data.learnedPrepareTopics)) {
             // Map to { [key]: true }
             const dbLearned = {};
-            data.learnedPrepareTopics.forEach(item => {
+            data.learnedPrepareTopics.forEach((item) => {
               dbLearned[getConceptKey(item.topic, item.concept)] = true;
             });
             setLearnedConcepts(dbLearned);
@@ -300,44 +329,45 @@ export default function S3Page() {
     setValue(newValue);
   };
 
-
-
   // Filter prepare data based on search query
   const filteredPrepareData = React.useMemo(() => {
     if (!selectedTopicData || selectedTopicData.length === 0) return [];
-    
+
     if (!searchQuery.trim()) return selectedTopicData;
-    
-    return selectedTopicData.map(level => ({
-      ...level,
-      concepts: level.concepts?.filter(concept => {
-        const query = searchQuery.toLowerCase();
-        return concept.topic.toLowerCase().includes(query);
-      }) || []
-    })).filter(level => level.concepts.length > 0);
+
+    return selectedTopicData
+      .map((level) => ({
+        ...level,
+        concepts:
+          level.concepts?.filter((concept) => {
+            const query = searchQuery.toLowerCase();
+            return concept.topic.toLowerCase().includes(query);
+          }) || [],
+      }))
+      .filter((level) => level.concepts.length > 0);
   }, [selectedTopicData, searchQuery]);
 
   // Calculate progress
   const calculateProgress = (level) => {
-    const levelData = filteredPrepareData.find(item => item.label === level);
+    const levelData = filteredPrepareData.find((item) => item.label === level);
     if (!levelData?.concepts?.length) return 0;
-    
-    const learnedCount = levelData.concepts.filter(concept => 
-      learnedConcepts[getConceptKey("AWS S3", concept.topic)]
+
+    const learnedCount = levelData.concepts.filter(
+      (concept) => learnedConcepts[getConceptKey("AWS S3", concept.topic)]
     ).length;
-    
+
     return (learnedCount / levelData.concepts.length) * 100;
   };
 
   const handleBackClick = () => {
-    router.push('/components/AWS');
+    router.push("/components/AWS");
   };
 
   return (
     <Box className="w-full md:w-7/12 lg:w-6/12 mx-auto">
       <div className="border-b">
         <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center justify-between">
             <button
               onClick={handleBackClick}
               className="text-gray-900 flex items-center gap-2 p-2 rounded-lg transition-colors"
@@ -345,15 +375,11 @@ export default function S3Page() {
               <ArrowLeft className="w-4 h-4 text-gray-900" />
               Back
             </button>
-            <div className="flex items-center gap-4">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">AWS S3 (Simple Storage Service)</h1>
-              </div>
-            </div>
+            <h1 className="text-2xl font-bold text-gray-900">AWS S3</h1>
           </div>
         </div>
       </div>
-      
+
       <Box sx={{ width: "auto" }}>
         <Box>
           <Tabs
@@ -400,7 +426,7 @@ export default function S3Page() {
             />
           </Tabs>
         </Box>
-        
+
         <CustomTabPanel value={value} index={0}>
           <div className="space-y-6">
             {/* Search Section */}
@@ -425,13 +451,16 @@ export default function S3Page() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Progress value={calculateProgress("Beginner")} className="h-3" />
+                  <Progress
+                    value={calculateProgress("Beginner")}
+                    className="h-3"
+                  />
                   <p className="text-sm text-gray-600 mt-2">
                     {Math.round(calculateProgress("Beginner"))}% completed
                   </p>
                 </CardContent>
               </Card>
-              
+
               <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-lg flex items-center gap-2">
@@ -440,7 +469,10 @@ export default function S3Page() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Progress value={calculateProgress("Advanced")} className="h-3" />
+                  <Progress
+                    value={calculateProgress("Advanced")}
+                    className="h-3"
+                  />
                   <p className="text-sm text-gray-600 mt-2">
                     {Math.round(calculateProgress("Advanced"))}% completed
                   </p>
@@ -468,7 +500,7 @@ export default function S3Page() {
                   Advanced Topics
                 </TabsTrigger>
               </TabsList>
-              
+
               <TabsContent value="Beginner" className="mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredPrepareData
@@ -478,7 +510,11 @@ export default function S3Page() {
                         <TopicCard
                           key={index}
                           concept={concept}
-                          isLearned={!!learnedConcepts[getConceptKey("AWS S3", concept.topic)]}
+                          isLearned={
+                            !!learnedConcepts[
+                              getConceptKey("AWS S3", concept.topic)
+                            ]
+                          }
                           onToggleLearned={() => handleLearnedToggle(concept)}
                           topicName="AWS S3"
                         />
@@ -486,7 +522,7 @@ export default function S3Page() {
                     )}
                 </div>
               </TabsContent>
-              
+
               <TabsContent value="Advance" className="mt-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredPrepareData
@@ -496,7 +532,11 @@ export default function S3Page() {
                         <TopicCard
                           key={index}
                           concept={concept}
-                          isLearned={!!learnedConcepts[getConceptKey("AWS S3", concept.topic)]}
+                          isLearned={
+                            !!learnedConcepts[
+                              getConceptKey("AWS S3", concept.topic)
+                            ]
+                          }
                           onToggleLearned={() => handleLearnedToggle(concept)}
                           topicName="AWS S3"
                         />
@@ -507,7 +547,7 @@ export default function S3Page() {
             </TAB>
           </div>
         </CustomTabPanel>
-        
+
         <CustomTabPanel value={value} index={1}>
           <div className="space-y-6">
             {/* Interview Questions Header */}
@@ -525,10 +565,13 @@ export default function S3Page() {
                 <div className="flex gap-2">
                   <Button
                     onClick={() => setInterviewSelection("Junior")}
-                    variant={interviewSelection === "Junior" ? "default" : "outline"}
-                    className={interviewSelection === "Junior" 
-                      ? "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700" 
-                      : ""
+                    variant={
+                      interviewSelection === "Junior" ? "default" : "outline"
+                    }
+                    className={
+                      interviewSelection === "Junior"
+                        ? "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700"
+                        : ""
                     }
                   >
                     <Zap className="w-4 h-4 mr-2" />
@@ -536,10 +579,13 @@ export default function S3Page() {
                   </Button>
                   <Button
                     onClick={() => setInterviewSelection("Senior")}
-                    variant={interviewSelection === "Senior" ? "default" : "outline"}
-                    className={interviewSelection === "Senior" 
-                      ? "bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700" 
-                      : ""
+                    variant={
+                      interviewSelection === "Senior" ? "default" : "outline"
+                    }
+                    className={
+                      interviewSelection === "Senior"
+                        ? "bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700"
+                        : ""
                     }
                   >
                     <Star className="w-4 h-4 mr-2" />
@@ -548,7 +594,7 @@ export default function S3Page() {
                 </div>
               </CardContent>
             </Card>
-            
+
             {/* Questions List */}
             <div className="space-y-4">
               {interviewQues.questions?.map((question, index) => (
@@ -560,8 +606,9 @@ export default function S3Page() {
                 />
               ))}
             </div>
-            
-            {(!interviewQues.questions || interviewQues.questions.length === 0) && (
+
+            {(!interviewQues.questions ||
+              interviewQues.questions.length === 0) && (
               <Card className="text-center py-12">
                 <CardContent>
                   <div className="flex flex-col items-center gap-4">
@@ -569,8 +616,12 @@ export default function S3Page() {
                       <Target className="w-8 h-8 text-gray-400" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">No Questions Available</h3>
-                      <p className="text-gray-500">Questions for this level will be added soon.</p>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                        No Questions Available
+                      </h3>
+                      <p className="text-gray-500">
+                        Questions for this level will be added soon.
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -579,7 +630,6 @@ export default function S3Page() {
           </div>
         </CustomTabPanel>
       </Box>
-      
     </Box>
   );
-} 
+}

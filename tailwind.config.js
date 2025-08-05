@@ -79,6 +79,13 @@ module.exports = {
           border: "#C3E1FF",
           lightTheme: "#E9F4FF",
         },
+        AWS: {
+          bg: "#E9F4FF",
+          text: "#8B2635",
+          topic: "#8B2635",
+          border: "#FFEFEF",
+          lightTheme: "#FFEFEF",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

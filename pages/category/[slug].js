@@ -50,24 +50,19 @@ import { prepareData } from "@/data/prepareData";
 import { Typography } from "@mui/material";
 import Header from "@/components/header";
 
-// Static generation functions
 export async function getStaticPaths() {
-  // Define all possible topics
-  const topics = ["Javascript", "React", "Node", "Typescript", "s3"];
-
+  const topics = ["Javascript", "React", "Node", "Typescript", "AWS S3"];
   const paths = topics.map((topic) => ({
     params: { slug: topic },
   }));
   return {
     paths,
-    fallback: false, // Return 404 for any paths not returned by getStaticPaths
+    fallback: false,
   };
 }
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-
-  // Filter data for the specific topic
   const topicPrepareData = prepareData.find((item) => item.category === slug);
   const topicInterviewData = interviewData.filter(
     (item) => item.topic === slug
@@ -79,8 +74,7 @@ export async function getStaticProps({ params }) {
       topicInterviewData: topicInterviewData || [],
       topic: slug,
     },
-    // Revalidate every hour (3600 seconds)
-    revalidate: 3600,
+    revalidate: 216000,
   };
 }
 
@@ -113,7 +107,6 @@ function a11yProps(index) {
   };
 }
 
-// Accordion Question Component
 function AccordionQuestion({ question, topic, index }) {
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -263,7 +256,6 @@ function AccordionQuestion({ question, topic, index }) {
   );
 }
 
-// Question Modal Component
 function QuestionModal({ isOpen, onClose, question, topic }) {
   if (!isOpen || !question) return null;
 
@@ -395,14 +387,11 @@ export default function BasicTabs({
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
 
-  // Use static data instead of filtering on client
   let selectedTopicData = topicPrepareData?.type || [];
 
-  // Add state for learned concepts
   const [learnedConcepts, setLearnedConcepts] = React.useState({});
   const { data: session } = useSession();
 
-  // Load learned concepts from localStorage on mount
   React.useEffect(() => {
     const stored = localStorage.getItem("learnedConcepts");
     if (stored) {
@@ -410,10 +399,8 @@ export default function BasicTabs({
     }
   }, []);
 
-  // Helper to get unique key for a concept
   const getConceptKey = (topic, concept) => `${topic}__${concept}`;
 
-  // Handler for checkbox toggle
   const handleLearnedToggle = async (concept) => {
     const key = getConceptKey(topic, concept.topic);
     const wasChecked = !!learnedConcepts[key];
@@ -501,7 +488,6 @@ export default function BasicTabs({
     setSelectedQuestion(null);
   };
 
-  // Filter prepare data based on search query
   const filteredPrepareData = React.useMemo(() => {
     if (!selectedTopicData || selectedTopicData.length === 0) return [];
 
@@ -518,7 +504,6 @@ export default function BasicTabs({
       }))
       .filter((level) => level.concepts.length > 0);
   }, [selectedTopicData, searchQuery]);
-
   return (
     <Box className="w-full md:w-7/12 lg:w-6/12 mx-auto">
       <Header topic={topic} indexSelected={indexSelected} />
@@ -582,7 +567,20 @@ export default function BasicTabs({
                       color: "var(--ts-topic)",
                     },
                   }
-                : {}
+                : topic === "AWS S3"
+                ? {
+                    marginTop: 2,
+                    "& .MuiTabs-indicator": {
+                      backgroundColor: "var(--awss3-bg)",
+                    },
+                    "& .MuiTab-root": {
+                      color: "var(--awss3-text)",
+                    },
+                    "& .MuiTab-root.Mui-selected": {
+                      color: "var(--awss3-topic)",
+                    },
+                  }
+                : ""
             }
           >
             <Tab
@@ -630,6 +628,8 @@ export default function BasicTabs({
                   ? "text-Node-bg "
                   : topic === "Typescript"
                   ? "text-Typescript-text "
+                  : topic === "AWS S3"
+                  ? "text-AWS-text "
                   : "text-gray-400"
               }`}
             />
@@ -648,6 +648,8 @@ export default function BasicTabs({
                     ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text"
                     : topic === "Typescript"
                     ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text"
+                    : topic === "AWS S3"
+                    ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text"
                     : ""
                 }`}
               >
@@ -665,6 +667,8 @@ export default function BasicTabs({
                     ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text "
                     : topic === "Typescript"
                     ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text "
+                    : topic === "AWS S3"
+                    ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text "
                     : ""
                 }`}
               >
@@ -685,6 +689,8 @@ export default function BasicTabs({
                           ? "text-Node-text "
                           : topic === "Typescript"
                           ? "text-Typescript-text "
+                          : topic === "AWS S3"
+                          ? "text-AWS-text "
                           : ""
                       } text-left md:text-center`}
                     >
@@ -700,6 +706,8 @@ export default function BasicTabs({
                           ? "text-Node-text "
                           : topic === "Typescript"
                           ? "text-Typescript-text "
+                          : topic === "AWS S3"
+                          ? "text-AWS-text "
                           : ""
                       }`}
                     >
@@ -716,6 +724,8 @@ export default function BasicTabs({
                             ? "text-Node-text "
                             : topic === "Typescript"
                             ? "text-Typescript-text "
+                            : topic === "AWS S3"
+                            ? "text-AWS-text "
                             : ""
                         }`}
                       >
@@ -739,6 +749,8 @@ export default function BasicTabs({
                               ? "text-Node-text "
                               : topic === "Typescript"
                               ? "text-Typescript-text "
+                              : topic === "AWS S3"
+                              ? "text-AWS-text "
                               : ""
                           } md:pl-4`}
                         >
@@ -781,6 +793,8 @@ export default function BasicTabs({
                                     ? "text-Node-text bg-white hover:bg-Node-bg"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
                                     : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -795,6 +809,8 @@ export default function BasicTabs({
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -815,6 +831,8 @@ export default function BasicTabs({
                                     ? "text-Node-text bg-white hover:bg-Node-bg"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
                                     : ""
                                 } 
                               md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -829,6 +847,8 @@ export default function BasicTabs({
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -856,6 +876,8 @@ export default function BasicTabs({
                                   ? "text-Node-text bg-white hover:bg-Node-bg"
                                   : topic === "Typescript"
                                   ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                  : topic === "AWS S3"
+                                  ? "text-AWS-text bg-white hover:bg-AWS-bg"
                                   : ""
                               }`}
                             >
@@ -869,6 +891,8 @@ export default function BasicTabs({
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -888,6 +912,8 @@ export default function BasicTabs({
                                   ? "text-Node-text bg-white hover:bg-Node-bg"
                                   : topic === "Typescript"
                                   ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                  : topic === "AWS S3"
+                                  ? "text-AWS-text bg-white hover:bg-AWS-bg"
                                   : ""
                               }`}
                             >
@@ -901,6 +927,8 @@ export default function BasicTabs({
                                     ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -954,6 +982,8 @@ export default function BasicTabs({
                           ? "text-React-text"
                           : topic === "Typescript"
                           ? "text-Typescript-text"
+                          : topic === "AWS S3"
+                          ? "text-AWS-text"
                           : ""
                       } text-left md:text-center`}
                     >
@@ -967,6 +997,8 @@ export default function BasicTabs({
                           ? "text-React-text"
                           : topic === "Typescript"
                           ? "text-Typescript-text"
+                          : topic === "AWS S3"
+                          ? "text-AWS-text"
                           : ""
                       }`}
                     >
@@ -996,6 +1028,8 @@ export default function BasicTabs({
                               ? "text-Node-text"
                               : topic === "Typescript"
                               ? "text-Typescript-text"
+                              : topic === "AWS S3"
+                              ? "text-AWS-text"
                               : ""
                           } md:pl-4`}
                         >
@@ -1039,6 +1073,8 @@ export default function BasicTabs({
                                   ? "text-Node-text bg-white hover:bg-Node-bg"
                                   : topic === "Typescript"
                                   ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                  : topic === "AWS S3"
+                                  ? "text-AWS-text bg-white hover:bg-AWS-bg"
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -1053,6 +1089,8 @@ export default function BasicTabs({
                                     ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -1073,6 +1111,8 @@ export default function BasicTabs({
                                   ? "text-Node-text bg-white hover:bg-Node-bg "
                                   : topic === "Typescript"
                                   ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                  : topic === "AWS S3"
+                                  ? "text-AWS-text bg-white hover:bg-AWS-bg "
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
@@ -1088,6 +1128,8 @@ export default function BasicTabs({
                                     ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -1115,6 +1157,8 @@ export default function BasicTabs({
                                   ? "text-Node-text bg-white hover:bg-Node-bg "
                                   : topic === "Typescript"
                                   ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                  : topic === "AWS S3"
+                                  ? "text-AWS-text bg-white hover:bg-AWS-bg "
                                   : ""
                               }`}
                             >
@@ -1128,6 +1172,8 @@ export default function BasicTabs({
                                     ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
                                     : ""
                                 } md: w-[15px]`}
                               />
@@ -1145,6 +1191,8 @@ export default function BasicTabs({
                                   ? "text-React-text bg-white hover:bg-React-bg "
                                   : topic === "Typescript"
                                   ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                  : topic === "AWS S3"
+                                  ? "text-AWS-text bg-white hover:bg-AWS-bg "
                                   : ""
                               }`}
                             >
@@ -1157,6 +1205,8 @@ export default function BasicTabs({
                                     ? "text-React-text hover:bg-React-bg hover:text-React-text"
                                     : topic === "Typescript"
                                     ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
                                     : ""
                                 } md: w-[15px]`}
                                 // size={"19px"}

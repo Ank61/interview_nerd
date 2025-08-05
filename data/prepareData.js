@@ -27016,7 +27016,7 @@ class Container {
         label: "Beginner",
         concepts: [
           {
-            topic: "What is S3?",
+            topic: "What is S3",
             tags: ["basics", "object-storage"],
             explanation: `<div>
   <p style="line-height: 1.75; margin-top: 1.5rem;">
