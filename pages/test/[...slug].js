@@ -1,4 +1,3 @@
-
 import Box from "@mui/material/Box";
 import * as React from "react";
 import { useRouter } from "next/router";
@@ -31,20 +30,24 @@ export default function Component() {
   const [showExplanation, setShowExplanation] = useState(false);
   const currentQuestion =
     practiceQuestions?.length > 0 && practiceQuestions[currentIndex];
+
   React.useEffect(() => {
     const selected = topic[topic.length - 1];
     setTopicSelected(topic[topic.length - 1]);
     let themeColor;
     const matchingTopics = prepareData.flatMap((item) => {
-      themeColor = {
-        category: item.category,
-        themeBgColor: item.themeBgColor,
-        textColor: item.textColor,
-        topicColor: item.topicColor,
-        lightColor: item?.lightColor || item.themeBgColor,
-      };
       return item.type.flatMap((typeItem) =>
         typeItem.concepts.filter((conceptItem, index) => {
+          if (conceptItem.topic === selected) {
+            themeColor = {
+              category: item.category,
+              themeBgColor: item.themeBgColor,
+              textColor: item.textColor,
+              topicColor: item.topicColor,
+              lightColor: item?.lightColor || item.themeBgColor,
+              lightTail: item?.lightTail || "",
+            };
+          }
           return conceptItem.topic === selected;
         })
       );
@@ -121,7 +124,9 @@ export default function Component() {
             delay: 0.01,
           }}
         >
-          <motion.div className="w-6/6 flex items-center justify-center mx-auto p-2 md:p-1">
+          <motion.div
+            className={`w-6/6 flex items-center justify-center mx-auto p-2 md:p-1`}
+          >
             {showExplanation ? "Hide Solution" : "Show Solution"}
             <motion.div
               initial={false}
@@ -129,7 +134,7 @@ export default function Component() {
               className="ml-2"
             >
               {showExplanation ? (
-                <ChevronUp className="h-4 w-4" />
+                <ChevronUp className={`h-4 w-4`} />
               ) : (
                 <ChevronDown className="h-4 w-4" />
               )}
@@ -144,14 +149,14 @@ export default function Component() {
               stiffness: 60,
               delay: 0.2,
             }}
-            className="mt-1 p-4 bg-muted rounded-md overflow-hidden cursor-pointer"
+            className={`mt-1 p-4 bg-muted rounded-md overflow-hidden cursor-pointer `}
           >
-              <div
-                className="w-full"
-                dangerouslySetInnerHTML={{
-                  __html: currentQuestion.solution,
-                }}
-              />
+            <div
+              className={`w-full`}
+              dangerouslySetInnerHTML={{
+                __html: currentQuestion.solution,
+              }}
+            />
           </motion.div>
         )}
       </Box>

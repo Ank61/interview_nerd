@@ -27006,10 +27006,11 @@ class Container {
   {
     id: 6,
     category: "AWS S3",
-    themeBgColor: "#40417A",
+    themeBgColor: "#FFEAF0",
     textColor: "#4A0A14",
     topicColor: "#4A0A14",
-    lightColor: "#40417A",
+    lightColor: "#FFEAF0",
+    lightTail: "bg-red-100",
     type: [
       {
         id: 1,
@@ -27019,7 +27020,7 @@ class Container {
             topic: "What is S3",
             tags: ["basics", "object-storage"],
             explanation:
-              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">\n    Amazon S3 (Simple Storage Service) is AWS’s fully-managed, infinitely-scalable object storage designed for 11×9’s (99.999 999 999 %) durability, 99.99 % availability, millisecond latency, and virtually unlimited throughput. Objects are stored redundantly across multiple facilities and devices in a Region using erasure-coding and continuous integrity checks.\n  </p>\n\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-bash">\n# Quick start\naws s3 mb s3://my-unique-bucket --region us-east-1\naws s3 cp ./localfile.txt s3://my-unique-bucket/\naws s3 ls s3://my-unique-bucket\n</code></pre>\n  </div>\n\n  <p style="line-height: 1.75;">\n    An <strong>object</strong> = data (0 B–5 TB) + key + metadata + version-id + storage-class. A <strong>bucket</strong> is a globally-unique DNS container for objects, created in a specific AWS Region.\n  </p>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Core Concepts\n  </h4>\n  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Durability 11×9’s:</span> Data is redundantly stored across multiple AZs using erasure-coding. Automatic corruption detection and repair.\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>Each object is split into data and parity shards, distributed across ≥ 3 Availability Zones.</li>\n        <li>Continuous background scanning with CRC checksums; lost shards are automatically reconstructed.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Unlimited Scale:</span> Pay-as-you-go, virtually infinite storage and throughput.\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>No bucket size limit; single object can be 0 bytes to 5 TB, uploaded via single PUT or multipart (up to 10,000 parts, each 5 MiB – 5 GiB).</li>\n        <li>Parallelized GET/PUT with byte-range fetches and multipart uploads.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Storage Classes:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li><strong>Standard:</strong> general-purpose, millisecond access.</li>\n        <li><strong>Intelligent-Tiering:</strong> auto-moves objects between frequent/infrequent access tiers.</li>\n        <li><strong>Standard-IA & One Zone-IA:</strong> lower cost for infrequently accessed data.</li>\n        <li><strong>Glacier Instant/Deep Archive:</strong> archive tiers with minutes-to-hours retrieval.</li>\n        <li><strong>Reduced Redundancy (legacy):</strong> lower durability at lower cost.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Access Control & Security:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>IAM policies, bucket policies, ACLs, and S3 Access Points.</li>\n        <li>Block Public Access settings at account and bucket level.</li>\n        <li>Encryption: SSE-S3, SSE-KMS, SSE-C, and client-side encryption.</li>\n        <li>Object Lock (WORM) & MFA-delete for compliance.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Data Transfer & Acceleration:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Transfer Acceleration for faster uploads via CloudFront edge POPs.</li>\n        <li>Cross-Region Replication (CRR) & Same-Region Replication (SRR).</li>\n        <li>S3 Batch Operations for large-scale PUT/COPY/DELETE.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Event-Driven Features:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Event Notifications → SNS, SQS, Lambda, EventBridge.</li>\n        <li>S3 Object Lambda to transform data on-the-fly during GET requests.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Query in Place:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Select & Glacier Select for server-side SQL filtering.</li>\n        <li>Amazon Athena & Redshift Spectrum for analytics without moving data.</li>\n      </ul>\n    </li>\n  </ol>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Bucket Fundamentals\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Global namespace:</strong> Must be DNS-compliant, 3–63 chars, lowercase, no underscores.</li>\n    <li><strong>Region-bound:</strong> Once created, bucket’s Region never changes; objects inherit the Region.</li>\n    <li><strong>Lifecycle rules:</span> Transition objects to cheaper classes or schedule deletion.</li>\n    <li><strong>Logging:</strong> Server-access logs or CloudTrail data events for audit.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Pricing Dimensions\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>Storage volume (per-GB-month per class).</li>\n    <li>Requests (per 1,000 PUT/COPY/POST/LIST or GET/SELECT).</li>\n    <li>Data transfer (first 100 GB/mo free, then tiered).</li>\n    <li>Early deletion and retrieval fees for IA/Glacier.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Additional Best Practices\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>Enable versioning + MFA delete to protect against accidental overwrites.</li>\n    <li>Use pre-signed URLs for secure, time-limited sharing.</li>\n    <li>Monitor with CloudWatch (4xx/5xx metrics, storage-lens).</li>\n    <li>Implement least-privilege IAM roles and bucket policies.</li>\n    <li>Leverage S3 Inventory for bulk auditing and S3 Batch Operations for remediation.</li>\n  </ul>\n</div>',
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">\n    Amazon S3 (Simple Storage Service) is AWS’s fully-managed, infinitely-scalable object storage designed for 11×9’s (99.999 999 999 %) durability, 99.99 % availability, millisecond latency, and virtually unlimited throughput. Objects are stored redundantly across multiple facilities and devices in a Region using erasure-coding and continuous integrity checks.\n  </p>\n\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-bash">\n# Quick start\naws s3 mb s3://my-unique-bucket --region us-east-1\naws s3 cp ./localfile.txt s3://my-unique-bucket/\naws s3 ls s3://my-unique-bucket\n</code></pre>\n  </div>\n\n  <p style="line-height: 1.75;">\n    An <strong>object</strong> = data (0 B–5 TB) + key + metadata + version-id + storage-class. A <strong>bucket</strong> is a globally-unique DNS container for objects, created in a specific AWS Region.\n  </p>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Core Concepts\n  </h4>\n  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Durability 11×9’s:</span> Data is redundantly stored across multiple AZs using erasure-coding and continuous integrity checks.\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>Each object is split into data and parity shards, distributed across ≥ 3 Availability Zones.</li>\n        <li>Continuous background scanning with CRC checksums; lost shards are automatically reconstructed.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Unlimited Scale:</span> Pay-as-you-go, virtually infinite storage and throughput.\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>No bucket size limit; single object can be 0 bytes to 5 TB, uploaded via single PUT or multipart (up to 10,000 parts, each 5 MiB – 5 GiB).</li>\n        <li>Parallelized GET/PUT with byte-range fetches and multipart uploads.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Storage Classes:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li><strong>Standard:</strong> general-purpose, millisecond access.</li>\n        <li><strong>Intelligent-Tiering:</strong> auto-moves objects between frequent/infrequent access tiers.</li>\n        <li><strong>Standard-IA & One Zone-IA:</strong> lower cost for infrequently accessed data.</li>\n        <li><strong>Glacier Instant/Deep Archive:</strong> archive tiers with minutes-to-hours retrieval.</li>\n        <li><strong>Reduced Redundancy (legacy):</strong> lower durability at lower cost.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Access Control & Security:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>IAM policies, bucket policies, ACLs, and S3 Access Points.</li>\n        <li>Block Public Access settings at account and bucket level.</li>\n        <li>Encryption: SSE-S3, SSE-KMS, SSE-C, and client-side encryption.</li>\n        <li>Object Lock (WORM) & MFA-delete for compliance.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Data Transfer & Acceleration:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Transfer Acceleration for faster uploads via CloudFront edge POPs.</li>\n        <li>Cross-Region Replication (CRR) & Same-Region Replication (SRR).</li>\n        <li>S3 Batch Operations for large-scale PUT/COPY/DELETE.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Event-Driven Features:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Event Notifications → SNS, SQS, Lambda, EventBridge.</li>\n        <li>S3 Object Lambda to transform data on-the-fly during GET requests.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Query in Place:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Select & Glacier Select for server-side SQL filtering.</li>\n        <li>Amazon Athena & Redshift Spectrum for analytics without moving data.</li>\n      </ul>\n    </li>\n  </ol>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Object storage vs block vs file storage\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Object Storage (S3):</strong> Flat namespace, accessed via REST API, ideal for unstructured data like images, logs, backups.</li>\n    <li><strong>Block Storage (EBS):</strong> Raw storage volumes attached to EC2, low-latency, used for OS, databases.</li>\n    <li><strong>File Storage (EFS/FSx):</strong> Hierarchical directories, POSIX-compliant, shared access for applications.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Common Use Cases\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Backup & Archive:</strong> Cross-account replication, lifecycle to Glacier.</li>\n    <li><strong>Static Websites:</strong> Host HTML/CSS/JS directly from a bucket with website hosting.</li>\n    <li><strong>CDN Origin:</strong> Serve static assets via Amazon CloudFront.</li>\n    <li><strong>Data Lake:</strong> Store raw data for analytics with Athena, Redshift Spectrum, or EMR.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Bucket Fundamentals\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Global namespace:</strong> Must be DNS-compliant, 3–63 chars, lowercase, no underscores.</li>\n    <li><strong>Region-bound:</strong> Once created, bucket’s Region never changes; objects inherit the Region.</li>\n    <li><strong>Lifecycle rules:</strong> Transition objects to cheaper classes or schedule deletion.</li>\n    <li><strong>Logging:</strong> Server-access logs or CloudTrail data events for audit.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Object Operations\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Upload/Download:</strong> aws s3 cp, aws s3 sync, or SDK PUT/GET.</li>\n    <li><strong>Object naming:</strong> UTF-8 encoded keys up to 1,024 bytes; prefix-based pseudo-folders.</li>\n    <li><strong>Versions:</strong> Each PUT/DELETE creates a new version; can list/restore earlier versions.</li>\n    <li><strong>Metadata:</strong>\n      <ul>\n        <li><strong>System:</strong> Content-Type, ETag, Last-Modified, Server-Side-Encryption.</li>\n        <li><strong>User-defined:</strong> x-amz-meta-* key-value pairs (up to 2 KB).</li>\n      </ul>\n    </li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Pricing Dimensions\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>Storage volume (per-GB-month per class).</li>\n    <li>Requests (per 1,000 PUT/COPY/POST/LIST or GET/SELECT).</li>\n    <li>Data transfer (first 100 GB/mo free, then tiered).</li>\n    <li>Early deletion and retrieval fees for IA/Glacier.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Additional Best Practices\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>Enable versioning + MFA delete to protect against accidental overwrites.</li>\n    <li>Use pre-signed URLs for secure, time-limited sharing.</li>\n    <li>Monitor with CloudWatch (4xx/5xx metrics, storage-lens).</li>\n    <li>Implement least-privilege IAM roles and bucket policies.</li>\n    <li>Leverage S3 Inventory for bulk auditing and S3 Batch Operations for remediation.</li>\n  </ul>\n</div>',
             examples: [
               "// Bucket naming rules\naws s3 mb s3://my-unique-bucket-2025 --region eu-west-1",
               "// Upload entire folder recursively\naws s3 cp ./my-folder s3://my-unique-bucket/2025/ --recursive",
@@ -27048,73 +27049,740 @@ class Container {
                 solution:
                   "<p>Versioning retains every version of an object (PUT/DELETE create new versions). MFA-delete requires an MFA token to permanently delete object versions or suspend versioning, protecting against accidental or malicious deletions.</p>",
               },
+              {
+                question: "What are the S3 bucket naming rules?",
+                solution:
+                  "<p>Must be globally unique, DNS-compliant, 3–63 characters, lowercase letters, numbers, and hyphens only; cannot start or end with a hyphen, no underscores or uppercase letters.</p>",
+              },
+              {
+                question: "How do you upload and download objects to/from S3?",
+                solution:
+                  "<p>Use <code>aws s3 cp</code> or <code>aws s3 sync</code> CLI commands, or SDKs. Example: <code>aws s3 cp file.txt s3://bucket/path/</code> uploads; <code>aws s3 cp s3://bucket/path/file.txt .</code> downloads.</p>",
+              },
             ],
             links: [
-              '<url id="" type="url" status="" title="S3 Product Page" wc=""><url id="" type="url" status="" title="" wc="">https://aws.amazon.com/s3/</url>  </url>',
-              '<url id="" type="url" status="" title="S3 Storage Classes" wc=""><url id="" type="url" status="" title="" wc="">https://docs.aws.amazon.com/s3/latest/userguide/storage-class-intro.html</url>  </url>',
-              '<url id="" type="url" status="" title="S3 Security Best Practices" wc=""><url id="" type="url" status="" title="" wc="">https://docs.aws.amazon.com/s3/latest/userguide/security-best-practices.html</url>  </url>',
+              '<url id="" type="url" status="" title="S3 Product Page" wc="">https://aws.amazon.com/s3/</url>',
+              '<url id="" type="url" status="" title="S3 Storage Classes" wc="">https://docs.aws.amazon.com/s3/latest/userguide/storage-class-intro.html</url>',
+              '<url id="" type="url" status="" title="S3 Security Best Practices" wc="">https://docs.aws.amazon.com/s3/latest/userguide/security-best-practices.html</url>',
             ],
           },
           {
-            topic: "Buckets & Objects",
-            tags: ["buckets", "objects", "keys"],
+            topic: "Core Concepts: Buckets, Objects, Regions",
+            tags: ["core-concepts", "buckets", "objects", "regions"],
             explanation:
-              '<div>\n   <p style="line-height: 1.75; margin-top: 1.5rem;">\n     A <strong>bucket</strong> is a global namespace container created in a specific Region; names must be 3-63 chars, lowercase, DNS-compatible. An <strong>object</strong> holds up to 5 TB of data plus metadata and is identified by a key (path).\n   </p>\n   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n      <pre><code className="language-bash">\n# Create bucket\naws s3api create-bucket \\\n  --bucket my-unique-bucket \\\n  --create-bucket-configuration LocationConstraint=us-west-2\n\n# Upload object\naws s3 cp ./photo.jpg s3://my-unique-bucket/images/2025/08/photo.jpg\n </code>\n  </pre>\n  </div>\n <p style="line-height: 1.75;">\n  Key limits: 1,024 UTF-8 bytes. Object size: 0 B–5 TB (multipart for >5 GB).\n  </p>\n   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n     Bucket & Object Best Practices\n   </h4>\n   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">\n     <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Naming Conventions:</span> Lowercase, no underscores, use prefixes for organization.\n     </li>\n     <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Rules:</span> Automate transitions to cheaper storage or deletion.\n     </li>\n   </ol>\n </div>',
+              '<div>\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    1. Buckets\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Definition:</strong> A bucket is the fundamental container in S3 that stores objects. Think of it as the top-level folder in S3.</li>\n    <li><strong>Global Namespace:</strong> Every bucket name must be globally unique across all AWS accounts and Regions.</li>\n    <li><strong>Region Affinity:</strong> A bucket is created in a specific AWS Region and never leaves that Region; all objects inherit the bucket’s Region.</li>\n    <li><strong>Naming Rules:</strong>\n      <ul>\n        <li>3–63 characters long.</li>\n        <li>Lowercase letters, numbers, dots (.) and hyphens (-) only.</li>\n        <li>Cannot start or end with a hyphen or dot.</li>\n        <li>Cannot contain two consecutive dots nor look like an IP address.</li>\n      </ul>\n    </li>\n    <li><strong>Limits:</strong>\n      <ul>\n        <li>100 buckets per account by default (soft limit).</li>\n        <li>No limit on the number of objects or total data size inside a bucket.</li>\n      </ul>\n    </li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    2. Objects\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Definition:</strong> An object is the basic data entity stored in S3, composed of:\n      <ul>\n        <li><strong>Key:</strong> The unique identifier (path) of the object within the bucket, e.g., <code>photos/2025/july/beach.jpg</code>.</li>\n        <li><strong>Value:</strong> The actual data (file content) up to 5 TB.</li>\n        <li><strong>Metadata:</strong>\n          <ul>\n            <li><strong>System:</strong> Managed by AWS (ETag, Content-Type, Last-Modified, Server-Side-Encryption, etc.).</li>\n            <li><strong>User-defined:</strong> Custom key-value pairs prefixed with <code>x-amz-meta-</code> (max 2 KB total).</li>\n          </ul>\n        </li>\n        <li><strong>Optional:</strong> Version ID (if versioning enabled), Storage Class, ACLs, tags, lock status.</li>\n      </ul>\n    </li>\n    <li><strong>Key Naming Rules:</strong>\n      <ul>\n        <li>UTF-8 encoded, up to 1,024 bytes.</li>\n        <li>Can contain any Unicode character except for the slash (/) used as a prefix delimiter.</li>\n        <li>Case-sensitive.</li>\n      </ul>\n    </li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    3. Regions\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Definition:</strong> An AWS Region is a physical location around the world where AWS clusters data centers (Availability Zones).</li>\n    <li><strong>Bucket-Region Binding:</strong> When you create a bucket you choose its Region; it stays there forever.</li>\n    <li><strong>Latency & Compliance:</strong> Choose the Region closest to end-users or required by data-residency regulations.</li>\n    <li><strong>Replication:</strong> Optionally replicate objects to buckets in other Regions for disaster recovery or lower latency.</li>\n  </ul>\n</div>',
             examples: [
-              "// Naming best practice\naws s3 mb s3://com-mycompany-prod-logs-2025",
+              "// Create bucket in a specific Region\naws s3 mb s3://my-example-bucket --region ap-southeast-2",
+              '// Upload object with custom user metadata\naws s3 cp ./cat.png s3://my-example-bucket/pets/cat.png --metadata "author=john,project=summer2025"',
+              "// List all objects with a given prefix (simulates folders)\naws s3 ls s3://my-example-bucket/pets/",
+              "// Get object metadata (HEAD request)\naws s3api head-object --bucket my-example-bucket --key pets/cat.png",
             ],
             questions: [
               {
-                question: "What is an S3 bucket?",
+                question:
+                  "What is the difference between a bucket and an object in S3?",
                 solution:
-                  "<p>A bucket is a globally-unique DNS container for objects, created in a specific AWS Region with naming rules of 3–63 lowercase chars, numbers, and hyphens.</p>",
+                  "<p>A bucket is the top-level container that stores objects; an object is the actual data file (key + value + metadata) stored inside that bucket.</p>",
               },
               {
-                question: "Maximum object size in S3?",
-                solution: "<p>0 B to 5 TB. For >5 GB use multipart upload.</p>",
+                question:
+                  "Can a bucket be moved to another Region after creation?",
+                solution:
+                  "<p>No. A bucket is permanently tied to the Region in which it was created. To ‘move’ data, create a new bucket in the desired Region and copy objects over.</p>",
+              },
+              {
+                question:
+                  "What are the two types of metadata associated with an S3 object?",
+                solution:
+                  "<ul><li><strong>System metadata:</strong> Managed by AWS (e.g., ETag, Last-Modified, Content-Type).</li><li><strong>User-defined metadata:</strong> Custom key-value pairs you attach at upload time, prefixed with <code>x-amz-meta-</code>.</li></ul>",
+              },
+              {
+                question: "Are bucket names case-sensitive?",
+                solution:
+                  "<p>No. Bucket names must be lowercase and are globally unique regardless of case. Object keys, however, are case-sensitive.</p>",
+              },
+              {
+                question: "How long can an object key be?",
+                solution: "<p>Up to 1,024 UTF-8 encoded bytes.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="S3 Buckets Overview" wc="">https://docs.aws.amazon.com/s3/latest/userguide/UsingBucket.html</url>',
+              '<url id="" type="url" status="" title="Working with Objects" wc="">https://docs.aws.amazon.com/s3/latest/userguide/UsingObjects.html</url>',
+              '<url id="" type="url" status="" title="AWS Regions & Endpoints" wc="">https://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</url>',
+            ],
+          },
+          {
+            topic: "Bucket Operations",
+            tags: ["bucket-ops", "create", "delete", "list", "naming-rules"],
+            explanation:
+              '<div>\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    1. Create Bucket\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>CLI:</strong> <code>aws s3 mb s3://&lt;bucket-name&gt; [--region &lt;region&gt;]</code></li>\n    <li><strong>Console:</strong> S3 → Create bucket → provide name & region → choose options (public access, versioning, encryption, tags) → Create.</li>\n    <li><strong>SDK:</strong> <code>CreateBucket</code> API call.</li>\n    <li><strong>Important:</strong> Name must be globally unique and DNS-compliant.</li>\n    <li><strong>Default settings:</strong> Private access, versioning off, SSE-S3 encryption.</li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    2. Delete Bucket\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Prerequisites:</strong> Bucket must be empty (no objects, no incomplete multipart uploads, no delete markers in versioned buckets).</li>\n    <li><strong>CLI:</strong> <code>aws s3 rb s3://&lt;bucket-name&gt; [--force]</code> (force deletes all objects first).</li>\n    <li><strong>Console:</strong> Select bucket → Empty → Delete bucket → confirm name.</li>\n    <li><strong>SDK:</strong> <code>DeleteBucket</code> after <code>DeleteObjects</code> to clear contents.</li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    3. Bucket Naming Rules (must satisfy ALL)\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>3–63 characters long.</li>\n    <li>Only lowercase letters (a–z), numbers (0–9), hyphens (-), and single dots (.) allowed.</li>\n    <li>Cannot start or end with a hyphen or dot.</li>\n    <li>Cannot contain two consecutive dots (..).</li>\n    <li>Cannot be formatted as an IP address (e.g., 192.168.5.4).</li>\n    <li>Must be globally unique across all existing bucket names in AWS.</li>\n    <li>Cannot be changed after creation.</li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    4. List Buckets\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>CLI:</strong> <code>aws s3 ls</code> (lists all buckets with creation date).</li>\n    <li><strong>Console:</strong> S3 service homepage shows buckets sorted alphabetically.</li>\n    <li><strong>SDK:</strong> <code>listBuckets</code> API returns bucket names and creation dates.</li>\n    <li>Listing is global (shows buckets across all Regions for the authenticated account).</li>\n  </ul>\n</div>',
+            examples: [
+              "// Create bucket in us-east-1 (default)\naws s3 mb s3://my-unique-bucket-name",
+              "// Create bucket in a specific region\naws s3 mb s3://my-eu-bucket --region eu-central-1",
+              "// List all buckets\naws s3 ls",
+              "// Empty a bucket first (required before delete)\naws s3 rm s3://my-old-bucket --recursive",
+              "// Delete an empty bucket\naws s3 rb s3://my-old-bucket",
+              "// Force delete bucket with all objects inside\naws s3 rb s3://my-old-bucket --force",
+            ],
+            questions: [
+              {
+                question:
+                  "What command creates a bucket named 'project-backups' in the EU (Frankfurt) region?",
+                solution:
+                  "<code>aws s3 mb s3://project-backups --region eu-central-1</code>",
+              },
+              {
+                question: "Why might a bucket creation fail?",
+                solution:
+                  "<p>The chosen name is already taken by another AWS account, violates naming rules, or the caller lacks IAM permissions (s3:CreateBucket).</p>",
+              },
+              {
+                question:
+                  "Can you delete a bucket that still contains objects?",
+                solution:
+                  "<p>No. You must either empty it first or use the <code>--force</code> flag with <code>aws s3 rb</code>.</p>",
+              },
+              {
+                question:
+                  "Which CLI command lists all buckets in your account?",
+                solution: "<code>aws s3 ls</code>",
+              },
+              {
+                question: "Is bucket name case-sensitive?",
+                solution:
+                  "<p>No. Bucket names must be lowercase and are case-insensitive.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="Creating a bucket" wc="">https://docs.aws.amazon.com/s3/latest/userguide/create-bucket-overview.html</url>',
+              '<url id="" type="url" status="" title="Bucket naming rules" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html</url>',
+              '<url id="" type="url" status="" title="Deleting a bucket" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/delete-bucket.html</url>',
+            ],
+          },
+          {
+            topic: "Object Operations",
+            tags: ["object-ops", "upload", "download", "versions", "metadata"],
+            explanation:
+              '<div>\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    1. Upload / Download Objects\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Upload Methods:</strong>\n      <ul>\n        <li>CLI: <code>aws s3 cp</code> (single file), <code>aws s3 sync</code> (folder).</li>\n        <li>Console: drag-and-drop or “Upload” wizard.</li>\n        <li>SDK: <code>PutObject</code> (≤ 5 GB) or multipart (<code>CreateMultipartUpload</code>) for large files.</li>\n        <li>Pre-signed URL: allow temporary uploads without AWS credentials.</li>\n      </ul>\n    </li>\n    <li><strong>Download Methods:</strong>\n      <ul>\n        <li>CLI: <code>aws s3 cp s3://bucket/key ./localfile</code>.</li>\n        <li>Console: select object → Download.</li>\n        <li>SDK: <code>GetObject</code> or byte-range requests for partial content.</li>\n        <li>Pre-signed URL: secure, time-limited links for distribution.</li>\n      </ul>\n    </li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    2. Object Naming Rules\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>UTF-8 encoded, 1–1,024 bytes.</li>\n    <li>May contain any Unicode character except for <code>"</code> and <code>\\</code> (reserved).</li>\n    <li>Case-sensitive: <code>Cat.jpg</code> ≠ <code>cat.jpg</code>.</li>\n    <li>Use prefixes (pseudo-folders) for organization, e.g., <code>2025/july/report.pdf</code>.</li>\n    <li>Leading slashes (<code>/folder/file</code>) are allowed but create empty prefix segments.</li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    3. Versioning\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Enable:</strong> <code>aws s3api put-bucket-versioning --bucket mybucket --versioning-configuration Status=Enabled</code>.</li>\n    <li><strong>Behavior:</strong>\n      <ul>\n        <li>Each <code>PUT</code> creates a new version (new version-id).</li>\n        <li><code>DELETE</code> adds a delete marker; previous versions remain recoverable.</li>\n        <li>Retrieve any version: <code>aws s3api get-object --bucket b --key k --version-id abc output.dat</code>.</li>\n      </ul>\n    </li>\n    <li><strong>Suspend:</strong> Stops new versions but keeps existing ones.</li>\n    <li><strong>Lifecycle:</strong> Auto-expire non-current versions for cost control.</li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    4. Metadata (System vs. User-Defined)\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>System Metadata:</strong>\n      <ul>\n        <li>Managed automatically by AWS (read-only unless you re-upload).</li>\n        <li>Examples: <code>Content-Type</code>, <code>Content-Length</code>, <code>ETag</code>, <code>Last-Modified</code>, <code>x-amz-storage-class</code>, <code>x-amz-server-side-encryption</code>.</li>\n      </ul>\n    </li>\n    <li><strong>User-Defined (Custom) Metadata:</strong>\n      <ul>\n        <li>Key-value pairs prefixed with <code>x-amz-meta-</code> (max 2 KB total).</li>\n        <li>Set at upload time: <code>--metadata "department=hr,confidentiality=internal"</code>.</li>\n        <li>Retrieved with <code>head-object</code> or <code>get-object</code>.</li>\n      </ul>\n    </li>\n  </ul>\n</div>',
+            examples: [
+              "// Upload single file\naws s3 cp ./report.pdf s3://mybucket/reports/2025/report.pdf",
+              '// Upload with custom metadata\naws s3 cp ./cat.png s3://mybucket/images/cat.png --metadata "photographer=alice,camera=sony"',
+              "// Download entire folder\naws s3 sync s3://mybucket/downloads ./local-backup",
+              "// List all versions of an object\naws s3api list-object-versions --bucket mybucket --prefix images/cat.png",
+              "// Restore a prior version\naws s3api get-object --bucket mybucket --key images/cat.png --version-id abc123 cat_restored.png",
+              "// See metadata (system + user)\naws s3api head-object --bucket mybucket --key images/cat.png",
+            ],
+            questions: [
+              {
+                question:
+                  "Which CLI command uploads a file with the custom metadata key 'project' set to 'alpha'?",
+                solution:
+                  '<code>aws s3 cp file.txt s3://bucket/file.txt --metadata "project=alpha"</code>',
+              },
+              {
+                question:
+                  "After enabling versioning, what happens when you overwrite an existing object?",
+                solution:
+                  "<p>A new version is created; the old version remains accessible under its unique version-id.</p>",
+              },
+              {
+                question: "Are object keys case-sensitive?",
+                solution:
+                  "<p>Yes. <code>Data.csv</code> and <code>data.csv</code> are treated as two different objects.</p>",
+              },
+              {
+                question:
+                  "How do you download only the first 1 MB of a large object?",
+                solution:
+                  "<code>aws s3api get-object --bucket mybucket --key big.iso --range bytes=0-1048575 part.iso</code>",
+              },
+              {
+                question:
+                  "What is the maximum total size of user-defined metadata?",
+                solution: "<p>2 KB (sum of all keys and values).</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="Uploading Objects" wc="">https://docs.aws.amazon.com/s3/latest/userguide/upload-objects.html</url>',
+              '<url id="" type="url" status="" title="Working with Object Metadata" wc="">https://docs.aws.amazon.com/s3/latest/userguide/UsingMetadata.html</url>',
+              '<url id="" type="url" status="" title="Using Versioning" wc="">https://docs.aws.amazon.com/s3/latest/userguide/Versioning.html</url>',
+            ],
+          },
+          {
+            topic: "S3 Console & CLI",
+            tags: ["console", "cli", "sdk", "aws-s3", "aws-s3api"],
+            explanation:
+              '<div>\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    1. AWS Management Console\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Bucket View:</strong> Create, delete, empty buckets; set versioning, encryption, public access, lifecycle rules.</li>\n    <li><strong>Object View:</strong> Upload, download, copy, move, rename, edit metadata, add tags, set ACLs.</li>\n    <li><strong>Drag-and-Drop Upload:</strong> Supports entire folders, auto-creates prefix hierarchy.</li>\n    <li><strong>Properties Panel:</strong> Access bucket policy, CORS, static-website settings, metrics, events.</li>\n    <li><strong>Search & Filter:</strong> Prefix, tag, or storage-class filters; date-range search in CloudWatch metrics.</li>\n    <li><strong>Cross-Region Replication Wizard:</strong> One-click setup with IAM role auto-creation.</li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    2. AWS CLI Commands\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong><code>aws s3</code> (High-Level)</strong><br/>\n      <pre style="background:#f5f5f5;padding:8px;border-radius:4px;font-size:13px;margin:0.5rem 0;">\naws s3 mb s3://bucket-name [--region us-east-1]\naws s3 rb s3://bucket-name [--force]\naws s3 ls [s3://bucket/path]\naws s3 cp &lt;src&gt; &lt;dst&gt; [--recursive]\naws s3 sync &lt;src&gt; &lt;dst&gt; [--delete]\naws s3 rm s3://bucket/path [--recursive]\n      </pre>\n    </li>\n    <li><strong><code>aws s3api</code> (Low-Level)</strong><br/>\n      <pre style="background:#f5f5f5;padding:8px;border-radius:4px;font-size:13px;margin:0.5rem 0;">\naws s3api create-bucket --bucket mybucket --region eu-west-1\naws s3api put-object --bucket b --key k --body file.txt\naws s3api get-object --bucket b --key k downloaded.txt\naws s3api head-object --bucket b --key k\naws s3api list-objects-v2 --bucket b --prefix 2025/\n      </pre>\n    </li>\n    <li><strong>Common Flags:</strong><br/>\n      <code>--profile myProfile</code>, <code>--endpoint-url https://localhost:9000</code>, <code>--storage-class STANDARD_IA</code>, <code>--metadata k=v</code>, <code>--acl public-read</code>.\n    </li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    3. Basic SDK Usage\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Node.js (AWS SDK v3)</strong><br/>\n      <pre style="background:#f5f5f5;padding:8px;border-radius:4px;font-size:13px;margin:0.5rem 0;">\nimport { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";\nconst s3 = new S3Client({ region: "us-east-1" });\nawait s3.send(new PutObjectCommand({\n  Bucket: "mybucket",\n  Key: "hello.txt",\n  Body: Buffer.from("Hello S3"),\n  Metadata: { project: "demo" }\n}));\n      </pre>\n    </li>\n    <li><strong>Python (boto3)</strong><br/>\n      <pre style="background:#f5f5f5;padding:8px;border-radius:4px;font-size:13px;margin:0.5rem 0;">\nimport boto3\ns3 = boto3.client("s3")\ns3.upload_file("local.txt", "mybucket", "remote.txt",\n               ExtraArgs={"Metadata":{"author":"alice"}})\nobj = s3.get_object(Bucket="mybucket", Key="remote.txt")\nprint(obj["Body"].read())\n      </pre>\n    </li>\n    <li><strong>Java (SDK v2)</strong><br/>\n      <pre style="background:#f5f5f5;padding:8px;border-radius:4px;font-size:13px;margin:0.5rem 0;">\nS3Client s3 = S3Client.create();\ns3.putObject(PutObjectRequest.builder()\n               .bucket("mybucket")\n               .key("hello.txt")\n               .metadata(Map.of("version","1.0"))\n               .build(),\n             RequestBody.fromString("Hello S3"));\n      </pre>\n    </li>\n  </ul>\n</div>',
+            examples: [
+              "// Console quick actions\n// 1. Upload folder via drag-drop → S3 auto-creates prefixes\n// 2. Enable versioning → Bucket → Properties → Versioning → Enable\n// 3. Set lifecycle rule → Management → Add lifecycle rule → Transition to Glacier after 90 days",
+              "// CLI create bucket + upload + list\naws s3 mb s3://demo-cli-bucket --region us-west-2\naws s3 cp ./data.csv s3://demo-cli-bucket/incoming/\naws s3 ls s3://demo-cli-bucket/incoming/",
+              "// CLI sync (mirror local to S3)\naws s3 sync ./site s3://my-static-site --delete",
+              "// CLI pre-signed URL (1 hr)\naws s3 presign s3://demo-cli-bucket/data.csv --expires-in 3600",
+              "// Node.js upload (SDK v3)\nnode -e \"import('@aws-sdk/client-s3').then(({S3Client, PutObjectCommand})=>new S3Client({region:'us-east-1'}).send(new PutObjectCommand({Bucket:'demo-js',Key:'hello.txt',Body:'Hi'})))\"",
+              "// Python download (boto3)\npython -c \"import boto3,sys;boto3.client('s3').download_file('demo-py','hello.txt','downloaded.txt')\"",
+            ],
+            questions: [
+              {
+                question:
+                  "Which CLI command synchronizes a local folder to an S3 bucket, deleting remote files that no longer exist locally?",
+                solution:
+                  "<code>aws s3 sync ./localdir s3://bucket/path --delete</code>",
+              },
+              {
+                question:
+                  "How do you create a pre-signed URL for an object via the CLI valid for 30 minutes?",
+                solution:
+                  "<code>aws s3 presign s3://bucket/key --expires-in 1800</code>",
+              },
+              {
+                question:
+                  "In boto3, what method uploads a file while adding custom metadata?",
+                solution:
+                  "<code>s3.upload_file('local.txt','bucket','key',ExtraArgs={'Metadata':{'owner':'me'}})</code>",
+              },
+              {
+                question:
+                  "What is the difference between <code>aws s3</code> and <code>aws s3api</code>?",
+                solution:
+                  "<p><code>aws s3</code> provides high-level, Unix-like commands; <code>aws s3api</code> maps 1-to-1 to the low-level REST API actions for advanced control.</p>",
+              },
+              {
+                question: "Which Console page lets you set a bucket policy?",
+                solution: "<p>Bucket → Permissions → Bucket policy.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="AWS CLI S3 Command Reference" wc="">https://docs.aws.amazon.com/cli/latest/reference/s3/</url>',
+              '<url id="" type="url" status="" title="AWS CLI S3API Command Reference" wc="">https://docs.aws.amazon.com/cli/latest/reference/s3api/</url>',
+              '<url id="" type="url" status="" title="AWS SDK for JavaScript v3 S3 Examples" wc="">https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javascriptv3/example_code/s3</url>',
+              '<url id="" type="url" status="" title="boto3 S3 Service Docs" wc="">https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/s3.html</url>',
+            ],
+          },
+          {
+            topic: "Permissions & Access Control",
+            tags: ["permissions", "access-control", "security"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    S3 permissions decide <em>who</em> can do <em>what</em> to <em>which objects</em>.  
+    You control access at three layers:
+  </p>
+  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Bucket Policies</strong> – JSON attached to the bucket (works like a resource-based firewall).</li>
+    <li><strong>IAM Roles & Policies</strong> – JSON attached to IAM users/groups/roles (works like an identity-based passport).</li>
+    <li><strong>Object-Level ACLs</strong> – Legacy, simple grants (READ/WRITE/FULL_CONTROL) on individual objects.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Bucket Policies
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Scope:</strong> Entire bucket or prefix.</li>
+    <li><strong>Format:</strong> Standard IAM policy JSON with <code>s3:</code> actions.</li>
+    <li><strong>Common uses:</strong> Allow public read, restrict by IP, enforce encryption, allow cross-account access.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Allow public read on "public/" prefix
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "PublicReadPrefix",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::my-bucket/public/*"
+    }
+  ]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. IAM Roles & Policies
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Scope:</strong> IAM identities (users, roles, groups).</li>
+    <li><strong>Best practice:</strong> Grant least privilege via fine-grained <code>Action/Resource</code> pairs.</li>
+    <li><strong>Dynamic access:</strong> Attach roles to EC2, Lambda, etc., for temporary credentials.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// IAM policy: developers can upload to "uploads/" only
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:PutObject"],
+      "Resource": "arn:aws:s3:::my-bucket/uploads/*"
+    }
+  ]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Object-Level ACLs
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Granularity:</strong> Per-object READ/WRITE/FULL_CONTROL.</li>
+    <li><strong>Syntax:</strong> Canned ACL (<code>public-read</code>, <code>bucket-owner-full-control</code>) or explicit grants.</li>
+    <li><strong>Caveat:</strong> Overrides bucket policy only if bucket policy allows ACLs (default is allowed).</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Grant bucket-owner-full-control on upload
+aws s3 cp ./report.csv s3://my-bucket/report.csv \
+  --acl bucket-owner-full-control
+
+# View ACL
+aws s3api get-object-acl --bucket my-bucket --key report.csv
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Evaluation Order (Deny wins)
+  </h4>
+  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>Explicit Deny (in any policy).</li>
+    <li>Explicit Allow (bucket policy, IAM policy, ACL).</li>
+    <li>Implicit Deny (default).</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Security Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>Turn on <strong>Block Public Access</strong> at bucket/account level by default.</li>
+    <li>Use <strong>bucket policies</strong> for broad access rules.</li>
+    <li>Use <strong>IAM roles</strong> for fine-grained identity access.</li>
+    <li>Avoid ACLs unless integrating with legacy systems.</li>
+    <li>Enable <strong>CloudTrail data events</strong> to audit every API call.</li>
+  </ul>
+</div>`,
+            examples: [
+              "// Attach bucket policy file\naws s3api put-bucket-policy --bucket my-bucket --policy file://policy.json",
+              "// Create IAM user with inline policy\naws iam put-user-policy --user-name Alice --policy-name S3Upload --policy-document file://iam-policy.json",
+              "// Upload object with canned ACL\naws s3 cp ./cat.png s3://my-bucket/cat.png --acl public-read",
+              "// Disable ACLs (force policy-only control)\naws s3api put-bucket-acl --bucket my-bucket --acl private --object-ownership BucketOwnerEnforced",
+            ],
+            questions: [
+              {
+                question: "What is an S3 bucket policy?",
+                solution:
+                  "<p>A JSON document attached to a bucket that defines who (Principal) can perform which S3 actions on what resources inside or outside the bucket.</p>",
+              },
+              {
+                question: "When should I use IAM roles vs. bucket policies?",
+                solution:
+                  "<p>Use IAM roles when granting access to <em>identities</em> (users, EC2, Lambda).  Use bucket policies when granting access to <em>resources</em> (public read, cross-account, IP restrictions).</p>",
+              },
+              {
+                question: "What are canned ACLs?",
+                solution:
+                  "<p>Pre-defined shortcuts like <code>public-read</code>, <code>bucket-owner-full-control</code>, etc., that apply simple READ/WRITE grants to an object without writing raw ACL XML.</p>",
+              },
+              {
+                question: "How do I block all public access to a bucket?",
+                solution:
+                  "<p>Run <code>aws s3api put-public-access-block --bucket my-bucket --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true</code> (or use the console).</p>",
+              },
+              {
+                question: "Can bucket policies and IAM policies conflict?",
+                solution:
+                  "<p>No—both are evaluated together.  An explicit <code>Deny</code> in either policy overrides any <code>Allow</code>; otherwise the union of allows grants access.</p>",
               },
             ],
           },
           {
-            topic: "Storage Classes",
-            tags: ["storage-classes", "cost", "lifecycle"],
+            topic: "S3 Storage Classes",
+            tags: ["storage-classes", "cost", "retrieval-time", "durability"],
             explanation:
-              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">\n    Amazon S3 offers seven storage classes engineered to balance cost, availability, retrieval time, and use-case patterns. Each class inherits S3’s 11×9s durability, but differs in availability SLA, minimum billable object size, minimum storage duration, and retrieval charge model.\n  </p>\n\n  <table style="border-collapse: collapse; width: 100%; margin-top: 1rem;">\n    <thead>\n      <tr>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Class</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Availability SLA</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Min Object Size / Duration</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Retrieval Time</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Typical Use-Case</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">– / –</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Hot data, dynamic websites, big-data analytics</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Intelligent-Tiering</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Unknown or changing access patterns</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard-IA</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-lived, infrequently accessed data</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>One Zone-IA</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.5 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Recreatable or secondary copy data</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Instant Retrieval</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 90 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms–seconds</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive with occasional instant access</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Flexible Retrieval</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 90 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">minutes–hours (expedited, standard, bulk)</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive for compliance or long-term backup</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Deep Archive</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 180 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">12–48 hours</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-term digital preservation</td>\n      </tr>\n    </tbody>\n  </table>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Cost & Retrieval Model\n  </h4>\n  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">\n    <li><strong>Storage price:</strong> Decreases from Standard → Deep Archive.</li>\n    <li><strong>Retrieval price:</strong> Increases from Standard → Deep Archive (charged per GB retrieved plus request fees).</li>\n    <li><strong>Early deletion:</strong> If an object is deleted or transitioned before the minimum duration, you are billed for the remaining days.</li>\n    <li><strong>Request pricing:</strong> PUT/COPY/POST/LIST and GET/SELECT requests are priced per 1,000; Glacier classes also charge tier-specific retrieval requests.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Lifecycle Policies Deep-Dive\n  </h4>\n  <p style="line-height: 1.75;">\n    Use lifecycle rules to automatically transition objects between classes or delete them based on age or date. Rules can target:\n  </p>\n  <ul style="margin-left: 1.5rem;">\n    <li>Entire bucket or specific prefixes/tags.</li>\n    <li>Current versions, non-current versions, or incomplete multipart uploads.</li>\n    <li>Abort incomplete multipart uploads after N days to cut hidden storage costs.</li>\n  </ul>\n\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-json">\n// lifecycle.json – archive to Glacier Instant after 90 days,\n// delete current objects after 7 years,\n// delete non-current versions after 30 days\n{\n  "Rules": [\n    {\n      "ID": "ArchiveOldData",\n      "Status": "Enabled",\n      "Filter": { "Prefix": "logs/" },\n      "Transitions": [\n        { "Days": 90, "StorageClass": "GLACIER_IR" }\n      ],\n      "Expiration": { "Days": 2555 },\n      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },\n      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }\n    }\n  ]\n}\n</code></pre>\n  </div>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    One Zone Storage Classes (IA & Glacier Instant)\n  </h4>\n  <ul style="margin-left: 1.5rem;">\n    <li>Data is stored in a single Availability Zone (AZ) and is ~20 % cheaper than multi-AZ classes.</li>\n    <li>Not resilient to AZ destruction; suitable for secondary copies or easily re-creatable data.</li>\n    <li>Cannot be used with Cross-Region Replication (CRR).</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Intelligent-Tiering Mechanics\n  </h4>\n  <ul style="margin-left: 1.5rem;">\n    <li>Objects ≥128 KB are monitored; after 30 consecutive days of no access they move to Infrequent-Access tier, then to Archive-Instant tiers after further 90 days.</li>\n    <li>No retrieval charges; small monthly monitoring and automation fee per 1,000 objects.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    CLI & SDK Usage\n  </h4>\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-bash">\n# Upload directly to Glacier Flexible Retrieval\naws s3 cp ./backup.sql s3://my-archive-bucket/backups/2025/08/backup.sql \\\n  --storage-class GLACIER\n\n# Change existing object\'s class\naws s3 cp s3://bucket/report.csv s3://bucket/report.csv \\\n  --storage-class STANDARD_IA \\\n  --metadata-directive COPY\n\n# Multi-part upload to Intelligent-Tiering\naws s3 cp ./bigfile.dat s3://bucket/bigfile.dat \\\n  --storage-class INTELLIGENT_TIERING \\\n  --expected-size 8589934592  # 8 GB\n</code></pre>\n  </div>\n</div>',
+              '<div>\n  <p style="line-height:1.75;margin-top:1rem;">Amazon S3 offers multiple storage classes optimized for different access patterns, availability needs, and cost points. All classes provide the same 11 × 9’s (99.999 999 999 %) durability except where noted.</p>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. S3 Standard</h4>\n  <ul style="margin-top:.5rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Use Case:</strong> Frequently accessed data (hot data), websites, big-data analytics.</li>\n    <li><strong>Availability:</strong> 99.99 %; multi-AZ.</li>\n    <li><strong>Latency:</strong> Millisecond.</li>\n    <li><strong>Cost:</strong> Highest storage cost; no retrieval fee; first 100 GB data-transfer free monthly tier.</li>\n  </ul>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. S3 Intelligent-Tiering</h4>\n  <ul style="margin-top:.5rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Use Case:</strong> Unknown or changing access patterns.</li>\n    <li><strong>Auto-tiering:</strong> Moves objects automatically between two access tiers (frequent, infrequent) based on last access time; no retrieval fees for monitoring or moving.</li>\n    <li><strong>Availability:</strong> 99.9 %; multi-AZ.</li>\n    <li><strong>Latency:</strong> Millisecond for both tiers.</li>\n    <li><strong>Cost:</strong> Small monthly monitoring fee per object + storage cost of the tier.</li>\n  </ul>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. S3 One Zone-IA (Infrequent Access)</h4>\n  <ul style="margin-top:.5rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Use Case:</strong> Infrequently accessed, reproducible data you can recreate, e.g., secondary backups, analytics copies.</li>\n    <li><strong>Availability:</strong> 99.5 %; stored in a <strong>single</strong> Availability Zone.</li>\n    <li><strong>Durability:</strong> 99.999 999 999 % within the zone.</li>\n    <li><strong>Latency:</strong> Millisecond.</li>\n    <li><strong>Retrieval:</strong> Charged per GB retrieved.</li>\n    <li><strong>Cost:</strong> ~20 % cheaper than Standard-IA; no minimum object size fee.</li>\n  </ul>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. S3 Glacier Instant Retrieval</h4>\n  <ul style="margin-top:.5rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Use Case:</strong> Archive data that needs <strong>millisecond</strong> access (rare but urgent).</li>\n    <li><strong>Availability:</strong> 99.9 %; multi-AZ.</li>\n    <li><strong>Retrieval Cost:</strong> Low-cost storage, but pay per GB retrieved.</li>\n  </ul>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">5. S3 Glacier Flexible Retrieval (formerly just “Glacier”)</h4>\n  <ul style="margin-top:.5rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Use Case:</strong> Long-term archive, compliance backups.</li>\n    <li><strong>Retrieval Options:</strong> Expedited (1–5 min), Standard (3–5 h), Bulk (5–12 h).</li>\n    <li><strong>Cost:</strong> Very low storage cost; retrieval fees vary by tier.</li>\n  </ul>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">6. S3 Glacier Deep Archive</h4>\n  <ul style="margin-top:.5rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Use Case:</strong> Regulatory or compliance data retained 7–10 years.</li>\n    <li><strong>Retrieval Options:</strong> Standard (12 h), Bulk (48 h).</li>\n    <li><strong>Cost:</strong> Lowest storage cost; highest retrieval fees.</li>\n  </ul>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Quick Comparison Table</h4>\n  <table style="width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.9rem;">\n    <thead><tr style="background:#ffeaf0;">\n      <th style="padding:6px;border:1px solid #ccc;text-align:left;">Class</th>\n      <th style="padding:6px;border:1px solid #ccc;text-align:left;">Access Latency</th>\n      <th style="padding:6px;border:1px solid #ccc;text-align:left;">Min Storage Dur.</th>\n      <th style="padding:6px;border:1px solid #ccc;text-align:left;">Retrieval Fee</th>\n      <th style="padding:6px;border:1px solid #ccc;text-align:left;">Typical Use</th>\n    </tr></thead>\n    <tbody>\n    <tr><td style="padding:6px;border:1px solid #ccc;">Standard</td><td style="padding:6px;border:1px solid #ccc;">ms</td><td style="padding:6px;border:1px solid #ccc;">—</td><td style="padding:6px;border:1px solid #ccc;">No</td><td style="padding:6px;border:1px solid #ccc;">Hot data, apps, CDN</td></tr>\n    <tr><td style="padding:6px;border:1px solid #ccc;">Intelligent-Tiering</td><td style="padding:6px;border:1px solid #ccc;">ms</td><td style="padding:6px;border:1px solid #ccc;">30 days</td><td style="padding:6px;border:1px solid #ccc;">No</td><td style="padding:6px;border:1px solid #ccc;">Unknown patterns</td></tr>\n    <tr><td style="padding:6px;border:1px solid #ccc;">One Zone-IA</td><td style="padding:6px;border:1px solid #ccc;">ms</td><td style="padding:6px;border:1px solid #ccc;">30 days</td><td style="padding:6px;border:1px solid #ccc;">Yes</td><td style="padding:6px;border:1px solid #ccc;">Secondary backups</td></tr>\n    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Instant</td><td style="padding:6px;border:1px solid #ccc;">ms</td><td style="padding:6px;border:1px solid #ccc;">90 days</td><td style="padding:6px;border:1px solid #ccc;">Yes</td><td style="padding:6px;border:1px solid #ccc;">Archive w/ urgent need</td></tr>\n    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Flexible</td><td style="padding:6px;border:1px solid #ccc;">min-hours</td><td style="padding:6px;border:1px solid #ccc;">90 days</td><td style="padding:6px;border:1px solid #ccc;">Yes</td><td style="padding:6px;border:1px solid #ccc;">Long-term archive</td></tr>\n    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Deep Archive</td><td style="padding:6px;border:1px solid #ccc;">12-48 h</td><td style="padding:6px;border:1px solid #ccc;">180 days</td><td style="padding:6px;border:1px solid #ccc;">Yes</td><td style="padding:6px;border:1px solid #ccc;">Compliance retention</td></tr>\n    </tbody>\n  </table>\n\n  <h4 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Switching Classes</h4>\n  <ul style="margin-top:.5rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>At Upload:</strong> <code>aws s3 cp file s3://bucket --storage-class ONEZONE_IA</code></li>\n    <li><strong>Post-Upload:</strong> Lifecycle rules or <code>aws s3api copy-object</code> with <code>--storage-class</code>.</li>\n  </ul>\n</div>',
             examples: [
-              "// Lifecycle JSON\naws s3api put-bucket-lifecycle-configuration --bucket my-archive-bucket --lifecycle-configuration file://lifecycle.json",
-              "// Upload big file to Glacier Deep Archive\naws s3 cp ./dataset.zip s3://my-archive-bucket/datasets/2025/dataset.zip --storage-class DEEP_ARCHIVE",
-              '// Transition all objects with tag \'archive=true\' after 60 days\naws s3api put-bucket-lifecycle-configuration --bucket my-data-bucket --lifecycle-configuration \'{"Rules":[{"ID":"TagBasedArchive","Status":"Enabled","Filter":{"Tag":{"Key":"archive","Value":"true"}},"Transitions":[{"Days":60,"StorageClass":"GLACIER_FLEXIBLE_RETRIEVAL"}]}]}\'',
-              '// Restore an archived object (bulk tier)\naws s3api restore-object --bucket my-archive-bucket --key datasets/2025/dataset.zip --restore-request \'{"Days":7,"GlacierJobParameters":{"Tier":"Bulk"}}\'',
-              "// Enable Intelligent-Tiering for new uploads\naws s3 cp ./reports/ s3://my-reports-bucket/ --recursive --storage-class INTELLIGENT_TIERING",
+              "// Upload directly to One Zone-IA\naws s3 cp backup.tar s3://mybucket/backups/ --storage-class ONEZONE_IA",
+              "// Transition objects to Glacier via lifecycle JSON\naws s3api put-bucket-lifecycle-configuration --bucket mybucket --lifecycle-configuration file://glacier-rule.json",
+              "// Copy existing object to Glacier Deep Archive\naws s3api copy-object --bucket mybucket --copy-source mybucket/big.iso --key big.iso --storage-class DEEP_ARCHIVE",
+              "// Restore 1 GB from Glacier Flexible for 1 day\naws s3api restore-object --bucket mybucket --key archive.zip --restore-request Days=1,Tier=Standard",
             ],
             questions: [
               {
-                question: "List the basic S3 storage classes.",
-                solution:
-                  "<p>S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, and S3 Glacier Deep Archive.</p>",
-              },
-              {
-                question: "When should I use One Zone-IA?",
-                solution:
-                  "<p>Use One Zone-IA when the data is secondary, easily re-creatable, or already replicated elsewhere, and you want ~20 % lower cost while accepting the risk of single-AZ loss.</p>",
+                question:
+                  "Which storage class automatically moves objects between frequent and infrequent tiers without retrieval fees?",
+                solution: "<p>S3 Intelligent-Tiering</p>",
               },
               {
                 question:
-                  "What happens if I delete an object stored in Glacier before 90 days?",
+                  "When should you use One Zone-IA instead of Standard-IA?",
                 solution:
-                  "<p>You will be charged an early deletion fee equal to the prorated storage cost for the remaining days (90 days for Glacier Flexible, 180 days for Deep Archive).</p>",
+                  "<p>For infrequently accessed, reproducible data where you can tolerate the loss of an entire Availability Zone and want ~20 % lower cost.</p>",
               },
               {
                 question:
-                  "How does Intelligent-Tiering decide when to move objects?",
+                  "What is the minimum storage duration charge for Glacier Deep Archive?",
                 solution:
-                  "<p>Objects ≥128 KB are monitored. After 30 consecutive days of no access they move to the Infrequent-Access tier; after 90 additional days they move to Archive-Instant tiers. If accessed, they return to the Frequent-Access tier automatically.</p>",
+                  "<p>180 days (early deletion incurs prorated charge).</p>",
               },
               {
                 question:
-                  "Which classes support instant (millisecond) retrieval?",
+                  "How do you transition an existing Standard object to Glacier via CLI?",
                 solution:
-                  "<p>Standard, Intelligent-Tiering (Frequent-Access & Archive-Instant tiers), Standard-IA, One Zone-IA, and Glacier Instant Retrieval.</p>",
+                  "<code>aws s3api copy-object --bucket src --copy-source src/obj --key obj --storage-class GLACIER</code>",
+              },
+              {
+                question:
+                  "Which class offers millisecond retrieval for archived data?",
+                solution: "<p>S3 Glacier Instant Retrieval</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="S3 Storage Classes" wc="">https://docs.aws.amazon.com/s3/latest/userguide/storage-class-intro.html</url>',
+              '<url id="" type="url" status="" title="Comparing Storage Classes" wc="">https://aws.amazon.com/s3/storage-classes/</url>',
+            ],
+          },
+          {
+            topic: "Lifecycle Configuration",
+            tags: ["lifecycle", "transition", "expiry", "versioning-cleanup"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    S3 <strong>Lifecycle Configuration</strong> is a set of rules, written in JSON, that automatically moves objects between storage classes, schedules deletions, and cleans up old versions or incomplete multipart uploads—without any manual intervention.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Transitioning Storage Classes
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Purpose:</strong> Lower cost by moving colder data to cheaper classes (e.g., <code>STANDARD → STANDARD-IA → GLACIER</code>).</li>
+    <li><strong>Timing:</strong> Based on <em>object age</em> (days since creation) or <em>date</em>.</li>
+    <li><strong>Scope:</strong> Whole bucket, prefix, tag, or size filter (≥128 KB).</li>
+    <li><strong>Cost:</strong> A small transition request fee per 1,000 objects.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// 30 days → Standard-IA, 90 days → Glacier, 7 years → Deep Archive
+{
+  "Rules": [{
+    "ID": "TieredArchive",
+    "Status": "Enabled",
+    "Filter": {"Prefix": "logs/"},
+    "Transitions": [
+      {"Days": 30, "StorageClass": "STANDARD_IA"},
+      {"Days": 90, "StorageClass": "GLACIER"},
+      {"Days": 2555, "StorageClass": "DEEP_ARCHIVE"}
+    ]
+  }]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Expiry Policies
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Current version expiry:</strong> Permanently delete objects after N days.</li>
+    <li><strong>Non-current version expiry:</strong> Remove old versions after N days (saves storage).</li>
+    <li><strong>Incomplete multipart cleanup:</strong> Abort dangling uploads after N days (avoids hidden charges).</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Delete current objects after 1 year, non-current after 30 days
+{
+  "Rules": [{
+    "ID": "CleanupOldData",
+    "Status": "Enabled",
+    "Filter": {"Prefix": "temp/"},
+    "Expiration": {"Days": 365},
+    "NoncurrentVersionExpiration": {"NoncurrentDays": 30},
+    "AbortIncompleteMultipartUpload": {"DaysAfterInitiation": 7}
+  }]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Versioning Cleanup
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Issue:</strong> Versioning keeps every change—storage grows forever.</li>
+    <li><strong>Solution:</strong> Lifecycle rule targeting <code>NoncurrentDays</code> to delete or transition old versions.</li>
+    <li><strong>Keep-last-N:</strong> Use <code>NoncurrentVersionExpiration</code> to retain only the latest N non-current versions (requires S3 Batch Operations for advanced logic).</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Keep only last 3 non-current versions for 90 days
+{
+  "Rules": [{
+    "ID": "VersionCleanup",
+    "Status": "Enabled",
+    "NoncurrentVersionExpiration": {"NoncurrentDays": 90}
+  }]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Advanced Filters & Tips
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Tag-based:</strong> Apply rule only to objects with <code>Environment=Dev</code>.</li>
+    <li><strong>Size-based:</strong> Move objects ≥128 KB to <code>INTELLIGENT_TIERING</code> immediately.</li>
+    <li><strong>Zero-day transition:</strong> Use <code>"Days": 0</code> to move objects right after upload.</li>
+    <li><strong>Monitoring:</strong> Check CloudWatch metrics <code>BucketSizeBytes</code> per storage class to verify savings.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    CLI One-Liners
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Apply lifecycle config
+aws s3api put-bucket-lifecycle-configuration \
+  --bucket my-bucket \
+  --lifecycle-configuration file://lifecycle.json
+
+# View current rules
+aws s3api get-bucket-lifecycle-configuration --bucket my-bucket
+
+# Remove all lifecycle rules
+aws s3api delete-bucket-lifecycle --bucket my-bucket
+</code></pre>
+  </div>
+</div>`,
+            examples: [
+              "// Transition old logs to Glacier and delete after 7 years\naws s3api put-bucket-lifecycle-configuration --bucket log-bucket --lifecycle-configuration file://archive-logs.json",
+              '// Clean up incomplete uploads after 7 days\naws s3api put-bucket-lifecycle-configuration --bucket uploads-bucket --lifecycle-configuration \'{\n  "Rules": [{\n    "ID": "AbortMPU",\n    "Status": "Enabled",\n    "AbortIncompleteMultipartUpload": {"DaysAfterInitiation": 7}\n  }]\n}\'',
+              '// Tag-based rule: Dev files to Standard-IA after 60 days\naws s3api put-bucket-lifecycle-configuration --bucket data-bucket --lifecycle-configuration \'{\n  "Rules": [{\n    "ID": "DevTransition",\n    "Status": "Enabled",\n    "Filter": {"Tag": {"Key": "Environment", "Value": "Dev"}},\n    "Transitions": [{"Days": 60, "StorageClass": "STANDARD_IA"}],\n    "Expiration": {"Days": 365}\n  }]\n}\'',
+            ],
+            questions: [
+              {
+                question: "What is an S3 lifecycle rule?",
+                solution:
+                  "<p>A JSON configuration attached to a bucket that automatically transitions objects between storage classes or deletes them based on age, prefix, tag, or size—no manual work required.</p>",
+              },
+              {
+                question: "When should I use transition vs. expiration?",
+                solution:
+                  "<p>Use <em>transition</em> to move colder data to cheaper classes (cost optimization).  Use <em>expiration</em> to permanently delete temporary, outdated, or duplicated objects (compliance & cleanup).</p>",
+              },
+              {
+                question:
+                  "How do I stop paying for incomplete multipart uploads?",
+                solution:
+                  "<p>Add a lifecycle rule with <code>AbortIncompleteMultipartUpload</code> set to delete uploads older than N days (commonly 1–7 days).</p>",
+              },
+              {
+                question:
+                  "Can lifecycle rules delete only old versions and leave the current object?",
+                solution:
+                  "<p>Yes.  Use <code>NoncurrentVersionExpiration</code> to remove previous versions while keeping the latest version untouched.</p>",
+              },
+              {
+                question: "How long does it take for a lifecycle rule to run?",
+                solution:
+                  "<p>Rules are evaluated once per day (around 00:00 UTC).  Changes typically take ≤ 24 hours to apply to existing objects.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Static Website Hosting",
+            tags: ["static-site", "index-doc", "error-doc", "public-access"],
+            explanation:
+              '<div>\n  <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;letter-spacing:-0.025em;">\n    1. Hosting a Static Website on S3\n  </h3>\n  <ul style="margin-top:0.75rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>What:</strong> Serve HTML, CSS, JS, images directly from an S3 bucket without a web server.</li>\n    <li><strong>Prerequisites:</strong>\n      <ul>\n        <li>Bucket name = exact domain (e.g., <code>example.com</code>) for Route 53 integration.</li>\n        <li>Enable “Static website hosting” on the bucket.</li>\n        <li>Upload site files; make them publicly readable (or use CloudFront OAI).</li>\n      </ul>\n    </li>\n    <li><strong>Enable via Console:</strong>\n      Bucket → Properties → Static website hosting → “Enable” → choose “Host a static website”.</li>\n    <li><strong>Bucket Website Endpoint:</strong>\n      <code>http://bucket-name.s3-website-REGION.amazonaws.com</code> (HTTP only; HTTPS requires CloudFront).</li>\n    <li><strong>CLI Enable:</strong><br/>\n      <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;">\naws s3api put-bucket-website \\\n  --bucket mysite.com \\\n  --website-configuration file://website.json\n      </pre>\n    </li>\n  </ul>\n\n  <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;letter-spacing:-0.025em;">\n    2. Index & Error Documents\n  </h3>\n  <ul style="margin-top:0.75rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Index Document:</strong> File returned when a folder (prefix) is requested (commonly <code>index.html</code>).</li>\n    <li><strong>Error Document:</strong> File returned for 4xx errors (commonly <code>error.html</code> or <code>404.html</code>).</li>\n    <li><strong>Configuration JSON (website.json)</strong><br/>\n      <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;">\n{\n  "IndexDocument": { "Suffix": "index.html" },\n  "ErrorDocument": { "Key": "error.html" }\n}\n      </pre>\n    </li>\n  </ul>\n\n  <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;letter-spacing:-0.025em;">\n    3. Public Access Settings\n  </h3>\n  <ul style="margin-top:0.75rem;margin-left:1.5rem;list-style-type:disc;">\n    <li><strong>Block Public Access (Account & Bucket):</strong> 4 toggles that prevent ACLs or policies from granting public access.</li>\n    <li><strong>To open for static site:</strong>\n      <ol>\n        <li>Bucket → Permissions → Block Public Access → <em>uncheck</em> “Block all public access” → Save → confirm.</li>\n        <li>Bucket Policy (least privilege):<br/>\n          <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Sid":"PublicReadGetObject",\n    "Effect":"Allow",\n    "Principal":"*",\n    "Action":"s3:GetObject",\n    "Resource":"arn:aws:s3:::mysite.com/*"\n  }]\n}\n          </pre>\n        </li>\n        <li>(Optional) Object ACLs: <code>--acl public-read</code> during upload.</li>\n      </ol>\n    </li>\n    <li><strong>HTTPS:</strong> Attach CloudFront distribution in front of the bucket for TLS and custom domain.</li>\n  </ul>\n</div>',
+            examples: [
+              "// Enable static hosting via CLI\naws s3api put-bucket-website --bucket mysite.com --website-configuration file://website.json",
+              "// Upload site files and make them public\naws s3 sync ./dist s3://mysite.com --acl public-read",
+              "// Test website endpoint\ncurl http://mysite.com.s3-website-us-east-1.amazonaws.com/",
+              "// CloudFront + S3 CLI create-distribution snippet\naws cloudfront create-distribution --distribution-config file://cloudfront.json",
+            ],
+            questions: [
+              {
+                question:
+                  "Which bucket-level setting must be enabled to serve a static site?",
+                solution: "<p>Static website hosting (under Properties).</p>",
+              },
+              {
+                question:
+                  "What is the default file served when users request the root path or a folder?",
+                solution:
+                  "<p>The index document (e.g., <code>index.html</code>).</p>",
+              },
+              {
+                question:
+                  "Why might the website endpoint return 403 Forbidden?",
+                solution:
+                  "<p>Objects are not publicly readable or the bucket policy denies access; ensure Block Public Access is off and <code>s3:GetObject</code> is granted.</p>",
+              },
+              {
+                question:
+                  "Does the S3 website endpoint support HTTPS natively?",
+                solution:
+                  "<p>No; use CloudFront in front of the bucket for HTTPS.</p>",
+              },
+              {
+                question: "How do you specify a custom 404 page?",
+                solution:
+                  "<p>Set the ErrorDocument key to <code>404.html</code> (or any file) in the static website configuration.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="Hosting a static website on S3" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteHosting.html</url>',
+              '<url id="" type="url" status="" title="Example bucket policy for static site" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/WebsiteAccessPermissionsReqd.html',
+            ],
+          },
+          {
+            topic: "Security Basics",
+            tags: ["security", "encryption", "ssl", "public-access"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    S3 security is built on three pillars: <strong>controlling access</strong>, <strong>protecting data at rest</strong>, and <strong>protecting data in transit</strong>.  
+    These beginner-friendly settings harden your buckets with just a few clicks or CLI commands.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Public Access Settings
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>What:</strong> Account- and bucket-level switches that block every form of public access (ACLs + policies).</li>
+    <li><strong>Why:</strong> Prevents accidental data leaks; required for compliance.</li>
+    <li><strong>Four toggles:</strong>
+      <ul style="margin-left: 1.5rem;">
+        <li>BlockPublicAcls</li>
+        <li>IgnorePublicAcls</li>
+        <li>BlockPublicPolicy</li>
+        <li>RestrictPublicBuckets</li>
+      </ul>
+    </li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Block all public access on bucket
+aws s3api put-public-access-block \
+  --bucket my-bucket \
+  --public-access-block-configuration \
+  BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Encryption at Rest
+  </h4>
+  <p style="line-height: 1.75;">
+    Objects are encrypted before writing to disk and decrypted on authorized access.  
+    Choose the method that matches your governance needs.
+  </p>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Type</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Key Management</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">CLI Flag</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Use-Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>SSE-S3</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">AWS managed</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><code>--sse AES256</code></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Default, zero-config</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>SSE-KMS</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">AWS KMS (CMK)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><code>--sse aws:kms --sse-kms-key-id alias/my-key</code></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Audit, key rotation, IAM policies</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Encryption in Transit (SSL/TLS)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Default:</strong> All S3 endpoints use HTTPS (port 443).</li>
+    <li><strong>CLI/SDK:</strong> Add <code>--endpoint-url https://s3.amazonaws.com</code> or simply omit (HTTPS is default).</li>
+    <li><strong>Bucket Policy enforcement:</strong>
+      <pre><code className="language-json">
+// Deny any non-SSL request
+{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Deny",
+    "Principal": "*",
+    "Action": "s3:*",
+    "Resource": "arn:aws:s3:::my-bucket/*",
+    "Condition": {"Bool": {"aws:SecureTransport": "false"}}
+  }]
+}
+</code></pre>
+    </li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Start Commands
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Create bucket with default SSE-S3
+aws s3 mb s3://my-secure-bucket --region us-east-1
+aws s3api put-bucket-encryption \
+  --bucket my-secure-bucket \
+  --server-side-encryption-configuration '{
+    "Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"AES256"}}]
+  }'
+
+# Upload encrypted object
+aws s3 cp ./file.txt s3://my-secure-bucket/ --sse aws:kms --sse-kms-key-id alias/my-key
+
+# Verify encryption
+aws s3api head-object --bucket my-secure-bucket --key file.txt --query ServerSideEncryption
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Beginner Security Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>✅ Block public access (account + bucket).</li>
+    <li>✅ Turn on default bucket encryption (SSE-S3 or SSE-KMS).</li>
+    <li>✅ Enforce HTTPS with bucket policy.</li>
+    <li>✅ Enable CloudTrail data events for audit.</li>
+    <li>✅ Review ACLs and disable if not needed.</li>
+  </ul>
+</div>`,
+            examples: [
+              "// Block all public access on new bucket\naws s3 mb s3://my-safe-bucket --region us-east-1\naws s3api put-public-access-block --bucket my-safe-bucket --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true",
+              '// Set default encryption to SSE-KMS\naws s3api put-bucket-encryption --bucket my-safe-bucket --server-side-encryption-configuration \'{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"aws:kms","KMSMasterKeyID":"alias/my-key"}}]}\'',
+              "// Enforce HTTPS only via bucket policy\naws s3api put-bucket-policy --bucket my-safe-bucket --policy file://deny-http.json",
+              "// Upload with SSE-S3 encryption\naws s3 cp ./report.pdf s3://my-safe-bucket/ --sse AES256",
+            ],
+            questions: [
+              {
+                question: "What are S3 public access settings?",
+                solution:
+                  "<p>Account- and bucket-level switches that block every form of public access (ACLs and bucket policies) to prevent accidental data exposure.</p>",
+              },
+              {
+                question: "What is the difference between SSE-S3 and SSE-KMS?",
+                solution:
+                  "<p>SSE-S3 uses AWS-managed keys (AES256) with zero setup.  SSE-KMS uses customer-managed KMS keys, enabling key rotation, auditing, and IAM-based key policies.</p>",
+              },
+              {
+                question: "How do I enforce HTTPS on a bucket?",
+                solution:
+                  "<p>Add a bucket policy that <code>Deny</code>s any request where <code>aws:SecureTransport</code> is <code>false</code>.</p>",
+              },
+              {
+                question: "Is data encrypted in transit by default in S3?",
+                solution:
+                  "<p>Yes.  All S3 endpoints use HTTPS/TLS unless you explicitly override to HTTP.</p>",
+              },
+              {
+                question: "Can I turn off ACLs completely?",
+                solution:
+                  "<p>Yes.  Set <code>--object-ownership BucketOwnerEnforced</code> to disable ACLs and rely solely on IAM and bucket policies for access control.</p>",
               },
             ],
           },
@@ -27163,27 +27831,6 @@ class Container {
             ],
           },
           {
-            topic: "Access Control",
-            tags: ["acl", "bucket-policy", "iam"],
-            explanation:
-              '<div>\n   <p style="line-height: 1.75; margin-top: 1.5rem;">\n     <strong>Bucket Policy</strong> JSON document attached to bucket, <strong>ACL</strong> legacy grants, <strong>IAM</strong> user/role policies. Policies support IP, VPC, conditions.\n   </p>\n   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n      <pre><code className="language-json">\n{\n  "Version": "2012-10-17",\n  "Statement": [{\n    "Effect": "Allow",\n    "Principal": "*",\n    "Action": "s3:GetObject",\n    "Resource": "arn:aws:s3:::mybucket/*"\n  }]\n}\n </code>\n  </pre>\n  </div>\n </div>',
-            examples: [
-              "// Grant public read\naws s3api put-bucket-policy --bucket b --policy file://policy.json",
-            ],
-            questions: [
-              {
-                question: "What is an S3 ACL?",
-                solution:
-                  "<p>ACLs are legacy access control lists (READ, WRITE, etc.) on objects/buckets; bucket policies are preferred.</p>",
-              },
-              {
-                question: "What is an S3 bucket policy?",
-                solution:
-                  "<p>JSON policy attached to bucket defining who can do what on which objects under what conditions.</p>",
-              },
-            ],
-          },
-          {
             topic: "Upload & Download",
             tags: ["upload", "download", "pre-signed-urls"],
             explanation:
@@ -27211,36 +27858,1044 @@ class Container {
         label: "Advanced",
         concepts: [
           {
-            topic: "Performance & Optimization",
-            tags: ["performance", "optimization", "transfer-acceleration"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Techniques to maximize throughput and minimize latency:
-   </p>
-   <ul style="margin-left:1.5rem;">
-     <li><strong>CloudFront:</strong> Global edge cache for GETs.</li>
-     <li><strong>S3 Transfer Acceleration:</strong> Uses CloudFront edges for faster uploads via AWS backbone.</li>
-     <li><strong>Multipart Upload:</strong> Parallel parts, resume capability, 10k parts max.</li>
-     <li><strong>Parallel Requests:</strong> Distribute across prefixes to avoid hot partitions.</li>
-   </ul>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Enable acceleration
-aws s3api put-bucket-accelerate-configuration \
-  --bucket mybucket --accelerate-configuration Status=Enabled
- </code>
-  </pre>
-  </div>
- </div>`,
+            topic: "Advanced Access Control",
+            tags: [
+              "iam-policies",
+              "presigned-urls",
+              "cross-account",
+              "conditions",
+            ],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Fine-Grained IAM Policies</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Resource-Level Permissions</strong><br/>\n                Restrict actions to specific buckets or objects using <code>arn:aws:s3:::bucket/key</code>.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Effect":"Allow",\n    "Action":["s3:GetObject"],\n    "Resource":"arn:aws:s3:::mybucket/reports/*"\n  }]\n}\n                </pre>\n              </li>\n              <li><strong>Condition-Based Policies</strong><br/>\n                Use <code>Condition</code> keys for IP, VPC, encryption, TLS, etc.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Effect":"Allow",\n  "Action":"s3:*",\n  "Resource":"*",\n  "Condition":{\n    "Bool":{"aws:SecureTransport":"true"},\n    "IpAddress":{"aws:SourceIp":["203.0.113.0/24"]}\n  }\n}\n                </pre>\n              </li>\n              <li><strong>Bucket Policy vs IAM Policy</strong><br/>\n                Bucket policies are attached to the bucket; IAM policies are attached to users/roles. Combine both for least privilege.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Pre-Signed URLs (Temporary Access Tokens)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Concept:</strong> Time-limited, cryptographically signed URLs that delegate specific permissions without exposing credentials.</li>\n              <li><strong>CLI:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">aws s3 presign s3://bucket/report.csv --expires-in 3600</pre>\n              </li>\n              <li><strong>SDK Example (Python boto3):</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nurl = s3.generate_presigned_url(\n        \'get_object\',\n        Params={\'Bucket\':\'bucket\',\'Key\':\'private.txt\'},\n        ExpiresIn=3600)\n                </pre>\n              </li>\n              <li><strong>Upload Example:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nurl = s3.generate_presigned_post(\'bucket\',\'uploads/${filename}\',\n                                 ExpiresIn=600, Fields={"acl":"private"})\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Cross-Account Access</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Bucket Policy (Resource-Based)</strong><br/>\n                Grant direct access to another AWS account or IAM role.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Sid":"CrossAccountRead",\n    "Effect":"Allow",\n    "Principal":{"AWS":"arn:aws:iam::111122223333:role/FinanceRole"},\n    "Action":"s3:GetObject",\n    "Resource":"arn:aws:s3:::shared-bucket/reports/*"\n  }]\n}\n                </pre>\n              </li>\n              <li><strong>IAM Role Assumption</strong><br/>\n                Account A creates a role with permissions to the bucket; Account B assumes the role via STS <code>AssumeRole</code>.\n              </li>\n              <li><strong>ACL (Legacy)</strong><br/>\n              <code>--grant read id=CanonicalID</code> still works but discouraged; use policies instead.</li>\n              <li><strong>Access Points (Multi-Account)</strong><br/>\n                Create VPC-scoped S3 Access Points in each account for fine-grained sharing without bucket policies.</li>\n            </ul>\n          </div>',
             examples: [
-              "// High-performance upload\naws s3 cp ./big.iso s3://bucket/ --storage-class STANDARD --expected-size 5368709120",
+              "// IAM policy allowing GetObject only during business hours\naws iam put-user-policy --user-name Alice --policy-name BusinessHours --policy-document file://business-hours.json",
+              "// CLI pre-signed URL valid 1 hour\naws s3 presign s3://secure-bucket/annual-report.pdf --expires-in 3600",
+              "// Python pre-signed POST (upload)\nimport boto3, requests\ns3 = boto3.client('s3')\nresp = s3.generate_presigned_post('uploads', 'data.csv', ExpiresIn=600)\nfiles = {'file': open('data.csv','rb')}\nrequests.post(resp['url'], data=resp['fields'], files=files)",
+              '// Cross-account bucket policy JSON\n// Save as cross-account.json and apply via console or CLI\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Effect":"Allow",\n    "Principal":{"AWS":"arn:aws:iam::222233334444:root"},\n    "Action":["s3:GetObject","s3:ListBucket"],\n    "Resource":["arn:aws:s3:::shared-bucket","arn:aws:s3:::shared-bucket/*"]\n  }]\n}',
+              "aws s3api put-bucket-policy --bucket shared-bucket --policy file://cross-account.json",
             ],
             questions: [
               {
                 question:
-                  "How do you optimize S3 performance for high-traffic applications?",
+                  "How do you restrict a user to download only objects under a specific prefix?",
                 solution:
-                  "<p>Use CloudFront CDN, multipart upload, Transfer Acceleration, parallel requests, and prefix sharding.</p>",
+                  "<p>Create an IAM policy with <code>Resource</code> ARN <code>arn:aws:s3:::bucket/prefix/*</code>.</p>",
+              },
+              {
+                question:
+                  "What CLI command generates a time-limited download URL for a private object?",
+                solution:
+                  "<code>aws s3 presign s3://bucket/key --expires-in &lt;seconds&gt;</code>",
+              },
+              {
+                question:
+                  "Which AWS service is used to assume cross-account roles?",
+                solution:
+                  "<p>AWS STS (Security Token Service) <code>AssumeRole</code>.</p>",
+              },
+              {
+                question: "Can a pre-signed URL be revoked before expiration?",
+                solution:
+                  "<p>No; the expiration time is embedded in the signature. Rotate credentials or change bucket policy to deny.</p>",
+              },
+              {
+                question:
+                  "What is the advantage of S3 Access Points over bucket policies for cross-account sharing?",
+                solution:
+                  "<p>Access Points provide per-account, VPC-scoped endpoints and independent IAM policies, reducing blast radius and complexity of bucket policies.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="S3 Access Control Overview" wc="">https://docs.aws.amazon.com/s3/latest/userguide/access-control-overview.html</url>',
+              '<url id="" type="url" status="" title="Pre-Signed URL Examples" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html</url>',
+              '<url id="" type="url" status="" title="Cross-Account Permissions" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-walkthroughs-managing-access-example2.html</url>',
+            ],
+          },
+          {
+            topic: "Performance Optimization",
+            tags: [
+              "multipart-uploads",
+              "parallel-downloads",
+              "prefix-partitioning",
+              "byte-range-fetches",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Extract every last bit of throughput and latency from S3 by combining low-level primitives—multipart uploads, parallel downloads, intelligent prefix design, and byte-range fetches.  These patterns scale linearly to hundreds of Gb/s and are battle-tested for petabyte workloads.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Multipart Uploads
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Why:</strong> Required for objects &gt;5 GB, optional for &gt;100 MB; enables parallel streams and resume.</li>
+    <li><strong>Limits:</strong> ≤ 10,000 parts, 5 MiB–5 GiB each.</li>
+    <li><strong>Throughput:</strong> Scale to ~50–80 Gb/s per S3 prefix; use 8–25 concurrent parts.</li>
+    <li><strong>Resume:</strong> Call <code>list-multipart-uploads</code> to retrieve upload-id and continue.</li>
+    <li><strong>Checksum:</strong> Each part returns an ETag; final composite ETag is <code>md5-of-md5s</code> for integrity.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# High-throughput upload: 25 MiB parts, 16 threads
+aws configure set max_concurrent_requests 25
+aws configure set max_bandwidth 0
+aws s3 cp ./big.iso s3://bucket/big.iso \
+  --storage-class STANDARD \
+  --expected-size 8589934592
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Parallel Downloads
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>CLI:</strong> Same concurrency settings as uploads (<code>max_concurrent_requests</code>).</li>
+    <li><strong>SDK:</strong> Boto3 <code>TransferConfig</code> (Python), AWS SDK for Java <code>TransferManager</code>.</li>
+    <li><strong>Range GET:</strong> Split object into N equal parts and fetch in parallel.</li>
+    <li><strong>Throughput:</strong> Achieve 50+ Gb/s on 100 Gbps instances with 25–50 threads.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Parallel download with 25 threads
+aws configure set max_concurrent_requests 25
+aws s3 cp s3://bucket/big.iso ./big.iso --region us-east-1
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Prefix Performance & Partitioning
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Partitioning:</strong> Each unique <em>prefix</em> (left substring up to first “/” or hex-hash) gets its own partition; AWS auto-scales partitions independently.</li>
+    <li><strong>Hot spots:</strong> Sequential numeric prefixes (e.g., <code>2025/08/01/</code>) concentrate traffic → throttle at ~3,500 PUTs or 5,500 GETs per second per prefix.</li>
+    <li><strong>Best practice:</strong> Add random or hashed prefixes (<code>2025/08/{uuid}/</code>) to distribute load.</li>
+    <li><strong>Monitoring:</strong> Use CloudWatch <code>4xxErrors</code> and <code>5xxErrors</code> to detect throttling.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Upload with hashed prefix (avoids hot-spot)
+aws s3 cp ./file.dat s3://bucket/$(uuidgen | cut -c1-8)/file.dat
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Byte-Range Fetches
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Syntax:</strong> HTTP <code>Range: bytes=start-end</code>.</li>
+    <li><strong>Use-cases:</strong> Resume downloads, stream video, or fetch log segments.</li>
+    <li><strong>Cost:</strong> Pay only for the bytes read; no extra egress.</li>
+    <li><strong>Parallel GET:</strong> Combine ranges for concurrent retrieval.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Fetch first 10 MiB of object
+aws s3api get-object \
+  --bucket my-bucket \
+  --key big.iso \
+  --range bytes=0-10485759 \
+  /tmp/head.iso
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Performance Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>✅ Use multipart for anything &gt;100 MB.</li>
+    <li>✅ Increase <code>max_concurrent_requests</code> (CLI) or use SDK transfer managers.</li>
+    <li>✅ Randomize prefixes for high-throughput workloads.</li>
+    <li>✅ Use range GETs for partial reads and parallel downloads.</li>
+    <li>✅ Monitor <code>4xx/5xx</code> CloudWatch metrics to detect throttling.</li>
+  </ul>
+</div>`,
+            examples: [
+              "// 16-part multipart upload (CLI auto-detects)\naws configure set max_concurrent_requests 16\naws s3 cp ./10GB.tar s3://perf-bucket/10GB.tar",
+              "// Parallel download with 25 threads\naws configure set max_concurrent_requests 25\naws s3 cp s3://perf-bucket/10GB.tar ./10GB.tar",
+              "// Use hashed prefix to avoid hot spots\naws s3 cp ./data.json s3://perf-bucket/$(openssl rand -hex 4)/data.json",
+              "// Byte-range fetch (1 MiB chunks)\nfor i in {0..9}; do\n  aws s3api get-object --bucket perf-bucket --key 10GB.tar \
+    --range bytes=$((i*1048576))-$(((i+1)*1048576-1)) part-$i &ndone; wait",
+            ],
+            questions: [
+              {
+                question: "When should I use multipart uploads?",
+                solution:
+                  "<p>Required for objects &gt;5 GB; recommended for anything &gt;100 MB to gain parallel throughput and resume capability.</p>",
+              },
+              {
+                question: "How many concurrent parts are optimal?",
+                solution:
+                  "<p>8–25 parts usually saturate 10–40 Gbps links.  Tune via <code>max_concurrent_requests</code> (CLI) or SDK TransferManager configuration.</p>",
+              },
+              {
+                question: "What causes S3 throttling and how do I avoid it?",
+                solution:
+                  "<p>Hot prefixes (sequential keys) hit ~3.5 K PUT or 5.5 K GET/s per partition.  Distribute traffic with random or hashed prefixes.</p>",
+              },
+              {
+                question:
+                  "Are byte-range fetches billed for the entire object?",
+                solution:
+                  "<p>No—you pay only for the bytes actually transferred plus per-request charges.</p>",
+              },
+              {
+                question: "Can I resume a failed multipart download?",
+                solution:
+                  "<p>Yes—range GETs let you restart from any byte offset, enabling pause/resume or parallel resume logic.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Event Notifications",
+            tags: ["event-notifications", "lambda", "sqs", "sns", "real-time"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    S3 <strong>Event Notifications</strong> turn your bucket into a <em>real-time data pipeline</em>.  Every PUT, POST, DELETE, or multipart-completion can instantly invoke Lambda, enqueue SQS, or fan-out via SNS—without polling.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Triggering AWS Lambda on S3 Events
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Events:</strong> <code>s3:ObjectCreated:*</code>, <code>s3:ObjectRemoved:*</code>, <code>s3:ObjectRestore:*</code>, <code>s3:ReducedRedundancyLostObject</code>.</li>
+    <li><strong>Filters:</strong> Prefix (folder) and suffix (file-type).</li>
+    <li><strong>Latency:</strong> ~sub-second (sync) for Lambda; retries with exponential backoff.</li>
+    <li><strong>Concurrency:</strong> Lambda scales automatically; set reserved concurrency to avoid runaway.</li>
+    <li><strong>Permissions:</strong> Lambda needs <code>s3:GetObject</code> and bucket needs <code>lambda:InvokeFunction</code>.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Bucket notification configuration (Lambda)
+{
+  "LambdaFunctionConfigurations": [{
+    "Id": "ThumbnailGen",
+    "LambdaFunctionArn": "arn:aws:lambda:us-east-1:123456789012:function:thumbnail",
+    "Events": ["s3:ObjectCreated:*"],
+    "Filter": {
+      "Key": {
+        "FilterRules": [
+          {"Name": "prefix", "Value": "uploads/"},
+          {"Name": "suffix", "Value": ".jpg"}
+        ]
+      }
+    }
+  }]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Sending Events to SQS / SNS
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>SQS:</strong> Queue for reliable, ordered processing (fan-in).</li>
+    <li><strong>SNS:</strong> Fan-out to multiple subscribers (email, Lambda, HTTPS).</li>
+    <li><strong>DLQ:</strong> Attach DLQ to SQS for failed messages.</li>
+    <li><strong>Encryption:</strong> Enable SSE for SQS/SNS to keep events encrypted at rest.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Queue notification (SQS)
+{
+  "QueueConfigurations": [{
+    "Id": "AuditLogs",
+    "QueueArn": "arn:aws:sqs:us-east-1:123456789012:audit-queue",
+    "Events": ["s3:ObjectCreated:*", "s3:ObjectRemoved:*"],
+    "Filter": {"Key": {"FilterRules": [{"Name": "prefix", "Value": "logs/"}]}}
+  }]
+}
+
+// Topic notification (SNS)
+{
+  "TopicConfigurations": [{
+    "Id": "EmailAlerts",
+    "TopicArn": "arn:aws:sns:us-east-1:123456789012:alerts",
+    "Events": ["s3:ObjectCreated:*"],
+    "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".error"}]}}
+  }]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Real-Time Workflows & Patterns
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Image Processing:</strong> Lambda resizes & watermarks every JPEG upload.</li>
+    <li><strong>Data Lake ETL:</strong> EventBridge → Step Functions → EMR job on new parquet.</li>
+    <li><strong>Cross-account fan-out:</strong> S3 → SNS → multiple Lambda accounts.</li>
+    <li><strong>Dead-letter handling:</strong> SQS DLQ captures failed Lambda invocations.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    CLI & CloudFormation Snippets
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Attach notification to bucket (Lambda)
+aws s3api put-bucket-notification-configuration \
+  --bucket my-bucket \
+  --notification-configuration file://lambda-notification.json
+
+# Validate configuration
+aws s3api get-bucket-notification-configuration --bucket my-bucket
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Monitoring & Troubleshooting
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>CloudWatch:</strong> Lambda/SQS/SNS metrics (errors, duration, DLQ size).</li>
+    <li><strong>S3 Logs:</strong> CloudTrail data events show event delivery success/failure.</li>
+    <li><strong>Testing:</strong> Use <code>aws s3api put-object</code> or upload via console to trigger events.</li>
+    <li><strong>Limits:</strong> 100 event notifications per bucket; payload ≤ 256 KB.</li>
+  </ul>
+</div>`,
+            examples: [
+              '// Add Lambda trigger for all .zip uploads\naws s3api put-bucket-notification-configuration --bucket code-bucket --notification-configuration \'{\n  "LambdaFunctionConfigurations": [{\n    "Id": "ZipProcessor",\n    "LambdaFunctionArn": "arn:aws:lambda:us-east-1:123456789012:function:zip-processor",\n    "Events": ["s3:ObjectCreated:*"],\n    "Filter": {"Key": {"FilterRules": [{"Name": "suffix", "Value": ".zip"}]}}\n  }]\n}\'',
+              '// Send created objects to SQS queue\naws s3api put-bucket-notification-configuration --bucket data-bucket --notification-configuration \'{\n  "QueueConfigurations": [{\n    "Id": "NewData",\n    "QueueArn": "arn:aws:sqs:us-east-1:123456789012:new-data-queue",\n    "Events": ["s3:ObjectCreated:*"]\n  }]\n}\'',
+              '// Fan-out to SNS topic on any deletion\naws s3api put-bucket-notification-configuration --bucket backup-bucket --notification-configuration \'{"TopicConfigurations": [{"Id": "DeleteAlert","TopicArn": "arn:aws:sns:us-east-1:123456789012:delete-alerts","Events": ["s3:ObjectRemoved:*"]}]}\'',
+            ],
+            questions: [
+              {
+                question: "What events can trigger S3 notifications?",
+                solution:
+                  "<p>s3:ObjectCreated:*, s3:ObjectRemoved:*, s3:ObjectRestore:*, and s3:ReducedRedundancyLostObject.</p>",
+              },
+              {
+                question: "Can I filter notifications by folder or file type?",
+                solution:
+                  "<p>Yes—use prefix and suffix filters in the notification rule, e.g., prefix='uploads/', suffix='.jpg'.</p>",
+              },
+              {
+                question:
+                  "How do I retry failed Lambda invocations from S3 events?",
+                solution:
+                  "<p>Point the destination to an SQS queue with a DLQ, or enable Lambda asynchronous retries and DLQ.</p>",
+              },
+              {
+                question: "Is event delivery guaranteed?",
+                solution:
+                  "<p>S3 guarantees at-least-once delivery; design idempotent consumers and use deduplication keys.</p>",
+              },
+              {
+                question: "Can I send events to multiple destinations?",
+                solution:
+                  "<p>Yes—use SNS fan-out or EventBridge rules to route the same event to many targets.</p>",
+              },
+            ],
+          },
+          {
+            topic: "S3 Object Versioning & Replication",
+            tags: ["versioning", "crr", "srr", "replication"],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Versioning Strategies</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Enable:</strong> <code>aws s3api put-bucket-versioning --bucket src --versioning-configuration Status=Enabled</code></li>\n              <li><strong>Behaviors:</strong>\n                <ul>\n                  <li>Every <code>PUT</code> creates a new version; every <code>DELETE</code> adds a delete marker.</li>\n                  <li>Restore earlier version via console or <code>aws s3api get-object --version-id</code>.</li>\n                  <li>Storage cost applies to every version; lifecycle rules can expire non-current versions.</li>\n                </ul>\n              </li>\n              <li><strong>MFA Delete:</strong> Require MFA token to permanently delete versions or suspend versioning.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3api put-bucket-versioning \\\n  --bucket src \\\n  --versioning-configuration Status=Enabled,MFADelete=Enabled \\\n  --mfa "arn:aws:iam::123456789012:mfa/root-account-mfa-device 123456"\n                </pre>\n              </li>\n              <li><strong>Lifecycle Rules:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n "Rules": [{\n  "ID":"ExpireNonCurrent",\n  "Status":"Enabled",\n  "NoncurrentVersionExpiration":{"NoncurrentDays":30}\n }]\n}\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Cross-Region Replication (CRR)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Purpose:</strong> Disaster recovery, latency reduction, compliance across regions.</li>\n              <li><strong>Requirements:</strong>\n                <ul>\n                  <li>Versioning enabled on both source and destination buckets.</li>\n                  <li>IAM role (<code>AmazonS3RoleForReplication</code>) with permissions to replicate.</li>\n                  <li>Destination bucket can be in any AWS account.</li>\n                </ul>\n              </li>\n              <li><strong>Steps:</strong>\n                <ol>\n                  <li>Create destination bucket in target region.</li>\n                  <li>Create replication rule (console or <code>put-bucket-replication</code>).</li>\n                  <li>Optionally filter by prefix/tag or replicate existing objects (with <code>s3:ReplicateExistingObject</code>).</li>\n                </ol>\n              </li>\n              <li><strong>CLI Example:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3api put-bucket-replication \\\n  --bucket src-bucket \\\n  --replication-configuration file://crr.json\n                </pre>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n// crr.json\n{\n "Role":"arn:aws:iam::123456789012:role/S3ReplicationRole",\n "Rules":[{\n  "ID":"crr-rule",\n  "Status":"Enabled",\n  "Priority":1,\n  "DeleteMarkerReplication":{"Status":"Disabled"},\n  "Filter":{"Prefix":"reports/"},\n  "Destination":{"Bucket":"arn:aws:s3:::dest-bucket"}\n }]\n}\n                </pre>\n              </li>\n              <li><strong>Monitoring:</strong> CloudWatch metrics <code>ReplicationLatency</code> and <code>OperationsFailedReplication</code>.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Same-Region Replication (SRR)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Use Case:</strong> Compliance, live-to-DR within the same region, object lock replication, log aggregation.</li>\n              <li><strong>Setup:</strong> Identical to CRR except destination bucket is in the same region.</li>\n              <li><strong>Benefits:</strong>\n                <ul>\n                  <li>Lower latency and no data-transfer charges compared to CRR.</li>\n                  <li>Supports replication to buckets with different storage classes or encryption settings.</li>\n                </ul>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Best Practices</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li>Enable lifecycle rules to expire non-current versions in both source and destination.</li>\n              <li>Use IAM condition keys (<code>s3:x-amz-server-side-encryption</code>) to enforce encryption during replication.</li>\n              <li>Validate replication with <code>s3:ReplicationTime</code> events and S3 Inventory reports.</li>\n            </ul>\n          </div>',
+            examples: [
+              "// Enable versioning\naws s3api put-bucket-versioning --bucket src --versioning-configuration Status=Enabled",
+              "// Add lifecycle to delete non-current versions after 30 days\naws s3api put-bucket-lifecycle-configuration --bucket src --lifecycle-configuration file://expire-noncurrent.json",
+              "// Create destination bucket (different region)\naws s3 mb s3://dest-bucket --region eu-central-1",
+              "// Apply CRR rule (use JSON above)\naws s3api put-bucket-replication --bucket src --replication-configuration file://crr.json",
+              "// Check replication status of an object\naws s3api head-object --bucket src --key reports/2025/july.csv --query 'ReplicationStatus'",
+              "// Same-region replication (SRR) – same JSON, just same region\naws s3 mb s3://dest-srr  # same region as src\naws s3api put-bucket-replication --bucket src --replication-configuration file://srr.json",
+            ],
+            questions: [
+              {
+                question:
+                  "What must be enabled before replication (CRR or SRR) can be configured?",
+                solution:
+                  "<p>Versioning on both the source and destination buckets.</p>",
+              },
+              {
+                question:
+                  "Which IAM permission is needed for S3 to replicate objects on your behalf?",
+                solution:
+                  "<p><code>s3:ReplicateObject</code>, granted via the IAM role referenced in the replication configuration.</p>",
+              },
+              {
+                question:
+                  "How do you expire non-current versions automatically?",
+                solution:
+                  "<p>Create a lifecycle rule with <code>NoncurrentVersionExpiration</code> specifying <code>NoncurrentDays</code>.</p>",
+              },
+              {
+                question: "Does replication copy delete markers by default?",
+                solution:
+                  "<p>No; you must explicitly enable <code>DeleteMarkerReplication</code> in the rule if required.</p>",
+              },
+              {
+                question: "How can you verify replication lag?",
+                solution:
+                  "<p>Check CloudWatch metrics <code>ReplicationLatency</code> or compare <code>LastModified</code> timestamps via S3 Inventory.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="Using versioning" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/Versioning.html</url>',
+              '<url id="" type="url" status="" title="Setting up CRR" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-walkthrough1.html</url>',
+              '<url id="" type="url" status="" title="Same-Region Replication" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication-walkthrough3.html</url>',
+            ],
+          },
+          {
+            topic: "S3 with CloudFront (CDN)",
+            tags: ["cloudfront", "cdn", "signed-urls", "cache-control", "oai"],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Setting Up CloudFront with S3</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Create Distribution</strong><br/>\n                Console: CloudFront → Create Distribution → Web → choose S3 bucket as Origin Domain Name.<br/>\n                Terraform snippet:<br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_cloudfront_distribution" "cdn" {\n  origin {\n    domain_name = aws_s3_bucket.site.bucket_regional_domain_name\n    origin_id   = "S3-Origin"\n    s3_origin_config {\n      origin_access_identity = aws_cloudfront_origin_access_identity.oai.cloudfront_access_identity_path\n    }\n  }\n  enabled             = true\n  default_root_object = "index.html"\n  default_cache_behavior {\n    target_origin_id = "S3-Origin"\n    allowed_methods  = ["GET", "HEAD"]\n    cached_methods   = ["GET", "HEAD"]\n    compress         = true\n    viewer_protocol_policy = "redirect-to-https"\n  }\n}\n                </pre>\n              </li>\n              <li><strong>Origin Access Identity (OAI)</strong><br/>\n                Restrict direct S3 access: bucket policy allows <code>s3:GetObject</code> only to the OAI ARN.<br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Effect":"Allow",\n    "Principal":{"AWS":"arn:aws:iam::cloudfront:user/CloudFront Origin Access Identity EXXXXX"},\n    "Action":"s3:GetObject",\n    "Resource":"arn:aws:s3:::mybucket/*"\n  }]\n}\n                </pre>\n              </li>\n              <li><strong>Custom Domain & HTTPS</strong><br/>\n                Add alternate domain names, attach ACM certificate, choose <code>redirect-to-https</code>.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Signed URLs with CloudFront</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Key Pair</strong><br/>\n                Generate RSA key pair; upload public key to CloudFront Key Group.<br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nopenssl genrsa -out private.pem 2048\nopenssl rsa -pubout -in private.pem -out public.pem\n                </pre>\n              </li>\n              <li><strong>Distribution Config</strong><br/>\n                In cache behavior → Restrict Viewer Access → Yes → Trusted Key Groups.</li>\n              <li><strong>Create Signed URL (Python)</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nfrom datetime import datetime, timedelta\nfrom cryptography.hazmat.primitives import serialization\nfrom botocore.signers import CloudFrontSigner\ndef rsa_signer(message):\n    with open(\'private.pem\',\'rb\') as key_file:\n        private_key = serialization.load_pem_private_key(key_file.read(), password=None)\n    return private_key.sign(message)\ncf_signer = CloudFrontSigner(\'K123456789\', rsa_signer)\nurl = cf_signer.generate_presigned_url(\n    \'https://dxxxxx.cloudfront.net/report.pdf\',\n    date_less_than=datetime.utcnow()+timedelta(hours=1))\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Cache-Control Headers</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Set at Upload</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3 cp index.html s3://mybucket/ \\\n  --metadata-directive REPLACE \\\n  --cache-control "max-age=86400"\n                </pre>\n              </li>\n              <li><strong>CloudFront TTL Hierarchy</strong><br/>\n                <ul>\n                  <li><code>Cache-Control: max-age</code> (or <code>s-maxage</code>) overrides CloudFront Default TTL.</li>\n                  <li>CloudFront <code>MinTTL ≤ Cache-Control ≤ MaxTTL</code>.</li>\n                </ul>\n              </li>\n              <li><strong>Cache Policies</strong><br/>\n                Managed: <code>Managed-CachingOptimized</code> (1 day), or create custom policy.</li>\n              <li><strong>Invalidations</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws cloudfront create-invalidation --distribution-id EDFDVBD6EXAMPLE --paths "/*"\n                </pre>\n              </li>\n            </ul>\n          </div>',
+            examples: [
+              "// Create OAI\naws cloudfront create-cloud-front-origin-access-identity --cloud-front-origin-access-identity-config CallerReference=unique123",
+              "// Attach OAI bucket policy (save as policy.json)\naws s3api put-bucket-policy --bucket mybucket --policy file://policy.json",
+              '// Upload with cache-control\naws s3 sync ./build s3://mybucket --cache-control "max-age=31536000,immutable"',
+              '// Invalidate cache\naws cloudfront create-invalidation --distribution-id EXAMPLE --paths "/css/*"',
+              "// Terraform CloudFront + OAI (see snippet above)",
+            ],
+            questions: [
+              {
+                question:
+                  "Which CloudFront feature prevents direct S3 access while allowing CDN traffic?",
+                solution:
+                  "<p>Origin Access Identity (OAI) or Origin Access Control (OAC).</p>",
+              },
+              {
+                question: "What header overrides CloudFront’s Default TTL?",
+                solution:
+                  "<p><code>Cache-Control: max-age</code> or <code>s-maxage</code>.</p>",
+              },
+              {
+                question:
+                  "How do you invalidate cached objects after updating files in S3?",
+                solution:
+                  '<p>Use <code>aws cloudfront create-invalidation --paths "/*"</code>.</p>',
+              },
+              {
+                question:
+                  "Which command-line tool generates CloudFront signed URLs?",
+                solution:
+                  "<p><code>aws cloudfront sign</code> (with AWS CLI v2 and plugins), or custom scripts using boto3.</p>",
+              },
+              {
+                question:
+                  "Why use <code>s-maxage</code> instead of <code>max-age</code>?",
+                solution:
+                  "<p><code>s-maxage</code> applies only to shared caches (CloudFront), letting browsers follow a different <code>max-age</code>.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="CloudFront Developer Guide – S3 Origins" wc="">https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistS3AndCustomOrigins.html</url>',
+              '<url id="" type="url" status="" title="Using Signed URLs" wc="">https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-signed-urls.html</url>',
+              '<url id="" type="url" status="" title="Managing Cache Duration" wc="">https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Expiration.html</url>',
+            ],
+          },
+          {
+            topic: "S3 Security Deep Dive",
+            tags: [
+              "security",
+              "bucket-policy",
+              "block-public-access",
+              "kms-key-policies",
+              "gdpr-hipaa",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Enterprise-grade S3 security is layered: least-privilege IAM, hardened bucket policies, KMS key governance, and regulatory controls.  Mastering these patterns keeps data safe under frameworks such as GDPR, HIPAA, PCI-DSS, and SOC 2.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Bucket Policy Best Practices
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Least privilege:</strong> Restrict <code>Principal</code>, <code>Action</code>, <code>Resource</code>, and <code>Condition</code>.</li>
+    <li><strong>Explicit Deny:</strong> Block dangerous actions (<code>s3:DeleteBucketPolicy</code>, <code>s3:PutObjectAcl</code>) for non-admin roles.</li>
+    <li><strong>IP & VPC:</strong> Allow only from known CIDRs or VPC endpoints.</li>
+    <li><strong>Encryption enforcement:</strong> Deny uploads unless <code>x-amz-server-side-encryption</code> header is present.</li>
+    <li><strong>Cross-account:</strong> Use <code>aws:PrincipalArn</code> or <code>aws:PrincipalTag</code> to scope access.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Require SSE-KMS and HTTPS
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyUnencryptedUploads",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::my-bucket/*",
+      "Condition": {
+        "StringNotEquals": {"s3:x-amz-server-side-encryption": "aws:kms"}
+      }
+    },
+    {
+      "Sid": "DenyHTTP",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": "arn:aws:s3:::my-bucket/*",
+      "Condition": {"Bool": {"aws:SecureTransport": "false"}}
+    }
+  ]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Block Public Access vs. ACLs
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Mechanism</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Scope</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Best Practice</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Block Public Access</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Account or bucket</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Turn on globally, then selectively open via bucket policy.</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>ACLs</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Per object</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Disable (<code>BucketOwnerEnforced</code>) unless legacy integration.</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Disable ACLs entirely
+aws s3api put-bucket-acl \
+  --bucket my-bucket \
+  --acl private \
+  --object-ownership BucketOwnerEnforced
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. KMS Key Policies
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Key policy &ne; IAM policy:</strong> The key itself decides who can use it.</li>
+    <li><strong>Least privilege:</strong> Allow only specific roles to <code>Encrypt</code>/<code>Decrypt</code>.</li>
+    <li><strong>Cross-account:</strong> Add external account principals and trust policies.</li>
+    <li><strong>Rotation:</strong> Enable annual automated key rotation without re-encrypting objects.</li>
+    <li><strong>Logging:</strong> Stream CloudTrail & CloudWatch Logs for every KMS operation.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// KMS key policy: allow only Lambda role
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowLambdaUse",
+      "Effect": "Allow",
+      "Principal": {"AWS": "arn:aws:iam::123456789012:role/lambda-s3-role"},
+      "Action": [
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:GenerateDataKey"
+      ],
+      "Resource": "*"
+    }
+  ]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Data Privacy & Compliance (GDPR, HIPAA)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Encryption everywhere:</strong> SSE-KMS + TLS 1.2+ in transit.</li>
+    <li><strong>Access logging:</strong> Enable CloudTrail data events and S3 server-access logs.</li>
+    <li><strong>Object Lock (WORM):</strong> Retention & legal-hold for GDPR/HIPAA immutability.</li>
+    <li><strong>Regions & residency:</strong> Choose buckets in GDPR/HIPAA-eligible regions; replicate within same country.</li>
+    <li><strong>Deletion rights:</strong> Combine versioning + lifecycle to auto-expire after retention period.</li>
+    <li><strong>Data classification tags:</strong> Use object tags (e.g., <code>PII=true</code>) for IAM conditions & audit.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// GDPR retention: 30-day legal hold, 7-year retention
+{
+  "Rules": [{
+    "ID": "GDPRRetention",
+    "Status": "Enabled",
+    "Filter": {"Tag": {"Key": "PII", "Value": "true"}},
+    "Transitions": [{"Days": 2555, "StorageClass": "DEEP_ARCHIVE"}],
+    "Expiration": {"Days": 2555}
+  }]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Compliance Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>✅ Enable Block Public Access at account level.</li>
+    <li>✅ Default encryption SSE-KMS with CMK rotation.</li>
+    <li>✅ Deny HTTP via bucket policy.</li>
+    <li>✅ CloudTrail data events + CloudWatch alarms.</li>
+    <li>✅ Object Lock (WORM) or lifecycle retention.</li>
+    <li>✅ Tag objects for data classification.</li>
+    <li>✅ Cross-account access via KMS key policy & role trust.</li>
+  </ul>
+</div>`,
+            examples: [
+              "// Account-level Block Public Access\naws s3control put-public-access-block --account-id 123456789012 --public-access-block-configuration BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true",
+              '// Default bucket encryption SSE-KMS\naws s3api put-bucket-encryption --bucket my-bucket --server-side-encryption-configuration \'{"Rules":[{"ApplyServerSideEncryptionByDefault":{"SSEAlgorithm":"aws:kms","KMSMasterKeyID":"alias/compliance-key"}}]}\'',
+              "// Deny non-HTTPS & require KMS\naws s3api put-bucket-policy --bucket my-bucket --policy file://compliance-policy.json",
+              "// Enable Object Lock (WORM)\naws s3api create-bucket --bucket my-lock-bucket --object-lock-enabled-for-bucket --region us-east-1",
+              "// Tag PII objects\naws s3api put-object-tagging --bucket my-bucket --key patient.csv --tagging 'TagSet=[{Key=PII,Value=true}]'",
+            ],
+            questions: [
+              {
+                question: "Should I disable ACLs entirely?",
+                solution:
+                  "<p>Yes—set <code>--object-ownership BucketOwnerEnforced</code> to rely on IAM and bucket policies only; ACLs add complexity and risk.</p>",
+              },
+              {
+                question: "How do I enforce encryption for every upload?",
+                solution:
+                  "<p>Add a bucket policy <code>Deny</code> on <code>s3:PutObject</code> unless <code>s3:x-amz-server-side-encryption=aws:kms</code>.</p>",
+              },
+              {
+                question:
+                  "Can I rotate KMS keys without re-encrypting objects?",
+                solution:
+                  "<p>Yes—enable automatic KMS key rotation; existing objects remain decryptable with the new key material.</p>",
+              },
+              {
+                question: "What is Object Lock and when should I use it?",
+                solution:
+                  "<p>Object Lock provides WORM (Write-Once-Read-Many) via retention periods or legal holds.  Use it for GDPR, HIPAA, SEC, or any compliance requiring immutable storage.</p>",
+              },
+              {
+                question: "How do I prove data residency for GDPR?",
+                solution:
+                  "<p>Store data in an EU region, replicate only within EU, and log CloudTrail events showing region endpoints.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Cost Optimization",
+            tags: [
+              "cost",
+              "storage-lens",
+              "lifecycle",
+              "cost-explorer",
+              "intelligent-tiering",
+            ],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Storage Cost Analysis (per class)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Dimensions:</strong> storage GB-month, requests (PUT/COPY/POST/LIST vs GET/SELECT), data-transfer, early-deletion, retrieval.</li>\n              <li><strong>Quick Table (us-east-1, 2024 Q3)</strong><br/>\n                <table style="width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.9rem;">\n                  <thead><tr style="background:#e5f5ff;">\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Class</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">$/GB-mo</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Retrieval</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Min Dur.</th>\n                  </tr></thead>\n                  <tbody>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Standard</td><td style="padding:6px;border:1px solid #ccc;">0.023</td><td style="padding:6px;border:1px solid #ccc;">—</td><td style="padding:6px;border:1px solid #ccc;">—</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Intelligent-Tiering</td><td style="padding:6px;border:1px solid #ccc;">0.023→0.0125</td><td style="padding:6px;border:1px solid #ccc;">—</td><td style="padding:6px;border:1px solid #ccc;">30 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Standard-IA</td><td style="padding:6px;border:1px solid #ccc;">0.0125</td><td style="padding:6px;border:1px solid #ccc;">0.01/GB</td><td style="padding:6px;border:1px solid #ccc;">30 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Instant</td><td style="padding:6px;border:1px solid #ccc;">0.004</td><td style="padding:6px;border:1px solid #ccc;">0.03/GB</td><td style="padding:6px;border:1px solid #ccc;">90 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Deep Archive</td><td style="padding:6px;border:1px solid #ccc;">0.00099</td><td style="padding:6px;border:1px solid #ccc;">0.02–0.03/GB</td><td style="padding:6px;border:1px solid #ccc;">180 d</td></tr>\n                  </tbody>\n                </table>\n              </li>\n              <li><strong>Cost Calculator:</strong> Use <a href="https://calculator.aws">AWS Pricing Calculator</a> to model transitions.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. S3 Storage Lens</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Dashboard:</strong> Organization-wide visibility across buckets, regions, accounts.</li>\n              <li><strong>Metrics:</strong> storage bytes, object count, % in each class, cost trends, encryption %, replication lag.</li>\n              <li><strong>Free vs Advanced:</strong>\n                <ul>\n                  <li>Free tier: 15 metrics, 7-day history.</li>\n                  <li>Advanced: 35+ metrics, 15-month history, CloudWatch publishing.</li>\n                </ul>\n              </li>\n              <li><strong>CLI Quick Start:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3control put-storage-lens-configuration \\\n  --config-id MyLens \\\n  --account-id 123456789012 \\\n  --storage-lens-configuration file://lens.json\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Intelligent-Tiering & Lifecycle Tuning</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Intelligent-Tiering:</strong>\n                <ul>\n                  <li>Auto-moves objects &gt;128 KB between frequent/infrequent/archive tiers.</li>\n                  <li>No retrieval fees; small monthly monitoring charge per object.</li>\n                  <li>Best for unknown or fluctuating access patterns.</li>\n                </ul>\n              </li>\n              <li><strong>Lifecycle Rules (JSON)</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n "Rules":[{\n  "ID":"ArchiveOld",\n  "Status":"Enabled",\n  "Transitions":[\n   {"Days":30,"StorageClass":"STANDARD_IA"},\n   {"Days":90,"StorageClass":"GLACIER"},\n   {"Days":365,"StorageClass":"DEEP_ARCHIVE"}\n  ],\n  "NoncurrentVersionExpiration":{"NoncurrentDays":30}\n }]\n}\n                </pre>\n              </li>\n              <li><strong>Filter by Tag / Prefix:</strong> Target subsets to avoid premature archiving.</li>\n              <li><strong>Abort Incomplete Multipart Uploads:</strong> Prevent hidden charges.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3api put-bucket-lifecycle-configuration --bucket b --lifecycle-configuration file://abort-mpu.json\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Cost Explorer Integration</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Filter Dimensions:</strong> Service=Amazon S3, Usage Type (e.g., <code>TimedStorage-INTELLIGENT_TIERING</code>), Region, Account.</li>\n              <li><strong>Graphs:</strong>\n                <ul>\n                  <li>Daily spend by storage class.</li>\n                  <li>Data-transfer out vs requests.</li>\n                </ul>\n              </li>\n              <li><strong>Cost Anomaly Detection:</strong> Create monitors scoped to S3 to alert on unexpected spikes.</li>\n              <li><strong>Budgets:</strong> Set monthly or daily budgets with email/SNS alerts.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws budgets create-budget --account-id 123456789012 --budget file://budget.json\n                </pre>\n              </li>\n            </ul>\n          </div>',
+            examples: [
+              '// Enable Storage Lens (Advanced)\naws s3control put-storage-lens-configuration --config-id MyOrgLens \\\n  --account-id 123456789012 \\\n  --storage-lens-configuration \'{"Id":"MyOrgLens","AwsOrg":{"Arn":"arn:aws:organizations::123456789012:organization/o-example"},"Include":{"Buckets":["arn:aws:s3:::*"]},"StorageLensGroupLevel":{"SelectionCriteria":{"Include":{"StorageLensGroup":"AllBuckets"}}},"DataExport":{"S3BucketDestination":{"Format":"CSV","OutputSchemaVersion":"V_1","AccountId":"123456789012","Arn":"arn:aws:s3:::lens-reports","Prefix":"lens"},"CloudWatchMetrics":{"IsEnabled":true}}}\' \\\n  --tags Key=Environment,Value=Prod',
+              '// Lifecycle rule JSON (save as lifecycle.json)\n{\n "Rules":[{\n  "ID":"CostOpt",\n  "Status":"Enabled",\n  "Transitions":[\n   {"Days":30,"StorageClass":"STANDARD_IA"},\n   {"Days":90,"StorageClass":"INTELLIGENT_TIERING"},\n   {"Days":180,"StorageClass":"GLACIER"}\n  ],\n  "AbortIncompleteMultipartUpload":{"DaysAfterInitiation":7}\n }]\n}',
+              "aws s3api put-bucket-lifecycle-configuration --bucket mydata --lifecycle-configuration file://lifecycle.json",
+              '// View cost by storage class in Cost Explorer\naws ce get-cost-and-usage \\\n  --time-period Start=2024-07-01,End=2024-07-31 \\\n  --granularity DAILY \\\n  --metrics "BlendedCost" \\\n  --filter \'{"Dimensions":{"Key":"SERVICE","Values":["Amazon S3"]},"And":[{"Dimensions":{"Key":"USAGE_TYPE","Values":["TimedStorage-INTELLIGENT_TIERING","TimedStorage-STANDARD_IA"]}}]}\'',
+              '// Abort incomplete MPU rule (abort-mpu.json)\n{\n "Rules":[{\n  "ID":"AbortMPU",\n  "Status":"Enabled",\n  "AbortIncompleteMultipartUpload":{"DaysAfterInitiation":1}\n }]\n}',
+              "aws s3api put-bucket-lifecycle-configuration --bucket uploads --lifecycle-configuration file://abort-mpu.json",
+            ],
+            questions: [
+              {
+                question:
+                  "Which AWS service provides organization-level S3 metrics and cost trends?",
+                solution: "<p>S3 Storage Lens.</p>",
+              },
+              {
+                question:
+                  "How do you automatically move objects older than 90 days to Glacier?",
+                solution:
+                  "<p>Create a lifecycle rule with a transition to Glacier after 90 days.</p>",
+              },
+              {
+                question:
+                  "What is the minimum storage duration charge for Glacier Deep Archive?",
+                solution:
+                  "<p>180 days (early deletion incurs prorated cost).</p>",
+              },
+              {
+                question:
+                  "Which CLI command aborts incomplete multipart uploads older than 7 days?",
+                solution:
+                  "<code>aws s3api put-bucket-lifecycle-configuration --bucket BUCKET --lifecycle-configuration file://abort-mpu.json</code> containing <code>AbortIncompleteMultipartUpload</code>.</p>",
+              },
+              {
+                question:
+                  "How can you visualize daily S3 spend by storage class?",
+                solution:
+                  "<p>Use AWS Cost Explorer with Service=Amazon S3 and group by Usage Type.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="S3 Storage Lens" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-lens.html</url>',
+              '<url id="" type="url" status="" title="AWS Cost Explorer S3 Filtering" wc="">https://docs.aws.amazon.com/cost-management/latest/userguide/ce-filtering.html</url>',
+              '<url id="" type="url" status="" title="Lifecycle Configuration Examples" wc="">https://docs.aws.amazon.com/AmazonS3/latest/userguide/lifecycle-configuration-examples.html</url>',
+            ],
+          },
+          {
+            topic: "Data Consistency & Integrity",
+            tags: ["consistency", "checksums", "retry-strategies", "integrity"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    S3 now guarantees <strong>strong read-after-write consistency</strong> for all operations (since Dec 2020).  Combine this with built-in checksums and client-side retry logic to achieve end-to-end data integrity—even at petabyte scale.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Strong Consistency Model (Post-2020 Update)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>PUT/DELETE of objects:</strong> Immediately consistent across all regions.</li>
+    <li><strong>LIST:</strong> Consistent after modification.</li>
+    <li><strong>Overwrites:</strong> Last-writer-wins; no stale reads.</li>
+    <li><strong>Limitations:</strong> Lifecycle transitions and replication still eventual.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Checksums (Integrity Verification)
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Checksum</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">CLI / SDK Flag</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Use-Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">MD5 (legacy)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">ETag</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Basic integrity</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">SHA-256</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><code>--checksum-algorithm SHA256</code></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">FIPS-compliant</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">CRC32 / CRC32C</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><code>--checksum-algorithm CRC32</code></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Fast hardware-accelerated</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Upload with SHA-256 integrity
+aws s3 cp ./data.bin s3://bucket/data.bin \
+  --checksum-algorithm SHA256
+
+# Verify on download
+aws s3api head-object --bucket bucket --key data.bin \
+  --query 'ChecksumSHA256' --output text
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Retry Strategies & Idempotency
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>SDKs:</strong> Built-in exponential backoff (max 8 retries).</li>
+    <li><strong>CLI:</strong> <code>--cli-read-timeout</code> and <code>--cli-connect-timeout</code>.</li>
+    <li><strong>Multipart resume:</strong> Use upload-id to continue after failure.</li>
+    <li><strong>Idempotent keys:</strong> Use deterministic object keys or <code>x-amz-server-side-encryption-customer-key-MD5</code>.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Boto3 retry config
+from botocore.config import Config
+s3 = boto3.client('s3', config=Config(
+    retries={'max_attempts': 10, 'mode': 'adaptive'}
+))
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    End-to-End Integrity Workflow
+  </h4>
+  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>Upload with SHA-256 checksum.</li>
+    <li>Store checksum in object metadata or DynamoDB.</li>
+    <li>Download, recompute hash, and compare.</li>
+    <li>Fail and retry on mismatch.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Reference
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Check if object exists (strong consistency)
+aws s3api head-object --bucket bucket --key data.bin
+
+# List after upload (immediately consistent)
+aws s3 ls s3://bucket/data.bin
+</code></pre>
+  </div>
+</div>`,
+            examples: [
+              "// Upload with CRC32C checksum\naws s3 cp ./large.tar s3://bucket/large.tar --checksum-algorithm CRC32C",
+              "// Resume multipart upload after failure\nUPLOAD_ID=$(aws s3api list-multipart-uploads --bucket bucket --query 'Uploads[?Key==`large.tar`].UploadId' --output text)\naws s3api complete-multipart-upload --bucket bucket --key large.tar --upload-id $UPLOAD_ID --multipart-upload file://parts.json",
+              "// Download range and verify SHA-256\naws s3api get-object --bucket bucket --key data.bin --range bytes=0-1048575 part.bin --checksum-mode ENABLED",
+              "// Python integrity check\nimport hashlib, boto3\ns3 = boto3.client('s3')\ns3.download_file('bucket','data.bin','data.bin')\nprint(hashlib.sha256(open('data.bin','rb').read()).hexdigest())",
+            ],
+            questions: [
+              {
+                question: "Is S3 read-after-write consistent?",
+                solution:
+                  "<p>Yes—since December 2020 all PUT/DELETE/LIST operations are strongly consistent across all regions.</p>",
+              },
+              {
+                question: "Which checksum should I choose?",
+                solution:
+                  "<p>CRC32C for speed (hardware-accelerated), SHA-256 for FIPS compliance.</p>",
+              },
+              {
+                question: "How do I resume a failed multipart upload?",
+                solution:
+                  "<p>Query <code>list-multipart-uploads</code> for the upload-id, then continue with remaining parts and call <code>complete-multipart-upload</code>.</p>",
+              },
+              {
+                question: "Do I need client-side retries with SDKs?",
+                solution:
+                  "<p>SDKs include exponential backoff; tune <code>max_attempts</code> for your SLA.</p>",
+              },
+              {
+                question: "Can checksums prevent silent corruption?",
+                solution:
+                  "<p>Yes—S3 validates on upload; client re-validates on download.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Automation & Infrastructure-as-Code",
+            tags: [
+              "iac",
+              "cloudformation",
+              "terraform",
+              "lambda",
+              "automation",
+            ],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. S3 with CloudFormation</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Bucket + Policy + Versioning</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nAWSTemplateFormatVersion: \'2010-09-09\'\nResources:\n  MyBucket:\n    Type: AWS::S3::Bucket\n    Properties:\n      BucketName: !Sub "${AWS::AccountId}-data-lake"\n      VersioningConfiguration:\n        Status: Enabled\n      LifecycleConfiguration:\n        Rules:\n          - Id: ToGlacier\n            Status: Enabled\n            Transitions:\n              - TransitionInDays: 90\n                StorageClass: GLACIER\n  BucketPolicy:\n    Type: AWS::S3::BucketPolicy\n    Properties:\n      Bucket: !Ref MyBucket\n      PolicyDocument:\n        Statement:\n          - Effect: Allow\n            Principal:\n              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"\n            Action: "s3:GetObject"\n            Resource: !Sub "${MyBucket}/*"\n                </pre>\n              </li>\n              <li><strong>Deploy:</strong> <code>aws cloudformation deploy --template-file bucket.yml --stack-name s3-stack</code></li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. S3 with Terraform</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Reusable Module</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_s3_bucket" "static_site" {\n  bucket = var.bucket_name\n}\nresource "aws_s3_bucket_versioning" "v" {\n  bucket = aws_s3_bucket.static_site.id\n  versioning_configuration {\n    status = "Enabled"\n  }\n}\nresource "aws_s3_bucket_lifecycle_configuration" "lc" {\n  bucket = aws_s3_bucket.static_site.id\n  rule {\n    id     = "archive"\n    status = "Enabled"\n    transition {\n      days          = 30\n      storage_class = "STANDARD_IA"\n    }\n  }\n}\nresource "aws_s3_bucket_policy" "policy" {\n  bucket = aws_s3_bucket.static_site.id\n  policy = jsonencode({\n    Version = "2012-10-17"\n    Statement = [{\n      Effect    = "Allow"\n      Principal = "*"\n      Action    = "s3:GetObject"\n      Resource  = "${aws_s3_bucket.static_site.arn}/*"\n    }]\n  })\n}\n                </pre>\n              </li>\n              <li><strong>Usage:</strong> <code>terraform init && terraform apply -var="bucket_name=my-tf-bucket"</code></li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Automating Bucket Creation & Policy Setup</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>CI/CD Pipelines</strong><br/>\n                GitHub Actions example:\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n- name: Deploy S3 via Terraform\n  uses: hashicorp/setup-terraform@v3\n  with:\n    cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}\n- run: terraform apply -auto-approve -var="bucket_name=${{ github.event.inputs.bucket }}"\n                </pre>\n              </li>\n              <li><strong>AWS Service Catalog</strong><br/>\n                Publish standardized S3 products with guardrails (encryption, tagging, logging).</li>\n              <li><strong>AWS Config Rules</strong><br/>\n                Continuous compliance:\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_config_config_rule" "s3_bucket_logging_enabled" {\n  name = "s3-bucket-logging-enabled"\n  source {\n    owner             = "AWS"\n    source_identifier = "S3_BUCKET_LOGGING_ENABLED"\n  }\n}\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Lambda-Backed Automation</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Use Cases:</strong>\n                <ul>\n                  <li>Auto-tag uploads (department, owner).</li>\n                  <li>Virus scanning with ClamAV.</li>\n                  <li>Thumbnail generation on image uploads.</li>\n                  <li>Immediate archival to Glacier based on prefix.</li>\n                </ul>\n              </li>\n              <li><strong>EventBridge Trigger</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_lambda_function" "auto_tag" {\n  filename         = "lambda.zip"\n  function_name    = "s3-auto-tag"\n  role             = aws_iam_role.lambda_role.arn\n  handler          = "index.handler"\n  runtime          = "python3.11"\n}\nresource "aws_s3_bucket_notification" "notify" {\n  bucket = aws_s3_bucket.static_site.id\n  lambda_function {\n    lambda_function_arn = aws_lambda_function.auto_tag.arn\n    events              = ["s3:ObjectCreated:*"]\n    filter_prefix       = "uploads/"\n  }\n}\n                </pre>\n              </li>\n              <li><strong>Lambda Code (Python)</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nimport boto3, os, urllib.parse\ndef handler(event, context):\n    s3 = boto3.client(\'s3\')\n    for rec in event[\'Records\']:\n        bucket = rec[\'s3\'][\'bucket\'][\'name\']\n        key    = urllib.parse.unquote_plus(rec[\'s3\'][\'object\'][\'key\'])\n        s3.put_object_tagging(\n            Bucket=bucket,\n            Key=key,\n            Tagging={\'TagSet\':[{\'Key\':\'auto-tagged\',\'Value\':\'true\'}]}\n        )\n                </pre>\n              </li>\n              <li><strong>Serverless Application Repository (SAR)</strong><br/>\n                Deploy pre-built apps like <code>s3-virusscan</code> by AWS.</li>\n            </ul>\n          </div>',
+            examples: [
+              "// Deploy with CloudFormation\naws cloudformation deploy --template-file s3-stack.yml --stack-name my-s3-stack --parameter-overrides BucketName=my-cfn-bucket",
+              '// Terraform plan & apply\nterraform plan -var="bucket_name=my-tf-bucket"\nterraform apply -auto-approve',
+              "// Lambda auto-tag via AWS CLI (create function)\nzip function.zip index.py\naws lambda create-function --function-name s3-auto-tag --runtime python3.11 --role arn:aws:iam::123456789012:role/lambda-s3-role --handler index.handler --zip-file fileb://function.zip --timeout 30",
+              "// Attach event via CLI\naws s3api put-bucket-notification-configuration --bucket mybucket --notification-configuration file://notification.json",
+              '// notification.json\n{\n "LambdaFunctionConfigurations":[{\n  "LambdaFunctionArn":"arn:aws:lambda:us-east-1:123456789012:function:s3-auto-tag",\n  "Events":["s3:ObjectCreated:*"],\n  "Filter":{"Key":{"FilterRules":[{"Name":"prefix","Value":"uploads/"}]}}\n }]\n}',
+            ],
+            questions: [
+              {
+                question:
+                  "Which CloudFormation resource type creates an S3 bucket?",
+                solution: "<p><code>AWS::S3::Bucket</code></p>",
+              },
+              {
+                question:
+                  "What IAM permission must a Lambda function have to tag objects in an S3 bucket?",
+                solution:
+                  "<p><code>s3:PutObjectTagging</code> (plus <code>s3:GetObject</code> if reading metadata).</p>",
+              },
+              {
+                question:
+                  "How do you trigger Lambda on every object upload to a specific prefix?",
+                solution:
+                  "<p>Use S3 Event Notifications with a <code>filter-prefix</code> in the bucket notification configuration.</p>",
+              },
+              {
+                question:
+                  "Why prefer Terraform modules over raw CloudFormation templates?",
+                solution:
+                  "<p>Modules are reusable, versioned, and integrate with state backends for multi-environment deployments.</p>",
+              },
+              {
+                question:
+                  "What AWS service enforces bucket policies as code after creation?",
+                solution: "<p>AWS Config Rules or AWS Service Catalog.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="AWS CloudFormation S3 Resource Docs" wc="">https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-bucket.html</url>',
+              '<url id="" type="url" status="" title="Terraform AWS S3 Provider" wc="">https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket</url>',
+              '<url id="" type="url" status="" title="Lambda S3 Event Tutorial" wc="">https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example.html</url>',
+            ],
+          },
+          {
+            topic: "Monitoring & Auditing",
+            tags: [
+              "access-logs",
+              "cloudtrail",
+              "config-rules",
+              "guardduty",
+              "compliance",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Continuous visibility into <em>who</em> accessed <em>what</em> in S3—and <em>when</em>—is the foundation of security, compliance, and cost optimization.  Use layered tools: granular access logs, CloudTrail events, AWS Config rules, and GuardDuty threat detection.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. S3 Access Logs
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>What:</strong> Line-by-line logs of every REST request (GET, PUT, DELETE, etc.).</li>
+    <li><strong>Destination:</strong> Another S3 bucket (log-bucket) in the same or different account.</li>
+    <li><strong>Latency:</strong> Usually delivered within minutes; can be analyzed with Athena or CloudWatch Logs via Kinesis Firehose.</li>
+    <li><strong>Fields:</strong> Requester, IP, key, operation, status, bytes, user-agent.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Enable server-access logging
+aws s3api put-bucket-logging --bucket my-bucket \
+  --bucket-logging-status '{
+    "LoggingEnabled": {
+      "TargetBucket": "log-bucket",
+      "TargetPrefix": "s3-access-logs/"
+    }
+  }'
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. CloudTrail Integration
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Management events:</strong> Bucket creation, policy changes, encryption settings.</li>
+    <li><strong>Data events:</strong> Object-level API calls (PUT, GET, DELETE) — must be explicitly enabled.</li>
+    <li><strong>Storage:</strong> Logs delivered to S3 or CloudWatch Logs; searchable with Athena or CloudTrail Lake.</li>
+    <li><strong>Retention:</strong> 90 days free; configure S3 lifecycle to archive older logs.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Enable CloudTrail data events for bucket
+aws cloudtrail create-trail --name s3-trail \
+  --s3-bucket-name log-bucket \
+  --include-global-service-events false \
+  --event-selectors '[
+    {
+      "ReadWriteType": "All",
+      "IncludeManagementEvents": true,
+      "DataResources": [
+        {"Type": "AWS::S3::Object", "Values": ["arn:aws:s3:::my-bucket/*"]}
+      ]
+    }
+  ]'
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. AWS Config Rules for S3 Compliance
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Managed rules:</strong>
+      <ul style="margin-left: 1.5rem;">
+        <li><code>s3-bucket-public-read-prohibited</code></li>
+        <li><code>s3-bucket-server-side-encryption-enabled</code></li>
+        <li><code>s3-bucket-logging-enabled</code></li>
+        <li><code>s3-bucket-versioning-enabled</code></li>
+      </ul>
+    </li>
+    <li><strong>Custom rules:</strong> AWS Lambda functions evaluating bucket tags, encryption keys, ACLs.</li>
+    <li><strong>Remediation:</strong> Auto-remediate non-compliant buckets with SSM Automation or Lambda.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Deploy managed rule via CLI
+aws configservice put-config-rule \
+  --config-rule-name s3-encryption-rule \
+  --source '{"Owner":"AWS","SourceIdentifier":"S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"}'
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Amazon GuardDuty for S3
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Threat detection:</strong> Anomalous API calls, suspicious data access, crypto-mining uploads.</li>
+    <li><strong>Findings:</strong> Delivered to GuardDuty console, EventBridge, or Security Hub.</li>
+    <li><strong>Enrichment:</strong> Includes IAM user, IP geolocation, and threat-intel context.</li>
+    <li><strong>Zero-cost turn-on:</strong> No agents; simply enable GuardDuty.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Enable GuardDuty in account
+aws guardduty create-detector --enable
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Querying & Visualization
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Athena:</strong> SQL over CloudTrail or access logs (Parquet conversion).</li>
+    <li><strong>CloudWatch Insights:</strong> Filter CloudTrail logs in near real-time.</li>
+    <li><strong>QuickSight:</strong> Dashboards on access patterns, top IPs, error rates.</li>
+    <li><strong>Security Hub:</strong> Central view of Config & GuardDuty findings.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    End-to-End Monitoring Blueprint
+  </h4>
+  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>Enable CloudTrail data events for all S3 buckets.</li>
+    <li>Enable server-access logs for granular request details.</li>
+    <li>Deploy AWS Config rules for encryption, logging, versioning, public access.</li>
+    <li>Turn on GuardDuty to detect threats.</li>
+    <li>Stream findings to Security Hub & set up Slack/Teams alerts via EventBridge.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Commands Cheat-Sheet
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# View CloudTrail logs via Athena
+aws athena start-query-execution \
+  --query-string "SELECT * FROM cloudtrail_logs WHERE eventName='PutObject' LIMIT 10;" \
+  --work-group primary
+
+# Check Config compliance
+aws configservice describe-compliance-by-config-rule --config-rule-names s3-bucket-public-read-prohibited
+</code></pre>
+  </div>
+</div>`,
+            examples: [
+              '// Enable server-access logging\naws s3api put-bucket-logging --bucket prod-bucket --bucket-logging-status \'{"LoggingEnabled":{"TargetBucket":"log-bucket","TargetPrefix":"prod-access/"}}\'',
+              '// Turn on CloudTrail data events for entire bucket\naws cloudtrail update-trail --name my-trail --event-selectors \'[{"ReadWriteType": "All", "DataResources": [{"Type": "AWS::S3::Object", "Values": ["arn:aws:s3:::prod-bucket/*"]}]}]\'',
+              '// Deploy AWS Config rule: require encryption\naws configservice put-config-rule --config-rule-name require-sse-kms --source \'{"Owner":"AWS","SourceIdentifier":"S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"}\'',
+              "// Enable GuardDuty globally\naws guardduty create-detector --enable",
+              "// Query top 10 IPs from access logs with Athena\naws athena start-query-execution --query-string \"SELECT remoteip, count(*) FROM log-bucket.prod-access WHERE date='2024/08/06' GROUP BY remoteip ORDER BY 2 DESC LIMIT 10;\" --work-group primary",
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between CloudTrail data events and S3 access logs?",
+                solution:
+                  "<p>CloudTrail records API-level events (who did what via AWS SDK/CLI); S3 access logs capture every HTTP request including anonymous and signed URLs.  Use both for complete visibility.</p>",
+              },
+              {
+                question: "How often are S3 access logs delivered?",
+                solution:
+                  "<p>Usually within minutes; expect up to 30–60 minutes during high traffic.  Logs are batched and delivered to the target bucket.</p>",
+              },
+              {
+                question: "Can GuardDuty detect data exfiltration from S3?",
+                solution:
+                  "<p>Yes—GuardDuty flags anomalous API calls, unusual download volumes, and suspicious IPs accessing buckets.</p>",
+              },
+              {
+                question: "Do Config rules cost money?",
+                solution:
+                  "<p>Yes—per evaluation and per resource.  Budget for ~$0.003 per evaluation; use scoping to limit to critical buckets.</p>",
+              },
+              {
+                question:
+                  "How do I alert on non-compliant buckets in real time?",
+                solution:
+                  "<p>Route Config rule findings to EventBridge → SNS or Lambda for Slack/Teams/PagerDuty alerts.</p>",
               },
             ],
           },

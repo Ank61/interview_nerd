@@ -1,37 +1,45 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const conceptSchema = new mongoose.Schema({
   topic: {
     type: String,
     required: true,
   },
-  tags: [{
-    type: String,
-  }],
+  tags: [
+    {
+      type: String,
+    },
+  ],
   explanation: {
     type: String,
     required: true,
   },
-  examples: [{
-    type: String,
-  }],
-  questions: [{
-    question: {
+  examples: [
+    {
       type: String,
-      required: true,
     },
-    solution: {
+  ],
+  questions: [
+    {
+      question: {
+        type: String,
+        required: true,
+      },
+      solution: {
+        type: String,
+        default: "",
+      },
+      code: {
+        type: String,
+        default: "",
+      },
+    },
+  ],
+  links: [
+    {
       type: String,
-      default: '',
     },
-    code: {
-      type: String,
-      default: '',
-    },
-  }],
-  links: [{
-    type: String,
-  }],
+  ],
 });
 
 const typeSchema = new mongoose.Schema({
@@ -46,67 +54,71 @@ const typeSchema = new mongoose.Schema({
   concepts: [conceptSchema],
 });
 
-const prepareDataSchema = new mongoose.Schema({
-  category: {
-    type: String,
-    required: true,
-    enum: ['Javascript', 'React', 'Node', 'Next.js', 'Next', 'TypeScript', 'Typescript'],
-  },
-  themeBgColor: {
-    type: String,
-    required: true,
-  },
-  textColor: {
-    type: String,
-    required: true,
-  },
-  topicColor: {
-    type: String,
-    required: true,
-  },
-  lightColor: {
-    type: String,
-    required: true,
-  },
-  type: [typeSchema],
-  // Statistics
-  stats: {
-    totalViews: {
-      type: Number,
-      default: 0,
+const prepareDataSchema = new mongoose.Schema(
+  {
+    category: {
+      type: String,
+      required: true,
     },
-    totalTimeSpent: {
-      type: Number,
-      default: 0, // in minutes
+    themeBgColor: {
+      type: String,
+      required: true,
     },
-    averageRating: {
-      type: Number,
-      default: 0,
-      min: 0,
-      max: 5,
+    textColor: {
+      type: String,
+      required: true,
     },
-    totalRatings: {
-      type: Number,
-      default: 0,
+    topicColor: {
+      type: String,
+      required: true,
+    },
+    lightColor: {
+      type: String,
+      required: true,
+    },
+    type: [typeSchema],
+    // Statistics
+    stats: {
+      totalViews: {
+        type: Number,
+        default: 0,
+      },
+      totalTimeSpent: {
+        type: Number,
+        default: 0, // in minutes
+      },
+      averageRating: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+      },
+      totalRatings: {
+        type: Number,
+        default: 0,
+      },
+    },
+    // Metadata
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
     },
   },
-  // Metadata
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-}, {
-  timestamps: true
-});
+  {
+    timestamps: true,
+  }
+);
 
 // Indexes for faster queries
 prepareDataSchema.index({ category: 1 });
-prepareDataSchema.index({ 'type.label': 1 });
+prepareDataSchema.index({ "type.label": 1 });
 
-const PrepareData = mongoose.models.PrepareData || mongoose.model('PrepareData', prepareDataSchema);
+const PrepareData =
+  mongoose.models.PrepareData ||
+  mongoose.model("PrepareData", prepareDataSchema);
 
-export default PrepareData; 
+export default PrepareData;

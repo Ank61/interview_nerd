@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const tagSchema = new mongoose.Schema({
   name: {
@@ -7,7 +7,7 @@ const tagSchema = new mongoose.Schema({
   },
   link: {
     type: String,
-    default: '',
+    default: "",
   },
 });
 
@@ -18,69 +18,72 @@ const questionSchema = new mongoose.Schema({
   },
   solution: {
     type: String,
-    default: '',
+    default: "",
   },
   tags: [tagSchema],
 });
 
-const interviewQuestionSchema = new mongoose.Schema({
-  topic: {
-    type: String,
-    required: true,
-    enum: ['Javascript', 'React', 'Node', 'Next.js', 'Next', 'TypeScript', 'Typescript'],
-  },
-  categories: {
-    type: String,
-    required: true,
-    enum: ['Junior', 'Mid', 'Senior'],
-  },
-  tags: [tagSchema],
-  prepareLink: {
-    type: String,
-    default: '',
-  },
-  externallinks: [{
-    type: String,
-  }],
-  questions: [questionSchema],
-  // Statistics
-  stats: {
-    totalAttempts: {
-      type: Number,
-      default: 0,
-    },
-    correctAnswers: {
-      type: Number,
-      default: 0,
-    },
-    averageScore: {
-      type: Number,
-      default: 0,
-    },
-    difficulty: {
+const interviewQuestionSchema = new mongoose.Schema(
+  {
+    topic: {
       type: String,
-      enum: ['Easy', 'Medium', 'Hard'],
-      default: 'Medium',
+      required: true,
+    },
+    categories: {
+      type: String,
+      required: true,
+    },
+    tags: [tagSchema],
+    prepareLink: {
+      type: String,
+      default: "",
+    },
+    externallinks: [
+      {
+        type: String,
+      },
+    ],
+    questions: [questionSchema],
+    // Statistics
+    stats: {
+      totalAttempts: {
+        type: Number,
+        default: 0,
+      },
+      correctAnswers: {
+        type: Number,
+        default: 0,
+      },
+      averageScore: {
+        type: Number,
+        default: 0,
+      },
+      difficulty: {
+        type: String,
+        default: "Medium",
+      },
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+    },
+    updatedAt: {
+      type: Date,
+      default: Date.now,
     },
   },
-  // Metadata
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now,
-  },
-}, {
-  timestamps: true
-});
+  {
+    timestamps: true,
+  }
+);
 
 // Indexes for faster queries
 interviewQuestionSchema.index({ topic: 1, categories: 1 });
-interviewQuestionSchema.index({ 'tags.name': 1 });
-interviewQuestionSchema.index({ 'stats.difficulty': 1 });
+interviewQuestionSchema.index({ "tags.name": 1 });
+interviewQuestionSchema.index({ "stats.difficulty": 1 });
 
-const InterviewQuestion = mongoose.models.InterviewQuestion || mongoose.model('InterviewQuestion', interviewQuestionSchema);
+const InterviewQuestion =
+  mongoose.models.InterviewQuestion ||
+  mongoose.model("InterviewQuestion", interviewQuestionSchema);
 
-export default InterviewQuestion; 
+export default InterviewQuestion;

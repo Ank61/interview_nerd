@@ -507,7 +507,7 @@ export default function BasicTabs({
       .filter((level) => level.concepts.length > 0);
   }, [selectedTopicData, searchQuery]);
   return (
-    <Box className="w-full md:w-7/12 lg:w-6/12 mx-auto">
+    <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto">
       <Header topic={topic} indexSelected={indexSelected} />
       <Box sx={{ width: "auto" }}>
         <Box>
@@ -657,7 +657,7 @@ export default function BasicTabs({
                     : ""
                 }`}
               >
-                Beginner Topics
+                Beginner
               </TabsTrigger>
               <TabsTrigger
                 value="Advance"
@@ -676,12 +676,12 @@ export default function BasicTabs({
                     : ""
                 }`}
               >
-                Advance Topics
+                Advance
               </TabsTrigger>
             </TabsList>
             <TabsContent value="Beginner" className="mt-5">
               <Table>
-                <TableHeader>
+                {/* <TableHeader>
                   <TableRow>
                     <TableHead
                       className={`px-0 ${
@@ -737,7 +737,7 @@ export default function BasicTabs({
                       </TableHead>
                     )}
                   </TableRow>
-                </TableHeader>
+                </TableHeader> */}
                 <TableBody>
                   {filteredPrepareData.length > 0 &&
                   filteredPrepareData[0]?.concepts?.length > 0 ? (
@@ -754,7 +754,7 @@ export default function BasicTabs({
                               : topic === "Typescript"
                               ? "text-Typescript-text "
                               : topic === "AWS S3"
-                              ? "text-AWS-text "
+                              ? "text-gray-900 "
                               : ""
                           } md:pl-4`}
                         >
@@ -976,7 +976,7 @@ export default function BasicTabs({
             </TabsContent>
             <TabsContent value="Advance" className="mt-4">
               <Table>
-                <TableHeader>
+                {/* <TableHeader>
                   <TableRow>
                     <TableHead
                       className={`px-0  ${
@@ -1015,8 +1015,8 @@ export default function BasicTabs({
                     >
                       Status
                     </TableHead> */}
-                  </TableRow>
-                </TableHeader>
+                {/* </TableRow>
+                </TableHeader>  */}
                 <TableBody>
                   {filteredPrepareData.length > 1 &&
                   filteredPrepareData[1]?.concepts?.length > 0 ? (
@@ -1033,7 +1033,7 @@ export default function BasicTabs({
                               : topic === "Typescript"
                               ? "text-Typescript-text"
                               : topic === "AWS S3"
-                              ? "text-AWS-text"
+                              ? "text-gray-900"
                               : ""
                           } md:pl-4`}
                         >
