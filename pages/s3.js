@@ -4,7 +4,7 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import { motion, AnimatePresence } from "framer-motion";
 import Box from "@mui/material/Box";
-import { ArrowLeft, Hash, X, BookOpen, ChevronDown, ChevronUp, SearchIcon } from "lucide-react";
+import { ArrowLeft, Hash, BookOpen, ChevronDown, ChevronUp, SearchIcon, Star, Clock, Target, Zap, BookOpenCheck, CheckCircle } from "lucide-react";
 import { useRouter } from "next/router";
 import {
   Table,
@@ -16,8 +16,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
-import { BookOpenCheck } from "lucide-react";
-import { Code } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from "next-auth/react";
 import { interviewData } from "@/data/interviewData";
@@ -30,6 +28,10 @@ import {
 import { prepareData } from "@/data/prepareData";
 import { Typography } from "@mui/material";
 import Header from "@/components/header";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -68,67 +70,130 @@ function AccordionQuestion({ question, topic, index }) {
   };
 
   return (
-    <div className="border border-gray-200 rounded-lg mb-4">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3, delay: index * 0.1 }}
+      className="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden"
+    >
       <button
         onClick={toggleAccordion}
-        className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+        className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gradient-to-r hover:from-blue-50 hover:to-indigo-50 transition-all duration-200"
       >
-        <span className="font-medium text-gray-900">
-          {index + 1}. {question.question}
-        </span>
-        {isOpen ? (
-          <ChevronUp className="w-5 h-5 text-gray-500" />
-        ) : (
-          <ChevronDown className="w-5 h-5 text-gray-500" />
-        )}
-      </button>
-      {isOpen && (
-        <div className="px-4 pb-4">
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-r-lg">
-            <h6 className="font-semibold text-blue-900 mb-2">Answer:</h6>
-            <p className="text-blue-800">{question.solution}</p>
+        <div className="flex items-start gap-4">
+          <div className="flex-shrink-0 w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+            {index + 1}
+          </div>
+          <div className="flex-1">
+            <h3 className="font-semibold text-gray-900 text-left leading-relaxed">
+              {question.question}
+            </h3>
+            <div className="flex items-center gap-3 mt-2">
+              <Badge variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200">
+                <Target className="w-3 h-3 mr-1" />
+                {topic}
+              </Badge>
+              <Badge variant="outline" className="text-xs">
+                <Clock className="w-3 h-3 mr-1" />
+                Interview Q
+              </Badge>
+            </div>
           </div>
         </div>
-      )}
-    </div>
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown className="w-5 h-5 text-gray-500" />
+        </motion.div>
+      </button>
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="overflow-hidden"
+          >
+            <div className="px-6 pb-6">
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-6 rounded-r-xl">
+                <div className="flex items-center gap-2 mb-3">
+                  <CheckCircle className="w-5 h-5 text-blue-600" />
+                  <h4 className="font-semibold text-blue-900">Answer</h4>
+                </div>
+                <p className="text-blue-800 leading-relaxed">{question.solution}</p>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
-function QuestionModal({ isOpen, onClose, question, topic }) {
-  if (!isOpen || !question) return null;
+
+
+function TopicCard({ concept, isLearned, onToggleLearned, topicName }) {
+  const router = useRouter();
+  
+  const handleViewDetails = () => {
+    // Navigate to the learn page with the format /learn/[category]/[topic]
+    router.push(`/learn/${topicName}/${concept.topic}`);
+  };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-y-auto">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-gray-900">Question Details</h2>
-          <button
-            onClick={onClose}
-            className="text-gray-500 hover:text-gray-700"
-          >
-            <X className="w-6 h-6" />
-          </button>
-        </div>
-        <div className="space-y-4">
-          <div>
-            <h3 className="font-semibold text-gray-900 mb-2">Question:</h3>
-            <p className="text-gray-700">{question.question}</p>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-200 hover:border-blue-300"
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
+            <BookOpen className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="font-semibold text-gray-900 mb-2">Answer:</h3>
-            <p className="text-gray-700">{question.solution}</p>
+            <h3 className="font-semibold text-gray-900 text-lg">{concept.topic}</h3>
+            <p className="text-sm text-gray-600">{topicName}</p>
           </div>
         </div>
+        {isLearned && (
+          <Badge className="bg-green-100 text-green-700 hover:bg-green-200">
+            <CheckCircle className="w-3 h-3 mr-1" />
+            Learned
+          </Badge>
+        )}
       </div>
-    </div>
+      
+      <div className="flex items-center justify-between">
+        <Button
+          onClick={handleViewDetails}
+          variant="outline"
+          className="border-blue-200 text-blue-700 hover:bg-blue-50 hover:border-blue-300"
+        >
+          <BookOpenCheck className="w-4 h-4 mr-2" />
+          View Details
+        </Button>
+        
+        {onToggleLearned && (
+          <div className="flex items-center gap-2">
+            <Checkbox
+              checked={isLearned}
+              onCheckedChange={onToggleLearned}
+              className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
+            />
+            <span className="text-sm text-gray-600">Mark as learned</span>
+          </div>
+        )}
+      </div>
+    </motion.div>
   );
 }
 
 export default function S3Page() {
   const router = useRouter();
   const [interviewQues, setInterviewQues] = React.useState([]);
-  const [selectedQuestion, setSelectedQuestion] = React.useState(null);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
 
   const [value, setValue] = React.useState(0);
@@ -235,15 +300,7 @@ export default function S3Page() {
     setValue(newValue);
   };
 
-  const handleQuestionClick = (question) => {
-    setSelectedQuestion(question);
-    setIsModalOpen(true);
-  };
 
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setSelectedQuestion(null);
-  };
 
   // Filter prepare data based on search query
   const filteredPrepareData = React.useMemo(() => {
@@ -260,29 +317,37 @@ export default function S3Page() {
     })).filter(level => level.concepts.length > 0);
   }, [selectedTopicData, searchQuery]);
 
+  // Calculate progress
+  const calculateProgress = (level) => {
+    const levelData = filteredPrepareData.find(item => item.label === level);
+    if (!levelData?.concepts?.length) return 0;
+    
+    const learnedCount = levelData.concepts.filter(concept => 
+      learnedConcepts[getConceptKey("AWS S3", concept.topic)]
+    ).length;
+    
+    return (learnedCount / levelData.concepts.length) * 100;
+  };
+
   const handleBackClick = () => {
     router.push('/components/AWS');
   };
 
   return (
     <Box className="w-full md:w-7/12 lg:w-6/12 mx-auto">
-      <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
+      <div className="border-b">
+        <div className="container mx-auto px-4 py-6">
           <div className="flex items-center gap-4">
             <button
               onClick={handleBackClick}
-              className="text-gray-600 hover:text-gray-900 flex items-center gap-2"
+              className="text-gray-900 flex items-center gap-2 p-2 rounded-lg transition-colors"
             >
-              <ArrowLeft className="w-4 h-4" />
-              Back to AWS
+              <ArrowLeft className="w-4 h-4 text-gray-900" />
+              Back
             </button>
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-50">
-                <Code className="w-6 h-6 text-blue-600" />
-              </div>
+            <div className="flex items-center gap-4">
               <div>
-                <h1 className="text-xl font-bold text-gray-900">AWS S3</h1>
-                <p className="text-sm text-gray-600">Learning Materials & Interview Questions</p>
+                <h1 className="text-2xl font-bold text-gray-900">AWS S3 (Simple Storage Service)</h1>
               </div>
             </div>
           </div>
@@ -300,9 +365,15 @@ export default function S3Page() {
               marginTop: 2,
               "& .MuiTabs-indicator": {
                 backgroundColor: "#3B82F6",
+                height: 3,
+                borderRadius: 2,
               },
               "& .MuiTab-root": {
                 color: "#6B7280",
+                fontWeight: 600,
+                textTransform: "none",
+                fontSize: 16,
+                minHeight: 60,
               },
               "& .MuiTab-root.Mui-selected": {
                 color: "#3B82F6",
@@ -310,180 +381,175 @@ export default function S3Page() {
             }}
           >
             <Tab
-              sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
-              label="Prepare"
+              label={
+                <div className="flex items-center gap-2">
+                  <BookOpen className="w-5 h-5" />
+                  Prepare
+                </div>
+              }
               {...a11yProps(0)}
             />
             <Tab
-              sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
-              label="Interview Questions"
+              label={
+                <div className="flex items-center gap-2">
+                  <Target className="w-5 h-5" />
+                  Interview Questions
+                </div>
+              }
               {...a11yProps(1)}
             />
           </Tabs>
         </Box>
+        
         <CustomTabPanel value={value} index={0}>
-          <div className="relative rounded-lg border-1 border-blue-200 bg-gray-100 dark:bg-gray-800 w-full">
-            <Input
-              type="text"
-              placeholder="Search topics..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ textTransform: "none", outline: "none" }}
-              className="rounded-lg appearance-none text-[14px] w-full pl-10"
-            />
-            <SearchIcon className="absolute left-2.5 top-2.5 w-5 h-5 text-blue-600" />
-          </div>
-          <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
-            <TabsList className="grid w-full grid-cols-2 bg-white border">
-              <TabsTrigger
-                value="Beginner"
-                onClick={() => setLevel("Beginner")}
-                className="bg-white data-[state=active]:bg-blue-100 data-[state=active]:text-blue-800"
-              >
-                Beginner Topics
-              </TabsTrigger>
-              <TabsTrigger
-                value="Advance"
-                onClick={() => setLevel("Advance")}
-                className="bg-white data-[state=active]:bg-blue-100 data-[state=active]:text-blue-800"
-              >
-                Advance Topics
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="Beginner" className="mt-5">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="px-0 text-blue-800 text-left md:text-center">
-                      Topic
-                    </TableHead>
-                    <TableHead className="text-center text-blue-800">
-                      Action
-                    </TableHead>
-                    {session?.user?.id && (
-                      <TableHead className="text-center text-blue-800">
-                        Learned
-                      </TableHead>
-                    )}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+          <div className="space-y-6">
+            {/* Search Section */}
+            <div className="relative">
+              <Input
+                type="text"
+                placeholder="Search topics..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-12 pr-4 py-3 text-base border-2 border-gray-200 focus:border-blue-500 rounded-xl shadow-sm"
+              />
+              <SearchIcon className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            </div>
+
+            {/* Progress Overview */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Card className="border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Zap className="w-5 h-5 text-blue-600" />
+                    Beginner Progress
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Progress value={calculateProgress("Beginner")} className="h-3" />
+                  <p className="text-sm text-gray-600 mt-2">
+                    {Math.round(calculateProgress("Beginner"))}% completed
+                  </p>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-lg flex items-center gap-2">
+                    <Star className="w-5 h-5 text-purple-600" />
+                    Advanced Progress
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <Progress value={calculateProgress("Advanced")} className="h-3" />
+                  <p className="text-sm text-gray-600 mt-2">
+                    {Math.round(calculateProgress("Advanced"))}% completed
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Topics Tabs */}
+            <TAB defaultValue="Beginner" value={level} className="w-auto">
+              <TabsList className="grid w-full grid-cols-2 bg-white border-2 border-gray-200 rounded-xl p-1">
+                <TabsTrigger
+                  value="Beginner"
+                  onClick={() => setLevel("Beginner")}
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white rounded-lg transition-all duration-200"
+                >
+                  <Zap className="w-4 h-4 mr-2" />
+                  Beginner Topics
+                </TabsTrigger>
+                <TabsTrigger
+                  value="Advance"
+                  onClick={() => setLevel("Advance")}
+                  className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white rounded-lg transition-all duration-200"
+                >
+                  <Star className="w-4 h-4 mr-2" />
+                  Advanced Topics
+                </TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="Beginner" className="mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredPrepareData
                     .filter((item) => item.label === "Beginner")
                     .flatMap((item) =>
                       item.concepts?.map((concept, index) => (
-                        <TableRow key={index}>
-                          <TableCell className="font-medium">
-                            <div className="flex items-center gap-2">
-                              <Hash className="w-4 h-4 text-blue-600" />
-                              {concept.topic}
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <button
-                              onClick={() => handleQuestionClick(concept)}
-                              className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-md text-sm font-medium transition-colors"
-                            >
-                              View
-                            </button>
-                          </TableCell>
-                          {session?.user?.id && (
-                            <TableCell className="text-center">
-                              <Checkbox
-                                checked={!!learnedConcepts[getConceptKey("AWS S3", concept.topic)]}
-                                onCheckedChange={() => handleLearnedToggle(concept)}
-                                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-                              />
-                            </TableCell>
-                          )}
-                        </TableRow>
+                        <TopicCard
+                          key={index}
+                          concept={concept}
+                          isLearned={!!learnedConcepts[getConceptKey("AWS S3", concept.topic)]}
+                          onToggleLearned={() => handleLearnedToggle(concept)}
+                          topicName="AWS S3"
+                        />
                       ))
                     )}
-                </TableBody>
-              </Table>
-            </TabsContent>
-            <TabsContent value="Advance" className="mt-5">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="px-0 text-blue-800 text-left md:text-center">
-                      Topic
-                    </TableHead>
-                    <TableHead className="text-center text-blue-800">
-                      Action
-                    </TableHead>
-                    {session?.user?.id && (
-                      <TableHead className="text-center text-blue-800">
-                        Learned
-                      </TableHead>
-                    )}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="Advance" className="mt-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {filteredPrepareData
                     .filter((item) => item.label === "Advanced")
                     .flatMap((item) =>
                       item.concepts?.map((concept, index) => (
-                        <TableRow key={index}>
-                          <TableCell className="font-medium">
-                            <div className="flex items-center gap-2">
-                              <Hash className="w-4 h-4 text-blue-600" />
-                              {concept.topic}
-                            </div>
-                          </TableCell>
-                          <TableCell className="text-center">
-                            <button
-                              onClick={() => handleQuestionClick(concept)}
-                              className="bg-blue-100 hover:bg-blue-200 text-blue-800 px-3 py-1 rounded-md text-sm font-medium transition-colors"
-                            >
-                              View
-                            </button>
-                          </TableCell>
-                          {session?.user?.id && (
-                            <TableCell className="text-center">
-                              <Checkbox
-                                checked={!!learnedConcepts[getConceptKey("AWS S3", concept.topic)]}
-                                onCheckedChange={() => handleLearnedToggle(concept)}
-                                className="data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600"
-                              />
-                            </TableCell>
-                          )}
-                        </TableRow>
+                        <TopicCard
+                          key={index}
+                          concept={concept}
+                          isLearned={!!learnedConcepts[getConceptKey("AWS S3", concept.topic)]}
+                          onToggleLearned={() => handleLearnedToggle(concept)}
+                          topicName="AWS S3"
+                        />
                       ))
                     )}
-                </TableBody>
-              </Table>
-            </TabsContent>
-          </TAB>
+                </div>
+              </TabsContent>
+            </TAB>
+          </div>
         </CustomTabPanel>
+        
         <CustomTabPanel value={value} index={1}>
           <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-gray-900">Interview Questions</h3>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => setInterviewSelection("Junior")}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    interviewSelection === "Junior"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  Junior
-                </button>
-                <button
-                  onClick={() => setInterviewSelection("Senior")}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
-                    interviewSelection === "Senior"
-                      ? "bg-blue-100 text-blue-800"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  Senior
-                </button>
-              </div>
-            </div>
+            {/* Interview Questions Header */}
+            <Card className="border-2 border-gray-200 bg-gradient-to-r from-gray-50 to-blue-50">
+              <CardHeader>
+                <CardTitle className="text-xl flex items-center gap-3">
+                  <Target className="w-6 h-6 text-blue-600" />
+                  Interview Questions
+                </CardTitle>
+                <CardDescription>
+                  Practice with real-world interview questions for AWS S3
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => setInterviewSelection("Junior")}
+                    variant={interviewSelection === "Junior" ? "default" : "outline"}
+                    className={interviewSelection === "Junior" 
+                      ? "bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700" 
+                      : ""
+                    }
+                  >
+                    <Zap className="w-4 h-4 mr-2" />
+                    Junior Level
+                  </Button>
+                  <Button
+                    onClick={() => setInterviewSelection("Senior")}
+                    variant={interviewSelection === "Senior" ? "default" : "outline"}
+                    className={interviewSelection === "Senior" 
+                      ? "bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700" 
+                      : ""
+                    }
+                  >
+                    <Star className="w-4 h-4 mr-2" />
+                    Senior Level
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
             
+            {/* Questions List */}
             <div className="space-y-4">
               {interviewQues.questions?.map((question, index) => (
                 <AccordionQuestion
@@ -496,20 +562,24 @@ export default function S3Page() {
             </div>
             
             {(!interviewQues.questions || interviewQues.questions.length === 0) && (
-              <div className="text-center py-8">
-                <p className="text-gray-500">No questions available for this level.</p>
-              </div>
+              <Card className="text-center py-12">
+                <CardContent>
+                  <div className="flex flex-col items-center gap-4">
+                    <div className="p-4 bg-gray-100 rounded-full">
+                      <Target className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2">No Questions Available</h3>
+                      <p className="text-gray-500">Questions for this level will be added soon.</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             )}
           </div>
         </CustomTabPanel>
       </Box>
       
-      <QuestionModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        question={selectedQuestion}
-        topic="AWS S3"
-      />
     </Box>
   );
 } 

@@ -1,13 +1,12 @@
-
 /**
  * Category Page - Optimized for Performance
- * 
+ *
  * This page uses:
  * 1. Static Generation (getStaticPaths + getStaticProps) for pre-built pages
  * 2. Local data instead of API calls for instant loading
  * 3. ISR (Incremental Static Regeneration) with 1-hour revalidation
  * 4. Client-side search filtering for real-time UX
- * 
+ *
  * Performance Benefits:
  * - Pages are pre-built at build time
  * - No server-side data fetching on each request
@@ -54,12 +53,11 @@ import Header from "@/components/header";
 // Static generation functions
 export async function getStaticPaths() {
   // Define all possible topics
-  const topics = ['Javascript', 'React', 'Node', 'Typescript'];
-  
+  const topics = ["Javascript", "React", "Node", "Typescript", "s3"];
+
   const paths = topics.map((topic) => ({
     params: { slug: topic },
   }));
-
   return {
     paths,
     fallback: false, // Return 404 for any paths not returned by getStaticPaths
@@ -68,11 +66,13 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params }) {
   const { slug } = params;
-  
+
   // Filter data for the specific topic
-  const topicPrepareData = prepareData.find(item => item.category === slug);
-  const topicInterviewData = interviewData.filter(item => item.topic === slug);
-  
+  const topicPrepareData = prepareData.find((item) => item.category === slug);
+  const topicInterviewData = interviewData.filter(
+    (item) => item.topic === slug
+  );
+
   return {
     props: {
       topicPrepareData: topicPrepareData || null,
@@ -154,7 +154,7 @@ function AccordionQuestion({ question, topic, index }) {
           >
             {question.question}
           </h3>
-          
+
           {/* Tags */}
           {question.tags && question.tags.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-2">
@@ -180,7 +180,7 @@ function AccordionQuestion({ question, topic, index }) {
             </div>
           )}
         </div>
-        
+
         <div className="ml-4 flex items-center">
           {isOpen ? (
             <ChevronUp
@@ -226,26 +226,31 @@ function AccordionQuestion({ question, topic, index }) {
           >
             <div className="p-4 ">
               <div className="mb-4">
-                <h4 className="text-sm font-medium text-gray-700 mb-2">Answer:</h4>
-                <div className={`p-3 rounded-md ${
-                  topic === "Javascript"
-                    ? "bg-Javascript-lightTheme border border-Javascript-border"
-                    : topic === "React"
-                    ? "bg-React-lightTheme border border-React-border"
-                    : topic === "Node"
-                    ? "bg-Node-lightTheme border border-Node-border"
-                    : topic === "Typescript"
-                    ? "bg-Typescript-lightTheme border border-Typescript-border"
-                    : "bg-white border border-gray-200"
-                }`}>
+                <h4 className="text-sm font-medium text-gray-700 mb-2">
+                  Answer:
+                </h4>
+                <div
+                  className={`p-3 rounded-md ${
+                    topic === "Javascript"
+                      ? "bg-Javascript-lightTheme border border-Javascript-border"
+                      : topic === "React"
+                      ? "bg-React-lightTheme border border-React-border"
+                      : topic === "Node"
+                      ? "bg-Node-lightTheme border border-Node-border"
+                      : topic === "Typescript"
+                      ? "bg-Typescript-lightTheme border border-Typescript-border"
+                      : "bg-white border border-gray-200"
+                  }`}
+                >
                   {question.solution ? (
-                    <div 
+                    <div
                       className="prose prose-sm max-w-none text-sm"
                       dangerouslySetInnerHTML={{ __html: question.solution }}
                     />
                   ) : (
                     <p className="text-gray-500 italic text-sm">
-                      Answer not available yet. This question is under development.
+                      Answer not available yet. This question is under
+                      development.
                     </p>
                   )}
                 </div>
@@ -274,7 +279,7 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
             onClick={onClose}
             className="fixed inset-0 bg-black bg-opacity-50 z-40"
           />
-          
+
           {/* Modal */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
@@ -288,22 +293,24 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                 {/* Question */}
                 <div className="mb-6">
                   <h3 className="text-lg font-semibold mb-3 text-gray-800 flex justify-between items-center">
-                    Question: 
+                    Question:
                     <button
                       onClick={onClose}
                       className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors"
                     >
-                      <X className={`w-6 h-6 ${
-                        topic === "Javascript"
-                          ? "text-Javascript-text"
-                          : topic === "React"
-                          ? "text-React-text"
-                          : topic === "Node"
-                          ? "text-Node-text"
-                          : topic === "Typescript"
-                          ? "text-Typescript-text"
-                          : "text-gray-600"
-                      }`} />
+                      <X
+                        className={`w-6 h-6 ${
+                          topic === "Javascript"
+                            ? "text-Javascript-text"
+                            : topic === "React"
+                            ? "text-React-text"
+                            : topic === "Node"
+                            ? "text-Node-text"
+                            : topic === "Typescript"
+                            ? "text-Typescript-text"
+                            : "text-gray-600"
+                        }`}
+                      />
                     </button>
                   </h3>
                   <p className="text-gray-700 leading-relaxed">
@@ -312,29 +319,32 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                 </div>
 
                 {/* Answer */}
-                <div >
+                <div>
                   <h3 className="text-lg font-semibold mb-3 text-gray-800">
                     Answer:
                   </h3>
-                  <div className={`p-4 rounded-lg ${
-                    topic === "Javascript"
-                      ? "bg-Javascript-lightTheme border border-Javascript-border"
-                      : topic === "React"
-                      ? "bg-React-lightTheme border border-React-border"
-                      : topic === "Node"
-                      ? "bg-Node-lightTheme border border-Node-border"
-                      : topic === "Typescript"
-                      ? "bg-Typescript-lightTheme border border-Typescript-border"
-                      : "bg-gray-50 border border-gray-200"
-                  }`}>
+                  <div
+                    className={`p-4 rounded-lg ${
+                      topic === "Javascript"
+                        ? "bg-Javascript-lightTheme border border-Javascript-border"
+                        : topic === "React"
+                        ? "bg-React-lightTheme border border-React-border"
+                        : topic === "Node"
+                        ? "bg-Node-lightTheme border border-Node-border"
+                        : topic === "Typescript"
+                        ? "bg-Typescript-lightTheme border border-Typescript-border"
+                        : "bg-gray-50 border border-gray-200"
+                    }`}
+                  >
                     {question.solution ? (
-                      <div 
+                      <div
                         className="prose prose-sm max-w-none"
                         dangerouslySetInnerHTML={{ __html: question.solution }}
                       />
                     ) : (
                       <p className="text-gray-500 italic">
-                        Answer not available yet. This question is under development.
+                        Answer not available yet. This question is under
+                        development.
                       </p>
                     )}
                   </div>
@@ -368,7 +378,11 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
   );
 }
 
-export default function BasicTabs({ topicPrepareData, topicInterviewData, topic }) {
+export default function BasicTabs({
+  topicPrepareData,
+  topicInterviewData,
+  topic,
+}) {
   const router = useRouter();
   const [interviewQues, setInterviewQues] = React.useState([]);
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
@@ -380,7 +394,7 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
   const [level, setLevel] = React.useState("Beginner");
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
-  
+
   // Use static data instead of filtering on client
   let selectedTopicData = topicPrepareData?.type || [];
 
@@ -403,13 +417,13 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
   const handleLearnedToggle = async (concept) => {
     const key = getConceptKey(topic, concept.topic);
     const wasChecked = !!learnedConcepts[key];
-    
+
     setLearnedConcepts((prev) => {
       const updated = { ...prev, [key]: !prev[key] };
       localStorage.setItem("learnedConcepts", JSON.stringify(updated));
       return updated;
     });
-    
+
     // If user is logged in, sync with database
     if (session?.user?.id) {
       try {
@@ -449,21 +463,22 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
   }, [topic]);
 
   React.useEffect(() => {
-    const filteredTopic = topicInterviewData
-      .filter((item) => item.categories === interviewSelection);
+    const filteredTopic = topicInterviewData.filter(
+      (item) => item.categories === interviewSelection
+    );
     setInterviewQues(filteredTopic[0] || {});
   }, [interviewSelection, topicInterviewData]);
 
   React.useEffect(() => {
     if (session?.user?.id) {
-      console.log("User.id", session)
+      console.log("User.id", session);
       fetch(`/api/auth/learned-topic?userId=${session.user.id}`)
-        .then(res => res.json())
-        .then(data => {
+        .then((res) => res.json())
+        .then((data) => {
           if (Array.isArray(data.learnedPrepareTopics)) {
             // Map to { [key]: true }
             const dbLearned = {};
-            data.learnedPrepareTopics.forEach(item => {
+            data.learnedPrepareTopics.forEach((item) => {
               dbLearned[getConceptKey(item.topic, item.concept)] = true;
             });
             setLearnedConcepts(dbLearned);
@@ -489,16 +504,19 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
   // Filter prepare data based on search query
   const filteredPrepareData = React.useMemo(() => {
     if (!selectedTopicData || selectedTopicData.length === 0) return [];
-    
+
     if (!searchQuery.trim()) return selectedTopicData;
-    
-    return selectedTopicData.map(level => ({
-      ...level,
-      concepts: level.concepts?.filter(concept => {
-        const query = searchQuery.toLowerCase();
-        return concept.topic.toLowerCase().includes(query);
-      }) || []
-    })).filter(level => level.concepts.length > 0);
+
+    return selectedTopicData
+      .map((level) => ({
+        ...level,
+        concepts:
+          level.concepts?.filter((concept) => {
+            const query = searchQuery.toLowerCase();
+            return concept.topic.toLowerCase().includes(query);
+          }) || [],
+      }))
+      .filter((level) => level.concepts.length > 0);
   }, [selectedTopicData, searchQuery]);
 
   return (
@@ -628,7 +646,8 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                     ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
                     : topic === "Node"
                     ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text"
-                    : topic === "Typescript" ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text"
+                    : topic === "Typescript"
+                    ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text"
                     : ""
                 }`}
               >
@@ -644,8 +663,8 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                     ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
                     : topic === "Node"
                     ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text "
-                    : topic === "Typescript" ? 
-                    "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text "
+                    : topic === "Typescript"
+                    ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text "
                     : ""
                 }`}
               >
@@ -706,7 +725,8 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredPrepareData.length > 0 && filteredPrepareData[0]?.concepts?.length > 0 ? (
+                  {filteredPrepareData.length > 0 &&
+                  filteredPrepareData[0]?.concepts?.length > 0 ? (
                     filteredPrepareData[0]?.concepts?.map((concept, index) => (
                       <TableRow key={concept.topic}>
                         <TableCell
@@ -891,8 +911,14 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                         {session?.user?.id && (
                           <TableCell className="text-center">
                             <Checkbox
-                              checked={!!learnedConcepts[getConceptKey(topic, concept.topic)]}
-                              onCheckedChange={() => handleLearnedToggle(concept)}
+                              checked={
+                                !!learnedConcepts[
+                                  getConceptKey(topic, concept.topic)
+                                ]
+                              }
+                              onCheckedChange={() =>
+                                handleLearnedToggle(concept)
+                              }
                               aria-label="Mark as learned"
                             />
                           </TableCell>
@@ -901,10 +927,15 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                     ))
                   ) : searchQuery.trim() ? (
                     <TableRow>
-                      <TableCell colSpan={3} className="text-center py-8 text-gray-500">
+                      <TableCell
+                        colSpan={3}
+                        className="text-center py-8 text-gray-500"
+                      >
                         <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
                         <p className="text-sm font-medium">No topics found</p>
-                        <p className="text-xs">Try adjusting your search terms</p>
+                        <p className="text-xs">
+                          Try adjusting your search terms
+                        </p>
                       </TableCell>
                     </TableRow>
                   ) : null}
@@ -951,53 +982,54 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filteredPrepareData.length > 1 && filteredPrepareData[1]?.concepts?.length > 0 ? (
+                  {filteredPrepareData.length > 1 &&
+                  filteredPrepareData[1]?.concepts?.length > 0 ? (
                     filteredPrepareData[1]?.concepts?.map((concept, index) => (
-                    <TableRow key={concept.topic} className="w-full">
-                      <TableCell
-                        className={`text-left font-medium text-[15px] p-[0px] ${
-                          topic === "Javascript"
-                            ? "text-Javascript-text "
-                            : topic === "React"
-                            ? "text-React-text"
-                            : topic === "Node"
-                            ? "text-Node-text"
-                            : topic === "Typescript"
-                            ? "text-Typescript-text"
-                            : ""
-                        } md:pl-4`}
-                      >
-                        {index <= 8 ? (
-                          <motion.div
-                            className="w-full"
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              duration: 0.8,
-                              delay: 0.2 * index,
-                              ease: [0, 0.71, 0.2, 1.01],
-                            }}
-                          >
-                            {concept.topic}
-                          </motion.div>
-                        ) : (
-                          <div className="w-full">{concept.topic}</div>
-                        )}
-                      </TableCell>
-                      <TableCell className="text-right md:flex">
-                        {index <= 8 ? (
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              duration: 0.8,
-                              delay: 0.2 * index,
-                              ease: [0, 0.71, 0.2, 1.01],
-                            }}
-                            onClick={() =>
-                              router.push(`/learn/${topic}/${concept.topic}`)
-                            }
-                            className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                      <TableRow key={concept.topic} className="w-full">
+                        <TableCell
+                          className={`text-left font-medium text-[15px] p-[0px] ${
+                            topic === "Javascript"
+                              ? "text-Javascript-text "
+                              : topic === "React"
+                              ? "text-React-text"
+                              : topic === "Node"
+                              ? "text-Node-text"
+                              : topic === "Typescript"
+                              ? "text-Typescript-text"
+                              : ""
+                          } md:pl-4`}
+                        >
+                          {index <= 8 ? (
+                            <motion.div
+                              className="w-full"
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                duration: 0.8,
+                                delay: 0.2 * index,
+                                ease: [0, 0.71, 0.2, 1.01],
+                              }}
+                            >
+                              {concept.topic}
+                            </motion.div>
+                          ) : (
+                            <div className="w-full">{concept.topic}</div>
+                          )}
+                        </TableCell>
+                        <TableCell className="text-right md:flex">
+                          {index <= 8 ? (
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                duration: 0.8,
+                                delay: 0.2 * index,
+                                ease: [0, 0.71, 0.2, 1.01],
+                              }}
+                              onClick={() =>
+                                router.push(`/learn/${topic}/${concept.topic}`)
+                              }
+                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
@@ -1010,28 +1042,28 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
-                          >
-                            <BookOpenCheck
-                              className={`mr-2 w-[19px] ${
-                                topic === "Javascript"
-                                  ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                  : topic === "React"
-                                  ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                  : topic === "Node"
-                                  ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                  : ""
-                              } md: w-[15px]`}
-                            />
-                            Learn
-                          </motion.div>
-                        ) : (
-                          <div
-                            onClick={() =>
-                              router.push(`/learn/${topic}/${concept.topic}`)
-                            }
-                            className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                            >
+                              <BookOpenCheck
+                                className={`mr-2 w-[19px] ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : topic === "React"
+                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                    : topic === "Node"
+                                    ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : ""
+                                } md: w-[15px]`}
+                              />
+                              Learn
+                            </motion.div>
+                          ) : (
+                            <div
+                              onClick={() =>
+                                router.push(`/learn/${topic}/${concept.topic}`)
+                              }
+                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
@@ -1044,106 +1076,111 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
-                          >
-                            {" "}
-                            <BookOpenCheck
-                              className={`mr-2 w-[19px] ${
+                            >
+                              {" "}
+                              <BookOpenCheck
+                                className={`mr-2 w-[19px] ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : topic === "React"
+                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                    : topic === "Node"
+                                    ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : ""
+                                } md: w-[15px]`}
+                              />
+                              Learn
+                            </div>
+                          )}
+                          {index <= 8 ? (
+                            <motion.div
+                              onClick={() =>
+                                router.push(`/test/${topic}/${concept.topic}`)
+                              }
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                duration: 0.8,
+                                delay: 0.2 * index,
+                                ease: [0, 0.71, 0.2, 1.01],
+                              }}
+                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                                 topic === "Javascript"
-                                  ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : topic === "React"
-                                  ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                  ? "text-React-text bg-white hover:bg-React-bg "
                                   : topic === "Node"
-                                  ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                  ? "text-Node-text bg-white hover:bg-Node-bg "
                                   : topic === "Typescript"
-                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
                                   : ""
-                              } md: w-[15px]`}
-                            />
-                            Learn
-                          </div>
-                        )}
-                        {index <= 8 ? (
-                          <motion.div
-                            onClick={() =>
-                              router.push(`/test/${topic}/${concept.topic}`)
-                            }
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                              duration: 0.8,
-                              delay: 0.2 * index,
-                              ease: [0, 0.71, 0.2, 1.01],
-                            }}
-                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                              topic === "Javascript"
-                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                : topic === "React"
-                                ? "text-React-text bg-white hover:bg-React-bg "
-                                : topic === "Node"
-                                ? "text-Node-text bg-white hover:bg-Node-bg "
-                                : topic === "Typescript"
-                                ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                  : ""
-                            }`}
-                          >
-                            <Code
-                              className={`mr-2 w-[19px] ${
+                              }`}
+                            >
+                              <Code
+                                className={`mr-2 w-[19px] ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : topic === "React"
+                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                    : topic === "Node"
+                                    ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : ""
+                                } md: w-[15px]`}
+                              />
+                              Practice
+                            </motion.div>
+                          ) : (
+                            <div
+                              onClick={() =>
+                                router.push(`/test/${topic}/${concept.topic}`)
+                              }
+                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
                                 topic === "Javascript"
-                                  ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
                                   : topic === "React"
-                                  ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                  : topic === "Node"
-                                  ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                  ? "text-React-text bg-white hover:bg-React-bg "
                                   : topic === "Typescript"
-                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
                                   : ""
-                              } md: w-[15px]`}
-                            />
-                            Practice
-                          </motion.div>
-                        ) : (
-                          <div
-                            onClick={() =>
-                              router.push(`/test/${topic}/${concept.topic}`)
-                            }
-                            className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                              topic === "Javascript"
-                                ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                : topic === "React"
-                                ? "text-React-text bg-white hover:bg-React-bg "
-                                : topic === "Typescript"
-                                ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                : ""
-                            }`}
-                          >
-                            <Code
-                              // style={{width: 12px}}
-                              className={`mr-2 w-[19px] ${
-                                topic === "Javascript"
-                                  ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                  : topic === "React"
-                                  ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                  : ""
-                              } md: w-[15px]`}
-                              // size={"19px"}
-                            />
-                            Practice
-                          </div>
-                        )}
+                              }`}
+                            >
+                              <Code
+                                // style={{width: 12px}}
+                                className={`mr-2 w-[19px] ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                    : topic === "React"
+                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                    : ""
+                                } md: w-[15px]`}
+                                // size={"19px"}
+                              />
+                              Practice
+                            </div>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  ) : searchQuery.trim() ? (
+                    <TableRow>
+                      <TableCell
+                        colSpan={2}
+                        className="text-center py-8 text-gray-500"
+                      >
+                        <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                        <p className="text-sm font-medium">No topics found</p>
+                        <p className="text-xs">
+                          Try adjusting your search terms
+                        </p>
                       </TableCell>
                     </TableRow>
-                  ))
-                ) : searchQuery.trim() ? (
-                  <TableRow>
-                    <TableCell colSpan={2} className="text-center py-8 text-gray-500">
-                      <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                      <p className="text-sm font-medium">No topics found</p>
-                      <p className="text-xs">Try adjusting your search terms</p>
-                    </TableCell>
-                  </TableRow>
-                ) : null}
+                  ) : null}
                 </TableBody>
               </Table>
             </TabsContent>
@@ -1212,10 +1249,10 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
               <div className="flex flex-col gap-3">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <AccordionQuestion 
-                        key={index} 
-                        question={item} 
-                        topic={topic} 
+                      <AccordionQuestion
+                        key={index}
+                        question={item}
+                        topic={topic}
                         index={index}
                       />
                     ))
@@ -1226,10 +1263,10 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
               <div className="flex flex-col gap-3">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <AccordionQuestion 
-                        key={index} 
-                        question={item} 
-                        topic={topic} 
+                      <AccordionQuestion
+                        key={index}
+                        question={item}
+                        topic={topic}
                         index={index}
                       />
                     ))
@@ -1240,10 +1277,10 @@ export default function BasicTabs({ topicPrepareData, topicInterviewData, topic 
               <div className="flex flex-col gap-3">
                 {interviewQues?.questions
                   ? interviewQues?.questions?.map((item, index) => (
-                      <AccordionQuestion 
-                        key={index} 
-                        question={item} 
-                        topic={topic} 
+                      <AccordionQuestion
+                        key={index}
+                        question={item}
+                        topic={topic}
                         index={index}
                       />
                     ))

@@ -27019,38 +27019,126 @@ class Container {
             topic: "What is S3?",
             tags: ["basics", "object-storage"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Amazon S3 (Simple Storage Service) is AWS’s fully-managed, infinitely-scalable object storage designed for 11×9’s (99.999 999 999 %) durability, 99.99 % availability, millisecond latency, and virtually unlimited throughput. Objects are stored redundantly across multiple facilities and devices in a Region using erasure-coding and continuous integrity checks.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Amazon S3 (Simple Storage Service) is AWS’s fully-managed, infinitely-scalable object storage designed for 11×9’s (99.999 999 999 %) durability, 99.99 % availability, millisecond latency, and virtually unlimited throughput. Objects are stored redundantly across multiple facilities and devices in a Region using erasure-coding and continuous integrity checks.
+  </p>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
 # Quick start
 aws s3 mb s3://my-unique-bucket --region us-east-1
 aws s3 cp ./localfile.txt s3://my-unique-bucket/
 aws s3 ls s3://my-unique-bucket
- </code>
-  </pre>
+</code></pre>
   </div>
- <p style="line-height: 1.75;">
-  An <strong>object</strong> = data (0 B–5 TB) + key + metadata + version-id + storage-class. A <strong>bucket</strong> is a globally-unique DNS container for objects, created in a specific AWS Region.
+
+  <p style="line-height: 1.75;">
+    An <strong>object</strong> = data (0 B–5 TB) + key + metadata + version-id + storage-class. A <strong>bucket</strong> is a globally-unique DNS container for objects, created in a specific AWS Region.
   </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Core Concepts
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-     <li style="margin-top: 0.5rem;">
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Core Concepts
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li style="margin-top: 0.5rem;">
       <span style="font-weight: 600; font-size: 1.1rem;">Durability 11×9’s:</span> Data is redundantly stored across multiple AZs using erasure-coding. Automatic corruption detection and repair.
-     </li>
-     <li style="margin-top: 0.5rem;">
+      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
+        <li>Each object is split into data and parity shards, distributed across ≥ 3 Availability Zones.</li>
+        <li>Continuous background scanning with CRC checksums; lost shards are automatically reconstructed.</li>
+      </ul>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
       <span style="font-weight: 600; font-size: 1.1rem;">Unlimited Scale:</span> Pay-as-you-go, virtually infinite storage and throughput.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Storage Classes:</span> Standard, IA, Glacier, Deep Archive, Intelligent-Tiering.
-     </li>
-   </ol>
- </div>`,
+      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
+        <li>No bucket size limit; single object can be 0 bytes to 5 TB, uploaded via single PUT or multipart (up to 10,000 parts, each 5 MiB – 5 GiB).</li>
+        <li>Parallelized GET/PUT with byte-range fetches and multipart uploads.</li>
+      </ul>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage Classes:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
+        <li><strong>Standard:</strong> general-purpose, millisecond access.</li>
+        <li><strong>Intelligent-Tiering:</strong> auto-moves objects between frequent/infrequent access tiers.</li>
+        <li><strong>Standard-IA & One Zone-IA:</strong> lower cost for infrequently accessed data.</li>
+        <li><strong>Glacier Instant/Deep Archive:</strong> archive tiers with minutes-to-hours retrieval.</li>
+        <li><strong>Reduced Redundancy (legacy):</strong> lower durability at lower cost.</li>
+      </ul>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Access Control & Security:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
+        <li>IAM policies, bucket policies, ACLs, and S3 Access Points.</li>
+        <li>Block Public Access settings at account and bucket level.</li>
+        <li>Encryption: SSE-S3, SSE-KMS, SSE-C, and client-side encryption.</li>
+        <li>Object Lock (WORM) & MFA-delete for compliance.</li>
+      </ul>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Transfer & Acceleration:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
+        <li>S3 Transfer Acceleration for faster uploads via CloudFront edge POPs.</li>
+        <li>Cross-Region Replication (CRR) & Same-Region Replication (SRR).</li>
+        <li>S3 Batch Operations for large-scale PUT/COPY/DELETE.</li>
+      </ul>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Event-Driven Features:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
+        <li>S3 Event Notifications → SNS, SQS, Lambda, EventBridge.</li>
+        <li>S3 Object Lambda to transform data on-the-fly during GET requests.</li>
+      </ul>
+    </li>
+
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Query in Place:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
+        <li>S3 Select & Glacier Select for server-side SQL filtering.</li>
+        <li>Amazon Athena & Redshift Spectrum for analytics without moving data.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Bucket Fundamentals
+  </h4>
+  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li><strong>Global namespace:</strong> Must be DNS-compliant, 3–63 chars, lowercase, no underscores.</li>
+    <li><strong>Region-bound:</strong> Once created, bucket’s Region never changes; objects inherit the Region.</li>
+    <li><strong>Lifecycle rules:</span> Transition objects to cheaper classes or schedule deletion.</li>
+    <li><strong>Logging:</strong> Server-access logs or CloudTrail data events for audit.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Pricing Dimensions
+  </h4>
+  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li>Storage volume (per-GB-month per class).</li>
+    <li>Requests (per 1,000 PUT/COPY/POST/LIST or GET/SELECT).</li>
+    <li>Data transfer (first 100 GB/mo free, then tiered).</li>
+    <li>Early deletion and retrieval fees for IA/Glacier.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Additional Best Practices
+  </h4>
+  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li>Enable versioning + MFA delete to protect against accidental overwrites.</li>
+    <li>Use pre-signed URLs for secure, time-limited sharing.</li>
+    <li>Monitor with CloudWatch (4xx/5xx metrics, storage-lens).</li>
+    <li>Implement least-privilege IAM roles and bucket policies.</li>
+    <li>Leverage S3 Inventory for bulk auditing and S3 Batch Operations for remediation.</li>
+  </ul>
+</div>`,
             examples: [
               "// Bucket naming rules\naws s3 mb s3://my-unique-bucket-2025 --region eu-west-1",
+              "// Upload entire folder recursively\naws s3 cp ./my-folder s3://my-unique-bucket/2025/ --recursive",
+              "// Generate a pre-signed URL valid for 1 hour\naws s3 presign s3://my-unique-bucket/report.csv --expires-in 3600",
+              "// Transition to Glacier after 90 days\naws s3api put-bucket-lifecycle-configuration \\\n  --bucket my-unique-bucket \\\n  --lifecycle-configuration file://lifecycle.json",
             ],
             questions: [
               {
@@ -27063,9 +27151,22 @@ aws s3 ls s3://my-unique-bucket
                 solution:
                   "<p>By redundantly storing objects across multiple AZs using erasure-coding and continuous integrity checks to detect and repair lost redundancy automatically.</p>",
               },
+              {
+                question:
+                  "What are the available S3 storage classes and when to use each?",
+                solution:
+                  "<ul><li><strong>Standard:</strong> frequently accessed data needing high throughput and millisecond latency.</li><li><strong>Intelligent-Tiering:</strong> unknown or changing access patterns.</li><li><strong>Standard-IA / One Zone-IA:</strong> infrequent access, same latency as Standard but lower cost.</li><li><strong>Glacier Instant Retrieval:</strong> archive data requiring millisecond access.</li><li><strong>Glacier Flexible Retrieval:</strong> archive data retrieved in minutes–hours.</li><li><strong>Glacier Deep Archive:</strong> long-term retention (12+ hours retrieval).</li></ul>",
+              },
+              {
+                question: "Explain S3 versioning and MFA-delete.",
+                solution:
+                  "<p>Versioning retains every version of an object (PUT/DELETE create new versions). MFA-delete requires an MFA token to permanently delete object versions or suspend versioning, protecting against accidental or malicious deletions.</p>",
+              },
             ],
             links: [
-              '<url id="" type="url" status="" title="S3 Product Page" wc="">https://aws.amazon.com/s3/</url>',
+              '<url id="" type="url" status="" title="S3 Product Page" wc="">https://aws.amazon.com/s3/ </url>',
+              '<url id="" type="url" status="" title="S3 Storage Classes" wc="">https://docs.aws.amazon.com/s3/latest/userguide/storage-class-intro.html </url>',
+              '<url id="" type="url" status="" title="S3 Security Best Practices" wc="">https://docs.aws.amazon.com/s3/latest/userguide/security-best-practices.html </url>',
             ],
           },
           {
@@ -27121,33 +27222,191 @@ aws s3 cp ./photo.jpg s3://my-unique-bucket/images/2025/08/photo.jpg
             topic: "Storage Classes",
             tags: ["storage-classes", "cost", "lifecycle"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     S7 storage classes balance cost, availability, and retrieval time:
-   </p>
-   <ul style="margin-left:1.5rem;">
-     <li><strong>Standard:</strong> 99.999% availability, ms latency, highest cost.</li>
-     <li><strong>Standard-IA:</strong> Lower cost, infrequent access.</li>
-     <li><strong>Intelligent-Tiering:</strong> Auto-moves objects based on usage.</li>
-     <li><strong>Glacier Instant:</strong> ms retrieval, archive.</li>
-     <li><strong>Glacier Flexible:</strong> Minutes–hours retrieval.</li>
-     <li><strong>Deep Archive:</strong> Lowest cost, hours retrieval.</li>
-   </ul>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-aws s3 cp ./file.dat s3://bucket/ \
-  --storage-class GLACIER
- </code>
-  </pre>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Amazon S3 offers seven storage classes engineered to balance cost, availability, retrieval time, and use-case patterns. Each class inherits S3’s 11×9s durability, but differs in availability SLA, minimum billable object size, minimum storage duration, and retrieval charge model.
+  </p>
+
+  <table style="border-collapse: collapse; width: 100%; margin-top: 1rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Class</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Availability SLA</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Min Object Size / Duration</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Retrieval Time</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Typical Use-Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">– / –</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Hot data, dynamic websites, big-data analytics</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Intelligent-Tiering</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Unknown or changing access patterns</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard-IA</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-lived, infrequently accessed data</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>One Zone-IA</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.5 %</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Recreatable or secondary copy data</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Instant Retrieval</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 90 days</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms–seconds</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive with occasional instant access</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Flexible Retrieval</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 90 days</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">minutes–hours (expedited, standard, bulk)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive for compliance or long-term backup</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Deep Archive</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 180 days</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">12–48 hours</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-term digital preservation</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Cost & Retrieval Model
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Storage price:</strong> Decreases from Standard → Deep Archive.</li>
+    <li><strong>Retrieval price:</strong> Increases from Standard → Deep Archive (charged per GB retrieved plus request fees).</li>
+    <li><strong>Early deletion:</strong> If an object is deleted or transitioned before the minimum duration, you are billed for the remaining days.</li>
+    <li><strong>Request pricing:</strong> PUT/COPY/POST/LIST and GET/SELECT requests are priced per 1,000; Glacier classes also charge tier-specific retrieval requests.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Lifecycle Policies Deep-Dive
+  </h4>
+  <p style="line-height: 1.75;">
+    Use lifecycle rules to automatically transition objects between classes or delete them based on age or date. Rules can target:
+  </p>
+  <ul style="margin-left: 1.5rem;">
+    <li>Entire bucket or specific prefixes/tags.</li>
+    <li>Current versions, non-current versions, or incomplete multipart uploads.</li>
+    <li>Abort incomplete multipart uploads after N days to cut hidden storage costs.</li>
+  </ul>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// lifecycle.json – archive to Glacier Instant after 90 days,
+// delete current objects after 7 years,
+// delete non-current versions after 30 days
+{
+  "Rules": [
+    {
+      "ID": "ArchiveOldData",
+      "Status": "Enabled",
+      "Filter": { "Prefix": "logs/" },
+      "Transitions": [
+        { "Days": 90, "StorageClass": "GLACIER_IR" }
+      ],
+      "Expiration": { "Days": 2555 },
+      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },
+      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }
+    }
+  ]
+}
+</code></pre>
   </div>
- </div>`,
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    One Zone Storage Classes (IA & Glacier Instant)
+  </h4>
+  <ul style="margin-left: 1.5rem;">
+    <li>Data is stored in a single Availability Zone (AZ) and is ~20 % cheaper than multi-AZ classes.</li>
+    <li>Not resilient to AZ destruction; suitable for secondary copies or easily re-creatable data.</li>
+    <li>Cannot be used with Cross-Region Replication (CRR).</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Intelligent-Tiering Mechanics
+  </h4>
+  <ul style="margin-left: 1.5rem;">
+    <li>Objects ≥128 KB are monitored; after 30 consecutive days of no access they move to Infrequent-Access tier, then to Archive-Instant tiers after further 90 days.</li>
+    <li>No retrieval charges; small monthly monitoring and automation fee per 1,000 objects.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    CLI & SDK Usage
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Upload directly to Glacier Flexible Retrieval
+aws s3 cp ./backup.sql s3://my-archive-bucket/backups/2025/08/backup.sql \
+  --storage-class GLACIER
+
+# Change existing object's class
+aws s3 cp s3://bucket/report.csv s3://bucket/report.csv \
+  --storage-class STANDARD_IA \
+  --metadata-directive COPY
+
+# Multi-part upload to Intelligent-Tiering
+aws s3 cp ./bigfile.dat s3://bucket/bigfile.dat \
+  --storage-class INTELLIGENT_TIERING \
+  --expected-size 8589934592  # 8 GB
+</code></pre>
+  </div>
+</div>`,
             examples: [
-              "// Lifecycle JSON\naws s3api put-bucket-lifecycle-configuration --bucket b --lifecycle-configuration file://lifecycle.json",
+              "// Lifecycle JSON\naws s3api put-bucket-lifecycle-configuration --bucket my-archive-bucket --lifecycle-configuration file://lifecycle.json",
+              "// Upload big file to Glacier Deep Archive\naws s3 cp ./dataset.zip s3://my-archive-bucket/datasets/2025/dataset.zip --storage-class DEEP_ARCHIVE",
+              '// Transition all objects with tag \'archive=true\' after 60 days\naws s3api put-bucket-lifecycle-configuration --bucket my-data-bucket --lifecycle-configuration \'{\n  "Rules": [{\n    "ID": "TagBasedArchive",\n    "Status": "Enabled",\n    "Filter": { "Tag": { "Key": "archive", "Value": "true" } },\n    "Transitions": [{ "Days": 60, "StorageClass": "GLACIER_FLEXIBLE_RETRIEVAL" }]\n  }]\n}\'',
+              '// Restore an archived object (bulk tier)\naws s3api restore-object --bucket my-archive-bucket --key datasets/2025/dataset.zip --restore-request \'{"Days": 7, "GlacierJobParameters": {"Tier": "Bulk"}}\'',
+              "// Enable Intelligent-Tiering for new uploads\naws s3 cp ./reports/ s3://my-reports-bucket/ --recursive --storage-class INTELLIGENT_TIERING",
             ],
             questions: [
               {
                 question: "List the basic S3 storage classes.",
                 solution:
-                  "<p>S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, S3 Glacier Deep Archive.</p>",
+                  "<p>S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, and S3 Glacier Deep Archive.</p>",
+              },
+              {
+                question: "When should I use One Zone-IA?",
+                solution:
+                  "<p>Use One Zone-IA when the data is secondary, easily re-creatable, or already replicated elsewhere, and you want ~20 % lower cost while accepting the risk of single-AZ loss.</p>",
+              },
+              {
+                question:
+                  "What happens if I delete an object stored in Glacier before 90 days?",
+                solution:
+                  "<p>You will be charged an early deletion fee equal to the prorated storage cost for the remaining days (90 days for Glacier Flexible, 180 days for Deep Archive).</p>",
+              },
+              {
+                question:
+                  "How does Intelligent-Tiering decide when to move objects?",
+                solution:
+                  "<p>Objects ≥128 KB are monitored. After 30 consecutive days of no access they move to the Infrequent-Access tier; after 90 additional days they move to Archive-Instant tiers. If accessed, they return to the Frequent-Access tier automatically.</p>",
+              },
+              {
+                question:
+                  "Which classes support instant (millisecond) retrieval?",
+                solution:
+                  "<p>Standard, Intelligent-Tiering (Frequent-Access & Archive-Instant tiers), Standard-IA, One Zone-IA, and Glacier Instant Retrieval.</p>",
               },
             ],
           },
@@ -27155,36 +27414,153 @@ aws s3 cp ./file.dat s3://bucket/ \
             topic: "Versioning & Lifecycle",
             tags: ["versioning", "lifecycle", "mfa-delete"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     <strong>Versioning</strong> keeps every version of an object; once enabled, can only be suspended. <strong>Lifecycle</strong> rules automate transitions or deletions by age, prefix, or tags.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-json">
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>S3 Versioning</strong> retains every PUT/DELETE of an object as a distinct version identified by a unique <code>version-id</code>. Once enabled on a bucket, versioning can only be <em>suspended</em>—never fully turned off—ensuring data immutability. <strong>S3 Lifecycle</strong> rules automate the transition of objects (or their versions) to cheaper storage classes or schedule deletions based on age, prefix, tag, or object size filters, helping you optimize cost and meet compliance.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Versioning Deep-Dive
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Suspend vs. Disable:</strong> Suspending stops new versions but preserves existing ones; only a root-account holder can <em>permanently</em> delete versions.</li>
+    <li><strong>Version-ID:</strong> UUID string returned on every PUT; use <code>--version-id</code> CLI flag to download, copy, or delete a specific version.</li>
+    <li><strong>DELETE semantics:</strong> A DELETE creates a delete-marker version; the object still exists. To truly purge data you must DELETE the specific version-id.</li>
+    <li><strong>Storage costs:</strong> Each version is billed as a separate object. Use Lifecycle rules to expire non-current versions to control cost.</li>
+    <li><strong>MFA-Delete:</strong> Requires an MFA token to permanently delete versions or suspend versioning—ideal for compliance and ransomware protection.</li>
+    <li><strong>Cross-Region Replication (CRR) & Same-Region Replication (SRR):</strong> Versioning must be enabled on both source and destination buckets.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Lifecycle Rules Deep-Dive
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Rule Scope:</strong> Entire bucket, prefix (folder), object tag, or object size.</li>
+    <li><strong>Actions:</strong>
+      <ul style="margin-left: 1.5rem;">
+        <li><code>Transition</code> – move to cheaper class after N days.</li>
+        <li><code>Expiration</code> – delete objects or non-current versions.</li>
+        <li><code>AbortIncompleteMultipartUpload</code> – purge dangling uploads.</li>
+      </ul>
+    </li>
+    <li><strong>Timing:</strong> Actions run once daily at 00:00 UTC; changes take ≤ 24 h to propagate.</li>
+    <li><strong>Cost:</strong> Lifecycle transitions incur request charges; no charge for deletions.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    MFA-Delete Workflow
+  </h4>
+  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>Enable versioning on the bucket.</li>
+    <li>Attach a virtual or hardware MFA device to the root account.</li>
+    <li>Run <code>put-bucket-versioning</code> with <code>MfaDelete=Enabled</code>.</li>
+    <li>Any <code>delete-object-version</code> or <code>suspend-versioning</code> call must include the MFA token.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    JSON Lifecycle Templates
+  </h4>
+
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// 1) Archive current logs to Glacier Instant after 30 days,
+//    delete non-current versions after 30 days,
+//    delete current objects after 7 years
 {
-  "Rules": [{
-    "ID": "to-glacier",
-    "Status": "Enabled",
-    "Transitions": [{ "Days": 30, "StorageClass": "GLACIER" }],
-    "Expiration": { "Days": 365 }
-  }]
+  "Rules": [
+    {
+      "ID": "ArchiveLogs",
+      "Status": "Enabled",
+      "Filter": { "Prefix": "logs/" },
+      "Transitions": [
+        { "Days": 30, "StorageClass": "GLACIER_IR" }
+      ],
+      "Expiration": { "Days": 2555 },
+      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },
+      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }
+    }
+  ]
 }
- </code>
-  </pre>
+
+// 2) Tag-based rule for media files
+{
+  "Rules": [
+    {
+      "ID": "MediaArchive",
+      "Status": "Enabled",
+      "Filter": { "Tag": { "Key": "media", "Value": "true" } },
+      "Transitions": [
+        { "Days": 90, "StorageClass": "STANDARD_IA" },
+        { "Days": 365, "StorageClass": "GLACIER" }
+      ],
+      "NoncurrentVersionTransitions": [
+        { "NoncurrentDays": 30, "StorageClass": "GLACIER" }
+      ]
+    }
+  ]
+}
+
+// 3) Object-size filter (≥ 128 KB) to Intelligent-Tiering
+{
+  "Rules": [
+    {
+      "ID": "BigObjects",
+      "Status": "Enabled",
+      "Filter": { "ObjectSizeGreaterThan": 131072 },
+      "Transitions": [
+        { "Days": 0, "StorageClass": "INTELLIGENT_TIERING" }
+      ]
+    }
+  ]
+}
+</code></pre>
   </div>
- </div>`,
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Monitoring & Best Practices
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>Enable CloudWatch metrics <code>NumberOfObjects</code> and <code>BucketSizeBytes</code> per storage class.</li>
+    <li>Use S3 Storage Lens to track non-current version storage and lifecycle transition savings.</li>
+    <li>Test lifecycle rules in a dev bucket with <code>Status=Disabled</code> first.</li>
+    <li>Combine versioning + lifecycle + MFA-Delete for ransomware-proof backups.</li>
+  </ul>
+</div>`,
             examples: [
-              "// Enable versioning\naws s3api put-bucket-versioning --bucket b --versioning-configuration Status=Enabled",
+              "// Enable versioning and MFA-Delete\naws s3api put-bucket-versioning --bucket my-vault-bucket --versioning-configuration Status=Enabled,MfaDelete=Enabled --mfa 'arn:aws:iam::123456789012:mfa/root-mfa 123456'",
+              "// Suspend versioning (keeps existing versions)\naws s3api put-bucket-versioning --bucket my-vault-bucket --versioning-configuration Status=Suspended",
+              "// Upload object and retrieve its version-id\naws s3api put-object --bucket my-vault-bucket --key report.csv --body report.csv --query VersionId --output text",
+              "// Delete a specific version (requires MFA if MFA-Delete is on)\naws s3api delete-object --bucket my-vault-bucket --key report.csv --version-id yS9... --mfa 'arn:aws:iam::123456789012:mfa/root-mfa 123456'",
+              "// List all versions\naws s3api list-object-versions --bucket my-vault-bucket --prefix report.csv",
+              "// Apply lifecycle configuration\naws s3api put-bucket-lifecycle-configuration --bucket my-vault-bucket --lifecycle-configuration file://lifecycle.json",
+              "// Clean up non-current versions older than 30 days via CLI\naws s3api list-object-versions --bucket my-vault-bucket --query 'Versions[?IsLatest==`false` && LastModified<=`2024-07-01`].[Key,VersionId]' --output table | awk '{print $2}' | xargs -I {} aws s3api delete-object --bucket my-vault-bucket --key report.csv --version-id {}",
             ],
             questions: [
               {
                 question: "What is S3 versioning?",
                 solution:
-                  "<p>Versioning keeps multiple versions of an object in the same bucket; once enabled it can only be suspended, never disabled.</p>",
+                  "<p>Versioning retains multiple versions of each object using a unique version-id; once enabled it can only be suspended, never disabled, ensuring an immutable history of changes.</p>",
               },
               {
-                question: "How do you create an S3 bucket?",
+                question: "How do you create a lifecycle rule?",
                 solution:
-                  "<p>aws s3 mb s3://bucket-name [--region region] or via Console/SDK/CloudFormation with name, region, encryption, etc.</p>",
+                  "<p>Define a JSON rule with ID, status, filter (prefix/tag/size), and actions (Transition/Expiration/AbortIncompleteMultipartUpload). Then apply via <code>put-bucket-lifecycle-configuration</code>.</p>",
+              },
+              {
+                question: "What is MFA-Delete and why use it?",
+                solution:
+                  "<p>MFA-Delete requires a multi-factor authentication token to permanently delete object versions or suspend versioning. It protects against accidental or malicious deletions and ransomware.</p>",
+              },
+              {
+                question:
+                  "Can lifecycle rules be applied to non-current versions only?",
+                solution:
+                  "<p>Yes. Use <code>NoncurrentVersionTransition</code> and <code>NoncurrentVersionExpiration</code> to move or delete old versions while leaving the current version untouched.</p>",
+              },
+              {
+                question:
+                  "What happens when you delete an object in a versioned bucket?",
+                solution:
+                  "<p>S3 inserts a delete-marker version. The object data remains and can be restored by deleting the delete-marker. To permanently remove data you must delete the specific version-id.</p>",
               },
             ],
           },
@@ -28402,6 +28778,409 @@ StateMachine:
                 question: "Design SNS architecture for regulatory compliance.",
                 solution:
                   "<p>KMS encryption, VPC endpoints, Config rules, Object-Lock S3 audit, CloudTrail logs, SCPs for encryption and public-block.</p>",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 42,
+    category: "RabbitMQ",
+    themeBgColor: "#FFF8E1",
+    textColor: "#E65100",
+    topicColor: "#E65100",
+    lightColor: "#FFF8E1",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "What is RabbitMQ?",
+            tags: ["basics", "amqp", "broker"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     RabbitMQ is an open-source, Erlang-based message-broker that implements the Advanced Message Queuing Protocol (AMQP).  It decouples producers and consumers through exchanges, queues and bindings while providing persistence, routing, clustering and high-availability.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# docker run –d –-name rmq –p 5672:5672 –p 15672:15672 rabbitmq:3-management
+# open http://localhost:15672  (guest / guest)
+ </code>
+  </pre>
+  </div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Concepts
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">AMQP Model:</span> Producer → Exchange → Queue → Consumer.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Durability:</span> Queues & exchanges can be durable; messages can be persistent.
+     </li>
+   </ol>
+ </div>`,
+            examples: [
+              "// minimal python publisher\nimport pika; c = pika.BlockingConnection(); ch = c.channel(); ch.queue_declare('hello'); ch.basic_publish('', 'hello', 'Hi')",
+            ],
+            questions: [
+              {
+                question: "What is RabbitMQ?",
+                solution:
+                  "<p>Open-source Erlang message-broker implementing AMQP, offering persistence, routing, clustering and HA.</p>",
+              },
+              {
+                question: "Explain ZeroMQ vs RabbitMQ differences.",
+                solution:
+                  "<p>ZeroMQ is a socket library; RabbitMQ is a full broker with persistence, routing, management UI, clustering and HA.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Exchanges & Routing",
+            tags: ["exchanges", "routing", "bindings"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     <strong>Exchanges</strong> route messages to queues using routing keys/headers.  Types: direct, fanout, topic, headers.  <strong>Bindings</strong> link exchanges to queues.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+rabbitmqadmin declare exchange name=logs type=fanout
+rabbitmqadmin declare queue name=debug durable=true
+rabbitmqadmin declare binding source=logs destination=debug
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// topic wildcard\nch.exchange_declare('topic_logs', 'topic');\nch.queue_bind(queue='kern', exchange='topic_logs', routing_key='kern.*')",
+            ],
+            questions: [
+              {
+                question: "Explain topic exchange wildcard patterns.",
+                solution:
+                  "<p>‘*’ matches one word, ‘#’ matches zero or more words in routing keys.</p>",
+              },
+              {
+                question:
+                  "Describe the difference between Round-Robin and Fair Dispatch.",
+                solution:
+                  "<p>Round-robin evenly distributes; Fair Dispatch (prefetch=1) ensures slow workers don’t get overwhelmed.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Reliability & Persistence",
+            tags: ["acks", "confirms", "durable"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Publisher Confirms:</strong> Broker ACKs received messages.</li>
+     <li><strong>Consumer Acks:</strong> Manual ack after processing.</li>
+     <li><strong>Durable Queues:</strong> Survive broker restart.</li>
+     <li><strong>Persistent Messages:</strong> delivery_mode=2.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+ch.confirm_delivery()
+ch.basic_publish(exchange='', routing_key='task_q',
+                 body='msg',
+                 properties=pika.BasicProperties(delivery_mode=2))
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// enable publisher confirms\nrabbitmq-plugins enable rabbitmq_prometheus",
+            ],
+            questions: [
+              {
+                question:
+                  "Explain publisher confirms and consumer acknowledgements.",
+                solution:
+                  "<p>Publisher confirms guarantee broker receipt; consumer acks confirm processing; together ensure end-to-end reliability.</p>",
+              },
+              {
+                question: "How do you implement exactly-once semantics?",
+                solution:
+                  "<p>Idempotent consumers + deduplication (message-id cache) + at-least-once delivery guarantees.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Retry & Dead-Letter Queues",
+            tags: ["retry", "dlq", "ttl"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Use <strong>TTL + DLX</strong> to route failed messages to a retry queue with exponential backoff, or the <strong>x-delayed-message</strong> plugin for delayed re-queueing.
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# declare retry queue
+rabbitmqadmin declare queue name=retry_q \
+  arguments='{"x-dead-letter-exchange":"dlx","x-message-ttl":5000}'
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// plugin install\nrabbitmq-plugins enable rabbitmq_delayed_message_exchange",
+            ],
+            questions: [
+              {
+                question: "How do you implement a retry mechanism in RabbitMQ?",
+                solution:
+                  "<p>Use TTL + DLX to route failed messages to retry queues with exponential backoff, or the x-delayed-message plugin for delayed re-queueing.</p>",
+              },
+              {
+                question:
+                  "How do you implement retry with exponential backoff?",
+                solution:
+                  "<p>DLX + TTL + retry queue with increasing TTL values per retry attempt.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Scaling & HA",
+            tags: ["clustering", "scaling", "quorum"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Horizontal Consumers:</strong> Add more workers with same queue.</li>
+     <li><strong>Quorum Queues:</strong> Raft-based replication, fault-tolerant.</li>
+     <li><strong>Clustering:</strong> Multiple nodes share state.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# join cluster
+rabbitmqctl stop_app
+rabbitmqctl join_cluster rabbit@node2
+rabbitmqctl start_app
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// quorum queue\nrabbitmqadmin declare queue name=orders type=quorum",
+            ],
+            questions: [
+              {
+                question: "How do you scale consumers horizontally?",
+                solution:
+                  "<p>Add more consumer instances with the same queue name; RabbitMQ load-balances messages via round-robin. Ensure idempotent processing.</p>",
+              },
+              {
+                question: "Describe clustering in RabbitMQ.",
+                solution:
+                  "<p>Multiple nodes form a cluster; quorum queues (Raft) provide HA; mirrored queues (deprecated) replicate data.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Security Best Practices",
+            tags: ["security", "tls", "vhost"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>TLS:</strong> Encrypt client–broker traffic.</li>
+     <li><strong>SASL/PLAIN or LDAP:</strong> Authentication.</li>
+     <li><strong>VHost ACLs:</strong> Per-vhost permissions.</li>
+     <li><strong>Management UI:</strong> Restrict via firewall/VPN.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# enable TLS
+rabbitmqctl set_ssl_options \
+  --cacertfile /etc/ssl/ca.pem \
+  --certfile /etc/ssl/server.pem \
+  --keyfile /etc/ssl/server-key.pem
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// add user\nrabbitmqctl add_user alice StrongPass\nrabbitmqctl set_permissions -p / alice '.*' '.*' '.*'",
+            ],
+            questions: [
+              {
+                question: "How do you secure RabbitMQ?",
+                solution:
+                  "<p>Enable TLS, use SASL/LDAP auth, set VHost ACLs, restrict management UI via firewall/VPN.</p>",
+              },
+              {
+                question: "Describe RabbitMQ security best practices.",
+                solution:
+                  "<p>TLS encryption, SASL/LDAP authentication, VHost isolation, firewall rules, management UI restrictions.</p>",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advanced",
+        concepts: [
+          {
+            topic: "Global Mesh & Disaster Recovery",
+            tags: ["mesh", "dr", "multi-region"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Shovel/Federation:</strong> Cross-region replication with compression/TLS.</li>
+     <li><strong>Quorum Queues:</strong> Raft-based, 3-node quorum per region.</li>
+     <li><strong>Route 53 Health Checks:</strong> Automatic failover.</li>
+     <li><strong>Blue/Green:</strong> Parallel clusters with weighted routing.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-hcl">
+# Terraform quorum queue
+resource "rabbitmq_queue" "orders" {
+  name  = "orders"
+  vhost = "/"
+  settings {
+    type   = "quorum"
+    arguments = { "x-quorum-initial-group-size" = 3 }
+  }
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              '// Shovel config\nrabbitmq-plugins enable rabbitmq_shovel\nrabbitmqctl set_parameter shovel my-shovel \'{"src-uri":"amqp://...","dest-uri":"amqp://..."}\'',
+            ],
+            questions: [
+              {
+                question:
+                  "Design a global RabbitMQ mesh that routes 1 M messages/sec across 6 regions with <50 ms latency and 99.99 % uptime.",
+                solution:
+                  "<p>Regional clusters behind Global Accelerator; Shovel replication; Quorum queues per region; Route 53 health checks; mirrored DLQs; Prometheus federation.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Enterprise Governance & Compliance",
+            tags: ["governance", "opa", "compliance"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>OPA Policies:</strong> Terraform + OPA enforce vhost quotas, TLS, tags.</li>
+     <li><strong>Event Sourcing:</strong> Append-only quorum streams to S3 Object Lock.</li>
+     <li><strong>GDPR Delete:</strong> Stream-filtering plugin redaction.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-rego">
+# OPA policy
+deny[msg] {
+  input.vhost != "/"
+  msg := "vhost must be /"
+}
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Deploy policy\nconftest verify --policy policy.rego config.json",
+            ],
+            questions: [
+              {
+                question:
+                  "Explain how you would enforce enterprise-wide RabbitMQ governance across 500 teams.",
+                solution:
+                  "<p>Terraform + OPA policies for vhost limits, TLS, tags; CI gates; central Prometheus; auto-ticket violations.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Zero-Downtime & Blue/Green",
+            tags: ["blue-green", "canary", "deployment"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Parallel Clusters:</strong> Blue/green with weighted exchanges.</li>
+     <li><strong>Publisher Confirms:</strong> End-to-end exactly-once.</li>
+     <li><strong>Canary Routing:</strong> Route 10 % traffic via feature flags.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-yaml">
+# Kubernetes blue/green
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbit-blue
+spec:
+  selector:
+    app: rabbitmq-blue
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              '// Blue/green switch\nkubectl patch service rabbitmq -p \'{"spec":{"selector":{"app":"rabbitmq-green"}}}\'',
+            ],
+            questions: [
+              {
+                question:
+                  "Design blue/green deployments for RabbitMQ consumers processing 100 K TPS without message loss.",
+                solution:
+                  "<p>Parallel queues, weighted exchanges, publisher confirms, canary 10 % traffic, 24-hour SLA success, 7-day rollback.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Performance & Capacity Planning",
+            tags: ["performance", "capacity", "tuning"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>IO Threads:</strong> Tune disk & network threads.</li>
+     <li><strong>Memory Watermark:</strong> 40 % default, raise for SSD.</li>
+     <li><strong>Prometheus Metrics:</strong> Queue depth, latency, throughput.</li>
+     <li><strong>Large Messages:</strong> S3 pointer or compression.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+# Performance tuning
+rabbitmqctl set_vm_memory_high_watermark 0.6
+rabbitmqctl set_disk_free_limit 2GB
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// Prometheus scrape\nrabbitmq-plugins enable rabbitmq_prometheus",
+            ],
+            questions: [
+              {
+                question: "Explain RabbitMQ performance tuning.",
+                solution:
+                  "<p>IO threads, memory watermark, disk limits, queue master locator, large-message compression, Prometheus metrics.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Kubernetes & Cloud-Native",
+            tags: ["kubernetes", "cloud-native", "helm"],
+            explanation: `<div>
+   <ul style="margin-left:1.5rem;">
+     <li><strong>Helm Charts:</strong> Official RabbitMQ operator.</li>
+     <li><strong>StatefulSets:</strong> Stable node IDs and PVC.</li>
+     <li><strong>Probes:</strong> Readiness/liveness for rolling updates.</li>
+     <li><strong>Secrets:</strong> TLS certs, user creds via K8s secrets.</li>
+   </ul>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-yaml">
+# Helm install
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install rabbit bitnami/rabbitmq --set auth.password=StrongPass
+ </code>
+  </pre>
+  </div>
+ </div>`,
+            examples: [
+              "// K8s StatefulSet\nkubectl apply -f rabbitmq-statefulset.yaml",
+            ],
+            questions: [
+              {
+                question: "Explain RabbitMQ integration with Kubernetes.",
+                solution:
+                  "<p>Helm charts, StatefulSets, PVC, secrets, readiness/liveness probes, rolling updates.</p>",
               },
             ],
           },

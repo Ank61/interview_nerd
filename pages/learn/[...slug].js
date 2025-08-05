@@ -1,4 +1,3 @@
-//InitIal 
 import Box from "@mui/material/Box";
 import * as React from "react";
 import hljs from "highlight.js";
@@ -9,8 +8,9 @@ import Header from "@/components/header";
 import { useRouter } from "next/router";
 // import { prepareData } from "@/data/prepareData";
 
-import connectDB from "@/lib/mongodb";
-import PrepareData from "@/models/PrepareData";
+// import connectDB from "@/lib/mongodb";
+// import PrepareData from "@/models/PrepareData";
+import { prepareData } from "@/data/prepareData";
 
 export default function Learn({
   topic,
@@ -52,40 +52,42 @@ export default function Learn({
           <p>No content available.</p>
         )}
       </Box>
-      <Box 
+      <Box
         // className="flex justify-between gap-4 mt-10 mb-6"
         className="flex justify-between gap-4 mt-10 mb-6 ml-3 mr-3"
+      >
+        <Button
+          onClick={() => router.push(`/test/${topic}`)}
+          style={{
+            backgroundColor: theme?.themeBgColor,
+            color: theme?.textColor,
+          }}
+          className="text-md w-full"
         >
-          <Button
-            onClick={() => router.push(`/test/${topic}`)}
-            style={{
-              backgroundColor: theme?.themeBgColor,
-              color: theme?.textColor,
-            }}
-            className="text-md w-full"
-          >
-            Questions <BookCheck size={"20px"} className="ml-3" />
-          </Button>
-          <Button
-            onClick={() => router.push(`/learn/${category}/${nextTopic}`)}
-            style={{
-              backgroundColor: theme?.themeBgColor,
-              color: theme?.textColor,
-            }}
-            className=" text-md w-full"
-          >
-            Next Topic
-            <ArrowRight size={"20px"} className="ml-3" />
-          </Button>
-        </Box>
+          Questions <BookCheck size={"20px"} className="ml-3" />
+        </Button>
+        <Button
+          onClick={() => router.push(`/learn/${category}/${nextTopic}`)}
+          style={{
+            backgroundColor: theme?.themeBgColor,
+            color: theme?.textColor,
+          }}
+          className=" text-md w-full"
+        >
+          Next Topic
+          <ArrowRight size={"20px"} className="ml-3" />
+        </Button>
+      </Box>
     </Box>
   );
 }
 
 export async function getStaticPaths() {
-  await connectDB();
-  const allData = await PrepareData.find({}).lean();
-  const paths = allData.reduce((acc, item) => {
+  // await connectDB();
+  // const allData = await PrepareData.find({}).lean();
+
+  // Get paths from database
+  const dbPaths = prepareData.reduce((acc, item) => {
     return [
       ...acc,
       ...item.type.flatMap((typeItem) =>
@@ -96,14 +98,38 @@ export async function getStaticPaths() {
     ];
   }, []);
 
+  // Get paths from static data (for topics not in database like AWS S3)
+  const staticPaths = prepareData.reduce((acc, item) => {
+    return [
+      ...acc,
+      ...item.type.flatMap((typeItem) =>
+        typeItem.concepts.map((conceptItem) => ({
+          params: { slug: [item.category, conceptItem.topic] },
+        }))
+      ),
+    ];
+  }, []);
+
+  // Combine and deduplicate paths
+  const allPaths = [...dbPaths, ...staticPaths];
+  const uniquePaths = allPaths.filter(
+    (path, index, self) =>
+      index ===
+      self.findIndex(
+        (p) =>
+          p.params.slug[0] === path.params.slug[0] &&
+          p.params.slug[1] === path.params.slug[1]
+      )
+  );
+
   return {
-    paths,
+    paths: uniquePaths,
     fallback: "blocking",
   };
 }
 
 export async function getStaticProps({ params }) {
-  await connectDB();
+  // await connectDB();
   const slug = params.slug;
   const selected = slug[slug.length - 1];
   let themeColor = {};
@@ -111,8 +137,38 @@ export async function getStaticProps({ params }) {
   let explanation = "";
   let category = "";
 
-  const allData = await PrepareData.find({}).lean();
-  allData.forEach((item) => {
+  // First try to find data in database
+  // const allData = await PrepareData.find({}).lean();
+  // let foundInDb = false;
+
+  // allData.forEach((item) => {
+  //   if (item.type) {
+  //     item.type.forEach((typeItem) => {
+  //       typeItem.concepts.forEach((conceptItem, index) => {
+  //         if (conceptItem.topic === selected) {
+  //           foundInDb = true;
+  //           category = item?.category || selected;
+  //           themeColor = {
+  //             category: item.category,
+  //             themeBgColor: item.themeBgColor,
+  //             textColor: item.textColor,
+  //             topicColor: item.topicColor,
+  //             lightColor: item.lightColor || item.themeBgColor,
+  //           };
+  //           explanation = conceptItem.explanation || "";
+  //           const next = typeItem.concepts[index + 1];
+  //           if (next) {
+  //             nextTopic = next.topic;
+  //           }
+  //         }
+  //       });
+  //     });
+  //   }
+  // });
+
+  // If not found in database, try static data
+  // if (!foundInDb) {
+  prepareData.forEach((item) => {
     if (item.type) {
       item.type.forEach((typeItem) => {
         typeItem.concepts.forEach((conceptItem, index) => {
@@ -135,6 +191,8 @@ export async function getStaticProps({ params }) {
       });
     }
   });
+  // }
+
   return {
     props: {
       topic: selected,
