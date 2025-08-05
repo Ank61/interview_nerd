@@ -232,6 +232,8 @@ function AccordionQuestion({ question, topic, index }) {
                       ? "bg-Node-lightTheme border border-Node-border"
                       : topic === "Typescript"
                       ? "bg-Typescript-lightTheme border border-Typescript-border"
+                      : topic === "AWS S3"
+                      ? "bg-AWS-lightTheme border border-AWS-border"
                       : "bg-white border border-gray-200"
                   }`}
                 >
@@ -606,6 +608,8 @@ export default function BasicTabs({
                 ? "border-Node-border "
                 : topic === "Typescript"
                 ? "border-Typescript-border "
+                : topic === "AWS S3"
+                ? "border-AWS-border "
                 : ""
             } bg-gray-100 dark:bg-gray-800 w-full`}
             style={{ textTransform: "none", outline: "none" }}
@@ -1255,6 +1259,8 @@ export default function BasicTabs({
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : topic === "Typescript"
                     ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                    : topic === "AWS S3"
+                    ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
                     : ""
                 }`}
               >
@@ -1272,6 +1278,8 @@ export default function BasicTabs({
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : topic === "Typescript"
                     ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                    : topic === "AWS S3"
+                    ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
                     : ""
                 }`}
               >
@@ -1289,6 +1297,8 @@ export default function BasicTabs({
                     ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                     : topic === "Typescript"
                     ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
+                    : topic === "AWS S3"
+                    ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
                     : ""
                 }`}
               >

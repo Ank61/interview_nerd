@@ -80,11 +80,11 @@ module.exports = {
           lightTheme: "#E9F4FF",
         },
         AWS: {
-          bg: "#E9F4FF",
-          text: "#8B2635",
-          topic: "#8B2635",
-          border: "#FFEFEF",
-          lightTheme: "#FFEFEF",
+          bg: "#FFEAF0",
+          text: "#9A5761",
+          topic: "#9A5761",
+          border: "#FFEAF0",
+          lightTheme: "#FFEAF0",
         },
       },
       borderRadius: {

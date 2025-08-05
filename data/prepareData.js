@@ -27006,10 +27006,10 @@ class Container {
   {
     id: 6,
     category: "AWS S3",
-    themeBgColor: "#FFEFEF",
-    textColor: "#8B2635",
-    topicColor: "#8B2635",
-    lightColor: "#FFEFEF",
+    themeBgColor: "#40417A",
+    textColor: "#4A0A14",
+    topicColor: "#4A0A14",
+    lightColor: "#40417A",
     type: [
       {
         id: 1,
@@ -27018,122 +27018,8 @@ class Container {
           {
             topic: "What is S3",
             tags: ["basics", "object-storage"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    Amazon S3 (Simple Storage Service) is AWS’s fully-managed, infinitely-scalable object storage designed for 11×9’s (99.999 999 999 %) durability, 99.99 % availability, millisecond latency, and virtually unlimited throughput. Objects are stored redundantly across multiple facilities and devices in a Region using erasure-coding and continuous integrity checks.
-  </p>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-bash">
-# Quick start
-aws s3 mb s3://my-unique-bucket --region us-east-1
-aws s3 cp ./localfile.txt s3://my-unique-bucket/
-aws s3 ls s3://my-unique-bucket
-</code></pre>
-  </div>
-
-  <p style="line-height: 1.75;">
-    An <strong>object</strong> = data (0 B–5 TB) + key + metadata + version-id + storage-class. A <strong>bucket</strong> is a globally-unique DNS container for objects, created in a specific AWS Region.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Core Concepts
-  </h4>
-  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Durability 11×9’s:</span> Data is redundantly stored across multiple AZs using erasure-coding. Automatic corruption detection and repair.
-      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
-        <li>Each object is split into data and parity shards, distributed across ≥ 3 Availability Zones.</li>
-        <li>Continuous background scanning with CRC checksums; lost shards are automatically reconstructed.</li>
-      </ul>
-    </li>
-
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Unlimited Scale:</span> Pay-as-you-go, virtually infinite storage and throughput.
-      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
-        <li>No bucket size limit; single object can be 0 bytes to 5 TB, uploaded via single PUT or multipart (up to 10,000 parts, each 5 MiB – 5 GiB).</li>
-        <li>Parallelized GET/PUT with byte-range fetches and multipart uploads.</li>
-      </ul>
-    </li>
-
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Storage Classes:</span>
-      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
-        <li><strong>Standard:</strong> general-purpose, millisecond access.</li>
-        <li><strong>Intelligent-Tiering:</strong> auto-moves objects between frequent/infrequent access tiers.</li>
-        <li><strong>Standard-IA & One Zone-IA:</strong> lower cost for infrequently accessed data.</li>
-        <li><strong>Glacier Instant/Deep Archive:</strong> archive tiers with minutes-to-hours retrieval.</li>
-        <li><strong>Reduced Redundancy (legacy):</strong> lower durability at lower cost.</li>
-      </ul>
-    </li>
-
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Access Control & Security:</span>
-      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
-        <li>IAM policies, bucket policies, ACLs, and S3 Access Points.</li>
-        <li>Block Public Access settings at account and bucket level.</li>
-        <li>Encryption: SSE-S3, SSE-KMS, SSE-C, and client-side encryption.</li>
-        <li>Object Lock (WORM) & MFA-delete for compliance.</li>
-      </ul>
-    </li>
-
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Transfer & Acceleration:</span>
-      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
-        <li>S3 Transfer Acceleration for faster uploads via CloudFront edge POPs.</li>
-        <li>Cross-Region Replication (CRR) & Same-Region Replication (SRR).</li>
-        <li>S3 Batch Operations for large-scale PUT/COPY/DELETE.</li>
-      </ul>
-    </li>
-
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Event-Driven Features:</span>
-      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
-        <li>S3 Event Notifications → SNS, SQS, Lambda, EventBridge.</li>
-        <li>S3 Object Lambda to transform data on-the-fly during GET requests.</li>
-      </ul>
-    </li>
-
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Query in Place:</span>
-      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">
-        <li>S3 Select & Glacier Select for server-side SQL filtering.</li>
-        <li>Amazon Athena & Redshift Spectrum for analytics without moving data.</li>
-      </ul>
-    </li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Bucket Fundamentals
-  </h4>
-  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li><strong>Global namespace:</strong> Must be DNS-compliant, 3–63 chars, lowercase, no underscores.</li>
-    <li><strong>Region-bound:</strong> Once created, bucket’s Region never changes; objects inherit the Region.</li>
-    <li><strong>Lifecycle rules:</span> Transition objects to cheaper classes or schedule deletion.</li>
-    <li><strong>Logging:</strong> Server-access logs or CloudTrail data events for audit.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Pricing Dimensions
-  </h4>
-  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li>Storage volume (per-GB-month per class).</li>
-    <li>Requests (per 1,000 PUT/COPY/POST/LIST or GET/SELECT).</li>
-    <li>Data transfer (first 100 GB/mo free, then tiered).</li>
-    <li>Early deletion and retrieval fees for IA/Glacier.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Additional Best Practices
-  </h4>
-  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li>Enable versioning + MFA delete to protect against accidental overwrites.</li>
-    <li>Use pre-signed URLs for secure, time-limited sharing.</li>
-    <li>Monitor with CloudWatch (4xx/5xx metrics, storage-lens).</li>
-    <li>Implement least-privilege IAM roles and bucket policies.</li>
-    <li>Leverage S3 Inventory for bulk auditing and S3 Batch Operations for remediation.</li>
-  </ul>
-</div>`,
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">\n    Amazon S3 (Simple Storage Service) is AWS’s fully-managed, infinitely-scalable object storage designed for 11×9’s (99.999 999 999 %) durability, 99.99 % availability, millisecond latency, and virtually unlimited throughput. Objects are stored redundantly across multiple facilities and devices in a Region using erasure-coding and continuous integrity checks.\n  </p>\n\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-bash">\n# Quick start\naws s3 mb s3://my-unique-bucket --region us-east-1\naws s3 cp ./localfile.txt s3://my-unique-bucket/\naws s3 ls s3://my-unique-bucket\n</code></pre>\n  </div>\n\n  <p style="line-height: 1.75;">\n    An <strong>object</strong> = data (0 B–5 TB) + key + metadata + version-id + storage-class. A <strong>bucket</strong> is a globally-unique DNS container for objects, created in a specific AWS Region.\n  </p>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Core Concepts\n  </h4>\n  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Durability 11×9’s:</span> Data is redundantly stored across multiple AZs using erasure-coding. Automatic corruption detection and repair.\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>Each object is split into data and parity shards, distributed across ≥ 3 Availability Zones.</li>\n        <li>Continuous background scanning with CRC checksums; lost shards are automatically reconstructed.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Unlimited Scale:</span> Pay-as-you-go, virtually infinite storage and throughput.\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>No bucket size limit; single object can be 0 bytes to 5 TB, uploaded via single PUT or multipart (up to 10,000 parts, each 5 MiB – 5 GiB).</li>\n        <li>Parallelized GET/PUT with byte-range fetches and multipart uploads.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Storage Classes:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li><strong>Standard:</strong> general-purpose, millisecond access.</li>\n        <li><strong>Intelligent-Tiering:</strong> auto-moves objects between frequent/infrequent access tiers.</li>\n        <li><strong>Standard-IA & One Zone-IA:</strong> lower cost for infrequently accessed data.</li>\n        <li><strong>Glacier Instant/Deep Archive:</strong> archive tiers with minutes-to-hours retrieval.</li>\n        <li><strong>Reduced Redundancy (legacy):</strong> lower durability at lower cost.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Access Control & Security:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>IAM policies, bucket policies, ACLs, and S3 Access Points.</li>\n        <li>Block Public Access settings at account and bucket level.</li>\n        <li>Encryption: SSE-S3, SSE-KMS, SSE-C, and client-side encryption.</li>\n        <li>Object Lock (WORM) & MFA-delete for compliance.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Data Transfer & Acceleration:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Transfer Acceleration for faster uploads via CloudFront edge POPs.</li>\n        <li>Cross-Region Replication (CRR) & Same-Region Replication (SRR).</li>\n        <li>S3 Batch Operations for large-scale PUT/COPY/DELETE.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Event-Driven Features:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Event Notifications → SNS, SQS, Lambda, EventBridge.</li>\n        <li>S3 Object Lambda to transform data on-the-fly during GET requests.</li>\n      </ul>\n    </li>\n\n    <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Query in Place:</span>\n      <ul style="margin-top: 0.5rem; margin-left: 1rem; list-style-type: disc;">\n        <li>S3 Select & Glacier Select for server-side SQL filtering.</li>\n        <li>Amazon Athena & Redshift Spectrum for analytics without moving data.</li>\n      </ul>\n    </li>\n  </ol>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Bucket Fundamentals\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Global namespace:</strong> Must be DNS-compliant, 3–63 chars, lowercase, no underscores.</li>\n    <li><strong>Region-bound:</strong> Once created, bucket’s Region never changes; objects inherit the Region.</li>\n    <li><strong>Lifecycle rules:</span> Transition objects to cheaper classes or schedule deletion.</li>\n    <li><strong>Logging:</strong> Server-access logs or CloudTrail data events for audit.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Pricing Dimensions\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>Storage volume (per-GB-month per class).</li>\n    <li>Requests (per 1,000 PUT/COPY/POST/LIST or GET/SELECT).</li>\n    <li>Data transfer (first 100 GB/mo free, then tiered).</li>\n    <li>Early deletion and retrieval fees for IA/Glacier.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Additional Best Practices\n  </h4>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li>Enable versioning + MFA delete to protect against accidental overwrites.</li>\n    <li>Use pre-signed URLs for secure, time-limited sharing.</li>\n    <li>Monitor with CloudWatch (4xx/5xx metrics, storage-lens).</li>\n    <li>Implement least-privilege IAM roles and bucket policies.</li>\n    <li>Leverage S3 Inventory for bulk auditing and S3 Batch Operations for remediation.</li>\n  </ul>\n</div>',
             examples: [
               "// Bucket naming rules\naws s3 mb s3://my-unique-bucket-2025 --region eu-west-1",
               "// Upload entire folder recursively\naws s3 cp ./my-folder s3://my-unique-bucket/2025/ --recursive",
@@ -27164,45 +27050,16 @@ aws s3 ls s3://my-unique-bucket
               },
             ],
             links: [
-              '<url id="" type="url" status="" title="S3 Product Page" wc="">https://aws.amazon.com/s3/ </url>',
-              '<url id="" type="url" status="" title="S3 Storage Classes" wc="">https://docs.aws.amazon.com/s3/latest/userguide/storage-class-intro.html </url>',
-              '<url id="" type="url" status="" title="S3 Security Best Practices" wc="">https://docs.aws.amazon.com/s3/latest/userguide/security-best-practices.html </url>',
+              '<url id="" type="url" status="" title="S3 Product Page" wc=""><url id="" type="url" status="" title="" wc="">https://aws.amazon.com/s3/</url>  </url>',
+              '<url id="" type="url" status="" title="S3 Storage Classes" wc=""><url id="" type="url" status="" title="" wc="">https://docs.aws.amazon.com/s3/latest/userguide/storage-class-intro.html</url>  </url>',
+              '<url id="" type="url" status="" title="S3 Security Best Practices" wc=""><url id="" type="url" status="" title="" wc="">https://docs.aws.amazon.com/s3/latest/userguide/security-best-practices.html</url>  </url>',
             ],
           },
           {
             topic: "Buckets & Objects",
             tags: ["buckets", "objects", "keys"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A <strong>bucket</strong> is a global namespace container created in a specific Region; names must be 3-63 chars, lowercase, DNS-compatible. An <strong>object</strong> holds up to 5 TB of data plus metadata and is identified by a key (path).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Create bucket
-aws s3api create-bucket \
-  --bucket my-unique-bucket \
-  --create-bucket-configuration LocationConstraint=us-west-2
-
-# Upload object
-aws s3 cp ./photo.jpg s3://my-unique-bucket/images/2025/08/photo.jpg
- </code>
-  </pre>
-  </div>
- <p style="line-height: 1.75;">
-  Key limits: 1,024 UTF-8 bytes. Object size: 0 B–5 TB (multipart for >5 GB).
-  </p>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Bucket & Object Best Practices
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Naming Conventions:</span> Lowercase, no underscores, use prefixes for organization.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Rules:</span> Automate transitions to cheaper storage or deletion.
-     </li>
-   </ol>
- </div>`,
+            explanation:
+              '<div>\n   <p style="line-height: 1.75; margin-top: 1.5rem;">\n     A <strong>bucket</strong> is a global namespace container created in a specific Region; names must be 3-63 chars, lowercase, DNS-compatible. An <strong>object</strong> holds up to 5 TB of data plus metadata and is identified by a key (path).\n   </p>\n   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n      <pre><code className="language-bash">\n# Create bucket\naws s3api create-bucket \\\n  --bucket my-unique-bucket \\\n  --create-bucket-configuration LocationConstraint=us-west-2\n\n# Upload object\naws s3 cp ./photo.jpg s3://my-unique-bucket/images/2025/08/photo.jpg\n </code>\n  </pre>\n  </div>\n <p style="line-height: 1.75;">\n  Key limits: 1,024 UTF-8 bytes. Object size: 0 B–5 TB (multipart for >5 GB).\n  </p>\n   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n     Bucket & Object Best Practices\n   </h4>\n   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">\n     <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Naming Conventions:</span> Lowercase, no underscores, use prefixes for organization.\n     </li>\n     <li style="margin-top: 0.5rem;">\n      <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Rules:</span> Automate transitions to cheaper storage or deletion.\n     </li>\n   </ol>\n </div>',
             examples: [
               "// Naming best practice\naws s3 mb s3://com-mycompany-prod-logs-2025",
             ],
@@ -27221,162 +27078,13 @@ aws s3 cp ./photo.jpg s3://my-unique-bucket/images/2025/08/photo.jpg
           {
             topic: "Storage Classes",
             tags: ["storage-classes", "cost", "lifecycle"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    Amazon S3 offers seven storage classes engineered to balance cost, availability, retrieval time, and use-case patterns. Each class inherits S3’s 11×9s durability, but differs in availability SLA, minimum billable object size, minimum storage duration, and retrieval charge model.
-  </p>
-
-  <table style="border-collapse: collapse; width: 100%; margin-top: 1rem;">
-    <thead>
-      <tr>
-        <th style="border: 1px solid #d5d9dd; padding: 8px;">Class</th>
-        <th style="border: 1px solid #d5d9dd; padding: 8px;">Availability SLA</th>
-        <th style="border: 1px solid #d5d9dd; padding: 8px;">Min Object Size / Duration</th>
-        <th style="border: 1px solid #d5d9dd; padding: 8px;">Retrieval Time</th>
-        <th style="border: 1px solid #d5d9dd; padding: 8px;">Typical Use-Case</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard</strong></td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">– / –</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">Hot data, dynamic websites, big-data analytics</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Intelligent-Tiering</strong></td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">Unknown or changing access patterns</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard-IA</strong></td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-lived, infrequently accessed data</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>One Zone-IA</strong></td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.5 %</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">Recreatable or secondary copy data</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Instant Retrieval</strong></td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 90 days</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms–seconds</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive with occasional instant access</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Flexible Retrieval</strong></td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 90 days</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">minutes–hours (expedited, standard, bulk)</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive for compliance or long-term backup</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Deep Archive</strong></td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 180 days</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">12–48 hours</td>
-        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-term digital preservation</td>
-      </tr>
-    </tbody>
-  </table>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Cost & Retrieval Model
-  </h4>
-  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-    <li><strong>Storage price:</strong> Decreases from Standard → Deep Archive.</li>
-    <li><strong>Retrieval price:</strong> Increases from Standard → Deep Archive (charged per GB retrieved plus request fees).</li>
-    <li><strong>Early deletion:</strong> If an object is deleted or transitioned before the minimum duration, you are billed for the remaining days.</li>
-    <li><strong>Request pricing:</strong> PUT/COPY/POST/LIST and GET/SELECT requests are priced per 1,000; Glacier classes also charge tier-specific retrieval requests.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Lifecycle Policies Deep-Dive
-  </h4>
-  <p style="line-height: 1.75;">
-    Use lifecycle rules to automatically transition objects between classes or delete them based on age or date. Rules can target:
-  </p>
-  <ul style="margin-left: 1.5rem;">
-    <li>Entire bucket or specific prefixes/tags.</li>
-    <li>Current versions, non-current versions, or incomplete multipart uploads.</li>
-    <li>Abort incomplete multipart uploads after N days to cut hidden storage costs.</li>
-  </ul>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-json">
-// lifecycle.json – archive to Glacier Instant after 90 days,
-// delete current objects after 7 years,
-// delete non-current versions after 30 days
-{
-  "Rules": [
-    {
-      "ID": "ArchiveOldData",
-      "Status": "Enabled",
-      "Filter": { "Prefix": "logs/" },
-      "Transitions": [
-        { "Days": 90, "StorageClass": "GLACIER_IR" }
-      ],
-      "Expiration": { "Days": 2555 },
-      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },
-      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }
-    }
-  ]
-}
-</code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    One Zone Storage Classes (IA & Glacier Instant)
-  </h4>
-  <ul style="margin-left: 1.5rem;">
-    <li>Data is stored in a single Availability Zone (AZ) and is ~20 % cheaper than multi-AZ classes.</li>
-    <li>Not resilient to AZ destruction; suitable for secondary copies or easily re-creatable data.</li>
-    <li>Cannot be used with Cross-Region Replication (CRR).</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Intelligent-Tiering Mechanics
-  </h4>
-  <ul style="margin-left: 1.5rem;">
-    <li>Objects ≥128 KB are monitored; after 30 consecutive days of no access they move to Infrequent-Access tier, then to Archive-Instant tiers after further 90 days.</li>
-    <li>No retrieval charges; small monthly monitoring and automation fee per 1,000 objects.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    CLI & SDK Usage
-  </h4>
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-bash">
-# Upload directly to Glacier Flexible Retrieval
-aws s3 cp ./backup.sql s3://my-archive-bucket/backups/2025/08/backup.sql \
-  --storage-class GLACIER
-
-# Change existing object's class
-aws s3 cp s3://bucket/report.csv s3://bucket/report.csv \
-  --storage-class STANDARD_IA \
-  --metadata-directive COPY
-
-# Multi-part upload to Intelligent-Tiering
-aws s3 cp ./bigfile.dat s3://bucket/bigfile.dat \
-  --storage-class INTELLIGENT_TIERING \
-  --expected-size 8589934592  # 8 GB
-</code></pre>
-  </div>
-</div>`,
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">\n    Amazon S3 offers seven storage classes engineered to balance cost, availability, retrieval time, and use-case patterns. Each class inherits S3’s 11×9s durability, but differs in availability SLA, minimum billable object size, minimum storage duration, and retrieval charge model.\n  </p>\n\n  <table style="border-collapse: collapse; width: 100%; margin-top: 1rem;">\n    <thead>\n      <tr>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Class</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Availability SLA</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Min Object Size / Duration</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Retrieval Time</th>\n        <th style="border: 1px solid #d5d9dd; padding: 8px;">Typical Use-Case</th>\n      </tr>\n    </thead>\n    <tbody>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">– / –</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Hot data, dynamic websites, big-data analytics</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Intelligent-Tiering</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Unknown or changing access patterns</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Standard-IA</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-lived, infrequently accessed data</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>One Zone-IA</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.5 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 30 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Recreatable or secondary copy data</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Instant Retrieval</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.9 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">128 KB / 90 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">ms–seconds</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive with occasional instant access</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Glacier Flexible Retrieval</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 90 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">minutes–hours (expedited, standard, bulk)</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Archive for compliance or long-term backup</td>\n      </tr>\n      <tr>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Deep Archive</strong></td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">99.99 %</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">40 KB / 180 days</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">12–48 hours</td>\n        <td style="border: 1px solid #d5d9dd; padding: 8px;">Long-term digital preservation</td>\n      </tr>\n    </tbody>\n  </table>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Cost & Retrieval Model\n  </h4>\n  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">\n    <li><strong>Storage price:</strong> Decreases from Standard → Deep Archive.</li>\n    <li><strong>Retrieval price:</strong> Increases from Standard → Deep Archive (charged per GB retrieved plus request fees).</li>\n    <li><strong>Early deletion:</strong> If an object is deleted or transitioned before the minimum duration, you are billed for the remaining days.</li>\n    <li><strong>Request pricing:</strong> PUT/COPY/POST/LIST and GET/SELECT requests are priced per 1,000; Glacier classes also charge tier-specific retrieval requests.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Lifecycle Policies Deep-Dive\n  </h4>\n  <p style="line-height: 1.75;">\n    Use lifecycle rules to automatically transition objects between classes or delete them based on age or date. Rules can target:\n  </p>\n  <ul style="margin-left: 1.5rem;">\n    <li>Entire bucket or specific prefixes/tags.</li>\n    <li>Current versions, non-current versions, or incomplete multipart uploads.</li>\n    <li>Abort incomplete multipart uploads after N days to cut hidden storage costs.</li>\n  </ul>\n\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-json">\n// lifecycle.json – archive to Glacier Instant after 90 days,\n// delete current objects after 7 years,\n// delete non-current versions after 30 days\n{\n  "Rules": [\n    {\n      "ID": "ArchiveOldData",\n      "Status": "Enabled",\n      "Filter": { "Prefix": "logs/" },\n      "Transitions": [\n        { "Days": 90, "StorageClass": "GLACIER_IR" }\n      ],\n      "Expiration": { "Days": 2555 },\n      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },\n      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }\n    }\n  ]\n}\n</code></pre>\n  </div>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    One Zone Storage Classes (IA & Glacier Instant)\n  </h4>\n  <ul style="margin-left: 1.5rem;">\n    <li>Data is stored in a single Availability Zone (AZ) and is ~20 % cheaper than multi-AZ classes.</li>\n    <li>Not resilient to AZ destruction; suitable for secondary copies or easily re-creatable data.</li>\n    <li>Cannot be used with Cross-Region Replication (CRR).</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Intelligent-Tiering Mechanics\n  </h4>\n  <ul style="margin-left: 1.5rem;">\n    <li>Objects ≥128 KB are monitored; after 30 consecutive days of no access they move to Infrequent-Access tier, then to Archive-Instant tiers after further 90 days.</li>\n    <li>No retrieval charges; small monthly monitoring and automation fee per 1,000 objects.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    CLI & SDK Usage\n  </h4>\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-bash">\n# Upload directly to Glacier Flexible Retrieval\naws s3 cp ./backup.sql s3://my-archive-bucket/backups/2025/08/backup.sql \\\n  --storage-class GLACIER\n\n# Change existing object\'s class\naws s3 cp s3://bucket/report.csv s3://bucket/report.csv \\\n  --storage-class STANDARD_IA \\\n  --metadata-directive COPY\n\n# Multi-part upload to Intelligent-Tiering\naws s3 cp ./bigfile.dat s3://bucket/bigfile.dat \\\n  --storage-class INTELLIGENT_TIERING \\\n  --expected-size 8589934592  # 8 GB\n</code></pre>\n  </div>\n</div>',
             examples: [
               "// Lifecycle JSON\naws s3api put-bucket-lifecycle-configuration --bucket my-archive-bucket --lifecycle-configuration file://lifecycle.json",
               "// Upload big file to Glacier Deep Archive\naws s3 cp ./dataset.zip s3://my-archive-bucket/datasets/2025/dataset.zip --storage-class DEEP_ARCHIVE",
-              '// Transition all objects with tag \'archive=true\' after 60 days\naws s3api put-bucket-lifecycle-configuration --bucket my-data-bucket --lifecycle-configuration \'{\n  "Rules": [{\n    "ID": "TagBasedArchive",\n    "Status": "Enabled",\n    "Filter": { "Tag": { "Key": "archive", "Value": "true" } },\n    "Transitions": [{ "Days": 60, "StorageClass": "GLACIER_FLEXIBLE_RETRIEVAL" }]\n  }]\n}\'',
-              '// Restore an archived object (bulk tier)\naws s3api restore-object --bucket my-archive-bucket --key datasets/2025/dataset.zip --restore-request \'{"Days": 7, "GlacierJobParameters": {"Tier": "Bulk"}}\'',
+              '// Transition all objects with tag \'archive=true\' after 60 days\naws s3api put-bucket-lifecycle-configuration --bucket my-data-bucket --lifecycle-configuration \'{"Rules":[{"ID":"TagBasedArchive","Status":"Enabled","Filter":{"Tag":{"Key":"archive","Value":"true"}},"Transitions":[{"Days":60,"StorageClass":"GLACIER_FLEXIBLE_RETRIEVAL"}]}]}\'',
+              '// Restore an archived object (bulk tier)\naws s3api restore-object --bucket my-archive-bucket --key datasets/2025/dataset.zip --restore-request \'{"Days":7,"GlacierJobParameters":{"Tier":"Bulk"}}\'',
               "// Enable Intelligent-Tiering for new uploads\naws s3 cp ./reports/ s3://my-reports-bucket/ --recursive --storage-class INTELLIGENT_TIERING",
             ],
             questions: [
@@ -27413,118 +27121,8 @@ aws s3 cp ./bigfile.dat s3://bucket/bigfile.dat \
           {
             topic: "Versioning & Lifecycle",
             tags: ["versioning", "lifecycle", "mfa-delete"],
-            explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>S3 Versioning</strong> retains every PUT/DELETE of an object as a distinct version identified by a unique <code>version-id</code>. Once enabled on a bucket, versioning can only be <em>suspended</em>—never fully turned off—ensuring data immutability. <strong>S3 Lifecycle</strong> rules automate the transition of objects (or their versions) to cheaper storage classes or schedule deletions based on age, prefix, tag, or object size filters, helping you optimize cost and meet compliance.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Versioning Deep-Dive
-  </h4>
-  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-    <li><strong>Suspend vs. Disable:</strong> Suspending stops new versions but preserves existing ones; only a root-account holder can <em>permanently</em> delete versions.</li>
-    <li><strong>Version-ID:</strong> UUID string returned on every PUT; use <code>--version-id</code> CLI flag to download, copy, or delete a specific version.</li>
-    <li><strong>DELETE semantics:</strong> A DELETE creates a delete-marker version; the object still exists. To truly purge data you must DELETE the specific version-id.</li>
-    <li><strong>Storage costs:</strong> Each version is billed as a separate object. Use Lifecycle rules to expire non-current versions to control cost.</li>
-    <li><strong>MFA-Delete:</strong> Requires an MFA token to permanently delete versions or suspend versioning—ideal for compliance and ransomware protection.</li>
-    <li><strong>Cross-Region Replication (CRR) & Same-Region Replication (SRR):</strong> Versioning must be enabled on both source and destination buckets.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Lifecycle Rules Deep-Dive
-  </h4>
-  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-    <li><strong>Rule Scope:</strong> Entire bucket, prefix (folder), object tag, or object size.</li>
-    <li><strong>Actions:</strong>
-      <ul style="margin-left: 1.5rem;">
-        <li><code>Transition</code> – move to cheaper class after N days.</li>
-        <li><code>Expiration</code> – delete objects or non-current versions.</li>
-        <li><code>AbortIncompleteMultipartUpload</code> – purge dangling uploads.</li>
-      </ul>
-    </li>
-    <li><strong>Timing:</strong> Actions run once daily at 00:00 UTC; changes take ≤ 24 h to propagate.</li>
-    <li><strong>Cost:</strong> Lifecycle transitions incur request charges; no charge for deletions.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    MFA-Delete Workflow
-  </h4>
-  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
-    <li>Enable versioning on the bucket.</li>
-    <li>Attach a virtual or hardware MFA device to the root account.</li>
-    <li>Run <code>put-bucket-versioning</code> with <code>MfaDelete=Enabled</code>.</li>
-    <li>Any <code>delete-object-version</code> or <code>suspend-versioning</code> call must include the MFA token.</li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    JSON Lifecycle Templates
-  </h4>
-
-  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-    <pre><code className="language-json">
-// 1) Archive current logs to Glacier Instant after 30 days,
-//    delete non-current versions after 30 days,
-//    delete current objects after 7 years
-{
-  "Rules": [
-    {
-      "ID": "ArchiveLogs",
-      "Status": "Enabled",
-      "Filter": { "Prefix": "logs/" },
-      "Transitions": [
-        { "Days": 30, "StorageClass": "GLACIER_IR" }
-      ],
-      "Expiration": { "Days": 2555 },
-      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },
-      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }
-    }
-  ]
-}
-
-// 2) Tag-based rule for media files
-{
-  "Rules": [
-    {
-      "ID": "MediaArchive",
-      "Status": "Enabled",
-      "Filter": { "Tag": { "Key": "media", "Value": "true" } },
-      "Transitions": [
-        { "Days": 90, "StorageClass": "STANDARD_IA" },
-        { "Days": 365, "StorageClass": "GLACIER" }
-      ],
-      "NoncurrentVersionTransitions": [
-        { "NoncurrentDays": 30, "StorageClass": "GLACIER" }
-      ]
-    }
-  ]
-}
-
-// 3) Object-size filter (≥ 128 KB) to Intelligent-Tiering
-{
-  "Rules": [
-    {
-      "ID": "BigObjects",
-      "Status": "Enabled",
-      "Filter": { "ObjectSizeGreaterThan": 131072 },
-      "Transitions": [
-        { "Days": 0, "StorageClass": "INTELLIGENT_TIERING" }
-      ]
-    }
-  ]
-}
-</code></pre>
-  </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Monitoring & Best Practices
-  </h4>
-  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
-    <li>Enable CloudWatch metrics <code>NumberOfObjects</code> and <code>BucketSizeBytes</code> per storage class.</li>
-    <li>Use S3 Storage Lens to track non-current version storage and lifecycle transition savings.</li>
-    <li>Test lifecycle rules in a dev bucket with <code>Status=Disabled</code> first.</li>
-    <li>Combine versioning + lifecycle + MFA-Delete for ransomware-proof backups.</li>
-  </ul>
-</div>`,
+            explanation:
+              '<div>\n  <p style="line-height: 1.75; margin-top: 1.5rem;">\n    <strong>S3 Versioning</strong> retains every PUT/DELETE of an object as a distinct version identified by a unique <code>version-id</code>. Once enabled on a bucket, versioning can only be <em>suspended</em>—never fully turned off—ensuring data immutability. <strong>S3 Lifecycle</strong> rules automate the transition of objects (or their versions) to cheaper storage classes or schedule deletions based on age, prefix, tag, or object size filters, helping you optimize cost and meet compliance.\n  </p>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Versioning Deep-Dive\n  </h4>\n  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">\n    <li><strong>Suspend vs. Disable:</strong> Suspending stops new versions but preserves existing ones; only a root-account holder can <em>permanently</em> delete versions.</li>\n    <li><strong>Version-ID:</strong> UUID string returned on every PUT; use <code>--version-id</code> CLI flag to download, copy, or delete a specific version.</li>\n    <li><strong>DELETE semantics:</strong> A DELETE creates a delete-marker version; the object still exists. To truly purge data you must DELETE the specific version-id.</li>\n    <li><strong>Storage costs:</strong> Each version is billed as a separate object. Use Lifecycle rules to expire non-current versions to control cost.</li>\n    <li><strong>MFA-Delete:</strong> Requires an MFA token to permanently delete versions or suspend versioning—ideal for compliance and ransomware protection.</li>\n    <li><strong>Cross-Region Replication (CRR) & Same-Region Replication (SRR):</strong> Versioning must be enabled on both source and destination buckets.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Lifecycle Rules Deep-Dive\n  </h4>\n  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">\n    <li><strong>Rule Scope:</strong> Entire bucket, prefix (folder), object tag, or object size.</li>\n    <li><strong>Actions:</strong>\n      <ul style="margin-left: 1.5rem;">\n        <li><code>Transition</code> – move to cheaper class after N days.</li>\n        <li><code>Expiration</code> – delete objects or non-current versions.</li>\n        <li><code>AbortIncompleteMultipartUpload</code> – purge dangling uploads.</li>\n      </ul>\n    </li>\n    <li><strong>Timing:</strong> Actions run once daily at 00:00 UTC; changes take ≤ 24 h to propagate.</li>\n    <li><strong>Cost:</strong> Lifecycle transitions incur request charges; no charge for deletions.</li>\n  </ul>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    MFA-Delete Workflow\n  </h4>\n  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">\n    <li>Enable versioning on the bucket.</li>\n    <li>Attach a virtual or hardware MFA device to the root account.</li>\n    <li>Run <code>put-bucket-versioning</code> with <code>MfaDelete=Enabled</code>.</li>\n    <li>Any <code>delete-object-version</code> or <code>suspend-versioning</code> call must include the MFA token.</li>\n  </ol>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    JSON Lifecycle Templates\n  </h4>\n\n  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n    <pre><code className="language-json">\n// 1) Archive current logs to Glacier Instant after 30 days,\n//    delete non-current versions after 30 days,\n//    delete current objects after 7 years\n{\n  "Rules": [\n    {\n      "ID": "ArchiveLogs",\n      "Status": "Enabled",\n      "Filter": { "Prefix": "logs/" },\n      "Transitions": [\n        { "Days": 30, "StorageClass": "GLACIER_IR" }\n      ],\n      "Expiration": { "Days": 2555 },\n      "NoncurrentVersionExpiration": { "NoncurrentDays": 30 },\n      "AbortIncompleteMultipartUpload": { "DaysAfterInitiation": 7 }\n    }\n  ]\n}\n\n// 2) Tag-based rule for media files\n{\n  "Rules": [\n    {\n      "ID": "MediaArchive",\n      "Status": "Enabled",\n      "Filter": { "Tag": { "Key": "media", "Value": "true" } },\n      "Transitions": [\n        { "Days": 90, "StorageClass": "STANDARD_IA" },\n        { "Days": 365, "StorageClass": "GLACIER" }\n      ],\n      "NoncurrentVersionTransitions": [\n        { "NoncurrentDays": 30, "StorageClass": "GLACIER" }\n      ]\n    }\n  ]\n}\n\n// 3) Object-size filter (≥ 128 KB) to Intelligent-Tiering\n{\n  "Rules": [\n    {\n      "ID": "BigObjects",\n      "Status": "Enabled",\n      "Filter": { "ObjectSizeGreaterThan": 131072 },\n      "Transitions": [\n        { "Days": 0, "StorageClass": "INTELLIGENT_TIERING" }\n      ]\n    }\n  ]\n}\n</code></pre>\n  </div>\n\n  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    Monitoring & Best Practices\n  </h4>\n  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">\n    <li>Enable CloudWatch metrics <code>NumberOfObjects</code> and <code>BucketSizeBytes</code> per storage class.</li>\n    <li>Use S3 Storage Lens to track non-current version storage and lifecycle transition savings.</li>\n    <li>Test lifecycle rules in a dev bucket with <code>Status=Disabled</code> first.</li>\n    <li>Combine versioning + lifecycle + MFA-Delete for ransomware-proof backups.</li>\n  </ul>\n</div>',
             examples: [
               "// Enable versioning and MFA-Delete\naws s3api put-bucket-versioning --bucket my-vault-bucket --versioning-configuration Status=Enabled,MfaDelete=Enabled --mfa 'arn:aws:iam::123456789012:mfa/root-mfa 123456'",
               "// Suspend versioning (keeps existing versions)\naws s3api put-bucket-versioning --bucket my-vault-bucket --versioning-configuration Status=Suspended",
@@ -27567,25 +27165,8 @@ aws s3 cp ./bigfile.dat s3://bucket/bigfile.dat \
           {
             topic: "Access Control",
             tags: ["acl", "bucket-policy", "iam"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     <strong>Bucket Policy</strong> JSON document attached to bucket, <strong>ACL</strong> legacy grants, <strong>IAM</strong> user/role policies. Policies support IP, VPC, conditions.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-json">
-{
-  "Version": "2012-10-17",
-  "Statement": [{
-    "Effect": "Allow",
-    "Principal": "*",
-    "Action": "s3:GetObject",
-    "Resource": "arn:aws:s3:::mybucket/*"
-  }]
-}
- </code>
-  </pre>
-  </div>
- </div>`,
+            explanation:
+              '<div>\n   <p style="line-height: 1.75; margin-top: 1.5rem;">\n     <strong>Bucket Policy</strong> JSON document attached to bucket, <strong>ACL</strong> legacy grants, <strong>IAM</strong> user/role policies. Policies support IP, VPC, conditions.\n   </p>\n   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n      <pre><code className="language-json">\n{\n  "Version": "2012-10-17",\n  "Statement": [{\n    "Effect": "Allow",\n    "Principal": "*",\n    "Action": "s3:GetObject",\n    "Resource": "arn:aws:s3:::mybucket/*"\n  }]\n}\n </code>\n  </pre>\n  </div>\n </div>',
             examples: [
               "// Grant public read\naws s3api put-bucket-policy --bucket b --policy file://policy.json",
             ],
@@ -27605,21 +27186,8 @@ aws s3 cp ./bigfile.dat s3://bucket/bigfile.dat \
           {
             topic: "Upload & Download",
             tags: ["upload", "download", "pre-signed-urls"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Upload via Console, CLI, SDK, multipart for >5 GB. Download via Console, CLI, SDK, pre-signed URL (temporary credentials).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Upload
-aws s3 cp ./file s3://bucket/path/
-
-# Pre-signed URL (1h)
-aws s3 presign s3://bucket/file --expires-in 3600
- </code>
-  </pre>
-  </div>
- </div>`,
+            explanation:
+              '<div>\n   <p style="line-height: 1.75; margin-top: 1.5rem;">\n     Upload via Console, CLI, SDK, multipart for >5 GB. Download via Console, CLI, SDK, pre-signed URL (temporary credentials).\n   </p>\n   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">\n      <pre><code className="language-bash">\n# Upload\naws s3 cp ./file s3://bucket/path/\n\n# Pre-signed URL (1h)\naws s3 presign s3://bucket/file --expires-in 3600\n </code>\n  </pre>\n  </div>\n </div>',
             examples: [
               "// Multipart upload\naws s3api create-multipart-upload --bucket b --key big.iso",
             ],
