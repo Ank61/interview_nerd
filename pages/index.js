@@ -17,6 +17,9 @@ import {
   TrendingUp,
   Menu,
   X,
+  MonitorCog,
+  DatabaseZap,
+  Workflow,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
@@ -316,7 +319,7 @@ export default function Home() {
               <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-gray-200">
                 <CardHeader className="pb-4">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300 h-20">
                       <Image src={next} width={48} height={48} alt="Next.js" />
                     </div>
                     <CardTitle className="text-xl font-bold text-gray-900 mb-2">
@@ -455,17 +458,21 @@ export default function Home() {
               <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-orange-200">
                 <CardHeader className="pb-4">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="p-4 mb-4 rounded-2xl bg-gradient-to-br from-orange-50 to-orange-100 transition-transform duration-300 group-hover:scale-110">
                       <svg
-                        width="48"
-                        height="48"
-                        viewBox="0 0 24 24"
-                        fill="none"
                         xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="#df924aff"
+                        className="w-12 h-12"
+                        role="img"
+                        aria-label="Cloud icon"
                       >
                         <path
-                          d="M6.76 4.84l-1.8-1.79-1.41 1.41 1.79 1.79 1.42-1.41zM4 10.5H1v2h3v-2zm9-4.34l-2.75-2.75-1.41 1.41L11.34 7H15v2h-2zM20 10.5v-2h-3v2h3zm-2-5.5l1.79-1.79-1.41-1.41L16.24 4.84l1.41 1.41zM13 0.55l-2 2-2-2L8.55 1.55 10.55-0.45 12 1l1.45-1.45L15.45 1.55 13 0.55zM20.45 16.24l-1.41-1.41L15.76 18.2l1.41 1.41 3.28-3.37zM17.24 18.2l-1.79-1.79-1.41 1.41 1.79 1.79 1.41-1.41zM20 13.5v2h-3v-2h3zM12 22.45l2-2 2 2 1.45-1.45L17 20l-1.45 1.45L12 22.45zM8.55 20.45L10.55 22.45 12 21l1.45 1.45L15.45 20.45 13 19.45l-2 2-2-2-1.45 1.45zM3.55 18.2l1.41 1.41 3.28-3.37-1.41-1.41-3.28 3.37zM7.76 4.84l1.79-1.79 1.41 1.41-1.79 1.79-1.41-1.41z"
-                          fill="#FF9900"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M3 15a4 4 0 014-4h.167a6.002 6.002 0 0111.73-1.003A5.5 5.5 0 1118.5 20H7a4 4 0 01-4-4z"
                         />
                       </svg>
                     </div>
@@ -496,27 +503,34 @@ export default function Home() {
               <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-purple-200">
                 <CardHeader className="pb-4">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <svg
-                        width="48"
-                        height="48"
+                    <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl p-6 mb-4 shadow-md transform transition-transform duration-300 hover:scale-105 flex items-center justify-center">
+                      {/* <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
                         viewBox="0 0 24 24"
                         fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
+                        stroke="#7C3AED"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        className="w-10 h-10"
+                        class="lucide lucide-monitor-cog-icon lucide-monitor-cog"
                       >
-                        <path
-                          d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5zM12 22c-4.18-1.18-7-4.96-7-9.22V8.27l7-3.11 7 3.11v4.51c0 4.26-2.82 8.04-7 9.22z"
-                          fill="#8B5CF6"
-                        />
-                        <path
-                          d="M12 6l-6 2.67v3.33c0 3.33 2.2 6.13 5.25 7.33.38.12.75.22 1.12.3.37-.08.74-.18 1.12-.3C15.8 18.13 18 15.33 18 12V8.67L12 6z"
-                          fill="#8B5CF6"
-                        />
-                        <path
-                          d="M12 8l-4 1.78v2.22c0 2.22 1.47 4.08 3.5 4.89.25.1.5.18.75.25.25-.07.5-.15.75-.25C13.53 16.08 15 14.22 15 12V9.78L12 8z"
-                          fill="#8B5CF6"
-                        />
-                      </svg>
+                        <path d="M12 17v4" />
+                        <path d="m14.305 7.53.923-.382" />
+                        <path d="m15.228 4.852-.923-.383" />
+                        <path d="m16.852 3.228-.383-.924" />
+                        <path d="m16.852 8.772-.383.923" />
+                        <path d="m19.148 3.228.383-.924" />
+                        <path d="m19.53 9.696-.382-.924" />
+                        <path d="m20.772 4.852.924-.383" />
+                        <path d="m20.772 7.148.924.383" />
+                        <path d="M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
+                        <path d="M8 21h8" />
+                        <circle cx="18" cy="6" r="3" />
+                      </svg> */}
+                      <MonitorCog className="w-9 h-9 text-purple-800" />
                     </div>
                     <CardTitle className="text-xl font-bold text-gray-900 mb-2">
                       System Design
@@ -546,22 +560,7 @@ export default function Home() {
                 <CardHeader className="pb-4">
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <svg
-                        width="48"
-                        height="48"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M4 6h16v2H4V6zm0 5h16v2H4v-2zm0 5h16v2H4v-2z"
-                          fill="#10B981"
-                        />
-                        <path
-                          d="M2 4h20v16H2V4zm2 2v12h16V6H4z"
-                          fill="#10B981"
-                        />
-                      </svg>
+                      <DatabaseZap className="w-9 h-9 text-green-600" />
                     </div>
                     <CardTitle className="text-xl font-bold text-gray-900 mb-2">
                       Database Design
@@ -591,26 +590,7 @@ export default function Home() {
                 <CardHeader className="pb-4">
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
-                      <svg
-                        width="48"
-                        height="48"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12 2L2 7v10c0 5.55 3.84 9.74 9 11 5.16-1.26 9-5.45 9-11V7l-10-5z"
-                          fill="#3B82F6"
-                        />
-                        <path
-                          d="M12 9l-3 1.5v3L12 15l3-1.5v-3L12 9z"
-                          fill="#3B82F6"
-                        />
-                        <path
-                          d="M12 12l-2 1v2l2 1 2-1v-2l-2-1z"
-                          fill="#3B82F6"
-                        />
-                      </svg>
+                      <Workflow className="w-9 h-9 text-blue-600" />
                     </div>
                     <CardTitle className="text-xl font-bold text-gray-900 mb-2">
                       DevOps & CI/CD

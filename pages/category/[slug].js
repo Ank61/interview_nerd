@@ -47,7 +47,7 @@ import {
 } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
-import { Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import Header from "@/components/header";
 
 export async function getStaticPaths() {
@@ -507,181 +507,212 @@ export default function BasicTabs({
       .filter((level) => level.concepts.length > 0);
   }, [selectedTopicData, searchQuery]);
   return (
-    <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto">
-      <Header topic={topic} indexSelected={indexSelected} />
-      <Box sx={{ width: "auto" }}>
-        <Box>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-            centered
-            sx={
-              topic === "Javascript"
-                ? {
-                    marginTop: 2,
-                    "& .MuiTabs-indicator": {
-                      backgroundColor: "var(--javascript-bg)",
-                    },
-                    "& .MuiTab-root": {
-                      color: "var(--javascript-text)",
-                    },
-                    "& .MuiTab-root.Mui-selected": {
-                      color: "var(--javascript-topic)",
-                    },
-                  }
-                : topic === "React"
-                ? {
-                    marginTop: 2,
-                    "& .MuiTabs-indicator": {
-                      backgroundColor: "var(--react-bg)",
-                    },
-                    "& .MuiTab-root": {
-                      color: "var(--react-text)",
-                    },
-                    "& .MuiTab-root.Mui-selected": {
-                      color: "var(--react-topic)",
-                    },
-                  }
-                : topic === "Node"
-                ? {
-                    marginTop: 2,
-                    "& .MuiTabs-indicator": {
-                      backgroundColor: "var(--node-bg)",
-                    },
-                    "& .MuiTab-root": {
-                      color: "var(--node-text)",
-                    },
-                    "& .MuiTab-root.Mui-selected": {
-                      color: "var(--node-topic)",
-                    },
-                  }
-                : topic === "Typescript"
-                ? {
-                    marginTop: 2,
-                    "& .MuiTabs-indicator": {
-                      backgroundColor: "var(--ts-bg)",
-                    },
-                    "& .MuiTab-root": {
-                      color: "var(--ts-text)",
-                    },
-                    "& .MuiTab-root.Mui-selected": {
-                      color: "var(--ts-topic)",
-                    },
-                  }
-                : topic === "AWS S3"
-                ? {
-                    marginTop: 2,
-                    "& .MuiTabs-indicator": {
-                      backgroundColor: "var(--awss3-bg)",
-                    },
-                    "& .MuiTab-root": {
-                      color: "var(--awss3-text)",
-                    },
-                    "& .MuiTab-root.Mui-selected": {
-                      color: "var(--awss3-topic)",
-                    },
-                  }
-                : ""
-            }
-          >
-            <Tab
-              sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
-              label="Prepare"
-              {...a11yProps(0)}
-            />
-            <Tab
-              sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
-              label="Interview Questions"
-              {...a11yProps(1)}
-            />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <div
-            className={`relative rounded-lg border-1 ${
-              topic === "Javascript"
-                ? "border-Javascript-border"
-                : topic === "React"
-                ? "border-React-border "
-                : topic === "Node"
-                ? "border-Node-border "
-                : topic === "Typescript"
-                ? "border-Typescript-border "
-                : topic === "AWS S3"
-                ? "border-AWS-border "
-                : ""
-            } bg-gray-100 dark:bg-gray-800 w-full`}
-            style={{ textTransform: "none", outline: "none" }}
-          >
-            <Input
-              type="text"
-              placeholder="Search topics..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              style={{ textTransform: "none", outline: "none" }}
-              className="rounded-lg appearance-none text-[14px] w-full pl-10"
-            />
-            <SearchIcon
-              className={`absolute left-2.5 top-2.5 w-5 h-5 ${
-                topic === "Javascript"
-                  ? "text-Javascript-bg"
-                  : topic === "React"
-                  ? "text-React-bg "
-                  : topic === "Node"
-                  ? "text-Node-bg "
-                  : topic === "Typescript"
-                  ? "text-Typescript-text "
-                  : topic === "AWS S3"
-                  ? "text-AWS-text "
-                  : "text-gray-400"
-              }`}
-            />
+    <>
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white border-b border-gray-200">
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                // onClick={handleBackClick}
+                className="text-gray-600 hover:text-gray-900"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
+              </Button>
+              <div className="flex items-center gap-3">
+                <div className={`p-2 rounded-lg`}>
+                  {/* <IconComponent className={`w-6 h-6`} /> */}
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-Typescript-topic">
+                    {topic}
+                  </h1>
+                  <p className="text-sm text-gray-600">
+                    Major Topics & Concepts
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
-          <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
-            <TabsList className="grid w-full grid-cols-2 bg-white border">
-              <TabsTrigger
-                value="Beginner"
-                onClick={() => setLevel("Beginner")}
-                className={`bg-white ${
+        </header>
+      </div>
+      <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto">
+        <Header topic={topic} indexSelected={indexSelected} />
+        <Box sx={{ width: "auto" }}>
+          <Box>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              centered
+              sx={
+                topic === "Javascript"
+                  ? {
+                      marginTop: 2,
+                      "& .MuiTabs-indicator": {
+                        backgroundColor: "var(--javascript-bg)",
+                      },
+                      "& .MuiTab-root": {
+                        color: "var(--javascript-text)",
+                      },
+                      "& .MuiTab-root.Mui-selected": {
+                        color: "var(--javascript-topic)",
+                      },
+                    }
+                  : topic === "React"
+                  ? {
+                      marginTop: 2,
+                      "& .MuiTabs-indicator": {
+                        backgroundColor: "var(--react-bg)",
+                      },
+                      "& .MuiTab-root": {
+                        color: "var(--react-text)",
+                      },
+                      "& .MuiTab-root.Mui-selected": {
+                        color: "var(--react-topic)",
+                      },
+                    }
+                  : topic === "Node"
+                  ? {
+                      marginTop: 2,
+                      "& .MuiTabs-indicator": {
+                        backgroundColor: "var(--node-bg)",
+                      },
+                      "& .MuiTab-root": {
+                        color: "var(--node-text)",
+                      },
+                      "& .MuiTab-root.Mui-selected": {
+                        color: "var(--node-topic)",
+                      },
+                    }
+                  : topic === "Typescript"
+                  ? {
+                      marginTop: 2,
+                      "& .MuiTabs-indicator": {
+                        backgroundColor: "var(--ts-bg)",
+                      },
+                      "& .MuiTab-root": {
+                        color: "var(--ts-text)",
+                      },
+                      "& .MuiTab-root.Mui-selected": {
+                        color: "var(--ts-topic)",
+                      },
+                    }
+                  : topic === "AWS S3"
+                  ? {
+                      marginTop: 2,
+                      "& .MuiTabs-indicator": {
+                        backgroundColor: "var(--awss3-bg)",
+                      },
+                      "& .MuiTab-root": {
+                        color: "var(--awss3-text)",
+                      },
+                      "& .MuiTab-root.Mui-selected": {
+                        color: "var(--awss3-topic)",
+                      },
+                    }
+                  : ""
+              }
+            >
+              <Tab
+                sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
+                label="Prepare"
+                {...a11yProps(0)}
+              />
+              <Tab
+                sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
+                label="Interview Questions"
+                {...a11yProps(1)}
+              />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <div
+              className={`relative rounded-lg border-1 ${
+                topic === "Javascript"
+                  ? "border-Javascript-border"
+                  : topic === "React"
+                  ? "border-React-border "
+                  : topic === "Node"
+                  ? "border-Node-border "
+                  : topic === "Typescript"
+                  ? "border-Typescript-border "
+                  : topic === "AWS S3"
+                  ? "border-AWS-border "
+                  : ""
+              } bg-gray-100 dark:bg-gray-800 w-full`}
+              style={{ textTransform: "none", outline: "none" }}
+            >
+              <Input
+                type="text"
+                placeholder="Search topics..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                style={{ textTransform: "none", outline: "none" }}
+                className="rounded-lg appearance-none text-[14px] w-full pl-10"
+              />
+              <SearchIcon
+                className={`absolute left-2.5 top-2.5 w-5 h-5 ${
                   topic === "Javascript"
-                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                    ? "text-Javascript-bg"
                     : topic === "React"
-                    ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
+                    ? "text-React-bg "
                     : topic === "Node"
-                    ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text"
+                    ? "text-Node-bg "
                     : topic === "Typescript"
-                    ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text"
+                    ? "text-Typescript-text "
                     : topic === "AWS S3"
-                    ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text"
-                    : ""
+                    ? "text-AWS-text "
+                    : "text-gray-400"
                 }`}
-              >
-                Beginner
-              </TabsTrigger>
-              <TabsTrigger
-                value="Advance"
-                onClick={() => setLevel("Advance")}
-                className={`bg-white ${
-                  topic === "Javascript"
-                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                    : topic === "React"
-                    ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
-                    : topic === "Node"
-                    ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text "
-                    : topic === "Typescript"
-                    ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text "
-                    : topic === "AWS S3"
-                    ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text "
-                    : ""
-                }`}
-              >
-                Advance
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="Beginner" className="mt-5">
-              <Table>
-                {/* <TableHeader>
+              />
+            </div>
+            <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
+              <TabsList className="grid w-full grid-cols-2 bg-white border">
+                <TabsTrigger
+                  value="Beginner"
+                  onClick={() => setLevel("Beginner")}
+                  className={`bg-white ${
+                    topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                      ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
+                      : topic === "Node"
+                      ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text"
+                      : topic === "Typescript"
+                      ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text"
+                      : topic === "AWS S3"
+                      ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text"
+                      : ""
+                  }`}
+                >
+                  Beginner
+                </TabsTrigger>
+                <TabsTrigger
+                  value="Advance"
+                  onClick={() => setLevel("Advance")}
+                  className={`bg-white ${
+                    topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                      ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
+                      : topic === "Node"
+                      ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text "
+                      : topic === "Typescript"
+                      ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text "
+                      : topic === "AWS S3"
+                      ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text "
+                      : ""
+                  }`}
+                >
+                  Advance
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="Beginner" className="mt-5">
+                <Table>
+                  {/* <TableHeader>
                   <TableRow>
                     <TableHead
                       className={`px-0 ${
@@ -738,245 +769,255 @@ export default function BasicTabs({
                     )}
                   </TableRow>
                 </TableHeader> */}
-                <TableBody>
-                  {filteredPrepareData.length > 0 &&
-                  filteredPrepareData[0]?.concepts?.length > 0 ? (
-                    filteredPrepareData[0]?.concepts?.map((concept, index) => (
-                      <TableRow key={concept.topic}>
+                  <TableBody>
+                    {filteredPrepareData.length > 0 &&
+                    filteredPrepareData[0]?.concepts?.length > 0 ? (
+                      filteredPrepareData[0]?.concepts?.map(
+                        (concept, index) => (
+                          <TableRow key={concept.topic}>
+                            <TableCell
+                              className={`text-left font-medium text-[15px] p-[0px] ${
+                                topic === "Javascript"
+                                  ? "text-Javascript-text "
+                                  : topic === "React"
+                                  ? "text-React-text "
+                                  : topic === "Node"
+                                  ? "text-Node-text "
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text "
+                                  : topic === "AWS S3"
+                                  ? "text-gray-900 "
+                                  : ""
+                              } md:pl-4`}
+                            >
+                              {index <= 8 ? (
+                                <motion.div
+                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.8,
+                                    delay: 0.2 * index,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                                  }}
+                                >
+                                  {concept.topic}
+                                </motion.div>
+                              ) : (
+                                <div>{concept.topic}</div>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-right md:flex">
+                              {index <= 8 ? (
+                                <motion.div
+                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.8,
+                                    delay: 0.2 * index,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                                  }}
+                                  onClick={() =>
+                                    router.push(
+                                      `/learn/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                                ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : topic === "React"
+                                    ? "text-React-text bg-white hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text bg-white hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                    : ""
+                                } 
+                              md:mb-0 md:mr-[3%] md:ml-auto `}
+                                >
+                                  <BookOpenCheck
+                                    className={`mr-2 w-[19px] ${
+                                      topic === "Javascript"
+                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                        : topic === "Node"
+                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
+                                        : ""
+                                    } md: w-[15px]`}
+                                  />
+                                  Learn
+                                </motion.div>
+                              ) : (
+                                <div
+                                  onClick={() =>
+                                    router.push(
+                                      `/learn/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                                ${
+                                  topic === "Javascript"
+                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : topic === "React"
+                                    ? "text-React-text bg-white hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text bg-white hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                    : ""
+                                } 
+                              md:mb-0 md:mr-[3%] md:ml-auto `}
+                                >
+                                  <BookOpenCheck
+                                    className={`mr-2 w-[19px]  ${
+                                      topic === "Javascript"
+                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                        : topic === "Node"
+                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
+                                        : ""
+                                    } md: w-[15px]`}
+                                  />
+                                  Learn
+                                </div>
+                              )}
+                              {index <= 8 ? (
+                                <motion.div
+                                  onClick={() =>
+                                    router.push(
+                                      `/test/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.8,
+                                    delay: 0.2 * index,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                                  }}
+                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                    topic === "Javascript"
+                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      : topic === "React"
+                                      ? "text-React-text bg-white hover:bg-React-bg"
+                                      : topic === "Node"
+                                      ? "text-Node-text bg-white hover:bg-Node-bg"
+                                      : topic === "Typescript"
+                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                      : topic === "AWS S3"
+                                      ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                      : ""
+                                  }`}
+                                >
+                                  <Code
+                                    className={`mr-2 w-[19px] ${
+                                      topic === "Javascript"
+                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                        : topic === "Node"
+                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
+                                        : ""
+                                    } md: w-[15px]`}
+                                  />
+                                  Practice
+                                </motion.div>
+                              ) : (
+                                <div
+                                  onClick={() =>
+                                    router.push(
+                                      `/test/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                    topic === "Javascript"
+                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      : topic === "React"
+                                      ? "text-React-text bg-white hover:bg-React-bg"
+                                      : topic === "Node"
+                                      ? "text-Node-text bg-white hover:bg-Node-bg"
+                                      : topic === "Typescript"
+                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                      : topic === "AWS S3"
+                                      ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                      : ""
+                                  }`}
+                                >
+                                  <Code
+                                    className={`mr-2 w-[19px] ${
+                                      topic === "Javascript"
+                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
+                                        : topic === "Node"
+                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
+                                        : ""
+                                    } md: w-[15px]`}
+                                  />
+                                  Practice
+                                </div>
+                              )}
+                            </TableCell>
+                            {session?.user?.id && (
+                              <TableCell className="text-center">
+                                <Checkbox
+                                  checked={
+                                    !!learnedConcepts[
+                                      getConceptKey(topic, concept.topic)
+                                    ]
+                                  }
+                                  onCheckedChange={() =>
+                                    handleLearnedToggle(concept)
+                                  }
+                                  aria-label="Mark as learned"
+                                />
+                              </TableCell>
+                            )}
+                          </TableRow>
+                        )
+                      )
+                    ) : searchQuery.trim() ? (
+                      <TableRow>
                         <TableCell
-                          className={`text-left font-medium text-[15px] p-[0px] ${
-                            topic === "Javascript"
-                              ? "text-Javascript-text "
-                              : topic === "React"
-                              ? "text-React-text "
-                              : topic === "Node"
-                              ? "text-Node-text "
-                              : topic === "Typescript"
-                              ? "text-Typescript-text "
-                              : topic === "AWS S3"
-                              ? "text-gray-900 "
-                              : ""
-                          } md:pl-4`}
+                          colSpan={3}
+                          className="text-center py-8 text-gray-500"
                         >
-                          {index <= 8 ? (
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.8,
-                                delay: 0.2 * index,
-                                ease: [0, 0.71, 0.2, 1.01],
-                              }}
-                            >
-                              {concept.topic}
-                            </motion.div>
-                          ) : (
-                            <div>{concept.topic}</div>
-                          )}
+                          <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                          <p className="text-sm font-medium">No topics found</p>
+                          <p className="text-xs">
+                            Try adjusting your search terms
+                          </p>
                         </TableCell>
-                        <TableCell className="text-right md:flex">
-                          {index <= 8 ? (
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.8,
-                                delay: 0.2 * index,
-                                ease: [0, 0.71, 0.2, 1.01],
-                              }}
-                              onClick={() =>
-                                router.push(`/learn/${topic}/${concept.topic}`)
-                              }
-                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                                ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-white hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text bg-white hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
-                                    : ""
-                                } 
-                              md:mb-0 md:mr-[3%] md:ml-auto `}
-                            >
-                              <BookOpenCheck
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                    : ""
-                                } md: w-[15px]`}
-                              />
-                              Learn
-                            </motion.div>
-                          ) : (
-                            <div
-                              onClick={() =>
-                                router.push(`/learn/${topic}/${concept.topic}`)
-                              }
-                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                                ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-white hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text bg-white hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
-                                    : ""
-                                } 
-                              md:mb-0 md:mr-[3%] md:ml-auto `}
-                            >
-                              <BookOpenCheck
-                                className={`mr-2 w-[19px]  ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                    : ""
-                                } md: w-[15px]`}
-                              />
-                              Learn
-                            </div>
-                          )}
-                          {index <= 8 ? (
-                            <motion.div
-                              onClick={() =>
-                                router.push(`/test/${topic}/${concept.topic}`)
-                              }
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.8,
-                                delay: 0.2 * index,
-                                ease: [0, 0.71, 0.2, 1.01],
-                              }}
-                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                topic === "Javascript"
-                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : topic === "React"
-                                  ? "text-React-text bg-white hover:bg-React-bg"
-                                  : topic === "Node"
-                                  ? "text-Node-text bg-white hover:bg-Node-bg"
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
-                                  : topic === "AWS S3"
-                                  ? "text-AWS-text bg-white hover:bg-AWS-bg"
-                                  : ""
-                              }`}
-                            >
-                              <Code
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
-                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                    : ""
-                                } md: w-[15px]`}
-                              />
-                              Practice
-                            </motion.div>
-                          ) : (
-                            <div
-                              onClick={() =>
-                                router.push(`/test/${topic}/${concept.topic}`)
-                              }
-                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                topic === "Javascript"
-                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : topic === "React"
-                                  ? "text-React-text bg-white hover:bg-React-bg"
-                                  : topic === "Node"
-                                  ? "text-Node-text bg-white hover:bg-Node-bg"
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
-                                  : topic === "AWS S3"
-                                  ? "text-AWS-text bg-white hover:bg-AWS-bg"
-                                  : ""
-                              }`}
-                            >
-                              <Code
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
-                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                    : ""
-                                } md: w-[15px]`}
-                              />
-                              Practice
-                            </div>
-                          )}
-                        </TableCell>
-                        {session?.user?.id && (
-                          <TableCell className="text-center">
-                            <Checkbox
-                              checked={
-                                !!learnedConcepts[
-                                  getConceptKey(topic, concept.topic)
-                                ]
-                              }
-                              onCheckedChange={() =>
-                                handleLearnedToggle(concept)
-                              }
-                              aria-label="Mark as learned"
-                            />
-                          </TableCell>
-                        )}
                       </TableRow>
-                    ))
-                  ) : searchQuery.trim() ? (
-                    <TableRow>
-                      <TableCell
-                        colSpan={3}
-                        className="text-center py-8 text-gray-500"
-                      >
-                        <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                        <p className="text-sm font-medium">No topics found</p>
-                        <p className="text-xs">
-                          Try adjusting your search terms
-                        </p>
-                      </TableCell>
-                    </TableRow>
-                  ) : null}
-                </TableBody>
-              </Table>
-            </TabsContent>
-            <TabsContent value="Advance" className="mt-4">
-              <Table>
-                {/* <TableHeader>
+                    ) : null}
+                  </TableBody>
+                </Table>
+              </TabsContent>
+              <TabsContent value="Advance" className="mt-4">
+                <Table>
+                  {/* <TableHeader>
                   <TableRow>
                     <TableHead
                       className={`px-0  ${
@@ -1015,59 +1056,62 @@ export default function BasicTabs({
                     >
                       Status
                     </TableHead> */}
-                {/* </TableRow>
+                  {/* </TableRow>
                 </TableHeader>  */}
-                <TableBody>
-                  {filteredPrepareData.length > 1 &&
-                  filteredPrepareData[1]?.concepts?.length > 0 ? (
-                    filteredPrepareData[1]?.concepts?.map((concept, index) => (
-                      <TableRow key={concept.topic} className="w-full">
-                        <TableCell
-                          className={`text-left font-medium text-[15px] p-[0px] ${
-                            topic === "Javascript"
-                              ? "text-Javascript-text "
-                              : topic === "React"
-                              ? "text-React-text"
-                              : topic === "Node"
-                              ? "text-Node-text"
-                              : topic === "Typescript"
-                              ? "text-Typescript-text"
-                              : topic === "AWS S3"
-                              ? "text-gray-900"
-                              : ""
-                          } md:pl-4`}
-                        >
-                          {index <= 8 ? (
-                            <motion.div
-                              className="w-full"
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.8,
-                                delay: 0.2 * index,
-                                ease: [0, 0.71, 0.2, 1.01],
-                              }}
+                  <TableBody>
+                    {filteredPrepareData.length > 1 &&
+                    filteredPrepareData[1]?.concepts?.length > 0 ? (
+                      filteredPrepareData[1]?.concepts?.map(
+                        (concept, index) => (
+                          <TableRow key={concept.topic} className="w-full">
+                            <TableCell
+                              className={`text-left font-medium text-[15px] p-[0px] ${
+                                topic === "Javascript"
+                                  ? "text-Javascript-text "
+                                  : topic === "React"
+                                  ? "text-React-text"
+                                  : topic === "Node"
+                                  ? "text-Node-text"
+                                  : topic === "Typescript"
+                                  ? "text-Typescript-text"
+                                  : topic === "AWS S3"
+                                  ? "text-gray-900"
+                                  : ""
+                              } md:pl-4`}
                             >
-                              {concept.topic}
-                            </motion.div>
-                          ) : (
-                            <div className="w-full">{concept.topic}</div>
-                          )}
-                        </TableCell>
-                        <TableCell className="text-right md:flex">
-                          {index <= 8 ? (
-                            <motion.div
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.8,
-                                delay: 0.2 * index,
-                                ease: [0, 0.71, 0.2, 1.01],
-                              }}
-                              onClick={() =>
-                                router.push(`/learn/${topic}/${concept.topic}`)
-                              }
-                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                              {index <= 8 ? (
+                                <motion.div
+                                  className="w-full"
+                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.8,
+                                    delay: 0.2 * index,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                                  }}
+                                >
+                                  {concept.topic}
+                                </motion.div>
+                              ) : (
+                                <div className="w-full">{concept.topic}</div>
+                              )}
+                            </TableCell>
+                            <TableCell className="text-right md:flex">
+                              {index <= 8 ? (
+                                <motion.div
+                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.8,
+                                    delay: 0.2 * index,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                                  }}
+                                  onClick={() =>
+                                    router.push(
+                                      `/learn/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
@@ -1082,30 +1126,32 @@ export default function BasicTabs({
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
-                            >
-                              <BookOpenCheck
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                    : topic === "Node"
-                                    ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                    : ""
-                                } md: w-[15px]`}
-                              />
-                              Learn
-                            </motion.div>
-                          ) : (
-                            <div
-                              onClick={() =>
-                                router.push(`/learn/${topic}/${concept.topic}`)
-                              }
-                              className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                                >
+                                  <BookOpenCheck
+                                    className={`mr-2 w-[19px] ${
+                                      topic === "Javascript"
+                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                        : topic === "Node"
+                                        ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
+                                        : ""
+                                    } md: w-[15px]`}
+                                  />
+                                  Learn
+                                </motion.div>
+                              ) : (
+                                <div
+                                  onClick={() =>
+                                    router.push(
+                                      `/learn/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
@@ -1120,244 +1166,250 @@ export default function BasicTabs({
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
-                            >
-                              {" "}
-                              <BookOpenCheck
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                    : topic === "Node"
-                                    ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                    : ""
-                                } md: w-[15px]`}
-                              />
-                              Learn
-                            </div>
-                          )}
-                          {index <= 8 ? (
-                            <motion.div
-                              onClick={() =>
-                                router.push(`/test/${topic}/${concept.topic}`)
-                              }
-                              initial={{ opacity: 0, scale: 0.5 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.8,
-                                delay: 0.2 * index,
-                                ease: [0, 0.71, 0.2, 1.01],
-                              }}
-                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                topic === "Javascript"
-                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : topic === "React"
-                                  ? "text-React-text bg-white hover:bg-React-bg "
-                                  : topic === "Node"
-                                  ? "text-Node-text bg-white hover:bg-Node-bg "
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                  : topic === "AWS S3"
-                                  ? "text-AWS-text bg-white hover:bg-AWS-bg "
-                                  : ""
-                              }`}
-                            >
-                              <Code
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
-                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                    : topic === "Node"
-                                    ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                    : ""
-                                } md: w-[15px]`}
-                              />
-                              Practice
-                            </motion.div>
-                          ) : (
-                            <div
-                              onClick={() =>
-                                router.push(`/test/${topic}/${concept.topic}`)
-                              }
-                              className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                topic === "Javascript"
-                                  ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                  : topic === "React"
-                                  ? "text-React-text bg-white hover:bg-React-bg "
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                  : topic === "AWS S3"
-                                  ? "text-AWS-text bg-white hover:bg-AWS-bg "
-                                  : ""
-                              }`}
-                            >
-                              <Code
-                                // style={{width: 12px}}
-                                className={`mr-2 w-[19px] ${
-                                  topic === "Javascript"
-                                    ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                    : topic === "React"
-                                    ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                    : ""
-                                } md: w-[15px]`}
-                                // size={"19px"}
-                              />
-                              Practice
-                            </div>
-                          )}
+                                >
+                                  {" "}
+                                  <BookOpenCheck
+                                    className={`mr-2 w-[19px] ${
+                                      topic === "Javascript"
+                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                        : topic === "Node"
+                                        ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
+                                        : ""
+                                    } md: w-[15px]`}
+                                  />
+                                  Learn
+                                </div>
+                              )}
+                              {index <= 8 ? (
+                                <motion.div
+                                  onClick={() =>
+                                    router.push(
+                                      `/test/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  animate={{ opacity: 1, scale: 1 }}
+                                  transition={{
+                                    duration: 0.8,
+                                    delay: 0.2 * index,
+                                    ease: [0, 0.71, 0.2, 1.01],
+                                  }}
+                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                    topic === "Javascript"
+                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      : topic === "React"
+                                      ? "text-React-text bg-white hover:bg-React-bg "
+                                      : topic === "Node"
+                                      ? "text-Node-text bg-white hover:bg-Node-bg "
+                                      : topic === "Typescript"
+                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                      : topic === "AWS S3"
+                                      ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                      : ""
+                                  }`}
+                                >
+                                  <Code
+                                    className={`mr-2 w-[19px] ${
+                                      topic === "Javascript"
+                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                        : topic === "Node"
+                                        ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
+                                        : ""
+                                    } md: w-[15px]`}
+                                  />
+                                  Practice
+                                </motion.div>
+                              ) : (
+                                <div
+                                  onClick={() =>
+                                    router.push(
+                                      `/test/${topic}/${concept.topic}`
+                                    )
+                                  }
+                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                    topic === "Javascript"
+                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      : topic === "React"
+                                      ? "text-React-text bg-white hover:bg-React-bg "
+                                      : topic === "Typescript"
+                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                      : topic === "AWS S3"
+                                      ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                      : ""
+                                  }`}
+                                >
+                                  <Code
+                                    // style={{width: 12px}}
+                                    className={`mr-2 w-[19px] ${
+                                      topic === "Javascript"
+                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                        : topic === "React"
+                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                        : topic === "Typescript"
+                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                        : topic === "AWS S3"
+                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
+                                        : ""
+                                    } md: w-[15px]`}
+                                    // size={"19px"}
+                                  />
+                                  Practice
+                                </div>
+                              )}
+                            </TableCell>
+                          </TableRow>
+                        )
+                      )
+                    ) : searchQuery.trim() ? (
+                      <TableRow>
+                        <TableCell
+                          colSpan={2}
+                          className="text-center py-8 text-gray-500"
+                        >
+                          <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                          <p className="text-sm font-medium">No topics found</p>
+                          <p className="text-xs">
+                            Try adjusting your search terms
+                          </p>
                         </TableCell>
                       </TableRow>
-                    ))
-                  ) : searchQuery.trim() ? (
-                    <TableRow>
-                      <TableCell
-                        colSpan={2}
-                        className="text-center py-8 text-gray-500"
-                      >
-                        <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                        <p className="text-sm font-medium">No topics found</p>
-                        <p className="text-xs">
-                          Try adjusting your search terms
-                        </p>
-                      </TableCell>
-                    </TableRow>
-                  ) : null}
-                </TableBody>
-              </Table>
-            </TabsContent>
-          </TAB>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <TAB
-            defaultValue="Junior"
-            value={interviewSelection}
-            className="w-auto mt-2"
-          >
-            <TabsList className="grid w-full grid-cols-3 bg-white border">
-              <TabsTrigger
-                value="Junior"
-                onClick={() => setInterviewSelection("Junior")}
-                className={`bg-white ${
-                  topic === "Javascript"
-                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                    : topic === "React"
-                    ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                    : topic === "Node"
-                    ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                    : topic === "Typescript"
-                    ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                    : topic === "AWS S3"
-                    ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                    : ""
-                }`}
-              >
-                Junior
-              </TabsTrigger>
-              <TabsTrigger
-                value="Mid"
-                onClick={() => setInterviewSelection("Mid")}
-                className={`bg-white ${
-                  topic === "Javascript"
-                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                    : topic === "React"
-                    ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                    : topic === "Node"
-                    ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                    : topic === "Typescript"
-                    ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                    : topic === "AWS S3"
-                    ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                    : ""
-                }`}
-              >
-                Mid
-              </TabsTrigger>
-              <TabsTrigger
-                value="Senior"
-                onClick={() => setInterviewSelection("Senior")}
-                className={`bg-white ${
-                  topic === "Javascript"
-                    ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                    : topic === "React"
-                    ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                    : topic === "Node"
-                    ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                    : topic === "Typescript"
-                    ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
-                    : topic === "AWS S3"
-                    ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                    : ""
-                }`}
-              >
-                Senior
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="Junior" className="mt-4">
-              <div className="flex flex-col gap-3">
-                {interviewQues?.questions
-                  ? interviewQues?.questions?.map((item, index) => (
-                      <AccordionQuestion
-                        key={index}
-                        question={item}
-                        topic={topic}
-                        index={index}
-                      />
-                    ))
-                  : null}
-              </div>
-            </TabsContent>
-            <TabsContent value="Mid" className="mt-4">
-              <div className="flex flex-col gap-3">
-                {interviewQues?.questions
-                  ? interviewQues?.questions?.map((item, index) => (
-                      <AccordionQuestion
-                        key={index}
-                        question={item}
-                        topic={topic}
-                        index={index}
-                      />
-                    ))
-                  : null}
-              </div>
-            </TabsContent>
-            <TabsContent value="Senior" className="mt-4">
-              <div className="flex flex-col gap-3">
-                {interviewQues?.questions
-                  ? interviewQues?.questions?.map((item, index) => (
-                      <AccordionQuestion
-                        key={index}
-                        question={item}
-                        topic={topic}
-                        index={index}
-                      />
-                    ))
-                  : null}
-              </div>
-            </TabsContent>
-          </TAB>
-        </CustomTabPanel>
-      </Box>
+                    ) : null}
+                  </TableBody>
+                </Table>
+              </TabsContent>
+            </TAB>
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1}>
+            <TAB
+              defaultValue="Junior"
+              value={interviewSelection}
+              className="w-auto mt-2"
+            >
+              <TabsList className="grid w-full grid-cols-3 bg-white border">
+                <TabsTrigger
+                  value="Junior"
+                  onClick={() => setInterviewSelection("Junior")}
+                  className={`bg-white ${
+                    topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                      : topic === "Node"
+                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                      : topic === "Typescript"
+                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                      : topic === "AWS S3"
+                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                      : ""
+                  }`}
+                >
+                  Junior
+                </TabsTrigger>
+                <TabsTrigger
+                  value="Mid"
+                  onClick={() => setInterviewSelection("Mid")}
+                  className={`bg-white ${
+                    topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                      : topic === "Node"
+                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                      : topic === "Typescript"
+                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                      : topic === "AWS S3"
+                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                      : ""
+                  }`}
+                >
+                  Mid
+                </TabsTrigger>
+                <TabsTrigger
+                  value="Senior"
+                  onClick={() => setInterviewSelection("Senior")}
+                  className={`bg-white ${
+                    topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                      : topic === "Node"
+                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                      : topic === "Typescript"
+                      ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
+                      : topic === "AWS S3"
+                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                      : ""
+                  }`}
+                >
+                  Senior
+                </TabsTrigger>
+              </TabsList>
+              <TabsContent value="Junior" className="mt-4">
+                <div className="flex flex-col gap-3">
+                  {interviewQues?.questions
+                    ? interviewQues?.questions?.map((item, index) => (
+                        <AccordionQuestion
+                          key={index}
+                          question={item}
+                          topic={topic}
+                          index={index}
+                        />
+                      ))
+                    : null}
+                </div>
+              </TabsContent>
+              <TabsContent value="Mid" className="mt-4">
+                <div className="flex flex-col gap-3">
+                  {interviewQues?.questions
+                    ? interviewQues?.questions?.map((item, index) => (
+                        <AccordionQuestion
+                          key={index}
+                          question={item}
+                          topic={topic}
+                          index={index}
+                        />
+                      ))
+                    : null}
+                </div>
+              </TabsContent>
+              <TabsContent value="Senior" className="mt-4">
+                <div className="flex flex-col gap-3">
+                  {interviewQues?.questions
+                    ? interviewQues?.questions?.map((item, index) => (
+                        <AccordionQuestion
+                          key={index}
+                          question={item}
+                          topic={topic}
+                          index={index}
+                        />
+                      ))
+                    : null}
+                </div>
+              </TabsContent>
+            </TAB>
+          </CustomTabPanel>
+        </Box>
 
-      {/* Question Modal */}
-      <QuestionModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        question={selectedQuestion}
-        topic={topic}
-      />
-    </Box>
+        {/* Question Modal */}
+        <QuestionModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          question={selectedQuestion}
+          topic={topic}
+        />
+      </Box>
+    </>
   );
 }
