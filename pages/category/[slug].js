@@ -508,36 +508,6 @@ export default function BasicTabs({
   }, [selectedTopicData, searchQuery]);
   return (
     <>
-      <div className="min-h-screen bg-gray-50">
-        <header className="bg-white border-b border-gray-200">
-          <div className="container mx-auto px-4 py-4">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                // onClick={handleBackClick}
-                className="text-gray-600 hover:text-gray-900"
-              >
-                <ArrowLeft className="w-4 h-4 mr-2" />
-                Back
-              </Button>
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg`}>
-                  {/* <IconComponent className={`w-6 h-6`} /> */}
-                </div>
-                <div>
-                  <h1 className="text-xl font-bold text-Typescript-topic">
-                    {topic}
-                  </h1>
-                  <p className="text-sm text-gray-600">
-                    Major Topics & Concepts
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </header>
-      </div>
       <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto">
         <Header topic={topic} indexSelected={indexSelected} />
         <Box sx={{ width: "auto" }}>

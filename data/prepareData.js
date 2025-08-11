@@ -29204,221 +29204,1111 @@ aws backup create-backup-vault --backup-vault-name dr-vault
         label: "Beginner",
         concepts: [
           {
-            topic: "What is SQS?",
-            tags: ["basics", "messaging"],
+            topic: "Introduction to AWS SQS",
+            tags: ["sqs", "queue", "messaging", "sns", "kinesis", "use-cases"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Amazon Simple Queue Service (SQS) is a fully-managed message queuing service that decouples application components, enabling reliable, scalable, and asynchronous communication. It eliminates the need to build and maintain message brokers.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Quick start
-aws sqs create-queue --queue-name MyQueue
-aws sqs send-message --queue-url https://sqs.us-east-1.amazonaws.com/123/MyQueue --message-body "Hello"
- </code>
-  </pre>
-  </div>
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Core Concepts
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Queue Types:</span> Standard (at-least-once, best-effort order) and FIFO (exactly-once, strict order).
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Message Size:</span> Up to 256 KB; larger payloads use S3 pointers.
-     </li>
-   </ol>
- </div>`,
-            examples: [
-              "// Create queue\naws sqs create-queue --queue-name MyQueue",
-            ],
-            questions: [
-              {
-                question: "What is Amazon SQS?",
-                solution:
-                  "<p>Amazon SQS is a fully-managed message queuing service that decouples applications, enabling reliable, scalable, asynchronous communication without managing brokers.</p>",
-              },
-              {
-                question: "What are the two types of SQS queues?",
-                solution:
-                  "<p>Standard queues (at-least-once delivery, best-effort ordering) and FIFO queues (exactly-once processing, strict FIFO order).</p>",
-              },
-            ],
-            links: [
-              '<url id="" type="url" status="" title="SQS Product Page" wc="">https://aws.amazon.com/sqs/</url>',
-            ],
-          },
-          {
-            topic: "Queues & Messages",
-            tags: ["queues", "messages", "operations"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A <strong>queue</strong> is a logical container for messages; each message carries up to 256 KB of data plus attributes. Messages are retained for 1 min–14 days (default 4 days).
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-# Send message
-aws sqs send-message \
-  --queue-url https://sqs.us-east-1.amazonaws.com/123/MyQueue \
-  --message-body "Hello"
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Amazon Simple Queue Service (SQS)</strong> is AWS’s fully-managed, infinitely-scalable message-queuing service.  
+    It decouples micro-services, distributed systems, and serverless applications by allowing producers to send messages to a queue and consumers to poll and process them asynchronously.  
+    Understanding how SQS differs from <strong>SNS topics</strong> and <strong>Kinesis streams</strong> is essential for choosing the right messaging pattern.
+  </p>
 
-# Receive
-aws sqs receive-message \
-  --queue-url https://sqs.us-east-1.amazonaws.com/123/MyQueue \
-  --max-number-of-messages 10
- </code>
-  </pre>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. What is SQS?
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Queue:</strong> Holds messages (≤ 256 KB) until a consumer deletes them.</li>
+    <li><strong>Durability:</strong> Standard queues replicate across ≥ 3 AZs; FIFO queues add ordering.</li>
+    <li><strong>Delivery:</strong> At-least-once (Standard), exactly-once (FIFO).</li>
+    <li><strong>Retention:</strong> 1 minute – 14 days (default 4 days).</li>
+    <li><strong>Visibility timeout:</strong> Consumers have N seconds to finish and delete the message.</li>
+    <li><strong>Dead-letter queues (DLQ):</strong> Capture messages that fail processing after N retries.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Create a Standard queue
+aws sqs create-queue --queue-name orders.fifo \
+  --attributes FifoQueue=true,ContentBasedDeduplication=true
+
+# Send a message
+aws sqs send-message \
+  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo \
+  --message-body '{"orderId": "123"}' \
+  --message-group-id group1
+</code></pre>
   </div>
- </div>`,
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Queue vs. Topic vs. Stream — Quick Comparison
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Aspect</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">SQS Queue</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">SNS Topic</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Kinesis Stream</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Delivery</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">At-least-once / exactly-once</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Fan-out to many subscribers</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Ordered records, replayable</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Consumers</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">One consumer per message</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">All subscribers</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Multiple shards, multiple consumers</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Retention</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">1 min – 14 days</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Immediate (push)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">1 day – 365 days</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Ordering</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">FIFO only</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">No</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Yes (per shard)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. SQS vs SNS vs Kinesis — When to Use
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>SQS</strong> — job queues, throttling, decoupling micro-services.</li>
+    <li><strong>SNS</strong> — fan-out notifications (email, Lambda, HTTP).</li>
+    <li><strong>Kinesis</strong> — real-time analytics, streaming data, replay.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Real-World Use Cases of SQS
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>E-commerce:</strong> Order-processing queue (FIFO) to ensure no duplicate charges.</li>
+    <li><strong>Serverless:</strong> Lambda triggers from SQS for image resizing or PDF generation.</li>
+    <li><strong>Throttling:</strong> Rate-limit API calls to downstream services.</li>
+    <li><strong>Batch processing:</strong> Collect sensor data and process nightly via ECS tasks.</li>
+    <li><strong>DLQ pattern:</strong> Capture failed payments for manual review.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Start Cheat-Sheet
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Create standard queue
+aws sqs create-queue --queue-name orders
+
+# Send a message
+aws sqs send-message \
+  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders \
+  --message-body "order-123"
+
+# Receive & delete
+MSG=$(aws sqs receive-message --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders --query 'Messages[0].{ReceiptHandle:ReceiptHandle,Body:Body}' --output json)
+aws sqs delete-message \
+  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders \
+  --receipt-handle $(echo $MSG | jq -r '.ReceiptHandle')
+</code></pre>
+  </div>
+</div>`,
             examples: [
-              "// Create FIFO queue\naws sqs create-queue --queue-name MyQueue.fifo --attributes FifoQueue=true",
+              "// Create a FIFO queue\naws sqs create-queue --queue-name orders.fifo --attributes FifoQueue=true,ContentBasedDeduplication=true",
+              "// Send a batch of 10 messages\naws sqs send-message-batch --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo --entries file://messages.json",
+              '// Set dead-letter queue (DLQ)\naws sqs set-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo --attributes RedrivePolicy=\'{"deadLetterTargetArn":"arn:aws:sqs:us-east-1:123456789012:orders-dlq","maxReceiveCount":3}\'',
+              "// Lambda trigger via EventSourceMapping\naws lambda create-event-source-mapping --function-name order-processor --event-source-arn arn:aws:sqs:us-east-1:123456789012:orders.fifo --batch-size 5",
             ],
             questions: [
               {
-                question: "How do you create an SQS queue?",
+                question:
+                  "What is the difference between SQS Standard and FIFO?",
                 solution:
-                  "<p>aws sqs create-queue --queue-name my-queue [--attributes] or via Console/SDK/CloudFormation.</p>",
+                  "<p>Standard offers best-effort ordering and at-least-once delivery; FIFO guarantees strict ordering and exactly-once processing (within a message group).</p>",
               },
               {
-                question: "Maximum message size in SQS?",
+                question: "When should I use SNS instead of SQS?",
                 solution:
-                  "<p>256 KB; larger payloads store reference in S3 (e.g., via S3 pointers).</p>",
+                  "<p>Use SNS when you need fan-out (many subscribers) or push notifications (email, Lambda, HTTP).  Use SQS for single-consumer, pull-based processing.</p>",
+              },
+              {
+                question: "How do I prevent duplicate messages in SQS?",
+                solution:
+                  "<p>Use FIFO queues with content-based deduplication or idempotent consumer logic.</p>",
+              },
+              {
+                question: "Can SQS trigger Lambda functions?",
+                solution:
+                  "<p>Yes—create an EventSourceMapping (batch size 1–10,000) to invoke Lambda automatically.</p>",
+              },
+              {
+                question: "What is a dead-letter queue (DLQ)?",
+                solution:
+                  "<p>A separate queue that collects messages that failed processing after <code>maxReceiveCount</code> attempts, enabling manual inspection or re-drive.</p>",
               },
             ],
           },
           {
-            topic: "Visibility Timeout & Long Polling",
-            tags: ["visibility-timeout", "long-polling", "retries"],
+            topic: "SQS Types",
+            tags: [
+              "standard-queue",
+              "fifo-queue",
+              "ordering",
+              "throughput",
+              "exactly-once",
+            ],
             explanation: `<div>
-   <ul style="margin-left:1.5rem;">
-     <li><strong>VisibilityTimeout:</strong> Period (0–12 h, default 30 s) a message is invisible after receipt.</li>
-     <li><strong>Long Polling:</strong> Reduces empty receives by waiting up to 20 s for messages.</li>
-   </ul>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    SQS offers two queue types—<strong>Standard</strong> and <strong>FIFO</strong>—each optimized for different workloads.  
+    Choosing the right type affects ordering guarantees, throughput limits, and cost.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Standard Queue
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Throughput:</strong> Unlimited (soft limit ~3,000 messages/sec, can be raised).</li>
+    <li><strong>Ordering:</strong> Best-effort; messages may arrive out of order.</li>
+    <li><strong>Delivery:</strong> At-least-once (possible duplicates).</li>
+    <li><strong>Cost:</strong> Lower per-request cost.</li>
+    <li><strong>Use-cases:</strong> Background jobs, image processing, telemetry ingestion.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Create a standard queue
+aws sqs create-queue --queue-name standard-jobs
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. FIFO Queue
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Throughput:</strong> 3,000 messages/sec per queue (or 30,000 with high-throughput mode).</li>
+    <li><strong>Ordering:</strong> Strict per message group; messages within a group arrive in order.</li>
+    <li><strong>Delivery:</strong> Exactly-once (no duplicates).</li>
+    <li><strong>Deduplication:</strong> Content-based or explicit deduplication ID.</li>
+    <li><strong>Cost:</strong> ~30 % higher per request.</li>
+    <li><strong>Use-cases:</strong> Order-processing, payment pipelines, any workflow that must avoid duplicates.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Create a FIFO queue
+aws sqs create-queue --queue-name orders.fifo \
+  --attributes FifoQueue=true,ContentBasedDeduplication=true
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Side-by-Side Comparison
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Feature</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Standard Queue</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">FIFO Queue</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Ordering</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Best-effort</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Strict (per message group)</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Delivery</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">At-least-once</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Exactly-once</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Throughput</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Unlimited</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">3,000 msg/s (30 k w/ high-throughput)</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Deduplication</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">None</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Content-based or explicit ID</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Cost</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Standard pricing</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">~30 % higher</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When to Use Which?
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Choose Standard</strong> for high-throughput, tolerant-of-duplicates workloads (logs, telemetry).</li>
+    <li><strong>Choose FIFO</strong> when you need strict order and exactly-once delivery (payments, order-processing).</li>
+    <li><strong>Message Group ID</strong> allows parallel processing while preserving order within groups.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    CLI One-Liners
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Switch queue type
+aws sqs get-queue-attributes --queue-url <url> --attribute-names QueueType
+
+# Enable high-throughput FIFO
+aws sqs set-queue-attributes \
+  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo \
+  --attributes FifoThroughputLimit=perMessageGroupId,DeduplicationScope=messageGroup
+</code></pre>
+  </div>
+</div>`,
+            examples: [
+              "// Create standard queue for image processing\naws sqs create-queue --queue-name images-standard",
+              "// Create FIFO queue for order processing\naws sqs create-queue --queue-name orders.fifo --attributes FifoQueue=true,ContentBasedDeduplication=true",
+              "// Check queue attributes\naws sqs get-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo --attribute-names All",
+              "// Switch to high-throughput FIFO\naws sqs set-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo --attributes FifoThroughputLimit=perMessageGroupId,DeduplicationScope=messageGroup",
+            ],
+            questions: [
+              {
+                question:
+                  "Which queue type should I use for high-throughput background jobs?",
+                solution:
+                  "<p>Use <strong>Standard</strong> queues—they provide unlimited throughput and tolerate occasional duplicates.</p>",
+              },
+              {
+                question: "How do I guarantee message order in SQS?",
+                solution:
+                  "<p>Use <strong>FIFO</strong> queues and set the <code>MessageGroupId</code> so that messages within each group are delivered in exact order.</p>",
+              },
+              {
+                question: "Can I change a queue from Standard to FIFO?",
+                solution:
+                  "<p>No—queue type is immutable.  Create a new FIFO queue and migrate producers/consumers.</p>",
+              },
+              {
+                question: "What is the throughput limit for FIFO queues?",
+                solution:
+                  "<p>3,000 messages/sec per queue (or 30,000 with high-throughput mode enabled).</p>",
+              },
+              {
+                question: "Does FIFO cost more than Standard?",
+                solution:
+                  "<p>Yes—FIFO pricing is ~30 % higher per request to cover strict ordering and deduplication.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Core SQS Parameters",
+            tags: [
+              "delay-seconds",
+              "visibility-timeout",
+              "retention-period",
+              "max-message-size",
+              "long-polling",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Every SQS queue is governed by a handful of tunable parameters that control latency, durability, throughput, and cost.  
+    Mastering these settings lets you fine-tune queues for background jobs, real-time processing, or heavy-batch pipelines without surprises.
+  </p>
+
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.75rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Parameter</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Range</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Default</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Effect</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>DelaySeconds</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">0 – 900 s</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">0</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Hides new messages for N seconds</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>VisibilityTimeout</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">0 – 43,200 s</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">30 s</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Invisibility period after <code>ReceiveMessage</code></td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>MessageRetentionPeriod</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">60 – 1,209,600 s (14 days)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">345,600 s (4 days)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">How long messages wait before auto-deletion</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>MaximumMessageSize</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">1,024 – 262,144 B (256 KB)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">262,144 B</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Largest body allowed per message</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>ReceiveMessageWaitTime</strong> (Long Polling)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">0 – 20 s</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">0</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Blocks poll for up to N seconds when empty</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Delay Seconds (Delivery Delay)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Per-message override:</strong> Use <code>DelaySeconds</code> on <code>SendMessage</code>.</li>
+    <li><strong>Queue-level default:</strong> Set via <code>DelaySeconds</code> attribute.</li>
+    <li><strong>Typical use:</strong> Rate-limit bursts, schedule jobs, or throttle downstream APIs.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Send message with 60-second delay
+aws sqs send-message \
+  --queue-url $Q \
+  --message-body "email-job" \
+  --delay-seconds 60
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Visibility Timeout
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Effect:</strong> After <code>ReceiveMessage</code>, the message is hidden from other consumers.</li>
+    <li><strong>Extension:</strong> Call <code>ChangeMessageVisibility</code> if processing takes longer.</li>
+    <li><strong>DLQ tie-in:</strong> After <code>maxReceiveCount</code> failures, message moves to dead-letter queue.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Increase timeout for long-running task
+aws sqs change-message-visibility \
+  --queue-url $Q \
+  --receipt-handle $RH \
+  --visibility-timeout 900
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Message Retention Period
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Lifecycle:</strong> Messages stay until deleted or TTL expires.</li>
+    <li><strong>Cost:</strong> Longer retention = higher storage cost.</li>
+    <li><strong>Compliance:</strong> Set 7–14 days to match audit windows.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Set retention to 7 days
+aws sqs set-queue-attributes \
+  --queue-url $Q \
+  --attributes MessageRetentionPeriod=604800
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Maximum Message Size
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Limit:</strong> 256 KB body + 2 KB attributes.</li>
+    <li><strong>Work-around:</strong> Store large payloads in S3 and put the S3 URI in the message body.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    5. Long Polling (ReceiveMessageWaitTime)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Short polling (0 s)</strong> – returns immediately even if empty (more empty responses).</li>
+    <li><strong>Long polling (1–20 s)</strong> – blocks until messages arrive or timeout; reduces cost and latency.</li>
+    <li><strong>CLI:</strong> Use <code>--wait-time-seconds</code> to override queue setting.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Set queue default to 10-second long polling
+aws sqs set-queue-attributes \
+  --queue-url $Q \
+  --attributes ReceiveMessageWaitTimeSeconds=10
+
+# One-shot long poll
 aws sqs receive-message \
-  --queue-url https://sqs.../MyQueue \
+  --queue-url $Q \
   --wait-time-seconds 20 \
-  --visibility-timeout 60
- </code>
-  </pre>
+  --max-number-of-messages 10
+</code></pre>
   </div>
- </div>`,
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Parameter Tuning Cheat-Sheet
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>High-throughput Lambda triggers:</strong> Long polling 20 s + batch size 10.</li>
+    <li><strong>Batch ETL jobs:</strong> Retention 14 days + visibility 15 min to allow retries.</li>
+    <li><strong>Scheduled jobs:</strong> DelaySeconds = desired delay.</li>
+  </ul>
+</div>`,
             examples: [
-              "// Set visibility timeout\naws sqs set-queue-attributes --queue-url https://sqs.../MyQueue --attributes VisibilityTimeout=60",
+              '# Create queue with 7-day retention, 5-min visibility, long polling\naws sqs create-queue --queue-name demo --attributes \'{\n  "MessageRetentionPeriod":"604800",\n  "VisibilityTimeout":"300",\n  "ReceiveMessageWaitTimeSeconds":"10"\n}\'',
+              "# Send delayed message\naws sqs send-message --queue-url $Q --message-body 'later' --delay-seconds 900",
+              "# Extend visibility while processing\naws sqs change-message-visibility --queue-url $Q --receipt-handle $RH --visibility-timeout 1800",
+              "# Increase max message size to 256 KB\naws sqs set-queue-attributes --queue-url $Q --attributes MaximumMessageSize=262144",
             ],
             questions: [
               {
-                question: "What is SQS visibility timeout?",
+                question: "What happens if visibility timeout is too short?",
                 solution:
-                  "<p>The period (0–12 h) a message is invisible to other consumers after being received, preventing duplicate processing.</p>",
+                  "<p>Other consumers may receive the same message again, causing duplicates.  Extend via <code>ChangeMessageVisibility</code> or raise queue default.</p>",
               },
               {
-                question: "What is SQS long polling?",
+                question:
+                  "Can I change DelaySeconds after the message is sent?",
                 solution:
-                  "<p>Long polling waits up to 20 s for messages, reducing empty receives and cost.</p>",
+                  "<p>No—delay is only configurable at send time or via the queue default.  Use a separate scheduled job for post-send delays.</p>",
+              },
+              {
+                question: "Is long polling cheaper than short polling?",
+                solution:
+                  "<p>Yes—long polling reduces empty receives, lowering request costs and latency.</p>",
+              },
+              {
+                question: "How do I store messages larger than 256 KB?",
+                solution:
+                  "<p>Upload the payload to S3 and send the S3 URI or presigned URL in the message body.</p>",
+              },
+              {
+                question: "What is the default retention period?",
+                solution:
+                  "<p>4 days (345,600 seconds).  You can raise it to 14 days or lower it to 60 seconds.</p>",
               },
             ],
           },
           {
-            topic: "Dead-Letter Queues",
-            tags: ["dlq", "error-handling", "retries"],
+            topic: "Sending & Receiving Messages",
+            tags: [
+              "sendmessage",
+              "receivemessage",
+              "deletemessage",
+              "purgequeue",
+              "api",
+            ],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     A <strong>Dead-Letter Queue (DLQ)</strong> receives messages that fail after maxReceiveCount. Helps isolate and debug failures.
-   </p>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-json">
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    The four foundational SQS API operations—<strong>SendMessage</strong>, <strong>ReceiveMessage</strong>, <strong>DeleteMessage</strong>, and <strong>PurgeQueue</strong>—cover the entire message lifecycle.  
+    Mastery of these calls (and their parameters) is all you need to start building decoupled, resilient applications.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. SendMessage API Basics
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Action:</strong> Adds a message to the tail of the queue.</li>
+    <li><strong>Required:</strong> <code>QueueUrl</code> + <code>MessageBody</code> (≤ 256 KB).</li>
+    <li><strong>Optional:</strong> <code>DelaySeconds</code>, <code>MessageAttributes</code>, <code>MessageDeduplicationId</code> (FIFO).</li>
+    <li><strong>Response:</strong> <code>MessageId</code> and <code>MD5OfMessageBody</code> for integrity.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Basic send
+aws sqs send-message \
+  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/demo \
+  --message-body "hello"
+
+# Send with attributes & delay
+aws sqs send-message \
+  --queue-url $Q \
+  --message-body '{"orderId": 123}' \
+  --delay-seconds 30 \
+  --message-attributes '{"priority":{"StringValue":"high","DataType":"String"}}'
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. ReceiveMessage API Basics
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Action:</strong> Polls for ≤ 10 messages and returns them immediately (short polling) or waits up to 20 s (long polling).</li>
+    <li><strong>Required:</strong> <code>QueueUrl</code>.</li>
+    <li><strong>Key options:</strong>
+      <ul style="margin-left: 1.5rem;">
+        <li><code>MaxNumberOfMessages</code> (1–10)</li>
+        <li><code>WaitTimeSeconds</code> (0–20, enables long polling)</li>
+        <li><code>VisibilityTimeout</code> (override queue default)</li>
+      </ul>
+    </li>
+    <li><strong>Response:</strong> Array of messages with <code>ReceiptHandle</code>, <code>MessageAttributes</code>, system metadata.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Long-poll up to 10 messages
+aws sqs receive-message \
+  --queue-url $Q \
+  --wait-time-seconds 10 \
+  --max-number-of-messages 10 \
+  --attribute-names All \
+  --message-attribute-names All
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. DeleteMessage API
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Action:</strong> Removes the message from the queue permanently.</li>
+    <li><strong>Required:</strong> <code>ReceiptHandle</code> returned by <code>ReceiveMessage</code>.</li>
+    <li><strong>Failure:</strong> If handle is expired (visibility timeout), call returns <code>ReceiptHandleIsInvalid</code>.</li>
+    <li><strong>Best practice:</strong> Delete only after successful processing; otherwise let timeout expire for retry.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Delete single message
+aws sqs delete-message \
+  --queue-url $Q \
+  --receipt-handle AQEB...mG
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. PurgeQueue API
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Action:</strong> Deletes <strong>all</strong> messages immediately (first 60 s = soft purge).</li>
+    <li><strong>Permissions:</strong> Requires <code>sqs:PurgeQueue</code>.</li>
+    <li><strong>Idempotency:</strong> Safe to call repeatedly; queue remains.</li>
+    <li><strong>Typical use:</strong> Clean test environments, reset load-test data.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Purge all messages
+aws sqs purge-queue --queue-url $Q
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    End-to-End Flow (One-Line Example)
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Send → Receive → Delete in one go
+aws sqs send-message --queue-url $Q --message-body 'task' \
+  --query 'MessageId' --output text && \
+RH=$(aws sqs receive-message --queue-url $Q --query 'Messages[0].ReceiptHandle' --output text 2>/dev/null) && \
+aws sqs delete-message --queue-url $Q --receipt-handle $RH
+</code></pre>
+  </div>
+</div>`,
+            examples: [
+              '# SendMessage with attributes\naws sqs send-message --queue-url $Q --message-body \'job\' --delay-seconds 60 --message-attributes \'{"priority":{"StringValue":"high","DataType":"String"}}\'',
+              "# ReceiveMessage with long polling\naws sqs receive-message --queue-url $Q --wait-time-seconds 10 --max-number-of-messages 5",
+              "# Batch delete\naws sqs delete-message-batch --queue-url $Q --entries 'Id=1,ReceiptHandle=$RH1 Id=2,ReceiptHandle=$RH2'",
+              "# Purge queue before load test\naws sqs purge-queue --queue-url $Q",
+            ],
+            questions: [
+              {
+                question: "What happens if I don’t delete a received message?",
+                solution:
+                  "<p>After the visibility timeout expires, the message becomes visible again and may be re-processed by another consumer.</p>",
+              },
+              {
+                question: "Can I delete a message without receiving it?",
+                solution:
+                  "<p>No—<code>DeleteMessage</code> requires the exact <code>ReceiptHandle</code> returned by <code>ReceiveMessage</code>.</p>",
+              },
+              {
+                question: "How many messages can I receive at once?",
+                solution:
+                  "<p>Up to 10 messages per <code>ReceiveMessage</code> call using <code>MaxNumberOfMessages</code>.</p>",
+              },
+              {
+                question: "Is PurgeQueue reversible?",
+                solution:
+                  "<p>No—messages are permanently deleted after the 60-second soft-purge window; there is no undo.</p>",
+              },
+              {
+                question: "Why does SendMessage return an MD5?",
+                solution:
+                  "<p>The MD5 hash lets you verify that the body was not corrupted in transit before it was stored in the queue.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Long Polling vs Short Polling",
+            tags: [
+              "long-polling",
+              "short-polling",
+              "cost-optimization",
+              "receivemessagewaittime",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Choosing between <strong>long polling</strong> and <strong>short polling</strong> directly affects latency, throughput, and cost.  
+    Long polling reduces empty responses, lowers request charges, and improves end-to-end latency without extra code.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Short Polling (Default)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Behavior:</strong> Returns immediately, even if the queue is empty.</li>
+    <li><strong>Empty ratio:</strong> Can be 90 % or higher on low-traffic queues.</li>
+    <li><strong>Cost:</strong> More API requests → higher cost.</li>
+    <li><strong>Use-case:</strong> Burst traffic or interactive CLI demos.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Long Polling (Recommended)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Behavior:</strong> Waits up to <em>N</em> seconds (1–20) for messages before returning.</li>
+    <li><strong>Empty ratio:</strong> Near zero when messages arrive.</li>
+    <li><strong>Cost:</strong> Fewer requests → lower cost.</li>
+    <li><strong>Latency:</strong> Messages are delivered as soon as they appear (no polling loop).</li>
+    <li><strong>Supported by:</strong> All SDKs, Lambda triggers, CLI.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Benefits & Cost Optimization
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Metric</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Short Polling</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Long Polling</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Empty responses</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">High</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Low</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">API cost</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Higher</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Lower</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Latency</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Polling interval dependent</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Immediate on arrival</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">CPU usage</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">High (busy loop)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Low (blocked IO)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Configuring ReceiveMessageWaitTimeSeconds
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Queue-level default:</strong> Set via <code>ReceiveMessageWaitTimeSeconds</code> attribute (0–20).</li>
+    <li><strong>Per-call override:</strong> Use <code>WaitTimeSeconds</code> parameter in <code>ReceiveMessage</code>.</li>
+    <li><strong>Lambda trigger:</strong> Uses long polling automatically (20 s default).</li>
+    <li><strong>Best practice:</strong> Default queue to 20 s; override to 0 only for interactive tools.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Set queue default to 20-second long polling
+aws sqs set-queue-attributes \
+  --queue-url $Q \
+  --attributes ReceiveMessageWaitTimeSeconds=20
+
+# Override to short poll (0 s) for debug
+aws sqs receive-message \
+  --queue-url $Q \
+  --wait-time-seconds 0
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Quick Golden Rules
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>✅ Always use long polling (≥ 1 s) in production to slash empty requests.</li>
+    <li>✅ Set queue default to 20 s; override only for debugging.</li>
+    <li>✅ Combine long polling with batch size 10 for additional cost reduction.</li>
+  </ul>
+</div>`,
+            examples: [
+              "# Set queue default to long polling 20 s\naws sqs set-queue-attributes --queue-url $Q --attributes ReceiveMessageWaitTimeSeconds=20",
+              "# Short poll (0 s) for quick test\naws sqs receive-message --queue-url $Q --wait-time-seconds 0",
+              "# Long poll with batch receive\naws sqs receive-message --queue-url $Q --wait-time-seconds 20 --max-number-of-messages 10",
+              "# Lambda trigger uses long polling automatically\naws lambda create-event-source-mapping --function-name worker --event-source-arn arn:aws:sqs:us-east-1:123456789012/demo --batch-size 10",
+            ],
+            questions: [
+              {
+                question: "What is the default polling mode in SQS?",
+                solution:
+                  "<p>Short polling (<code>ReceiveMessageWaitTimeSeconds=0</code>) which returns immediately even if the queue is empty.</p>",
+              },
+              {
+                question: "Does long polling cost more than short polling?",
+                solution:
+                  "<p>No—long polling reduces empty responses and therefore lowers API request charges.</p>",
+              },
+              {
+                question: "Can I mix long and short polling on the same queue?",
+                solution:
+                  "<p>Yes—the queue has a default, but each <code>ReceiveMessage</code> call can override <code>WaitTimeSeconds</code>.</p>",
+              },
+              {
+                question: "What is the maximum wait time for long polling?",
+                solution:
+                  "<p>20 seconds (or 20 s per <code>ReceiveMessage</code> call).</p>",
+              },
+              {
+                question: "Are Lambda functions using long polling?",
+                solution:
+                  "<p>Yes—Lambda automatically uses long polling (20 s) when SQS is an event source.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Dead-Letter Queues (DLQ)",
+            tags: [
+              "dlq",
+              "redrive-policy",
+              "max-receive-count",
+              "failure-handling",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A Dead-Letter Queue (DLQ) is a safety net that isolates messages which cannot be processed successfully after a configurable number of attempts.  
+    By off-loading poison or malformed messages, DLQs keep the main queue healthy and give operators a place to investigate, re-drive, or archive failures.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. Purpose of DLQ
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Fault isolation:</strong> Prevents poison messages from blocking the main flow.</li>
+    <li><strong>Observability:</strong> Central place for alerts, dashboards, and manual triage.</li>
+    <li><strong>Re-drive:</strong> Replay failed messages after bug fixes or downstream fixes.</li>
+    <li><strong>Compliance:</strong> Retain failed records for auditing or legal holds.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Redrive Policy (JSON)
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>deadLetterTargetArn:</strong> ARN of the DLQ (same region & account).</li>
+    <li><strong>maxReceiveCount:</strong> Number of times a message is delivered before moving to DLQ (1–1,000).</li>
+    <li><strong>Scope:</strong> Attached to the <em>source</em> queue, not the DLQ.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
 {
-  "deadLetterTargetArn": "arn:aws:sqs:us-east-1:123:MyDLQ",
+  "deadLetterTargetArn": "arn:aws:sqs:us-east-1:123456789012:orders-dlq",
   "maxReceiveCount": 3
 }
- </code>
-  </pre>
+</code></pre>
   </div>
- </div>`,
-            examples: [
-              '// Set DLQ\naws sqs set-queue-attributes --queue-url https://sqs.../MyQueue --attributes RedrivePolicy=\'{"deadLetterTargetArn":"arn:aws:sqs:us-east-1:123:MyDLQ","maxReceiveCount":3}\'',
-            ],
-            questions: [
-              {
-                question: "What is SQS dead-letter queue?",
-                solution:
-                  "<p>A separate queue receiving messages that failed processing after maxReceiveCount, aiding debugging and isolation.</p>",
-              },
-              {
-                question: "How do you set up SQS dead-letter queue?",
-                solution:
-                  "<p>Create DLQ, then set RedrivePolicy on source queue with DLQ ARN and maxReceiveCount.</p>",
-              },
-            ],
-          },
-          {
-            topic: "FIFO & Deduplication",
-            tags: ["fifo", "deduplication", "ordering"],
-            explanation: `<div>
-   <ul style="margin-left:1.5rem;">
-     <li><strong>FIFO Queue:</strong> Exactly-once processing, strict order, ends in .fifo.</li>
-     <li><strong>Deduplication:</strong> 5-min window via deduplication ID or content-based.</li>
-     <li><strong>MessageGroupId:</strong> Groups messages for parallel ordered processing.</li>
-   </ul>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
-aws sqs create-queue \
-  --queue-name MyQueue.fifo \
-  --attributes FifoQueue=true,ContentBasedDeduplication=true
- </code>
-  </pre>
-  </div>
- </div>`,
-            examples: [
-              "// Send with group\naws sqs send-message --queue-url https://sqs.../MyQueue.fifo --message-body 'Order' --message-group-id orders",
-            ],
-            questions: [
-              {
-                question: "How do you create an SQS FIFO queue?",
-                solution:
-                  "<p>Name ends in .fifo, set FifoQueue=true; supports message groups and deduplication.</p>",
-              },
-              {
-                question: "What is SQS message deduplication?",
-                solution:
-                  "<p>In FIFO queues, prevents duplicates using deduplication ID or content; 5-min window.</p>",
-              },
-            ],
-          },
-          {
-            topic: "Monitoring & Encryption",
-            tags: ["monitoring", "encryption", "kms"],
-            explanation: `<div>
-   <ul style="margin-left:1.5rem;">
-     <li><strong>CloudWatch:</strong> Metrics like ApproximateNumberOfMessagesVisible.</li>
-     <li><strong>SSE-KMS:</strong> Customer-managed keys for at-rest encryption.</li>
-     <li><strong>Queue Policy:</strong> JSON IAM policy attached to queue.</li>
-   </ul>
-   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
-      <pre><code className="language-bash">
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Setting Maximum Receive Count
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>CLI:</strong> <code>set-queue-attributes</code> with <code>RedrivePolicy</code>.</li>
+    <li><strong>Console:</strong> Queue → “Dead-letter queue” → choose DLQ + count.</li>
+    <li><strong>Tips:</strong>
+      <ul style="margin-left: 1.5rem;">
+        <li>Start with 3–5 for most workloads.</li>
+        <li>Lower counts (1–2) for idempotent, fast-fail jobs.</li>
+        <li>Higher counts (>10) for flaky downstream APIs.</li>
+      </ul>
+    </li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Attach DLQ with maxReceiveCount=5
 aws sqs set-queue-attributes \
-  --queue-url https://sqs.../MyQueue \
-  --attributes KmsMasterKeyId=alias/aws/sqs
- </code>
-  </pre>
+  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo \
+  --attributes '{
+    "RedrivePolicy":"{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:123456789012:orders-dlq\",\"maxReceiveCount\":5}"
+  }'
+</code></pre>
   </div>
- </div>`,
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Common DLQ Scenarios
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Scenario</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">DLQ Role</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Next Steps</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Malformed JSON</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Collect poison messages</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Fix schema, re-drive</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Downstream API outage</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Hold messages until service recovers</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Re-drive after fix</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Out-of-order events (FIFO)</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Isolate late-arriving data</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Manual reordering</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    End-to-End DLQ Setup
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# 1. Create DLQ
+aws sqs create-queue --queue-name orders-dlq --attributes FifoQueue=true,ContentBasedDeduplication=true
+
+# 2. Create source queue with DLQ
+aws sqs create-queue --queue-name orders.fifo \
+  --attributes '{
+    "FifoQueue":"true",
+    "ContentBasedDeduplication":"true",
+    "RedrivePolicy":"{\"deadLetterTargetArn\":\"arn:aws:sqs:us-east-1:123456789012:orders-dlq\",\"maxReceiveCount\":5}"
+  }'
+
+# 3. Monitor DLQ via CloudWatch
+aws cloudwatch put-metric-alarm \
+  --alarm-name DLQ-Depth \
+  --metric-name ApproximateNumberOfMessagesVisible \
+  --namespace AWS/SQS \
+  --dimensions Name=QueueName,Value=orders-dlq \
+  --threshold 10 --comparison-operator GreaterThanThreshold
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Best Practices Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>✅ DLQ must be same type (Standard/FIFO) as source queue.</li>
+    <li>✅ Set <code>maxReceiveCount</code> ≥ 2 to tolerate transient failures.</li>
+    <li>✅ Attach CloudWatch alarm on DLQ depth for early detection.</li>
+    <li>✅ Use <code>startMessageMoveTask</code> or Lambda to re-drive fixed messages.</li>
+  </ul>
+</div>`,
             examples: [
-              "// Alarm on depth\naws cloudwatch put-metric-alarm --alarm-name QueueDepth --metric-name ApproximateNumberOfMessagesVisible",
+              "# Create DLQ\naws sqs create-queue --queue-name payments-dlq",
+              '# Attach DLQ to source queue\naws sqs set-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/payments --attributes \'{\n  "RedrivePolicy":"{\\"deadLetterTargetArn\\":\\"arn:aws:sqs:us-east-1:123456789012:payments-dlq\\",\\"maxReceiveCount\\":3}',
+              "# Monitor DLQ depth\naws cloudwatch put-metric-alarm --alarm-name payments-dlq-depth --metric-name ApproximateNumberOfMessagesVisible --namespace AWS/SQS --dimensions Name=QueueName,Value=payments-dlq --threshold 5 --comparison-operator GreaterThanThreshold",
+              "# Re-drive messages from DLQ back to source queue (AWS CLI)\naws sqs start-message-move-task --source-arn arn:aws:sqs:us-east-1:123456789012:payments-dlq --destination-arn arn:aws:sqs:us-east-1:123456789012/payments",
             ],
             questions: [
               {
-                question: "How do you monitor SQS queues?",
+                question: "What is the purpose of a DLQ?",
                 solution:
-                  "<p>Use CloudWatch metrics (ApproximateNumberOfMessagesVisible, etc.) and alarms.</p>",
+                  "<p>It isolates messages that repeatedly fail processing, preventing poison messages from clogging the main queue and providing a place for analysis or re-drive.</p>",
               },
               {
-                question: "What is SQS queue encryption?",
+                question: "Can a FIFO queue use a Standard DLQ?",
                 solution:
-                  "<p>Encryption at rest via SSE-SQS (AWS) or SSE-KMS (customer key).</p>",
+                  "<p>No—DLQ must match the queue type (FIFO ↔ FIFO, Standard ↔ Standard).</p>",
+              },
+              {
+                question: "What happens when maxReceiveCount is reached?",
+                solution:
+                  "<p>SQS automatically moves the message to the DLQ; no manual code is required.</p>",
+              },
+              {
+                question: "How do I re-drive messages from a DLQ?",
+                solution:
+                  "<p>Use <code>start-message-move-task</code>, Lambda, or SQS re-drive console wizard to copy messages back to the source queue after fixing the consumer.</p>",
+              },
+              {
+                question: "Is there a limit on maxReceiveCount?",
+                solution:
+                  "<p>Yes—1 to 1,000.  Practical values are 3–10 for most workloads.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Security & Access Control",
+            tags: [
+              "iam-policies",
+              "resource-policies",
+              "queue-policies",
+              "access-restriction",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    SQS follows AWS’s shared-responsibility model: AWS secures the infrastructure; <strong>you</strong> secure access to queues.  
+    Lock down queues with least-privilege IAM policies and queue (resource) policies, then enforce encryption and VPC boundaries.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. IAM Policies for SQS
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Granularity:</strong> Allow/deny specific actions (<code>sqs:SendMessage</code>, <code>sqs:ReceiveMessage</code>, etc.).</li>
+    <li><strong>Conditions:</strong> <code>aws:SourceIp</code>, <code>aws:SourceVpc</code>, <code>aws:username</code>.</li>
+    <li><strong>Attach to:</strong> IAM users, roles, groups, Lambda execution roles.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// IAM policy: Lambda role can only send to orders queue
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sqs:SendMessage",
+      "Resource": "arn:aws:sqs:us-east-1:123456789012:orders"
+    }
+  ]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Resource-based vs Identity-based Policies
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Policy Type</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Attached To</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Use Case</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Identity-based</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">IAM user/role</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Least-privilege for principals</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;"><strong>Resource-based</strong></td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Queue itself</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Cross-account access, deny rules</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Restricting Access to Queues
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Deny all except VPC:</strong> Use <code>aws:SourceVpc</code> in queue policy.</li>
+    <li><strong>Cross-account:</strong> Add external account ARN as <code>Principal</code> in queue policy.</li>
+    <li><strong>Encryption enforcement:</strong> Deny <code>sqs:*</code> unless <code>aws:SecureTransport=true</code>.</li>
+    <li><strong>Resource conditions:</strong> Limit to specific tag values, IP ranges, or MFA session.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Queue policy: allow only VPC & encrypted traffic
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowVPC",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "sqs:*",
+      "Resource": "arn:aws:sqs:us-east-1:123456789012:orders",
+      "Condition": {
+        "StringEquals": {
+          "aws:SourceVpc": "vpc-0abc1234"
+        },
+        "Bool": {
+          "aws:SecureTransport": "true"
+        }
+      }
+    }
+  ]
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Evaluation Order (Deny wins)
+  </h4>
+  <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>Explicit <code>Deny</code> in either policy.</li>
+    <li>Explicit <code>Allow</code> in any policy.</li>
+    <li>Implicit <code>Deny</code> (default).</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    End-to-End Lock-Down Blueprint
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# 1. Create encrypted queue
+aws sqs create-queue --queue-name secure-queue --attributes '{
+  "KmsMasterKeyId":"alias/aws/sqs",
+  "Policy":"{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"AWS\":\"arn:aws:iam::123456789012:role/lambda-role\"},\"Action\":[\"sqs:SendMessage\",\"sqs:ReceiveMessage\"],\"Resource\":\"arn:aws:sqs:us-east-1:123456789012:secure-queue\",\"Condition\":{\"StringEquals\":{\"aws:SourceVpc\":\"vpc-0abc1234\"}}}]}"
+}'
+
+# 2. Attach IAM least privilege
+aws iam put-role-policy --role-name lambda-role --policy-name sqs-access --policy-document '{
+  "Version":"2012-10-17",
+  "Statement":[{"Effect":"Allow","Action":["sqs:SendMessage","sqs:ReceiveMessage"],"Resource":"arn:aws:sqs:us-east-1:123456789012:secure-queue"}]
+}'
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Security Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>✅ Use KMS encryption (SSE-SQS or SSE-KMS).</li>
+    <li>✅ Deny HTTP in queue policy.</li>
+    <li>✅ Restrict to VPC endpoints or private subnets.</li>
+    <li>✅ Enable CloudTrail data events for queue access.</li>
+    <li>✅ Rotate IAM keys and monitor with GuardDuty.</li>
+  </ul>
+</div>`,
+            examples: [
+              "# Create queue with minimal IAM policy\naws sqs create-queue --queue-name orders",
+              '# Attach queue policy allowing only Lambda role\naws sqs set-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Allow\\",\\"Principal\\":{\\"AWS\\":\\"arn:aws:iam::123456789012:role/lambda-role\\"},\\"Action\\":[\\"sqs:SendMessage\\",\\"sqs:ReceiveMessage\\"],\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\"}]}"\n}\'',
+              '# Deny HTTP traffic\naws sqs set-queue-attributes --queue-url $Q --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Deny\\",\\"Principal\\":\\"*\\",\\"Action\\":\\"sqs:*\\",\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\",\\"Condition\\":{\\"Bool\\":{\\"aws:SecureTransport\\":\\"false\\"}}}]}',
+              '# Grant cross-account access\naws sqs set-queue-attributes --queue-url $Q --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Allow\\",\\"Principal\\":{\\"AWS\\":\\"arn:aws:iam::222222222222:root\\"},\\"Action\\":[\\"sqs:SendMessage\\"],\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\"}]}"\n}\'',
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between IAM and queue policies?",
+                solution:
+                  "<p>IAM policies are identity-based (attached to users/roles).  Queue policies are resource-based (attached to the queue) and can grant cross-account access.</p>",
+              },
+              {
+                question: "How do I restrict a queue to only my VPC?",
+                solution:
+                  "<p>Add a queue-policy condition <code>StringEquals: aws:SourceVpc = vpc-0abc1234</code> and attach the policy to the queue.</p>",
+              },
+              {
+                question: "Can I use tags in IAM conditions?",
+                solution:
+                  "<p>Yes—use <code>aws:ResourceTag/env = prod</code> in IAM or queue policies to allow/deny based on tags.</p>",
+              },
+              {
+                question: "Is encryption enforced automatically?",
+                solution:
+                  "<p>No—set <code>KmsMasterKeyId</code> on the queue and deny <code>sqs:*</code> unless <code>aws:SecureTransport=true</code>.</p>",
+              },
+              {
+                question: "How do I audit queue access?",
+                solution:
+                  "<p>Enable CloudTrail data events and filter on <code>eventName</code> <code>sqs:*</code> and resource ARNs.</p>",
               },
             ],
           },
@@ -29428,6 +30318,351 @@ aws sqs set-queue-attributes \
         id: 3,
         label: "Advanced",
         concepts: [
+          {
+            topic: "Message Processing Patterns",
+            tags: [
+              "at-least-once",
+              "exactly-once",
+              "idempotency",
+              "duplicates",
+              "performance",
+              "scaling",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Building reliable, high-throughput systems on SQS requires understanding delivery semantics, designing idempotent consumers, and choosing the right queue type.  
+    These patterns let you scale to millions of messages per day while maintaining correctness and low latency.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. At-Least-Once Delivery & Implications
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Standard queues:</strong> Messages <em>may</em> be delivered more than once.</li>
+    <li><strong>Causes:</strong> Network retries, visibility-timeout expiry, consumer crashes.</li>
+    <li><strong>Impact:</strong> Duplicate payments, double emails, extra inventory counts.</li>
+    <li><strong>Mitigation:</strong> Make consumers idempotent (see section 4).</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Example: duplicate after visibility timeout
+aws sqs receive-message --queue-url $Q
+# Consumer crashes → message becomes visible again → re-delivered
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    2. Exactly-Once Processing with FIFO Queues
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Guarantees:</strong> No duplicates <em>within the same message group</em>.</li>
+    <li><strong>Mechanism:</strong> Content-based deduplication or explicit <code>MessageDeduplicationId</code>.</li>
+    <li><strong>Throughput:</strong> Up to 3,000 msg/s per queue (30,000 w/ high-throughput).</li>
+    <li><strong>Cost:</strong> ≈ 30 % higher per request vs Standard.</li>
+    <li><strong>Use-cases:</strong> Payment workflows, order processing, inventory ledger.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-json">
+// Ensure exactly-once ordering
+{
+  "QueueUrl": "https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo",
+  "MessageGroupId": "order-123",
+  "MessageDeduplicationId": "uuid-456"
+}
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    3. Idempotency in Consumers
+  </h4>
+  <table style="border-collapse: collapse; width: 100%; margin-top: 0.5rem;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Pattern</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Implementation</th>
+        <th style="border: 1px solid #d5d9dd; padding: 8px;">Tooling</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Natural keys</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Order ID, payment ID as DB primary key</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">DynamoDB conditional writes</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Idempotency key</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Store <code>MessageId</code> in Redis/DynamoDB</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">AWS Lambda Powertools (Python)</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Transactional outbox</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">Write event + status in same DB transaction</td>
+        <td style="border: 1px solid #d5d9dd; padding: 8px;">RDS / Aurora</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-python">
+# Lambda Powertools idempotency decorator
+from aws_lambda_powertools.utilities.idempotency import idempotent, DynamoDBPersistenceLayer
+@idempotent(persistence_store=DynamoDBPersistenceLayer(table_name="idempotency"))
+def handler(event, context):
+    ...
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    4. Handling Duplicate Messages
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Detect:</strong> Use <code>MessageId</code> or custom dedupe key.</li>
+    <li><strong>Store:</strong> TTL cache (Redis, DynamoDB) to forget after retention window.</li>
+    <li><strong>Retry-safe:</strong> Make downstream writes idempotent (UPSERT, conditional update).</li>
+    <li><strong>DLQ fallback:</strong> Route duplicates to DLQ if invariant violated.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# DynamoDB conditional write (idempotent)
+aws dynamodb put-item \
+  --table-name payments \
+  --item '{"paymentId":{"S":"uuid-123"},"status":{"S":"processed"}}' \
+  --condition-expression "attribute_not_exists(paymentId)"
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Performance & Scaling Patterns
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>Batch operations:</strong> <code>SendMessageBatch</code> (≤ 10) & <code>DeleteMessageBatch</code> (≤ 10).</li>
+    <li><strong>Parallel consumers:</strong> Lambda concurrency, ECS tasks, EC2 ASG.</li>
+    <li><strong>Long polling:</strong> 20-second waits reduce empty receives.</li>
+    <li><strong>Auto-scaling:</strong> CloudWatch <code>ApproximateNumberOfMessagesVisible</code> → Lambda concurrency.</li>
+    <li><strong>DLQ metrics:</strong> Alarm when DLQ depth > N to detect poison messages.</li>
+  </ul>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code className="language-bash">
+# Batch send 10 messages
+aws sqs send-message-batch \
+  --queue-url $Q \
+  --entries file://batch.json
+
+# Auto-scale Lambda
+aws lambda put-function-concurrency --function-name worker --reserved-concurrent-executions 100
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Integration Patterns
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li><strong>SQS → Lambda:</strong> Event source mapping with batch window & DLQ.</li>
+    <li><strong>SQS → SNS fan-out:</strong> Lambda publishes to topic after processing.</li>
+    <li><strong>SQS → Step Functions:</strong> Start execution per message for complex workflows.</li>
+    <li><strong>SQS → EventBridge:</strong> Route messages to multiple targets based on payload.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Production Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+    <li>✅ Choose queue type: Standard vs FIFO based on ordering needs.</li>
+    <li>✅ Implement idempotent consumers (Redis/DynamoDB keys).</li>
+    <li>✅ Use DLQ with <code>maxReceiveCount</code> 3–5.</li>
+    <li>✅ Enable long polling (20 s) and batch APIs.</li>
+    <li>✅ Monitor <code>ApproximateNumberOfMessagesVisible</code> & DLQ depth.</li>
+  </ul>
+</div>`,
+            examples: [
+              "# Send batch without duplicates (FIFO)\naws sqs send-message-batch --queue-url orders.fifo --entries file://fifo-batch.json",
+              "# Process with idempotent Lambda (Python)\naws lambda create-event-source-mapping --function-name idempotent-worker --event-source-arn arn:aws:sqs:us-east-1:123456789012/orders.fifo --batch-size 5 --starting-position LATEST",
+              '# Conditional DynamoDB write inside Lambda\naws dynamodb put-item --table-name payments --item \'{"id":{"S":"msg-123"},"status":{"S":"processed"}}\' --condition-expression \'attribute_not_exists(id)\'',
+              "# DLQ alarm\naws cloudwatch put-metric-alarm --alarm-name DLQ-Depth --metric-name ApproximateNumberOfMessagesVisible --namespace AWS/SQS --dimensions Name=QueueName,Value=orders-dlq --threshold 5 --comparison-operator GreaterThanThreshold",
+            ],
+            questions: [
+              {
+                question: "How do I guarantee exactly-once processing in SQS?",
+                solution:
+                  "<p>Use FIFO queues with content-based deduplication or explicit <code>MessageDeduplicationId</code>, and implement idempotent consumers.</p>",
+              },
+              {
+                question: "What is the main drawback of Standard queues?",
+                solution:
+                  "<p>They provide at-least-once delivery, so duplicates must be handled by idempotent consumers.</p>",
+              },
+              {
+                question: "How can I detect duplicate messages?",
+                solution:
+                  "<p>Store the <code>MessageId</code> or a custom deduplication key in Redis/DynamoDB with TTL equal to retention period.</p>",
+              },
+              {
+                question: "Should I use batch APIs in production?",
+                solution:
+                  "<p>Yes—<code>SendMessageBatch</code> and <code>DeleteMessageBatch</code> reduce API calls and cost by up to 90 %.</p>",
+              },
+              {
+                question: "How do I auto-scale consumers?",
+                solution:
+                  "<p>Use CloudWatch <code>ApproximateNumberOfMessagesVisible</code> to drive Lambda reserved concurrency or ECS task scaling.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Advanced SQS Attributes & Configurations",
+            tags: [
+              "sqs",
+              "fifo",
+              "deduplication",
+              "group-id",
+              "visibility-timeout",
+              "batch",
+            ],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Message Deduplication ID (FIFO only)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Purpose:</strong> Ensures exactly-once processing inside the 5-minute deduplication window for FIFO queues.</li>\n              <li><strong>Generation:</strong>\n                <ul>\n                  <li><strong>Client provided:</strong> Explicit <code>MessageDeduplicationId</code> (max 128 chars).</li>\n                  <li><strong>Content-based (optional):</strong> Enable <code>ContentBasedDeduplication=true</code> on the queue; SQS hashes the body.</li>\n                </ul>\n              </li>\n              <li><strong>CLI Example:</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs send-message \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo \\\n  --message-body "order-12345" \\\n  --message-group-id customer-42 \\\n  --message-deduplication-id order-12345-20240710-120000\n                </pre>\n              </li>\n              <li><strong>SDK (Python):</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nsqs.send_message(\n    QueueUrl=q_url,\n    MessageBody=\'order-12345\',\n    MessageGroupId=\'customer-42\',\n    MessageDeduplicationId=\'order-12345-20240710-120000\'\n)\n                </pre>\n              </li>\n              <li><strong>Best Practice:</strong> Use deterministic IDs (UUID, SHA-256 of payload + timestamp) to avoid duplicates across retries.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Message Group ID (FIFO ordering)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Purpose:</strong> Defines partitions for <strong>strict ordering</strong> within each group.</li>\n              <li><strong>Behavior:</strong> Messages with the same <code>MessageGroupId</code> are delivered in the exact order sent (per consumer).</li>\n              <li><strong>Scalability:</strong> Different groups can be processed in parallel; high cardinality improves throughput.</li>\n              <li><strong>CLI Example:</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs send-message-batch \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/events.fifo \\\n  --entries file://batch.json\n# batch.json\n[\n  {"Id":"1","MessageBody":"payment","MessageGroupId":"user-1"},\n  {"Id":"2","MessageBody":"payment","MessageGroupId":"user-2"}\n]\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Changing Visibility Timeout Dynamically</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Purpose:</strong> Extend or shorten the time a message remains invisible to other consumers while being processed.</li>\n              <li><strong>API:</strong> <code>ChangeMessageVisibility</code> (up to 12 hours).</li>\n              <li><strong>CLI Example (extend to 30 min):</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs change-message-visibility \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/tasks \\\n  --receipt-handle AQEB... \\\n  --visibility-timeout 1800\n                </pre>\n              </li>\n              <li><strong>SDK (Python):</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nsqs.change_message_visibility(\n    QueueUrl=q_url,\n    ReceiptHandle=receipt_handle,\n    VisibilityTimeout=1800  # 30 min\n)\n                </pre>\n              </li>\n              <li><strong>Use Cases:</strong> Long-running tasks (video transcoding, ML inference).</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Batch Message Operations</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Limits:</strong> 10 messages per batch; total payload ≤ 256 KB.</li>\n              <li><strong>SendMessageBatch</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs send-message-batch \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/tasks \\\n  --entries file://send-batch.json\n                </pre>\n              </li>\n              <li><strong>ReceiveMessageBatch</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs receive-message \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/tasks \\\n  --max-number-of-messages 10 --wait-time-seconds 20\n                </pre>\n              </li>\n              <li><strong>DeleteMessageBatch</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs delete-message-batch \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/tasks \\\n  --entries Id=1,ReceiptHandle=AQEB... Id=2,ReceiptHandle=AQEC...\n                </pre>\n              </li>\n              <li><strong>Error Handling:</strong> Partial failures return <code>Failed</code> entries; retry only those.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Additional Advanced Attributes</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Message Attributes</strong><br/>\n                Attach up to 10 key-value pairs (string, binary, number) for routing or filtering without parsing the body.<br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs send-message \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/events \\\n  --message-body "payload" \\\n  --message-attributes \'{"priority":{"StringValue":"high","DataType":"String"}}\'\n                </pre>\n              </li>\n              <li><strong>DelaySeconds</strong><br/>\n                Defer delivery 0–900 s (FIFO also supports per-message delay via <code>DelaySeconds</code>).</li>\n              <li><strong>DLQ (Dead-Letter Queue)</strong><br/>\n                Set <code>redrivePolicy</code> with <code>maxReceiveCount</code> to capture poison messages.</li>\n            </ul>\n          </div>',
+            examples: [
+              '// FIFO send with deduplication & group ID\naws sqs send-message \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders.fifo \\\n  --message-body \'{"orderId":"1001"}\' \\\n  --message-group-id customer-42 \\\n  --message-deduplication-id 1001-2024-07-10',
+              "// Extend visibility timeout while processing\naws sqs change-message-visibility \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/tasks \\\n  --receipt-handle AQEB... \\\n  --visibility-timeout 3600",
+              '// Batch send 5 messages\naws sqs send-message-batch \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/queue \\\n  --entries \'[{"Id":"1","MessageBody":"A"},{"Id":"2","MessageBody":"B"}]\'',
+              "// Batch receive\naws sqs receive-message --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/queue --max-number-of-messages 10",
+              '// Batch delete two messages\naws sqs delete-message-batch \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/queue \\\n  --entries \'[{"Id":"1","ReceiptHandle":"RH1"},{"Id":"2","ReceiptHandle":"RH2"}]\'',
+            ],
+            questions: [
+              {
+                question:
+                  "Which attribute ensures exactly-once delivery in FIFO queues?",
+                solution:
+                  "<p><code>MessageDeduplicationId</code> (plus <code>MessageGroupId</code> for ordering).</p>",
+              },
+              {
+                question:
+                  "What is the maximum visibility timeout you can set via <code>ChangeMessageVisibility</code>?",
+                solution: "<p>12 hours (43,200 seconds).</p>",
+              },
+              {
+                question:
+                  "How many messages can be sent or deleted in one batch request?",
+                solution: "<p>10 messages.</p>",
+              },
+              {
+                question:
+                  "Which parameter guarantees ordering within a subset of messages?",
+                solution: "<p><code>MessageGroupId</code>.</p>",
+              },
+              {
+                question:
+                  "Can standard queues use <code>MessageDeduplicationId</code>?",
+                solution: "<p>No; it is exclusive to FIFO queues.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="SQS FIFO Queues" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/FIFO-queues.html</url>',
+              '<url id="" type="url" status="" title="ChangeMessageVisibility API" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ChangeMessageVisibility.html</url>',
+              '<url id="" type="url" status="" title="Batch Operations" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-batch-api-actions.html</url>',
+            ],
+          },
+          {
+            topic: "Performance Optimization",
+            tags: [
+              "scaling",
+              "prefetch",
+              "parallel",
+              "empty-receives",
+              "throughput",
+            ],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Scaling Consumers (Horizontal Scaling)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Throughput Limits (standard):</strong>\n                <ul>\n                  <li>≈ 3,000 messages/second per queue (soft limit; can request increase)</li>\n                  <li>≈ 300 messages/second FIFO per message group (hard)</li>\n                </ul>\n              </li>\n              <li><strong>Auto-Scaling Pattern:</strong>\n                <ul>\n                  <li>Lambda: set <code>ReservedConcurrentExecutions</code> or let Lambda scale automatically.</li>\n                  <li>ECS/EKS: use CloudWatch metric <code>ApproximateNumberOfMessagesVisible</code> to trigger service scaling.</li>\n                </ul>\n              </li>\n              <li><strong>Shard-like Groups (FIFO):</strong>\n                Use high-cardinality <code>MessageGroupId</code> values to parallelize processing while preserving order within each group.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Prefetching Messages</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Long Polling (<code>WaitTimeSeconds</code>)</strong>\n                <ul>\n                  <li>Reduces empty receives and latency by keeping <code>ReceiveMessage</code> open up to 20 s.</li>\n                  <li>CLI: <code>--wait-time-seconds 20</code></li>\n                  <li>SDK: <code>WaitTimeSeconds=20</code></li>\n                </ul>\n              </li>\n              <li><strong>Max Messages per Receive</strong>\n                <ul>\n                  <li>Set <code>MaxNumberOfMessages=10</code> to pull up to 10 messages in one call.</li>\n                  <li>Combine with long polling for high throughput.</li>\n                </ul>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Using Parallel Processing</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Multi-threading / Multi-processing</strong>\n                <ul>\n                  <li>Python: <code>concurrent.futures.ThreadPoolExecutor</code> or <code>multiprocessing</code>.</li>\n                  <li>Java: <code>ExecutorService</code> with fixed thread pool.</li>\n                </ul>\n              </li>\n              <li><strong>Async / Await</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nimport asyncio, aiobotocore\nasync def worker(queue_url, semaphore):\n    async with semaphore:\n        async with aiobotocore.get_session().create_client(\'sqs\') as sqs:\n            resp = await sqs.receive_message(QueueUrl=queue_url, MaxNumberOfMessages=10, WaitTimeSeconds=20)\n            # process messages concurrently\n                </pre>\n              </li>\n              <li><strong>AWS Lambda Scaling</strong>\n                <ul>\n                  <li>Automatic scaling up to 1,000 concurrent invocations per region (default limit).</li>\n                  <li>Use <code>ReservedConcurrentExecutions</code> to cap cost.</li>\n                </ul>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Minimizing Empty Receives</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Long Polling</strong> (already covered) — best practice; default in most SDKs.</li>\n              <li><strong>Back-off Strategy</strong>\n                <ul>\n                  <li>Exponential back-off with jitter to avoid throttling and wasted calls.</li>\n                  <li>Use SDK built-in retry/back-off (boto3, AWS SDK for Java, etc.).</li>\n                </ul>\n              </li>\n              <li><strong>Queue Metrics + Auto-Scaling</strong>\n                <ul>\n                  <li>Scale consumers down when <code>ApproximateNumberOfMessagesVisible</code> &lt; threshold.</li>\n                  <li>CloudWatch Alarm triggers Lambda or ECS scale-in.</li>\n                </ul>\n              </li>\n              <li><strong>Receive Message Wait Time Queue Attribute</strong>\n                Set once at queue level so all consumers inherit long polling:\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs set-queue-attributes \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/myqueue \\\n  --attributes ReceiveMessageWaitTimeSeconds=20\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">Summary Best-Practice Cheat Sheet</h3>\n            <table style="width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.9rem;">\n              <thead><tr style="background:#fff5e5;">\n                <th style="padding:6px;border:1px solid #ccc;text-align:left;">Challenge</th>\n                <th style="padding:6px;border:1px solid #ccc;text-align:left;">Technique</th>\n              </tr></thead>\n              <tbody>\n                <tr><td style="padding:6px;border:1px solid #ccc;">High throughput</td><td style="padding:6px;border:1px solid #ccc;">Long polling + max 10 msgs/recv + parallel consumers</td></tr>\n                <tr><td style="padding:6px;border:1px solid #ccc;">FIFO scaling</td><td style="padding:6px;border:1px solid #ccc;">High-cardinality MessageGroupIds</td></tr>\n                <tr><td style="padding:6px;border:1px solid #ccc;">Empty receives</td><td style="padding:6px;border:1px solid #ccc;">Queue-level <code>ReceiveMessageWaitTimeSeconds=20</code></td></tr>\n                <tr><td style="padding:6px;border:1px solid #ccc;">Long tasks</td><td style="padding:6px;border:1px solid #ccc;"><code>ChangeMessageVisibility</code> heartbeat pattern</td></tr>\n              </tbody>\n            </table>\n          </div>',
+            examples: [
+              "// Enable long polling on the queue\naws sqs set-queue-attributes \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/myqueue \\\n  --attributes ReceiveMessageWaitTimeSeconds=20",
+              "// Receive up to 10 messages with long polling\naws sqs receive-message \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/myqueue \\\n  --max-number-of-messages 10 \\\n  --wait-time-seconds 20",
+              "// Python multi-threaded consumer\nimport boto3, threading, concurrent.futures\ndef worker():\n    sqs = boto3.client('sqs')\n    while True:\n        msgs = sqs.receive_message(QueueUrl=q_url, MaxNumberOfMessages=10, WaitTimeSeconds=20)\n        for m in msgs.get('Messages', []):\n            # process concurrently\n            sqs.delete_message(QueueUrl=q_url, ReceiptHandle=m['ReceiptHandle'])\nwith concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:\n    [pool.submit(worker) for _ in range(8)]",
+              "// Auto-scale ECS service based on queue depth\naws cloudwatch put-metric-alarm \\\n  --alarm-name sqs-scale-out \\\n  --metric-name ApproximateNumberOfMessagesVisible \\\n  --namespace AWS/SQS \\\n  --statistic Average \\\n  --period 60 --threshold 100 \\\n  --comparison-operator GreaterThanThreshold \\\n  --evaluation-periods 2 \\\n  --dimensions Name=QueueName,Value=myqueue \\\n  --alarm-actions arn:aws:autoscaling:us-east-1:123456789012:scalingPolicy:...",
+            ],
+            questions: [
+              {
+                question:
+                  "Which queue attribute eliminates empty receives by default for all consumers?",
+                solution:
+                  "<p><code>ReceiveMessageWaitTimeSeconds=20</code> (long polling).</p>",
+              },
+              {
+                question:
+                  "How many messages can you receive in a single <code>receive-message</code> call at most?",
+                solution: "<p>10 messages.</p>",
+              },
+              {
+                question:
+                  "What is the maximum visibility timeout you can set via <code>ChangeMessageVisibility</code>?",
+                solution: "<p>12 hours (43,200 seconds).</p>",
+              },
+              {
+                question:
+                  "Why use high-cardinality <code>MessageGroupId</code> in FIFO queues?",
+                solution:
+                  "<p>To parallelize processing across groups while preserving order within each group.</p>",
+              },
+              {
+                question:
+                  "Which CloudWatch metric should you alarm on to trigger horizontal scaling of consumers?",
+                solution:
+                  "<p><code>ApproximateNumberOfMessagesVisible</code>.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="SQS Best Practices" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-best-practices.html</url>',
+              '<url id="" type="url" status="" title="Scaling Consumers" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-throughput-horizontal-scaling.html</url>',
+              '<url id="" type="url" status="" title="ReceiveMessage API" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_ReceiveMessage.html</url>',
+            ],
+          },
+          {
+            topic: "Error Handling Strategies",
+            tags: ["error-handling", "retry", "dlq", "backoff", "poison-pill"],
+            explanation:
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Retry Mechanisms & Back-off Strategies</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Visibility Timeout as Retry Window</strong>\n                <ul>\n                  <li>Let the consumer <code>ChangeMessageVisibility</code> to extend processing time instead of failing immediately.</li>\n                  <li>When an exception occurs, <em>do not</em> call <code>DeleteMessage</code>; the message will automatically re-appear after the visibility timeout expires.</li>\n                </ul>\n              </li>\n              <li><strong>Exponential Back-off with Jitter</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nimport random, time, boto3\nbase = 1\nmax_tries = 5\nfor attempt in range(max_tries):\n    try:\n        process_message(msg)\n        break\n    except Exception as e:\n        delay = min(base * 2**attempt + random.uniform(0,1), 900)\n        sqs.change_message_visibility(\n            QueueUrl=q_url,\n            ReceiptHandle=msg[\'ReceiptHandle\'],\n            VisibilityTimeout=int(delay)\n        )\n                </pre>\n              </li>\n              <li><strong>SDK Built-in Retry</strong>\n                boto3 & AWS SDKs automatically retry transient HTTP errors; tune with <code>max_attempts</code> and <code>retry_mode</code>.</li>\n              <li><strong>Maximum Retries</strong>\n                Use <code>maxReceiveCount</code> on the Redrive Policy to move messages to DLQ after N failures.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Using DLQs Effectively for Debugging</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Setup DLQ</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws sqs create-queue --queue-name my-dlq\naws sqs set-queue-attributes \\\n  --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/myqueue \\\n  --attributes RedrivePolicy=\'{"deadLetterTargetArn":"arn:aws:sqs:us-east-1:123456789012:my-dlq","maxReceiveCount":3}\'\n                </pre>\n              </li>\n              <li><strong>DLQ Best Practices</strong>\n                <ul>\n                  <li>Enable encryption (<code>KmsMasterKeyId</code>) and retention ≥ 14 days.</li>\n                  <li>Add tags (<code>env=debug</code>) for cost tracking.</li>\n                  <li>Monitor metric <code>ApproximateNumberOfMessagesVisible</code> on DLQ to alert on poison-pill surges.</li>\n                </ul>\n              </li>\n              <li><strong>Replay Messages</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n# Move DLQ messages back to source queue\naws sqs start-message-move-task \\\n  --source-arn arn:aws:sqs:us-east-1:123456789012:my-dlq \\\n  --destination-arn arn:aws:sqs:us-east-1:123456789012/myqueue\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Poison-Pill Message Handling</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Detection Logic</strong>\n                <ul>\n                  <li>Parse message body safely (<code>try/except</code>).</li>\n                  <li>Check schema / checksum; if invalid, treat as poison.</li>\n                </ul>\n              </li>\n              <li><strong>Logging & Tracing</strong>\n                <ul>\n                  <li>Log <code>MessageId</code>, <code>ReceiptHandle</code>, stack trace, and payload hash.</li>\n                  <li>Attach X-Ray trace ID via <code>AWSTraceHeader</code> attribute.</li>\n                </ul>\n              </li>\n              <li><strong>Manual vs Automated Recovery</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n# Lambda snippet: auto-tag poison pills\ndef handler(event, ctx):\n    for rec in event[\'Records\']:\n        try:\n            json.loads(rec[\'body\'])\n        except json.JSONDecodeError:\n            sqs.tag_message(\n                QueueUrl=os.getenv(\'DLQ\'),\n                ReceiptHandle=rec[\'receiptHandle\'],\n                Tags=[{\'Key\':\'reason\',\'Value\':\'invalid-json\'}]\n            )\n                </pre>\n              </li>\n              <li><strong>Dead-Letter Queue vs On-Failure Destination (Lambda)</strong>\n                <ul>\n                  <li>DLQ: SQS-managed, works for any consumer.</li>\n                  <li>Lambda On-Failure Destination: sends failed events to SNS/SQS directly from Lambda.</li>\n                </ul>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Observability & Alerting</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>CloudWatch Metrics</strong>\n                <ul>\n                  <li><code>NumberOfMessagesSent</code>, <code>NumberOfMessagesReceived</code>, <code>NumberOfMessagesDeleted</code>, <code>ApproximateAgeOfOldestMessage</code>.</li>\n                  <li><code>ApproximateNumberOfMessagesNotVisible</code> (in-flight).</li>\n                </ul>\n              </li>\n              <li><strong>Alarms</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws cloudwatch put-metric-alarm \\\n  --alarm-name dlq-depth-alert \\\n  --metric-name ApproximateNumberOfMessagesVisible \\\n  --namespace AWS/SQS \\\n  --statistic Sum \\\n  --period 300 --threshold 10 \\\n  --comparison-operator GreaterThanThreshold \\\n  --dimensions Name=QueueName,Value=my-dlq\n                </pre>\n              </li>\n            </ul>\n          </div>',
+            examples: [
+              "// Create DLQ and attach redrive policy\naws sqs create-queue --queue-name my-dlq --attributes KmsMasterKeyId=alias/aws/sqs\naws sqs set-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/myqueue --attributes file://redrive.json",
+              '// redrive.json\n{"RedrivePolicy":"{\\"deadLetterTargetArn\\":\\"arn:aws:sqs:us-east-1:123456789012:my-dlq\\",\\"maxReceiveCount\\":5}"}',
+              "// Replay DLQ to source\naws sqs start-message-move-task --source-arn arn:aws:sqs:us-east-1:123456789012:my-dlq --destination-arn arn:aws:sqs:us-east-1:123456789012/myqueue",
+              "// Python exponential backoff with visibility timeout\nimport random, time, boto3\nsqs = boto3.client('sqs')\ndef retry_with_backoff(msg):\n    delay = 2\n    for attempt in range(1, 6):\n        try:\n            process(msg)\n            sqs.delete_message(QueueUrl=q_url, ReceiptHandle=msg['ReceiptHandle'])\n            break\n        except Exception as e:\n            delay = min(delay * 2 + random.uniform(0, 1), 900)\n            sqs.change_message_visibility(QueueUrl=q_url, ReceiptHandle=msg['ReceiptHandle'], VisibilityTimeout=int(delay))",
+              "// Lambda on-failure destination (CloudFormation snippet)\nDeadLetterConfig:\n  TargetArn: !GetAtt MyDLQ.Arn",
+            ],
+            questions: [
+              {
+                question:
+                  "Which queue attribute specifies the maximum number of receives before moving a message to DLQ?",
+                solution:
+                  "<p><code>maxReceiveCount</code> inside the <code>RedrivePolicy</code>.</p>",
+              },
+              {
+                question:
+                  "What CloudWatch metric would you alarm on to detect a poison-pill surge?",
+                solution:
+                  "<p><code>ApproximateNumberOfMessagesVisible</code> of the DLQ.</p>",
+              },
+              {
+                question:
+                  "How do you move messages from DLQ back to the source queue?",
+                solution:
+                  "<p>Use <code>start-message-move-task</code> or write a replay Lambda.</p>",
+              },
+              {
+                question: "Why add jitter to exponential back-off?",
+                solution:
+                  "<p>To prevent thundering-herd retries and reduce contention.</p>",
+              },
+              {
+                question:
+                  "Can a Lambda function use both DLQ and On-Failure Destination?",
+                solution:
+                  "<p>Yes; DLQ catches async failures, On-Failure Destination captures event-level failures—choose one to avoid duplication.</p>",
+              },
+            ],
+            links: [
+              '<url id="" type="url" status="" title="Using DLQs" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html</url>',
+              '<url id="" type="url" status="" title="Retry and Back-off" wc="">https://docs.aws.amazon.com/general/latest/gr/api-retries.html</url>',
+              '<url id="" type="url" status="" title="CloudWatch SQS Metrics" wc="">https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-monitoring-using-cloudwatch.html</url>',
+            ],
+          },
+
           {
             topic: "Enterprise Architecture Patterns",
             tags: ["microservices", "decoupling", "patterns"],
