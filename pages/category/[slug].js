@@ -508,7 +508,8 @@ export default function BasicTabs({
   }, [selectedTopicData, searchQuery]);
   return (
     <>
-      <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto">
+      {/* <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto"> */}
+      <Box className="w-full sm:w-8/12 md:w-10/12 lg:w-8/12 mx-auto px-4">
         <Header topic={topic} indexSelected={indexSelected} />
         <Box sx={{ width: "auto" }}>
           <Box>

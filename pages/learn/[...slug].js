@@ -37,7 +37,8 @@ export default function Learn({
   }
 
   return (
-    <Box className="w-full md:w-6/12 mx-auto">
+    // <Box className="w-full md:w-6/12 mx-auto">
+    <Box className="w-full sm:w-8/12 md:w-10/12 lg:w-8/12 mx-auto px-4">
       <Header topic={category || topic} />
       <Box sx={{ width: "auto" }} padding={3}>
         <h3
