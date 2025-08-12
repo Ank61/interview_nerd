@@ -746,6 +746,22 @@ export default function BasicTabs({
                       filteredPrepareData[0]?.concepts?.map(
                         (concept, index) => (
                           <TableRow key={concept.topic}>
+                            {session?.user?.id && (
+                              <TableCell className="text-center">
+                                <Checkbox
+                                  className="border-yellow-500 data-[state=checked]:bg-yellow-500 data-[state=checked]:border-yellow-500"
+                                  checked={
+                                    !!learnedConcepts[
+                                      getConceptKey(topic, concept.topic)
+                                    ]
+                                  }
+                                  onCheckedChange={() =>
+                                    handleLearnedToggle(concept)
+                                  }
+                                  aria-label="Mark as learned"
+                                />
+                              </TableCell>
+                            )}
                             <TableCell
                               className={`text-left font-medium text-[15px] p-[0px] ${
                                 topic === "Javascript"
@@ -951,21 +967,6 @@ export default function BasicTabs({
                                 </div>
                               )}
                             </TableCell>
-                            {session?.user?.id && (
-                              <TableCell className="text-center">
-                                <Checkbox
-                                  checked={
-                                    !!learnedConcepts[
-                                      getConceptKey(topic, concept.topic)
-                                    ]
-                                  }
-                                  onCheckedChange={() =>
-                                    handleLearnedToggle(concept)
-                                  }
-                                  aria-label="Mark as learned"
-                                />
-                              </TableCell>
-                            )}
                           </TableRow>
                         )
                       )
