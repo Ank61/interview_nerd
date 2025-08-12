@@ -17,7 +17,7 @@ export default function Learn({
 }) {
   const router = useRouter();
   const [hydrated, setHydrated] = React.useState(false);
-
+  console.log("topppicsna'oc", topic, category);
   React.useEffect(() => {
     setHydrated(true);
   }, []);
@@ -126,6 +126,7 @@ export async function getStaticProps({ params }) {
       item.type.forEach((typeItem) => {
         typeItem.concepts.forEach((conceptItem, index) => {
           if (conceptItem.topic === selected) {
+            console.log("catogory 2", item?.category, selected);
             category = item?.category || selected;
             themeColor = {
               category: item.category,
@@ -144,7 +145,7 @@ export async function getStaticProps({ params }) {
       });
     }
   });
-
+  console.log("catogory 3", category);
   return {
     props: {
       topic: selected,

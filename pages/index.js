@@ -100,18 +100,15 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <Link
-                    href="/auth/login"
-                    className="text-gray-600 hover:text-blue-600 transition-colors"
-                  >
+                  <Link href="/auth/login" className="font-bold text-blue-600">
                     Login
                   </Link>
-                  <Link
+                  {/* <Link
                     href="/auth/signup"
                     className="text-gray-600 hover:text-blue-600 transition-colors"
                   >
                     Signup
-                  </Link>
+                  </Link> */}
                 </>
               )}
             </div>
