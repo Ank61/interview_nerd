@@ -23821,7 +23821,3619 @@ app.listen(3000, () => {
       {
         id: 1,
         label: "Beginner",
-        concepts: [],
+        concepts: [
+          {
+            topic: "What is Next.js? Why use it over React?",
+            tags: ["fundamentals", "comparison", "framework"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js is a production-ready React framework that provides additional features and optimizations on top of React. It's developed by Vercel and offers a complete solution for building modern web applications with React.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Next.js?
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Next.js is a full-stack React framework that enables functionality such as server-side rendering (SSR), static site generation (SSG), API routes, and automatic code splitting. It abstracts away complex webpack configurations and provides a zero-config setup for React applications.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Choose Next.js Over Plain React?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Server-Side Rendering (SSR):</span> 
+      <p style="margin-top: 0.25rem;">Pages are rendered on the server, improving SEO and initial page load times. Perfect for content-heavy sites and e-commerce platforms.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Static Site Generation (SSG):</span>
+      <p style="margin-top: 0.25rem;">Pre-generates HTML at build time, resulting in extremely fast loading times. Ideal for blogs, documentation sites, and marketing pages.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Code Splitting:</span>
+      <p style="margin-top: 0.25rem;">Only loads the JavaScript needed for each page, reducing bundle sizes and improving performance.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Built-in API Routes:</span>
+      <p style="margin-top: 0.25rem;">Create API endpoints within your Next.js application without needing a separate backend server.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Image Optimization:</span>
+      <p style="margin-top: 0.25rem;">Automatic image optimization with the built-in Image component, including lazy loading and responsive images.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">File-based Routing:</span>
+      <p style="margin-top: 0.25rem;">No need to configure routing manually - routes are automatically created based on your file structure.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">CSS Support:</span>
+      <p style="margin-top: 0.25rem;">Built-in support for CSS Modules, Sass, and CSS-in-JS libraries like styled-components.</p>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Next.js
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>E-commerce websites:</strong> SSR improves SEO and conversion rates</li>
+     <li style="margin-top: 0.5rem;"><strong>Content Management Systems:</strong> SSG for fast loading blog posts and articles</li>
+     <li style="margin-top: 0.5rem;"><strong>Marketing websites:</strong> Static generation for maximum performance</li>
+     <li style="margin-top: 0.5rem;"><strong>Enterprise applications:</strong> Full-stack capabilities with API routes</li>
+     <li style="margin-top: 0.5rem;"><strong>Progressive Web Apps:</strong> Built-in PWA support</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Next.js Component Example
+   </h4>
+   <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/index.js
+import Head from 'next/head'
+import Image from 'next/image'
+
+export default function Home() {
+  return (
+    <div>
+      <Head>
+        <title>My Next.js App</title>
+        <meta name="description" content="Welcome to my Next.js application" />
+      </Head>
+      
+      <main>
+        <h1>Welcome to Next.js!</h1>
+        <Image 
+          src="/hero-image.jpg" 
+          alt="Hero Image" 
+          width={800} 
+          height={400}
+          priority
+        />
+        <p>This page is server-side rendered by default.</p>
+      </main>
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `// Basic Next.js page with SSR
+// pages/products.js
+import { useState } from 'react'
+
+export default function Products({ products }) {
+  const [filter, setFilter] = useState('')
+  
+  const filteredProducts = products.filter(product =>
+    product.name.toLowerCase().includes(filter.toLowerCase())
+  )
+
+  return (
+    <div>
+      <input 
+        type="text"
+        placeholder="Search products..."
+        value={filter}
+        onChange={(e) => setFilter(e.target.value)}
+      />
+      
+      <div className="product-grid">
+        {filteredProducts.map(product => (
+          <div key={product.id} className="product-card">
+            <h3>{product.name}</h3>
+            <p>${product.price}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// This runs on the server before the page is sent to the client
+export async function getServerSideProps() {
+  const res = await fetch('https://api.example.com/products')
+  const products = await res.json()
+
+  return {
+    props: { products }
+  }
+}`,
+              `// Static Site Generation example
+// pages/blog/[slug].js
+export default function BlogPost({ post }) {
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>{post.date}</p>
+      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+    </article>
+  )
+}
+
+// Generate static paths at build time
+export async function getStaticPaths() {
+  const posts = await fetch('https://api.example.com/posts').then(res => res.json())
+  const paths = posts.map(post => ({
+    params: { slug: post.slug }
+  }))
+
+  return { paths, fallback: false }
+}
+
+// Generate static props at build time
+export async function getStaticProps({ params }) {
+  const post = await fetch(\`https://api.example.com/posts/\${params.slug}\`)
+    .then(res => res.json())
+
+  return {
+    props: { post },
+    revalidate: 3600 // Regenerate page every hour
+  }
+}`,
+            ],
+            questions: [
+              {
+                question: "What are the main rendering methods in Next.js?",
+                solution:
+                  "<p>Next.js offers four main rendering methods: <strong>Static Site Generation (SSG)</strong> - pages are pre-rendered at build time; <strong>Server-Side Rendering (SSR)</strong> - pages are rendered on each request; <strong>Client-Side Rendering (CSR)</strong> - traditional React rendering in the browser; and <strong>Incremental Static Regeneration (ISR)</strong> - static pages can be regenerated in the background.</p>",
+              },
+              {
+                question:
+                  "How does Next.js improve SEO compared to plain React?",
+                solution:
+                  "<p>Next.js improves SEO through server-side rendering, which means search engines receive fully rendered HTML instead of empty div tags. It also provides built-in Head component for managing meta tags, automatic sitemap generation, and structured data support. The pre-rendered content is immediately available to web crawlers.</p>",
+              },
+              {
+                question:
+                  "What is the difference between getServerSideProps and getStaticProps?",
+                solution:
+                  "<p><strong>getServerSideProps</strong> runs on every request on the server, making it suitable for data that changes frequently or requires user-specific information. <strong>getStaticProps</strong> runs at build time and generates static HTML, making it perfect for content that doesn't change often. Use SSR for dynamic data, SSG for static content.</p>",
+              },
+              {
+                question:
+                  "Can I use Next.js for a SPA (Single Page Application)?",
+                solution:
+                  "<p>Yes, Next.js can be configured to work as a SPA by using client-side rendering. You can disable server-side rendering for specific pages or the entire application. However, you'll lose many of Next.js benefits like SEO improvements and faster initial page loads.</p>",
+              },
+              {
+                question: "How does automatic code splitting work in Next.js?",
+                solution:
+                  "<p>Next.js automatically splits your code at the page level. Each page only loads the JavaScript it needs, reducing the initial bundle size. Dynamic imports further split code within pages. This means users only download the code necessary for the current page, significantly improving performance.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/getting-started",
+              "https://nextjs.org/learn/basics/create-nextjs-app",
+              "https://vercel.com/blog/nextjs-10",
+            ],
+          },
+          {
+            topic: "Differences between CRA (Create React App) and Next.js",
+            tags: ["comparison", "tooling", "configuration"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Understanding the differences between Create React App (CRA) and Next.js is crucial for choosing the right tool for your project. Both serve different purposes and excel in different scenarios.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Create React App (CRA) Overview
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     CRA is a command-line tool that sets up a new React application with a modern build setup. It provides a zero-configuration setup for React applications with webpack, Babel, ESLint, and other tools pre-configured.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences Comparison
+   </h4>
+ 
+   <div style="margin-top: 1.5rem;">
+     <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb;">
+       <thead>
+         <tr style="background-color: #f9fafb;">
+           <th style="padding: 0.75rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">Feature</th>
+           <th style="padding: 0.75rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">Create React App</th>
+           <th style="padding: 0.75rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">Next.js</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">Rendering</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Client-side only</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">SSR, SSG, CSR, ISR</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">Routing</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">React Router (manual setup)</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">File-based routing (automatic)</td>
+         </tr>
+         <tr>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">API Routes</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Not supported</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Built-in API routes</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">Code Splitting</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Manual with React.lazy</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Automatic</td>
+         </tr>
+         <tr>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">SEO</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Poor (requires additional setup)</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Excellent (built-in SSR/SSG)</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">Configuration</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Zero config (eject for custom)</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Zero config with customization</td>
+         </tr>
+         <tr>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">Bundle Size</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Larger initial bundle</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Smaller per-page bundles</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-weight: 600;">Deployment</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Static hosting (Netlify, Vercel)</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Static + server hosting</td>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Create React App
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Learning React:</strong> Perfect for beginners learning React concepts</li>
+     <li style="margin-top: 0.5rem;"><strong>Prototypes:</strong> Quick prototyping and proof of concepts</li>
+     <li style="margin-top: 0.5rem;"><strong>Admin Panels:</strong> Internal tools where SEO isn't important</li>
+     <li style="margin-top: 0.5rem;"><strong>Single Page Apps:</strong> Applications that don't need server-side rendering</li>
+     <li style="margin-top: 0.5rem;"><strong>Simple Projects:</strong> Small projects with minimal requirements</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Next.js
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Production Applications:</strong> Applications that need to scale and perform well</li>
+     <li style="margin-top: 0.5rem;"><strong>SEO-Critical Sites:</strong> E-commerce, blogs, marketing sites</li>
+     <li style="margin-top: 0.5rem;"><strong>Full-Stack Applications:</strong> When you need both frontend and backend</li>
+     <li style="margin-top: 0.5rem;"><strong>Performance-Critical Apps:</strong> Applications where loading speed matters</li>
+     <li style="margin-top: 0.5rem;"><strong>Complex Routing:</strong> Applications with dynamic routes and nested layouts</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Migration Considerations
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Migrating from CRA to Next.js is straightforward for most applications. The main changes involve restructuring files into the pages directory, updating routing logic, and potentially adding data fetching methods like getServerSideProps or getStaticProps.
+   </p>
+</div>`,
+            examples: [
+              `// CRA - Traditional React Router setup
+// App.js
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import Home from './components/Home'
+import About from './components/About'
+import Contact from './components/Contact'
+
+function App() {
+  return (
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+        </Routes>
+      </div>
+    </Router>
+  )
+}
+
+export default App`,
+              `// Next.js - File-based routing (no router configuration needed)
+// pages/index.js
+export default function Home() {
+  return <h1>Home Page</h1>
+}
+
+// pages/about.js  
+export default function About() {
+  return <h1>About Page</h1>
+}
+
+// pages/contact.js
+export default function Contact() {
+  return <h1>Contact Page</h1>
+}
+
+// Routes are automatically created:
+// / -> pages/index.js
+// /about -> pages/about.js
+// /contact -> pages/contact.js`,
+              `// CRA - Manual code splitting
+import { lazy, Suspense } from 'react'
+
+const LazyComponent = lazy(() => import('./LazyComponent'))
+
+function App() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <LazyComponent />
+    </Suspense>
+  )
+}
+
+// Next.js - Automatic code splitting
+// Each page is automatically code-split
+// pages/dashboard.js
+export default function Dashboard() {
+  return <div>Dashboard content loads only when needed</div>
+}
+
+// Dynamic imports for components
+import dynamic from 'next/dynamic'
+
+const DynamicComponent = dynamic(() => import('../components/Heavy'), {
+  loading: () => <p>Loading...</p>,
+})
+
+export default function Page() {
+  return <DynamicComponent />
+}`,
+            ],
+            questions: [
+              {
+                question: "Can I convert a CRA app to Next.js?",
+                solution:
+                  "<p>Yes, converting a CRA app to Next.js is possible but requires some restructuring. You'll need to move components to the pages directory for routing, update import paths, and potentially add data fetching methods. Most React code will work as-is, but you'll need to handle SSR compatibility for any browser-specific code.</p>",
+              },
+              {
+                question: "Which has better performance - CRA or Next.js?",
+                solution:
+                  "<p>Next.js generally offers better performance due to automatic code splitting, server-side rendering, and image optimization. CRA loads the entire bundle upfront, while Next.js loads only what's needed for each page. However, CRA can be optimized manually to achieve similar results with more effort.</p>",
+              },
+              {
+                question: "Do I need to know React before learning Next.js?",
+                solution:
+                  "<p>Yes, solid React knowledge is essential before learning Next.js. You should understand components, props, state, hooks, and the React lifecycle. Next.js builds on top of React, adding features like SSR, routing, and API routes, but the core concepts remain the same.</p>",
+              },
+              {
+                question:
+                  "Can I use the same UI libraries with both CRA and Next.js?",
+                solution:
+                  "<p>Most UI libraries work with both CRA and Next.js. However, some libraries that rely heavily on browser APIs might need special handling in Next.js due to server-side rendering. Libraries like Material-UI, Ant Design, and Chakra UI have specific Next.js integration guides.</p>",
+              },
+              {
+                question: "Which is easier to deploy - CRA or Next.js?",
+                solution:
+                  "<p>CRA is simpler to deploy as it generates static files that can be hosted anywhere. Next.js offers more deployment options: static export for simple hosting, or server deployment for SSR features. Vercel makes Next.js deployment extremely easy, while CRA can be deployed to any static hosting service.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/migrating/from-create-react-app",
+              "https://create-react-app.dev/docs/getting-started/",
+              "https://nextjs.org/docs/basic-features/pages",
+            ],
+          },
+          {
+            topic: "Folder structure in Next.js projects",
+            tags: ["project-structure", "organization", "conventions"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Understanding Next.js folder structure is crucial for building scalable applications. Next.js follows conventions that provide automatic routing, API endpoints, and optimized builds based on your file organization.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Standard Next.js Project Structure
+   </h4>
+ 
+   <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-family: monospace;">
+      <pre>
+my-nextjs-app/
+├── public/                 # Static assets
+│   ├── images/
+│   ├── icons/
+│   ├── favicon.ico
+│   └── robots.txt
+├── pages/                  # File-based routing
+│   ├── api/               # API routes
+│   │   ├── users.js
+│   │   └── auth/
+│   │       └── login.js
+│   ├── blog/
+│   │   ├── index.js
+│   │   └── [slug].js      # Dynamic route
+│   ├── _app.js            # Custom App component
+│   ├── _document.js       # Custom Document
+│   ├── index.js           # Home page (/)
+│   └── about.js           # About page (/about)
+├── components/             # Reusable components
+│   ├── Layout/
+│   │   ├── Header.js
+│   │   ├── Footer.js
+│   │   └── index.js
+│   ├── UI/
+│   │   ├── Button.js
+│   │   └── Modal.js
+│   └── Forms/
+│       └── ContactForm.js
+├── styles/                 # CSS files
+│   ├── globals.css
+│   ├── Home.module.css
+│   └── components/
+├── lib/                    # Utility functions
+│   ├── database.js
+│   ├── auth.js
+│   └── helpers.js
+├── hooks/                  # Custom React hooks
+│   ├── useAuth.js
+│   └── useLocalStorage.js
+├── utils/                  # Helper utilities
+│   ├── constants.js
+│   └── formatters.js
+├── context/                # React Context providers
+│   └── AuthContext.js
+├── next.config.js          # Next.js configuration
+├── package.json
+└── README.md
+      </pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Special Directories and Files
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">public/ directory:</span>
+      <p style="margin-top: 0.25rem;">Serves static files directly. Files in this directory are accessible from the root URL. Perfect for images, icons, robots.txt, sitemap.xml, and other static assets.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">pages/ directory:</span>
+      <p style="margin-top: 0.25rem;">The heart of Next.js routing. Each file automatically becomes a route. Special files like _app.js and _document.js have specific purposes.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">pages/api/ directory:</span>
+      <p style="margin-top: 0.25rem;">Creates API endpoints. Each file becomes an API route that can handle HTTP requests (GET, POST, PUT, DELETE, etc.).</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">components/ directory:</span>
+      <p style="margin-top: 0.25rem;">Houses reusable React components. Not tied to routing, purely for component organization and reusability.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">styles/ directory:</span>
+      <p style="margin-top: 0.25rem;">Contains CSS files, CSS modules, and styled-components. Next.js supports various styling approaches.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">lib/ directory:</span>
+      <p style="margin-top: 0.25rem;">For utility functions, database connections, and business logic that's shared across the application.</p>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Special Files Explained
+   </h4>
+   
+   <div style="margin-top: 1rem;">
+     <div style="background: #fff3cd; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+       <h5 style="font-weight: 600; color: #856404;">_app.js</h5>
+       <p style="margin-top: 0.5rem; color: #856404;">The custom App component that wraps all pages. Used for global styles, layouts, state management, and page initialization.</p>
+     </div>
+     
+     <div style="background: #d1ecf1; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+       <h5 style="font-weight: 600; color: #0c5460;">_document.js</h5>
+       <p style="margin-top: 0.5rem; color: #0c5460;">Customizes the HTML document structure. Used for adding meta tags, fonts, and third-party scripts that apply to all pages.</p>
+     </div>
+     
+     <div style="background: #d4edda; padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+       <h5 style="font-weight: 600; color: #155724;">404.js</h5>
+       <p style="margin-top: 0.5rem; color: #155724;">Custom 404 error page. Automatically used when a route doesn't exist.</p>
+     </div>
+     
+            <div style="background: #f8d7da; padding: 1rem; border-radius: 8px;">
+       <h5 style="font-weight: 600; color: #721c24;">500.js</h5>
+       <p style="margin-top: 0.5rem; color: #721c24;">Custom 500 error page for server-side errors.</p>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Project Structure
+   </h4>
+   
+   <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-family: monospace;">
+      <pre>
+enterprise-nextjs-app/
+├── src/                    # Source code (optional)
+│   ├── pages/             # Pages directory inside src
+│   ├── components/
+│   ├── hooks/
+│   ├── lib/
+│   └── styles/
+├── public/
+├── docs/                   # Documentation
+├── tests/                  # Test files
+│   ├── __mocks__/
+│   ├── components/
+│   └── pages/
+├── .github/                # GitHub workflows
+│   └── workflows/
+├── .next/                  # Build output (auto-generated)
+├── node_modules/           # Dependencies (auto-generated)
+├── .env.local              # Environment variables
+├── .env.example
+├── .gitignore
+├── next.config.js
+├── package.json
+├── tailwind.config.js      # If using Tailwind CSS
+├── tsconfig.json           # If using TypeScript
+└── jest.config.js          # If using Jest for testing
+      </pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Organization
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Feature-based organization:</strong> Group related components, hooks, and utilities together</li>
+     <li style="margin-top: 0.5rem;"><strong>Consistent naming:</strong> Use PascalCase for components, camelCase for functions and variables</li>
+     <li style="margin-top: 0.5rem;"><strong>Index files:</strong> Use index.js files to create clean import paths</li>
+     <li style="margin-top: 0.5rem;"><strong>Environment separation:</strong> Use different .env files for different environments</li>
+     <li style="margin-top: 0.5rem;"><strong>Asset organization:</strong> Organize images and static assets in logical folders within public/</li>
+   </ul>
+</div>`,
+            examples: [
+              `// components/Layout/index.js - Clean import structure
+import Header from './Header'
+import Footer from './Footer'
+import Sidebar from './Sidebar'
+
+export default function Layout({ children, showSidebar = false }) {
+  return (
+    <div className="min-h-screen">
+      <Header />
+      <div className="flex">
+        {showSidebar && <Sidebar />}
+        <main className="flex-1 p-6">
+          {children}
+        </main>
+      </div>
+      <Footer />
+    </div>
+  )
+}
+
+// Usage in pages/_app.js
+import Layout from '../components/Layout'
+
+export default function MyApp({ Component, pageProps }) {
+  return (
+    <Layout showSidebar={Component.showSidebar}>
+      <Component {...pageProps} />
+    </Layout>
+  )
+}`,
+              `// lib/database.js - Database utility
+import { MongoClient } from 'mongodb'
+
+const client = new MongoClient(process.env.MONGODB_URI)
+
+export async function connectToDatabase() {
+  if (!client.isConnected()) {
+    await client.connect()
+  }
+  return client.db(process.env.DB_NAME)
+}
+
+export async function getUsers() {
+  const db = await connectToDatabase()
+  const users = await db.collection('users').find({}).toArray()
+  return JSON.parse(JSON.stringify(users))
+}
+
+// pages/api/users.js - API route using lib function
+import { getUsers } from '../../lib/database'
+
+export default async function handler(req, res) {
+  if (req.method === 'GET') {
+    try {
+      const users = await getUsers()
+      res.status(200).json(users)
+    } catch (error) {
+      res.status(500).json({ error: 'Failed to fetch users' })
+    }
+  }
+}`,
+              `// Feature-based organization example
+// features/auth/
+├── components/
+│   ├── LoginForm.js
+│   ├── SignupForm.js
+│   └── AuthLayout.js
+├── hooks/
+│   ├── useAuth.js
+│   └── useAuthRedirect.js
+├── lib/
+│   ├── authHelpers.js
+│   └── validation.js
+├── context/
+│   └── AuthContext.js
+└── index.js              # Export all auth-related items
+
+// features/auth/index.js
+export { default as LoginForm } from './components/LoginForm'
+export { default as SignupForm } from './components/SignupForm'
+export { default as AuthLayout } from './components/AuthLayout'
+export { useAuth } from './hooks/useAuth'
+export { AuthProvider } from './context/AuthContext'
+
+// Clean imports in pages
+import { LoginForm, useAuth } from '../features/auth'`,
+            ],
+            questions: [
+              {
+                question: "Can I use a src/ directory in Next.js?",
+                solution:
+                  "<p>Yes, Next.js supports an optional src/ directory. If you create a src/ folder, you can move your pages/, components/, and other directories inside it. This is useful for keeping your project root clean and separating source code from configuration files. The routing still works the same way.</p>",
+              },
+              {
+                question: "How should I organize CSS files in Next.js?",
+                solution:
+                  "<p>Next.js supports several CSS organization patterns: Global CSS in styles/globals.css, CSS Modules with .module.css extension, component-specific styles co-located with components, and CSS-in-JS solutions. Choose based on your team preferences and project requirements.</p>",
+              },
+              {
+                question: "Where should I put utility functions and helpers?",
+                solution:
+                  "<p>Utility functions can go in several places: lib/ for business logic and external integrations, utils/ for pure helper functions, helpers/ for formatting and validation functions. Keep them organized by purpose and create index files for clean imports.</p>",
+              },
+              {
+                question:
+                  "Should I put all components in a single components folder?",
+                solution:
+                  "<p>For small projects, a single components/ folder is fine. For larger applications, consider organizing by feature or domain (components/auth/, components/dashboard/), by type (components/UI/, components/forms/), or using a hybrid approach. The key is consistency across your team.</p>",
+              },
+              {
+                question:
+                  "How do I handle environment-specific configurations?",
+                solution:
+                  "<p>Use .env.local for local development, .env.production for production, and .env.example as a template. Keep sensitive data out of your repository. You can also use different next.config.js settings based on environment variables for more complex configurations.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/pages",
+              "https://nextjs.org/docs/advanced-features/src-directory",
+              "https://nextjs.org/docs/basic-features/static-file-serving",
+            ],
+          },
+          {
+            topic: "Understanding pages directory and routing",
+            tags: ["routing", "pages", "navigation", "file-system"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses a file-system based router built on the concept of pages. When a file is added to the pages directory, it's automatically available as a route. This eliminates the need for complex routing configuration and makes navigation intuitive and predictable.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic File-based Routing
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     The pages directory is the foundation of routing in Next.js. Each JavaScript file in this directory corresponds to a route based on its file name and path within the directory structure.
+   </p>
+
+   <div style="margin-top: 1.5rem;">
+     <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb;">
+       <thead>
+         <tr style="background-color: #f9fafb;">
+           <th style="padding: 0.75rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">File Path</th>
+           <th style="padding: 0.75rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">Route</th>
+           <th style="padding: 0.75rem; text-align: left; font-weight: 600; border: 1px solid #e5e7eb;">Description</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">pages/index.js</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">/</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Home page</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">pages/about.js</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">/about</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">About page</td>
+         </tr>
+         <tr>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">pages/contact.js</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">/contact</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Contact page</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">pages/blog/index.js</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">/blog</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Blog listing page</td>
+         </tr>
+         <tr>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">pages/blog/first-post.js</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">/blog/first-post</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Static blog post</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">pages/blog/[slug].js</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb; font-family: monospace;">/blog/any-slug</td>
+           <td style="padding: 0.75rem; border: 1px solid #e5e7eb;">Dynamic blog post</td>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dynamic Routes
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Dynamic routes allow you to create pages with dynamic parameters. Use square brackets [] in the filename to create dynamic route segments that can match any value.
+   </p>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single Dynamic Route:</span>
+      <p style="margin-top: 0.25rem;"><code>[id].js</code> matches /posts/1, /posts/abc, /posts/hello-world</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Nested Dynamic Routes:</span>
+      <p style="margin-top: 0.25rem;"><code>[category]/[id].js</code> matches /electronics/123, /books/456</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Catch-all Routes:</span>
+      <p style="margin-top: 0.25rem;"><code>[...slug].js</code> matches /docs/folder/subfolder/page</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optional Catch-all Routes:</span>
+      <p style="margin-top: 0.25rem;"><code>[[...slug]].js</code> matches both /docs and /docs/folder/page</p>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Nested Routes and Index Files
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     You can create nested routes by creating directories within the pages directory. Index files serve as the default route for a directory.
+   </p>
+
+   <div style="background: #f8f9fa; padding: 1rem; border-radius: 8px; margin-top: 1rem; font-family: monospace;">
+      <pre>
+pages/
+├── index.js           # Route: /
+├── about.js           # Route: /about
+├── blog/
+│   ├── index.js       # Route: /blog
+│   ├── [slug].js      # Route: /blog/:slug
+│   └── category/
+│       ├── index.js   # Route: /blog/category
+│       └── [name].js  # Route: /blog/category/:name
+└── shop/
+    ├── index.js       # Route: /shop
+    ├── [id].js        # Route: /shop/:id
+    └── cart.js        # Route: /shop/cart
+      </pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Navigation Between Pages
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Next.js provides the Link component for client-side navigation between pages. This enables fast page transitions without full page reloads.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Route Priority and Matching
+   </h4>
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;"><strong>Static routes</strong> have highest priority</li>
+     <li style="margin-top: 0.5rem;"><strong>Dynamic routes</strong> are matched next</li>
+     <li style="margin-top: 0.5rem;"><strong>Catch-all routes</strong> are matched last</li>
+   </ol>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     For example, if you have both <code>/blog/hello.js</code> and <code>/blog/[slug].js</code>, the static route <code>/blog/hello</code> will take precedence over the dynamic route.
+   </p>
+</div>`,
+            examples: [
+              `// pages/blog/[slug].js - Dynamic route example
+import { useRouter } from 'next/router'
+import { useState, useEffect } from 'react'
+
+export default function BlogPost() {
+  const router = useRouter()
+  const { slug } = router.query
+  const [post, setPost] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    if (slug) {
+      // Fetch post data based on slug
+      fetchPost(slug)
+    }
+  }, [slug])
+
+  const fetchPost = async (slug) => {
+    try {
+      const response = await fetch(\`/api/posts/\${slug}\`)
+      const postData = await response.json()
+      setPost(postData)
+    } catch (error) {
+      console.error('Error fetching post:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  if (loading) return <div>Loading...</div>
+  if (!post) return <div>Post not found</div>
+
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <p>Published: {post.publishDate}</p>
+      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+    </article>
+  )
+}
+
+// This page will match:
+// /blog/my-first-post
+// /blog/javascript-tips
+// /blog/nextjs-tutorial`,
+              `// pages/shop/[...slug].js - Catch-all route example
+import { useRouter } from 'next/router'
+
+export default function ShopPage() {
+  const router = useRouter()
+  const { slug } = router.query
+
+  // slug will be an array of path segments
+  // /shop/electronics/phones/iphone -> ['electronics', 'phones', 'iphone']
+  // /shop/books -> ['books']
+  // /shop -> undefined (unless using [[...slug]].js)
+
+  const renderBreadcrumb = () => {
+    if (!slug) return null
+    
+    return (
+      <nav>
+        <span>Shop</span>
+        {slug.map((segment, index) => (
+          <span key={index}> > {segment}</span>
+        ))}
+      </nav>
+    )
+  }
+
+  const getCurrentCategory = () => {
+    if (!slug || slug.length === 0) return 'home'
+    return slug[slug.length - 1]
+  }
+
+  return (
+    <div>
+      {renderBreadcrumb()}
+      <h1>Shop - {getCurrentCategory()}</h1>
+      <p>Current path: {slug ? \`/shop/\${slug.join('/')}\` : '/shop'}</p>
+    </div>
+  )
+}`,
+              `// components/Navigation.js - Using Link for navigation
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+
+export default function Navigation() {
+  const router = useRouter()
+
+  const isActive = (pathname) => {
+    return router.pathname === pathname ? 'active' : ''
+  }
+
+  return (
+    <nav className="navigation">
+      <Link href="/">
+        <a className={isActive('/')}>Home</a>
+      </Link>
+      
+      <Link href="/about">
+        <a className={isActive('/about')}>About</a>
+      </Link>
+      
+      <Link href="/blog">
+        <a className={isActive('/blog')}>Blog</a>
+      </Link>
+      
+      {/* Dynamic link with parameters */}
+      <Link href="/blog/[slug]" as="/blog/my-first-post">
+        <a>My First Post</a>
+      </Link>
+      
+      {/* Programmatic navigation */}
+      <button onClick={() => router.push('/contact')}>
+        Contact Us
+      </button>
+      
+      {/* Link with query parameters */}
+      <Link href={{
+        pathname: '/search',
+        query: { q: 'nextjs', category: 'tutorial' }
+      }}>
+        <a>Search NextJS Tutorials</a>
+      </Link>
+    </nav>
+  )
+}
+
+// CSS for active link styling
+/*
+.navigation a {
+  margin-right: 1rem;
+  text-decoration: none;
+  color: #0070f3;
+}
+
+.navigation a.active {
+  font-weight: bold;
+  color: #000;
+}
+*/`,
+              `// pages/products/[category]/[id].js - Nested dynamic routes
+import { useRouter } from 'next/router'
+
+export default function ProductPage() {
+  const router = useRouter()
+  const { category, id } = router.query
+
+  return (
+    <div>
+      <h1>Product Details</h1>
+      <p>Category: {category}</p>
+      <p>Product ID: {id}</p>
+      
+      <button onClick={() => router.back()}>
+        Go Back
+      </button>
+      
+      <button onClick={() => router.push('/products')}>
+        All Products
+      </button>
+    </div>
+  )
+}
+
+// This page matches routes like:
+// /products/electronics/123
+// /products/clothing/abc
+// /products/books/456
+
+// You can also use getServerSideProps or getStaticProps
+export async function getServerSideProps({ params }) {
+  const { category, id } = params
+  
+  // Fetch product data
+  const product = await fetchProduct(category, id)
+  
+  if (!product) {
+    return {
+      notFound: true
+    }
+  }
+  
+  return {
+    props: {
+      product,
+      category,
+      id
+    }
+  }
+}`,
+            ],
+            questions: [
+              {
+                question: "How do I pass data between pages in Next.js?",
+                solution:
+                  "<p>You can pass data between pages using: URL query parameters with router.push(), Link component with query props, browser storage (localStorage/sessionStorage), React Context for global state, or URL state for shareable links. For server-side data, use getServerSideProps or getStaticProps.</p>",
+              },
+              {
+                question:
+                  "What happens if I have both [slug].js and a specific file like about.js?",
+                solution:
+                  "<p>Static routes always take precedence over dynamic routes. If you have both /pages/about.js and /pages/[slug].js, visiting /about will render the about.js page, not the dynamic [slug].js page. This allows you to have specific pages alongside dynamic ones.</p>",
+              },
+              {
+                question: "Can I have nested dynamic routes?",
+                solution:
+                  "<p>Yes, you can create nested dynamic routes by using directories with dynamic filenames. For example, /pages/[category]/[id].js creates routes like /electronics/123. You can access both parameters through the router.query object: { category: 'electronics', id: '123' }.</p>",
+              },
+              {
+                question:
+                  "How do catch-all routes work with optional parameters?",
+                solution:
+                  "<p>Catch-all routes [...slug].js require at least one parameter, while optional catch-all routes [[...slug]].js can match zero or more parameters. The optional version can match both /docs (slug: undefined) and /docs/getting-started (slug: ['getting-started']).</p>",
+              },
+              {
+                question: "How can I create a custom 404 page?",
+                solution:
+                  "<p>Create a 404.js file in your pages directory. This will automatically be used for any route that doesn't match existing pages. You can also create a custom _error.js page to handle other errors. These special pages are automatically routed by Next.js.</p>",
+              },
+              {
+                question: "Can I use query parameters with dynamic routes?",
+                solution:
+                  "<p>Yes, query parameters work with dynamic routes. For a route like /blog/[slug], visiting /blog/my-post?author=john gives you router.query = { slug: 'my-post', author: 'john' }. Both route parameters and query parameters are available in the same query object.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/routing/introduction",
+              "https://nextjs.org/docs/routing/dynamic-routes",
+              "https://nextjs.org/docs/api-reference/next/link",
+              "https://nextjs.org/docs/api-reference/next/router",
+            ],
+          },
+          {
+            topic: "File-based Routing",
+            tags: ["routing", "pages", "filesystem"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses a file-based routing system where the file structure in the <code>pages</code> directory automatically becomes the URL structure of your application. This eliminates the need for manual route configuration and makes navigation intuitive and predictable.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How File-based Routing Works
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Route Creation:</span> Every file in the <code>pages</code> directory automatically becomes a route.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Index Routes:</span> <code>index.js</code> files represent the root of a directory.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Nested Routes:</span> Folder structure creates nested URL paths.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Segments:</span> Square brackets create dynamic route parameters.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     File Structure Examples
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+pages/
+├── index.js          → / (home page)
+├── about.js          → /about
+├── contact.js        → /contact
+├── blog/
+│   ├── index.js      → /blog
+│   └── post.js       → /blog/post
+└── products/
+    ├── index.js      → /products
+    └── [id].js       → /products/:id (dynamic)
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Page Component Example
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/about.js
+import React from 'react';
+
+export default function About() {
+  return (
+    <div>
+      <h1>About Us</h1>
+      <p>This is the about page accessible at /about</p>
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for File-based Routing
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Static Pages:</span> Create simple pages like about, contact, privacy policy.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blog Structure:</span> Organize blog posts and categories with folder structure.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Sites:</span> Product categories, individual product pages.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Documentation Sites:</span> Hierarchical documentation structure.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multi-section Websites:</span> Different sections like dashboard, profile, settings.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// pages/index.js - Home page (/)
+export default function Home() {
+  return (
+    <div>
+      <h1>Welcome to Our Website</h1>
+      <p>This is the home page</p>
+    </div>
+  );
+}`,
+              `// pages/blog/index.js - Blog listing page (/blog)
+export default function BlogIndex() {
+  return (
+    <div>
+      <h1>Blog Posts</h1>
+      <ul>
+        <li>How to use Next.js</li>
+        <li>React Best Practices</li>
+      </ul>
+    </div>
+  );
+}`,
+              `// pages/products/electronics/index.js - Electronics category (/products/electronics)
+export default function Electronics() {
+  return (
+    <div>
+      <h1>Electronics</h1>
+      <p>Browse our electronic products</p>
+    </div>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages of file-based routing in Next.js?",
+                solution:
+                  "<p>File-based routing offers several advantages: automatic route generation eliminates manual configuration, intuitive URL structure that matches file structure, easy organization of related pages, automatic code splitting per route, simplified navigation setup, and reduced boilerplate code. It makes the relationship between files and URLs immediately clear to developers.</p>",
+              },
+              {
+                question: "How does the index.js file work in Next.js routing?",
+                solution:
+                  "<p>The index.js file represents the root route of its directory. For example, pages/index.js maps to '/', pages/blog/index.js maps to '/blog', and pages/products/index.js maps to '/products'. This allows you to create both directory-level pages and nested pages within the same structure.</p>",
+              },
+              {
+                question:
+                  "Can I have both a folder and a file with the same name?",
+                solution:
+                  "<p>No, you cannot have both a folder and a file with the same name in the pages directory. For example, you cannot have both pages/about.js and pages/about/index.js as they would create conflicting routes. Next.js will throw an error in this case. Choose either a single file or a folder with an index.js file.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/routing/introduction",
+              "https://nextjs.org/docs/basic-features/pages",
+              "https://nextjs.org/learn/basics/navigate-between-pages",
+            ],
+          },
+          {
+            topic: "Dynamic Routes ([id].js)",
+            tags: ["dynamic", "parameters", "routing"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Dynamic routes in Next.js allow you to create pages with variable URL segments using square brackets in the filename. This enables you to create pages that can handle different values in the URL path, such as user IDs, product slugs, or category names.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dynamic Route Syntax
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single Parameter:</span> [id].js creates a route that accepts any value for 'id'
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multiple Parameters:</span> [category]/[id].js accepts both category and id
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Nested Dynamic Routes:</span> Folders can contain dynamic routes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Query Access:</span> Use useRouter hook to access route parameters
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Dynamic Route Example
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/posts/[id].js
+import { useRouter } from 'next/router';
+
+export default function Post() {
+  const router = useRouter();
+  const { id } = router.query;
+
+  return (
+    <div>
+      <h1>Post ID: {id}</h1>
+      <p>This page handles URLs like /posts/1, /posts/hello, /posts/123</p>
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Multiple Dynamic Parameters
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/products/[category]/[id].js
+import { useRouter } from 'next/router';
+
+export default function Product() {
+  const router = useRouter();
+  const { category, id } = router.query;
+
+  return (
+    <div>
+      <h1>Product: {id}</h1>
+      <p>Category: {category}</p>
+      <p>URL: /products/{category}/{id}</p>
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Profiles:</span> /users/[id] for individual user pages
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Product Pages:</span> /products/[slug] for e-commerce items
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blog Posts:</span> /blog/[slug] for individual articles
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Categories:</span> /category/[name] for filtering content
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">API Routes:</span> /api/users/[id] for dynamic API endpoints
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Data Fetching with Dynamic Routes
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/posts/[id].js with getStaticProps
+export async function getStaticProps({ params }) {
+  const post = await fetchPost(params.id);
+  
+  return {
+    props: { post },
+    revalidate: 60 // ISR - revalidate every 60 seconds
+  };
+}
+
+export async function getStaticPaths() {
+  const posts = await fetchAllPosts();
+  const paths = posts.map(post => ({ params: { id: post.id } }));
+  
+  return {
+    paths,
+    fallback: 'blocking' // or true, false
+  };
+}
+      </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// pages/users/[id].js - User profile page
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+export default function UserProfile() {
+  const router = useRouter();
+  const { id } = router.query;
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    if (id) {
+      // Fetch user data based on ID
+      fetchUser(id).then(setUser);
+    }
+  }, [id]);
+
+  if (!user) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>User ID: {id}</p>
+      <p>Email: {user.email}</p>
+    </div>
+  );
+}`,
+              `// pages/shop/[...category]/[product].js - Nested dynamic route
+import { useRouter } from 'next/router';
+
+export default function ProductPage() {
+  const router = useRouter();
+  const { category, product } = router.query;
+
+  return (
+    <div>
+      <h1>Product: {product}</h1>
+      <p>Category Path: {Array.isArray(category) ? category.join('/') : category}</p>
+      <p>URL: /shop/{category?.join?.('/')}/{product}</p>
+    </div>
+  );
+}`,
+              `// pages/api/posts/[id].js - Dynamic API route
+export default function handler(req, res) {
+  const { id } = req.query;
+  
+  if (req.method === 'GET') {
+    // Get specific post
+    const post = getPostById(id);
+    res.status(200).json(post);
+  } else if (req.method === 'DELETE') {
+    // Delete specific post
+    deletePost(id);
+    res.status(204).end();
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do I access dynamic route parameters in a Next.js component?",
+                solution:
+                  "<p>Use the useRouter hook from 'next/router' to access dynamic route parameters. The query object contains all route parameters. For example, in a file named [id].js, you can access the id parameter with: const router = useRouter(); const { id } = router.query;</p>",
+              },
+              {
+                question:
+                  "What happens if the dynamic parameter is not provided in the URL?",
+                solution:
+                  "<p>If a dynamic parameter is not provided, the route will not match and Next.js will show a 404 page. For optional parameters, you can use catch-all routes with [[...slug]].js (double brackets) or handle undefined values in your component logic.</p>",
+              },
+              {
+                question:
+                  "Can I have both static and dynamic routes in the same directory?",
+                solution:
+                  "<p>Yes, you can mix static and dynamic routes. Static routes take precedence over dynamic ones. For example, if you have both 'create.js' and '[id].js' in the same directory, '/posts/create' will match 'create.js', while '/posts/123' will match '[id].js'.</p>",
+              },
+              {
+                question: "How do I generate static pages for dynamic routes?",
+                solution:
+                  "<p>Use getStaticPaths to define which dynamic routes should be pre-rendered at build time, and getStaticProps to fetch data for each path. getStaticPaths returns an array of params objects, and you can set fallback to control behavior for paths not returned by getStaticPaths.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/routing/dynamic-routes",
+              "https://nextjs.org/docs/basic-features/data-fetching/get-static-paths",
+              "https://nextjs.org/docs/api-reference/next/router",
+            ],
+          },
+          {
+            topic: "Catch-all Routes ([...slug].js)",
+            tags: ["catch-all", "wildcard", "flexible-routing"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Catch-all routes in Next.js use the <code>[...slug].js</code> syntax to capture all route segments after a certain point. This creates a flexible routing system that can handle variable numbers of path segments, making it perfect for nested category structures, file paths, or any scenario where the URL depth is unknown.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Catch-all Routes
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Required Catch-all:</span> <code>[...slug].js</code> - matches one or more segments
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optional Catch-all:</span> <code>[[...slug]].js</code> - matches zero or more segments
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Array Parameter:</span> The slug parameter is always an array of strings
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Flexible Depth:</span> Can handle URLs of any depth after the catch-all point
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Route Matching Examples
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// File: pages/docs/[...slug].js
+
+URL Matches:
+/docs/getting-started          → slug: ['getting-started']
+/docs/api/authentication       → slug: ['api', 'authentication']  
+/docs/guides/deployment/vercel → slug: ['guides', 'deployment', 'vercel']
+
+// File: pages/shop/[[...category]].js (optional)
+
+URL Matches:
+/shop                    → category: undefined
+/shop/electronics        → category: ['electronics']
+/shop/electronics/phones → category: ['electronics', 'phones']
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Catch-all Route Implementation
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/docs/[...slug].js
+import { useRouter } from 'next/router';
+
+export default function DocsPage() {
+  const router = useRouter();
+  const { slug } = router.query;
+
+  // slug is an array of path segments
+  const pathSegments = slug || [];
+  const currentPath = '/' + pathSegments.join('/');
+
+  return (
+    <div>
+      <h1>Documentation</h1>
+      <p>Current path: {currentPath}</p>
+      <p>Segments: {pathSegments.join(' → ')}</p>
+      <nav>
+        <a href="/docs/getting-started">Getting Started</a>
+        <a href="/docs/api/auth">API Authentication</a>
+      </nav>
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Example with Content Loading
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/blog/[...categories].js
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+export default function CategoryPage() {
+  const router = useRouter();
+  const { categories } = router.query;
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (categories) {
+      loadPostsByCategory(categories)
+        .then(setPosts)
+        .finally(() => setLoading(false));
+    }
+  }, [categories]);
+
+  if (loading) return <div>Loading...</div>;
+
+  const categoryPath = categories?.join(' > ') || 'All Categories';
+
+  return (
+    <div>
+      <h1>Blog: {categoryPath}</h1>
+      <div>
+        {posts.map(post => (
+          <article key={post.id}>
+            <h2>{post.title}</h2>
+            <p>{post.excerpt}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Documentation Sites:</span> /docs/[...slug] for nested documentation structure
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Categories:</span> /products/[...category] for nested product categories
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">File Browsers:</span> /files/[...path] for navigating file structures
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multi-level Navigation:</span> /menu/[...items] for complex menu systems
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">API Proxying:</span> /api/proxy/[...path] for forwarding requests
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">CMS Pages:</span> Handle dynamic page structures from headless CMS
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// pages/products/[...category].js - E-commerce category navigation
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+
+export default function CategoryProducts() {
+  const router = useRouter();
+  const { category } = router.query;
+  const [products, setProducts] = useState([]);
+  const [breadcrumbs, setBreadcrumbs] = useState([]);
+
+  useEffect(() => {
+    if (category && category.length > 0) {
+      // Build breadcrumbs
+      const crumbs = category.map((cat, index) => ({
+        name: cat,
+        path: '/products/' + category.slice(0, index + 1).join('/')
+      }));
+      setBreadcrumbs(crumbs);
+      
+      // Fetch products for this category
+      fetchProductsByCategory(category).then(setProducts);
+    }
+  }, [category]);
+
+  return (
+    <div>
+      <nav>
+        <a href="/products">Products</a>
+        {breadcrumbs.map((crumb, index) => (
+          <span key={index}>
+            {' > '}
+            <a href={crumb.path}>{crumb.name}</a>
+          </span>
+        ))}
+      </nav>
+      
+      <h1>Products in {category?.join(' > ') || 'All Categories'}</h1>
+      
+      <div className="products-grid">
+        {products.map(product => (
+          <div key={product.id} className="product-card">
+            <h3>{product.name}</h3>
+            <p>${product.price}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}`,
+              `// pages/api/proxy/[...path].js - API proxy with catch-all
+export default async function handler(req, res) {
+  const { path } = req.query;
+  
+  if (!path || path.length === 0) {
+    return res.status(400).json({ error: 'Path is required' });
+  }
+  
+  const targetUrl = 'https://api.external-service.com/' + path.join('/');
+  
+  try {
+    const response = await fetch(targetUrl, {
+      method: req.method,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': req.headers.authorization,
+      },
+      body: req.method !== 'GET' ? JSON.stringify(req.body) : undefined,
+    });
+    
+    const data = await response.json();
+    res.status(response.status).json(data);
+  } catch (error) {
+    res.status(500).json({ error: 'Proxy request failed' });
+  }
+}`,
+              `// pages/files/[[...path]].js - Optional catch-all for file browser
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+
+export default function FileBrowser() {
+  const router = useRouter();
+  const { path } = router.query;
+  const [files, setFiles] = useState([]);
+  const [currentPath, setCurrentPath] = useState('/');
+
+  useEffect(() => {
+    const fullPath = path ? '/' + path.join('/') : '/';
+    setCurrentPath(fullPath);
+    loadFiles(fullPath).then(setFiles);
+  }, [path]);
+
+  const navigateUp = () => {
+    if (path && path.length > 0) {
+      const newPath = path.slice(0, -1);
+      const route = newPath.length > 0 ? '/files/' + newPath.join('/') : '/files';
+      router.push(route);
+    }
+  };
+
+  return (
+    <div>
+      <div className="file-browser-header">
+        <h1>File Browser</h1>
+        <p>Current path: {currentPath}</p>
+        {path && path.length > 0 && (
+          <button onClick={navigateUp}>← Go Up</button>
+        )}
+      </div>
+      
+      <div className="file-list">
+        {files.map(file => (
+          <div key={file.name} className="file-item">
+            {file.type === 'directory' ? (
+              <a href={\`/files\${currentPath === '/' ? '' : currentPath}/\${file.name}\`}>
+                📁 {file.name}
+              </a>
+            ) : (
+              <span>📄 {file.name}</span>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between [...slug] and [[...slug]]?",
+                solution:
+                  "<p>The difference is in whether the route parameter is required or optional. [...slug] (single brackets) requires at least one segment to match, so /docs won't match pages/docs/[...slug].js. [[...slug]] (double brackets) is optional and will match zero or more segments, so /docs will match pages/docs/[[...slug]].js with slug as undefined.</p>",
+              },
+              {
+                question:
+                  "How do I handle the slug parameter when it's undefined?",
+                solution:
+                  "<p>Always check if the slug parameter exists before using it. You can use optional chaining, default values, or conditional rendering. For example: const segments = slug || []; or if (!slug) return <div>Loading...</div>; This is especially important with optional catch-all routes.</p>",
+              },
+              {
+                question:
+                  "Can catch-all routes coexist with other dynamic routes?",
+                solution:
+                  "<p>Catch-all routes have lower priority than specific routes. If you have both [id].js and [...slug].js in the same directory, [id].js will match single segments first. However, avoid conflicts by carefully planning your route structure, as catch-all routes can be greedy and match unexpected URLs.</p>",
+              },
+              {
+                question: "How do I create breadcrumbs with catch-all routes?",
+                solution:
+                  "<p>Use the slug array to build breadcrumbs by mapping over each segment and creating navigation links. Each breadcrumb should link to the cumulative path up to that point. For example: const breadcrumbs = slug.map((segment, index) => ({ name: segment, path: '/docs/' + slug.slice(0, index + 1).join('/') }));</p>",
+              },
+              {
+                question: "Can I use catch-all routes for API endpoints?",
+                solution:
+                  "<p>Yes, catch-all routes work perfectly for API endpoints. Use pages/api/[...path].js to create flexible API proxies, middleware, or handlers that need to match multiple URL patterns. The path parameter will contain all segments after /api/, allowing you to forward requests or implement complex routing logic.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/routing/dynamic-routes#catch-all-routes",
+              "https://nextjs.org/docs/api-routes/dynamic-api-routes#catch-all-api-routes",
+              "https://nextjs.org/docs/routing/dynamic-routes#optional-catch-all-routes",
+            ],
+          },
+          {
+            topic: "Nested Routes",
+            tags: ["nested", "hierarchy", "folders"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Nested routes in Next.js are created by organizing files within nested folders in the <code>pages</code> directory. This file-system-based approach naturally creates a hierarchical URL structure that mirrors your folder organization, making it intuitive to build complex, multi-level applications.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How Nested Routes Work
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Folder Structure:</span> Each folder creates a new URL segment
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Index Files:</span> index.js represents the root of each folder level
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Nesting:</span> URL paths are automatically generated from folder hierarchy
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Mixed Routes:</span> Combine static, dynamic, and nested routes freely
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Complex Nested Structure Example
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+pages/
+├── index.js                    → /
+├── dashboard/
+│   ├── index.js               → /dashboard
+│   ├── analytics.js           → /dashboard/analytics
+│   ├── settings/
+│   │   ├── index.js          → /dashboard/settings
+│   │   ├── profile.js        → /dashboard/settings/profile
+│   │   ├── billing.js        → /dashboard/settings/billing
+│   │   └── team/
+│   │       ├── index.js      → /dashboard/settings/team
+│   │       └── [id].js       → /dashboard/settings/team/[id]
+│   └── projects/
+│       ├── index.js          → /dashboard/projects
+│       ├── [id].js           → /dashboard/projects/[id]
+│       └── [id]/
+│           ├── overview.js    → /dashboard/projects/[id]/overview
+│           ├── tasks.js       → /dashboard/projects/[id]/tasks
+│           └── settings.js    → /dashboard/projects/[id]/settings
+└── blog/
+    ├── index.js               → /blog
+    ├── [slug].js             → /blog/[slug]
+    └── category/
+        ├── [name].js         → /blog/category/[name]
+        └── [name]/
+            └── [page].js     → /blog/category/[name]/[page]
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dashboard Settings Example
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/dashboard/settings/index.js
+import Link from 'next/link';
+
+export default function SettingsIndex() {
+  return (
+    <div>
+      <h1>Settings</h1>
+      <nav>
+        <Link href="/dashboard/settings/profile">
+          <a>Profile Settings</a>
+        </Link>
+        <Link href="/dashboard/settings/billing">
+          <a>Billing</a>
+        </Link>
+        <Link href="/dashboard/settings/team">
+          <a>Team Management</a>
+        </Link>
+      </nav>
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Layout Components for Nested Routes
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// components/DashboardLayout.js
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+export default function DashboardLayout({ children }) {
+  const router = useRouter();
+  
+  const isActive = (path) => router.pathname === path;
+
+  return (
+    <div className="dashboard-layout">
+      <nav className="sidebar">
+        <Link href="/dashboard">
+          <a className={isActive('/dashboard') ? 'active' : ''}>
+            Dashboard
+          </a>
+        </Link>
+        <Link href="/dashboard/analytics">
+          <a className={isActive('/dashboard/analytics') ? 'active' : ''}>
+            Analytics
+          </a>
+        </Link>
+        <Link href="/dashboard/projects">
+          <a className={isActive('/dashboard/projects') ? 'active' : ''}>
+            Projects
+          </a>
+        </Link>
+        <Link href="/dashboard/settings">
+          <a className={router.pathname.startsWith('/dashboard/settings') ? 'active' : ''}>
+            Settings
+          </a>
+        </Link>
+      </nav>
+      <main className="content">
+        {children}
+      </main>
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Layouts with Nested Routes
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// pages/dashboard/settings/profile.js
+import DashboardLayout from '../../../components/DashboardLayout';
+import SettingsLayout from '../../../components/SettingsLayout';
+
+export default function ProfileSettings() {
+  return (
+    <div>
+      <h2>Profile Settings</h2>
+      <form>
+        <input type="text" placeholder="Full Name" />
+        <input type="email" placeholder="Email" />
+        <button type="submit">Save Changes</button>
+      </form>
+    </div>
+  );
+}
+
+// Nested layout pattern
+ProfileSettings.getLayout = function getLayout(page) {
+  return (
+    <DashboardLayout>
+      <SettingsLayout>
+        {page}
+      </SettingsLayout>
+    </DashboardLayout>
+  );
+};
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases for Nested Routes
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Admin Dashboards:</span> /admin/users, /admin/settings, /admin/reports
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Sites:</span> /products/category/subcategory, /account/orders/details
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Documentation:</span> /docs/getting-started/installation, /docs/api/authentication
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Profiles:</span> /profile/settings/privacy, /profile/posts/drafts
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multi-tenant Apps:</span> /workspace/[id]/projects/[projectId]/tasks
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// pages/shop/category/[category]/subcategory/[subcategory].js
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+export default function SubcategoryPage() {
+  const router = useRouter();
+  const { category, subcategory } = router.query;
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (category && subcategory) {
+      fetchProductsBySubcategory(category, subcategory)
+        .then(setProducts)
+        .finally(() => setLoading(false));
+    }
+  }, [category, subcategory]);
+
+  if (loading) return <div>Loading products...</div>;
+
+  return (
+    <div>
+      <nav className="breadcrumb">
+        <Link href="/shop"><a>Shop</a></Link>
+        <span> > </span>
+        <Link href={\`/shop/category/\${category}\`}>
+          <a>{category}</a>
+        </Link>
+        <span> > </span>
+        <span>{subcategory}</span>
+      </nav>
+      
+      <h1>{subcategory} Products</h1>
+      <p>Category: {category}</p>
+      
+      <div className="products-grid">
+        {products.map(product => (
+          <div key={product.id} className="product-card">
+            <img src={product.image} alt={product.name} />
+            <h3>{product.name}</h3>
+            <p className="price">\${product.price}</p>
+            <button>Add to Cart</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}`,
+              `// pages/workspace/[workspaceId]/projects/[projectId]/tasks/index.js
+import { useRouter } from 'next/router';
+import { useState, useEffect } from 'react';
+import WorkspaceLayout from '../../../../../components/WorkspaceLayout';
+
+export default function ProjectTasks() {
+  const router = useRouter();
+  const { workspaceId, projectId } = router.query;
+  const [tasks, setTasks] = useState([]);
+  const [project, setProject] = useState(null);
+
+  useEffect(() => {
+    if (workspaceId && projectId) {
+      Promise.all([
+        fetchProject(workspaceId, projectId),
+        fetchTasks(workspaceId, projectId)
+      ]).then(([projectData, tasksData]) => {
+        setProject(projectData);
+        setTasks(tasksData);
+      });
+    }
+  }, [workspaceId, projectId]);
+
+  const createTask = async (taskData) => {
+    const newTask = await createProjectTask(workspaceId, projectId, taskData);
+    setTasks([...tasks, newTask]);
+  };
+
+  return (
+    <div>
+      <div className="project-header">
+        <h1>{project?.name} - Tasks</h1>
+        <p>Workspace: {project?.workspace?.name}</p>
+      </div>
+      
+      <div className="tasks-container">
+        <div className="task-columns">
+          <TaskColumn 
+            title="To Do" 
+            tasks={tasks.filter(t => t.status === 'todo')}
+            onCreateTask={createTask}
+          />
+          <TaskColumn 
+            title="In Progress" 
+            tasks={tasks.filter(t => t.status === 'in-progress')}
+          />
+          <TaskColumn 
+            title="Completed" 
+            tasks={tasks.filter(t => t.status === 'completed')}
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ProjectTasks.getLayout = (page) => (
+  <WorkspaceLayout>{page}</WorkspaceLayout>
+);`,
+              `// pages/_app.js - Handling nested layouts
+import '../styles/globals.css';
+
+export default function MyApp({ Component, pageProps }) {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout || ((page) => page);
+
+  return getLayout(<Component {...pageProps} />);
+}
+
+// Alternative approach with layout detection
+export default function MyApp({ Component, pageProps, router }) {
+  const { pathname } = router;
+  
+  // Auto-apply layouts based on route patterns
+  if (pathname.startsWith('/dashboard')) {
+    return (
+      <DashboardLayout>
+        <Component {...pageProps} />
+      </DashboardLayout>
+    );
+  }
+  
+  if (pathname.startsWith('/admin')) {
+    return (
+      <AdminLayout>
+        <Component {...pageProps} />
+      </AdminLayout>
+    );
+  }
+
+  return <Component {...pageProps} />;
+}`,
+            ],
+            questions: [
+              {
+                question: "How do I share layouts across nested routes?",
+                solution:
+                  "<p>Create layout components and use the getLayout pattern by defining a getLayout function on your page components. This allows nested layouts where each level can have its own layout. You can also use _app.js to automatically apply layouts based on route patterns, or create higher-order components that wrap your pages with the appropriate layouts.</p>",
+              },
+              {
+                question:
+                  "Can I have dynamic routes within nested folder structures?",
+                solution:
+                  "<p>Yes, you can mix dynamic routes with nested folders freely. For example, pages/blog/[category]/[slug].js creates a route with two dynamic parameters. You can also have pages/users/[id]/posts/[postId].js for deeply nested dynamic routes. The folder structure determines the URL hierarchy, while brackets create dynamic segments.</p>",
+              },
+              {
+                question:
+                  "How do I handle navigation and active states in nested routes?",
+                solution:
+                  "<p>Use the useRouter hook to access the current pathname and create navigation logic. For nested routes, you can check if the pathname starts with a base path using router.pathname.startsWith('/dashboard'). This helps highlight parent navigation items when on child routes. You can also use router.asPath for more complex matching.</p>",
+              },
+              {
+                question:
+                  "What's the best practice for organizing deeply nested routes?",
+                solution:
+                  "<p>Keep your folder structure logical and not too deep (generally 3-4 levels max). Use descriptive folder names that match your UI structure. Consider using route groups with parentheses in App Router, or create separate layout components for different sections. Group related functionality together and use index.js files to provide entry points for each level.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/routing/introduction",
+              "https://nextjs.org/docs/basic-features/layouts",
+              "https://nextjs.org/docs/advanced-features/custom-app",
+            ],
+          },
+          {
+            topic: "Link Navigation using next/link",
+            tags: ["navigation", "client-side", "performance"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The <code>Link</code> component from <code>next/link</code> enables client-side navigation between pages in Next.js applications. Unlike regular anchor tags, Link provides fast, seamless navigation with prefetching capabilities and maintains the single-page application experience while preserving SEO benefits.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Features of next/link
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client-side Navigation:</span> No full page reloads, faster transitions
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Prefetching:</span> Preloads pages in viewport for instant navigation
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route Preloading:</span> JavaScript bundles are prefetched in production
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">History Management:</span> Browser back/forward buttons work correctly
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Focus Management:</span> Maintains accessibility standards
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Link Usage
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+import Link from 'next/link';
+
+export default function Navigation() {
+  return (
+    <nav>
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      
+      <Link href="/about">
+        <a>About</a>
+      </Link>
+      
+      <Link href="/products">
+        <a>Products</a>
+      </Link>
+      
+      <Link href="/contact">
+        <a>Contact</a>
+      </Link>
+    </nav>
+  );
+}
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dynamic Links with Parameters
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+import Link from 'next/link';
+
+export default function ProductList({ products }) {
+  return (
+    <div>
+      <h1>Products</h1>
+      {products.map(product => (
+        <div key={product.id}>
+          {/* Method 1: String interpolation */}
+          <Link href={\`/products/\${product.id}\`}>
+            <a>{product.name}</a>
+          </Link>
+          
+          {/* Method 2: Object format */}
+          <Link
+            href={{
+              pathname: '/products/[id]',
+              query: { id: product.id },
+            }}
+          >
+            <a>{product.name}</a>
+          </Link>
+          
+          {/* Method 3: Complex query parameters */}
+          <Link
+            href={{
+              pathname: '/products/[id]',
+              query: { 
+                id: product.id, 
+                category: product.category,
+                featured: true 
+              },
+            }}
+          >
+            <a>View Details</a>
+          </Link>
+        </div>
+      ))}
+    </div>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Link Properties
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+import Link from 'next/link';
+
+export default function AdvancedNavigation() {
+  return (
+    <nav>
+      {/* Disable prefetching */}
+      <Link href="/heavy-page" prefetch={false}>
+        <a>Heavy Page (No Prefetch)</a>
+      </Link>
+      
+      {/* Replace history instead of push */}
+      <Link href="/login" replace>
+        <a>Login (Replace)</a>
+      </Link>
+      
+      {/* Scroll to top after navigation */}
+      <Link href="/long-page" scroll={false}>
+        <a>Long Page (No Scroll)</a>
+      </Link>
+      
+      {/* Shallow routing (no data fetching) */}
+      <Link href="/same-page?tab=settings" shallow>
+        <a>Settings Tab</a>
+      </Link>
+      
+      {/* Custom locale for internationalization */}
+      <Link href="/about" locale="fr">
+        <a>À propos (French)</a>
+      </Link>
+      
+      {/* External link with passHref */}
+      <Link href="https://external-site.com" passHref>
+        <CustomLinkComponent>External Link</CustomLinkComponent>
+      </Link>
+    </nav>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Active Link Detection
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { clsx } from 'clsx';
+
+export default function ActiveNavigation() {
+  const router = useRouter();
+  
+  const isActive = (path) => {
+    return router.pathname === path;
+  };
+  
+  const isActiveStartsWith = (path) => {
+    return router.pathname.startsWith(path);
+  };
+
+  return (
+    <nav>
+      <Link href="/">
+        <a className={clsx('nav-link', { active: isActive('/') })}>
+          Home
+        </a>
+      </Link>
+      
+      <Link href="/products">
+        <a className={clsx('nav-link', { 
+          active: isActiveStartsWith('/products') 
+        })}>
+          Products
+        </a>
+      </Link>
+      
+      <Link href="/blog">
+        <a className={clsx('nav-link', { 
+          active: router.pathname.includes('/blog') 
+        })}>
+          Blog
+        </a>
+      </Link>
+      
+      {/* Using CSS-in-JS */}
+      <Link href="/about">
+        <a style={{
+          color: isActive('/about') ? '#007acc' : '#333',
+          fontWeight: isActive('/about') ? 'bold' : 'normal'
+        }}>
+          About
+        </a>
+      </Link>
+    </nav>
+  );
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Link Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Always wrap with anchor tag:</span> Ensures proper accessibility and SEO
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use prefetch wisely:</span> Disable for heavy pages or conditional navigation
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Handle loading states:</span> Show loading indicators for slow routes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Implement active states:</span> Provide visual feedback for current page
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use shallow routing:</span> For URL changes that don't need data refetching
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// components/Breadcrumb.js - Dynamic breadcrumb navigation
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+export default function Breadcrumb() {
+  const router = useRouter();
+  const pathSegments = router.asPath.split('/').filter(segment => segment);
+  
+  const breadcrumbItems = pathSegments.map((segment, index) => {
+    const path = '/' + pathSegments.slice(0, index + 1).join('/');
+    const isLast = index === pathSegments.length - 1;
+    
+    // Convert slug to readable text
+    const title = segment.replace(/-/g, ' ').replace(/^\w/, c => c.toUpperCase());
+    
+    return {
+      title,
+      path,
+      isLast
+    };
+  });
+
+  return (
+    <nav className="breadcrumb">
+      <Link href="/">
+        <a>Home</a>
+      </Link>
+      
+      {breadcrumbItems.map((item, index) => (
+        <span key={index}>
+          <span className="separator"> / </span>
+          {item.isLast ? (
+            <span className="current">{item.title}</span>
+          ) : (
+            <Link href={item.path}>
+              <a>{item.title}</a>
+            </Link>
+          )}
+        </span>
+      ))}
+    </nav>
+  );
+}
+
+// Usage in any page
+export default function ProductDetails() {
+  return (
+    <div>
+      <Breadcrumb />
+      <h1>Product Details</h1>
+      {/* rest of the page */}
+    </div>
+  );
+}`,
+              `// components/Pagination.js - Pagination with Link navigation
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+
+export default function Pagination({ currentPage, totalPages, basePath = '' }) {
+  const router = useRouter();
+  
+  const generatePageUrl = (page) => {
+    return {
+      pathname: basePath || router.pathname,
+      query: { ...router.query, page }
+    };
+  };
+
+  return (
+    <div className="pagination">
+      {/* Previous button */}
+      {currentPage > 1 && (
+        <Link href={generatePageUrl(currentPage - 1)}>
+          <a className="pagination-btn">← Previous</a>
+        </Link>
+      )}
+      
+      {/* Page numbers */}
+      {Array.from({ length: totalPages }, (_, index) => {
+        const pageNumber = index + 1;
+        const isActive = pageNumber === currentPage;
+        
+        return (
+          <Link key={pageNumber} href={generatePageUrl(pageNumber)}>
+            <a className={\`pagination-number \${isActive ? 'active' : ''}\`}>
+              {pageNumber}
+            </a>
+          </Link>
+        );
+      })}
+      
+      {/* Next button */}
+      {currentPage < totalPages && (
+        <Link href={generatePageUrl(currentPage + 1)}>
+          <a className="pagination-btn">Next →</a>
+        </Link>
+      )}
+    </div>
+  );
+}
+
+// Usage in blog listing page
+export default function BlogIndex({ posts, currentPage, totalPages }) {
+  return (
+    <div>
+      <h1>Blog Posts</h1>
+      <div className="posts">
+        {posts.map(post => (
+          <article key={post.id}>
+            <Link href={\`/blog/\${post.slug}\`}>
+              <a><h2>{post.title}</h2></a>
+            </Link>
+            <p>{post.excerpt}</p>
+          </article>
+        ))}
+      </div>
+      <Pagination 
+        currentPage={currentPage} 
+        totalPages={totalPages} 
+        basePath="/blog"
+      />
+    </div>
+  );
+}`,
+            ],
+            questions: [],
+            links: [],
+          },
+          {
+            topic: "CSR (Client-Side Rendering)",
+            tags: ["Client-Side", "SPA", "JavaScript", "Performance"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Client-Side Rendering (CSR) is a rendering strategy where the HTML is generated in the browser using JavaScript after the initial page load. The server sends a minimal HTML file with JavaScript bundles, and the client renders the content dynamically.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How CSR Works in Next.js
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Initial Request:</span> Browser receives minimal HTML with JavaScript bundles.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JavaScript Execution:</span> React hydrates and renders components on the client.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Fetching:</span> API calls are made from the browser to populate content.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Updates:</span> Subsequent navigation and updates happen client-side.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Implementation in Next.js
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/dashboard.js - CSR Example
+import { useState, useEffect } from 'react';
+
+export default function Dashboard() {
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Client-side data fetching
+    fetch('/api/user')
+      .then(res => res.json())
+      .then(data => {
+        setUserData(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (loading) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <h1>Welcome, {userData?.name}</h1>
+      <p>Last login: {userData?.lastLogin}</p>
+    </div>
+  );
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for CSR
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Admin Dashboards:</span> Complex interfaces with real-time data updates.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Profiles:</span> Personalized content that requires authentication.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Interactive Applications:</span> Games, drawing tools, or complex forms.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Real-time Features:</span> Chat applications, live notifications.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advantages of CSR
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Fast Navigation:</span> Subsequent page loads are instant</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Rich Interactions:</span> Smooth user experience with dynamic content</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Reduced Server Load:</span> Processing happens on the client</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Offline Capability:</span> Can work with cached data</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Disadvantages of CSR
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Poor SEO:</span> Content not available for crawlers initially</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Slow Initial Load:</span> Large JavaScript bundles delay first paint</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Performance Issues:</span> Poor performance on low-end devices</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">JavaScript Dependency:</span> Breaks if JavaScript is disabled</li>
+   </ul>
+</div>`,
+            examples: [
+              `// CSR with SWR for data fetching
+import useSWR from 'swr';
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
+export default function Profile() {
+  const { data, error } = useSWR('/api/user', fetcher);
+
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
+
+  return (
+    <div>
+      <h1>Hello {data.name}!</h1>
+      <p>Email: {data.email}</p>
+    </div>
+  );
+}`,
+              `// CSR with conditional rendering
+import { useState, useEffect } from 'react';
+
+export default function ClientOnlyComponent() {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return null; // Avoid hydration mismatch
+  }
+
+  return (
+    <div>
+      <p>This content is only rendered on the client</p>
+      <p>Current time: {new Date().toLocaleString()}</p>
+    </div>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "When should you choose CSR over other rendering strategies?",
+                solution:
+                  "<p>Choose CSR when you need highly interactive user interfaces, personalized content that requires authentication, real-time features, or when SEO is not a priority. It's ideal for admin panels, dashboards, and applications where user experience after login is more important than initial page load performance.</p>",
+              },
+              {
+                question: "How can you optimize CSR performance in Next.js?",
+                solution:
+                  "<p>Optimize CSR by implementing code splitting with dynamic imports, using React.lazy for component loading, implementing proper loading states, utilizing SWR or React Query for efficient data fetching, and considering service workers for caching strategies.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/client-side",
+              "https://web.dev/rendering-on-the-web/",
+              "https://swr.vercel.app/",
+            ],
+          },
+          {
+            topic: "SSR (Server-Side Rendering)",
+            tags: ["Server-Side", "Dynamic", "SEO", "Performance"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Server-Side Rendering (SSR) generates HTML on the server for each request. The server executes React components, fetches data, and sends fully rendered HTML to the client. This provides better SEO and faster initial page loads compared to CSR.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How SSR Works in Next.js
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Request Received:</span> Server receives a request for a page.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Fetching:</span> getServerSideProps runs on the server to fetch data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">HTML Generation:</span> React components are rendered to HTML with fetched data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client Hydration:</span> JavaScript makes the page interactive on the client.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Implementation in Next.js
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/product/[id].js - SSR Example
+export default function Product({ product, reviews }) {
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>Price: ${product.price}</p>
+      <img src={product.image} alt={product.name} />
+      
+      <div>
+        <h2>Reviews ({reviews.length})</h2>
+        {reviews.map(review => (
+          <div key={review.id}>
+            <p><strong>{review.author}</strong></p>
+            <p>{review.comment}</p>
+            <p>Rating: {review.rating}/5</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// This function runs on every request
+export async function getServerSideProps(context) {
+  const { id } = context.params;
+  
+  // Fetch data from external API or database
+  const [productRes, reviewsRes] = await Promise.all([
+    fetch(\`https://api.example.com/products/\${id}\`),
+    fetch(\`https://api.example.com/products/\${id}/reviews\`)
+  ]);
+  
+  const product = await productRes.json();
+  const reviews = await reviewsRes.json();
+  
+  // Handle 404 case
+  if (!product) {
+    return {
+      notFound: true
+    };
+  }
+  
+  return {
+    props: {
+      product,
+      reviews
+    }
+  };
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced SSR with Authentication
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/dashboard.js - SSR with Authentication
+export async function getServerSideProps(context) {
+  const { req } = context;
+  
+  // Check authentication
+  const token = req.cookies.token;
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+  
+  try {
+    // Verify token and fetch user data
+    const userRes = await fetch('https://api.example.com/user', {
+      headers: {
+        'Authorization': \`Bearer \${token}\`
+      }
+    });
+    
+    if (!userRes.ok) {
+      throw new Error('Invalid token');
+    }
+    
+    const user = await userRes.json();
+    
+    // Fetch dashboard data
+    const dashboardRes = await fetch(\`https://api.example.com/dashboard/\${user.id}\`, {
+      headers: {
+        'Authorization': \`Bearer \${token}\`
+      }
+    });
+    
+    const dashboardData = await dashboardRes.json();
+    
+    return {
+      props: {
+        user,
+        dashboardData
+      }
+    };
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    };
+  }
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for SSR
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Product Pages:</span> Dynamic content that needs SEO optimization.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User-specific Dashboards:</span> Personalized content that changes frequently.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">News Websites:</span> Fresh content that updates regularly.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Social Media Feeds:</span> Dynamic content based on user preferences.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advantages of SSR
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Excellent SEO:</span> Fully rendered HTML available for crawlers</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Fast First Paint:</span> Content visible immediately</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Dynamic Content:</span> Fresh data on every request</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Better Performance:</span> Works well on slow devices</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Disadvantages of SSR
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Server Load:</span> Every request requires server processing</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Slower Navigation:</span> Full page requests for route changes</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Higher Costs:</span> More server resources required</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">TTFB Delays:</span> Time to first byte can be slower</li>
+   </ul>
+</div>`,
+            examples: [
+              `// SSR with error handling and loading states
+export default function UserProfile({ user, error }) {
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>Email: {user.email}</p>
+      <p>Joined: {new Date(user.createdAt).toLocaleDateString()}</p>
+    </div>
+  );
+}
+
+export async function getServerSideProps({ params }) {
+  try {
+    const res = await fetch(\`https://api.example.com/users/\${params.id}\`);
+    
+    if (!res.ok) {
+      return {
+        props: {
+          error: { message: 'User not found' }
+        }
+      };
+    }
+    
+    const user = await res.json();
+    
+    return {
+      props: { user }
+    };
+  } catch (error) {
+    return {
+      props: {
+        error: { message: 'Failed to fetch user data' }
+      }
+    };
+  }
+}`,
+              `// SSR with caching headers
+export async function getServerSideProps({ res }) {
+  // Set cache headers
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=300'
+  );
+  
+  const data = await fetchExpensiveData();
+  
+  return {
+    props: { data }
+  };
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between getServerSideProps and getInitialProps?",
+                solution:
+                  "<p>getServerSideProps is the modern Next.js approach that runs only on the server and provides better performance and security. getInitialProps runs on both server and client, can cause issues with automatic static optimization, and is generally discouraged in favor of getServerSideProps or getStaticProps.</p>",
+              },
+              {
+                question: "How can you optimize SSR performance?",
+                solution:
+                  "<p>Optimize SSR by implementing proper caching strategies (CDN, server-side caching), using Promise.all() for parallel data fetching, minimizing API calls in getServerSideProps, implementing proper error handling, and considering ISR for content that doesn't need real-time updates.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props",
+              "https://nextjs.org/docs/advanced-features/custom-server",
+              "https://web.dev/ssr/",
+            ],
+          },
+          {
+            topic: "SSG (Static Site Generation)",
+            tags: ["Static", "Build-time", "Performance", "SEO"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Static Site Generation (SSG) pre-renders pages at build time, creating static HTML files that can be served directly from a CDN. This provides the best performance and SEO benefits while reducing server load to zero for static content.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How SSG Works in Next.js
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Build Time:</span> Pages are pre-rendered during the build process.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Fetching:</span> getStaticProps fetches data at build time.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Static Files:</span> HTML, CSS, and JavaScript files are generated.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">CDN Delivery:</span> Static files are served from CDN for maximum performance.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic SSG Implementation
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/blog/index.js - SSG for Blog List
+export default function BlogList({ posts }) {
+  return (
+    <div>
+      <h1>Blog Posts</h1>
+      {posts.map(post => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+          <p>{post.excerpt}</p>
+          <time>{new Date(post.publishedAt).toLocaleDateString()}</time>
+          <a href={\`/blog/\${post.slug}\`}>Read more</a>
+        </article>
+      ))}
+    </div>
+  );
+}
+
+// This function runs at build time
+export async function getStaticProps() {
+  // Fetch posts from CMS or API
+  const res = await fetch('https://api.example.com/posts');
+  const posts = await res.json();
+  
+  return {
+    props: {
+      posts
+    },
+    // Regenerate the page at most once per hour
+    revalidate: 3600
+  };
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dynamic SSG with getStaticPaths
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/blog/[slug].js - Dynamic SSG for Blog Posts
+export default function BlogPost({ post }) {
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <time>{new Date(post.publishedAt).toLocaleDateString()}</time>
+      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      
+      <div>
+        <h3>Tags</h3>
+        {post.tags.map(tag => (
+          <span key={tag} className="tag">{tag}</span>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+// Generate static paths at build time
+export async function getStaticPaths() {
+  // Get all post slugs
+  const res = await fetch('https://api.example.com/posts');
+  const posts = await res.json();
+  
+  // Generate paths for each post
+  const paths = posts.map(post => ({
+    params: { slug: post.slug }
+  }));
+  
+  return {
+    paths,
+    fallback: 'blocking' // or true, or false
+  };
+}
+
+// Generate static props for each path
+export async function getStaticProps({ params }) {
+  const { slug } = params;
+  
+  try {
+    const res = await fetch(\`https://api.example.com/posts/\${slug}\`);
+    const post = await res.json();
+    
+    if (!post) {
+      return {
+        notFound: true
+      };
+    }
+    
+    return {
+      props: {
+        post
+      },
+      revalidate: 86400 // Revalidate once per day
+    };
+  } catch (error) {
+    return {
+      notFound: true
+    };
+  }
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Fallback Strategies
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// Different fallback strategies in getStaticPaths
+
+// 1. fallback: false - Only pre-rendered paths allowed
+return {
+  paths: ['/blog/post-1', '/blog/post-2'],
+  fallback: false // 404 for non-pre-rendered paths
+};
+
+// 2. fallback: true - Show loading, then generate
+export default function BlogPost({ post }) {
+  const router = useRouter();
+  
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+  
+  return <article>{/* Post content */}</article>;
+}
+
+return {
+  paths: ['/blog/popular-post'],
+  fallback: true // Generate other posts on demand
+};
+
+// 3. fallback: 'blocking' - Wait for generation
+return {
+  paths: ['/blog/popular-post'],
+  fallback: 'blocking' // SSR-like behavior for new paths
+};
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for SSG
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blogs and Documentation:</span> Content that doesn't change frequently.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Marketing Websites:</span> Landing pages and company websites.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Catalogs:</span> Product listings with occasional updates.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Portfolio Websites:</span> Personal or business portfolios.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advantages of SSG
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Maximum Performance:</span> Static files served from CDN</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Perfect SEO:</span> Fully rendered HTML available instantly</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">High Security:</span> No server-side vulnerabilities</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Cost Effective:</span> Minimal hosting costs</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">High Availability:</span> CDN distribution ensures uptime</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Disadvantages of SSG
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Build Time Scaling:</span> More pages = longer build times</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Data Freshness:</span> Content can become stale</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Dynamic Content Limitations:</span> Not suitable for user-specific content</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Rebuild Requirements:</span> Content updates may need full rebuilds</li>
+   </ul>
+</div>`,
+            examples: [
+              `// SSG with external data sources
+export async function getStaticProps() {
+  // Fetch from multiple sources
+  const [postsRes, categoriesRes, authorsRes] = await Promise.all([
+    fetch('https://cms.example.com/posts'),
+    fetch('https://cms.example.com/categories'),
+    fetch('https://cms.example.com/authors')
+  ]);
+  
+  const [posts, categories, authors] = await Promise.all([
+    postsRes.json(),
+    categoriesRes.json(),
+    authorsRes.json()
+  ]);
+  
+  return {
+    props: {
+      posts,
+      categories,
+      authors
+    },
+    revalidate: 3600 // Revalidate every hour
+  };
+}`,
+              `// SSG with conditional rendering based on build time
+export async function getStaticProps() {
+  const buildTime = new Date().toISOString();
+  
+  // Fetch data that might change
+  const res = await fetch('https://api.example.com/config');
+  const config = await res.json();
+  
+  return {
+    props: {
+      config,
+      buildTime,
+      // Pass environment info
+      isDevelopment: process.env.NODE_ENV === 'development'
+    }
+  };
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "When should you use fallback: true vs fallback: 'blocking'?",
+                solution:
+                  "<p>Use fallback: true when you want to show a loading state immediately and generate the page in the background. This provides better user experience but requires handling the loading state. Use fallback: 'blocking' when you want SSR-like behavior for new pages, where users wait for the complete page to load without seeing a loading state.</p>",
+              },
+              {
+                question: "How does revalidate work in getStaticProps?",
+                solution:
+                  "<p>The revalidate option enables Incremental Static Regeneration (ISR). It specifies the number of seconds after which a page can be regenerated. When a request comes in after the revalidate time, Next.js serves the cached page while regenerating it in the background for subsequent requests.</p>",
+              },
+              {
+                question: "What happens if getStaticProps fails at build time?",
+                solution:
+                  "<p>If getStaticProps throws an error during build time, the build will fail and the page won't be generated. You should implement proper error handling and consider returning a fallback state or default props to prevent build failures from external API issues.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/get-static-props",
+              "https://nextjs.org/docs/basic-features/data-fetching/get-static-paths",
+              "https://nextjs.org/docs/basic-features/pages",
+            ],
+          },
+          {
+            topic: "ISR (Incremental Static Regeneration)",
+            tags: ["Incremental", "Hybrid", "Performance", "Fresh Content"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Incremental Static Regeneration (ISR) combines the benefits of SSG and SSR by allowing you to create or update static pages after build time. Pages are generated statically but can be regenerated on-demand or at specified intervals, providing fresh content without sacrificing performance.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How ISR Works in Next.js
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Initial Build:</span> Pages are generated statically at build time.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Serve Cached:</span> Static pages are served from cache instantly.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Background Regeneration:</span> After revalidate time, pages regenerate in background.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Update Cache:</span> New version replaces cached version for future requests.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic ISR Implementation
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/products/[id].js - ISR for Product Pages
+export default function Product({ product, lastUpdated }) {
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>Price: ${product.price}</p>
+      <p>In Stock: {product.inventory > 0 ? 'Yes' : 'No'}</p>
+      <p>Inventory: {product.inventory} units</p>
+      
+      <div>
+        <h3>Description</h3>
+        <p>{product.description}</p>
+      </div>
+      
+      <div>
+        <h3>Reviews</h3>
+        <p>Average Rating: {product.averageRating}/5</p>
+        <p>Total Reviews: {product.reviewCount}</p>
+      </div>
+      
+      <small>Last updated: {lastUpdated}</small>
+    </div>
+  );
+}
+
+export async function getStaticProps({ params }) {
+  const { id } = params;
+  
+  try {
+    // Fetch product data
+    const productRes = await fetch(\`https://api.example.com/products/\${id}\`);
+    const product = await productRes.json();
+    
+    if (!product) {
+      return {
+        notFound: true,
+        revalidate: 60 // Try again in 1 minute
+      };
+    }
+    
+    return {
+      props: {
+        product,
+        lastUpdated: new Date().toISOString()
+      },
+      // Regenerate page at most once every 30 seconds
+      revalidate: 30
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+      revalidate: 60
+    };
+  }
+}
+
+export async function getStaticPaths() {
+  // Pre-generate popular products only
+  const res = await fetch('https://api.example.com/products/popular');
+  const popularProducts = await res.json();
+  
+  const paths = popularProducts.map(product => ({
+    params: { id: product.id.toString() }
+  }));
+  
+  return {
+    paths,
+    fallback: 'blocking' // Generate other products on first request
+  };
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     On-Demand ISR with API Routes
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/revalidate.js - On-demand revalidation
+export default async function handler(req, res) {
+  // Check for secret to confirm this is a valid request
+  if (req.query.secret !== process.env.MY_SECRET_TOKEN) {
+    return res.status(401).json({ message: 'Invalid token' });
+  }
+  
+  try {
+    const { path, paths } = req.body;
+    
+    if (path) {
+      // Revalidate single path
+      await res.revalidate(path);
+      return res.json({ revalidated: true, path });
+    }
+    
+    if (paths && Array.isArray(paths)) {
+      // Revalidate multiple paths
+      await Promise.all(paths.map(p => res.revalidate(p)));
+      return res.json({ revalidated: true, paths });
+    }
+    
+    return res.status(400).json({ message: 'Missing path or paths' });
+  } catch (err) {
+    return res.status(500).send('Error revalidating');
+  }
+}
+
+// Usage: POST /api/revalidate?secret=MY_SECRET_TOKEN
+// Body: { "path": "/products/123" }
+// or: { "paths": ["/products/123", "/products/456"] }
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     ISR with Different Revalidation Strategies
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// Different ISR strategies based on content type
+
+// 1. News Articles - Frequent updates
+export async function getStaticProps({ params }) {
+  const article = await fetchArticle(params.id);
+  
+  return {
+    props: { article },
+    revalidate: 60 // Revalidate every minute for breaking news
+  };
+}
+
+// 2. Blog Posts - Moderate updates
+export async function getStaticProps({ params }) {
+  const post = await fetchBlogPost(params.slug);
+  
+  return {
+    props: { post },
+    revalidate: 3600 // Revalidate every hour
+  };
+}
+
+// 3. Documentation - Rare updates
+export async function getStaticProps({ params }) {
+  const doc = await fetchDocumentation(params.page);
+  
+  return {
+    props: { doc },
+    revalidate: 86400 // Revalidate once per day
+  };
+}
+
+// 4. Conditional revalidation based on content
+export async function getStaticProps({ params }) {
+  const product = await fetchProduct(params.id);
+  
+  // Different revalidation based on product status
+  let revalidateTime = 3600; // Default: 1 hour
+  
+  if (product.isOnSale) {
+    revalidateTime = 300; // 5 minutes for sale items
+  } else if (product.inventory < 10) {
+    revalidateTime = 600; // 10 minutes for low inventory
+  }
+  
+  return {
+    props: { product },
+    revalidate: revalidateTime
+  };
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     ISR with Error Handling and Fallbacks
+   </h4>
+   <div style="padding: 12px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/posts/[slug].js - ISR with robust error handling
+export default function Post({ post, error, lastGenerated }) {
+  if (error) {
+    return (
+      <div>
+        <h1>Oops! Something went wrong</h1>
+        <p>{error.message}</p>
+        <button onClick={() => window.location.reload()}>
+          Try Again
+        </button>
+      </div>
+    );
+  }
+  
+  if (!post) {
+    return (
+      <div>
+        <h1>Post Not Found</h1>
+        <p>The requested post could not be found.</p>
+      </div>
+    );
+  }
+  
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      
+      {process.env.NODE_ENV === 'development' && (
+        <div style={{ marginTop: '2rem', padding: '1rem', background: '#f0f0f0' }}>
+          <small>Generated at: {lastGenerated}</small>
+        </div>
+      )}
+    </article>
+  );
+}
+
+export async function getStaticProps({ params }) {
+  const { slug } = params;
+  
+  try {
+    const response = await fetch(\`https://cms.example.com/posts/\${slug}\`, {
+      headers: {
+        'Authorization': \`Bearer \${process.env.CMS_TOKEN}\`
+      }
+    });
+    
+    if (!response.ok) {
+      if (response.status === 404) {
+        return {
+          notFound: true,
+          revalidate: 300 // Check again in 5 minutes
+        };
+      }
+      throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
+    }
+    
+    const post = await response.json();
+    
+    return {
+      props: {
+        post,
+        lastGenerated: new Date().toISOString()
+      },
+      revalidate: 1800 // 30 minutes
+    };
+  } catch (error) {
+    console.error('Error fetching post:', error);
+    
+    return {
+      props: {
+        post: null,
+        error: {
+          message: 'Failed to load post. Please try again later.'
+        },
+        lastGenerated: new Date().toISOString()
+      },
+      revalidate: 300 // Retry in 5 minutes
+    };
+  }
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for ISR
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Sites:</span> Product pages with changing inventory and prices.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">News Platforms:</span> Articles that may need updates or corrections.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Content Management:</span> CMS-driven sites with periodic content updates.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">API Documentation:</span> Technical docs that update with new releases.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Social Platforms:</span> Profile pages with periodically changing content.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advantages of ISR
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Best of Both Worlds:</span> Static performance with dynamic content freshness</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Scalable Performance:</span> Pages served from cache with automatic updates</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">SEO Benefits:</span> Pre-rendered HTML with fresh content for crawlers</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Reduced Build Times:</span> Generate popular pages only, others on-demand</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Flexible Updates:</span> On-demand revalidation via API calls</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Disadvantages of ISR
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Complexity:</span> More complex caching and invalidation logic</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Stale Content Risk:</span> Users might see outdated content temporarily</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Server Resources:</span> Background regeneration requires server capacity</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Cache Coordination:</span> Challenging with multiple deployment regions</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     ISR Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Choose Appropriate Revalidate Times:</span> Balance freshness with performance needs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Implement Error Handling:</span> Graceful fallbacks for failed regenerations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use On-Demand Revalidation:</span> Trigger updates when content changes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Monitor Performance:</span> Track regeneration times and success rates.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Secure Revalidation Endpoints:</span> Use secret tokens for API-triggered updates.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// ISR with webhook integration for CMS updates
+// pages/api/webhook/content-update.js
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+  
+  const { secret, contentType, slug } = req.body;
+  
+  if (secret !== process.env.WEBHOOK_SECRET) {
+    return res.status(401).json({ message: 'Invalid secret' });
+  }
+  
+  try {
+    // Determine paths to revalidate based on content type
+    const pathsToRevalidate = [];
+    
+    if (contentType === 'blog-post') {
+      pathsToRevalidate.push(\`/blog/\${slug}\`);
+      pathsToRevalidate.push('/blog'); // Blog index page
+    } else if (contentType === 'product') {
+      pathsToRevalidate.push(\`/products/\${slug}\`);
+      pathsToRevalidate.push('/products'); // Product listing
+    }
+    
+    // Revalidate all affected paths
+    await Promise.all(
+      pathsToRevalidate.map(path => res.revalidate(path))
+    );
+    
+    return res.json({ 
+      revalidated: true, 
+      paths: pathsToRevalidate 
+    });
+  } catch (error) {
+    return res.status(500).json({ message: 'Error revalidating' });
+  }
+}`,
+              `// ISR with different strategies for different sections
+// pages/blog/[...slug].js - Multi-level blog structure
+export async function getStaticProps({ params }) {
+  const slugArray = params.slug;
+  const fullSlug = slugArray.join('/');
+  
+  // Different revalidation based on content depth
+  let revalidateTime = 3600; // Default 1 hour
+  
+  if (slugArray.length === 1) {
+    // Category pages
+    revalidateTime = 1800; // 30 minutes
+  } else if (slugArray.length === 2) {
+    // Individual posts
+    revalidateTime = 7200; // 2 hours
+  }
+  
+  const content = await fetchContent(fullSlug);
+  
+  return {
+    props: { content },
+    revalidate: revalidateTime
+  };
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between time-based and on-demand ISR?",
+                solution:
+                  "<p>Time-based ISR uses the revalidate property to automatically regenerate pages after a specified time interval. On-demand ISR uses the revalidate() API to trigger regeneration immediately when content changes, providing more precise control over when updates occur and reducing unnecessary regenerations.</p>",
+              },
+              {
+                question: "How does ISR handle high traffic scenarios?",
+                solution:
+                  "<p>During high traffic, ISR serves the cached static page to all users while regenerating in the background. Only one regeneration process runs at a time per page, preventing server overload. The stale-while-revalidate pattern ensures users always get fast responses while fresh content is being generated.</p>",
+              },
+              {
+                question:
+                  "Can you use ISR with dynamic API data that requires authentication?",
+                solution:
+                  "<p>Yes, but authentication should happen during the build/regeneration process, not per user request. Use server-side API keys or tokens in getStaticProps to fetch authenticated data. For user-specific content, combine ISR for public data with client-side fetching for personalized elements.</p>",
+              },
+              {
+                question: "What happens if ISR regeneration fails?",
+                solution:
+                  "<p>If regeneration fails, Next.js continues serving the stale cached version until the next successful regeneration. You can handle errors in getStaticProps by returning error props or implementing retry logic with different revalidate times for failed attempts.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration",
+              "https://nextjs.org/docs/api-reference/next.config.js/configuring-ondemand-revalidation",
+              "https://vercel.com/docs/concepts/next.js/incremental-static-regeneration",
+            ],
+          },
+        ],
       },
       {
         id: 2,
