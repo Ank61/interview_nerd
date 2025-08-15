@@ -23943,7 +23943,7 @@ export default function Products({ products }) {
         {filteredProducts.map(product => (
           <div key={product.id} className="product-card">
             <h3>{product.name}</h3>
-            <p>${product.price}</p>
+            <p>{product.price}</p>
           </div>
         ))}
       </div>
@@ -25438,7 +25438,7 @@ export default function CategoryProducts() {
         {products.map(product => (
           <div key={product.id} className="product-card">
             <h3>{product.name}</h3>
-            <p>${product.price}</p>
+            <p>{product.price}</p>
           </div>
         ))}
       </div>
@@ -26485,7 +26485,7 @@ export default function Product({ product, reviews }) {
   return (
     <div>
       <h1>{product.name}</h1>
-      <p>Price: ${product.price}</p>
+      <p>Price: {product.price}</p>
       <img src={product.image} alt={product.name} />
       
       <div>
@@ -27022,7 +27022,7 @@ export default function Product({ product, lastUpdated }) {
   return (
     <div>
       <h1>{product.name}</h1>
-      <p>Price: ${product.price}</p>
+      <p>Price: {product.price}</p>
       <p>In Stock: {product.inventory > 0 ? 'Yes' : 'No'}</p>
       <p>Inventory: {product.inventory} units</p>
       
@@ -30418,7 +30418,7 @@ class Container {
             ],
           },
           {
-            topic: "Core Concepts: Buckets, Objects, Regions",
+            topic: "Core Concepts Buckets Objects Regions",
             tags: ["core-concepts", "buckets", "objects", "regions"],
             explanation:
               '<div>\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    1. Buckets\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Definition:</strong> A bucket is the fundamental container in S3 that stores objects. Think of it as the top-level folder in S3.</li>\n    <li><strong>Global Namespace:</strong> Every bucket name must be globally unique across all AWS accounts and Regions.</li>\n    <li><strong>Region Affinity:</strong> A bucket is created in a specific AWS Region and never leaves that Region; all objects inherit the bucket’s Region.</li>\n    <li><strong>Naming Rules:</strong>\n      <ul>\n        <li>3–63 characters long.</li>\n        <li>Lowercase letters, numbers, dots (.) and hyphens (-) only.</li>\n        <li>Cannot start or end with a hyphen or dot.</li>\n        <li>Cannot contain two consecutive dots nor look like an IP address.</li>\n      </ul>\n    </li>\n    <li><strong>Limits:</strong>\n      <ul>\n        <li>100 buckets per account by default (soft limit).</li>\n        <li>No limit on the number of objects or total data size inside a bucket.</li>\n      </ul>\n    </li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    2. Objects\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Definition:</strong> An object is the basic data entity stored in S3, composed of:\n      <ul>\n        <li><strong>Key:</strong> The unique identifier (path) of the object within the bucket, e.g., <code>photos/2025/july/beach.jpg</code>.</li>\n        <li><strong>Value:</strong> The actual data (file content) up to 5 TB.</li>\n        <li><strong>Metadata:</strong>\n          <ul>\n            <li><strong>System:</strong> Managed by AWS (ETag, Content-Type, Last-Modified, Server-Side-Encryption, etc.).</li>\n            <li><strong>User-defined:</strong> Custom key-value pairs prefixed with <code>x-amz-meta-</code> (max 2 KB total).</li>\n          </ul>\n        </li>\n        <li><strong>Optional:</strong> Version ID (if versioning enabled), Storage Class, ACLs, tags, lock status.</li>\n      </ul>\n    </li>\n    <li><strong>Key Naming Rules:</strong>\n      <ul>\n        <li>UTF-8 encoded, up to 1,024 bytes.</li>\n        <li>Can contain any Unicode character except for the slash (/) used as a prefix delimiter.</li>\n        <li>Case-sensitive.</li>\n      </ul>\n    </li>\n  </ul>\n\n  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">\n    3. Regions\n  </h3>\n  <ul style="margin-top: 0.75rem; margin-left: 1.5rem; list-style-type: disc;">\n    <li><strong>Definition:</strong> An AWS Region is a physical location around the world where AWS clusters data centers (Availability Zones).</li>\n    <li><strong>Bucket-Region Binding:</strong> When you create a bucket you choose its Region; it stays there forever.</li>\n    <li><strong>Latency & Compliance:</strong> Choose the Region closest to end-users or required by data-residency regulations.</li>\n    <li><strong>Replication:</strong> Optionally replicate objects to buckets in other Regions for disaster recovery or lower latency.</li>\n  </ul>\n</div>',
