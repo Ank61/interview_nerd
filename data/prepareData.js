@@ -36477,7 +36477,7 @@ aws backup create-backup-vault --backup-vault-name dr-vault
     ],
   },
   {
-    id: 22,
+    id: 7,
     category: "AWS SQS",
     themeBgColor: "#E6F7FF",
     textColor: "#0066CC",
@@ -38120,7 +38120,7 @@ aws cloudformation describe-stack-resources --stack-name my-stack
     ],
   },
   {
-    id: 25,
+    id: 8,
     category: "AWS SNS",
     themeBgColor: "#E8F5E9",
     textColor: "#2E7D32",
@@ -38529,7 +38529,7 @@ StateMachine:
     ],
   },
   {
-    id: 42,
+    id: 9,
     category: "RabbitMQ",
     themeBgColor: "#FFF8E1",
     textColor: "#E65100",
