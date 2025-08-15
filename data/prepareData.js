@@ -27433,11 +27433,3945 @@ export async function getStaticProps({ params }) {
               "https://vercel.com/docs/concepts/next.js/incremental-static-regeneration",
             ],
           },
+          {
+            topic: "Global CSS and CSS Modules",
+            tags: ["CSS", "Modules", "Global Styles", "Scoped Styles"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js provides multiple ways to handle CSS styling, with Global CSS and CSS Modules being fundamental approaches. Global CSS affects the entire application, while CSS Modules provide component-scoped styling to prevent style conflicts and ensure maintainability.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Global CSS
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Global CSS in Next.js can only be imported in the <code>pages/_app.js</code> file. This ensures that global styles are loaded once and apply to the entire application.
+   </p>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Setup:</span> Create a global CSS file (e.g., styles/globals.css)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Import:</span> Import only in _app.js to avoid duplication
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Scope:</span> Styles apply across all pages and components
+     </li>
+   </ol>
+   
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-css">
+/* styles/globals.css */
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.btn-primary {
+  background-color: #0070f3;
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn-primary:hover {
+  background-color: #0051cc;
+}
+</code></pre>
+  </div>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/_app.js
+import '../styles/globals.css'
+
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     CSS Modules
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     CSS Modules automatically scope CSS by generating unique class names, preventing style conflicts. Files must end with <code>.module.css</code> extension.
+   </p>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Scoped Styles:</span> Each component gets unique class names
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No Conflicts:</span> Prevents CSS class name collisions
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Component-Level:</span> Can be imported in any component
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Classes:</span> Supports conditional styling
+     </li>
+   </ol>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-css">
+/* components/Button.module.css */
+.button {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primary {
+  background-color: #0070f3;
+  color: white;
+}
+
+.primary:hover {
+  background-color: #0051cc;
+  transform: translateY(-1px);
+}
+
+.secondary {
+  background-color: #f4f4f4;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+.secondary:hover {
+  background-color: #e9e9e9;
+}
+
+.large {
+  padding: 16px 32px;
+  font-size: 18px;
+}
+
+.small {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+</code></pre>
+  </div>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// components/Button.js
+import styles from './Button.module.css'
+
+export default function Button({ 
+  children, 
+  variant = 'primary', 
+  size = 'medium',
+  onClick 
+}) {
+  return (
+    <button 
+      className={\`\${styles.button} \${styles[variant]} \${styles[size]}\`}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  )
+}
+
+// Usage in a page or component
+import Button from '../components/Button'
+
+export default function HomePage() {
+  return (
+    <div>
+      <Button variant="primary" size="large">
+        Primary Button
+      </Button>
+      <Button variant="secondary" size="small">
+        Secondary Button
+      </Button>
+    </div>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases and Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Global CSS Use Cases:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Reset/normalize styles</li>
+        <li>Typography and font definitions</li>
+        <li>Color variables and themes</li>
+        <li>Layout utilities (container, grid systems)</li>
+        <li>Global animations and transitions</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">CSS Modules Use Cases:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Component-specific styling</li>
+        <li>Complex UI components with multiple states</li>
+        <li>Reusable components across different projects</li>
+        <li>When you need style isolation</li>
+        <li>Team projects to prevent style conflicts</li>
+      </ul>
+     </li>
+`,
+            examples: [
+              `// Advanced SCSS Map Example
+$button-variants: (
+  primary: ($primary-color, $white),
+  secondary: (#f3f4f6, #374151),
+  success: ($success-color, $white),
+  danger: ($danger-color, $white)
+);
+
+@each $variant, $colors in $button-variants {
+  .btn-#{$variant} {
+    background-color: nth($colors, 1);
+    color: nth($colors, 2);
+    
+    &:hover {
+      background-color: darken(nth($colors, 1), 10%);
+    }
+  }
+}`,
+              `// SCSS Loop for Grid System
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    flex: 0 0 percentage($i / 12);
+    max-width: percentage($i / 12);
+  }
+}
+
+// Responsive grid
+@each $breakpoint in (sm, md, lg, xl) {
+  @include respond-to($breakpoint) {
+    @for $i from 1 through 12 {
+      .#{$breakpoint}-col-#{$i} {
+        flex: 0 0 percentage($i / 12);
+        max-width: percentage($i / 12);
+      }
+    }
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the main advantages of using Sass/SCSS in Next.js?",
+                solution:
+                  "<p>Sass/SCSS provides variables for consistent values, mixins for reusable code patterns, nested rules for better organization, functions for calculations, loops and conditionals for dynamic CSS generation, and better maintainability for large codebases. Next.js has built-in support with zero configuration required.</p>",
+              },
+              {
+                question: "How do SCSS modules work with Next.js?",
+                solution:
+                  "<p>SCSS modules work exactly like CSS modules but with Sass preprocessing. Use .module.scss extension, import variables and mixins, and Next.js automatically scopes the classes. You can use all Sass features within the module while maintaining component-level style isolation.</p>",
+              },
+              {
+                question:
+                  "What's the difference between using global SCSS vs SCSS modules?",
+                solution:
+                  "<p>Global SCSS is imported in _app.js and affects the entire application - use it for base styles, variables, and utilities. SCSS modules are component-scoped and automatically generate unique class names - use them for component-specific styling. Both can coexist and share variables/mixins.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/built-in-css-support#sass-support",
+              "https://sass-lang.com/guide",
+              "https://nextjs.org/docs/basic-features/built-in-css-support#css-modules",
+            ],
+          },
+          {
+            topic: "Styled JSX (Next.js built-in styling)",
+            tags: ["Styled JSX", "CSS-in-JS", "Scoped Styles", "Built-in"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Styled JSX is Next.js's built-in CSS-in-JS solution that allows you to write CSS directly within your JavaScript components. It provides scoped styling by default and supports both component-scoped and global styles without requiring additional setup or dependencies.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Styled JSX?
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Built-in Solution:</span> No additional dependencies required
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Scoped by Default:</span> Styles are automatically scoped to components
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Full CSS Support:</span> Supports all CSS features including pseudo-selectors, media queries, and keyframes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Styling:</span> Easily create dynamic styles based on props or state
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Server-Side Rendering:</span> Works seamlessly with Next.js SSR
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Styled JSX Syntax
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// Basic Styled JSX Example
+export default function Button({ children, primary }) {
+  return (
+    <>
+      <button className={primary ? 'primary' : 'secondary'}>
+        {children}
+      </button>
+      
+      <style jsx>{\`
+        button {
+          padding: 12px 24px;
+          border: none;
+          border-radius: 6px;
+          font-weight: 500;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .primary {
+          background-color: #0070f3;
+          color: white;
+        }
+        
+        .primary:hover {
+          background-color: #0051cc;
+          transform: translateY(-1px);
+        }
+        
+        .secondary {
+          background-color: #f4f4f4;
+          color: #333;
+          border: 1px solid #ddd;
+        }
+        
+        .secondary:hover {
+          background-color: #e9e9e9;
+        }
+      \`}</style>
+    </>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dynamic Styling with Props
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// Dynamic Styling Based on Props
+export default function Card({ title, content, color, size }) {
+  return (
+    <>
+      <div className="card">
+        <h3 className="title">{title}</h3>
+        <p className="content">{content}</p>
+      </div>
+      
+      <style jsx>{\`
+        .card {
+          background-color: \${color || '#ffffff'};
+          padding: \${size === 'large' ? '24px' : '16px'};
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        .card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .title {
+          margin: 0 0 12px 0;
+          font-size: \${size === 'large' ? '24px' : '18px'};
+          color: #333;
+        }
+        
+        .content {
+          margin: 0;
+          line-height: 1.6;
+          color: #666;
+          font-size: \${size === 'large' ? '16px' : '14px'};
+        }
+      \`}</style>
+    </>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Global Styles with Styled JSX
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// Global Styles Example
+export default function Layout({ children }) {
+  return (
+    <>
+      <div className="layout">
+        <header className="header">
+          <h1>My App</h1>
+        </header>
+        <main className="main">
+          {children}
+        </main>
+        <footer className="footer">
+          <p>&copy; 2024 My App</p>
+        </footer>
+      </div>
+      
+      {/* Component-scoped styles */}
+      <style jsx>{\`
+        .layout {
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+        }
+        
+        .header {
+          background-color: #0070f3;
+          color: white;
+          padding: 1rem 2rem;
+        }
+        
+        .main {
+          flex: 1;
+          padding: 2rem;
+        }
+        
+        .footer {
+          background-color: #f8f9fa;
+          text-align: center;
+          padding: 1rem;
+        }
+      \`}</style>
+      
+      {/* Global styles */}
+      <style jsx global>{\`
+        * {
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 
+                       Oxygen, Ubuntu, Cantarell, sans-serif;
+          margin: 0;
+          padding: 0;
+        }
+        
+        h1, h2, h3, h4, h5, h6 {
+          margin-top: 0;
+        }
+        
+        a {
+          color: #0070f3;
+          text-decoration: none;
+        }
+        
+        a:hover {
+          text-decoration: underline;
+        }
+      \`}</style>
+    </>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Features
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// Advanced Styled JSX with Media Queries and Keyframes
+export default function ResponsiveComponent({ isVisible }) {
+  return (
+    <>
+      <div className={\`container \${isVisible ? 'visible' : 'hidden'}\`}>
+        <div className="animated-box">
+          <h2>Responsive Animated Component</h2>
+          <p>This component demonstrates advanced Styled JSX features</p>
+        </div>
+      </div>
+      
+      <style jsx>{\`
+        .container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 2rem;
+          transition: opacity 0.3s ease;
+        }
+        
+        .visible {
+          opacity: 1;
+        }
+        
+        .hidden {
+          opacity: 0;
+        }
+        
+        .animated-box {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          padding: 2rem;
+          border-radius: 12px;
+          animation: slideIn 0.5s ease-out;
+        }
+        
+        .animated-box h2 {
+          margin: 0 0 1rem 0;
+          font-size: 2rem;
+        }
+        
+        .animated-box p {
+          margin: 0;
+          font-size: 1.1rem;
+          line-height: 1.6;
+        }
+        
+        @keyframes slideIn {
+          from {
+            transform: translateY(30px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        
+        /* Mobile styles */
+        @media (max-width: 768px) {
+          .container {
+            padding: 1rem;
+          }
+          
+          .animated-box {
+            padding: 1.5rem;
+          }
+          
+          .animated-box h2 {
+            font-size: 1.5rem;
+          }
+          
+          .animated-box p {
+            font-size: 1rem;
+          }
+        }
+        
+        /* Tablet styles */
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .container {
+            padding: 1.5rem;
+          }
+        }
+        
+        /* Dark mode support */
+        @media (prefers-color-scheme: dark) {
+          .animated-box {
+            background: linear-gradient(135deg, #2D3748 0%, #4A5568 100%);
+          }
+        }
+      \`}</style>
+    </>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases and Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Best Use Cases:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Rapid prototyping and development</li>
+        <li>Component-specific styling with dynamic values</li>
+        <li>When you want to avoid additional dependencies</li>
+        <li>Small to medium-sized applications</li>
+        <li>When you need scoped styles without setup</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Best Practices:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Use template literals for dynamic styles</li>
+        <li>Keep styles close to components for maintainability</li>
+        <li>Use global styles sparingly and only when necessary</li>
+        <li>Consider extracting complex styles to separate functions</li>
+        <li>Use CSS custom properties for theming</li>
+      </ul>
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `// Theme Provider with Styled JSX
+const ThemeProvider = ({ children, theme }) => (
+  <>
+    {children}
+    <style jsx global>{\`
+      :root {
+        --primary-color: \${theme.primary};
+        --secondary-color: \${theme.secondary};
+        --background-color: \${theme.background};
+        --text-color: \${theme.text};
+      }
+    \`}</style>
+  </>
+)`,
+              `// Complex Animation Example
+const LoadingSpinner = () => (
+  <>
+    <div className="spinner"></div>
+    <style jsx>{\`
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #0070f3;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+    \`}</style>
+  </>
+)`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages of Styled JSX over traditional CSS?",
+                solution:
+                  "<p>Styled JSX offers automatic scoping (no class name conflicts), dynamic styling based on props/state, no additional dependencies, full CSS feature support, and seamless integration with Next.js SSR. It also keeps styles close to components for better maintainability.</p>",
+              },
+              {
+                question:
+                  "When should I use styled jsx global vs component-scoped styles?",
+                solution:
+                  "<p>Use component-scoped styles (default) for styles specific to a component. Use 'styled jsx global' for styles that need to affect child components, reset styles, or when you need to override third-party component styles. Global styles should be used sparingly.</p>",
+              },
+              {
+                question:
+                  "How does Styled JSX handle performance and bundle size?",
+                solution:
+                  "<p>Styled JSX automatically removes unused styles and optimizes CSS for production. Styles are only included when components are used, and the runtime is minimal. However, for very large applications with many dynamic styles, other CSS-in-JS solutions might offer better performance optimizations.</p>",
+              },
+            ],
+            links: [
+              "https://github.com/vercel/styled-jsx",
+              "https://nextjs.org/docs/basic-features/built-in-css-support#css-in-js",
+              "https://nextjs.org/blog/styling-next-with-styled-jsx",
+            ],
+          },
+          {
+            topic: "Using Tailwind CSS with Next.js",
+            tags: [
+              "Tailwind CSS",
+              "Utility-First",
+              "Responsive Design",
+              "Setup",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Tailwind CSS is a utility-first CSS framework that provides low-level utility classes to build custom designs rapidly. Next.js has excellent integration with Tailwind CSS, making it easy to set up and use in your projects with features like Just-in-Time (JIT) compilation and automatic purging of unused styles.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Installation and Setup
+   </h4>
+   
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-bash">
+# Install Tailwind CSS and its dependencies
+npm install -D tailwindcss postcss autoprefixer
+
+# Create Tailwind configuration files
+npx tailwindcss init -p
+</code></pre>
+  </div>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    './pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          500: '#3b82f6',
+          600: '#2563eb',
+          700: '#1d4ed8',
+        },
+        secondary: {
+          500: '#6b7280',
+          600: '#4b5563',
+        }
+      },
+      fontFamily: {
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+      spacing: {
+        '18': '4.5rem',
+        '72': '18rem',
+        '84': '21rem',
+        '96': '24rem',
+      }
+    },
+  },
+  plugins: [
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
+  ],
+}
+</code></pre>
+  </div>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-css">
+/* styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom base styles */
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold text-gray-900;
+  }
+}
+
+/* Custom component styles */
+@layer components {
+  .btn-primary {
+    @apply bg-primary-500 hover:bg-primary-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-200 p-6;
+  }
+  
+  .input-field {
+    @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors;
+  }
+}
+
+/* Custom utility styles */
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-500 to-primary-700 bg-clip-text text-transparent;
+  }
+  
+  .glass-morphism {
+    @apply bg-white bg-opacity-10 backdrop-blur-md border border-white border-opacity-20;
+  }
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Tailwind Components
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// components/Button.js - Tailwind Button Component
+export default function Button({ 
+  children, 
+  variant = 'primary', 
+  size = 'medium', 
+  fullWidth = false,
+  disabled = false,
+  onClick 
+}) {
+  const baseClasses = 'font-medium rounded-lg transition-all duration-200 focus:ring-4 focus:outline-none'
+  
+  const variantClasses = {
+    primary: 'bg-blue-500 hover:bg-blue-600 text-white focus:ring-blue-300',
+    secondary: 'bg-gray-200 hover:bg-gray-300 text-gray-800 focus:ring-gray-300',
+    danger: 'bg-red-500 hover:bg-red-600 text-white focus:ring-red-300',
+    outline: 'border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white focus:ring-blue-300'
+  }
+  
+  const sizeClasses = {
+    small: 'px-3 py-1.5 text-sm',
+    medium: 'px-4 py-2',
+    large: 'px-6 py-3 text-lg'
+  }
+  
+  const classes = [
+    baseClasses,
+    variantClasses[variant],
+    sizeClasses[size],
+    fullWidth && 'w-full',
+    disabled && 'opacity-50 cursor-not-allowed'
+  ].filter(Boolean).join(' ')
+  
+  return (
+    <button 
+      className={classes}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  )
+}
+</code></pre>
+  </div>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// components/Card.js - Responsive Card Component
+export default function Card({ 
+  title, 
+  description, 
+  image, 
+  badge,
+  children,
+  className = ''
+}) {
+  return (
+    <div className={\`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 \${className}\`}>
+      {image && (
+        <div className="aspect-video w-full overflow-hidden">
+          <img 
+            src={image} 
+            alt={title}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      )}
+      
+      <div className="p-6">
+        <div className="flex items-start justify-between mb-3">
+          <h3 className="text-xl font-semibold text-gray-900 leading-tight">
+            {title}
+          </h3>
+          {badge && (
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+              {badge}
+            </span>
+          )}
+        </div>
+        
+        {description && (
+          <p className="text-gray-600 mb-4 leading-relaxed">
+            {description}
+          </p>
+        )}
+        
+        {children}
+      </div>
+    </div>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Responsive Design with Tailwind
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// components/ResponsiveLayout.js
+export default function ResponsiveLayout({ children }) {
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Navigation */}
+      <nav className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <h1 className="text-xl font-bold text-gray-900 sm:text-2xl">
+                My App
+              </h1>
+            </div>
+            
+            {/* Mobile menu button */}
+            <div className="md:hidden">
+              <button className="p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100">
+                <svg className="h-6 w-6" fill="none" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            </div>
+            
+            {/* Desktop navigation */}
+            <div className="hidden md:flex md:space-x-8">
+              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                Home
+              </a>
+              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                About
+              </a>
+              <a href="#" className="text-gray-500 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium">
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
+      </nav>
+      
+      {/* Main content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {children}
+        </div>
+      </main>
+    </div>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Tailwind Features
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// components/AdvancedComponents.js
+import { useState } from 'react'
+
+// Animated Modal Component
+export function Modal({ isOpen, onClose, children }) {
+  if (!isOpen) return null
+  
+  return (
+    <div className="fixed inset-0 z-50 overflow-y-auto">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        {/* Backdrop */}
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
+          onClick={onClose}
+        />
+        
+        {/* Modal */}
+        <div className="relative w-full max-w-lg transform overflow-hidden rounded-lg bg-white p-6 shadow-xl transition-all">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
+          >
+            <svg className="h-6 w-6" fill="none" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+          {children}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Interactive Form Component
+export function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
+  
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    })
+  }
+  
+  return (
+    <form className="space-y-6 max-w-md mx-auto">
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Name
+        </label>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+          placeholder="Your name"
+        />
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Email
+        </label>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+          placeholder="your@email.com"
+        />
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Message
+        </label>
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          rows={4}
+          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-none"
+          placeholder="Your message..."
+        />
+      </div>
+      
+      <button
+        type="submit"
+        className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200 focus:ring-4 focus:ring-blue-300 focus:outline-none"
+      >
+        Send Message
+      </button>
+    </form>
+  )
+}
+
+// Loading States Component
+export function LoadingStates() {
+  const [loading, setLoading] = useState(false)
+  
+  return (
+    <div className="space-y-4">
+      {/* Skeleton Loading */}
+      <div className="animate-pulse">
+        <div className="bg-gray-200 h-4 rounded w-3/4 mb-2"></div>
+        <div className="bg-gray-200 h-4 rounded w-1/2 mb-2"></div>
+        <div className="bg-gray-200 h-4 rounded w-5/6"></div>
+      </div>
+      
+      {/* Spinner */}
+      <div className="flex justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+      </div>
+      
+      {/* Loading Button */}
+      <button
+        onClick={() => setLoading(!loading)}
+        disabled={loading}
+        className="flex items-center justify-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+      >
+        {loading && (
+          <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" stroke="currentColor">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        )}
+        {loading ? 'Loading...' : 'Click to Load'}
+      </button>
+    </div>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dark Mode Implementation
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// tailwind.config.js - Enable dark mode
+module.exports = {
+  darkMode: 'class', // or 'media' for system preference
+  // ... rest of config
+}
+
+// components/ThemeProvider.js
+import { createContext, useContext, useEffect, useState } from 'react'
+
+const ThemeContext = createContext()
+
+export function ThemeProvider({ children }) {
+  const [darkMode, setDarkMode] = useState(false)
+  
+  useEffect(() => {
+    const isDark = localStorage.getItem('darkMode') === 'true'
+    setDarkMode(isDark)
+    document.documentElement.classList.toggle('dark', isDark)
+  }, [])
+  
+  const toggleDarkMode = () => {
+    const newMode = !darkMode
+    setDarkMode(newMode)
+    localStorage.setItem('darkMode', newMode.toString())
+    document.documentElement.classList.toggle('dark', newMode)
+  }
+  
+  return (
+    <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
+export const useTheme = () => useContext(ThemeContext)
+
+// components/DarkModeToggle.js
+export function DarkModeToggle() {
+  const { darkMode, toggleDarkMode } = useTheme()
+  
+  return (
+    <button
+      onClick={toggleDarkMode}
+      className="p-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+    >
+      {darkMode ? (
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" clipRule="evenodd" />
+        </svg>
+      ) : (
+        <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
+        </svg>
+      )}
+    </button>
+  )
+}
+
+// Example usage in a component
+export function DarkModeExample() {
+  return (
+    <div className="min-h-screen bg-white dark:bg-gray-900 transition-colors">
+      <div className="container mx-auto p-8">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+            Dark Mode Example
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 mb-6">
+            This component demonstrates dark mode implementation with Tailwind CSS.
+          </p>
+          <DarkModeToggle />
+        </div>
+      </div>
+    </div>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices and Use Cases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">When to Use Tailwind CSS:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Rapid prototyping and development</li>
+        <li>Consistent design systems</li>
+        <li>Responsive design requirements</li>
+        <li>Team projects with design constraints</li>
+        <li>When you want to avoid writing custom CSS</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Best Practices:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Use @apply for component patterns</li>
+        <li>Customize the configuration for your design system</li>
+        <li>Use PurgeCSS (built-in) to remove unused styles</li>
+        <li>Create reusable component abstractions</li>
+        <li>Use responsive prefixes consistently</li>
+        <li>Leverage Tailwind's JIT mode for better performance</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance Tips:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Configure proper content paths for purging</li>
+        <li>Use dynamic class names carefully</li>
+        <li>Leverage the JIT compiler for faster builds</li>
+        <li>Extract common patterns into components</li>
+      </ul>
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `// Custom Tailwind Plugin Example
+// tailwind.config.js
+const plugin = require('tailwindcss/plugin')
+
+module.exports = {
+  // ... other config
+  plugins: [
+    plugin(function({ addUtilities }) {
+      const newUtilities = {
+        '.glass': {
+          'background': 'rgba(255, 255, 255, 0.1)',
+          'backdrop-filter': 'blur(10px)',
+          'border': '1px solid rgba(255, 255, 255, 0.2)',
+        },
+        '.text-shadow': {
+          'text-shadow': '2px 2px 4px rgba(0, 0, 0, 0.5)',
+        }
+      }
+      addUtilities(newUtilities)
+    })
+  ]
+}`,
+              `// Conditional Classes with clsx
+import clsx from 'clsx'
+
+function Button({ variant, size, disabled, children }) {
+  return (
+    <button
+      className={clsx(
+        'font-medium rounded-lg transition-colors',
+        {
+          'bg-blue-500 text-white hover:bg-blue-600': variant === 'primary',
+          'bg-gray-200 text-gray-800 hover:bg-gray-300': variant === 'secondary',
+          'px-3 py-1.5 text-sm': size === 'small',
+          'px-4 py-2': size === 'medium',
+          'px-6 py-3 text-lg': size === 'large',
+          'opacity-50 cursor-not-allowed': disabled
+        }
+      )}
+    >
+      {children}
+    </button>
+  )
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does Tailwind CSS handle unused styles in production?",
+                solution:
+                  "<p>Tailwind CSS uses PurgeCSS (now called content) to automatically remove unused styles in production builds. You configure the content paths in tailwind.config.js, and Tailwind scans these files to determine which classes are actually used, keeping only those in the final CSS bundle.</p>",
+              },
+              {
+                question:
+                  "What are the advantages of Tailwind's utility-first approach?",
+                solution:
+                  "<p>Tailwind's utility-first approach offers rapid development speed, consistent design systems, smaller CSS bundles (with purging), better maintainability, responsive design made easy, and reduced context switching between HTML and CSS files. It also prevents CSS specificity issues and promotes component reusability.</p>",
+              },
+              {
+                question:
+                  "How can I create custom components while still using Tailwind utilities?",
+                solution:
+                  "<p>You can create custom components by using @apply directive in CSS to compose utilities, creating React/Vue components that accept Tailwind classes as props, using the component layer in your CSS, or creating custom Tailwind plugins. The key is to balance reusability with the utility-first philosophy.</p>",
+              },
+            ],
+            links: [
+              "https://tailwindcss.com/docs/installation/using-postcss",
+              "https://nextjs.org/docs/basic-features/built-in-css-support#tailwind-css",
+              "https://tailwindcss.com/docs/optimizing-for-production",
+            ],
+          },
+          {
+            topic: "Sass/SCSS in Next.js",
+            tags: ["Sass", "SCSS", "CSS Preprocessor", "Variables", "Mixins"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Sass (Syntactically Awesome Style Sheets) is a CSS preprocessor that extends CSS with features like variables, nested rules, mixins, functions, and more. Next.js has built-in support for both Sass (.scss) and the indented syntax (.sass), making it easy to leverage these powerful features in your applications.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Installation and Setup
+   </h4>
+   
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-bash">
+# Install Sass
+npm install --save-dev sass
+
+# That's it! Next.js will automatically detect and configure Sass
+</code></pre>
+  </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Once installed, you can use .scss and .sass files just like regular CSS files, including CSS Modules support with .module.scss extension.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Sass Variables and Basic Features
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-scss">
+/* styles/variables.scss */
+// Colors
+$primary-color: #0070f3;
+$secondary-color: #666;
+$success-color: #28a745;
+$warning-color: #ffc107;
+$danger-color: #dc3545;
+$white: #ffffff;
+$black: #000000;
+
+// Typography
+$font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-family-mono: 'Fira Code', Monaco, 'Cascadia Code', 'Ubuntu Mono', monospace;
+
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+$font-size-2xl: 1.5rem;
+$font-size-3xl: 1.875rem;
+
+$font-weight-normal: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+$spacing-2xl: 3rem;
+$spacing-3xl: 4rem;
+
+// Breakpoints
+$breakpoint-sm: 640px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 1024px;
+$breakpoint-xl: 1280px;
+$breakpoint-2xl: 1536px;
+
+// Border radius
+$border-radius-sm: 0.25rem;
+$border-radius-md: 0.375rem;
+$border-radius-lg: 0.5rem;
+$border-radius-xl: 0.75rem;
+$border-radius-2xl: 1rem;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+// Transitions
+$transition-fast: 0.15s ease-in-out;
+$transition-base: 0.2s ease-in-out;
+$transition-slow: 0.3s ease-in-out;
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Mixins and Functions
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-scss">
+/* styles/mixins.scss */
+@import 'variables';
+
+// Responsive breakpoints mixin
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) { @content; }
+  }
+  @if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) { @content; }
+  }
+  @if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) { @content; }
+  }
+  @if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) { @content; }
+  }
+}
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Button styles mixin
+@mixin button-style($bg-color, $text-color: $white, $hover-bg: null) {
+  background-color: $bg-color;
+  color: $text-color;
+  border: none;
+  padding: $spacing-sm $spacing-md;
+  border-radius: $border-radius-md;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-base;
+  
+  &:hover {
+    @if $hover-bg {
+      background-color: $hover-bg;
+    } @else {
+      background-color: darken($bg-color, 10%);
+    }
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// Card component mixin
+@mixin card-style($padding: $spacing-lg) {
+  background-color: $white;
+  border-radius: $border-radius-xl;
+  box-shadow: $shadow-sm;
+  padding: $padding;
+  transition: box-shadow $transition-base;
+  
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+// Truncate text mixin
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+// Input field styling
+@mixin input-field {
+  width: 100%;
+  padding: $spacing-sm $spacing-md;
+  border: 1px solid #d1d5db;
+  border-radius: $border-radius-md;
+  font-size: $font-size-base;
+  transition: all $transition-base;
+  
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+  }
+  
+  &::placeholder {
+    color: #9ca3af;
+  }
+}
+
+// Animation mixins
+@mixin fade-in($duration: $transition-base) {
+  animation: fadeIn $duration ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@mixin slide-up($duration: $transition-base) {
+  animation: slideUp $duration ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Functions
+@function rem($pixels) {
+  @return #{$pixels / 16}rem;
+}
+
+@function color-contrast($color) {
+  @if lightness($color) > 50% {
+    @return $black;
+  } @else {
+    @return $white;
+  }
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SCSS Modules Implementation
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-scss">
+/* components/Button.module.scss */
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.button {
+  @include button-style($primary-color);
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  
+  &.small {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+  
+  &.large {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-lg;
+  }
+  
+  &.secondary {
+    @include button-style(#f3f4f6, #374151, #e5e7eb);
+  }
+  
+  &.danger {
+    @include button-style($danger-color);
+  }
+  
+  &.outline {
+    background-color: transparent;
+    color: $primary-color;
+    border: 2px solid $primary-color;
+    
+    &:hover {
+      background-color: $primary-color;
+      color: $white;
+    }
+  }
+  
+  &.fullWidth {
+    width: 100%;
+  }
+  
+  .icon {
+    width: 1em;
+    height: 1em;
+    
+    &.loading {
+      animation: spin 1s linear infinite;
+    }
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+</code></pre>
+  </div>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// components/Button.js
+import styles from './Button.module.scss'
+
+export default function Button({
+  children,
+  variant = 'primary',
+  size = 'medium',
+  fullWidth = false,
+  loading = false,
+  disabled = false,
+  icon,
+  onClick,
+  ...props
+}) {
+  const buttonClasses = [
+    styles.button,
+    styles[variant],
+    styles[size],
+    fullWidth && styles.fullWidth
+  ].filter(Boolean).join(' ')
+
+  return (
+    <button
+      className={buttonClasses}
+      disabled={disabled || loading}
+      onClick={onClick}
+      {...props}
+    >
+      {loading ? (
+        <span className={\`\${styles.icon} \${styles.loading}\`}>
+          ⟳
+        </span>
+      ) : icon ? (
+        <span className={styles.icon}>{icon}</span>
+      ) : null}
+      {children}
+    </button>
+  )
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced SCSS Features
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-scss">
+/* components/Card.module.scss */
+@import '../styles/variables';
+@import '../styles/mixins';
+
+.card {
+  @include card-style;
+  position: relative;
+  overflow: hidden;
+  
+  // Nested selectors
+  .header {
+    @include flex-between;
+    margin-bottom: $spacing-md;
+    
+    .title {
+      @include truncate(2);
+      margin: 0;
+      font-size: $font-size-xl;
+      font-weight: $font-weight-semibold;
+      color: #1f2937;
+    }
+    
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: $spacing-xs $spacing-sm;
+      background-color: #dbeafe;
+      color: #1e40af;
+      border-radius: $border-radius-lg;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      
+      // Dynamic badge colors
+      &.success {
+        background-color: #dcfce7;
+        color: #166534;
+      }
+      
+      &.warning {
+        background-color: #fef3c7;
+        color: #92400e;
+      }
+      
+      &.danger {
+        background-color: #fee2e2;
+        color: #991b1b;
+      }
+    }
+  }
+  
+  .image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: $border-radius-lg;
+    margin-bottom: $spacing-md;
+    transition: transform $transition-base;
+    
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+  
+  .content {
+    .description {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: $spacing-lg;
+      @include truncate(3);
+    }
+    
+    .meta {
+      @include flex-between;
+      font-size: $font-size-sm;
+      color: #9ca3af;
+      
+      .date {
+        @include flex-center;
+        gap: $spacing-xs;
+      }
+      
+      .author {
+        @include flex-center;
+        gap: $spacing-xs;
+        
+        .avatar {
+          width: 24px;
+          height: 24px;
+          border-radius: 50%;
+          object-fit: cover;
+        }
+      }
+    }
+  }
+  
+  .actions {
+    @include flex-center;
+    gap: $spacing-sm;
+    margin-top: $spacing-lg;
+    padding-top: $spacing-lg;
+    border-top: 1px solid #f3f4f6;
+  }
+  
+  // Card variants
+  &.featured {
+    border: 2px solid $primary-color;
+    box-shadow: $shadow-lg;
+    
+    &::before {
+      content: 'Featured';
+      position: absolute;
+      top: $spacing-md;
+      right: -$spacing-lg;
+      background-color: $primary-color;
+      color: $white;
+      padding: $spacing-xs $spacing-xl;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      transform: rotate(45deg);
+    }
+  }
+  
+  &.compact {
+    padding: $spacing-md;
+    
+    .header .title {
+      font-size: $font-size-lg;
+    }
+    
+    .image {
+      height: 150px;
+    }
+  }
+  
+  // Responsive behavior
+  @include respond-to('sm') {
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-sm;
+      
+      .title {
+        @include truncate(1);
+      }
+    }
+  }
+  
+  @include respond-to('md') {
+    .header {
+      flex-direction: row;
+      align-items: center;
+      gap: 0;
+      
+      .title {
+        @include truncate(2);
+      }
+    }
+  }
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Global SCSS Setup
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-scss">
+/* styles/globals.scss */
+@import 'variables';
+@import 'mixins';
+
+// Reset and base styles
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: $font-family-primary;
+  line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+}
+
+body {
+  margin: 0;
+  font-family: inherit;
+  line-height: inherit;
+  color: #1f2937;
+  background-color: #ffffff;
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: $font-weight-semibold;
+  line-height: 1.25;
+  color: #111827;
+}
+
+h1 { font-size: $font-size-3xl; }
+h2 { font-size: $font-size-2xl; }
+h3 { font-size: $font-size-xl; }
+h4 { font-size: $font-size-lg; }
+h5 { font-size: $font-size-base; }
+h6 { font-size: $font-size-sm; }
+
+p {
+  margin: 0 0 $spacing-md 0;
+  line-height: 1.6;
+}
+
+a {
+  color: $primary-color;
+  text-decoration: none;
+  transition: color $transition-base;
+  
+  &:hover {
+    color: darken($primary-color, 10%);
+    text-decoration: underline;
+  }
+}
+
+// Utility classes
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 $spacing-md;
+  
+  @include respond-to('sm') {
+    padding: 0 $spacing-lg;
+  }
+  
+  @include respond-to('lg') {
+    padding: 0 $spacing-xl;
+  }
+}
+
+.grid {
+  display: grid;
+  gap: $spacing-md;
+  
+  &.cols-1 { grid-template-columns: 1fr; }
+  &.cols-2 { grid-template-columns: repeat(2, 1fr); }
+  &.cols-3 { grid-template-columns: repeat(3, 1fr); }
+  &.cols-4 { grid-template-columns: repeat(4, 1fr); }
+  
+  @include respond-to('sm') {
+    gap: $spacing-lg;
+    
+    &.sm-cols-2 { grid-template-columns: repeat(2, 1fr); }
+    &.sm-cols-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+  
+  @include respond-to('md') {
+    &.md-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    &.md-cols-4 { grid-template-columns: repeat(4, 1fr); }
+  }
+}
+
+.flex {
+  display: flex;
+  
+  &.center { @include flex-center; }
+  &.between { @include flex-between; }
+  &.column { @include flex-column; }
+  &.wrap { flex-wrap: wrap; }
+  &.gap-sm { gap: $spacing-sm; }
+  &.gap-md { gap: $spacing-md; }
+  &.gap-lg { gap: $spacing-lg; }
+}
+
+// Animation utilities
+.fade-in {
+  @include fade-in;
+}
+
+.slide-up {
+  @include slide-up;
+}
+
+// Form elements
+.form-group {
+  margin-bottom: $spacing-md;
+  
+  .label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: $font-weight-medium;
+    color: #374151;
+  }
+  
+  .input {
+    @include input-field;
+  }
+  
+  .error {
+    margin-top: $spacing-xs;
+    color: $danger-color;
+    font-size: $font-size-sm;
+  }
+}
+
+// Loading states
+.loading {
+  @include flex-center;
+  padding: $spacing-xl;
+  
+  .spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid #f3f4f6;
+    border-top: 3px solid $primary-color;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+// Responsive utilities
+@include respond-to('sm') {
+  .hide-sm { display: none !important; }
+  .show-sm { display: block !important; }
+}
+
+@include respond-to('md') {
+  .hide-md { display: none !important; }
+  .show-md { display: block !important; }
+}
+
+@include respond-to('lg') {
+  .hide-lg { display: none !important; }
+  .show-lg { display: block !important; }
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Example: Theme System
+   </h4>
+
+   <div style="padding: 16px; border-radius: 8px; background-color: #f8f9fa; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-scss">
+/* styles/themes.scss */
+@import 'variables';
+
+// Theme maps
+$themes: (
+  light: (
+    bg-primary: #ffffff,
+    bg-secondary: #f8fafc,
+    text-primary: #1a202c,
+    text-secondary: #718096,
+    border: #e2e8f0,
+    accent: $primary-color
+  ),
+  dark: (
+    bg-primary: #1a202c,
+    bg-secondary: #2d3748,
+    text-primary: #ffffff,
+    text-secondary: #cbd5e0,
+    border: #4a5568,
+    accent: #63b3ed
+  ),
+  blue: (
+    bg-primary: #ebf8ff,
+    bg-secondary: #bee3f8,
+    text-primary: #2a4365,
+    text-secondary: #4299e1,
+    border: #90cdf4,
+    accent: #3182ce
+  )
+);
+
+// Theme mixin
+@mixin themed($property, $key, $fallback: null) {
+  @each $theme, $map in $themes {
+    .theme-#{$theme} & {
+      #{$property}: map-get($map, $key);
+    }
+  }
+  
+  @if $fallback {
+    #{$property}: $fallback;
+  }
+}
+
+// Usage example in component
+.themed-card {
+  @include themed('background-color', 'bg-primary', $white);
+  @include themed('color', 'text-primary', #1a202c);
+  @include themed('border-color', 'border', #e2e8f0);
+  
+  padding: $spacing-lg;
+  border: 1px solid;
+  border-radius: $border-radius-lg;
+  transition: all $transition-base;
+  
+  .title {
+    @include themed('color', 'text-primary');
+    font-size: $font-size-xl;
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacing-sm;
+  }
+  
+  .description {
+    @include themed('color', 'text-secondary');
+    line-height: 1.6;
+  }
+  
+  .accent-border {
+    @include themed('border-left-color', 'accent');
+    border-left: 4px solid;
+    padding-left: $spacing-md;
+  }
+}
+</code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices and Use Cases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">When to Use Sass/SCSS:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Complex design systems with many variables</li>
+        <li>Need for advanced CSS features (mixins, functions, loops)</li>
+        <li>Large applications with consistent styling patterns</li>
+        <li>Team projects requiring maintainable CSS architecture</li>
+        <li>When you need powerful theming capabilities</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Best Practices:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>Organize code with partials and imports</li>
+        <li>Use variables for all repeated values</li>
+        <li>Create mixins for common patterns</li>
+        <li>Keep nesting levels reasonable (max 3-4 levels)</li>
+        <li>Use semantic naming conventions</li>
+        <li>Leverage CSS Modules for component isolation</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">File Organization:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1rem;">
+        <li>_variables.scss - All global variables</li>
+        <li>_mixins.scss - Reusable mixins and functions</li>
+        <li>_base.scss - Reset and base styles</li>
+        <li>_components.scss - Global component styles</li>
+        <li>_utilities.scss - Utility classes</li>
+        <li>Component-specific .module.scss files</li>
+      </ul>
+     </li>
+   </ol>
+</div>
+`,
+            questions: [
+              {
+                question:
+                  "How does Tailwind CSS handle unused styles in production?",
+                solution:
+                  "<p>Tailwind CSS uses PurgeCSS (now called content) to automatically remove unused styles in production builds. You configure the content paths in tailwind.config.js, and Tailwind scans these files to determine which classes are actually used, keeping only those in the final CSS bundle.</p>",
+              },
+              {
+                question:
+                  "What are the advantages of Tailwind's utility-first approach?",
+                solution:
+                  "<p>Tailwind's utility-first approach offers rapid development speed, consistent design systems, smaller CSS bundles (with purging), better maintainability, responsive design made easy, and reduced context switching between HTML and CSS files. It also prevents CSS specificity issues and promotes component reusability.</p>",
+              },
+              {
+                question:
+                  "How can I create custom components while still using Tailwind utilities?",
+                solution:
+                  "<p>You can create custom components by using @apply directive in CSS to compose utilities, creating React/Vue components that accept Tailwind classes as props, using the component layer in your CSS, or creating custom Tailwind plugins. The key is to balance reusability with the utility-first philosophy.</p>",
+              },
+            ],
+            links: [
+              "https://tailwindcss.com/docs/installation/using-postcss",
+              "https://nextjs.org/docs/basic-features/built-in-css-support#tailwind-css",
+              "https://tailwindcss.com/docs/optimizing-for-production",
+            ],
+          },
+          {
+            topic: "Static File Serving (/public folder)",
+            tags: ["static-files", "public-folder", "assets", "performance"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js provides a built-in solution for serving static files through the <code>/public</code> folder. Any files placed in this directory are served directly by the web server without processing, making it ideal for images, fonts, icons, and other static assets that don't require optimization or processing.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How Static File Serving Works
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Direct Access:</span> Files in /public are accessible via the root URL path.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No Processing:</span> Files are served as-is without any build-time processing.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">CDN Ready:</span> Perfect for deployment with CDN services.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Caching:</span> Static files can be cached effectively by browsers and CDNs.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Folder Structure Example
+   </h4>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background: #f8f9fa; border-left: 4px solid #1E40AF;">
+      <pre><code>
+project-root/
+├── public/
+│   ├── images/
+│   │   ├── logo.png
+│   │   ├── hero-banner.jpg
+│   │   └── icons/
+│   │       ├── favicon.ico
+│   │       └── apple-touch-icon.png
+│   ├── fonts/
+│   │   ├── roboto.woff2
+│   │   └── inter.woff
+│   ├── documents/
+│   │   ├── resume.pdf
+│   │   └── terms.pdf
+│   └── robots.txt
+└── pages/
+    └── index.js
+ </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Accessing Static Files
+   </h4>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background: #f8f9fa; border-left: 4px solid #1E40AF;">
+      <pre><code className="language-javascript">
+// In your React components
+function HomePage() {
+  return (
+    <div>
+      {/* Direct path reference - no /public prefix needed */}
+      <img src="/images/logo.png" alt="Company Logo" />
+      
+      {/* Favicon and meta tags */}
+      <Head>
+        <link rel="icon" href="/icons/favicon.ico" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
+      </Head>
+      
+      {/* PDF documents */}
+      <a href="/documents/resume.pdf" download>Download Resume</a>
+      
+      {/* Background images in CSS */}
+      <div style={{
+        backgroundImage: 'url(/images/hero-banner.jpg)',
+        backgroundSize: 'cover'
+      }}>
+        Hero Section
+      </div>
+    </div>
+  );
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Static Files
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Organize by Type:</span> Create subdirectories for different asset types (images/, fonts/, documents/).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optimize Before Upload:</span> Compress images and minimize file sizes before placing in public folder.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Descriptive Names:</span> Name files clearly for better maintainability.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Version Control:</span> Consider file versioning for cache busting when files change.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Security Considerations:</span> Don't store sensitive files in public folder as they're accessible to everyone.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Static File Serving
+   </h4>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background: #f8f9fa; border-left: 4px solid #1E40AF;">
+      <pre><code className="language-javascript">
+// Dynamic static file references
+function ProductGallery({ productId }) {
+  const imageSrc = \`/images/products/\${productId}/main.jpg\`;
+  
+  return (
+    <img 
+      src={imageSrc} 
+      alt="Product Image"
+      onError={(e) => {
+        // Fallback image if specific product image doesn't exist
+        e.target.src = '/images/placeholder.jpg';
+      }}
+    />
+  );
+}
+
+// Using environment variables for asset CDN
+const assetPrefix = process.env.NODE_ENV === 'production' 
+  ? 'https://cdn.mysite.com' 
+  : '';
+
+function OptimizedAsset({ src, alt }) {
+  return <img src={\`\${assetPrefix}\${src}\`} alt={alt} />;
+}
+ </code></pre>
+  </div>
+</div>
+`,
+            examples: [
+              `// Basic static file usage
+function Header() {
+  return (
+    <header>
+      <img src="/images/logo.svg" alt="Logo" width={120} height={40} />
+      <nav>
+        <a href="/documents/catalog.pdf" target="_blank">
+          View Catalog
+        </a>
+      </nav>
+    </header>
+  );
+}`,
+              `// CSS with static assets
+// styles/globals.css
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/custom-font.woff2') format('woff2'),
+       url('/fonts/custom-font.woff') format('woff');
+}
+
+.hero-section {
+  background-image: url('/images/hero-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}`,
+              `// Dynamic asset loading
+function UserAvatar({ userId }) {
+  const [imageSrc, setImageSrc] = useState(\`/images/avatars/\${userId}.jpg\`);
+  
+  const handleImageError = () => {
+    setImageSrc('/images/default-avatar.png');
+  };
+  
+  return (
+    <img 
+      src={imageSrc}
+      alt="User Avatar"
+      onError={handleImageError}
+      width={50}
+      height={50}
+    />
+  );
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between /public and /assets folders?",
+                solution:
+                  "<p>Next.js only recognizes the /public folder for static file serving. Files in /public are served directly at the root URL without any processing. An /assets folder would need to be imported in your code and processed by webpack, while /public files are served as-is by the web server.</p>",
+              },
+              {
+                question:
+                  "Can I organize files in subdirectories within /public?",
+                solution:
+                  "<p>Yes, you can create any folder structure within /public. For example, /public/images/products/category1/item.jpg would be accessible at /images/products/category1/item.jpg. This helps maintain organized asset management.</p>",
+              },
+              {
+                question: "How do I handle cache busting for static files?",
+                solution:
+                  "<p>For cache busting, you can: 1) Add query parameters like ?v=1.0.0, 2) Include version numbers in filenames like logo-v2.png, 3) Use a build process to generate hashed filenames, or 4) Configure cache headers in next.config.js for different file types.</p>",
+              },
+              {
+                question: "What file types can I serve from /public?",
+                solution:
+                  "<p>You can serve any file type from /public including images (jpg, png, svg, gif, webp), fonts (woff, woff2, ttf), documents (pdf, docx), data files (json, xml, csv), and configuration files (robots.txt, sitemap.xml). All files are served as-is without processing.</p>",
+              },
+              {
+                question: "How do static files work with deployment and CDNs?",
+                solution:
+                  "<p>Static files in /public are perfect for CDN deployment. You can configure a CDN to serve these files by setting the assetPrefix in next.config.js. The files will be uploaded to your CDN during deployment and served from there instead of your server, improving performance globally.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/static-file-serving",
+              "https://nextjs.org/docs/api-reference/next.config.js/cdn-support-with-asset-prefix",
+            ],
+          },
+          {
+            topic: "Image Optimization with next/image",
+            tags: [
+              "next/image",
+              "optimization",
+              "performance",
+              "lazy-loading",
+              "responsive",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The <code>next/image</code> component is a powerful extension of the HTML <code>&lt;img&gt;</code> element that provides automatic image optimization, lazy loading, responsive sizing, and modern format serving. It's designed to improve Core Web Vitals and overall page performance by handling complex image optimization tasks automatically.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Features of next/image
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Optimization:</span> Converts images to modern formats (WebP, AVIF) and optimizes quality.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lazy Loading:</span> Images load only when they're about to enter the viewport.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Responsive Sizing:</span> Automatically serves appropriately sized images for different devices.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blur Placeholder:</span> Shows blur placeholder while images load for better UX.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cumulative Layout Shift Prevention:</span> Maintains layout stability during image loading.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Priority Loading:</span> Option to prioritize above-the-fold images.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Usage Examples
+   </h4>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background: #f8f9fa; border-left: 4px solid #1E40AF;">
+      <pre><code className="language-javascript">
+import Image from 'next/image';
+
+// Basic image with required props
+function BasicExample() {
+  return (
+    <Image
+      src="/images/hero.jpg"
+      alt="Hero Image"
+      width={800}
+      height={600}
+    />
+  );
+}
+
+// Image with priority (for above-the-fold images)
+function HeroImage() {
+  return (
+    <Image
+      src="/images/hero-banner.jpg"
+      alt="Hero Banner"
+      width={1200}
+      height={600}
+      priority={true} // Loads immediately, no lazy loading
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyLivaS3LKbm/SZF3kX9qbf1jAH2C"
+    />
+  );
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Responsive Images
+   </h4>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background: #f8f9fa; border-left: 4px solid #1E40AF;">
+      <pre><code className="language-javascript">
+// Fill container - requires position: relative on parent
+function ResponsiveFill() {
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '400px' }}>
+      <Image
+        src="/images/landscape.jpg"
+        alt="Landscape"
+        fill={true}
+        style={{ objectFit: 'cover' }}
+      />
+    </div>
+  );
+}
+
+// Responsive with sizes prop for different breakpoints
+function ResponsiveImage() {
+  return (
+    <Image
+      src="/images/responsive-hero.jpg"
+      alt="Responsive Hero"
+      width={1200}
+      height={600}
+      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+      style={{
+        width: '100%',
+        height: 'auto',
+      }}
+    />
+  );
+}
+
+// Using CSS classes for responsive behavior
+function StyledImage() {
+  return (
+    <Image
+      src="/images/product.jpg"
+      alt="Product"
+      width={400}
+      height={300}
+      className="responsive-image"
+    />
+  );
+}
+
+// CSS for the above component
+/*
+.responsive-image {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.responsive-image:hover {
+  transform: scale(1.05);
+}
+*/
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Image Loading Strategies
+   </h4>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background: #f8f9fa; border-left: 4px solid #1E40AF;">
+      <pre><code className="language-javascript">
+import { useState } from 'react';
+
+// Image with loading states and error handling
+function SmartImage({ src, alt, ...props }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  return (
+    <div className="image-container">
+      {isLoading && !hasError && (
+        <div className="image-skeleton">Loading...</div>
+      )}
+      
+      <Image
+        src={hasError ? '/images/fallback.jpg' : src}
+        alt={alt}
+        {...props}
+        onLoad={() => setIsLoading(false)}
+        onError={() => {
+          setHasError(true);
+          setIsLoading(false);
+        }}
+        style={{
+          display: isLoading ? 'none' : 'block',
+          ...props.style
+        }}
+      />
+    </div>
+  );
+}
+
+// Image gallery with optimized loading
+function ImageGallery({ images }) {
+  return (
+    <div className="gallery-grid">
+      {images.map((image, index) => (
+        <Image
+          key={image.id}
+          src={image.src}
+          alt={image.alt}
+          width={300}
+          height={200}
+          // Priority for first few images
+          priority={index < 3}
+          // Optimize loading for gallery
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          placeholder="blur"
+          blurDataURL={image.blurDataURL}
+          style={{
+            width: '100%',
+            height: 'auto',
+            borderRadius: '8px'
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     External Images and Domain Configuration
+   </h4>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background: #f8f9fa; border-left: 4px solid #1E40AF;">
+      <pre><code className="language-javascript">
+// next.config.js - Configure external image domains
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    domains: [
+      'images.unsplash.com',
+      'cdn.example.com',
+      'api.myservice.com'
+    ],
+    // Or use remotePatterns for more specific control
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        port: '',
+        pathname: '/photo-*',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.example.com',
+        port: '',
+        pathname: '/images/**',
+      },
+    ],
+    // Optimization settings
+    formats: ['image/webp', 'image/avif'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+  },
+}
+
+module.exports = nextConfig;
+
+// Using external images
+function ExternalImageExample() {
+  return (
+    <Image
+      src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4"
+      alt="Mountain landscape"
+      width={800}
+      height={600}
+      placeholder="blur"
+      blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD..."
+    />
+  );
+}
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Priority Wisely:</span> Only set priority={true} for above-the-fold images (typically 1-2 per page).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optimize Sizes Prop:</span> Use appropriate sizes values to ensure correct image selection.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Provide Dimensions:</span> Always specify width and height to prevent layout shift.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Blur Placeholders:</span> Generate blur data URLs for better loading experience.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Configure Quality:</span> Adjust quality prop (default 75) based on image importance.
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `// E-commerce product image with all optimizations
+function ProductImage({ product }) {
+  return (
+    <div className="product-image-container">
+      <Image
+        src={product.imageUrl}
+        alt={product.name}
+        width={400}
+        height={400}
+        priority={product.featured}
+        placeholder="blur"
+        blurDataURL={product.blurDataURL}
+        sizes="(max-width: 768px) 100vw, 400px"
+        style={{
+          width: '100%',
+          height: 'auto',
+          objectFit: 'cover'
+        }}
+        onLoad={() => console.log('Image loaded')}
+      />
+    </div>
+  );
+}`,
+              `// Hero section with background image
+function HeroSection() {
+  return (
+    <section className="hero">
+      <div className="hero-background">
+        <Image
+          src="/images/hero-bg.jpg"
+          alt="Background"
+          fill={true}
+          priority={true}
+          style={{
+            objectFit: 'cover',
+            zIndex: -1
+          }}
+          sizes="100vw"
+        />
+      </div>
+      <div className="hero-content">
+        <h1>Welcome to Our Site</h1>
+        <p>Amazing content with optimized background</p>
+      </div>
+    </section>
+  );
+}`,
+              `// Image carousel with lazy loading
+function ImageCarousel({ images }) {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  
+  return (
+    <div className="carousel">
+      <div className="carousel-main">
+        <Image
+          src={images[currentIndex].src}
+          alt={images[currentIndex].alt}
+          width={800}
+          height={500}
+          priority={currentIndex === 0}
+          placeholder="blur"
+          blurDataURL={images[currentIndex].blur}
+        />
+      </div>
+      <div className="carousel-thumbnails">
+        {images.map((image, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentIndex(index)}
+            className={index === currentIndex ? 'active' : ''}
+          >
+            <Image
+              src={image.src}
+              alt={image.alt}
+              width={80}
+              height={60}
+              sizes="80px"
+            />
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question: "When should I use priority={true} on images?",
+                solution:
+                  "<p>Use priority={true} only for above-the-fold images that are critical for initial page load, typically hero images, logos, or the first product image in a list. This disables lazy loading and loads the image immediately. Overusing priority can hurt performance by loading too many images at once.</p>",
+              },
+              {
+                question:
+                  "How does the sizes prop work and why is it important?",
+                solution:
+                  "<p>The sizes prop tells the browser what size the image will be displayed at different viewport widths. For example, sizes='(max-width: 768px) 100vw, 50vw' means on mobile (≤768px) the image takes full width, otherwise it takes 50% of viewport width. This helps the browser select the most appropriate image size from the generated responsive images.</p>",
+              },
+              {
+                question:
+                  "What's the difference between width/height props and CSS styling?",
+                solution:
+                  "<p>The width/height props define the intrinsic dimensions of the image for optimization and aspect ratio calculation. CSS styling (via style or className) controls how the image appears on screen. For responsive images, you often set intrinsic dimensions via props and use CSS to make images fluid: style={{ width: '100%', height: 'auto' }}.</p>",
+              },
+              {
+                question: "How can I handle image loading errors gracefully?",
+                solution:
+                  "<p>Use the onError prop to handle failed image loads: onError={() => setImageSrc('/fallback.jpg')}. You can also combine this with loading states using onLoad and onLoadingComplete events. For external images, ensure domains are configured in next.config.js and have fallback images ready.</p>",
+              },
+              {
+                question:
+                  "What are blur placeholders and how do I generate them?",
+                solution:
+                  "<p>Blur placeholders show a blurred version of the image while loading, improving perceived performance. You can generate them using tools like plaiceholder, or create simple base64 data URLs. Set placeholder='blur' and provide blurDataURL with a small, low-quality version of your image encoded as base64.</p>",
+              },
+              {
+                question:
+                  "How do I optimize images for different devices and screen densities?",
+                solution:
+                  "<p>Next.js automatically handles device optimization through the deviceSizes and imageSizes config in next.config.js. Use the sizes prop to specify how much space the image takes at different breakpoints. For high-DPI displays, Next.js automatically serves higher resolution images when needed.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/image-optimization",
+              "https://nextjs.org/docs/api-reference/next/image",
+              "https://web.dev/optimize-cls/#images-without-dimensions",
+              "https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/sizes",
+            ],
+          },
+          {
+            topic: "getStaticProps",
+            tags: ["SSG", "Static Generation", "Build Time", "Performance"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     getStaticProps is a Next.js function that enables Static Site Generation (SSG). It runs at build time on the server-side and pre-generates HTML with data. This approach provides excellent performance and SEO benefits as pages are served as static files.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How getStaticProps Works
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Build Time Execution:</span> Runs during the build process, not on every request.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Server-Side Only:</span> Never runs in the browser, so it can safely use server-side APIs and databases.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Static HTML Generation:</span> Pre-renders pages with data into static HTML files.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Props Injection:</span> Returns props object that gets passed to the page component.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Syntax and Return Object
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// Basic getStaticProps structure
+export async function getStaticProps(context) {
+  return {
+    props: {}, // Will be passed to the page component as props
+    revalidate: false, // Optional: enables ISR
+    redirect: {}, // Optional: redirect to another page
+    notFound: false, // Optional: return 404 page
+  }
+}
+      </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for getStaticProps
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blog Posts:</span> Fetching and pre-rendering blog content from a CMS.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Product Catalogs:</span> E-commerce product listings that don't change frequently.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Marketing Pages:</span> Landing pages with data from APIs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Documentation:</span> Technical documentation with structured content.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">News Articles:</span> News websites with articles that update periodically.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Incremental Static Regeneration (ISR)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     ISR allows you to update static content after build time by setting a revalidate value. This provides a balance between static generation performance and dynamic content updates.
+   </p>
+   
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+export async function getStaticProps() {
+  const data = await fetchData()
+  
+  return {
+    props: { data },
+    // Regenerate the page at most once per hour
+    revalidate: 3600, // seconds
+  }
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Features
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Redirects:</span> Redirect users to another page when certain conditions are met.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">404 Pages:</span> Return notFound: true to show a 404 page.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context Object:</span> Access params, preview mode, and locale information.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Environment Variables:</span> Access server-side environment variables safely.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Basic Example - Blog Posts
+export async function getStaticProps() {
+  const posts = await fetch('https://api.example.com/posts')
+    .then(res => res.json())
+  
+  return {
+    props: {
+      posts,
+    },
+  }
+}
+
+function Blog({ posts }) {
+  return (
+    <div>
+      <h1>Blog Posts</h1>
+      {posts.map(post => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+          <p>{post.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  )
+}`,
+              `// ISR Example - Product Catalog
+export async function getStaticProps() {
+  const products = await fetchProducts()
+  
+  return {
+    props: { products },
+    // Revalidate every 10 minutes
+    revalidate: 600,
+  }
+}`,
+              `// Error Handling and Redirects
+export async function getStaticProps() {
+  try {
+    const data = await fetchCriticalData()
+    
+    if (!data) {
+      return {
+        notFound: true, // Shows 404 page
+      }
+    }
+    
+    return {
+      props: { data },
+    }
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/error',
+        permanent: false,
+      },
+    }
+  }
+}`,
+              `// Using Context for Dynamic Data
+export async function getStaticProps({ params, preview, locale }) {
+  const data = await fetchData({
+    locale,
+    preview: preview || false,
+  })
+  
+  return {
+    props: {
+      data,
+      preview: preview || false,
+    },
+    revalidate: preview ? 1 : 3600, // Shorter revalidation for preview
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "When should you use client-side fetching versus server-side methods?",
+                solution:
+                  "<p>Use client-side fetching for user-specific data that doesn't need SEO, data that updates frequently after user interactions, private dashboards, and progressive enhancement scenarios. Use server-side methods (getStaticProps/getServerSideProps) when you need SEO benefits, initial page load performance, or when data can be pre-rendered.</p>",
+              },
+              {
+                question:
+                  "What are the advantages of SWR over vanilla useEffect for data fetching?",
+                solution:
+                  "<p>SWR provides automatic caching, request deduplication, background revalidation, focus/network recovery, built-in loading and error states, optimistic updates, and TypeScript support. It eliminates boilerplate code and handles edge cases that are difficult to manage with vanilla useEffect.</p>",
+              },
+              {
+                question: "How do you handle optimistic updates with SWR?",
+                solution:
+                  "<p>Use the mutate function with the second parameter as the new data and third parameter as false to skip revalidation. Make your API call, then call mutate again to revalidate. If the API call fails, revert the optimistic update by calling mutate with the original data. This provides immediate UI feedback while maintaining data consistency.</p>",
+              },
+              {
+                question: "How can you implement infinite scrolling with SWR?",
+                solution:
+                  "<p>Use SWR's useSWRInfinite hook, which is designed for paginated data. It provides functions to load more pages, handles the data structure for infinite lists, and manages loading states for pagination. You can trigger loading more data based on scroll position or user interaction.</p>",
+              },
+              {
+                question:
+                  "What's the best way to handle authentication with client-side fetching?",
+                solution:
+                  "<p>Store authentication tokens securely (httpOnly cookies preferred), include authorization headers in your fetcher function, handle token refresh automatically, redirect to login on 401/403 responses, and use conditional fetching to avoid unnecessary requests when not authenticated. SWR's global configuration makes it easy to handle auth across your app.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/client-side",
+              "https://swr.vercel.app/docs/getting-started",
+              "https://swr.vercel.app/docs/advanced/performance",
+            ],
+          },
+          {
+            topic: "getStaticPaths",
+            tags: ["Dynamic Routing", "SSG", "Pre-rendering", "Build Time"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     getStaticPaths is used alongside getStaticProps for dynamic routes in Static Site Generation. It tells Next.js which dynamic routes to pre-render at build time. This function is essential when you have dynamic pages (like [id].js or [slug].js) that need to be statically generated.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How getStaticPaths Works
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Path Generation:</span> Returns an array of possible path values for dynamic routes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Build Time Execution:</span> Runs at build time to determine which pages to pre-render.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Fallback Strategy:</span> Defines behavior for paths not returned by getStaticPaths.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Works with getStaticProps:</span> Each path gets its own getStaticProps call with params.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Syntax and Return Object
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+export async function getStaticPaths() {
+  return {
+    paths: [
+      { params: { id: '1' } },
+      { params: { id: '2' } },
+      { params: { slug: 'hello-world' } }
+    ],
+    fallback: false // true, false, or 'blocking'
+  }
+}
+      </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Fallback Options
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">fallback: false</span>
+      <p style="margin-top: 0.25rem;">Any paths not returned will result in a 404 page. Use when you have a small number of paths or when new pages are rarely added.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">fallback: true</span>
+      <p style="margin-top: 0.25rem;">Paths not generated at build time will not result in a 404. Instead, Next.js serves a "fallback" version on first request, then generates and caches the page.</p>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">fallback: 'blocking'</span>
+      <p style="margin-top: 0.25rem;">New paths will be server-side rendered on first request and cached for future requests. No loading state is shown to the user.</p>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for getStaticPaths
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blog Post Pages:</span> Generate paths for all blog posts from a CMS.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Product Detail Pages:</span> E-commerce sites with individual product pages.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Profiles:</span> Public user profile pages with static content.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Documentation Pages:</span> Technical docs with hierarchical URL structures.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Category Pages:</span> Listing pages for different categories or tags.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Considerations
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     For sites with thousands of pages, generating all paths at build time can be slow. Use fallback: true or 'blocking' to generate only popular pages at build time and generate others on-demand. This approach balances build time performance with user experience.
+   </p>
+   
+   <div style="padding: 16px; background-color: #fff3cd; border-radius: 8px; margin-top: 1rem;">
+      <p style="margin: 0; font-weight: 600; color: #856404;">
+      💡 Pro Tip: For large datasets, consider generating paths for popular content only and using fallback for the rest.
+      </p>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Nested Dynamic Routes
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     getStaticPaths works with nested dynamic routes like [category]/[product].js. You need to return all parameter combinations for the nested structure.
+   </p>
+</div>`,
+            examples: [
+              `// Basic Example - Blog Posts
+// File: pages/posts/[slug].js
+export async function getStaticPaths() {
+  const posts = await fetch('https://api.example.com/posts')
+    .then(res => res.json())
+  
+  const paths = posts.map((post) => ({
+    params: { slug: post.slug },
+  }))
+  
+  return {
+    paths,
+    fallback: false, // 404 for non-existent posts
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const post = await fetch(\`https://api.example.com/posts/\${params.slug}\`)
+    .then(res => res.json())
+  
+  return {
+    props: { post },
+  }
+}`,
+              `// Fallback True Example - Large Dataset
+export async function getStaticPaths() {
+  // Only pre-render top 100 popular products
+  const popularProducts = await fetchPopularProducts(100)
+  
+  const paths = popularProducts.map((product) => ({
+    params: { id: product.id.toString() },
+  }))
+  
+  return {
+    paths,
+    fallback: true, // Enable ISR for other products
+  }
+}
+
+// Handle fallback in component
+function Product({ product }) {
+  const router = useRouter()
+  
+  if (router.isFallback) {
+    return <div>Loading...</div>
+  }
+  
+  return <div>{product.name}</div>
+}`,
+              `// Nested Dynamic Routes
+// File: pages/[category]/[product].js
+export async function getStaticPaths() {
+  const categories = await fetchCategories()
+  const paths = []
+  
+  for (const category of categories) {
+    const products = await fetchProductsByCategory(category.slug)
+    
+    for (const product of products) {
+      paths.push({
+        params: {
+          category: category.slug,
+          product: product.slug,
+        },
+      })
+    }
+  }
+  
+  return {
+    paths,
+    fallback: 'blocking',
+  }
+}`,
+              `// Internationalization Support
+export async function getStaticPaths({ locales }) {
+  const posts = await fetchPosts()
+  const paths = []
+  
+  for (const locale of locales) {
+    for (const post of posts) {
+      paths.push({
+        params: { slug: post.slug },
+        locale,
+      })
+    }
+  }
+  
+  return {
+    paths,
+    fallback: false,
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between fallback: true and fallback: 'blocking'?",
+                solution:
+                  "<p>With fallback: true, Next.js immediately serves a fallback page (loading state) while generating the real page in the background. Users see a loading indicator first, then the content. With fallback: 'blocking', Next.js waits to serve the page until it's fully generated server-side. Users wait longer but see the complete page immediately.</p>",
+              },
+              {
+                question:
+                  "How do you handle fallback states in your React component?",
+                solution:
+                  "<p>Use the useRouter hook to check router.isFallback. When true, render a loading state. Once the page is generated and props are available, isFallback becomes false and your component renders with real data. This pattern ensures good UX during fallback page generation.</p>",
+              },
+              {
+                question:
+                  "Can you use getStaticPaths with catch-all routes like [...slug].js?",
+                solution:
+                  "<p>Yes, getStaticPaths works with catch-all routes. For [...slug].js, return params as { slug: ['path', 'segments'] } array. For optional catch-all routes [[...slug]].js, include an empty params object { slug: undefined } to generate the base route without parameters.</p>",
+              },
+              {
+                question:
+                  "How do you optimize build time for sites with thousands of dynamic pages?",
+                solution:
+                  "<p>Use fallback: true or 'blocking' and only generate critical or popular pages at build time. Implement a strategy to identify high-traffic pages (analytics data, content popularity) and generate those statically. Let less popular pages generate on-demand with ISR for future requests.</p>",
+              },
+              {
+                question:
+                  "When should you choose getServerSideProps over getStaticProps?",
+                solution:
+                  "<p>Choose getServerSideProps when you need request-specific data (user authentication, location, search queries), when data changes frequently and must be fresh on every request, when you need access to request headers/cookies, or when content is highly personalized. Use getStaticProps for content that can be pre-generated and doesn't require request-time data.</p>",
+              },
+              {
+                question:
+                  "How can you implement caching with getServerSideProps?",
+                solution:
+                  "<p>Set cache headers using res.setHeader() to cache responses at the CDN/browser level. Use 'Cache-Control' with 's-maxage' for CDN caching and 'max-age' for browser caching. Implement stale-while-revalidate for better performance. For server-side caching, use Redis or memory caching to store API responses between requests.</p>",
+              },
+              {
+                question:
+                  "How do you handle authentication in getServerSideProps?",
+                solution:
+                  "<p>Check for authentication tokens in cookies or headers, verify JWT tokens server-side, redirect unauthorized users using the redirect property, or return notFound: true for protected resources. You can also set authentication context and pass user data as props to the component.</p>",
+              },
+              {
+                question:
+                  "What's the performance impact of getServerSideProps?",
+                solution:
+                  "<p>getServerSideProps increases Time to First Byte (TTFB) as the server must fetch data and render HTML on every request. This can be mitigated with caching strategies, optimizing API calls, using CDN caching, and ensuring your server infrastructure can handle the load. Consider if the fresh data is worth the performance trade-off.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props",
+              "https://nextjs.org/docs/authentication",
+            ],
+          },
+          {
+            topic: "Client-side fetching with useEffect and SWR",
+            tags: [
+              "Client-side",
+              "useEffect",
+              "SWR",
+              "Data Fetching",
+              "Caching",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Client-side data fetching allows you to fetch data after the initial page load, directly in the browser. This approach is ideal for user interactions, private data that doesn't need SEO, and data that updates frequently. Next.js provides excellent support for client-side fetching through React hooks and libraries like SWR.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     useEffect for Data Fetching
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Component Mount:</span> Data is fetched after the component mounts in the browser.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">State Management:</span> Use useState to manage loading, data, and error states.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cleanup:</span> Clean up subscriptions and cancel requests in useEffect cleanup.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dependencies:</span> Control when data is re-fetched using useEffect dependencies.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SWR (Stale-While-Revalidate)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     SWR is a powerful React data fetching library developed by Vercel. It implements the stale-while-revalidate caching strategy, providing features like automatic revalidation, caching, deduplication, and error handling out of the box.
+   </p>
+   
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+// Basic SWR usage
+import useSWR from 'swr'
+
+const fetcher = (url) => fetch(url).then(res => res.json())
+
+function Profile() {
+  const { data, error, isLoading } = useSWR('/api/user', fetcher)
+  
+  if (error) return <div>Failed to load</div>
+  if (isLoading) return <div>Loading...</div>
+  return <div>Hello {data.name}!</div>
+}
+      </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SWR Key Features
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Caching:</span> Caches responses and serves stale data while fetching fresh data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Request Deduplication:</span> Multiple components requesting the same data trigger only one request.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Focus Revalidation:</span> Automatically revalidates data when the user refocuses the window.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Network Recovery:</span> Revalidates data when network connection is restored.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Mutation Support:</span> Built-in optimistic updates and data mutation capabilities.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TypeScript Support:</span> Full TypeScript support with type inference.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Client-side Fetching
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Interactions:</span> Data fetched in response to user actions (clicks, form submissions).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Private Dashboards:</span> User-specific data that doesn't need SEO indexing.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Real-time Updates:</span> Live data that updates frequently (chat, notifications).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Progressive Enhancement:</span> Loading additional content after initial page render.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Infinite Scrolling:</span> Paginated content loaded as user scrolls.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced SWR Features
+   </h4>
+   
+   <div style="padding: 16px; background-color: #e1f5fe; border-radius: 8px; margin-top: 1rem;">
+      <h5 style="margin: 0 0 0.5rem 0; font-weight: 600;">Global Configuration</h5>
+      <p style="margin: 0; font-size: 0.9rem;">
+      Configure SWR globally using SWRConfig provider to set default options like fetcher, error retry logic, and revalidation intervals across your entire application.
+      </p>
+   </div>
+   
+   <div style="padding: 16px; background-color: #f3e5f5; border-radius: 8px; margin-top: 1rem;">
+      <h5 style="margin: 0 0 0.5rem 0; font-weight: 600;">Optimistic Updates</h5>
+      <p style="margin: 0; font-size: 0.9rem;">
+      Use the mutate function to update cached data optimistically, providing immediate feedback to users while the actual API call happens in the background.
+      </p>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Preload Data:</span> Use SWR's preload function to fetch data before components mount.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Conditional Fetching:</span> Only fetch data when needed using conditional SWR calls.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Boundaries:</span> Implement proper error handling and fallback UI components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Loading States:</span> Provide clear loading indicators and skeleton screens.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Basic useEffect Data Fetching
+import { useState, useEffect } from 'react'
+
+function UserProfile() {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        setLoading(true)
+        const response = await fetch('/api/user')
+        if (!response.ok) {
+          throw new Error('Failed to fetch user')
+        }
+        const userData = await response.json()
+        setUser(userData)
+      } catch (err) {
+        setError(err.message)
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    fetchUser()
+  }, []) // Empty dependency array - fetch once on mount
+  
+  if (loading) return <div>Loading...</div>
+  if (error) return <div>Error: {error}</div>
+  if (!user) return <div>No user found</div>
+  
+  return (
+    <div>
+      <h1>{user.name}</h1>
+      <p>{user.email}</p>
+    </div>
+  )
+}`,
+              `// SWR Basic Usage
+import useSWR from 'swr'
+
+const fetcher = (url) => fetch(url).then(res => res.json())
+
+function Posts() {
+  const { data: posts, error, isLoading } = useSWR('/api/posts', fetcher)
+  
+  if (error) return <div>Failed to load posts</div>
+  if (isLoading) return <div>Loading posts...</div>
+  
+  return (
+    <div>
+      {posts.map(post => (
+        <article key={post.id}>
+          <h2>{post.title}</h2>
+          <p>{post.excerpt}</p>
+        </article>
+      ))}
+    </div>
+  )
+}`,
+              `// SWR with Configuration and Error Handling
+import useSWR from 'swr'
+
+const fetcher = async (url) => {
+  const res = await fetch(url)
+  if (!res.ok) {
+    const error = new Error('An error occurred while fetching the data.')
+    error.info = await res.json()
+    error.status = res.status
+    throw error
+  }
+  return res.json()
+}
+
+function Dashboard() {
+  const { data, error, isLoading, mutate } = useSWR(
+    '/api/dashboard', 
+    fetcher,
+    {
+      refreshInterval: 60000, // Refresh every minute
+      revalidateOnFocus: true,
+      errorRetryCount: 3,
+      onError: (error) => {
+        console.error('Dashboard fetch error:', error)
+      }
+    }
+  )
+  
+  const refreshData = () => {
+    mutate() // Manually trigger revalidation
+  }
+  
+  if (error) return (
+    <div>
+      <p>Error loading dashboard: {error.message}</p>
+      <button onClick={refreshData}>Retry</button>
+    </div>
+  )
+  
+  return (
+    <div>
+      <button onClick={refreshData} disabled={isLoading}>
+        {isLoading ? 'Refreshing...' : 'Refresh'}
+      </button>
+      {/* Render dashboard content */}
+    </div>
+  )
+}`,
+              `// SWR with Mutations and Optimistic Updates
+import useSWR, { mutate } from 'swr'
+
+function TodoList() {
+  const { data: todos, error } = useSWR('/api/todos', fetcher)
+  
+  const addTodo = async (text) => {
+    const newTodo = { id: Date.now(), text, completed: false }
+    
+    // Optimistic update
+    mutate('/api/todos', [...todos, newTodo], false)
+    
+    try {
+      // Make API call
+      await fetch('/api/todos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      })
+      
+      // Revalidate to get the actual data from server
+      mutate('/api/todos')
+    } catch (error) {
+      // Revert optimistic update on error
+      mutate('/api/todos', todos, false)
+      alert('Failed to add todo')
+    }
+  }
+  
+  const toggleTodo = async (id) => {
+    const updatedTodos = todos.map(todo => 
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    )
+    
+    mutate('/api/todos', updatedTodos, false)
+    
+    try {
+      await fetch(\`/api/todos/\${id}\`, { method: 'PATCH' })
+      mutate('/api/todos')
+    } catch (error) {
+      mutate('/api/todos', todos, false)
+    }
+  }
+  
+  return (
+    <div>
+      {todos?.map(todo => (
+        <div key={todo.id} onClick={() => toggleTodo(todo.id)}>
+          {todo.text} {todo.completed ? '✓' : '○'}
+        </div>
+      ))}
+    </div>
+  )
+}`,
+              `// Global SWR Configuration
+import { SWRConfig } from 'swr'
+
+const fetcher = (url) => fetch(url).then(res => res.json())
+
+function App({ Component, pageProps }) {
+  return (
+    <SWRConfig 
+      value={{
+        fetcher,
+        errorRetryCount: 3,
+        errorRetryInterval: 1000,
+        revalidateOnFocus: true,
+        revalidateOnReconnect: true,
+        refreshInterval: 0,
+        dedupingInterval: 2000,
+        onError: (error, key) => {
+          if (error.status !== 403 && error.status !== 404) {
+            // Send error to logging service
+            console.error(\`SWR Error for \${key}:\`, error)
+          }
+        }
+      }}
+    >
+      <Component {...pageProps} />
+    </SWRConfig>
+  )
+}`,
+              `// Conditional Fetching with SWR
+function UserPosts({ userId }) {
+  // Only fetch if userId is provided
+  const { data: posts } = useSWR(
+    userId ? \`/api/users/\${userId}/posts\` : null, 
+    fetcher
+  )
+  
+  // Fetch user details and posts conditionally
+  const { data: user } = useSWR(\`/api/users/\${userId}\`, fetcher)
+  const { data: userPosts } = useSWR(
+    user && user.hasPublicPosts ? \`/api/users/\${userId}/public-posts\` : null,
+    fetcher
+  )
+  
+  return (
+    <div>
+      {user && <h1>{user.name}'s Posts</h1>}
+      {userPosts?.map(post => (
+        <div key={post.id}>{post.title}</div>
+      ))}
+    </div>
+  )
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "When should you use getStaticProps over other data fetching methods?",
+                solution:
+                  "<p>Use getStaticProps when your data doesn't change frequently, when you want the best performance and SEO, when you can pre-render pages at build time, and when your data comes from a CMS, database, or API that can be accessed at build time. It's ideal for blogs, marketing pages, documentation, and e-commerce product catalogs.</p>",
+              },
+              {
+                question:
+                  "What's the difference between getStaticProps with and without ISR?",
+                solution:
+                  "<p>Without ISR, getStaticProps generates static pages only at build time. With ISR (revalidate option), Next.js can regenerate pages in the background after deployment, allowing you to update static content without rebuilding the entire site. ISR provides a balance between static performance and dynamic content updates.</p>",
+              },
+              {
+                question:
+                  "Can getStaticProps access browser APIs or user-specific data?",
+                solution:
+                  "<p>No, getStaticProps runs at build time on the server, not in the browser. It cannot access browser APIs, user sessions, or request-specific data like cookies or headers. For user-specific data, use getServerSideProps or client-side fetching instead.</p>",
+              },
+              {
+                question: "How does error handling work in getStaticProps?",
+                solution:
+                  "<p>You can handle errors by returning redirect or notFound properties. Use try-catch blocks to handle API failures gracefully. Return notFound: true for 404 errors, redirect to an error page for critical failures, or provide fallback data to ensure the page still renders.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/get-static-props",
+              "https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration",
+            ],
+          },
+          {
+            topic: "getServerSideProps",
+            tags: [
+              "SSR",
+              "Server-Side Rendering",
+              "Request Time",
+              "Dynamic Data",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     getServerSideProps enables Server-Side Rendering (SSR) in Next.js. Unlike getStaticProps which runs at build time, getServerSideProps runs on every request on the server-side. This is ideal for pages that need request-specific data or frequently changing content.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How getServerSideProps Works
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Request Time Execution:</span> Runs on every request, not at build time.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Server-Side Only:</span> Has access to request object, headers, cookies, and server-side APIs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Pre-rendering:</span> Page is rendered on the server before being sent to the client.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SEO Benefits:</span> Content is available to search engines and social media crawlers.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Syntax and Context Object
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+export async function getServerSideProps(context) {
+  const { req, res, query, params, preview, previewData } = context
+  
+  return {
+    props: {}, // Will be passed to the page component as props
+    redirect: {}, // Optional: redirect to another page
+    notFound: false, // Optional: return 404 page
+  }
+}
+      </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Context Object Properties
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">req:</span> HTTP IncomingMessage object with headers, cookies, and body.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">res:</span> HTTP response object for setting headers and status codes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">query:</span> Query string parameters and dynamic route parameters.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">params:</span> Route parameters for dynamic routes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">preview:</span> Boolean indicating if the page is in preview mode.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">locale:</span> Active locale (if i18n is enabled).
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for getServerSideProps
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Dashboards:</span> Personalized content that requires authentication.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Real-time Data:</span> Stock prices, live sports scores, or social media feeds.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Location-based Content:</span> Content that varies based on user's geographic location.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Search Results:</span> Dynamic search pages with query-dependent results.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">A/B Testing:</span> Serving different content variants based on user segments.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Considerations
+   </h4>
+   <div style="padding: 16px; background-color: #fff3cd; border-radius: 8px; margin-top: 1rem;">
+      <p style="margin: 0; font-weight: 600; color: #856404;">
+      ⚠️ Performance Impact: getServerSideProps adds server processing time to every request. Use caching strategies and consider if the data really needs to be fetched on every request.
+      </p>
+   </div>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     SSR pages have slower Time to First Byte (TTFB) compared to static pages, but they provide fresh data and better SEO for dynamic content. Consider using ISR with getStaticProps if your data doesn't change on every request.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Authentication and Authorization
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     getServerSideProps is perfect for implementing server-side authentication checks. You can verify JWT tokens, check session cookies, or redirect unauthorized users before rendering the page.
+   </p>
+   
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+export async function getServerSideProps({ req, res }) {
+  const token = req.cookies.authToken
+  
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+  
+  // Verify token and fetch user data
+  const user = await verifyToken(token)
+  return { props: { user } }
+}
+      </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `// Basic Example - User Dashboard
+export async function getServerSideProps({ req }) {
+  // Get user from session/cookie
+  const session = await getSession(req)
+  
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+  
+  // Fetch user-specific data
+  const userData = await fetchUserData(session.userId)
+  
+  return {
+    props: {
+      user: session.user,
+      userData,
+    },
+  }
+}
+
+function Dashboard({ user, userData }) {
+  return (
+    <div>
+      <h1>Welcome back, {user.name}!</h1>
+      <div>{/* Render user-specific content */}</div>
+    </div>
+  )
+}`,
+              `// Search Results Page
+export async function getServerSideProps({ query }) {
+  const { q: searchTerm, page = 1 } = query
+  
+  if (!searchTerm) {
+    return {
+      props: {
+        results: [],
+        searchTerm: '',
+        totalPages: 0,
+      },
+    }
+  }
+  
+  const searchResults = await searchAPI(searchTerm, page)
+  
+  return {
+    props: {
+      results: searchResults.data,
+      searchTerm,
+      currentPage: parseInt(page),
+      totalPages: searchResults.totalPages,
+    },
+  }
+}
+
+function SearchResults({ results, searchTerm, currentPage, totalPages }) {
+  return (
+    <div>
+      <h1>Search results for "{searchTerm}"</h1>
+      {results.map(result => (
+        <div key={result.id}>{result.title}</div>
+      ))}
+      {/* Pagination component */}
+    </div>
+  )
+}`,
+              `// Location-based Content
+export async function getServerSideProps({ req }) {
+  // Get user's IP address
+  const forwarded = req.headers["x-forwarded-for"]
+  const ip = forwarded ? forwarded.split(',')[0] : req.connection.remoteAddress
+  
+  // Get location from IP
+  const location = await getLocationFromIP(ip)
+  
+  // Fetch location-specific content
+  const localContent = await fetchLocalContent(location.country, location.city)
+  
+  return {
+    props: {
+      location,
+      localContent,
+    },
+  }
+}`,
+              `// Real-time Data with Caching
+export async function getServerSideProps({ res }) {
+  // Set cache headers for 30 seconds
+  res.setHeader('Cache-Control', 'public, s-maxage=30, stale-while-revalidate=60')
+  
+  // Fetch real-time data
+  const stockPrices = await fetchStockPrices()
+  const newsUpdates = await fetchLatestNews()
+  
+  return {
+    props: {
+      stockPrices,
+      newsUpdates,
+      lastUpdated: new Date().toISOString(),
+    },
+  }
+}`,
+              `// A/B Testing Implementation
+export async function getServerSideProps({ req, query }) {
+  // Get or create user segment
+  const userSegment = req.cookies.userSegment || assignUserSegment()
+  
+  // Set cookie for future requests
+  if (!req.cookies.userSegment) {
+    // Note: In real implementation, you'd set this via res.setHeader
+    // This is just for illustration
+  }
+  
+  // Fetch variant-specific content
+  const variant = userSegment === 'A' ? 'original' : 'experimental'
+  const pageContent = await fetchPageContent(variant)
+  
+  return {
+    props: {
+      variant,
+      content: pageContent,
+    },
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "When should you use getStaticProps over other data fetching methods?",
+                solution:
+                  "<p>Use getStaticProps when your data doesn't change frequently, when you want the best performance and SEO, when you can pre-render pages at build time, and when your data comes from a CMS, database, or API that can be accessed at build time. It's ideal for blogs, marketing pages, documentation, and e-commerce product catalogs.</p>",
+              },
+              {
+                question:
+                  "What's the difference between getStaticProps with and without ISR?",
+                solution:
+                  "<p>Without ISR, getStaticProps generates static pages only at build time. With ISR (revalidate option), Next.js can regenerate pages in the background after deployment, allowing you to update static content without rebuilding the entire site. ISR provides a balance between static performance and dynamic content updates.</p>",
+              },
+              {
+                question:
+                  "Can getStaticProps access browser APIs or user-specific data?",
+                solution:
+                  "<p>No, getStaticProps runs at build time on the server, not in the browser. It cannot access browser APIs, user sessions, or request-specific data like cookies or headers. For user-specific data, use getServerSideProps or client-side fetching instead.</p>",
+              },
+              {
+                question: "How does error handling work in getStaticProps?",
+                solution:
+                  "<p>You can handle errors by returning redirect or notFound properties. Use try-catch blocks to handle API failures gracefully. Return notFound: true for 404 errors, redirect to an error page for critical failures, or provide fallback data to ensure the page still renders.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/get-static-props",
+              "https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration",
+            ],
+          },
         ],
       },
       {
         id: 2,
-        label: "Advance",
+        label: "Advanced",
         concepts: [],
       },
     ],
@@ -30357,7 +34291,7 @@ class Container {
   {
     id: 6,
     category: "AWS S3",
-    themeBgColor: "#FFEAF0",
+    themeBgColor: "#FFEAF0"  ,
     textColor: "#4A0A14",
     topicColor: "#4A0A14",
     lightColor: "#FFEAF0",
