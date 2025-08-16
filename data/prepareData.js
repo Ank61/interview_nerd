@@ -31367,12 +31367,17005 @@ export async function getServerSideProps({ req, query }) {
               "https://nextjs.org/docs/basic-features/data-fetching/incremental-static-regeneration",
             ],
           },
+          {
+            topic: "Creating API Endpoints in pages/api",
+            tags: ["API Routes", "Backend", "Server-side"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     API Routes in Next.js provide a solution to build API endpoints inside a Next.js application. Any file inside the <code>pages/api</code> directory is mapped to <code>/api/*</code> and will be treated as an API endpoint instead of a page. These are server-side only bundles and won't increase your client-side bundle size.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     File Structure and Routing
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">File-based Routing:</span> Files in pages/api automatically become API endpoints
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Routes:</span> Use [param].js for dynamic API routes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Nested Routes:</span> Create folders for organized endpoint structure
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Catch-all Routes:</span> Use [...param].js for flexible routing
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic API Route Structure
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/hello.js
+export default function handler(req, res) {
+  res.status(200).json({ message: 'Hello from Next.js API!' });
+}
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for API Routes
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Form Handling:</span> Process form submissions securely on the server
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Database Operations:</span> CRUD operations without exposing database credentials
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Authentication:</span> Login, logout, and user management endpoints
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Third-party API Integration:</span> Proxy requests to external services
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">File Uploads:</span> Handle file uploads and processing
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Webhooks:</span> Receive and process webhook data from external services
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dynamic API Routes Example
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/users/[id].js
+export default function handler(req, res) {
+  const { id } = req.query;
+  
+  if (req.method === 'GET') {
+    // Fetch user by ID
+    res.status(200).json({ userId: id, name: 'John Doe' });
+  } else if (req.method === 'DELETE') {
+    // Delete user by ID
+    res.status(200).json({ message: \`User \${id} deleted\` });
+  } else {
+    res.setHeader('Allow', ['GET', 'DELETE']);
+    res.status(405).end(\`Method \${req.method} Not Allowed\`);
+  }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Catch-all API Routes
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/posts/[...slug].js
+export default function handler(req, res) {
+  const { slug } = req.query;
+  
+  // slug will be an array like ['2023', '12', 'my-post']
+  // for /api/posts/2023/12/my-post
+  
+  res.status(200).json({ 
+    path: slug.join('/'),
+    segments: slug 
+  });
+}
+      </code></pre>
+  </div>
+</div>
+`,
+            examples: [
+              `// Basic API endpoint
+// pages/api/hello.js
+export default function handler(req, res) {
+  res.status(200).json({ message: 'Hello World!' });
+}
+
+// Dynamic API route
+// pages/api/products/[id].js
+export default function handler(req, res) {
+  const { id } = req.query;
+  res.status(200).json({ productId: id });
+}
+
+// Nested API route
+// pages/api/auth/login.js
+export default function handler(req, res) {
+  if (req.method === 'POST') {
+    const { email, password } = req.body;
+    // Authentication logic
+    res.status(200).json({ token: 'jwt-token' });
+  }
+}`,
+            ],
+            questions: [
+              {
+                question: "How do you create a basic API route in Next.js?",
+                solution:
+                  "<p>Create a JavaScript file in the pages/api directory. The file should export a default function that takes req and res parameters. For example, pages/api/hello.js will be accessible at /api/hello endpoint.</p>",
+              },
+              {
+                question:
+                  "What is the difference between static and dynamic API routes?",
+                solution:
+                  "<p>Static API routes have fixed paths (e.g., pages/api/users.js maps to /api/users), while dynamic API routes use brackets for parameters (e.g., pages/api/users/[id].js maps to /api/users/:id). Dynamic routes allow you to capture URL parameters in the req.query object.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/api-routes/introduction",
+              "https://nextjs.org/docs/api-routes/dynamic-api-routes",
+              "https://nextjs.org/learn/basics/api-routes",
+            ],
+          },
+          {
+            topic: "Request Handling (req, res)",
+            tags: ["HTTP Methods", "Request Object", "Response Object"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js API routes receive two main parameters: <code>req</code> (request) and <code>res</code> (response). The request object contains information about the HTTP request, while the response object is used to send data back to the client. Understanding these objects is crucial for building robust API endpoints.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Request Object (req) Properties
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">req.method:</span> HTTP method (GET, POST, PUT, DELETE, etc.)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">req.query:</span> Query string parameters and dynamic route parameters
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">req.body:</span> Request body (parsed automatically for JSON)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">req.headers:</span> Request headers
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">req.cookies:</span> Request cookies
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">req.url:</span> The URL string of the request
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Response Object (res) Methods
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">res.status(code):</span> Set the status code
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">res.json(object):</span> Send a JSON response
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">res.send(data):</span> Send a response
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">res.redirect(url):</span> Redirect the request
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">res.setHeader(name, value):</span> Set response headers
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">res.end():</span> End the response process
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     HTTP Method Handling Example
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/users.js
+export default function handler(req, res) {
+  switch (req.method) {
+    case 'GET':
+      // Handle GET request
+      return res.status(200).json({ users: [] });
+      
+    case 'POST':
+      // Handle POST request
+      const { name, email } = req.body;
+      const newUser = { id: 1, name, email };
+      return res.status(201).json(newUser);
+      
+    case 'PUT':
+      // Handle PUT request
+      return res.status(200).json({ message: 'User updated' });
+      
+    case 'DELETE':
+      // Handle DELETE request
+      return res.status(200).json({ message: 'User deleted' });
+      
+    default:
+      res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+      return res.status(405).end(\`Method \${req.method} Not Allowed\`);
+  }
+}
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Request Body Parsing
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/contact.js
+export default function handler(req, res) {
+  if (req.method === 'POST') {
+    const { name, email, message } = req.body;
+    
+    // Validation
+    if (!name || !email || !message) {
+      return res.status(400).json({ 
+        error: 'Missing required fields' 
+      });
+    }
+    
+    // Process the form data
+    console.log('Contact form submission:', { name, email, message });
+    
+    return res.status(200).json({ 
+      success: true, 
+      message: 'Form submitted successfully' 
+    });
+  }
+  
+  return res.status(405).json({ error: 'Method not allowed' });
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Working with Query Parameters
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/search.js
+export default function handler(req, res) {
+  const { q, limit = 10, page = 1 } = req.query;
+  
+  if (!q) {
+    return res.status(400).json({ 
+      error: 'Search query is required' 
+    });
+  }
+  
+  // Mock search results
+  const results = {
+    query: q,
+    page: parseInt(page),
+    limit: parseInt(limit),
+    results: [
+      { id: 1, title: \`Result for "\${q}"\` },
+      { id: 2, title: \`Another result for "\${q}"\` },
+    ]
+  };
+  
+  return res.status(200).json(results);
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Headers and Cookies
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/auth/check.js
+export default function handler(req, res) {
+  const { authorization } = req.headers;
+  const { token } = req.cookies;
+  
+  if (!authorization && !token) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  
+  // Set custom headers
+  res.setHeader('X-API-Version', '1.0');
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  
+  // Set cookies
+  res.setHeader('Set-Cookie', [
+    'sessionId=abc123; HttpOnly; Secure; SameSite=Strict',
+    'theme=dark; Max-Age=86400'
+  ]);
+  
+  return res.status(200).json({ 
+    authenticated: true,
+    user: { id: 1, name: 'John Doe' }
+  });
+}
+      </code></pre>
+  </div>
+</div>
+`,
+            examples: [
+              `// Complete CRUD API endpoint
+// pages/api/posts/[id].js
+export default function handler(req, res) {
+  const { id } = req.query;
+  
+  switch (req.method) {
+    case 'GET':
+      return res.status(200).json({ 
+        id, 
+        title: 'Sample Post',
+        content: 'Post content...' 
+      });
+      
+    case 'PUT':
+      const { title, content } = req.body;
+      return res.status(200).json({ 
+        id, 
+        title, 
+        content,
+        updatedAt: new Date().toISOString()
+      });
+      
+    case 'DELETE':
+      return res.status(200).json({ 
+        message: \`Post \${id} deleted successfully\`
+      });
+      
+    default:
+      res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
+      return res.status(405).end(\`Method \${req.method} Not Allowed\`);
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you handle different HTTP methods in a Next.js API route?",
+                solution:
+                  "<p>Use req.method to check the HTTP method and handle each case accordingly. It's common to use a switch statement or if-else conditions to route different methods to different logic blocks. Always return appropriate status codes and set Allow headers for unsupported methods.</p>",
+              },
+              {
+                question:
+                  "What's the difference between req.query and req.body?",
+                solution:
+                  "<p>req.query contains URL parameters (both query string parameters like ?name=value and dynamic route parameters like [id]), while req.body contains the data sent in the request body, typically from POST, PUT, or PATCH requests. Next.js automatically parses JSON request bodies.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/api-routes/request-helpers",
+              "https://nextjs.org/docs/api-routes/response-helpers",
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods",
+            ],
+          },
+          {
+            topic: "Organizing Backend Logic",
+            tags: ["Code Organization", "Architecture", "Best Practices"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     As your Next.js application grows, organizing your backend logic becomes crucial for maintainability, scalability, and code reusability. Proper organization involves separating concerns, creating reusable utilities, implementing middleware patterns, and structuring your API routes logically.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Directory Structure Best Practices
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Logical Grouping:</span> Group related API routes in folders
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Utilities Folder:</span> Create a lib/ or utils/ folder for reusable functions
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Database Layer:</span> Separate database logic from API handlers
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Middleware:</span> Create reusable middleware functions
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Constants:</span> Store constants and configurations separately
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Recommended Folder Structure
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+project/
+├── pages/
+│   └── api/
+│       ├── auth/
+│       │   ├── login.js
+│       │   ├── register.js
+│       │   └── logout.js
+│       ├── users/
+│       │   ├── index.js
+│       │   ├── [id].js
+│       │   └── profile.js
+│       └── posts/
+│           ├── index.js
+│           └── [id].js
+├── lib/
+│   ├── db.js
+│   ├── auth.js
+│   ├── validation.js
+│   └── middleware.js
+├── models/
+│   ├── User.js
+│   └── Post.js
+└── constants/
+    └── index.js
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Database Abstraction Layer
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// lib/db.js
+import mongoose from 'mongoose';
+
+const connectDB = async () => {
+  if (mongoose.connections[0].readyState) {
+    return;
+  }
+  
+  try {
+    await mongoose.connect(process.env.MONGODB_URI);
+    console.log('MongoDB connected');
+  } catch (error) {
+    console.error('Database connection error:', error);
+    process.exit(1);
+  }
+};
+
+export default connectDB;
+
+// lib/userService.js
+import User from '../models/User';
+import connectDB from './db';
+
+export class UserService {
+  static async createUser(userData) {
+    await connectDB();
+    const user = new User(userData);
+    return await user.save();
+  }
+  
+  static async getUserById(id) {
+    await connectDB();
+    return await User.findById(id);
+  }
+  
+  static async updateUser(id, updates) {
+    await connectDB();
+    return await User.findByIdAndUpdate(id, updates, { new: true });
+  }
+  
+  static async deleteUser(id) {
+    await connectDB();
+    return await User.findByIdAndDelete(id);
+  }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Middleware Pattern Implementation
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// lib/middleware.js
+export function withAuth(handler) {
+  return async (req, res) => {
+    const token = req.headers.authorization?.replace('Bearer ', '');
+    
+    if (!token) {
+      return res.status(401).json({ error: 'No token provided' });
+    }
+    
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      return handler(req, res);
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid token' });
+    }
+  };
+}
+
+export function withValidation(schema) {
+  return (handler) => {
+    return async (req, res) => {
+      try {
+        await schema.validate(req.body);
+        return handler(req, res);
+      } catch (error) {
+        return res.status(400).json({ error: error.message });
+      }
+    };
+  };
+}
+
+export function withErrorHandling(handler) {
+  return async (req, res) => {
+    try {
+      return await handler(req, res);
+    } catch (error) {
+      console.error('API Error:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+  };
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Organized Structure in API Routes
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/users/[id].js
+import { UserService } from '../../../lib/userService';
+import { withAuth, withErrorHandling } from '../../../lib/middleware';
+import { userUpdateSchema } from '../../../lib/validation';
+
+async function handler(req, res) {
+  const { id } = req.query;
+  
+  switch (req.method) {
+    case 'GET':
+      const user = await UserService.getUserById(id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+      return res.status(200).json(user);
+      
+    case 'PUT':
+      await userUpdateSchema.validate(req.body);
+      const updatedUser = await UserService.updateUser(id, req.body);
+      return res.status(200).json(updatedUser);
+      
+    case 'DELETE':
+      await UserService.deleteUser(id);
+      return res.status(200).json({ message: 'User deleted successfully' });
+      
+    default:
+      res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
+      return res.status(405).end(\`Method \${req.method} Not Allowed\`);
+  }
+}
+
+export default withAuth(withErrorHandling(handler));
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Validation and Constants
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// lib/validation.js
+import * as Yup from 'yup';
+
+export const userCreateSchema = Yup.object({
+  name: Yup.string().required('Name is required'),
+  email: Yup.string().email('Invalid email').required('Email is required'),
+  password: Yup.string().min(6, 'Password must be at least 6 characters'),
+});
+
+export const userUpdateSchema = Yup.object({
+  name: Yup.string(),
+  email: Yup.string().email('Invalid email'),
+});
+
+// constants/index.js
+export const API_ROUTES = {
+  USERS: '/api/users',
+  AUTH: '/api/auth',
+  POSTS: '/api/posts',
+};
+
+export const HTTP_STATUS = {
+  OK: 200,
+  CREATED: 201,
+  BAD_REQUEST: 400,
+  UNAUTHORIZED: 401,
+  NOT_FOUND: 404,
+  INTERNAL_ERROR: 500,
+};
+
+export const ERROR_MESSAGES = {
+  UNAUTHORIZED: 'Unauthorized access',
+  NOT_FOUND: 'Resource not found',
+  VALIDATION_ERROR: 'Validation failed',
+  INTERNAL_ERROR: 'Internal server error',
+};
+      </code></pre>
+  </div>
+</div>
+`,
+            examples: [
+              `// Organized API route with middleware
+// pages/api/protected-route.js
+import { withAuth, withErrorHandling } from '../../lib/middleware';
+
+async function handler(req, res) {
+  // This handler only runs if user is authenticated
+  return res.status(200).json({ 
+    message: 'Protected data',
+    user: req.user 
+  });
+}
+
+export default withAuth(withErrorHandling(handler));
+
+// Service layer example
+// lib/postService.js
+export class PostService {
+  static async getAllPosts() {
+    // Database logic here
+    return posts;
+  }
+  
+  static async createPost(data) {
+    // Validation and creation logic
+    return newPost;
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why is it important to organize backend logic in Next.js?",
+                solution:
+                  "<p>Organizing backend logic improves code maintainability, reusability, and testability. It separates concerns, makes debugging easier, enables code reuse across multiple API routes, and helps teams collaborate more effectively. Proper organization also makes it easier to implement consistent error handling, validation, and authentication patterns.</p>",
+              },
+              {
+                question:
+                  "How do you implement middleware patterns in Next.js API routes?",
+                solution:
+                  "<p>Create higher-order functions that wrap your API handlers. These functions can handle cross-cutting concerns like authentication, error handling, and validation. Use function composition to apply multiple middleware layers to a single handler, enabling reusable and modular code architecture.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/api-routes/api-middlewares",
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://github.com/vercel/next.js/tree/canary/examples/api-routes",
+            ],
+          },
+          {
+            topic: "Using Environment Variables (.env.local)",
+            tags: ["Configuration", "Security", "Environment Management"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Environment variables in Next.js allow you to store configuration values, API keys, database URLs, and other sensitive information outside of your codebase. Next.js provides built-in support for loading environment variables from <code>.env.local</code> and other environment files, making it easy to manage different configurations for development, staging, and production environments.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Environment Files Priority Order
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">.env.local:</span> Always loaded (should be in .gitignore)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">.env.development:</span> Loaded in development mode
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">.env.production:</span> Loaded in production mode
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">.env:</span> Default environment file
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Server-side vs Client-side Variables
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Server-side Only:</span> Variables without NEXT_PUBLIC_ prefix are only available on the server
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client-side Exposed:</span> Variables with NEXT_PUBLIC_ prefix are exposed to the browser
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Never expose sensitive data with NEXT_PUBLIC_ prefix
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Example .env.local File
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+# Database Configuration
+DATABASE_URL=mongodb://localhost:27017/myapp
+DB_NAME=myapp_production
+
+# API Keys (Server-side only)
+STRIPE_SECRET_KEY=sk_test_...
+SENDGRID_API_KEY=SG.xyz...
+JWT_SECRET=your-super-secret-jwt-key
+
+# Third-party Service URLs
+REDIS_URL=redis://localhost:6379
+ELASTICSEARCH_URL=http://localhost:9200
+
+# Client-side Variables (Exposed to browser)
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+NEXT_PUBLIC_GA_TRACKING_ID=G-XXXXXXXXXX
+
+# Feature Flags
+ENABLE_ANALYTICS=true
+DEBUG_MODE=false
+
+# Environment
+NODE_ENV=development
+      </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Environment Variables in API Routes
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/database.js
+export default async function handler(req, res) {
+  // Server-side environment variables
+  const dbUrl = process.env.DATABASE_URL;
+  const jwtSecret = process.env.JWT_SECRET;
+  
+  if (!dbUrl) {
+    return res.status(500).json({ 
+      error: 'Database URL not configured' 
+    });
+  }
+  
+  try {
+    // Use environment variables for database connection
+    await connectToDatabase(dbUrl);
+    
+    const token = jwt.sign(
+      { userId: 123 }, 
+      jwtSecret, 
+      { expiresIn: '1h' }
+    );
+    
+    return res.status(200).json({ token });
+  } catch (error) {
+    console.error('Database connection failed:', error);
+    return res.status(500).json({ error: 'Connection failed' });
+  }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Configuration Management Pattern
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// lib/config.js
+const config = {
+  database: {
+    url: process.env.DATABASE_URL,
+    name: process.env.DB_NAME,
+  },
+  auth: {
+    jwtSecret: process.env.JWT_SECRET,
+    jwtExpiry: process.env.JWT_EXPIRY || '24h',
+  },
+  email: {
+    sendgridKey: process.env.SENDGRID_API_KEY,
+    fromAddress: process.env.FROM_EMAIL || 'noreply@example.com',
+  },
+  stripe: {
+    secretKey: process.env.STRIPE_SECRET_KEY,
+    webhookSecret: process.env.STRIPE_WEBHOOK_SECRET,
+  },
+  features: {
+    enableAnalytics: process.env.ENABLE_ANALYTICS === 'true',
+    debugMode: process.env.DEBUG_MODE === 'true',
+  },
+};
+
+// Validation function
+export function validateConfig() {
+  const required = [
+    'DATABASE_URL',
+    'JWT_SECRET',
+    'STRIPE_SECRET_KEY',
+  ];
+  
+  const missing = required.filter(key => !process.env[key]);
+  
+  if (missing.length > 0) {
+    throw new Error(\`Missing required environment variables: \${missing.join(', ')}\`);
+  }
+}
+
+export default config;
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Payment Processing Example
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/stripe/create-payment-intent.js
+import Stripe from 'stripe';
+import config from '../../../lib/config';
+
+const stripe = new Stripe(config.stripe.secretKey);
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+  
+  try {
+    const { amount, currency = 'usd' } = req.body;
+    
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: amount * 100, // Stripe uses cents
+      currency,
+      metadata: {
+        orderId: Date.now().toString(),
+      },
+    });
+    
+    return res.status(200).json({
+      clientSecret: paymentIntent.client_secret,
+    });
+  } catch (error) {
+    console.error('Stripe error:', error);
+    return res.status(500).json({ 
+      error: 'Payment processing failed' 
+    });
+  }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Database Connection with Environment Variables
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// lib/mongodb.js
+import { MongoClient } from 'mongodb';
+
+const uri = process.env.DATABASE_URL;
+const dbName = process.env.DB_NAME;
+
+if (!uri) {
+  throw new Error('Please add your MongoDB URI to .env.local');
+}
+
+let client;
+let clientPromise;
+
+if (process.env.NODE_ENV === 'development') {
+  // In development mode, use a global variable
+  if (!global._mongoClientPromise) {
+    client = new MongoClient(uri);
+    global._mongoClientPromise = client.connect();
+  }
+  clientPromise = global._mongoClientPromise;
+} else {
+  // In production mode, create a new client
+  client = new MongoClient(uri);
+  clientPromise = client.connect();
+}
+
+export async function getDatabase() {
+  const client = await clientPromise;
+  return client.db(dbName);
+}
+
+// Usage in API route
+// pages/api/users/index.js
+import { getDatabase } from '../../../lib/mongodb';
+
+export default async function handler(req, res) {
+  try {
+    const db = await getDatabase();
+    const users = await db.collection('users').find({}).toArray();
+    
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error('Database error:', error);
+    return res.status(500).json({ error: 'Database connection failed' });
+  }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Environment-specific API Configuration
+   </h4>
+   <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// pages/api/email/send.js
+import sgMail from '@sendgrid/mail';
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+  
+  const { to, subject, text, html } = req.body;
+  
+  const msg = {
+    to,
+    from: process.env.FROM_EMAIL,
+    subject,
+    text,
+    html,
+  };
+  
+  try {
+    // Only send emails in production or if explicitly enabled
+    if (process.env.NODE_ENV === 'production' || 
+        process.env.ENABLE_EMAIL_SENDING === 'true') {
+      await sgMail.send(msg);
+      return res.status(200).json({ message: 'Email sent successfully' });
+    } else {
+      console.log('Email would be sent:', msg);
+      return res.status(200).json({ message: 'Email logged (development mode)' });
+    }
+  } catch (error) {
+    console.error('Email sending failed:', error);
+    return res.status(500).json({ error: 'Failed to send email' });
+  }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Security Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Never commit .env.local:</span> Add it to .gitignore
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use strong secrets:</span> Generate cryptographically secure keys
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Validate required variables:</span> Check for missing environment variables at startup
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Rotate keys regularly:</span> Update API keys and secrets periodically
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use different keys per environment:</span> Separate development and production credentials
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `// Environment variable usage patterns
+// .env.local
+DATABASE_URL=mongodb://localhost:27017/myapp
+JWT_SECRET=your-jwt-secret-key
+STRIPE_SECRET_KEY=sk_test_...
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+// lib/auth.js
+import jwt from 'jsonwebtoken';
+
+export function generateToken(payload) {
+  return jwt.sign(payload, process.env.JWT_SECRET, { 
+    expiresIn: '7d' 
+  });
+}
+
+export function verifyToken(token) {
+  return jwt.verify(token, process.env.JWT_SECRET);
+}
+
+// pages/api/auth/login.js
+import { generateToken } from '../../../lib/auth';
+
+export default async function handler(req, res) {
+  const { email, password } = req.body;
+  
+  // Validate credentials against database
+  const user = await validateCredentials(email, password);
+  
+  if (user) {
+    const token = generateToken({ userId: user.id, email: user.email });
+    return res.status(200).json({ token, user });
+  }
+  
+  return res.status(401).json({ error: 'Invalid credentials' });
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between NEXT_PUBLIC_ prefixed and regular environment variables?",
+                solution:
+                  "<p>Regular environment variables are only available on the server-side (in API routes, getServerSideProps, etc.) and are never exposed to the browser. Variables with the NEXT_PUBLIC_ prefix are exposed to the browser and can be accessed in client-side code. Never use NEXT_PUBLIC_ for sensitive data like API keys or secrets.</p>",
+              },
+              {
+                question:
+                  "How do you handle different environment configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files: .env.local for local development, .env.development for development environment, .env.production for production. Next.js loads these files based on the NODE_ENV. You can also create a configuration object that validates and organizes all environment variables in one place.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-routes/introduction#caveats",
+              "https://12factor.net/config",
+            ],
+          },
         ],
       },
       {
         id: 2,
         label: "Advanced",
-        concepts: [],
+        concepts: [
+          {
+            topic: "Advanced Routing",
+            tags: ["routing", "dynamic-routes", "nested-routes", "catch-all"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Advanced routing in Next.js provides powerful features for building complex navigation patterns. This includes dynamic routes, nested routing, catch-all routes, and optional catch-all routes that enable flexible URL structures and sophisticated routing logic.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dynamic Routes
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Dynamic routes allow you to create pages with variable path segments using square brackets in file names.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// File: pages/blog/[slug].js
+import { useRouter } from 'next/router'
+
+export default function BlogPost() {
+  const router = useRouter()
+  const { slug } = router.query
+
+  return <h1>Blog post: {slug}</h1>
+}
+
+// Usage: /blog/my-first-post → slug = 'my-first-post'
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Catch-All Routes
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Catch-all routes use three dots (...) to match multiple path segments.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// File: pages/shop/[...category].js
+import { useRouter } from 'next/router'
+
+export default function Category() {
+  const router = useRouter()
+  const { category } = router.query
+
+  return (
+    <div>
+      <h1>Category: {category?.join(' / ')}</h1>
+    </div>
+  )
+}
+
+// Usage: /shop/electronics/phones/iphone → category = ['electronics', 'phones', 'iphone']
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Optional Catch-All Routes
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Optional catch-all routes use double brackets [[...]] to make the catch-all optional.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// File: pages/shop/[[...category]].js
+export default function Shop() {
+  const router = useRouter()
+  const { category } = router.query
+
+  if (!category) {
+    return <h1>Shop Home</h1>
+  }
+
+  return <h1>Category: {category.join(' / ')}</h1>
+}
+
+// Matches: /shop, /shop/electronics, /shop/electronics/phones
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     App Router Dynamic Routes (Next.js 13+)
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// File: app/blog/[slug]/page.js
+export default function BlogPost({ params }) {
+  return <h1>Blog post: {params.slug}</h1>
+}
+
+export async function generateStaticParams() {
+  const posts = await fetch('https://api.example.com/posts').then(res => res.json())
+  
+  return posts.map((post) => ({
+    slug: post.slug,
+  }))
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Advanced Routing
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">E-commerce:</span> Product categories, user profiles, order details
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Blogs/CMS:</span> Article slugs, category hierarchies, author pages
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Documentation:</span> Nested documentation structure with multiple levels
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">File Explorers:</span> Directory and file browsing with unlimited depth
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Dynamic route with multiple parameters
+// File: pages/users/[id]/posts/[postId].js
+import { useRouter } from 'next/router'
+
+export default function UserPost() {
+  const router = useRouter()
+  const { id, postId } = router.query
+
+  return (
+    <div>
+      <h1>User {id}'s Post {postId}</h1>
+    </div>
+  )
+}`,
+              `// App Router with multiple dynamic segments
+// File: app/users/[userId]/posts/[postId]/page.js
+export default function UserPost({ params }) {
+  return (
+    <div>
+      <h1>User {params.userId}'s Post {params.postId}</h1>
+    </div>
+  )
+}
+
+export async function generateStaticParams() {
+  return [
+    { userId: '1', postId: '1' },
+    { userId: '1', postId: '2' },
+    { userId: '2', postId: '1' },
+  ]
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between dynamic routes and catch-all routes?",
+                solution:
+                  "<p>Dynamic routes ([slug]) match a single path segment, while catch-all routes ([...slug]) match multiple segments. For example, [slug] matches '/post' but not '/category/subcategory', while [...slug] matches both '/post' and '/category/subcategory/item'.</p>",
+              },
+              {
+                question:
+                  "How do you access route parameters in the App Router?",
+                solution:
+                  "<p>In the App Router, route parameters are accessed through the 'params' prop passed to page components. For example, in app/blog/[slug]/page.js, you would access the slug via params.slug in your component function.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/routing/dynamic-routes",
+              "https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes",
+              "https://nextjs.org/docs/routing/introduction",
+            ],
+          },
+          {
+            topic: "Middleware in Next.js",
+            tags: [
+              "middleware",
+              "authentication",
+              "request-modification",
+              "response-handling",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Middleware in Next.js allows you to run code before a request is completed. It enables you to modify the response by rewriting, redirecting, modifying request/response headers, or responding directly. Middleware runs on the Edge Runtime for optimal performance.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating Middleware
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Create a middleware.js or middleware.ts file in your project root (same level as pages or app directory).
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// middleware.js
+import { NextResponse } from 'next/server'
+
+export function middleware(request) {
+  // Clone the request headers and set a new header
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-custom-header', 'hello')
+
+  // You can also set request headers in NextResponse.rewrite
+  const response = NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  })
+
+  // Set a new response header
+  response.headers.set('x-custom-response-header', 'world')
+
+  return response
+}
+
+export const config = {
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Authentication Middleware
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// middleware.js
+import { NextResponse } from 'next/server'
+import { jwtVerify } from 'jose'
+
+export async function middleware(request) {
+  const { pathname } = request.nextUrl
+
+  // Protected routes
+  if (pathname.startsWith('/dashboard')) {
+    const token = request.cookies.get('token')?.value
+
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+
+    try {
+      await jwtVerify(
+        token,
+        new TextEncoder().encode(process.env.JWT_SECRET)
+      )
+    } catch (error) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+  }
+
+  return NextResponse.next()
+}
+
+export const config = {
+  matcher: ['/dashboard/:path*']
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Request/Response Modification
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// middleware.js
+import { NextResponse } from 'next/server'
+
+export function middleware(request) {
+  const { pathname, searchParams } = request.nextUrl
+
+  // Add custom headers based on user agent
+  if (request.headers.get('user-agent')?.includes('Mobile')) {
+    const response = NextResponse.next()
+    response.headers.set('x-device-type', 'mobile')
+    return response
+  }
+
+  // Rewrite API routes
+  if (pathname.startsWith('/api/v1/')) {
+    return NextResponse.rewrite(
+      new URL(pathname.replace('/api/v1/', '/api/'), request.url)
+    )
+  }
+
+  // Redirect old URLs
+  if (pathname === '/old-page') {
+    return NextResponse.redirect(new URL('/new-page', request.url))
+  }
+
+  return NextResponse.next()
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Geolocation-based Routing
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// middleware.js
+import { NextResponse } from 'next/server'
+
+export function middleware(request) {
+  const country = request.geo?.country || 'US'
+  const { pathname } = request.nextUrl
+
+  // Redirect to country-specific pages
+  if (pathname === '/' && !request.nextUrl.searchParams.has('country')) {
+    const url = request.nextUrl.clone()
+    url.pathname = \`/\${country.toLowerCase()}\`
+    return NextResponse.redirect(url)
+  }
+
+  // Add country header for API routes
+  if (pathname.startsWith('/api/')) {
+    const response = NextResponse.next()
+    response.headers.set('x-user-country', country)
+    return response
+  }
+
+  return NextResponse.next()
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Authentication:</span> Protect routes, verify JWT tokens, redirect unauthenticated users
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Internationalization:</span> Detect locale, redirect based on location/preferences
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">A/B Testing:</span> Route users to different variants based on criteria
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Rate Limiting:</span> Implement request throttling and API protection
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Bot Protection:</span> Filter malicious requests, implement security measures
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Feature Flags:</span> Enable/disable features based on user segments
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Matcher Configuration
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+export const config = {
+  matcher: [
+    // Match all paths except static files and API routes
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    
+    // Match specific paths
+    '/dashboard/:path*',
+    '/admin/:path*',
+    
+    // Match multiple patterns
+    ['/dashboard/:path*', '/admin/:path*', '/profile/:path*']
+  ]
+}
+      </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `// Rate limiting middleware
+import { NextResponse } from 'next/server'
+
+const rateLimitMap = new Map()
+
+export function middleware(request) {
+  const ip = request.ip || 'anonymous'
+  const limit = 10 // requests per minute
+  const windowMs = 60 * 1000 // 1 minute
+
+  if (!rateLimitMap.has(ip)) {
+    rateLimitMap.set(ip, { count: 0, resetTime: Date.now() + windowMs })
+  }
+
+  const rateLimitInfo = rateLimitMap.get(ip)
+
+  if (Date.now() > rateLimitInfo.resetTime) {
+    rateLimitInfo.count = 0
+    rateLimitInfo.resetTime = Date.now() + windowMs
+  }
+
+  if (rateLimitInfo.count >= limit) {
+    return new NextResponse('Too Many Requests', { status: 429 })
+  }
+
+  rateLimitInfo.count++
+  return NextResponse.next()
+}`,
+              `// Feature flag middleware
+import { NextResponse } from 'next/server'
+
+export function middleware(request) {
+  const { pathname } = request.nextUrl
+  
+  // Check if user has access to beta features
+  const betaUser = request.cookies.get('beta-user')?.value === 'true'
+  
+  if (pathname.startsWith('/beta') && !betaUser) {
+    return NextResponse.redirect(new URL('/coming-soon', request.url))
+  }
+  
+  // Add feature flag headers
+  const response = NextResponse.next()
+  response.headers.set('x-beta-features', betaUser ? 'enabled' : 'disabled')
+  
+  return response
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "Where should the middleware file be placed in a Next.js project?",
+                solution:
+                  "<p>The middleware file should be placed in the root of your project (same level as pages or app directory). It should be named either 'middleware.js' or 'middleware.ts'. This file will be automatically detected by Next.js.</p>",
+              },
+              {
+                question: "What are the limitations of Next.js middleware?",
+                solution:
+                  "<p>Next.js middleware runs on the Edge Runtime, which means it has limitations: no Node.js APIs, limited npm packages, no file system access, and a 1MB code size limit. It's designed for lightweight operations like authentication, redirects, and header modifications.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/advanced-features/middleware",
+              "https://nextjs.org/docs/app/building-your-application/routing/middleware",
+              "https://vercel.com/docs/concepts/functions/edge-functions",
+            ],
+          },
+          {
+            topic: "Rewrites, Redirects, and Headers in next.config.js",
+            tags: [
+              "rewrites",
+              "redirects",
+              "headers",
+              "next-config",
+              "url-manipulation",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js provides powerful URL manipulation capabilities through the next.config.js file. Rewrites allow you to map incoming requests to different destination paths, redirects send users to different URLs, and custom headers enable you to modify HTTP headers for enhanced security, caching, and functionality.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Rewrites
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Rewrites allow you to map an incoming request path to a different destination path. The URL in the browser doesn't change, but the content is served from the rewritten path.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  async rewrites() {
+    return [
+      // Basic rewrite
+      {
+        source: '/about',
+        destination: '/about-us',
+      },
+      // Dynamic rewrite with parameters
+      {
+        source: '/blog/:slug',
+        destination: '/posts/:slug',
+      },
+      // Rewrite to external API
+      {
+        source: '/api/proxy/:path*',
+        destination: 'https://external-api.com/:path*',
+      },
+      // Rewrite with query parameters
+      {
+        source: '/old-blog/:slug',
+        destination: '/blog/:slug?utm_source=redirect',
+      }
+    ]
+  },
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Rewrites with Conditions
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  async rewrites() {
+    return {
+      beforeFiles: [
+        // Check for maintenance mode
+        {
+          source: '/(.*)',
+          destination: '/maintenance',
+          has: [
+            {
+              type: 'header',
+              key: 'x-maintenance-mode',
+              value: 'true'
+            }
+          ]
+        }
+      ],
+      afterFiles: [
+        // Fallback rewrites after pages/public files
+        {
+          source: '/docs/:path*',
+          destination: '/documentation/:path*',
+        }
+      ],
+      fallback: [
+        // Last resort rewrites
+        {
+          source: '/(.*)',
+          destination: '/404-custom',
+        }
+      ]
+    }
+  }
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Redirects
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Redirects send users to a different URL. They change the URL in the browser and are useful for SEO, moving content, and handling deprecated URLs.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  async redirects() {
+    return [
+      // Old blog structure
+      {
+        source: '/old-blog/:slug*',
+        destination: '/blog/:slug*',
+        permanent: true
+      },
+      // User profile migration
+      {
+        source: '/users/:id',
+        destination: '/profile/:id',
+        permanent: true
+      }
+    ]
+  },
+  
+  async headers() {
+    return [
+      // Security headers
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-eval'"
+          }
+        ]
+      },
+      // API CORS
+      {
+        source: '/api/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: 'https://yourdomain.com'
+          }
+        ]
+      }
+    ]
+  }
+}`,
+            questions: [
+              {
+                question: "Do route groups affect the URL structure?",
+                solution:
+                  "<p>No, route groups do not affect the URL structure. The folder names wrapped in parentheses are omitted from the URL path. For example, app/(marketing)/about/page.js creates the route /about, not /(marketing)/about.</p>",
+              },
+              {
+                question:
+                  "Can you have multiple root layouts using route groups?",
+                solution:
+                  "<p>Yes, by removing the top-level layout.js file and adding layout.js files inside each route group, you can create multiple root layouts. Each route group will have its own root layout with its own html and body tags.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/routing/route-groups",
+              "https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates",
+              "https://beta.nextjs.org/docs/routing/defining-routes#route-groups",
+            ],
+          },
+          {
+            topic: "Route Groups (Next.js 13+ App Router)",
+            tags: [
+              "route-groups",
+              "app-router",
+              "organization",
+              "layout",
+              "next13",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Route Groups in Next.js 13+ App Router allow you to organize routes into logical groups without affecting the URL structure. They enable you to create different layouts, organize related routes, and apply specific logic to groups of pages while keeping URLs clean and meaningful.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating Route Groups
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Route groups are created by wrapping folder names in parentheses. The folder name won't appear in the URL path.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── (marketing)/
+│   ├── about/
+│   │   └── page.js         // Route: /about
+│   ├── contact/
+│   │   └── page.js         // Route: /contact
+│   └── layout.js           // Layout for marketing pages
+├── (dashboard)/
+│   ├── analytics/
+│   │   └── page.js         // Route: /analytics
+│   ├── settings/
+│   │   └── page.js         // Route: /settings
+│   └── layout.js           // Layout for dashboard pages
+└── layout.js               // Root layout
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Different Layouts for Route Groups
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/(marketing)/layout.js
+export default function MarketingLayout({ children }) {
+  return (
+    <div className="marketing-layout">
+      <header className="marketing-header">
+        <nav>
+          <Link href="/about">About</Link>
+          <Link href="/contact">Contact</Link>
+          <Link href="/pricing">Pricing</Link>
+        </nav>
+      </header>
+      <main>{children}</main>
+      <footer className="marketing-footer">
+        <p>&copy; 2024 Your Company</p>
+      </footer>
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/(dashboard)/layout.js
+import Sidebar from '@/components/Sidebar'
+import DashboardHeader from '@/components/DashboardHeader'
+
+export default function DashboardLayout({ children }) {
+  return (
+    <div className="dashboard-layout">
+      <DashboardHeader />
+      <div className="dashboard-content">
+        <Sidebar />
+        <main className="main-content">
+          {children}
+        </main>
+      </div>
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Multiple Root Layouts
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Route groups enable multiple root layouts by removing the top-level layout.js file and adding layout.js files inside each route group.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── (auth)/
+│   ├── layout.js           // Auth root layout
+│   ├── login/
+│   │   └── page.js
+│   └── register/
+│       └── page.js
+├── (shop)/
+│   ├── layout.js           // Shop root layout  
+│   ├── products/
+│   │   └── page.js
+│   └── cart/
+│       └── page.js
+└── global.css
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/(auth)/layout.js
+export default function AuthLayout({ children }) {
+  return (
+    <html lang="en">
+      <body className="auth-body">
+        <div className="auth-container">
+          <div className="auth-form-wrapper">
+            {children}
+          </div>
+          <div className="auth-sidebar">
+            <h2>Welcome Back!</h2>
+            <p>Sign in to access your account</p>
+          </div>
+        </div>
+      </body>
+    </html>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Organizing by Feature
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── (admin)/
+│   ├── users/
+│   │   ├── page.js         // Route: /users
+│   │   └── [id]/
+│   │       └── page.js     // Route: /users/[id]
+│   ├── posts/
+│   │   ├── page.js         // Route: /posts
+│   │   └── [slug]/
+│   │       └── page.js     // Route: /posts/[slug]
+│   └── layout.js
+├── (public)/
+│   ├── blog/
+│   │   └── page.js         // Route: /blog
+│   ├── about/
+│   │   └── page.js         // Route: /about
+│   └── layout.js
+└── page.js                 // Route: /
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Conditional Layouts with Route Groups
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/(authenticated)/layout.js
+import { redirect } from 'next/navigation'
+import { auth } from '@/lib/auth'
+
+export default async function AuthenticatedLayout({ children }) {
+  const session = await auth()
+  
+  if (!session) {
+    redirect('/login')
+  }
+
+  return (
+    <div className="authenticated-layout">
+      <nav className="user-nav">
+        <span>Welcome, {session.user.name}</span>
+        <button>Logout</button>
+      </nav>
+      {children}
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Route Group with Loading and Error States
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── (dashboard)/
+│   ├── layout.js
+│   ├── loading.js          // Loading UI for dashboard routes
+│   ├── error.js            // Error UI for dashboard routes
+│   ├── analytics/
+│   │   └── page.js
+│   └── reports/
+│       ├── page.js
+│       ├── loading.js      // Specific loading for reports
+│       └── error.js        // Specific error for reports
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/(dashboard)/loading.js
+export default function DashboardLoading() {
+  return (
+    <div className="dashboard-loading">
+      <div className="loading-spinner"></div>
+      <p>Loading dashboard...</p>
+    </div>
+  )
+}
+
+// app/(dashboard)/error.js
+'use client'
+
+export default function DashboardError({ error, reset }) {
+  return (
+    <div className="dashboard-error">
+      <h2>Dashboard Error</h2>
+      <p>{error.message}</p>
+      <button onClick={reset}>Try again</button>
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Route Groups
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Different Layouts:</span> Marketing vs. dashboard vs. authentication layouts
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Access Control:</span> Public vs. authenticated vs. admin sections
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Feature Organization:</span> Group related functionality without URL impact
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">A/B Testing:</span> Different experiences for user segments
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Multi-tenant Apps:</span> Different layouts per tenant or brand
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Internationalization:</span> Locale-specific layouts and components
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Meaningful Names:</span> Use descriptive group names that reflect their purpose
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Consistent Structure:</span> Maintain similar folder structures within groups
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Shared Components:</span> Place common components outside route groups
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Layout Optimization:</span> Only include necessary layouts to avoid nesting overhead
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// E-commerce app structure with route groups
+app/
+├── (storefront)/
+│   ├── layout.js           // Customer-facing layout
+│   ├── products/
+│   │   ├── page.js         // /products
+│   │   └── [id]/
+│   │       └── page.js     // /products/[id]
+│   ├── cart/
+│   │   └── page.js         // /cart
+│   └── checkout/
+│       └── page.js         // /checkout
+├── (admin)/
+│   ├── layout.js           // Admin panel layout
+│   ├── dashboard/
+│   │   └── page.js         // /dashboard
+│   ├── inventory/
+│   │   └── page.js         // /inventory
+│   └── orders/
+│       └── page.js         // /orders
+└── page.js                 // / (home page)`,
+              `// Multi-layout authentication flow
+// app/(public)/layout.js - Public pages layout
+export default function PublicLayout({ children }) {
+  return (
+    <div className="public-layout">
+      <header>
+        <nav>
+          <Link href="/">Home</Link>
+          <Link href="/about">About</Link>
+          <Link href="/login">Login</Link>
+        </nav>
+      </header>
+      {children}
+    </div>
+  )
+}
+
+// app/(private)/layout.js - Protected pages layout
+export default async function PrivateLayout({ children }) {
+  const user = await getCurrentUser()
+  
+  return (
+    <div className="private-layout">
+      <header>
+        <nav>
+          <span>Welcome, {user.name}</span>
+          <Link href="/dashboard">Dashboard</Link>
+          <Link href="/profile">Profile</Link>
+        </nav>
+      </header>
+      {children}
+    </div>
+  )
+}`,
+            ],
+            questions: [
+              {
+                question: "Do route groups affect the URL structure?",
+                solution:
+                  "<p>No, route groups do not affect the URL structure. The folder names wrapped in parentheses are omitted from the URL path. For example, app/(marketing)/about/page.js creates the route /about, not /(marketing)/about.</p>",
+              },
+              {
+                question:
+                  "Can you have multiple root layouts using route groups?",
+                solution:
+                  "<p>Yes, by removing the top-level layout.js file and adding layout.js files inside each route group, you can create multiple root layouts. Each route group will have its own root layout with its own html and body tags.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/routing/route-groups",
+              "https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates",
+              "https://beta.nextjs.org/docs/routing/defining-routes#route-groups",
+            ],
+          },
+          {
+            topic: "Parallel and Intercepting Routes (App Router)",
+            tags: [
+              "parallel-routes",
+              "intercepting-routes",
+              "app-router",
+              "advanced-routing",
+              "slots",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Parallel and Intercepting Routes are advanced App Router features that enable sophisticated UI patterns. Parallel routes allow you to simultaneously render multiple pages in the same layout, while intercepting routes let you load a route within the current layout while keeping the URL in sync.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Parallel Routes
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Parallel routes are created using named slots, defined with folders that start with @. They allow independent navigation and error handling for different sections of a layout.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── layout.js
+├── page.js
+├── @analytics/
+│   ├── page.js             // Default analytics slot
+│   ├── revenue/
+│   │   └── page.js         // /revenue
+│   └── users/
+│       └── page.js         // /users
+├── @team/
+│   ├── page.js             // Default team slot
+│   └── members/
+│       └── page.js         // /members
+└── settings/
+    └── page.js             // /settings
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/layout.js
+export default function Layout({ children, analytics, team }) {
+  return (
+    <div className="dashboard">
+      <div className="main-content">{children}</div>
+      <div className="sidebar">
+        <div className="analytics-section">{analytics}</div>
+        <div className="team-section">{team}</div>
+      </div>
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Conditional Parallel Routes
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/layout.js
+export default function Layout({ 
+  children, 
+  analytics, 
+  team,
+  modal 
+}) {
+  return (
+    <div className="dashboard">
+      <header>Dashboard</header>
+      <main>
+        {children}
+        <div className="analytics-panel">
+          {analytics}
+        </div>
+        <div className="team-panel">
+          {team}
+        </div>
+      </main>
+      {/* Conditionally render modal */}
+      {modal}
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Default Files for Parallel Routes
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── @analytics/
+│   ├── default.js          // Fallback for unmatched routes
+│   ├── page.js
+│   └── revenue/
+│       └── page.js
+└── @team/
+    ├── default.js          // Fallback for unmatched routes
+    ├── page.js
+    └── members/
+        └── page.js
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/@analytics/default.js
+export default function AnalyticsDefault() {
+  return <div>No analytics data available</div>
+}
+
+// app/@team/default.js  
+export default function TeamDefault() {
+  return <div>No team information available</div>
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Intercepting Routes
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Intercepting routes allow you to load a route within the current layout while keeping the URL in sync. They use special conventions: (.) for same level, (..) for one level up, (...) for root.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── layout.js
+├── page.js
+├── photo/
+│   └── [id]/
+│       └── page.js         // /photo/[id] - Full page
+├── @modal/
+│   ├── default.js
+│   └── (.)photo/
+│       └── [id]/
+│           └── page.js     // Intercepts /photo/[id] - Modal
+└── gallery/
+    ├── page.js             // /gallery
+    └── (...)photo/
+        └── [id]/
+            └── page.js     // Intercepts from root
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/layout.js
+export default function Layout({ children, modal }) {
+  return (
+    <div>
+      {children}
+      {modal}
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Modal Implementation with Intercepting Routes
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/@modal/(.)photo/[id]/page.js
+'use client'
+
+import { useRouter } from 'next/navigation'
+import Image from 'next/image'
+
+export default function PhotoModal({ params }) {
+  const router = useRouter()
+
+  return (
+    <div className="modal-overlay" onClick={() => router.back()}>
+      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <button 
+          className="modal-close"
+          onClick={() => router.back()}
+        >
+          ×
+        </button>
+        <Image
+          src={\`/photos/\${params.id}.jpg\`}
+          alt="Photo"
+          width={800}
+          height={600}
+        />
+      </div>
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/photo/[id]/page.js - Full page version
+import Image from 'next/image'
+import Link from 'next/link'
+
+export default function PhotoPage({ params }) {
+  return (
+    <div className="photo-page">
+      <header>
+        <Link href="/gallery">← Back to Gallery</Link>
+      </header>
+      <main>
+        <Image
+          src={\`/photos/\${params.id}.jpg\`}
+          alt="Photo"
+          width={1200}
+          height={800}
+        />
+      </main>
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Complex Dashboard with Both Features
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── dashboard/
+│   ├── layout.js
+│   ├── page.js
+│   ├── @sidebar/
+│   │   ├── default.js
+│   │   ├── page.js
+│   │   └── settings/
+│   │       └── page.js
+│   ├── @main/
+│   │   ├── default.js
+│   │   ├── page.js
+│   │   ├── analytics/
+│   │   │   └── page.js
+│   │   └── users/
+│   │       ├── page.js
+│   │       └── [id]/
+│   │           └── page.js
+│   └── @modal/
+│       ├── default.js
+│       └── (.)users/
+│           └── [id]/
+│               └── page.js  // Modal for user details
+└── users/
+    └── [id]/
+        └── page.js          // Full page for user details
+      </code></pre>
+   </div>
+
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// app/dashboard/layout.js
+export default function DashboardLayout({ 
+  children, 
+  sidebar, 
+  main, 
+  modal 
+}) {
+  return (
+    <div className="dashboard-layout">
+      <div className="dashboard-sidebar">{sidebar}</div>
+      <div className="dashboard-main">{main}</div>
+      {modal}
+    </div>
+  )
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Loading and Error States
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+app/
+├── @analytics/
+│   ├── loading.js          // Loading for analytics slot
+│   ├── error.js            // Error for analytics slot
+│   └── page.js
+└── @team/
+    ├── loading.js          // Loading for team slot
+    ├── error.js            // Error for team slot
+    └── page.js
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Dashboards:</span> Multiple independent panels loading different data
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Modals:</span> Overlays that maintain URL state for sharing and navigation
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Social Media:</span> Timeline with sidebar content that updates independently
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">E-commerce:</span> Product grid with filtering sidebar and quick preview modals
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Content Management:</span> Edit content in modal while maintaining page context
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Multi-step Flows:</span> Complex forms with multiple sections loading independently
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Social media feed with parallel routes
+app/
+├── feed/
+│   ├── layout.js
+│   ├── @timeline/
+│   │   ├── page.js         // Main timeline
+│   │   └── loading.js
+│   ├── [
+      // Basic redirect
+      {
+        source: '/old-page',
+        destination: '/new-page',
+        permanent: true, // 308 status code
+      },
+      // Temporary redirect
+      {
+        source: '/temp',
+        destination: '/temporary-page',
+        permanent: false, // 307 status code
+      },
+      // Dynamic redirect
+      {
+        source: '/user/:id',
+        destination: '/profile/:id',
+        permanent: true,
+      },
+      // Wildcard redirect
+      {
+        source: '/old-blog/:path*',
+        destination: '/blog/:path*',
+        permanent: true,
+      },
+      // External redirect
+      {
+        source: '/external',
+        destination: 'https://example.com',
+        permanent: false,
+      }
+    ]
+  },
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Conditional Redirects
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  async redirects() {
+    return [
+      // Redirect based on header
+      {
+        source: '/admin',
+        destination: '/login',
+        has: [
+          {
+            type: 'header',
+            key: 'authorization',
+            value: undefined
+          }
+        ],
+        permanent: false,
+      },
+      // Redirect based on cookie
+      {
+        source: '/dashboard',
+        destination: '/login',
+        missing: [
+          {
+            type: 'cookie',
+            key: 'auth-token'
+          }
+        ],
+        permanent: false,
+      },
+      // Redirect based on query parameter
+      {
+        source: '/search',
+        destination: '/search/all',
+        has: [
+          {
+            type: 'query',
+            key: 'q',
+            value: undefined
+          }
+        ],
+        permanent: false,
+      }
+    ]
+  }
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Custom Headers
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Custom headers allow you to set HTTP headers on responses for security, caching, and other purposes.
+   </p>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  async headers() {
+    return [
+      // Security headers for all routes
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains'
+          }
+        ]
+      },
+      // CORS headers for API routes
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*'
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, OPTIONS'
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization'
+          }
+        ]
+      }
+    ]
+  }
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Cache Control Headers
+   </h4>
+   
+   <div style="padding: 16px; background-color: #F1F5F9; border-radius: 8px; font-size: 14px; margin: 1rem 0;">
+      <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  async headers() {
+    return [
+      // Cache static assets aggressively
+      {
+        source: '/static/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ]
+      },
+      // Don't cache API responses
+      {
+        source: '/api/(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate'
+          }
+        ]
+      },
+      // Cache pages with revalidation
+      {
+        source: '/blog/:slug*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=3600, stale-while-revalidate=86400'
+          }
+        ]
+      }
+    ]
+  }
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">API Proxying:</span> Route API calls through your Next.js app to external services
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">URL Migration:</span> Handle old URLs and redirect them to new locations
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">A/B Testing:</span> Serve different content based on conditions without changing URLs
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Security:</span> Add security headers to protect against common web vulnerabilities
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Performance:</span> Set appropriate cache headers for different types of content
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">SEO:</span> Implement clean URLs and proper redirects for better search rankings
+     </li>
+   </ol>
+</div>`,
+            ],
+            questions: [
+              {
+                question: "Do route groups affect the URL structure?",
+                solution:
+                  "<p>No, route groups do not affect the URL structure. The folder names wrapped in parentheses are omitted from the URL path. For example, app/(marketing)/about/page.js creates the route /about, not /(marketing)/about.</p>",
+              },
+              {
+                question:
+                  "Can you have multiple root layouts using route groups?",
+                solution:
+                  "<p>Yes, by removing the top-level layout.js file and adding layout.js files inside each route group, you can create multiple root layouts. Each route group will have its own root layout with its own html and body tags.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/routing/route-groups",
+              "https://nextjs.org/docs/app/building-your-application/routing/layouts-and-templates",
+              "https://beta.nextjs.org/docs/routing/defining-routes#route-groups",
+            ],
+          },
+          {
+            topic: "13+ App Router Understanding app directory structure",
+            tags: [
+              "Next.js 13+",
+              "App Router",
+              "app/ directory",
+              "routing",
+              "layout",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Next.js 13 introduced the **App Router**, a new paradigm built on top of React Server Components (RSC).  
+    The entire application lives under the <code style="background:#1A1A1A; color:#00D1FF; padding:0.2rem 0.4rem; border-radius:4px;">app/</code> directory, which replaces the legacy <code>pages/</code> folder.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. Root of the App Router – <code>app/</code></h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Every file or folder inside <code>app/</code> becomes a URL segment.</li>
+    <li><code>layout.tsx</code>, <code>page.tsx</code>, <code>loading.tsx</code>, <code>error.tsx</code> are special reserved filenames.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. Mandatory Files</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><code>layout.tsx</code> – Provides shared UI (shell, nav, footer).  **Root layout is required**.</li>
+    <li><code>page.tsx</code> – The actual component rendered for a route.  **A route becomes public only when <code>page.tsx</code> exists**.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. Folder = URL Segment</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Folders map to URL segments, <strong>files</strong> define UI.</li>
+    <li>Dynamic segments use bracket syntax: <code>[id]</code>, <code>[...slug]</code>.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Colocation & Private Folders</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>You can safely place styles, components, tests, etc. next to <code>page.tsx</code>; only <code>page.tsx</code> and <code>route.ts</code> are routable.</li>
+    <li>Prefix any folder with underscore <code>_lib</code> to make it **private** (ignored by routing).</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Route Groups <code>(marketing)</code></h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Wrap folder names in parentheses to create a **logical group** without affecting the URL.</li>
+    <li>Useful for splitting large layouts (e.g., <code>(auth)</code> vs <code>(shop)</code>).</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">6. Parallel & Intercepting Routes</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><code>@slot</code> folders render **parallel** UI inside a layout.</li>
+    <li><code>(..)folder</code> syntax **intercepts** navigation and renders a modal instead of a full page transition.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">7. Server & Client Components</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>By default, every component is a **Server Component**.</li>
+    <li>Opt-in to **Client Component** with <code>'use client'</code> at the top of the file.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">8. Streaming & Partial Prerendering</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><code>loading.tsx</code> streams UI while data is fetched.</li>
+    <li><code>error.tsx</code> catches segment-level errors with error boundaries.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">Typical Directory Skeleton</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px; overflow-x:auto;">
+app/
+├─ globals.css
+├─ layout.tsx          // root layout
+├─ page.tsx            // localhost:3000
+├─ (auth)/
+│  ├─ login/
+│  │  └─ page.tsx      // /login
+│  └─ register/
+│     └─ page.tsx      // /register
+├─ products/
+│  ├─ [id]/
+│  │  ├─ page.tsx      // /products/123
+│  │  └─ loading.tsx   // streaming UI
+│  └─ page.tsx         // /products
+└─ api/
+   └─ hello/
+      └─ route.ts       // /api/hello
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">Key Takeaways</h3>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>Folder names</strong> create URL segments; <strong>special files</strong> (<code>page.tsx</code>, <code>layout.tsx</code>, etc.) define UI.</li>
+    <li>Use <strong>route groups</strong> and <strong>private folders</strong> for better organization.</li>
+    <li>Layouts automatically wrap nested routes, enabling shared headers, sidebars, or footers.</li>
+    <li>Dynamic routes, parallel routes, and intercepting routes provide powerful navigation patterns.</li>
+    <li>React Server Components are the default, improving performance by shipping less JavaScript to the browser.</li>
+  </ol>
+</div>`,
+            examples: [
+              `// app/products/[id]/page.tsx
+export default function ProductPage({ params }: { params: { id: string } }) {
+  return <h1>Product ID: {params.id}</h1>;
+}`,
+              `// app/(auth)/login/page.tsx
+export default function LoginPage() {
+  return <h2>Login Form</h2>;
+}`,
+              `// app/layout.tsx
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between `page.tsx` and `layout.tsx`?",
+                solution:
+                  "<p><code>page.tsx</code> renders the actual UI for a route segment. <code>layout.tsx</code> wraps one or more <code>page.tsx</code> files with shared UI (header, nav, footer). Layouts can be nested and persist across navigations, whereas pages are replaced on navigation.</p>",
+              },
+              {
+                question: "How do I create a dynamic route like /blog/:slug?",
+                solution:
+                  "<p>Create a folder named <code>[slug]</code> inside <code>app/blog/</code> and place a <code>page.tsx</code> inside. The <code>params</code> prop will contain <code>{ slug: 'some-post' }</code>.</p>",
+              },
+              {
+                question:
+                  "Can I use both App Router and Pages Router in the same project?",
+                solution:
+                  "<p>Yes, Next.js allows incremental adoption. The <code>app/</code> directory takes precedence. Existing <code>pages/</code> routes still work, but you should migrate gradually to avoid conflicts.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app",
+              "https://nextjs.org/docs/getting-started/project-structure",
+            ],
+          },
+          {
+            topic: "Layouts",
+            tags: [
+              "Next.js 13+",
+              "App Router",
+              "layouts",
+              "shared UI",
+              "nesting",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    In Next.js 13+ App Router, every route segment can define its own <strong>layout</strong> by exporting a component from a <code style="background:#1A1A1A; color:#00D1FF; padding:0.2rem 0.4rem; border-radius:4px;">layout.js|tsx</code> file.  
+    Layouts are <strong>nested by default</strong>: a layout wraps all of its children segments, enabling shared UI (headers, nav bars, sidebars) without re-rendering on navigation.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. Root Layout – <code>app/layout.tsx</code></h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Required at the top level of <code>app/</code>.</li>
+    <li>Must contain <code>{children}</code> which renders the nested page or layout.</li>
+    <li>Perfect place for global &lt;html&gt;, &lt;head&gt;, providers, or global CSS.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. Per-Segment Layouts</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Create <code>layout.tsx</code> inside any folder to wrap only that folder’s subtree.</li>
+    <li>Layouts <strong>do NOT re-mount</strong> when navigating between sibling pages; only the page component changes.</li>
+    <li>Enable persistent state (e.g., scroll position, form data) across route changes.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. Layout Nesting Example</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px; overflow-x:auto;">
+app/
+├─ layout.tsx          // root layout
+├─ (marketing)/
+│  ├─ layout.tsx       // marketing shell (hero, footer)
+│  ├─ page.tsx         // /
+│  └─ about/
+│     └─ page.tsx      // /about
+├─ dashboard/
+│  ├─ layout.tsx       // sidebar + header
+│  ├─ page.tsx         // /dashboard
+│  └─ settings/
+│     └─ page.tsx      // /dashboard/settings
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Layout Props</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><code>children: React.ReactNode</code> – the nested page or layout.</li>
+    <li>Parallel routes expose additional props (<code>@slot: React.ReactNode</code>) for advanced patterns.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Server vs Client in Layouts</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Layouts are <strong>Server Components by default</strong>, giving you zero-JS for static UI.</li>
+    <li>Add <code>'use client'</code> at the top if you need interactive state (e.g., a collapsible sidebar).</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">6. Data Fetching in Layouts</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Fetch data directly in server layouts using async/await (no <code>useEffect</code> needed).</li>
+    <li>Share fetched data across multiple pages to avoid duplicate requests.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">Real-World Use Cases</h3>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>Marketing Site</strong> – root layout for global nav/footer; marketing layout for hero sections.</li>
+    <li><strong>Admin Dashboard</strong> – dashboard layout with persistent sidebar and top bar.</li>
+    <li><strong>Auth Wall</strong> – auth layout that checks session and redirects unauthenticated users.</li>
+  </ol>
+</div>`,
+            examples: [
+              `// app/layout.tsx – root layout
+export const metadata = { title: 'My App' };
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <Header />
+        {children}
+        <Footer />
+      </body>
+    </html>
+  );
+}`,
+              `// app/dashboard/layout.tsx – dashboard shell
+import { Sidebar } from '@/components/Sidebar';
+export default function DashboardLayout({ children }) {
+  return (
+    <div className="flex">
+      <Sidebar />
+      <main className="flex-1">{children}</main>
+    </div>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "Does a layout re-render when navigating between pages that share the same layout?",
+                solution:
+                  "<p>No. Layouts remain mounted and only the <code>children</code> prop changes. This preserves state (scroll, input values) and avoids expensive re-renders.</p>",
+              },
+              {
+                question:
+                  "Can I have multiple layouts for the same route group?",
+                solution:
+                  "<p>Yes. Use route groups like <code>(site)</code> vs <code>(app)</code> where each group has its own layout.tsx. They will not conflict and can apply different shells.</p>",
+              },
+              {
+                question:
+                  "How do I pass fetched data from a layout to its children pages?",
+                solution:
+                  "<p>Server layouts can fetch data and pass it via React context or by drilling props. Another pattern is fetching the same data inside each page with deduping via fetch cache.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts",
+            ],
+          },
+          {
+            topic: "Server Components vs Client Components",
+            tags: [
+              "RSC",
+              "Next.js 13+",
+              "SSR",
+              "CSR",
+              "hydration",
+              "performance",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Next.js 13+ embraces <strong>React Server Components (RSC)</strong> as the default.  
+    Any component without <code style="background:#1A1A1A; color:#00D1FF; padding:0.2rem 0.4rem; border-radius:4px;">'use client'</code> at the top is a <strong>Server Component</strong>; adding the directive makes it a <strong>Client Component</strong>.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. Server Components (RSC)</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Render <strong>only on the server</strong>; zero JavaScript is sent to the browser for static output.</li>
+    <li>Can perform direct data access (DB, file system, secrets) without API routes.</li>
+    <li>Support async/await for data fetching out of the box.</li>
+    <li>Cannot use React hooks that rely on browser APIs (<code>useState</code>, <code>useEffect</code>, <code>useLayoutEffect</code>).</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. Client Components</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Ship JavaScript to the browser and <strong>hydrate</strong> at runtime.</li>
+    <li>Needed for interactivity (event handlers, state, browser APIs).</li>
+    <li>Cannot directly access server-only resources (secrets, DB).</li>
+    <li>Must fetch data via client-side calls or props passed from Server Components.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. Boundary Rules</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Server Components can import Client Components, but <strong>not vice-versa</strong>.</li>
+    <li>When a Client Component imports a Server Component, the Server Component’s output is <strong>pre-rendered</strong> and sent as props.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Performance Trade-offs</h3>
+  <table style="margin-top: 1rem; border-collapse: collapse; width: 100%;">
+    <thead>
+      <tr>
+        <th style="padding: 0.5rem; border: 1px solid #333;">Feature</th>
+        <th style="padding: 0.5rem; border: 1px solid #333;">Server Component</th>
+        <th style="padding: 0.5rem; border: 1px solid #333;">Client Component</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding: 0.5rem; border: 1px solid #333;">JS Bundle Size</td>
+        <td style="padding: 0.5rem; border: 1px solid #333;">Zero for component</td>
+        <td style="padding: 0.5rem; border: 1px solid #333;">Adds JS</td>
+      </tr>
+      <tr>
+        <td style="padding: 0.5rem; border: 1px solid #333;">Data Fetching</td>
+        <td style="padding: 0.5rem; border: 1px solid #333;">Direct server access</td>
+        <td style="padding: 0.5rem; border: 1px solid #333;">API calls</td>
+      </tr>
+      <tr>
+        <td style="padding: 0.5rem; border: 1px solid #333;">Interactivity</td>
+        <td style="padding: 0.5rem; border: 1px solid #333;">None</td>
+        <td style="padding: 0.5rem; border: 1px solid #333;">Full</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Streaming & Suspense</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Server Components can stream HTML progressively; Client Components hydrate only when their JS arrives.</li>
+    <li>Use <code>&lt;Suspense&gt;</code> to show fallbacks during streaming.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">6. Migration Tips</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Start everything as Server Component; add <code>'use client'</code> only when you need interactivity.</li>
+    <li>Move shared server-only utilities into separate files to avoid accidental client inclusion.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">Real-World Use Cases</h3>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>Product Listing Page</strong> – Server Component fetches products from DB, passes array to Client Component for filtering.</li>
+    <li><strong>Interactive Chart</strong> – Server Component fetches data, Client Component renders chart with <code>recharts</code>.</li>
+    <li><strong>Auth Check</strong> – Server Component validates JWT on the server, redirects unauthenticated users before any JS loads.</li>
+  </ol>
+</div>`,
+            examples: [
+              `// app/posts/[id]/page.tsx – Server Component
+export default async function PostPage({ params }) {
+  const post = await fetch(\`https://api.vercel.app/posts/\${params.id}\`).then(r => r.json());
+  return (
+    <article>
+      <h1>{post.title}</h1>
+      <LikeButton id={post.id} /> {/* Client Component */}
+    </article>
+  );
+}`,
+              `// components/LikeButton.tsx – Client Component
+'use client';
+import { useState } from 'react';
+export default function LikeButton({ id }) {
+  const [liked, setLiked] = useState(false);
+  return (
+    <button onClick={() => setLiked(!liked)}>
+      {liked ? '❤️' : '🤍'} Like
+    </button>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "Can a Server Component call a Client Component that itself imports Server Components?",
+                solution:
+                  "<p>No. The boundary is one-way: Server → Client is allowed, but Client → Server is not. To share server-only data with a Client Component, fetch in the Server Component and pass the data as props.</p>",
+              },
+              {
+                question:
+                  "How do I fetch user-specific data in a Client Component?",
+                solution:
+                  "<p>Perform the fetch inside a Server Component, then pass the result to the Client Component. Alternatively, call an API route from the client using SWR or fetch.</p>",
+              },
+              {
+                question: "Will adding 'use client' break SEO?",
+                solution:
+                  "<p>No. Next.js still pre-renders Client Components on the server (SSR) for the initial HTML. SEO-critical content should therefore be in Server Components to avoid hydration delays.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/rendering/server-components",
+              "https://nextjs.org/docs/app/building-your-application/rendering/client-components",
+            ],
+          },
+          {
+            topic: "loading.js and error.js boundaries",
+            tags: [
+              "Next.js 13+",
+              "App Router",
+              "loading UI",
+              "error handling",
+              "streaming",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Next.js 13+ App Router introduces <strong>file-based boundaries</strong> that automatically wrap route segments with loading and error UI.  
+    By creating <code style="background:#1A1A1A; color:#00D1FF; padding:0.2rem 0.4rem; border-radius:4px;">loading.js|tsx</code> and <code style="background:#1A1A1A; color:#00D1FF; padding:0.2rem 0.4rem; border-radius:4px;">error.js|tsx</code> inside any folder in <code>app/</code>, you provide instant feedback and graceful failure handling—no extra code in your pages.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. loading.js – Streaming Fallback UI</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Rendered immediately while the nested segment (page or layout) is loading data.</li>
+    <li>Works hand-in-hand with <strong>React Suspense</strong>; you don’t write <code>&lt;Suspense&gt;</code> yourself.</li>
+    <li>Can be nested: a parent <code>loading.tsx</code> shows until the child’s own <code>loading.tsx</code> resolves.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. error.js – Per-Segment Error Boundary</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Acts as an <strong>Error Boundary</strong> for that segment and all deeper segments.</li>
+    <li>Receives <code>error</code> and <code>reset</code> props, letting users retry without full page reload.</li>
+    <li>Only triggered on <strong>runtime errors</strong>; build-time syntax errors still crash the build.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. File Placement & Nesting Rules</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px; overflow-x:auto;">
+app/
+├─ products/
+│  ├─ loading.tsx     // fallback for /products/*
+│  ├─ error.tsx       // boundary for /products/*
+│  ├─ page.tsx
+│  └─ [id]/
+│     ├─ loading.tsx  // fallback specific to /products/:id
+│     ├─ error.tsx    // boundary specific to /products/:id
+│     └─ page.tsx
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Props API</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><code>loading.tsx</code> – no props; simply returns JSX.</li>
+    <li><code>error.tsx</code> – receives:
+      <ul>
+        <li><code>error: Error & { digest?: string }</code></li>
+        <li><code>reset: () =&gt; void</code> – re-renders the segment.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Real-World Use-Case Walkthrough</h3>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>E-commerce Product Grid</strong>
+      <ul>
+        <li><code>/products/loading.tsx</code> shows skeleton cards.</li>
+        <li><code>/products/error.tsx</code> shows a “Retry” button if the API fails.</li>
+      </ul>
+    </li>
+    <li><strong>Admin Dashboard Widget</strong>
+      <ul>
+        <li>Each widget folder has its own <code>loading.js</code> (spinner) and <code>error.js</code> (inline message).</li>
+        <li>One failing widget doesn’t crash the entire dashboard.</li>
+      </ul>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `// app/products/loading.tsx
+export default function ProductsLoading() {
+  return (
+    <div className="grid grid-cols-3 gap-4">
+      {[...Array(6)].map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
+    </div>
+  );
+}`,
+              `// app/products/error.tsx
+'use client';
+export default function ProductsError({ error, reset }) {
+  return (
+    <div className="text-center py-10">
+      <h2 className="text-2xl mb-2">Something went wrong!</h2>
+      <p className="text-red-500 mb-4">{error.message}</p>
+      <button
+        onClick={reset}
+        className="px-4 py-2 bg-blue-600 text-white rounded"
+      >
+        Try Again
+      </button>
+    </div>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question: "Does error.js catch async data-fetching errors?",
+                solution:
+                  "<p>Yes. If a Server Component throws inside <code>fetch</code> or any async operation, the nearest <code>error.js</code> boundary catches it and displays the fallback UI.</p>",
+              },
+              {
+                question:
+                  "Can I have multiple loading.js files along the same path?",
+                solution:
+                  "<p>Absolutely. Each folder can define its own <code>loading.js</code>; they nest automatically, creating layered fallbacks (e.g., root skeleton → products skeleton → product-card skeleton).</p>",
+              },
+              {
+                question: "How do I reset the error boundary programmatically?",
+                solution:
+                  "<p>Call the <code>reset()</code> prop provided by Next.js. It re-renders the segment, re-running data loaders and Server Components.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/api-reference/file-conventions/loading",
+              "https://nextjs.org/docs/app/api-reference/file-conventions/error",
+            ],
+          },
+          {
+            topic: "Streaming and Suspense",
+            tags: [
+              "Next.js 13+",
+              "React Suspense",
+              "streaming",
+              "SSR",
+              "partial prerendering",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Streaming</strong> lets the server send HTML to the browser <strong>progressively</strong> as data becomes available.  
+    In Next.js 13+, every Server Component is automatically streamed. You control what the user sees during wait times with <strong>Suspense boundaries</strong>.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. How Streaming Works</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Server renders the shell (layout, nav, footer) and flushes it immediately.</li>
+    <li>Each async Server Component is wrapped in a hidden Suspense boundary by default.</li>
+    <li>As data resolves, the server streams <code>&lt;template&gt;</code> tags with the new HTML; React hydrates them in order.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. Suspense in Next.js App Router</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>File-based: <code>loading.js</code> is the <strong>fallback UI</strong> for a route segment.</li>
+    <li>Inline: wrap any async component with <code>&lt;Suspense fallback={...}&gt;</code> for fine-grained control.</li>
+    <li>Works in both Server and Client Components.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. Progressive Enhancement Benefits</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Time-to-first-byte (TTFB) stays low—users see UI instantly.</li>
+    <li>Slow APIs or DB queries don’t block the entire page.</li>
+    <li>SEO-friendly: crawlers receive fully rendered HTML over time.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Putting It All Together</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px; overflow-x:auto;">
+// app/products/page.tsx
+import { Suspense } from 'react';
+import ProductList from '@/components/ProductList';
+import FilterSidebar from '@/components/FilterSidebar';
+
+export default async function ProductsPage() {
+  return (
+    &lt;div className="flex"&gt;
+      &lt;aside className="w-64"&gt;
+        {/* Sidebar streams independently */}
+        &lt;Suspense fallback={&lt;SidebarSkeleton&gt;&lt;/SidebarSkeleton&gt;}&gt;
+          &lt;FilterSidebar /&gt;
+        &lt;/Suspense&gt;
+      &lt;/aside&gt;
+      &lt;main className="flex-1"&gt;
+        {/* ProductList is wrapped by loading.tsx automatically */}
+        &lt;ProductList /&gt;
+      &lt;/main&gt;
+    &lt;/div&gt;
+  );
+}
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Edge Runtime & Edge Streaming</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Streaming works on Vercel Edge Functions, Cloudflare Workers, or Node.js.</li>
+    <li>Edge environment keeps latency minimal for global users.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">6. Real-World Use-Case Walkthrough</h3>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>Social Feed</strong>
+      <ul>
+        <li>Layout shell renders instantly.</li>
+        <li>Posts stream in via Suspense; likes & comments hydrate later.</li>
+      </ul>
+    </li>
+    <li><strong>Dashboard Metrics</strong>
+      <ul>
+        <li>Critical KPIs load first; heavy charts stream after.</li>
+      </ul>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `// components/ProductList.tsx (Server Component)
+export default async function ProductList() {
+  const products = await fetch('https://api.vercel.app/products').then(r => r.json());
+  return (
+    <ul>
+      {products.map(p => (
+        <li key={p.id}>{p.title}</li>
+      ))}
+    </ul>
+  );
+}`,
+              `// components/FilterSidebar.tsx (Server Component)
+export default async function FilterSidebar() {
+  const categories = await fetch('https://api.vercel.app/categories').then(r => r.json());
+  return (
+    <nav>
+      {categories.map(c => (
+        <a key={c.slug} href={/products?category={c.slug}}>{c.name}</a>
+      ))}
+    </nav>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question: "Can I stream nested Suspense boundaries?",
+                solution:
+                  "<p>Yes. Suspense boundaries can be nested arbitrarily; each streams and hydrates independently, letting you fine-tune perceived performance.</p>",
+              },
+              {
+                question: "Does streaming work with middleware or API routes?",
+                solution:
+                  "<p>Streaming is primarily for page-level Server Components. API routes return full JSON; you can stream manually using Node.js streams, but Next.js handles page streaming automatically.</p>",
+              },
+              {
+                question: "How does streaming affect caching?",
+                solution:
+                  "<p>Streaming respects the same <code>cache</code> and <code>revalidate</code> tags. Cached segments are streamed from the CDN instantly, while dynamic segments are streamed after server computation.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/routing/loading-ui-and-streaming",
+              "https://react.dev/reference/react/Suspense",
+            ],
+          },
+          {
+            topic: "Server Actions – The Complete Guide",
+            tags: [
+              "App Router",
+              "Server Functions",
+              "Mutations",
+              "Progressive Enhancement",
+              "Edge",
+              "Security",
+            ],
+            explanation: `<div>
+<h2>Server Actions – The Complete Guide</h2>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  <strong>Server Actions</strong> are <em>asynchronous server functions</em> that can be called directly from Client or Server Components without manually creating an API route.  
+  They run exclusively on the server, receive serializable arguments, and return serializable data—perfect for forms, mutations, and RPC-style workflows.
+</p>
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">📁 Where to define</h3>
+<ul style="margin-left: 1.25rem;">
+  <li>Inside <code>actions.ts</code> (or <code>.js</code>) files in the <code>app</code> directory</li>
+  <li>At the bottom of a Server Component file (inline actions)</li>
+  <li>Re-export from <code>index.ts</code> barrels for convenience</li>
+</ul>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">1️⃣ Minimal Server Action</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/actions.ts
+'use server'
+
+export async function addTodo(text: string) {
+  await db.todo.create({ data: { text } })
+  revalidatePath('/')          // ISR refresh
+}
+</code></pre>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/todo-form.tsx
+'use client'
+import { addTodo } from '@/app/actions'
+
+export default function TodoForm() {
+  return (
+    &lt;form action={addTodo}&gt;
+      &lt;input name="text" required /&gt;
+      &lt;button type="submit"&gt;Add&lt;/button&gt;
+    &lt;/form&gt;
+  )
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">2️⃣ Progressive Enhancement with <code>startTransition</code></h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+'use client'
+import { useTransition } from 'react'
+import { addTodo } from '@/app/actions'
+
+export default function TodoForm() {
+  const [isPending, startTransition] = useTransition()
+
+  const handleSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      await addTodo(formData.get('text') as string)
+    })
+  }
+
+  return (
+    &lt;form onSubmit={(e) => { e.preventDefault(); handleSubmit(new FormData(e.currentTarget)) }}&gt;
+      &lt;input name="text" required /&gt;
+      &lt;button disabled={isPending}&gt;{isPending ? 'Adding…' : 'Add'}&lt;/button&gt;
+    &lt;/form&gt;
+  )
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">3️⃣ Returning Values & Error Handling</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/actions.ts
+'use server'
+
+export async function signup(prevState: any, formData: FormData) {
+  const raw = {
+    email: formData.get('email'),
+    password: formData.get('password')
+  }
+
+  const parsed = signupSchema.safeParse(raw)
+  if (!parsed.success) return { error: parsed.error.flatten() }
+
+  try {
+    const user = await db.user.create({ data: parsed.data })
+    return { ok: true, id: user.id }
+  } catch (e) {
+    return { error: 'Email taken' }
+  }
+}
+</code></pre>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/signup-form.tsx
+'use client'
+import { useFormState } from 'react-dom'
+import { signup } from '@/app/actions'
+
+const initialState = { error: null, ok: false }
+
+export default function SignupForm() {
+  const [state, formAction] = useFormState(signup, initialState)
+
+  return (
+    &lt;form action={formAction}&gt;
+      &lt;input name="email" type="email" required /&gt;
+      &lt;input name="password" type="password" required /&gt;
+      &lt;button&gt;Sign up&lt;/button&gt;
+      {state.error && &lt;p&gt;{state.error}&lt;/p&gt;}
+      {state.ok && &lt;p&gt;Welcome!&lt;/p&gt;}
+    &lt;/form&gt;
+  )
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">4️⃣ Input Validation with Zod</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// lib/validations.ts
+import { z } from 'zod'
+
+export const signupSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(6)
+})
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">5️⃣ Edge Runtime Server Actions</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/actions.ts
+'use server'
+export const config = { runtime: 'edge' }
+
+export async function geoLocate() {
+  const res = await fetch('https://ipapi.co/json/')
+  return res.json()
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">6️⃣ Calling from Server Components</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/page.tsx
+import { getTodos } from '@/app/actions'
+
+export default async function Page() {
+  const todos = await getTodos()
+  return (
+    &lt;ul&gt;
+      {todos.map(t => &lt;li key={t.id}&gt;{t.text}&lt;/li&gt;)}
+    &lt;/ul&gt;
+  )
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">7️⃣ Optimistic UI with <code>useOptimistic</code></h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+'use client'
+import { useOptimistic } from 'react'
+import { addTodo } from '@/app/actions'
+
+export default function TodoList({ initialTodos }: { initialTodos: Todo[] }) {
+  const [optimisticTodos, addOptimisticTodo] = useOptimistic(
+    initialTodos,
+    (state, newTodo: Todo) => [...state, newTodo]
+  )
+
+  const handleAdd = async (text: string) => {
+    const temp = { id: crypto.randomUUID(), text }
+    addOptimisticTodo(temp)
+    await addTodo(text)
+  }
+
+  return (
+    &lt;&gt;
+      {optimisticTodos.map(t => &lt;li key={t.id}&gt;{t.text}&lt;/li&gt;)}
+      &lt;button onClick={() => handleAdd('New')}&gt;Add&lt;/button&gt;
+    &lt;/&gt;
+  )
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">8️⃣ Security Best Practices</h3>
+<ul style="margin-left: 1.25rem;">
+  <li>Always <strong>validate & sanitize</strong> inputs (Zod, Yup, custom).</li>
+  <li>Use <code>cookies().get()</code> to read auth tokens; never trust client headers.</li>
+  <li>Limit payload size via <code>bodyParser = { sizeLimit: '1mb' }</code>.</li>
+  <li>Return minimal error details to avoid information leaks.</li>
+</ul>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">9️⃣ Environment Variables</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+export async function uploadImage(formData: FormData) {
+  const file = formData.get('file') as File
+  const res = await fetch(https://{process.env.S3_BUCKET}.s3.amazonaws.com, {
+    method: 'PUT',
+    body: file,
+    headers: { 'Content-Type': file.type }
+  })
+  return res.url
+}
+</code></pre>
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">🔟 Testing Server Actions</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// __tests__/actions.test.ts
+import { addTodo } from '@/app/actions'
+import { db } from '@/lib/db-mock'
+
+it('creates todo', async () => {
+  await addTodo('test')
+  expect(await db.todo.findMany()).toHaveLength(1)
+})
+</code></pre>
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">🔄 Summary Flow</h3>
+<ol style="margin-left: 1.25rem;">
+  <li>Client submits form (or button click).</li>
+  <li>Next.js serializes arguments and invokes the server function.</li>
+  <li>Action executes on the server (Node.js or Edge).</li>
+  <li>Return value or error is streamed back to the client.</li>
+  <li>UI re-renders: <code>revalidatePath/Tag</code> for cache refresh, optimistic updates for snappy UX.</li>
+</ol>
+</div>`,
+            examples: [
+              "// app/actions.ts – basic create",
+              "// app/signup-form.tsx – useFormState hook",
+              "// app/todo-list.tsx – optimistic UI pattern",
+              "// app/actions.ts – edge runtime config",
+            ],
+            questions: [
+              {
+                question:
+                  "Can Server Actions be called from Client Components?",
+                solution:
+                  "<p>Yes. Mark the file (or the export) with <code>'use server'</code> and import it anywhere. Next.js generates a secure RPC layer automatically.</p>",
+              },
+              {
+                question:
+                  "How do I protect a Server Action behind authentication?",
+                solution:
+                  "<pre><code>export async function secureAction() {\n  const session = await getServerSession(authOptions)\n  if (!session) throw new Error('Unauthorized')\n  // proceed\n}</code></pre>",
+              },
+              {
+                question: "What happens if the payload is too large?",
+                solution:
+                  "<p>Next.js throws <code>413 Payload Too Large</code>. Increase via <code>bodyParser = { sizeLimit: '4mb' }</code> in <code>next.config.js</code>.</p>",
+              },
+              {
+                question: "Are Server Actions available in Pages Router?",
+                solution:
+                  "<p>No. They are exclusive to the App Router (<code>/app</code>).</p>",
+              },
+              {
+                question: "How do I stream incremental results?",
+                solution:
+                  "<p>Use <code>'use server'</code> with <code>ReadableStream</code> returned from Edge runtime actions, or combine Server Actions with Suspense boundaries.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/data-fetching/server-actions",
+              "https://nextjs.org/docs/app/api-reference/functions/server-actions",
+            ],
+          },
+          {
+            topic: "Performance Optimization Code Splitting & Bundle Analysis",
+            tags: [
+              "performance",
+              "code-splitting",
+              "bundle-analyzer",
+              "lazy-loading",
+              "webpack",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Next.js gives you world-class performance out of the box, but as features and pages grow so does the JavaScript bundle.  
+    <strong>Code-splitting</strong> breaks the bundle into smaller chunks that are downloaded only when needed, while <strong>bundle analysis</strong> shows you exactly what is eating bytes.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. Automatic Code-Splitting</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>Page-level:</strong> Every file in <code>app/</code> (or legacy <code>pages/</code>) becomes its own chunk. Navigating to <code>/checkout</code> only loads <code>checkout.js</code>.</li>
+    <li><strong>React.lazy & Suspense:</strong> Split inside a page with dynamic <code>import()</code>.</li>
+    <li><strong>Server Components:</strong> Already zero-JS for static output; only Client Components add bytes.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. Manual Code-Splitting with next/dynamic</h3>
+  <p style="margin-top: 1rem;">Wrap any component:</p>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+import dynamic from 'next/dynamic';
+
+const HeavyChart = dynamic(() => import('@/components/HeavyChart'), {
+  loading: () => &lt;p&gt;Loading chart...&lt;/p&gt;,
+  ssr: false   // optional: skip server render
+});
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. Bundle Analysis Tools</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>@next/bundle-analyzer</strong> – interactive treemap.</li>
+    <li><strong>next build --analyze</strong> – one-liner after install.</li>
+    <li>Highlights duplicates, large libraries, and missed tree-shaking.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Installation & Run</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+npm install -D @next/bundle-analyzer
+# add to next.config.js
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true'
+});
+module.exports = withBundleAnalyzer({});
+# then
+ANALYZE=true npm run build
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Common Optimizations After Analysis</h3>
+  <table style="width:100%; margin-top:1rem; border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem; border:1px solid #333;">Problem</th>
+        <th style="padding:0.5rem; border:1px solid #333;">Fix</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">Entire lodash in bundle</td>
+        <td style="padding:0.5rem; border:1px solid #333;"><code>import debounce from 'lodash/debounce'</code></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">Moment.js (large)</td>
+        <td style="padding:0.5rem; border:1px solid #333;">Replace with <code>date-fns</code> or <code>dayjs</code></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">Multiple icons packs</td>
+        <td style="padding:0.5rem; border:1px solid #333;">Tree-shake or use SVG sprites</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">6. Real-World Use-Case Walkthrough</h3>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>E-commerce Checkout</strong>
+      <ul>
+        <li>Split 3-D secure widget → <code>lazy(() => import('@stripe/stripe-js'))</code></li>
+        <li>Bundle analyzer shows 120 kB saved on initial load.</li>
+      </ul>
+    </li>
+    <li><strong>Admin Dashboard</strong>
+      <ul>
+        <li>Heavy chart library only loaded on analytics page.</li>
+        <li>Reduces Time-to-Interactive by 35 %.</li>
+      </ul>
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `// next.config.js – enable analyzer
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+module.exports = withBundleAnalyzer({});`,
+
+              `// components/Map.js – lazy-loaded map
+import dynamic from 'next/dynamic';
+const Map = dynamic(() => import('@/components/LeafletMap'), {
+  ssr: false,
+  loading: () => <p>Loading map...</p>,
+});
+export default Map;`,
+            ],
+            questions: [
+              {
+                question: "Will dynamic imports hurt SEO?",
+                solution:
+                  "<p>No. Next.js pre-renders on the server (SSR/SSG). Content arrives fully rendered for crawlers; lazy chunks hydrate later for interactivity.</p>",
+              },
+              {
+                question:
+                  "How do I split third-party libraries that are used in many pages?",
+                solution:
+                  "<p>Use <code>next.config.js splitChunks.cacheGroups</code> to create a separate vendor chunk, or tree-shake individual functions via sub-path imports.</p>",
+              },
+              {
+                question: "Can I analyze the production bundle in CI?",
+                solution:
+                  "<p>Yes. Run <code>ANALYZE=true npm run build</code> in CI and upload the generated <code>.next/analyze</code> HTML artifact for regression tracking.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading",
+              "https://github.com/vercel/next.js/tree/canary/packages/next-bundle-analyzer",
+            ],
+          },
+          {
+            topic: "Performance Optimization ISR & Lazy Loading",
+            tags: [
+              "ISR",
+              "SSG",
+              "SSR",
+              "dynamic",
+              "React.lazy",
+              "next/dynamic",
+            ],
+            explanation: `<div>
+<h2>Performance Optimization – ISR & Lazy Loading</h2>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Next.js gives you <strong>multiple rendering strategies</strong> and <strong>code-splitting tools</strong> to keep Time-to-First-Byte (TTFB) and bundle size as low as possible.  
+  The two pillars we’ll deep-dive are:
+</p>
+<ol style="margin-left: 1.25rem;">
+  <li><strong>ISR (Incremental Static Regeneration)</strong> – hybrid caching between SSG and SSR.</li>
+  <li><strong>Lazy loading components / modules</strong> – shipping less JavaScript to the browser.</li>
+</ol>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">1️⃣ Caching Strategies with ISR</h3>
+<h4>What is ISR?</h4>
+<ul style="margin-left: 1.25rem;">
+  <li>Generates <strong>static HTML at build time</strong> (SSG) <em>and</em> revalidates in the background on-demand.</li>
+  <li>Perfect for content that changes, but not every request (e.g., blog posts, e-commerce catalog).</li>
+</ul>
+
+<h4>ISR in Pages Router</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// pages/products/[id].tsx
+export async function getStaticPaths() {
+  const slugs = await fetch('https://api/products?limit=100').then(r => r.json())
+  return {
+    paths: slugs.map((s: string) => ({ params: { id: s } })),
+    fallback: 'blocking'              // ISR on demand for unknown slugs
+  }
+}
+
+export async function getStaticProps({ params }) {
+  const product = await fetch(\`https://api/products/\${params.id}\`).then(r => r.json())
+  return {
+    props: { product },
+    revalidate: 60                    // regenerate page every 60 s
+  }
+}
+</code></pre>
+
+<h4>ISR in App Router (Route Segment Config)</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/products/[id]/page.tsx
+export const revalidate = 60          // 60-second ISR
+
+export default async function Page({ params }) {
+  const product = await fetch(\`https://api/products/\${params.id}\`, {
+    next: { revalidate: 60 }          // granular fetch cache
+  }).then(r => r.json())
+  return &lt;ProductCard {...product} /&gt;
+}
+</code></pre>
+
+<h4>On-Demand Revalidation (Webhook)</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/api/revalidate/route.ts
+import { revalidatePath } from 'next/cache'
+
+export async function POST(req: Request) {
+  const { slug } = await req.json()
+  revalidatePath(\`/products/\${slug}\`)
+  return Response.json({ revalidated: true })
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">2️⃣ Lazy Loading Components</h3>
+<h4>React.lazy + Suspense (Client-Side)</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// components/HeavyChart.tsx
+import { lazy, Suspense } from 'react'
+const HeavyChart = lazy(() => import('@/components/charts/HeavyChart'))
+
+export default function Dashboard() {
+  return (
+    &lt;Suspense fallback={&lt;Skeleton height={400} /&gt;}&gt;
+      &lt;HeavyChart /&gt;
+    &lt;/Suspense&gt;
+  )
+}
+</code></pre>
+
+<h4>next/dynamic (SSR-aware)</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// SSR disabled → shipped only to client
+const Map = dynamic(() => import('@/components/Map'), {
+  ssr: false,
+  loading: () => &lt;Spinner /&gt;
+})
+
+// Named export with SSR
+const Tooltip = dynamic(() => import('@/ui/Tooltip').then(mod => mod.Tooltip))
+</code></pre>
+
+<h4>Route-based Code Splitting (Pages Router)</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// next.config.js
+module.exports = {
+  experimental: {
+    // automatic page-based splitting is on by default
+  }
+}
+</code></pre>
+
+<h4>Dynamic Import for Libraries</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// utils/load-monaco.ts
+export default async function loadMonaco() {
+  const monaco = await import('monaco-editor')
+  return monaco
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">3️⃣ Advanced Caching Patterns</h3>
+<h4>Stale-While-Revalidate (SWR)</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+import useSWR from 'swr'
+
+export default function Product({ fallback }) {
+  const { data, error } = useSWR('/api/products', fetcher, {
+    fallbackData: fallback,
+    revalidateOnFocus: false
+  })
+  ...
+}
+</code></pre>
+
+<h4>Cache Tags (App Router)</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+await fetch('https://api/products', { next: { tags: ['products'] } })
+
+// later
+import { revalidateTag } from 'next/cache'
+revalidateTag('products')
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">4️⃣ Image & Font Optimization</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+import Image from 'next/image'
+
+&lt;Image
+  src="/hero.jpg"
+  width={1200}
+  height={630}
+  priority      // above-the-fold
+  alt="Hero"
+/&gt;
+
+// local font subsetting
+import localFont from 'next/font/local'
+const inter = localFont({ src: './Inter-subset.woff2' })
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">5️⃣ Bundle Analyzer</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+npm i -D @next/bundle-analyzer
+
+// next.config.js
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true'
+})
+module.exports = withBundleAnalyzer({})
+</code></pre>
+<p style="font-size:0.9rem;color:#aaa">Run <code>ANALYZE=true npm run build</code> to visualize chunks.</p>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">🔄 Decision Tree</h3>
+<table style="width:100%;border-collapse:collapse;margin-top:1rem;">
+  <thead>
+    <tr style="border-bottom:1px solid #444">
+      <th style="padding:0.5rem;text-align:left">Scenario</th>
+      <th style="padding:0.5rem;text-align:left">Strategy</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Static product pages updated daily</td>
+      <td>ISR <code>revalidate = 86400</code></td>
+    </tr>
+    <tr>
+      <td>Heavy chart only used on /analytics</td>
+      <td>Lazy load with <code>next/dynamic</code></td>
+    </tr>
+    <tr>
+      <td>User dashboard (private, fast)</td>
+      <td>SSR + caching with <code>Cache-Control: s-maxage=60, stale-while-revalidate</code></td>
+    </tr>
+    <tr>
+      <td>Markdown blog</td>
+      <td>SSG + on-demand ISR via webhook</td>
+    </tr>
+  </tbody>
+</table>
+</div>`,
+            examples: [
+              "// pages/products/[id].tsx – ISR with Pages Router",
+              "// app/products/[id]/page.tsx – ISR with App Router",
+              "// components/Dashboard.tsx – lazy load chart",
+              "// next.config.js – bundle-analyzer setup",
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between `fallback: true` and `fallback: 'blocking'` in ISR?",
+                solution:
+                  "<p><code>true</code> serves a fallback shell immediately (client shows loading) then hydrates with HTML once generated. <code>'blocking'</code> waits server-side, so the first request is slower but user never sees a loading skeleton.</p>",
+              },
+              {
+                question:
+                  "How can I prevent layout shift when lazy-loading images?",
+                solution:
+                  "<p>Use <code>next/image</code> with explicit <code>width</code> and <code>height</code> or <code>fill</code> + <code>sizes</code>. Next.js will generate a blur placeholder if <code>placeholder='blur'</code> is set.</p>",
+              },
+              {
+                question: "Can I combine ISR and SSR in the same app?",
+                solution:
+                  "<p>Yes. Use ISR for marketing pages (fast, CDN cache) and SSR or Edge SSR for personalized dashboards. Mixing strategies is encouraged based on page needs.</p>",
+              },
+              {
+                question:
+                  "Does `dynamic(import(...))` split node_modules packages?",
+                solution:
+                  "<p>Yes. Each <code>dynamic()</code> call creates a new webpack chunk. Libraries like <code>monaco-editor</code> or <code>three.js</code> can be >1 MB, so lazy them out.</p>",
+              },
+              {
+                question: "How do I debug cache hits/misses in Vercel?",
+                solution:
+                  "<p>Add <code>x-vercel-cache</code> response header. Values: <code>HIT</code>, <code>MISS</code>, <code>STALE</code>, <code>REVALIDATED</code>. Also check the <em>Functions</em> tab in Vercel dashboard for ISR logs.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/server-side-props",
+              "https://nextjs.org/docs/app/building-your-application/caching",
+              "https://nextjs.org/docs/advanced-features/dynamic-import",
+            ],
+          },
+          {
+            topic: "Using NextAuth.js",
+            tags: ["authentication", "oauth", "sessions", "providers"],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              NextAuth.js is the complete authentication solution for Next.js applications. It provides a comprehensive set of features including OAuth integration, session management, database adapters, and security best practices out of the box.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Why Use NextAuth.js?
+            </h4>
+          
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Easy Setup:</span> Minimal configuration required to get started.
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Multiple Providers:</span> Supports OAuth, email, credentials, and custom providers.
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Security First:</span> Built-in CSRF protection, secure cookies, and JWT handling.
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Database Agnostic:</span> Works with SQL and NoSQL databases or can be stateless.
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">TypeScript Support:</span> Full TypeScript integration with type safety.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Installation and Basic Setup
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+               <pre><code className="language-bash">
+npm install next-auth
+# or
+yarn add next-auth
+  </code></pre>
+           </div>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Configuration (pages/api/auth/[...nextauth].js)
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+               <pre><code className="language-javascript">
+import NextAuth from 'next-auth'
+import GoogleProvider from 'next-auth/providers/google'
+import GitHubProvider from 'next-auth/providers/github'
+import CredentialsProvider from 'next-auth/providers/credentials'
+
+export default NextAuth({
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET,
+    }),
+    CredentialsProvider({
+      name: 'credentials',
+      credentials: {
+        username: { label: 'Username', type: 'text' },
+        password: { label: 'Password', type: 'password' }
+      },
+      async authorize(credentials, req) {
+        // Add logic to validate credentials
+        const user = await validateUser(credentials)
+        
+        if (user) {
+          return {
+            id: user.id,
+            name: user.name,
+            email: user.email,
+            role: user.role
+          }
+        }
+        return null
+      }
+    })
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.role = user.role
+      }
+      return token
+    },
+    async session({ session, token }) {
+      session.user.role = token.role
+      return session
+    }
+  },
+  pages: {
+    signIn: '/auth/signin',
+    signOut: '/auth/signout',
+    error: '/auth/error'
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  jwt: {
+    secret: process.env.NEXTAUTH_SECRET,
+  }
+})
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Using NextAuth in Components
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+import { useSession, signIn, signOut } from 'next-auth/react'
+import { SessionProvider } from 'next-auth/react'
+
+// Wrap your app with SessionProvider in _app.js
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
+  return (
+    <SessionProvider session={session}>
+      <Component {...pageProps} />
+    </SessionProvider>
+  )
+}
+
+// Using session in components
+function Profile() {
+  const { data: session, status } = useSession()
+
+  if (status === 'loading') return <p>Loading...</p>
+  if (status === 'unauthenticated') return <p>Access Denied</p>
+
+  return (
+    <div>
+      <h1>Welcome {session.user.name}</h1>
+      <p>Email: {session.user.email}</p>
+      <button onClick={() => signOut()}>Sign Out</button>
+    </div>
+  )
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Custom Sign-in Page
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+import { getProviders, signIn, getSession } from 'next-auth/react'
+
+export default function SignIn({ providers }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="max-w-md w-full space-y-8">
+        <h2 className="text-3xl font-bold text-center">Sign In</h2>
+        {Object.values(providers).map((provider) => (
+          <div key={provider.name}>
+            <button
+              onClick={() => signIn(provider.id)}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+            >
+              Sign in with {provider.name}
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export async function getServerSideProps(context) {
+  const { req, res } = context
+  const token = req.cookies.token
+
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+
+  try {
+    const decoded = verify(token, process.env.JWT_SECRET)
+    
+    // Fetch user-specific data
+    const userData = await fetchUserData(decoded.userId)
+    const dashboardData = await fetchDashboardData(decoded.userId)
+
+    return {
+      props: {
+        user: userData,
+        data: dashboardData,
+      },
+    }
+  } catch (error) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      },
+    }
+  }
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Higher-Order Component for Page Protection
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// hoc/withAuth.js
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useAuth } from '../hooks/useAuth'
+
+export function withAuth(WrappedComponent, options = {}) {
+  return function AuthenticatedComponent(props) {
+    const { user, loading } = useAuth()
+    const router = useRouter()
+    const { 
+      redirectTo = '/login', 
+      requiredRole = null,
+      loadingComponent = <div>Loading...</div> 
+    } = options
+
+    useEffect(() => {
+      if (!loading) {
+        if (!user) {
+          router.replace(redirectTo)
+          return
+        }
+        
+        if (requiredRole && user.role !== requiredRole) {
+          router.replace('/unauthorized')
+          return
+        }
+      }
+    }, [user, loading, router])
+
+    if (loading) {
+      return loadingComponent
+    }
+
+    if (!user) {
+      return null
+    }
+
+    if (requiredRole && user.role !== requiredRole) {
+      return null
+    }
+
+    return <WrappedComponent {...props} />
+  }
+}
+
+// Usage
+// pages/admin-panel.js
+import { withAuth } from '../hoc/withAuth'
+
+function AdminPanel() {
+  return <div>Admin Panel Content</div>
+}
+
+export default withAuth(AdminPanel, { 
+  requiredRole: 'admin',
+  redirectTo: '/login'
+})
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             API Route Protection Middleware
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// middleware/apiAuth.js
+import { verify } from 'jsonwebtoken'
+
+export function requireAuth(handler, options = {}) {
+  return async (req, res) => {
+    try {
+      const token = req.cookies.token || 
+        req.headers.authorization?.replace('Bearer ', '')
+
+      if (!token) {
+        return res.status(401).json({ error: 'Authentication required' })
+      }
+
+      const decoded = verify(token, process.env.JWT_SECRET)
+      
+      // Check role if specified
+      if (options.requiredRole && decoded.role !== options.requiredRole) {
+        return res.status(403).json({ error: 'Insufficient permissions' })
+      }
+
+      // Check permissions if specified
+      if (options.requiredPermissions) {
+        const hasPermissions = options.requiredPermissions.every(
+          permission => decoded.permissions?.includes(permission)
+        )
+        
+        if (!hasPermissions) {
+          return res.status(403).json({ error: 'Insufficient permissions' })
+        }
+      }
+
+      req.user = decoded
+      return handler(req, res)
+    } catch (error) {
+      return res.status(401).json({ error: 'Invalid token' })
+    }
+  }
+}
+
+// Usage in API routes
+// pages/api/admin/users.js
+import { requireAuth } from '../../../middleware/apiAuth'
+
+async function handler(req, res) {
+  if (req.method === 'GET') {
+    const users = await getAllUsers()
+    res.status(200).json(users)
+  } else if (req.method === 'POST') {
+    const newUser = await createUser(req.body)
+    res.status(201).json(newUser)
+  }
+}
+
+export default requireAuth(handler, { requiredRole: 'admin' })
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Client-side Route Guards
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// components/RouteGuard.js
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { useAuth } from '../hooks/useAuth'
+
+export default function RouteGuard({ children }) {
+  const router = useRouter()
+  const { user, loading } = useAuth()
+  const [authorized, setAuthorized] = useState(false)
+
+  useEffect(() => {
+    const authCheck = () => {
+      const protectedRoutes = ['/dashboard', '/profile', '/admin']
+      const path = router.asPath.split('?')[0]
+      
+      if (!user && protectedRoutes.includes(path)) {
+        setAuthorized(false)
+        router.push('/login')
+      } else {
+        setAuthorized(true)
+      }
+    }
+
+    if (!loading) {
+      authCheck()
+    }
+
+    const hideContent = () => setAuthorized(false)
+    router.events.on('routeChangeStart', hideContent)
+    router.events.on('routeChangeComplete', authCheck)
+
+    return () => {
+      router.events.off('routeChangeStart', hideContent)
+      router.events.off('routeChangeComplete', authCheck)
+    }
+  }, [user, loading, router])
+
+  if (loading) {
+    return <div>Loading...</div>
+  }
+
+  return authorized ? children : null
+}
+
+// Wrap your app in _app.js
+export default function App({ Component, pageProps }) {
+  return (
+    <AuthProvider>
+      <RouteGuard>
+        <Component {...pageProps} />
+      </RouteGuard>
+    </AuthProvider>
+  )
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Role-based Page Access Control
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// utils/permissions.js
+export const ROLES = {
+  USER: 'user',
+  ADMIN: 'admin',
+  MODERATOR: 'moderator'
+}
+
+export const PERMISSIONS = {
+  READ_USERS: 'read_users',
+  WRITE_USERS: 'write_users',
+  DELETE_USERS: 'delete_users',
+  MANAGE_CONTENT: 'manage_content'
+}
+
+export const rolePermissions = {
+  [ROLES.USER]: [],
+  [ROLES.MODERATOR]: [PERMISSIONS.MANAGE_CONTENT],
+  [ROLES.ADMIN]: Object.values(PERMISSIONS)
+}
+
+export function hasPermission(userRole, requiredPermission) {
+  return rolePermissions[userRole]?.includes(requiredPermission) || false
+}
+
+export function hasAnyRole(userRole, allowedRoles) {
+  return allowedRoles.includes(userRole)
+}
+
+// components/ProtectedComponent.js
+import { useAuth } from '../hooks/useAuth'
+import { hasPermission, hasAnyRole } from '../utils/permissions'
+
+export function ProtectedComponent({ 
+  children, 
+  requiredRole, 
+  requiredPermission,
+  fallback = <div>Access Denied</div> 
+}) {
+  const { user } = useAuth()
+
+  if (!user) {
+    return fallback
+  }
+
+  if (requiredRole && !hasAnyRole(user.role, Array.isArray(requiredRole) ? requiredRole : [requiredRole])) {
+    return fallback
+  }
+
+  if (requiredPermission && !hasPermission(user.role, requiredPermission)) {
+    return fallback
+  }
+
+  return children
+}
+
+// Usage
+<ProtectedComponent requiredRole={[ROLES.ADMIN, ROLES.MODERATOR]}>
+  <AdminPanel />
+</ProtectedComponent>
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Advanced Middleware with Role Checks
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// middleware.js - Advanced protection with roles
+import { NextRequest, NextResponse } from 'next/server'
+import { jwtVerify } from 'jose'
+
+const secret = new TextEncoder().encode(process.env.JWT_SECRET)
+
+const routeRoles = {
+  '/admin': ['admin'],
+  '/moderator': ['admin', 'moderator'],
+  '/dashboard': ['admin', 'moderator', 'user'],
+}
+
+export async function middleware(request) {
+  const { pathname } = request.nextUrl
+  
+  // Check if route needs protection
+  const requiredRoles = Object.keys(routeRoles).find(route => 
+    pathname.startsWith(route)
+  )
+  
+  if (requiredRoles) {
+    const token = request.cookies.get('token')?.value
+    
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+    
+    try {
+      const { payload } = await jwtVerify(token, secret)
+      const allowedRoles = routeRoles[requiredRoles]
+      
+      if (!allowedRoles.includes(payload.role)) {
+        return NextResponse.redirect(new URL('/unauthorized', request.url))
+      }
+      
+      // Add user info to headers for use in pages
+      const response = NextResponse.next()
+      response.headers.set('x-user-id', payload.userId)
+      response.headers.set('x-user-role', payload.role)
+      
+      return response
+    } catch (error) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+  }
+  
+  return NextResponse.next()
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Use Cases for Page & API Protection
+           </h4>
+           <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Enterprise Applications:</span> Multi-level access control for different user roles and departments.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">E-learning Platforms:</span> Course access based on enrollment and subscription status.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Content Management:</span> Author, editor, and admin access levels for content creation.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Financial Applications:</span> Sensitive data protection with multi-factor authentication.
+             </li>
+           </ol>
+          </div>`,
+            examples: [
+              `// Complete page protection with Next.js middleware
+import { NextResponse } from 'next/server'
+import { jwtVerify } from 'jose'
+
+export async function middleware(request) {
+  const { pathname } = request.nextUrl
+  const protectedRoutes = ['/dashboard', '/profile', '/admin']
+  
+  if (protectedRoutes.some(route => pathname.startsWith(route))) {
+    const token = request.cookies.get('token')?.value
+    
+    if (!token) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+    
+    try {
+      const { payload } = await jwtVerify(token, new TextEncoder().encode(process.env.JWT_SECRET))
+      
+      // Role-based access
+      if (pathname.startsWith('/admin') && payload.role !== 'admin') {
+        return NextResponse.redirect(new URL('/unauthorized', request.url))
+      }
+      
+      return NextResponse.next()
+    } catch (error) {
+      return NextResponse.redirect(new URL('/login', request.url))
+    }
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between client-side and server-side page protection?",
+                solution:
+                  "<p>Client-side protection uses React hooks and conditional rendering, but can be bypassed by disabling JavaScript. Server-side protection using getServerSideProps or middleware happens before the page loads, providing true security. Client-side is good for UX (hiding UI elements), while server-side is essential for security (preventing unauthorized access to data).</p>",
+              },
+              {
+                question:
+                  "How do you protect API routes with different permission levels?",
+                solution: `<p>API routes can be protected using middleware that checks both authentication and authorization:</p>
+               <pre><code className="language-javascript">
+// Middleware with role and permission checks
+export function requireAuth(handler, options = {}) {
+  return async (req, res) => {
+    const token = req.cookies.token
+    const decoded = verify(token, process.env.JWT_SECRET)
+    
+    // Check role
+    if (options.requiredRole && decoded.role !== options.requiredRole) {
+      return res.status(403).json({ error: 'Insufficient permissions' })
+    }
+    
+    // Check specific permissions
+    if (options.permissions) {
+      const hasPermissions = options.permissions.every(p => 
+        decoded.permissions?.includes(p)
+      )
+      if (!hasPermissions) {
+        return res.status(403).json({ error: 'Missing permissions' })
+      }
+    }
+    
+    req.user = decoded
+    return handler(req, res)
+  }
+}
+
+export default requireAuth(handler, { 
+  requiredRole: 'admin', 
+  permissions: ['delete_users'] 
+})
+              </code></pre>`,
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/middleware",
+              "https://nextjs.org/docs/authentication",
+              "https://nextjs.org/docs/api-routes/introduction",
+            ],
+          },
+          {
+            topic: "Role-based Access Control (RBAC)",
+            tags: ["rbac", "permissions", "roles", "authorization"],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              Role-Based Access Control (RBAC) is a security model that restricts system access based on user roles and permissions. In Next.js applications, RBAC enables fine-grained control over what users can see and do, implementing the principle of least privilege where users only have access to resources necessary for their role.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              RBAC Components and Architecture
+            </h4>
+          
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Users:</span> Individual entities that interact with the system.
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Roles:</span> Named collections of permissions (e.g., Admin, Editor, Viewer).
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Permissions:</span> Specific actions that can be performed (e.g., read, write, delete).
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Resources:</span> Objects or data that permissions apply to (e.g., posts, users, settings).
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              RBAC Database Schema Design
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+               <pre><code className="language-sql">
+-- Users table
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Roles table
+CREATE TABLE roles (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) UNIQUE NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Permissions table
+CREATE TABLE permissions (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(100) UNIQUE NOT NULL,
+  resource VARCHAR(100) NOT NULL,
+  action VARCHAR(50) NOT NULL,
+  description TEXT
+);
+
+-- User-Role mapping (many-to-many)
+CREATE TABLE user_roles (
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE,
+  assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (user_id, role_id)
+);
+
+-- Role-Permission mapping (many-to-many)
+CREATE TABLE role_permissions (
+  role_id INTEGER REFERENCES roles(id) ON DELETE CASCADE,
+  permission_id INTEGER REFERENCES permissions(id) ON DELETE CASCADE,
+  PRIMARY KEY (role_id, permission_id)
+);
+
+-- Direct user permissions (optional, for exceptions)
+CREATE TABLE user_permissions (
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  permission_id INTEGER REFERENCES permissions(id) ON DELETE CASCADE,
+  granted BOOLEAN DEFAULT TRUE,
+  PRIMARY KEY (user_id, permission_id)
+);
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             RBAC Permission System Implementation
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// lib/rbac.js - RBAC utility functions
+export const RESOURCES = {
+  USERS: 'users',
+  POSTS: 'posts',
+  COMMENTS: 'comments',
+  SETTINGS: 'settings',
+  ANALYTICS: 'analytics'
+}
+
+export const ACTIONS = {
+  CREATE: 'create',
+  READ: 'read',
+  UPDATE: 'update',
+  DELETE: 'delete',
+  MANAGE: 'manage' // Full control
+}
+
+export const ROLES = {
+  SUPER_ADMIN: 'super_admin',
+  ADMIN: 'admin',
+  EDITOR: 'editor',
+  AUTHOR: 'author',
+  USER: 'user',
+  GUEST: 'guest'
+}
+
+// Define permissions for each role
+export const rolePermissions = {
+  [ROLES.SUPER_ADMIN]: [
+    \`\${RESOURCES.USERS}:\${ACTIONS.MANAGE}\`,
+    \`\${RESOURCES.POSTS}:\${ACTIONS.MANAGE}\`,
+    \`\${RESOURCES.COMMENTS}:\${ACTIONS.MANAGE}\`,
+    \`\${RESOURCES.SETTINGS}:\${ACTIONS.MANAGE}\`,
+    \`\${RESOURCES.ANALYTICS}:\${ACTIONS.MANAGE}\`
+  ],
+  [ROLES.ADMIN]: [
+    \`\${RESOURCES.USERS}:\${ACTIONS.READ}\`,
+    \`\${RESOURCES.USERS}:\${ACTIONS.UPDATE}\`,
+    \`\${RESOURCES.POSTS}:\${ACTIONS.MANAGE}\`,
+    \`\${RESOURCES.COMMENTS}:\${ACTIONS.MANAGE}\`,
+    \`\${RESOURCES.ANALYTICS}:\${ACTIONS.READ}\`
+  ],
+  [ROLES.EDITOR]: [
+    \`\${RESOURCES.POSTS}:\${ACTIONS.CREATE}\`,
+    \`\${RESOURCES.POSTS}:\${ACTIONS.READ}\`,
+    \`\${RESOURCES.POSTS}:\${ACTIONS.UPDATE}\`,
+    \`\${RESOURCES.COMMENTS}:\${ACTIONS.READ}\`,
+    \`\${RESOURCES.COMMENTS}:\${ACTIONS.UPDATE}\`
+  ],
+  [ROLES.AUTHOR]: [
+    \`\${RESOURCES.POSTS}:\${ACTIONS.CREATE}\`,
+    \`\${RESOURCES.POSTS}:\${ACTIONS.READ}\`,
+    \`\${RESOURCES.POSTS}:\${ACTIONS.UPDATE}\`, // Own posts only
+    \`\${RESOURCES.COMMENTS}:\${ACTIONS.READ}\`
+  ],
+  [ROLES.USER]: [
+    \`\${RESOURCES.POSTS}:\${ACTIONS.READ}\`,
+    \`\${RESOURCES.COMMENTS}:\${ACTIONS.CREATE}\`,
+    \`\${RESOURCES.COMMENTS}:\${ACTIONS.READ}\`
+  ]
+}
+
+export class RBACService {
+  static hasPermission(userRoles, resource, action, context = {}) {
+    if (!Array.isArray(userRoles)) {
+      userRoles = [userRoles]
+    }
+    
+    const requiredPermission = \`\${resource}:\${action}\`
+    const managePermission = \`\${resource}:\${ACTIONS.MANAGE}\`
+    
+    return userRoles.some(role => {
+      const permissions = rolePermissions[role] || []
+      return permissions.includes(requiredPermission) || 
+             permissions.includes(managePermission)
+    })
+  }
+  
+  static hasRole(userRoles, requiredRole) {
+    if (!Array.isArray(userRoles)) {
+      userRoles = [userRoles]
+    }
+    return userRoles.includes(requiredRole)
+  }
+  
+  static hasAnyRole(userRoles, allowedRoles) {
+    if (!Array.isArray(userRoles)) {
+      userRoles = [userRoles]
+    }
+    return allowedRoles.some(role => userRoles.includes(role))
+  }
+  
+  static canAccessResource(userRoles, resource, action, resourceOwnerId, userId) {
+    // Check general permission
+    if (this.hasPermission(userRoles, resource, action)) {
+      return true
+    }
+    
+    // Check if user owns the resource (for author-level permissions)
+    if (resourceOwnerId === userId && 
+        this.hasRole(userRoles, ROLES.AUTHOR) && 
+        [ACTIONS.UPDATE, ACTIONS.DELETE].includes(action)) {
+      return true
+    }
+    
+    return false
+  }
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Database Access Layer with RBAC
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// lib/db/rbac.js - Database functions for RBAC
+import { query } from './db'
+
+export class RBACDatabase {
+  static async getUserRoles(userId) {
+    const result = await query(\`
+      SELECT r.name as role_name, r.description
+      FROM users u
+      JOIN user_roles ur ON u.id = ur.user_id
+      JOIN roles r ON ur.role_id = r.id
+      WHERE u.id = $1
+    \`, [userId])
+    
+    return result.rows.map(row => row.role_name)
+  }
+  
+  static async getUserPermissions(userId) {
+    const result = await query(\`
+      SELECT DISTINCT p.name as permission_name, p.resource, p.action
+      FROM users u
+      LEFT JOIN user_roles ur ON u.id = ur.user_id
+      LEFT JOIN role_permissions rp ON ur.role_id = rp.role_id
+      LEFT JOIN permissions p ON rp.permission_id = p.id
+      LEFT JOIN user_permissions up ON u.id = up.user_id AND up.permission_id = p.id
+      WHERE u.id = $1 AND (up.granted IS NULL OR up.granted = true)
+    \`, [userId])
+    
+    return result.rows.map(row => ({
+      name: row.permission_name,
+      resource: row.resource,
+      action: row.action
+    }))
+  }
+  
+  static async assignRole(userId, roleName) {
+    await query('BEGIN')
+    
+    try {
+      // Get role ID
+      const roleResult = await query(
+        'SELECT id FROM roles WHERE name = $1',
+        [roleName]
+      )
+      
+      if (roleResult.rows.length === 0) {
+        throw new Error('Role not found')
+      }
+      
+      // Assign role to user
+      await query(\`
+        INSERT INTO user_roles (user_id, role_id)
+        VALUES ($1, $2)
+        ON CONFLICT (user_id, role_id) DO NOTHING
+      \`, [userId, roleResult.rows[0].id])
+      
+      await query('COMMIT')
+    } catch (error) {
+      await query('ROLLBACK')
+      throw error
+    }
+  }
+  
+  static async revokeRole(userId, roleName) {
+    const result = await query(\`
+      DELETE FROM user_roles
+      WHERE user_id = $1 AND role_id = (
+        SELECT id FROM roles WHERE name = $2
+      )
+    \`, [userId, roleName])
+    
+    return result.rowCount > 0
+  }
+  
+  static async createRole(name, description, permissions = []) {
+    await query('BEGIN')
+    
+    try {
+      // Create role
+      const roleResult = await query(\`
+        INSERT INTO roles (name, description)
+        VALUES ($1, $2)
+        RETURNING id
+      \`, [name, description])
+      
+      const roleId = roleResult.rows[0].id
+      
+      // Assign permissions to role
+      for (const permissionName of permissions) {
+        await query(\`
+          INSERT INTO role_permissions (role_id, permission_id)
+          SELECT $1, id FROM permissions WHERE name = $2
+        \`, [roleId, permissionName])
+      }
+      
+      await query('COMMIT')
+      return roleId
+    } catch (error) {
+      await query('ROLLBACK')
+      throw error
+    }
+  }
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             RBAC Middleware for API Routes
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// middleware/rbac.js - RBAC middleware
+import { verify } from 'jsonwebtoken'
+import { RBACService, RESOURCES, ACTIONS } from '../lib/rbac'
+import { RBACDatabase } from '../lib/db/rbac'
+
+export function requirePermission(resource, action, options = {}) {
+  return function(handler) {
+    return async (req, res) => {
+      try {
+        // Get and verify token
+        const token = req.cookies.token || 
+          req.headers.authorization?.replace('Bearer ', '')
+          
+        if (!token) {
+          return res.status(401).json({ error: 'Authentication required' })
+        }
+        
+        const decoded = verify(token, process.env.JWT_SECRET)
+        
+        // Get user roles from database
+        const userRoles = await RBACDatabase.getUserRoles(decoded.userId)
+        
+        // Check permission
+        const hasPermission = RBACService.hasPermission(
+          userRoles, 
+          resource, 
+          action
+        )
+        
+        if (!hasPermission) {
+          // Check ownership for resource-specific permissions
+          if (options.checkOwnership && req.method !== 'POST') {
+            const resourceId = req.query.id || req.body.id
+            if (resourceId) {
+              const canAccess = RBACService.canAccessResource(
+                userRoles,
+                resource,
+                action,
+                await getResourceOwnerId(resource, resourceId),
+                decoded.userId
+              )
+              
+              if (!canAccess) {
+                return res.status(403).json({ 
+                  error: 'Insufficient permissions' 
+                })
+              }
+            }
+          } else {
+            return res.status(403).json({ 
+              error: 'Insufficient permissions' 
+            })
+          }
+        }
+        
+        // Add user context to request
+        req.user = {
+          ...decoded,
+          roles: userRoles
+        }
+        
+        return handler(req, res)
+      } catch (error) {
+        return res.status(401).json({ error: 'Invalid token' })
+      }
+    }
+  }
+}
+
+async function getResourceOwnerId(resource, resourceId) {
+  // Implementation depends on your data model
+  switch (resource) {
+    case RESOURCES.POSTS:
+      const post = await query('SELECT author_id FROM posts WHERE id = $1', [resourceId])
+      return post.rows[0]?.author_id
+    case RESOURCES.COMMENTS:
+      const comment = await query('SELECT user_id FROM comments WHERE id = $1', [resourceId])
+      return comment.rows[0]?.user_id
+    default:
+      return null
+  }
+}
+
+// Usage in API routes
+// pages/api/posts/[id].js
+import { requirePermission } from '../../../middleware/rbac'
+import { RESOURCES, ACTIONS } from '../../../lib/rbac'
+
+async function handler(req, res) {
+  const { id } = reqideProps() {
+  const providers = await getProviders()
+  return {
+    props: { providers }
+  }
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Use Cases for NextAuth.js
+           </h4>
+           <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Social Media Platforms:</span> Implementing OAuth with Google, Facebook, Twitter for user registration.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Applications:</span> User authentication for shopping carts, order history, and profiles.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Content Management Systems:</span> Author authentication for creating and managing content.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">SaaS Applications:</span> User management with different subscription tiers and permissions.
+             </li>
+           </ol>
+          </div>`,
+            examples: [
+              `// Complete NextAuth.js setup with multiple providers
+export default NextAuth({
+  providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    CredentialsProvider({
+      name: 'credentials',
+      credentials: {
+        username: { label: 'Username', type: 'text' },
+        password: { label: 'Password', type: 'password' }
+      },
+      async authorize(credentials) {
+        const user = await validateUser(credentials)
+        return user ? { id: user.id, name: user.name, email: user.email } : null
+      }
+    })
+  ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) token.role = user.role
+      return token
+    },
+    async session({ session, token }) {
+      session.user.role = token.role
+      return session
+    }
+  }
+})`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you configure NextAuth.js with multiple providers?",
+                solution:
+                  "<p>NextAuth.js supports multiple authentication providers simultaneously. You configure them in the providers array in your [...nextauth].js file. Each provider has specific configuration options, and users can choose which method to use for authentication. The system handles provider-specific logic automatically.</p>",
+              },
+              {
+                question:
+                  "How do you customize the sign-in page in NextAuth.js?",
+                solution: `<p>You can customize the sign-in page by:</p>
+               <pre><code className="language-javascript">
+// 1. Set custom pages in NextAuth config
+pages: {
+  signIn: '/auth/signin',
+  signOut: '/auth/signout',
+  error: '/auth/error'
+}
+
+// 2. Create custom sign-in component
+import { getProviders, signIn } from 'next-auth/react'
+
+export default function SignIn({ providers }) {
+  return (
+    <div>
+      {Object.values(providers).map((provider) => (
+        <button key={provider.name} onClick={() => signIn(provider.id)}>
+          Sign in with {provider.name}
+        </button>
+      ))}
+    </div>
+  )
+}
+              </code></pre>`,
+              },
+            ],
+            links: [
+              "https://next-auth.js.org/getting-started/introduction",
+              "https://next-auth.js.org/providers/",
+              "https://next-auth.js.org/configuration/callbacks",
+            ],
+          },
+          {
+            topic: "JWT-based Authentication",
+            tags: ["jwt", "tokens", "stateless", "security"],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              JSON Web Tokens (JWT) provide a stateless authentication mechanism where user information and permissions are encoded in a cryptographically signed token. In Next.js, JWTs eliminate the need for server-side session storage and enable scalable authentication across distributed systems.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JWT Structure and Components
+            </h4>
+          
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Header:</span> Contains algorithm type and token type (JWT).
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Payload:</span> Contains claims (user data, permissions, expiration).
+              </li>
+              <li style="margin-top: 0.5rem;">
+               <span style="font-weight: 600; font-size: 1.1rem;">Signature:</span> Ensures token integrity and authenticity.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JWT Implementation in Next.js
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+               <pre><code className="language-javascript">
+// lib/jwt.js - JWT utility functions
+import jwt from 'jsonwebtoken'
+
+const JWT_SECRET = process.env.JWT_SECRET
+
+export function signToken(payload) {
+  return jwt.sign(
+    {
+      ...payload,
+      iat: Math.floor(Date.now() / 1000),
+      exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24 * 7), // 7 days
+    },
+    JWT_SECRET,
+    { algorithm: 'HS256' }
+  )
+}
+
+export function verifyToken(token) {
+  try {
+    return jwt.verify(token, JWT_SECRET)
+  } catch (error) {
+    throw new Error('Invalid token')
+  }
+}
+
+export function decodeToken(token) {
+  return jwt.decode(token)
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Login API Route with JWT
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// pages/api/auth/login.js
+import bcrypt from 'bcryptjs'
+import { signToken } from '../../../lib/jwt'
+import { getUserByEmail } from '../../../lib/db'
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' })
+  }
+
+  const { email, password } = req.body
+
+  try {
+    // Find user in database
+    const user = await getUserByEmail(email)
+    
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' })
+    }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, user.password)
+    
+    if (!isValidPassword) {
+      return res.status(401).json({ message: 'Invalid credentials' })
+    }
+
+    // Create JWT token
+    const token = signToken({
+      userId: user.id,
+      email: user.email,
+      role: user.role,
+      name: user.name
+    })
+
+    // Set HTTP-only cookie
+    res.setHeader('Set-Cookie', [
+      \`token=\${token}; HttpOnly; Path=/; Max-Age=604800; SameSite=Strict; \${
+        process.env.NODE_ENV === 'production' ? 'Secure;' : ''
+      }\`
+    ])
+
+    res.status(200).json({
+      success: true,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        role: user.role
+      }
+    })
+  } catch (error) {
+    res.status(500).json({ message: 'Internal server error' })
+  }
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             JWT Middleware for Authentication
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// middleware/auth.js
+import { verifyToken } from '../lib/jwt'
+
+export function withAuth(handler) {
+  return async (req, res) => {
+    try {
+      // Get token from cookie or Authorization header
+      const token = req.cookies.token || 
+        req.headers.authorization?.replace('Bearer ', '')
+
+      if (!token) {
+        return res.status(401).json({ message: 'Access token required' })
+      }
+
+      // Verify token
+      const decoded = verifyToken(token)
+      
+      // Add user info to request
+      req.user = decoded
+      
+      return handler(req, res)
+    } catch (error) {
+      return res.status(401).json({ message: 'Invalid or expired token' })
+    }
+  }
+}
+
+// Usage in API routes
+// pages/api/protected-route.js
+import { withAuth } from '../../middleware/auth'
+
+async function handler(req, res) {
+  // req.user contains the decoded JWT payload
+  res.status(200).json({ 
+    message: 'Protected data',
+    user: req.user 
+  })
+}
+
+export default withAuth(handler)
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Client-side JWT Authentication Hook
+           </h4>
+           <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// hooks/useAuth.js
+import { useState, useEffect, useContext, createContext } from 'react'
+import { useRouter } from 'next/router'
+
+const AuthContext = createContext()
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+
+  useEffect(() => {
+    checkAuth()
+  }, [])
+
+  const checkAuth = async () => {
+    try {
+      const response = await fetch('/api/auth/verify')
+      if (response.ok) {
+        const userData = await response.json()
+        setUser(userData.user)
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const login = async (email, password) => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        setUser(data.user)
+        router.push('/dashboard')
+        return { success: true }
+      } else {
+        const error = await response.json()
+        return { success: false, error: error.message }
+      }
+    } catch (error) {
+      return { success: false, error: 'Network error' }
+    }
+  }
+
+  const logout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' })
+      setUser(null)
+      router.push('/login')
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
+
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      logout, 
+      loading, 
+      isAuthenticated: !!user 
+    }}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export const useAuth = () => {
+  const context = useContext(AuthContext)
+  if (!context) {
+    throw new Error('useAuth must be used within AuthProvider')
+  }
+  return context
+}
+  </code></pre>
+           </div>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             JWT Security Best Practices
+           </h4>
+           <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Use HTTP-Only Cookies:</span> Store JWTs in HTTP-only cookies to prevent XSS attacks.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Set Proper Expiration:</span> Use short-lived tokens with refresh mechanisms.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Validate Claims:</span> Always verify token signature and expiration on the server.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Use Strong Secrets:</span> Generate cryptographically strong JWT secrets.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Implement Token Blacklisting:</span> Maintain a blacklist for revoked tokens.
+             </li>
+           </ol>
+           
+           <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+             Use Cases for JWT Authentication
+           </h4>
+           <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Microservices Architecture:</span> Stateless authentication across multiple services.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Mobile Applications:</span> API authentication for mobile apps and SPAs.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">Single Sign-On (SSO):</span> Authentication across multiple domains and applications.
+             </li>
+             <li style="margin-top: 0.5rem;">
+              <span style="font-weight: 600; font-size: 1.1rem;">API Gateways:</span> Centralized authentication for API access control.
+             </li>
+           </ol>
+          </div>`,
+            examples: [
+              `// JWT token creation and verification
+import jwt from 'jsonwebtoken'
+
+const JWT_SECRET = process.env.JWT_SECRET
+
+// Sign token
+export function signToken(payload) {
+  return jwt.sign(
+    { ...payload, exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24) },
+    JWT_SECRET
+  )
+}
+
+// Verify token
+export function verifyToken(token) {
+  try {
+    return jwt.verify(token, JWT_SECRET)
+  } catch (error) {
+    throw new Error('Invalid token')
+  }
+}
+
+// Middleware usage
+export function withAuth(handler) {
+  return async (req, res) => {
+    try {
+      const token = req.cookies.token
+      const decoded = verifyToken(token)
+      req.user = decoded
+      return handler(req, res)
+    } catch (error) {
+      return res.status(401).json({ message: 'Unauthorized' })
+    }
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages of using JWT over session-based authentication?",
+                solution:
+                  "<p>JWT offers several advantages: 1) Stateless - no server-side session storage required, 2) Scalable - works across multiple servers without shared state, 3) Cross-domain - can be used across different domains and services, 4) Mobile-friendly - perfect for mobile apps and SPAs, 5) Decentralized - can be verified without database lookup, 6) Contains user info - reduces database queries for user data.</p>",
+              },
+              {
+                question: "How do you handle JWT token expiration and refresh?",
+                solution: `<p>JWT token refresh can be implemented using:</p>
+               <pre><code className="language-javascript">
+// Refresh token strategy
+const refreshToken = async () => {
+  try {
+    const response = await fetch('/api/auth/refresh', {
+      method: 'POST',
+      credentials: 'include'
+    })
+    
+    if (response.ok) {
+      const { token } = await response.json()
+      // Update token in memory or cookie
+      return token
+    }
+  } catch (error) {
+    // Redirect to login
+    router.push('/login')
+  }
+}
+
+// Automatic token refresh before expiration
+useEffect(() => {
+  const token = getToken()
+  if (token) {
+    const decoded = jwt.decode(token)
+    const timeUntilExpiry = (decoded.exp * 1000) - Date.now()
+    
+    if (timeUntilExpiry > 0) {
+      setTimeout(refreshToken, timeUntilExpiry - 60000) // Refresh 1 min before expiry
+    }
+  }
+}, [])
+              </code></pre>`,
+              },
+            ],
+            links: [
+              "https://jwt.io/introduction",
+              "https://auth0.com/blog/a-look-at-the-latest-draft-for-jwt-bcp/",
+              "https://nextjs.org/docs/authentication",
+            ],
+          },
+          {
+            topic: "Protecting Pages & API Routes",
+            tags: [
+              "middleware",
+              "guards",
+              "getServerSideProps",
+              "protection",
+              "session",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    Next.js offers multiple layers to protect both UI pages and API endpoints from unauthorized access.  
+    Choose the layer that best matches your performance-vs-security trade-off:  
+    <strong>Middleware</strong> (edge), <strong>getServerSideProps</strong> (server), or <strong>API route guards</strong> (serverless).
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. Edge Middleware – Protect Before Rendering</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Runs <em>before</em> any page or API route, even static ones.</li>
+    <li>Perfect for blanket auth checks (JWT, cookie, header).</li>
+    <li>Zero serverless cold-start cost on Vercel Edge.</li>
+  </ul>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+// middleware.ts (root of project)
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyJwt } from '@/lib/auth';
+
+export function middleware(req: NextRequest) {
+  const protectedPaths = ['/dashboard', '/profile'];
+  const isProtected = protectedPaths.some(p => req.nextpathname.startsWith(p));
+
+  if (!isProtected) return NextResponse.next();
+
+  const token = req.cookies.get('token')?.value;
+  if (!token || !verifyJwt(token)) {
+    return NextResponse.redirect(new URL('/login', req.url));
+  }
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ['/dashboard/:path*', '/profile/:path*'],
+};
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. Server-side Page Guards – <code>getServerSideProps</code></h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Runs only for the requested page → keeps static pages fast.</li>
+    <li>Ideal for personalized data that must be fresh.</li>
+  </ul>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+// app/dashboard/page.tsx (App Router)
+import { redirect } from 'next/navigation';
+import { getServerSession } from 'next-auth';
+
+export default async function Dashboard() {
+  const session = await getServerSession();
+  if (!session) redirect('/login');
+
+  return &lt;&gt;Secret Dashboard&lt;/&gt;;
+}
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. API Route Guards – Protect Serverless Endpoints</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Same patterns apply to <code>app/api</code> (Route Handlers) or <code>pages/api</code>.</li>
+    <li>Return 401/403 before any heavy work.</li>
+  </ul>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+// app/api/admin/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { verifyRole } from '@/lib/auth';
+
+export async function GET(req: NextRequest) {
+  const token = req.cookies.get('token')?.value;
+  if (!token) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+
+  const user = verifyRole(token, 'admin');
+  if (!user) return NextResponse.json({ message: 'Forbidden' }, { status: 403 });
+
+  // safe to proceed
+  const data = await db.getAdminData();
+  return NextResponse.json(data);
+}
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Client-side HOC (fallback only)</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li>Use sparingly—flash-of-content risk—when SSR is impossible (SPA fallback).</li>
+  </ul>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+// components/withAuth.tsx
+'use client';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+
+export function withAuth(Component) {
+  return function ProtectedComponent(props) {
+    const { data: session, status } = useSession();
+    const router = useRouter();
+
+    useEffect(() => {
+      if (status === 'loading') return;
+      if (!session) router.push('/login');
+    }, [session, status]);
+
+    if (status === 'loading') return &lt;p&gt;Loading...&lt;/p&gt;;
+    if (!session) return null;
+
+    return &lt;Component {...props} /&gt;;
+  };
+}
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Real-World Use-Case Matrix</h3>
+  <table style="width:100%; margin-top:1rem; border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem; border:1px solid #333;">Requirement</th>
+        <th style="padding:0.5rem; border:1px solid #333;">Recommended Layer</th>
+        <th style="padding:0.5rem; border:1px solid #333;">Rationale</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">Site-wide paywall</td>
+        <td style="padding:0.5rem; border:1px solid #333;">Middleware</td>
+        <td style="padding:0.5rem; border:1px solid #333;">One file guards many routes</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">User-specific dashboard</td>
+        <td style="padding:0.5rem; border:1px solid #333;">getServerSideProps</td>
+        <td style="padding:0.5rem; border:1px solid #333;">Fresh data + SSR</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">Admin-only API</td>
+        <td style="padding:0.5rem; border:1px solid #333;">API route guard</td>
+        <td style="padding:0.5rem; border:1px solid #333;">Fine-grained RBAC</td>
+      </tr>
+    </tbody>
+  </table>
+</div>`,
+            examples: [
+              `// pages/admin/users.tsx (Pages Router)
+import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+
+export default function AdminUsers({ users }) {
+  return <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>;
+}
+
+export const getServerSideProps = withPageAuthRequired({
+  getServerSideProps: async ({ req, res }) => {
+    const users = await db.getUsers(); // only runs if authed
+    return { props: { users } };
+  },
+});`,
+
+              `// middleware.ts – block non-Admin
+const protectedAdmin = ['/admin'];
+if (protectedAdmin.some(p => pathname.startsWith(p))) {
+  const user = await getUserFromToken(token);
+  if (!user || user.role !== 'admin') {
+    return NextResponse.redirect(new URL('/403', req.url));
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "Should I use middleware or getServerSideProps for authentication?",
+                solution:
+                  "<p>Use <strong>middleware</strong> for blanket rules (global auth, role gates) and <strong>getServerSideProps</strong> when you need fresh, user-specific data. They can coexist—middleware guards the route, getServerSideProps loads the data.</p>",
+              },
+              {
+                question: "How do I handle expired tokens gracefully?",
+                solution:
+                  "<p>In middleware, verify the token and clear the cookie then redirect. In API routes, return 401 and let the client refresh via /api/auth/refresh or prompt re-login.</p>",
+              },
+              {
+                question: "Can I protect static pages (SSG) with middleware?",
+                solution:
+                  "<p>Yes. Middleware runs at the edge for every request—even for pre-rendered pages—so you can still gate them without rebuilding.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/routing/middleware",
+              "https://next-auth.js.org/tutorials/securing-pages-and-api-routes",
+            ],
+          },
+          {
+            topic: "Context API in Next.js",
+            tags: ["Context", "State Management", "React", "Next.js"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Context API is React's built-in state management solution that allows you to share data across components without prop drilling. In Next.js applications, Context API is particularly useful for managing global state like user authentication, theme preferences, and application-wide settings.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Context API in Next.js?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No External Dependencies:</span> Built into React, no additional libraries needed.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SSR Compatible:</span> Works seamlessly with Next.js server-side rendering.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Prevents Prop Drilling:</span> Share state across deeply nested components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Theme Management:</span> Perfect for managing dark/light themes across pages.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Authentication:</span> Store user data globally across the application.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating a Context in Next.js
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// contexts/AuthContext.js
+import { createContext, useContext, useState, useEffect } from 'react';
+
+const AuthContext = createContext();
+
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
+
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check for existing session
+    const token = localStorage.getItem('token');
+    if (token) {
+      // Validate token and set user
+      validateToken(token);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  const login = async (credentials) => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials)
+      });
+      
+      const data = await response.json();
+      if (data.user) {
+        setUser(data.user);
+        localStorage.setItem('token', data.token);
+      }
+    } catch (error) {
+      console.error('Login failed:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('token');
+  };
+
+  const value = {
+    user,
+    loading,
+    login,
+    logout
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Context with _app.js
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/_app.js
+import { AuthProvider } from '../contexts/AuthContext';
+import { ThemeProvider } from '../contexts/ThemeContext';
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
+
+export default MyApp;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Context in Components
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/Header.js
+import { useAuth } from '../contexts/AuthContext';
+
+export default function Header() {
+  const { user, logout } = useAuth();
+
+  return (
+    <header>
+      {user ? (
+        <div>
+          <span>Welcome, {user.name}</span>
+          <button onClick={logout}>Logout</button>
+        </div>
+      ) : (
+        <div>
+          <a href="/login">Login</a>
+        </div>
+      )}
+    </header>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Context API
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Separate Concerns:</span> Create separate contexts for different data types (auth, theme, settings).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Custom Hooks:</span> Always create custom hooks for consuming context.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Boundaries:</span> Add error boundaries around context providers.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memoization:</span> Use useMemo and useCallback to prevent unnecessary re-renders.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Theme Context Example
+import { createContext, useContext, useState } from 'react';
+
+const ThemeContext = createContext();
+
+export function useTheme() {
+  return useContext(ThemeContext);
+}
+
+export function ThemeProvider({ children }) {
+  const [theme, setTheme] = useState('light');
+  
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      <div className={\`app \${theme}\`}>
+        {children}
+      </div>
+    </ThemeContext.Provider>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question: "When should you use Context API over prop drilling?",
+                solution:
+                  "<p>Use Context API when you need to share state across multiple components at different nesting levels, when prop drilling becomes cumbersome (passing props through 3+ levels), for global application state like authentication or theme, and when the data doesn't change frequently to avoid performance issues.</p>",
+              },
+              {
+                question: "How do you optimize Context API performance?",
+                solution:
+                  "<p>Optimize Context performance by splitting contexts by concern, using multiple contexts instead of one large one, memoizing context values with useMemo, avoiding frequent updates, and using useCallback for functions passed through context.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching",
+              "https://react.dev/reference/react/useContext",
+              "https://beta.nextjs.org/docs/rendering/server-and-client-components",
+            ],
+          },
+          {
+            topic: "Redux Toolkit Integration",
+            tags: ["Redux", "RTK", "State Management", "Next.js"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Redux Toolkit (RTK) is the official, opinionated, batteries-included toolset for efficient Redux development. It simplifies Redux usage by providing utilities that reduce boilerplate code and include good defaults for common Redux patterns. In Next.js applications, RTK is ideal for complex state management scenarios.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Redux Toolkit with Next.js?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Predictable State Updates:</span> Centralized state management with predictable state changes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DevTools Integration:</span> Excellent debugging experience with Redux DevTools.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Immutability:</span> Built-in Immer for immutable updates without boilerplate.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SSR Support:</span> Excellent support for server-side rendering in Next.js.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">RTK Query:</span> Powerful data fetching and caching solution.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Setting Up Redux Toolkit
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install @reduxjs/toolkit react-redux
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating a Store
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// store/index.js
+import { configureStore } from '@reduxjs/toolkit';
+import { createWrapper } from 'next-redux-wrapper';
+import authSlice from './slices/authSlice';
+import cartSlice from './slices/cartSlice';
+import { apiSlice } from './api/apiSlice';
+
+const makeStore = () =>
+  configureStore({
+    reducer: {
+      auth: authSlice,
+      cart: cartSlice,
+      api: apiSlice.reducer,
+    },
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
+        },
+      }).concat(apiSlice.middleware),
+    devTools: process.env.NODE_ENV !== 'production',
+  });
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore['getState']>;
+export type AppDispatch = AppStore['dispatch'];
+
+export const wrapper = createWrapper<AppStore>(makeStore, {
+  debug: process.env.NODE_ENV === 'development',
+});
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating Slices
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// store/slices/authSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+
+// Async thunk for login
+export const loginUser = createAsyncThunk(
+  'auth/loginUser',
+  async ({ email, password }, { rejectWithValue }) => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+      
+      if (!response.ok) {
+        throw new Error('Login failed');
+      }
+      
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+const authSlice = createSlice({
+  name: 'auth',
+  initialState: {
+    user: null,
+    token: null,
+    loading: false,
+    error: null,
+  },
+  reducers: {
+    logout: (state) => {
+      state.user = null;
+      state.token = null;
+      state.error = null;
+    },
+    clearError: (state) => {
+      state.error = null;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(loginUser.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(loginUser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+      })
+      .addCase(loginUser.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      });
+  },
+});
+
+export const { logout, clearError } = authSlice.actions;
+export default authSlice.reducer;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Setting up _app.js with Redux
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/_app.js
+import { Provider } from 'react-redux';
+import { wrapper } from '../store';
+
+function MyApp({ Component, ...rest }) {
+  const { store, props } = wrapper.useWrappedStore(rest);
+  
+  return (
+    <Provider store={store}>
+      <Component {...props.pageProps} />
+    </Provider>
+  );
+}
+
+export default MyApp;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Redux in Components
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/LoginForm.js
+import { useSelector, useDispatch } from 'react-redux';
+import { loginUser, clearError } from '../store/slices/authSlice';
+
+export default function LoginForm() {
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.auth);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const credentials = {
+      email: formData.get('email'),
+      password: formData.get('password'),
+    };
+    
+    dispatch(loginUser(credentials));
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {error && (
+        <div className="error">
+          {error}
+          <button onClick={() => dispatch(clearError())}>×</button>
+        </div>
+      )}
+      
+      <input type="email" name="email" required />
+      <input type="password" name="password" required />
+      <button type="submit" disabled={loading}>
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
+    </form>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     RTK Query for Data Fetching
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// store/api/apiSlice.js
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+
+export const apiSlice = createApi({
+  reducerPath: 'api',
+  baseQuery: fetchBaseQuery({
+    baseUrl: '/api',
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
+      if (token) {
+        headers.set('authorization', \`Bearer \${token}\`);
+      }
+      return headers;
+    },
+  }),
+  tagTypes: ['User', 'Post'],
+  endpoints: (builder) => ({
+    getPosts: builder.query({
+      query: () => '/posts',
+      providesTags: ['Post'],
+    }),
+    getPost: builder.query({
+      query: (id) => \`/posts/\${id}\`,
+      providesTags: (result, error, id) => [{ type: 'Post', id }],
+    }),
+    createPost: builder.mutation({
+      query: (post) => ({
+        url: '/posts',
+        method: 'POST',
+        body: post,
+      }),
+      invalidatesTags: ['Post'],
+    }),
+  }),
+});
+
+export const { useGetPostsQuery, useGetPostQuery, useCreatePostMutation } = apiSlice;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Redux Toolkit
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Normalize State Shape:</span> Keep state normalized for better performance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use createAsyncThunk:</span> For async operations with built-in loading states.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Leverage RTK Query:</span> For data fetching and caching.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Type Safety:</span> Use TypeScript for better development experience.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Shopping Cart Slice Example
+import { createSlice } from '@reduxjs/toolkit';
+
+const cartSlice = createSlice({
+  name: 'cart',
+  initialState: {
+    items: [],
+    total: 0,
+  },
+  reducers: {
+    addItem: (state, action) => {
+      const existingItem = state.items.find(item => item.id === action.payload.id);
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        state.items.push({ ...action.payload, quantity: 1 });
+      }
+      state.total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    },
+    removeItem: (state, action) => {
+      state.items = state.items.filter(item => item.id !== action.payload);
+      state.total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    },
+    updateQuantity: (state, action) => {
+      const item = state.items.find(item => item.id === action.payload.id);
+      if (item) {
+        item.quantity = action.payload.quantity;
+        state.total = state.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      }
+    },
+  },
+});
+
+export const { addItem, removeItem, updateQuantity } = cartSlice.actions;
+export default cartSlice.reducer;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages of Redux Toolkit over plain Redux?",
+                solution:
+                  "<p>Redux Toolkit provides significant advantages including: reduced boilerplate code with createSlice, built-in Immer for immutable updates, configureStore with good defaults, createAsyncThunk for async logic, RTK Query for data fetching, better TypeScript support, and included DevTools configuration.</p>",
+              },
+              {
+                question:
+                  "How do you handle SSR with Redux Toolkit in Next.js?",
+                solution:
+                  "<p>Handle SSR by using next-redux-wrapper, implementing getServerSideProps or getStaticProps to populate initial state, using wrapper.withRedux() or the new useWrappedStore hook, ensuring state hydration matches between server and client, and handling async operations properly during SSR.</p>",
+              },
+            ],
+            links: [
+              "https://redux-toolkit.js.org/",
+              "https://github.com/kirill-konshin/next-redux-wrapper",
+              "https://redux-toolkit.js.org/rtk-query/overview",
+            ],
+          },
+          {
+            topic: "Zustand with Next.js",
+            tags: ["Zustand", "State Management", "Lightweight", "Next.js"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Zustand is a small, fast, and scalable state-management solution. It has a comfy API based on hooks and isn't boilerplatey or opinionated. Unlike Redux, Zustand doesn't wrap your entire app in providers, making it perfect for Next.js applications where you want minimal setup and maximum performance.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Choose Zustand for Next.js?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Minimal Boilerplate:</span> Less code compared to Redux or Context API.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No Providers Needed:</span> Works without wrapping your app in providers.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TypeScript Friendly:</span> Excellent TypeScript support out of the box.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SSR Compatible:</span> Works seamlessly with Next.js server-side rendering.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Only re-renders components that subscribe to changed state.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DevTools Support:</span> Works with Redux DevTools for debugging.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Installation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install zustand
+# For persistence
+npm install zustand immer
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Store Creation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// stores/authStore.js
+import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
+
+const useAuthStore = create(
+  persist(
+    (set, get) => ({
+      user: null,
+      token: null,
+      loading: false,
+      
+      login: async (credentials) => {
+        set({ loading: true });
+        try {
+          const response = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(credentials),
+          });
+          
+          const data = await response.json();
+          if (data.success) {
+            set({ 
+              user: data.user, 
+              token: data.token, 
+              loading: false 
+            });
+          } else {
+            throw new Error(data.message);
+          }
+        } catch (error) {
+          set({ loading: false });
+          throw error;
+        }
+      },
+      
+      logout: () => {
+        set({ user: null, token: null });
+      },
+      
+      updateProfile: (updates) => {
+        set((state) => ({
+          user: { ...state.user, ...updates }
+        }));
+      },
+      
+      // Computed values
+      isAuthenticated: () => {
+        const { user, token } = get();
+        return !!(user && token);
+      },
+    }),
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ 
+        user: state.user, 
+        token: state.token 
+      }),
+    }
+  )
+);
+
+export default useAuthStore;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Store in Components
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/LoginForm.js
+import { useState } from 'react';
+import useAuthStore from '../stores/authStore';
+
+export default function LoginForm() {
+  const [credentials, setCredentials] = useState({ email: '', password: '' });
+  const { login, loading } = useAuthStore();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await login(credentials);
+      // Redirect or show success
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="email"
+        value={credentials.email}
+        onChange={(e) => setCredentials(prev => ({ 
+          ...prev, 
+          email: e.target.value 
+        }))}
+        placeholder="Email"
+      />
+      <input
+        type="password"
+        value={credentials.password}
+        onChange={(e) => setCredentials(prev => ({ 
+          ...prev, 
+          password: e.target.value 
+        }))}
+        placeholder="Password"
+      />
+      <button type="submit" disabled={loading}>
+        {loading ? 'Logging in...' : 'Login'}
+      </button>
+    </form>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Selective Subscriptions
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/Header.js
+import useAuthStore from '../stores/authStore';
+
+export default function Header() {
+  // Only subscribe to user changes
+  const user = useAuthStore((state) => state.user);
+  const logout = useAuthStore((state) => state.logout);
+  
+  // Or multiple selectors
+  const { user: currentUser, isAuthenticated } = useAuthStore(
+    (state) => ({ 
+      user: state.user,
+      isAuthenticated: state.isAuthenticated()
+    })
+  );
+
+  return (
+    <header>
+      {currentUser ? (
+        <div>
+          <span>Welcome, {currentUser.name}</span>
+          <button onClick={logout}>Logout</button>
+        </div>
+      ) : (
+        <a href="/login">Login</a>
+      )}
+    </header>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Store with Immer for Complex Updates
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// stores/cartStore.js
+import { create } from 'zustand';
+import { immer } from 'zustand/middleware/immer';
+import { persist } from 'zustand/middleware';
+
+const useCartStore = create(
+  persist(
+    immer((set, get) => ({
+      items: [],
+      total: 0,
+      
+      addItem: (product) => set((state) => {
+        const existingItem = state.items.find(item => item.id === product.id);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          state.items.push({ ...product, quantity: 1 });
+        }
+        state.total = state.items.reduce((sum, item) => 
+          sum + (item.price * item.quantity), 0
+        );
+      }),
+      
+      removeItem: (productId) => set((state) => {
+        state.items = state.items.filter(item => item.id !== productId);
+        state.total = state.items.reduce((sum, item) => 
+          sum + (item.price * item.quantity), 0
+        );
+      }),
+      
+      updateQuantity: (productId, quantity) => set((state) => {
+        const item = state.items.find(item => item.id === productId);
+        if (item) {
+          if (quantity <= 0) {
+            state.items = state.items.filter(item => item.id !== productId);
+          } else {
+            item.quantity = quantity;
+          }
+          state.total = state.items.reduce((sum, item) => 
+            sum + (item.price * item.quantity), 0
+          );
+        }
+      }),
+      
+      clearCart: () => set((state) => {
+        state.items = [];
+        state.total = 0;
+      }),
+      
+      // Getters
+      getItemCount: () => {
+        const { items } = get();
+        return items.reduce((count, item) => count + item.quantity, 0);
+      },
+    })),
+    {
+      name: 'cart-storage',
+    }
+  )
+);
+
+export default useCartStore;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SSR-Safe Store Initialization
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// stores/themeStore.js
+import { create } from 'zustand';
+
+const useThemeStore = create((set) => ({
+  theme: 'light',
+  hydrated: false,
+  
+  setTheme: (theme) => set({ theme }),
+  
+  initializeTheme: () => {
+    // Only run on client side
+    if (typeof window !== 'undefined') {
+      const savedTheme = localStorage.getItem('theme') || 'light';
+      set({ theme: savedTheme, hydrated: true });
+    }
+  },
+  
+  toggleTheme: () => set((state) => {
+    const newTheme = state.theme === 'light' ? 'dark' : 'light';
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('theme', newTheme);
+    }
+    return { theme: newTheme };
+  }),
+}));
+
+export default useThemeStore;
+
+// Hook for SSR-safe usage
+export const useTheme = () => {
+  const store = useThemeStore();
+  
+  // Initialize on client side
+  useEffect(() => {
+    store.initializeTheme();
+  }, []);
+  
+  // Return default values during SSR
+  if (!store.hydrated && typeof window === 'undefined') {
+    return { theme: 'light', setTheme: () => {}, toggleTheme: () => {} };
+  }
+  
+  return store;
+};
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Zustand
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Selective Subscriptions:</span> Use selectors to avoid unnecessary re-renders.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Store Slicing:</span> Create separate stores for different concerns.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Persistence:</span> Use persist middleware for data that should survive page refreshes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SSR Considerations:</span> Handle hydration properly for server-side rendering.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Multi-Store Pattern
+// stores/index.js
+export { default as useAuthStore } from './authStore';
+export { default as useCartStore } from './cartStore';
+export { default as useThemeStore } from './themeStore';
+
+// Usage in component
+import { useAuthStore, useCartStore } from '../stores';
+
+function MyComponent() {
+  const user = useAuthStore(state => state.user);
+  const cartItems = useCartStore(state => state.items);
+  
+  return (
+    <div>
+      <p>Welcome {user?.name}</p>
+      <p>Cart items: {cartItems.length}</p>
+    </div>
+  );
+}`,
+            ],
+            questions: [
+              {
+                question: "How does Zustand compare to Redux and Context API?",
+                solution:
+                  "<p>Zustand is simpler than Redux with less boilerplate, doesn't require providers like Context API, has better performance due to selective subscriptions, smaller bundle size, and excellent TypeScript support. It's ideal for small to medium applications where Redux might be overkill but Context API becomes cumbersome.</p>",
+              },
+              {
+                question: "How do you handle SSR with Zustand in Next.js?",
+                solution:
+                  "<p>Handle SSR by checking typeof window !== 'undefined' before accessing localStorage, using useEffect for client-side initialization, providing default values during SSR, creating custom hooks that handle hydration, and ensuring state consistency between server and client rendering.</p>",
+              },
+            ],
+            links: [
+              "https://github.com/pmndrs/zustand",
+              "https://docs.pmnd.rs/zustand/getting-started/introduction",
+              "https://github.com/pmndrs/zustand/blob/main/docs/integrations/persisting-store-data.md",
+            ],
+          },
+          {
+            topic: "Server State with React Query / TanStack Query",
+            tags: [
+              "React Query",
+              "TanStack Query",
+              "Server State",
+              "Caching",
+              "Next.js",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     TanStack Query (formerly React Query) is a powerful data-fetching library that makes fetching, caching, synchronizing and updating server state simple. It's perfect for Next.js applications as it handles complex server state management scenarios like caching, background updates, stale data, and optimistic updates.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use TanStack Query with Next.js?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Smart Caching:</span> Intelligent caching with automatic background refetching.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SSR/SSG Support:</span> Excellent integration with Next.js rendering strategies.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optimistic Updates:</span> Update UI optimistically before server confirmation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Loading States:</span> Built-in loading, error, and success states.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Retries:</span> Smart retry logic for failed requests.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DevTools:</span> Excellent debugging tools for query inspection.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Installation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install @tanstack/react-query @tanstack/react-query-devtools
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Setup QueryClient in _app.js
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/_app.js
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useState } from 'react';
+
+function MyApp({ Component, pageProps }) {
+  const [queryClient] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 1000 * 60 * 5, // 5 minutes
+        cacheTime: 1000 * 60 * 10, // 10 minutes
+        refetchOnWindowFocus: false,
+        retry: (failureCount, error) => {
+          if (error.status === 404) return false;
+          return failureCount < 3;
+        },
+      },
+      mutations: {
+        onError: (error) => {
+          console.error('Mutation error:', error);
+        },
+      },
+    },
+  }));
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <Component {...pageProps} />
+      <ReactQueryDevtools initialIsOpen={false} />
+    </QueryClientProvider>
+  );
+}
+
+export default MyApp;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Custom Hooks for API Calls
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// hooks/usePosts.js
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+
+const API_BASE = '/api';
+
+// Fetch functions
+const fetchPosts = async () => {
+  const response = await fetch(\`\${API_BASE}/posts\`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch posts');
+  }
+  return response.json();
+};
+
+const fetchPost = async (id) => {
+  const response = await fetch(\`\${API_BASE}/posts/\${id}\`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch post');
+  }
+  return response.json();
+};
+
+const createPost = async (newPost) => {
+  const response = await fetch(\`\${API_BASE}/posts\`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newPost),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to create post');
+  }
+  return response.json();
+};
+
+const updatePost = async ({ id, ...updates }) => {
+  const response = await fetch(\`\${API_BASE}/posts/\${id}\`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(updates),
+  });
+  if (!response.ok) {
+    throw new Error('Failed to update post');
+  }
+  return response.json();
+};
+
+const deletePost = async (id) => {
+  const response = await fetch(\`\${API_BASE}/posts/\${id}\`, {
+    method: 'DELETE',
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete post');
+  }
+  return response.json();
+};
+
+// Custom hooks
+export const usePosts = (options = {}) => {
+  return useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts,
+    ...options,
+  });
+};
+
+export const usePost = (id, options = {}) => {
+  return useQuery({
+    queryKey: ['post', id],
+    queryFn: () => fetchPost(id),
+    enabled: !!id,
+    ...options,
+  });
+};
+
+export const useCreatePost = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: createPost,
+    onSuccess: (newPost) => {
+      // Invalidate and refetch posts
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      
+      // Optimistically add the new post to the cache
+      queryClient.setQueryData(['posts'], (oldData) => {
+        return oldData ? [...oldData, newPost] : [newPost];
+      });
+    },
+  });
+};
+
+export const useUpdatePost = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: updatePost,
+    onMutate: async (updatedPost) => {
+      // Cancel outgoing refetches
+      await queryClient.cancelQueries({ queryKey: ['post', updatedPost.id] });
+      await queryClient.cancelQueries({ queryKey: ['posts'] });
+      
+      // Snapshot the previous values
+      const previousPost = queryClient.getQueryData(['post', updatedPost.id]);
+      const previousPosts = queryClient.getQueryData(['posts']);
+      
+      // Optimistically update the cache
+      queryClient.setQueryData(['post', updatedPost.id], updatedPost);
+      queryClient.setQueryData(['posts'], (oldData) => {
+        return oldData?.map(post => 
+          post.id === updatedPost.id ? updatedPost : post
+        );
+      });
+      
+      return { previousPost, previousPosts };
+    },
+    onError: (err, updatedPost, context) => {
+      // Rollback on error
+      if (context?.previousPost) {
+        queryClient.setQueryData(['post', updatedPost.id], context.previousPost);
+      }
+      if (context?.previousPosts) {
+        queryClient.setQueryData(['posts'], context.previousPosts);
+      }
+    },
+    onSettled: (data, error, variables) => {
+      // Always refetch after error or success
+      queryClient.invalidateQueries({ queryKey: ['post', variables.id] });
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+};
+
+export const useDeletePost = () => {
+  const queryClient = useQueryClient();
+  
+  return useMutation({
+    mutationFn: deletePost,
+    onSuccess: (data, deletedId) => {
+      // Remove from posts cache
+      queryClient.setQueryData(['posts'], (oldData) => {
+        return oldData?.filter(post => post.id !== deletedId);
+      });
+      
+      // Remove individual post cache
+      queryClient.removeQueries({ queryKey: ['post', deletedId] });
+    },
+  });
+};
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using Query Hooks in Components
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/PostList.js
+import { usePosts, useDeletePost } from '../hooks/usePosts';
+
+export default function PostList() {
+  const { 
+    data: posts, 
+    isLoading, 
+    isError, 
+    error, 
+    refetch 
+  } = usePosts();
+  
+  const deletePostMutation = useDeletePost();
+
+  const handleDelete = async (postId) => {
+    if (confirm('Are you sure you want to delete this post?')) {
+      try {
+        await deletePostMutation.mutateAsync(postId);
+      } catch (error) {
+        alert('Failed to delete post');
+      }
+    }
+  };
+
+  if (isLoading) return <div>Loading posts...</div>;
+  
+  if (isError) {
+    return (
+      <div>
+        <p>Error: {error.message}</p>
+        <button onClick={() => refetch()}>Retry</button>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h2>Posts</h2>
+      {posts?.map(post => (
+        <div key={post.id} className="post-item">
+          <h3>{post.title}</h3>
+          <p>{post.content}</p>
+          <button 
+            onClick={() => handleDelete(post.id)}
+            disabled={deletePostMutation.isLoading}
+          >
+            {deletePostMutation.isLoading ? 'Deleting...' : 'Delete'}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SSR with TanStack Query
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/posts.js
+import { QueryClient, dehydrate, useQuery } from '@tanstack/react-query';
+import { usePosts } from '../hooks/usePosts';
+import PostList from '../components/PostList';
+
+export default function PostsPage() {
+  // This will use the prefetched data from getServerSideProps
+  const { data: posts } = usePosts();
+
+  return (
+    <div>
+      <h1>All Posts</h1>
+      <PostList />
+    </div>
+  );
+}
+
+export async function getServerSideProps() {
+  const queryClient = new QueryClient();
+
+  // Prefetch the posts data
+  await queryClient.prefetchQuery({
+    queryKey: ['posts'],
+    queryFn: async () => {
+      const response = await fetch(\`\${process.env.NEXT_PUBLIC_API_URL}/api/posts\`);
+      return response.json();
+    },
+  });
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Query Patterns
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// hooks/useAdvancedQueries.js
+import { useQuery, useInfiniteQuery } from '@tanstack/react-query';
+
+// Infinite scrolling
+export const useInfinitePosts = () => {
+  return useInfiniteQuery({
+    queryKey: ['posts', 'infinite'],
+    queryFn: async ({ pageParam = 1 }) => {
+      const response = await fetch(\`/api/posts?page=\${pageParam}&limit=10\`);
+      return response.json();
+    },
+    getNextPageParam: (lastPage, pages) => {
+      return lastPage.hasMore ? pages.length + 1 : undefined;
+    },
+  });
+};
+
+// Dependent queries
+export const useUserPosts = (userId) => {
+  const userQuery = useQuery({
+    queryKey: ['user', userId],
+    queryFn: () => fetch(\`/api/users/\${userId}\`).then(res => res.json()),
+    enabled: !!userId,
+  });
+
+  const postsQuery = useQuery({
+    queryKey: ['posts', 'user', userId],
+    queryFn: () => fetch(\`/api/posts?userId=\${userId}\`).then(res => res.json()),
+    enabled: !!userQuery.data?.id,
+  });
+
+  return {
+    user: userQuery.data,
+    posts: postsQuery.data,
+    isLoading: userQuery.isLoading || postsQuery.isLoading,
+    error: userQuery.error || postsQuery.error,
+  };
+};
+
+// Parallel queries
+export const useDashboardData = () => {
+  const postsQuery = useQuery({
+    queryKey: ['posts'],
+    queryFn: () => fetch('/api/posts').then(res => res.json()),
+  });
+
+  const usersQuery = useQuery({
+    queryKey: ['users'],
+    queryFn: () => fetch('/api/users').then(res => res.json()),
+  });
+
+  const analyticsQuery = useQuery({
+    queryKey: ['analytics'],
+    queryFn: () => fetch('/api/analytics').then(res => res.json()),
+  });
+
+  return {
+    posts: postsQuery.data,
+    users: usersQuery.data,
+    analytics: analyticsQuery.data,
+    isLoading: postsQuery.isLoading || usersQuery.isLoading || analyticsQuery.isLoading,
+    errors: [postsQuery.error, usersQuery.error, analyticsQuery.error].filter(Boolean),
+  };
+};
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for TanStack Query
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Query Key Structure:</span> Use consistent, hierarchical query keys.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Custom Hooks:</span> Encapsulate query logic in reusable custom hooks.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Handling:</span> Implement proper error boundaries and retry logic.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optimistic Updates:</span> Use optimistic updates for better UX.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cache Management:</span> Configure appropriate stale and cache times.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Real-time data with TanStack Query
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect } from 'react';
+
+export const useRealtimePosts = () => {
+  const queryClient = useQueryClient();
+  
+  const query = useQuery({
+    queryKey: ['posts'],
+    queryFn: fetchPosts,
+  });
+
+  useEffect(() => {
+    // WebSocket connection for real-time updates
+    const ws = new WebSocket('ws://localhost:8080/posts');
+    
+    ws.onmessage = (event) => {
+      const update = JSON.parse(event.data);
+      
+      if (update.type === 'POST_CREATED') {
+        queryClient.invalidateQueries({ queryKey: ['posts'] });
+      } else if (update.type === 'POST_UPDATED') {
+        queryClient.setQueryData(['post', update.post.id], update.post);
+        queryClient.invalidateQueries({ queryKey: ['posts'] });
+      } else if (update.type === 'POST_DELETED') {
+        queryClient.removeQueries({ queryKey: ['post', update.postId] });
+        queryClient.invalidateQueries({ queryKey: ['posts'] });
+      }
+    };
+
+    return () => ws.close();
+  }, [queryClient]);
+
+  return query;
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between staleTime and cacheTime in TanStack Query?",
+                solution:
+                  "<p>staleTime determines how long data is considered fresh (no background refetch), while cacheTime determines how long inactive data stays in memory. staleTime affects when queries refetch, cacheTime affects memory management. Default staleTime is 0 (immediately stale), default cacheTime is 5 minutes.</p>",
+              },
+              {
+                question:
+                  "How do you handle optimistic updates with TanStack Query?",
+                solution:
+                  "<p>Handle optimistic updates using onMutate to update cache before mutation, onError to rollback on failure, and onSettled to refetch regardless of outcome. Use queryClient.setQueryData for cache updates and queryClient.cancelQueries to prevent race conditions.</p>",
+              },
+            ],
+            links: [
+              "https://tanstack.com/query/latest",
+              "https://tanstack.com/query/latest/docs/react/guides/ssr",
+              "https://github.com/TanStack/query/tree/main/examples/react/nextjs",
+            ],
+          },
+          {
+            topic: "GraphQL with Next.js",
+            tags: ["GraphQL", "Apollo", "API", "Data Fetching", "Next.js"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     GraphQL is a query language and runtime for APIs that allows clients to request exactly the data they need. In Next.js applications, GraphQL provides a powerful alternative to REST APIs, offering type safety, efficient data fetching, and excellent developer experience with tools like Apollo Client.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use GraphQL with Next.js?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single Endpoint:</span> One URL for all data operations instead of multiple REST endpoints.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Precise Data Fetching:</span> Request exactly what you need, reducing over-fetching and under-fetching.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Strong Type System:</span> Schema-first approach with built-in type safety.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Real-time Subscriptions:</span> Built-in support for real-time data updates.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Excellent Caching:</span> Normalized caching with Apollo Client.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SSR/SSG Support:</span> Perfect integration with Next.js rendering strategies.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Setting Up Apollo Client
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install @apollo/client graphql
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Apollo Client Configuration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// lib/apollo-client.js
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
+
+const httpLink = createHttpLink({
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+});
+
+const authLink = setContext((_, { headers }) => {
+  // Get the authentication token from local storage if it exists
+  const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
+  
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? \`Bearer \${token}\` : "",
+    }
+  };
+});
+
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Post: {
+        fields: {
+          comments: {
+            merge(existing = [], incoming) {
+              return [...existing, ...incoming];
+            },
+          },
+        },
+      },
+    },
+  }),
+  defaultOptions: {
+    watchQuery: {
+      errorPolicy: 'all',
+    },
+    query: {
+      errorPolicy: 'all',
+    },
+  },
+});
+
+export default client;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Setup Apollo Provider in _app.js
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/_app.js
+import { ApolloProvider } from '@apollo/client';
+import client from '../lib/apollo-client';
+
+function MyApp({ Component, pageProps }) {
+  return (
+    <ApolloProvider client={client}>
+      <Component {...pageProps} />
+    </ApolloProvider>
+  );
+}
+
+export default MyApp;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     GraphQL Queries and Mutations
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// graphql/queries.js
+import { gql } from '@apollo/client';
+
+export const GET_POSTS = gql\`
+  query GetPosts($limit: Int, $offset: Int) {
+    posts(limit: $limit, offset: $offset) {
+      id
+      title
+      content
+      author {
+        id
+        name
+        avatar
+      }
+      createdAt
+      likesCount
+      commentsCount
+    }
+  }
+\`;
+
+export const GET_POST = gql\`
+  query GetPost($id: ID!) {
+    post(id: $id) {
+      id
+      title
+      content
+      author {
+        id
+        name
+        avatar
+        bio
+      }
+      createdAt
+      updatedAt
+      tags
+      likesCount
+      comments {
+        id
+        content
+        author {
+          id
+          name
+          avatar
+        }
+        createdAt
+      }
+    }
+  }
+\`;
+
+export const CREATE_POST = gql\`
+  mutation CreatePost($input: CreatePostInput!) {
+    createPost(input: $input) {
+      id
+      title
+      content
+      author {
+        id
+        name
+      }
+      createdAt
+    }
+  }
+\`;
+
+export const UPDATE_POST = gql\`
+  mutation UpdatePost($id: ID!, $input: UpdatePostInput!) {
+    updatePost(id: $id, input: $input) {
+      id
+      title
+      content
+      updatedAt
+    }
+  }
+\`;
+
+export const DELETE_POST = gql\`
+  mutation DeletePost($id: ID!) {
+    deletePost(id: $id) {
+      id
+      message
+    }
+  }
+\`;
+
+export const LIKE_POST = gql\`
+  mutation LikePost($postId: ID!) {
+    likePost(postId: $postId) {
+      id
+      likesCount
+      isLiked
+    }
+  }
+\`;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Using GraphQL in Components
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/PostsList.js
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_POSTS, DELETE_POST } from '../graphql/queries';
+import { useState } from 'react';
+
+export default function PostsList() {
+  const [page, setPage] = useState(0);
+  const limit = 10;
+
+  const { loading, error, data, fetchMore, refetch } = useQuery(GET_POSTS, {
+    variables: { limit, offset: page * limit },
+    notifyOnNetworkStatusChange: true,
+  });
+
+  const [deletePost, { loading: deleteLoading }] = useMutation(DELETE_POST, {
+    update(cache, { data: { deletePost } }) {
+      // Remove from cache
+      cache.modify({
+        fields: {
+          posts(existingPosts = [], { readField }) {
+            return existingPosts.filter(
+              postRef => deletePost.id !== readField('id', postRef)
+            );
+          },
+        },
+      });
+    },
+    onCompleted: () => {
+      alert('Post deleted successfully!');
+    },
+    onError: (error) => {
+      alert(\`Error: \${error.message}\`);
+    },
+  });
+
+  const handleDelete = async (postId) => {
+    if (confirm('Are you sure you want to delete this post?')) {
+      try {
+        await deletePost({ variables: { id: postId } });
+      } catch (error) {
+        console.error('Delete failed:', error);
+      }
+    }
+  };
+
+  const loadMore = () => {
+    fetchMore({
+      variables: {
+        offset: (page + 1) * limit,
+      },
+      updateQuery: (prev, { fetchMoreResult }) => {
+        if (!fetchMoreResult) return prev;
+        return {
+          ...prev,
+          posts: [...prev.posts, ...fetchMoreResult.posts],
+        };
+      },
+    });
+    setPage(prev => prev + 1);
+  };
+
+  if (loading && page === 0) return <div>Loading posts...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <h2>Posts</h2>
+      {data?.posts?.map(post => (
+        <div key={post.id} className="post-card">
+          <h3>{post.title}</h3>
+          <p>{post.content}</p>
+          <div className="post-meta">
+            <span>By {post.author.name}</span>
+            <span>{post.likesCount} likes</span>
+            <span>{post.commentsCount} comments</span>
+          </div>
+          <button 
+            onClick={() => handleDelete(post.id)}
+            disabled={deleteLoading}
+          >
+            {deleteLoading ? 'Deleting...' : 'Delete'}
+          </button>
+        </div>
+      ))}
+      
+      <button onClick={loadMore} disabled={loading}>
+        {loading ? 'Loading...' : 'Load More'}
+      </button>
+      
+      <button onClick={() => refetch()}>
+        Refresh
+      </button>
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     GraphQL Subscriptions for Real-time Data
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// lib/apollo-client.js (Updated with WebSocket)
+import { ApolloClient, InMemoryCache, split } from '@apollo/client';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { createClient } from 'graphql-ws';
+
+const httpLink = createHttpLink({
+  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT,
+});
+
+const wsLink = typeof window !== 'undefined' ? new GraphQLWsLink(createClient({
+  url: process.env.NEXT_PUBLIC_GRAPHQL_WS_ENDPOINT,
+})) : null;
+
+const splitLink = typeof window !== 'undefined' ? split(
+  ({ query }) => {
+    const definition = getMainDefinition(query);
+    return (
+      definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+    );
+  },
+  wsLink,
+  httpLink,
+) : httpLink;
+
+// graphql/subscriptions.js
+export const POST_ADDED = gql\`
+  subscription PostAdded {
+    postAdded {
+      id
+      title
+      content
+      author {
+        id
+        name
+        avatar
+      }
+      createdAt
+    }
+  }
+\`;
+
+export const POST_UPDATED = gql\`
+  subscription PostUpdated($postId: ID!) {
+    postUpdated(postId: $postId) {
+      id
+      title
+      content
+      updatedAt
+    }
+  }
+\`;
+
+// components/RealTimePosts.js
+import { useSubscription } from '@apollo/client';
+import { POST_ADDED } from '../graphql/subscriptions';
+
+export default function RealTimePosts() {
+  const { data, loading } = useSubscription(POST_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      if (subscriptionData.data) {
+        console.log('New post added:', subscriptionData.data.postAdded);
+        // Handle new post (show notification, update UI, etc.)
+      }
+    },
+  });
+
+  return (
+    <div>
+      {loading && <p>Listening for new posts...</p>}
+      {data && (
+        <div className="notification">
+          New post: {data.postAdded.title}
+        </div>
+      )}
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SSR/SSG with GraphQL
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/posts/[id].js
+import { useRouter } from 'next/router';
+import { useQuery } from '@apollo/client';
+import { GET_POST } from '../../graphql/queries';
+import client from '../../lib/apollo-client';
+
+export default function PostPage({ post }) {
+  const router = useRouter();
+  const { data, loading, error } = useQuery(GET_POST, {
+    variables: { id: router.query.id },
+    initialData: post ? { post } : undefined,
+  });
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  const { post: currentPost } = data;
+
+  return (
+    <article>
+      <h1>{currentPost.title}</h1>
+      <div className="author-info">
+        <img src={currentPost.author.avatar} alt={currentPost.author.name} />
+        <div>
+          <h3>{currentPost.author.name}</h3>
+          <p>{currentPost.author.bio}</p>
+        </div>
+      </div>
+      <div className="content">
+        {currentPost.content}
+      </div>
+      <div className="metadata">
+        <p>Created: {new Date(currentPost.createdAt).toLocaleDateString()}</p>
+        <p>Likes: {currentPost.likesCount}</p>
+        <div className="tags">
+          {currentPost.tags.map(tag => (
+            <span key={tag} className="tag">{tag}</span>
+          ))}
+        </div>
+      </div>
+      <div className="comments">
+        <h3>Comments ({currentPost.comments.length})</h3>
+        {currentPost.comments.map(comment => (
+          <div key={comment.id} className="comment">
+            <strong>{comment.author.name}</strong>
+            <p>{comment.content}</p>
+            <small>{new Date(comment.createdAt).toLocaleDateString()}</small>
+          </div>
+        ))}
+      </div>
+    </article>
+  );
+}
+
+export async function getStaticProps({ params }) {
+  try {
+    const { data } = await client.query({
+      query: GET_POST,
+      variables: { id: params.id },
+    });
+
+    return {
+      props: {
+        post: data.post,
+      },
+      revalidate: 60, // Revalidate every minute
+    };
+  } catch (error) {
+    return {
+      notFound: true,
+    };
+  }
+}
+
+export async function getStaticPaths() {
+  // Generate paths for the most popular posts
+  const { data } = await client.query({
+    query: gql\`
+      query GetPopularPosts {
+        posts(limit: 100, orderBy: LIKES_DESC) {
+          id
+        }
+      }
+    \`,
+  });
+
+  const paths = data.posts.map((post) => ({
+    params: { id: post.id },
+  }));
+
+  return {
+    paths,
+    fallback: 'blocking',
+  };
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for GraphQL in Next.js
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Query Optimization:</span> Use fragments to reuse common fields and avoid over-fetching.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cache Management:</span> Configure cache policies properly for optimal performance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Handling:</span> Implement comprehensive error handling for better UX.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Type Generation:</span> Use GraphQL Code Generator for TypeScript types.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Implement query complexity analysis and rate limiting.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Custom Hook for Post Operations
+import { useQuery, useMutation } from '@apollo/client';
+import { GET_POSTS, CREATE_POST, UPDATE_POST } from '../graphql/queries';
+
+export const usePostOperations = () => {
+  const { data, loading, error, refetch } = useQuery(GET_POSTS);
+  
+  const [createPost, { loading: creating }] = useMutation(CREATE_POST, {
+    update(cache, { data: { createPost } }) {
+      cache.modify({
+        fields: {
+          posts(existingPosts = []) {
+            const newPostRef = cache.writeFragment({
+              data: createPost,
+              fragment: gql\`
+                fragment NewPost on Post {
+                  id
+                  title
+                  content
+                  author {
+                    id
+                    name
+                  }
+                }
+              \`
+            });
+            return [newPostRef, ...existingPosts];
+          }
+        }
+      });
+    }
+  });
+
+  const [updatePost, { loading: updating }] = useMutation(UPDATE_POST);
+
+  return {
+    posts: data?.posts || [],
+    loading,
+    error,
+    refetch,
+    createPost,
+    updatePost,
+    creating,
+    updating,
+  };
+};`,
+            ],
+            questions: [
+              {
+                question: "What are the advantages of GraphQL over REST APIs?",
+                solution:
+                  "<p>GraphQL offers single endpoint simplicity, precise data fetching (no over/under-fetching), strong type system, real-time subscriptions, excellent caching, introspection capabilities, and version-less API evolution. It's particularly beneficial for complex data requirements and mobile applications where bandwidth matters.</p>",
+              },
+              {
+                question:
+                  "How do you handle caching with Apollo Client in Next.js?",
+                solution:
+                  "<p>Apollo Client uses normalized caching by default. Configure cache policies using typePolicies, use cache.modify() for updates, implement optimistic updates for better UX, leverage cache-first/network-only policies appropriately, and use fragments for consistent cache updates across queries.</p>",
+              },
+            ],
+            links: [
+              "https://www.apollographql.com/docs/react/",
+              "https://nextjs.org/docs/basic-features/data-fetching",
+              "https://graphql.org/learn/",
+            ],
+          },
+          {
+            topic: "REST API Consumption",
+            tags: ["REST API", "Fetch", "Axios", "SWR", "Error Handling"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     REST (Representational State Transfer) APIs remain the most common way to communicate with backend services in Next.js applications. Proper REST API consumption involves understanding HTTP methods, status codes, error handling, caching strategies, and optimizing for both client-side and server-side rendering scenarios.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     REST API Principles in Next.js
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">HTTP Methods:</span> GET, POST, PUT, PATCH, DELETE for different operations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Stateless Communication:</span> Each request contains all necessary information.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Resource-Based URLs:</span> URLs represent resources, not actions.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Status Codes:</span> Proper HTTP status codes for different scenarios.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JSON Data Format:</span> Standard data exchange format.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     API Client Configuration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// lib/api.js
+class APIClient {
+  constructor(baseURL = process.env.NEXT_PUBLIC_API_BASE_URL) {
+    this.baseURL = baseURL;
+    this.defaultHeaders = {
+      'Content-Type': 'application/json',
+    };
+  }
+
+  // Get auth token
+  getAuthToken() {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('authToken');
+    }
+    return null;
+  }
+
+  // Create headers with auth
+  createHeaders(additionalHeaders = {}) {
+    const token = this.getAuthToken();
+    return {
+      ...this.defaultHeaders,
+      ...(token && { Authorization: \`Bearer \${token}\` }),
+      ...additionalHeaders,
+    };
+  }
+
+  // Generic request method
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseURL}\${endpoint}\`;
+    const config = {
+      headers: this.createHeaders(options.headers),
+      ...options,
+    };
+
+    try {
+      const response = await fetch(url, config);
+      
+      // Handle different response types
+      const contentType = response.headers.get('content-type');
+      let data;
+      
+      if (contentType && contentType.includes('application/json')) {
+        data = await response.json();
+      } else {
+        data = await response.text();
+      }
+
+      if (!response.ok) {
+        throw new APIError(
+          data.message || \`HTTP Error: \${response.status}\`,
+          response.status,
+          data
+        );
+      }
+
+      return {
+        data,
+        status: response.status,
+        headers: response.headers,
+      };
+    } catch (error) {
+      if (error instanceof APIError) {
+        throw error;
+      }
+      throw new APIError('Network error occurred', 0, { originalError: error });
+    }
+  }
+
+  // HTTP Methods
+  async get(endpoint, params = {}) {
+    const queryString = new URLSearchParams(params).toString();
+    const url = queryString ? \`\${endpoint}?\${queryString}\` : endpoint;
+    
+    return this.request(url, { method: 'GET' });
+  }
+
+  async post(endpoint, data = {}) {
+    return this.request(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async put(endpoint, data = {}) {
+    return this.request(endpoint, {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async patch(endpoint, data = {}) {
+    return this.request(endpoint, {
+      method: 'PATCH',
+      body: JSON.stringify(data),
+    });
+  }
+
+  async delete(endpoint) {
+    return this.request(endpoint, { method: 'DELETE' });
+  }
+
+  // File upload
+  async uploadFile(endpoint, file, additionalData = {}) {
+    const formData = new FormData();
+    formData.append('file', file);
+    
+    Object.keys(additionalData).forEach(key => {
+      formData.append(key, additionalData[key]);
+    });
+
+    return this.request(endpoint, {
+      method: 'POST',
+      body: formData,
+      headers: {}, // Let browser set content-type for multipart/form-data
+    });
+  }
+}
+
+// Custom Error Class
+class APIError extends Error {
+  constructor(message, status, data) {
+    super(message);
+    this.name = 'APIError';
+    this.status = status;
+    this.data = data;
+  }
+}
+
+export const apiClient = new APIClient();
+export { APIError };
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Service Layer for API Operations
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// services/postService.js
+import { apiClient } from '../lib/api';
+
+export const postService = {
+  // Get all posts with pagination and filters
+  async getPosts(params = {}) {
+    const {
+      page = 1,
+      limit = 10,
+      search = '',
+      category = '',
+      sortBy = 'createdAt',
+      order = 'desc',
+    } = params;
+
+    return apiClient.get('/posts', {
+      page,
+      limit,
+      search,
+      category,
+      sortBy,
+      order,
+    });
+  },
+
+  // Get single post
+  async getPost(id) {
+    return apiClient.get(\`/posts/\${id}\`);
+  },
+
+  // Create new post
+  async createPost(postData) {
+    return apiClient.post('/posts', postData);
+  },
+
+  // Update existing post
+  async updatePost(id, updates) {
+    return apiClient.patch(\`/posts/\${id}\`, updates);
+  },
+
+  // Delete post
+  async deletePost(id) {
+    return apiClient.delete(\`/posts/\${id}\`);
+  },
+
+  // Like/unlike post
+  async toggleLike(id) {
+    return apiClient.post(\`/posts/\${id}/like\`);
+  },
+
+  // Get post comments
+  async getComments(postId, page = 1) {
+    return apiClient.get(\`/posts/\${postId}/comments\`, { page });
+  },
+
+  // Add comment
+  async addComment(postId, commentData) {
+    return apiClient.post(\`/posts/\${postId}/comments\`, commentData);
+  },
+
+  // Upload post image
+  async uploadImage(file) {
+    return apiClient.uploadFile('/posts/upload-image', file);
+  },
+};
+
+// services/userService.js
+export const userService = {
+  async getCurrentUser() {
+    return apiClient.get('/user/profile');
+  },
+
+  async updateProfile(userData) {
+    return apiClient.patch('/user/profile', userData);
+  },
+
+  async uploadAvatar(file) {
+    return apiClient.uploadFile('/user/avatar', file);
+  },
+
+  async getUsers(params = {}) {
+    return apiClient.get('/users', params);
+  },
+};
+
+// services/authService.js
+export const authService = {
+  async login(credentials) {
+    const response = await apiClient.post('/auth/login', credentials);
+    
+    // Store token in localStorage
+    if (response.data.token) {
+      localStorage.setItem('authToken', response.data.token);
+    }
+    
+    return response;
+  },
+
+  async register(userData) {
+    return apiClient.post('/auth/register', userData);
+  },
+
+  async logout() {
+    const response = await apiClient.post('/auth/logout');
+    localStorage.removeItem('authToken');
+    return response;
+  },
+
+  async refreshToken() {
+    return apiClient.post('/auth/refresh');
+  },
+
+  async forgotPassword(email) {
+    return apiClient.post('/auth/forgot-password', { email });
+  },
+
+  async resetPassword(token, newPassword) {
+    return apiClient.post('/auth/reset-password', {
+      token,
+      password: newPassword,
+    });
+  },
+};
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Custom Hooks for API Operations
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// hooks/usePosts.js
+import { useState, useEffect, useCallback } from 'react';
+import { postService } from '../services/postService';
+
+export const usePosts = (initialParams = {}) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    totalPages: 0,
+    totalItems: 0,
+    hasMore: false,
+  });
+
+  const fetchPosts = useCallback(async (params = {}) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await postService.getPosts({
+        ...initialParams,
+        ...params,
+      });
+
+      const { data, pagination: paginationData } = response.data;
+      
+      if (params.page > 1) {
+        // Append for pagination
+        setPosts(prev => [...prev, ...data]);
+      } else {
+        // Replace for new search/filter
+        setPosts(data);
+      }
+
+      setPagination(paginationData);
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to fetch posts:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [initialParams]);
+
+  // Load more posts
+  const loadMore = useCallback(() => {
+    if (pagination.hasMore && !loading) {
+      fetchPosts({ page: pagination.page + 1 });
+    }
+  }, [pagination.hasMore, pagination.page, loading, fetchPosts]);
+
+  // Refresh posts
+  const refresh = useCallback(() => {
+    fetchPosts({ page: 1 });
+  }, [fetchPosts]);
+
+  // Search posts
+  const search = useCallback((searchTerm) => {
+    fetchPosts({ page: 1, search: searchTerm });
+  }, [fetchPosts]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [fetchPosts]);
+
+  return {
+    posts,
+    loading,
+    error,
+    pagination,
+    loadMore,
+    refresh,
+    search,
+    fetchPosts,
+  };
+};
+
+// hooks/usePost.js
+export const usePost = (id) => {
+  const [post, setPost] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const fetchPost = useCallback(async () => {
+    if (!id) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await postService.getPost(id);
+      setPost(response.data);
+    } catch (err) {
+      setError(err.message);
+      console.error('Failed to fetch post:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  const updatePost = useCallback(async (updates) => {
+    try {
+      const response = await postService.updatePost(id, updates);
+      setPost(response.data);
+      return response.data;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  }, [id]);
+
+  const deletePost = useCallback(async () => {
+    try {
+      await postService.deletePost(id);
+      return true;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    }
+  }, [id]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
+
+  return {
+    post,
+    loading,
+    error,
+    updatePost,
+    deletePost,
+    refresh: fetchPost,
+  };
+};
+
+// hooks/useAPI.js - Generic hook for API operations
+export const useAPI = () => {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const execute = useCallback(async (apiCall, onSuccess, onError) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const result = await apiCall();
+      onSuccess?.(result);
+      return result;
+    } catch (err) {
+      setError(err.message);
+      onError?.(err);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const clearError = useCallback(() => {
+    setError(null);
+  }, []);
+
+  return { execute, loading, error, clearError };
+};
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Error Handling and Loading States
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/PostsList.js
+import { usePosts } from '../hooks/usePosts';
+import { useState } from 'react';
+
+export default function PostsList() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [category, setCategory] = useState('');
+  
+  const {
+    posts,
+    loading,
+    error,
+    pagination,
+    loadMore,
+    refresh,
+    search,
+  } = usePosts({ category });
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    search(searchTerm);
+  };
+
+  const handleCategoryChange = (newCategory) => {
+    setCategory(newCategory);
+  };
+
+  if (loading && posts.length === 0) {
+    return <div className="loading-spinner">Loading posts...</div>;
+  }
+
+  return (
+    <div className="posts-container">
+      <div className="filters">
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search posts..."
+            className="search-input"
+          />
+          <button type="submit">Search</button>
+        </form>
+
+        <select
+          value={category}
+          onChange={(e) => handleCategoryChange(e.target.value)}
+          className="category-select"
+        >
+          <option value="">All Categories</option>
+          <option value="tech">Technology</option>
+          <option value="business">Business</option>
+          <option value="lifestyle">Lifestyle</option>
+        </select>
+      </div>
+
+      {error && (
+        <div className="error-banner">
+          <p>Error: {error}</p>
+          <button onClick={refresh} className="retry-button">
+            Retry
+          </button>
+        </div>
+      )}
+
+      <div className="posts-grid">
+        {posts.map(post => (
+          <div key={post.id} className="post-card">
+            <h3>{post.title}</h3>
+            <p>{post.excerpt}</p>
+            <div className="post-meta">
+              <span>By {post.author.name}</span>
+              <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+            </div>
+            <div className="post-stats">
+              <span>{post.likesCount} likes</span>
+              <span>{post.commentsCount} comments</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {pagination.hasMore && (
+        <div className="load-more-container">
+          <button
+            onClick={loadMore}
+            disabled={loading}
+            className="load-more-button"
+          >
+            {loading ? 'Loading...' : 'Load More Posts'}
+          </button>
+        </div>
+      )}
+
+      {posts.length === 0 && !loading && !error && (
+        <div className="empty-state">
+          <p>No posts found</p>
+        </div>
+      )}
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Form Handling with API Integration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/CreatePostForm.js
+import { useState } from 'react';
+import { postService } from '../services/postService';
+import { useAPI } from '../hooks/useAPI';
+
+export default function CreatePostForm({ onSuccess }) {
+  const [formData, setFormData] = useState({
+    title: '',
+    content: '',
+    category: '',
+    tags: '',
+    image: null,
+  });
+  
+  const { execute, loading, error, clearError } = useAPI();
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: files ? files[0] : value,
+    }));
+    
+    // Clear error when user starts typing
+    if (error) clearError();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    await execute(
+      async () => {
+        let imageUrl = null;
+        
+        // Upload image first if provided
+        if (formData.image) {
+          const uploadResponse = await postService.uploadImage(formData.image);
+          imageUrl = uploadResponse.data.url;
+        }
+
+        // Create post with image URL
+        const postData = {
+          title: formData.title,
+          content: formData.content,
+          category: formData.category,
+          tags: formData.tags.split(',').map(tag => tag.trim()).filter(Boolean),
+          imageUrl,
+        };
+
+        return postService.createPost(postData);
+      },
+      (result) => {
+        // Success callback
+        setFormData({
+          title: '',
+          content: '',
+          category: '',
+          tags: '',
+          image: null,
+        });
+        onSuccess?.(result.data);
+      },
+      (error) => {
+        // Error callback
+        console.error('Failed to create post:', error);
+      }
+    );
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="create-post-form">
+      <h2>Create New Post</h2>
+      
+      {error && (
+        <div className="error-message">
+          {error}
+        </div>
+      )}
+
+      <div className="form-group">
+        <label htmlFor="title">Title</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+          className="form-input"
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="content">Content</label>
+        <textarea
+          id="content"
+          name="content"
+          value={formData.content}
+          onChange={handleChange}
+          required
+          rows={10}
+          className="form-textarea"
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="category">Category</label>
+        <select
+          id="category"
+          name="category"
+          value={formData.category}
+          onChange={handleChange}
+          required
+          className="form-select"
+        >
+          <option value="">Select Category</option>
+          <option value="tech">Technology</option>
+          <option value="business">Business</option>
+          <option value="lifestyle">Lifestyle</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="tags">Tags (comma-separated)</label>
+        <input
+          type="text"
+          id="tags"
+          name="tags"
+          value={formData.tags}
+          onChange={handleChange}
+          placeholder="react, javascript, web development"
+          className="form-input"
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="image">Featured Image</label>
+        <input
+          type="file"
+          id="image"
+          name="image"
+          onChange={handleChange}
+          accept="image/*"
+          className="form-file"
+        />
+      </div>
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="submit-button"
+      >
+        {loading ? 'Creating Post...' : 'Create Post'}
+      </button>
+    </form>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SSR/SSG with REST APIs
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/posts/index.js
+import { postService } from '../../services/postService';
+import PostsList from '../../components/PostsList';
+
+export default function PostsPage({ initialPosts, error }) {
+  if (error) {
+    return (
+      <div className="error-page">
+        <h1>Failed to load posts</h1>
+        <p>{error}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1>All Posts</h1>
+      <PostsList initialData={initialPosts} />
+    </div>
+  );
+}
+
+export async function getStaticProps() {
+  try {
+    // Create a server-side API client without auth
+    const serverApiClient = new APIClient(process.env.API_BASE_URL);
+    const response = await serverApiClient.get('/posts', { limit: 20 });
+
+    return {
+      props: {
+        initialPosts: response.data,
+      },
+      revalidate: 300, // Revalidate every 5 minutes
+    };
+  } catch (error) {
+    return {
+      props: {
+        error: error.message,
+      },
+    };
+  }
+}
+
+// pages/posts/[slug].js
+export async function getServerSideProps({ params, req }) {
+  try {
+    const response = await postService.getPost(params.slug);
+    
+    return {
+      props: {
+        post: response.data,
+      },
+    };
+  } catch (error) {
+    if (error.status === 404) {
+      return {
+        notFound: true,
+      };
+    }
+
+    throw error;
+  }
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for REST API Consumption
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Handling:</span> Implement comprehensive error handling with user-friendly messages.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Loading States:</span> Show appropriate loading indicators for better UX.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Caching:</span> Implement caching strategies to reduce unnecessary API calls.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Retry Logic:</span> Add intelligent retry mechanisms for failed requests.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Request Deduplication:</span> Avoid duplicate requests for the same data.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Advanced Error Boundary for API Errors
+import { Component } from 'react';
+
+class APIErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false, error: null };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    console.error('API Error:', error, errorInfo);
+    
+    // Report to error tracking service
+    if (process.env.NODE_ENV === 'production') {
+      // reportError(error, errorInfo);
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="error-fallback">
+          <h2>Something went wrong</h2>
+          <p>{this.state.error?.message}</p>
+          <button onClick={() => window.location.reload()}>
+            Reload Page
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you handle authentication with REST APIs in Next.js?",
+                solution:
+                  "<p>Handle authentication by storing tokens in localStorage/cookies, adding Authorization headers to requests, implementing token refresh logic, managing auth state globally, handling 401/403 responses appropriately, and securing API routes with middleware for server-side operations.</p>",
+              },
+              {
+                question:
+                  "What are the best practices for error handling in REST API calls?",
+                solution:
+                  "<p>Best practices include: catching both network and application errors, providing user-friendly error messages, implementing retry logic for transient failures, using error boundaries for React components, logging errors for debugging, showing appropriate fallback UI, and handling different HTTP status codes properly.</p>",
+              },
+            ],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API",
+              "https://nextjs.org/docs/basic-features/data-fetching",
+              "https://swr.vercel.app/",
+            ],
+          },
+          {
+            topic: "WebSockets with Next.js",
+            tags: [
+              "WebSockets",
+              "Real-time",
+              "Socket.io",
+              "Server-Sent Events",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     WebSockets provide full-duplex communication between client and server, enabling real-time features in Next.js applications. Unlike traditional HTTP requests, WebSockets maintain persistent connections, making them ideal for chat applications, live updates, collaborative tools, and real-time notifications.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     WebSocket Use Cases in Next.js
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Real-time Chat:</span> Instant messaging and group conversations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Live Updates:</span> Real-time content updates and notifications.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Collaborative Editing:</span> Multiple users editing documents simultaneously.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Live Data Feeds:</span> Stock prices, sports scores, IoT sensor data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Gaming:</span> Multiplayer games and real-time interactions.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Video Streaming:</span> Live streaming and video conferencing.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Socket.io Setup with Next.js
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install socket.io socket.io-client
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Server Setup (Custom Server)
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// server.js
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const next = require('next');
+
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
+app.prepare().then(() => {
+  const server = createServer((req, res) => {
+    handle(req, res);
+  });
+
+  const io = new Server(server, {
+    cors: {
+      origin: dev ? "http://localhost:3000" : process.env.PRODUCTION_URL,
+      methods: ["GET", "POST"]
+    }
+  });
+
+  // Store active users and rooms
+  const activeUsers = new Map();
+  const chatRooms = new Map();
+
+  io.on('connection', (socket) => {
+    console.log('User connected:', socket.id);
+
+    // Handle user authentication
+    socket.on('authenticate', (userData) => {
+      activeUsers.set(socket.id, {
+        ...userData,
+        socketId: socket.id,
+        connectedAt: new Date(),
+      });
+      
+      // Broadcast user online status
+      socket.broadcast.emit('user-online', {
+        userId: userData.id,
+        username: userData.username,
+      });
+    });
+
+    // Handle joining chat rooms
+    socket.on('join-room', (roomId) => {
+      socket.join(roomId);
+      
+      if (!chatRooms.has(roomId)) {
+        chatRooms.set(roomId, new Set());
+      }
+      chatRooms.get(roomId).add(socket.id);
+
+      // Notify room members
+      socket.to(roomId).emit('user-joined-room', {
+        user: activeUsers.get(socket.id),
+        roomId,
+      });
+    });
+
+    // Handle leaving rooms
+    socket.on('leave-room', (roomId) => {
+      socket.leave(roomId);
+      
+      if (chatRooms.has(roomId)) {
+        chatRooms.get(roomId).delete(socket.id);
+      }
+
+      socket.to(roomId).emit('user-left-room', {
+        user: activeUsers.get(socket.id),
+        roomId,
+      });
+    });
+
+    // Handle chat messages
+    socket.on('send-message', (data) => {
+      const { roomId, message, type = 'text' } = data;
+      const user = activeUsers.get(socket.id);
+
+      if (!user) return;
+
+      const messageData = {
+        id: Date.now() + Math.random(),
+        message,
+        type,
+        user: {
+          id: user.id,
+          username: user.username,
+          avatar: user.avatar,
+        },
+        timestamp: new Date(),
+        roomId,
+      };
+
+      // Save message to database here
+      // await saveMessageToDatabase(messageData);
+
+      // Broadcast to room members
+      io.to(roomId).emit('new-message', messageData);
+    });
+
+    // Handle typing indicators
+    socket.on('typing', (data) => {
+      socket.to(data.roomId).emit('user-typing', {
+        user: activeUsers.get(socket.id),
+        isTyping: data.isTyping,
+      });
+    });
+
+    // Handle real-time document collaboration
+    socket.on('document-change', (data) => {
+      const { documentId, changes, version } = data;
+      
+      // Broadcast changes to other users editing the same document
+      socket.to(\`doc-\${documentId}\`).emit('document-updated', {
+        changes,
+        version,
+        author: activeUsers.get(socket.id),
+      });
+    });
+
+    // Handle live cursor positions
+    socket.on('cursor-position', (data) => {
+      const { documentId, position } = data;
+      const user = activeUsers.get(socket.id);
+      
+      socket.to(\`doc-\${documentId}\`).emit('cursor-update', {
+        user,
+        position,
+      });
+    });
+
+    // Handle disconnect
+    socket.on('disconnect', () => {
+      const user = activeUsers.get(socket.id);
+      
+      if (user) {
+        // Notify others that user went offline
+        socket.broadcast.emit('user-offline', {
+          userId: user.id,
+          username: user.username,
+        });
+
+        // Remove from active users
+        activeUsers.delete(socket.id);
+
+        // Clean up room memberships
+        chatRooms.forEach((members, roomId) => {
+          if (members.has(socket.id)) {
+            members.delete(socket.id);
+            socket.to(roomId).emit('user-left-room', { user, roomId });
+          }
+        });
+      }
+
+      console.log('User disconnected:', socket.id);
+    });
+  });
+
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, (err) => {
+    if (err) throw err;
+    console.log(\`> Ready on http://localhost:\${PORT}\`);
+  });
+});
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Client-Side Socket Hook
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// hooks/useSocket.js
+import { useEffect, useRef, useState } from 'react';
+import { io } from 'socket.io-client';
+
+export const useSocket = (serverPath = '') => {
+  const socketRef = useRef(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    // Initialize socket connection
+    socketRef.current = io(serverPath, {
+      transports: ['websocket', 'polling'],
+      timeout: 20000,
+    });
+
+    const socket = socketRef.current;
+
+    // Connection event handlers
+    socket.on('connect', () => {
+      setIsConnected(true);
+      setError(null);
+      console.log('Socket connected:', socket.id);
+    });
+
+    socket.on('disconnect', (reason) => {
+      setIsConnected(false);
+      console.log('Socket disconnected:', reason);
+    });
+
+    socket.on('connect_error', (error) => {
+      setError(error.message);
+      console.error('Socket connection error:', error);
+    });
+
+    // Cleanup on unmount
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
+  }, [serverPath]);
+
+  // Helper methods
+  const emit = (event, data) => {
+    if (socketRef.current && isConnected) {
+      socketRef.current.emit(event, data);
+    }
+  };
+
+  const on = (event, callback) => {
+    if (socketRef.current) {
+      socketRef.current.on(event, callback);
+    }
+  };
+
+  const off = (event, callback) => {
+    if (socketRef.current) {
+      socketRef.current.off(event, callback);
+    }
+  };
+
+  return {
+    socket: socketRef.current,
+    isConnected,
+    error,
+    emit,
+    on,
+    off,
+  };
+};
+
+// hooks/useChat.js
+import { useState, useEffect, useCallback } from 'react';
+import { useSocket } from './useSocket';
+
+export const useChat = (roomId, user) => {
+  const [messages, setMessages] = useState([]);
+  const [typingUsers, setTypingUsers] = useState([]);
+  const [onlineUsers, setOnlineUsers] = useState([]);
+  
+  const { socket, isConnected, emit, on, off } = useSocket();
+
+  // Join room and authenticate
+  useEffect(() => {
+    if (isConnected && user && roomId) {
+      emit('authenticate', user);
+      emit('join-room', roomId);
+    }
+
+    return () => {
+      if (roomId) {
+        emit('leave-room', roomId);
+      }
+    };
+  }, [isConnected, user, roomId, emit]);
+
+  // Set up event listeners
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNewMessage = (messageData) => {
+      setMessages(prev => [...prev, messageData]);
+    };
+
+    const handleUserTyping = ({ user: typingUser, isTyping }) => {
+      setTypingUsers(prev => {
+        if (isTyping) {
+          return prev.some(u => u.id === typingUser.id)
+            ? prev
+            : [...prev, typingUser];
+        } else {
+          return prev.filter(u => u.id !== typingUser.id);
+        }
+      });
+    };
+
+    const handleUserOnline = ({ userId, username }) => {
+      setOnlineUsers(prev => [
+        ...prev.filter(u => u.id !== userId),
+        { id: userId, username, status: 'online' }
+      ]);
+    };
+
+    const handleUserOffline = ({ userId }) => {
+      setOnlineUsers(prev => prev.filter(u => u.id !== userId));
+    };
+
+    // Attach event listeners
+    on('new-message', handleNewMessage);
+    on('user-typing', handleUserTyping);
+    on('user-online', handleUserOnline);
+    on('user-offline', handleUserOffline);
+
+    return () => {
+      off('new-message', handleNewMessage);
+      off('user-typing', handleUserTyping);
+      off('user-online', handleUserOnline);
+      off('user-offline', handleUserOffline);
+    };
+  }, [socket, on, off]);
+
+  // Send message
+  const sendMessage = useCallback((message, type = 'text') => {
+    if (isConnected && message.trim()) {
+      emit('send-message', {
+        roomId,
+        message: message.trim(),
+        type,
+      });
+    }
+  }, [isConnected, roomId, emit]);
+
+  // Send typing indicator
+  const sendTyping = useCallback((isTyping) => {
+    if (isConnected) {
+      emit('typing', { roomId, isTyping });
+    }
+  }, [isConnected, roomId, emit]);
+
+  return {
+    messages,
+    typingUsers,
+    onlineUsers,
+    sendMessage,
+    sendTyping,
+    isConnected,
+  };
+};
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Chat Component Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/ChatRoom.js
+import { useState, useEffect, useRef } from 'react';
+import { useChat } from '../hooks/useChat';
+
+export default function ChatRoom({ roomId, currentUser }) {
+  const [inputMessage, setInputMessage] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
+  const typingTimeoutRef = useRef(null);
+
+  const {
+    messages,
+    typingUsers,
+    onlineUsers,
+    sendMessage,
+    sendTyping,
+    isConnected,
+  } = useChat(roomId, currentUser);
+
+  // Auto-scroll to bottom when new messages arrive
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  // Handle typing indicators
+  const handleInputChange = (e) => {
+    const value = e.target.value;
+    setInputMessage(value);
+
+    // Send typing indicator
+    if (!isTyping && value.trim()) {
+      setIsTyping(true);
+      sendTyping(true);
+    }
+
+    // Clear existing timeout
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+
+    // Set timeout to stop typing indicator
+    typingTimeoutRef.current = setTimeout(() => {
+      setIsTyping(false);
+      sendTyping(false);
+    }, 1000);
+  };
+
+  const handleSendMessage = (e) => {
+    e.preventDefault();
+    
+    if (inputMessage.trim()) {
+      sendMessage(inputMessage);
+      setInputMessage('');
+      
+      // Clear typing indicator
+      if (isTyping) {
+        setIsTyping(false);
+        sendTyping(false);
+      }
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage(e);
+    }
+  };
+
+  return (
+    <div className="chat-room">
+      <div className="chat-header">
+        <h3>Room: {roomId}</h3>
+        <div className="connection-status">
+          <span className={status-indicator \${isConnected ? 'connected' : 'disconnected'}\`}>
+            {isConnected ? 'Connected' : 'Disconnected'}
+          </span>
+        </div>
+      </div>
+
+      <div className="online-users">
+        <h4>Online Users ({onlineUsers.length})</h4>
+        <div className="users-list">
+          {onlineUsers.map(user => (
+            <span key={user.id} className="online-user">
+              {user.username}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="messages-container">
+        {messages.map(message => (
+          <div
+            key={message.id}
+            className={message \${message.user.id === currentUser.id ? 'own-message' : 'other-message'}\`}
+          >
+            <div className="message-header">
+              <span className="username">{message.user.username}</span>
+              <span className="timestamp">
+                {new Date(message.timestamp).toLocaleTimeString()}
+              </span>
+            </div>
+            <div className="message-content">
+              {message.type === 'text' ? (
+                <p>{message.message}</p>
+              ) : message.type === 'image' ? (
+                <img src={message.message} alt="Shared image" />
+              ) : (
+                <p>{message.message}</p>
+              )}
+            </div>
+          </div>
+        ))}
+
+        {typingUsers.length > 0 && (
+          <div className="typing-indicator">
+            <span>
+              {typingUsers.map(user => user.username).join(', ')} 
+              {typingUsers.length === 1 ? ' is' : ' are'} typing...
+            </span>
+          </div>
+        )}
+
+        <div ref={messagesEndRef} />
+      </div>
+
+      <form onSubmit={handleSendMessage} className="message-input-form">
+        <input
+          type="text"
+          value={inputMessage}
+          onChange={handleInputChange}
+          onKeyPress={handleKeyPress}
+          placeholder="Type a message..."
+          disabled={!isConnected}
+          className="message-input"
+        />
+        <button
+          type="submit"
+          disabled={!isConnected || !inputMessage.trim()}
+          className="send-button"
+        >
+          Send
+        </button>
+      </form>
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-time Notifications Component
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// components/NotificationSystem.js
+import { useState, useEffect } from 'react';
+import { useSocket } from '../hooks/useSocket';
+
+export default function NotificationSystem({ userId }) {
+  const [notifications, setNotifications] = useState([]);
+  const { socket, isConnected, emit, on, off } = useSocket();
+
+  useEffect(() => {
+    if (isConnected && userId) {
+      // Join user's personal notification room
+      emit('join-notification-room', userId);
+    }
+  }, [isConnected, userId, emit]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleNotification = (notification) => {
+      setNotifications(prev => [
+        {
+          ...notification,
+          id: Date.now() + Math.random(),
+          timestamp: new Date(),
+          read: false,
+        },
+        ...prev
+      ]);
+
+      // Show browser notification if permission granted
+      if (Notification.permission === 'granted') {
+        new Notification(notification.title, {
+          body: notification.message,
+          icon: '/notification-icon.png',
+        });
+      }
+    };
+
+    on('new-notification', handleNotification);
+
+    return () => {
+      off('new-notification', handleNotification);
+    };
+  }, [socket, on, off]);
+
+  const markAsRead = (notificationId) => {
+    setNotifications(prev =>
+      prev.map(notif =>
+        notif.id === notificationId
+          ? { ...notif, read: true }
+          : notif
+      )
+    );
+  };
+
+  const clearAll = () => {
+    setNotifications([]);
+  };
+
+  const unreadCount = notifications.filter(n => !n.read).length;
+
+  return (
+    <div className="notification-system">
+      <div className="notification-bell">
+        <button className="bell-button">
+          🔔
+          {unreadCount > 0 && (
+            <span className="notification-count">{unreadCount}</span>
+          )}
+        </button>
+      </div>
+
+      <div className="notifications-panel">
+        <div className="panel-header">
+          <h3>Notifications</h3>
+          {notifications.length > 0 && (
+            <button onClick={clearAll} className="clear-all">
+              Clear All
+            </button>
+          )}
+        </div>
+
+        <div className="notifications-list">
+          {notifications.length === 0 ? (
+            <p className="no-notifications">No notifications</p>
+          ) : (
+            notifications.map(notification => (
+              <div
+                key={notification.id}
+                className={notification-item \{notification.read ? 'read' : 'unread'}\`}
+                onClick={() => markAsRead(notification.id)}
+              >
+                <div className="notification-content">
+                  <h4>{notification.title}</h4>
+                  <p>{notification.message}</p>
+                  <small>
+                    {notification.timestamp.toLocaleTimeString()}
+                  </small>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     API Routes for WebSocket Integration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/api/socket.js
+import { Server } from 'socket.io';
+
+export default function handler(req, res) {
+  if (!res.socket.server.io) {
+    console.log('Setting up Socket.io server...');
+    
+    const io = new Server(res.socket.server, {
+      path: '/api/socket',
+      cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+      }
+    });
+
+    // Your socket event handlers here
+    io.on('connection', (socket) => {
+      console.log('Socket connected:', socket.id);
+      
+      // Handle events...
+    });
+
+    res.socket.server.io = io;
+  }
+  
+  res.end();
+}
+
+// pages/api/notifications/send.js
+import { getServerSocketIO } from '../../../lib/socket-server';
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ message: 'Method not allowed' });
+  }
+
+  const { userId, title, message, type } = req.body;
+
+  try {
+    const io = getServerSocketIO();
+    
+    // Send notification to specific user
+    io.to(\`user-\${userId}\`).emit('new-notification', {
+      title,
+      message,
+      type,
+      timestamp: new Date(),
+    });
+
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error('Error sending notification:', error);
+    res.status(500).json({ error: 'Failed to send notification' });
+  }
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for WebSockets
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Connection Management:</span> Handle reconnection, heartbeat, and connection errors gracefully.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Message Validation:</span> Validate and sanitize all incoming messages.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Rate Limiting:</span> Implement rate limiting to prevent abuse.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Authentication:</span> Authenticate users before allowing socket operations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Scalability:</span> Use Redis or similar for multi-server deployments.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// Real-time Document Collaboration
+import { useState, useEffect } from 'react';
+import { useSocket } from '../hooks/useSocket';
+
+export const useCollaborativeDocument = (documentId, userId) => {
+  const [document, setDocument] = useState({ content: '', version: 0 });
+  const [cursors, setCursors] = useState(new Map());
+  const { socket, isConnected, emit, on, off } = useSocket();
+
+  useEffect(() => {
+    if (isConnected && documentId) {
+      emit('join-document', { documentId, userId });
+    }
+
+    return () => {
+      if (documentId) {
+        emit('leave-document', { documentId, userId });
+      }
+    };
+  }, [isConnected, documentId, userId, emit]);
+
+  useEffect(() => {
+    if (!socket) return;
+
+    const handleDocumentUpdate = ({ changes, version, author }) => {
+      if (author.id !== userId) {
+        setDocument(prev => ({
+          content: applyChanges(prev.content, changes),
+          version,
+        }));
+      }
+    };
+
+    const handleCursorUpdate = ({ user, position }) => {
+      setCursors(prev => new Map(prev.set(user.id, { user, position })));
+    };
+
+    on('document-updated', handleDocumentUpdate);
+    on('cursor-update', handleCursorUpdate);
+
+    return () => {
+      off('document-updated', handleDocumentUpdate);
+      off('cursor-update', handleCursorUpdate);
+    };
+  }, [socket, userId, on, off]);
+
+  const updateDocument = (changes) => {
+    const newVersion = document.version + 1;
+    setDocument(prev => ({
+      content: applyChanges(prev.content, changes),
+      version: newVersion,
+    }));
+
+    emit('document-change', {
+      documentId,
+      changes,
+      version: newVersion,
+    });
+  };
+
+  return { document, cursors, updateDocument, isConnected };
+};`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you handle WebSocket reconnection in Next.js applications?",
+                solution:
+                  "<p>Handle reconnection by implementing exponential backoff retry logic, storing connection state, queuing messages during disconnection, showing connection status to users, and automatically rejoining rooms/channels after reconnection. Use libraries like Socket.io that provide built-in reconnection handling.</p>",
+              },
+              {
+                question:
+                  "What are the security considerations for WebSockets in Next.js?",
+                solution:
+                  "<p>Security considerations include: authenticating users before allowing socket connections, validating and sanitizing all incoming messages, implementing rate limiting per connection, using CORS properly, encrypting sensitive data, preventing XSS and injection attacks, and monitoring for abuse patterns.</p>",
+              },
+            ],
+            links: [
+              "https://socket.io/docs/v4/",
+              "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API",
+              "https://nextjs.org/docs/api-routes/introduction",
+            ],
+          },
+          {
+            topic: "Integrating External APIs (Stripe, AWS, Firebase)",
+            tags: [
+              "Stripe",
+              "AWS",
+              "Firebase",
+              "Third-party APIs",
+              "Integration",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Integrating external APIs like Stripe for payments, AWS for cloud services, and Firebase for backend services is essential for building production-ready Next.js applications. These integrations require proper authentication, error handling, webhook management, and security considerations to ensure reliable and secure operations.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Stripe Payment Integration
+   </h4>
+ 
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install stripe @stripe/stripe-js
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Stripe Configuration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// lib/stripe.js
+import Stripe from 'stripe';
+
+// Server-side Stripe instance
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2022-11-15',
+});
+
+// Client-side Stripe instance
+import { loadStripe } from '@stripe/stripe-js';
+
+export const getStripe = () => {
+  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+    throw new Error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not set');
+  }
+  
+  return loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
+};
+
+// utils/stripe-helpers.js
+export const formatAmountForStripe = (amount, currency) => {
+  // Stripe expects amounts in the smallest currency unit
+  const numberFormat = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: currency,
+    currencyDisplay: 'symbol',
+  });
+  
+  const parts = numberFormat.formatToParts(amount);
+  let zeroDecimalCurrency = true;
+  
+  for (let part of parts) {
+    if (part.type === 'decimal') {
+      zeroDecimalCurrency = false;
+    }
+  }
+  
+  return zeroDecimalCurrency ? amount : Math.round(amount * 100);
+};
+
+export const formatAmountFromStripe = (amount, currency) => {
+  const zeroDecimalCurrencies = ['bif', 'clp', 'djf', 'gnf', 'jpy', 'kmf', 'krw', 'mga', 'pyg', 'rwf', 'ugx', 'vnd', 'vuv', 'xaf', 'xof', 'xpf'];
+  
+  if (zeroDecimalCurrencies.includes(currency.toLowerCase())) {
+    return amount;
+  }
+  
+  return amount / 100;
+};
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Payment Intent API Routes
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/api/stripe/create-payment-intent.js
+import { stripe } from '../../../lib/stripe';
+import { formatAmountForStripe } from '../../../utils/stripe-helpers';
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).end('Method Not Allowed');
+  }
+
+  try {
+    const { amount, currency = 'usd', metadata = {} } = req.body;
+
+    if (!amount || amount <= 0) {
+      return res.status(400).json({
+        error: 'Amount must be greater than 0'
+      });
+    }
+
+    // Create Payment Intent
+    const paymentIntent = await stripe.paymentIntents.create({
+      amount: formatAmountForStripe(amount, currency),
+      currency: currency,
+      automatic_payment_methods: {
+        enabled: true,
+      },
+      metadata: {
+        ...metadata,
+        // Add user ID, order ID, etc.
+      },
+    });
+
+    res.status(200).json({
+      clientSecret: paymentIntent.client_secret,
+      paymentIntentId: paymentIntent.id,
+    });
+  } catch (error) {
+    console.error('Error creating payment intent:', error);
+    res.status(500).json({
+      error: 'Internal server error',
+      message: error.message,
+    });
+  }
+}
+
+// pages/api/stripe/confirm-payment.js
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).end('Method Not Allowed');
+  }
+
+  try {
+    const { paymentIntentId } = req.body;
+
+    const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+
+    if (paymentIntent.status === 'succeeded') {
+      // Payment successful - update database, send confirmation email, etc.
+      await processSuccessfulPayment(paymentIntent);
+      
+      res.status(200).json({
+        success: true,
+        paymentIntent: paymentIntent,
+      });
+    } else {
+      res.status(400).json({
+        error: 'Payment not completed',
+        status: paymentIntent.status,
+      });
+    }
+  } catch (error) {
+    console.error('Error confirming payment:', error);
+    res.status(500).json({ error: error.message });
+  }
+}
+
+async function processSuccessfulPayment(paymentIntent) {
+  // Update order status in database
+  // Send confirmation email
+  // Update inventory
+  // Log transaction
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Stripe Webhook Handler
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// pages/api/stripe/webhook.js
+import { buffer } from 'micro';
+import { stripe } from '../../../lib/stripe';
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).end('Method Not Allowed');
+  }
+
+  const buf = await buffer(req);
+  const sig = req.headers['stripe-signature'];
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+
+  let event;
+
+  try {
+    event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
+  } catch (err) {
+    console.error('Webhook signature verification failed:', err.message);
+    return res.status(400).send(\`Webhook Error: \${err.message}\`);
+  }
+
+  try {
+    switch (event.type) {
+      case 'payment_intent.succeeded':
+        await handlePaymentSucceeded(event.data.object);
+        break;
+      
+      case 'payment_intent.payment_failed':
+        await handlePaymentFailed(event.data.object);
+        break;
+      
+      case 'customer.subscription.created':
+        await handleSubscriptionCreated(event.data.object);
+        break;
+      
+      case 'customer.subscription.updated':
+        await handleSubscriptionUpdated(event.data.object);
+        break;
+      
+      case 'customer.subscription.deleted':
+        await handleSubscriptionDeleted(event.data.object);
+        break;
+      
+      case 'invoice.payment_succeeded':
+        await handleInvoicePaymentSucceeded(event.data.object);
+        break;
+      
+      default:
+        console.log(\`Unhandled event type: \${event.type}\`);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Error processing webhook:', error);
+    res.status(500).json({ error: 'Webhook handler failed' });
+  }
+}
+
+async function handlePaymentSucceeded(paymentIntent) {
+  console.log('Payment succeeded:', paymentIntent.id);
+  // Update order status, send emails, etc.
+}
+
+async function handlePaymentFailed(paymentIntent) {
+  console.log('Payment failed:', paymentIntent.id);
+  // Handle failed payment
+}
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     AWS Integration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install @aws-sdk/client-s3 @aws-sdk/client-ses @aws-sdk/client-dynamodb
+      </code></pre>
+   </div>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// lib/aws-config.js
+import { S3Client } from '@aws-sdk/client-s3';
+import { SESClient } from '@aws-sdk/client-ses';
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+
+const awsConfig = {
+  region: process.env.AWS_REGION || 'us-east-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+};
+
+export const s3Client = new S3Client(awsConfig);
+export const sesClient = new SESClient(awsConfig);
+export const dynamoClient = new DynamoDBClient(awsConfig);
+
+// services/s3Service.js
+import { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
+import { s3Client } from '../lib/aws-config';
+
+export class S3Service {
+  constructor(bucketName) {
+    this.bucketName = bucketName;
+  }
+
+  async uploadFile(key, file, contentType) {
+    const command = new PutObjectCommand({
+      Bucket: this.bucketName,
+      Key: key,
+      Body: file,
+      ContentType: contentType,
+      ACL: 'public-read',
+    });
+
+    try {
+      const response = await s3Client.send(command);
+      return {
+        success: true,
+        url: \`https://\${this.bucketName}.s3.amazonaws.com/\${key}\`,
+        key: key,
+      };
+    } catch (error) {
+      console.error('S3 upload error:', error);
+      throw new Error(\`Failed to upload file: \${error.message}\`);
+    }
+  }
+
+  async getSignedUrl(key, expiresIn = 3600) {
+    const command = new GetObjectCommand({
+      Bucket: this.bucketName,
+      Key: key,
+    });
+
+    try {
+      const signedUrl = await getSignedUrl(s3Client, command, { expiresIn });
+      return signedUrl;
+    } catch (error) {
+      console.error('Error generating signed URL:', error);
+      throw new Error(\`Failed to generate signed URL: \${error.message}\`);
+    }
+  }
+
+  async deleteFile(key) {
+    const command = new DeleteObjectCommand({
+      Bucket: this.bucketName,
+      Key: key,
+    });
+
+    try {
+      await s3Client.send(command);
+      return { success: true };
+    } catch (error) {
+      console.error('S3 delete error:', error);
+      throw new Error(\`Failed to delete file: \${error.message}\`);
+    }
+  }
+}
+
+export const s3Service = new S3Service(process.env.AWS_S3_BUCKET_NAME);
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Firebase Integration
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-bash">
+npm install firebase firebase-admin
+      </code></pre>
+   </div>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// lib/firebase-config.js
+import { initializeApp, getApps } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+};
+
+// Initialize Firebase
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const storage = getStorage(app);
+
+// lib/firebase-admin.js (Server-side only)
+import admin from 'firebase-admin';
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    }),
+    databaseURL: \`https://\${process.env.FIREBASE_PROJECT_ID}.firebaseio.com\`,
+  });
+}
+
+export const adminAuth = admin.auth();
+export const adminDb = admin.firestore();
+</code></pre>`,
+            questions: [
+              {
+                question:
+                  "How do you handle WebSocket reconnection in Next.js applications?",
+                solution:
+                  "<p>Handle reconnection by implementing exponential backoff retry logic, storing connection state, queuing messages during disconnection, showing connection status to users, and automatically rejoining rooms/channels after reconnection. Use libraries like Socket.io that provide built-in reconnection handling.</p>",
+              },
+              {
+                question:
+                  "What are the security considerations for WebSockets in Next.js?",
+                solution:
+                  "<p>Security considerations include: authenticating users before allowing socket connections, validating and sanitizing all incoming messages, implementing rate limiting per connection, using CORS properly, encrypting sensitive data, preventing XSS and injection attacks, and monitoring for abuse patterns.</p>",
+              },
+            ],
+            links: [
+              "https://socket.io/docs/v4/",
+              "https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API",
+              "https://nextjs.org/docs/api-routes/introduction",
+            ],
+          },
+          {
+            topic: "Setting up TypeScript in Next.js",
+            tags: ["setup", "configuration", "typescript", "nextjs"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale. Next.js provides built-in TypeScript support, making it easy to get started with type-safe React applications.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use TypeScript with Next.js?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Type Safety:</span> Catch errors at compile time instead of runtime.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Better IntelliSense:</span> Enhanced autocompletion and code navigation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Refactoring Support:</span> Safer code refactoring with confidence.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Documentation:</span> Types serve as living documentation for your code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Team Collaboration:</span> Better code consistency across team members.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Installation Methods
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 1: New Project with TypeScript</span>
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-bash">
+npx create-next-app@latest my-app --typescript
+# or
+yarn create next-app my-app --typescript
+# or
+pnpm create next-app my-app --typescript
+</code></pre>
+   </div>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 2: Adding TypeScript to Existing Project</span>
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-bash">
+# Install TypeScript and types
+npm install --save-dev typescript @types/react @types/node
+# or
+yarn add --dev typescript @types/react @types/node
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     TypeScript Configuration Files
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">tsconfig.json - Next.js automatically generates this:</span>
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-json">
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}
+</code></pre>
+   </div>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">next-env.d.ts - Generated automatically:</span>
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/basic-features/typescript for more information.
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     File Extensions and Structure
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">.tsx files:</span> For React components with JSX
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">.ts files:</span> For TypeScript files without JSX
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Page files:</span> pages/index.tsx, pages/about.tsx
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">API routes:</span> pages/api/users.ts
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Custom Type Definitions
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Create a <code>types</code> directory for custom type definitions:
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// types/global.d.ts
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: 'admin' | 'user';
+}
+
+export interface ApiResponse<T> {
+  data: T;
+  message: string;
+  success: boolean;
+}
+
+// Extend Next.js types
+declare module 'next' {
+  interface NextApiRequest {
+    user?: User;
+  }
+}
+</code></pre>
+   </div>
+</div>`,
+            examples: [
+              `// Basic TypeScript Next.js page
+import React from 'react';
+import { GetStaticProps, NextPage } from 'next';
+
+interface HomeProps {
+  title: string;
+  users: User[];
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+const Home: NextPage<HomeProps> = ({ title, users }) => {
+  return (
+    <div>
+      <h1>{title}</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>
+            {user.name} - {user.email}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export const getStaticProps: GetStaticProps<HomeProps> = async () => {
+  const users: User[] = [
+    { id: 1, name: 'John Doe', email: 'john@example.com' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
+  ];
+
+  return {
+    props: {
+      title: 'Welcome to TypeScript Next.js',
+      users
+    }
+  };
+};
+
+export default Home;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between GetStaticProps and GetServerSideProps typing?",
+                solution:
+                  "<p>GetStaticProps runs at build time and is typed with GetStaticProps&lt;Props, Params&gt;, while GetServerSideProps runs on each request and has access to req/res objects. GetServerSideProps provides additional context like request headers, cookies, and query parameters that aren't available in GetStaticProps.</p>",
+              },
+              {
+                question:
+                  "How do you handle serialization issues with dates in getStaticProps?",
+                solution:
+                  "<p>Date objects cannot be serialized in props, so you must convert them to strings using toISOString() or getTime(). Create the date string in getStaticProps and reconstruct the Date object in your component. This ensures type safety while avoiding serialization errors.</p>",
+              },
+              {
+                question: "How do you type dynamic route parameters properly?",
+                solution:
+                  "<p>Extend ParsedUrlQuery interface to define your route parameters: <code>interface MyParams extends ParsedUrlQuery { slug: string; }</code>. Then use this interface as the second generic parameter in GetStaticProps or GetServerSideProps. Always check if params exist before using them to handle undefined cases.</p>",
+              },
+              {
+                question:
+                  "What are the benefits of using TypeScript with Next.js?",
+                solution:
+                  "<p>TypeScript with Next.js provides type safety, better development experience with IntelliSense, compile-time error checking, improved refactoring capabilities, and better team collaboration through enforced contracts. It also includes built-in types for Next.js-specific features like getStaticProps and API routes.</p>",
+              },
+              {
+                question:
+                  "How does Next.js automatically configure TypeScript?",
+                solution:
+                  "<p>Next.js automatically detects TypeScript files and generates tsconfig.json with optimized settings. It creates next-env.d.ts for Next.js type definitions, installs necessary dependencies during development, and provides built-in TypeScript error checking in the development server and build process.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/data-fetching/get-static-props",
+              "https://nextjs.org/docs/basic-features/data-fetching/get-server-side-props",
+              "https://nextjs.org/docs/basic-features/data-fetching/get-static-paths",
+              "https://nextjs.org/docs/basic-features/typescript",
+              "https://www.typescriptlang.org/docs/handbook/react.html",
+              "https://blog.logrocket.com/using-typescript-next-js/",
+            ],
+          },
+          {
+            topic: "Type Safety for Pages, Components, and API Routes",
+            tags: ["components", "pages", "api-routes", "type-safety"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Type safety in Next.js ensures that your pages, components, and API routes have well-defined interfaces, preventing runtime errors and improving code maintainability. This covers typing props, state, event handlers, and API responses.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Typing React Components
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Functional Components with Props:</span>
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// components/Button.tsx
+import React from 'react';
+
+interface ButtonProps {
+  children: React.ReactNode;
+  onClick: () => void;
+  variant?: 'primary' | 'secondary';
+  disabled?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+}
+
+const Button: React.FC<ButtonProps> = ({ 
+  children, 
+  onClick, 
+  variant = 'primary',
+  disabled = false,
+  size = 'md'
+}) => {
+  return (
+    <button 
+      className={\`btn btn-\${variant} btn-\${size}\`}
+      onClick={onClick}
+      disabled={disabled}
+    >
+      {children}
+    </button>
+  );
+};
+
+export default Button;
+</code></pre>
+   </div>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Components with State and Event Handlers:</span>
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// components/ContactForm.tsx
+import React, { useState, ChangeEvent, FormEvent } from 'react';
+
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+interface ContactFormProps {
+  onSubmit: (data: FormData) => Promise<void>;
+}
+
+const ContactForm: React.FC<ContactFormProps> = ({ onSubmit }) => {
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    message: ''
+  });
+  
+  const [loading, setLoading] = useState<boolean>(false);
+  const [errors, setErrors] = useState<Partial<FormData>>({});
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ): void => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    
+    // Clear error for this field
+    if (errors[name as keyof FormData]) {
+      setErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const newErrors: Partial<FormData> = {};
+    
+    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.email.trim()) newErrors.email = 'Email is required';
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setLoading(true);
+    try {
+      await onSubmit(formData);
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('Failed to submit form:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="Your Name"
+        />
+        {errors.name && <span className="error">{errors.name}</span>}
+      </div>
+      
+      <div>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleInputChange}
+          placeholder="Your Email"
+        />
+        {errors.email && <span className="error">{errors.email}</span>}
+      </div>
+      
+      <div>
+        <textarea
+          name="message"
+          value={formData.message}
+          onChange={handleInputChange}
+          placeholder="Your Message"
+        />
+        {errors.message && <span className="error">{errors.message}</span>}
+      </div>
+      
+      <button type="submit" disabled={loading}>
+        {loading ? 'Sending...' : 'Send Message'}
+      </button>
+    </form>
+  );
+};
+
+export default ContactForm;
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Typing Next.js Pages
+   </h4>
+   
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// pages/products/[id].tsx
+import React from 'react';
+import { GetServerSideProps, NextPage } from 'next';
+import { useRouter } from 'next/router';
+
+interface Product {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  inStock: boolean;
+}
+
+interface ProductPageProps {
+  product: Product | null;
+  error?: string;
+}
+
+const ProductPage: NextPage<ProductPageProps> = ({ product, error }) => {
+  const router = useRouter();
+
+  if (router.isFallback) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || !product) {
+    return (
+      <div>
+        <h1>Product Not Found</h1>
+        <p>{error || 'The requested product could not be found.'}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <p>{product.description}</p>
+      <div>
+        <span>Price: \${product.price}</span>
+        <span>Category: {product.category}</span>
+        <span>Status: {product.inStock ? 'In Stock' : 'Out of Stock'}</span>
+      </div>
+    </div>
+  );
+};
+
+export default ProductPage;
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Typing API Routes
+   </h4>
+   
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// pages/api/users/[id].ts
+import { NextApiRequest, NextApiResponse } from 'next';
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  createdAt: Date;
+}
+
+interface ApiError {
+  message: string;
+  code?: string;
+}
+
+type ApiResponse<T> = {
+  success: true;
+  data: T;
+} | {
+  success: false;
+  error: ApiError;
+};
+
+// Custom request interface for this endpoint
+interface UserApiRequest extends NextApiRequest {
+  query: {
+    id: string;
+  };
+  body?: Partial<User>;
+}
+
+export default async function handler(
+  req: UserApiRequest,
+  res: NextApiResponse<ApiResponse<User | User[]>>
+) {
+  const { id } = req.query;
+  const userId = parseInt(id, 10);
+
+  // Validate ID
+  if (isNaN(userId)) {
+    return res.status(400).json({
+      success: false,
+      error: { message: 'Invalid user ID', code: 'INVALID_ID' }
+    });
+  }
+
+  try {
+    switch (req.method) {
+      case 'GET':
+        const user = await getUserById(userId);
+        if (!user) {
+          return res.status(404).json({
+            success: false,
+            error: { message: 'User not found', code: 'USER_NOT_FOUND' }
+          });
+        }
+        return res.status(200).json({
+          success: true,
+          data: user
+        });
+
+      case 'PUT':
+        const updatedUser = await updateUser(userId, req.body);
+        return res.status(200).json({
+          success: true,
+          data: updatedUser
+        });
+
+      case 'DELETE':
+        await deleteUser(userId);
+        return res.status(204).end();
+
+      default:
+        res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
+        return res.status(405).json({
+          success: false,
+          error: { message: 'Method not allowed', code: 'METHOD_NOT_ALLOWED' }
+        });
+    }
+  } catch (error) {
+    console.error('API Error:', error);
+    return res.status(500).json({
+      success: false,
+      error: { message: 'Internal server error', code: 'INTERNAL_ERROR' }
+    });
+  }
+}
+
+// Mock database functions
+async function getUserById(id: number): Promise<User | null> {
+  // Simulate database query
+  return {
+    id,
+    name: 'John Doe',
+    email: 'john@example.com',
+    createdAt: new Date()
+  };
+}
+
+async function updateUser(id: number, data: Partial<User>): Promise<User> {
+  // Simulate database update
+  return {
+    id,
+    name: data.name || 'John Doe',
+    email: data.email || 'john@example.com',
+    createdAt: new Date()
+  };
+}
+
+async function deleteUser(id: number): Promise<void> {
+  // Simulate database deletion
+  console.log(\`Deleting user \${id}\`);
+}
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Typing Patterns
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Generic Components:</span> Reusable components with flexible types
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Conditional Types:</span> Types that change based on conditions
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Utility Types:</span> Built-in TypeScript utilities like Partial, Pick, Omit
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Discriminated Unions:</span> Type-safe state management
+     </li>
+   </ol>
+   
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// Generic List Component
+interface ListItem {
+  id: string | number;
+}
+
+interface ListProps<T extends ListItem> {
+  items: T[];
+  renderItem: (item: T) => React.ReactNode;
+  emptyMessage?: string;
+}
+
+function List<T extends ListItem>({ 
+  items, 
+  renderItem, 
+  emptyMessage = 'No items found' 
+}: ListProps<T>) {
+  if (items.length === 0) {
+    return <div>{emptyMessage}</div>;
+  }
+
+  return (
+    <ul>
+      {items.map(item => (
+        <li key={item.id}>
+          {renderItem(item)}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+// Usage with different types
+const users: User[] = [/* ... */];
+const products: Product[] = [/* ... */];
+
+<List 
+  items={users} 
+  renderItem={(user) => <span>{user.name}</span>} 
+/>
+
+<List 
+  items={products} 
+  renderItem={(product) => <span>{product.name}</span>} 
+/>
+</code></pre>
+   </div>
+</div>`,
+            examples: [
+              `// Advanced component with multiple type patterns
+import React, { useState, useCallback } from 'react';
+
+// Discriminated union for different states
+type LoadingState = 
+  | { status: 'idle' }
+  | { status: 'loading' }
+  | { status: 'success'; data: User[] }
+  | { status: 'error'; error: string };
+
+interface UserListProps {
+  onUserSelect: (user: User) => void;
+  filters?: {
+    role?: User['role'];
+    active?: boolean;
+  };
+}
+
+const UserList: React.FC<UserListProps> = ({ onUserSelect, filters }) => {
+  const [state, setState] = useState<LoadingState>({ status: 'idle' });
+
+  const fetchUsers = useCallback(async () => {
+    setState({ status: 'loading' });
+    
+    try {
+      const response = await fetch('/api/users');
+      const result = await response.json();
+      
+      if (result.success) {
+        setState({ status: 'success', data: result.data });
+      } else {
+        setState({ status: 'error', error: result.error.message });
+      }
+    } catch (error) {
+      setState({ 
+        status: 'error', 
+        error: error instanceof Error ? error.message : 'Unknown error' 
+      });
+    }
+  }, []);
+
+  // Type-safe state handling
+  const renderContent = () => {
+    switch (state.status) {
+      case 'idle':
+        return <button onClick={fetchUsers}>Load Users</button>;
+      case 'loading':
+        return <div>Loading users...</div>;
+      case 'success':
+        return state.data.map(user => (
+          <div key={user.id} onClick={() => onUserSelect(user)}>
+            {user.name} - {user.role}
+          </div>
+        ));
+      case 'error':
+        return <div>Error: {state.error}</div>;
+      default:
+        // TypeScript ensures all cases are handled
+        const _exhaustiveCheck: never = state;
+        return _exhaustiveCheck;
+    }
+  };
+
+  return <div>{renderContent()}</div>;
+};`,
+            ],
+            questions: [
+              {
+                question: "How do you type event handlers in React components?",
+                solution:
+                  "<p>Event handlers are typed using specific event types from React. For example: <code>ChangeEvent&lt;HTMLInputElement&gt;</code> for input changes, <code>FormEvent&lt;HTMLFormElement&gt;</code> for form submissions, and <code>MouseEvent&lt;HTMLButtonElement&gt;</code> for button clicks. These provide type safety for the event object and target element.</p>",
+              },
+              {
+                question:
+                  "What's the difference between NextPage and React.FC?",
+                solution:
+                  "<p>NextPage is Next.js-specific and includes additional properties like getInitialProps, while React.FC is the standard React functional component type. NextPage is preferred for page components as it provides better integration with Next.js features, while React.FC is suitable for regular components.</p>",
+              },
+            ],
+            links: [
+              "https://react-typescript-cheatsheet.netlify.app/",
+              "https://nextjs.org/docs/api-reference/data-fetching/get-static-props",
+              "https://fettblog.eu/typescript-react-component-patterns/",
+            ],
+          },
+          {
+            topic: "Types for getStaticProps / getServerSideProps",
+            tags: [
+              "getStaticProps",
+              "getServerSideProps",
+              "data-fetching",
+              "SSG",
+              "SSR",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js provides built-in TypeScript types for data fetching methods like getStaticProps, getServerSideProps, and getStaticPaths. Proper typing ensures type safety across your entire data flow from server to client, preventing runtime errors and improving developer experience.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Typing getStaticProps
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     getStaticProps is used for Static Site Generation (SSG) and runs at build time:
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// pages/blog/index.tsx
+import { GetStaticProps, NextPage, InferGetStaticPropsType } from 'next';
+
+interface BlogPost {
+  id: string;
+  title: string;
+  content: string;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  publishedAt: string;
+  tags: string[];
+  featured: boolean;
+}
+
+interface BlogIndexProps {
+  posts: BlogPost[];
+  totalCount: number;
+  featuredPost: BlogPost | null;
+}
+
+// Method 1: Explicit typing
+const BlogIndex: NextPage<BlogIndexProps> = ({ posts, totalCount, featuredPost }) => {
+  return (
+    <div>
+      <h1>Blog Posts ({totalCount})</h1>
+      
+      {featuredPost && (
+        <section>
+          <h2>Featured Post</h2>
+          <article>
+            <h3>{featuredPost.title}</h3>
+            <p>By {featuredPost.author.name}</p>
+            <div>{featuredPost.content.substring(0, 200)}...</div>
+          </article>
+        ))}
+      </section>
+    </div>
+  );
+};
+
+export const getStaticProps: GetStaticProps<BlogIndexProps> = async (context) => {
+  // context is typed automatically with GetStaticPropsContext
+  const { locale, defaultLocale, locales } = context;
+  
+  try {
+    // Simulate API call
+    const response = await fetch('https://api.example.com/posts');
+    const data = await response.json();
+    
+    const posts: BlogPost[] = data.posts || [];
+    const featuredPost = posts.find(post => post.featured) || null;
+    
+    return {
+      props: {
+        posts,
+        totalCount: posts.length,
+        featuredPost
+      },
+      // Optional: revalidate every hour (ISR)
+      revalidate: 3600,
+    };
+  } catch (error) {
+    console.error('Failed to fetch blog posts:', error);
+    
+    return {
+      props: {
+        posts: [],
+        totalCount: 0,
+        featuredPost: null
+      },
+      // Retry more frequently on error
+      revalidate: 60,
+    };
+  }
+};
+
+// Method 2: Using InferGetStaticPropsType (alternative approach)
+// This infers the props type from getStaticProps return type
+const BlogIndexAlternative: NextPage<InferGetStaticPropsType<typeof getStaticProps>> = (props) => {
+  // props is automatically typed based on getStaticProps return
+  return <div>{/* component content */}</div>;
+};
+
+export default BlogIndex;
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Typing getServerSideProps
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     getServerSideProps runs on every request and has access to request/response objects:
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// pages/dashboard/[userId].tsx
+import { GetServerSideProps, NextPage } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user' | 'moderator';
+  lastLogin: string;
+  preferences: {
+    theme: 'light' | 'dark';
+    notifications: boolean;
+    language: string;
+  };
+}
+
+interface DashboardProps {
+  user: User;
+  isAuthenticated: boolean;
+  sessionToken?: string;
+}
+
+// Extend ParsedUrlQuery for route parameters
+interface DashboardQuery extends ParsedUrlQuery {
+  userId: string;
+}
+
+const Dashboard: NextPage<DashboardProps> = ({ user, isAuthenticated, sessionToken }) => {
+  if (!isAuthenticated) {
+    return (
+      <div>
+        <h1>Access Denied</h1>
+        <p>Please log in to view this page.</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <h1>Welcome, {user.name}!</h1>
+      <div>
+        <p>Email: {user.email}</p>
+        <p>Role: {user.role}</p>
+        <p>Last Login: {new Date(user.lastLogin).toLocaleDateString()}</p>
+        <p>Theme: {user.preferences.theme}</p>
+      </div>
+      {sessionToken && <p>Session: {sessionToken.substring(0, 10)}...</p>}
+    </div>
+  );
+};
+
+export const getServerSideProps: GetServerSideProps<
+  DashboardProps,
+  DashboardQuery
+> = async (context) => {
+  const { params, req, res, query, resolvedUrl } = context;
+  
+  // params is typed as DashboardQuery
+  const userId = params?.userId;
+  
+  if (!userId) {
+    return {
+      notFound: true
+    };
+  }
+
+  // Check authentication from request headers
+  const authToken = req.headers.authorization;
+  
+  if (!authToken) {
+    return {
+      redirect: {
+        destination: '/login?redirect=' + encodeURIComponent(resolvedUrl),
+        permanent: false,
+      },
+    };
+  }
+
+  try {
+    // Validate token and get user data
+    const userResponse = await fetch(\`https://api.example.com/users/\${userId}\`, {
+      headers: {
+        'Authorization': authToken,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!userResponse.ok) {
+      if (userResponse.status === 401) {
+        return {
+          redirect: {
+            destination: '/login?expired=true',
+            permanent: false,
+          },
+        };
+      }
+      
+      throw new Error(\`Failed to fetch user: \${userResponse.status}\`);
+    }
+
+    const userData = await userResponse.json();
+    
+    return {
+      props: {
+        user: userData.user,
+        isAuthenticated: true,
+        sessionToken: userData.sessionToken,
+      },
+    };
+    
+  } catch (error) {
+    console.error('Dashboard data fetch error:', error);
+    
+    // Return error state instead of throwing
+    return {
+      props: {
+        user: {} as User, // Fallback empty user
+        isAuthenticated: false,
+      },
+    };
+  }
+};
+
+export default Dashboard;
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Typing getStaticPaths
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     getStaticPaths is used with dynamic routes for Static Site Generation:
+   </p>
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// pages/products/[category]/[slug].tsx
+import { GetStaticPaths, GetStaticProps, NextPage } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  category: string;
+  slug: string;
+  images: string[];
+  specifications: Record<string, string>;
+  inStock: boolean;
+}
+
+interface ProductPageProps {
+  product: Product;
+  relatedProducts: Product[];
+}
+
+// Define the shape of route parameters
+interface ProductParams extends ParsedUrlQuery {
+  category: string;
+  slug: string;
+}
+
+const ProductPage: NextPage<ProductPageProps> = ({ product, relatedProducts }) => {
+  return (
+    <div>
+      <h1>{product.name}</h1>
+      <div>
+        <img src={product.images[0]} alt={product.name} />
+        <div>
+          <p>{product.description}</p>
+          <p>Price: \${product.price}</p>
+          <p>Category: {product.category}</p>
+          <p>Status: {product.inStock ? 'In Stock' : 'Out of Stock'}</p>
+          
+          <h3>Specifications</h3>
+          <dl>
+            {Object.entries(product.specifications).map(([key, value]) => (
+              <div key={key}>
+                <dt>{key}</dt>
+                <dd>{value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+      
+      <section>
+        <h2>Related Products</h2>
+        <div>
+          {relatedProducts.map(related => (
+            <div key={related.id}>
+              <h3>{related.name}</h3>
+              <p>\${related.price}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export const getStaticPaths: GetStaticPaths<ProductParams> = async () => {
+  try {
+    // Fetch all products to generate paths
+    const response = await fetch('https://api.example.com/products');
+    const data = await response.json();
+    const products: Product[] = data.products || [];
+
+    // Generate paths for all products
+    const paths = products.map(product => ({
+      params: {
+        category: product.category,
+        slug: product.slug,
+      },
+    }));
+
+    return {
+      paths,
+      // Enable ISR for new products
+      fallback: 'blocking', // or true, or false
+    };
+  } catch (error) {
+    console.error('Failed to generate static paths:', error);
+    
+    return {
+      paths: [],
+      fallback: 'blocking',
+    };
+  }
+};
+
+export const getStaticProps: GetStaticProps<
+  ProductPageProps,
+  ProductParams
+> = async (context) => {
+  const { params } = context;
+  
+  // params is typed as ProductParams | undefined
+  if (!params) {
+    return {
+      notFound: true,
+    };
+  }
+
+  const { category, slug } = params;
+
+  try {
+    // Fetch product data
+    const productResponse = await fetch(
+      \`https://api.example.com/products/\${category}/\${slug}\`
+    );
+    
+    if (!productResponse.ok) {
+      if (productResponse.status === 404) {
+        return {
+          notFound: true,
+        };
+      }
+      throw new Error(\`Failed to fetch product: \${productResponse.status}\`);
+    }
+
+    const productData = await productResponse.json();
+    const product: Product = productData.product;
+
+    // Fetch related products
+    const relatedResponse = await fetch(
+      \`https://api.example.com/products/\${category}?exclude=\${product.id}&limit=4\`
+    );
+    const relatedData = await relatedResponse.json();
+    const relatedProducts: Product[] = relatedData.products || [];
+
+    return {
+      props: {
+        product,
+        relatedProducts,
+      },
+      // Revalidate every 24 hours
+      revalidate: 86400,
+    };
+  } catch (error) {
+    console.error('Failed to fetch product data:', error);
+    
+    return {
+      notFound: true,
+    };
+  }
+};
+
+export default ProductPage;
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Patterns and Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Generic Data Fetching Types:</span> Reusable types for API responses
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Handling:</span> Proper typing for error states and fallbacks
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context Utilities:</span> Helper functions for common context operations
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Custom Hooks:</span> Typed hooks for data fetching and state management
+     </li>
+   </ol>
+   
+   <div style="padding: 16px; border-radius: 8px; font-size: 14px; background-color: #f8fafc; border: 1px solid #e2e8f0;">
+      <pre><code className="language-typescript">
+// types/api.ts - Shared API types
+export interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  error?: {
+    message: string;
+    code: string;
+  };
+  meta?: {
+    total: number;
+    page: number;
+    limit: number;
+  };
+}
+
+export interface PaginatedResponse<T> extends ApiResponse<T[]> {
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+}
+
+// utils/data-fetching.ts - Typed utilities
+import { GetStaticPropsContext, GetServerSidePropsContext } from 'next';
+
+export async function fetchWithAuth<T>(
+  url: string,
+  context: GetServerSidePropsContext
+): Promise<ApiResponse<T>> {
+  const token = context.req.headers.authorization;
+  
+  const response = await fetch(url, {
+    headers: {
+      ...(token && { Authorization: token }),
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(\`HTTP error! status: \${response.status}\`);
+  }
+
+  return response.json();
+}
+
+export function createStaticPropsHandler<T, P extends Record<string, any> = {}>(
+  fetcher: (context: GetStaticPropsContext<P>) => Promise<T>
+) {
+  return async (context: GetStaticPropsContext<P>) => {
+    try {
+      const data = await fetcher(context);
+      return {
+        props: data,
+        revalidate: 3600, // 1 hour default
+      };
+    } catch (error) {
+      console.error('Static props error:', error);
+      return {
+        notFound: true,
+      };
+    }
+  };
+}
+
+// Usage example
+export const getStaticProps = createStaticPropsHandler<BlogIndexProps>(
+  async (context) => {
+    const posts = await fetchBlogPosts();
+    const featuredPost = posts.find(p => p.featured) || null;
+    
+    return {
+      posts,
+      totalCount: posts.length,
+      featuredPost,
+    };
+  }
+);
+</code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Pitfalls and Solutions
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Serialization Issues:</span> Date objects must be serialized to strings
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Undefined Params:</span> Always check if params exist in dynamic routes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Boundaries:</span> Handle async errors gracefully
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Type Narrowing:</span> Use type guards for runtime safety
+     </li>
+   </ol>
+</div>`,
+            questions: [
+              {
+                question: "How do you type event handlers in React components?",
+                solution:
+                  "<p>Event handlers are typed using specific event types from React. For example: <code>ChangeEvent&lt;HTMLInputElement&gt;</code> for input changes, <code>FormEvent&lt;HTMLFormElement&gt;</code> for form submissions, and <code>MouseEvent&lt;HTMLButtonElement&gt;</code> for button clicks. These provide type safety for the event object and target element.</p>",
+              },
+              {
+                question:
+                  "What's the difference between NextPage and React.FC?",
+                solution:
+                  "<p>NextPage is Next.js-specific and includes additional properties like getInitialProps, while React.FC is the standard React functional component type. NextPage is preferred for page components as it provides better integration with Next.js features, while React.FC is suitable for regular components.</p>",
+              },
+            ],
+            links: [
+              "https://react-typescript-cheatsheet.netlify.app/",
+              "https://nextjs.org/docs/api-reference/data-fetching/get-static-props",
+              "https://fettblog.eu/typescript-react-component-patterns/",
+            ],
+          },
+          {
+            topic: "next.config.js Deep Dive",
+            tags: ["configuration", "optimization", "deployment"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The next.config.js file is the heart of Next.js configuration, allowing you to customize almost every aspect of your application's build process, runtime behavior, and deployment settings. This file should be placed at the root of your project directory.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Structure and Configuration Options
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Build-time configurations
+  reactStrictMode: true,
+  swcMinify: true,
+  compress: true,
+  poweredByHeader: false,
+  
+  // Image optimization
+  images: {
+    domains: ['example.com', 'cdn.example.com'],
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 86400, // 24 hours
+    dangerouslyAllowSVG: false,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.example.com',
+        port: '',
+        pathname: '/images/**',
+      },
+    ],
+  },
+  
+  // Redirects and rewrites
+  async redirects() {
+    return [
+      {
+        source: '/old-page',
+        destination: '/new-page',
+        permanent: true,
+      },
+      {
+        source: '/blog/:slug',
+        destination: '/posts/:slug',
+        permanent: false,
+      },
+    ]
+  },
+  
+  async rewrites() {
+    return [
+      {
+        source: '/api/proxy/:path*',
+        destination: 'https://external-api.com/:path*',
+      },
+    ]
+  },
+  
+  // Headers configuration
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'DENY',
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+        ],
+      },
+    ]
+  },
+  
+  // Experimental features
+  experimental: {
+    appDir: true,
+    serverActions: true,
+    serverComponentsExternalPackages: ['mongoose'],
+    optimizeCss: true,
+    scrollRestoration: true,
+  },
+  
+  // Output configuration
+  output: 'standalone', // or 'export' for static export
+  distDir: 'build',
+  generateBuildId: async () => {
+    return 'my-build-id'
+  },
+  
+  // Environment and runtime
+  env: {
+    CUSTOM_KEY: 'my-value',
+  },
+  
+  // Page extensions
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
+  
+  // Asset prefix for CDN
+  assetPrefix: process.env.NODE_ENV === 'production' ? 'https://cdn.mydomain.com' : '',
+  
+  // Internationalization
+  i18n: {
+    locales: ['en-US', 'fr', 'nl'],
+    defaultLocale: 'en-US',
+    domains: [
+      {
+        domain: 'example.com',
+        defaultLocale: 'en-US',
+      },
+      {
+        domain: 'example.fr',
+        defaultLocale: 'fr',
+      },
+    ],
+  },
+  
+  // API configuration
+  api: {
+    bodyParser: {
+      sizeLimit: '1mb',
+    },
+    responseLimit: '8mb',
+  },
+}
+
+module.exports = nextConfig
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Use Cases and Configuration Patterns
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">Multi-Environment Configuration:</span>
+       <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+         <pre><code className="language-javascript">
+const { PHASE_DEVELOPMENT_SERVER, PHASE_PRODUCTION_BUILD } = require('next/constants')
+
+module.exports = (phase, { defaultConfig }) => {
+  if (phase === PHASE_DEVELOPMENT_SERVER) {
+    return {
+      ...defaultConfig,
+      reactStrictMode: true,
+      eslint: {
+        ignoreDuringBuilds: false,
+      },
+      typescript: {
+        ignoreBuildErrors: false,
+      },
+    }
+  }
+
+  if (phase === PHASE_PRODUCTION_BUILD) {
+    return {
+      ...defaultConfig,
+      swcMinify: true,
+      compress: true,
+      eslint: {
+        ignoreDuringBuilds: true,
+      },
+      images: {
+        loader: 'cloudinary',
+        path: 'https://res.cloudinary.com/demo/image/fetch/',
+      },
+    }
+  }
+
+  return defaultConfig
+}
+         </code></pre>
+       </div>
+     </li>
+     
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">Bundle Analysis Configuration:</span>
+       <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+         <pre><code className="language-javascript">
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
+module.exports = withBundleAnalyzer({
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // Bundle analysis configuration
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      }
+    }
+    
+    // Add custom webpack plugins
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.BUILD_ID': JSON.stringify(buildId),
+      })
+    )
+    
+    return config
+  },
+})
+         </code></pre>
+       </div>
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance and Security Optimizations
+   </h4>
+   
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Security Headers:</span> Configure CSP, HSTS, and other security headers
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Image Optimization:</span> Fine-tune image loading, formats, and caching
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Bundle Splitting:</span> Control how JavaScript bundles are generated and loaded
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `// Complex next.config.js for e-commerce application
+const withPWA = require('next-pwa')({
+  dest: 'public',
+  register: true,
+  skipWaiting: true,
+})
+
+module.exports = withPWA({
+  reactStrictMode: true,
+  swcMinify: true,
+  
+  images: {
+    domains: ['images.unsplash.com', 'cdn.shopify.com'],
+    formats: ['image/webp', 'image/avif'],
+    minimumCacheTTL: 31536000, // 1 year
+  },
+  
+  async redirects() {
+    return [
+      {
+        source: '/products/:slug',
+        destination: '/shop/:slug',
+        permanent: true,
+      },
+    ]
+  },
+  
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains',
+          },
+        ],
+      },
+    ]
+  },
+  
+  webpack: (config) => {
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack']
+    })
+    return config
+  },
+})`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you configure Next.js for different deployment environments?",
+                solution:
+                  "<p>Use phase-based configuration with next/constants to detect build phase and apply environment-specific settings. You can also use environment variables and conditional logic to customize configuration based on NODE_ENV or custom environment variables.</p>",
+              },
+              {
+                question:
+                  "What are the key security configurations in next.config.js?",
+                solution:
+                  "<p>Key security configurations include setting poweredByHeader to false, configuring security headers through the headers() function, setting up Content Security Policy for images, and configuring proper CORS settings for API routes.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/api-reference/next.config.js/introduction",
+              "https://nextjs.org/docs/advanced-features/security-headers",
+              "https://nextjs.org/docs/api-reference/next.config.js/custom-webpack-config",
+            ],
+          },
+          {
+            topic: "Environment Variables in Different Environments",
+            tags: ["environment", "configuration", "security"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Environment variables in Next.js provide a secure way to manage configuration that varies between development, staging, and production environments. Next.js has built-in support for loading environment variables from .env files and making them available in both server-side and client-side code.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Environment File Hierarchy and Loading Order
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Loading Priority (highest to lowest):</span>
+       <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+         <li>.env.local (always loaded, should be in .gitignore)</li>
+         <li>.env.[environment] (.env.development, .env.production, .env.test)</li>
+         <li>.env</li>
+       </ul>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Environment File Configuration Examples
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">.env.local (Local Development - Not committed)</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-bash">
+# Database credentials for local development
+DATABASE_URL=mongodb://localhost:27017/myapp_dev
+DATABASE_PASSWORD=local_dev_password
+
+# API keys for local testing
+STRIPE_SECRET_KEY=sk_test_local_development_key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_local_development_key
+
+# Local service URLs
+REDIS_URL=redis://localhost:6379
+EMAIL_SERVICE_URL=http://localhost:3001/api/email
+
+# Debug settings
+DEBUG=true
+LOG_LEVEL=debug
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">.env.development</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-bash">
+# Development environment configuration
+NODE_ENV=development
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3000/api
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+
+# Development-specific features
+NEXT_PUBLIC_ENABLE_DEVTOOLS=true
+NEXT_PUBLIC_MOCK_API=false
+
+# Logging
+LOG_LEVEL=info
+ENABLE_SOURCE_MAPS=true
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">.env.production</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-bash">
+# Production environment configuration
+NODE_ENV=production
+NEXT_PUBLIC_API_BASE_URL=https://api.myapp.com
+NEXT_PUBLIC_APP_URL=https://myapp.com
+
+# Production optimizations
+NEXT_PUBLIC_ENABLE_DEVTOOLS=false
+ENABLE_SOURCE_MAPS=false
+
+# Analytics
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+NEXT_PUBLIC_ANALYTICS_ENABLED=true
+
+# CDN Configuration
+NEXT_PUBLIC_CDN_URL=https://cdn.myapp.com
+ASSET_PREFIX=https://cdn.myapp.com
+
+# Security
+SECURITY_HEADERS_ENABLED=true
+CSP_ENABLED=true
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Environment Variable Usage
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Dynamic Environment Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+// lib/config.js - Centralized configuration management
+const config = {
+  database: {
+    url: process.env.DATABASE_URL,
+    maxConnections: parseInt(process.env.DB_MAX_CONNECTIONS || '10'),
+    timeout: parseInt(process.env.DB_TIMEOUT || '30000'),
+  },
+  
+  api: {
+    baseUrl: process.env.NEXT_PUBLIC_API_BASE_URL,
+    timeout: parseInt(process.env.API_TIMEOUT || '5000'),
+    retries: parseInt(process.env.API_RETRIES || '3'),
+  },
+  
+  auth: {
+    jwtSecret: process.env.JWT_SECRET,
+    jwtExpiry: process.env.JWT_EXPIRY || '24h',
+    cookieSecure: process.env.NODE_ENV === 'production',
+    cookieDomain: process.env.COOKIE_DOMAIN,
+  },
+  
+  features: {
+    enableAnalytics: process.env.NEXT_PUBLIC_ANALYTICS_ENABLED === 'true',
+    enableDevtools: process.env.NEXT_PUBLIC_ENABLE_DEVTOOLS === 'true',
+    maintenanceMode: process.env.MAINTENANCE_MODE === 'true',
+  },
+  
+  services: {
+    redis: {
+      url: process.env.REDIS_URL,
+      ttl: parseInt(process.env.REDIS_TTL || '3600'),
+    },
+    email: {
+      provider: process.env.EMAIL_PROVIDER || 'smtp',
+      apiKey: process.env.EMAIL_API_KEY,
+      fromEmail: process.env.EMAIL_FROM,
+    },
+  },
+}
+
+// Validation function
+export function validateConfig() {
+  const required = [
+    'DATABASE_URL',
+    'JWT_SECRET',
+    'NEXT_PUBLIC_API_BASE_URL',
+  ]
+  
+  const missing = required.filter(key => !process.env[key])
+  
+  if (missing.length > 0) {
+    throw new Error(\`Missing required environment variables: \${missing.join(', ')}\`)
+  }
+  
+  return config
+}
+
+export default config
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Runtime Environment Detection</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+// utils/environment.js
+export const isDevelopment = process.env.NODE_ENV === 'development'
+export const isProduction = process.env.NODE_ENV === 'production'
+export const isTest = process.env.NODE_ENV === 'test'
+
+export const getEnvironment = () => {
+  if (process.env.VERCEL_ENV) {
+    return process.env.VERCEL_ENV // 'development', 'preview', 'production'
+  }
+  
+  if (process.env.NODE_ENV) {
+    return process.env.NODE_ENV
+  }
+  
+  return 'development'
+}
+
+export const getApiUrl = () => {
+  const environment = getEnvironment()
+  
+  switch (environment) {
+    case 'production':
+      return 'https://api.myapp.com'
+    case 'preview':
+      return 'https://staging-api.myapp.com'
+    case 'development':
+    default:
+      return 'http://localhost:3000/api'
+  }
+}
+
+// Environment-specific feature flags
+export const features = {
+  analytics: isProduction,
+  debugMode: isDevelopment,
+  mockData: process.env.NEXT_PUBLIC_USE_MOCK_DATA === 'true',
+  betaFeatures: process.env.NEXT_PUBLIC_BETA_FEATURES === 'true',
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Security Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Client-Side Variables:</span> Only use NEXT_PUBLIC_ prefix for variables that should be exposed to the browser
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Sensitive Data:</span> Never commit .env.local files or include sensitive data in client-side variables
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Production Secrets:</span> Use your hosting platform's environment variable management for production secrets
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Validation:</span> Always validate and sanitize environment variables before use
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Environment-Specific Build Configurations
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js with environment-based configuration
+const nextConfig = {
+  env: {
+    BUILD_TIME: new Date().toISOString(),
+    BUILD_ENV: process.env.NODE_ENV,
+  },
+  
+  // Environment-specific image optimization
+  images: {
+    domains: process.env.NODE_ENV === 'production' 
+      ? ['cdn.myapp.com', 'images.myapp.com']
+      : ['localhost', 'picsum.photos'],
+    
+    loader: process.env.NODE_ENV === 'production' ? 'cloudinary' : 'default',
+    path: process.env.NODE_ENV === 'production' 
+      ? 'https://res.cloudinary.com/myapp/image/fetch/'
+      : undefined,
+  },
+  
+  // Conditional redirects based on environment
+  async redirects() {
+    const redirects = []
+    
+    if (process.env.MAINTENANCE_MODE === 'true') {
+      redirects.push({
+        source: '/((?!maintenance).*)',
+        destination: '/maintenance',
+        permanent: false,
+      })
+    }
+    
+    return redirects
+  },
+  
+  // Environment-specific webpack configuration
+  webpack: (config, { dev }) => {
+    if (dev) {
+      // Development-specific webpack modifications
+      config.devtool = 'cheap-module-source-map'
+    } else {
+      // Production-specific optimizations
+      config.optimization.minimize = true
+    }
+    
+    return config
+  },
+}
+
+module.exports = nextConfig`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Aliases with jsconfig.json or tsconfig.json",
+            tags: ["paths", "imports", "typescript", "javascript"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Path aliases in Next.js allow you to create custom import paths that make your code more readable and maintainable. Instead of using relative paths like '../../../components/Button', you can use absolute paths like '@/components/Button'. This is configured through jsconfig.json for JavaScript projects or tsconfig.json for TypeScript projects.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     TypeScript Configuration (tsconfig.json)
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-json">
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    
+    // Path mapping configuration
+    "baseUrl": ".",
+    "paths": {
+      // Root-level aliases
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/pages/*": ["./pages/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/context/*": ["./context/*"],
+      "@/types/*": ["./types/*"],
+      "@/constants/*": ["./constants/*"],
+      "@/config/*": ["./config/*"],
+      
+      // Feature-based aliases
+      "@/features/*": ["./features/*"],
+      "@/shared/*": ["./shared/*"],
+      "@/assets/*": ["./public/assets/*"],
+      
+      // API-specific aliases
+      "@/api/*": ["./pages/api/*"],
+      "@/middleware/*": ["./middleware/*"],
+      
+      // Testing aliases
+      "@/tests/*": ["./tests/*"],
+      "@/mocks/*": ["./mocks/*"],
+      
+      // External library aliases
+      "react": ["./node_modules/@types/react"],
+      "lodash": ["./node_modules/@types/lodash"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Configuration (jsconfig.json)
+   </h4>
+
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-json">
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./*"],
+      "@/components/*": ["./components/*"],
+      "@/pages/*": ["./pages/*"],
+      "@/styles/*": ["./styles/*"],
+      "@/utils/*": ["./utils/*"],
+      "@/lib/*": ["./lib/*"],
+      "@/hooks/*": ["./hooks/*"],
+      "@/context/*": ["./context/*"],
+      "@/public/*": ["./public/*"],
+      
+      // Specific component categories
+      "@/ui/*": ["./components/ui/*"],
+      "@/forms/*": ["./components/forms/*"],
+      "@/layout/*": ["./components/layout/*"],
+      
+      // Business logic aliases
+      "@/services/*": ["./services/*"],
+      "@/stores/*": ["./stores/*"],
+      "@/reducers/*": ["./reducers/*"]
+    }
+  },
+  "include": [
+    "**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next",
+    "out"
+  ]
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Path Mapping Strategies
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Feature-Based Project Structure</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-json">
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      // Feature-based organization
+      "@/auth/*": ["./src/features/auth/*"],
+      "@/dashboard/*": ["./src/features/dashboard/*"],
+      "@/profile/*": ["./src/features/profile/*"],
+      "@/products/*": ["./src/features/products/*"],
+      "@/orders/*": ["./src/features/orders/*"],
+      
+      // Shared resources
+      "@/shared/components/*": ["./src/shared/components/*"],
+      "@/shared/hooks/*": ["./src/shared/hooks/*"],
+      "@/shared/utils/*": ["./src/shared/utils/*"],
+      "@/shared/types/*": ["./src/shared/types/*"],
+      
+      // Core functionality
+      "@/core/api/*": ["./src/core/api/*"],
+      "@/core/config/*": ["./src/core/config/*"],
+      "@/core/constants/*": ["./src/core/constants/*"],
+      
+      // Infrastructure
+      "@/infra/database/*": ["./src/infrastructure/database/*"],
+      "@/infra/external/*": ["./src/infrastructure/external/*"],
+      "@/infra/logging/*": ["./src/infrastructure/logging/*"]
+    }
+  }
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Multi-App Monorepo Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-json">
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      // Current app
+      "@/app/*": ["./src/*"],
+      
+      // Shared packages
+      "@/ui-kit/*": ["../../packages/ui-kit/src/*"],
+      "@/shared-utils/*": ["../../packages/shared-utils/src/*"],
+      "@/api-client/*": ["../../packages/api-client/src/*"],
+      "@/shared-types/*": ["../../packages/shared-types/src/*"],
+      
+      // Other apps (for shared components/utilities)
+      "@/admin-app/*": ["../admin-app/src/*"],
+      "@/mobile-app/*": ["../mobile-app/src/*"],
+      
+      // External service interfaces
+      "@/payment-service/*": ["../../services/payment/types/*"],
+      "@/user-service/*": ["../../services/user/types/*"],
+      "@/notification-service/*": ["../../services/notification/types/*"]
+    }
+  }
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Usage Examples
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Before and After Alias Usage</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+// Before: Relative imports (hard to maintain)
+import Button from '../../../components/ui/Button'
+import { formatCurrency } from '../../../../utils/formatting'
+import { useAuth } from '../../../hooks/useAuth'
+import { API_ENDPOINTS } from '../../../../config/api'
+
+// After: Alias imports (clean and maintainable)
+import Button from '@/components/ui/Button'
+import { formatCurrency } from '@/utils/formatting'
+import { useAuth } from '@/hooks/useAuth'
+import { API_ENDPOINTS } from '@/config/api'
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Real-World Component Example</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-typescript">
+// components/ProductCard.tsx
+import React from 'react'
+import Image from 'next/image'
+
+// UI components with aliases
+import { Card, CardContent, CardFooter } from '@/ui/Card'
+import { Button } from '@/ui/Button'
+import { Badge } from '@/ui/Badge'
+import { StarRating } from '@/ui/StarRating'
+
+// Utils and hooks
+import { formatPrice } from '@/utils/currency'
+import { useCart } from '@/hooks/useCart'
+import { useWishlist } from '@/hooks/useWishlist'
+
+// Types
+import type { Product } from '@/types/product'
+
+// Constants
+import { PRODUCT_IMAGES } from '@/constants/images'
+
+interface ProductCardProps {
+  product: Product
+  onAddToCart?: (productId: string) => void
+}
+
+export function ProductCard({ product, onAddToCart }: ProductCardProps) {
+  const { addItem } = useCart()
+  const { isInWishlist, toggleWishlist } = useWishlist()
+
+  const handleAddToCart = () => {
+    addItem(product)
+    onAddToCart?.(product.id)
+  }
+
+  return (
+    <Card className="product-card">
+      <CardContent>
+        <Image
+          src={product.image || PRODUCT_IMAGES.placeholder}
+          alt={product.name}
+          width={300}
+          height={200}
+          className="product-image"
+        />
+        
+        <div className="product-info">
+          <h3>{product.name}</h3>
+          <StarRating rating={product.rating} />
+          <Badge variant={product.inStock ? 'success' : 'warning'}>
+            {product.inStock ? 'In Stock' : 'Low Stock'}
+          </Badge>
+        </div>
+      </CardContent>
+      
+      <CardFooter>
+        <span className="price">{formatPrice(product.price)}</span>
+        <Button onClick={handleAddToCart} disabled={!product.inStock}>
+          Add to Cart
+        </Button>
+        <Button 
+          variant="ghost" 
+          onClick={() => toggleWishlist(product.id)}
+          aria-label={isInWishlist(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+        >
+          {isInWishlist(product.id) ? '❤️' : '🤍'}
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     IDE Integration and IntelliSense
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">VS Code Configuration (.vscode/settings.json)</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-json">
+{
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "typescript.suggest.autoImports": true,
+  "typescript.suggest.paths": true,
+  
+  // Auto import settings for aliases
+  "typescript.suggest.includeCompletionsForModuleExports": true,
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  
+  // Path intellisense extension settings
+  "path-intellisense.mappings": {
+    "@": "\${workspaceRoot}",
+    "@/components": "\${workspaceRoot}/components",
+    "@/utils": "\${workspaceRoot}/utils",
+    "@/lib": "\${workspaceRoot}/lib"
+  },
+  
+  // File exclusions for cleaner search
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/out": true,
+    "**/.git": true
+  }
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Testing with Path Aliases
+   </h4>
+
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+// jest.config.js
+const nextJest = require('next/jest')
+
+const createJestConfig = nextJest({
+  dir: './',
+})
+
+const customJestConfig = {
+  moduleNameMapping: {
+    // Handle module aliases (same as tsconfig.json paths)
+    '^@/(.*)`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>: '<rootDir>/$1',
+    '^@/components/(.*)`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>: '<rootDir>/components/$1',
+    '^@/utils/(.*)`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>: '<rootDir>/utils/$1',
+    '^@/lib/(.*)`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>: '<rootDir>/lib/$1',
+    '^@/hooks/(.*)`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>: '<rootDir>/hooks/$1',
+    '^@/types/(.*)`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>: '<rootDir>/types/$1',
+    
+    // Handle CSS imports
+    '^.+\\.(css|sass|scss)`,
+            examples: [
+              `// Environment-specific API configuration
+// lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>: 'identity-obj-proxy',
+  },
+  testEnvironment: 'jest-environment-jsdom',
+}
+
+module.exports = createJestConfig(customJestConfig)
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Path Aliases
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Consistent Naming:</span> Use consistent and logical naming conventions for your aliases
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Team Agreement:</span> Establish team-wide conventions for alias usage and structure
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Documentation:</span> Document your alias structure for new team members
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Avoid Over-aliasing:</span> Don't create aliases for every single directory; focus on commonly used paths
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Monorepo Considerations:</span> Plan aliases carefully in monorepo setups to avoid conflicts
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing Integration:</span> Ensure your test configuration mirrors your alias setup
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Troubleshooting
+   </h4>
+   
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">IntelliSense Not Working:</span> Restart your IDE after changing tsconfig.json/jsconfig.json
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Import Errors:</span> Ensure your baseUrl and paths are correctly configured
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Build Failures:</span> Verify that your aliases work in both development and production builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Test Failures:</span> Make sure Jest configuration includes the same path mappings
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `// Environment-specific API configuration
+            // // lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic: "Custom Webpack Configuration",
+            tags: ["webpack", "bundling", "optimization"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Next.js uses Webpack under the hood for bundling and building your application. While Next.js provides sensible defaults, you can customize the Webpack configuration to add loaders, plugins, aliases, and optimize your build process for specific requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Basic Webpack Configuration Structure
+   </h4>
+ 
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 1rem 0;">
+     <pre><code className="language-javascript">
+// next.config.js
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
+    // config: the current webpack configuration object
+    // buildId: unique build identifier
+    // dev: boolean indicating if in development mode
+    // isServer: boolean for server-side compilation
+    // defaultLoaders: default loaders provided by Next.js
+    // nextRuntime: 'nodejs' or 'edge' runtime
+    // webpack: webpack instance
+    
+    // Modify config here
+    return config
+  },
+}
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Webpack Customizations
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Custom Loaders and File Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // SVG loader configuration
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: [
+        {
+          loader: '@svgr/webpack',
+          options: {
+            prettier: false,
+            svgo: false,
+            svgoConfig: {
+              plugins: [{ removeViewBox: false }],
+            },
+            titleProp: true,
+            ref: true,
+          },
+        },
+      ],
+    })
+
+    // GLSL shader loader
+    config.module.rules.push({
+      test: /\.(glsl|vs|fs|vert|frag)$/,
+      use: ['raw-loader', 'glslify-loader'],
+    })
+
+    // Worker loader
+    config.module.rules.push({
+      test: /\.worker\.js$/,
+      use: { loader: 'worker-loader' },
+    })
+
+    // Custom CSS processing
+    config.module.rules.push({
+      test: /\.scss$/,
+      use: [
+        'style-loader',
+        {
+          loader: 'css-loader',
+          options: {
+            modules: {
+              localIdentName: dev 
+                ? '[name]__[local]--[hash:base64:5]' 
+                : '[hash:base64:8]',
+            },
+          },
+        },
+        'sass-loader',
+      ],
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Plugin Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const path = require('path')
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer')
+const CompressionPlugin = require('compression-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { buildId, dev, isServer, webpack }) => {
+    // Add custom plugins
+    config.plugins.push(
+      // Define global constants
+      new webpack.DefinePlugin({
+        '__BUILD_ID__': JSON.stringify(buildId),
+        '__BUILD_TIME__': JSON.stringify(new Date().toISOString()),
+        '__IS_SERVER__': JSON.stringify(isServer),
+      }),
+
+      // Bundle analyzer for production client builds
+      ...(process.env.ANALYZE === 'true' && !isServer ? [
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+          reportFilename: './analyze/client.html',
+          openAnalyzer: false,
+        })
+      ] : []),
+
+      // Compression for production
+      ...(!dev && !isServer ? [
+        new CompressionPlugin({
+          algorithm: 'gzip',
+          test: /\.(js|css|html|svg)$/,
+          threshold: 8192,
+          minRatio: 0.8,
+        })
+      ] : [])
+    )
+
+    // Optimize chunks for production
+    if (!dev && !isServer) {
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
+            vendor: {
+              test: /[\\/]node_modules[\\/]/,
+              name: 'vendors',
+              priority: -10,
+              chunks: 'all',
+            },
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: -30,
+              chunks: 'all',
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Resolve Configuration and Aliases</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    // Custom resolve configuration
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname),
+      '@components': path.resolve(__dirname, 'components'),
+      '@utils': path.resolve(__dirname, 'utils'),
+      '@styles': path.resolve(__dirname, 'styles'),
+      '@public': path.resolve(__dirname, 'public'),
+      '@lib': path.resolve(__dirname, 'lib'),
+      '@hooks': path.resolve(__dirname, 'hooks'),
+      '@types': path.resolve(__dirname, 'types'),
+    }
+
+    // Custom file extensions
+    config.resolve.extensions = [
+      '.js', '.jsx', '.ts', '.tsx', '.json', '.mdx',
+      ...config.resolve.extensions,
+    ]
+
+    // Fallbacks for client-side only packages
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: require.resolve('crypto-browserify'),
+        stream: require.resolve('stream-browserify'),
+        path: require.resolve('path-browserify'),
+        os: require.resolve('os-browserify/browser'),
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Advanced Development Configuration</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    if (dev) {
+      // Enhanced development experience
+      config.devtool = 'cheap-module-source-map'
+      
+      // Hot module replacement configuration
+      config.plugins.push(
+        new webpack.HotModuleReplacementPlugin()
+      )
+
+      // Development-specific optimizations
+      config.optimization = {
+        ...config.optimization,
+        removeAvailableModules: false,
+        removeEmptyChunks: false,
+        splitChunks: false,
+      }
+
+      // Faster builds in development
+      config.cache = {
+        type: 'filesystem',
+        buildDependencies: {
+          config: [__filename],
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Techniques
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Bundle Splitting and Code Splitting</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Advanced bundle splitting
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 244000,
+        cacheGroups: {
+          // Framework chunk (React, Next.js)
+          framework: {
+            chunks: 'all',
+            name: 'framework',
+            test: /(?<!node_modules.*)[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+            priority: 40,
+            enforce: true,
+          },
+          
+          // Library chunk (other node_modules)
+          lib: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'lib',
+            priority: 30,
+            chunks: 'all',
+          },
+          
+          // Common chunk (shared components)
+          commons: {
+            name: 'commons',
+            minChunks: 2,
+            priority: 20,
+            chunks: 'all',
+            reuseExistingChunk: true,
+          },
+          
+          // Vendor-specific chunks
+          lodash: {
+            test: /[\\/]node_modules[\\/]lodash[\\/]/,
+            name: 'lodash',
+            priority: 50,
+            chunks: 'all',
+          },
+        },
+      }
+    }
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">Asset Optimization and Processing</h5>
+     <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+       <pre><code className="language-javascript">
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin')
+
+module.exports = {
+  webpack: (config, { dev, isServer }) => {
+    // Image optimization
+    if (!dev && !isServer) {
+      config.plugins.push(
+        new ImageMinimizerPlugin({
+          minimizer: {
+            implementation: ImageMinimizerPlugin.imageminMinify,
+            options: {
+              plugins: [
+                ['imagemin-mozjpeg', { quality: 80 }],
+                ['imagemin-pngquant', { quality: [0.65, 0.8] }],
+                ['imagemin-svgo', {
+                  plugins: [
+                    { name: 'removeViewBox', active: false },
+                    { name: 'addAttributesToSVGElement', params: {
+                      attributes: [{ xmlns: 'http://www.w3.org/2000/svg' }]
+                    }}
+                  ]
+                }],
+              ],
+            },
+          },
+        })
+      )
+    }
+
+    // Font optimization
+    config.module.rules.push({
+      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      use: {
+        loader: 'file-loader',
+        options: {
+          publicPath: '/_next/static/fonts/',
+          outputPath: 'static/fonts/',
+          name: '[name].[hash].[ext]',
+        },
+      },
+    })
+
+    return config
+  },
+}
+       </code></pre>
+     </div>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Webpack Configuration Best Practices
+   </h4>
+   
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Environment Awareness:</span> Use the dev flag to apply different configurations for development and production
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Server-Side Considerations:</span> Check isServer flag to avoid applying client-only configurations to server builds
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Performance Monitoring:</span> Use bundle analyzers and performance plugins to monitor build output
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Backward Compatibility:</span> Always extend existing configurations rather than replacing them completely
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Testing:</span> Test webpack configurations across different environments and build scenarios
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Debugging Webpack Configuration
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #1e1e1e; margin: 0.5rem 0;">
+     <pre><code className="language-javascript">
+module.exports = {
+  webpack: (config, options) => {
+    // Debug webpack configuration
+    if (process.env.DEBUG_WEBPACK === 'true') {
+      console.log('Webpack Config:', JSON.stringify(config, null, 2))
+      console.log('Webpack Options:', options)
+      
+      // Write config to file for inspection
+      const fs = require('fs')
+      fs.writeFileSync(
+        './webpack-config-debug.json', 
+        JSON.stringify(config, null, 2)
+      )
+    }
+
+    return config
+  },
+}
+     </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `// Environment-specific API configuration
+            // // lib/api.js
+class ApiClient {
+  constructor() {
+    this.baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL
+    this.timeout = parseInt(process.env.API_TIMEOUT || '5000')
+    this.retries = parseInt(process.env.API_RETRIES || '3')
+  }
+  
+  async request(endpoint, options = {}) {
+    const url = \`\${this.baseUrl}\${endpoint}\`
+    const config = {
+      timeout: this.timeout,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(process.env.API_KEY && { 'X-API-Key': process.env.API_KEY }),
+        ...options.headers,
+      },
+      ...options,
+    }
+    
+    for (let attempt = 1; attempt <= this.retries; attempt++) {
+      try {
+        const response = await fetch(url, config)
+        return await response.json()
+      } catch (error) {
+        if (attempt === this.retries) throw error
+        await new Promise(resolve => setTimeout(resolve, 1000 * attempt))
+      }
+    }
+  }
+}
+
+export const apiClient = new ApiClient()`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between server-side and client-side environment variables in Next.js?",
+                solution:
+                  "<p>Server-side environment variables are only available in Node.js environments (API routes, getServerSideProps, etc.) and are not exposed to the browser. Client-side variables must be prefixed with NEXT_PUBLIC_ and are bundled into the JavaScript sent to the browser, making them visible to end users.</p>",
+              },
+              {
+                question:
+                  "How do you handle environment-specific configurations in Next.js?",
+                solution:
+                  "<p>Use different .env files for each environment (.env.development, .env.production, .env.local), implement configuration validation, use environment detection utilities, and apply conditional logic in next.config.js based on NODE_ENV or custom environment variables.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/basic-features/environment-variables",
+              "https://nextjs.org/docs/api-reference/next.config.js/environment-variables",
+              "https://vercel.com/docs/concepts/projects/environment-variables",
+            ],
+          },
+          {
+            topic:
+              "Security Best Practices  API Route Security & Token Storage",
+            tags: [
+              "security",
+              "next.js",
+              "api routes",
+              "jwt",
+              "csrf",
+              "httponly",
+            ],
+            explanation: `<div>
+<h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">1. API Route Security – Defense in Depth</h3>
+<p style="line-height: 1.75; margin-top: 1rem;">
+  Next.js API routes are <strong>serverless Node.js endpoints</strong>. Treat every route as a potential attack surface and apply the same hardening you’d use in a traditional backend.
+</p>
+
+<ul style="margin-top: 1rem; margin-left: 1.5rem;">
+  <li><strong>Input validation:</strong> Always validate & sanitize query/body with <code>zod</code>, <code>joi</code>, or <code>yup</code>.</li>
+  <li><strong>Rate limiting:</strong> Use <code>@upstash/ratelimit</code> or <code>express-rate-limit</code> adapter.</li>
+  <li><strong>CSRF tokens:</strong> Stateless double-submit cookie pattern or <code>next-csrf</code>.</li>
+  <li><strong>CORS:</strong> Whitelist origins via <code>nextjs-cors</code>.</li>
+  <li><strong>Helmet-like headers:</strong> Set <code>Strict-Transport-Security</code>, <code>X-Content-Type-Options</code>, <code>X-Frame-Options</code>.</li>
+  <li><strong>RBAC:</strong> Check roles/scopes right after token verification.</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.1rem;">Example: Hardened API Route (App Router)</h4>
+<pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px; overflow-x:auto;">
+// app/api/orders/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
+import { verifyJWT } from '@/lib/auth';
+import { rateLimiter } from '@/lib/rate-limit';
+
+const schema = z.object({
+  productId: z.string().uuid(),
+  quantity: z.number().min(1),
+});
+
+export async function POST(req: NextRequest) {
+  // 1. Rate limit
+  const ip = req.ip ?? 'unknown';
+  const { success } = await rateLimiter.limit(ip);
+  if (!success) return NextResponse.json({ error: 'Too many requests' }, { status: 429 });
+
+  // 2. CSRF double-submit check
+  const csrfToken = req.headers.get('x-csrf-token');
+  if (!csrfToken || csrfToken !== req.cookies.get('csrf')?.value) {
+    return NextResponse.json({ error: 'CSRF mismatch' }, { status: 403 });
+  }
+
+  // 3. Auth
+  const token = req.cookies.get('auth-token')?.value;
+  const user = await verifyJWT(token);
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+
+  // 4. Input validation
+  const body = await req.json();
+  const { productId, quantity } = schema.parse(body);
+
+  // 5. Business logic
+  const order = await db.createOrder({ userId: user.id, productId, quantity });
+
+  return NextResponse.json(order, { status: 201 });
+}
+</pre>
+
+<h3 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600;">2. Authentication Token Storage – Secure & Compliant</h3>
+<table style="width:100%; margin-top:1rem; border-collapse:collapse;">
+  <thead>
+    <tr>
+      <th style="padding:0.5rem; border:1px solid #333;">Storage</th>
+      <th style="padding:0.5rem; border:1px solid #333;">Accessible via JS</th>
+      <th style="padding:0.5rem; border:1px solid #333;">XSS Risk</th>
+      <th style="padding:0.5rem; border:1px solid #333;">CSRF Risk</th>
+      <th style="padding:0.5rem; border:1px solid #333;">Use Case</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="padding:0.5rem; border:1px solid #333;"><code>localStorage</code></td>
+      <td>✅</td>
+      <td>High</td>
+      <td>Low</td>
+      <td>Public, non-sensitive prefs</td>
+    </tr>
+    <tr>
+      <td style="padding:0.5rem; border:1px solid #333;"><code>sessionStorage</code></td>
+      <td>✅</td>
+      <td>High</td>
+      <td>Low</td>
+      <td>Tab-scoped cache</td>
+    </tr>
+    <tr>
+      <td style="padding:0.5rem; border:1px solid #333;"><strong>HttpOnly Cookie</strong></td>
+      <td>❌</td>
+      <td>Low</td>
+      <td>Medium</td>
+      <td>JWT / session id</td>
+    </tr>
+    <tr>
+      <td style="padding:0.5rem; border:1px solid #333;"><strong>Secure, SameSite=Lax</strong></td>
+      <td>❌</td>
+      <td>Low</td>
+      <td>Low</td>
+      <td>Recommended default</td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.1rem;">Token Storage Pattern</h4>
+<pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+// /api/login/route.ts – set cookie
+const jwt = await sign({ sub: user.id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '15m' });
+const response = NextResponse.json({ ok: true });
+response.cookies.set('auth-token', jwt, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === 'production',
+  sameSite: 'lax',
+  maxAge: 60 * 15, // 15 min
+  path: '/',
+});
+return response;
+
+// Client side – use Next.js <Link prefetch> and <form method="POST" action="/api/login">
+// Never store JWT in localStorage.
+</pre>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.1rem;">Refresh Token Strategy</h4>
+<ul style="margin-left: 1.5rem;">
+  <li>Store long-lived refresh token in <strong>HttpOnly cookie</strong>.</li>
+  <li>Rotate refresh token on every use (OWASP guideline).</li>
+  <li>Keep access token short-lived (5-15 min).</li>
+</ul>
+
+<h4 style="margin-top: 1.5rem; font-size: 1.1rem;">Content Security Policy (CSP)</h4>
+<pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+// next.config.js
+module.exports = {
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline';"
+          }
+        ]
+      }
+    ]
+  }
+}
+</pre>
+
+<h3 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600;">3. Real-World Use-Case</h3>
+<ol style="margin-left: 1.5rem;">
+  <li><strong>SaaS Dashboard</strong>: Access + refresh tokens in HttpOnly cookies, CSRF tokens in headers, rate-limited API.</li>
+  <li><strong>Mobile PWA</strong>: Same cookie jar via Capacitor/Cordova, refresh token rotation, strict CSP.</li>
+</ol>
+</div>`,
+            examples: [
+              `// middleware.ts – verify & inject user
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+import { verifyJWT } from '@/lib/auth';
+
+export async function middleware(req: NextRequest) {
+  const token = req.cookies.get('auth-token')?.value;
+  if (!token) return NextResponse.redirect(new URL('/login', req.url));
+
+  const payload = await verifyJWT(token);
+  if (!payload) return NextResponse.redirect(new URL('/login', req.url));
+
+  // Attach user to headers for downstream use
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-user-id', payload.sub);
+  return NextResponse.next({ request: { headers: requestHeaders } });
+}`,
+              `// pages/api/admin/users.ts – role check
+import { withApiAuthRequired, getSession } from '@auth0/nextjs-auth0';
+
+export default withApiAuthRequired(async function handler(req, res) {
+  const session = getSession(req, res);
+  if (!session || session.user.role !== 'admin') {
+    return res.status(403).json({ error: 'Forbidden' });
+  }
+  const users = await db.getUsers();
+  res.json(users);
+});`,
+            ],
+            questions: [
+              {
+                question: "Is storing JWT in localStorage ever safe?",
+                solution:
+                  "<p>No. Any XSS payload can read <code>localStorage</code> and exfiltrate the token. Use <strong>HttpOnly, Secure, SameSite</strong> cookies or a backend session store instead.</p>",
+              },
+              {
+                question: "How do I rotate refresh tokens in Next.js?",
+                solution:
+                  "<p>On every /api/refresh call, issue a new refresh token, add it to the HttpOnly cookie, and blacklist the old one in Redis or a DB with a TTL equal to its lifespan.</p>",
+              },
+              {
+                question: "Should I hash tokens in the database?",
+                solution:
+                  "<p>Yes. Store <code>sha256(refreshToken)</code> so that leaked DB snapshots don’t expose usable tokens. Keep raw tokens only in transient cookies.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/app/building-your-application/routing/middleware",
+              "https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html",
+            ],
+          },
+          {
+            topic: "Security Best Practices XSS & CSP",
+            tags: ["XSS", "CSP", "Helmet", "Sanitize", "Trusted Types"],
+            explanation: `<div>
+<h2>Security Best Practices – XSS & Content-Security-Policy</h2>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  Cross-Site Scripting (XSS) remains a top-3 OWASP threat.  
+  Next.js gives you the building blocks to <strong>defend by default</strong>; you just need to turn the right knobs.
+</p>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">1️⃣ How XSS Happens in Next.js</h3>
+<ul style="margin-left: 1.25rem;">
+  <li><strong>Unsafe data binding</strong> → <code dangerouslySetInnerHTML={{__html: userInput}}/></code></li>
+  <li><strong>JSON-in-script</strong> → <code>&lt;script&gt;var data = {"name": "&lt;img src=x onerror=alert(1)&gt;"}&lt;/script&gt;</code></li>
+  <li><strong>Third-party scripts</strong> → Analytics widgets, Ads, Chat bubbles</li>
+</ul>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">2️⃣ React / Next.js Built-In Defenses</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// ✅ Safe – React auto-escapes
+&lt;h1&gt;{userInput}&lt;/h1&gt;
+
+// ❌ Dangerous – opt-in bypass
+&lt;div dangerouslySetInnerHTML={{ __html: userInput }} /&gt;
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// Safe JSON injection
+&lt;script
+  id="__NEXT_DATA__"
+  type="application/json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify(data).replace(/\//g, '\\/')
+  }}
+/&gt;
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">3️⃣ Content-Security-Policy (CSP)</h3>
+<h4>What CSP Does</h4>
+<ul style="margin-left: 1.25rem;">
+  <li>Blocks inline scripts/styles</li>
+  <li>Restricts script sources</li>
+  <li>Prevents <code>eval()</code></li>
+</ul>
+
+<h4>Setting CSP via next.config.js</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// next.config.js
+const { createSecureHeaders } = require('next-secure-headers')
+
+module.exports = {
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: createSecureHeaders({
+          contentSecurityPolicy: {
+            directives: {
+              defaultSrc: "'self'",
+              scriptSrc: ["'self'", "'unsafe-inline'", "https://www.googletagmanager.com"],
+              styleSrc: ["'self'", "'unsafe-inline'"],
+              imgSrc: ["'self'", "data:", "https:"],
+              objectSrc: "'none'",
+              baseUri: "'self'",
+              formAction: "'self'"
+            }
+          },
+          referrerPolicy: 'no-referrer-when-downgrade',
+          frameGuard: 'deny',
+          noopen: 'noopen',
+          nosniff: 'nosniff'
+        })
+      }
+    ]
+  }
+}
+</code></pre>
+
+<h4>App Router Route Segment Config</h4>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// app/secure/route.ts
+export async function GET() {
+  return new Response('OK', {
+    headers: {
+      'Content-Security-Policy': "default-src 'self'; script-src 'self'"
+    }
+  })
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">4️⃣ Input Sanitization & Validation</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// Server Action
+'use server'
+import DOMPurify from 'isomorphic-dompurify'
+
+export async function saveComment(raw: string) {
+  const clean = DOMPurify.sanitize(raw)          // strip scripts
+  await db.comment.create({ data: { body: clean } })
+}
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// Client component
+import { z } from 'zod'
+
+const schema = z.object({ message: z.string().max(500) })
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">5️⃣ Trusted Types (Chrome-only)</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// pages/_document.tsx
+import { Html, Head, Main, NextScript } from 'next/document'
+
+export default function Document() {
+  return (
+    &lt;Html&gt;
+      &lt;Head&gt;
+        &lt;meta httpEquiv="Content-Security-Policy"
+              content="require-trusted-types-for 'script'; trusted-types nextjs"/&gt;
+      &lt;/Head&gt;
+      &lt;body&gt;
+        &lt;Main /&gt;
+        &lt;NextScript /&gt;
+      &lt;/body&gt;
+    &lt;/Html&gt;
+  )
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">6️⃣ Security Headers Cheat-Sheet</h3>
+<table style="width:100%;border-collapse:collapse;margin-top:1rem;">
+  <thead>
+    <tr style="border-bottom:1px solid #444">
+      <th style="padding:0.5rem;text-align:left">Header</th>
+      <th style="padding:0.5rem;text-align:left">Purpose</th>
+      <th style="padding:0.5rem;text-align:left">Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code>X-Content-Type-Options</code></td>
+      <td>Stop MIME sniffing</td>
+      <td><code>nosniff</code></td>
+    </tr>
+    <tr>
+      <td><code>X-Frame-Options</code></td>
+      <td>Click-jacking protection</td>
+      <td><code>DENY</code></td>
+    </tr>
+    <tr>
+      <td><code>Strict-Transport-Security</code></td>
+      <td>Force HTTPS</td>
+      <td><code>max-age=31536000; includeSubDomains</code></td>
+    </tr>
+    <tr>
+      <td><code>Referrer-Policy</code></td>
+      <td>Control referrer leakage</td>
+      <td><code>no-referrer-when-downgrade</code></td>
+    </tr>
+  </tbody>
+</table>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">7️⃣ Testing CSP Violations</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// open DevTools → Console
+// Any blocked resource logs:
+// Refused to load the script '...' because it violates the following CSP directive...
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">🎯 Security Checklist</h3>
+<ol style="margin-left: 1.25rem;">
+  <li>✅ Use <code>dangerouslySetInnerHTML</code> only with sanitized data</li>
+  <li>✅ Deploy CSP with strict <code>script-src</code></li>
+  <li>✅ Add <code>X-Content-Type-Options: nosniff</code></li>
+  <li>✅ Enable HSTS on Vercel: <code>vercel.json {"headers": [{"source": "/(.*)","headers": [{"key":"Strict-Transport-Security","value":"max-age=31536000; includeSubDomains"}]}]}</code></li>
+  <li>✅ Run <code>npx snyk test</code> for dependency vulnerabilities</li>
+  <li>✅ Use <code>next-secure-headers</code> or <code>helmet.next()</code></li>
+</ol>
+</div>`,
+            examples: [
+              "// next.config.js – CSP via next-secure-headers",
+              "// app/secure/route.ts – CSP in Route Handler",
+              "// pages/_document.tsx – Trusted Types meta",
+              "// Server Action – DOMPurify sanitize",
+            ],
+            questions: [
+              {
+                question: "Will CSP break my inline `<style jsx>`?",
+                solution:
+                  "<p>No. Next.js automatically hashes or nonces every `<style jsx>` and `<style jsx global>` block. Just add <code>'unsafe-inline'</code> to <code>style-src</code> only during development if you use global styles.</p>",
+              },
+              {
+                question: "How do I allow GA4 scripts without 'unsafe-inline'?",
+                solution:
+                  "<pre><code>script-src: 'self' https://www.googletagmanager.com https://www.google-analytics.com;</code></pre><p>And add the GA4 domain to <code>connect-src</code> for XHR.</p>",
+              },
+              {
+                question: "Can I set CSP only for a single page?",
+                solution:
+                  "<p>Yes. In App Router, use <code>export async function generateMetadata()</code> to return <code>other: { 'Content-Security-Policy': '...' }</code>. In Pages Router, <code>getServerSideProps</code> can attach headers.</p>",
+              },
+              {
+                question: "What if I need to embed user HTML (e.g., blog CMS)?",
+                solution:
+                  "<p>Use an <code>iframe</code> with <code>sandbox</code> attribute or serve via a separate subdomain with its own CSP. Never inject raw HTML into your main domain.</p>",
+              },
+              {
+                question: "How do I report CSP violations?",
+                solution:
+                  "<pre><code>Content-Security-Policy-Report-Only: default-src 'self'; report-uri https://csp.example.com/report</code></pre><p>Collect reports with a tiny API route or a service like <code>report-uri.com</code>.</p>",
+              },
+            ],
+            links: [
+              "https://nextjs.org/docs/advanced-features/security-headers",
+              "https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP",
+              "https://owasp.org/www-community/attacks/xss/",
+            ],
+          },
+          {
+            topic:
+              "Monorepos & Large-Scale Architecture Using Next.js in a Turborepo",
+            tags: ["monorepo", "turborepo", "workspace", "pnpm", "caching"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    A <strong>monorepo</strong> keeps multiple apps and packages in a single Git repository.  
+    <strong>Turborepo</strong> is the build system & task runner that makes Next.js (and friends) scale without the pain of slow CI and duplicated configs.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">1. Why Turborepo + Next.js?</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>Blazing cache</strong> – remote & local caching with Vercel Remote Cache.</li>
+    <li><strong>Parallel pipelines</strong> – build, lint, test, type-check in parallel.</li>
+    <li><strong>Zero-config</strong> – works with pnpm, yarn, npm.</li>
+    <li><strong>Incremental adoption</strong> – migrate one app at a time.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">2. Folder Layout (pnpm workspaces)</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+my-monorepo/
+├─ apps/
+│  ├─ web (Next.js 14)
+│  └─ docs (Next.js 14)
+├─ packages/
+│  ├─ ui (shadcn/ui)
+│  ├─ eslint-config-custom
+│  ├─ tsconfig
+│  └─ utils
+├─ turbo.json
+└─ pnpm-workspace.yaml
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. turbo.json – Pipeline Definition</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalDependencies": ["**/.env.*local"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "lint": {},
+    "dev": {
+      "cache": false,
+      "persistent": true
+    }
+  }
+}
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">4. Cross-package Sharing</h3>
+  <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+    <li><strong>UI package</strong> – publishable Storybook components.</li>
+    <li><strong>utils package</strong> – shared business logic, tree-shaken.</li>
+    <li><strong>eslint-config-custom</strong> – single ESLint ruleset across apps.</li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">5. Dev Workflow</h3>
+  <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
+# Install once
+pnpm install
+
+# Run all dev servers in parallel
+pnpm dev          # turbo dev --filter=web & docs
+
+# Build affected packages only
+pnpm build --filter=web...
+  </pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">6. Deployment Strategies</h3>
+  <table style="width:100%; margin-top:1rem; border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem; border:1px solid #333;">Provider</th>
+        <th style="padding:0.5rem; border:1px solid #333;">Command</th>
+        <th style="padding:0.5rem; border:1px solid #333;">Benefit</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">Vercel</td>
+        <td style="padding:0.5rem; border:1px solid #333;"><code>vercel --filter web</code></td>
+        <td style="padding:0.5rem; border:1px solid #333;">Remote cache & monorepo support</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem; border:1px solid #333;">GitHub Actions</td>
+        <td style="padding:0.5rem; border:1px solid #333;"><code>turbo run build --cache-dir=.turbo</code></td>
+        <td style="padding:0.5rem; border:1px solid #333;">Matrix builds per app</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">7. Real-World Use-Case</h3>
+  <ol style="margin-left: 1.5rem;">
+    <li><strong>E-commerce Platform</strong> – <code>apps/web</code> for storefront, <code>apps/admin</code> for CMS, shared <code>packages/ui</code> for checkout components.</li>
+    <li><strong>SaaS Starter</strong> – 3 Next.js apps (landing, app, docs) + shared SDK, CI time cut from 12 min to 3 min with remote cache.</li>
+  </ol>
+</div>`,
+            examples: [
+              `// packages/ui/Button.tsx
+export const Button = ({ children }) => (
+  <button className="btn">{children}</button>
+);`,
+
+              `// apps/web/pages/index.tsx
+import { Button } from '@acme/ui';
+
+export default function Home() {
+  return <Button>Shop now</Button>;
+}`,
+            ],
+            questions: [
+              {
+                question: "Can I use Turborepo with Yarn workspaces?",
+                solution:
+                  "<p>Yes. Replace <code>pnpm-workspace.yaml</code> with <code>workspaces</code> field in root <code>package.json</code>; the rest of the setup is identical.</p>",
+              },
+              {
+                question: "How do I share Tailwind config across packages?",
+                solution:
+                  "<p>Create <code>packages/tailwind-config</code> and extend it in each Next.js <code>tailwind.config.js</code>. Turborepo ensures only changed packages rebuild.</p>",
+              },
+              {
+                question:
+                  "Should I keep Next.js inside the monorepo root or in apps?",
+                solution:
+                  "<p>Keep each Next.js app under <code>apps/*</code>. This allows per-app configuration (env, Next config) while still leveraging shared packages.</p>",
+              },
+            ],
+            links: [
+              "https://turbo.build/repo/docs/handbook",
+              "https://github.com/vercel/examples/tree/main/monorepo-turborepo",
+            ],
+          },
+          {
+            topic: "Monorepos & Large-Scale Architecture Sharing UI Components",
+            tags: [
+              "Turborepo",
+              "pnpm workspaces",
+              "shared-ui",
+              "design-system",
+              "storybook",
+            ],
+            explanation: `<div>
+<h2>Monorepos & Large-Scale Architecture – Sharing UI Components</h2>
+
+<p style="line-height: 1.75; margin-top: 1.5rem;">
+  A <strong>monorepo</strong> keeps multiple apps (web, docs, admin) and their shared libraries in a single Git repository.  
+  With Next.js 14 + <strong>Turborepo</strong> you get:
+</p>
+<ul style="margin-left: 1.25rem;">
+  <li>Zero-config remote caching (Vercel)</li>
+  <li>Fast incremental builds</li>
+  <li>One lock-file for every package</li>
+  <li>Hot-reload across apps when shared components change</li>
+</ul>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">1️⃣ Folder Layout (Turborepo Starter)</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+my-turbo/
+├─ apps/
+│  ├─ web/           # Next.js consumer
+│  ├─ docs/          # Storybook docs
+├─ packages/
+│  ├─ ui/            # shared React components
+│  ├─ eslint-config/
+│  ├─ ts-config/
+├─ turbo.json
+├─ pnpm-workspace.yaml
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">2️⃣ Create the Shared UI Package</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+# packages/ui/package.json
+{
+  "name": "@acme/ui",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts",
+    "dev": "tsup src/index.ts --format esm,cjs --dts --watch"
+  },
+  "devDependencies": {
+    "tsup": "^8",
+    "typescript": "^5"
+  }
+}
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// packages/ui/src/Button.tsx
+import { cn } from './utils'
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: 'primary' | 'secondary'
+}
+
+export const Button = ({ variant = 'primary', className, ...props }: ButtonProps) => (
+  &lt;button
+    className={cn(
+      'px-4 py-2 rounded',
+      {
+        'bg-blue-600 text-white': variant === 'primary',
+        'bg-gray-200 text-black': variant === 'secondary'
+      },
+      className
+    )}
+    {...props}
+  /&gt;
+)
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// packages/ui/src/index.ts
+export { Button } from './Button'
+export { cn } from './utils'
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">3️⃣ Consume the Shared Package</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+# apps/web/package.json
+{
+  "dependencies": {
+    "@acme/ui": "workspace:*"
+  }
+}
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// apps/web/app/page.tsx
+import { Button } from '@acme/ui'
+
+export default function Home() {
+  return (
+    &lt;main&gt;
+      &lt;Button variant="secondary" onClick={() => alert('clicked')}&gt;
+        Shared Button
+      &lt;/Button&gt;
+    &lt;/main&gt;
+  )
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">4️⃣ Turborepo Pipeline (turbo.json)</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "lint": {
+      "dependsOn": ["^build"]
+    }
+  }
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">5️⃣ Storybook for Design-System QA</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+# packages/ui/.storybook/main.ts
+export default {
+  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  addons: ['@storybook/addon-essentials']
+}
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// packages/ui/src/Button.stories.tsx
+import type { Meta, StoryObj } from '@storybook/react'
+import { Button } from './Button'
+
+const meta: Meta<typeof Button> = { component: Button }
+export default meta
+
+export const Primary: StoryObj = { args: { children: 'Primary' } }
+export const Secondary: StoryObj = { args: { variant: 'secondary', children: 'Secondary' } }
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">6️⃣ Type-Safe Import Paths (TSConfig)</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// packages/ui/tsconfig.json
+{
+  "extends": "@acme/tsconfig/base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  }
+}
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+// apps/web/tsconfig.json
+{
+  "compilerOptions": {
+    "paths": {
+      "@acme/ui": ["../../packages/ui/src"]
+    }
+  }
+}
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">7️⃣ Remote Caching & CI (GitHub Actions)</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+# .github/workflows/ci.yml
+name: CI
+on: [push]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v4
+        with:
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm turbo build lint test
+        env:
+          TURBO_TOKEN: {{ secrets.VERCEL_TOKEN }}
+          TURBO_TEAM: acme
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">8️⃣ Deploying Shared UI to npm (Private Registry)</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+# packages/ui/.npmrc
+@acme:registry=https://npm.company.com
+//npm.company.com/:_authToken={NPM_TOKEN}
+</code></pre>
+
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+name: Release
+on:
+  push:
+    tags:
+      - '@acme/ui@*'
+jobs:
+  publish:
+    steps:
+      - run: pnpm publish --filter @acme/ui
+</code></pre>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">🎯 Use-Case Decision Matrix</h3>
+<table style="width:100%;border-collapse:collapse;margin-top:1rem;">
+  <thead>
+    <tr style="border-bottom:1px solid #444">
+      <th style="padding:0.5rem;text-align:left">Need</th>
+      <th style="padding:0.5rem;text-align:left">Solution</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>One repo, multiple Next.js apps</td>
+      <td>Turborepo + pnpm workspaces</td>
+    </tr>
+    <tr>
+      <td>Shared Tailwind theme</td>
+      <td>@acme/ui exports <code>tailwind.config.js</code> preset</td>
+    </tr>
+    <tr>
+      <td>Incremental adoption</td>
+      <td>Start with <code>npm link</code>, migrate to monorepo</td>
+    </tr>
+    <tr>
+      <td>Design-system versioning</td>
+      <td>Changesets + GitHub release action</td>
+  </tbody>
+</table>
+
+---
+
+<h3 style="font-size: 1.4rem; margin-top: 2rem;">📦 Quick Start Command</h3>
+<pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
+npx create-turbo@latest my-turbo --example with-pnpm
+cd my-turbo
+pnpm dev          # spins up web & storybook concurrently
+</code></pre>
+</div>`,
+            examples: [
+              "// packages/ui/Button.tsx – shared, tree-shakeable",
+              "// apps/web/app/page.tsx – imports @acme/ui",
+              "// turbo.json – build pipeline",
+              "// .github/workflows/ci.yml – remote caching",
+              "// packages/ui/.storybook/main.ts – design QA",
+            ],
+            questions: [
+              {
+                question:
+                  "Do I have to build packages every time I change a component?",
+                solution:
+                  "<p>No. <code>tsup --watch</code> or <code>turbo dev</code> keeps the dist folder in sync. Hot-reload propagates from <code>@acme/ui</code> to all consumers automatically.</p>",
+              },
+              {
+                question: "Can I use Yarn/NPM instead of pnpm?",
+                solution:
+                  "<p>Yes. Replace <code>pnpm-workspace.yaml</code> with <code>workspaces</code> field in root package.json. Turborepo works with any package manager.</p>",
+              },
+              {
+                question: "How do I share Tailwind styles?",
+                solution:
+                  "<pre><code>// packages/ui/tailwind.config.js\nmodule.exports = {\n  content: ['./src/**/*.{tsx,ts}', '../../apps/**/*.{tsx,ts}'],\n  theme: { extend: { colors: { brand: '#0ea5e9' } } }\n}</code></pre><p>Then extend it in each app.</p>",
+              },
+              {
+                question:
+                  "What if a consumer needs a different Next.js version?",
+                solution:
+                  "<p>Keep Next.js in <code>peerDependencies</code> of shared libs. Turborepo hoists common versions and warns on mismatches.</p>",
+              },
+              {
+                question: "Can I publish only the changed packages?",
+                solution:
+                  "<p>Yes. <code>changeset version</code> bumps versions per-package; <code>changeset publish</code> only ships the ones with version changes.</p>",
+              },
+            ],
+            links: [
+              "https://turbo.build/repo/docs",
+              "https://pnpm.io/workspaces",
+              "https://github.com/vercel/turbo/tree/main/examples/with-pnpm",
+            ],
+          },
+        ],
       },
     ],
   },
@@ -34291,7 +51284,7 @@ class Container {
   {
     id: 6,
     category: "AWS S3",
-    themeBgColor: "#FFEAF0"  ,
+    themeBgColor: "#FFEAF0",
     textColor: "#4A0A14",
     topicColor: "#4A0A14",
     lightColor: "#FFEAF0",
