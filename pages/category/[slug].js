@@ -37,7 +37,6 @@ import { BookOpenCheck } from "lucide-react";
 import { Code } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from "next-auth/react";
-// Using local data for better performance - no API calls needed
 import { interviewData } from "@/data/interviewData";
 import {
   Tabs as TAB,
@@ -51,7 +50,14 @@ import { Button, Typography } from "@mui/material";
 import Header from "@/components/header";
 
 export async function getStaticPaths() {
-  const topics = ["Javascript", "React", "Node", "Typescript", "AWS S3"];
+  const topics = [
+    "Javascript",
+    "React",
+    "Node",
+    "Typescript",
+    "AWS S3",
+    "Next",
+  ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },
   }));

@@ -55924,4 +55924,7867 @@ helm install rabbit bitnami/rabbitmq --set auth.password=StrongPass
       },
     ],
   },
+  {
+    id: 10,
+    category: "Object Oriented Programming",
+    themeBgColor: "#E8F5E8",
+    textColor: "#2D5016",
+    topicColor: "#2D5016",
+    lightColor: "#F0FFF0",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "Introduction to Object-Oriented Programming",
+            tags: ["OOP", "Programming Paradigm", "Concepts"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Object-Oriented Programming (OOP) is a programming paradigm that organizes code around objects rather than functions and logic. It's based on the concept of "objects," which contain data (attributes) and code (methods). OOP helps in creating modular, reusable, and maintainable code by modeling real-world entities as objects.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Object-Oriented Programming?
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     OOP is a methodology where we create objects that represent real-world entities. Each object has:
+   </p>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">State (Attributes/Properties):</span> What the object knows about itself
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Behavior (Methods):</span> What the object can do
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Example: Car Object
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class Car {
+    constructor(brand, model, year) {
+        this.brand = brand;      // State/Attribute
+        this.model = model;      // State/Attribute
+        this.year = year;        // State/Attribute
+        this.speed = 0;          // State/Attribute
+    }
+    
+    // Behavior/Methods
+    start() {
+        console.log(\`\${this.brand} \${this.model} is starting...\`);
+    }
+    
+    accelerate(amount) {
+        this.speed += amount;
+        console.log(\`Speed increased to \${this.speed} mph\`);
+    }
+    
+    brake() {
+        this.speed = 0;
+        console.log("Car has stopped");
+    }
+}
+
+// Creating objects
+let myCar = new Car("Toyota", "Camry", 2023);
+myCar.start();      // Toyota Camry is starting...
+myCar.accelerate(30); // Speed increased to 30 mph
+ </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Procedural vs Object-Oriented Programming
+   </h4>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Procedural Programming:
+   </h5>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Code is organized as a sequence of functions</li>
+     <li style="margin-top: 0.5rem;">Data and functions are separate</li>
+     <li style="margin-top: 0.5rem;">Functions operate on global data</li>
+     <li style="margin-top: 0.5rem;">Top-down approach</li>
+   </ul>
+   
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// Procedural Approach - Car Management
+let carBrand = "Toyota";
+let carModel = "Camry";
+let carSpeed = 0;
+
+function startCar() {
+    console.log(\`\${carBrand} \${carModel} is starting...\`);
+}
+
+function accelerateCar(amount) {
+    carSpeed += amount;
+    console.log(\`Speed: \${carSpeed} mph\`);
+}
+
+function brakeCar() {
+    carSpeed = 0;
+    console.log("Car stopped");
+}
+
+// Usage
+startCar();
+accelerateCar(30);
+brakeCar();
+ </code></pre>
+  </div>
+   
+   <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+     Object-Oriented Programming:
+   </h5>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Code is organized around objects</li>
+     <li style="margin-top: 0.5rem;">Data and methods are bundled together</li>
+     <li style="margin-top: 0.5rem;">Objects interact through well-defined interfaces</li>
+     <li style="margin-top: 0.5rem;">Bottom-up approach</li>
+   </ul>
+   
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code className="language-javascript">
+// OOP Approach - Same functionality
+class Car {
+    constructor(brand, model) {
+        this.brand = brand;
+        this.model = model;
+        this.speed = 0;
+    }
+    
+    start() {
+        console.log(\`\${this.brand} \${this.model} is starting...\`);
+    }
+    
+    accelerate(amount) {
+        this.speed += amount;
+        console.log(\`Speed: \${this.speed} mph\`);
+    }
+    
+    brake() {
+        this.speed = 0;
+        console.log("Car stopped");
+    }
+}
+
+// Usage
+let car = new Car("Toyota", "Camry");
+car.start();
+car.accelerate(30);
+car.brake();
+ </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Object-Oriented Programming
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Abstraction:</span>
+      <p style="margin-top: 0.5rem;">Hides complex implementation details and shows only essential features. Users interact with objects through simple interfaces without knowing internal complexities.</p>
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">
+// User doesn't need to know how email sending works internally
+class EmailService {
+    send(to, subject, body) {
+        // Complex email sending logic hidden
+        this.authenticate();
+        this.createMessage(to, subject, body);
+        this.sendToServer();
+        console.log("Email sent successfully!");
+    }
+    
+    // Private methods (abstracted away)
+    authenticate() { /* authentication logic */ }
+    createMessage(to, subject, body) { /* message creation */ }
+    sendToServer() { /* server communication */ }
+}
+
+let emailer = new EmailService();
+emailer.send("user@example.com", "Hello", "How are you?");
+        </code></pre>
+      </div>
+     </li>
+     
+     <li style="margin-top: 1.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Modularity:</span>
+      <p style="margin-top: 0.5rem;">Code is organized into separate, interchangeable modules. Each class represents a module that can be developed and tested independently.</p>
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">
+// Each class is a separate module
+class User {
+    constructor(name, email) {
+        this.name = name;
+        this.email = email;
+    }
+    
+    getInfo() {
+        return \`\${this.name} (\${this.email})\`;
+    }
+}
+
+class Order {
+    constructor(user, items) {
+        this.user = user;
+        this.items = items;
+        this.total = 0;
+    }
+    
+    calculateTotal() {
+        this.total = this.items.reduce((sum, item) => sum + item.price, 0);
+        return this.total;
+    }
+}
+
+class ShippingService {
+    ship(order) {
+        console.log(\`Shipping order to \${order.user.name}\`);
+    }
+}
+
+// Modules work together
+let user = new User("John Doe", "john@example.com");
+let order = new Order(user, [{name: "Book", price: 25}]);
+let shipping = new ShippingService();
+
+order.calculateTotal();
+shipping.ship(order);
+        </code></pre>
+      </div>
+     </li>
+     
+     <li style="margin-top: 1.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reusability:</span>
+      <p style="margin-top: 0.5rem;">Classes can be reused across different parts of an application or in different applications. Inheritance allows creating new classes based on existing ones.</p>
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">
+// Base class that can be reused
+class Vehicle {
+    constructor(brand, model) {
+        this.brand = brand;
+        this.model = model;
+    }
+    
+    start() {
+        console.log(\`\${this.brand} \${this.model} is starting...\`);
+    }
+    
+    getInfo() {
+        return \`\${this.brand} \${this.model}\`;
+    }
+}
+
+// Reusing Vehicle class for different types
+class Car extends Vehicle {
+    constructor(brand, model, doors) {
+        super(brand, model);
+        this.doors = doors;
+    }
+}
+
+class Motorcycle extends Vehicle {
+    constructor(brand, model, engineCC) {
+        super(brand, model);
+        this.engineCC = engineCC;
+    }
+}
+
+// Both classes reuse Vehicle functionality
+let car = new Car("Toyota", "Camry", 4);
+let bike = new Motorcycle("Harley", "Sportster", 883);
+
+car.start();  // Reused method
+bike.start(); // Reused method
+        </code></pre>
+      </div>
+     </li>
+     
+     <li style="margin-top: 1.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span>
+      <p style="margin-top: 0.5rem;">Code is easier to maintain and modify. Changes to one class don't affect other parts of the system if proper encapsulation is maintained.</p>
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">
+// Database class - easy to maintain and modify
+class Database {
+    constructor() {
+        this.connection = null;
+    }
+    
+    connect() {
+        // If we need to change database type, 
+        // we only modify this class
+        console.log("Connecting to database...");
+        this.connection = "connected";
+    }
+    
+    query(sql) {
+        if (!this.connection) {
+            this.connect();
+        }
+        console.log(\`Executing: \${sql}\`);
+        return "query results";
+    }
+}
+
+class UserService {
+    constructor() {
+        this.db = new Database();
+    }
+    
+    getUser(id) {
+        // UserService doesn't need to change if Database implementation changes
+        return this.db.query(\`SELECT * FROM users WHERE id = \${id}\`);
+    }
+}
+
+// Easy to maintain - changing Database won't affect UserService
+let userService = new UserService();
+userService.getUser(1);
+        </code></pre>
+      </div>
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for OOP
+   </h4>
+   
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;"><strong>GUI Applications:</strong> Buttons, windows, forms as objects</li>
+     <li style="margin-top: 0.5rem;"><strong>Game Development:</strong> Players, enemies, items as objects</li>
+     <li style="margin-top: 0.5rem;"><strong>Web Applications:</strong> Users, products, orders as objects</li>
+     <li style="margin-top: 0.5rem;"><strong>Banking Systems:</strong> Accounts, transactions, customers as objects</li>
+     <li style="margin-top: 0.5rem;"><strong>E-commerce:</strong> Products, shopping carts, payments as objects</li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Banking System Example
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Complete banking system using OOP principles
+class BankAccount {
+    constructor(accountNumber, holderName, initialBalance = 0) {
+        this.accountNumber = accountNumber;
+        this.holderName = holderName;
+        this.balance = initialBalance;
+        this.transactions = [];
+    }
+    
+    deposit(amount) {
+        if (amount > 0) {
+            this.balance += amount;
+            this.transactions.push({
+                type: 'deposit',
+                amount: amount,
+                date: new Date(),
+                balance: this.balance
+            });
+            console.log(\`Deposited $\${amount}. New balance: $\${this.balance}\`);
+        }
+    }
+    
+    withdraw(amount) {
+        if (amount > 0 && amount <= this.balance) {
+            this.balance -= amount;
+            this.transactions.push({
+                type: 'withdrawal',
+                amount: amount,
+                date: new Date(),
+                balance: this.balance
+            });
+            console.log(\`Withdrawn $\${amount}. New balance: $\${this.balance}\`);
+        } else {
+            console.log("Insufficient funds or invalid amount");
+        }
+    }
+    
+    getBalance() {
+        return this.balance;
+    }
+    
+    getTransactionHistory() {
+        return this.transactions;
+    }
+}
+
+// Usage
+let account = new BankAccount("12345", "John Doe", 1000);
+account.deposit(500);   // Deposited $500. New balance: $1500
+account.withdraw(200);  // Withdrawn $200. New balance: $1300
+console.log(account.getBalance()); // 1300
+ </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `// Simple OOP Example: Library System
+class Book {
+    constructor(title, author, isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.isAvailable = true;
+    }
+    
+    borrow() {
+        if (this.isAvailable) {
+            this.isAvailable = false;
+            console.log(\`"\${this.title}" has been borrowed\`);
+        } else {
+            console.log(\`"\${this.title}" is not available\`);
+        }
+    }
+    
+    return() {
+        this.isAvailable = true;
+        console.log(\`"\${this.title}" has been returned\`);
+    }
+}
+
+class Library {
+    constructor() {
+        this.books = [];
+    }
+    
+    addBook(book) {
+        this.books.push(book);
+        console.log(\`Added "\${book.title}" to library\`);
+    }
+    
+    findBook(title) {
+        return this.books.find(book => 
+            book.title.toLowerCase() === title.toLowerCase()
+        );
+    }
+    
+    listAvailableBooks() {
+        return this.books.filter(book => book.isAvailable);
+    }
+}
+
+// Usage
+let library = new Library();
+let book1 = new Book("The Great Gatsby", "F. Scott Fitzgerald", "123456789");
+let book2 = new Book("To Kill a Mockingbird", "Harper Lee", "987654321");
+
+library.addBook(book1);
+library.addBook(book2);
+
+book1.borrow(); // "The Great Gatsby" has been borrowed
+console.log(library.listAvailableBooks()); // Only "To Kill a Mockingbird"`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the main difference between procedural and object-oriented programming?",
+                solution:
+                  "<p>The main difference lies in code organization: <strong>Procedural programming</strong> organizes code as a sequence of functions that operate on data, with data and functions kept separate. <strong>Object-oriented programming</strong> organizes code around objects that encapsulate both data (attributes) and behavior (methods) together. In procedural programming, you have global data that functions manipulate, while in OOP, data and methods are bundled within objects, promoting better organization, encapsulation, and maintainability.</p>",
+              },
+              {
+                question: "How does abstraction benefit software development?",
+                solution:
+                  "<p><strong>Abstraction</strong> benefits software development by: <br/>1. <strong>Simplifying complexity:</strong> Hides internal implementation details, allowing users to interact with objects through simple interfaces<br/>2. <strong>Reducing cognitive load:</strong> Developers don't need to understand complex internals to use an object<br/>3. <strong>Improving maintainability:</strong> Internal changes don't affect external usage<br/>4. <strong>Enabling modularity:</strong> Components can be developed and tested independently<br/>5. <strong>Facilitating reuse:</strong> Abstract interfaces can be implemented in multiple ways without changing client code</p>",
+              },
+              {
+                question:
+                  "Can you provide a real-world example where OOP modularity shines?",
+                solution: `<p>A great example is an <strong>E-commerce system</strong>:</p>
+              <pre><code className="language-javascript">
+class User {
+    constructor(id, name, email) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+    }
+}
+
+class Product {
+    constructor(id, name, price, stock) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+    }
+}
+
+class ShoppingCart {
+    constructor(user) {
+        this.user = user;
+        this.items = [];
+    }
+    
+    addItem(product, quantity) {
+        this.items.push({product, quantity});
+    }
+}
+
+class PaymentProcessor {
+    processPayment(cart, paymentMethod) {
+        // Payment logic
+        console.log(\`Processing payment for \${cart.user.name}\`);
+    }
+}
+
+class OrderManager {
+    createOrder(cart) {
+        // Order creation logic
+        console.log("Order created");
+    }
+}
+              </code></pre>
+              <p>Each class is a separate module that can be developed, tested, and maintained independently. The User module doesn't need to know about payment processing, and PaymentProcessor doesn't need to know about cart management. This modularity allows different teams to work on different parts simultaneously.</p>`,
+              },
+            ],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object-oriented_JS",
+              "https://www.freecodecamp.org/news/object-oriented-programming-concepts-21bb035f7260/",
+              "https://medium.com/@hamzzza.ahmed95/four-pillars-of-object-oriented-programming-oop-e8d7822aa219",
+            ],
+          },
+          {
+            topic: "Understanding Class & Object",
+            tags: ["Class", "Object", "Instance", "Blueprint"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A <strong>Class</strong> is a blueprint or template that defines the structure and behavior of objects. An <strong>Object</strong> is an instance of a class - a concrete entity created from the class blueprint that contains actual data and can perform actions.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences Between Class and Object
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Class:</span> A logical entity that serves as a template or blueprint
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Object:</span> A physical entity that occupies memory and has a state
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Relationship:</span> One class can create multiple objects with different states
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Analogy
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Think of a <strong>Car</strong> class as an architectural blueprint that defines what a car should have (wheels, engine, doors) and what it can do (start, stop, accelerate). Individual cars like "Honda Civic", "Toyota Camry" are objects - actual instances created from this blueprint, each with specific values (red color, 2023 model, etc.).
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+# Class definition - Blueprint
+class Car:
+    def __init__(self, brand, model, year):
+        self.brand = brand
+        self.model = model
+        self.year = year
+    
+    def start_engine(self):
+        return f"{self.brand} {self.model} engine started!"
+
+# Object creation - Instances
+car1 = Car("Honda", "Civic", 2023)
+car2 = Car("Toyota", "Camry", 2022)
+
+print(car1.start_engine())  # Honda Civic engine started!
+print(car2.start_engine())  # Toyota Camry engine started!
+print(f"Car1: {car1.brand} {car1.model}")  # Car1: Honda Civic
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+// Class definition - Blueprint
+class Car {
+    constructor(brand, model, year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+    
+    startEngine() {
+        return {this.brand} {this.model} engine started!;
+    }
+}
+
+// Object creation - Instances
+const car1 = new Car("Honda", "Civic", 2023);
+const car2 = new Car("Toyota", "Camry", 2022);
+
+console.log(car1.startEngine()); // Honda Civic engine started!
+console.log(car2.startEngine()); // Toyota Camry engine started!
+console.log(Car1: {car1.brand} {car1.model}); // Car1: Honda Civic
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>User Management Systems:</strong> User class to create different user objects</li>
+     <li style="margin-top: 0.5rem;"><strong>E-commerce Applications:</strong> Product class for various product instances</li>
+     <li style="margin-top: 0.5rem;"><strong>Game Development:</strong> Player class for multiple game characters</li>
+     <li style="margin-top: 0.5rem;"><strong>Banking Systems:</strong> Account class for different customer accounts</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python - Bank Account Example
+class BankAccount:
+    def __init__(self, account_holder, balance=0):
+        self.account_holder = account_holder
+        self.balance = balance
+    
+    def deposit(self, amount):
+        self.balance += amount
+        return f"Deposited {amount}. New balance: {self.balance}"
+
+# Creating objects
+account1 = BankAccount("Alice", 1000)
+account2 = BankAccount("Bob", 500)
+print(account1.deposit(200))  # Deposited $200. New balance: $1200`,
+
+              `// JavaScript - Bank Account Example
+class BankAccount {
+    constructor(accountHolder, balance = 0) {
+        this.accountHolder = accountHolder;
+        this.balance = balance;
+    }
+    
+    deposit(amount) {
+        this.balance += amount;
+        return \`Deposited $\${amount}. New balance: $\${this.balance}\`;
+    }
+}
+
+// Creating objects
+const account1 = new BankAccount("Alice", 1000);
+const account2 = new BankAccount("Bob", 500);
+console.log(account1.deposit(200)); // Deposited $200. New balance: $1200`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between a class and an object?",
+                solution:
+                  "<p>A <strong>class</strong> is a blueprint or template that defines the structure and behavior of objects. It doesn't consume memory until instantiated. An <strong>object</strong> is an instance of a class - a concrete entity that occupies memory and contains actual data. Think of a class as a cookie cutter and objects as the actual cookies made from it.</p>",
+              },
+              {
+                question:
+                  "Can you create multiple objects from a single class?",
+                solution:
+                  "<p>Yes, you can create unlimited objects from a single class. Each object is independent and can have different values for its attributes while sharing the same structure and methods defined in the class. This is one of the key benefits of OOP - code reusability.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://www.programiz.com/python-programming/class",
+            ],
+          },
+          {
+            topic: "Syntax of Class Definition",
+            tags: ["Syntax", "Class Declaration", "Naming Conventions"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Class definition syntax varies between programming languages but follows similar principles. The syntax defines how to create a class, specify its attributes, methods, and establish the class structure.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Class Syntax
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+class ClassName:
+    """Optional docstring describing the class"""
+    
+    # Class variable (shared by all instances)
+    class_variable = "shared_value"
+    
+    def __init__(self, parameter1, parameter2):
+        """Constructor method"""
+        self.instance_variable1 = parameter1
+        self.instance_variable2 = parameter2
+    
+    def method_name(self, parameter):
+        """Instance method"""
+        return self.instance_variable1 + parameter
+    
+    @classmethod
+    def class_method(cls, parameter):
+        """Class method"""
+        return cls.class_variable
+    
+    @staticmethod
+    def static_method(parameter):
+        """Static method"""
+        return parameter * 2
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Class Syntax
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+class ClassName {
+    // Class field (ES2022+)
+    static classVariable = "shared_value";
+    
+    constructor(parameter1, parameter2) {
+        // Instance variables
+        this.instanceVariable1 = parameter1;
+        this.instanceVariable2 = parameter2;
+    }
+    
+    // Instance method
+    methodName(parameter) {
+        return this.instanceVariable1 + parameter;
+    }
+    
+    // Static method
+    static staticMethod(parameter) {
+        return parameter * 2;
+    }
+    
+    // Getter
+    get fullInfo() {
+        return \`\${this.instanceVariable1} \${this.instanceVariable2}\`;
+    }
+    
+    // Setter
+    set updateInfo(value) {
+        this.instanceVariable1 = value;
+    }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Naming Conventions
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Python:</strong> PascalCase for class names (e.g., StudentRecord, BankAccount)</li>
+     <li style="margin-top: 0.5rem;"><strong>JavaScript:</strong> PascalCase for class names (e.g., StudentRecord, BankAccount)</li>
+     <li style="margin-top: 0.5rem;"><strong>Variables/Methods:</strong> snake_case in Python, camelCase in JavaScript</li>
+     <li style="margin-top: 0.5rem;"><strong>Private members:</strong> Prefix with underscore in Python (_private), # prefix in JavaScript</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Complete Example - Student Management System
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+# Python Implementation
+class Student:
+    """A class to represent a student"""
+    
+    # Class variable - shared by all instances
+    school_name = "ABC High School"
+    total_students = 0
+    
+    def __init__(self, student_id, name, grade):
+        """Initialize a new student"""
+        self.student_id = student_id
+        self.name = name
+        self.grade = grade
+        self.subjects = []
+        Student.total_students += 1
+    
+    def add_subject(self, subject):
+        """Add a subject to student's list"""
+        self.subjects.append(subject)
+        return f"{subject} added to {self.name}'s subjects"
+    
+    def get_info(self):
+        """Return student information"""
+        return f"ID: {self.student_id}, Name: {self.name}, Grade: {self.grade}"
+    
+    @classmethod
+    def get_total_students(cls):
+        """Return total number of students"""
+        return cls.total_students
+    
+    @staticmethod
+    def is_passing_grade(grade):
+        """Check if grade is passing"""
+        return grade >= 60
+      </code></pre>
+  </div>
+
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb; margin-top: 1rem;">
+      <pre><code>
+// JavaScript Implementation
+class Student {
+    // Class field
+    static schoolName = "ABC High School";
+    static totalStudents = 0;
+    
+    constructor(studentId, name, grade) {
+        this.studentId = studentId;
+        this.name = name;
+        this.grade = grade;
+        this.subjects = [];
+        Student.totalStudents++;
+    }
+    
+    addSubject(subject) {
+        this.subjects.push(subject);
+        return \`\${subject} added to \${this.name}'s subjects\`;
+    }
+    
+    getInfo() {
+        return \`ID: \${this.studentId}, Name: \${this.name}, Grade: \${this.grade}\`;
+    }
+    
+    static getTotalStudents() {
+        return Student.totalStudents;
+    }
+    
+    static isPassingGrade(grade) {
+        return grade >= 60;
+    }
+    
+    // Getter method
+    get studentSummary() {
+        return \`\${this.name} - Grade: \${this.grade}\`;
+    }
+}
+      </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python - E-commerce Product Class
+class Product:
+    """Product class for e-commerce system"""
+    
+    # Class variables
+    store_name = "TechStore"
+    total_products = 0
+    
+    def __init__(self, product_id, name, price, category):
+        self.product_id = product_id
+        self.name = name
+        self.price = price
+        self.category = category
+        self.in_stock = True
+        Product.total_products += 1
+    
+    def apply_discount(self, percentage):
+        """Apply discount to product price"""
+        discount_amount = self.price * (percentage / 100)
+        self.price -= discount_amount
+        return f"Discount applied! New price: {self.price:.2f}"
+    
+    def __str__(self):
+        """String representation of product"""
+        return f"{self.name} - {self.price} ({self.category})"
+
+# Usage
+laptop = Product("P001", "Gaming Laptop", 1200.00, "Electronics")
+print(laptop.apply_discount(10))  # Discount applied! New price: $1080.00`,
+
+              `// JavaScript - E-commerce Product Class
+class Product {
+    static storeName = "TechStore";
+    static totalProducts = 0;
+    
+    constructor(productId, name, price, category) {
+        this.productId = productId;
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.inStock = true;
+        Product.totalProducts++;
+    }
+    
+    applyDiscount(percentage) {
+        const discountAmount = this.price * (percentage / 100);
+        this.price -= discountAmount;
+        return \`Discount applied! New price: $\${this.price.toFixed(2)}\`;
+    }
+    
+    toString() {
+        return \`\${this.name} - $\${this.price} (\${this.category})\`;
+    }
+    
+    get productInfo() {
+        return \`\${this.name} - $\${this.price.toFixed(2)}\`;
+    }
+}
+
+// Usage
+const laptop = new Product("P001", "Gaming Laptop", 1200.00, "Electronics");
+console.log(laptop.applyDiscount(10)); // Discount applied! New price: $1080.00`,
+            ],
+            questions: [
+              {
+                question: "What are the main components of a class definition?",
+                solution:
+                  "<p>The main components include: <strong>Class declaration</strong> (using 'class' keyword), <strong>Constructor</strong> (for initialization), <strong>Instance variables</strong> (object attributes), <strong>Methods</strong> (functions within the class), <strong>Class variables</strong> (shared across instances), and optionally <strong>static/class methods</strong> and <strong>docstrings/comments</strong> for documentation.</p>",
+              },
+              {
+                question:
+                  "What naming conventions should be followed for classes?",
+                solution:
+                  "<p>Use <strong>PascalCase</strong> for class names in both Python and JavaScript (e.g., StudentRecord, BankAccount). For methods and variables, use <strong>snake_case</strong> in Python and <strong>camelCase</strong> in JavaScript. Private members typically start with underscore (_) in Python or hash (#) in JavaScript.</p>",
+              },
+            ],
+            links: [
+              "https://pep8.org/#class-names",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://google.github.io/styleguide/jsguide.html#naming",
+            ],
+          },
+          {
+            topic: "Fields (Attributes/Properties) & Methods (Behaviors)",
+            tags: [
+              "Attributes",
+              "Properties",
+              "Methods",
+              "Instance Variables",
+              "Behaviors",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     <strong>Fields (Attributes/Properties)</strong> are variables that store data within a class. They represent the state or characteristics of an object. <strong>Methods (Behaviors)</strong> are functions defined within a class that operate on the object's data and define what actions an object can perform.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Fields/Attributes
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Instance Variables:</span> Unique to each object instance
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Class Variables:</span> Shared among all instances of the class
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Private Attributes:</span> Intended for internal use within the class
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Public Attributes:</span> Accessible from outside the class
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Methods
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Instance Methods:</span> Operate on instance data, have access to 'self'/'this'
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Class Methods:</span> Operate on class-level data
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Static Methods:</span> Don't depend on instance or class data
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Special Methods:</span> Like constructors, destructors, getters, setters
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example - Comprehensive Class
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+class Employee:
+    # Class variable (shared by all instances)
+    company_name = "Tech Corp"
+    total_employees = 0
+    
+    def __init__(self, emp_id, name, salary, department):
+        # Instance variables (unique to each object)
+        self.emp_id = emp_id
+        self.name = name
+        self.salary = salary
+        self.department = department
+        self._years_experience = 0  # Protected attribute
+        self.__social_security = None  # Private attribute
+        
+        Employee.total_employees += 1
+    
+    # Instance method - operates on instance data
+    def give_raise(self, amount):
+        """Increase employee salary"""
+        self.salary += amount
+        return f"{self.name}'s salary increased to {self.salary}"
+    
+    def set_experience(self, years):
+        """Set years of experience"""
+        self._years_experience = years
+    
+    def get_experience(self):
+        """Get years of experience"""
+        return self._years_experience
+    
+    # Instance method with calculation
+    def calculate_annual_bonus(self):
+        """Calculate bonus based on salary and experience"""
+        base_bonus = self.salary * 0.1
+        experience_bonus = self._years_experience * 500
+        return base_bonus + experience_bonus
+    
+    # Instance method for object information
+    def get_employee_info(self):
+        """Return formatted employee information"""
+        return {
+            'id': self.emp_id,
+            'name': self.name,
+            'salary': self.salary,
+            'department': self.department,
+            'experience': self._years_experience
+        }
+    
+    @classmethod
+    def get_company_info(cls):
+        """Class method - operates on class data"""
+        return f"Company: {cls.company_name}, Total Employees: {cls.total_employees}"
+    
+    @classmethod
+    def create_intern(cls, name, department):
+        """Factory method to create intern with default values"""
+        return cls(f"INT{cls.total_employees + 1}", name, 30000, department)
+    
+    @staticmethod
+    def is_eligible_for_bonus(salary):
+        """Static method - doesn't need instance or class data"""
+        return salary > 40000
+    
+    def __str__(self):
+        """String representation method"""
+        return f"Employee: {self.name} ({self.department})"
+    
+    def __repr__(self):
+        """Developer-friendly representation"""
+        return f"Employee('{self.emp_id}', '{self.name}', {self.salary}, '{self.department}')"
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example - Comprehensive Class
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+class Employee {
+    // Class variables (static fields)
+    static companyName = "Tech Corp";
+    static totalEmployees = 0;
+    
+    constructor(empId, name, salary, department) {
+        // Instance variables (public)
+        this.empId = empId;
+        this.name = name;
+        this.salary = salary;
+        this.department = department;
+        
+        // Protected convention (prefix with _)
+        this._yearsExperience = 0;
+        
+        // Private fields (ES2022+)
+        this.#socialSecurity = null;
+        
+        Employee.totalEmployees++;
+    }
+    
+    // Instance method - operates on instance data
+    giveRaise(amount) {
+        this.salary += amount;
+        return \`\${this.name}'s salary increased to $\${this.salary}\`;
+    }
+    
+    setExperience(years) {
+        this._yearsExperience = years;
+    }
+    
+    getExperience() {
+        return this._yearsExperience;
+    }
+    
+    // Instance method with calculation
+    calculateAnnualBonus() {
+        const baseBonus = this.salary * 0.1;
+        const experienceBonus = this._yearsExperience * 500;
+        return baseBonus + experienceBonus;
+    }
+    
+    // Getter method
+    get employeeInfo() {
+        return {
+            id: this.empId,
+            name: this.name,
+            salary: this.salary,
+            department: this.department,
+            experience: this._yearsExperience
+        };
+    }
+    
+    // Setter method
+    set updateSalary(newSalary) {
+        if (newSalary > 0) {
+            this.salary = newSalary;
+        }
+    }
+    
+    // Static method (class method)
+    static getCompanyInfo() {
+        return \`Company: \${Employee.companyName}, Total Employees: \${Employee.totalEmployees}\`;
+    }
+    
+    // Factory method
+    static createIntern(name, department) {
+        return new Employee(\`INT\${Employee.totalEmployees + 1}\`, name, 30000, department);
+    }
+    
+    static isEligibleForBonus(salary) {
+        return salary > 40000;
+    }
+    
+    toString() {
+        return \`Employee: \${this.name} (\${this.department})\`;
+    }
+    
+    // Private method (ES2022+)
+    #calculateTax() {
+        return this.salary * 0.2;
+    }
+}
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Usage Examples
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+# Python Usage
+emp1 = Employee("E001", "Alice Johnson", 75000, "Engineering")
+emp2 = Employee("E002", "Bob Smith", 65000, "Marketing")
+
+# Accessing and modifying attributes
+print(emp1.name)  # Alice Johnson
+print(emp1.give_raise(5000))  # Alice Johnson's salary increased to $80000
+
+# Using methods
+emp1.set_experience(5)
+bonus = emp1.calculate_annual_bonus()
+print(f"Annual bonus: {bonus}")  # Annual bonus: $10500.0
+
+# Class methods and static methods
+print(Employee.get_company_info())  # Company: Tech Corp, Total Employees: 2
+intern = Employee.create_intern("Charlie", "IT")
+print(Employee.is_eligible_for_bonus(45000))  # True
+      </code></pre>
+  </div>
+
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb; margin-top: 1rem;">
+      <pre><code>
+// JavaScript Usage
+const emp1 = new Employee("E001", "Alice Johnson", 75000, "Engineering");
+const emp2 = new Employee("E002", "Bob Smith", 65000, "Marketing");
+
+// Accessing and modifying attributes
+console.log(emp1.name); // Alice Johnson
+console.log(emp1.giveRaise(5000)); // Alice Johnson's salary increased to $80000
+
+// Using methods and getters/setters
+emp1.setExperience(5);
+const bonus = emp1.calculateAnnualBonus();
+console.log(\`Annual bonus: $\${bonus}\`); // Annual bonus: 10500
+
+// Using getter
+console.log(emp1.employeeInfo); // {id: "E001", name: "Alice Johnson", ...}
+
+// Using setter
+emp1.updateSalary = 85000;
+
+// Static methods
+console.log(Employee.getCompanyInfo()); // Company: Tech Corp, Total Employees: 2
+const intern = Employee.createIntern("Charlie", "IT");
+console.log(Employee.isEligibleForBonus(45000)); // true
+      </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python - Library Book Management System
+class Book:
+    # Class variables
+    total_books = 0
+    library_name = "City Library"
+    
+    def __init__(self, isbn, title, author, pages):
+        # Instance variables
+        self.isbn = isbn
+        self.title = title
+        self.author = author
+        self.pages = pages
+        self.is_available = True
+        self.borrowed_by = None
+        self.borrow_date = None
+        Book.total_books += 1
+    
+    # Instance methods
+    def borrow_book(self, borrower_name):
+        """Borrow the book if available"""
+        if self.is_available:
+            self.is_available = False
+            self.borrowed_by = borrower_name
+            from datetime import datetime
+            self.borrow_date = datetime.now()
+            return f"Book '{self.title}' borrowed by {borrower_name}"
+        return "Book is not available"
+    
+    def return_book(self):
+        """Return the borrowed book"""
+        if not self.is_available:
+            borrower = self.borrowed_by
+            self.is_available = True
+            self.borrowed_by = None
+            self.borrow_date = None
+            return f"Book '{self.title}' returned by {borrower}"
+        return "Book was not borrowed"
+    
+    @classmethod
+    def get_library_stats(cls):
+        """Get library statistics"""
+        return f"{cls.library_name}: {cls.total_books} books total"
+    
+    @staticmethod
+    def calculate_late_fee(days_late):
+        """Calculate late fee for overdue books"""
+        return days_late * 0.50  # $0.50 per day
+
+# Usage
+book1 = Book("978-0134685991", "Effective Java", "Joshua Bloch", 416)
+print(book1.borrow_book("Alice"))  # Book 'Effective Java' borrowed by Alice`,
+
+              `// JavaScript - Library Book Management System
+class Book {
+    static totalBooks = 0;
+    static libraryName = "City Library";
+    
+    constructor(isbn, title, author, pages) {
+        this.isbn = isbn;
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.isAvailable = true;
+        this.borrowedBy = null;
+        this.borrowDate = null;
+        Book.totalBooks++;
+    }
+    
+    borrowBook(borrowerName) {
+        if (this.isAvailable) {
+            this.isAvailable = false;
+            this.borrowedBy = borrowerName;
+            this.borrowDate = new Date();
+            return \`Book '\${this.title}' borrowed by \${borrowerName}\`;
+        }
+        return "Book is not available";
+    }
+    
+    returnBook() {
+        if (!this.isAvailable) {
+            const borrower = this.borrowedBy;
+            this.isAvailable = true;
+            this.borrowedBy = null;
+            this.borrowDate = null;
+            return \`Book '\${this.title}' returned by \${borrower}\`;
+        }
+        return "Book was not borrowed";
+    }
+    
+    get bookInfo() {
+        return \`\${this.title} by \${this.author} - \${this.pages} pages\`;
+    }
+    
+    static getLibraryStats() {
+        return \`\${Book.libraryName}: \${Book.totalBooks} books total\`;
+    }
+    
+    static calculateLateFee(daysLate) {
+        return daysLate * 0.50; // $0.50 per day
+    }
+}
+
+// Usage
+const book1 = new Book("978-0134685991", "Effective Java", "Joshua Bloch", 416);
+console.log(book1.borrowBook("Alice")); // Book 'Effective Java' borrowed by Alice`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between instance variables and class variables?",
+                solution:
+                  "<p><strong>Instance variables</strong> are unique to each object instance and store individual object data. Each object has its own copy. <strong>Class variables</strong> are shared among all instances of a class and store data common to all objects. Changes to class variables affect all instances, while instance variable changes only affect that specific object.</p>",
+              },
+              {
+                question:
+                  "When should you use static methods vs instance methods?",
+                solution:
+                  "<p>Use <strong>static methods</strong> when the method doesn't need access to instance data (self/this) or class data, and performs utility functions. Use <strong>instance methods</strong> when you need to operate on or access the specific object's data. Static methods are like standalone functions that logically belong to the class but don't depend on object state.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#instance-objects",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#static_methods_and_fields",
+              "https://realpython.com/python3-object-oriented-programming/",
+            ],
+          },
+          {
+            topic: "Accessing Class Members",
+            tags: [
+              "Access",
+              "Dot Notation",
+              "Member Access",
+              "Public",
+              "Private",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Class members (attributes and methods) can be accessed using different techniques and access levels. Understanding how to properly access and modify class members is crucial for effective object-oriented programming and maintaining data integrity.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Access Methods
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dot Notation:</span> object.attribute or object.method()
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Bracket Notation (JavaScript):</span> object['attribute']
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">getattr() (Python):</span> getattr(object, 'attribute')
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Class Access:</span> ClassName.class_variable
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Access Levels
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Public:</strong> Accessible from anywhere</li>
+     <li style="margin-top: 0.5rem;"><strong>Protected:</strong> Intended for class and subclass use (convention)</li>
+     <li style="margin-top: 0.5rem;"><strong>Private:</strong> Restricted to the class itself</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Member Access Examples
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+class BankAccount:
+    bank_name = "Global Bank"  # Class variable
+    
+    def __init__(self, account_number, owner, balance):
+        self.account_number = account_number  # Public
+        self.owner = owner  # Public
+        self._balance = balance  # Protected (convention)
+        self.__pin = "1234"  # Private (name mangling)
+    
+    def deposit(self, amount):
+        """Public method"""
+        self._balance += amount
+        return f"Deposited {amount}. Balance: {self._balance}"
+    
+    def _calculate_interest(self):
+        """Protected method (convention)"""
+        return self._balance * 0.02
+    
+    def __verify_pin(self, pin):
+        """Private method"""
+        return self.__pin == pin
+    
+    def withdraw(self, amount, pin):
+        """Public method using private method"""
+        if self.__verify_pin(pin):
+            if amount <= self._balance:
+                self._balance -= amount
+                return f"Withdrawn {amount}. Balance: {self._balance}"
+            return "Insufficient funds"
+        return "Invalid PIN"
+
+# Creating an instance
+account = BankAccount("ACC123", "John Doe", 1000)
+
+# Public access - Direct access to public members
+print(account.account_number)  # ACC123
+print(account.owner)  # John Doe
+print(account.deposit(500))  # Deposited $500. Balance: $1500
+
+# Protected access - Accessible but not recommended
+print(account._balance)  # 1500 (works but not recommended)
+print(account._calculate_interest())  # 30.0
+
+# Class variable access
+print(BankAccount.bank_name)  # Global Bank
+print(account.bank_name)  # Global Bank (accessed through instance)
+
+# Private access attempts
+# print(account.__pin)  # AttributeError: no attribute '__pin'
+# print(account.__verify_pin("1234"))  # AttributeError
+
+# Name mangling - Python's way of making attributes "private"
+# Private attributes are actually renamed to _ClassName__attribute
+print(account._BankAccount__pin)  # 1234 (not recommended!)
+
+# Using getattr for dynamic access
+balance = getattr(account, '_balance', 0)
+print(f"Balance using getattr: {balance}")
+
+# Using setattr for dynamic assignment
+setattr(account, 'branch', 'Main Branch')
+print(account.branch)  # Main Branch
+
+# hasattr to check if attribute exists
+if hasattr(account, 'account_number'):
+    print("Account has account_number attribute")
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Member Access Examples
+   </h4>
+   <div style="background-color: #1f2937; padding: 1rem; border-radius: 8px; font-size: 14px; color: #e5e7eb;">
+      <pre><code>
+class BankAccount {
+    static bankName = "Global Bank";  // Class variable
+    
+    constructor(accountNumber, owner, balance) {
+        this.accountNumber = accountNumber;  // Public
+        this.owner = owner;  // Public
+        this._balance = balance;  // Protected (convention)
+        this.#pin = "1234";  // Private field (ES2022+)
+    }
+    
+    deposit(amount) {
+        this._balance += amount;
+        return \`Deposited $\${amount}. Balance: $\${this._balance}\`;
+    }
+    
+    _calculateInterest() {  // Protected method (convention)
+        return this._balance * 0.02;
+    }
+    
+    #verifyPin(pin) {  // Private method
+        return this.#pin === pin;
+    }
+    
+    withdraw(amount, pin) {
+        if (this.#verifyPin(pin)) {
+            if (amount <= this._balance) {
+                this._balance -= amount;
+                return \`Withdrawn $\${amount}. Balance: $\${this._balance}\`;
+            }
+            return "Insufficient funds";
+        }
+        return "Invalid PIN";
+    }
+    
+    // Getter for controlled access
+    get balance() {
+        return this._balance;
+    }
+    
+    // Setter for controlled modification
+    set balance(newBalance) {
+        if (newBalance >= 0) {
+            this._balance = newBalance;
+        }
+    }
+}
+
+// Creating an instance
+const account = new BankAccount("ACC123", "John Doe", 1000);
+
+// Public access - Direct access to public members
+console.log(account.accountNumber);  // ACC123
+console.log(account.owner);  // John Doe
+console.log(account.deposit(500));  // Deposited $500. Balance: $1500
+
+// Protected access - Accessible but not recommended
+console.log(account._balance);  // 1500 (works but not recommended)
+console.log(account._calculateInterest());  // 30
+
+// Using getters and setters
+console.log(account.balance);  // 1500 (using getter)
+account.balance = 2000;  // Using setter
+console.log(account.balance);  // 2000
+
+// Class variable access
+console.log(BankAccount.bankName);  // Global Bank
+
+// Dot notation
+console.log(account.owner);  // John Doe
+
+// Bracket notation
+console.log(account['owner']);  // John Doe
+console.log(account['account' + 'Number']);  // ACC123
+
+// Dynamic property access
+const propName = 'owner';
+console.log(account[propName]);  // John Doe
+
+// Private field access attempts
+// console.log(account.#pin);  // SyntaxError: Private field '#pin' must be declared in an enclosing class
+// console.log(account.#verifyPin("1234"));  // SyntaxError
+
+// Check if property exists
+console.log('owner' in account);  // true
+console.log('nonexistent' in account);  // false
+
+// Using Object methods for property access
+console.log(Object.hasOwnProperty.call(account, 'owner'));  // true
+console.log(Object.keys(account));  // ['accountNumber', 'owner', '_balance']
+
+// Defining properties with Object.defineProperty
+Object.defineProperty(account, 'createdDate', {
+    value: new Date(),
+    writable: false,
+    enumerable: true
+});
+console.log(account.createdDate);
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Member Access
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Use public interfaces:</strong> Access data through public methods rather than directly</li>
+     <li style="margin-top: 0.5rem;"><strong>Respect access conventions:</strong> Don't access protected/private members from outside</li>
+     <li style="margin-top: 0.5rem;"><strong>Use getters/setters:</strong> For controlled access and validation</li>
+     <li style="margin-top: 0.5rem;"><strong>Document access levels:</strong> Clearly indicate intended usage in documentation</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python - Property Decorators for Controlled Access
+class Temperature:
+    def __init__(self, celsius=0):
+        self._celsius = celsius
+    
+    @property
+    def celsius(self):
+        """Getter for celsius"""
+        return self._celsius
+    
+    @celsius.setter
+    def celsius(self, value):
+        """Setter for celsius with validation"""
+        if value < -273.15:
+            raise ValueError("Temperature cannot be below absolute zero")
+        self._celsius = value
+    
+    @property
+    def fahrenheit(self):
+        """Calculated property"""
+        return (self._celsius * 9/5) + 32
+    
+    @fahrenheit.setter
+    def fahrenheit(self, value):
+        """Set temperature via fahrenheit"""
+        self.celsius = (value - 32) * 5/9
+
+# Usage
+temp = Temperature(25)
+print(temp.celsius)  # 25
+print(temp.fahrenheit)  # 77.0
+temp.fahrenheit = 100  # Sets celsius to 37.78
+print(temp.celsius)  # 37.77777777777778`,
+
+              `// JavaScript - Getters and Setters for Controlled Access
+class Temperature {
+    constructor(celsius = 0) {
+        this._celsius = celsius;
+    }
+    
+    get celsius() {
+        return this._celsius;
+    }
+    
+    set celsius(value) {
+        if (value < -273.15) {
+            throw new Error("Temperature cannot be below absolute zero");
+        }
+        this._celsius = value;
+    }
+    
+    get fahrenheit() {
+        return (this._celsius * 9/5) + 32;
+    }
+    
+    set fahrenheit(value) {
+        this.celsius = (value - 32) * 5/9;
+    }
+    
+    get kelvin() {
+        return this._celsius + 273.15;
+    }
+}
+
+// Usage
+const temp = new Temperature(25);
+console.log(temp.celsius);  // 25
+console.log(temp.fahrenheit);  // 77
+temp.fahrenheit = 100;  // Sets celsius to 37.78
+console.log(temp.celsius);  // 37.77777777777778
+console.log(temp.kelvin);  // 310.92777777777775`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between public, protected, and private access levels?",
+                solution:
+                  "<p><strong>Public</strong> members are accessible from anywhere and form the interface of the class. <strong>Protected</strong> members (prefixed with _ in Python/JS) are intended for use within the class and its subclasses only. <strong>Private</strong> members (__ in Python, # in JS) are restricted to the class itself and cannot be accessed from outside, ensuring encapsulation.</p>",
+              },
+              {
+                question:
+                  "When should you use getters and setters instead of direct access?",
+                solution:
+                  "<p>Use getters and setters when you need to: <strong>validate data</strong> before setting it, <strong>compute values</strong> dynamically, <strong>log access</strong> for debugging, <strong>maintain backwards compatibility</strong> when changing internal structure, or <strong>enforce business rules</strong>. They provide controlled access while maintaining a simple interface.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+              "https://realpython.com/python-property/",
+            ],
+          },
+          {
+            topic: "Objects & Classes",
+            tags: ["OOP", "Classes", "Objects", "Instances"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Objects and Classes are fundamental concepts in Object-Oriented Programming (OOP). A <strong>class</strong> is a blueprint or template that defines the structure and behavior of objects, while an <strong>object</strong> is an instance of a class - a concrete realization of the class blueprint.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is a Class?
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A class is a user-defined data type that encapsulates data (attributes) and functions (methods) that operate on that data. It serves as a template for creating objects with similar properties and behaviors.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is an Object?
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     An object is an instance of a class. When you create an object, you're creating a specific entity that has all the attributes and methods defined by its class. Each object has its own copy of the class's attributes and can invoke the class's methods.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components of Classes
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">Attributes (Properties):</span> Variables that store data specific to each object
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">Methods (Functions):</span> Functions that define what objects of the class can do
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">Constructor:</span> Special method that initializes new objects
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600; font-size: 1.1rem;">Encapsulation:</span> Bundling data and methods together and controlling access
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Classes and Objects
+   </h4>
+   
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Real-world modeling:</span> Representing entities like Person, Car, BankAccount
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Code organization:</span> Grouping related functionality together
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Reusability:</span> Creating templates that can be instantiated multiple times
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Data protection:</span> Controlling access to sensitive data through encapsulation
+     </li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example: Car Class
+   </h4>
+   
+   <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+     <pre><code class="language-python">
+class Car:
+    def __init__(self, make, model, year, color):
+        # Instance attributes
+        self.make = make
+        self.model = model
+        self.year = year
+        self.color = color
+        self.speed = 0
+        self.is_running = False
+    
+    # Instance methods
+    def start_engine(self):
+        if not self.is_running:
+            self.is_running = True
+            return f"{self.make} {self.model} engine started!"
+        return "Engine is already running!"
+    
+    def stop_engine(self):
+        if self.is_running:
+            self.is_running = False
+            self.speed = 0
+            return f"{self.make} {self.model} engine stopped!"
+        return "Engine is already stopped!"
+    
+    def accelerate(self, increment):
+        if self.is_running:
+            self.speed += increment
+            return f"Speed increased to {self.speed} mph"
+        return "Cannot accelerate. Engine is not running!"
+    
+    def get_info(self):
+        return f"{self.year} {self.make} {self.model} - {self.color}"
+
+# Creating objects (instances)
+car1 = Car("Toyota", "Camry", 2022, "Blue")
+car2 = Car("Honda", "Civic", 2023, "Red")
+
+# Using object methods
+print(car1.get_info())  # Output: 2022 Toyota Camry - Blue
+print(car1.start_engine())  # Output: Toyota Camry engine started!
+print(car1.accelerate(30))  # Output: Speed increased to 30 mph
+
+print(car2.get_info())  # Output: 2023 Honda Civic - Red
+print(car2.start_engine())  # Output: Honda Civic engine started!
+     </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example: Car Class
+   </h4>
+   
+   <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+     <pre><code class="language-javascript">
+class Car {
+    constructor(make, model, year, color) {
+        // Instance properties
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.color = color;
+        this.speed = 0;
+        this.isRunning = false;
+    }
+    
+    // Instance methods
+    startEngine() {
+        if (!this.isRunning) {
+            this.isRunning = true;
+            return {this.make} {this.model} engine started!;
+        }
+        return "Engine is already running!";
+    }
+    
+    stopEngine() {
+        if (this.isRunning) {
+            this.isRunning = false;
+            this.speed = 0;
+            return {this.make} {this.model} engine stopped!;
+        }
+        return "Engine is already stopped!";
+    }
+    
+    accelerate(increment) {
+        if (this.isRunning) {
+            this.speed += increment;
+            return Speed increased to {this.speed} mph;
+        }
+        return "Cannot accelerate. Engine is not running!";
+    }
+    
+    getInfo() {
+        return {this.year} {this.make} {this.model} - {this.color};
+    }
+}
+
+// Creating objects (instances)
+const car1 = new Car("Toyota", "Camry", 2022, "Blue");
+const car2 = new Car("Honda", "Civic", 2023, "Red");
+
+// Using object methods
+console.log(car1.getInfo());      // Output: 2022 Toyota Camry - Blue
+console.log(car1.startEngine());  // Output: Toyota Camry engine started!
+console.log(car1.accelerate(30)); // Output: Speed increased to 30 mph
+
+console.log(car2.getInfo());      // Output: 2023 Honda Civic - Red
+console.log(car2.startEngine());  // Output: Honda Civic engine started!
+     </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Benefits of Using Classes and Objects
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Code Reusability:</span> Write once, use many times by creating multiple instances
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Organization:</span> Related data and functions are grouped together logically
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Modularity:</span> Each class represents a distinct concept or entity
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Maintainability:</span> Changes to a class affect all its instances uniformly
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Abstraction:</span> Hide implementation details while exposing necessary functionality
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python: Bank Account Example
+class BankAccount:
+    def __init__(self, account_number, owner_name, initial_balance=0):
+        self.account_number = account_number
+        self.owner_name = owner_name
+        self.balance = initial_balance
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+            return f"Deposited {amount}. New balance: {self.balance}"
+        return "Invalid deposit amount"
+    
+    def withdraw(self, amount):
+        if 0 < amount <= self.balance:
+            self.balance -= amount
+            return f"Withdrew {amount}. New balance: {self.balance}"
+        return "Invalid withdrawal amount or insufficient funds"
+
+# Usage
+account1 = BankAccount("12345", "John Doe", 1000)
+print(account1.deposit(500))   # Deposited $500. New balance: $1500
+print(account1.withdraw(200))  # Withdrew $200. New balance: $1300`,
+
+              `// JavaScript: Student Example
+class Student {
+    constructor(id, name, grade) {
+        this.id = id;
+        this.name = name;
+        this.grade = grade;
+        this.subjects = [];
+    }
+    
+    addSubject(subject, score) {
+        this.subjects.push({ subject, score });
+        return \`Added \${subject} with score \${score}\`;
+    }
+    
+    getAverageScore() {
+        if (this.subjects.length === 0) return 0;
+        const total = this.subjects.reduce((sum, sub) => sum + sub.score, 0);
+        return total / this.subjects.length;
+    }
+    
+    getStudentInfo() {
+        return \`Student: \${this.name} (ID: \${this.id}), Grade: \${this.grade}\`;
+    }
+}
+
+// Usage
+const student1 = new Student(1, "Alice Smith", "10th");
+console.log(student1.addSubject("Math", 95));        // Added Math with score 95
+console.log(student1.addSubject("Science", 88));     // Added Science with score 88
+console.log(\`Average: \${student1.getAverageScore()}\`); // Average: 91.5`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between a constructor and a regular method?",
+                solution:
+                  "<p>A <strong>constructor</strong> is a special method that is automatically called when an object is created, while a <strong>regular method</strong> must be explicitly called by the programmer. Constructors are used for initialization and setup, have the same name as the class (or use special syntax like <code>__init__</code> in Python or <code>constructor</code> in JavaScript), and don't have explicit return types. Regular methods perform specific operations on objects and can be called multiple times throughout the object's lifetime.</p>",
+              },
+              {
+                question: "How do destructors work in Python vs JavaScript?",
+                solution:
+                  "<p><strong>Python:</strong> Uses <code>__del__()</code> method as a destructor, which is automatically called when an object is garbage collected. However, the timing is unpredictable due to Python's automatic memory management.</p><p><strong>JavaScript:</strong> Doesn't have traditional destructors. Instead, you should provide manual cleanup methods and call them explicitly. Modern JavaScript offers <code>FinalizationRegistry</code> for cleanup callbacks, but manual resource management is still recommended for predictable cleanup timing.</p>",
+              },
+              {
+                question:
+                  "When should you use constructors with parameters vs default constructors?",
+                solution:
+                  "<p><strong>Parameterized constructors</strong> should be used when objects require specific initial values to function properly, such as a Person needing a name, or a BankAccount needing an account number. <strong>Default constructors</strong> (no parameters) are suitable when objects can be created with sensible default values. Best practice is to provide default parameters in constructors to offer flexibility while ensuring objects are properly initialized. This allows both <code>Person()</code> and <code>Person('John', 25)</code> to work correctly.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/reference/datamodel.html#object.__init__",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/constructor",
+              "https://realpython.com/python-constructors/",
+            ],
+          },
+          {
+            topic: "Static Members vs Instance Members",
+            tags: ["Static", "Instance", "Class Variables", "Methods"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     <strong>Static members</strong> and <strong>Instance members</strong> are two different types of class attributes and methods that serve different purposes. <strong>Instance members</strong> belong to individual objects and each instance has its own copy, while <strong>Static members</strong> belong to the class itself and are shared among all instances.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Instance Members
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Instance members (attributes and methods) belong to specific instances of a class. Each object has its own copy of instance variables, and instance methods can access and modify the specific object's data through <code>self</code> (Python) or <code>this</code> (JavaScript).
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Instance Member Characteristics
+   </h4>
+   
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Object-specific:</span> Each instance has its own copy
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Access via object:</span> Must be accessed through an object instance
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Can access static members:</span> Instance methods can access both instance and static members
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Memory per instance:</span> Each instance stores its own copy in memory
+     </li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Static Members
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Static members belong to the class itself rather than to any specific instance. They are shared among all instances of the class and can be accessed without creating an object. Static methods cannot access instance variables directly because they don't belong to any specific instance.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Static Member Characteristics
+   </h4>
+   
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Class-level:</span> Belongs to the class, not individual instances
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Shared memory:</span> Single copy shared among all instances
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Access via class:</span> Can be accessed using the class name
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">No instance access:</span> Static methods cannot directly access instance members
+     </li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example: Complete Comparison
+   </h4>
+   
+   <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+     <pre><code class="language-python">
+class Employee:
+    # Static/Class variables - shared by all instances
+    company_name = "TechCorp"  # Class variable
+    total_employees = 0        # Class variable to track count
+    min_salary = 30000        # Class variable for minimum salary
+    
+    def __init__(self, name, position, salary):
+        # Instance variables - unique to each object
+        self.name = name          # Instance variable
+        self.position = position  # Instance variable
+        self.salary = salary     # Instance variable
+        self.employee_id = Employee.generate_id()  # Instance variable
+        
+        # Update static variable when instance is created
+        Employee.total_employees += 1
+        print(f"Employee {self.name} created. Total employees: {Employee.total_employees}")
+    
+    # Instance method - can access both instance and static members
+    def get_info(self):
+        return f"ID: {self.employee_id}, Name: {self.name}, Position: {self.position}"
+    
+    def give_raise(self, amount):
+        """Instance method - modifies instance data"""
+        self.salary += amount
+        return f"{self.name} received a ${amount} raise. New salary: ${self.salary}"
+    
+    def is_underpaid(self):
+        """Instance method accessing static variable"""
+        return self.salary < Employee.min_salary
+    
+    # Static methods - belong to class, not instance
+    @staticmethod
+    def generate_id():
+        """Static method - utility function"""
+        import random
+        return f"EMP{random.randint(1000, 9999)}"
+    
+    @staticmethod
+    def validate_salary(salary):
+        """Static method - validation utility"""
+        return salary >= Employee.min_salary
+    
+    @staticmethod
+    def compare_salaries(emp1, emp2):
+        """Static method - takes instances as parameters"""
+        if emp1.salary > emp2.salary:
+            return f"{emp1.name} earns more than {emp2.name}"
+        elif emp1.salary < emp2.salary:
+            return f"{emp2.name} earns more than {emp1.name}"
+        else:
+            return f"{emp1.name} and {emp2.name} earn the same"
+    
+    # Class methods - can access class variables and modify them
+    @classmethod
+    def set_company_name(cls, new_name):
+        """Class method - modifies class variable"""
+        old_name = cls.company_name
+        cls.company_name = new_name
+        return f"Company name changed from {old_name} to {new_name}"
+    
+    @classmethod
+    def get_company_info(cls):
+        """Class method - accesses class variables"""
+        return f"Company: {cls.company_name}, Total Employees: {cls.total_employees}"
+    
+    @classmethod
+    def create_intern(cls, name):
+        """Class method - alternative constructor"""
+        return cls(name, "Intern", cls.min_salary)
+
+# Demonstrate static vs instance members
+print("=== Creating Employees ===")
+emp1 = Employee("Alice Johnson", "Software Engineer", 75000)
+emp2 = Employee("Bob Smith", "Data Scientist", 80000)
+emp3 = Employee("Carol Davis", "Designer", 65000)
+
+print(f"\n=== Accessing Static Variables ===")
+print(f"Company: {Employee.company_name}")  # Access via class
+print(f"Total employees: {Employee.total_employees}")  # Access via class
+print(f"Minimum salary: {Employee.min_salary}")
+
+print(f"\n=== Instance Methods ===")
+print(emp1.get_info())  # Instance method on emp1
+print(emp2.give_raise(5000))  # Instance method on emp2
+print(f"Is {emp3.name} underpaid? {emp3.is_underpaid()}")
+
+print(f"\n=== Static Methods ===")
+print(f"Generated ID: {Employee.generate_id()}")  # Static method via class
+print(f"Is 25000 valid salary? {Employee.validate_salary(25000)}")
+print(Employee.compare_salaries(emp1, emp2))  # Static method with instances
+
+print(f"\n=== Class Methods ===")
+print(Employee.set_company_name("InnovateTech"))  # Class method
+print(Employee.get_company_info())  # Class method
+
+# Create employee using class method
+intern = Employee.create_intern("David Wilson")
+print(f"Created intern: {intern.get_info()}")
+
+print(f"\n=== Shared vs Individual Data ===")
+print(f"emp1 company: {emp1.company_name}")  # Accessing static via instance
+print(f"emp2 company: {emp2.company_name}")  # Same value for all
+print(f"emp1 salary: {emp1.salary}")         # Individual to emp1
+print(f"emp2 salary: {emp2.salary}")         # Individual to emp2
+
+# Modifying static variable affects all instances
+Employee.company_name = "FutureTech"
+print(f"After changing company name:")
+print(f"emp1 company: {emp1.company_name}")  # Updated for all
+print(f"emp2 company: {emp2.company_name}")  # Updated for all
+     </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example: Complete Comparison
+   </h4>
+   
+   <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+     <pre><code class="language-javascript">
+class BankAccount {
+    // Static properties - shared by all instances
+    static bankName = "SecureBank";
+    static totalAccounts = 0;
+    static minBalance = 100;
+    static interestRate = 0.02;
+    
+    constructor(accountHolder, initialBalance = 0) {
+        // Instance properties - unique to each object
+        this.accountNumber = BankAccount.generateAccountNumber();
+        this.accountHolder = accountHolder;
+        this.balance = initialBalance;
+        this.createdDate = new Date();
+        this.transactionHistory = [];
+        
+        // Update static property
+        BankAccount.totalAccounts++;
+        console.log(\`Account created for \${this.accountHolder}. Total accounts: \${BankAccount.totalAccounts}\`);
+    }
+    
+    // Instance methods - operate on specific instances
+    deposit(amount) {
+        if (amount > 0) {
+            this.balance += amount;
+            this.transactionHistory.push({
+                type: 'deposit',
+                amount: amount,
+                date: new Date(),
+                balance: this.balance
+            });
+            return \`Deposited $\${amount}. New balance: $\${this.balance}\`;
+        }
+        return "Invalid deposit amount";
+    }
+    
+    withdraw(amount) {
+        if (amount > 0 && this.balance - amount >= BankAccount.minBalance) {
+            this.balance -= amount;
+            this.transactionHistory.push({
+                type: 'withdrawal',
+                amount: amount,
+                date: new Date(),
+                balance: this.balance
+            });
+            return \`Withdrew $\${amount}. New balance: $\${this.balance}\`;
+        }
+        return "Invalid withdrawal amount or insufficient funds";
+    }
+    
+    getAccountInfo() {
+        return \`Account: \${this.accountNumber}, Holder: \${this.accountHolder}, Balance: $\${this.balance}\`;
+    }
+    
+    calculateInterest() {
+        // Instance method accessing static property
+        const interest = this.balance * BankAccount.interestRate;
+        return \`Annual interest on $\${this.balance}: $\${interest.toFixed(2)}\`;
+    }
+    
+    // Static methods - belong to the class
+    static generateAccountNumber() {
+        return 'ACC' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    }
+    
+    static validateBalance(balance) {
+        return balance >= BankAccount.minBalance;
+    }
+    
+    static compareAccounts(account1, account2) {
+        if (account1.balance > account2.balance) {
+            return \`\${account1.accountHolder} has a higher balance than \${account2.accountHolder}\`;
+        } else if (account1.balance < account2.balance) {
+            return \`\${account2.accountHolder} has a higher balance than \${account1.accountHolder}\`;
+        } else {
+            return \`\${account1.accountHolder} and \${account2.accountHolder} have equal balances\`;
+        }
+    }
+    
+    static getTotalAssets(accounts) {
+        return accounts.reduce((total, account) => total + account.balance, 0);
+    }
+    
+    static setBankName(newName) {
+        const oldName = BankAccount.bankName;
+        BankAccount.bankName = newName;
+        console.log(\`Bank name changed from \${oldName} to \${newName}\`);
+    }
+    
+    static getBankInfo() {
+        return \`Bank: \${BankAccount.bankName}, Total Accounts: \${BankAccount.totalAccounts}, Interest Rate: \${(BankAccount.interestRate * 100)}%\`;
+    }
+    
+    // Static method for creating special account types
+    static createSavingsAccount(holder, initialDeposit) {
+        if (initialDeposit >= 500) {
+            return new BankAccount(holder, initialDeposit);
+        }
+        throw new Error("Savings account requires minimum $500 initial deposit");
+    }
+    
+    static createStudentAccount(holder) {
+        // Student accounts can start with lower minimum
+        const originalMin = BankAccount.minBalance;
+        BankAccount.minBalance = 0;
+        const account = new BankAccount(holder, 25);
+        BankAccount.minBalance = originalMin;
+        return account;
+    }
+}
+
+// Demonstrate usage
+console.log("=== Creating Bank Accounts ===");
+const account1 = new BankAccount("Alice Johnson", 1000);
+const account2 = new BankAccount("Bob Smith", 2500);
+const account3 = new BankAccount("Carol Davis", 750);
+
+console.log("\\n=== Accessing Static Properties ===");
+console.log(\`Bank Name: \${BankAccount.bankName}\`);
+console.log(\`Total Accounts: \${BankAccount.totalAccounts}\`);
+console.log(\`Minimum Balance: $\${BankAccount.minBalance}\`);
+console.log(\`Interest Rate: \${(BankAccount.interestRate * 100)}%\`);
+
+console.log("\\n=== Instance Methods ===");
+console.log(account1.deposit(500));
+console.log(account2.withdraw(200));
+console.log(account1.getAccountInfo());
+console.log(account2.calculateInterest());
+
+console.log("\\n=== Static Methods ===");
+console.log(\`Generated Account Number: \${BankAccount.generateAccountNumber()}\`);
+console.log(\`Is $50 valid balance? \${BankAccount.validateBalance(50)}\`);
+console.log(BankAccount.compareAccounts(account1, account2));
+console.log(\`Total assets: $\${BankAccount.getTotalAssets([account1, account2, account3])}\`);
+
+console.log("\\n=== Class-Level Operations ===");
+BankAccount.setBankName("PremiumBank");
+console.log(BankAccount.getBankInfo());
+
+// Create special account types using static methods
+const savingsAccount = BankAccount.createSavingsAccount("Emma Wilson", 1500);
+const studentAccount = BankAccount.createStudentAccount("John Student");
+
+console.log("\\n=== Shared vs Individual Data ===");
+console.log(\`account1 bank: \${account1.constructor.bankName}\`);  // Access static via instance
+console.log(\`account2 bank: \${account2.constructor.bankName}\`);  // Same for all instances
+console.log(\`account1 balance: $\${account1.balance}\`);           // Individual to account1
+console.log(\`account2 balance: $\${account2.balance}\`);           // Individual to account2
+
+// Modify static property - affects all instances
+BankAccount.interestRate = 0.025;
+console.log("\\nAfter changing interest rate:");
+console.log(account1.calculateInterest());  // Uses new rate
+console.log(account2.calculateInterest());  // Uses new rate
+     </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences Summary
+   </h4>
+   
+   <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; margin-top: 1rem;">
+     <table style="width: 100%; border-collapse: collapse;">
+       <thead>
+         <tr style="background-color: #e2e8f0;">
+           <th style="padding: 12px; text-align: left; border: 1px solid #cbd5e0; font-weight: 600;">Aspect</th>
+           <th style="padding: 12px; text-align: left; border: 1px solid #cbd5e0; font-weight: 600;">Instance Members</th>
+           <th style="padding: 12px; text-align: left; border: 1px solid #cbd5e0; font-weight: 600;">Static Members</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #cbd5e0; font-weight: 600;">Belongs to</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Individual object instances</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Class itself</td>
+         </tr>
+         <tr style="background-color: #f7fafc;">
+           <td style="padding: 12px; border: 1px solid #cbd5e0; font-weight: 600;">Memory</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Separate copy for each instance</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Single copy shared by all</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #cbd5e0; font-weight: 600;">Access</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Through object instance</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Through class name</td>
+         </tr>
+         <tr style="background-color: #f7fafc;">
+           <td style="padding: 12px; border: 1px solid #cbd5e0; font-weight: 600;">Creation time</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">When object is instantiated</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">When class is loaded</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #cbd5e0; font-weight: 600;">Can access</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Both instance and static members</td>
+           <td style="padding: 12px; border: 1px solid #cbd5e0;">Only static members directly</td>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Static vs Instance Members
+   </h4>
+   
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600;">Use Static Members For:</h5>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Constants that apply to all instances</li>
+     <li style="margin-top: 0.5rem;">Utility functions that don't need instance data</li>
+     <li style="margin-top: 0.5rem;">Counters or shared data across all instances</li>
+     <li style="margin-top: 0.5rem;">Factory methods for creating instances</li>
+     <li style="margin-top: 0.5rem;">Validation functions</li>
+   </ul>
+   
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600;">Use Instance Members For:</h5>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Data specific to individual objects</li>
+     <li style="margin-top: 0.5rem;">Behaviors that operate on object's data</li>
+     <li style="margin-top: 0.5rem;">State that varies between instances</li>
+     <li style="margin-top: 0.5rem;">Methods that modify object properties</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python: Mathematics Class demonstrating static vs instance
+class Calculator:
+    # Static variables
+    pi = 3.14159
+    calculations_performed = 0
+    
+    def __init__(self, name="Calculator"):
+        # Instance variables
+        self.name = name
+        self.history = []
+        self.last_result = 0
+    
+    # Instance method
+    def add(self, a, b):
+        result = a + b
+        self.last_result = result
+        self.history.append(f"{a} + {b} = {result}")
+        Calculator.calculations_performed += 1
+        return result
+    
+    # Static method
+    @staticmethod
+    def circle_area(radius):
+        Calculator.calculations_performed += 1
+        return Calculator.pi * radius * radius
+    
+    # Class method
+    @classmethod
+    def get_total_calculations(cls):
+        return cls.calculations_performed
+
+# Usage
+calc1 = Calculator("Personal Calc")
+calc2 = Calculator("Work Calc")
+
+print(calc1.add(5, 3))  # Instance method: 8
+print(Calculator.circle_area(5))  # Static method: 78.54
+
+print(f"Total calculations: {Calculator.get_total_calculations()}")  # 2
+print(f"calc1 history: {calc1.history}")  # ['5 + 3 = 8']
+print(f"calc2 history: {calc2.history}")  # []`,
+
+              `// JavaScript: Game Player class
+class GamePlayer {
+    // Static properties
+    static totalPlayers = 0;
+    static maxLevel = 100;
+    static gameVersion = "1.0.0";
+    
+    constructor(username) {
+        // Instance properties
+        this.username = username;
+        this.level = 1;
+        this.score = 0;
+        this.achievements = [];
+        this.playerId = GamePlayer.generatePlayerId();
+        
+        GamePlayer.totalPlayers++;
+    }
+    
+    // Instance methods
+    gainExperience(xp) {
+        this.score += xp;
+        const newLevel = Math.min(Math.floor(this.score / 1000) + 1, GamePlayer.maxLevel);
+        if (newLevel > this.level) {
+            this.level = newLevel;
+            return \`Level up! \${this.username} is now level \${this.level}\`;
+        }
+        return \`\${this.username} gained \${xp} XP. Total: \${this.score}\`;
+    }
+    
+    addAchievement(achievement) {
+        this.achievements.push(achievement);
+        return \`\${this.username} unlocked: \${achievement}\`;
+    }
+    
+    // Static methods
+    static generatePlayerId() {
+        return 'PLAYER_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    }
+    
+    static getGameInfo() {
+        return \`Game v\${GamePlayer.gameVersion} - Total Players: \${GamePlayer.totalPlayers}\`;
+    }
+    
+    static compareLevel(player1, player2) {
+        if (player1.level > player2.level) {
+            return \`\${player1.username} (Level \${player1.level}) outranks \${player2.username} (Level \${player2.level})\`;
+        } else if (player1.level < player2.level) {
+            return \`\${player2.username} (Level \${player2.level}) outranks \${player1.username} (Level \${player1.level})\`;
+        }
+        return \`\${player1.username} and \${player2.username} are the same level\`;
+    }
+}
+
+// Usage
+const player1 = new GamePlayer("DragonSlayer");
+const player2 = new GamePlayer("MagicMaster");
+
+console.log(player1.gainExperience(1500)); // Level up!
+console.log(player1.addAchievement("First Level Up"));
+console.log(GamePlayer.compareLevel(player1, player2));
+console.log(GamePlayer.getGameInfo());`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the main difference between static and instance members?",
+                solution:
+                  "<p><strong>Static members</strong> belong to the class itself and are shared among all instances. They exist in memory once and can be accessed using the class name without creating an object. <strong>Instance members</strong> belong to individual objects, with each instance having its own copy. They can only be accessed through object instances and exist separately for each object created. Static members are useful for shared data and utility functions, while instance members store object-specific data and behaviors.</p>",
+              },
+              {
+                question:
+                  "Can static methods access instance variables? Why or why not?",
+                solution:
+                  "<p><strong>No</strong>, static methods cannot directly access instance variables because static methods belong to the class and don't have access to any specific object instance. Instance variables belong to individual objects and require an object context to access them. However, static methods can access instance variables if they receive an object instance as a parameter, like <code>static compareObjects(obj1, obj2)</code> where they can access <code>obj1.instanceVar</code> and <code>obj2.instanceVar</code>.</p>",
+              },
+              {
+                question:
+                  "When should you use static methods vs instance methods?",
+                solution:
+                  "<p><strong>Use static methods for:</strong> Utility functions that don't need object data (like <code>Math.sqrt()</code>), factory methods for creating objects, validation functions, and operations that work with class-level data. <strong>Use instance methods for:</strong> Operations that modify or use object-specific data, behaviors that represent what an object can do, and methods that need access to the object's current state. For example, <code>calculateArea()</code> should be instance method for a <code>Rectangle</code> class, while <code>validateDimensions(width, height)</code> could be static.</p>",
+              },
+              {
+                question:
+                  "What is the difference between a class and an object?",
+                solution:
+                  "<p>A <strong>class</strong> is a blueprint or template that defines the structure and behavior for objects. It specifies what attributes (data) and methods (functions) objects of that class will have. An <strong>object</strong> is an actual instance of a class - a concrete entity created from the class blueprint. Think of a class as a cookie cutter and objects as the actual cookies made with that cutter. Multiple objects can be created from a single class, each with their own set of attribute values.</p>",
+              },
+              {
+                question:
+                  "How do you create and use objects in Python and JavaScript?",
+                solution:
+                  "<p><strong>Python:</strong> Use the class name followed by parentheses with any required arguments: <code>obj = ClassName(args)</code>. Access attributes with dot notation: <code>obj.attribute</code> and call methods: <code>obj.method()</code>.</p><p><strong>JavaScript:</strong> Use the <code>new</code> keyword followed by the class name: <code>const obj = new ClassName(args)</code>. Access properties and methods the same way: <code>obj.property</code> and <code>obj.method()</code>.</p>",
+              },
+              {
+                question:
+                  "What are the main benefits of using classes and objects?",
+                solution:
+                  "<p>The main benefits include: <strong>1) Code Reusability</strong> - Write the class once and create multiple instances; <strong>2) Organization</strong> - Group related data and functionality together; <strong>3) Encapsulation</strong> - Bundle data and methods while controlling access; <strong>4) Maintainability</strong> - Changes to the class affect all instances; <strong>5) Modularity</strong> - Each class represents a distinct concept; <strong>6) Abstraction</strong> - Hide complex implementation details behind simple interfaces.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/static",
+              "https://realpython.com/instance-class-and-static-methods-demystified/",
+              "https://docs.python.org/3/tutorial/classes.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://realpython.com/python-classes/",
+            ],
+          },
+          {
+            topic: "Constructors & Destructors",
+            tags: ["Constructor", "Destructor", "Initialization", "Cleanup"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     <strong>Constructors</strong> and <strong>Destructors</strong> are special methods that handle the creation and destruction of objects. A constructor is automatically called when an object is created to initialize its state, while a destructor is called when an object is destroyed to perform cleanup operations.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is a Constructor?
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A constructor is a special method that is automatically invoked when a new object is created. It's responsible for initializing the object's attributes and performing any setup operations required for the object to function properly.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Constructor Characteristics
+   </h4>
+   
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Automatic invocation:</span> Called automatically when object is created
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Same name as class:</span> In most languages, constructor has the same name as the class
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">No return type:</span> Constructors don't have explicit return types
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Overloading:</span> Multiple constructors can exist with different parameters
+     </li>
+   </ul>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is a Destructor?
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A destructor is a special method that is automatically called when an object is about to be destroyed or goes out of scope. It's used to perform cleanup operations such as releasing resources, closing files, or deallocating memory.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Constructors and Destructors
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     In Python, <code>__init__()</code> serves as the constructor and <code>__del__()</code> as the destructor. Python also has automatic garbage collection, so destructors are less commonly used.
+   </p>
+   
+   <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+     <pre><code class="language-python">
+class FileManager:
+    def __init__(self, filename, mode='r'):
+        """Constructor - initializes the object"""
+        self.filename = filename
+        self.mode = mode
+        self.file = None
+        self.created_at = __import__('datetime').datetime.now()
+        print(f"FileManager created for {filename}")
+        
+        # Automatically open the file
+        try:
+            self.file = open(filename, mode)
+            print(f"File {filename} opened successfully")
+        except Exception as e:
+            print(f"Error opening file: {e}")
+    
+    def __del__(self):
+        """Destructor - cleanup when object is destroyed"""
+        print(f"FileManager destructor called for {self.filename}")
+        if self.file and not self.file.closed:
+            self.file.close()
+            print(f"File {self.filename} closed automatically")
+        print("FileManager destroyed")
+    
+    def write_data(self, data):
+        if self.file and 'w' in self.mode:
+            self.file.write(data)
+            return f"Data written to {self.filename}"
+        return "Cannot write to file"
+    
+    def read_data(self):
+        if self.file and 'r' in self.mode:
+            self.file.seek(0)  # Go to beginning of file
+            return self.file.read()
+        return "Cannot read from file"
+
+# Example usage
+def demo_file_manager():
+    # Constructor called automatically
+    fm = FileManager("test.txt", "w")
+    fm.write_data("Hello, World!")
+    
+    # When function ends, destructor is called automatically
+    print("Function ending...")
+
+demo_file_manager()
+print("Function completed")
+
+# Example with multiple constructors pattern
+class Person:
+    def __init__(self, name, age=0, email=None):
+        """Constructor with default parameters"""
+        self.name = name
+        self.age = age
+        self.email = email
+        self.created_at = __import__('datetime').datetime.now()
+        print(f"Person '{name}' created")
+    
+    @classmethod
+    def from_string(cls, person_str):
+        """Alternative constructor from string"""
+        name, age, email = person_str.split(',')
+        return cls(name.strip(), int(age.strip()), email.strip())
+    
+    @classmethod
+    def create_child(cls, name):
+        """Alternative constructor for children"""
+        return cls(name, age=0, email=None)
+    
+    def __del__(self):
+        """Destructor"""
+        print(f"Person '{self.name}' is being destroyed")
+
+# Using different constructor patterns
+person1 = Person("Alice", 25, "alice@email.com")
+person2 = Person.from_string("Bob, 30, bob@email.com")
+person3 = Person.create_child("Charlie")
+     </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Constructors and Destructors
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     JavaScript uses <code>constructor()</code> method for initialization. There's no traditional destructor, but cleanup can be done manually or using techniques like WeakRef and FinalizationRegistry.
+   </p>
+   
+   <div style="background-color: #f8fafc; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+     <pre><code class="language-javascript">
+class DatabaseConnection {
+    constructor(host, port, database) {
+        // Constructor - initializes the object
+        this.host = host;
+        this.port = port;
+        this.database = database;
+        this.isConnected = false;
+        this.createdAt = new Date();
+        this.connectionId = Math.random().toString(36).substr(2, 9);
+        
+        console.log(\`DatabaseConnection created: \${this.connectionId}\`);
+        this.connect();
+    }
+    
+    connect() {
+        // Simulate database connection
+        setTimeout(() => {
+            this.isConnected = true;
+            console.log(\`Connected to \${this.database} at \${this.host}:\${this.port}\`);
+        }, 100);
+    }
+    
+    query(sql) {
+        if (this.isConnected) {
+            return \`Executing: \${sql} on \${this.database}\`;
+        }
+        return "Not connected to database";
+    }
+    
+    // Manual cleanup method (since JS doesn't have automatic destructors)
+    close() {
+        if (this.isConnected) {
+            this.isConnected = false;
+            console.log(\`Connection \${this.connectionId} closed\`);
+        }
+    }
+    
+    // Using FinalizationRegistry for cleanup (modern JS feature)
+    static {
+        this.cleanup = new FinalizationRegistry((connectionId) => {
+            console.log(\`Cleanup: Connection \${connectionId} garbage collected\`);
+        });
+    }
+}
+
+// Example with constructor overloading pattern using static methods
+class Rectangle {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+        this.createdAt = new Date();
+        console.log(\`Rectangle created: \${width} x \${height}\`);
+    }
+    
+    // Static method for square (alternative constructor pattern)
+    static createSquare(side) {
+        return new Rectangle(side, side);
+    }
+    
+    // Static method for rectangle from area and ratio
+    static fromAreaAndRatio(area, ratio = 1) {
+        const width = Math.sqrt(area * ratio);
+        const height = area / width;
+        return new Rectangle(width, height);
+    }
+    
+    getArea() {
+        return this.width * this.height;
+    }
+    
+    getPerimeter() {
+        return 2 * (this.width + this.height);
+    }
+    
+    // Manual cleanup method
+    destroy() {
+        console.log(\`Rectangle \${this.width}x\${this.height} destroyed\`);
+        // Perform any necessary cleanup
+        this.width = null;
+        this.height = null;
+    }
+}
+
+// Usage examples
+const db1 = new DatabaseConnection("localhost", 5432, "myapp");
+
+// Alternative constructor patterns
+const square = Rectangle.createSquare(5);
+const rect = Rectangle.fromAreaAndRatio(100, 2);
+
+console.log(\`Square area: \${square.getArea()}\`);
+console.log(\`Rectangle area: \${rect.getArea()}\`);
+
+// Manual cleanup
+setTimeout(() => {
+    db1.close();
+    square.destroy();
+    rect.destroy();
+}, 2000);
+     </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Constructors and Destructors
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Resource Management:</span> Opening files, database connections, network sockets
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Data Validation:</span> Ensuring object is created with valid initial state
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Complex Initialization:</span> Setting up objects that require multiple steps
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Memory Management:</span> Allocating and deallocating memory or resources
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Event Registration:</span> Subscribing to events on creation, unsubscribing on destruction
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Keep constructors simple:</span> Avoid complex logic in constructors
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Always initialize all attributes:</span> Ensure objects start in a valid state
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Handle exceptions:</span> Use try-catch blocks for resource initialization
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Manual cleanup:</span> In JavaScript, provide explicit cleanup methods
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Document resource usage:</span> Make it clear what resources need cleanup
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python: Timer Class with Constructor/Destructor
+import time
+
+class Timer:
+    def __init__(self, name="Timer"):
+        """Constructor - starts timing automatically"""
+        self.name = name
+        self.start_time = time.time()
+        self.end_time = None
+        self.is_running = True
+        print(f"{self.name} started at {time.ctime(self.start_time)}")
+    
+    def stop(self):
+        if self.is_running:
+            self.end_time = time.time()
+            self.is_running = False
+            duration = self.end_time - self.start_time
+            print(f"{self.name} stopped. Duration: {duration:.2f} seconds")
+            return duration
+        return None
+    
+    def __del__(self):
+        """Destructor - ensures timer is stopped"""
+        if self.is_running:
+            print(f"Warning: {self.name} was not stopped manually")
+            self.stop()
+        print(f"{self.name} timer destroyed")
+
+# Usage
+timer1 = Timer("Process Timer")
+time.sleep(2)
+timer1.stop()
+
+# Timer with automatic cleanup
+def timed_operation():
+    timer2 = Timer("Function Timer")
+    time.sleep(1)
+    # Destructor called automatically when function ends
+
+timed_operation()`,
+
+              `// JavaScript: EventListener Manager
+class EventManager {
+    constructor(element) {
+        this.element = element;
+        this.listeners = new Map();
+        this.created = new Date();
+        console.log('EventManager created for', element.tagName);
+        
+        // Auto-cleanup when page unloads
+        window.addEventListener('beforeunload', () => this.cleanup());
+    }
+    
+    addEventListener(event, handler) {
+        if (!this.listeners.has(event)) {
+            this.listeners.set(event, []);
+        }
+        
+        this.listeners.get(event).push(handler);
+        this.element.addEventListener(event, handler);
+        console.log(\`Added \${event} listener\`);
+    }
+    
+    removeEventListener(event, handler) {
+        if (this.listeners.has(event)) {
+            const handlers = this.listeners.get(event);
+            const index = handlers.indexOf(handler);
+            if (index > -1) {
+                handlers.splice(index, 1);
+                this.element.removeEventListener(event, handler);
+                console.log(\`Removed \${event} listener\`);
+            }
+        }
+    }
+    
+    cleanup() {
+        console.log('Cleaning up EventManager...');
+        for (const [event, handlers] of this.listeners) {
+            handlers.forEach(handler => {
+                this.element.removeEventListener(event, handler);
+            });
+        }
+        this.listeners.clear();
+        console.log('EventManager cleaned up');
+    }
+    
+    destroy() {
+        this.cleanup();
+        console.log('EventManager destroyed');
+    }
+}
+
+// Usage
+const button = document.createElement('button');
+const manager = new EventManager(button);
+
+const clickHandler = () => console.log('Button clicked!');
+manager.addEventListener('click', clickHandler);
+
+// Manual cleanup when done
+setTimeout(() => manager.destroy(), 5000);`,
+            ],
+          },
+          {
+            topic: "What is Encapsulation?",
+            tags: ["encapsulation", "data-hiding", "access-control"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Encapsulation is one of the four fundamental principles of Object-Oriented Programming (OOP), along with inheritance, polymorphism, and abstraction. It refers to the bundling of data (attributes) and methods (functions) that operate on that data within a single unit called a class, while restricting direct access to some of the object's components.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Principles of Encapsulation
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Hiding:</span> Internal data is hidden from outside interference and misuse.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Controlled Access:</span> Access to data is controlled through public methods (getters/setters).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Bundling:</span> Related data and methods are grouped together in a class.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Information Security:</span> Prevents unauthorized access and modification of data.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Analogy
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Think of a car: You can operate the car through its public interface (steering wheel, pedals, gear shift), but you cannot directly access the engine's internal components. The car's internal mechanisms are encapsulated - hidden from the driver but accessible through controlled interfaces.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example - Basic Encapsulation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class BankAccount:
+    def __init__(self, account_number, initial_balance):
+        # Public attribute
+        self.account_number = account_number
+        # Private attribute (by convention)
+        self._balance = initial_balance
+        # Really private attribute (name mangling)
+        self.__pin = "1234"
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self._balance += amount
+            return f"Deposited ${amount}. New balance: ${self._balance}"
+        return "Invalid deposit amount"
+    
+    def withdraw(self, amount):
+        if 0 < amount <= self._balance:
+            self._balance -= amount
+            return f"Withdrew ${amount}. New balance: ${self._balance}"
+        return "Invalid withdrawal amount or insufficient funds"
+    
+    def get_balance(self):
+        return self._balance
+
+# Usage
+account = BankAccount("12345", 1000)
+print(account.deposit(500))    # Deposited $500. New balance: $1500
+print(account.withdraw(200))   # Withdrew $200. New balance: $1300
+print(account.get_balance())   # 1300
+
+# Direct access (not recommended but possible)
+print(account._balance)        # 1300
+# print(account.__pin)         # This will cause an AttributeError
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example - Basic Encapsulation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class BankAccount {
+    // Private fields (ES2022+)
+    #balance;
+    #pin;
+    
+    constructor(accountNumber, initialBalance) {
+        this.accountNumber = accountNumber;  // Public
+        this.#balance = initialBalance;      // Private
+        this.#pin = "1234";                 // Private
+    }
+    
+    deposit(amount) {
+        if (amount > 0) {
+            this.#balance += amount;
+            return Deposited $ {amount}. New balance: $ {this.#balance};
+        }
+        return "Invalid deposit amount";
+    }
+    
+    withdraw(amount) {
+        if (amount > 0 && amount <= this.#balance) {
+            this.#balance -= amount;
+            return Withdrew $ {amount}. New balance: $ {this.#balance};
+        }
+        return "Invalid withdrawal amount or insufficient funds";
+    }
+    
+    getBalance() {
+        return this.#balance;
+    }
+}
+
+// Usage
+const account = new BankAccount("12345", 1000);
+console.log(account.deposit(500));    // Deposited $500. New balance: $1500
+console.log(account.withdraw(200));   // Withdrew $200. New balance: $1300
+console.log(account.getBalance());    // 1300
+
+// This will throw an error - private field access
+// console.log(account.#balance);     // SyntaxError
+      </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python - Employee Class with Encapsulation
+class Employee:
+    def __init__(self, name, employee_id, salary):
+        self.name = name                    # Public
+        self._employee_id = employee_id     # Protected
+        self.__salary = salary              # Private
+    
+    def get_salary(self):
+        return self.__salary
+    
+    def set_salary(self, new_salary):
+        if new_salary > 0:
+            self.__salary = new_salary
+        else:
+            raise ValueError("Salary must be positive")
+    
+    def get_employee_info(self):
+        return f"Employee: {self.name}, ID: {self._employee_id}"
+
+emp = Employee("John Doe", "E001", 50000)
+print(emp.get_salary())           # 50000
+emp.set_salary(55000)
+print(emp.get_employee_info())    # Employee: John Doe, ID: E001`,
+
+              `// JavaScript - Employee Class with Private Fields
+class Employee {
+    #salary;
+    #employeeId;
+    
+    constructor(name, employeeId, salary) {
+        this.name = name;              // Public
+        this.#employeeId = employeeId; // Private
+        this.#salary = salary;         // Private
+    }
+    
+    getSalary() {
+        return this.#salary;
+    }
+    
+    setSalary(newSalary) {
+        if (newSalary > 0) {
+            this.#salary = newSalary;
+        } else {
+            throw new Error("Salary must be positive");
+        }
+    }
+    
+    getEmployeeInfo() {
+        return \`Employee: \${this.name}, ID: \${this.#employeeId}\`;
+    }
+}
+
+const emp = new Employee("John Doe", "E001", 50000);
+console.log(emp.getSalary());        // 50000
+emp.setSalary(55000);
+console.log(emp.getEmployeeInfo());  // Employee: John Doe, ID: E001`,
+            ],
+            questions: [
+              {
+                question: "What are the main benefits of encapsulation?",
+                solution:
+                  "<p>The main benefits of encapsulation include: <strong>Data Security</strong> - prevents unauthorized access to sensitive data; <strong>Code Maintainability</strong> - changes to internal implementation don't affect external code; <strong>Data Integrity</strong> - ensures data is modified only through controlled methods; <strong>Modularity</strong> - creates self-contained units that are easier to debug and test; <strong>Abstraction</strong> - hides complex implementation details from users.</p>",
+              },
+              {
+                question:
+                  "How does encapsulation differ between Python and JavaScript?",
+                solution:
+                  "<p>In <strong>Python</strong>, encapsulation uses naming conventions: single underscore (_) for protected members and double underscore (__) for private members (name mangling). In <strong>JavaScript</strong>, true private fields are supported using the hash (#) syntax in modern versions, while older versions relied on closures or conventions. Python's approach is more convention-based, while JavaScript now has true privacy enforcement.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+              "https://realpython.com/python-encapsulation/",
+            ],
+          },
+          {
+            topic: "Getters and Setters",
+            tags: ["getters", "setters", "property", "accessor-methods"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Getters and setters are special methods that provide controlled access to an object's attributes. They act as intermediaries between the outside world and the object's internal data, allowing you to implement validation, logging, computed properties, and maintain data integrity while providing a clean interface.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Getters and Setters?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Validation:</span> Ensure data meets certain criteria before assignment.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Computed Properties:</span> Calculate values on-the-fly based on other attributes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Logging:</span> Track when and how data is accessed or modified.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Backward Compatibility:</span> Change internal implementation without breaking existing code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Access Control:</span> Implement read-only or write-only properties.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation - Property Decorator
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class Temperature:
+    def __init__(self, celsius=0):
+        self._celsius = celsius
+    
+    @property
+    def celsius(self):
+        """Getter for celsius temperature"""
+        print(f"Getting celsius temperature: {self._celsius}")
+        return self._celsius
+    
+    @celsius.setter
+    def celsius(self, value):
+        """Setter for celsius temperature with validation"""
+        if value < -273.15:
+            raise ValueError("Temperature cannot be below absolute zero (-273.15°C)")
+        print(f"Setting celsius temperature to: {value}")
+        self._celsius = value
+    
+    @property
+    def fahrenheit(self):
+        """Computed property - converts celsius to fahrenheit"""
+        return (self._celsius * 9/5) + 32
+    
+    @fahrenheit.setter
+    def fahrenheit(self, value):
+        """Setter for fahrenheit - converts to celsius internally"""
+        celsius_value = (value - 32) * 5/9
+        self.celsius = celsius_value  # Uses the celsius setter for validation
+    
+    @property
+    def kelvin(self):
+        """Read-only computed property"""
+        return self._celsius + 273.15
+
+# Usage example
+temp = Temperature(25)
+print(f"Temperature: {temp.celsius}°C")    # Getting celsius temperature: 25 / Temperature: 25°C
+print(f"Temperature: {temp.fahrenheit}°F") # Temperature: 77.0°F
+print(f"Temperature: {temp.kelvin}K")      # Temperature: 298.15K
+
+temp.fahrenheit = 100                      # Setting celsius temperature to: 37.77777777777778
+print(f"Temperature: {temp.celsius}°C")    # Getting celsius temperature: 37.77777777777778 / Temperature: 37.77777777777778°C
+
+# This will raise an error
+# temp.celsius = -300                      # ValueError: Temperature cannot be below absolute zero
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation - Get/Set Keywords
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class Temperature {
+    constructor(celsius = 0) {
+        this._celsius = celsius;
+    }
+    
+    get celsius() {
+        console.log(\`Getting celsius temperature: \${this._celsius}\`);
+        return this._celsius;
+    }
+    
+    set celsius(value) {
+        if (value < -273.15) {
+            throw new Error("Temperature cannot be below absolute zero (-273.15°C)");
+        }
+        console.log(\`Setting celsius temperature to: \${value}\`);
+        this._celsius = value;
+    }
+    
+    get fahrenheit() {
+        return (this._celsius * 9/5) + 32;
+    }
+    
+    set fahrenheit(value) {
+        const celsiusValue = (value - 32) * 5/9;
+        this.celsius = celsiusValue; // Uses the celsius setter for validation
+    }
+    
+    get kelvin() {
+        return this._celsius + 273.15;
+    }
+    
+    // No setter for kelvin - read-only property
+}
+
+// Usage example
+const temp = new Temperature(25);
+console.log(\`Temperature: \${temp.celsius}°C\`);    // Getting celsius temperature: 25 / Temperature: 25°C
+console.log(\`Temperature: \${temp.fahrenheit}°F\`); // Temperature: 77°F
+console.log(\`Temperature: \${temp.kelvin}K\`);      // Temperature: 298.15K
+
+temp.fahrenheit = 100;                             // Setting celsius temperature to: 37.77777777777778
+console.log(\`Temperature: \${temp.celsius}°C\`);    // Getting celsius temperature: 37.77777777777778 / Temperature: 37.77777777777778°C
+
+// This will throw an error
+// temp.celsius = -300;                            // Error: Temperature cannot be below absolute zero
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Use Case - User Management System
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+import re
+from datetime import datetime
+
+class User:
+    def __init__(self, username, email, age):
+        self._username = username
+        self._email = email
+        self._age = age
+        self._last_login = None
+        self._login_count = 0
+    
+    @property
+    def username(self):
+        return self._username
+    
+    @username.setter
+    def username(self, value):
+        if len(value) < 3:
+            raise ValueError("Username must be at least 3 characters long")
+        if not value.isalnum():
+            raise ValueError("Username must contain only letters and numbers")
+        self._username = value
+    
+    @property
+    def email(self):
+        return self._email
+    
+    @email.setter
+    def email(self, value):
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_pattern, value):
+            raise ValueError("Invalid email format")
+        self._email = value
+    
+    @property
+    def age(self):
+        return self._age
+    
+    @age.setter
+    def age(self, value):
+        if not isinstance(value, int) or value < 0 or value > 150:
+            raise ValueError("Age must be a positive integer between 0 and 150")
+        self._age = value
+    
+    @property
+    def is_adult(self):
+        return self._age >= 18
+    
+    @property
+    def last_login(self):
+        return self._last_login
+    
+    def login(self):
+        self._last_login = datetime.now()
+        self._login_count += 1
+    
+    @property
+    def login_count(self):
+        return self._login_count
+
+# Usage
+user = User("john123", "john@example.com", 25)
+print(f"Is adult: {user.is_adult}")  # Is adult: True
+user.login()
+print(f"Login count: {user.login_count}")  # Login count: 1
+      </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python - Circle Class with Area Property
+import math
+
+class Circle:
+    def __init__(self, radius):
+        self._radius = radius
+    
+    @property
+    def radius(self):
+        return self._radius
+    
+    @radius.setter
+    def radius(self, value):
+        if value <= 0:
+            raise ValueError("Radius must be positive")
+        self._radius = value
+    
+    @property
+    def area(self):
+        return math.pi * self._radius ** 2
+    
+    @property
+    def circumference(self):
+        return 2 * math.pi * self._radius
+
+circle = Circle(5)
+print(f"Area: {circle.area:.2f}")           # Area: 78.54
+print(f"Circumference: {circle.circumference:.2f}") # Circumference: 31.42
+circle.radius = 10
+print(f"New Area: {circle.area:.2f}")       # New Area: 314.16`,
+
+              `// JavaScript - Rectangle Class with Getters/Setters
+class Rectangle {
+    constructor(width, height) {
+        this._width = width;
+        this._height = height;
+    }
+    
+    get width() {
+        return this._width;
+    }
+    
+    set width(value) {
+        if (value <= 0) {
+            throw new Error("Width must be positive");
+        }
+        this._width = value;
+    }
+    
+    get height() {
+        return this._height;
+    }
+    
+    set height(value) {
+        if (value <= 0) {
+            throw new Error("Height must be positive");
+        }
+        this._height = value;
+    }
+    
+    get area() {
+        return this._width * this._height;
+    }
+    
+    get perimeter() {
+        return 2 * (this._width + this._height);
+    }
+}
+
+const rect = new Rectangle(5, 3);
+console.log(\`Area: \${rect.area}\`);         // Area: 15
+console.log(\`Perimeter: \${rect.perimeter}\`); // Perimeter: 16
+rect.width = 10;
+console.log(\`New Area: \${rect.area}\`);     // New Area: 30`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between properties and regular methods for accessing data?",
+                solution:
+                  "<p><strong>Properties</strong> provide attribute-like access (obj.property) while maintaining control through getter/setter logic. They look like simple attribute access but can include validation, computation, and side effects. <strong>Regular methods</strong> require explicit function calls (obj.getProperty()). Properties offer cleaner syntax and can be used as drop-in replacements for direct attribute access without changing client code.</p>",
+              },
+              {
+                question:
+                  "When should you use computed properties vs storing calculated values?",
+                solution:
+                  "<p>Use <strong>computed properties</strong> when: values change frequently based on other attributes, calculations are lightweight, or you want to ensure data is always current. <strong>Store calculated values</strong> when: calculations are expensive, values don't change often, or you need to optimize performance. Consider caching strategies for expensive computations that don't change frequently.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/functions.html#property",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get",
+              "https://realpython.com/python-property/",
+            ],
+          },
+          {
+            topic: "Access Modifiers (Public, Private, Protected)",
+            tags: [
+              "access-modifiers",
+              "visibility",
+              "private",
+              "protected",
+              "public",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Access modifiers control the visibility and accessibility of class members (attributes and methods). They define who can access what parts of your code, providing different levels of encapsulation and helping maintain proper separation of concerns in object-oriented design.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Access Modifiers
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem; color: #16A34A;">Public:</span> Accessible from anywhere - no restrictions.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem; color: #EA580C;">Protected:</span> Accessible within the class and its subclasses.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem; color: #DC2626;">Private:</span> Accessible only within the same class.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem; color: #7C3AED;">Default/Package:</span> Accessible within the same package/module (language-specific).
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Access Modifiers
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Python uses naming conventions to indicate access levels rather than strict enforcement:
+   </p>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Public:</strong> No underscore prefix (e.g., name)</li>
+     <li style="margin-top: 0.5rem;"><strong>Protected:</strong> Single underscore prefix (e.g., _name)</li>
+     <li style="margin-top: 0.5rem;"><strong>Private:</strong> Double underscore prefix (e.g., __name) - triggers name mangling</li>
+   </ul>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class Vehicle:
+    def __init__(self, brand, model, year):
+        # Public attributes - accessible from anywhere
+        self.brand = brand
+        self.model = model
+        
+        # Protected attribute - should not be accessed outside class/subclasses
+        self._year = year
+        
+        # Private attribute - name mangling makes it hard to access
+        self.__engine_number = "ENG123456"
+        
+        # Private method
+        self.__validate_engine(self.__engine_number)
+    
+    def __validate_engine(self, engine_num):
+        """Private method - only accessible within this class"""
+        return len(engine_num) > 5
+    
+    def _calculate_age(self):
+        """Protected method - accessible in subclasses"""
+        from datetime import datetime
+        return datetime.now().year - self._year
+    
+    def get_vehicle_info(self):
+        """Public method - accessible from anywhere"""
+        age = self._calculate_age()
+        return f"{self.brand} {self.model} ({self._year}) - {age} years old"
+    
+    def get_engine_info(self):
+        """Public method that accesses private data"""
+        return f"Engine: {self.__engine_number}"
+
+class Car(Vehicle):
+    def __init__(self, brand, model, year, doors):
+        super().__init__(brand, model, year)
+        self.doors = doors  # Public
+        self._fuel_type = "Gasoline"  # Protected
+    
+    def get_car_details(self):
+        # Can access protected members from parent class
+        age = self._calculate_age()
+        return f"Car: {self.brand} {self.model}, {self.doors} doors, Age: {age} years"
+    
+    def set_fuel_type(self, fuel_type):
+        # Can access protected member
+        self._fuel_type = fuel_type
+
+# Usage examples
+vehicle = Vehicle("Toyota", "Camry", 2020)
+
+# Public access - works fine
+print(vehicle.brand)              # Toyota
+print(vehicle.get_vehicle_info()) # Toyota Camry (2020) - 4 years old
+
+# Protected access - works but discouraged
+print(vehicle._year)              # 2020
+
+# Private access attempts
+print(vehicle.get_engine_info())  # Engine: ENG123456 (accessing via public method)
+
+# Direct private access - will cause AttributeError
+# print(vehicle.__engine_number)  # AttributeError
+
+# But you can still access via name mangling (not recommended)
+print(vehicle._Vehicle__engine_number)  # ENG123456
+
+# Subclass usage
+car = Car("Honda", "Civic", 2019, 4)
+print(car.get_car_details())      # Car: Honda Civic, 4 doors, Age: 5 years
+
+# Protected access in subclass - acceptable
+car._fuel_type = "Hybrid"
+print(car._fuel_type)             # Hybrid
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Access Modifiers
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     JavaScript has evolved to support true private fields using the # syntax (ES2022+):
+   </p>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class Vehicle {
+    // Private fields
+    #engineNumber;
+    #manufactureDate;
+    
+    constructor(brand, model, year) {
+        // Public properties
+        this.brand = brand;
+        this.model = model;
+        
+        // Protected convention (still accessible but discouraged)
+        this._year = year;
+        
+        // Private fields (truly private)
+        this.#engineNumber = "ENG123456";
+        this.#manufactureDate = new Date();
+        
+        // Call private method
+        this.#validateEngine();
+    }
+    
+    // Private method
+    #validateEngine() {
+        return this.#engineNumber.length > 5;
+    }
+    
+    // Protected method (by convention)
+    _calculateAge() {
+        return new Date().getFullYear() - this._year;
+    }
+    
+    // Public method
+    getVehicleInfo() {
+        const age = this._calculateAge();
+        return \`\${this.brand} \${this.model} (\${this._year}) - \${age} years old\`;
+    }
+    
+    // Public method accessing private data
+    getEngineInfo() {
+        return \`Engine: \${this.#engineNumber}\`;
+    }
+    
+    // Public getter for private field
+    get engineNumber() {
+        return this.#engineNumber;
+    }
+}
+
+class Car extends Vehicle {
+    constructor(brand, model, year, doors) {
+        super(brand, model, year);
+        this.doors = doors;          // Public
+        this._fuelType = "Gasoline"; // Protected (convention)
+    }
+    
+    getCarDetails() {
+        // Can access protected members from parent class
+        const age = this._calculateAge();
+        return \`Car: \${this.brand} \${this.model}, \${this.doors} doors, Age: \${age} years\`;
+    }
+    
+    setFuelType(fuelType) {
+        this._fuelType = fuelType;
+    }
+    
+    // Cannot access private fields from parent class
+    // getParentEngine() {
+    //     return this.#engineNumber; // SyntaxError!
+    // }
+}
+
+// Usage examples
+const vehicle = new Vehicle("Toyota", "Camry", 2020);
+
+// Public access - works fine
+console.log(vehicle.brand);              // Toyota
+console.log(vehicle.getVehicleInfo());   // Toyota Camry (2020) - 4 years old
+
+// Protected access - works but discouraged
+console.log(vehicle._year);              // 2020
+
+// Private access through public method - works
+console.log(vehicle.getEngineInfo());    // Engine: ENG123456
+console.log(vehicle.engineNumber);       // ENG123456 (via getter)
+
+// Direct private access - will cause SyntaxError
+// console.log(vehicle.#engineNumber);   // SyntaxError!
+
+// Subclass usage
+const car = new Car("Honda", "Civic", 2019, 4);
+console.log(car.getCarDetails());        // Car: Honda Civic, 4 doors, Age: 5 years
+
+// Protected access in subclass - works
+car._fuelType = "Hybrid";
+console.log(car._fuelType);              // Hybrid
+      </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Legacy JavaScript Approaches (Pre-ES2022)
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Using closures for privacy
+function createBankAccount(initialBalance) {
+    let balance = initialBalance; // Private variable
+    
+    return {
+        // Public methods
+        deposit: function(amount) {
+            if (amount > 0) {
+                balance += amount;
+                return \`Deposited $\${amount}. Balance: $\${balance}\`;
+            }
+            return "Invalid amount";
+        },
+        
+        withdraw: function(amount) {
+            if (amount > 0 && amount <= balance) {
+                balance -= amount;
+                return \`Withdrew $\${amount}. Balance: $\${balance}\`;
+            }
+            return "Invalid withdrawal";
+        },
+        
+        getBalance: function() {
+            return balance;
+        }
+    };
+}
+
+const account = createBankAccount(1000);
+console.log(account.deposit(500));   // Deposited $500. Balance: $1500
+console.log(account.getBalance());   // 1500
+// console.log(account.balance);     // undefined - truly private!
+
+// Using WeakMap for privacy (another approach)
+const _private = new WeakMap();
+
+class SecureClass {
+    constructor(secretData) {
+        _private.set(this, { secretData: secretData });
+    }
+    
+    getSecret() {
+        return _private.get(this).secretData;
+    }
+    
+    setSecret(newSecret) {
+        const privateData = _private.get(this);
+        privateData.secretData = newSecret;
+    }
+}
+
+const secure = new SecureClass("top secret");
+console.log(secure.getSecret()); // "top secret"
+// No way to access secretData directly!
+      </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python - Access Modifiers in Banking System
+class BankAccount:
+    # Class variable (public)
+    bank_name = "Global Bank"
+    
+    def __init__(self, account_number, owner_name, initial_balance):
+        self.account_number = account_number    # Public
+        self.owner_name = owner_name           # Public
+        self._balance = initial_balance        # Protected
+        self.__pin = "1234"                   # Private
+        self.__transaction_history = []        # Private
+    
+    def __authenticate(self, pin):
+        """Private method for PIN verification"""
+        return pin == self.__pin
+    
+    def _log_transaction(self, transaction_type, amount):
+        """Protected method for logging transactions"""
+        from datetime import datetime
+        self.__transaction_history.append({
+            'type': transaction_type,
+            'amount': amount,
+            'timestamp': datetime.now()
+        })
+    
+    def withdraw(self, amount, pin):
+        """Public method with authentication"""
+        if not self.__authenticate(pin):
+            return "Invalid PIN"
+        
+        if amount <= self._balance:
+            self._balance -= amount
+            self._log_transaction("withdrawal", amount)
+            return f"Withdrew {amount}. Balance: {self._balance}"
+        return "Insufficient funds"
+    
+    def deposit(self, amount):
+        """Public method"""
+        if amount > 0:
+            self._balance += amount
+            self._log_transaction("deposit", amount)
+            return f"Deposited {amount}. Balance: {self._balance}"
+        return "Invalid amount"
+
+class SavingsAccount(BankAccount):
+    def __init__(self, account_number, owner_name, initial_balance, interest_rate):
+        super().__init__(account_number, owner_name, initial_balance)
+        self._interest_rate = interest_rate  # Protected
+    
+    def add_interest(self):
+        """Can access protected _balance from parent"""
+        interest = self._balance * (self._interest_rate / 100)
+        self._balance += interest
+        self._log_transaction("interest", interest)  # Can call protected method
+        return f"Interest added: {interest:.2f}"
+
+account = SavingsAccount("SA001", "John Doe", 1000, 2.5)
+print(account.deposit(500))        # Deposited $500. Balance: $1500
+print(account.add_interest())      # Interest added: $37.50`,
+
+              `// JavaScript - Access Modifiers in Employee Management
+class Employee {
+    // Private fields
+    #salary;
+    #socialSecurityNumber;
+    #performanceRating;
+    
+    constructor(name, department, salary, ssn) {
+        this.name = name;                           // Public
+        this.department = department;               // Public
+        this._employeeId = this.#generateId();     // Protected (convention)
+        this.#salary = salary;                     // Private
+        this.#socialSecurityNumber = ssn;         // Private
+        this.#performanceRating = 0;              // Private
+    }
+    
+    // Private method
+    #generateId() {
+        return 'EMP' + Math.floor(Math.random() * 10000);
+    }
+    
+    // Private method for salary validation
+    #validateSalary(amount) {
+        return amount > 0 && amount < 1000000;
+    }
+    
+    // Protected method (convention)
+    _calculateBonus() {
+        return this.#salary * 0.1 * this.#performanceRating;
+    }
+    
+    // Public methods
+    getPublicInfo() {
+        return {
+            name: this.name,
+            department: this.department,
+            employeeId: this._employeeId
+        };
+    }
+    
+    setSalary(newSalary, authorized = false) {
+        if (!authorized) {
+            throw new Error("Unauthorized salary change attempt");
+        }
+        
+        if (this.#validateSalary(newSalary)) {
+            this.#salary = newSalary;
+            return \`Salary updated to $\${newSalary}\`;
+        }
+        throw new Error("Invalid salary amount");
+    }
+    
+    getSalary(authorized = false) {
+        if (!authorized) {
+            return "Access denied - confidential information";
+        }
+        return this.#salary;
+    }
+    
+    setPerformanceRating(rating) {
+        if (rating >= 1 && rating <= 5) {
+            this.#performanceRating = rating;
+        }
+    }
+}
+
+class Manager extends Employee {
+    constructor(name, department, salary, ssn, teamSize) {
+        super(name, department, salary, ssn);
+        this.teamSize = teamSize;                    // Public
+        this._managementLevel = "Junior";            // Protected (convention)
+    }
+    
+    // Can access protected methods from parent
+    calculateTeamBonus() {
+        const individualBonus = this._calculateBonus();
+        return individualBonus * this.teamSize;
+    }
+    
+    // Cannot access private fields from parent class
+    // getEmployeeSalary() {
+    //     return this.#salary; // This would cause a SyntaxError!
+    // }
+    
+    promoteManager() {
+        this._managementLevel = "Senior";
+        return \`Promoted to \${this._managementLevel} Manager\`;
+    }
+}
+
+const emp = new Employee("Alice Johnson", "Engineering", 75000, "123-45-6789");
+console.log(emp.getPublicInfo());           // { name: "Alice Johnson", department: "Engineering", employeeId: "EMP1234" }
+console.log(emp.getSalary());               // "Access denied - confidential information"
+console.log(emp.getSalary(true));           // 75000
+
+const manager = new Manager("Bob Smith", "Engineering", 95000, "987-65-4321", 5);
+console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the practical differences between protected and private access modifiers?",
+                solution:
+                  "<p><strong>Protected members</strong> are accessible within the class and its subclasses, making them useful for inheritance hierarchies where child classes need access to parent class internals. <strong>Private members</strong> are only accessible within the defining class, providing the highest level of encapsulation. In practice, use protected for internal APIs that subclasses might need, and private for implementation details that should never be accessed outside the class, even by subclasses.</p>",
+              },
+              {
+                question:
+                  "How do Python and JavaScript handle access modifiers differently?",
+                solution:
+                  "<p><strong>Python</strong> uses naming conventions (_, __) and relies on developer discipline, with name mangling providing some privacy for double underscore attributes. <strong>JavaScript</strong> now has true private fields (#) that provide compile-time privacy enforcement. Python's approach is more flexible but less secure, while JavaScript's newer syntax provides real encapsulation. Both languages treat single underscore as 'protected by convention' but don't enforce it.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+              "https://peps.python.org/pep-0008/#method-names-and-instance-variables",
+            ],
+          },
+          {
+            topic: "Encapsulation",
+            tags: ["OOP", "Security", "Maintainability"],
+            explanation: `
+<div>
+  <h2 style="margin-top: 1.5rem; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.025em;">
+    Encapsulation in Object-Oriented Programming
+  </h2>
+
+  <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
+    <strong>Encapsulation</strong> is the bundling of data (attributes) and methods (functions) that operate on the data into a single unit — a class — and restricting direct access to some of the object's components. This is typically achieved through <strong>access modifiers</strong> like <code>private</code>, <code>protected</code>, and <code>public</code>.
+  </p>
+
+  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
+    🔐 Why Encapsulation Matters
+  </h3>
+
+  <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
+    <li style="margin-top: 0.5rem;">
+      <strong>Security:</strong> Prevents external code from directly modifying sensitive data.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Maintainability:</strong> Internal implementation can change without affecting external code.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Modularity:</strong> Encourages clean interfaces and separation of concerns.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <strong>Control:</strong> Allows validation and logic inside setter/getter methods.
+    </li>
+  </ul>
+
+  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
+    🧱 Key Pillars of Encapsulation
+  </h3>
+
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li><strong>Data Hiding:</strong> Hide internal state using private variables.</li>
+    <li><strong>Access Control:</strong> Use public methods (getters/setters) to allow controlled access.</li>
+    <li><strong>Validation:</strong> Enforce rules before setting values.</li>
+  </ol>
+
+  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
+    🧪 Use Case: Bank Account System
+  </h3>
+
+  <p style="line-height: 1.75; margin-top: 1rem;">
+    Let’s design a simple <strong>BankAccount</strong> class that encapsulates balance and ensures no invalid operations (e.g., negative deposits or over-withdrawals).
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Python Example</h4>
+  <div style="padding: 10px; border-radius: 8px; background-color: #f5f5f5;">
+    <pre><code class="language-python">
+class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.__balance = balance  # Private attribute
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit must be positive")
+        self.__balance += amount
+
+    def withdraw(self, amount):
+        if amount > self.__balance:
+            raise ValueError("Insufficient funds")
+        self.__balance -= amount
+
+    def get_balance(self):
+        return self.__balance
+
+# Usage
+acc = BankAccount("Alice")
+acc.deposit(100)
+print(acc.get_balance())  # 100
+acc.withdraw(50)
+print(acc.get_balance())  # 50
+    </code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">JavaScript Example</h4>
+  <div style="padding: 10px; border-radius: 8px; background-color: #f5f5f5;">
+    <pre><code class="language-javascript">
+class BankAccount {
+  #balance; // Private field
+
+  constructor(owner, balance = 0) {
+    this.owner = owner;
+    this.#balance = balance;
+  }
+
+  deposit(amount) {
+    if (amount <= 0) throw new Error("Deposit must be positive");
+    this.#balance += amount;
+  }
+
+  withdraw(amount) {
+    if (amount > this.#balance) throw new Error("Insufficient funds");
+    this.#balance -= amount;
+  }
+
+  getBalance() {
+    return this.#balance;
+  }
+}
+
+// Usage
+const acc = new BankAccount("Alice");
+acc.deposit(100);
+console.log(acc.getBalance()); // 100
+acc.withdraw(50);
+console.log(acc.getBalance()); // 50
+    </code></pre>
+  </div>
+
+  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
+    🧩 Advanced Use Case: Immutable DTOs
+  </h3>
+
+  <p style="line-height: 1.75;">
+    In some systems, you may want to expose read-only data transfer objects (DTOs) to external systems while keeping internal state mutable only via controlled APIs.
+  </p>
+
+  <h4>Python Immutable DTO</h4>
+  <pre><code class="language-python">
+class UserDTO:
+    def __init__(self, name, email):
+        self._name = name
+        self._email = email
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def email(self):
+        return self._email
+  </code></pre>
+
+  <h4>JavaScript Immutable DTO</h4>
+  <pre><code class="language-javascript">
+class UserDTO {
+  #name;
+  #email;
+
+  constructor(name, email) {
+    this.#name = name;
+    this.#email = email;
+  }
+
+  get name() {
+    return this.#name;
+  }
+
+  get email() {
+    return this.#email;
+  }
+}
+  </code></pre>
+
+  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
+    ✅ Summary
+  </h3>
+
+  <ul style="margin-left: 1.5rem; list-style-type: square;">
+    <li>Encapsulation hides internal state and exposes only necessary interfaces.</li>
+    <li>It improves <strong>security</strong> by preventing unauthorized access.</li>
+    <li>It enhances <strong>maintainability</strong> by isolating changes.</li>
+    <li>It supports <strong>validation</strong> and <strong>control</strong> through getter/setter methods.</li>
+    <li>Both Python and JavaScript support encapsulation via naming conventions or keywords.</li>
+  </ul>
+</div>
+          `,
+            examples: [
+              `class BankAccount:
+    def __init__(self, owner, balance=0):
+        self.owner = owner
+        self.__balance = balance
+
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit must be positive")
+        self.__balance += amount
+
+    def get_balance(self):
+        return self.__balance`,
+              `class BankAccount {
+  #balance;
+  constructor(owner, balance = 0) {
+    this.owner = owner;
+    this.#balance = balance;
+  }
+  deposit(amount) {
+    if (amount <= 0) throw new Error("Invalid deposit");
+    this.#balance += amount;
+  }
+  getBalance() {
+    return this.#balance;
+  }
+}`,
+            ],
+            questions: [
+              {
+                question: "Why is encapsulation important in OOP?",
+                solution:
+                  "Encapsulation protects internal data from unintended interference, ensures validation logic is centralized, and allows internal implementation changes without breaking external code. This leads to more secure and maintainable systems.",
+              },
+              {
+                question:
+                  "How do Python and JavaScript implement private variables?",
+                solution:
+                  "Python uses double underscores (__var) for name mangling to simulate private variables. JavaScript uses the # syntax for truly private class fields, introduced in ES2022.",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+            ],
+          },
+          {
+            topic: "Abstraction in OOP",
+            tags: [
+              "abstraction",
+              "abstract-classes",
+              "interfaces",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Abstraction is one of the four fundamental principles of Object-Oriented Programming (along with Encapsulation, Inheritance, and Polymorphism). It involves hiding complex implementation details while exposing only the essential features of an object or system. Abstraction allows developers to focus on what an object does rather than how it does it.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Abstraction?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Abstraction:</span> Hiding internal data representation and exposing only necessary operations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Process Abstraction:</span> Hiding complex implementation details behind simple interfaces.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Control Abstraction:</span> Using high-level constructs to hide low-level control flow.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Abstraction
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reduced Complexity:</span> Users interact with simplified interfaces.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Abstract classes and interfaces promote code reuse.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Implementation changes don't affect client code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Internal implementation details are hidden from users.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python Example 1 - Database Abstraction Layer
+from abc import ABC, abstractmethod
+import sqlite3
+import mysql.connector
+from typing import List, Dict, Any
+
+class DatabaseConnection(ABC):
+    """Abstract database connection interface"""
+    
+    @abstractmethod
+    def connect(self):
+        pass
+    
+    @abstractmethod
+    def execute_query(self, query: str, params: tuple = None) -> List[Dict]:
+        pass
+    
+    @abstractmethod
+    def execute_update(self, query: str, params: tuple = None) -> int:
+        pass
+    
+    @abstractmethod
+    def close(self):
+        pass
+
+class SQLiteConnection(DatabaseConnection):
+    def __init__(self, database_path: str):
+        self.database_path = database_path
+        self.connection = None
+    
+    def connect(self):
+        self.connection = sqlite3.connect(self.database_path)
+        self.connection.row_factory = sqlite3.Row
+        return self
+    
+    def execute_query(self, query: str, params: tuple = None) -> List[Dict]:
+        cursor = self.connection.cursor()
+        cursor.execute(query, params or ())
+        return [dict(row) for row in cursor.fetchall()]
+    
+    def execute_update(self, query: str, params: tuple = None) -> int:
+        cursor = self.connection.cursor()
+        cursor.execute(query, params or ())
+        self.connection.commit()
+        return cursor.rowcount
+    
+    def close(self):
+        if self.connection:
+            self.connection.close()
+
+class MySQLConnection(DatabaseConnection):
+    def __init__(self, host: str, user: str, password: str, database: str):
+        self.config = {
+            'host': host, 'user': user, 
+            'password': password, 'database': database
+        }
+        self.connection = None
+    
+    def connect(self):
+        self.connection = mysql.connector.connect(**self.config)
+        return self
+    
+    def execute_query(self, query: str, params: tuple = None) -> List[Dict]:
+        cursor = self.connection.cursor(dictionary=True)
+        cursor.execute(query, params or ())
+        return cursor.fetchall()
+    
+    def execute_update(self, query: str, params: tuple = None) -> int:
+        cursor = self.connection.cursor()
+        cursor.execute(query, params or ())
+        self.connection.commit()
+        return cursor.rowcount
+    
+    def close(self):
+        if self.connection:
+            self.connection.close()
+
+# Repository pattern using abstraction
+class UserRepository:
+    def __init__(self, db_connection: DatabaseConnection):
+        self.db = db_connection.connect()
+    
+    def find_by_id(self, user_id: int) -> Dict:
+        query = "SELECT * FROM users WHERE id = ?"
+        results = self.db.execute_query(query, (user_id,))
+        return results[0] if results else None
+    
+    def create_user(self, name: str, email: str) -> int:
+        query = "INSERT INTO users (name, email) VALUES (?, ?)"
+        return self.db.execute_update(query, (name, email))
+    
+    def __del__(self):
+        self.db.close()
+
+# Usage - Client code doesn't know about specific database
+def create_user_service(db_type: str):
+    if db_type == "sqlite":
+        db = SQLiteConnection("users.db")
+    elif db_type == "mysql":
+        db = MySQLConnection("localhost", "user", "pass", "mydb")
+    else:
+        raise ValueError("Unsupported database type")
+    
+    return UserRepository(db)
+
+# Same interface, different implementations
+sqlite_service = create_user_service("sqlite")
+mysql_service = create_user_service("mysql")
+
+# Both work identically
+user1 = sqlite_service.find_by_id(1)
+user2 = mysql_service.find_by_id(1)`,
+
+              `# Python Example 2 - Payment Processing Abstraction
+from abc import ABC, abstractmethod
+from enum import Enum
+from dataclasses import dataclass
+from typing import Optional
+
+class PaymentStatus(Enum):
+    SUCCESS = "success"
+    FAILED = "failed"
+    PENDING = "pending"
+
+@dataclass
+class PaymentResult:
+    status: PaymentStatus
+    transaction_id: Optional[str] = None
+    message: str = ""
+    amount: float = 0.0
+
+class PaymentProcessor(ABC):
+    """Abstract payment processor interface"""
+    
+    @abstractmethod
+    def process_payment(self, amount: float, card_token: str) -> PaymentResult:
+        pass
+    
+    @abstractmethod
+    def refund_payment(self, transaction_id: str, amount: float) -> PaymentResult:
+        pass
+    
+    @abstractmethod
+    def get_payment_status(self, transaction_id: str) -> PaymentStatus:
+        pass
+
+class StripeProcessor(PaymentProcessor):
+    def __init__(self, api_key: str):
+        self.api_key = api_key
+    
+    def process_payment(self, amount: float, card_token: str) -> PaymentResult:
+        # Simulate Stripe API call
+        print(f"Processing {amount:.2f} via Stripe...")
+        # In real implementation, call Stripe API
+        return PaymentResult(
+            status=PaymentStatus.SUCCESS,
+            transaction_id="stripe_txn_123456",
+            message="Payment processed successfully via Stripe",
+            amount=amount
+        )
+    
+    def refund_payment(self, transaction_id: str, amount: float) -> PaymentResult:
+        print(f"Refunding {amount:.2f} for transaction {transaction_id} via Stripe...")
+        return PaymentResult(
+            status=PaymentStatus.SUCCESS,
+            transaction_id=f"refund_{transaction_id}",
+            message="Refund processed via Stripe",
+            amount=amount
+        )
+    
+    def get_payment_status(self, transaction_id: str) -> PaymentStatus:
+        return PaymentStatus.SUCCESS
+
+class PayPalProcessor(PaymentProcessor):
+    def __init__(self, client_id: str, client_secret: str):
+        self.client_id = client_id
+        self.client_secret = client_secret
+    
+    def process_payment(self, amount: float, card_token: str) -> PaymentResult:
+        print(f"Processing {amount:.2f} via PayPal...")
+        return PaymentResult(
+            status=PaymentStatus.SUCCESS,
+            transaction_id="paypal_txn_789012",
+            message="Payment processed successfully via PayPal",
+            amount=amount
+        )
+    
+    def refund_payment(self, transaction_id: str, amount: float) -> PaymentResult:
+        print(f"Refunding {amount:.2f} for transaction {transaction_id} via PayPal...")
+        return PaymentResult(
+            status=PaymentStatus.SUCCESS,
+            transaction_id=f"refund_{transaction_id}",
+            message="Refund processed via PayPal",
+            amount=amount
+        )
+    
+    def get_payment_status(self, transaction_id: str) -> PaymentStatus:
+        return PaymentStatus.SUCCESS
+
+# E-commerce service using payment abstraction
+class ECommerceService:
+    def __init__(self, payment_processor: PaymentProcessor):
+        self.payment_processor = payment_processor
+    
+    def checkout(self, cart_total: float, card_token: str) -> bool:
+        """Process checkout - doesn't care about payment provider"""
+        result = self.payment_processor.process_payment(cart_total, card_token)
+        
+        if result.status == PaymentStatus.SUCCESS:
+            print(f"Order completed! Transaction ID: {result.transaction_id}")
+            return True
+        else:
+            print(f"Payment failed: {result.message}")
+            return False
+    
+    def process_refund(self, transaction_id: str, amount: float) -> bool:
+        """Process refund - works with any payment provider"""
+        result = self.payment_processor.refund_payment(transaction_id, amount)
+        return result.status == PaymentStatus.SUCCESS
+
+# Usage - Easy to switch between payment providers
+def create_ecommerce_service(payment_provider: str):
+    if payment_provider == "stripe":
+        processor = StripeProcessor("sk_test_stripe_key")
+    elif payment_provider == "paypal":
+        processor = PayPalProcessor("paypal_client_id", "paypal_secret")
+    else:
+        raise ValueError("Unsupported payment provider")
+    
+    return ECommerceService(processor)
+
+# Same business logic, different payment processors
+stripe_store = create_ecommerce_service("stripe")
+paypal_store = create_ecommerce_service("paypal")
+
+# Both work identically
+stripe_store.checkout(99.99, "card_token_123")
+paypal_store.checkout(149.50, "card_token_456")`,
+
+              `// JavaScript Example 1 - Notification System Abstraction
+
+// Abstract base class for notifications
+class NotificationSender {
+    constructor() {
+        if (new.target === NotificationSender) {
+            throw new Error("Cannot instantiate abstract NotificationSender");
+        }
+    }
+    
+    // Abstract methods
+    send(recipient, message, subject = null) {
+        throw new Error("Method 'send' must be implemented");
+    }
+    
+    validateRecipient(recipient) {
+        throw new Error("Method 'validateRecipient' must be implemented");
+    }
+    
+    // Concrete method - common functionality
+    formatMessage(message, timestamp = new Date()) {
+        return \`[\${timestamp.toISOString()}] \${message}\`;
+    }
+}
+
+class EmailSender extends NotificationSender {
+    constructor(smtpConfig) {
+        super();
+        this.smtpConfig = smtpConfig;
+    }
+    
+    send(recipient, message, subject = "Notification") {
+        if (!this.validateRecipient(recipient)) {
+            throw new Error("Invalid email address");
+        }
+        
+        const formattedMessage = this.formatMessage(message);
+        console.log(\`📧 Sending email to \${recipient}\`);
+        console.log(\`Subject: \${subject}\`);
+        console.log(\`Message: \${formattedMessage}\`);
+        
+        // Simulate email sending
+        return {
+            success: true,
+            messageId: \`email_\${Date.now()}\`,
+            provider: 'email'
+        };
+    }
+    
+    validateRecipient(email) {
+        const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+        return emailRegex.test(email);
+    }
+}
+
+class SMSSender extends NotificationSender {
+    constructor(apiKey, serviceProvider) {
+        super();
+        this.apiKey = apiKey;
+        this.serviceProvider = serviceProvider;
+    }
+    
+    send(recipient, message, subject = null) {
+        if (!this.validateRecipient(recipient)) {
+            throw new Error("Invalid phone number");
+        }
+        
+        const formattedMessage = this.formatMessage(message);
+        console.log(\`📱 Sending SMS to \${recipient}\`);
+        console.log(\`Message: \${formattedMessage}\`);
+        
+        // Simulate SMS sending
+        return {
+            success: true,
+            messageId: \`sms_\${Date.now()}\`,
+            provider: 'sms'
+        };
+    }
+    
+    validateRecipient(phone) {
+        const phoneRegex = /^\\+?[1-9]\\d{1,14}$/;
+        return phoneRegex.test(phone.replace(/[\\s\\-\\(\\)]/g, ''));
+    }
+}
+
+class PushNotificationSender extends NotificationSender {
+    constructor(firebaseConfig) {
+        super();
+        this.firebaseConfig = firebaseConfig;
+    }
+    
+    send(recipient, message, subject = "App Notification") {
+        if (!this.validateRecipient(recipient)) {
+            throw new Error("Invalid device token");
+        }
+        
+        const formattedMessage = this.formatMessage(message);
+        console.log(\`🔔 Sending push notification to device \${recipient.substring(0, 10)}...\`);
+        console.log(\`Title: \${subject}\`);
+        console.log(\`Message: \${formattedMessage}\`);
+        
+        // Simulate push notification
+        return {
+            success: true,
+            messageId: \`push_\${Date.now()}\`,
+            provider: 'push'
+        };
+    }
+    
+    validateRecipient(deviceToken) {
+        return deviceToken && deviceToken.length >= 32;
+    }
+}
+
+// Notification service that can use any sender
+class NotificationService {
+    constructor() {
+        this.senders = new Map();
+    }
+    
+    addSender(type, sender) {
+        if (!(sender instanceof NotificationSender)) {
+            throw new Error("Sender must extend NotificationSender");
+        }
+        this.senders.set(type, sender);
+    }
+    
+    async sendNotification(type, recipient, message, subject = null) {
+        const sender = this.senders.get(type);
+        if (!sender) {
+            throw new Error(\`No sender configured for type: \${type}\`);
+        }
+        
+        try {
+            const result = sender.send(recipient, message, subject);
+            console.log(\`✅ Notification sent successfully via \${result.provider}\`);
+            return result;
+        } catch (error) {
+            console.error(\`❌ Failed to send notification: \${error.message}\`);
+            throw error;
+        }
+    }
+    
+    // Send to multiple channels
+    async broadcastNotification(recipients, message, subject = null) {
+        const results = [];
+        
+        for (const [type, recipient] of recipients) {
+            try {
+                const result = await this.sendNotification(type, recipient, message, subject);
+                results.push({ type, recipient, success: true, result });
+            } catch (error) {
+                results.push({ type, recipient, success: false, error: error.message });
+            }
+        }
+        
+        return results;
+    }
+}
+
+// Usage Example
+const notificationService = new NotificationService();
+
+// Configure different senders
+notificationService.addSender('email', new EmailSender({
+    host: 'smtp.gmail.com',
+    port: 587,
+    user: 'app@example.com',
+    password: 'app_password'
+}));
+
+notificationService.addSender('sms', new SMSSender('twilio_api_key', 'Twilio'));
+notificationService.addSender('push', new PushNotificationSender({
+    serverKey: 'firebase_server_key'
+}));
+
+// Send notifications through different channels
+async function sendWelcomeNotifications(user) {
+    const message = \`Welcome to our app, \${user.name}! Thanks for signing up.\`;
+    
+    const recipients = [
+        ['email', user.email],
+        ['sms', user.phone],
+        ['push', user.deviceToken]
+    ];
+    
+    const results = await notificationService.broadcastNotification(
+        recipients, 
+        message, 
+        "Welcome!"
+    );
+    
+    console.log('Broadcast results:', results);
+}
+
+// Example usage
+const newUser = {
+    name: 'John Doe',
+    email: 'john@example.com',
+    phone: '+1234567890',
+    deviceToken: 'firebase_device_token_1234567890abcdef'
+};
+
+sendWelcomeNotifications(newUser);`,
+
+              `// JavaScript Example 2 - File Storage Abstraction
+
+// Abstract file storage interface
+class FileStorage {
+    constructor() {
+        if (new.target === FileStorage) {
+            throw new Error("Cannot instantiate abstract FileStorage");
+        }
+    }
+    
+    // Abstract methods
+    async upload(filePath, content) {
+        throw new Error("Method 'upload' must be implemented");
+    }
+    
+    async download(filePath) {
+        throw new Error("Method 'download' must be implemented");
+    }
+    
+    async delete(filePath) {
+        throw new Error("Method 'delete' must be implemented");
+    }
+    
+    async exists(filePath) {
+        throw new Error("Method 'exists' must be implemented");
+    }
+    
+    async listFiles(directory = '') {
+        throw new Error("Method 'listFiles' must be implemented");
+    }
+    
+    // Common utility methods
+    getFileExtension(filePath) {
+        return filePath.split('.').pop().toLowerCase();
+    }
+    
+    generateUniqueFileName(originalName) {
+        const timestamp = Date.now();
+        const random = Math.random().toString(36).substring(7);
+        const extension = this.getFileExtension(originalName);
+        const nameWithoutExt = originalName.replace(/\\.[^/.]+$/, "");
+        return \`\${nameWithoutExt}_\${timestamp}_\${random}.\${extension}\`;
+    }
+}
+
+// Local file system implementation
+class LocalFileStorage extends FileStorage {
+    constructor(basePath = './uploads') {
+        super();
+        this.basePath = basePath;
+    }
+    
+    async upload(filePath, content) {
+        const fullPath = \`\${this.basePath}/\${filePath}\`;
+        console.log(\`💾 Uploading to local storage: \${fullPath}\`);
+        
+        // Simulate file writing
+        return {
+            success: true,
+            path: fullPath,
+            size: content.length,
+            provider: 'local'
+        };
+    }
+    
+    async download(filePath) {
+        const fullPath = \`\${this.basePath}/\${filePath}\`;
+        console.log(\`📁 Downloading from local storage: \${fullPath}\`);
+        
+        // Simulate file reading
+        return {
+            content: "File content from local storage",
+            path: fullPath,
+            provider: 'local'
+        };
+    }
+    
+    async delete(filePath) {
+        const fullPath = \`\${this.basePath}/\${filePath}\`;
+        console.log(\`🗑️ Deleting from local storage: \${fullPath}\`);
+        
+        return {
+            success: true,
+            path: fullPath,
+            provider: 'local'
+        };
+    }
+    
+    async exists(filePath) {
+        const fullPath = \`\${this.basePath}/\${filePath}\`;
+        console.log(\`🔍 Checking existence in local storage: \${fullPath}\`);
+        return true; // Simulate file exists
+    }
+    
+    async listFiles(directory = '') {
+        const fullPath = \`\${this.basePath}/\${directory}\`;
+        console.log(\`📋 Listing files in local storage: \${fullPath}\`);
+        
+        return [
+            'document1.pdf',
+            'image1.jpg',
+            'data.json'
+        ];
+    }
+}
+
+// Cloud storage implementation (AWS S3-like)
+class CloudFileStorage extends FileStorage {
+    constructor(bucketName, region, credentials) {
+        super();
+        this.bucketName = bucketName;
+        this.region = region;
+        this.credentials = credentials;
+    }
+    
+    async upload(filePath, content) {
+        const key = \`uploads/\${filePath}\`;
+        console.log(\`☁️ Uploading to cloud storage: s3://\${this.bucketName}/\${key}\`);
+        
+        // Simulate S3 upload
+        return {
+            success: true,
+            path: key,
+            url: \`https://\${this.bucketName}.s3.\${this.region}.amazonaws.com/\${key}\`,
+            size: content.length,
+            provider: 'cloud'
+        };
+    }
+    
+    async download(filePath) {
+        const key = \`uploads/\${filePath}\`;
+        console.log(\`☁️ Downloading from cloud storage: s3://\${this.bucketName}/\${key}\`);
+        
+        return {
+            content: "File content from cloud storage",
+            path: key,
+            url: \`https://\${this.bucketName}.s3.\${this.region}.amazonaws.com/\${key}\`,
+            provider: 'cloud'
+        };
+    }
+    
+    async delete(filePath) {
+        const key = \`uploads/\${filePath}\`;
+        console.log(\`🗑️ Deleting from cloud storage: s3://\${this.bucketName}/\${key}\`);
+        
+        return {
+            success: true,
+            path: key,
+            provider: 'cloud'
+        };
+    }
+    
+    async exists(filePath) {
+        const key = \`uploads/\${filePath}\`;
+        console.log(\`🔍 Checking existence in cloud storage: s3://\${this.bucketName}/\${key}\`);
+        return true;
+    }
+    
+    async listFiles(directory = '') {
+        const prefix = directory ? \`uploads/\${directory}/\` : 'uploads/';
+        console.log(\`📋 Listing files in cloud storage with prefix: \${prefix}\`);
+        
+        return [
+            'uploads/documents/report.pdf',
+            'uploads/images/photo.jpg',
+            'uploads/data/backup.json'
+        ];
+    }
+}
+
+// Database file storage implementation
+class DatabaseFileStorage extends FileStorage {
+    constructor(connectionString) {
+        super();
+        this.connectionString = connectionString;
+    }
+    
+    async upload(filePath, content) {
+        console.log(\`🗄️ Storing file in database: \${filePath}\`);
+        
+        // Simulate database storage
+        const fileId = \`db_file_\${Date.now()}\`;
+        return {
+            success: true,
+            path: filePath,
+            fileId: fileId,
+            size: content.length,
+            provider: 'database'
+        };
+    }
+    
+    async download(filePath) {
+        console.log(\`🗄️ Retrieving file from database: \${filePath}\`);
+        
+        return {
+            content: "File content from database",
+            path: filePath,
+            provider: 'database'
+        };
+    }
+    
+    async delete(filePath) {
+        console.log(\`🗑️ Deleting file from database: \${filePath}\`);
+        
+        return {
+            success: true,
+            path: filePath,
+            provider: 'database'
+        };
+    }
+    
+    async exists(filePath) {
+        console.log(\`🔍 Checking file existence in database: \${filePath}\`);
+        return true;
+    }
+    
+    async listFiles(directory = '') {
+        console.log(\`📋 Listing files in database directory: \${directory}\`);
+        
+        return [
+            'user_uploads/avatar.png',
+            'documents/contract.pdf',
+            'backups/data.sql'
+        ];
+    }
+}
+
+// File manager service using storage abstraction
+class FileManager {
+    constructor(storage) {
+        if (!(storage instanceof FileStorage)) {
+            throw new Error("Storage must extend FileStorage");
+        }
+        this.storage = storage;
+    }
+    
+    async uploadFile(fileName, content, useUniqueNames = true) {
+        const finalFileName = useUniqueNames ? 
+            this.storage.generateUniqueFileName(fileName) : fileName;
+        
+        try {
+            const result = await this.storage.upload(finalFileName, content);
+            console.log(\`✅ File uploaded successfully: \${finalFileName}\`);
+            return result;
+        } catch (error) {
+            console.error(\`❌ Upload failed: \${error.message}\`);
+            throw error;
+        }
+    }
+    
+    async downloadFile(fileName) {
+        try {
+            const result = await this.storage.download(fileName);
+            console.log(\`✅ File downloaded successfully: \${fileName}\`);
+            return result;
+        } catch (error) {
+            console.error(\`❌ Download failed: \${error.message}\`);
+            throw error;
+        }
+    }
+    
+    async deleteFile(fileName) {
+        const exists = await this.storage.exists(fileName);
+        if (!exists) {
+            throw new Error(\`File not found: \${fileName}\`);
+        }
+        
+        try {
+            const result = await this.storage.delete(fileName);
+            console.log(\`✅ File deleted successfully: \${fileName}\`);
+            return result;
+        } catch (error) {
+            console.error(\`❌ Delete failed: \${error.message}\`);
+            throw error;
+        }
+    }
+    
+    async listAllFiles(directory = '') {
+        try {
+            const files = await this.storage.listFiles(directory);
+            console.log(\`✅ Listed \${files.length} files in directory: \${directory || 'root'}\`);
+            return files;
+        } catch (error) {
+            console.error(\`❌ List files failed: \${error.message}\`);
+            throw error;
+        }
+    }
+}
+
+// Factory function to create file manager with different storage types
+function createFileManager(storageType, config = {}) {
+    let storage;
+    
+    switch (storageType) {
+        case 'local':
+            storage = new LocalFileStorage(config.basePath);
+            break;
+        case 'cloud':
+            storage = new CloudFileStorage(
+                config.bucketName, 
+                config.region, 
+                config.credentials
+            );
+            break;
+        case 'database':
+            storage = new DatabaseFileStorage(config.connectionString);
+            break;
+        default:
+            throw new Error(\`Unsupported storage type: \${storageType}\`);
+    }
+    
+    return new FileManager(storage);
+}
+
+// Usage examples
+async function demonstrateFileStorage() {
+    // Local storage
+    const localManager = createFileManager('local', { basePath: './uploads' });
+    await localManager.uploadFile('document.pdf', 'PDF content here');
+    
+    // Cloud storage
+    const cloudManager = createFileManager('cloud', {
+        bucketName: 'my-app-files',
+        region: 'us-east-1',
+        credentials: { accessKey: 'key', secretKey: 'secret' }
+    });
+    await cloudManager.uploadFile('image.jpg', 'Image content here');
+    
+    // Database storage
+    const dbManager = createFileManager('database', {
+        connectionString: 'postgresql://user:pass@localhost/db'
+    });
+    await dbManager.uploadFile('backup.json', 'JSON backup data');
+    
+    // All managers work identically despite different storage implementations
+    console.log('\\n=== Listing files from all storage types ===');
+    await localManager.listAllFiles();
+    await cloudManager.listAllFiles();
+    await dbManager.listAllFiles();
+}
+
+// Run demonstration
+demonstrateFileStorage().catch(console.error);`,
+            ],
+            questions: [
+              `# Python Example - Basic Abstraction
+class BankAccount:
+    def __init__(self, account_number, balance):
+        self._account_number = account_number  # Protected attribute
+        self._balance = balance
+    
+    def deposit(self, amount):
+        """Public interface - hides validation logic"""
+        if self._validate_amount(amount):
+            self._balance += amount
+            return True
+        return False
+    
+    def get_balance(self):
+        """Public interface - controlled access to balance"""
+        return self._balance
+    
+    def _validate_amount(self, amount):
+        """Private method - implementation detail hidden"""
+        return amount > 0 and isinstance(amount, (int, float))
+
+# Usage - User doesn't need to know internal validation logic
+account = BankAccount("12345", 1000)
+account.deposit(500)  # Simple interface
+print(account.get_balance())  # 1500`,
+
+              `// JavaScript Example - Basic Abstraction
+class BankAccount {
+    constructor(accountNumber, balance) {
+        this._accountNumber = accountNumber;  // Protected property
+        this._balance = balance;
+    }
+    
+    deposit(amount) {
+        // Public interface - hides validation logic
+        if (this._validateAmount(amount)) {
+            this._balance += amount;
+            return true;
+        }
+        return false;
+    }
+    
+    getBalance() {
+        // Public interface - controlled access to balance
+        return this._balance;
+    }
+    
+    _validateAmount(amount) {
+        // Private method - implementation detail hidden
+        return amount > 0 && typeof amount === 'number';
+    }
+}
+
+// Usage - User doesn't need to know internal validation logic
+const account = new BankAccount("12345", 1000);
+account.deposit(500);  // Simple interface
+console.log(account.getBalance());  // 1500`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between abstraction and encapsulation?",
+                solution:
+                  "<p>While both concepts involve hiding details, <strong>Abstraction</strong> focuses on hiding unnecessary complexity and showing only essential features (what an object does), while <strong>Encapsulation</strong> focuses on bundling data and methods together and controlling access to them (how an object protects its state). Abstraction is about design and interface, encapsulation is about implementation and data security.</p>",
+              },
+              {
+                question: "How does abstraction improve code maintainability?",
+                solution:
+                  "<p>Abstraction improves maintainability by creating stable interfaces that don't change even when implementation details do. This means you can modify internal algorithms, data structures, or business logic without breaking existing code that depends on the abstract interface. It also makes code easier to understand and test since users only need to know the public interface.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://refactoring.guru/design-patterns/what-is-pattern",
+            ],
+          },
+          {
+            topic: "Abstract Classes & Abstract Methods",
+            tags: [
+              "abstract-classes",
+              "abstract-methods",
+              "inheritance",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Abstract classes are classes that cannot be instantiated directly and typically contain one or more abstract methods. Abstract methods are method declarations without implementation that must be implemented by concrete subclasses. This enforces a contract that derived classes must follow while providing a common base structure.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics of Abstract Classes
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cannot be instantiated:</span> You cannot create objects directly from abstract classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">May contain abstract methods:</span> Methods declared but not implemented.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">May contain concrete methods:</span> Fully implemented methods that subclasses inherit.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Enforce contracts:</span> Subclasses must implement all abstract methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Support inheritance:</span> Can have constructors and instance variables.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Abstract Classes
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Common Base Functionality:</span> When multiple classes share common methods and attributes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Enforcing Method Implementation:</span> When you want to ensure specific methods are implemented in subclasses.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Template Method Pattern:</span> When you want to define a skeleton of an algorithm with some steps to be implemented by subclasses.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Organization:</span> When you want to group related classes under a common abstract parent.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python Example - Abstract Classes using ABC module
+from abc import ABC, abstractmethod
+import math
+
+class Shape(ABC):
+    """Abstract base class for all shapes"""
+    
+    def __init__(self, color):
+        self.color = color
+    
+    @abstractmethod
+    def area(self):
+        """Abstract method - must be implemented by subclasses"""
+        pass
+    
+    @abstractmethod
+    def perimeter(self):
+        """Abstract method - must be implemented by subclasses"""
+        pass
+    
+    # Concrete method - inherited by all subclasses
+    def display_info(self):
+        return f"{self.__class__.__name__}: Color={self.color}, Area={self.area():.2f}"
+
+class Circle(Shape):
+    def __init__(self, color, radius):
+        super().__init__(color)
+        self.radius = radius
+    
+    def area(self):
+        return math.pi * self.radius ** 2
+    
+    def perimeter(self):
+        return 2 * math.pi * self.radius
+
+class Rectangle(Shape):
+    def __init__(self, color, width, height):
+        super().__init__(color)
+        self.width = width
+        self.height = height
+    
+    def area(self):
+        return self.width * self.height
+    
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+
+# Usage
+circle = Circle("red", 5)
+rectangle = Rectangle("blue", 4, 6)
+
+print(circle.display_info())  # Circle: Color=red, Area=78.54
+print(rectangle.display_info())  # Rectangle: Color=blue, Area=24.00
+
+# This would raise TypeError: Can't instantiate abstract class Shape
+# shape = Shape("green")`,
+
+              `// JavaScript Example - Abstract Classes (ES6+)
+// Note: JavaScript doesn't have built-in abstract classes, 
+// but we can simulate them using constructor checks
+
+class Shape {
+    constructor(color) {
+        // Prevent direct instantiation of abstract class
+        if (new.target === Shape) {
+            throw new Error("Cannot instantiate abstract class Shape directly");
+        }
+        this.color = color;
+    }
+    
+    // Abstract methods - throw errors if not overridden
+    area() {
+        throw new Error("Abstract method 'area' must be implemented");
+    }
+    
+    perimeter() {
+        throw new Error("Abstract method 'perimeter' must be implemented");
+    }
+    
+    // Concrete method - inherited by all subclasses
+    displayInfo() {
+        return \`\${this.constructor.name}: Color=\${this.color}, Area=\${this.area().toFixed(2)}\`;
+    }
+}
+
+class Circle extends Shape {
+    constructor(color, radius) {
+        super(color);
+        this.radius = radius;
+    }
+    
+    area() {
+        return Math.PI * this.radius ** 2;
+    }
+    
+    perimeter() {
+        return 2 * Math.PI * this.radius;
+    }
+}
+
+class Rectangle extends Shape {
+    constructor(color, width, height) {
+        super(color);
+        this.width = width;
+        this.height = height;
+    }
+    
+    area() {
+        return this.width * this.height;
+    }
+    
+    perimeter() {
+        return 2 * (this.width + this.height);
+    }
+}
+
+// Usage
+const circle = new Circle("red", 5);
+const rectangle = new Rectangle("blue", 4, 6);
+
+console.log(circle.displayInfo());     // Circle: Color=red, Area=78.54
+console.log(rectangle.displayInfo());  // Rectangle: Color=blue, Area=24.00
+
+// This would throw an error: Cannot instantiate abstract class Shape directly
+// const shape = new Shape("green");`,
+            ],
+            questions: [
+              {
+                question:
+                  "Can abstract classes have constructors and instance variables?",
+                solution:
+                  "<p>Yes, abstract classes can have constructors, instance variables, and concrete methods. The constructor is typically called by subclass constructors using <code>super()</code> in Python or <code>super()</code> in JavaScript. Instance variables defined in abstract classes are inherited by all subclasses, providing a common state structure.</p>",
+              },
+              {
+                question:
+                  "What happens if a subclass doesn't implement all abstract methods?",
+                solution:
+                  "<p>In Python, if a subclass doesn't implement all abstract methods from its parent abstract class, attempting to instantiate that subclass will raise a <code>TypeError</code>. In JavaScript (our simulation), the abstract method will throw an error when called. This ensures that the contract defined by the abstract class is enforced.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/abc.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target",
+              "https://refactoring.guru/design-patterns/template-method",
+            ],
+          },
+          {
+            topic: "Interfaces vs Abstract Classes",
+            tags: [
+              "interfaces",
+              "abstract-classes",
+              "comparison",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     While both interfaces and abstract classes define contracts that implementing classes must follow, they serve different purposes and have distinct characteristics. Understanding when to use each is crucial for good object-oriented design. Note that Python doesn't have explicit interfaces like some languages, but we can simulate them using abstract base classes or protocols.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Interfaces Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Pure Contracts:</span> Define what methods a class must implement, not how.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No Implementation:</span> Contain only method signatures (traditionally).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multiple Implementation:</span> A class can implement multiple interfaces.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">No State:</span> Cannot have instance variables or constructors.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Loose Coupling:</span> Define capabilities without inheritance relationships.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Abstract Classes vs Interfaces Comparison
+   </h4>
+   <div style="margin-top: 1.5rem; overflow-x: auto;">
+     <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb;">
+       <thead>
+         <tr style="background-color: #f9fafb;">
+           <th style="padding: 12px; border: 1px solid #e5e7eb; text-align: left; font-weight: 600;">Aspect</th>
+           <th style="padding: 12px; border: 1px solid #e5e7eb; text-align: left; font-weight: 600;">Abstract Classes</th>
+           <th style="padding: 12px; border: 1px solid #e5e7eb; text-align: left; font-weight: 600;">Interfaces</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Purpose</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">IS-A relationship, shared code</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">CAN-DO relationship, behavior contract</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Implementation</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">Can have concrete methods</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">Only method signatures (traditionally)</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">State</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">Can have instance variables</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">No instance variables</td>
+         </tr>
+         <tr style="background-color: #f9fafb;">
+           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Inheritance</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">Single inheritance</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">Multiple implementation</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Access Modifiers</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">Can have private/protected</td>
+           <td style="padding: 12px; border: 1px solid #e5e7eb;">All methods public</td>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Which?
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Abstract Classes When:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+        <li>You want to share code among related classes</li>
+        <li>Classes have common state (instance variables)</li>
+        <li>You want to provide default implementations</li>
+        <li>You need access control (private/protected methods)</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Interfaces When:</span>
+      <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+        <li>You want to specify behavior contracts</li>
+        <li>Unrelated classes need to implement same methods</li>
+        <li>You need multiple inheritance of type</li>
+        <li>You want loose coupling between components</li>
+      </ul>
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python Example - Interface-like behavior using ABC and Protocol
+
+from abc import ABC, abstractmethod
+from typing import Protocol
+
+# Method 1: Using ABC to simulate interface
+class Drawable(ABC):
+    """Interface-like abstract class - only abstract methods"""
+    
+    @abstractmethod
+    def draw(self):
+        pass
+    
+    @abstractmethod
+    def get_area(self):
+        pass
+
+class Movable(ABC):
+    """Another interface-like abstract class"""
+    
+    @abstractmethod
+    def move(self, x, y):
+        pass
+
+# Method 2: Using Protocol (Python 3.8+) for structural typing
+class Serializable(Protocol):
+    """Protocol defines interface without inheritance"""
+    
+    def serialize(self) -> str:
+        ...
+    
+    def deserialize(self, data: str):
+        ...
+
+# Abstract class with shared implementation
+class Shape(ABC):
+    """Abstract class with common functionality"""
+    
+    def __init__(self, color, position=(0, 0)):
+        self.color = color
+        self.position = position
+    
+    @abstractmethod
+    def area(self):
+        pass
+    
+    # Concrete method shared by all shapes
+    def get_color(self):
+        return self.color
+
+# Concrete class implementing multiple "interfaces"
+class Circle(Shape, Drawable, Movable):
+    def __init__(self, color, radius, position=(0, 0)):
+        super().__init__(color, position)
+        self.radius = radius
+    
+    # Abstract method from Shape
+    def area(self):
+        return 3.14159 * self.radius ** 2
+    
+    # Interface methods from Drawable
+    def draw(self):
+        return f"Drawing {self.color} circle at {self.position}"
+    
+    def get_area(self):
+        return self.area()
+    
+    # Interface methods from Movable
+    def move(self, x, y):
+        self.position = (x, y)
+        return f"Moved circle to ({x}, {y})"
+    
+    # Protocol method (duck typing)
+    def serialize(self) -> str:
+        return f"Circle|{self.color}|{self.radius}|{self.position[0]}|{self.position[1]}"
+    
+    def deserialize(self, data: str):
+        parts = data.split('|')
+        self.color = parts[1]
+        self.radius = float(parts[2])
+        self.position = (float(parts[3]), float(parts[4]))
+
+# Usage
+circle = Circle("red", 5)
+print(circle.draw())        # Drawing red circle at (0, 0)
+print(circle.move(10, 20))  # Moved circle to (10, 20)
+print(circle.serialize())   # Circle|red|5.0|10.0|20.0
+
+# Polymorphic usage with interfaces
+def process_drawable(drawable: Drawable):
+    print(f"Processing: {drawable.draw()}")
+    print(f"Area: {drawable.get_area()}")
+
+process_drawable(circle)`,
+
+              `// JavaScript Example - Interface simulation and comparison with abstract classes
+
+// Interface simulation using conventions and documentation
+class IDrawable {
+    /**
+     * Interface for drawable objects
+     * All implementing classes must provide these methods
+     */
+    
+    draw() {
+        throw new Error("Method 'draw' must be implemented");
+    }
+    
+    getArea() {
+        throw new Error("Method 'getArea' must be implemented");
+    }
+}
+
+class IMovable {
+    /**
+     * Interface for movable objects
+     */
+    
+    move(x, y) {
+        throw new Error("Method 'move' must be implemented");
+    }
+}
+
+class ISerializable {
+    /**
+     * Interface for serializable objects
+     */
+    
+    serialize() {
+        throw new Error("Method 'serialize' must be implemented");
+    }
+    
+    deserialize(data) {
+        throw new Error("Method 'deserialize' must be implemented");
+    }
+}
+
+// Abstract class with shared implementation
+class Shape {
+    constructor(color, position = {x: 0, y: 0}) {
+        if (new.target === Shape) {
+            throw new Error("Cannot instantiate abstract class Shape");
+        }
+        this.color = color;
+        this.position = position;
+    }
+    
+    // Abstract method
+    area() {
+        throw new Error("Abstract method 'area' must be implemented");
+    }
+    
+    // Concrete method shared by all shapes
+    getColor() {
+        return this.color;
+    }
+}
+
+// Concrete class implementing multiple "interfaces"
+class Circle extends Shape {
+    constructor(color, radius, position = {x: 0, y: 0}) {
+        super(color, position);
+        this.radius = radius;
+    }
+    
+    // Abstract method from Shape
+    area() {
+        return Math.PI * this.radius ** 2;
+    }
+    
+    // Interface methods from IDrawable
+    draw() {
+        return \`Drawing \${this.color} circle at (\${this.position.x}, \${this.position.y})\`;
+    }
+    
+    getArea() {
+        return this.area();
+    }
+    
+    // Interface methods from IMovable
+    move(x, y) {
+        this.position = {x, y};
+        return \`Moved circle to (\${x}, \${y})\`;
+    }
+    
+    // Interface methods from ISerializable
+    serialize() {
+        return \`Circle|\${this.color}|\${this.radius}|\${this.position.x}|\${this.position.y}\`;
+    }
+    
+    deserialize(data) {
+        const parts = data.split('|');
+        this.color = parts[1];
+        this.radius = parseFloat(parts[2]);
+        this.position = {
+            x: parseFloat(parts[3]),
+            y: parseFloat(parts[4])
+        };
+    }
+}
+
+// Modern JavaScript: Using mixins for interface-like behavior
+const DrawableMixin = {
+    draw() {
+        throw new Error("Method 'draw' must be implemented");
+    },
+    
+    getArea() {
+        throw new Error("Method 'getArea' must be implemented");
+    }
+};
+
+const MovableMixin = {
+    move(x, y) {
+        throw new Error("Method 'move' must be implemented");
+    }
+};
+
+// Apply mixins to a class
+function implementInterfaces(targetClass, ...mixins) {
+    mixins.forEach(mixin => {
+        Object.getOwnPropertyNames(mixin).forEach(name => {
+            if (name !== 'constructor') {
+                targetClass.prototype[name] = mixin[name];
+            }
+        });
+    });
+    return targetClass;
+}
+
+// Usage
+const circle = new Circle("red", 5);
+console.log(circle.draw());        // Drawing red circle at (0, 0)
+console.log(circle.move(10, 20));  // Moved circle to (10, 20)
+console.log(circle.serialize());   // Circle|red|5|10|20
+
+// Polymorphic usage with "interfaces"
+function processDrawable(drawable) {
+    console.log(\`Processing: \${drawable.draw()}\`);
+    console.log(\`Area: \${drawable.getArea()}\`);
+}
+
+processDrawable(circle);`,
+            ],
+            questions: [
+              {
+                question:
+                  "Can a class implement multiple interfaces but extend only one abstract class?",
+                solution:
+                  "<p>Yes, this is a key distinction. In languages that support both concepts, a class can implement multiple interfaces but can only extend one abstract class (single inheritance limitation). This is why interfaces are preferred when you need to define multiple contracts that unrelated classes should follow, while abstract classes are better for sharing implementation among related classes.</p>",
+              },
+              {
+                question:
+                  "How do you simulate interfaces in Python and JavaScript?",
+                solution:
+                  "<p>In <strong>Python</strong>, you can simulate interfaces using abstract base classes (ABC) with only abstract methods, or use Protocol classes for structural typing. In <strong>JavaScript</strong>, you can create 'interface' classes that throw errors for unimplemented methods, use mixins, or rely on documentation and conventions. Both languages use duck typing, so explicit interfaces aren't always necessary.</p>",
+              },
+              {
+                question:
+                  "When would you choose composition over inheritance with interfaces?",
+                solution:
+                  "<p>Choose composition with interfaces when you want to avoid deep inheritance hierarchies, need more flexibility in combining behaviors, or when classes don't have an 'IS-A' relationship but need to share behaviors. For example, a 'Car' and 'Airplane' both need to be 'Movable' but shouldn't inherit from the same base class. Using interfaces allows you to compose different capabilities without tight coupling.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/typing.html#typing.Protocol",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+              "https://refactoring.guru/design-patterns/strategy",
+            ],
+          },
+          {
+            topic: "Real-world Examples of Abstraction",
+            tags: [
+              "real-world",
+              "design-patterns",
+              "practical-examples",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Abstraction is everywhere in real-world software development. From database connections to payment processing, file systems to notification services, abstraction helps us build maintainable and scalable applications. Let's explore practical examples that demonstrate how abstraction solves real problems and makes code more flexible and maintainable.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Real-world Abstraction Patterns
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Database Abstraction Layer:</span> Hide different database implementations behind a common interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Payment Processing:</span> Abstract different payment gateways (PayPal, Stripe, Square) behind a unified interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">File Storage Systems:</span> Provide common interface for local files, cloud storage, and databases.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Notification Services:</span> Abstract email, SMS, push notifications behind a single interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Authentication Systems:</span> Hide OAuth, JWT, session-based auth behind common login interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Logging Systems:</span> Abstract different logging destinations and formats.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits in Real Applications
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Vendor Independence:</span> Easy to switch between service providers without changing business logic.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Testing Flexibility:</span> Mock implementations for unit testing without external dependencies.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Configuration-driven Behavior:</span> Change implementation based on environment or user preferences.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Scalability:</span> Add new implementations without affecting existing code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Team Collaboration:</span> Different teams can work on different implementations independently.
+     </li>
+   </ol>
+   `,
+            questions: [
+              {
+                question:
+                  "How does abstraction help with vendor lock-in in real applications?",
+                solution:
+                  "<p>Abstraction prevents vendor lock-in by creating a consistent interface that isolates your business logic from specific vendor implementations. For example, if you abstract your payment processing behind a common interface, you can easily switch from Stripe to PayPal without changing your checkout logic. The same applies to cloud services, databases, and third-party APIs - your application depends on the abstract interface, not the concrete implementation, making it vendor-agnostic.</p>",
+              },
+              {
+                question:
+                  "How do you design abstractions that are flexible enough for future requirements?",
+                solution:
+                  "<p>Design flexible abstractions by focusing on <strong>essential behaviors</strong> rather than current implementations, using <strong>composition over inheritance</strong> where possible, keeping interfaces <strong>focused and cohesive</strong> (following Single Responsibility Principle), allowing for <strong>configuration and extensibility</strong>, and designing for <strong>common use cases</strong> while keeping the interface minimal. Avoid exposing implementation-specific details in the abstract interface.</p>",
+              },
+              {
+                question:
+                  "What are the performance implications of using abstraction layers?",
+                solution:
+                  "<p>Abstraction layers can introduce slight performance overhead due to additional method calls, dynamic dispatch, and potential boxing/unboxing of parameters. However, the benefits usually outweigh costs: <strong>better maintainability</strong>, <strong>easier optimization</strong> (you can optimize implementations without changing interfaces), <strong>better caching strategies</strong>, and <strong>easier profiling</strong>. Modern compilers and runtimes also optimize many abstraction patterns, and the flexibility gained often leads to better overall system performance.</p>",
+              },
+              {
+                question:
+                  "How do you handle error handling and logging across different abstract implementations?",
+                solution:
+                  "<p>Handle errors consistently across implementations by defining common exception types in your abstract interface, using structured error codes and messages, implementing logging at the abstraction layer (not just implementations), providing error context that's meaningful regardless of the underlying implementation, and using the Template Method pattern to ensure consistent error handling workflows while allowing implementations to customize specific error recovery strategies.</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/adapter",
+              "https://martinfowler.com/articles/injection.html",
+              "https://docs.python.org/3/library/logging.html",
+              "https://aws.amazon.com/builders-library/avoiding-overload-in-distributed-systems-by-putting-the-smaller-service-in-control/",
+            ],
+          },
+          {
+            topic: "What is Inheritance?",
+            tags: ["OOP", "Inheritance", "Concepts"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Inheritance is a fundamental concept in Object-Oriented Programming (OOP) that allows a class (child/derived class) to inherit properties and methods from another class (parent/base class). It promotes code reusability, establishes hierarchical relationships between classes, and enables polymorphism.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Benefits of Inheritance
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Child classes can reuse code from parent classes without rewriting it.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Hierarchical Classification:</span> Models real-world relationships (e.g., Animal → Dog → Labrador).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Overriding:</span> Child classes can provide specific implementations of parent methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Polymorphism:</span> Objects of different classes can be treated uniformly through inheritance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> New functionality can be added to existing classes without modifying them.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Case: E-commerce System
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Consider an e-commerce system where you have different types of products. Instead of creating separate classes with duplicate code, you can use inheritance to create a base Product class and derive specific product types from it.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-python">
+# Base class (Parent)
+class Product:
+    def __init__(self, name, price, category):
+        self.name = name
+        self.price = price
+        self.category = category
+        self.in_stock = True
+    
+    def display_info(self):
+        return f"{self.name} - {self.price} ({self.category})"
+    
+    def apply_discount(self, percentage):
+        self.price = self.price * (1 - percentage / 100)
+        return self.price
+
+# Child class (Derived)
+class Electronics(Product):
+    def __init__(self, name, price, brand, warranty_years):
+        super().__init__(name, price, "Electronics")
+        self.brand = brand
+        self.warranty_years = warranty_years
+    
+    def display_info(self):  # Method overriding
+        base_info = super().display_info()
+        return f"{base_info} | Brand: {self.brand} | Warranty: {self.warranty_years} years"
+    
+    def extend_warranty(self, additional_years):
+        self.warranty_years += additional_years
+        print(f"Warranty extended to {self.warranty_years} years")
+
+# Usage
+laptop = Electronics("MacBook Pro", 1299, "Apple", 2)
+print(laptop.display_info())  # Uses overridden method
+laptop.apply_discount(10)     # Uses inherited method
+print(f"After discount: {laptop.price}")
+laptop.extend_warranty(1)     # Uses child-specific method
+      </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-javascript">
+// Base class (Parent)
+class Product {
+    constructor(name, price, category) {
+        this.name = name;
+        this.price = price;
+        this.category = category;
+        this.inStock = true;
+    }
+    
+    displayInfo() {
+        return \`\${this.name} - $\${this.price} (\${this.category})\`;
+    }
+    
+    applyDiscount(percentage) {
+        this.price = this.price * (1 - percentage / 100);
+        return this.price;
+    }
+}
+
+// Child class (Derived)
+class Electronics extends Product {
+    constructor(name, price, brand, warrantyYears) {
+        super(name, price, "Electronics");
+        this.brand = brand;
+        this.warrantyYears = warrantyYears;
+    }
+    
+    displayInfo() {  // Method overriding
+        const baseInfo = super.displayInfo();
+        return \`\${baseInfo} | Brand: \${this.brand} | Warranty: \${this.warrantyYears} years\`;
+    }
+    
+    extendWarranty(additionalYears) {
+        this.warrantyYears += additionalYears;
+        console.log(\`Warranty extended to \${this.warrantyYears} years\`);
+    }
+}
+
+// Usage
+const laptop = new Electronics("MacBook Pro", 1299, "Apple", 2);
+console.log(laptop.displayInfo());  // Uses overridden method
+laptop.applyDiscount(10);           // Uses inherited method
+console.log(\`After discount: $\${laptop.price}\`);
+laptop.extendWarranty(1);           // Uses child-specific method
+      </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `# Python - Basic Inheritance Example
+class Animal:
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+    
+    def make_sound(self):
+        return f"{self.name} makes a sound"
+    
+    def sleep(self):
+        return f"{self.name} is sleeping"
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name, "Canine")
+        self.breed = breed
+    
+    def make_sound(self):  # Override
+        return f"{self.name} barks: Woof!"
+    
+    def fetch(self):  # New method
+        return f"{self.name} fetches the ball"
+
+# Usage
+my_dog = Dog("Buddy", "Golden Retriever")
+print(my_dog.make_sound())  # Buddy barks: Woof!
+print(my_dog.sleep())       # Buddy is sleeping (inherited)
+print(my_dog.fetch())       # Buddy fetches the ball`,
+
+              `// JavaScript - Basic Inheritance Example
+class Animal {
+    constructor(name, species) {
+        this.name = name;
+        this.species = species;
+    }
+    
+    makeSound() {
+        return \`\${this.name} makes a sound\`;
+    }
+    
+    sleep() {
+        return \`\${this.name} is sleeping\`;
+    }
+}
+
+class Dog extends Animal {
+    constructor(name, breed) {
+        super(name, "Canine");
+        this.breed = breed;
+    }
+    
+    makeSound() {  // Override
+        return \`\${this.name} barks: Woof!\`;
+    }
+    
+    fetch() {  // New method
+        return \`\${this.name} fetches the ball\`;
+    }
+}
+
+// Usage
+const myDog = new Dog("Buddy", "Golden Retriever");
+console.log(myDog.makeSound());  // Buddy barks: Woof!
+console.log(myDog.sleep());      // Buddy is sleeping (inherited)
+console.log(myDog.fetch());      // Buddy fetches the ball`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between inheritance and composition?",
+                solution:
+                  "<p><strong>Inheritance</strong> creates an 'is-a' relationship where a child class inherits properties and methods from a parent class. <strong>Composition</strong> creates a 'has-a' relationship where a class contains instances of other classes. Inheritance promotes code reuse through hierarchical relationships, while composition promotes flexibility through object aggregation. For example: Car 'is-a' Vehicle (inheritance) vs Car 'has-a' Engine (composition).</p>",
+              },
+              {
+                question: "When should you use inheritance vs composition?",
+                solution:
+                  "<p>Use <strong>inheritance</strong> when: 1) There's a clear 'is-a' relationship, 2) You want to leverage polymorphism, 3) The relationship is stable and unlikely to change. Use <strong>composition</strong> when: 1) There's a 'has-a' relationship, 2) You need more flexibility, 3) You want to avoid tight coupling, 4) Multiple inheritance-like behavior is needed. The principle 'favor composition over inheritance' suggests composition is often more flexible and maintainable.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+              "https://refactoring.guru/design-patterns/strategy",
+            ],
+          },
+          {
+            topic: "Single Inheritance",
+            tags: ["Inheritance", "Single", "Simple"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Single inheritance is the simplest form of inheritance where a child class inherits from exactly one parent class. This creates a linear parent-child relationship and is supported by most object-oriented programming languages including Python and JavaScript.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Characteristics of Single Inheritance
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">One Parent Class:</span> Each child class has exactly one direct parent.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Linear Hierarchy:</span> Forms a tree-like structure with clear parent-child relationships.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Simple Method Resolution:</span> No ambiguity in method lookup since there's only one inheritance path.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Easy to Understand:</span> Straightforward inheritance chain makes code more readable.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Case: Banking System
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     In a banking system, you might have different types of accounts that share common functionality but have specific behaviors. Single inheritance allows you to create specialized account types while maintaining a clear hierarchy.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-python">
+from datetime import datetime
+from decimal import Decimal
+
+# Base class
+class BankAccount:
+    def __init__(self, account_number, account_holder, initial_balance=0):
+        self.account_number = account_number
+        self.account_holder = account_holder
+        self.balance = Decimal(str(initial_balance))
+        self.transaction_history = []
+        self.created_at = datetime.now()
+    
+    def deposit(self, amount):
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive")
+        
+        self.balance += Decimal(str(amount))
+        self.transaction_history.append({
+            'type': 'deposit',
+            'amount': amount,
+            'balance_after': self.balance,
+            'timestamp': datetime.now()
+        })
+        return self.balance
+    
+    def withdraw(self, amount):
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive")
+        if self.balance < Decimal(str(amount)):
+            raise ValueError("Insufficient funds")
+        
+        self.balance -= Decimal(str(amount))
+        self.transaction_history.append({
+            'type': 'withdrawal',
+            'amount': amount,
+            'balance_after': self.balance,
+            'timestamp': datetime.now()
+        })
+        return self.balance
+    
+    def get_balance(self):
+        return float(self.balance)
+    
+    def get_account_info(self):
+        return {
+            'account_number': self.account_number,
+            'account_holder': self.account_holder,
+            'balance': float(self.balance),
+            'created_at': self.created_at
+        }
+
+# Child class - Single Inheritance
+class SavingsAccount(BankAccount):
+    def __init__(self, account_number, account_holder, initial_balance=0, interest_rate=0.02):
+        super().__init__(account_number, account_holder, initial_balance)
+        self.interest_rate = interest_rate
+        self.account_type = "Savings"
+        self.minimum_balance = Decimal('100')  # $100 minimum
+    
+    def withdraw(self, amount):  # Override parent method
+        if self.balance - Decimal(str(amount)) < self.minimum_balance:
+            raise ValueError(f"Cannot withdraw. Minimum balance of ${self.minimum_balance} required")
+        return super().withdraw(amount)
+    
+    def calculate_interest(self):
+        """Calculate monthly interest"""
+        interest = self.balance * Decimal(str(self.interest_rate / 12))
+        return float(interest)
+    
+    def apply_monthly_interest(self):
+        """Apply monthly interest to the account"""
+        interest = self.calculate_interest()
+        if interest > 0:
+            self.balance += Decimal(str(interest))
+            self.transaction_history.append({
+                'type': 'interest',
+                'amount': interest,
+                'balance_after': self.balance,
+                'timestamp': datetime.now()
+            })
+        return interest
+    
+    def get_account_info(self):  # Override and extend
+        base_info = super().get_account_info()
+        base_info.update({
+            'account_type': self.account_type,
+            'interest_rate': self.interest_rate,
+            'minimum_balance': float(self.minimum_balance),
+            'next_interest': self.calculate_interest()
+        })
+        return base_info
+
+# Usage Example
+savings = SavingsAccount("SAV001", "John Doe", 500, 0.025)
+
+print("Account Info:", savings.get_account_info())
+print("Balance after deposit:", savings.deposit(200))
+print("Monthly interest earned:", savings.apply_monthly_interest())
+
+try:
+    savings.withdraw(650)  # This will fail due to minimum balance
+except ValueError as e:
+    print("Withdrawal error:", e)
+
+print("Final balance:", savings.get_balance())
+      </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-javascript">
+// Level 1: Base class
+class Person {
+    constructor(personId, firstName, lastName, dateOfBirth, email) {
+        this.personId = personId;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = new Date(dateOfBirth);
+        this.email = email;
+        this.status = "active";
+        this.createdAt = new Date();
+    }
+    
+    getFullName() {
+        return \`\${this.firstName} \${this.lastName}\`;
+    }
+    
+    getAge() {
+        const today = new Date();
+        const birthDate = this.dateOfBirth;
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDiff = today.getMonth() - birthDate.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
+    
+    updateEmail(newEmail) {
+        this.email = newEmail;
+        console.log(\`Email updated to \${newEmail}\`);
+    }
+    
+    getBasicInfo() {
+        return {
+            id: this.personId,
+            name: this.getFullName(),
+            age: this.getAge(),
+            email: this.email,
+            status: this.status
+        };
+    }
+}
+
+// Level 2: Inherits from Person
+class Student extends Person {
+    constructor(personId, firstName, lastName, dateOfBirth, email, 
+                studentId, program, enrollmentDate) {
+        super(personId, firstName, lastName, dateOfBirth, email);
+        this.studentId = studentId;
+        this.program = program;
+        this.enrollmentDate = new Date(enrollmentDate);
+        this.courses = [];
+        this.gpa = 0.0;
+        this.creditsCompleted = 0;
+    }
+    
+    enrollCourse(courseCode, courseName, credits) {
+        const course = {
+            code: courseCode,
+            name: courseName,
+            credits: credits,
+            grade: null,
+            status: 'enrolled'
+        };
+        this.courses.push(course);
+        console.log(\`Enrolled in \${courseName} (\${courseCode})\`);
+    }
+    
+    completeCourse(courseCode, grade) {
+        const course = this.courses.find(c => c.code === courseCode);
+        if (course) {
+            course.grade = grade;
+            course.status = 'completed';
+            this.creditsCompleted += course.credits;
+            this.calculateGPA();
+            console.log(\`Completed \${course.name} with grade \${grade}\`);
+        } else {
+            console.log(\`Course \${courseCode} not found\`);
+        }
+    }
+    
+    calculateGPA() {
+        const completedCourses = this.courses.filter(c => 
+            c.status === 'completed' && c.grade
+        );
+        
+        if (completedCourses.length === 0) return 0.0;
+        
+        const gradePoints = {'A': 4.0, 'B': 3.0, 'C': 2.0, 'D': 1.0, 'F': 0.0};
+        const totalPoints = completedCourses.reduce((sum, course) => 
+            sum + (gradePoints[course.grade] || 0) * course.credits, 0
+        );
+        const totalCredits = completedCourses.reduce((sum, course) => 
+            sum + course.credits, 0
+        );
+        
+        this.gpa = totalCredits > 0 ? parseFloat((totalPoints / totalCredits).toFixed(2)) : 0.0;
+        return this.gpa;
+    }
+    
+    getAcademicInfo() {
+        return {
+            studentId: this.studentId,
+            program: this.program,
+            gpa: this.gpa,
+            creditsCompleted: this.creditsCompleted,
+            coursesCount: this.courses.length,
+            enrollmentDate: this.enrollmentDate
+        };
+    }
+    
+    getBasicInfo() { // Override parent method
+        const basicInfo = super.getBasicInfo();
+        return {
+            ...basicInfo,
+            studentId: this.studentId,
+            program: this.program,
+            gpa: this.gpa
+        };
+    }
+}
+
+// Level 3: Inherits from Student (which inherits from Person)
+class GraduateStudent extends Student {
+    constructor(personId, firstName, lastName, dateOfBirth, email,
+                studentId, program, enrollmentDate, advisor, thesisTopic) {
+        super(personId, firstName, lastName, dateOfBirth, email,
+              studentId, program, enrollmentDate);
+        this.advisor = advisor;
+        this.thesisTopic = thesisTopic;
+        this.researchPublications = [];
+        this.thesisStatus = "planning"; // planning, research, writing, review, completed
+        this.defenseDate = null;
+        this.minimumCredits = 30; // Graduate programs typically require more credits
+    }
+    
+    addPublication(title, journal, publicationDate, coAuthors = []) {
+        const publication = {
+            title: title,
+            journal: journal,
+            publicationDate: new Date(publicationDate),
+            coAuthors: coAuthors,
+            primaryAuthor: this.getFullName()
+        };
+        this.researchPublications.push(publication);
+        console.log(\`Added publication: \${title}\`);
+    }
+    
+    updateThesisStatus(newStatus) {
+        const validStatuses = ["planning", "research", "writing", "review", "completed"];
+        if (validStatuses.includes(newStatus)) {
+            this.thesisStatus = newStatus;
+            console.log(\`Thesis status updated to: \${newStatus}\`);
+        } else {
+            console.log(\`Invalid status. Valid options: \${validStatuses.join(', ')}\`);
+        }
+    }
+    
+    scheduleDefense(defenseDate) {
+        if (["writing", "review"].includes(this.thesisStatus)) {
+            this.defenseDate = new Date(defenseDate);
+            console.log(\`Defense scheduled for \${this.defenseDate.toDateString()}\`);
+        } else {
+            console.log("Cannot schedule defense. Thesis must be in writing or review stage.");
+        }
+    }
+    
+    isEligibleToGraduate() {
+        return (
+            this.creditsCompleted >= this.minimumCredits &&
+            this.gpa >= 3.0 &&
+            this.thesisStatus === "completed" &&
+            this.researchPublications.length >= 1
+        );
+    }
+    
+    getResearchInfo() {
+        return {
+            advisor: this.advisor,
+            thesisTopic: this.thesisTopic,
+            thesisStatus: this.thesisStatus,
+            defenseDate: this.defenseDate,
+            publicationsCount: this.researchPublications.length,
+            publications: this.researchPublications,
+            eligibleToGraduate: this.isEligibleToGraduate()
+        };
+    }
+    
+    getBasicInfo() { // Override grandparent and parent methods
+        const basicInfo = super.getBasicInfo(); // Gets Student's version (which includes Person's)
+        return {
+            ...basicInfo,
+            level: 'Graduate',
+            advisor: this.advisor,
+            thesisTopic: this.thesisTopic,
+            thesisStatus: this.thesisStatus,
+            publications: this.researchPublications.length
+        };
+    }
+}
+
+// Usage Example - Demonstrating multilevel inheritance
+const gradStudent = new GraduateStudent(
+    "P001",
+    "Sarah",
+    "Wilson", 
+    "1995-03-15",
+    "sarah.wilson@university.edu",
+    "GS2023001",
+    "Computer Science PhD",
+    "2023-09-01",
+    "Dr. John Smith",
+    "Machine Learning in Healthcare"
+);
+
+// Using methods from all levels of inheritance
+console.log("=== Person Level Methods ===");
+console.log(\`Full Name: \${gradStudent.getFullName()}\`); // From Person
+console.log(\`Age: \${gradStudent.getAge()}\`); // From Person
+
+console.log("\\n=== Student Level Methods ===");
+gradStudent.enrollCourse("CS701", "Advanced Algorithms", 3); // From Student
+gradStudent.enrollCourse("CS702", "Research Methods", 3); // From Student
+gradStudent.completeCourse("CS701", "A"); // From Student
+console.log(\`Current GPA: \${gradStudent.gpa}\`); // From Student
+
+console.log("\\n=== Graduate Student Level Methods ===");
+gradStudent.addPublication( // From GraduateStudent
+    "ML Applications in Medical Diagnosis",
+    "Journal of AI in Medicine",
+    "2024-02-01"
+);
+gradStudent.updateThesisStatus("research"); // From GraduateStudent
+
+console.log("\\n=== Complete Information (all levels) ===");
+console.log("Basic Info:", gradStudent.getBasicInfo()); // Overridden method
+console.log("Academic Info:", gradStudent.getAcademicInfo()); // From Student
+console.log("Research Info:", gradStudent.getResearchInfo()); // From GraduateStudent
+// Base class
+class BankAccount {
+    constructor(accountNumber, accountHolder, initialBalance = 0) {
+        this.accountNumber = accountNumber;
+        this.accountHolder = accountHolder;
+        this.balance = parseFloat(initialBalance.toFixed(2));
+        this.transactionHistory = [];
+        this.createdAt = new Date();
+    }
+    
+    deposit(amount) {
+        if (amount <= 0) {
+            throw new Error("Deposit amount must be positive");
+        }
+        
+        this.balance = parseFloat((this.balance + amount).toFixed(2));
+        this.transactionHistory.push({
+            type: 'deposit',
+            amount: amount,
+            balanceAfter: this.balance,
+            timestamp: new Date()
+        });
+        return this.balance;
+    }
+    
+    withdraw(amount) {
+        if (amount <= 0) {
+            throw new Error("Withdrawal amount must be positive");
+        }
+        if (this.balance < amount) {
+            throw new Error("Insufficient funds");
+        }
+        
+        this.balance = parseFloat((this.balance - amount).toFixed(2));
+        this.transactionHistory.push({
+            type: 'withdrawal',
+            amount: amount,
+            balanceAfter: this.balance,
+            timestamp: new Date()
+        });
+        return this.balance;
+    }
+    
+    getBalance() {
+        return this.balance;
+    }
+    
+    getAccountInfo() {
+        return {
+            accountNumber: this.accountNumber,
+            accountHolder: this.accountHolder,
+            balance: this.balance,
+            createdAt: this.createdAt
+        };
+    }
+}
+
+// Child class - Single Inheritance
+class SavingsAccount extends BankAccount {
+    constructor(accountNumber, accountHolder, initialBalance = 0, interestRate = 0.02) {
+        super(accountNumber, accountHolder, initialBalance);
+        this.interestRate = interestRate;
+        this.accountType = "Savings";
+        this.minimumBalance = 100; // $100 minimum
+    }
+    
+    withdraw(amount) { // Override parent method
+        if (this.balance - amount < this.minimumBalance) {
+            throw new Error(\`Cannot withdraw. Minimum balance of $\${this.minimumBalance} required\`);
+        }
+        return super.withdraw(amount);
+    }
+    
+    calculateInterest() {
+        // Calculate monthly interest
+        const interest = this.balance * (this.interestRate / 12);
+        return parseFloat(interest.toFixed(2));
+    }
+    
+    applyMonthlyInterest() {
+        // Apply monthly interest to the account
+        const interest = this.calculateInterest();
+        if (interest > 0) {
+            this.balance = parseFloat((this.balance + interest).toFixed(2));
+            this.transactionHistory.push({
+                type: 'interest',
+                amount: interest,
+                balanceAfter: this.balance,
+                timestamp: new Date()
+            });
+        }
+        return interest;
+    }
+    
+    getAccountInfo() { // Override and extend
+        const baseInfo = super.getAccountInfo();
+        return {
+            ...baseInfo,
+            accountType: this.accountType,
+            interestRate: this.interestRate,
+            minimumBalance: this.minimumBalance,
+            nextInterest: this.calculateInterest()
+        };
+    }
+}
+
+// Usage Example
+const savings = new SavingsAccount("SAV001", "John Doe", 500, 0.025);
+
+console.log("Account Info:", savings.getAccountInfo());
+console.log("Balance after deposit:", savings.deposit(200));
+console.log("Monthly interest earned:", savings.applyMonthlyInterest());
+
+try {
+    savings.withdraw(650); // This will fail due to minimum balance
+} catch (error) {
+    console.log("Withdrawal error:", error.message);
+}
+
+console.log("Final balance:", savings.getBalance());
+      </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `# Python - Employee Management System
+class Employee:
+    def __init__(self, emp_id, name, department):
+        self.emp_id = emp_id
+        self.name = name
+        self.department = department
+        self.is_active = True
+    
+    def get_info(self):
+        return f"ID: {self.emp_id}, Name: {self.name}, Dept: {self.department}"
+    
+    def deactivate(self):
+        self.is_active = False
+
+class Manager(Employee):
+    def __init__(self, emp_id, name, department, team_size):
+        super().__init__(emp_id, name, department)
+        self.team_size = team_size
+        self.direct_reports = []
+    
+    def add_team_member(self, employee):
+        self.direct_reports.append(employee)
+        print(f"{employee.name} added to {self.name}'s team")
+    
+    def get_info(self):
+        base_info = super().get_info()
+        return f"{base_info}, Team Size: {self.team_size}"
+
+# Usage
+manager = Manager("M001", "Alice Johnson", "Engineering", 5)
+employee = Employee("E001", "Bob Smith", "Engineering")
+manager.add_team_member(employee)`,
+
+              `// JavaScript - Vehicle Management
+class Vehicle {
+    constructor(make, model, year, fuel) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.fuel = fuel;
+        this.isRunning = false;
+    }
+    
+    start() {
+        this.isRunning = true;
+        return \`\${this.make} \${this.model} started\`;
+    }
+    
+    stop() {
+        this.isRunning = false;
+        return \`\${this.make} \${this.model} stopped\`;
+    }
+    
+    getInfo() {
+        return \`\${this.year} \${this.make} \${this.model}\`;
+    }
+}
+
+class ElectricCar extends Vehicle {
+    constructor(make, model, year, batteryCapacity) {
+        super(make, model, year, "Electric");
+        this.batteryCapacity = batteryCapacity;
+        this.chargeLevel = 100;
+    }
+    
+    charge(hours) {
+        const chargeAdded = Math.min(hours * 10, 100 - this.chargeLevel);
+        this.chargeLevel += chargeAdded;
+        return \`Charged for \${hours} hours. Battery at \${this.chargeLevel}%\`;
+    }
+    
+    getInfo() {
+        const baseInfo = super.getInfo();
+        return \`\${baseInfo} - Battery: \${this.batteryCapacity}kWh\`;
+    }
+}
+
+const tesla = new ElectricCar("Tesla", "Model 3", 2023, 75);
+console.log(tesla.getInfo());
+console.log(tesla.charge(2));`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages and disadvantages of single inheritance?",
+                solution:
+                  "<p><strong>Advantages:</strong> 1) Simplicity - easy to understand and implement, 2) Clear hierarchy - no ambiguity in method resolution, 3) Memory efficient - no multiple parent overhead, 4) Predictable behavior - single inheritance path. <strong>Disadvantages:</strong> 1) Limited flexibility - can only inherit from one parent, 2) Code duplication - common functionality across different hierarchies must be duplicated, 3) Rigid structure - difficult to change inheritance hierarchy later, 4) May not model real-world relationships accurately where objects can have multiple types.</p>",
+              },
+              {
+                question:
+                  "How does method overriding work in single inheritance?",
+                solution:
+                  "<p>Method overriding in single inheritance allows a child class to provide a specific implementation of a method that's already defined in its parent class. The child class method 'overrides' the parent's version. Key points: 1) The method signature must match exactly, 2) Use <code>super()</code> to call the parent method if needed, 3) The overridden method is called when invoked on child instances, 4) It enables polymorphism where the same method name can have different behaviors in parent and child classes.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+              "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Inheritance",
+              "https://www.w3schools.com/python/python_inheritance.asp",
+            ],
+          },
+          {
+            topic: "Multilevel Inheritance",
+            tags: ["Inheritance", "Multilevel", "Chain"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Multilevel inheritance is a type of inheritance where a class inherits from another class, which in turn inherits from another class, creating a chain of inheritance. This forms a hierarchical structure where each level adds its own properties and methods while inheriting from all previous levels.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Characteristics of Multilevel Inheritance
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Chain of Inheritance:</span> A → B → C relationship where C inherits from B, and B inherits from A.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Transitive Properties:</span> The lowest level class has access to all ancestor class members.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Gradual Specialization:</span> Each level adds more specific functionality.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Resolution Order:</span> Methods are resolved from child to parent up the chain.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Case: Educational Institution System
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     In an educational system, you might have a hierarchy like Person → Student → GraduateStudent, where each level adds more specific attributes and behaviors while maintaining the characteristics of all previous levels.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-python">
+from datetime import datetime, date
+from enum import Enum
+
+class PersonStatus(Enum):
+    ACTIVE = "active"
+    INACTIVE = "inactive"
+    GRADUATED = "graduated"
+
+# Level 1: Base class
+class Person:
+    def __init__(self, person_id, first_name, last_name, date_of_birth, email):
+        self.person_id = person_id
+        self.first_name = first_name
+        self.last_name = last_name
+        self.date_of_birth = date_of_birth
+        self.email = email
+        self.status = PersonStatus.ACTIVE
+        self.created_at = datetime.now()
+    
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+    
+    def get_age(self):
+        today = date.today()
+        return today.year - self.date_of_birth.year - (
+            (today.month, today.day) < (self.date_of_birth.month, self.date_of_birth.day)
+        )
+    
+    def update_email(self, new_email):
+        self.email = new_email
+        print(f"Email updated to {new_email}")
+    
+    def get_basic_info(self):
+        return {
+            'id': self.person_id,
+            'name': self.get_full_name(),
+            'age': self.get_age(),
+            'email': self.email,
+            'status': self.status.value
+        }
+
+# Level 2: Inherits from Person
+class Student(Person):
+    def __init__(self, person_id, first_name, last_name, date_of_birth, email, 
+                 student_id, program, enrollment_date):
+        super().__init__(person_id, first_name, last_name, date_of_birth, email)
+        self.student_id = student_id
+        self.program = program
+        self.enrollment_date = enrollment_date
+        self.courses = []
+        self.gpa = 0.0
+        self.credits_completed = 0
+    
+    def enroll_course(self, course_code, course_name, credits):
+        course = {
+            'code': course_code,
+            'name': course_name,
+            'credits': credits,
+            'grade': None,
+            'status': 'enrolled'
+        }
+        self.courses.append(course)
+        print(f"Enrolled in {course_name} ({course_code})")
+    
+    def complete_course(self, course_code, grade):
+        for course in self.courses:
+            if course['code'] == course_code:
+                course['grade'] = grade
+                course['status'] = 'completed'
+                self.credits_completed += course['credits']
+                self.calculate_gpa()
+                print(f"Completed {course['name']} with grade {grade}")
+                return
+        print(f"Course {course_code} not found")
+    
+    def calculate_gpa(self):
+        completed_courses = [c for c in self.courses if c['status'] == 'completed' and c['grade']]
+        if not completed_courses:
+            return 0.0
+        
+        grade_points = {'A': 4.0, 'B': 3.0, 'C': 2.0, 'D': 1.0, 'F': 0.0}
+        total_points = sum(grade_points.get(c['grade'], 0) * c['credits'] for c in completed_courses)
+        total_credits = sum(c['credits'] for c in completed_courses)
+        
+        self.gpa = round(total_points / total_credits, 2) if total_credits > 0 else 0.0
+        return self.gpa
+    
+    def get_academic_info(self):
+        return {
+            'student_id': self.student_id,
+            'program': self.program,
+            'gpa': self.gpa,
+            'credits_completed': self.credits_completed,
+            'courses_count': len(self.courses),
+            'enrollment_date': self.enrollment_date
+        }
+    
+    def get_basic_info(self):  # Override parent method
+        basic_info = super().get_basic_info()
+        basic_info.update({
+            'student_id': self.student_id,
+            'program': self.program,
+            'gpa': self.gpa
+        })
+        return basic_info
+
+# Level 3: Inherits from Student (which inherits from Person)
+class GraduateStudent(Student):
+    def __init__(self, person_id, first_name, last_name, date_of_birth, email,
+                 student_id, program, enrollment_date, advisor, thesis_topic):
+        super().__init__(person_id, first_name, last_name, date_of_birth, email,
+                        student_id, program, enrollment_date)
+        self.advisor = advisor
+        self.thesis_topic = thesis_topic
+        self.research_publications = []
+        self.thesis_status = "planning"  # planning, research, writing, review, completed
+        self.defense_date = None
+        self.minimum_credits = 30  # Graduate programs typically require more credits
+    
+    def add_publication(self, title, journal, publication_date, co_authors=None):
+        publication = {
+            'title': title,
+            'journal': journal,
+            'publication_date': publication_date,
+            'co_authors': co_authors or [],
+            'primary_author': self.get_full_name()
+        }
+        self.research_publications.append(publication)
+        print(f"Added publication: {title}")
+    
+    def update_thesis_status(self, new_status):
+        valid_statuses = ["planning", "research", "writing", "review", "completed"]
+        if new_status in valid_statuses:
+            self.thesis_status = new_status
+            print(f"Thesis status updated to: {new_status}")
+        else:
+            print(f"Invalid status. Valid options: {valid_statuses}")
+    
+    def schedule_defense(self, defense_date):
+        if self.thesis_status in ["writing", "review"]:
+            self.defense_date = defense_date
+            print(f"Defense scheduled for {defense_date}")
+        else:
+            print("Cannot schedule defense. Thesis must be in writing or review stage.")
+    
+    def is_eligible_to_graduate(self):
+        return (
+            self.credits_completed >= self.minimum_credits and
+            self.gpa >= 3.0 and
+            self.thesis_status == "completed" and
+            len(self.research_publications) >= 1
+        )
+    
+    def get_research_info(self):
+        return {
+            'advisor': self.advisor,
+            'thesis_topic': self.thesis_topic,
+            'thesis_status': self.thesis_status,
+            'defense_date': self.defense_date,
+            'publications_count': len(self.research_publications),
+            'publications': self.research_publications,
+            'eligible_to_graduate': self.is_eligible_to_graduate()
+        }
+    
+    def get_basic_info(self):  # Override grandparent and parent methods
+        basic_info = super().get_basic_info()  # Gets Student's version (which includes Person's)
+        basic_info.update({
+            'level': 'Graduate',
+            'advisor': self.advisor,
+            'thesis_topic': self.thesis_topic,
+            'thesis_status': self.thesis_status,
+            'publications': len(self.research_publications)
+        })
+        return basic_info
+
+# Usage Example - Demonstrating multilevel inheritance
+from datetime import date
+
+# Create a graduate student (inherits from all three levels)
+grad_student = GraduateStudent(
+    person_id="P001",
+    first_name="Sarah",
+    last_name="Wilson",
+    date_of_birth=date(1995, 3, 15),
+    email="sarah.wilson@university.edu",
+    student_id="GS2023001",
+    program="Computer Science PhD",
+    enrollment_date=date(2023, 9, 1),
+    advisor="Dr. John Smith",
+    thesis_topic="Machine Learning in Healthcare"
+)
+
+# Using methods from all levels of inheritance
+print("=== Person Level Methods ===")
+print(f"Full Name: {grad_student.get_full_name()}")  # From Person
+print(f"Age: {grad_student.get_age()}")  # From Person
+
+print("\n=== Student Level Methods ===")
+grad_student.enroll_course("CS701", "Advanced Algorithms", 3)  # From Student
+grad_student.enroll_course("CS702", "Research Methods", 3)  # From Student
+grad_student.complete_course("CS701", "A")  # From Student
+print(f"Current GPA: {grad_student.gpa}")  # From Student
+
+print("\n=== Graduate Student Level Methods ===")
+grad_student.add_publication(  # From GraduateStudent
+    "ML Applications in Medical Diagnosis",
+    "Journal of AI in Medicine",
+    date(2024, 2, 1)
+)
+grad_student.update_thesis_status("research")  # From GraduateStudent
+
+print("\n=== Complete Information (all levels) ===")
+print("Basic Info:", grad_student.get_basic_info())  # Overridden method
+print("Academic Info:", grad_student.get_academic_info())  # From Student
+print("Research Info:", grad_student.get_research_info())  # From GraduateStudent
+      </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `# Python - Gaming Character Hierarchy
+class Character:
+    def __init__(self, name, level=1):
+        self.name = name
+        self.level = level
+        self.health = 100
+        self.experience = 0
+    
+    def gain_experience(self, xp):
+        self.experience += xp
+        if self.experience >= self.level * 100:
+            self.level_up()
+    
+    def level_up(self):
+        self.level += 1
+        self.health += 20
+        print(f"{self.name} leveled up to {self.level}!")
+
+class Warrior(Character):
+    def __init__(self, name, weapon_type="sword"):
+        super().__init__(name)
+        self.weapon_type = weapon_type
+        self.strength = 15
+        self.armor = 10
+    
+    def attack(self, target):
+        damage = self.strength + self.level * 2
+        print(f"{self.name} attacks with {self.weapon_type} for {damage} damage!")
+        return damage
+
+class Paladin(Warrior):  # Multilevel: Character -> Warrior -> Paladin
+    def __init__(self, name, weapon_type="holy sword"):
+        super().__init__(name, weapon_type)
+        self.faith = 20
+        self.healing_power = 15
+    
+    def heal(self, target_name, amount=None):
+        heal_amount = amount or self.healing_power + self.level
+        print(f"{self.name} heals {target_name} for {heal_amount} HP!")
+        return heal_amount
+    
+    def divine_strike(self, target):
+        base_damage = super().attack(target)  # Call parent's attack
+        holy_damage = self.faith + self.level
+        total = base_damage + holy_damage
+        print(f"Divine power adds {holy_damage} extra damage!")
+        return total
+
+# Usage
+paladin = Paladin("Sir Galahad")
+paladin.gain_experience(150)  # From Character (grandparent)
+paladin.divine_strike("Orc")  # Uses all three levels`,
+
+              `// JavaScript - Transportation System
+class Vehicle {
+    constructor(make, model, year) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.isRunning = false;
+        this.mileage = 0;
+    }
+    
+    start() {
+        this.isRunning = true;
+        console.log(\`\${this.make} \${this.model} started\`);
+    }
+    
+    drive(miles) {
+        if (this.isRunning) {
+            this.mileage += miles;
+            console.log(\`Drove \${miles} miles. Total: \${this.mileage}\`);
+        }
+    }
+}
+
+class Car extends Vehicle {
+    constructor(make, model, year, doors, fuelType) {
+        super(make, model, year);
+        this.doors = doors;
+        this.fuelType = fuelType;
+        this.fuelLevel = 100;
+    }
+    
+    refuel(amount) {
+        this.fuelLevel = Math.min(this.fuelLevel + amount, 100);
+        console.log(\`Refueled. Fuel level: \${this.fuelLevel}%\`);
+    }
+}
+
+class ElectricCar extends Car { // Multilevel: Vehicle -> Car -> ElectricCar
+    constructor(make, model, year, doors, batteryCapacity) {
+        super(make, model, year, doors, "Electric");
+        this.batteryCapacity = batteryCapacity;
+        this.chargeLevel = 100;
+    }
+    
+    charge(hours) {
+        const chargeAdded = Math.min(hours * 20, 100 - this.chargeLevel);
+        this.chargeLevel += chargeAdded;
+        console.log(\`Charged \${hours}h. Battery: \${this.chargeLevel}%\`);
+    }
+    
+    drive(miles) {
+        super.drive(miles); // Call parent's drive method
+        this.chargeLevel -= miles * 0.5; // Electric cars use charge
+        console.log(\`Battery level: \${this.chargeLevel}%\`);
+    }
+}
+
+const tesla = new ElectricCar("Tesla", "Model S", 2023, 4, 100);
+tesla.start();     // From Vehicle (grandparent)
+tesla.drive(50);   // From Car (parent) + ElectricCar override
+tesla.charge(2);   // From ElectricCar`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the Method Resolution Order (MRO) in multilevel inheritance?",
+                solution:
+                  "<p>Method Resolution Order (MRO) determines the order in which methods are searched when called on an object in multilevel inheritance. In Python, it follows the C3 linearization algorithm. For a chain A → B → C, the MRO is C → B → A → object. This means when you call a method on a C instance, Python first looks in C, then B, then A. JavaScript uses a similar prototype chain mechanism. You can view Python's MRO using <code>ClassName.__mro__</code> or <code>ClassName.mro()</code>.</p>",
+              },
+              {
+                question: "How does super() work in multilevel inheritance?",
+                solution:
+                  "<p><code>super()</code> in multilevel inheritance calls the next method in the MRO chain, not necessarily the direct parent. In Python, <code>super()</code> is cooperative and follows the MRO. In JavaScript, <code>super</code> calls the immediate parent's method. Key points: 1) Always use <code>super()</code> to maintain the inheritance chain, 2) It enables method chaining where each level can add behavior, 3) In constructors, <code>super()</code> must be called before accessing <code>self</code>/<code>this</code>, 4) It allows graceful method extension rather than complete overriding.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#multiple-inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+              "https://rhettinger.wordpress.com/2011/05/26/super-considered-super/",
+            ],
+          },
+          {
+            topic: "Hierarchical Inheritance",
+            tags: ["inheritance", "oop", "python", "javascript"],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Hierarchical inheritance</strong> is an OOP pattern where <strong>one base (parent) class is inherited by two or more distinct child classes</strong>.  
+    Every child shares the same ancestor, but the children do <strong>not</strong> inherit from each other, forming a <em>tree-like structure</em> with a single root and multiple branches.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Why Use Hierarchical Inheritance?
+  </h4>
+
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Centralized Common Logic:</span> Place shared attributes/methods once in the parent and reuse everywhere.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Polymorphism:</span> Treat all children as instances of the parent when you need generic processing.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> Add new sibling classes without touching existing ones (Open/Closed principle).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoids Deep Chains:</span> Keeps inheritance shallow compared to multilevel inheritance, reducing complexity.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Anatomy Diagram
+  </h4>
+  <pre style="margin-top: 1rem; padding: 1rem; background: #f6f8fa; border-radius: 8px; font-size: 14px;">
+        Animal (parent)
+         /   |   \
+      Dog   Cat   Bird
+  </pre>
+
+  <p style="line-height: 1.75;">
+    All three leaf classes inherit <code>eat()</code> and <code>sleep()</code> from <code>Animal</code>, yet each can define its own <code>makeSound()</code>.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Detailed Use-Case Walkthrough
+  </h4>
+  <p style="line-height: 1.75;">
+    Imagine an e-commerce platform where every product has common metadata (ID, title, price) but differing behavior:
+  </p>
+  <ul style="margin-left: 1.5rem;">
+    <li><strong>PhysicalProduct:</strong> adds shipping weight & dimensions.</li>
+    <li><strong>DigitalProduct:</strong> adds file-size & download URL.</li>
+    <li><strong>SubscriptionProduct:</strong> adds billing cycle & renewal logic.</li>
+  </ul>
+  <p style="line-height: 1.75;">
+    By keeping <code>Product</code> as the single parent, you avoid duplicating common code while still allowing each subtype to evolve independently.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Key Rules & Best Practices
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Single Responsibility:</span> Parent should hold only what is truly common.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Avoid Refactoring Nightmares:</span> Changing the parent affects all children—use with care.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Prefer Composition When:</span> Children need unrelated orthogonal behaviors (e.g., mix-ins instead).
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              `class Product:
+    def __init__(self, sku, title, price):
+        self.sku = sku
+        self.title = title
+        self.price = price
+
+    def get_info(self):
+        return f"{self.title} (${self.price}) - SKU:{self.sku}"
+
+
+class PhysicalProduct(Product):
+    def __init__(self, sku, title, price, weight_kg):
+        super().__init__(sku, title, price)
+        self.weight_kg = weight_kg
+
+    def ship(self):
+        return f"Shipping {self.title} with weight {self.weight_kg} kg"
+
+
+class DigitalProduct(Product):
+    def __init__(self, sku, title, price, file_size_mb):
+        super().__init__(sku, title, price)
+        self.file_size_mb = file_size_mb
+
+    def download(self):
+        return f"Downloading {self.title} ({self.file_size_mb} MB)"
+
+
+class SubscriptionProduct(Product):
+    def __init__(self, sku, title, price, cycle_days):
+        super().__init__(sku, title, price)
+        self.cycle_days = cycle_days
+
+    def renew(self):
+        return f"Renewing {self.title} every {self.cycle_days} days"
+
+
+# --- Usage ---
+if __name__ == "__main__":
+    p = PhysicalProduct("A1", "T-Shirt", 19.99, 0.3)
+    d = DigitalProduct("B2", "E-book", 9.99, 2.1)
+    s = SubscriptionProduct("C3", "Music Plan", 4.99, 30)
+
+    print(p.get_info(), "|", p.ship())
+    print(d.get_info(), "|", d.download())
+    print(s.get_info(), "|", s.renew())`,
+              `class Product {
+  constructor(sku, title, price) {
+    this.sku = sku;
+    this.title = title;
+    this.price = price;
+  }
+  getInfo() {
+    return \`\${this.title} ($\${this.price}) - SKU:\${this.sku}\`;
+  }
+}
+
+class PhysicalProduct extends Product {
+  constructor(sku, title, price, weightKg) {
+    super(sku, title, price);
+    this.weightKg = weightKg;
+  }
+  ship() {
+    return \`Shipping \${this.title} with weight \${this.weightKg} kg\`;
+  }
+}
+
+class DigitalProduct extends Product {
+  constructor(sku, title, price, fileSizeMb) {
+    super(sku, title, price);
+    this.fileSizeMb = fileSizeMb;
+  }
+  download() {
+    return \`Downloading \${this.title} (\${this.fileSizeMb} MB)\`;
+  }
+}
+
+class SubscriptionProduct extends Product {
+  constructor(sku, title, price, cycleDays) {
+    super(sku, title, price);
+    this.cycleDays = cycleDays;
+  }
+  renew() {
+    return \`Renewing \${this.title} every \${this.cycleDays} days\`;
+  }
+}
+
+// --- Usage ---
+const p = new PhysicalProduct("A1", "T-Shirt", 19.99, 0.3);
+const d = new DigitalProduct("B2", "E-book", 9.99, 2.1);
+const s = new SubscriptionProduct("C3", "Music Plan", 4.99, 30);
+
+console.log(p.getInfo(), "|", p.ship());
+console.log(d.getInfo(), "|", d.download());
+console.log(s.getInfo(), "|", s.renew());`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does hierarchical inheritance differ from multilevel inheritance?",
+                solution:
+                  "In hierarchical, all children inherit directly from one parent, creating a wide, shallow tree. In multilevel, classes inherit in a straight line (Grandparent → Parent → Child), forming a deep chain. The former favors breadth; the latter favors depth.",
+              },
+              {
+                question: "When should I avoid hierarchical inheritance?",
+                solution:
+                  "Avoid it when children have little in common—forcing them to share a parent leads to bloated base classes. Also avoid if future changes in the parent could unintentionally break many children; prefer composition or interfaces instead.",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+            ],
+          },
+          {
+            topic: "Multiple Inheritance (via Interfaces Mix-Ins)",
+            tags: [
+              "multiple-inheritance",
+              "interfaces",
+              "oop",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    What is Multiple Inheritance?
+  </h3>
+  <p style="line-height: 1.75;">
+    Multiple inheritance allows a class to inherit <strong>features from more than one parent class</strong>.  
+    Languages differ in support:
+  </p>
+  <ul style="margin-left: 1.5rem;">
+    <li><strong>Python</strong> supports true multiple inheritance directly.</li>
+    <li><strong>JavaScript</strong> (ES6 classes) supports single inheritance only; multiple behaviors are achieved via <strong>interfaces (TypeScript)</strong>, <strong>mix-ins</strong>, or <strong>composition</strong>.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Use-Case</h4>
+  <ul style="margin-left: 1.5rem;">
+    <li>A <code>Drone</code> class that needs capabilities of both <code>Aircraft</code> and <code>Camera</code>.</li>
+    <li>Reusing orthogonal feature sets without deep hierarchies.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Caveats</h4>
+  <ul style="margin-left: 1.5rem;">
+    <li><strong>Diamond Problem</strong>: Ambiguity when two parents define the same method.</li>
+    <li>Can be mitigated via <strong>MRO (Method Resolution Order)</strong> in Python or <strong>composition / mix-ins</strong> in JS.</li>
+  </ul>
+</div>`,
+            examples: [
+              {
+                language: "Python (True Multiple Inheritance)",
+                code: `class Aircraft:
+    def fly(self):
+        return "Flying at 300 km/h"
+
+
+class Camera:
+    def take_photo(self):
+        return "Photo captured at 4K"
+
+
+class Drone(Aircraft, Camera):
+    def hover(self):
+        return "Hovering at 10 m altitude"
+
+
+# Usage
+d = Drone()
+print(d.fly())        # Flying at 300 km/h
+print(d.take_photo()) # Photo captured at 4K
+print(d.hover())      # Hovering at 10 m altitude`,
+              },
+              {
+                language: "JavaScript (Mix-In Pattern)",
+                code: `// Flyable mix-in
+const Flyable = (Base) => class extends Base {
+  fly() {
+    return "Flying at 300 km/h";
+  }
+};
+
+// Photographable mix-in
+const Photographable = (Base) => class extends Base {
+  takePhoto() {
+    return "Photo captured at 4K";
+  }
+};
+
+// Base Drone class
+class DroneBase {
+  hover() {
+    return "Hovering at 10 m altitude";
+  }
+}
+
+// Compose multiple behaviors via mix-ins
+class Drone extends Flyable(Photographable(DroneBase)) {}
+
+// Usage
+const d = new Drone();
+console.log(d.fly());        // Flying at 300 km/h
+console.log(d.takePhoto());  // Photo captured at 4K
+console.log(d.hover());      // Hovering at 10 m altitude`,
+              },
+            ],
+            questions: [
+              {
+                question: "How does Python resolve the diamond problem?",
+                solution:
+                  "Python uses the <strong>C3 linearization</strong> algorithm to determine Method Resolution Order (MRO). You can inspect the MRO via <code>ClassName.__mro__</code>.",
+              },
+              {
+                question:
+                  "Can JavaScript classes extend more than one class directly?",
+                solution:
+                  "No. ES6 classes support single inheritance. Use <strong>mix-ins</strong> (functions that return classes) or <strong>composition</strong> to combine behaviors.",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#multiple-inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#mix-ins",
+            ],
+          },
+          {
+            topic: "Hybrid Inheritance",
+            tags: [
+              "hybrid-inheritance",
+              "multiple-inheritance",
+              "multilevel-inheritance",
+              "oop",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Hybrid inheritance</strong> is a <em>composition</em> of two or more inheritance types—most commonly <strong>multiple</strong> + <strong>multilevel</strong> or <strong>hierarchical</strong> + <strong>multilevel</strong>.  
+    There is <strong>no single canonical form</strong>; rather, it describes any real-world design that blends inheritance patterns to achieve maximum reuse while (attempting to) avoid the downsides of each.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Canonical Hybrid Blueprint
+  </h4>
+  <pre style="margin-top: 1rem; padding: 1rem; background: #f6f8fa; border-radius: 8px; font-size: 14px;">
+         A  (root)
+         |
+         B  (multilevel)
+       /   \
+      C     D  (hierarchical)
+       \   /
+         E   (multiple)
+  </pre>
+  <p style="line-height: 1.75;">
+    In the diagram above:
+  </p>
+  <ul style="margin-left: 1.5rem;">
+    <li><code>B</code> inherits from <code>A</code> (multilevel).</li>
+    <li><code>C</code> and <code>D</code> inherit from <code>B</code> (hierarchical).</li>
+    <li><code>E</code> inherits from <em>both</em> <code>C</code> and <code>D</code> (multiple), completing the hybrid.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    When & Why Use Hybrid?
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Complex Domain Models:</span> e.g., a <code>Vehicle → Car → ElectricCar</code> chain that also needs <code>AIAssistant</code> features from another branch.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Framework Design:</span> UI toolkits often have deep widget hierarchies (<code>Widget → Container → Panel</code>) plus mixin-like interfaces (<code>Scrollable</code>, <code>Clickable</code>).
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Reuse Across Concerns:</span> Combine orthogonal behaviors without duplicating code in every branch.
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Caveats & Mitigations
+  </h4>
+  <ul style="margin-left: 1.5rem;">
+    <li><strong>Diamond Problem:</strong> Occurs when the final child inherits the same ancestor through two paths.<br>
+        → Python resolves via <strong>C3 linearization</strong>; JavaScript avoids via <strong>composition / mix-ins</strong>.</li>
+    <li><strong>Tight Coupling:</strong> Deep hierarchies plus cross-branch inheritance can create fragile code.<br>
+        → Favor <strong>composition over inheritance</strong> where practical.</li>
+    <li><strong>Testing Overhead:</strong> Unit tests must account for multiple parent behaviors.<br>
+        → Isolate mix-ins with <strong>interface segregation</strong>.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Implementation Strategies
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Python:</span> Use true multiple inheritance and rely on <code>super()</code> & MRO.
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">JavaScript:</span> Combine <code>extends</code> (single inheritance) with <strong>mix-in functions</strong> to simulate multiple inheritance without prototype conflicts.
+    </li>
+  </ol>
+</div>`,
+            examples: [
+              {
+                language: "Python (True Hybrid + MRO)",
+                code: `class Device:
+    def __init__(self, brand):
+        self.brand = brand
+
+    def power_on(self):
+        return f"{self.brand} device powered on."
+
+
+class Computer(Device):
+    def __init__(self, brand, cpu):
+        super().__init__(brand)
+        self.cpu = cpu
+
+    def compile(self):
+        return f"{self.brand} compiling code on {self.cpu}."
+
+
+class Phone(Device):
+    def __init__(self, brand, screen_size):
+        super().__init__(brand)
+        self.screen_size = screen_size
+
+    def call(self, number):
+        return f"{self.brand} calling {number}."
+
+
+class Smartphone(Computer, Phone):
+    def __init__(self, brand, cpu, screen_size):
+        # MRO: Device → Computer → Phone → Smartphone
+        Computer.__init__(self, brand, cpu)
+        Phone.__init__(self, brand, screen_size)
+
+    def run_app(self, app):
+        return f"{self.brand} running {app}."
+
+
+# --- Usage ---
+s = Smartphone("Pixel", "Tensor G3", 6.7)
+print(s.power_on())    # Device method
+print(s.compile())     # Computer method
+print(s.call("911"))   # Phone method
+print(s.run_app("Maps"))  # Smartphone method`,
+              },
+              {
+                language: "JavaScript (Mix-In Hybrid)",
+                code: `// 1. Root class (multilevel)
+class Device {
+  constructor(brand) {
+    this.brand = brand;
+  }
+  powerOn() {
+    return \\{this.brand} device powered on.\\;
+  }
+}
+
+// 2. Hierarchical branch 1
+class Computer extends Device {
+  constructor(brand, cpu) {
+    super(brand);
+    this.cpu = cpu;
+  }
+  compile() {
+    return \\{this.brand} compiling code on {this.cpu}.\\;
+  }
+}
+
+// 3. Hierarchical branch 2
+class Phone extends Device {
+  constructor(brand, screenSize) {
+    super(brand);
+    this.screenSize = screenSize;
+  }
+  call(number) {
+    return {this.brand} calling \\{number}.\\;
+  }
+}
+
+// 4. Mix-in to add Phone behavior to Smartphone
+function asPhone(Base) {
+  return class extends Base {
+    call(number) {
+      return \\{this.brand} calling \\{number}.\\;
+    }
+  };
+}
+
+// 5. Hybrid child inherits from Computer + Phone mix-in
+class Smartphone extends asPhone(Computer) {
+  constructor(brand, cpu, screenSize) {
+    super(brand, cpu);
+    this.screenSize = screenSize;
+  }
+  runApp(app) {
+    return {this.brand} running {app}.\\;
+  }
+}
+
+// --- Usage ---
+const s = new Smartphone("Pixel", "Tensor G3", 6.7);
+console.log(s.powerOn());    // Device
+console.log(s.compile());    // Computer
+console.log(s.call("911"));  // Phone (via mix-in)
+console.log(s.runApp("Maps")); // Smartphone`,
+              },
+            ],
+            questions: [
+              {
+                question:
+                  "How does Python's MRO resolve conflicts in hybrid hierarchies?",
+                solution:
+                  "Python uses the <strong>C3 linearization</strong> algorithm to produce a deterministic method-resolution order. You can inspect it via <code>ClassName.__mro__</code>. The rule is: <em>children precede parents, and left-to-right in bases</em>.",
+              },
+              {
+                question:
+                  "Why can’t JavaScript classes directly extend multiple classes?",
+                solution:
+                  "The ECMAScript class syntax is intentionally restricted to single inheritance to avoid prototype-chain complexity and the diamond problem. Multiple behaviors are achieved through <strong>mix-ins</strong> (functions that return classes) or <strong>object composition</strong>.",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#multiple-inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#mix-ins",
+            ],
+          },
+          {
+            topic: "Inheritance Method Overriding & super Keyword",
+            tags: [
+              "Python",
+              "JavaScript",
+              "OOPs",
+              "Inheritance",
+              "Polymorphism",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Method Overriding</strong> is a pillar of polymorphism: a child class <em>redefines</em> a method already defined in its parent so that instances of the child execute the <em>newer</em> version while still inheriting everything else.  
+    <br><br>
+    The <strong>super keyword</strong> is the bridge between the overriding and overridden method: it lets the child explicitly call the parent’s implementation, reuse its logic, or access its constructor.
+  </p>
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600;">Key Rules & Use-Cases</h4>
+  <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+    <li><strong>Signature must match</strong> (name + expected parameters).</li>
+    <li><strong>Return type covariance</strong> is allowed (return a subclass).</li>
+    <li><strong>super()</strong> must be the first statement in a child constructor (JS & Python).</li>
+    <li><strong>Use-case:</strong> Customise parent behavior without duplicating code (e.g., extend <code>Vehicle.drive()</code> into <code>ElectricCar.drive()</code> that adds battery checks).</li>
+  </ul>
+
+  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600;">Python vs JavaScript Quick Glance</h4>
+  <table style="border-collapse: collapse; margin-top: 1rem; width: 100%;">
+    <thead>
+      <tr>
+        <th style="border: 1px solid #ccc; padding: 0.5rem;">Aspect</th>
+        <th style="border: 1px solid #ccc; padding: 0.5rem;">Python</th>
+        <th style="border: 1px solid #ccc; padding: 0.5rem;">JavaScript (ES6+)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;">Override syntax</td>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;">redefine method</td>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;">redefine method</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;">Parent call</td>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super().method(args)</code></td>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super.method(args)</code> or <code>super(args)</code> in constructor</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;">Constructor chaining</td>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super().__init__(...)</code></td>
+        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super(...)</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>`,
+            examples: [
+              `### Python  Method Overriding & super
+
+\`\`\`python
+class Vehicle:
+    def __init__(self, brand, speed):
+        self.brand = brand
+        self.speed = speed
+
+    def drive(self):
+        return f"{self.brand} running at {self.speed} km/h"
+
+class ElectricCar(Vehicle):
+    def __init__(self, brand, speed, battery_kwh):
+        super().__init__(brand, speed)   # call parent constructor
+        self.battery_kwh = battery_kwh
+
+    # overriding
+    def drive(self):
+        base = super().drive()           # reuse parent logic
+        return f"{base} | battery {self.battery_kwh} kWh"
+
+# ---- Usage ----
+tesla = ElectricCar("Tesla", 220, 75)
+print(tesla.drive())  # Tesla running at 220 km/h | battery 75 kWh
+\`\`\`
+`,
+              `### JavaScript – Method Overriding & super
+
+\`\`\`javascript
+class Vehicle {
+  constructor(brand, speed) {
+    this.brand = brand;
+    this.speed = speed;
+  }
+  drive() {
+    return \`\${this.brand} running at \${this.speed} km/h\`;
+  }
+}
+
+class ElectricCar extends Vehicle {
+  constructor(brand, speed, batteryKwh) {
+    super(brand, speed);        // must be first
+    this.batteryKwh = batteryKwh;
+  }
+
+  // overriding
+  drive() {
+    const base = super.drive(); // reuse parent logic
+    return \`\${base} | battery \${this.batteryKwh} kWh\`;
+  }
+}
+
+// ---- Usage ----
+const tesla = new ElectricCar("Tesla", 220, 75);
+console.log(tesla.drive()); // Tesla running at 220 km/h | battery 75 kWh
+\`\`\`
+`,
+            ],
+            questions: [
+              {
+                question:
+                  "What happens if I forget to call super() in the child constructor?",
+                solution:
+                  "<p><strong>Python:</strong> <code>super().__init__()</code> is optional if you do not need parent initialization, but you lose access to any parent constructor logic.<br><strong>JavaScript:</strong> Omitting <code>super()</code> in a derived class throws a <strong>ReferenceError</strong> because the class cannot be instantiated without initializing the parent.</p>",
+              },
+              {
+                question: "Can I change the signature when overriding?",
+                solution:
+                  "<p>Only <strong>covariant</strong> changes are safe (e.g., narrower parameter types or subclass return). Arbitrary changes break <em>Liskov Substitution Principle</em> and may cause runtime errors in strongly-typed languages.</p>",
+              },
+              {
+                question:
+                  "How do I access a grand-parent method that the parent also overrides?",
+                solution:
+                  "<p><strong>Python:</strong> Use <code>GrandParent.method(self)</code> explicitly.<br><strong>JavaScript:</strong> Use <code>GrandParent.prototype.method.call(this)</code>.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+            ],
+          },
+          {
+            topic: "Constructor Chaining",
+            tags: [
+              "constructor-chaining",
+              "super",
+              "this",
+              "oop",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+  <p style="line-height: 1.75; margin-top: 1.5rem;">
+    <strong>Constructor chaining</strong> is the process of <em>calling one constructor from another</em> so that object initialization can be <strong>reused, centralized, and extended</strong> across an inheritance hierarchy or within the same class via overloading.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Two Flavors
+  </h4>
+  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Within the same class</span> (constructor overloading / delegation)  
+      <ul>
+        <li>Python: <code>__init__</code> can delegate to <code>@classmethod</code> factory constructors.</li>
+        <li>JavaScript: A constructor can call <code>this(...)</code> (ES2022+) or rely on <code>static factory</code> methods.</li>
+      </ul>
+    </li>
+    <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Across inheritance levels</span>  
+      <ul>
+        <li>Child constructor explicitly invokes parent constructor via <code>super(...)</code>.</li>
+        <li>Guarantees that every ancestor gets a chance to initialize its own state.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Execution Flow
+  </h4>
+  <pre style="margin-top: 1rem; padding: 1rem; background: #f6f8fa; border-radius: 8px; font-size: 14px;">
+1. Memory is allocated for the object.
+2. Parent constructors run in top-down order.
+3. Child constructor body runs last, overriding or extending parent state.
+  </pre>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Rules & Edge Cases</h4>
+  <ul style="margin-left: 1.5rem;">
+    <li><strong>Python:</strong> <code>super().__init__()</code> is <em>optional</em> if parent’s <code>__init__</code> is no-arg or absent.</li>
+    <li><strong>JavaScript:</strong> <code>super()</code> <strong>must</strong> appear before any <code>this</code> access in a derived constructor.</li>
+    <li>Chaining prevents code duplication, centralizes validation, and ensures invariants are always set.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Real-World Analogy</h4>
+  <p style="line-height: 1.75;">
+    Building a car: the <strong>Vehicle</strong> constructor installs wheels and an engine; the <strong>Car</strong> constructor adds doors and seats by <em>chaining</em> to the parent, ensuring no car can exist without the basic vehicle infrastructure.
+  </p>
+</div>`,
+            examples: [
+              {
+                language: "Python (intraclass + inheritance chaining)",
+                code: `from datetime import datetime
+
+class Event:
+    def __init__(self, title, timestamp=None):
+        self.title = title
+        # default to now if not provided
+        self.timestamp = timestamp or datetime.utcnow()
+
+    def __repr__(self):
+        return f"Event({self.title}, {self.timestamp})"
+
+
+class Meeting(Event):
+    def __init__(self, title, attendees, timestamp=None):
+        # 1) Chain to parent's constructor
+        super().__init__(title, timestamp)
+        self.attendees = attendees
+
+    # factory constructor (intraclass chaining)
+    @classmethod
+    def from_today(cls, title, attendees):
+        return cls(title, attendees, datetime.utcnow())
+
+    def __repr__(self):
+        return f"Meeting({self.title}, {self.attendees}, {self.timestamp})"
+
+
+class RecurringMeeting(Meeting):
+    def __init__(self, title, attendees, interval_days, timestamp=None):
+        # 2) Chain to grand-parent via Meeting
+        super().__init__(title, attendees, timestamp)
+        self.interval_days = interval_days
+
+    def next_occurrence(self):
+        from datetime import timedelta
+        return self.timestamp + timedelta(days=self.interval_days)
+
+
+# --- Usage ---
+m1 = Meeting("Sprint Planning", ["Alice", "Bob"])
+print(m1)
+
+m2 = Meeting.from_today("Demo", ["Carol"])
+print(m2)
+
+r = RecurringMeeting("Stand-up", ["Team"], 1)
+print(r, "next:", r.next_occurrence())`,
+              },
+              {
+                language: "JavaScript (intraclass + inheritance chaining)",
+                code: `class Event {
+  constructor(title, timestamp = new Date()) {
+    this.title = title;
+    this.timestamp = timestamp;
+  }
+  toString() {
+    return \\Event(\\{this.title}, \\{this.timestamp.toISOString()})\\;
+  }
+
+  // Static factory (intraclass chaining)
+  static today(title) {
+    return new Event(title, new Date());
+  }
+}
+
+class Meeting extends Event {
+  constructor(title, attendees, timestamp) {
+    super(title, timestamp);   // MUST be first
+    this.attendees = attendees;
+  }
+  toString() {
+    return \\Meeting(\\{this.title}, \\{this.attendees}, \\{this.timestamp.toISOString()})\\;
+  }
+}
+
+class RecurringMeeting extends Meeting {
+  constructor(title, attendees, intervalDays, timestamp) {
+    super(title, attendees, timestamp);
+    this.intervalDays = intervalDays;
+  }
+  nextOccurrence() {
+    const next = new Date(this.timestamp);
+    next.setDate(next.getDate() + this.intervalDays);
+    return next;
+  }
+}
+
+// --- Usage ---
+const m1 = new Meeting("Sprint Planning", ["Alice", "Bob"]);
+console.log(m1.toString());
+
+const m2 = Event.today("Demo");
+console.log(m2.toString());
+
+const r = new RecurringMeeting("Stand-up", ["Team"], 1);
+console.log(r.toString(), "next:", r.nextOccurrence().toDateString());`,
+              },
+            ],
+            questions: [
+              {
+                question:
+                  "What happens if I forget to call <code>super()</code> in a JavaScript derived constructor?",
+                solution:
+                  "The engine throws <strong>ReferenceError: Must call super constructor in derived class before accessing 'this'</strong>. The child constructor <em>must</em> delegate to the parent before using <code>this</code>.",
+              },
+              {
+                question: "Can I call multiple parent constructors in Python?",
+                solution:
+                  "Not directly. Python’s <code>super()</code> follows the MRO and calls the <em>next</em> class in the linearized chain once. To initialize multiple independent bases, call each explicitly: <code>Base1.__init__(self, ...)</code>, <code>Base2.__init__(self, ...)</code>.",
+              },
+              {
+                question:
+                  "Is constructor chaining the same as method chaining?",
+                solution:
+                  "No. Constructor chaining is about <em>delegating initialization logic</em> between constructors. Method chaining (a.k.a. fluent interface) returns <code>this</code>/<code>self</code> to allow sequential calls on the same instance.",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/functions.html#super",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+            ],
+          },
+          {
+            topic: "Polymorphism Runtime (Method Overriding)",
+            tags: [
+              "polymorphism",
+              "inheritance",
+              "method-overriding",
+              "runtime",
+              "oop",
+            ],
+            explanation: `<div>
+  <h3 style="margin-top: 1.5rem; font-size: 1.4rem; font-weight: 600; letter-spacing: -0.025em;">
+    What is Runtime Polymorphism (Method Overriding)?
+  </h3>
+  <p style="line-height: 1.75;">
+    Runtime polymorphism, also called <strong>dynamic polymorphism</strong> or <strong>method overriding</strong>, occurs when a subclass provides a <strong>specialized implementation</strong> of a method that is already defined in its superclass.  
+    At <em>runtime</em>, the JVM (Java) / Python interpreter / JavaScript engine decides which implementation to execute based on the <strong>actual object type</strong>, <em>not</em> the reference type.  
+    This enables <strong>late binding</strong> or <strong>dynamic dispatch</strong>, allowing the same method call to behave differently for different object types.
+  </p>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Rules / Characteristics
+  </h4>
+  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
+    <li><strong>Same signature:</strong> method name, parameters, and return type must match exactly.</li>
+    <li><strong>Inheritance required:</strong> overriding happens only between superclass and subclass.</li>
+    <li><strong>Access level:</strong> subclass method cannot be more restrictive (e.g., can’t go from <code>public</code> → <code>private</code>).</li>
+    <li><strong>Dynamic binding:</strong> method to execute is chosen at runtime based on actual object.</li>
+    <li><strong>super/Extends:</strong> subclass can still call the parent version via <code>super.method()</code> (JS/TS) or <code>super()</code> (Python).</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    Real-World Use-Case
+  </h4>
+  <p style="line-height: 1.75;">
+    Imagine a payment processing system. You have a generic <code>Payment</code> class with a <code>process()</code> method.  
+    Concrete subclasses like <code>CreditCardPayment</code>, <code>PayPalPayment</code>, and <code>CryptoPayment</code> each override <code>process()</code> to implement their own validation, gateway calls, and logging.  
+    At runtime, the system loops over a list of <code>Payment</code> objects and calls <code>process()</code>; the correct implementation is chosen automatically.
+  </p>
+</div>`,
+            examples: [
+              `## Python Example – Method Overriding
+
+\`\`\`python
+from abc import ABC, abstractmethod
+
+class Payment(ABC):
+    def __init__(self, amount):
+        self.amount = amount
+
+    @abstractmethod
+    def process(self):
+        pass
+
+class CreditCardPayment(Payment):
+    def __init__(self, amount, card_number):
+        super().__init__(amount)
+        self.card_number = card_number
+
+    # overriding
+    def process(self):
+        print(f"Processing {self.amount} via Credit Card ending {self.card_number[-4:]}")
+
+class PayPalPayment(Payment):
+    def __init__(self, amount, email):
+        super().__init__(amount)
+        self.email = email
+
+    # overriding
+    def process(self):
+        print(f"Processing {self.amount} via PayPal account {self.email}")
+
+# runtime polymorphism in action
+payments = [
+    CreditCardPayment(99.99, "4111111111111111"),
+    PayPalPayment(49.99, "alice@example.com")
+]
+
+for p in payments:
+    p.process()  # dynamic dispatch
+\`\`\`
+
+#### Output
+\`\`\`
+Processing $99.99 via Credit Card ending 1111
+Processing $49.99 via PayPal account alice@example.com
+\`\`\``,
+              `## JavaScript / TypeScript Example Method Overriding
+
+\`\`\`javascript
+class Payment {
+  constructor(amount) {
+    this.amount = amount;
+  }
+  process() {
+    throw new Error("process() must be overridden");
+  }
+}
+
+class CreditCardPayment extends Payment {
+  constructor(amount, cardNumber) {
+    super(amount);
+    this.cardNumber = cardNumber;
+  }
+  // overriding
+  process() {
+    console.log(
+      \`Processing $ {
+        this.amount
+      } via Credit Card ending {this.cardNumber.slice(-4)}\`
+    );
+  }
+}
+
+class PayPalPayment extends Payment {
+  constructor(amount, email) {
+    super(amount);
+    this.email = email;
+  }
+  // overriding
+  process() {
+    console.log(\`Processing $ {this.amount} via PayPal account {
+                this.email
+              }\`);
+  }
+}
+
+// runtime polymorphism in action
+const payments = [
+  new CreditCardPayment(99.99, "4111111111111111"),
+  new PayPalPayment(49.99, "alice@example.com")
+];
+
+payments.forEach((p) => p.process()); // dynamic dispatch
+\`\`\`
+
+#### Output
+\`\`\`
+Processing $99.99 via Credit Card ending 1111
+Processing $49.99 via PayPal account alice@example.com
+\`\`\``,
+            ],
+            questions: [
+              {
+                question:
+                  "How does the runtime decide which overridden method to execute?",
+                solution: `<p>The runtime uses <strong>dynamic dispatch</strong>. It inspects the <em>actual object type</em> stored in the reference variable, then looks up the method in that object’s virtual method table (Java) or prototype chain (JS) / method resolution order (Python). The first matching method found is executed, which is always the most derived (subclass) version.</p>`,
+              },
+              {
+                question:
+                  "Can we override a private method in Java or Python? Why or why not?",
+                solution: `<p><strong>No.</strong> Private methods are not inherited; they are invisible to subclasses. Because they’re not part of the subclass, attempting to override them actually creates a <em>new</em> method with the same name, unrelated to the superclass one. Thus, no polymorphic behavior occurs.</p>`,
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#sub_classing_with_extends",
+              "https://docs.oracle.com/javase/tutorial/java/IandI/override.html",
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];

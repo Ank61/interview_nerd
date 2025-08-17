@@ -72,6 +72,13 @@ module.exports = {
           border: "#0E5835",
           lightTheme: "#ecfdf5",
         },
+        Next: {
+          bg: "#E1E1E1",
+          text: "#5D5D5D",
+          topic: "#5D5D5D",
+          border: "#0E5835",
+          lightTheme: "#E1E1E1",
+        },
         Typescript: {
           bg: "#E9F4FF",
           text: "#225485",
