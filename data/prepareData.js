@@ -815,9 +815,9 @@ Promise.all([promise1, promise2, promise3])
                   });
             
                   promise.then(value => {
-                    console.log(\`Promise is resolved and fulfilled with value: \${value}\`);
+                    console.log(\`Promise is resolved and fulfilled with value: \ {value}\`);
                   }).catch(error => {
-                    console.log(\`Promise is resolved but rejected with error: \${error}\`);
+                    console.log(\`Promise is resolved but rejected with error: \ {error}\`);
                   });
                 `,
               },
@@ -1421,7 +1421,7 @@ console.log(add(2, 3)); // 5
 export const add = (a, b) => a + b;
 export const subtract = (a, b) => a - b;            
 // Default export
-const greet = (name) => \`Hello, \${name}!\`;
+const greet = (name) => \`Hello, \ {name}!\`;
 export default greet;
 </code></pre>`,
               },
@@ -1636,7 +1636,7 @@ infoLog('This is an informational message'); // Outputs: [INFO] This is an infor
                 question:
                   "How would you apply currying to a function that interacts with a stateful system, such as a database, without causing side effects?",
                 solution:
-                  "<p>When interacting with a stateful system like a database, currying should be used carefully to avoid side effects by isolating state mutations. You can create curried functions that build up the query parameters or conditions incrementally before finally executing the query. For example:</p><pre><code class='language-javascript'>const buildQuery = table => column => value => `SELECT * FROM ${table} WHERE ${column} = '${value}'`; const queryUsers = buildQuery('users')('age')(25); // 'SELECT * FROM users WHERE age = 25'</code></pre><p>By deferring the actual database call until all parameters are supplied, you ensure that the curried function doesn’t inadvertently trigger state changes prematurely.</p>",
+                  "<p>When interacting with a stateful system like a database, currying should be used carefully to avoid side effects by isolating state mutations. You can create curried functions that build up the query parameters or conditions incrementally before finally executing the query. For example:</p><pre><code class='language-javascript'>const buildQuery = table => column => value => `SELECT * FROM  {table} WHERE  {column} = ' {value}'`; const queryUsers = buildQuery('users')('age')(25); // 'SELECT * FROM users WHERE age = 25'</code></pre><p>By deferring the actual database call until all parameters are supplied, you ensure that the curried function doesn’t inadvertently trigger state changes prematurely.</p>",
               },
               {
                 question:
@@ -2742,7 +2742,7 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                 </p>
                 <p><strong>Example with an object:</strong></p>
                 <pre><code class="language-javascript">function printUser({ name, age }) {
-              console.log(\`Name: \${name}, Age: \${age}\`);
+              console.log(\`Name: \ {name}, Age: \ {age}\`);
             }
             const user = { name: 'John', age: 30 };
             printUser(user); // Name: John, Age: 30
@@ -2915,7 +2915,7 @@ greet('Hello', 'Alice', 'Bob', 'Charlie'); // Hello, Alice, Bob, Charlie
                     Destructuring can be applied directly in function parameters to extract values from an object or array passed as an argument.
                   </p>
                   <pre><code class="language-javascript">function printUser({ name, age }) {
-              console.log(\`Name: \${name}, Age: \${age}\`);
+              console.log(\`Name: \ {name}, Age: \ {age}\`);
             }
             const user = { name: 'John', age: 30 };
             printUser(user); // Name: John, Age: 30
@@ -4911,7 +4911,7 @@ function debounce(func, delay) {
 <pre><code class="language-javascript">
 // Example of a debounced function for an API search
 const handleSearch = debounce((query) => {
-  console.log(\`Searching for \${query}\`);
+  console.log(\`Searching for \ {query}\`);
   // API call can be placed here
 }, 500);
 
@@ -5805,7 +5805,7 @@ promise.then(
 
 <pre><code class="language-javascript">
 function greet() {
-  console.log(\`Hello, \${this.name}\`);
+  console.log(\`Hello, \ {this.name}\`);
 }
 
 const person = { name: 'Alice' };
@@ -5820,7 +5820,7 @@ greet.call(person); // Output: Hello, Alice
 
 <pre><code class="language-javascript">
 function introduce(greeting, punctuation) {
-  console.log('greeting', \${this.name}\${punctuation}\`);
+  console.log('greeting', \ {this.name}\ {punctuation}\`);
 }
 
 const person = { name: 'Bob' };
@@ -5835,7 +5835,7 @@ introduce.apply(person, ['Hi', '!']); // Output: Hi, Bob!
 
 <pre><code class="language-javascript">
 function sayHello() {
-  console.log(\`Hello, \${this.name}\`);
+  console.log(\`Hello, \ {this.name}\`);
 }
 
 const person = { name: 'Charlie' };
@@ -5890,7 +5890,7 @@ sayHelloToCharlie(); // Output: Hello, Charlie
             const obj = {
               name: 'Alice',
               greet: function() {
-                const arrowGreet = () => console.log(\`Hello, \${this.name}\`);
+                const arrowGreet = () => console.log(\`Hello, \ {this.name}\`);
                 arrowGreet();
               }
             };
@@ -6026,7 +6026,7 @@ const result = new Calculator()
 </p>
 
 <pre><code class="language-javascript">
-$("#element").addClass("highlight").fadeIn().css("color", "blue");
+ ("#element").addClass("highlight").fadeIn().css("color", "blue");
 </code></pre>
 
 <p style="margin-top: 1.0rem;">
@@ -6093,7 +6093,7 @@ fetchData()
                   Libraries like jQuery use method chaining by returning <code>this</code> from each method, which refers to the object itself. This allows successive calls to be executed in sequence.
                 </p>
                 <pre><code class="language-javascript">
-            $("#element").addClass("highlight").fadeIn().css("color", "blue");
+             ("#element").addClass("highlight").fadeIn().css("color", "blue");
                 </code></pre>`,
               },
               {
@@ -6143,7 +6143,7 @@ fetchData()
                 </p>
                 <pre><code class="language-javascript">
             // DOM Manipulation (e.g., jQuery)
-            $("#element").fadeIn().css("color", "blue");
+             ("#element").fadeIn().css("color", "blue");
             
             // Array manipulations
             const result = [1, 2, 3].filter(num => num > 1).map(num => num * 2);
@@ -8022,9 +8022,9 @@ Promise.all([promise1, promise2, promise3])
                   });
             
                   promise.then(value => {
-                    console.log(\`Promise is resolved and fulfilled with value: \${value}\`);
+                    console.log(\`Promise is resolved and fulfilled with value: \ {value}\`);
                   }).catch(error => {
-                    console.log(\`Promise is resolved but rejected with error: \${error}\`);
+                    console.log(\`Promise is resolved but rejected with error: \ {error}\`);
                   });
                 `,
               },
@@ -9047,7 +9047,7 @@ console.log(add(2, 3)); // 5
 export const add = (a, b) => a + b;
 export const subtract = (a, b) => a - b;            
 // Default export
-const greet = (name) => \`Hello, \${name}!\`;
+const greet = (name) => \`Hello, \ {name}!\`;
 export default greet;
 </code></pre>`,
               },
@@ -12497,7 +12497,7 @@ const fetchUserData = async (userId) => {
     const user = await database.query(SELECT * FROM users WHERE id = userId);
     if (!user) throw new Error("User not found");
 
-    const userPosts = await database.query(SELECT * FROM posts WHERE user_id = $userId);
+    const userPosts = await database.query(SELECT * FROM posts WHERE user_id =  userId);
     if (userPosts.length === 0) throw new Error("No posts found for this user");
 
     return { user, userPosts };
@@ -12787,7 +12787,7 @@ const fs = require('fs');
 // Watch a file for changes
 fs.watch('example.txt', (eventType, filename) => {
   if (filename) {
-    console.log($filename file changed);
+    console.log( filename file changed);
   } else {
     console.log('A change occurred, but filename is unknown');
   }
@@ -13586,7 +13586,7 @@ const myEmitter = new MyEmitter();
 
 // Event listener with arguments
 myEmitter.on('greet', (name, age) => {
-  console.log(Hello $name, you are $age years old.);
+  console.log(Hello  name, you are  age years old.);
 });
 
 // Emitting the event with arguments
@@ -13650,7 +13650,7 @@ const requestEmitter = new RequestEmitter();
 
 // Listen for a custom event to process the request
 requestEmitter.on('processRequest', (req, res) => {
-  console.log(Processing request for $req.url);
+  console.log(Processing request for  req.url);
   res.end('Request processed');
 });
 
@@ -13937,7 +13937,7 @@ const urlString = 'https://example.com/path?search=test&sort=desc';
 const myUrl = new URL(urlString);
 
 myUrl.searchParams.forEach((value, name) => {
-  console.log($name}: $value});
+  console.log( name}:  value});
 });
 // Output:
 // search: test
@@ -14009,7 +14009,7 @@ app.get('/', (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-  console.log(Server is running on http://localhost:$port});
+  console.log(Server is running on http://localhost: port});
 });
  </code>
   </pre>
@@ -14054,7 +14054,7 @@ app.delete('/delete', (req, res) => {
 // Capture a dynamic user ID from the URL
 app.get('/user/:id', (req, res) => {
   const userId = req.params.id;
-  res.send(User ID is: $userId});
+  res.send(User ID is:  userId});
 });
  </code>
   </pre>
@@ -14066,7 +14066,7 @@ app.get('/user/:id', (req, res) => {
       <pre><code className="language-javascript">
 app.get('/search', (req, res) => {
   const query = req.query.q;
-  res.send(Search query is: $query});
+  res.send(Search query is:  query});
 });
  </code>
   </pre>
@@ -14077,7 +14077,7 @@ app.get('/search', (req, res) => {
       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
 const logRequest = (req, res, next) => {
-  console.log($req.method} request to $req.url});
+  console.log( req.method} request to  req.url});
   next();
 };
 
@@ -14124,7 +14124,7 @@ userRouter.get('/', (req, res) => {
 });
 
 userRouter.get('/:id', (req, res) => {
-  res.send(User with ID $req.params.id});
+  res.send(User with ID  req.params.id});
 });
 
 // Use the userRouter for any route that starts with '/users'
@@ -14184,14 +14184,14 @@ productRouter.get('/', (req, res) => {
   res.send('List of products');
 });
 productRouter.get('/:id', (req, res) => {
-  res.send(Product with ID $req.params.id});
+  res.send(Product with ID  req.params.id});
 });
 
 // Use the productRouter for any route starting with '/products'
 app.use('/products', productRouter);
 
 app.listen(port, () => {
-  console.log(Server running on http://localhost:$port});
+  console.log(Server running on http://localhost: port});
 });
  </code>
   </pre>
@@ -14428,7 +14428,7 @@ async function fetchDataWithRetry(url, retries = 3) {
       return response.data;
     } catch (err) {
       if (i === retries - 1) throw err;
-      console.log(Retrying... ($i + 1}));
+      console.log(Retrying... ( i + 1}));
     }
   }
 }
@@ -14477,7 +14477,7 @@ close(); // this will give you inner function and equivalent`,
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
 app.use((req, res, next) => {
-  console.log(Request Method: $req.method}, Request URL: $req.url});
+  console.log(Request Method:  req.method}, Request URL:  req.url});
   next(); // Passes control to the next middleware function
 });
  </code>
@@ -14517,7 +14517,7 @@ const logger = winston.createLogger({
 });
 
 app.use((req, res, next) => {
-  logger.info(Request URL: $req.url} | Method: $req.method});
+  logger.info(Request URL:  req.url} | Method:  req.method});
   next();
 });
  </code>
@@ -14685,7 +14685,7 @@ close(); // this will give you inner function and equivalent`,
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
 const port = process.env.PORT || 3000;
-console.log(Server running on port $port});
+console.log(Server running on port  port});
       </code></pre>
   </div>
   <p style="line-height: 1.75;">
@@ -14723,7 +14723,7 @@ API_KEY=supersecretapikey123
 require('dotenv').config();
 
 const apiKey = process.env.API_KEY;
-console.log(API Key: $apiKey});
+console.log(API Key:  apiKey});
       </code></pre>
   </div>
    <p style="line-height: 1.75;">
@@ -14739,11 +14739,11 @@ console.log(API Key: $apiKey});
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
 require('dotenv').config({
-  path: .env.$process.env.NODE_ENV || 'development'}
+  path: .env. process.env.NODE_ENV || 'development'}
 });
 
 const dbUri = process.env.DATABASE_URI;
-console.log(Database URI: $dbUri});
+console.log(Database URI:  dbUri});
       </code></pre>
   </div>
    <p style="line-height: 1.75;">
@@ -14776,7 +14776,7 @@ const fetchSecureData = async () => {
   try {
     const response = await axios.get('https://api.example.com/data', {
       headers: {
-        'Authorization': Bearer $apiKey}:$apiSecret}
+        'Authorization': Bearer  apiKey}: apiSecret}
       }
     });
     console.log(response.data);
@@ -14827,10 +14827,10 @@ const envSchema = Joi.object({
 
 const { error, value: envVars } = envSchema.validate(process.env);
 if (error) {
-  throw new Error(Config validation error: $error.message});
+  throw new Error(Config validation error:  error.message});
 }
 
-console.log(App running on port $envVars.PORT});
+console.log(App running on port  envVars.PORT});
       </code></pre>
   </div>
 
@@ -14978,7 +14978,7 @@ app.post('/login', (req, res) => {
       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
         <pre><code className="language-javascript">
 app.get('/dashboard', verifyToken, (req, res) => {
-  res.send(Welcome to your dashboard, user $req.user.id});
+  res.send(Welcome to your dashboard, user  req.user.id});
 });
         </code></pre>
       </div>
@@ -15137,8 +15137,8 @@ close(); // this will give you inner function and equivalent`,
 setInterval(() => {
   const memoryUsage = process.memoryUsage();
   const cpuUsage = process.cpuUsage();
-  console.log(Memory Usage: $JSON.stringify(memoryUsage)});
-  console.log(CPU Usage: $JSON.stringify(cpuUsage)});
+  console.log(Memory Usage:  JSON.stringify(memoryUsage)});
+  console.log(CPU Usage:  JSON.stringify(cpuUsage)});
 }, 5000);
 </code></pre>
    </div>
@@ -15157,7 +15157,7 @@ const { fork } = require('child_process');
 const computeProcess = fork('./compute.js');
 
 computeProcess.on('message', (result) => {
-  console.log(Result from child process: $result});
+  console.log(Result from child process:  result});
 });
 computeProcess.send({ num: 1000000 });
 
@@ -15197,7 +15197,7 @@ if (cluster.isMaster) {
 } else {
   http.createServer((req, res) => {
     res.writeHead(200);
-    res.end(Handled by worker: $process.pid}\n);
+    res.end(Handled by worker:  process.pid}\n);
   }).listen(8000);
 }
 </code></pre>
@@ -15216,7 +15216,7 @@ if (cluster.isMaster) {
 const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
 if (isMainThread) {
   const worker = new Worker(__filename, { workerData: 1000000 });
-  worker.on('message', (result) => console.log(Result from worker: $result}));
+  worker.on('message', (result) => console.log(Result from worker:  result}));
 } else {
   const result = expensiveComputation(workerData);
   parentPort.postMessage(result);
@@ -15309,7 +15309,7 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.listen(PORT, () => {
-  console.log(Server is running on http://localhost:$PORT});
+  console.log(Server is running on http://localhost: PORT});
 });
     </code></pre>
   </div>
@@ -15329,7 +15329,7 @@ app.get('/', (req, res) => {
 
 // Route with a dynamic parameter
 app.get('/users/:id', (req, res) => {
-  res.send(User ID: $req.params.id});
+  res.send(User ID:  req.params.id});
 });
 
 // POST route
@@ -15341,12 +15341,12 @@ app.post('/users', (req, res) => {
 // PUT route
 app.put('/users/:id', (req, res) => {
   const updatedUser = req.body;
-  res.json({ message: User $req.params.id} updated, updatedUser });
+  res.json({ message: User  req.params.id} updated, updatedUser });
 });
 
 // DELETE route
 app.delete('/users/:id', (req, res) => {
-  res.json({ message: User $req.params.id} deleted });
+  res.json({ message: User  req.params.id} deleted });
 });
     </code></pre>
   </div>
@@ -15361,7 +15361,7 @@ app.delete('/users/:id', (req, res) => {
     <pre><code className="language-javascript">
 // Custom middleware for logging requests
 app.use((req, res, next) => {
-  console.log($req.method} $req.url});
+  console.log( req.method}  req.url});
   next();
 });
     </code></pre>
@@ -15411,7 +15411,7 @@ userRouter.post('/', (req, res) => {
   res.send('Create a user');
 });
 userRouter.get('/:id', (req, res) => {
-  res.send(Get user with ID: $req.params.id});
+  res.send(Get user with ID:  req.params.id});
 });
 
 app.use('/users', userRouter);
@@ -15595,13 +15595,13 @@ const userRouter = express.Router();
 // Define routes for user-related actions
 userRouter.get('/:id', (req, res) => {
   const userId = req.params.id;
-  res.send(User info for user ID: $userId});
+  res.send(User info for user ID:  userId});
 });
 
 userRouter.put('/:id', (req, res) => {
   const userId = req.params.id;
   // Logic to update user info
-  res.send(User info updated for user ID: $userId});
+  res.send(User info updated for user ID:  userId});
 });
 
 // Mount the router on /users path
@@ -15622,7 +15622,7 @@ app.listen(3000, () => {
     <pre><code className="language-javascript">
 userRouter.get('/:id/orders/:orderId', (req, res) => {
   const { id, orderId } = req.params;
-  res.send(Order $orderId} details for user $id});
+  res.send(Order  orderId} details for user  id});
 });
     </code></pre>
   </div>
@@ -15637,7 +15637,7 @@ userRouter.get('/:id/orders/:orderId', (req, res) => {
 userRouter.get('/:id/orders', (req, res) => {
   const { id } = req.params;
   const { status } = req.query;  // e.g., status=completed
-  res.send(Orders for user $id} with status: $status});
+  res.send(Orders for user  id} with status:  status});
 });
     </code></pre>
   </div>
@@ -15655,7 +15655,7 @@ userRouter.get('/:id/orders', (req, res) => {
   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
     <pre><code className="language-javascript">
 const logMiddleware = (req, res, next) => {
-  console.log(Request Method: $req.method}, URL: $req.url});
+  console.log(Request Method:  req.method}, URL:  req.url});
   next();  // Proceed to the next middleware or route handler
 };
 
@@ -16001,7 +16001,7 @@ app.use(bodyParser.raw({ type: 'application/octet-stream', limit: '1mb' }));
 app.post('/upload', (req, res) => { 
   const buffer = req.body; // Binary data 
   // Process binary data, such as saving an image 
-  res.send(Received binary data of $buffer.length} bytes.); 
+  res.send(Received binary data of  buffer.length} bytes.); 
 }); 
  </code></pre>
       </div>
@@ -16298,7 +16298,7 @@ server.listen(3000, () => {
       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
 const addNumbers = (a, b) => {
-  console.log(Adding numbers: $a}, $b}); // Debugging line
+  console.log(Adding numbers:  a},  b}); // Debugging line
   return a + b;
 };
 
@@ -16383,7 +16383,7 @@ console.log(multiply(5, 6));
 
       const hook = async_hooks.createHook({
         init(asyncId, type, triggerAsyncId, resource) {
-          fs.writeSync(1, Async hook initialized for $type}\n);
+          fs.writeSync(1, Async hook initialized for  type}\n);
         }
       });
       hook.enable();
@@ -16564,7 +16564,7 @@ app.get('/users', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(Server running at http://localhost:$PORT});
+  console.log(Server running at http://localhost: PORT});
 });
       </code></pre>
    </div>
@@ -17010,8 +17010,8 @@ const filePath = path.join('user', 'docs', 'myfile.txt');
 const absolutePath = path.resolve(filePath);
 const ext = path.extname(absolutePath);
 
-console.log(Absolute Path: $absolutePath});
-console.log(Extension: $ext});
+console.log(Absolute Path:  absolutePath});
+console.log(Extension:  ext});
         </code></pre>
       </div>
     </li>
@@ -17113,7 +17113,7 @@ const os = require('os');
 
 // If this is the master process
 if (cluster.isMaster) {
-  console.log(Master $process.pid} is running);
+  console.log(Master  process.pid} is running);
 
   // Fork workers for each CPU core
   const numCores = os.cpus().length;
@@ -17123,7 +17123,7 @@ if (cluster.isMaster) {
 
   // When a worker dies, fork another one
   cluster.on('exit', (worker, code, signal) => {
-    console.log(Worker $worker.process.pid} died);
+    console.log(Worker  worker.process.pid} died);
     cluster.fork();  // Re-spawn a worker
   });
 
@@ -17134,7 +17134,7 @@ if (cluster.isMaster) {
     res.end('Hello, Cluster!\n');
   }).listen(8000);
 
-  console.log(Worker $process.pid} started);
+  console.log(Worker  process.pid} started);
 }
       </code>
       </pre>
@@ -17162,7 +17162,7 @@ const os = require('os');
 
 // If this is the master process
 if (cluster.isMaster) {
-  console.log(Master $process.pid} is running);
+  console.log(Master  process.pid} is running);
 
   // Fork workers for each CPU core
   const numCores = os.cpus().length;
@@ -17172,13 +17172,13 @@ if (cluster.isMaster) {
     // Listen to messages from the worker
     worker.on('message', (msg) => {
       if (msg.status === 'ready') {
-        console.log(Worker $worker.process.pid} is ready to handle requests.);
+        console.log(Worker  worker.process.pid} is ready to handle requests.);
       }
     });
   }
 
   cluster.on('exit', (worker, code, signal) => {
-    console.log(Worker $worker.process.pid} died);
+    console.log(Worker  worker.process.pid} died);
     cluster.fork();  // Re-spawn a worker
   });
 
@@ -17192,7 +17192,7 @@ if (cluster.isMaster) {
   // Send message to master when worker is ready
   process.send({ status: 'ready' });
 
-  console.log(Worker $process.pid} started);
+  console.log(Worker  process.pid} started);
 }
       </code>
       </pre>
@@ -17212,7 +17212,7 @@ const http = require('http');
 const os = require('os');
 
 if (cluster.isMaster) {
-  console.log(Master $process.pid} is running);
+  console.log(Master  process.pid} is running);
 
   const numCores = os.cpus().length;
   for (let i = 0; i < numCores; i++) {
@@ -17220,7 +17220,7 @@ if (cluster.isMaster) {
   }
 
   cluster.on('exit', (worker, code, signal) => {
-    console.log(Worker $worker.process.pid} died);
+    console.log(Worker  worker.process.pid} died);
     cluster.fork();  // Re-spawn a worker
   });
 
@@ -17240,12 +17240,12 @@ if (cluster.isMaster) {
     res.end('Hello, Cluster with Graceful Shutdown!\n');
   }).listen(8000);
 
-  console.log(Worker $process.pid} started);
+  console.log(Worker  process.pid} started);
 
   // Listen for shutdown message
   process.on('message', (msg) => {
     if (msg === 'shutdown') {
-      console.log(Worker $process.pid} shutting down...);
+      console.log(Worker  process.pid} shutting down...);
       process.exit(0);  // Gracefully shut down the worker
     }
   });
@@ -17278,7 +17278,7 @@ if (cluster.isMaster) {
     res.end('Hello, Sticky Session with Cluster!\n');
   }).listen(8000);
 
-  console.log(Worker $process.pid} started);
+  console.log(Worker  process.pid} started);
 }
       </code>
       </pre>
@@ -17306,17 +17306,17 @@ const child = spawn('ls', ['-lh', '/usr']);
 
 // Capture the standard output from the child process
 child.stdout.on('data', (data) => {
-  console.log(stdout: $data});
+  console.log(stdout:  data});
 });
 
 // Capture the standard error from the child process
 child.stderr.on('data', (data) => {
-  console.log(stderr: $data});
+  console.log(stderr:  data});
 });
 
 // Handle child process exit event
 child.on('close', (code) => {
-  console.log(Child process exited with code $code});
+  console.log(Child process exited with code  code});
 });
 </code></pre>
   </div>
@@ -17337,12 +17337,12 @@ const child = spawn('find', ['/usr']);
 
 // Stream data in chunks
 child.stdout.on('data', (data) => {
-  console.log(Received chunk: $data});
+  console.log(Received chunk:  data});
 });
 
 // Handle exit
 child.on('exit', (code) => {
-  console.log(Child process exited with code $code});
+  console.log(Child process exited with code  code});
 });
         </code></pre>
       </div>
@@ -17355,14 +17355,14 @@ const { exec } = require('child_process');
 
 exec('ls -lh /usr', (err, stdout, stderr) => {
   if (err) {
-    console.log(Error: $err.message});
+    console.log(Error:  err.message});
     return;
   }
   if (stderr) {
-    console.log(tderr: $stderr});
+    console.log(tderr:  stderr});
     return;
   }
-  console.log(stdout: $stdout});
+  console.log(stdout:  stdout});
 });
         </code></pre>
       </div>
@@ -17376,14 +17376,14 @@ const { execFile } = require('child_process');
 // Execute a Node.js script directly
 execFile('node', ['myScript.js'], (err, stdout, stderr) => {
   if (err) {
-    console.log(Error: $err.message});
+    console.log(Error:  err.message});
     return;
   }
   if (stderr) {
-    console.log(stderr: $stderr});
+    console.log(stderr:  stderr});
     return;
   }
-  console.log(stdout: $stdout});
+  console.log(stdout:  stdout});
 });
         </code></pre>
       </div>
@@ -17402,12 +17402,12 @@ child.send({ hello: 'world' });
 
 // Listen for messages from the child process
 child.on('message', (message) => {
-  console.log(Received from child: $message});
+  console.log(Received from child:  message});
 });
 
 // Handle the child's exit event
 child.on('exit', (code) => {
-  console.log(Child process exited with code $code});
+  console.log(Child process exited with code  code});
 });
         </code></pre>
       </div>
@@ -17428,12 +17428,12 @@ const child = spawn('find', ['/usr']);
 
 // Stream data in chunks
 child.stdout.on('data', (data) => {
-  console.log(Received chunk: $data});
+  console.log(Received chunk:  data});
 });
 
 // Handle exit
 child.on('exit', (code) => {
-  console.log(Child process exited with code $code});
+  console.log(Child process exited with code  code});
 });
       </code></pre>
     </div>
@@ -18132,10 +18132,10 @@ class PriorityEmitter extends EventEmitter {
 const emitter = new PriorityEmitter();
 
 // Priority 2 will be executed first
-emitter.on('event', (msg) => console.log(Priority 2: $msg}), 2);
+emitter.on('event', (msg) => console.log(Priority 2:  msg}), 2);
 
 // Priority 1 will be executed second
-emitter.on('event', (msg) => console.log(Priority 1: $msg}), 1);
+emitter.on('event', (msg) => console.log(Priority 1:  msg}), 1);
 
 emitter.emit('event', 'Hello, world!');
     </code></pre>
@@ -18161,7 +18161,7 @@ const emitter = new MyEmitter();
 emitter.setMaxListeners(5);
 
 for (let i = 0; i < 6; i++) {
-  emitter.on('event', () => console.log(Listener $i}));
+  emitter.on('event', () => console.log(Listener  i}));
 }
 
 // This will trigger a warning as we added more than 5 listeners
@@ -18187,8 +18187,8 @@ class MyEmitter extends EventEmitter {}
 const emitter = new MyEmitter();
 
 // Generic event handler for multiple event types
-emitter.on('event1', (data) => console.log(Handled event1 with data: $data}));
-emitter.on('event2', (data) => console.log(Handled event2 with data: $data}));
+emitter.on('event1', (data) => console.log(Handled event1 with data:  data}));
+emitter.on('event2', (data) => console.log(Handled event2 with data:  data}));
 
 // Emit different types of events
 emitter.emit('event1', { key: 'value1' });
@@ -18232,7 +18232,7 @@ app.use(session({
 app.get('/', (req, res) => {
   if (req.session.views) {
     req.session.views++;
-    res.send(<h1>Welcome back! You have visited $req.session.views} times.</h1>);
+    res.send(<h1>Welcome back! You have visited  req.session.views} times.</h1>);
   } else {
     req.session.views = 1;
     res.send('<h1>Welcome to our site for the first time!</h1>');
@@ -18240,7 +18240,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(Server running on port $port});
+  console.log(Server running on port  port});
 });
  </code>
   </pre>
@@ -18299,7 +18299,7 @@ app.use(session({
 app.get('/', (req, res) => {
   if (req.session.views) {
     req.session.views++;
-    res.send(<h1>You've visited $req.session.views} times.</h1>);
+    res.send(<h1>You've visited  req.session.views} times.</h1>);
   } else {
     req.session.views = 1;
     res.send('<h1>Welcome to our site!</h1>');
@@ -18307,7 +18307,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(Server running on port $port});
+  console.log(Server running on port  port});
 });
  </code>
   </pre>
@@ -18732,7 +18732,7 @@ async function fetchGoogleUserData(accessToken) {
   try {
     const response = await axios.get('https://www.googleapis.com/oauth2/v1/userinfo', {
       headers: {
-        Authorization: Bearer $accessToken},
+        Authorization: Bearer  accessToken},
       },
     });
     return response.data; // Returns user data
@@ -18773,7 +18773,7 @@ wss.on('connection', (ws) => {
   // Listen for messages from the client
   ws.on('message', (message) => {
     console.log('Received from client:', message);
-    ws.send(Server received: $message});
+    ws.send(Server received:  message});
   });
 
   // Close connection after 30 seconds
@@ -18844,7 +18844,7 @@ const wss = new WebSocket.Server({ port: 8080 });
 
 wss.on('connection', (ws) => {
   ws.on('message', (message) => {
-    console.log(Broadcasting message: $message});
+    console.log(Broadcasting message:  message});
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(message);
@@ -18893,7 +18893,7 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(Server running on port $port});
+  console.log(Server running on port  port});
 });
  </code>
   </pre>
@@ -19182,7 +19182,7 @@ app.listen(3000, () => {
       <pre><code className="language-javascript">
 // Custom validation: Validate password complexity
 const passwordComplexity = (value, helpers) => {
-  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@ !%*?&])[A-Za-z\d@ !%*?&]{8,} /;
   if (!regex.test(value)) {
     return helpers.message('Password must contain at least one uppercase letter, one number, and one special character');
   }
@@ -19582,7 +19582,7 @@ const logger = createLogger({
   format: format.combine(
     format.colorize(), // Colorize logs for console
     format.timestamp(), // Add timestamp to logs
-    format.printf(({ timestamp, level, message }) => {timestamp} $level}: $message}) // Custom format
+    format.printf(({ timestamp, level, message }) => {timestamp}  level}:  message}) // Custom format
   ),
   transports: [
     new transports.Console(), // Log to console
@@ -19850,7 +19850,7 @@ if (cluster.isMaster) {
   }
 
   cluster.on('exit', (worker, code, signal) => {
-    console.log(Worker $worker.process.pid} died);
+    console.log(Worker  worker.process.pid} died);
   });
 } else {
   // Workers share the same server port
@@ -19905,10 +19905,10 @@ http {
     location / {
       proxy_pass http://nodejs;  # Proxy requests to the upstream
       proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Upgrade  http_upgrade;
       proxy_set_header Connection 'upgrade';
-      proxy_set_header Host $host;
-      proxy_cache_bypass $http_upgrade;
+      proxy_set_header Host  host;
+      proxy_cache_bypass  http_upgrade;
     }
   }
 }
@@ -20012,7 +20012,7 @@ const os = require('os');
 if (cluster.isMaster) {
   const numCPUs = os.cpus().length;
 
-  console.log(Master process $process.pid} is running);
+  console.log(Master process  process.pid} is running);
 
   // Fork workers
   for (let i = 0; i < numCPUs; i++) {
@@ -20021,7 +20021,7 @@ if (cluster.isMaster) {
 
   // Listen for worker exit events
   cluster.on('exit', (worker) => {
-    console.log(Worker $worker.process.pid} died. Starting a new one...);
+    console.log(Worker  worker.process.pid} died. Starting a new one...);
     cluster.fork();
   });
 } else {
@@ -20029,11 +20029,11 @@ if (cluster.isMaster) {
   http
     .createServer((req, res) => {
       res.writeHead(200);
-      res.end(Handled by worker $process.pid}\n);
+      res.end(Handled by worker  process.pid}\n);
     })
     .listen(8000);
 
-  console.log(Worker $process.pid} started);
+  console.log(Worker  process.pid} started);
 }
  </code>
   </pre>
@@ -20063,10 +20063,10 @@ http {
     location / {
       proxy_pass http://nodejs_cluster;
       proxy_http_version 1.1;
-      proxy_set_header Upgrade $http_upgrade;
+      proxy_set_header Upgrade  http_upgrade;
       proxy_set_header Connection 'upgrade';
-      proxy_set_header Host $host;
-      proxy_cache_bypass $http_upgrade;
+      proxy_set_header Host  host;
+      proxy_cache_bypass  http_upgrade;
     }
   }
 }
@@ -20275,7 +20275,7 @@ throw new Error("Crash test");
 const axios = require('axios');
 // Example: Fetching service endpoint from a service registry
 async function getServiceEndpoint(serviceName) {
-  const response = await axios.get(http://consul-server/v1/catalog/service/$serviceName});
+  const response = await axios.get(http://consul-server/v1/catalog/service/ serviceName});
   return response.data[0].ServiceAddress;
 }
          </code></pre>
@@ -20554,8 +20554,8 @@ mutation {
       <span style="font-weight: 600; font-size: 1.1rem;">Variables in Queries :</span> You can use variables to make queries more dynamic. Here's how to pass variables:
       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
         <pre><code className="language-javascript">
-query getUser($id: ID!) {
-  getUser(id: $id) {
+query getUser( id: ID!) {
+  getUser(id:  id) {
     id
     name
     age
@@ -20679,7 +20679,7 @@ server.applyMiddleware({ app });
 
 // Start the Express server
 app.listen(4000, () =>
-  console.log(Server running at http://localhost:4000$server.graphqlPath})
+  console.log(Server running at http://localhost:4000 server.graphqlPath})
 );
  </code>
   </pre>
@@ -21175,7 +21175,7 @@ newUser.save()
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-User.find({ age: { $gte: 18 } })
+User.find({ age: {  gte: 18 } })
   .then(users => {
     console.log("Users found:", users);
   })
@@ -21223,7 +21223,7 @@ User.findByIdAndDelete(userId)
    </p>
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
-User.find({ age: { $gte: 18 } })
+User.find({ age: {  gte: 18 } })
   .select('name email')
   .sort({ name: 1 })
   .limit(10)
@@ -21242,9 +21242,9 @@ User.find({ age: { $gte: 18 } })
    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-javascript">
 User.aggregate([
-  { $match: { age: { $gte: 18 } } },
-  { $group: { _id: '$age', count: { $sum: 1 } } },
-  { $sort: { count: -1 } }
+  {  match: { age: {  gte: 18 } } },
+  {  group: { _id: ' age', count: {  sum: 1 } } },
+  {  sort: { count: -1 } }
 ])
   .then(result => {
     console.log("Aggregation result:", result);
@@ -21840,7 +21840,7 @@ client.hgetall('user:123', (err, reply) => {
       <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
         <pre><code className="language-javascript">
 const rateLimit = (userId, limit = 100, window = 60) => {
-  const key = rate_limit:$userId};
+  const key = rate_limit: userId};
   client.incr(key, (err, reply) => {
     if (err) console.error(err);
     if (reply > limit) {
@@ -23112,16 +23112,16 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: $ matrix.node-version }}
+        node-version:   matrix.node-version }}
     
     # Cache node_modules to speed up build process
     - name: Cache Node.js modules
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: $ runner.os }}-node-$ hashFiles('**/package-lock.json') }}
+        key:   runner.os }}-node-  hashFiles('**/package-lock.json') }}
         restore-keys: |
-          $ runner.os }}-node-
+            runner.os }}-node-
     
     # Install dependencies
     - name: Install dependencies
@@ -23444,7 +23444,7 @@ jobs:
 
       - name: Deploy to Production
         env:
-          DEPLOY_API_KEY: $ secrets.DEPLOY_API_KEY }}
+          DEPLOY_API_KEY:   secrets.DEPLOY_API_KEY }}
         run: |
           npm run deploy
  </code>
@@ -23984,7 +23984,7 @@ export async function getStaticPaths() {
 
 // Generate static props at build time
 export async function getStaticProps({ params }) {
-  const post = await fetch(\`https://api.example.com/posts/\${params.slug}\`)
+  const post = await fetch(\`https://api.example.com/posts/\ {params.slug}\`)
     .then(res => res.json())
 
   return {
@@ -24683,7 +24683,7 @@ export default function BlogPost() {
 
   const fetchPost = async (slug) => {
     try {
-      const response = await fetch(\`/api/posts/\${slug}\`)
+      const response = await fetch(\`/api/posts/\ {slug}\`)
       const postData = await response.json()
       setPost(postData)
     } catch (error) {
@@ -24743,7 +24743,7 @@ export default function ShopPage() {
     <div>
       {renderBreadcrumb()}
       <h1>Shop - {getCurrentCategory()}</h1>
-      <p>Current path: {slug ? \`/shop/\${slug.join('/')}\` : '/shop'}</p>
+      <p>Current path: {slug ? \`/shop/\ {slug.join('/')}\` : '/shop'}</p>
     </div>
   )
 }`,
@@ -25509,7 +25509,7 @@ export default function FileBrowser() {
         {files.map(file => (
           <div key={file.name} className="file-item">
             {file.type === 'directory' ? (
-              <a href={\`/files\${currentPath === '/' ? '' : currentPath}/\${file.name}\`}>
+              <a href={\`/files\ {currentPath === '/' ? '' : currentPath}/\ {file.name}\`}>
                 📁 {file.name}
               </a>
             ) : (
@@ -25778,7 +25778,7 @@ export default function SubcategoryPage() {
       <nav className="breadcrumb">
         <Link href="/shop"><a>Shop</a></Link>
         <span> > </span>
-        <Link href={\`/shop/category/\${category}\`}>
+        <Link href={\`/shop/category/\ {category}\`}>
           <a>{category}</a>
         </Link>
         <span> > </span>
@@ -25793,7 +25793,7 @@ export default function SubcategoryPage() {
           <div key={product.id} className="product-card">
             <img src={product.image} alt={product.name} />
             <h3>{product.name}</h3>
-            <p className="price">\${product.price}</p>
+            <p className="price">\ {product.price}</p>
             <button>Add to Cart</button>
           </div>
         ))}
@@ -26000,7 +26000,7 @@ export default function ProductList({ products }) {
       {products.map(product => (
         <div key={product.id}>
           {/* Method 1: String interpolation */}
-          <Link href={\`/products/\${product.id}\`}>
+          <Link href={\`/products/\ {product.id}\`}>
             <a>{product.name}</a>
           </Link>
           
@@ -26245,7 +26245,7 @@ export default function Pagination({ currentPage, totalPages, basePath = '' }) {
         
         return (
           <Link key={pageNumber} href={generatePageUrl(pageNumber)}>
-            <a className={\`pagination-number \${isActive ? 'active' : ''}\`}>
+            <a className={\`pagination-number \ {isActive ? 'active' : ''}\`}>
               {pageNumber}
             </a>
           </Link>
@@ -26270,7 +26270,7 @@ export default function BlogIndex({ posts, currentPage, totalPages }) {
       <div className="posts">
         {posts.map(post => (
           <article key={post.id}>
-            <Link href={\`/blog/\${post.slug}\`}>
+            <Link href={\`/blog/\ {post.slug}\`}>
               <a><h2>{post.title}</h2></a>
             </Link>
             <p>{post.excerpt}</p>
@@ -26508,8 +26508,8 @@ export async function getServerSideProps(context) {
   
   // Fetch data from external API or database
   const [productRes, reviewsRes] = await Promise.all([
-    fetch(\`https://api.example.com/products/\${id}\`),
-    fetch(\`https://api.example.com/products/\${id}/reviews\`)
+    fetch(\`https://api.example.com/products/\ {id}\`),
+    fetch(\`https://api.example.com/products/\ {id}/reviews\`)
   ]);
   
   const product = await productRes.json();
@@ -26557,7 +26557,7 @@ export async function getServerSideProps(context) {
     // Verify token and fetch user data
     const userRes = await fetch('https://api.example.com/user', {
       headers: {
-        'Authorization': \`Bearer \${token}\`
+        'Authorization': \`Bearer \ {token}\`
       }
     });
     
@@ -26568,9 +26568,9 @@ export async function getServerSideProps(context) {
     const user = await userRes.json();
     
     // Fetch dashboard data
-    const dashboardRes = await fetch(\`https://api.example.com/dashboard/\${user.id}\`, {
+    const dashboardRes = await fetch(\`https://api.example.com/dashboard/\ {user.id}\`, {
       headers: {
-        'Authorization': \`Bearer \${token}\`
+        'Authorization': \`Bearer \ {token}\`
       }
     });
     
@@ -26650,7 +26650,7 @@ export default function UserProfile({ user, error }) {
 
 export async function getServerSideProps({ params }) {
   try {
-    const res = await fetch(\`https://api.example.com/users/\${params.id}\`);
+    const res = await fetch(\`https://api.example.com/users/\ {params.id}\`);
     
     if (!res.ok) {
       return {
@@ -26749,7 +26749,7 @@ export default function BlogList({ posts }) {
           <h2>{post.title}</h2>
           <p>{post.excerpt}</p>
           <time>{new Date(post.publishedAt).toLocaleDateString()}</time>
-          <a href={\`/blog/\${post.slug}\`}>Read more</a>
+          <a href={\`/blog/\ {post.slug}\`}>Read more</a>
         </article>
       ))}
     </div>
@@ -26818,7 +26818,7 @@ export async function getStaticProps({ params }) {
   const { slug } = params;
   
   try {
-    const res = await fetch(\`https://api.example.com/posts/\${slug}\`);
+    const res = await fetch(\`https://api.example.com/posts/\ {slug}\`);
     const post = await res.json();
     
     if (!post) {
@@ -27047,7 +27047,7 @@ export async function getStaticProps({ params }) {
   
   try {
     // Fetch product data
-    const productRes = await fetch(\`https://api.example.com/products/\${id}\`);
+    const productRes = await fetch(\`https://api.example.com/products/\ {id}\`);
     const product = await productRes.json();
     
     if (!product) {
@@ -27233,9 +27233,9 @@ export async function getStaticProps({ params }) {
   const { slug } = params;
   
   try {
-    const response = await fetch(\`https://cms.example.com/posts/\${slug}\`, {
+    const response = await fetch(\`https://cms.example.com/posts/\ {slug}\`, {
       headers: {
-        'Authorization': \`Bearer \${process.env.CMS_TOKEN}\`
+        'Authorization': \`Bearer \ {process.env.CMS_TOKEN}\`
       }
     });
     
@@ -27246,7 +27246,7 @@ export async function getStaticProps({ params }) {
           revalidate: 300 // Check again in 5 minutes
         };
       }
-      throw new Error(\`HTTP \${response.status}: \${response.statusText}\`);
+      throw new Error(\`HTTP \ {response.status}: \ {response.statusText}\`);
     }
     
     const post = await response.json();
@@ -27358,10 +27358,10 @@ export default async function handler(req, res) {
     const pathsToRevalidate = [];
     
     if (contentType === 'blog-post') {
-      pathsToRevalidate.push(\`/blog/\${slug}\`);
+      pathsToRevalidate.push(\`/blog/\ {slug}\`);
       pathsToRevalidate.push('/blog'); // Blog index page
     } else if (contentType === 'product') {
-      pathsToRevalidate.push(\`/products/\${slug}\`);
+      pathsToRevalidate.push(\`/products/\ {slug}\`);
       pathsToRevalidate.push('/products'); // Product listing
     }
     
@@ -27594,7 +27594,7 @@ export default function Button({
 }) {
   return (
     <button 
-      className={\`\${styles.button} \${styles[variant]} \${styles[size]}\`}
+      className={\`\ {styles.button} \ {styles[variant]} \ {styles[size]}\`}
       onClick={onClick}
     >
       {children}
@@ -27648,38 +27648,38 @@ export default function HomePage() {
 `,
             examples: [
               `// Advanced SCSS Map Example
-$button-variants: (
-  primary: ($primary-color, $white),
+ button-variants: (
+  primary: ( primary-color,  white),
   secondary: (#f3f4f6, #374151),
-  success: ($success-color, $white),
-  danger: ($danger-color, $white)
+  success: ( success-color,  white),
+  danger: ( danger-color,  white)
 );
 
-@each $variant, $colors in $button-variants {
-  .btn-#{$variant} {
-    background-color: nth($colors, 1);
-    color: nth($colors, 2);
+@each  variant,  colors in  button-variants {
+  .btn-#{ variant} {
+    background-color: nth( colors, 1);
+    color: nth( colors, 2);
     
     &:hover {
-      background-color: darken(nth($colors, 1), 10%);
+      background-color: darken(nth( colors, 1), 10%);
     }
   }
 }`,
               `// SCSS Loop for Grid System
-@for $i from 1 through 12 {
-  .col-#{$i} {
-    flex: 0 0 percentage($i / 12);
-    max-width: percentage($i / 12);
+@for  i from 1 through 12 {
+  .col-#{ i} {
+    flex: 0 0 percentage( i / 12);
+    max-width: percentage( i / 12);
   }
 }
 
 // Responsive grid
-@each $breakpoint in (sm, md, lg, xl) {
-  @include respond-to($breakpoint) {
-    @for $i from 1 through 12 {
-      .#{$breakpoint}-col-#{$i} {
-        flex: 0 0 percentage($i / 12);
-        max-width: percentage($i / 12);
+@each  breakpoint in (sm, md, lg, xl) {
+  @include respond-to( breakpoint) {
+    @for  i from 1 through 12 {
+      .#{ breakpoint}-col-#{ i} {
+        flex: 0 0 percentage( i / 12);
+        max-width: percentage( i / 12);
       }
     }
   }
@@ -27807,8 +27807,8 @@ export default function Card({ title, content, color, size }) {
       
       <style jsx>{\`
         .card {
-          background-color: \${color || '#ffffff'};
-          padding: \${size === 'large' ? '24px' : '16px'};
+          background-color: \ {color || '#ffffff'};
+          padding: \ {size === 'large' ? '24px' : '16px'};
           border-radius: 8px;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
           transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -27821,7 +27821,7 @@ export default function Card({ title, content, color, size }) {
         
         .title {
           margin: 0 0 12px 0;
-          font-size: \${size === 'large' ? '24px' : '18px'};
+          font-size: \ {size === 'large' ? '24px' : '18px'};
           color: #333;
         }
         
@@ -27829,7 +27829,7 @@ export default function Card({ title, content, color, size }) {
           margin: 0;
           line-height: 1.6;
           color: #666;
-          font-size: \${size === 'large' ? '16px' : '14px'};
+          font-size: \ {size === 'large' ? '16px' : '14px'};
         }
       \`}</style>
     </>
@@ -27928,7 +27928,7 @@ export default function Layout({ children }) {
 export default function ResponsiveComponent({ isVisible }) {
   return (
     <>
-      <div className={\`container \${isVisible ? 'visible' : 'hidden'}\`}>
+      <div className={\`container \ {isVisible ? 'visible' : 'hidden'}\`}>
         <div className="animated-box">
           <h2>Responsive Animated Component</h2>
           <p>This component demonstrates advanced Styled JSX features</p>
@@ -28055,10 +28055,10 @@ const ThemeProvider = ({ children, theme }) => (
     {children}
     <style jsx global>{\`
       :root {
-        --primary-color: \${theme.primary};
-        --secondary-color: \${theme.secondary};
-        --background-color: \${theme.background};
-        --text-color: \${theme.text};
+        --primary-color: \ {theme.primary};
+        --secondary-color: \ {theme.secondary};
+        --background-color: \ {theme.background};
+        --text-color: \ {theme.text};
       }
     \`}</style>
   </>
@@ -28294,7 +28294,7 @@ export default function Card({
   className = ''
 }) {
   return (
-    <div className={\`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 \${className}\`}>
+    <div className={\`bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-lg transition-shadow duration-300 \ {className}\`}>
       {image && (
         <div className="aspect-video w-full overflow-hidden">
           <img 
@@ -28762,63 +28762,63 @@ npm install --save-dev sass
       <pre><code className="language-scss">
 /* styles/variables.scss */
 // Colors
-$primary-color: #0070f3;
-$secondary-color: #666;
-$success-color: #28a745;
-$warning-color: #ffc107;
-$danger-color: #dc3545;
-$white: #ffffff;
-$black: #000000;
+ primary-color: #0070f3;
+ secondary-color: #666;
+ success-color: #28a745;
+ warning-color: #ffc107;
+ danger-color: #dc3545;
+ white: #ffffff;
+ black: #000000;
 
 // Typography
-$font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$font-family-mono: 'Fira Code', Monaco, 'Cascadia Code', 'Ubuntu Mono', monospace;
+ font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+ font-family-mono: 'Fira Code', Monaco, 'Cascadia Code', 'Ubuntu Mono', monospace;
 
-$font-size-sm: 0.875rem;
-$font-size-base: 1rem;
-$font-size-lg: 1.125rem;
-$font-size-xl: 1.25rem;
-$font-size-2xl: 1.5rem;
-$font-size-3xl: 1.875rem;
+ font-size-sm: 0.875rem;
+ font-size-base: 1rem;
+ font-size-lg: 1.125rem;
+ font-size-xl: 1.25rem;
+ font-size-2xl: 1.5rem;
+ font-size-3xl: 1.875rem;
 
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
+ font-weight-normal: 400;
+ font-weight-medium: 500;
+ font-weight-semibold: 600;
+ font-weight-bold: 700;
 
 // Spacing
-$spacing-xs: 0.25rem;
-$spacing-sm: 0.5rem;
-$spacing-md: 1rem;
-$spacing-lg: 1.5rem;
-$spacing-xl: 2rem;
-$spacing-2xl: 3rem;
-$spacing-3xl: 4rem;
+ spacing-xs: 0.25rem;
+ spacing-sm: 0.5rem;
+ spacing-md: 1rem;
+ spacing-lg: 1.5rem;
+ spacing-xl: 2rem;
+ spacing-2xl: 3rem;
+ spacing-3xl: 4rem;
 
 // Breakpoints
-$breakpoint-sm: 640px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 1024px;
-$breakpoint-xl: 1280px;
-$breakpoint-2xl: 1536px;
+ breakpoint-sm: 640px;
+ breakpoint-md: 768px;
+ breakpoint-lg: 1024px;
+ breakpoint-xl: 1280px;
+ breakpoint-2xl: 1536px;
 
 // Border radius
-$border-radius-sm: 0.25rem;
-$border-radius-md: 0.375rem;
-$border-radius-lg: 0.5rem;
-$border-radius-xl: 0.75rem;
-$border-radius-2xl: 1rem;
+ border-radius-sm: 0.25rem;
+ border-radius-md: 0.375rem;
+ border-radius-lg: 0.5rem;
+ border-radius-xl: 0.75rem;
+ border-radius-2xl: 1rem;
 
 // Shadows
-$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-$shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+ shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+ shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+ shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+ shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
 // Transitions
-$transition-fast: 0.15s ease-in-out;
-$transition-base: 0.2s ease-in-out;
-$transition-slow: 0.3s ease-in-out;
+ transition-fast: 0.15s ease-in-out;
+ transition-base: 0.2s ease-in-out;
+ transition-slow: 0.3s ease-in-out;
 </code></pre>
   </div>
    
@@ -28832,18 +28832,18 @@ $transition-slow: 0.3s ease-in-out;
 @import 'variables';
 
 // Responsive breakpoints mixin
-@mixin respond-to($breakpoint) {
-  @if $breakpoint == 'sm' {
-    @media (min-width: $breakpoint-sm) { @content; }
+@mixin respond-to( breakpoint) {
+  @if  breakpoint == 'sm' {
+    @media (min-width:  breakpoint-sm) { @content; }
   }
-  @if $breakpoint == 'md' {
-    @media (min-width: $breakpoint-md) { @content; }
+  @if  breakpoint == 'md' {
+    @media (min-width:  breakpoint-md) { @content; }
   }
-  @if $breakpoint == 'lg' {
-    @media (min-width: $breakpoint-lg) { @content; }
+  @if  breakpoint == 'lg' {
+    @media (min-width:  breakpoint-lg) { @content; }
   }
-  @if $breakpoint == 'xl' {
-    @media (min-width: $breakpoint-xl) { @content; }
+  @if  breakpoint == 'xl' {
+    @media (min-width:  breakpoint-xl) { @content; }
   }
 }
 
@@ -28866,24 +28866,24 @@ $transition-slow: 0.3s ease-in-out;
 }
 
 // Button styles mixin
-@mixin button-style($bg-color, $text-color: $white, $hover-bg: null) {
-  background-color: $bg-color;
-  color: $text-color;
+@mixin button-style( bg-color,  text-color:  white,  hover-bg: null) {
+  background-color:  bg-color;
+  color:  text-color;
   border: none;
-  padding: $spacing-sm $spacing-md;
-  border-radius: $border-radius-md;
-  font-weight: $font-weight-medium;
+  padding:  spacing-sm  spacing-md;
+  border-radius:  border-radius-md;
+  font-weight:  font-weight-medium;
   cursor: pointer;
-  transition: all $transition-base;
+  transition: all  transition-base;
   
   &:hover {
-    @if $hover-bg {
-      background-color: $hover-bg;
+    @if  hover-bg {
+      background-color:  hover-bg;
     } @else {
-      background-color: darken($bg-color, 10%);
+      background-color: darken( bg-color, 10%);
     }
     transform: translateY(-1px);
-    box-shadow: $shadow-md;
+    box-shadow:  shadow-md;
   }
   
   &:active {
@@ -28901,27 +28901,27 @@ $transition-slow: 0.3s ease-in-out;
 }
 
 // Card component mixin
-@mixin card-style($padding: $spacing-lg) {
-  background-color: $white;
-  border-radius: $border-radius-xl;
-  box-shadow: $shadow-sm;
-  padding: $padding;
-  transition: box-shadow $transition-base;
+@mixin card-style( padding:  spacing-lg) {
+  background-color:  white;
+  border-radius:  border-radius-xl;
+  box-shadow:  shadow-sm;
+  padding:  padding;
+  transition: box-shadow  transition-base;
   
   &:hover {
-    box-shadow: $shadow-md;
+    box-shadow:  shadow-md;
   }
 }
 
 // Truncate text mixin
-@mixin truncate($lines: 1) {
-  @if $lines == 1 {
+@mixin truncate( lines: 1) {
+  @if  lines == 1 {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   } @else {
     display: -webkit-box;
-    -webkit-line-clamp: $lines;
+    -webkit-line-clamp:  lines;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -28930,16 +28930,16 @@ $transition-slow: 0.3s ease-in-out;
 // Input field styling
 @mixin input-field {
   width: 100%;
-  padding: $spacing-sm $spacing-md;
+  padding:  spacing-sm  spacing-md;
   border: 1px solid #d1d5db;
-  border-radius: $border-radius-md;
-  font-size: $font-size-base;
-  transition: all $transition-base;
+  border-radius:  border-radius-md;
+  font-size:  font-size-base;
+  transition: all  transition-base;
   
   &:focus {
     outline: none;
-    border-color: $primary-color;
-    box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+    border-color:  primary-color;
+    box-shadow: 0 0 0 3px rgba( primary-color, 0.1);
   }
   
   &::placeholder {
@@ -28948,8 +28948,8 @@ $transition-slow: 0.3s ease-in-out;
 }
 
 // Animation mixins
-@mixin fade-in($duration: $transition-base) {
-  animation: fadeIn $duration ease-in-out;
+@mixin fade-in( duration:  transition-base) {
+  animation: fadeIn  duration ease-in-out;
 }
 
 @keyframes fadeIn {
@@ -28957,8 +28957,8 @@ $transition-slow: 0.3s ease-in-out;
   to { opacity: 1; }
 }
 
-@mixin slide-up($duration: $transition-base) {
-  animation: slideUp $duration ease-out;
+@mixin slide-up( duration:  transition-base) {
+  animation: slideUp  duration ease-out;
 }
 
 @keyframes slideUp {
@@ -28973,15 +28973,15 @@ $transition-slow: 0.3s ease-in-out;
 }
 
 // Functions
-@function rem($pixels) {
-  @return #{$pixels / 16}rem;
+@function rem( pixels) {
+  @return #{ pixels / 16}rem;
 }
 
-@function color-contrast($color) {
-  @if lightness($color) > 50% {
-    @return $black;
+@function color-contrast( color) {
+  @if lightness( color) > 50% {
+    @return  black;
   } @else {
-    @return $white;
+    @return  white;
   }
 }
 </code></pre>
@@ -28998,19 +28998,19 @@ $transition-slow: 0.3s ease-in-out;
 @import '../styles/mixins';
 
 .button {
-  @include button-style($primary-color);
+  @include button-style( primary-color);
   display: inline-flex;
   align-items: center;
-  gap: $spacing-xs;
+  gap:  spacing-xs;
   
   &.small {
-    padding: $spacing-xs $spacing-sm;
-    font-size: $font-size-sm;
+    padding:  spacing-xs  spacing-sm;
+    font-size:  font-size-sm;
   }
   
   &.large {
-    padding: $spacing-md $spacing-lg;
-    font-size: $font-size-lg;
+    padding:  spacing-md  spacing-lg;
+    font-size:  font-size-lg;
   }
   
   &.secondary {
@@ -29018,17 +29018,17 @@ $transition-slow: 0.3s ease-in-out;
   }
   
   &.danger {
-    @include button-style($danger-color);
+    @include button-style( danger-color);
   }
   
   &.outline {
     background-color: transparent;
-    color: $primary-color;
-    border: 2px solid $primary-color;
+    color:  primary-color;
+    border: 2px solid  primary-color;
     
     &:hover {
-      background-color: $primary-color;
-      color: $white;
+      background-color:  primary-color;
+      color:  white;
     }
   }
   
@@ -29084,7 +29084,7 @@ export default function Button({
       {...props}
     >
       {loading ? (
-        <span className={\`\${styles.icon} \${styles.loading}\`}>
+        <span className={\`\ {styles.icon} \ {styles.loading}\`}>
           ⟳
         </span>
       ) : icon ? (
@@ -29115,25 +29115,25 @@ export default function Button({
   // Nested selectors
   .header {
     @include flex-between;
-    margin-bottom: $spacing-md;
+    margin-bottom:  spacing-md;
     
     .title {
       @include truncate(2);
       margin: 0;
-      font-size: $font-size-xl;
-      font-weight: $font-weight-semibold;
+      font-size:  font-size-xl;
+      font-weight:  font-weight-semibold;
       color: #1f2937;
     }
     
     .badge {
       display: inline-flex;
       align-items: center;
-      padding: $spacing-xs $spacing-sm;
+      padding:  spacing-xs  spacing-sm;
       background-color: #dbeafe;
       color: #1e40af;
-      border-radius: $border-radius-lg;
-      font-size: $font-size-sm;
-      font-weight: $font-weight-medium;
+      border-radius:  border-radius-lg;
+      font-size:  font-size-sm;
+      font-weight:  font-weight-medium;
       
       // Dynamic badge colors
       &.success {
@@ -29157,9 +29157,9 @@ export default function Button({
     width: 100%;
     height: 200px;
     object-fit: cover;
-    border-radius: $border-radius-lg;
-    margin-bottom: $spacing-md;
-    transition: transform $transition-base;
+    border-radius:  border-radius-lg;
+    margin-bottom:  spacing-md;
+    transition: transform  transition-base;
     
     &:hover {
       transform: scale(1.05);
@@ -29170,23 +29170,23 @@ export default function Button({
     .description {
       color: #6b7280;
       line-height: 1.6;
-      margin-bottom: $spacing-lg;
+      margin-bottom:  spacing-lg;
       @include truncate(3);
     }
     
     .meta {
       @include flex-between;
-      font-size: $font-size-sm;
+      font-size:  font-size-sm;
       color: #9ca3af;
       
       .date {
         @include flex-center;
-        gap: $spacing-xs;
+        gap:  spacing-xs;
       }
       
       .author {
         @include flex-center;
-        gap: $spacing-xs;
+        gap:  spacing-xs;
         
         .avatar {
           width: 24px;
@@ -29200,36 +29200,36 @@ export default function Button({
   
   .actions {
     @include flex-center;
-    gap: $spacing-sm;
-    margin-top: $spacing-lg;
-    padding-top: $spacing-lg;
+    gap:  spacing-sm;
+    margin-top:  spacing-lg;
+    padding-top:  spacing-lg;
     border-top: 1px solid #f3f4f6;
   }
   
   // Card variants
   &.featured {
-    border: 2px solid $primary-color;
-    box-shadow: $shadow-lg;
+    border: 2px solid  primary-color;
+    box-shadow:  shadow-lg;
     
     &::before {
       content: 'Featured';
       position: absolute;
-      top: $spacing-md;
-      right: -$spacing-lg;
-      background-color: $primary-color;
-      color: $white;
-      padding: $spacing-xs $spacing-xl;
-      font-size: $font-size-sm;
-      font-weight: $font-weight-medium;
+      top:  spacing-md;
+      right: - spacing-lg;
+      background-color:  primary-color;
+      color:  white;
+      padding:  spacing-xs  spacing-xl;
+      font-size:  font-size-sm;
+      font-weight:  font-weight-medium;
       transform: rotate(45deg);
     }
   }
   
   &.compact {
-    padding: $spacing-md;
+    padding:  spacing-md;
     
     .header .title {
-      font-size: $font-size-lg;
+      font-size:  font-size-lg;
     }
     
     .image {
@@ -29242,7 +29242,7 @@ export default function Button({
     .header {
       flex-direction: column;
       align-items: flex-start;
-      gap: $spacing-sm;
+      gap:  spacing-sm;
       
       .title {
         @include truncate(1);
@@ -29281,7 +29281,7 @@ export default function Button({
 }
 
 html {
-  font-family: $font-family-primary;
+  font-family:  font-family-primary;
   line-height: 1.5;
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
@@ -29298,30 +29298,30 @@ body {
 // Typography
 h1, h2, h3, h4, h5, h6 {
   margin: 0;
-  font-weight: $font-weight-semibold;
+  font-weight:  font-weight-semibold;
   line-height: 1.25;
   color: #111827;
 }
 
-h1 { font-size: $font-size-3xl; }
-h2 { font-size: $font-size-2xl; }
-h3 { font-size: $font-size-xl; }
-h4 { font-size: $font-size-lg; }
-h5 { font-size: $font-size-base; }
-h6 { font-size: $font-size-sm; }
+h1 { font-size:  font-size-3xl; }
+h2 { font-size:  font-size-2xl; }
+h3 { font-size:  font-size-xl; }
+h4 { font-size:  font-size-lg; }
+h5 { font-size:  font-size-base; }
+h6 { font-size:  font-size-sm; }
 
 p {
-  margin: 0 0 $spacing-md 0;
+  margin: 0 0  spacing-md 0;
   line-height: 1.6;
 }
 
 a {
-  color: $primary-color;
+  color:  primary-color;
   text-decoration: none;
-  transition: color $transition-base;
+  transition: color  transition-base;
   
   &:hover {
-    color: darken($primary-color, 10%);
+    color: darken( primary-color, 10%);
     text-decoration: underline;
   }
 }
@@ -29331,20 +29331,20 @@ a {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $spacing-md;
+  padding: 0  spacing-md;
   
   @include respond-to('sm') {
-    padding: 0 $spacing-lg;
+    padding: 0  spacing-lg;
   }
   
   @include respond-to('lg') {
-    padding: 0 $spacing-xl;
+    padding: 0  spacing-xl;
   }
 }
 
 .grid {
   display: grid;
-  gap: $spacing-md;
+  gap:  spacing-md;
   
   &.cols-1 { grid-template-columns: 1fr; }
   &.cols-2 { grid-template-columns: repeat(2, 1fr); }
@@ -29352,7 +29352,7 @@ a {
   &.cols-4 { grid-template-columns: repeat(4, 1fr); }
   
   @include respond-to('sm') {
-    gap: $spacing-lg;
+    gap:  spacing-lg;
     
     &.sm-cols-2 { grid-template-columns: repeat(2, 1fr); }
     &.sm-cols-3 { grid-template-columns: repeat(3, 1fr); }
@@ -29371,9 +29371,9 @@ a {
   &.between { @include flex-between; }
   &.column { @include flex-column; }
   &.wrap { flex-wrap: wrap; }
-  &.gap-sm { gap: $spacing-sm; }
-  &.gap-md { gap: $spacing-md; }
-  &.gap-lg { gap: $spacing-lg; }
+  &.gap-sm { gap:  spacing-sm; }
+  &.gap-md { gap:  spacing-md; }
+  &.gap-lg { gap:  spacing-lg; }
 }
 
 // Animation utilities
@@ -29387,12 +29387,12 @@ a {
 
 // Form elements
 .form-group {
-  margin-bottom: $spacing-md;
+  margin-bottom:  spacing-md;
   
   .label {
     display: block;
-    margin-bottom: $spacing-xs;
-    font-weight: $font-weight-medium;
+    margin-bottom:  spacing-xs;
+    font-weight:  font-weight-medium;
     color: #374151;
   }
   
@@ -29401,22 +29401,22 @@ a {
   }
   
   .error {
-    margin-top: $spacing-xs;
-    color: $danger-color;
-    font-size: $font-size-sm;
+    margin-top:  spacing-xs;
+    color:  danger-color;
+    font-size:  font-size-sm;
   }
 }
 
 // Loading states
 .loading {
   @include flex-center;
-  padding: $spacing-xl;
+  padding:  spacing-xl;
   
   .spinner {
     width: 32px;
     height: 32px;
     border: 3px solid #f3f4f6;
-    border-top: 3px solid $primary-color;
+    border-top: 3px solid  primary-color;
     border-radius: 50%;
     animation: spin 1s linear infinite;
   }
@@ -29450,14 +29450,14 @@ a {
 @import 'variables';
 
 // Theme maps
-$themes: (
+ themes: (
   light: (
     bg-primary: #ffffff,
     bg-secondary: #f8fafc,
     text-primary: #1a202c,
     text-secondary: #718096,
     border: #e2e8f0,
-    accent: $primary-color
+    accent:  primary-color
   ),
   dark: (
     bg-primary: #1a202c,
@@ -29478,34 +29478,34 @@ $themes: (
 );
 
 // Theme mixin
-@mixin themed($property, $key, $fallback: null) {
-  @each $theme, $map in $themes {
-    .theme-#{$theme} & {
-      #{$property}: map-get($map, $key);
+@mixin themed( property,  key,  fallback: null) {
+  @each  theme,  map in  themes {
+    .theme-#{ theme} & {
+      #{ property}: map-get( map,  key);
     }
   }
   
-  @if $fallback {
-    #{$property}: $fallback;
+  @if  fallback {
+    #{ property}:  fallback;
   }
 }
 
 // Usage example in component
 .themed-card {
-  @include themed('background-color', 'bg-primary', $white);
+  @include themed('background-color', 'bg-primary',  white);
   @include themed('color', 'text-primary', #1a202c);
   @include themed('border-color', 'border', #e2e8f0);
   
-  padding: $spacing-lg;
+  padding:  spacing-lg;
   border: 1px solid;
-  border-radius: $border-radius-lg;
-  transition: all $transition-base;
+  border-radius:  border-radius-lg;
+  transition: all  transition-base;
   
   .title {
     @include themed('color', 'text-primary');
-    font-size: $font-size-xl;
-    font-weight: $font-weight-semibold;
-    margin-bottom: $spacing-sm;
+    font-size:  font-size-xl;
+    font-weight:  font-weight-semibold;
+    margin-bottom:  spacing-sm;
   }
   
   .description {
@@ -29516,7 +29516,7 @@ $themes: (
   .accent-border {
     @include themed('border-left-color', 'accent');
     border-left: 4px solid;
-    padding-left: $spacing-md;
+    padding-left:  spacing-md;
   }
 }
 </code></pre>
@@ -29702,7 +29702,7 @@ function HomePage() {
       <pre><code className="language-javascript">
 // Dynamic static file references
 function ProductGallery({ productId }) {
-  const imageSrc = \`/images/products/\${productId}/main.jpg\`;
+  const imageSrc = \`/images/products/\ {productId}/main.jpg\`;
   
   return (
     <img 
@@ -29722,7 +29722,7 @@ const assetPrefix = process.env.NODE_ENV === 'production'
   : '';
 
 function OptimizedAsset({ src, alt }) {
-  return <img src={\`\${assetPrefix}\${src}\`} alt={alt} />;
+  return <img src={\`\ {assetPrefix}\ {src}\`} alt={alt} />;
 }
  </code></pre>
   </div>
@@ -29757,7 +29757,7 @@ function Header() {
 }`,
               `// Dynamic asset loading
 function UserAvatar({ userId }) {
-  const [imageSrc, setImageSrc] = useState(\`/images/avatars/\${userId}.jpg\`);
+  const [imageSrc, setImageSrc] = useState(\`/images/avatars/\ {userId}.jpg\`);
   
   const handleImageError = () => {
     setImageSrc('/images/default-avatar.png');
@@ -30556,7 +30556,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await fetch(\`https://api.example.com/posts/\${params.slug}\`)
+  const post = await fetch(\`https://api.example.com/posts/\ {params.slug}\`)
     .then(res => res.json())
   
   return {
@@ -30972,7 +30972,7 @@ function TodoList() {
     mutate('/api/todos', updatedTodos, false)
     
     try {
-      await fetch(\`/api/todos/\${id}\`, { method: 'PATCH' })
+      await fetch(\`/api/todos/\ {id}\`, { method: 'PATCH' })
       mutate('/api/todos')
     } catch (error) {
       mutate('/api/todos', todos, false)
@@ -31008,7 +31008,7 @@ function App({ Component, pageProps }) {
         onError: (error, key) => {
           if (error.status !== 403 && error.status !== 404) {
             // Send error to logging service
-            console.error(\`SWR Error for \${key}:\`, error)
+            console.error(\`SWR Error for \ {key}:\`, error)
           }
         }
       }}
@@ -31021,14 +31021,14 @@ function App({ Component, pageProps }) {
 function UserPosts({ userId }) {
   // Only fetch if userId is provided
   const { data: posts } = useSWR(
-    userId ? \`/api/users/\${userId}/posts\` : null, 
+    userId ? \`/api/users/\ {userId}/posts\` : null, 
     fetcher
   )
   
   // Fetch user details and posts conditionally
-  const { data: user } = useSWR(\`/api/users/\${userId}\`, fetcher)
+  const { data: user } = useSWR(\`/api/users/\ {userId}\`, fetcher)
   const { data: userPosts } = useSWR(
-    user && user.hasPublicPosts ? \`/api/users/\${userId}/public-posts\` : null,
+    user && user.hasPublicPosts ? \`/api/users/\ {userId}/public-posts\` : null,
     fetcher
   )
   
@@ -31444,10 +31444,10 @@ export default function handler(req, res) {
     res.status(200).json({ userId: id, name: 'John Doe' });
   } else if (req.method === 'DELETE') {
     // Delete user by ID
-    res.status(200).json({ message: \`User \${id} deleted\` });
+    res.status(200).json({ message: \`User \ {id} deleted\` });
   } else {
     res.setHeader('Allow', ['GET', 'DELETE']);
-    res.status(405).end(\`Method \${req.method} Not Allowed\`);
+    res.status(405).end(\`Method \ {req.method} Not Allowed\`);
   }
 }
       </code></pre>
@@ -31602,7 +31602,7 @@ export default function handler(req, res) {
       
     default:
       res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
-      return res.status(405).end(\`Method \${req.method} Not Allowed\`);
+      return res.status(405).end(\`Method \ {req.method} Not Allowed\`);
   }
 }
       </code></pre>
@@ -31660,8 +31660,8 @@ export default function handler(req, res) {
     page: parseInt(page),
     limit: parseInt(limit),
     results: [
-      { id: 1, title: \`Result for "\${q}"\` },
-      { id: 2, title: \`Another result for "\${q}"\` },
+      { id: 1, title: \`Result for "\ {q}"\` },
+      { id: 2, title: \`Another result for "\ {q}"\` },
     ]
   };
   
@@ -31728,12 +31728,12 @@ export default function handler(req, res) {
       
     case 'DELETE':
       return res.status(200).json({ 
-        message: \`Post \${id} deleted successfully\`
+        message: \`Post \ {id} deleted successfully\`
       });
       
     default:
       res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
-      return res.status(405).end(\`Method \${req.method} Not Allowed\`);
+      return res.status(405).end(\`Method \ {req.method} Not Allowed\`);
   }
 }`,
             ],
@@ -31954,7 +31954,7 @@ async function handler(req, res) {
       
     default:
       res.setHeader('Allow', ['GET', 'PUT', 'DELETE']);
-      return res.status(405).end(\`Method \${req.method} Not Allowed\`);
+      return res.status(405).end(\`Method \ {req.method} Not Allowed\`);
   }
 }
 
@@ -32206,7 +32206,7 @@ export function validateConfig() {
   const missing = required.filter(key => !process.env[key]);
   
   if (missing.length > 0) {
-    throw new Error(\`Missing required environment variables: \${missing.join(', ')}\`);
+    throw new Error(\`Missing required environment variables: \ {missing.join(', ')}\`);
   }
 }
 
@@ -32760,7 +32760,7 @@ export function middleware(request) {
   // Redirect to country-specific pages
   if (pathname === '/' && !request.nextUrl.searchParams.has('country')) {
     const url = request.nextUrl.clone()
-    url.pathname = \`/\${country.toLowerCase()}\`
+    url.pathname = \`/\ {country.toLowerCase()}\`
     return NextResponse.redirect(url)
   }
 
@@ -33620,7 +33620,7 @@ export default function PhotoModal({ params }) {
           ×
         </button>
         <Image
-          src={\`/photos/\${params.id}.jpg\`}
+          src={\`/photos/\ {params.id}.jpg\`}
           alt="Photo"
           width={800}
           height={600}
@@ -33646,7 +33646,7 @@ export default function PhotoPage({ params }) {
       </header>
       <main>
         <Image
-          src={\`/photos/\${params.id}.jpg\`}
+          src={\`/photos/\ {params.id}.jpg\`}
           alt="Photo"
           width={1200}
           height={800}
@@ -34352,7 +34352,7 @@ export default function DashboardLayout({ children }) {
             examples: [
               `// app/posts/[id]/page.tsx – Server Component
 export default async function PostPage({ params }) {
-  const post = await fetch(\`https://api.vercel.app/posts/\${params.id}\`).then(r => r.json());
+  const post = await fetch(\`https://api.vercel.app/posts/\ {params.id}\`).then(r => r.json());
   return (
     <article>
       <h1>{post.title}</h1>
@@ -35100,7 +35100,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const product = await fetch(\`https://api/products/\${params.id}\`).then(r => r.json())
+  const product = await fetch(\`https://api/products/\ {params.id}\`).then(r => r.json())
   return {
     props: { product },
     revalidate: 60                    // regenerate page every 60 s
@@ -35114,7 +35114,7 @@ export async function getStaticProps({ params }) {
 export const revalidate = 60          // 60-second ISR
 
 export default async function Page({ params }) {
-  const product = await fetch(\`https://api/products/\${params.id}\`, {
+  const product = await fetch(\`https://api/products/\ {params.id}\`, {
     next: { revalidate: 60 }          // granular fetch cache
   }).then(r => r.json())
   return &lt;ProductCard {...product} /&gt;
@@ -35128,7 +35128,7 @@ import { revalidatePath } from 'next/cache'
 
 export async function POST(req: Request) {
   const { slug } = await req.json()
-  revalidatePath(\`/products/\${slug}\`)
+  revalidatePath(\`/products/\ {slug}\`)
   return Response.json({ revalidated: true })
 }
 </code></pre>
@@ -36052,36 +36052,36 @@ export const ROLES = {
 // Define permissions for each role
 export const rolePermissions = {
   [ROLES.SUPER_ADMIN]: [
-    \`\${RESOURCES.USERS}:\${ACTIONS.MANAGE}\`,
-    \`\${RESOURCES.POSTS}:\${ACTIONS.MANAGE}\`,
-    \`\${RESOURCES.COMMENTS}:\${ACTIONS.MANAGE}\`,
-    \`\${RESOURCES.SETTINGS}:\${ACTIONS.MANAGE}\`,
-    \`\${RESOURCES.ANALYTICS}:\${ACTIONS.MANAGE}\`
+    \`\ {RESOURCES.USERS}:\ {ACTIONS.MANAGE}\`,
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.MANAGE}\`,
+    \`\ {RESOURCES.COMMENTS}:\ {ACTIONS.MANAGE}\`,
+    \`\ {RESOURCES.SETTINGS}:\ {ACTIONS.MANAGE}\`,
+    \`\ {RESOURCES.ANALYTICS}:\ {ACTIONS.MANAGE}\`
   ],
   [ROLES.ADMIN]: [
-    \`\${RESOURCES.USERS}:\${ACTIONS.READ}\`,
-    \`\${RESOURCES.USERS}:\${ACTIONS.UPDATE}\`,
-    \`\${RESOURCES.POSTS}:\${ACTIONS.MANAGE}\`,
-    \`\${RESOURCES.COMMENTS}:\${ACTIONS.MANAGE}\`,
-    \`\${RESOURCES.ANALYTICS}:\${ACTIONS.READ}\`
+    \`\ {RESOURCES.USERS}:\ {ACTIONS.READ}\`,
+    \`\ {RESOURCES.USERS}:\ {ACTIONS.UPDATE}\`,
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.MANAGE}\`,
+    \`\ {RESOURCES.COMMENTS}:\ {ACTIONS.MANAGE}\`,
+    \`\ {RESOURCES.ANALYTICS}:\ {ACTIONS.READ}\`
   ],
   [ROLES.EDITOR]: [
-    \`\${RESOURCES.POSTS}:\${ACTIONS.CREATE}\`,
-    \`\${RESOURCES.POSTS}:\${ACTIONS.READ}\`,
-    \`\${RESOURCES.POSTS}:\${ACTIONS.UPDATE}\`,
-    \`\${RESOURCES.COMMENTS}:\${ACTIONS.READ}\`,
-    \`\${RESOURCES.COMMENTS}:\${ACTIONS.UPDATE}\`
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.CREATE}\`,
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.READ}\`,
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.UPDATE}\`,
+    \`\ {RESOURCES.COMMENTS}:\ {ACTIONS.READ}\`,
+    \`\ {RESOURCES.COMMENTS}:\ {ACTIONS.UPDATE}\`
   ],
   [ROLES.AUTHOR]: [
-    \`\${RESOURCES.POSTS}:\${ACTIONS.CREATE}\`,
-    \`\${RESOURCES.POSTS}:\${ACTIONS.READ}\`,
-    \`\${RESOURCES.POSTS}:\${ACTIONS.UPDATE}\`, // Own posts only
-    \`\${RESOURCES.COMMENTS}:\${ACTIONS.READ}\`
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.CREATE}\`,
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.READ}\`,
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.UPDATE}\`, // Own posts only
+    \`\ {RESOURCES.COMMENTS}:\ {ACTIONS.READ}\`
   ],
   [ROLES.USER]: [
-    \`\${RESOURCES.POSTS}:\${ACTIONS.READ}\`,
-    \`\${RESOURCES.COMMENTS}:\${ACTIONS.CREATE}\`,
-    \`\${RESOURCES.COMMENTS}:\${ACTIONS.READ}\`
+    \`\ {RESOURCES.POSTS}:\ {ACTIONS.READ}\`,
+    \`\ {RESOURCES.COMMENTS}:\ {ACTIONS.CREATE}\`,
+    \`\ {RESOURCES.COMMENTS}:\ {ACTIONS.READ}\`
   ]
 }
 
@@ -36091,8 +36091,8 @@ export class RBACService {
       userRoles = [userRoles]
     }
     
-    const requiredPermission = \`\${resource}:\${action}\`
-    const managePermission = \`\${resource}:\${ACTIONS.MANAGE}\`
+    const requiredPermission = \`\ {resource}:\ {action}\`
+    const managePermission = \`\ {resource}:\ {ACTIONS.MANAGE}\`
     
     return userRoles.some(role => {
       const permissions = rolePermissions[role] || []
@@ -36149,7 +36149,7 @@ export class RBACDatabase {
       FROM users u
       JOIN user_roles ur ON u.id = ur.user_id
       JOIN roles r ON ur.role_id = r.id
-      WHERE u.id = $1
+      WHERE u.id =  1
     \`, [userId])
     
     return result.rows.map(row => row.role_name)
@@ -36163,7 +36163,7 @@ export class RBACDatabase {
       LEFT JOIN role_permissions rp ON ur.role_id = rp.role_id
       LEFT JOIN permissions p ON rp.permission_id = p.id
       LEFT JOIN user_permissions up ON u.id = up.user_id AND up.permission_id = p.id
-      WHERE u.id = $1 AND (up.granted IS NULL OR up.granted = true)
+      WHERE u.id =  1 AND (up.granted IS NULL OR up.granted = true)
     \`, [userId])
     
     return result.rows.map(row => ({
@@ -36179,7 +36179,7 @@ export class RBACDatabase {
     try {
       // Get role ID
       const roleResult = await query(
-        'SELECT id FROM roles WHERE name = $1',
+        'SELECT id FROM roles WHERE name =  1',
         [roleName]
       )
       
@@ -36190,7 +36190,7 @@ export class RBACDatabase {
       // Assign role to user
       await query(\`
         INSERT INTO user_roles (user_id, role_id)
-        VALUES ($1, $2)
+        VALUES ( 1,  2)
         ON CONFLICT (user_id, role_id) DO NOTHING
       \`, [userId, roleResult.rows[0].id])
       
@@ -36204,8 +36204,8 @@ export class RBACDatabase {
   static async revokeRole(userId, roleName) {
     const result = await query(\`
       DELETE FROM user_roles
-      WHERE user_id = $1 AND role_id = (
-        SELECT id FROM roles WHERE name = $2
+      WHERE user_id =  1 AND role_id = (
+        SELECT id FROM roles WHERE name =  2
       )
     \`, [userId, roleName])
     
@@ -36219,7 +36219,7 @@ export class RBACDatabase {
       // Create role
       const roleResult = await query(\`
         INSERT INTO roles (name, description)
-        VALUES ($1, $2)
+        VALUES ( 1,  2)
         RETURNING id
       \`, [name, description])
       
@@ -36229,7 +36229,7 @@ export class RBACDatabase {
       for (const permissionName of permissions) {
         await query(\`
           INSERT INTO role_permissions (role_id, permission_id)
-          SELECT $1, id FROM permissions WHERE name = $2
+          SELECT  1, id FROM permissions WHERE name =  2
         \`, [roleId, permissionName])
       }
       
@@ -36322,10 +36322,10 @@ async function getResourceOwnerId(resource, resourceId) {
   // Implementation depends on your data model
   switch (resource) {
     case RESOURCES.POSTS:
-      const post = await query('SELECT author_id FROM posts WHERE id = $1', [resourceId])
+      const post = await query('SELECT author_id FROM posts WHERE id =  1', [resourceId])
       return post.rows[0]?.author_id
     case RESOURCES.COMMENTS:
-      const comment = await query('SELECT user_id FROM comments WHERE id = $1', [resourceId])
+      const comment = await query('SELECT user_id FROM comments WHERE id =  1', [resourceId])
       return comment.rows[0]?.user_id
     default:
       return null
@@ -36541,7 +36541,7 @@ export default async function handler(req, res) {
 
     // Set HTTP-only cookie
     res.setHeader('Set-Cookie', [
-      \`token=\${token}; HttpOnly; Path=/; Max-Age=604800; SameSite=Strict; \${
+      \`token=\ {token}; HttpOnly; Path=/; Max-Age=604800; SameSite=Strict; \ {
         process.env.NODE_ENV === 'production' ? 'Secure;' : ''
       }\`
     ])
@@ -37210,7 +37210,7 @@ export function ThemeProvider({ children }) {
 
   return (
     <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      <div className={\`app \${theme}\`}>
+      <div className={\`app \ {theme}\`}>
         {children}
       </div>
     </ThemeContext.Provider>
@@ -37465,7 +37465,7 @@ export const apiSlice = createApi({
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) {
-        headers.set('authorization', \`Bearer \${token}\`);
+        headers.set('authorization', \`Bearer \ {token}\`);
       }
       return headers;
     },
@@ -37477,7 +37477,7 @@ export const apiSlice = createApi({
       providesTags: ['Post'],
     }),
     getPost: builder.query({
-      query: (id) => \`/posts/\${id}\`,
+      query: (id) => \`/posts/\ {id}\`,
       providesTags: (result, error, id) => [{ type: 'Post', id }],
     }),
     createPost: builder.mutation({
@@ -38057,7 +38057,7 @@ const API_BASE = '/api';
 
 // Fetch functions
 const fetchPosts = async () => {
-  const response = await fetch(\`\${API_BASE}/posts\`);
+  const response = await fetch(\`\ {API_BASE}/posts\`);
   if (!response.ok) {
     throw new Error('Failed to fetch posts');
   }
@@ -38065,7 +38065,7 @@ const fetchPosts = async () => {
 };
 
 const fetchPost = async (id) => {
-  const response = await fetch(\`\${API_BASE}/posts/\${id}\`);
+  const response = await fetch(\`\ {API_BASE}/posts/\ {id}\`);
   if (!response.ok) {
     throw new Error('Failed to fetch post');
   }
@@ -38073,7 +38073,7 @@ const fetchPost = async (id) => {
 };
 
 const createPost = async (newPost) => {
-  const response = await fetch(\`\${API_BASE}/posts\`, {
+  const response = await fetch(\`\ {API_BASE}/posts\`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newPost),
@@ -38085,7 +38085,7 @@ const createPost = async (newPost) => {
 };
 
 const updatePost = async ({ id, ...updates }) => {
-  const response = await fetch(\`\${API_BASE}/posts/\${id}\`, {
+  const response = await fetch(\`\ {API_BASE}/posts/\ {id}\`, {
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(updates),
@@ -38097,7 +38097,7 @@ const updatePost = async ({ id, ...updates }) => {
 };
 
 const deletePost = async (id) => {
-  const response = await fetch(\`\${API_BASE}/posts/\${id}\`, {
+  const response = await fetch(\`\ {API_BASE}/posts/\ {id}\`, {
     method: 'DELETE',
   });
   if (!response.ok) {
@@ -38291,7 +38291,7 @@ export async function getServerSideProps() {
   await queryClient.prefetchQuery({
     queryKey: ['posts'],
     queryFn: async () => {
-      const response = await fetch(\`\${process.env.NEXT_PUBLIC_API_URL}/api/posts\`);
+      const response = await fetch(\`\ {process.env.NEXT_PUBLIC_API_URL}/api/posts\`);
       return response.json();
     },
   });
@@ -38318,7 +38318,7 @@ export const useInfinitePosts = () => {
   return useInfiniteQuery({
     queryKey: ['posts', 'infinite'],
     queryFn: async ({ pageParam = 1 }) => {
-      const response = await fetch(\`/api/posts?page=\${pageParam}&limit=10\`);
+      const response = await fetch(\`/api/posts?page=\ {pageParam}&limit=10\`);
       return response.json();
     },
     getNextPageParam: (lastPage, pages) => {
@@ -38331,13 +38331,13 @@ export const useInfinitePosts = () => {
 export const useUserPosts = (userId) => {
   const userQuery = useQuery({
     queryKey: ['user', userId],
-    queryFn: () => fetch(\`/api/users/\${userId}\`).then(res => res.json()),
+    queryFn: () => fetch(\`/api/users/\ {userId}\`).then(res => res.json()),
     enabled: !!userId,
   });
 
   const postsQuery = useQuery({
     queryKey: ['posts', 'user', userId],
-    queryFn: () => fetch(\`/api/posts?userId=\${userId}\`).then(res => res.json()),
+    queryFn: () => fetch(\`/api/posts?userId=\ {userId}\`).then(res => res.json()),
     enabled: !!userQuery.data?.id,
   });
 
@@ -38517,7 +38517,7 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      authorization: token ? \`Bearer \${token}\` : "",
+      authorization: token ? \`Bearer \ {token}\` : "",
     }
   };
 });
@@ -38581,8 +38581,8 @@ export default MyApp;
 import { gql } from '@apollo/client';
 
 export const GET_POSTS = gql\`
-  query GetPosts($limit: Int, $offset: Int) {
-    posts(limit: $limit, offset: $offset) {
+  query GetPosts( limit: Int,  offset: Int) {
+    posts(limit:  limit, offset:  offset) {
       id
       title
       content
@@ -38599,8 +38599,8 @@ export const GET_POSTS = gql\`
 \`;
 
 export const GET_POST = gql\`
-  query GetPost($id: ID!) {
-    post(id: $id) {
+  query GetPost( id: ID!) {
+    post(id:  id) {
       id
       title
       content
@@ -38629,8 +38629,8 @@ export const GET_POST = gql\`
 \`;
 
 export const CREATE_POST = gql\`
-  mutation CreatePost($input: CreatePostInput!) {
-    createPost(input: $input) {
+  mutation CreatePost( input: CreatePostInput!) {
+    createPost(input:  input) {
       id
       title
       content
@@ -38644,8 +38644,8 @@ export const CREATE_POST = gql\`
 \`;
 
 export const UPDATE_POST = gql\`
-  mutation UpdatePost($id: ID!, $input: UpdatePostInput!) {
-    updatePost(id: $id, input: $input) {
+  mutation UpdatePost( id: ID!,  input: UpdatePostInput!) {
+    updatePost(id:  id, input:  input) {
       id
       title
       content
@@ -38655,8 +38655,8 @@ export const UPDATE_POST = gql\`
 \`;
 
 export const DELETE_POST = gql\`
-  mutation DeletePost($id: ID!) {
-    deletePost(id: $id) {
+  mutation DeletePost( id: ID!) {
+    deletePost(id:  id) {
       id
       message
     }
@@ -38664,8 +38664,8 @@ export const DELETE_POST = gql\`
 \`;
 
 export const LIKE_POST = gql\`
-  mutation LikePost($postId: ID!) {
-    likePost(postId: $postId) {
+  mutation LikePost( postId: ID!) {
+    likePost(postId:  postId) {
       id
       likesCount
       isLiked
@@ -38711,7 +38711,7 @@ export default function PostsList() {
       alert('Post deleted successfully!');
     },
     onError: (error) => {
-      alert(\`Error: \${error.message}\`);
+      alert(\`Error: \ {error.message}\`);
     },
   });
 
@@ -38827,8 +38827,8 @@ export const POST_ADDED = gql\`
 \`;
 
 export const POST_UPDATED = gql\`
-  subscription PostUpdated($postId: ID!) {
-    postUpdated(postId: $postId) {
+  subscription PostUpdated( postId: ID!) {
+    postUpdated(postId:  postId) {
       id
       title
       content
@@ -39113,14 +39113,14 @@ class APIClient {
     const token = this.getAuthToken();
     return {
       ...this.defaultHeaders,
-      ...(token && { Authorization: \`Bearer \${token}\` }),
+      ...(token && { Authorization: \`Bearer \ {token}\` }),
       ...additionalHeaders,
     };
   }
 
   // Generic request method
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseURL}\${endpoint}\`;
+    const url = \`\ {this.baseURL}\ {endpoint}\`;
     const config = {
       headers: this.createHeaders(options.headers),
       ...options,
@@ -39141,7 +39141,7 @@ class APIClient {
 
       if (!response.ok) {
         throw new APIError(
-          data.message || \`HTTP Error: \${response.status}\`,
+          data.message || \`HTTP Error: \ {response.status}\`,
           response.status,
           data
         );
@@ -39163,7 +39163,7 @@ class APIClient {
   // HTTP Methods
   async get(endpoint, params = {}) {
     const queryString = new URLSearchParams(params).toString();
-    const url = queryString ? \`\${endpoint}?\${queryString}\` : endpoint;
+    const url = queryString ? \`\ {endpoint}?\ {queryString}\` : endpoint;
     
     return this.request(url, { method: 'GET' });
   }
@@ -39257,7 +39257,7 @@ export const postService = {
 
   // Get single post
   async getPost(id) {
-    return apiClient.get(\`/posts/\${id}\`);
+    return apiClient.get(\`/posts/\ {id}\`);
   },
 
   // Create new post
@@ -39267,27 +39267,27 @@ export const postService = {
 
   // Update existing post
   async updatePost(id, updates) {
-    return apiClient.patch(\`/posts/\${id}\`, updates);
+    return apiClient.patch(\`/posts/\ {id}\`, updates);
   },
 
   // Delete post
   async deletePost(id) {
-    return apiClient.delete(\`/posts/\${id}\`);
+    return apiClient.delete(\`/posts/\ {id}\`);
   },
 
   // Like/unlike post
   async toggleLike(id) {
-    return apiClient.post(\`/posts/\${id}/like\`);
+    return apiClient.post(\`/posts/\ {id}/like\`);
   },
 
   // Get post comments
   async getComments(postId, page = 1) {
-    return apiClient.get(\`/posts/\${postId}/comments\`, { page });
+    return apiClient.get(\`/posts/\ {postId}/comments\`, { page });
   },
 
   // Add comment
   async addComment(postId, commentData) {
-    return apiClient.post(\`/posts/\${postId}/comments\`, commentData);
+    return apiClient.post(\`/posts/\ {postId}/comments\`, commentData);
   },
 
   // Upload post image
@@ -40120,7 +40120,7 @@ app.prepare().then(() => {
       const { documentId, changes, version } = data;
       
       // Broadcast changes to other users editing the same document
-      socket.to(\`doc-\${documentId}\`).emit('document-updated', {
+      socket.to(\`doc-\ {documentId}\`).emit('document-updated', {
         changes,
         version,
         author: activeUsers.get(socket.id),
@@ -40132,7 +40132,7 @@ app.prepare().then(() => {
       const { documentId, position } = data;
       const user = activeUsers.get(socket.id);
       
-      socket.to(\`doc-\${documentId}\`).emit('cursor-update', {
+      socket.to(\`doc-\ {documentId}\`).emit('cursor-update', {
         user,
         position,
       });
@@ -40168,7 +40168,7 @@ app.prepare().then(() => {
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, (err) => {
     if (err) throw err;
-    console.log(\`> Ready on http://localhost:\${PORT}\`);
+    console.log(\`> Ready on http://localhost:\ {PORT}\`);
   });
 });
       </code></pre>
@@ -40430,7 +40430,7 @@ export default function ChatRoom({ roomId, currentUser }) {
       <div className="chat-header">
         <h3>Room: {roomId}</h3>
         <div className="connection-status">
-          <span className={status-indicator \${isConnected ? 'connected' : 'disconnected'}\`}>
+          <span className={status-indicator \ {isConnected ? 'connected' : 'disconnected'}\`}>
             {isConnected ? 'Connected' : 'Disconnected'}
           </span>
         </div>
@@ -40451,7 +40451,7 @@ export default function ChatRoom({ roomId, currentUser }) {
         {messages.map(message => (
           <div
             key={message.id}
-            className={message \${message.user.id === currentUser.id ? 'own-message' : 'other-message'}\`}
+            className={message \ {message.user.id === currentUser.id ? 'own-message' : 'other-message'}\`}
           >
             <div className="message-header">
               <span className="username">{message.user.username}</span>
@@ -40669,7 +40669,7 @@ export default async function handler(req, res) {
     const io = getServerSocketIO();
     
     // Send notification to specific user
-    io.to(\`user-\${userId}\`).emit('new-notification', {
+    io.to(\`user-\ {userId}\`).emit('new-notification', {
       title,
       message,
       type,
@@ -40993,7 +40993,7 @@ export default async function handler(req, res) {
     event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
   } catch (err) {
     console.error('Webhook signature verification failed:', err.message);
-    return res.status(400).send(\`Webhook Error: \${err.message}\`);
+    return res.status(400).send(\`Webhook Error: \ {err.message}\`);
   }
 
   try {
@@ -41023,7 +41023,7 @@ export default async function handler(req, res) {
         break;
       
       default:
-        console.log(\`Unhandled event type: \${event.type}\`);
+        console.log(\`Unhandled event type: \ {event.type}\`);
     }
 
     res.json({ received: true });
@@ -41096,12 +41096,12 @@ export class S3Service {
       const response = await s3Client.send(command);
       return {
         success: true,
-        url: \`https://\${this.bucketName}.s3.amazonaws.com/\${key}\`,
+        url: \`https://\ {this.bucketName}.s3.amazonaws.com/\ {key}\`,
         key: key,
       };
     } catch (error) {
       console.error('S3 upload error:', error);
-      throw new Error(\`Failed to upload file: \${error.message}\`);
+      throw new Error(\`Failed to upload file: \ {error.message}\`);
     }
   }
 
@@ -41116,7 +41116,7 @@ export class S3Service {
       return signedUrl;
     } catch (error) {
       console.error('Error generating signed URL:', error);
-      throw new Error(\`Failed to generate signed URL: \${error.message}\`);
+      throw new Error(\`Failed to generate signed URL: \ {error.message}\`);
     }
   }
 
@@ -41131,7 +41131,7 @@ export class S3Service {
       return { success: true };
     } catch (error) {
       console.error('S3 delete error:', error);
-      throw new Error(\`Failed to delete file: \${error.message}\`);
+      throw new Error(\`Failed to delete file: \ {error.message}\`);
     }
   }
 }
@@ -41183,7 +41183,7 @@ if (!admin.apps.length) {
       privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
     }),
-    databaseURL: \`https://\${process.env.FIREBASE_PROJECT_ID}.firebaseio.com\`,
+    databaseURL: \`https://\ {process.env.FIREBASE_PROJECT_ID}.firebaseio.com\`,
   });
 }
 
@@ -41496,7 +41496,7 @@ const Button: React.FC<ButtonProps> = ({
 }) => {
   return (
     <button 
-      className={\`btn btn-\${variant} btn-\${size}\`}
+      className={\`btn btn-\ {variant} btn-\ {size}\`}
       onClick={onClick}
       disabled={disabled}
     >
@@ -41667,7 +41667,7 @@ const ProductPage: NextPage<ProductPageProps> = ({ product, error }) => {
       <h1>{product.name}</h1>
       <p>{product.description}</p>
       <div>
-        <span>Price: \${product.price}</span>
+        <span>Price: \ {product.price}</span>
         <span>Category: {product.category}</span>
         <span>Status: {product.inStock ? 'In Stock' : 'Out of Stock'}</span>
       </div>
@@ -41796,7 +41796,7 @@ async function updateUser(id: number, data: Partial<User>): Promise<User> {
 
 async function deleteUser(id: number): Promise<void> {
   // Simulate database deletion
-  console.log(\`Deleting user \${id}\`);
+  console.log(\`Deleting user \ {id}\`);
 }
 </code></pre>
    </div>
@@ -42157,7 +42157,7 @@ export const getServerSideProps: GetServerSideProps<
 
   try {
     // Validate token and get user data
-    const userResponse = await fetch(\`https://api.example.com/users/\${userId}\`, {
+    const userResponse = await fetch(\`https://api.example.com/users/\ {userId}\`, {
       headers: {
         'Authorization': authToken,
         'Content-Type': 'application/json',
@@ -42174,7 +42174,7 @@ export const getServerSideProps: GetServerSideProps<
         };
       }
       
-      throw new Error(\`Failed to fetch user: \${userResponse.status}\`);
+      throw new Error(\`Failed to fetch user: \ {userResponse.status}\`);
     }
 
     const userData = await userResponse.json();
@@ -42248,7 +42248,7 @@ const ProductPage: NextPage<ProductPageProps> = ({ product, relatedProducts }) =
         <img src={product.images[0]} alt={product.name} />
         <div>
           <p>{product.description}</p>
-          <p>Price: \${product.price}</p>
+          <p>Price: \ {product.price}</p>
           <p>Category: {product.category}</p>
           <p>Status: {product.inStock ? 'In Stock' : 'Out of Stock'}</p>
           
@@ -42270,7 +42270,7 @@ const ProductPage: NextPage<ProductPageProps> = ({ product, relatedProducts }) =
           {relatedProducts.map(related => (
             <div key={related.id}>
               <h3>{related.name}</h3>
-              <p>\${related.price}</p>
+              <p>\ {related.price}</p>
             </div>
           ))}
         </div>
@@ -42327,7 +42327,7 @@ export const getStaticProps: GetStaticProps<
   try {
     // Fetch product data
     const productResponse = await fetch(
-      \`https://api.example.com/products/\${category}/\${slug}\`
+      \`https://api.example.com/products/\ {category}/\ {slug}\`
     );
     
     if (!productResponse.ok) {
@@ -42336,7 +42336,7 @@ export const getStaticProps: GetStaticProps<
           notFound: true,
         };
       }
-      throw new Error(\`Failed to fetch product: \${productResponse.status}\`);
+      throw new Error(\`Failed to fetch product: \ {productResponse.status}\`);
     }
 
     const productData = await productResponse.json();
@@ -42344,7 +42344,7 @@ export const getStaticProps: GetStaticProps<
 
     // Fetch related products
     const relatedResponse = await fetch(
-      \`https://api.example.com/products/\${category}?exclude=\${product.id}&limit=4\`
+      \`https://api.example.com/products/\ {category}?exclude=\ {product.id}&limit=4\`
     );
     const relatedData = await relatedResponse.json();
     const relatedProducts: Product[] = relatedData.products || [];
@@ -42432,7 +42432,7 @@ export async function fetchWithAuth<T>(
   });
 
   if (!response.ok) {
-    throw new Error(\`HTTP error! status: \${response.status}\`);
+    throw new Error(\`HTTP error! status: \ {response.status}\`);
   }
 
   return response.json();
@@ -42797,7 +42797,7 @@ module.exports = withPWA({
   
   webpack: (config) => {
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: ['@svgr/webpack']
     })
     return config
@@ -42981,7 +42981,7 @@ export function validateConfig() {
   const missing = required.filter(key => !process.env[key])
   
   if (missing.length > 0) {
-    throw new Error(\`Missing required environment variables: \${missing.join(', ')}\`)
+    throw new Error(\`Missing required environment variables: \ {missing.join(', ')}\`)
   }
   
   return config
@@ -43123,7 +43123,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -43488,10 +43488,10 @@ export function ProductCard({ product, onAddToCart }: ProductCardProps) {
   
   // Path intellisense extension settings
   "path-intellisense.mappings": {
-    "@": "\${workspaceRoot}",
-    "@/components": "\${workspaceRoot}/components",
-    "@/utils": "\${workspaceRoot}/utils",
-    "@/lib": "\${workspaceRoot}/lib"
+    "@": "\ {workspaceRoot}",
+    "@/components": "\ {workspaceRoot}/components",
+    "@/utils": "\ {workspaceRoot}/utils",
+    "@/lib": "\ {workspaceRoot}/lib"
   },
   
   // File exclusions for cleaner search
@@ -43534,7 +43534,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -43623,7 +43623,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -43642,19 +43642,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -43710,7 +43710,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -43935,7 +43935,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -44001,7 +44001,7 @@ module.exports = {
 }
      </code></pre>
    </div>
-</div>: '<rootDir>/$1',
+</div>: '<rootDir>/ 1',
     '^@/components/(.*)`,
             examples: [
               `// Environment-specific API configuration
@@ -44014,7 +44014,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -44103,7 +44103,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -44122,19 +44122,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -44190,7 +44190,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -44415,7 +44415,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -44481,7 +44481,7 @@ module.exports = {
 }
      </code></pre>
    </div>
-</div>: '<rootDir>/components/$1',
+</div>: '<rootDir>/components/ 1',
     '^@/utils/(.*)`,
             examples: [
               `// Environment-specific API configuration
@@ -44494,7 +44494,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -44583,7 +44583,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -44602,19 +44602,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -44670,7 +44670,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -44895,7 +44895,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -44961,7 +44961,7 @@ module.exports = {
 }
      </code></pre>
    </div>
-</div>: '<rootDir>/utils/$1',
+</div>: '<rootDir>/utils/ 1',
     '^@/lib/(.*)`,
             examples: [
               `// Environment-specific API configuration
@@ -44974,7 +44974,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -45063,7 +45063,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -45082,19 +45082,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -45150,7 +45150,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -45375,7 +45375,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -45441,7 +45441,7 @@ module.exports = {
 }
      </code></pre>
    </div>
-</div>: '<rootDir>/lib/$1',
+</div>: '<rootDir>/lib/ 1',
     '^@/hooks/(.*)`,
             examples: [
               `// Environment-specific API configuration
@@ -45454,7 +45454,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -45543,7 +45543,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -45562,19 +45562,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -45630,7 +45630,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -45855,7 +45855,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -45921,7 +45921,7 @@ module.exports = {
 }
      </code></pre>
    </div>
-</div>: '<rootDir>/hooks/$1',
+</div>: '<rootDir>/hooks/ 1',
     '^@/types/(.*)`,
             examples: [
               `// Environment-specific API configuration
@@ -45934,7 +45934,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -46023,7 +46023,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -46042,19 +46042,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -46110,7 +46110,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -46335,7 +46335,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -46401,7 +46401,7 @@ module.exports = {
 }
      </code></pre>
    </div>
-</div>: '<rootDir>/types/$1',
+</div>: '<rootDir>/types/ 1',
     
     // Handle CSS imports
     '^.+\\.(css|sass|scss)`,
@@ -46416,7 +46416,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -46505,7 +46505,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -46524,19 +46524,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -46592,7 +46592,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -46817,7 +46817,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -46947,7 +46947,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -47036,7 +47036,7 @@ module.exports = {
   webpack: (config, { dev, isServer }) => {
     // SVG loader configuration
     config.module.rules.push({
-      test: /\.svg$/,
+      test: /\.svg /,
       use: [
         {
           loader: '@svgr/webpack',
@@ -47055,19 +47055,19 @@ module.exports = {
 
     // GLSL shader loader
     config.module.rules.push({
-      test: /\.(glsl|vs|fs|vert|frag)$/,
+      test: /\.(glsl|vs|fs|vert|frag) /,
       use: ['raw-loader', 'glslify-loader'],
     })
 
     // Worker loader
     config.module.rules.push({
-      test: /\.worker\.js$/,
+      test: /\.worker\.js /,
       use: { loader: 'worker-loader' },
     })
 
     // Custom CSS processing
     config.module.rules.push({
-      test: /\.scss$/,
+      test: /\.scss /,
       use: [
         'style-loader',
         {
@@ -47123,7 +47123,7 @@ module.exports = {
       ...(!dev && !isServer ? [
         new CompressionPlugin({
           algorithm: 'gzip',
-          test: /\.(js|css|html|svg)$/,
+          test: /\.(js|css|html|svg) /,
           threshold: 8192,
           minRatio: 0.8,
         })
@@ -47348,7 +47348,7 @@ module.exports = {
 
     // Font optimization
     config.module.rules.push({
-      test: /\.(woff|woff2|eot|ttf|otf)$/,
+      test: /\.(woff|woff2|eot|ttf|otf) /,
       use: {
         loader: 'file-loader',
         options: {
@@ -47426,7 +47426,7 @@ class ApiClient {
   }
   
   async request(endpoint, options = {}) {
-    const url = \`\${this.baseUrl}\${endpoint}\`
+    const url = \`\ {this.baseUrl}\ {endpoint}\`
     const config = {
       timeout: this.timeout,
       headers: {
@@ -47956,7 +47956,7 @@ my-monorepo/
   <h3 style="margin-top: 2rem; font-size: 1.4rem; font-weight: 600;">3. turbo.json – Pipeline Definition</h3>
   <pre style="background:#1A1A1A; color:#00D1FF; padding:1rem; border-radius:6px;">
 {
-  "$schema": "https://turbo.build/schema.json",
+  " schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
   "pipeline": {
     "build": {
@@ -48176,7 +48176,7 @@ export default function Home() {
 <h3 style="font-size: 1.4rem; margin-top: 2rem;">4️⃣ Turborepo Pipeline (turbo.json)</h3>
 <pre style="background:#111;padding:1rem;border-radius:8px;font-size:0.9rem"><code>
 {
-  "$schema": "https://turbo.build/schema.json",
+  " schema": "https://turbo.build/schema.json",
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
@@ -48398,7 +48398,7 @@ let isActive: boolean = true;
 
 // Function type annotations
 function greet(name: string): string {
-  return \`Hello, \${name}!\`;
+  return \`Hello, \ {name}!\`;
 }
 
 // Array type annotations
@@ -48524,7 +48524,7 @@ let data: undefined = undefined;
                 question:
                   "How do you type function parameters and return values?",
                 solution:
-                  "<p>Function parameters are typed by adding a colon and type after the parameter name. Return types are specified after the parameter list with a colon and type. For example: function greet(name: string): string { return `Hello, ${name}!`; }. If a function doesn't return a value, use the 'void' type.</p>",
+                  "<p>Function parameters are typed by adding a colon and type after the parameter name. Return types are specified after the parameter list with a colon and type. For example: function greet(name: string): string { return `Hello,  {name}!`; }. If a function doesn't return a value, use the 'void' type.</p>",
               },
               {
                 question: "Can you provide examples of array type annotations?",
@@ -48602,7 +48602,7 @@ const user: Person = {
 
 // Function using interface
 function greetPerson(person: Person): string {
-  return \`Hello, \${person.name}! You are \${person.age} years old.\`;
+  return \`Hello, \ {person.name}! You are \ {person.age} years old.\`;
 }
  </code>
   </pre>
@@ -48847,7 +48847,7 @@ enum HttpStatus {
 }
 
 function log(level: LogLevel, message: string) {
-  console.log(\`[\${LogLevel[level]}] \${message}\`);
+  console.log(\`[\ {LogLevel[level]}] \ {message}\`);
 }
 
 log(LogLevel.Error, "Something went wrong!"); // [Error] Something went wrong!
@@ -49185,7 +49185,7 @@ function handleState(state: AppState) {
     case "success":
       return state.data; // TypeScript knows this has data
     case "error":
-      return \`Error: \${state.message}\`; // TypeScript knows this has message
+      return \`Error: \ {state.message}\`; // TypeScript knows this has message
   }
 }
  </code>
@@ -49266,7 +49266,7 @@ type Input = string | number | boolean;
 
 // Function with union parameter
 function setValue(value: Input): void {
-  console.log(\`Setting value: \${value}\`);
+  console.log(\`Setting value: \ {value}\`);
 }
 
 // Intersection types
@@ -49573,7 +49573,7 @@ function getArea(shape: Shape): number {
     default:
       // Exhaustiveness check
       const exhaustiveCheck: never = shape;
-      throw new Error(\`Unhandled shape: \${exhaustiveCheck}\`);
+      throw new Error(\`Unhandled shape: \ {exhaustiveCheck}\`);
   }
 }
       </code></pre>
@@ -49600,7 +49600,7 @@ function processStatus(status: 'loading' | 'success' | 'error' | null) {
     console.log('Loading...');
   } else if (status !== null) {
     // status is 'success' | 'error'
-    console.log(\`Status: \${status}\`);
+    console.log(\`Status: \ {status}\`);
   }
 }
 
@@ -49642,7 +49642,7 @@ function handleApiResponse<T>(response: ApiResponse<T>) {
     console.log('Success:', response.data);
   } else {
     // response.error and response.code are available
-    console.log(\`Error \${response.code}: \${response.error}\`);
+    console.log(\`Error \ {response.code}: \ {response.error}\`);
   }
 }
 
@@ -49679,14 +49679,14 @@ type UIEvent = ClickEvent | KeyboardEvent | MouseMoveEvent;
 function handleEvent(event: UIEvent) {
   switch (event.type) {
     case 'click':
-      console.log(\`Click at (\${event.position.x}, \${event.position.y})\`);
+      console.log(\`Click at (\ {event.position.x}, \ {event.position.y})\`);
       break;
     case 'keydown':
     case 'keyup':
-      console.log(\`Key \${event.key} \${event.type}\`);
+      console.log(\`Key \ {event.key} \ {event.type}\`);
       break;
     case 'mousemove':
-      console.log(\`Mouse moved to (\${event.position.x}, \${event.position.y})\`);
+      console.log(\`Mouse moved to (\ {event.position.x}, \ {event.position.y})\`);
       break;
   }
 }
@@ -49733,10 +49733,10 @@ function isValidProfile(obj: any): obj is NonNullable<DatabaseUser['profile']> {
 function processUserData(rawData: unknown) {
   if (isValidUser(rawData)) {
     // rawData is now typed as DatabaseUser
-    console.log(\`User: \${rawData.username}\`);
+    console.log(\`User: \ {rawData.username}\`);
     
     if (rawData.profile) {
-      console.log(\`Name: \${rawData.profile.firstName} \${rawData.profile.lastName}\`);
+      console.log(\`Name: \ {rawData.profile.firstName} \ {rawData.profile.lastName}\`);
     }
   } else {
     throw new Error('Invalid user data received');
@@ -49829,7 +49829,7 @@ function isUser(obj: any): obj is User {
         <pre><code className="language-typescript">
 default:
   const exhaustiveCheck: never = shape;
-  throw new Error(\`Unhandled case: \${exhaustiveCheck}\`);
+  throw new Error(\`Unhandled case: \ {exhaustiveCheck}\`);
         </code></pre>
         <p>This will cause a compile error if you add a new type to the union without handling it.</p>`,
               },
@@ -50034,7 +50034,7 @@ type Events = {
 
 const emitter = new EventEmitter<Events>();
 emitter.on('userLogin', (username, timestamp) => {
-  console.log(\`User \${username} logged in at \${timestamp}\`);
+  console.log(\`User \ {username} logged in at \ {timestamp}\`);
 });`,
 
               `// Generic conditional types
@@ -50378,7 +50378,7 @@ class EventEmitter {
 // Usage
 const emitter = new EventEmitter();
 emitter.on('user:created', ({ user }) => {
-  console.log(\`User created: \${user.name}\`);
+  console.log(\`User created: \ {user.name}\`);
 });`,
             ],
             questions: [
@@ -50505,12 +50505,12 @@ class Person {
   
   // Method
   greet(): string {
-    return \`Hello, I'm \${this.name} and I'm \${this.age} years old.\`;
+    return \`Hello, I'm \ {this.name} and I'm \ {this.age} years old.\`;
   }
   
   // Getter
   get description(): string {
-    return \`\${this.name} (\${this.age})\`;
+    return \`\ {this.name} (\ {this.age})\`;
   }
   
   // Setter
@@ -50594,7 +50594,7 @@ class Animal {
   }
   
   move(distance: number): void {
-    console.log(\`\${this.name} moved \${distance} meters\`);
+    console.log(\`\ {this.name} moved \ {distance} meters\`);
   }
   
   makeSound(): void {
@@ -50613,12 +50613,12 @@ class Dog extends Animal {
   
   // Override parent method
   makeSound(): void {
-    console.log(\`\${this.name} barks: Woof! Woof!\`);
+    console.log(\`\ {this.name} barks: Woof! Woof!\`);
   }
   
   // Add new method
   wagTail(): void {
-    console.log(\`\${this.name} wags tail happily\`);
+    console.log(\`\ {this.name} wags tail happily\`);
   }
 }
 
@@ -50628,7 +50628,7 @@ class Cat extends Animal {
   }
   
   makeSound(): void {
-    console.log(\`\${this.name} meows: Meow!\`);
+    console.log(\`\ {this.name} meows: Meow!\`);
   }
 }
 
@@ -50880,16 +50880,16 @@ let num = identity<number>(42);
       <pre><code className="language-typescript">
 // Basic template literal type
 type World = "world";
-type Greeting = \`hello \${World}\`; // "hello world"
+type Greeting = \`hello \ {World}\`; // "hello world"
 
 // With union types
 type Color = "red" | "blue" | "green";
 type Quantity = "one" | "two" | "many";
-type ColorfulItems = \`\${Quantity} \${Color} item\${Quantity extends "one" ? "" : "s"}\`;
+type ColorfulItems = \`\ {Quantity} \ {Color} item\ {Quantity extends "one" ? "" : "s"}\`;
 // "one red item" | "two red items" | "many red items" | "one blue item" | etc.
 
 // Event names pattern
-type EventName<T extends string> = \`on\${Capitalize<T>}\`;
+type EventName<T extends string> = \`on\ {Capitalize<T>}\`;
 type ClickEvent = EventName<"click">; // "onClick"
 type HoverEvent = EventName<"hover">; // "onHover"
  </code>
@@ -50908,9 +50908,9 @@ type HoverEvent = EventName<"hover">; // "onHover"
  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-typescript">
 type ExtractRouteParams<T extends string> = 
-  T extends \`\${string}/:\${infer Param}/\${infer Rest}\`
+  T extends \`\ {string}/:\ {infer Param}/\ {infer Rest}\`
     ? { [K in Param | keyof ExtractRouteParams<Rest>]: string }
-    : T extends \`\${string}/:\${infer Param}\`
+    : T extends \`\ {string}/:\ {infer Param}\`
     ? { [K in Param]: string }
     : {};
 
@@ -50925,8 +50925,8 @@ type UserRoute = ExtractRouteParams<"/users/:id/posts/:postId">;
      <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
       <pre><code className="language-typescript">
 type CSSUnit = "px" | "em" | "rem" | "%";
-type Size = \`\${number}\${CSSUnit}\`;
-type Color = \`#\${string}\` | \`rgb(\${number}, \${number}, \${number})\`;
+type Size = \`\ {number}\ {CSSUnit}\`;
+type Color = \`#\ {string}\` | \`rgb(\ {number}, \ {number}, \ {number})\`;
 
 interface StyledProps {
   width?: Size;
@@ -50955,7 +50955,7 @@ type QueryBuilder<T, Selected extends keyof T = keyof T> = {
   select<K extends keyof T>(...columns: K[]): QueryBuilder<T, K>;
   where<K extends keyof T>(column: K, value: T[K]): QueryBuilder<T, Selected>;
   orderBy<K extends keyof T>(column: K, direction?: "ASC" | "DESC"): QueryBuilder<T, Selected>;
-  build(): \`SELECT \${string} FROM \${string}\`;
+  build(): \`SELECT \ {string} FROM \ {string}\`;
 };
 
 interface User {
@@ -50978,8 +50978,8 @@ const query = new QueryBuilder<User>()
             examples: [
               `// API endpoint type generation
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE";
-type ApiEndpoint<T extends string> = \`/api/\${T}\`;
-type ApiMethod<M extends HttpMethod, E extends string> = \`\${M} \${ApiEndpoint<E>}\`;
+type ApiEndpoint<T extends string> = \`/api/\ {T}\`;
+type ApiMethod<M extends HttpMethod, E extends string> = \`\ {M} \ {ApiEndpoint<E>}\`;
 
 type UserEndpoints = 
   | ApiMethod<"GET", "users">
@@ -50989,7 +50989,7 @@ type UserEndpoints =
 
 // Environment variable type checking
 type EnvPrefix = "REACT_APP_" | "NODE_";
-type EnvVar<T extends string> = \`\${EnvPrefix}\${Uppercase<T>}\`;
+type EnvVar<T extends string> = \`\ {EnvPrefix}\ {Uppercase<T>}\`;
 
 type AppConfig = {
   [K in EnvVar<"api_url" | "debug_mode" | "version">]: string;
@@ -50997,7 +50997,7 @@ type AppConfig = {
 // Results in: "REACT_APP_API_URL" | "REACT_APP_DEBUG_MODE" | etc.
 
 // Path manipulation
-type JoinPath<T extends string, U extends string> = \`\${T}/\${U}\`;
+type JoinPath<T extends string, U extends string> = \`\ {T}/\ {U}\`;
 type BasePath = "/api/v1";
 type ResourcePath = JoinPath<BasePath, "users" | "posts" | "comments">;
 // "/api/v1/users" | "/api/v1/posts" | "/api/v1/comments"`,
@@ -51010,13 +51010,13 @@ type ResourcePath = JoinPath<BasePath, "users" | "posts" | "comments">;
               },
               {
                 question: "How do you create a basic template literal type?",
-                solution: `<p>You create template literal types using backticks and \${} syntax, similar to JavaScript template literals:</p>
+                solution: `<p>You create template literal types using backticks and \ {} syntax, similar to JavaScript template literals:</p>
              <pre><code className="language-typescript">
 type Name = "John";
-type Greeting = \`Hello, \${Name}!\`; // "Hello, John!"
+type Greeting = \`Hello, \ {Name}!\`; // "Hello, John!"
 
 type Color = "red" | "blue";
-type Message = \`The color is \${Color}\`; // "The color is red" | "The color is blue"
+type Message = \`The color is \ {Color}\`; // "The color is red" | "The color is blue"
             </code></pre>`,
               },
               {
@@ -51029,7 +51029,7 @@ type Message = \`The color is \${Color}\`; // "The color is red" | "The color is
                 question:
                   "How can you extract parts of strings using template literals?",
                 solution:
-                  "<p>You can extract parts of strings using the 'infer' keyword in conditional types combined with template literals. For example: 'T extends `prefix-${infer Rest}` ? Rest : never' extracts everything after 'prefix-' from a string type.</p>",
+                  "<p>You can extract parts of strings using the 'infer' keyword in conditional types combined with template literals. For example: 'T extends `prefix- {infer Rest}` ? Rest : never' extracts everything after 'prefix-' from a string type.</p>",
               },
               {
                 question:
@@ -51040,7 +51040,7 @@ type Message = \`The color is \${Color}\`; // "The color is red" | "The color is
               {
                 question: "How do template literals work with union types?",
                 solution:
-                  "<p>When used with union types, template literals create a cartesian product of all possible combinations. For example: `${A | B}-${X | Y}` creates four possible types: 'A-X' | 'A-Y' | 'B-X' | 'B-Y'. This enables powerful pattern generation.</p>",
+                  "<p>When used with union types, template literals create a cartesian product of all possible combinations. For example: ` {A | B}- {X | Y}` creates four possible types: 'A-X' | 'A-Y' | 'B-X' | 'B-Y'. This enables powerful pattern generation.</p>",
               },
               {
                 question: "Can you use template literals for pattern matching?",
@@ -51061,7 +51061,7 @@ type Message = \`The color is \${Color}\`; // "The color is red" | "The color is
               {
                 question: "Can template literals be used with mapped types?",
                 solution:
-                  "<p>Yes, template literals work excellently with mapped types to transform object keys. For example: 'type Getters<T> = { [K in keyof T as `get${Capitalize<K>}`]: () => T[K] }' creates getter methods for all properties in an object type.</p>",
+                  "<p>Yes, template literals work excellently with mapped types to transform object keys. For example: 'type Getters<T> = { [K in keyof T as `get {Capitalize<K>}`]: () => T[K] }' creates getter methods for all properties in an object type.</p>",
               },
             ],
             links: [
@@ -51097,7 +51097,7 @@ function Component(config: { selector: string; template: string }) {
 function LogMethod(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
   descriptor.value = function (...args: any[]) {
-    console.log(\`Calling \${propertyKey} with args:\`, args);
+    console.log(\`Calling \ {propertyKey} with args:\`, args);
     return originalMethod.apply(this, args);
   };
 }
@@ -51109,7 +51109,7 @@ function LogMethod(target: any, propertyKey: string, descriptor: PropertyDescrip
 class UserComponent {
   @LogMethod
   getName(id: number): string {
-    return \`User \${id}\`;
+    return \`User \ {id}\`;
   }
 }
  </code>
@@ -51234,7 +51234,7 @@ class ApiService {
   @RateLimit(100) // 100 requests per minute
   async fetchData(id: string): Promise<any> {
     // Expensive operation
-    return fetch(\`/api/data/\${id}\`).then(r => r.json());
+    return fetch(\`/api/data/\ {id}\`).then(r => r.json());
   }
 }
 </code></pre>
@@ -51271,7 +51271,7 @@ class Container {
   static resolve<T>(token: string): T {
     const ServiceClass = serviceRegistry.get(token);
     if (!ServiceClass) {
-      throw new Error(\`Service \${token} not found\`);
+      throw new Error(\`Service \ {token} not found\`);
     }
     
     const paramTypes = Reflect.getMetadata("design:paramtypes", ServiceClass) || [];
@@ -52076,7 +52076,7 @@ aws s3api head-object --bucket my-secure-bucket --key file.txt --query ServerSid
               "// Delete a specific version (requires MFA if MFA-Delete is on)\naws s3api delete-object --bucket my-vault-bucket --key report.csv --version-id yS9... --mfa 'arn:aws:iam::123456789012:mfa/root-mfa 123456'",
               "// List all versions\naws s3api list-object-versions --bucket my-vault-bucket --prefix report.csv",
               "// Apply lifecycle configuration\naws s3api put-bucket-lifecycle-configuration --bucket my-vault-bucket --lifecycle-configuration file://lifecycle.json",
-              "// Clean up non-current versions older than 30 days via CLI\naws s3api list-object-versions --bucket my-vault-bucket --query 'Versions[?IsLatest==`false` && LastModified<=`2024-07-01`].[Key,VersionId]' --output table | awk '{print $2}' | xargs -I {} aws s3api delete-object --bucket my-vault-bucket --key report.csv --version-id {}",
+              "// Clean up non-current versions older than 30 days via CLI\naws s3api list-object-versions --bucket my-vault-bucket --query 'Versions[?IsLatest==`false` && LastModified<=`2024-07-01`].[Key,VersionId]' --output table | awk '{print  2}' | xargs -I {} aws s3api delete-object --bucket my-vault-bucket --key report.csv --version-id {}",
             ],
             questions: [
               {
@@ -52144,7 +52144,7 @@ aws s3api head-object --bucket my-secure-bucket --key file.txt --query ServerSid
               "conditions",
             ],
             explanation:
-              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Fine-Grained IAM Policies</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Resource-Level Permissions</strong><br/>\n                Restrict actions to specific buckets or objects using <code>arn:aws:s3:::bucket/key</code>.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Effect":"Allow",\n    "Action":["s3:GetObject"],\n    "Resource":"arn:aws:s3:::mybucket/reports/*"\n  }]\n}\n                </pre>\n              </li>\n              <li><strong>Condition-Based Policies</strong><br/>\n                Use <code>Condition</code> keys for IP, VPC, encryption, TLS, etc.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Effect":"Allow",\n  "Action":"s3:*",\n  "Resource":"*",\n  "Condition":{\n    "Bool":{"aws:SecureTransport":"true"},\n    "IpAddress":{"aws:SourceIp":["203.0.113.0/24"]}\n  }\n}\n                </pre>\n              </li>\n              <li><strong>Bucket Policy vs IAM Policy</strong><br/>\n                Bucket policies are attached to the bucket; IAM policies are attached to users/roles. Combine both for least privilege.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Pre-Signed URLs (Temporary Access Tokens)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Concept:</strong> Time-limited, cryptographically signed URLs that delegate specific permissions without exposing credentials.</li>\n              <li><strong>CLI:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">aws s3 presign s3://bucket/report.csv --expires-in 3600</pre>\n              </li>\n              <li><strong>SDK Example (Python boto3):</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nurl = s3.generate_presigned_url(\n        \'get_object\',\n        Params={\'Bucket\':\'bucket\',\'Key\':\'private.txt\'},\n        ExpiresIn=3600)\n                </pre>\n              </li>\n              <li><strong>Upload Example:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nurl = s3.generate_presigned_post(\'bucket\',\'uploads/${filename}\',\n                                 ExpiresIn=600, Fields={"acl":"private"})\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Cross-Account Access</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Bucket Policy (Resource-Based)</strong><br/>\n                Grant direct access to another AWS account or IAM role.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Sid":"CrossAccountRead",\n    "Effect":"Allow",\n    "Principal":{"AWS":"arn:aws:iam::111122223333:role/FinanceRole"},\n    "Action":"s3:GetObject",\n    "Resource":"arn:aws:s3:::shared-bucket/reports/*"\n  }]\n}\n                </pre>\n              </li>\n              <li><strong>IAM Role Assumption</strong><br/>\n                Account A creates a role with permissions to the bucket; Account B assumes the role via STS <code>AssumeRole</code>.\n              </li>\n              <li><strong>ACL (Legacy)</strong><br/>\n              <code>--grant read id=CanonicalID</code> still works but discouraged; use policies instead.</li>\n              <li><strong>Access Points (Multi-Account)</strong><br/>\n                Create VPC-scoped S3 Access Points in each account for fine-grained sharing without bucket policies.</li>\n            </ul>\n          </div>',
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Fine-Grained IAM Policies</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Resource-Level Permissions</strong><br/>\n                Restrict actions to specific buckets or objects using <code>arn:aws:s3:::bucket/key</code>.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Effect":"Allow",\n    "Action":["s3:GetObject"],\n    "Resource":"arn:aws:s3:::mybucket/reports/*"\n  }]\n}\n                </pre>\n              </li>\n              <li><strong>Condition-Based Policies</strong><br/>\n                Use <code>Condition</code> keys for IP, VPC, encryption, TLS, etc.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Effect":"Allow",\n  "Action":"s3:*",\n  "Resource":"*",\n  "Condition":{\n    "Bool":{"aws:SecureTransport":"true"},\n    "IpAddress":{"aws:SourceIp":["203.0.113.0/24"]}\n  }\n}\n                </pre>\n              </li>\n              <li><strong>Bucket Policy vs IAM Policy</strong><br/>\n                Bucket policies are attached to the bucket; IAM policies are attached to users/roles. Combine both for least privilege.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. Pre-Signed URLs (Temporary Access Tokens)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Concept:</strong> Time-limited, cryptographically signed URLs that delegate specific permissions without exposing credentials.</li>\n              <li><strong>CLI:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">aws s3 presign s3://bucket/report.csv --expires-in 3600</pre>\n              </li>\n              <li><strong>SDK Example (Python boto3):</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nurl = s3.generate_presigned_url(\n        \'get_object\',\n        Params={\'Bucket\':\'bucket\',\'Key\':\'private.txt\'},\n        ExpiresIn=3600)\n                </pre>\n              </li>\n              <li><strong>Upload Example:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nurl = s3.generate_presigned_post(\'bucket\',\'uploads/ {filename}\',\n                                 ExpiresIn=600, Fields={"acl":"private"})\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Cross-Account Access</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Bucket Policy (Resource-Based)</strong><br/>\n                Grant direct access to another AWS account or IAM role.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n  "Version":"2012-10-17",\n  "Statement":[{\n    "Sid":"CrossAccountRead",\n    "Effect":"Allow",\n    "Principal":{"AWS":"arn:aws:iam::111122223333:role/FinanceRole"},\n    "Action":"s3:GetObject",\n    "Resource":"arn:aws:s3:::shared-bucket/reports/*"\n  }]\n}\n                </pre>\n              </li>\n              <li><strong>IAM Role Assumption</strong><br/>\n                Account A creates a role with permissions to the bucket; Account B assumes the role via STS <code>AssumeRole</code>.\n              </li>\n              <li><strong>ACL (Legacy)</strong><br/>\n              <code>--grant read id=CanonicalID</code> still works but discouraged; use policies instead.</li>\n              <li><strong>Access Points (Multi-Account)</strong><br/>\n                Create VPC-scoped S3 Access Points in each account for fine-grained sharing without bucket policies.</li>\n            </ul>\n          </div>',
             examples: [
               "// IAM policy allowing GetObject only during business hours\naws iam put-user-policy --user-name Alice --policy-name BusinessHours --policy-document file://business-hours.json",
               "// CLI pre-signed URL valid 1 hour\naws s3 presign s3://secure-bucket/annual-report.pdf --expires-in 3600",
@@ -52252,7 +52252,7 @@ aws s3 cp s3://bucket/big.iso ./big.iso --region us-east-1
   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
     <pre><code className="language-bash">
 # Upload with hashed prefix (avoids hot-spot)
-aws s3 cp ./file.dat s3://bucket/$(uuidgen | cut -c1-8)/file.dat
+aws s3 cp ./file.dat s3://bucket/ (uuidgen | cut -c1-8)/file.dat
 </code></pre>
   </div>
 
@@ -52290,9 +52290,9 @@ aws s3api get-object \
             examples: [
               "// 16-part multipart upload (CLI auto-detects)\naws configure set max_concurrent_requests 16\naws s3 cp ./10GB.tar s3://perf-bucket/10GB.tar",
               "// Parallel download with 25 threads\naws configure set max_concurrent_requests 25\naws s3 cp s3://perf-bucket/10GB.tar ./10GB.tar",
-              "// Use hashed prefix to avoid hot spots\naws s3 cp ./data.json s3://perf-bucket/$(openssl rand -hex 4)/data.json",
+              "// Use hashed prefix to avoid hot spots\naws s3 cp ./data.json s3://perf-bucket/ (openssl rand -hex 4)/data.json",
               "// Byte-range fetch (1 MiB chunks)\nfor i in {0..9}; do\n  aws s3api get-object --bucket perf-bucket --key 10GB.tar \
-    --range bytes=$((i*1048576))-$(((i+1)*1048576-1)) part-$i &ndone; wait",
+    --range bytes= ((i*1048576))- (((i+1)*1048576-1)) part- i &ndone; wait",
             ],
             questions: [
               {
@@ -52766,7 +52766,7 @@ aws s3api put-bucket-acl \
               "intelligent-tiering",
             ],
             explanation:
-              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Storage Cost Analysis (per class)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Dimensions:</strong> storage GB-month, requests (PUT/COPY/POST/LIST vs GET/SELECT), data-transfer, early-deletion, retrieval.</li>\n              <li><strong>Quick Table (us-east-1, 2024 Q3)</strong><br/>\n                <table style="width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.9rem;">\n                  <thead><tr style="background:#e5f5ff;">\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Class</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">$/GB-mo</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Retrieval</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Min Dur.</th>\n                  </tr></thead>\n                  <tbody>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Standard</td><td style="padding:6px;border:1px solid #ccc;">0.023</td><td style="padding:6px;border:1px solid #ccc;">—</td><td style="padding:6px;border:1px solid #ccc;">—</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Intelligent-Tiering</td><td style="padding:6px;border:1px solid #ccc;">0.023→0.0125</td><td style="padding:6px;border:1px solid #ccc;">—</td><td style="padding:6px;border:1px solid #ccc;">30 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Standard-IA</td><td style="padding:6px;border:1px solid #ccc;">0.0125</td><td style="padding:6px;border:1px solid #ccc;">0.01/GB</td><td style="padding:6px;border:1px solid #ccc;">30 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Instant</td><td style="padding:6px;border:1px solid #ccc;">0.004</td><td style="padding:6px;border:1px solid #ccc;">0.03/GB</td><td style="padding:6px;border:1px solid #ccc;">90 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Deep Archive</td><td style="padding:6px;border:1px solid #ccc;">0.00099</td><td style="padding:6px;border:1px solid #ccc;">0.02–0.03/GB</td><td style="padding:6px;border:1px solid #ccc;">180 d</td></tr>\n                  </tbody>\n                </table>\n              </li>\n              <li><strong>Cost Calculator:</strong> Use <a href="https://calculator.aws">AWS Pricing Calculator</a> to model transitions.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. S3 Storage Lens</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Dashboard:</strong> Organization-wide visibility across buckets, regions, accounts.</li>\n              <li><strong>Metrics:</strong> storage bytes, object count, % in each class, cost trends, encryption %, replication lag.</li>\n              <li><strong>Free vs Advanced:</strong>\n                <ul>\n                  <li>Free tier: 15 metrics, 7-day history.</li>\n                  <li>Advanced: 35+ metrics, 15-month history, CloudWatch publishing.</li>\n                </ul>\n              </li>\n              <li><strong>CLI Quick Start:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3control put-storage-lens-configuration \\\n  --config-id MyLens \\\n  --account-id 123456789012 \\\n  --storage-lens-configuration file://lens.json\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Intelligent-Tiering & Lifecycle Tuning</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Intelligent-Tiering:</strong>\n                <ul>\n                  <li>Auto-moves objects &gt;128 KB between frequent/infrequent/archive tiers.</li>\n                  <li>No retrieval fees; small monthly monitoring charge per object.</li>\n                  <li>Best for unknown or fluctuating access patterns.</li>\n                </ul>\n              </li>\n              <li><strong>Lifecycle Rules (JSON)</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n "Rules":[{\n  "ID":"ArchiveOld",\n  "Status":"Enabled",\n  "Transitions":[\n   {"Days":30,"StorageClass":"STANDARD_IA"},\n   {"Days":90,"StorageClass":"GLACIER"},\n   {"Days":365,"StorageClass":"DEEP_ARCHIVE"}\n  ],\n  "NoncurrentVersionExpiration":{"NoncurrentDays":30}\n }]\n}\n                </pre>\n              </li>\n              <li><strong>Filter by Tag / Prefix:</strong> Target subsets to avoid premature archiving.</li>\n              <li><strong>Abort Incomplete Multipart Uploads:</strong> Prevent hidden charges.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3api put-bucket-lifecycle-configuration --bucket b --lifecycle-configuration file://abort-mpu.json\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Cost Explorer Integration</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Filter Dimensions:</strong> Service=Amazon S3, Usage Type (e.g., <code>TimedStorage-INTELLIGENT_TIERING</code>), Region, Account.</li>\n              <li><strong>Graphs:</strong>\n                <ul>\n                  <li>Daily spend by storage class.</li>\n                  <li>Data-transfer out vs requests.</li>\n                </ul>\n              </li>\n              <li><strong>Cost Anomaly Detection:</strong> Create monitors scoped to S3 to alert on unexpected spikes.</li>\n              <li><strong>Budgets:</strong> Set monthly or daily budgets with email/SNS alerts.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws budgets create-budget --account-id 123456789012 --budget file://budget.json\n                </pre>\n              </li>\n            </ul>\n          </div>',
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. Storage Cost Analysis (per class)</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Dimensions:</strong> storage GB-month, requests (PUT/COPY/POST/LIST vs GET/SELECT), data-transfer, early-deletion, retrieval.</li>\n              <li><strong>Quick Table (us-east-1, 2024 Q3)</strong><br/>\n                <table style="width:100%;border-collapse:collapse;margin-top:.5rem;font-size:.9rem;">\n                  <thead><tr style="background:#e5f5ff;">\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Class</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;"> /GB-mo</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Retrieval</th>\n                    <th style="padding:6px;border:1px solid #ccc;text-align:left;">Min Dur.</th>\n                  </tr></thead>\n                  <tbody>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Standard</td><td style="padding:6px;border:1px solid #ccc;">0.023</td><td style="padding:6px;border:1px solid #ccc;">—</td><td style="padding:6px;border:1px solid #ccc;">—</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Intelligent-Tiering</td><td style="padding:6px;border:1px solid #ccc;">0.023→0.0125</td><td style="padding:6px;border:1px solid #ccc;">—</td><td style="padding:6px;border:1px solid #ccc;">30 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Standard-IA</td><td style="padding:6px;border:1px solid #ccc;">0.0125</td><td style="padding:6px;border:1px solid #ccc;">0.01/GB</td><td style="padding:6px;border:1px solid #ccc;">30 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Instant</td><td style="padding:6px;border:1px solid #ccc;">0.004</td><td style="padding:6px;border:1px solid #ccc;">0.03/GB</td><td style="padding:6px;border:1px solid #ccc;">90 d</td></tr>\n                    <tr><td style="padding:6px;border:1px solid #ccc;">Glacier Deep Archive</td><td style="padding:6px;border:1px solid #ccc;">0.00099</td><td style="padding:6px;border:1px solid #ccc;">0.02–0.03/GB</td><td style="padding:6px;border:1px solid #ccc;">180 d</td></tr>\n                  </tbody>\n                </table>\n              </li>\n              <li><strong>Cost Calculator:</strong> Use <a href="https://calculator.aws">AWS Pricing Calculator</a> to model transitions.</li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. S3 Storage Lens</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Dashboard:</strong> Organization-wide visibility across buckets, regions, accounts.</li>\n              <li><strong>Metrics:</strong> storage bytes, object count, % in each class, cost trends, encryption %, replication lag.</li>\n              <li><strong>Free vs Advanced:</strong>\n                <ul>\n                  <li>Free tier: 15 metrics, 7-day history.</li>\n                  <li>Advanced: 35+ metrics, 15-month history, CloudWatch publishing.</li>\n                </ul>\n              </li>\n              <li><strong>CLI Quick Start:</strong>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3control put-storage-lens-configuration \\\n  --config-id MyLens \\\n  --account-id 123456789012 \\\n  --storage-lens-configuration file://lens.json\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Intelligent-Tiering & Lifecycle Tuning</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Intelligent-Tiering:</strong>\n                <ul>\n                  <li>Auto-moves objects &gt;128 KB between frequent/infrequent/archive tiers.</li>\n                  <li>No retrieval fees; small monthly monitoring charge per object.</li>\n                  <li>Best for unknown or fluctuating access patterns.</li>\n                </ul>\n              </li>\n              <li><strong>Lifecycle Rules (JSON)</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n{\n "Rules":[{\n  "ID":"ArchiveOld",\n  "Status":"Enabled",\n  "Transitions":[\n   {"Days":30,"StorageClass":"STANDARD_IA"},\n   {"Days":90,"StorageClass":"GLACIER"},\n   {"Days":365,"StorageClass":"DEEP_ARCHIVE"}\n  ],\n  "NoncurrentVersionExpiration":{"NoncurrentDays":30}\n }]\n}\n                </pre>\n              </li>\n              <li><strong>Filter by Tag / Prefix:</strong> Target subsets to avoid premature archiving.</li>\n              <li><strong>Abort Incomplete Multipart Uploads:</strong> Prevent hidden charges.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws s3api put-bucket-lifecycle-configuration --bucket b --lifecycle-configuration file://abort-mpu.json\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Cost Explorer Integration</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Filter Dimensions:</strong> Service=Amazon S3, Usage Type (e.g., <code>TimedStorage-INTELLIGENT_TIERING</code>), Region, Account.</li>\n              <li><strong>Graphs:</strong>\n                <ul>\n                  <li>Daily spend by storage class.</li>\n                  <li>Data-transfer out vs requests.</li>\n                </ul>\n              </li>\n              <li><strong>Cost Anomaly Detection:</strong> Create monitors scoped to S3 to alert on unexpected spikes.</li>\n              <li><strong>Budgets:</strong> Set monthly or daily budgets with email/SNS alerts.\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\naws budgets create-budget --account-id 123456789012 --budget file://budget.json\n                </pre>\n              </li>\n            </ul>\n          </div>',
             examples: [
               '// Enable Storage Lens (Advanced)\naws s3control put-storage-lens-configuration --config-id MyOrgLens \\\n  --account-id 123456789012 \\\n  --storage-lens-configuration \'{"Id":"MyOrgLens","AwsOrg":{"Arn":"arn:aws:organizations::123456789012:organization/o-example"},"Include":{"Buckets":["arn:aws:s3:::*"]},"StorageLensGroupLevel":{"SelectionCriteria":{"Include":{"StorageLensGroup":"AllBuckets"}}},"DataExport":{"S3BucketDestination":{"Format":"CSV","OutputSchemaVersion":"V_1","AccountId":"123456789012","Arn":"arn:aws:s3:::lens-reports","Prefix":"lens"},"CloudWatchMetrics":{"IsEnabled":true}}}\' \\\n  --tags Key=Environment,Value=Prod',
               '// Lifecycle rule JSON (save as lifecycle.json)\n{\n "Rules":[{\n  "ID":"CostOpt",\n  "Status":"Enabled",\n  "Transitions":[\n   {"Days":30,"StorageClass":"STANDARD_IA"},\n   {"Days":90,"StorageClass":"INTELLIGENT_TIERING"},\n   {"Days":180,"StorageClass":"GLACIER"}\n  ],\n  "AbortIncompleteMultipartUpload":{"DaysAfterInitiation":7}\n }]\n}',
@@ -52915,7 +52915,7 @@ aws s3 ls s3://bucket/data.bin
 </div>`,
             examples: [
               "// Upload with CRC32C checksum\naws s3 cp ./large.tar s3://bucket/large.tar --checksum-algorithm CRC32C",
-              "// Resume multipart upload after failure\nUPLOAD_ID=$(aws s3api list-multipart-uploads --bucket bucket --query 'Uploads[?Key==`large.tar`].UploadId' --output text)\naws s3api complete-multipart-upload --bucket bucket --key large.tar --upload-id $UPLOAD_ID --multipart-upload file://parts.json",
+              "// Resume multipart upload after failure\nUPLOAD_ID= (aws s3api list-multipart-uploads --bucket bucket --query 'Uploads[?Key==`large.tar`].UploadId' --output text)\naws s3api complete-multipart-upload --bucket bucket --key large.tar --upload-id  UPLOAD_ID --multipart-upload file://parts.json",
               "// Download range and verify SHA-256\naws s3api get-object --bucket bucket --key data.bin --range bytes=0-1048575 part.bin --checksum-mode ENABLED",
               "// Python integrity check\nimport hashlib, boto3\ns3 = boto3.client('s3')\ns3.download_file('bucket','data.bin','data.bin')\nprint(hashlib.sha256(open('data.bin','rb').read()).hexdigest())",
             ],
@@ -52957,7 +52957,7 @@ aws s3 ls s3://bucket/data.bin
               "automation",
             ],
             explanation:
-              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. S3 with CloudFormation</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Bucket + Policy + Versioning</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nAWSTemplateFormatVersion: \'2010-09-09\'\nResources:\n  MyBucket:\n    Type: AWS::S3::Bucket\n    Properties:\n      BucketName: !Sub "${AWS::AccountId}-data-lake"\n      VersioningConfiguration:\n        Status: Enabled\n      LifecycleConfiguration:\n        Rules:\n          - Id: ToGlacier\n            Status: Enabled\n            Transitions:\n              - TransitionInDays: 90\n                StorageClass: GLACIER\n  BucketPolicy:\n    Type: AWS::S3::BucketPolicy\n    Properties:\n      Bucket: !Ref MyBucket\n      PolicyDocument:\n        Statement:\n          - Effect: Allow\n            Principal:\n              AWS: !Sub "arn:aws:iam::${AWS::AccountId}:root"\n            Action: "s3:GetObject"\n            Resource: !Sub "${MyBucket}/*"\n                </pre>\n              </li>\n              <li><strong>Deploy:</strong> <code>aws cloudformation deploy --template-file bucket.yml --stack-name s3-stack</code></li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. S3 with Terraform</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Reusable Module</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_s3_bucket" "static_site" {\n  bucket = var.bucket_name\n}\nresource "aws_s3_bucket_versioning" "v" {\n  bucket = aws_s3_bucket.static_site.id\n  versioning_configuration {\n    status = "Enabled"\n  }\n}\nresource "aws_s3_bucket_lifecycle_configuration" "lc" {\n  bucket = aws_s3_bucket.static_site.id\n  rule {\n    id     = "archive"\n    status = "Enabled"\n    transition {\n      days          = 30\n      storage_class = "STANDARD_IA"\n    }\n  }\n}\nresource "aws_s3_bucket_policy" "policy" {\n  bucket = aws_s3_bucket.static_site.id\n  policy = jsonencode({\n    Version = "2012-10-17"\n    Statement = [{\n      Effect    = "Allow"\n      Principal = "*"\n      Action    = "s3:GetObject"\n      Resource  = "${aws_s3_bucket.static_site.arn}/*"\n    }]\n  })\n}\n                </pre>\n              </li>\n              <li><strong>Usage:</strong> <code>terraform init && terraform apply -var="bucket_name=my-tf-bucket"</code></li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Automating Bucket Creation & Policy Setup</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>CI/CD Pipelines</strong><br/>\n                GitHub Actions example:\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n- name: Deploy S3 via Terraform\n  uses: hashicorp/setup-terraform@v3\n  with:\n    cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}\n- run: terraform apply -auto-approve -var="bucket_name=${{ github.event.inputs.bucket }}"\n                </pre>\n              </li>\n              <li><strong>AWS Service Catalog</strong><br/>\n                Publish standardized S3 products with guardrails (encryption, tagging, logging).</li>\n              <li><strong>AWS Config Rules</strong><br/>\n                Continuous compliance:\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_config_config_rule" "s3_bucket_logging_enabled" {\n  name = "s3-bucket-logging-enabled"\n  source {\n    owner             = "AWS"\n    source_identifier = "S3_BUCKET_LOGGING_ENABLED"\n  }\n}\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Lambda-Backed Automation</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Use Cases:</strong>\n                <ul>\n                  <li>Auto-tag uploads (department, owner).</li>\n                  <li>Virus scanning with ClamAV.</li>\n                  <li>Thumbnail generation on image uploads.</li>\n                  <li>Immediate archival to Glacier based on prefix.</li>\n                </ul>\n              </li>\n              <li><strong>EventBridge Trigger</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_lambda_function" "auto_tag" {\n  filename         = "lambda.zip"\n  function_name    = "s3-auto-tag"\n  role             = aws_iam_role.lambda_role.arn\n  handler          = "index.handler"\n  runtime          = "python3.11"\n}\nresource "aws_s3_bucket_notification" "notify" {\n  bucket = aws_s3_bucket.static_site.id\n  lambda_function {\n    lambda_function_arn = aws_lambda_function.auto_tag.arn\n    events              = ["s3:ObjectCreated:*"]\n    filter_prefix       = "uploads/"\n  }\n}\n                </pre>\n              </li>\n              <li><strong>Lambda Code (Python)</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nimport boto3, os, urllib.parse\ndef handler(event, context):\n    s3 = boto3.client(\'s3\')\n    for rec in event[\'Records\']:\n        bucket = rec[\'s3\'][\'bucket\'][\'name\']\n        key    = urllib.parse.unquote_plus(rec[\'s3\'][\'object\'][\'key\'])\n        s3.put_object_tagging(\n            Bucket=bucket,\n            Key=key,\n            Tagging={\'TagSet\':[{\'Key\':\'auto-tagged\',\'Value\':\'true\'}]}\n        )\n                </pre>\n              </li>\n              <li><strong>Serverless Application Repository (SAR)</strong><br/>\n                Deploy pre-built apps like <code>s3-virusscan</code> by AWS.</li>\n            </ul>\n          </div>',
+              '<div>\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">1. S3 with CloudFormation</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Bucket + Policy + Versioning</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nAWSTemplateFormatVersion: \'2010-09-09\'\nResources:\n  MyBucket:\n    Type: AWS::S3::Bucket\n    Properties:\n      BucketName: !Sub " {AWS::AccountId}-data-lake"\n      VersioningConfiguration:\n        Status: Enabled\n      LifecycleConfiguration:\n        Rules:\n          - Id: ToGlacier\n            Status: Enabled\n            Transitions:\n              - TransitionInDays: 90\n                StorageClass: GLACIER\n  BucketPolicy:\n    Type: AWS::S3::BucketPolicy\n    Properties:\n      Bucket: !Ref MyBucket\n      PolicyDocument:\n        Statement:\n          - Effect: Allow\n            Principal:\n              AWS: !Sub "arn:aws:iam:: {AWS::AccountId}:root"\n            Action: "s3:GetObject"\n            Resource: !Sub " {MyBucket}/*"\n                </pre>\n              </li>\n              <li><strong>Deploy:</strong> <code>aws cloudformation deploy --template-file bucket.yml --stack-name s3-stack</code></li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">2. S3 with Terraform</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Reusable Module</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_s3_bucket" "static_site" {\n  bucket = var.bucket_name\n}\nresource "aws_s3_bucket_versioning" "v" {\n  bucket = aws_s3_bucket.static_site.id\n  versioning_configuration {\n    status = "Enabled"\n  }\n}\nresource "aws_s3_bucket_lifecycle_configuration" "lc" {\n  bucket = aws_s3_bucket.static_site.id\n  rule {\n    id     = "archive"\n    status = "Enabled"\n    transition {\n      days          = 30\n      storage_class = "STANDARD_IA"\n    }\n  }\n}\nresource "aws_s3_bucket_policy" "policy" {\n  bucket = aws_s3_bucket.static_site.id\n  policy = jsonencode({\n    Version = "2012-10-17"\n    Statement = [{\n      Effect    = "Allow"\n      Principal = "*"\n      Action    = "s3:GetObject"\n      Resource  = " {aws_s3_bucket.static_site.arn}/*"\n    }]\n  })\n}\n                </pre>\n              </li>\n              <li><strong>Usage:</strong> <code>terraform init && terraform apply -var="bucket_name=my-tf-bucket"</code></li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">3. Automating Bucket Creation & Policy Setup</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>CI/CD Pipelines</strong><br/>\n                GitHub Actions example:\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\n- name: Deploy S3 via Terraform\n  uses: hashicorp/setup-terraform@v3\n  with:\n    cli_config_credentials_token:  {{ secrets.TF_API_TOKEN }}\n- run: terraform apply -auto-approve -var="bucket_name= {{ github.event.inputs.bucket }}"\n                </pre>\n              </li>\n              <li><strong>AWS Service Catalog</strong><br/>\n                Publish standardized S3 products with guardrails (encryption, tagging, logging).</li>\n              <li><strong>AWS Config Rules</strong><br/>\n                Continuous compliance:\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_config_config_rule" "s3_bucket_logging_enabled" {\n  name = "s3-bucket-logging-enabled"\n  source {\n    owner             = "AWS"\n    source_identifier = "S3_BUCKET_LOGGING_ENABLED"\n  }\n}\n                </pre>\n              </li>\n            </ul>\n\n            <h3 style="margin-top:1.5rem;font-size:1.25rem;font-weight:600;">4. Lambda-Backed Automation</h3>\n            <ul style="margin-top:.75rem;margin-left:1.5rem;list-style-type:disc;">\n              <li><strong>Use Cases:</strong>\n                <ul>\n                  <li>Auto-tag uploads (department, owner).</li>\n                  <li>Virus scanning with ClamAV.</li>\n                  <li>Thumbnail generation on image uploads.</li>\n                  <li>Immediate archival to Glacier based on prefix.</li>\n                </ul>\n              </li>\n              <li><strong>EventBridge Trigger</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nresource "aws_lambda_function" "auto_tag" {\n  filename         = "lambda.zip"\n  function_name    = "s3-auto-tag"\n  role             = aws_iam_role.lambda_role.arn\n  handler          = "index.handler"\n  runtime          = "python3.11"\n}\nresource "aws_s3_bucket_notification" "notify" {\n  bucket = aws_s3_bucket.static_site.id\n  lambda_function {\n    lambda_function_arn = aws_lambda_function.auto_tag.arn\n    events              = ["s3:ObjectCreated:*"]\n    filter_prefix       = "uploads/"\n  }\n}\n                </pre>\n              </li>\n              <li><strong>Lambda Code (Python)</strong><br/>\n                <pre style="background:#f5f5f5;padding:6px;border-radius:4px;font-size:13px;margin:.5rem 0;">\nimport boto3, os, urllib.parse\ndef handler(event, context):\n    s3 = boto3.client(\'s3\')\n    for rec in event[\'Records\']:\n        bucket = rec[\'s3\'][\'bucket\'][\'name\']\n        key    = urllib.parse.unquote_plus(rec[\'s3\'][\'object\'][\'key\'])\n        s3.put_object_tagging(\n            Bucket=bucket,\n            Key=key,\n            Tagging={\'TagSet\':[{\'Key\':\'auto-tagged\',\'Value\':\'true\'}]}\n        )\n                </pre>\n              </li>\n              <li><strong>Serverless Application Repository (SAR)</strong><br/>\n                Deploy pre-built apps like <code>s3-virusscan</code> by AWS.</li>\n            </ul>\n          </div>',
             examples: [
               "// Deploy with CloudFormation\naws cloudformation deploy --template-file s3-stack.yml --stack-name my-s3-stack --parameter-overrides BucketName=my-cfn-bucket",
               '// Terraform plan & apply\nterraform plan -var="bucket_name=my-tf-bucket"\nterraform apply -auto-approve',
@@ -53167,7 +53167,7 @@ aws configservice describe-compliance-by-config-rule --config-rule-names s3-buck
               {
                 question: "Do Config rules cost money?",
                 solution:
-                  "<p>Yes—per evaluation and per resource.  Budget for ~$0.003 per evaluation; use scoping to limit to critical buckets.</p>",
+                  "<p>Yes—per evaluation and per resource.  Budget for ~ 0.003 per evaluation; use scoping to limit to critical buckets.</p>",
               },
               {
                 question:
@@ -53590,10 +53590,10 @@ aws sqs send-message \
   --message-body "order-123"
 
 # Receive & delete
-MSG=$(aws sqs receive-message --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders --query 'Messages[0].{ReceiptHandle:ReceiptHandle,Body:Body}' --output json)
+MSG= (aws sqs receive-message --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders --query 'Messages[0].{ReceiptHandle:ReceiptHandle,Body:Body}' --output json)
 aws sqs delete-message \
   --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders \
-  --receipt-handle $(echo $MSG | jq -r '.ReceiptHandle')
+  --receipt-handle  (echo  MSG | jq -r '.ReceiptHandle')
 </code></pre>
   </div>
 </div>`,
@@ -53852,7 +53852,7 @@ aws sqs set-queue-attributes \
     <pre><code className="language-bash">
 # Send message with 60-second delay
 aws sqs send-message \
-  --queue-url $Q \
+  --queue-url  Q \
   --message-body "email-job" \
   --delay-seconds 60
 </code></pre>
@@ -53870,8 +53870,8 @@ aws sqs send-message \
     <pre><code className="language-bash">
 # Increase timeout for long-running task
 aws sqs change-message-visibility \
-  --queue-url $Q \
-  --receipt-handle $RH \
+  --queue-url  Q \
+  --receipt-handle  RH \
   --visibility-timeout 900
 </code></pre>
   </div>
@@ -53888,7 +53888,7 @@ aws sqs change-message-visibility \
     <pre><code className="language-bash">
 # Set retention to 7 days
 aws sqs set-queue-attributes \
-  --queue-url $Q \
+  --queue-url  Q \
   --attributes MessageRetentionPeriod=604800
 </code></pre>
   </div>
@@ -53913,12 +53913,12 @@ aws sqs set-queue-attributes \
     <pre><code className="language-bash">
 # Set queue default to 10-second long polling
 aws sqs set-queue-attributes \
-  --queue-url $Q \
+  --queue-url  Q \
   --attributes ReceiveMessageWaitTimeSeconds=10
 
 # One-shot long poll
 aws sqs receive-message \
-  --queue-url $Q \
+  --queue-url  Q \
   --wait-time-seconds 20 \
   --max-number-of-messages 10
 </code></pre>
@@ -53935,9 +53935,9 @@ aws sqs receive-message \
 </div>`,
             examples: [
               '# Create queue with 7-day retention, 5-min visibility, long polling\naws sqs create-queue --queue-name demo --attributes \'{\n  "MessageRetentionPeriod":"604800",\n  "VisibilityTimeout":"300",\n  "ReceiveMessageWaitTimeSeconds":"10"\n}\'',
-              "# Send delayed message\naws sqs send-message --queue-url $Q --message-body 'later' --delay-seconds 900",
-              "# Extend visibility while processing\naws sqs change-message-visibility --queue-url $Q --receipt-handle $RH --visibility-timeout 1800",
-              "# Increase max message size to 256 KB\naws sqs set-queue-attributes --queue-url $Q --attributes MaximumMessageSize=262144",
+              "# Send delayed message\naws sqs send-message --queue-url  Q --message-body 'later' --delay-seconds 900",
+              "# Extend visibility while processing\naws sqs change-message-visibility --queue-url  Q --receipt-handle  RH --visibility-timeout 1800",
+              "# Increase max message size to 256 KB\naws sqs set-queue-attributes --queue-url  Q --attributes MaximumMessageSize=262144",
             ],
             questions: [
               {
@@ -54001,7 +54001,7 @@ aws sqs send-message \
 
 # Send with attributes & delay
 aws sqs send-message \
-  --queue-url $Q \
+  --queue-url  Q \
   --message-body '{"orderId": 123}' \
   --delay-seconds 30 \
   --message-attributes '{"priority":{"StringValue":"high","DataType":"String"}}'
@@ -54027,7 +54027,7 @@ aws sqs send-message \
     <pre><code className="language-bash">
 # Long-poll up to 10 messages
 aws sqs receive-message \
-  --queue-url $Q \
+  --queue-url  Q \
   --wait-time-seconds 10 \
   --max-number-of-messages 10 \
   --attribute-names All \
@@ -54048,7 +54048,7 @@ aws sqs receive-message \
     <pre><code className="language-bash">
 # Delete single message
 aws sqs delete-message \
-  --queue-url $Q \
+  --queue-url  Q \
   --receipt-handle AQEB...mG
 </code></pre>
   </div>
@@ -54065,7 +54065,7 @@ aws sqs delete-message \
   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
     <pre><code className="language-bash">
 # Purge all messages
-aws sqs purge-queue --queue-url $Q
+aws sqs purge-queue --queue-url  Q
 </code></pre>
   </div>
 
@@ -54075,18 +54075,18 @@ aws sqs purge-queue --queue-url $Q
   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
     <pre><code className="language-bash">
 # Send → Receive → Delete in one go
-aws sqs send-message --queue-url $Q --message-body 'task' \
+aws sqs send-message --queue-url  Q --message-body 'task' \
   --query 'MessageId' --output text && \
-RH=$(aws sqs receive-message --queue-url $Q --query 'Messages[0].ReceiptHandle' --output text 2>/dev/null) && \
-aws sqs delete-message --queue-url $Q --receipt-handle $RH
+RH= (aws sqs receive-message --queue-url  Q --query 'Messages[0].ReceiptHandle' --output text 2>/dev/null) && \
+aws sqs delete-message --queue-url  Q --receipt-handle  RH
 </code></pre>
   </div>
 </div>`,
             examples: [
-              '# SendMessage with attributes\naws sqs send-message --queue-url $Q --message-body \'job\' --delay-seconds 60 --message-attributes \'{"priority":{"StringValue":"high","DataType":"String"}}\'',
-              "# ReceiveMessage with long polling\naws sqs receive-message --queue-url $Q --wait-time-seconds 10 --max-number-of-messages 5",
-              "# Batch delete\naws sqs delete-message-batch --queue-url $Q --entries 'Id=1,ReceiptHandle=$RH1 Id=2,ReceiptHandle=$RH2'",
-              "# Purge queue before load test\naws sqs purge-queue --queue-url $Q",
+              '# SendMessage with attributes\naws sqs send-message --queue-url  Q --message-body \'job\' --delay-seconds 60 --message-attributes \'{"priority":{"StringValue":"high","DataType":"String"}}\'',
+              "# ReceiveMessage with long polling\naws sqs receive-message --queue-url  Q --wait-time-seconds 10 --max-number-of-messages 5",
+              "# Batch delete\naws sqs delete-message-batch --queue-url  Q --entries 'Id=1,ReceiptHandle= RH1 Id=2,ReceiptHandle= RH2'",
+              "# Purge queue before load test\naws sqs purge-queue --queue-url  Q",
             ],
             questions: [
               {
@@ -54199,12 +54199,12 @@ aws sqs delete-message --queue-url $Q --receipt-handle $RH
     <pre><code className="language-bash">
 # Set queue default to 20-second long polling
 aws sqs set-queue-attributes \
-  --queue-url $Q \
+  --queue-url  Q \
   --attributes ReceiveMessageWaitTimeSeconds=20
 
 # Override to short poll (0 s) for debug
 aws sqs receive-message \
-  --queue-url $Q \
+  --queue-url  Q \
   --wait-time-seconds 0
 </code></pre>
   </div>
@@ -54219,9 +54219,9 @@ aws sqs receive-message \
   </ul>
 </div>`,
             examples: [
-              "# Set queue default to long polling 20 s\naws sqs set-queue-attributes --queue-url $Q --attributes ReceiveMessageWaitTimeSeconds=20",
-              "# Short poll (0 s) for quick test\naws sqs receive-message --queue-url $Q --wait-time-seconds 0",
-              "# Long poll with batch receive\naws sqs receive-message --queue-url $Q --wait-time-seconds 20 --max-number-of-messages 10",
+              "# Set queue default to long polling 20 s\naws sqs set-queue-attributes --queue-url  Q --attributes ReceiveMessageWaitTimeSeconds=20",
+              "# Short poll (0 s) for quick test\naws sqs receive-message --queue-url  Q --wait-time-seconds 0",
+              "# Long poll with batch receive\naws sqs receive-message --queue-url  Q --wait-time-seconds 20 --max-number-of-messages 10",
               "# Lambda trigger uses long polling automatically\naws lambda create-event-source-mapping --function-name worker --event-source-arn arn:aws:sqs:us-east-1:123456789012/demo --batch-size 10",
             ],
             questions: [
@@ -54558,8 +54558,8 @@ aws iam put-role-policy --role-name lambda-role --policy-name sqs-access --polic
             examples: [
               "# Create queue with minimal IAM policy\naws sqs create-queue --queue-name orders",
               '# Attach queue policy allowing only Lambda role\naws sqs set-queue-attributes --queue-url https://sqs.us-east-1.amazonaws.com/123456789012/orders --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Allow\\",\\"Principal\\":{\\"AWS\\":\\"arn:aws:iam::123456789012:role/lambda-role\\"},\\"Action\\":[\\"sqs:SendMessage\\",\\"sqs:ReceiveMessage\\"],\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\"}]}"\n}\'',
-              '# Deny HTTP traffic\naws sqs set-queue-attributes --queue-url $Q --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Deny\\",\\"Principal\\":\\"*\\",\\"Action\\":\\"sqs:*\\",\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\",\\"Condition\\":{\\"Bool\\":{\\"aws:SecureTransport\\":\\"false\\"}}}]}',
-              '# Grant cross-account access\naws sqs set-queue-attributes --queue-url $Q --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Allow\\",\\"Principal\\":{\\"AWS\\":\\"arn:aws:iam::222222222222:root\\"},\\"Action\\":[\\"sqs:SendMessage\\"],\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\"}]}"\n}\'',
+              '# Deny HTTP traffic\naws sqs set-queue-attributes --queue-url  Q --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Deny\\",\\"Principal\\":\\"*\\",\\"Action\\":\\"sqs:*\\",\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\",\\"Condition\\":{\\"Bool\\":{\\"aws:SecureTransport\\":\\"false\\"}}}]}',
+              '# Grant cross-account access\naws sqs set-queue-attributes --queue-url  Q --attributes \'{\n  "Policy":"{\\"Version\\":\\"2012-10-17\\",\\"Statement\\":[{\\"Effect\\":\\"Allow\\",\\"Principal\\":{\\"AWS\\":\\"arn:aws:iam::222222222222:root\\"},\\"Action\\":[\\"sqs:SendMessage\\"],\\"Resource\\":\\"arn:aws:sqs:us-east-1:123456789012:orders\\"}]}"\n}\'',
             ],
             questions: [
               {
@@ -54624,7 +54624,7 @@ aws iam put-role-policy --role-name lambda-role --policy-name sqs-access --polic
   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
     <pre><code className="language-bash">
 # Example: duplicate after visibility timeout
-aws sqs receive-message --queue-url $Q
+aws sqs receive-message --queue-url  Q
 # Consumer crashes → message becomes visible again → re-delivered
 </code></pre>
   </div>
@@ -54722,7 +54722,7 @@ aws dynamodb put-item \
     <pre><code className="language-bash">
 # Batch send 10 messages
 aws sqs send-message-batch \
-  --queue-url $Q \
+  --queue-url  Q \
   --entries file://batch.json
 
 # Auto-scale Lambda
@@ -55089,7 +55089,7 @@ aws cloudformation describe-stack-resources --stack-name my-stack
     "ValidateOrder": {
       "Type": "Task",
       "Resource": "arn:aws:states:::sqs:sendMessage.waitForTaskToken",
-      "Parameters": {"QueueUrl": "...", "MessageBody.$": "$"}
+      "Parameters": {"QueueUrl": "...", "MessageBody. ": " "}
     }
   }
 }
@@ -55465,8 +55465,8 @@ StateMachine:
             "Type": "Task",
             "Resource": "arn:aws:states:::sns:publish",
             "Parameters": {
-              "TopicArn": "\${MyTopic}",
-              "Message.$": "$.event"
+              "TopicArn": "\ {MyTopic}",
+              "Message. ": " .event"
             },
             "Next": "Wait"
           }
@@ -55976,12 +55976,12 @@ class Car {
     
     // Behavior/Methods
     start() {
-        console.log(\`\${this.brand} \${this.model} is starting...\`);
+        console.log(\`\ {this.brand} \ {this.model} is starting...\`);
     }
     
     accelerate(amount) {
         this.speed += amount;
-        console.log(\`Speed increased to \${this.speed} mph\`);
+        console.log(\`Speed increased to \ {this.speed} mph\`);
     }
     
     brake() {
@@ -56019,12 +56019,12 @@ let carModel = "Camry";
 let carSpeed = 0;
 
 function startCar() {
-    console.log(\`\${carBrand} \${carModel} is starting...\`);
+    console.log(\`\ {carBrand} \ {carModel} is starting...\`);
 }
 
 function accelerateCar(amount) {
     carSpeed += amount;
-    console.log(\`Speed: \${carSpeed} mph\`);
+    console.log(\`Speed: \ {carSpeed} mph\`);
 }
 
 function brakeCar() {
@@ -56060,12 +56060,12 @@ class Car {
     }
     
     start() {
-        console.log(\`\${this.brand} \${this.model} is starting...\`);
+        console.log(\`\ {this.brand} \ {this.model} is starting...\`);
     }
     
     accelerate(amount) {
         this.speed += amount;
-        console.log(\`Speed: \${this.speed} mph\`);
+        console.log(\`Speed: \ {this.speed} mph\`);
     }
     
     brake() {
@@ -56127,7 +56127,7 @@ class User {
     }
     
     getInfo() {
-        return \`\${this.name} (\${this.email})\`;
+        return \`\ {this.name} (\ {this.email})\`;
     }
 }
 
@@ -56146,7 +56146,7 @@ class Order {
 
 class ShippingService {
     ship(order) {
-        console.log(\`Shipping order to \${order.user.name}\`);
+        console.log(\`Shipping order to \ {order.user.name}\`);
     }
 }
 
@@ -56174,11 +56174,11 @@ class Vehicle {
     }
     
     start() {
-        console.log(\`\${this.brand} \${this.model} is starting...\`);
+        console.log(\`\ {this.brand} \ {this.model} is starting...\`);
     }
     
     getInfo() {
-        return \`\${this.brand} \${this.model}\`;
+        return \`\ {this.brand} \ {this.model}\`;
     }
 }
 
@@ -56229,7 +56229,7 @@ class Database {
         if (!this.connection) {
             this.connect();
         }
-        console.log(\`Executing: \${sql}\`);
+        console.log(\`Executing: \ {sql}\`);
         return "query results";
     }
 }
@@ -56241,7 +56241,7 @@ class UserService {
     
     getUser(id) {
         // UserService doesn't need to change if Database implementation changes
-        return this.db.query(\`SELECT * FROM users WHERE id = \${id}\`);
+        return this.db.query(\`SELECT * FROM users WHERE id = \ {id}\`);
     }
 }
 
@@ -56288,7 +56288,7 @@ class BankAccount {
                 date: new Date(),
                 balance: this.balance
             });
-            console.log(\`Deposited $\${amount}. New balance: $\${this.balance}\`);
+            console.log(\`Deposited  \{amount}. New balance:  \{this.balance}\`);
         }
     }
     
@@ -56301,7 +56301,7 @@ class BankAccount {
                 date: new Date(),
                 balance: this.balance
             });
-            console.log(\`Withdrawn $\${amount}. New balance: $\${this.balance}\`);
+            console.log(\`Withdrawn  \{amount}. New balance:  \{this.balance}\`);
         } else {
             console.log("Insufficient funds or invalid amount");
         }
@@ -56318,8 +56318,8 @@ class BankAccount {
 
 // Usage
 let account = new BankAccount("12345", "John Doe", 1000);
-account.deposit(500);   // Deposited $500. New balance: $1500
-account.withdraw(200);  // Withdrawn $200. New balance: $1300
+account.deposit(500);   // Deposited  500. New balance:  1500
+account.withdraw(200);  // Withdrawn  200. New balance:  1300
 console.log(account.getBalance()); // 1300
  </code></pre>
   </div>
@@ -56337,15 +56337,15 @@ class Book {
     borrow() {
         if (this.isAvailable) {
             this.isAvailable = false;
-            console.log(\`"\${this.title}" has been borrowed\`);
+            console.log(\`"\{this.title}" has been borrowed\`);
         } else {
-            console.log(\`"\${this.title}" is not available\`);
+            console.log(\`"\{this.title}" is not available\`);
         }
     }
     
     return() {
         this.isAvailable = true;
-        console.log(\`"\${this.title}" has been returned\`);
+        console.log(\`"\{this.title}" has been returned\`);
     }
 }
 
@@ -56356,7 +56356,7 @@ class Library {
     
     addBook(book) {
         this.books.push(book);
-        console.log(\`Added "\${book.title}" to library\`);
+        console.log(\`Added "\{book.title}" to library\`);
     }
     
     findBook(title) {
@@ -56429,7 +56429,7 @@ class ShoppingCart {
 class PaymentProcessor {
     processPayment(cart, paymentMethod) {
         // Payment logic
-        console.log(\`Processing payment for \${cart.user.name}\`);
+        console.log(\`Processing payment for \{cart.user.name}\`);
     }
 }
 
@@ -56557,7 +56557,7 @@ class BankAccount:
 # Creating objects
 account1 = BankAccount("Alice", 1000)
 account2 = BankAccount("Bob", 500)
-print(account1.deposit(200))  # Deposited $200. New balance: $1200`,
+print(account1.deposit(200))  # Deposited  200. New balance:  1200`,
 
               `// JavaScript - Bank Account Example
 class BankAccount {
@@ -56568,14 +56568,14 @@ class BankAccount {
     
     deposit(amount) {
         this.balance += amount;
-        return \`Deposited $\${amount}. New balance: $\${this.balance}\`;
+        return \`Deposited \{amount}. New balance:  \{this.balance}\`;
     }
 }
 
 // Creating objects
 const account1 = new BankAccount("Alice", 1000);
 const account2 = new BankAccount("Bob", 500);
-console.log(account1.deposit(200)); // Deposited $200. New balance: $1200`,
+console.log(account1.deposit(200)); // Deposited  200. New balance:  1200`,
             ],
             questions: [
               {
@@ -56664,7 +56664,7 @@ class ClassName {
     
     // Getter
     get fullInfo() {
-        return \`\${this.instanceVariable1} \${this.instanceVariable2}\`;
+        return \`\{this.instanceVariable1} \{this.instanceVariable2}\`;
     }
     
     // Setter
@@ -56745,11 +56745,11 @@ class Student {
     
     addSubject(subject) {
         this.subjects.push(subject);
-        return \`\${subject} added to \${this.name}'s subjects\`;
+        return \`\ {subject} added to \ {this.name}'s subjects\`;
     }
     
     getInfo() {
-        return \`ID: \${this.studentId}, Name: \${this.name}, Grade: \${this.grade}\`;
+        return \`ID: \ {this.studentId}, Name: \ {this.name}, Grade: \ {this.grade}\`;
     }
     
     static getTotalStudents() {
@@ -56762,7 +56762,7 @@ class Student {
     
     // Getter method
     get studentSummary() {
-        return \`\${this.name} - Grade: \${this.grade}\`;
+        return \`\ {this.name} - Grade: \ {this.grade}\`;
     }
 }
       </code></pre>
@@ -56797,7 +56797,7 @@ class Product:
 
 # Usage
 laptop = Product("P001", "Gaming Laptop", 1200.00, "Electronics")
-print(laptop.apply_discount(10))  # Discount applied! New price: $1080.00`,
+print(laptop.apply_discount(10))  # Discount applied! New price:  1080.00`,
 
               `// JavaScript - E-commerce Product Class
 class Product {
@@ -56816,21 +56816,21 @@ class Product {
     applyDiscount(percentage) {
         const discountAmount = this.price * (percentage / 100);
         this.price -= discountAmount;
-        return \`Discount applied! New price: $\${this.price.toFixed(2)}\`;
+        return \`Discount applied! New price:  \ {this.price.toFixed(2)}\`;
     }
     
     toString() {
-        return \`\${this.name} - $\${this.price} (\${this.category})\`;
+        return \`\ {this.name} -  \ {this.price} (\ {this.category})\`;
     }
     
     get productInfo() {
-        return \`\${this.name} - $\${this.price.toFixed(2)}\`;
+        return \`\ {this.name} -  \ {this.price.toFixed(2)}\`;
     }
 }
 
 // Usage
 const laptop = new Product("P001", "Gaming Laptop", 1200.00, "Electronics");
-console.log(laptop.applyDiscount(10)); // Discount applied! New price: $1080.00`,
+console.log(laptop.applyDiscount(10)); // Discount applied! New price:  1080.00`,
             ],
             questions: [
               {
@@ -57008,7 +57008,7 @@ class Employee {
     // Instance method - operates on instance data
     giveRaise(amount) {
         this.salary += amount;
-        return \`\${this.name}'s salary increased to $\${this.salary}\`;
+        return \`\ {this.name}'s salary increased to  \ {this.salary}\`;
     }
     
     setExperience(years) {
@@ -57046,12 +57046,12 @@ class Employee {
     
     // Static method (class method)
     static getCompanyInfo() {
-        return \`Company: \${Employee.companyName}, Total Employees: \${Employee.totalEmployees}\`;
+        return \`Company: \ {Employee.companyName}, Total Employees: \ {Employee.totalEmployees}\`;
     }
     
     // Factory method
     static createIntern(name, department) {
-        return new Employee(\`INT\${Employee.totalEmployees + 1}\`, name, 30000, department);
+        return new Employee(\`INT\ {Employee.totalEmployees + 1}\`, name, 30000, department);
     }
     
     static isEligibleForBonus(salary) {
@@ -57059,7 +57059,7 @@ class Employee {
     }
     
     toString() {
-        return \`Employee: \${this.name} (\${this.department})\`;
+        return \`Employee: \ {this.name} (\ {this.department})\`;
     }
     
     // Private method (ES2022+)
@@ -57081,12 +57081,12 @@ emp2 = Employee("E002", "Bob Smith", 65000, "Marketing")
 
 # Accessing and modifying attributes
 print(emp1.name)  # Alice Johnson
-print(emp1.give_raise(5000))  # Alice Johnson's salary increased to $80000
+print(emp1.give_raise(5000))  # Alice Johnson's salary increased to  80000
 
 # Using methods
 emp1.set_experience(5)
 bonus = emp1.calculate_annual_bonus()
-print(f"Annual bonus: {bonus}")  # Annual bonus: $10500.0
+print(f"Annual bonus: {bonus}")  # Annual bonus:  10500.0
 
 # Class methods and static methods
 print(Employee.get_company_info())  # Company: Tech Corp, Total Employees: 2
@@ -57103,12 +57103,12 @@ const emp2 = new Employee("E002", "Bob Smith", 65000, "Marketing");
 
 // Accessing and modifying attributes
 console.log(emp1.name); // Alice Johnson
-console.log(emp1.giveRaise(5000)); // Alice Johnson's salary increased to $80000
+console.log(emp1.giveRaise(5000)); // Alice Johnson's salary increased to  80000
 
 // Using methods and getters/setters
 emp1.setExperience(5);
 const bonus = emp1.calculateAnnualBonus();
-console.log(\`Annual bonus: $\${bonus}\`); // Annual bonus: 10500
+console.log(\`Annual bonus:  \ {bonus}\`); // Annual bonus: 10500
 
 // Using getter
 console.log(emp1.employeeInfo); // {id: "E001", name: "Alice Johnson", ...}
@@ -57170,7 +57170,7 @@ class Book:
     @staticmethod
     def calculate_late_fee(days_late):
         """Calculate late fee for overdue books"""
-        return days_late * 0.50  # $0.50 per day
+        return days_late * 0.50  #  0.50 per day
 
 # Usage
 book1 = Book("978-0134685991", "Effective Java", "Joshua Bloch", 416)
@@ -57197,7 +57197,7 @@ class Book {
             this.isAvailable = false;
             this.borrowedBy = borrowerName;
             this.borrowDate = new Date();
-            return \`Book '\${this.title}' borrowed by \${borrowerName}\`;
+            return \`Book '\ {this.title}' borrowed by \ {borrowerName}\`;
         }
         return "Book is not available";
     }
@@ -57208,21 +57208,21 @@ class Book {
             this.isAvailable = true;
             this.borrowedBy = null;
             this.borrowDate = null;
-            return \`Book '\${this.title}' returned by \${borrower}\`;
+            return \`Book '\ {this.title}' returned by \ {borrower}\`;
         }
         return "Book was not borrowed";
     }
     
     get bookInfo() {
-        return \`\${this.title} by \${this.author} - \${this.pages} pages\`;
+        return \`\ {this.title} by \ {this.author} - \ {this.pages} pages\`;
     }
     
     static getLibraryStats() {
-        return \`\${Book.libraryName}: \${Book.totalBooks} books total\`;
+        return \`\ {Book.libraryName}: \ {Book.totalBooks} books total\`;
     }
     
     static calculateLateFee(daysLate) {
-        return daysLate * 0.50; // $0.50 per day
+        return daysLate * 0.50; //  0.50 per day
     }
 }
 
@@ -57333,7 +57333,7 @@ account = BankAccount("ACC123", "John Doe", 1000)
 # Public access - Direct access to public members
 print(account.account_number)  # ACC123
 print(account.owner)  # John Doe
-print(account.deposit(500))  # Deposited $500. Balance: $1500
+print(account.deposit(500))  # Deposited  500. Balance:  1500
 
 # Protected access - Accessible but not recommended
 print(account._balance)  # 1500 (works but not recommended)
@@ -57382,7 +57382,7 @@ class BankAccount {
     
     deposit(amount) {
         this._balance += amount;
-        return \`Deposited $\${amount}. Balance: $\${this._balance}\`;
+        return \`Deposited  \ {amount}. Balance:  \ {this._balance}\`;
     }
     
     _calculateInterest() {  // Protected method (convention)
@@ -57397,7 +57397,7 @@ class BankAccount {
         if (this.#verifyPin(pin)) {
             if (amount <= this._balance) {
                 this._balance -= amount;
-                return \`Withdrawn $\${amount}. Balance: $\${this._balance}\`;
+                return \`Withdrawn  \ {amount}. Balance:  \ {this._balance}\`;
             }
             return "Insufficient funds";
         }
@@ -57423,7 +57423,7 @@ const account = new BankAccount("ACC123", "John Doe", 1000);
 // Public access - Direct access to public members
 console.log(account.accountNumber);  // ACC123
 console.log(account.owner);  // John Doe
-console.log(account.deposit(500));  // Deposited $500. Balance: $1500
+console.log(account.deposit(500));  // Deposited  500. Balance:  1500
 
 // Protected access - Accessible but not recommended
 console.log(account._balance);  // 1500 (works but not recommended)
@@ -57794,8 +57794,8 @@ class BankAccount:
 
 # Usage
 account1 = BankAccount("12345", "John Doe", 1000)
-print(account1.deposit(500))   # Deposited $500. New balance: $1500
-print(account1.withdraw(200))  # Withdrew $200. New balance: $1300`,
+print(account1.deposit(500))   # Deposited  500. New balance:  1500
+print(account1.withdraw(200))  # Withdrew  200. New balance:  1300`,
 
               `// JavaScript: Student Example
 class Student {
@@ -57808,7 +57808,7 @@ class Student {
     
     addSubject(subject, score) {
         this.subjects.push({ subject, score });
-        return \`Added \${subject} with score \${score}\`;
+        return \`Added \ {subject} with score \ {score}\`;
     }
     
     getAverageScore() {
@@ -57818,7 +57818,7 @@ class Student {
     }
     
     getStudentInfo() {
-        return \`Student: \${this.name} (ID: \${this.id}), Grade: \${this.grade}\`;
+        return \`Student: \ {this.name} (ID: \ {this.id}), Grade: \ {this.grade}\`;
     }
 }
 
@@ -57826,7 +57826,7 @@ class Student {
 const student1 = new Student(1, "Alice Smith", "10th");
 console.log(student1.addSubject("Math", 95));        // Added Math with score 95
 console.log(student1.addSubject("Science", 88));     // Added Science with score 88
-console.log(\`Average: \${student1.getAverageScore()}\`); // Average: 91.5`,
+console.log(\`Average: \ {student1.getAverageScore()}\`); // Average: 91.5`,
             ],
             questions: [
               {
@@ -57945,7 +57945,7 @@ class Employee:
     def give_raise(self, amount):
         """Instance method - modifies instance data"""
         self.salary += amount
-        return f"{self.name} received a ${amount} raise. New salary: ${self.salary}"
+        return f"{self.name} received a  {amount} raise. New salary:  {self.salary}"
     
     def is_underpaid(self):
         """Instance method accessing static variable"""
@@ -58057,7 +58057,7 @@ class BankAccount {
         
         // Update static property
         BankAccount.totalAccounts++;
-        console.log(\`Account created for \${this.accountHolder}. Total accounts: \${BankAccount.totalAccounts}\`);
+        console.log(\`Account created for \ {this.accountHolder}. Total accounts: \ {BankAccount.totalAccounts}\`);
     }
     
     // Instance methods - operate on specific instances
@@ -58070,7 +58070,7 @@ class BankAccount {
                 date: new Date(),
                 balance: this.balance
             });
-            return \`Deposited $\${amount}. New balance: $\${this.balance}\`;
+            return \`Deposited  \ {amount}. New balance:  \ {this.balance}\`;
         }
         return "Invalid deposit amount";
     }
@@ -58084,19 +58084,19 @@ class BankAccount {
                 date: new Date(),
                 balance: this.balance
             });
-            return \`Withdrew $\${amount}. New balance: $\${this.balance}\`;
+            return \`Withdrew  \ {amount}. New balance:  \ {this.balance}\`;
         }
         return "Invalid withdrawal amount or insufficient funds";
     }
     
     getAccountInfo() {
-        return \`Account: \${this.accountNumber}, Holder: \${this.accountHolder}, Balance: $\${this.balance}\`;
+        return \`Account: \ {this.accountNumber}, Holder: \ {this.accountHolder}, Balance:  \ {this.balance}\`;
     }
     
     calculateInterest() {
         // Instance method accessing static property
         const interest = this.balance * BankAccount.interestRate;
-        return \`Annual interest on $\${this.balance}: $\${interest.toFixed(2)}\`;
+        return \`Annual interest on  \ {this.balance}:  \ {interest.toFixed(2)}\`;
     }
     
     // Static methods - belong to the class
@@ -58110,11 +58110,11 @@ class BankAccount {
     
     static compareAccounts(account1, account2) {
         if (account1.balance > account2.balance) {
-            return \`\${account1.accountHolder} has a higher balance than \${account2.accountHolder}\`;
+            return \`\ {account1.accountHolder} has a higher balance than \ {account2.accountHolder}\`;
         } else if (account1.balance < account2.balance) {
-            return \`\${account2.accountHolder} has a higher balance than \${account1.accountHolder}\`;
+            return \`\ {account2.accountHolder} has a higher balance than \ {account1.accountHolder}\`;
         } else {
-            return \`\${account1.accountHolder} and \${account2.accountHolder} have equal balances\`;
+            return \`\ {account1.accountHolder} and \ {account2.accountHolder} have equal balances\`;
         }
     }
     
@@ -58125,11 +58125,11 @@ class BankAccount {
     static setBankName(newName) {
         const oldName = BankAccount.bankName;
         BankAccount.bankName = newName;
-        console.log(\`Bank name changed from \${oldName} to \${newName}\`);
+        console.log(\`Bank name changed from \ {oldName} to \ {newName}\`);
     }
     
     static getBankInfo() {
-        return \`Bank: \${BankAccount.bankName}, Total Accounts: \${BankAccount.totalAccounts}, Interest Rate: \${(BankAccount.interestRate * 100)}%\`;
+        return \`Bank: \ {BankAccount.bankName}, Total Accounts: \ {BankAccount.totalAccounts}, Interest Rate: \ {(BankAccount.interestRate * 100)}%\`;
     }
     
     // Static method for creating special account types
@@ -58137,7 +58137,7 @@ class BankAccount {
         if (initialDeposit >= 500) {
             return new BankAccount(holder, initialDeposit);
         }
-        throw new Error("Savings account requires minimum $500 initial deposit");
+        throw new Error("Savings account requires minimum  500 initial deposit");
     }
     
     static createStudentAccount(holder) {
@@ -58157,10 +58157,10 @@ const account2 = new BankAccount("Bob Smith", 2500);
 const account3 = new BankAccount("Carol Davis", 750);
 
 console.log("\\n=== Accessing Static Properties ===");
-console.log(\`Bank Name: \${BankAccount.bankName}\`);
-console.log(\`Total Accounts: \${BankAccount.totalAccounts}\`);
-console.log(\`Minimum Balance: $\${BankAccount.minBalance}\`);
-console.log(\`Interest Rate: \${(BankAccount.interestRate * 100)}%\`);
+console.log(\`Bank Name: \ {BankAccount.bankName}\`);
+console.log(\`Total Accounts: \ {BankAccount.totalAccounts}\`);
+console.log(\`Minimum Balance:  \ {BankAccount.minBalance}\`);
+console.log(\`Interest Rate: \ {(BankAccount.interestRate * 100)}%\`);
 
 console.log("\\n=== Instance Methods ===");
 console.log(account1.deposit(500));
@@ -58169,10 +58169,10 @@ console.log(account1.getAccountInfo());
 console.log(account2.calculateInterest());
 
 console.log("\\n=== Static Methods ===");
-console.log(\`Generated Account Number: \${BankAccount.generateAccountNumber()}\`);
-console.log(\`Is $50 valid balance? \${BankAccount.validateBalance(50)}\`);
+console.log(\`Generated Account Number: \ {BankAccount.generateAccountNumber()}\`);
+console.log(\`Is  50 valid balance? \ {BankAccount.validateBalance(50)}\`);
 console.log(BankAccount.compareAccounts(account1, account2));
-console.log(\`Total assets: $\${BankAccount.getTotalAssets([account1, account2, account3])}\`);
+console.log(\`Total assets:  \ {BankAccount.getTotalAssets([account1, account2, account3])}\`);
 
 console.log("\\n=== Class-Level Operations ===");
 BankAccount.setBankName("PremiumBank");
@@ -58183,10 +58183,10 @@ const savingsAccount = BankAccount.createSavingsAccount("Emma Wilson", 1500);
 const studentAccount = BankAccount.createStudentAccount("John Student");
 
 console.log("\\n=== Shared vs Individual Data ===");
-console.log(\`account1 bank: \${account1.constructor.bankName}\`);  // Access static via instance
-console.log(\`account2 bank: \${account2.constructor.bankName}\`);  // Same for all instances
-console.log(\`account1 balance: $\${account1.balance}\`);           // Individual to account1
-console.log(\`account2 balance: $\${account2.balance}\`);           // Individual to account2
+console.log(\`account1 bank: \ {account1.constructor.bankName}\`);  // Access static via instance
+console.log(\`account2 bank: \ {account2.constructor.bankName}\`);  // Same for all instances
+console.log(\`account1 balance:  \ {account1.balance}\`);           // Individual to account1
+console.log(\`account2 balance:  \ {account2.balance}\`);           // Individual to account2
 
 // Modify static property - affects all instances
 BankAccount.interestRate = 0.025;
@@ -58327,14 +58327,14 @@ class GamePlayer {
         const newLevel = Math.min(Math.floor(this.score / 1000) + 1, GamePlayer.maxLevel);
         if (newLevel > this.level) {
             this.level = newLevel;
-            return \`Level up! \${this.username} is now level \${this.level}\`;
+            return \`Level up! \ {this.username} is now level \ {this.level}\`;
         }
-        return \`\${this.username} gained \${xp} XP. Total: \${this.score}\`;
+        return \`\ {this.username} gained \ {xp} XP. Total: \ {this.score}\`;
     }
     
     addAchievement(achievement) {
         this.achievements.push(achievement);
-        return \`\${this.username} unlocked: \${achievement}\`;
+        return \`\ {this.username} unlocked: \ {achievement}\`;
     }
     
     // Static methods
@@ -58343,16 +58343,16 @@ class GamePlayer {
     }
     
     static getGameInfo() {
-        return \`Game v\${GamePlayer.gameVersion} - Total Players: \${GamePlayer.totalPlayers}\`;
+        return \`Game v\ {GamePlayer.gameVersion} - Total Players: \ {GamePlayer.totalPlayers}\`;
     }
     
     static compareLevel(player1, player2) {
         if (player1.level > player2.level) {
-            return \`\${player1.username} (Level \${player1.level}) outranks \${player2.username} (Level \${player2.level})\`;
+            return \`\ {player1.username} (Level \ {player1.level}) outranks \ {player2.username} (Level \ {player2.level})\`;
         } else if (player1.level < player2.level) {
-            return \`\${player2.username} (Level \${player2.level}) outranks \${player1.username} (Level \${player1.level})\`;
+            return \`\ {player2.username} (Level \ {player2.level}) outranks \ {player1.username} (Level \ {player1.level})\`;
         }
-        return \`\${player1.username} and \${player2.username} are the same level\`;
+        return \`\ {player1.username} and \ {player2.username} are the same level\`;
     }
 }
 
@@ -58565,7 +58565,7 @@ class DatabaseConnection {
         this.createdAt = new Date();
         this.connectionId = Math.random().toString(36).substr(2, 9);
         
-        console.log(\`DatabaseConnection created: \${this.connectionId}\`);
+        console.log(\`DatabaseConnection created: \ {this.connectionId}\`);
         this.connect();
     }
     
@@ -58573,13 +58573,13 @@ class DatabaseConnection {
         // Simulate database connection
         setTimeout(() => {
             this.isConnected = true;
-            console.log(\`Connected to \${this.database} at \${this.host}:\${this.port}\`);
+            console.log(\`Connected to \ {this.database} at \ {this.host}:\ {this.port}\`);
         }, 100);
     }
     
     query(sql) {
         if (this.isConnected) {
-            return \`Executing: \${sql} on \${this.database}\`;
+            return \`Executing: \ {sql} on \ {this.database}\`;
         }
         return "Not connected to database";
     }
@@ -58588,14 +58588,14 @@ class DatabaseConnection {
     close() {
         if (this.isConnected) {
             this.isConnected = false;
-            console.log(\`Connection \${this.connectionId} closed\`);
+            console.log(\`Connection \ {this.connectionId} closed\`);
         }
     }
     
     // Using FinalizationRegistry for cleanup (modern JS feature)
     static {
         this.cleanup = new FinalizationRegistry((connectionId) => {
-            console.log(\`Cleanup: Connection \${connectionId} garbage collected\`);
+            console.log(\`Cleanup: Connection \ {connectionId} garbage collected\`);
         });
     }
 }
@@ -58606,7 +58606,7 @@ class Rectangle {
         this.width = width;
         this.height = height;
         this.createdAt = new Date();
-        console.log(\`Rectangle created: \${width} x \${height}\`);
+        console.log(\`Rectangle created: \ {width} x \ {height}\`);
     }
     
     // Static method for square (alternative constructor pattern)
@@ -58631,7 +58631,7 @@ class Rectangle {
     
     // Manual cleanup method
     destroy() {
-        console.log(\`Rectangle \${this.width}x\${this.height} destroyed\`);
+        console.log(\`Rectangle \ {this.width}x\ {this.height} destroyed\`);
         // Perform any necessary cleanup
         this.width = null;
         this.height = null;
@@ -58645,8 +58645,8 @@ const db1 = new DatabaseConnection("localhost", 5432, "myapp");
 const square = Rectangle.createSquare(5);
 const rect = Rectangle.fromAreaAndRatio(100, 2);
 
-console.log(\`Square area: \${square.getArea()}\`);
-console.log(\`Rectangle area: \${rect.getArea()}\`);
+console.log(\`Square area: \ {square.getArea()}\`);
+console.log(\`Rectangle area: \ {rect.getArea()}\`);
 
 // Manual cleanup
 setTimeout(() => {
@@ -58762,7 +58762,7 @@ class EventManager {
         
         this.listeners.get(event).push(handler);
         this.element.addEventListener(event, handler);
-        console.log(\`Added \${event} listener\`);
+        console.log(\`Added \ {event} listener\`);
     }
     
     removeEventListener(event, handler) {
@@ -58772,7 +58772,7 @@ class EventManager {
             if (index > -1) {
                 handlers.splice(index, 1);
                 this.element.removeEventListener(event, handler);
-                console.log(\`Removed \${event} listener\`);
+                console.log(\`Removed \ {event} listener\`);
             }
         }
     }
@@ -58856,13 +58856,13 @@ class BankAccount:
     def deposit(self, amount):
         if amount > 0:
             self._balance += amount
-            return f"Deposited ${amount}. New balance: ${self._balance}"
+            return f"Deposited {amount}. New balance: {self._balance}"
         return "Invalid deposit amount"
     
     def withdraw(self, amount):
         if 0 < amount <= self._balance:
             self._balance -= amount
-            return f"Withdrew ${amount}. New balance: ${self._balance}"
+            return f"Withdrew {amount}. New balance: {self._balance}"
         return "Invalid withdrawal amount or insufficient funds"
     
     def get_balance(self):
@@ -58870,8 +58870,8 @@ class BankAccount:
 
 # Usage
 account = BankAccount("12345", 1000)
-print(account.deposit(500))    # Deposited $500. New balance: $1500
-print(account.withdraw(200))   # Withdrew $200. New balance: $1300
+print(account.deposit(500))    # Deposited  500. New balance:  1500
+print(account.withdraw(200))   # Withdrew  200. New balance:  1300
 print(account.get_balance())   # 1300
 
 # Direct access (not recommended but possible)
@@ -58899,7 +58899,7 @@ class BankAccount {
     deposit(amount) {
         if (amount > 0) {
             this.#balance += amount;
-            return Deposited $ {amount}. New balance: $ {this.#balance};
+            return Deposited   {amount}. New balance:   {this.#balance};
         }
         return "Invalid deposit amount";
     }
@@ -58907,7 +58907,7 @@ class BankAccount {
     withdraw(amount) {
         if (amount > 0 && amount <= this.#balance) {
             this.#balance -= amount;
-            return Withdrew $ {amount}. New balance: $ {this.#balance};
+            return Withdrew   {amount}. New balance:   {this.#balance};
         }
         return "Invalid withdrawal amount or insufficient funds";
     }
@@ -58919,8 +58919,8 @@ class BankAccount {
 
 // Usage
 const account = new BankAccount("12345", 1000);
-console.log(account.deposit(500));    // Deposited $500. New balance: $1500
-console.log(account.withdraw(200));   // Withdrew $200. New balance: $1300
+console.log(account.deposit(500));    // Deposited  500. New balance:  1500
+console.log(account.withdraw(200));   // Withdrew  200. New balance:  1300
 console.log(account.getBalance());    // 1300
 
 // This will throw an error - private field access
@@ -58977,7 +58977,7 @@ class Employee {
     }
     
     getEmployeeInfo() {
-        return \`Employee: \${this.name}, ID: \${this.#employeeId}\`;
+        return \`Employee: \ {this.name}, ID: \ {this.#employeeId}\`;
     }
 }
 
@@ -59099,7 +59099,7 @@ class Temperature {
     }
     
     get celsius() {
-        console.log(\`Getting celsius temperature: \${this._celsius}\`);
+        console.log(\`Getting celsius temperature: \ {this._celsius}\`);
         return this._celsius;
     }
     
@@ -59107,7 +59107,7 @@ class Temperature {
         if (value < -273.15) {
             throw new Error("Temperature cannot be below absolute zero (-273.15°C)");
         }
-        console.log(\`Setting celsius temperature to: \${value}\`);
+        console.log(\`Setting celsius temperature to: \ {value}\`);
         this._celsius = value;
     }
     
@@ -59129,12 +59129,12 @@ class Temperature {
 
 // Usage example
 const temp = new Temperature(25);
-console.log(\`Temperature: \${temp.celsius}°C\`);    // Getting celsius temperature: 25 / Temperature: 25°C
-console.log(\`Temperature: \${temp.fahrenheit}°F\`); // Temperature: 77°F
-console.log(\`Temperature: \${temp.kelvin}K\`);      // Temperature: 298.15K
+console.log(\`Temperature: \ {temp.celsius}°C\`);    // Getting celsius temperature: 25 / Temperature: 25°C
+console.log(\`Temperature: \ {temp.fahrenheit}°F\`); // Temperature: 77°F
+console.log(\`Temperature: \ {temp.kelvin}K\`);      // Temperature: 298.15K
 
 temp.fahrenheit = 100;                             // Setting celsius temperature to: 37.77777777777778
-console.log(\`Temperature: \${temp.celsius}°C\`);    // Getting celsius temperature: 37.77777777777778 / Temperature: 37.77777777777778°C
+console.log(\`Temperature: \ {temp.celsius}°C\`);    // Getting celsius temperature: 37.77777777777778 / Temperature: 37.77777777777778°C
 
 // This will throw an error
 // temp.celsius = -300;                            // Error: Temperature cannot be below absolute zero
@@ -59175,7 +59175,7 @@ class User:
     
     @email.setter
     def email(self, value):
-        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} '
         if not re.match(email_pattern, value):
             raise ValueError("Invalid email format")
         self._email = value
@@ -59285,10 +59285,10 @@ class Rectangle {
 }
 
 const rect = new Rectangle(5, 3);
-console.log(\`Area: \${rect.area}\`);         // Area: 15
-console.log(\`Perimeter: \${rect.perimeter}\`); // Perimeter: 16
+console.log(\`Area: \ {rect.area}\`);         // Area: 15
+console.log(\`Perimeter: \ {rect.perimeter}\`); // Perimeter: 16
 rect.width = 10;
-console.log(\`New Area: \${rect.area}\`);     // New Area: 30`,
+console.log(\`New Area: \ {rect.area}\`);     // New Area: 30`,
             ],
             questions: [
               {
@@ -59477,12 +59477,12 @@ class Vehicle {
     // Public method
     getVehicleInfo() {
         const age = this._calculateAge();
-        return \`\${this.brand} \${this.model} (\${this._year}) - \${age} years old\`;
+        return \`\ {this.brand} \ {this.model} (\ {this._year}) - \ {age} years old\`;
     }
     
     // Public method accessing private data
     getEngineInfo() {
-        return \`Engine: \${this.#engineNumber}\`;
+        return \`Engine: \ {this.#engineNumber}\`;
     }
     
     // Public getter for private field
@@ -59501,7 +59501,7 @@ class Car extends Vehicle {
     getCarDetails() {
         // Can access protected members from parent class
         const age = this._calculateAge();
-        return \`Car: \${this.brand} \${this.model}, \${this.doors} doors, Age: \${age} years\`;
+        return \`Car: \ {this.brand} \ {this.model}, \ {this.doors} doors, Age: \ {age} years\`;
     }
     
     setFuelType(fuelType) {
@@ -59555,7 +59555,7 @@ function createBankAccount(initialBalance) {
         deposit: function(amount) {
             if (amount > 0) {
                 balance += amount;
-                return \`Deposited $\${amount}. Balance: $\${balance}\`;
+                return \`Deposited  \ {amount}. Balance:  \ {balance}\`;
             }
             return "Invalid amount";
         },
@@ -59563,7 +59563,7 @@ function createBankAccount(initialBalance) {
         withdraw: function(amount) {
             if (amount > 0 && amount <= balance) {
                 balance -= amount;
-                return \`Withdrew $\${amount}. Balance: $\${balance}\`;
+                return \`Withdrew  \ {amount}. Balance:  \ {balance}\`;
             }
             return "Invalid withdrawal";
         },
@@ -59575,7 +59575,7 @@ function createBankAccount(initialBalance) {
 }
 
 const account = createBankAccount(1000);
-console.log(account.deposit(500));   // Deposited $500. Balance: $1500
+console.log(account.deposit(500));   // Deposited  500. Balance:  1500
 console.log(account.getBalance());   // 1500
 // console.log(account.balance);     // undefined - truly private!
 
@@ -59661,8 +59661,8 @@ class SavingsAccount(BankAccount):
         return f"Interest added: {interest:.2f}"
 
 account = SavingsAccount("SA001", "John Doe", 1000, 2.5)
-print(account.deposit(500))        # Deposited $500. Balance: $1500
-print(account.add_interest())      # Interest added: $37.50`,
+print(account.deposit(500))        # Deposited  500. Balance:  1500
+print(account.add_interest())      # Interest added:  37.50`,
 
               `// JavaScript - Access Modifiers in Employee Management
 class Employee {
@@ -59711,7 +59711,7 @@ class Employee {
         
         if (this.#validateSalary(newSalary)) {
             this.#salary = newSalary;
-            return \`Salary updated to $\${newSalary}\`;
+            return \`Salary updated to  \ {newSalary}\`;
         }
         throw new Error("Invalid salary amount");
     }
@@ -59750,7 +59750,7 @@ class Manager extends Employee {
     
     promoteManager() {
         this._managementLevel = "Senior";
-        return \`Promoted to \${this._managementLevel} Manager\`;
+        return \`Promoted to \ {this._managementLevel} Manager\`;
     }
 }
 
@@ -60310,7 +60310,7 @@ class NotificationSender {
     
     // Concrete method - common functionality
     formatMessage(message, timestamp = new Date()) {
-        return \`[\${timestamp.toISOString()}] \${message}\`;
+        return \`[\ {timestamp.toISOString()}] \ {message}\`;
     }
 }
 
@@ -60326,20 +60326,20 @@ class EmailSender extends NotificationSender {
         }
         
         const formattedMessage = this.formatMessage(message);
-        console.log(\`📧 Sending email to \${recipient}\`);
-        console.log(\`Subject: \${subject}\`);
-        console.log(\`Message: \${formattedMessage}\`);
+        console.log(\`📧 Sending email to \ {recipient}\`);
+        console.log(\`Subject: \ {subject}\`);
+        console.log(\`Message: \ {formattedMessage}\`);
         
         // Simulate email sending
         return {
             success: true,
-            messageId: \`email_\${Date.now()}\`,
+            messageId: \`email_\ {Date.now()}\`,
             provider: 'email'
         };
     }
     
     validateRecipient(email) {
-        const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+        const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+ /;
         return emailRegex.test(email);
     }
 }
@@ -60357,19 +60357,19 @@ class SMSSender extends NotificationSender {
         }
         
         const formattedMessage = this.formatMessage(message);
-        console.log(\`📱 Sending SMS to \${recipient}\`);
-        console.log(\`Message: \${formattedMessage}\`);
+        console.log(\`📱 Sending SMS to \ {recipient}\`);
+        console.log(\`Message: \ {formattedMessage}\`);
         
         // Simulate SMS sending
         return {
             success: true,
-            messageId: \`sms_\${Date.now()}\`,
+            messageId: \`sms_\ {Date.now()}\`,
             provider: 'sms'
         };
     }
     
     validateRecipient(phone) {
-        const phoneRegex = /^\\+?[1-9]\\d{1,14}$/;
+        const phoneRegex = /^\\+?[1-9]\\d{1,14} /;
         return phoneRegex.test(phone.replace(/[\\s\\-\\(\\)]/g, ''));
     }
 }
@@ -60386,14 +60386,14 @@ class PushNotificationSender extends NotificationSender {
         }
         
         const formattedMessage = this.formatMessage(message);
-        console.log(\`🔔 Sending push notification to device \${recipient.substring(0, 10)}...\`);
-        console.log(\`Title: \${subject}\`);
-        console.log(\`Message: \${formattedMessage}\`);
+        console.log(\`🔔 Sending push notification to device \ {recipient.substring(0, 10)}...\`);
+        console.log(\`Title: \ {subject}\`);
+        console.log(\`Message: \ {formattedMessage}\`);
         
         // Simulate push notification
         return {
             success: true,
-            messageId: \`push_\${Date.now()}\`,
+            messageId: \`push_\ {Date.now()}\`,
             provider: 'push'
         };
     }
@@ -60419,15 +60419,15 @@ class NotificationService {
     async sendNotification(type, recipient, message, subject = null) {
         const sender = this.senders.get(type);
         if (!sender) {
-            throw new Error(\`No sender configured for type: \${type}\`);
+            throw new Error(\`No sender configured for type: \ {type}\`);
         }
         
         try {
             const result = sender.send(recipient, message, subject);
-            console.log(\`✅ Notification sent successfully via \${result.provider}\`);
+            console.log(\`✅ Notification sent successfully via \ {result.provider}\`);
             return result;
         } catch (error) {
-            console.error(\`❌ Failed to send notification: \${error.message}\`);
+            console.error(\`❌ Failed to send notification: \ {error.message}\`);
             throw error;
         }
     }
@@ -60467,7 +60467,7 @@ notificationService.addSender('push', new PushNotificationSender({
 
 // Send notifications through different channels
 async function sendWelcomeNotifications(user) {
-    const message = \`Welcome to our app, \${user.name}! Thanks for signing up.\`;
+    const message = \`Welcome to our app, \ {user.name}! Thanks for signing up.\`;
     
     const recipients = [
         ['email', user.email],
@@ -60534,8 +60534,8 @@ class FileStorage {
         const timestamp = Date.now();
         const random = Math.random().toString(36).substring(7);
         const extension = this.getFileExtension(originalName);
-        const nameWithoutExt = originalName.replace(/\\.[^/.]+$/, "");
-        return \`\${nameWithoutExt}_\${timestamp}_\${random}.\${extension}\`;
+        const nameWithoutExt = originalName.replace(/\\.[^/.]+ /, "");
+        return \`\ {nameWithoutExt}_\ {timestamp}_\ {random}.\ {extension}\`;
     }
 }
 
@@ -60547,8 +60547,8 @@ class LocalFileStorage extends FileStorage {
     }
     
     async upload(filePath, content) {
-        const fullPath = \`\${this.basePath}/\${filePath}\`;
-        console.log(\`💾 Uploading to local storage: \${fullPath}\`);
+        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
+        console.log(\`💾 Uploading to local storage: \ {fullPath}\`);
         
         // Simulate file writing
         return {
@@ -60560,8 +60560,8 @@ class LocalFileStorage extends FileStorage {
     }
     
     async download(filePath) {
-        const fullPath = \`\${this.basePath}/\${filePath}\`;
-        console.log(\`📁 Downloading from local storage: \${fullPath}\`);
+        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
+        console.log(\`📁 Downloading from local storage: \ {fullPath}\`);
         
         // Simulate file reading
         return {
@@ -60572,8 +60572,8 @@ class LocalFileStorage extends FileStorage {
     }
     
     async delete(filePath) {
-        const fullPath = \`\${this.basePath}/\${filePath}\`;
-        console.log(\`🗑️ Deleting from local storage: \${fullPath}\`);
+        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
+        console.log(\`🗑️ Deleting from local storage: \ {fullPath}\`);
         
         return {
             success: true,
@@ -60583,14 +60583,14 @@ class LocalFileStorage extends FileStorage {
     }
     
     async exists(filePath) {
-        const fullPath = \`\${this.basePath}/\${filePath}\`;
-        console.log(\`🔍 Checking existence in local storage: \${fullPath}\`);
+        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
+        console.log(\`🔍 Checking existence in local storage: \ {fullPath}\`);
         return true; // Simulate file exists
     }
     
     async listFiles(directory = '') {
-        const fullPath = \`\${this.basePath}/\${directory}\`;
-        console.log(\`📋 Listing files in local storage: \${fullPath}\`);
+        const fullPath = \`\ {this.basePath}/\ {directory}\`;
+        console.log(\`📋 Listing files in local storage: \ {fullPath}\`);
         
         return [
             'document1.pdf',
@@ -60610,34 +60610,34 @@ class CloudFileStorage extends FileStorage {
     }
     
     async upload(filePath, content) {
-        const key = \`uploads/\${filePath}\`;
-        console.log(\`☁️ Uploading to cloud storage: s3://\${this.bucketName}/\${key}\`);
+        const key = \`uploads/\ {filePath}\`;
+        console.log(\`☁️ Uploading to cloud storage: s3://\ {this.bucketName}/\ {key}\`);
         
         // Simulate S3 upload
         return {
             success: true,
             path: key,
-            url: \`https://\${this.bucketName}.s3.\${this.region}.amazonaws.com/\${key}\`,
+            url: \`https://\ {this.bucketName}.s3.\ {this.region}.amazonaws.com/\ {key}\`,
             size: content.length,
             provider: 'cloud'
         };
     }
     
     async download(filePath) {
-        const key = \`uploads/\${filePath}\`;
-        console.log(\`☁️ Downloading from cloud storage: s3://\${this.bucketName}/\${key}\`);
+        const key = \`uploads/\ {filePath}\`;
+        console.log(\`☁️ Downloading from cloud storage: s3://\ {this.bucketName}/\ {key}\`);
         
         return {
             content: "File content from cloud storage",
             path: key,
-            url: \`https://\${this.bucketName}.s3.\${this.region}.amazonaws.com/\${key}\`,
+            url: \`https://\ {this.bucketName}.s3.\ {this.region}.amazonaws.com/\ {key}\`,
             provider: 'cloud'
         };
     }
     
     async delete(filePath) {
-        const key = \`uploads/\${filePath}\`;
-        console.log(\`🗑️ Deleting from cloud storage: s3://\${this.bucketName}/\${key}\`);
+        const key = \`uploads/\ {filePath}\`;
+        console.log(\`🗑️ Deleting from cloud storage: s3://\ {this.bucketName}/\ {key}\`);
         
         return {
             success: true,
@@ -60647,14 +60647,14 @@ class CloudFileStorage extends FileStorage {
     }
     
     async exists(filePath) {
-        const key = \`uploads/\${filePath}\`;
-        console.log(\`🔍 Checking existence in cloud storage: s3://\${this.bucketName}/\${key}\`);
+        const key = \`uploads/\ {filePath}\`;
+        console.log(\`🔍 Checking existence in cloud storage: s3://\ {this.bucketName}/\ {key}\`);
         return true;
     }
     
     async listFiles(directory = '') {
-        const prefix = directory ? \`uploads/\${directory}/\` : 'uploads/';
-        console.log(\`📋 Listing files in cloud storage with prefix: \${prefix}\`);
+        const prefix = directory ? \`uploads/\ {directory}/\` : 'uploads/';
+        console.log(\`📋 Listing files in cloud storage with prefix: \ {prefix}\`);
         
         return [
             'uploads/documents/report.pdf',
@@ -60672,10 +60672,10 @@ class DatabaseFileStorage extends FileStorage {
     }
     
     async upload(filePath, content) {
-        console.log(\`🗄️ Storing file in database: \${filePath}\`);
+        console.log(\`🗄️ Storing file in database: \ {filePath}\`);
         
         // Simulate database storage
-        const fileId = \`db_file_\${Date.now()}\`;
+        const fileId = \`db_file_\ {Date.now()}\`;
         return {
             success: true,
             path: filePath,
@@ -60686,7 +60686,7 @@ class DatabaseFileStorage extends FileStorage {
     }
     
     async download(filePath) {
-        console.log(\`🗄️ Retrieving file from database: \${filePath}\`);
+        console.log(\`🗄️ Retrieving file from database: \ {filePath}\`);
         
         return {
             content: "File content from database",
@@ -60696,7 +60696,7 @@ class DatabaseFileStorage extends FileStorage {
     }
     
     async delete(filePath) {
-        console.log(\`🗑️ Deleting file from database: \${filePath}\`);
+        console.log(\`🗑️ Deleting file from database: \ {filePath}\`);
         
         return {
             success: true,
@@ -60706,12 +60706,12 @@ class DatabaseFileStorage extends FileStorage {
     }
     
     async exists(filePath) {
-        console.log(\`🔍 Checking file existence in database: \${filePath}\`);
+        console.log(\`🔍 Checking file existence in database: \ {filePath}\`);
         return true;
     }
     
     async listFiles(directory = '') {
-        console.log(\`📋 Listing files in database directory: \${directory}\`);
+        console.log(\`📋 Listing files in database directory: \ {directory}\`);
         
         return [
             'user_uploads/avatar.png',
@@ -60736,10 +60736,10 @@ class FileManager {
         
         try {
             const result = await this.storage.upload(finalFileName, content);
-            console.log(\`✅ File uploaded successfully: \${finalFileName}\`);
+            console.log(\`✅ File uploaded successfully: \ {finalFileName}\`);
             return result;
         } catch (error) {
-            console.error(\`❌ Upload failed: \${error.message}\`);
+            console.error(\`❌ Upload failed: \ {error.message}\`);
             throw error;
         }
     }
@@ -60747,10 +60747,10 @@ class FileManager {
     async downloadFile(fileName) {
         try {
             const result = await this.storage.download(fileName);
-            console.log(\`✅ File downloaded successfully: \${fileName}\`);
+            console.log(\`✅ File downloaded successfully: \ {fileName}\`);
             return result;
         } catch (error) {
-            console.error(\`❌ Download failed: \${error.message}\`);
+            console.error(\`❌ Download failed: \ {error.message}\`);
             throw error;
         }
     }
@@ -60758,15 +60758,15 @@ class FileManager {
     async deleteFile(fileName) {
         const exists = await this.storage.exists(fileName);
         if (!exists) {
-            throw new Error(\`File not found: \${fileName}\`);
+            throw new Error(\`File not found: \ {fileName}\`);
         }
         
         try {
             const result = await this.storage.delete(fileName);
-            console.log(\`✅ File deleted successfully: \${fileName}\`);
+            console.log(\`✅ File deleted successfully: \ {fileName}\`);
             return result;
         } catch (error) {
-            console.error(\`❌ Delete failed: \${error.message}\`);
+            console.error(\`❌ Delete failed: \ {error.message}\`);
             throw error;
         }
     }
@@ -60774,10 +60774,10 @@ class FileManager {
     async listAllFiles(directory = '') {
         try {
             const files = await this.storage.listFiles(directory);
-            console.log(\`✅ Listed \${files.length} files in directory: \${directory || 'root'}\`);
+            console.log(\`✅ Listed \ {files.length} files in directory: \ {directory || 'root'}\`);
             return files;
         } catch (error) {
-            console.error(\`❌ List files failed: \${error.message}\`);
+            console.error(\`❌ List files failed: \ {error.message}\`);
             throw error;
         }
     }
@@ -60802,7 +60802,7 @@ function createFileManager(storageType, config = {}) {
             storage = new DatabaseFileStorage(config.connectionString);
             break;
         default:
-            throw new Error(\`Unsupported storage type: \${storageType}\`);
+            throw new Error(\`Unsupported storage type: \ {storageType}\`);
     }
     
     return new FileManager(storage);
@@ -61052,7 +61052,7 @@ class Shape {
     
     // Concrete method - inherited by all subclasses
     displayInfo() {
-        return \`\${this.constructor.name}: Color=\${this.color}, Area=\${this.area().toFixed(2)}\`;
+        return \`\ {this.constructor.name}: Color=\ {this.color}, Area=\ {this.area().toFixed(2)}\`;
     }
 }
 
@@ -61392,7 +61392,7 @@ class Circle extends Shape {
     
     // Interface methods from IDrawable
     draw() {
-        return \`Drawing \${this.color} circle at (\${this.position.x}, \${this.position.y})\`;
+        return \`Drawing \ {this.color} circle at (\ {this.position.x}, \ {this.position.y})\`;
     }
     
     getArea() {
@@ -61402,12 +61402,12 @@ class Circle extends Shape {
     // Interface methods from IMovable
     move(x, y) {
         this.position = {x, y};
-        return \`Moved circle to (\${x}, \${y})\`;
+        return \`Moved circle to (\ {x}, \ {y})\`;
     }
     
     // Interface methods from ISerializable
     serialize() {
-        return \`Circle|\${this.color}|\${this.radius}|\${this.position.x}|\${this.position.y}\`;
+        return \`Circle|\ {this.color}|\ {this.radius}|\ {this.position.x}|\ {this.position.y}\`;
     }
     
     deserialize(data) {
@@ -61458,8 +61458,8 @@ console.log(circle.serialize());   // Circle|red|5|10|20
 
 // Polymorphic usage with "interfaces"
 function processDrawable(drawable) {
-    console.log(\`Processing: \${drawable.draw()}\`);
-    console.log(\`Area: \${drawable.getArea()}\`);
+    console.log(\`Processing: \ {drawable.draw()}\`);
+    console.log(\`Area: \ {drawable.getArea()}\`);
 }
 
 processDrawable(circle);`,
@@ -61679,7 +61679,7 @@ class Product {
     }
     
     displayInfo() {
-        return \`\${this.name} - $\${this.price} (\${this.category})\`;
+        return \`\ {this.name} -  \ {this.price} (\ {this.category})\`;
     }
     
     applyDiscount(percentage) {
@@ -61698,12 +61698,12 @@ class Electronics extends Product {
     
     displayInfo() {  // Method overriding
         const baseInfo = super.displayInfo();
-        return \`\${baseInfo} | Brand: \${this.brand} | Warranty: \${this.warrantyYears} years\`;
+        return \`\ {baseInfo} | Brand: \ {this.brand} | Warranty: \ {this.warrantyYears} years\`;
     }
     
     extendWarranty(additionalYears) {
         this.warrantyYears += additionalYears;
-        console.log(\`Warranty extended to \${this.warrantyYears} years\`);
+        console.log(\`Warranty extended to \ {this.warrantyYears} years\`);
     }
 }
 
@@ -61711,7 +61711,7 @@ class Electronics extends Product {
 const laptop = new Electronics("MacBook Pro", 1299, "Apple", 2);
 console.log(laptop.displayInfo());  // Uses overridden method
 laptop.applyDiscount(10);           // Uses inherited method
-console.log(\`After discount: $\${laptop.price}\`);
+console.log(\`After discount:  \ {laptop.price}\`);
 laptop.extendWarranty(1);           // Uses child-specific method
       </code></pre>
    </div>
@@ -61754,11 +61754,11 @@ class Animal {
     }
     
     makeSound() {
-        return \`\${this.name} makes a sound\`;
+        return \`\ {this.name} makes a sound\`;
     }
     
     sleep() {
-        return \`\${this.name} is sleeping\`;
+        return \`\ {this.name} is sleeping\`;
     }
 }
 
@@ -61769,11 +61769,11 @@ class Dog extends Animal {
     }
     
     makeSound() {  // Override
-        return \`\${this.name} barks: Woof!\`;
+        return \`\ {this.name} barks: Woof!\`;
     }
     
     fetch() {  // New method
-        return \`\${this.name} fetches the ball\`;
+        return \`\ {this.name} fetches the ball\`;
     }
 }
 
@@ -61898,11 +61898,11 @@ class SavingsAccount(BankAccount):
         super().__init__(account_number, account_holder, initial_balance)
         self.interest_rate = interest_rate
         self.account_type = "Savings"
-        self.minimum_balance = Decimal('100')  # $100 minimum
+        self.minimum_balance = Decimal('100')  #  100 minimum
     
     def withdraw(self, amount):  # Override parent method
         if self.balance - Decimal(str(amount)) < self.minimum_balance:
-            raise ValueError(f"Cannot withdraw. Minimum balance of ${self.minimum_balance} required")
+            raise ValueError(f"Cannot withdraw. Minimum balance of  {self.minimum_balance} required")
         return super().withdraw(amount)
     
     def calculate_interest(self):
@@ -61967,7 +61967,7 @@ class Person {
     }
     
     getFullName() {
-        return \`\${this.firstName} \${this.lastName}\`;
+        return \`\ {this.firstName} \ {this.lastName}\`;
     }
     
     getAge() {
@@ -61984,7 +61984,7 @@ class Person {
     
     updateEmail(newEmail) {
         this.email = newEmail;
-        console.log(\`Email updated to \${newEmail}\`);
+        console.log(\`Email updated to \ {newEmail}\`);
     }
     
     getBasicInfo() {
@@ -62020,7 +62020,7 @@ class Student extends Person {
             status: 'enrolled'
         };
         this.courses.push(course);
-        console.log(\`Enrolled in \${courseName} (\${courseCode})\`);
+        console.log(\`Enrolled in \ {courseName} (\ {courseCode})\`);
     }
     
     completeCourse(courseCode, grade) {
@@ -62030,9 +62030,9 @@ class Student extends Person {
             course.status = 'completed';
             this.creditsCompleted += course.credits;
             this.calculateGPA();
-            console.log(\`Completed \${course.name} with grade \${grade}\`);
+            console.log(\`Completed \ {course.name} with grade \ {grade}\`);
         } else {
-            console.log(\`Course \${courseCode} not found\`);
+            console.log(\`Course \ {courseCode} not found\`);
         }
     }
     
@@ -62100,23 +62100,23 @@ class GraduateStudent extends Student {
             primaryAuthor: this.getFullName()
         };
         this.researchPublications.push(publication);
-        console.log(\`Added publication: \${title}\`);
+        console.log(\`Added publication: \ {title}\`);
     }
     
     updateThesisStatus(newStatus) {
         const validStatuses = ["planning", "research", "writing", "review", "completed"];
         if (validStatuses.includes(newStatus)) {
             this.thesisStatus = newStatus;
-            console.log(\`Thesis status updated to: \${newStatus}\`);
+            console.log(\`Thesis status updated to: \ {newStatus}\`);
         } else {
-            console.log(\`Invalid status. Valid options: \${validStatuses.join(', ')}\`);
+            console.log(\`Invalid status. Valid options: \ {validStatuses.join(', ')}\`);
         }
     }
     
     scheduleDefense(defenseDate) {
         if (["writing", "review"].includes(this.thesisStatus)) {
             this.defenseDate = new Date(defenseDate);
-            console.log(\`Defense scheduled for \${this.defenseDate.toDateString()}\`);
+            console.log(\`Defense scheduled for \ {this.defenseDate.toDateString()}\`);
         } else {
             console.log("Cannot schedule defense. Thesis must be in writing or review stage.");
         }
@@ -62172,14 +62172,14 @@ const gradStudent = new GraduateStudent(
 
 // Using methods from all levels of inheritance
 console.log("=== Person Level Methods ===");
-console.log(\`Full Name: \${gradStudent.getFullName()}\`); // From Person
-console.log(\`Age: \${gradStudent.getAge()}\`); // From Person
+console.log(\`Full Name: \ {gradStudent.getFullName()}\`); // From Person
+console.log(\`Age: \ {gradStudent.getAge()}\`); // From Person
 
 console.log("\\n=== Student Level Methods ===");
 gradStudent.enrollCourse("CS701", "Advanced Algorithms", 3); // From Student
 gradStudent.enrollCourse("CS702", "Research Methods", 3); // From Student
 gradStudent.completeCourse("CS701", "A"); // From Student
-console.log(\`Current GPA: \${gradStudent.gpa}\`); // From Student
+console.log(\`Current GPA: \ {gradStudent.gpa}\`); // From Student
 
 console.log("\\n=== Graduate Student Level Methods ===");
 gradStudent.addPublication( // From GraduateStudent
@@ -62256,12 +62256,12 @@ class SavingsAccount extends BankAccount {
         super(accountNumber, accountHolder, initialBalance);
         this.interestRate = interestRate;
         this.accountType = "Savings";
-        this.minimumBalance = 100; // $100 minimum
+        this.minimumBalance = 100; //  100 minimum
     }
     
     withdraw(amount) { // Override parent method
         if (this.balance - amount < this.minimumBalance) {
-            throw new Error(\`Cannot withdraw. Minimum balance of $\${this.minimumBalance} required\`);
+            throw new Error(\`Cannot withdraw. Minimum balance of  \ {this.minimumBalance} required\`);
         }
         return super.withdraw(amount);
     }
@@ -62362,16 +62362,16 @@ class Vehicle {
     
     start() {
         this.isRunning = true;
-        return \`\${this.make} \${this.model} started\`;
+        return \`\ {this.make} \ {this.model} started\`;
     }
     
     stop() {
         this.isRunning = false;
-        return \`\${this.make} \${this.model} stopped\`;
+        return \`\ {this.make} \ {this.model} stopped\`;
     }
     
     getInfo() {
-        return \`\${this.year} \${this.make} \${this.model}\`;
+        return \`\ {this.year} \ {this.make} \ {this.model}\`;
     }
 }
 
@@ -62385,12 +62385,12 @@ class ElectricCar extends Vehicle {
     charge(hours) {
         const chargeAdded = Math.min(hours * 10, 100 - this.chargeLevel);
         this.chargeLevel += chargeAdded;
-        return \`Charged for \${hours} hours. Battery at \${this.chargeLevel}%\`;
+        return \`Charged for \ {hours} hours. Battery at \ {this.chargeLevel}%\`;
     }
     
     getInfo() {
         const baseInfo = super.getInfo();
-        return \`\${baseInfo} - Battery: \${this.batteryCapacity}kWh\`;
+        return \`\ {baseInfo} - Battery: \ {this.batteryCapacity}kWh\`;
     }
 }
 
@@ -62741,13 +62741,13 @@ class Vehicle {
     
     start() {
         this.isRunning = true;
-        console.log(\`\${this.make} \${this.model} started\`);
+        console.log(\`\ {this.make} \ {this.model} started\`);
     }
     
     drive(miles) {
         if (this.isRunning) {
             this.mileage += miles;
-            console.log(\`Drove \${miles} miles. Total: \${this.mileage}\`);
+            console.log(\`Drove \ {miles} miles. Total: \ {this.mileage}\`);
         }
     }
 }
@@ -62762,7 +62762,7 @@ class Car extends Vehicle {
     
     refuel(amount) {
         this.fuelLevel = Math.min(this.fuelLevel + amount, 100);
-        console.log(\`Refueled. Fuel level: \${this.fuelLevel}%\`);
+        console.log(\`Refueled. Fuel level: \ {this.fuelLevel}%\`);
     }
 }
 
@@ -62776,13 +62776,13 @@ class ElectricCar extends Car { // Multilevel: Vehicle -> Car -> ElectricCar
     charge(hours) {
         const chargeAdded = Math.min(hours * 20, 100 - this.chargeLevel);
         this.chargeLevel += chargeAdded;
-        console.log(\`Charged \${hours}h. Battery: \${this.chargeLevel}%\`);
+        console.log(\`Charged \ {hours}h. Battery: \ {this.chargeLevel}%\`);
     }
     
     drive(miles) {
         super.drive(miles); // Call parent's drive method
         this.chargeLevel -= miles * 0.5; // Electric cars use charge
-        console.log(\`Battery level: \${this.chargeLevel}%\`);
+        console.log(\`Battery level: \ {this.chargeLevel}%\`);
     }
 }
 
@@ -62889,7 +62889,7 @@ tesla.charge(2);   // From ElectricCar`,
         self.price = price
 
     def get_info(self):
-        return f"{self.title} (${self.price}) - SKU:{self.sku}"
+        return f"{self.title} ( {self.price}) - SKU:{self.sku}"
 
 
 class PhysicalProduct(Product):
@@ -62935,7 +62935,7 @@ if __name__ == "__main__":
     this.price = price;
   }
   getInfo() {
-    return \`\${this.title} ($\${this.price}) - SKU:\${this.sku}\`;
+    return \`\ {this.title} ( \ {this.price}) - SKU:\ {this.sku}\`;
   }
 }
 
@@ -62945,7 +62945,7 @@ class PhysicalProduct extends Product {
     this.weightKg = weightKg;
   }
   ship() {
-    return \`Shipping \${this.title} with weight \${this.weightKg} kg\`;
+    return \`Shipping \ {this.title} with weight \ {this.weightKg} kg\`;
   }
 }
 
@@ -62955,7 +62955,7 @@ class DigitalProduct extends Product {
     this.fileSizeMb = fileSizeMb;
   }
   download() {
-    return \`Downloading \${this.title} (\${this.fileSizeMb} MB)\`;
+    return \`Downloading \ {this.title} (\ {this.fileSizeMb} MB)\`;
   }
 }
 
@@ -62965,7 +62965,7 @@ class SubscriptionProduct extends Product {
     this.cycleDays = cycleDays;
   }
   renew() {
-    return \`Renewing \${this.title} every \${this.cycleDays} days\`;
+    return \`Renewing \ {this.title} every \ {this.cycleDays} days\`;
   }
 }
 
@@ -63396,7 +63396,7 @@ class Vehicle {
     this.speed = speed;
   }
   drive() {
-    return \`\${this.brand} running at \${this.speed} km/h\`;
+    return \`\ {this.brand} running at \ {this.speed} km/h\`;
   }
 }
 
@@ -63409,7 +63409,7 @@ class ElectricCar extends Vehicle {
   // overriding
   drive() {
     const base = super.drive(); // reuse parent logic
-    return \`\${base} | battery \${this.batteryKwh} kWh\`;
+    return \`\ {base} | battery \ {this.batteryKwh} kWh\`;
   }
 }
 
@@ -63625,162 +63625,10556 @@ console.log(r.toString(), "next:", r.nextOccurrence().toDateString());`,
             ],
           },
           {
-            topic: "Polymorphism Runtime (Method Overriding)",
-            tags: [
-              "polymorphism",
-              "inheritance",
-              "method-overriding",
-              "runtime",
-              "oop",
-            ],
+            topic: "Polymorphism Overview",
+            tags: ["polymorphism", "oop", "inheritance"],
             explanation: `<div>
-  <h3 style="margin-top: 1.5rem; font-size: 1.4rem; font-weight: 600; letter-spacing: -0.025em;">
-    What is Runtime Polymorphism (Method Overriding)?
-  </h3>
-  <p style="line-height: 1.75;">
-    Runtime polymorphism, also called <strong>dynamic polymorphism</strong> or <strong>method overriding</strong>, occurs when a subclass provides a <strong>specialized implementation</strong> of a method that is already defined in its superclass.  
-    At <em>runtime</em>, the JVM (Java) / Python interpreter / JavaScript engine decides which implementation to execute based on the <strong>actual object type</strong>, <em>not</em> the reference type.  
-    This enables <strong>late binding</strong> or <strong>dynamic dispatch</strong>, allowing the same method call to behave differently for different object types.
-  </p>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Polymorphism is one of the four fundamental principles of Object-Oriented Programming (OOP), alongside encapsulation, inheritance, and abstraction. The word "polymorphism" comes from Greek, meaning "many forms." In programming, it allows objects of different types to be treated as instances of the same type through a common interface.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Polymorphism?
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Polymorphism enables a single interface to represent different underlying forms (data types). It allows you to write more flexible and reusable code by letting the same code work with objects of different types, as long as they adhere to the same interface or base class.
+   </p>
 
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Rules / Characteristics
-  </h4>
-  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li><strong>Same signature:</strong> method name, parameters, and return type must match exactly.</li>
-    <li><strong>Inheritance required:</strong> overriding happens only between superclass and subclass.</li>
-    <li><strong>Access level:</strong> subclass method cannot be more restrictive (e.g., can’t go from <code>public</code> → <code>private</code>).</li>
-    <li><strong>Dynamic binding:</strong> method to execute is chosen at runtime based on actual object.</li>
-    <li><strong>super/Extends:</strong> subclass can still call the parent version via <code>super.method()</code> (JS/TS) or <code>super()</code> (Python).</li>
-  </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Polymorphism
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Compile-time Polymorphism (Static):</span> Method overloading and operator overloading
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Runtime Polymorphism (Dynamic):</span> Method overriding and dynamic method dispatch
+     </li>
+   </ol>
 
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Real-World Use-Case
-  </h4>
-  <p style="line-height: 1.75;">
-    Imagine a payment processing system. You have a generic <code>Payment</code> class with a <code>process()</code> method.  
-    Concrete subclasses like <code>CreditCardPayment</code>, <code>PayPalPayment</code>, and <code>CryptoPayment</code> each override <code>process()</code> to implement their own validation, gateway calls, and logging.  
-    At runtime, the system loops over a list of <code>Payment</code> objects and calls <code>process()</code>; the correct implementation is chosen automatically.
-  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Polymorphism
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Code reusability and maintainability</li>
+     <li style="margin-top: 0.5rem;">Flexibility in adding new types without modifying existing code</li>
+     <li style="margin-top: 0.5rem;">Loose coupling between components</li>
+     <li style="margin-top: 0.5rem;">Implementation of design patterns like Strategy and Factory</li>
+   </ul>
 </div>`,
             examples: [
-              `## Python Example – Method Overriding
-
-\`\`\`python
-from abc import ABC, abstractmethod
-
-class Payment(ABC):
-    def __init__(self, amount):
-        self.amount = amount
-
-    @abstractmethod
-    def process(self):
+              `# Python - Basic Polymorphism Example
+class Animal:
+    def make_sound(self):
         pass
 
-class CreditCardPayment(Payment):
-    def __init__(self, amount, card_number):
-        super().__init__(amount)
-        self.card_number = card_number
+class Dog(Animal):
+    def make_sound(self):
+        return "Woof!"
 
-    # overriding
-    def process(self):
-        print(f"Processing {self.amount} via Credit Card ending {self.card_number[-4:]}")
+class Cat(Animal):
+    def make_sound(self):
+        return "Meow!"
 
-class PayPalPayment(Payment):
-    def __init__(self, amount, email):
-        super().__init__(amount)
-        self.email = email
+# Polymorphic function
+def animal_sound(animal):
+    return animal.make_sound()
 
-    # overriding
-    def process(self):
-        print(f"Processing {self.amount} via PayPal account {self.email}")
-
-# runtime polymorphism in action
-payments = [
-    CreditCardPayment(99.99, "4111111111111111"),
-    PayPalPayment(49.99, "alice@example.com")
-]
-
-for p in payments:
-    p.process()  # dynamic dispatch
-\`\`\`
-
-#### Output
-\`\`\`
-Processing $99.99 via Credit Card ending 1111
-Processing $49.99 via PayPal account alice@example.com
-\`\`\``,
-              `## JavaScript / TypeScript Example Method Overriding
-
-\`\`\`javascript
-class Payment {
-  constructor(amount) {
-    this.amount = amount;
-  }
-  process() {
-    throw new Error("process() must be overridden");
-  }
+# Usage
+dog = Dog()
+cat = Cat()
+print(animal_sound(dog))  # Output: Woof!
+print(animal_sound(cat))  # Output: Meow!`,
+              `// JavaScript - Basic Polymorphism Example
+class Animal {
+    makeSound() {
+        throw new Error("makeSound method must be implemented");
+    }
 }
 
-class CreditCardPayment extends Payment {
-  constructor(amount, cardNumber) {
-    super(amount);
-    this.cardNumber = cardNumber;
-  }
-  // overriding
-  process() {
-    console.log(
-      \`Processing $ {
-        this.amount
-      } via Credit Card ending {this.cardNumber.slice(-4)}\`
-    );
-  }
+class Dog extends Animal {
+    makeSound() {
+        return "Woof!";
+    }
 }
 
-class PayPalPayment extends Payment {
-  constructor(amount, email) {
-    super(amount);
-    this.email = email;
-  }
-  // overriding
-  process() {
-    console.log(\`Processing $ {this.amount} via PayPal account {
-                this.email
-              }\`);
-  }
+class Cat extends Animal {
+    makeSound() {
+        return "Meow!";
+    }
 }
 
-// runtime polymorphism in action
-const payments = [
-  new CreditCardPayment(99.99, "4111111111111111"),
-  new PayPalPayment(49.99, "alice@example.com")
-];
+// Polymorphic function
+function animalSound(animal) {
+    return animal.makeSound();
+}
 
-payments.forEach((p) => p.process()); // dynamic dispatch
-\`\`\`
+// Usage
+const dog = new Dog();
+const cat = new Cat();
+console.log(animalSound(dog)); // Output: Woof!
+console.log(animalSound(cat)); // Output: Meow!`,
+            ],
+            questions: [
+              {
+                question: "What is the main advantage of polymorphism in OOP?",
+                solution:
+                  "<p>The main advantage of polymorphism is that it allows you to write more flexible and maintainable code. You can treat objects of different classes uniformly through a common interface, making your code less dependent on specific implementations. This enables you to add new types without modifying existing code, following the Open-Closed Principle.</p>",
+              },
+              {
+                question: "How does polymorphism relate to inheritance?",
+                solution:
+                  "<p>Polymorphism and inheritance work together closely. Inheritance allows you to create a hierarchy of classes with shared interfaces, while polymorphism allows you to treat objects of different derived classes as instances of their base class. This combination enables dynamic method dispatch and method overriding.</p>",
+              },
+            ],
+            links: [
+              "https://en.wikipedia.org/wiki/Polymorphism_(computer_science)",
+              "https://refactoring.guru/design-patterns/strategy",
+              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+            ],
+          },
+          {
+            topic: "Compile-time Polymorphism (Method Overloading)",
+            tags: ["method-overloading", "compile-time", "static-polymorphism"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Compile-time polymorphism, also known as static polymorphism, is resolved during compilation. Method overloading is the most common form, where multiple methods share the same name but have different parameter lists (different number, types, or order of parameters).
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Method Overloading
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Method overloading allows you to define multiple methods with the same name but different signatures. The compiler determines which method to call based on the arguments passed at compile time.
+   </p>
 
-#### Output
-\`\`\`
-Processing $99.99 via Credit Card ending 1111
-Processing $49.99 via PayPal account alice@example.com
-\`\`\``,
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Language Differences
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Python:</span> Doesn't support traditional method overloading, but we can simulate it using default parameters, *args, **kwargs, or functools.singledispatch</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">JavaScript:</span> Doesn't support traditional method overloading, but we can simulate it by checking arguments</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Mathematical operations with different parameter types</li>
+     <li style="margin-top: 0.5rem;">Constructor overloading for different initialization methods</li>
+     <li style="margin-top: 0.5rem;">Utility functions that can handle various input formats</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python - Method Overloading Simulation
+from functools import singledispatch
+
+class Calculator:
+    def add(self, a, b=None, c=None):
+        """Simulate method overloading with default parameters"""
+        if c is not None:
+            return a + b + c
+        elif b is not None:
+            return a + b
+        else:
+            return a
+    
+    def multiply(self, *args):
+        """Simulate method overloading with *args"""
+        if len(args) == 1:
+            return args[0]
+        elif len(args) == 2:
+            return args[0] * args[1]
+        elif len(args) == 3:
+            return args[0] * args[1] * args[2]
+        else:
+            result = 1
+            for num in args:
+                result *= num
+            return result
+
+# Using singledispatch for type-based overloading
+@singledispatch
+def process_data(data):
+    """Default implementation"""
+    return f"Processing unknown data type: {type(data)}"
+
+@process_data.register
+def _(data: int):
+    return f"Processing integer: {data * 2}"
+
+@process_data.register
+def _(data: str):
+    return f"Processing string: {data.upper()}"
+
+@process_data.register
+def _(data: list):
+    return f"Processing list of {len(data)} items"
+
+# Usage
+calc = Calculator()
+print(calc.add(5))          # Output: 5
+print(calc.add(5, 3))       # Output: 8
+print(calc.add(5, 3, 2))    # Output: 10
+
+print(calc.multiply(5))         # Output: 5
+print(calc.multiply(5, 3))      # Output: 15
+print(calc.multiply(5, 3, 2))   # Output: 30
+
+print(process_data(10))         # Output: Processing integer: 20
+print(process_data("hello"))    # Output: Processing string: HELLO
+print(process_data([1, 2, 3]))  # Output: Processing list of 3 items`,
+              `// JavaScript - Method Overloading Simulation
+class Calculator {
+    add(...args) {
+        // Simulate method overloading by checking arguments
+        switch (args.length) {
+            case 1:
+                return args[0];
+            case 2:
+                return args[0] + args[1];
+            case 3:
+                return args[0] + args[1] + args[2];
+            default:
+                return args.reduce((sum, num) => sum + num, 0);
+        }
+    }
+    
+    multiply(...args) {
+        if (args.length === 0) return 0;
+        return args.reduce((product, num) => product * num, 1);
+    }
+    
+    // Method overloading based on argument types
+    process(data) {
+        if (typeof data === 'number') {
+            return this.processNumber(data);
+        } else if (typeof data === 'string') {
+            return this.processString(data);
+        } else if (Array.isArray(data)) {
+            return this.processArray(data);
+        } else {
+            return "Unknown data type";
+        }
+    }
+    
+    processNumber(num) {
+        return num * 2;
+    }
+    
+    processString(str) {
+        return str.toUpperCase();
+    }
+    
+    processArray(arr) {
+        return \`Array with \ {arr.length} elements\`;
+    }
+}
+
+// Advanced method overloading with parameter validation
+class Shape {
+    static create(...args) {
+        if (args.length === 1 && typeof args[0] === 'number') {
+            // Circle with radius
+            return new Circle(args[0]);
+        } else if (args.length === 2 && args.every(arg => typeof arg === 'number')) {
+            // Rectangle with width and height
+            return new Rectangle(args[0], args[1]);
+        } else if (args.length === 3 && args.every(arg => typeof arg === 'number')) {
+            // Triangle with three sides
+            return new Triangle(args[0], args[1], args[2]);
+        } else {
+            throw new Error("Invalid arguments for shape creation");
+        }
+    }
+}
+
+class Circle {
+    constructor(radius) {
+        this.radius = radius;
+    }
+    
+    area() {
+        return Math.PI * this.radius * this.radius;
+    }
+}
+
+class Rectangle {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+    
+    area() {
+        return this.width * this.height;
+    }
+}
+
+class Triangle {
+    constructor(a, b, c) {
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    
+    area() {
+        const s = (this.a + this.b + this.c) / 2;
+        return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+    }
+}
+
+// Usage
+const calc = new Calculator();
+console.log(calc.add(5));           // Output: 5
+console.log(calc.add(5, 3));        // Output: 8
+console.log(calc.add(5, 3, 2));     // Output: 10
+
+console.log(calc.multiply(5));      // Output: 5
+console.log(calc.multiply(5, 3));   // Output: 15
+console.log(calc.multiply(5, 3, 2)); // Output: 30
+
+console.log(calc.process(10));      // Output: 20
+console.log(calc.process("hello")); // Output: HELLO
+console.log(calc.process([1, 2, 3])); // Output: Array with 3 elements
+
+// Shape creation with overloaded constructor
+const circle = Shape.create(5);        // Circle with radius 5
+const rectangle = Shape.create(4, 6);  // Rectangle 4x6
+const triangle = Shape.create(3, 4, 5); // Triangle with sides 3, 4, 5
+
+console.log(circle.area());     // Output: ~78.54
+console.log(rectangle.area());  // Output: 24
+console.log(triangle.area());   // Output: 6`,
             ],
             questions: [
               {
                 question:
-                  "How does the runtime decide which overridden method to execute?",
-                solution: `<p>The runtime uses <strong>dynamic dispatch</strong>. It inspects the <em>actual object type</em> stored in the reference variable, then looks up the method in that object’s virtual method table (Java) or prototype chain (JS) / method resolution order (Python). The first matching method found is executed, which is always the most derived (subclass) version.</p>`,
+                  "Why don't Python and JavaScript support traditional method overloading?",
+                solution:
+                  "<p>Python and JavaScript don't support traditional method overloading because they are dynamically typed languages where function names are treated as variables. When you define multiple functions with the same name, the last definition overwrites the previous ones. Instead, these languages provide alternative mechanisms like default parameters, variable arguments (*args, **kwargs in Python), and argument checking to achieve similar functionality.</p>",
               },
               {
                 question:
-                  "Can we override a private method in Java or Python? Why or why not?",
-                solution: `<p><strong>No.</strong> Private methods are not inherited; they are invisible to subclasses. Because they’re not part of the subclass, attempting to override them actually creates a <em>new</em> method with the same name, unrelated to the superclass one. Thus, no polymorphic behavior occurs.</p>`,
+                  "What's the difference between method overloading and method overriding?",
+                solution:
+                  "<p>Method overloading occurs when multiple methods have the same name but different parameter lists within the same class (compile-time polymorphism). Method overriding occurs when a subclass provides a specific implementation of a method that is already defined in its parent class (runtime polymorphism). Overloading is resolved at compile time, while overriding is resolved at runtime.</p>",
               },
             ],
             links: [
-              "https://docs.python.org/3/tutorial/classes.html#inheritance",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#sub_classing_with_extends",
+              "https://docs.python.org/3/library/functools.html#functools.singledispatch",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters",
+              "https://realpython.com/python-method-overloading/",
+            ],
+          },
+          {
+            topic: "Runtime Polymorphism (Method Overriding)",
+            tags: [
+              "method-overriding",
+              "runtime",
+              "dynamic-polymorphism",
+              "inheritance",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Runtime polymorphism, also known as dynamic polymorphism, occurs when a subclass provides a specific implementation of a method that is already defined in its parent class. The decision of which method to call is made at runtime based on the actual type of the object, not the reference type.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Method Overriding
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Method overriding allows a subclass to provide a different implementation of a method that is already defined in its parent class. The overridden method in the subclass must have the same name, return type, and parameters as the method in the parent class.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Resolved at runtime (dynamic binding)</li>
+     <li style="margin-top: 0.5rem;">Requires inheritance relationship</li>
+     <li style="margin-top: 0.5rem;">Method signature must match exactly</li>
+     <li style="margin-top: 0.5rem;">Enables late binding and virtual method calls</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Rules for Method Overriding
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">The method must have the same name as in the parent class</li>
+     <li style="margin-top: 0.5rem;">The method must have the same parameter list</li>
+     <li style="margin-top: 0.5rem;">There must be an inheritance relationship</li>
+     <li style="margin-top: 0.5rem;">The method cannot be static, final, or private (in languages that support these)</li>
+     <li style="margin-top: 0.5rem;">The access modifier cannot be more restrictive</li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Implementing specific behavior in subclasses</li>
+     <li style="margin-top: 0.5rem;">Framework and library design patterns</li>
+     <li style="margin-top: 0.5rem;">Template method pattern implementation</li>
+     <li style="margin-top: 0.5rem;">Strategy pattern with inheritance</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python - Method Overriding Examples
+from abc import ABC, abstractmethod
+
+class Vehicle(ABC):
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+    
+    @abstractmethod
+    def start_engine(self):
+        """Abstract method - must be implemented by subclasses"""
+        pass
+    
+    def display_info(self):
+        """Common method that can be overridden"""
+        return f"{self.brand} {self.model}"
+    
+    def stop_engine(self):
+        """Default implementation"""
+        return "Engine stopped"
+
+class Car(Vehicle):
+    def __init__(self, brand, model, doors):
+        super().__init__(brand, model)
+        self.doors = doors
+    
+    def start_engine(self):
+        """Override abstract method"""
+        return f"{self.brand} car engine started with key"
+    
+    def display_info(self):
+        """Override parent method"""
+        parent_info = super().display_info()
+        return f"{parent_info} - {self.doors} doors"
+
+class Motorcycle(Vehicle):
+    def __init__(self, brand, model, engine_size):
+        super().__init__(brand, model)
+        self.engine_size = engine_size
+    
+    def start_engine(self):
+        """Override abstract method"""
+        return f"{self.brand} motorcycle engine started with button"
+    
+    def display_info(self):
+        """Override parent method"""
+        parent_info = super().display_info()
+        return f"{parent_info} - {self.engine_size}cc"
+
+class ElectricCar(Car):
+    def __init__(self, brand, model, doors, battery_capacity):
+        super().__init__(brand, model, doors)
+        self.battery_capacity = battery_capacity
+    
+    def start_engine(self):
+        """Override parent method"""
+        return f"{self.brand} electric car powered on silently"
+    
+    def stop_engine(self):
+        """Override grandparent method"""
+        return "Electric motor powered off"
+
+# Polymorphic function
+def test_vehicle(vehicle):
+    print(f"Vehicle Info: {vehicle.display_info()}")
+    print(f"Start: {vehicle.start_engine()}")
+    print(f"Stop: {vehicle.stop_engine()}")
+    print("-" * 40)
+
+# Usage demonstrating runtime polymorphism
+vehicles = [
+    Car("Toyota", "Camry", 4),
+    Motorcycle("Harley", "Davidson", 1200),
+    ElectricCar("Tesla", "Model 3", 4, 75)
+]
+
+for vehicle in vehicles:
+    test_vehicle(vehicle)
+
+# Another example with shapes
+class Shape(ABC):
+    @abstractmethod
+    def area(self):
+        pass
+    
+    @abstractmethod
+    def perimeter(self):
+        pass
+    
+    def description(self):
+        return f"This is a {self.__class__.__name__}"
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def area(self):
+        return self.width * self.height
+    
+    def perimeter(self):
+        return 2 * (self.width + self.height)
+    
+    def description(self):
+        return f"Rectangle with width {self.width} and height {self.height}"
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def area(self):
+        return 3.14159 * self.radius ** 2
+    
+    def perimeter(self):
+        return 2 * 3.14159 * self.radius
+    
+    def description(self):
+        return f"Circle with radius {self.radius}"
+
+def shape_info(shape):
+    print(shape.description())
+    print(f"Area: {shape.area():.2f}")
+    print(f"Perimeter: {shape.perimeter():.2f}")
+    print("-" * 30)
+
+# Runtime polymorphism with shapes
+shapes = [
+    Rectangle(5, 3),
+    Circle(4),
+    Rectangle(10, 2)
+]
+
+for shape in shapes:
+    shape_info(shape)`,
+              `// JavaScript - Method Overriding Examples
+class Vehicle {
+    constructor(brand, model) {
+        this.brand = brand;
+        this.model = model;
+    }
+    
+    startEngine() {
+        // Default implementation
+        return \`\ {this.brand} vehicle engine started\`;
+    }
+    
+    displayInfo() {
+        return \`\ {this.brand} \ {this.model}\`;
+    }
+    
+    stopEngine() {
+        return "Engine stopped";
+    }
+}
+
+class Car extends Vehicle {
+    constructor(brand, model, doors) {
+        super(brand, model);
+        this.doors = doors;
+    }
+    
+    startEngine() {
+        // Override parent method
+        return \`\ {this.brand} car engine started with key\`;
+    }
+    
+    displayInfo() {
+        // Override parent method
+        const parentInfo = super.displayInfo();
+        return \`\ {parentInfo} - \ {this.doors} doors\`;
+    }
+}
+
+class Motorcycle extends Vehicle {
+    constructor(brand, model, engineSize) {
+        super(brand, model);
+        this.engineSize = engineSize;
+    }
+    
+    startEngine() {
+        // Override parent method
+        return \`\ {this.brand} motorcycle engine started with button\`;
+    }
+    
+    displayInfo() {
+        // Override parent method
+        const parentInfo = super.displayInfo();
+        return \`\ {parentInfo} - \ {this.engineSize}cc\`;
+    }
+}
+
+class ElectricCar extends Car {
+    constructor(brand, model, doors, batteryCapacity) {
+        super(brand, model, doors);
+        this.batteryCapacity = batteryCapacity;
+    }
+    
+    startEngine() {
+        // Override parent method
+        return \`\ {this.brand} electric car powered on silently\`;
+    }
+    
+    stopEngine() {
+        // Override grandparent method
+        return "Electric motor powered off";
+    }
+    
+    displayInfo() {
+        const parentInfo = super.displayInfo();
+        return \`\ {parentInfo} - \ {this.batteryCapacity}kWh battery\`;
+    }
+}
+
+// Polymorphic function
+function testVehicle(vehicle) {
+    console.log(\`Vehicle Info: \ {vehicle.displayInfo()}\`);
+    console.log(\`Start: \ {vehicle.startEngine()}\`);
+    console.log(\`Stop: \ {vehicle.stopEngine()}\`);
+    console.log("-".repeat(40));
+}
+
+// Usage demonstrating runtime polymorphism
+const vehicles = [
+    new Car("Toyota", "Camry", 4),
+    new Motorcycle("Harley", "Davidson", 1200),
+    new ElectricCar("Tesla", "Model 3", 4, 75)
+];
+
+vehicles.forEach(vehicle => testVehicle(vehicle));
+
+// Another example with abstract-like behavior
+class Shape {
+    constructor() {
+        if (this.constructor === Shape) {
+            throw new Error("Abstract class cannot be instantiated");
+        }
+    }
+    
+    area() {
+        throw new Error("area method must be implemented");
+    }
+    
+    perimeter() {
+        throw new Error("perimeter method must be implemented");
+    }
+    
+    description() {
+        return \`This is a \ {this.constructor.name}\`;
+    }
+}
+
+class Rectangle extends Shape {
+    constructor(width, height) {
+        super();
+        this.width = width;
+        this.height = height;
+    }
+    
+    area() {
+        return this.width * this.height;
+    }
+    
+    perimeter() {
+        return 2 * (this.width + this.height);
+    }
+    
+    description() {
+        return \`Rectangle with width \ {this.width} and height \ {this.height}\`;
+    }
+}
+
+class Circle extends Shape {
+    constructor(radius) {
+        super();
+        this.radius = radius;
+    }
+    
+    area() {
+        return Math.PI * this.radius ** 2;
+    }
+    
+    perimeter() {
+        return 2 * Math.PI * this.radius;
+    }
+    
+    description() {
+        return \`Circle with radius \ {this.radius}\`;
+    }
+}
+
+class Triangle extends Shape {
+    constructor(a, b, c) {
+        super();
+        this.a = a;
+        this.b = b;
+        this.c = c;
+    }
+    
+    area() {
+        const s = (this.a + this.b + this.c) / 2;
+        return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+    }
+    
+    perimeter() {
+        return this.a + this.b + this.c;
+    }
+    
+    description() {
+        return \`Triangle with sides \ {this.a}, \ {this.b}, \ {this.c}\`;
+    }
+}
+
+function shapeInfo(shape) {
+    console.log(shape.description());
+    console.log(\`Area: \ {shape.area().toFixed(2)}\`);
+    console.log(\`Perimeter: \ {shape.perimeter().toFixed(2)}\`);
+    console.log("-".repeat(30));
+}
+
+// Runtime polymorphism with shapes
+const shapes = [
+    new Rectangle(5, 3),
+    new Circle(4),
+    new Triangle(3, 4, 5)
+];
+
+shapes.forEach(shape => shapeInfo(shape));
+
+// Example with method chaining and polymorphism
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    speak() {
+        return \`\ {this.name} makes a sound\`;
+    }
+    
+    move() {
+        return \`\ {this.name} moves\`;
+    }
+    
+    introduce() {
+        return \`\ {this.speak()}. \ {this.move()}.\`;
+    }
+}
+
+class Dog extends Animal {
+    speak() {
+        return \`\ {this.name} barks\`;
+    }
+    
+    move() {
+        return \`\ {this.name} runs on four legs\`;
+    }
+}
+
+class Bird extends Animal {
+    speak() {
+        return \`\ {this.name} chirps\`;
+    }
+    
+    move() {
+        return \`\ {this.name} flies in the sky\`;
+    }
+}
+
+const animals = [
+    new Dog("Rex"),
+    new Bird("Tweety"),
+    new Animal("Generic")
+];
+
+animals.forEach(animal => {
+    console.log(animal.introduce());
+});`,
+            ],
+            questions: [
+              {
+                question:
+                  "What happens during runtime polymorphism when a method is called?",
+                solution:
+                  "<p>During runtime polymorphism, when a method is called on an object, the runtime environment determines the actual type of the object (not the reference type) and calls the appropriate overridden method. This process is called dynamic method dispatch or late binding. The decision is made at runtime based on the object's actual class, enabling the same interface to exhibit different behaviors depending on the implementing class.</p>",
+              },
+              {
+                question: "Can you override static methods?",
+                solution:
+                  "<p>In most object-oriented languages, you cannot override static methods in the traditional sense because static methods belong to the class, not to instances. However, you can 'hide' a static method by defining another static method with the same signature in a subclass. The method that gets called depends on the class used to invoke it, not on runtime polymorphism. This is called method hiding, not method overriding.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/abc.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+              "https://refactoring.guru/design-patterns/template-method",
+            ],
+          },
+          {
+            topic: "Operator Overloading",
+            tags: ["operator-overloading", "magic-methods", "dunder-methods"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Operator overloading is a form of polymorphism that allows developers to define custom behavior for operators (like +, -, *, ==, etc.) when used with user-defined classes. This makes custom objects behave more naturally and intuitively, similar to built-in types.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Operator Overloading?
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Operator overloading allows you to define the meaning of operators for your custom classes. For example, you can define what happens when you add two instances of your class using the + operator, or compare them using ==.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Language Support
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Python:</span> Full support through magic methods (dunder methods)</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">JavaScript:</span> Limited support; can override some behaviors through Symbol methods and prototypes</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Overloadable Operators
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Arithmetic: +, -, *, /, //, %, **</li>
+     <li style="margin-top: 0.5rem;">Comparison: ==, !=, <, >, <=, >=</li>
+     <li style="margin-top: 0.5rem;">Unary: +, -, ~</li>
+     <li style="margin-top: 0.5rem;">Bitwise: &, |, ^, <<, >></li>
+     <li style="margin-top: 0.5rem;">Assignment: +=, -=, *=, /=</li>
+     <li style="margin-top: 0.5rem;">Special: [], (), str(), len()</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Operator Overloading
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Makes code more intuitive and readable</li>
+     <li style="margin-top: 0.5rem;">Allows custom objects to behave like built-in types</li>
+     <li style="margin-top: 0.5rem;">Enables mathematical notation for custom classes</li>
+     <li style="margin-top: 0.5rem;">Improves code expressiveness</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python - Comprehensive Operator Overloading
+class Vector:
+    """A 2D vector class with operator overloading"""
+    
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    # String representation
+    def __str__(self):
+        return f"Vector({self.x}, {self.y})"
+    
+    def __repr__(self):
+        return f"Vector({self.x}, {self.y})"
+    
+    # Arithmetic operators
+    def __add__(self, other):
+        """Addition: v1 + v2"""
+        if isinstance(other, Vector):
+            return Vector(self.x + other.x, self.y + other.y)
+        elif isinstance(other, (int, float)):
+            return Vector(self.x + other, self.y + other)
+        return NotImplemented
+    
+    def __radd__(self, other):
+        """Right addition: 5 + v1"""
+        return self.__add__(other)
+    
+    def __sub__(self, other):
+        """Subtraction: v1 - v2"""
+        if isinstance(other, Vector):
+            return Vector(self.x - other.x, self.y - other.y)
+        elif isinstance(other, (int, float)):
+            return Vector(self.x - other, self.y - other)
+        return NotImplemented
+    
+    def __mul__(self, scalar):
+        """Scalar multiplication: v1 * 3"""
+        if isinstance(scalar, (int, float)):
+            return Vector(self.x * scalar, self.y * scalar)
+        return NotImplemented
+    
+    def __rmul__(self, scalar):
+        """Right multiplication: 3 * v1"""
+        return self.__mul__(scalar)
+    
+    def __truediv__(self, scalar):
+        """Division: v1 / 2"""
+        if isinstance(scalar, (int, float)) and scalar != 0:
+            return Vector(self.x / scalar, self.y / scalar)
+        return NotImplemented
+    
+    def __pow__(self, exponent):
+        """Power: v1 ** 2 (magnitude squared)"""
+        return (self.x ** 2 + self.y ** 2) ** (exponent / 2)
+    
+    # Comparison operators
+    def __eq__(self, other):
+        """Equality: v1 == v2"""
+        if isinstance(other, Vector):
+            return self.x == other.x and self.y == other.y
+        return False
+    
+    def __ne__(self, other):
+        """Not equal: v1 != v2"""
+        return not self.__eq__(other)
+    
+    def __lt__(self, other):
+        """Less than (by magnitude): v1 < v2"""
+        if isinstance(other, Vector):
+            return self.magnitude() < other.magnitude()
+        return NotImplemented
+    
+    def __le__(self, other):
+        """Less than or equal: v1 <= v2"""
+        return self.__lt__(other) or self.__eq__(other)
+    
+    def __gt__(self, other):
+        """Greater than: v1 > v2"""
+        if isinstance(other, Vector):
+            return self.magnitude() > other.magnitude()
+        return NotImplemented
+    
+    def __ge__(self, other):
+        """Greater than or equal: v1 >= v2"""
+        return self.__gt__(other) or self.__eq__(other)
+    
+    # Unary operators
+    def __neg__(self):
+        """Negation: -v1"""
+        return Vector(-self.x, -self.y)
+    
+    def __pos__(self):
+        """Positive: +v1"""
+        return Vector(self.x, self.y)
+    
+    def __abs__(self):
+        """Absolute value: abs(v1) - returns magnitude"""
+        return self.magnitude()
+    
+    # In-place operators
+    def __iadd__(self, other):
+        """In-place addition: v1 += v2"""
+        if isinstance(other, Vector):
+            self.x += other.x
+            self.y += other.y
+        elif isinstance(other, (int, float)):
+            self.x += other
+            self.y += other
+        return self
+    
+    def __isub__(self, other):
+        """In-place subtraction: v1 -= v2"""
+        if isinstance(other, Vector):
+            self.x -= other.x
+            self.y -= other.y
+        elif isinstance(other, (int, float)):
+            self.x -= other
+            self.y -= other
+        return self
+    
+    def __imul__(self, scalar):
+        """In-place multiplication: v1 *= 3"""
+        if isinstance(scalar, (int, float)):
+            self.x *= scalar
+            self.y *= scalar
+        return self
+    
+    # Container-like behavior
+    def __getitem__(self, key):
+        """Index access: v1[0] or v1[1]"""
+        if key == 0:
+            return self.x
+        elif key == 1:
+            return self.y
+        else:
+            raise IndexError("Vector index out of range")
+    
+    def __setitem__(self, key, value):
+        """Index assignment: v1[0] = 5"""
+        if key == 0:
+            self.x = value
+        elif key == 1:
+            self.y = value
+        else:
+            raise IndexError("Vector index out of range")
+    
+    def __len__(self):
+        """Length: len(v1) - always 2 for 2D vector"""
+        return 2
+    
+    def __contains__(self, item):
+        """Membership: 5 in v1"""
+        return item in (self.x, self.y)
+    
+    # Iterator protocol
+    def __iter__(self):
+        """Make vector iterable: for component in v1"""
+        yield self.x
+        yield self.y
+    
+    # Callable
+    def __call__(self):
+        """Make vector callable: v1() returns magnitude"""
+        return self.magnitude()
+    
+    # Hash (for use in sets/dictionaries)
+    def __hash__(self):
+        """Hash: hash(v1)"""
+        return hash((self.x, self.y))
+    
+    # Context manager
+    def __enter__(self):
+        print(f"Entering context with {self}")
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print(f"Exiting context with {self}")
+        return False
+    
+    # Helper methods
+    def magnitude(self):
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+    
+    def dot(self, other):
+        """Dot product"""
+        return self.x * other.x + self.y * other.y
+
+# Complex number class example
+class ComplexNumber:
+    def __init__(self, real, imag):
+        self.real = real
+        self.imag = imag
+    
+    def __str__(self):
+        if self.imag >= 0:
+            return f"{self.real} + {self.imag}i"
+        else:
+            return f"{self.real} - {abs(self.imag)}i"
+    
+    def __add__(self, other):
+        if isinstance(other, ComplexNumber):
+            return ComplexNumber(self.real + other.real, self.imag + other.imag)
+        elif isinstance(other, (int, float)):
+            return ComplexNumber(self.real + other, self.imag)
+        return NotImplemented
+    
+    def __mul__(self, other):
+        if isinstance(other, ComplexNumber):
+            real = self.real * other.real - self.imag * other.imag
+            imag = self.real * other.imag + self.imag * other.real
+            return ComplexNumber(real, imag)
+        elif isinstance(other, (int, float)):
+            return ComplexNumber(self.real * other, self.imag * other)
+        return NotImplemented
+    
+    def __abs__(self):
+        return (self.real ** 2 + self.imag ** 2) ** 0.5
+
+# Usage examples
+if __name__ == "__main__":
+    # Vector operations
+    v1 = Vector(3, 4)
+    v2 = Vector(1, 2)
+    
+    print("=== Vector Operations ===")
+    print(f"v1: {v1}")
+    print(f"v2: {v2}")
+    print(f"v1 + v2: {v1 + v2}")
+    print(f"v1 - v2: {v1 - v2}")
+    print(f"v1 * 3: {v1 * 3}")
+    print(f"3 * v1: {3 * v1}")
+    print(f"v1 / 2: {v1 / 2}")
+    print(f"-v1: {-v1}")
+    print(f"abs(v1): {abs(v1)}")
+    print(f"v1 == v2: {v1 == v2}")
+    print(f"v1 > v2: {v1 > v2}")
+    print(f"v1[0]: {v1[0]}")
+    print(f"len(v1): {len(v1)}")
+    print(f"3 in v1: {3 in v1}")
+    print(f"v1(): {v1()}")  # Call operator
+    
+    # In-place operations
+    v3 = Vector(2, 3)
+    v3 += Vector(1, 1)
+    print(f"After v3 += Vector(1, 1): {v3}")
+    
+    # Iteration
+    print("Vector components:", [component for component in v1])
+    
+    # Context manager
+    with Vector(5, 6) as v:
+        print(f"Inside context: {v}")
+    
+    # Complex numbers
+    print("\\n=== Complex Number Operations ===")
+    c1 = ComplexNumber(3, 4)
+    c2 = ComplexNumber(1, 2)
+    
+    print(f"c1: {c1}")
+    print(f"c2: {c2}")
+    print(f"c1 + c2: {c1 + c2}")
+    print(f"c1 * c2: {c1 * c2}")
+    print(f"abs(c1): {abs(c1):.2f}")`,
+              `// JavaScript - Operator Overloading Simulation
+// JavaScript doesn't support traditional operator overloading,
+// but we can simulate some behaviors
+
+class Vector {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    // String conversion
+    toString() {
+        return \`Vector(\ {this.x}, \ {this.y})\`;
+    }
+    
+    // JSON serialization
+    toJSON() {
+        return { x: this.x, y: this.y };
+    }
+    
+    // Arithmetic methods (since we can't overload operators)
+    add(other) {
+        if (other instanceof Vector) {
+            return new Vector(this.x + other.x, this.y + other.y);
+        } else if (typeof other === 'number') {
+            return new Vector(this.x + other, this.y + other);
+        }
+        throw new Error('Invalid operand type for addition');
+    }
+    
+    subtract(other) {
+        if (other instanceof Vector) {
+            return new Vector(this.x - other.x, this.y - other.y);
+        } else if (typeof other === 'number') {
+            return new Vector(this.x - other, this.y - other);
+        }
+        throw new Error('Invalid operand type for subtraction');
+    }
+    
+    multiply(scalar) {
+        if (typeof scalar === 'number') {
+            return new Vector(this.x * scalar, this.y * scalar);
+        }
+        throw new Error('Can only multiply vector by scalar');
+    }
+    
+    divide(scalar) {
+        if (typeof scalar === 'number' && scalar !== 0) {
+            return new Vector(this.x / scalar, this.y / scalar);
+        }
+        throw new Error('Can only divide vector by non-zero scalar');
+    }
+    
+    negate() {
+        return new Vector(-this.x, -this.y);
+    }
+    
+    // Comparison methods
+    equals(other) {
+        if (other instanceof Vector) {
+            return this.x === other.x && this.y === other.y;
+        }
+        return false;
+    }
+    
+    lessThan(other) {
+        if (other instanceof Vector) {
+            return this.magnitude() < other.magnitude();
+        }
+        throw new Error('Can only compare with another Vector');
+    }
+    
+    greaterThan(other) {
+        if (other instanceof Vector) {
+            return this.magnitude() > other.magnitude();
+        }
+        throw new Error('Can only compare with another Vector');
+    }
+    
+    // Array-like access using Proxy (modern JavaScript)
+    static create(x, y) {
+        const vector = new Vector(x, y);
+        return new Proxy(vector, {
+            get(target, prop) {
+                if (prop === '0' || prop === 0) return target.x;
+                if (prop === '1' || prop === 1) return target.y;
+                if (prop === 'length') return 2;
+                return target[prop];
+            },
+            set(target, prop, value) {
+                if (prop === '0' || prop === 0) {
+                    target.x = value;
+                    return true;
+                }
+                if (prop === '1' || prop === 1) {
+                    target.y = value;
+                    return true;
+                }
+                target[prop] = value;
+                return true;
+            }
+        });
+    }
+    
+    // Iterator protocol
+    *[Symbol.iterator]() {
+        yield this.x;
+        yield this.y;
+    }
+    
+    // Make it callable-like using apply
+    valueOf() {
+        return this.magnitude();
+    }
+    
+    // Helper methods
+    magnitude() {
+        return Math.sqrt(this.x ** 2 + this.y ** 2);
+    }
+    
+    dot(other) {
+        return this.x * other.x + this.y * other.y;
+    }
+    
+    // In-place operations
+    addInPlace(other) {
+        if (other instanceof Vector) {
+            this.x += other.x;
+            this.y += other.y;
+        } else if (typeof other === 'number') {
+            this.x += other;
+            this.y += other;
+        }
+        return this;
+    }
+    
+    multiplyInPlace(scalar) {
+        if (typeof scalar === 'number') {
+            this.x *= scalar;
+            this.y *= scalar;
+        }
+        return this;
+    }
+}
+
+// Complex number class
+class ComplexNumber {
+    constructor(real, imag) {
+        this.real = real;
+        this.imag = imag;
+    }
+    
+    toString() {
+        if (this.imag >= 0) {
+            return \`\ {this.real} + \ {this.imag}i\`;
+        } else {
+            return \`\ {this.real} - \ {Math.abs(this.imag)}i\`;
+        }
+    }
+    
+    add(other) {
+        if (other instanceof ComplexNumber) {
+            return new ComplexNumber(this.real + other.real, this.imag + other.imag);
+        } else if (typeof other === 'number') {
+            return new ComplexNumber(this.real + other, this.imag);
+        }
+        throw new Error('Invalid operand type');
+    }
+    
+    multiply(other) {
+        if (other instanceof ComplexNumber) {
+            const real = this.real * other.real - this.imag * other.imag;
+            const imag = this.real * other.imag + this.imag * other.real;
+            return new ComplexNumber(real, imag);
+        } else if (typeof other === 'number') {
+            return new ComplexNumber(this.real * other, this.imag * other);
+        }
+        throw new Error('Invalid operand type');
+    }
+    
+    magnitude() {
+        return Math.sqrt(this.real ** 2 + this.imag ** 2);
+    }
+    
+    valueOf() {
+        return this.magnitude();
+    }
+}
+
+// Matrix class with operator-like methods
+class Matrix {
+    constructor(rows) {
+        this.rows = rows;
+        this.height = rows.length;
+        this.width = rows[0].length;
+    }
+    
+    static create(height, width, fillValue = 0) {
+        const rows = Array(height).fill(null).map(() => 
+            Array(width).fill(fillValue)
+        );
+        return new Matrix(rows);
+    }
+    
+    toString() {
+        return this.rows.map(row => 
+            '[' + row.map(val => val.toString().padStart(4)).join('') + ' ]'
+        ).join('\\n');
+    }
+    
+    add(other) {
+        if (other instanceof Matrix && 
+            this.height === other.height && 
+            this.width === other.width) {
+            const result = this.rows.map((row, i) =>
+                row.map((val, j) => val + other.rows[i][j])
+            );
+            return new Matrix(result);
+        }
+        throw new Error('Matrix dimensions must match for addition');
+    }
+    
+    multiply(other) {
+        if (typeof other === 'number') {
+            // Scalar multiplication
+            const result = this.rows.map(row =>
+                row.map(val => val * other)
+            );
+            return new Matrix(result);
+        } else if (other instanceof Matrix && this.width === other.height) {
+            // Matrix multiplication
+            const result = Array(this.height).fill(null).map(() =>
+                Array(other.width).fill(0)
+            );
+            
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < other.width; j++) {
+                    for (let k = 0; k < this.width; k++) {
+                        result[i][j] += this.rows[i][k] * other.rows[k][j];
+                    }
+                }
+            }
+            return new Matrix(result);
+        }
+        throw new Error('Invalid matrix multiplication');
+    }
+    
+    // Array-like access
+    get(row, col) {
+        return this.rows[row][col];
+    }
+    
+    set(row, col, value) {
+        this.rows[row][col] = value;
+    }
+    
+    equals(other) {
+        if (!(other instanceof Matrix) || 
+            this.height !== other.height || 
+            this.width !== other.width) {
+            return false;
+        }
+        
+        return this.rows.every((row, i) =>
+            row.every((val, j) => val === other.rows[i][j])
+        );
+    }
+}
+
+// Usage examples
+console.log("=== Vector Operations ===");
+const v1 = new Vector(3, 4);
+const v2 = new Vector(1, 2);
+
+console.log(\`v1: \ {v1}\`);
+console.log(\`v2: \ {v2}\`);
+console.log(\`v1.add(v2): \ {v1.add(v2)}\`);
+console.log(\`v1.subtract(v2): \ {v1.subtract(v2)}\`);
+console.log(\`v1.multiply(3): \ {v1.multiply(3)}\`);
+console.log(\`v1.divide(2): \ {v1.divide(2)}\`);
+console.log(\`v1.negate(): \ {v1.negate()}\`);
+console.log(\`v1.magnitude(): \ {v1.magnitude()}\`);
+console.log(\`v1.equals(v2): \ {v1.equals(v2)}\`);
+console.log(\`v1.greaterThan(v2): \ {v1.greaterThan(v2)}\`);
+
+// Array-like access with Proxy
+const v3 = Vector.create(5, 6);
+console.log(\`v3[0]: \ {v3[0]}\`);
+console.log(\`v3[1]: \ {v3[1]}\`);
+console.log(\`v3.length: \ {v3.length}\`);
+
+v3[0] = 10;
+console.log(\`After v3[0] = 10: \ {v3}\`);
+
+// Iteration
+console.log("Vector components:", [...v1]);
+
+// In-place operations
+const v4 = new Vector(2, 3);
+v4.addInPlace(new Vector(1, 1));
+console.log(\`After addInPlace: \ {v4}\`);
+
+// Complex numbers
+console.log("\\n=== Complex Number Operations ===");
+const c1 = new ComplexNumber(3, 4);
+const c2 = new ComplexNumber(1, 2);
+
+console.log(\`c1: \ {c1}\`);
+console.log(\`c2: \ {c2}\`);
+console.log(\`c1.add(c2): \ {c1.add(c2)}\`);
+console.log(\`c1.multiply(c2): \ {c1.multiply(c2)}\`);
+console.log(\`c1.magnitude(): \ {c1.magnitude().toFixed(2)}\`);
+
+// Matrix operations
+console.log("\\n=== Matrix Operations ===");
+const m1 = new Matrix([[1, 2], [3, 4]]);
+const m2 = new Matrix([[2, 0], [1, 3]]);
+
+console.log("Matrix 1:");
+console.log(m1.toString());
+console.log("Matrix 2:");
+console.log(m2.toString());
+console.log("m1.add(m2):");
+console.log(m1.add(m2).toString());
+console.log("m1.multiply(m2):");
+console.log(m1.multiply(m2).toString());
+console.log("m1.multiply(2):");
+console.log(m1.multiply(2).toString());`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages and disadvantages of operator overloading?",
+                solution:
+                  "<p><strong>Advantages:</strong> Makes code more intuitive and readable, allows custom objects to behave like built-in types, enables natural mathematical notation. <strong>Disadvantages:</strong> Can make code harder to understand if overused or misused, may hide complex operations behind simple operators, can lead to unexpected behavior if not implemented carefully, and may impact performance due to method calls.</p>",
+              },
+              {
+                question:
+                  "Why doesn't JavaScript support operator overloading natively?",
+                solution:
+                  "<p>JavaScript was designed to be simple and lightweight, and operator overloading adds complexity to the language implementation and can make code harder to understand. However, JavaScript provides alternative mechanisms like Symbol methods (Symbol.iterator, Symbol.toPrimitive) and valueOf() for some operator-like behaviors. The language prioritizes simplicity and dynamic typing over the complexity that full operator overloading would introduce.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/reference/datamodel.html#special-method-names",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
+              "https://realpython.com/operator-function-overloading/",
+            ],
+          },
+          {
+            topic: "Dynamic Method Dispatch",
+            tags: ["dynamic-dispatch", "virtual-methods", "late-binding"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at runtime rather than at compile time. It's the foundation of runtime polymorphism and enables objects of different types to respond to the same method call in their own specific way.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How Dynamic Method Dispatch Works
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     When a method is called on an object, the runtime system determines the actual type of the object (not the reference type) and calls the appropriate method implementation. This process involves looking up the method in the object's vtable (virtual method table) or similar dispatch mechanism.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Concepts
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Late Binding:</span> Method resolution happens at runtime</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Virtual Methods:</span> Methods that can be overridden and dispatched dynamically</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Method Resolution Order (MRO):</span> The order in which methods are searched in inheritance hierarchies</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Dispatch Table:</span> Internal structure mapping method names to implementations</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Language Implementation
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Python:</span> All methods are virtual by default, uses MRO for method resolution</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">JavaScript:</span> Prototype-based dispatch, methods resolved through prototype chain</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Considerations
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Dynamic dispatch has a small runtime overhead compared to static dispatch because the method lookup must happen at runtime. However, modern interpreters and JIT compilers use various optimization techniques like inline caching and method inlining to minimize this overhead.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Plugin architectures and extensible frameworks</li>
+     <li style="margin-top: 0.5rem;">Strategy pattern implementation</li>
+     <li style="margin-top: 0.5rem;">Event handling systems</li>
+     <li style="margin-top: 0.5rem;">Visitor pattern and double dispatch</li>
+   </ul>
+</div>`,
+            questions: [
+              {
+                question:
+                  "What happens during runtime polymorphism when a method is called?",
+                solution:
+                  "<p>During runtime polymorphism, when a method is called on an object, the runtime environment determines the actual type of the object (not the reference type) and calls the appropriate overridden method. This process is called dynamic method dispatch or late binding. The decision is made at runtime based on the object's actual class, enabling the same interface to exhibit different behaviors depending on the implementing class.</p>",
+              },
+              {
+                question: "Can you override static methods?",
+                solution:
+                  "<p>In most object-oriented languages, you cannot override static methods in the traditional sense because static methods belong to the class, not to instances. However, you can 'hide' a static method by defining another static method with the same signature in a subclass. The method that gets called depends on the class used to invoke it, not on runtime polymorphism. This is called method hiding, not method overriding.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/library/abc.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
+              "https://refactoring.guru/design-patterns/template-method",
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advanced",
+        concepts: [
+          {
+            topic: "Deeper Abstraction & Encapsulation",
+            tags: [
+              "Abstraction",
+              "Encapsulation",
+              "Data Hiding",
+              "Access Control",
+            ],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              Abstraction and Encapsulation are fundamental OOP principles that work together to create clean, maintainable code. Abstraction focuses on hiding complex implementation details while exposing only necessary interfaces, while Encapsulation bundles data and methods together and controls access to them.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Deep Abstraction Concepts
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Interface Segregation:</span> Create specific interfaces for different client needs rather than one large interface.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Abstract Base Classes:</span> Define contracts that derived classes must implement.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Protocol-Oriented Design:</span> Design around behaviors rather than inheritance hierarchies.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Layered Abstraction:</span> Create multiple levels of abstraction for complex systems.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Advanced Encapsulation Techniques
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Private Fields & Methods:</span> True privacy using language-specific mechanisms.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Property Descriptors:</span> Fine-grained control over property access and modification.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Getter/Setter Patterns:</span> Controlled access with validation and side effects.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Immutable Objects:</span> Objects that cannot be modified after creation.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Python Implementation - Payment System Example
+            </h4>
+            
+            <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+              <pre><code>from abc import ABC, abstractmethod
+from typing import Protocol
+from dataclasses import dataclass, field
+from decimal import Decimal
+
+# Abstract base class for payment processing
+class PaymentProcessor(ABC):
+    """Abstract payment processor defining the contract for all payment methods"""
+    
+    @abstractmethod
+    def validate_payment(self, amount: Decimal) -> bool:
+        """Validate payment details"""
+        pass
+    
+    @abstractmethod
+    def process_payment(self, amount: Decimal) -> dict:
+        """Process the payment and return transaction details"""
+        pass
+    
+    @abstractmethod
+    def get_fees(self, amount: Decimal) -> Decimal:
+        """Calculate processing fees"""
+        pass
+
+# Protocol for audit logging (interface segregation)
+class AuditLogger(Protocol):
+    def log_transaction(self, transaction_id: str, details: dict) -> None: ...
+
+# Encapsulated payment account with private fields
+@dataclass
+class PaymentAccount:
+    """Encapsulated payment account with controlled access"""
+    _account_number: str = field(repr=False)  # Private field
+    _balance: Decimal = field(default=Decimal('0'), repr=False)
+    _transaction_history: list = field(default_factory=list, repr=False)
+    owner_name: str = ""
+    
+    def __post_init__(self):
+        # Validation on initialization
+        if not self._account_number or len(self._account_number) < 10:
+            raise ValueError("Invalid account number")
+    
+    @property
+    def balance(self) -> Decimal:
+        """Read-only access to balance"""
+        return self._balance
+    
+    @property
+    def account_number_masked(self) -> str:
+        """Return masked account number for security"""
+        return f"****{self._account_number[-4:]}"
+    
+    def _validate_amount(self, amount: Decimal) -> None:
+        """Private method for amount validation"""
+        if amount <= 0:
+            raise ValueError("Amount must be positive")
+        if amount > Decimal('10000'):
+            raise ValueError("Amount exceeds daily limit")
+    
+    def deposit(self, amount: Decimal, description: str = "") -> None:
+        """Controlled deposit with validation"""
+        self._validate_amount(amount)
+        self._balance += amount
+        self._transaction_history.append({
+            'type': 'deposit',
+            'amount': amount,
+            'description': description,
+            'balance_after': self._balance
+        })
+    
+    def withdraw(self, amount: Decimal, description: str = "") -> bool:
+        """Controlled withdrawal with validation"""
+        self._validate_amount(amount)
+        if amount > self._balance:
+            return False
+        self._balance -= amount
+        self._transaction_history.append({
+            'type': 'withdrawal',
+            'amount': amount,
+            'description': description,
+            'balance_after': self._balance
+        })
+        return True
+    
+    def get_transaction_summary(self) -> dict:
+        """Return transaction summary without exposing internal structure"""
+        return {
+            'total_transactions': len(self._transaction_history),
+            'current_balance': self._balance,
+            'last_transaction': self._transaction_history[-1] if self._transaction_history else None
+        }
+
+# Concrete implementation with layered abstraction
+class CreditCardProcessor(PaymentProcessor):
+    """Credit card payment processor with specific business logic"""
+    
+    def __init__(self, account: PaymentAccount, logger: AuditLogger):
+        self._account = account  # Composition over inheritance
+        self._logger = logger
+        self._fee_rate = Decimal('0.029')  # 2.9% fee
+    
+    def validate_payment(self, amount: Decimal) -> bool:
+        """Validate credit card payment"""
+        return (amount > 0 and 
+                amount <= Decimal('5000') and 
+                self._account.balance >= self.get_fees(amount))
+    
+    def process_payment(self, amount: Decimal) -> dict:
+        """Process credit card payment with fees"""
+        if not self.validate_payment(amount):
+            raise ValueError("Payment validation failed")
+        
+        fees = self.get_fees(amount)
+        total_charge = amount + fees
+        
+        if not self._account.withdraw(total_charge, f"Payment processing: {amount}"):
+            raise ValueError("Insufficient funds")
+        
+        transaction_id = f"CC_{hash(str(amount) + str(self._account.account_number_masked))}"
+        transaction_details = {
+            'transaction_id': transaction_id,
+            'amount': amount,
+            'fees': fees,
+            'total_charged': total_charge,
+            'status': 'completed'
+        }
+        
+        self._logger.log_transaction(transaction_id, transaction_details)
+        return transaction_details
+    
+    def get_fees(self, amount: Decimal) -> Decimal:
+        """Calculate credit card processing fees"""
+        return amount * self._fee_rate
+
+# Usage example demonstrating abstraction and encapsulation
+class SimpleAuditLogger:
+    def __init__(self):
+        self._logs = []
+    
+    def log_transaction(self, transaction_id: str, details: dict) -> None:
+        self._logs.append({'id': transaction_id, 'details': details})
+    
+    def get_logs(self) -> list:
+        return self._logs.copy()  # Return copy to maintain encapsulation
+
+# Example usage
+if __name__ == "__main__":
+    # Create encapsulated account
+    account = PaymentAccount("1234567890123", Decimal('1000'), [], "John Doe")
+    logger = SimpleAuditLogger()
+    
+    # Use abstraction through interface
+    processor: PaymentProcessor = CreditCardProcessor(account, logger)
+    
+    # Process payment through abstract interface
+    try:
+        result = processor.process_payment(Decimal('100'))
+        print(f"Payment processed: {result}")
+        print(f"Account balance: {account.balance}")
+        print(f"Transaction summary: {account.get_transaction_summary()}")
+    except ValueError as e:
+        print(f"Payment failed: {e}")
+</code></pre>
+            </div>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JavaScript Implementation - Same Payment System
+            </h4>
+            
+            <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+              <pre><code>// Abstract base class using ES6+ features
+class PaymentProcessor {
+    constructor() {
+        if (new.target === PaymentProcessor) {
+            throw new Error("Cannot instantiate abstract class");
+        }
+    }
+    
+    // Abstract methods that must be implemented
+    validatePayment(amount) {
+        throw new Error("validatePayment must be implemented");
+    }
+    
+    processPayment(amount) {
+        throw new Error("processPayment must be implemented");
+    }
+    
+    getFees(amount) {
+        throw new Error("getFees must be implemented");
+    }
+}
+
+// Encapsulated payment account using private fields (ES2022+)
+class PaymentAccount {
+    // Private fields
+    #accountNumber;
+    #balance;
+    #transactionHistory;
+    
+    constructor(accountNumber, initialBalance = 0, ownerName = "") {
+        // Validation on construction
+        if (!accountNumber || accountNumber.length < 10) {
+            throw new Error("Invalid account number");
+        }
+        
+        this.#accountNumber = accountNumber;
+        this.#balance = initialBalance;
+        this.#transactionHistory = [];
+        this.ownerName = ownerName;
+    }
+    
+    // Getter for controlled access to balance
+    get balance() {
+        return this.#balance;
+    }
+    
+    // Masked account number for security
+    get accountNumberMasked() {
+        return {this.#accountNumber.slice(-4)};
+    }
+    
+    // Private method for validation
+    #validateAmount(amount) {
+        if (amount <= 0) {
+            throw new Error("Amount must be positive");
+        }
+        if (amount > 10000) {
+            throw new Error("Amount exceeds daily limit");
+        }
+    }
+    
+    // Controlled deposit with validation
+    deposit(amount, description = "") {
+        this.#validateAmount(amount);
+        this.#balance += amount;
+        this.#transactionHistory.push({
+            type: 'deposit',
+            amount: amount,
+            description: description,
+            balanceAfter: this.#balance,
+            timestamp: new Date().toISOString()
+        });
+    }
+    
+    // Controlled withdrawal with validation
+    withdraw(amount, description = "") {
+        this.#validateAmount(amount);
+        if (amount > this.#balance) {
+            return false;
+        }
+        this.#balance -= amount;
+        this.#transactionHistory.push({
+            type: 'withdrawal',
+            amount: amount,
+            description: description,
+            balanceAfter: this.#balance,
+            timestamp: new Date().toISOString()
+        });
+        return true;
+    }
+    
+    // Public interface without exposing internal structure
+    getTransactionSummary() {
+        return {
+            totalTransactions: this.#transactionHistory.length,
+            currentBalance: this.#balance,
+            lastTransaction: this.#transactionHistory[this.#transactionHistory.length - 1] || null
+        };
+    }
+}
+
+// Concrete implementation using composition
+class CreditCardProcessor extends PaymentProcessor {
+    #account;
+    #logger;
+    #feeRate;
+    
+    constructor(account, logger) {
+        super();
+        this.#account = account;
+        this.#logger = logger;
+        this.#feeRate = 0.029; // 2.9% fee
+    }
+    
+    validatePayment(amount) {
+        return (amount > 0 && 
+                amount <= 5000 && 
+                this.#account.balance >= this.getFees(amount));
+    }
+    
+    processPayment(amount) {
+        if (!this.validatePayment(amount)) {
+            throw new Error("Payment validation failed");
+        }
+        
+        const fees = this.getFees(amount);
+        const totalCharge = amount + fees;
+        
+        if (!this.#account.withdraw(totalCharge, Payment processing: {amount})) {
+            throw new Error("Insufficient funds");
+        }
+        
+        const transactionId = {Math.abs(
+            (amount.toString() + this.#account.accountNumberMasked).split('').reduce(
+                (hash, char) => ((hash << 5) - hash) + char.charCodeAt(0), 0
+            )
+        )};
+        
+        const transactionDetails = {
+            transactionId: transactionId,
+            amount: amount,
+            fees: fees,
+            totalCharged: totalCharge,
+            status: 'completed',
+            timestamp: new Date().toISOString()
+        };
+        
+        this.#logger.logTransaction(transactionId, transactionDetails);
+        return transactionDetails;
+    }
+    
+    getFees(amount) {
+        return amount * this.#feeRate;
+    }
+}
+
+// Simple audit logger implementation
+class SimpleAuditLogger {
+    #logs = [];
+    
+    logTransaction(transactionId, details) {
+        this.#logs.push({
+            id: transactionId,
+            details: { ...details }, // Defensive copy
+            loggedAt: new Date().toISOString()
+        });
+    }
+    
+    getLogs() {
+        // Return defensive copy to maintain encapsulation
+        return this.#logs.map(log => ({ ...log }));
+    }
+}
+
+// Usage example
+try {
+    // Create encapsulated account
+    const account = new PaymentAccount("1234567890123", 1000, "John Doe");
+    const logger = new SimpleAuditLogger();
+    
+    // Use abstraction through base class
+    const processor = new CreditCardProcessor(account, logger);
+    
+    // Process payment through abstract interface
+    const result = processor.processPayment(100);
+    console.log("Payment processed:", result);
+    console.log("Account balance:", account.balance);
+    console.log("Transaction summary:", account.getTransactionSummary());
+    console.log("Audit logs:", logger.getLogs());
+    
+} catch (error) {
+    console.error("Payment failed:", error.message);
+}
+</code></pre>
+            </div>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Key Benefits & Use Cases
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Private fields prevent unauthorized access to sensitive data like account numbers and balances.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Abstract interfaces allow changing implementations without affecting client code.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Validation:</span> Controlled access ensures data integrity through validation in setters and methods.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Testability:</span> Abstract interfaces make it easy to mock dependencies for unit testing.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> New payment processors can be added without modifying existing code.
+              </li>
+            </ol>
+          </div>`,
+            examples: [
+              `# Python Advanced Encapsulation Example
+class BankAccount:
+    def __init__(self, initial_balance=0):
+        self.__balance = initial_balance  # Private attribute
+        self.__transaction_history = []   # Private attribute
+    
+    @property
+    def balance(self):
+        """Read-only access to balance"""
+        return self.__balance
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+            self.__transaction_history.append(f"Deposited: {amount}")
+            return True
+        return False
+    
+    def __validate_withdrawal(self, amount):
+        """Private validation method"""
+        return amount > 0 and amount <= self.__balance`,
+
+              `// JavaScript Private Fields Example
+class BankAccount {
+    #balance = 0;
+    #transactionHistory = [];
+    
+    constructor(initialBalance = 0) {
+        this.#balance = initialBalance;
+    }
+    
+    get balance() {
+        return this.#balance;
+    }
+    
+    deposit(amount) {
+        if (amount > 0) {
+            this.#balance += amount;
+            this.#transactionHistory.push(\`Deposited: \ {amount}\`);
+            return true;
+        }
+        return false;
+    }
+    
+    #validateWithdrawal(amount) {
+        return amount > 0 && amount <= this.#balance;
+    }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between abstraction and encapsulation?",
+                solution:
+                  "<p>Abstraction focuses on hiding implementation complexity and exposing only necessary interfaces, while encapsulation bundles data and methods together and controls access to them. Abstraction is about 'what' an object does, encapsulation is about 'how' it protects its internal state. Both work together to create maintainable, secure code where implementation details can change without affecting client code.</p>",
+              },
+              {
+                question:
+                  "How do private fields enhance encapsulation in modern JavaScript?",
+                solution:
+                  "<p>Private fields (using # prefix) provide true privacy in JavaScript classes, preventing external access to internal state. Unlike naming conventions (like _private), private fields are enforced by the language runtime. This enables better encapsulation by ensuring that object state can only be modified through controlled public interfaces, preventing accidental or malicious modification of internal data.</p>",
+              },
+            ],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://refactoring.guru/design-patterns/abstract-factory",
+            ],
+          },
+          {
+            topic: "Composition vs Inheritance (Favor Composition Principle)",
+            tags: [
+              "Composition",
+              "Inheritance",
+              "Design Patterns",
+              "Code Reuse",
+            ],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              The "Favor Composition over Inheritance" principle suggests that object composition should be preferred over class inheritance for code reuse. While inheritance creates an "is-a" relationship, composition creates a "has-a" relationship, leading to more flexible and maintainable designs.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Problems with Deep Inheritance Hierarchies
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Tight Coupling:</span> Child classes are tightly coupled to parent classes, making changes difficult.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Fragile Base Class Problem:</span> Changes in base classes can break derived classes unexpectedly.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Limited Flexibility:</span> Inheritance hierarchies are static and decided at compile time.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Diamond Problem:</span> Multiple inheritance can lead to ambiguity and complexity.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Violation of LSP:</span> Derived classes might not be proper substitutes for base classes.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Benefits of Composition
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Loose Coupling:</span> Objects are loosely coupled through interfaces.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Runtime Flexibility:</span> Behavior can be changed at runtime by composing different objects.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Better Testability:</span> Dependencies can be easily mocked or stubbed.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Single Responsibility:</span> Each class has a focused, single responsibility.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Easier Maintenance:</span> Changes in one component don't affect others.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Python Implementation - Media Player System
+            </h4>
+            
+            <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+              <pre><code># BAD: Deep inheritance hierarchy
+class MediaPlayer:
+    def __init__(self, name):
+        self.name = name
+        self.is_playing = False
+    
+    def play(self):
+        self.is_playing = True
+        print(f"{self.name} is now playing")
+    
+    def stop(self):
+        self.is_playing = False
+        print(f"{self.name} stopped")
+
+class AudioPlayer(MediaPlayer):
+    def __init__(self, name, volume=50):
+        super().__init__(name)
+        self.volume = volume
+    
+    def set_volume(self, volume):
+        self.volume = volume
+        print(f"Volume set to {volume}")
+
+class VideoPlayer(MediaPlayer):
+    def __init__(self, name, resolution="1080p"):
+        super().__init__(name)
+        self.resolution = resolution
+    
+    def set_resolution(self, resolution):
+        self.resolution = resolution
+        print(f"Resolution set to {resolution}")
+
+class SmartTVPlayer(VideoPlayer, AudioPlayer):  # Multiple inheritance problems
+    def __init__(self, name, brand):
+        super().__init__(name)  # Which parent's __init__?
+        self.brand = brand
+
+# GOOD: Composition-based design
+from abc import ABC, abstractmethod
+from typing import Protocol
+from dataclasses import dataclass
+
+# Define interfaces/protocols for different capabilities
+class AudioOutput(Protocol):
+    def set_volume(self, volume: int) -> None: ...
+    def get_volume(self) -> int: ...
+
+class VideoOutput(Protocol):
+    def set_resolution(self, resolution: str) -> None: ...
+    def get_resolution(self) -> str: ...
+
+class PlaybackControl(Protocol):
+    def play(self) -> None: ...
+    def pause(self) -> None: ...
+    def stop(self) -> None: ...
+
+# Concrete implementations of capabilities
+class AudioController:
+    def __init__(self, initial_volume: int = 50):
+        self._volume = initial_volume
+    
+    def set_volume(self, volume: int) -> None:
+        if 0 <= volume <= 100:
+            self._volume = volume
+            print(f"Audio volume set to {volume}")
+        else:
+            raise ValueError("Volume must be between 0 and 100")
+    
+    def get_volume(self) -> int:
+        return self._volume
+    
+    def mute(self) -> None:
+        self._previous_volume = self._volume
+        self._volume = 0
+        print("Audio muted")
+    
+    def unmute(self) -> None:
+        if hasattr(self, '_previous_volume'):
+            self._volume = self._previous_volume
+            print(f"Audio unmuted, volume restored to {self._volume}")
+
+class VideoController:
+    def __init__(self, initial_resolution: str = "1080p"):
+        self._resolution = initial_resolution
+        self._supported_resolutions = ["480p", "720p", "1080p", "4K"]
+    
+    def set_resolution(self, resolution: str) -> None:
+        if resolution in self._supported_resolutions:
+            self._resolution = resolution
+            print(f"Video resolution set to {resolution}")
+        else:
+            raise ValueError(f"Resolution must be one of {self._supported_resolutions}")
+    
+    def get_resolution(self) -> str:
+        return self._resolution
+    
+    def get_supported_resolutions(self) -> list:
+        return self._supported_resolutions.copy()
+
+class PlaybackController:
+    def __init__(self):
+        self._is_playing = False
+        self._is_paused = False
+    
+    def play(self) -> None:
+        self._is_playing = True
+        self._is_paused = False
+        print("Playback started")
+    
+    def pause(self) -> None:
+        if self._is_playing:
+            self._is_paused = True
+            print("Playback paused")
+        else:
+            print("Cannot pause - not currently playing")
+    
+    def stop(self) -> None:
+        self._is_playing = False
+        self._is_paused = False
+        print("Playback stopped")
+    
+    @property
+    def is_playing(self) -> bool:
+        return self._is_playing and not self._is_paused
+    
+    @property
+    def is_paused(self) -> bool:
+        return self._is_paused
+
+# Composed media players using composition
+class AudioPlayer:
+    def __init__(self, name: str, initial_volume: int = 50):
+        self.name = name
+        self._audio_controller = AudioController(initial_volume)
+        self._playback_controller = PlaybackController()
+    
+    # Delegate to composed objects
+    def play(self) -> None:
+        print(f"[{self.name}] Starting audio playback")
+        self._playback_controller.play()
+    
+    def pause(self) -> None:
+        self._playback_controller.pause()
+    
+    def stop(self) -> None:
+        self._playback_controller.stop()
+    
+    def set_volume(self, volume: int) -> None:
+        self._audio_controller.set_volume(volume)
+    
+    def get_volume(self) -> int:
+        return self._audio_controller.get_volume()
+    
+    def mute(self) -> None:
+        self._audio_controller.mute()
+    
+    def unmute(self) -> None:
+        self._audio_controller.unmute()
+    
+    @property
+    def is_playing(self) -> bool:
+        return self._playback_controller.is_playing
+
+class VideoPlayer:
+    def __init__(self, name: str, initial_resolution: str = "1080p"):
+        self.name = name
+        self._video_controller = VideoController(initial_resolution)
+        self._playback_controller = PlaybackController()
+    
+    def play(self) -> None:
+        print(f"[{self.name}] Starting video playback at {self.get_resolution()}")
+        self._playback_controller.play()
+    
+    def pause(self) -> None:
+        self._playback_controller.pause()
+    
+    def stop(self) -> None:
+        self._playback_controller.stop()
+    
+    def set_resolution(self, resolution: str) -> None:
+        self._video_controller.set_resolution(resolution)
+    
+    def get_resolution(self) -> str:
+        return self._video_controller.get_resolution()
+    
+    @property
+    def is_playing(self) -> bool:
+        return self._playback_controller.is_playing
+
+# Advanced: Multimedia player combining multiple capabilities
+class MultimediaPlayer:
+     def __init__(self, name: str, has_audio: bool = True, has_video: bool = True):
+        self.name = name
+        self._playback_controller = PlaybackController()
+        
+        # Compose only needed capabilities
+        self._audio_controller = AudioController() if has_audio else None
+        self._video_controller = VideoController() if has_video else None
+    
+    def play(self) -> None:
+        capabilities = []
+        if self._audio_controller:
+            capabilities.append("audio")
+        if self._video_controller:
+            capabilities.append("video")
+        
+        print(f"[{self.name}] Starting multimedia playback: {', '.join(capabilities)}")
+        self._playback_controller.play()
+    
+    def pause(self) -> None:
+        self._playback_controller.pause()
+    
+    def stop(self) -> None:
+        self._playback_controller.stop()
+    
+    # Audio methods (only if audio capability exists)
+    def set_volume(self, volume: int) -> None:
+        if self._audio_controller:
+            self._audio_controller.set_volume(volume)
+        else:
+            raise ValueError("This player doesn't support audio")
+    
+    def get_volume(self) -> int:
+        if self._audio_controller:
+            return self._audio_controller.get_volume()
+        raise ValueError("This player doesn't support audio")
+    
+    # Video methods (only if video capability exists)
+    def set_resolution(self, resolution: str) -> None:
+        if self._video_controller:
+            self._video_controller.set_resolution(resolution)
+        else:
+            raise ValueError("This player doesn't support video")
+    
+    def get_resolution(self) -> str:
+        if self._video_controller:
+            return self._video_controller.get_resolution()
+        raise ValueError("This player doesn't support video")
+    
+    @property
+    def capabilities(self) -> list:
+        caps = ["playback"]
+        if self._audio_controller:
+            caps.append("audio")
+        if self._video_controller:
+            caps.append("video")
+        return caps
+    
+    @property
+    def is_playing(self) -> bool:
+        return self._playback_controller.is_playing
+
+# Factory pattern for creating different types of players
+class PlayerFactory:
+    @staticmethod
+    def create_audio_player(name: str, volume: int = 50) -> AudioPlayer:
+        return AudioPlayer(name, volume)
+    
+    @staticmethod
+    def create_video_player(name: str, resolution: str = "1080p") -> VideoPlayer:
+        return VideoPlayer(name, resolution)
+    
+    @staticmethod
+    def create_multimedia_player(name: str, has_audio: bool = True, has_video: bool = True) -> MultimediaPlayer:
+        return MultimediaPlayer(name, has_audio, has_video)
+
+# Usage examples demonstrating composition benefits
+if __name__ == "__main__":
+    # Create different players using composition
+    audio_player = PlayerFactory.create_audio_player("Spotify Player", 75)
+    video_player = PlayerFactory.create_video_player("YouTube Player", "4K")
+    multimedia_player = PlayerFactory.create_multimedia_player("VLC Player")
+    
+    # Audio player operations
+    print("=== Audio Player ===")
+    audio_player.play()
+    audio_player.set_volume(80)
+    print(f"Volume: {audio_player.get_volume()}")
+    audio_player.mute()
+    audio_player.stop()
+    
+    print("\n=== Video Player ===")
+    video_player.play()
+    video_player.set_resolution("1080p")
+    print(f"Resolution: {video_player.get_resolution()}")
+    video_player.stop()
+    
+    print("\n=== Multimedia Player ===")
+    multimedia_player.play()
+    multimedia_player.set_volume(60)
+    multimedia_player.set_resolution("720p")
+    print(f"Capabilities: {multimedia_player.capabilities}")
+    multimedia_player.stop()
+    
+    # Demonstrate runtime flexibility
+    print("\n=== Runtime Composition ===")
+    audio_only_player = MultimediaPlayer("Audio Only Player", has_audio=True, has_video=False)
+    print(f"Audio-only capabilities: {audio_only_player.capabilities}")
+    audio_only_player.play()
+    audio_only_player.set_volume(90)
+    try:
+        audio_only_player.set_resolution("1080p")  # This will raise an error
+    except ValueError as e:
+        print(f"Error: {e}")
+</code></pre>
+            </div>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JavaScript Implementation - Same Media Player System
+            </h4>
+            
+            <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+              <pre><code>// BAD: Deep inheritance hierarchy (similar problems as Python)
+class MediaPlayer {
+    constructor(name) {
+        this.name = name;
+        this.isPlaying = false;
+    }
+    
+    play() {
+        this.isPlaying = true;
+        console.log({this.name} is now playing);
+    }
+    
+    stop() {
+        this.isPlaying = false;
+        console.log({this.name} stopped);
+    }
+}
+
+class AudioPlayer extends MediaPlayer {
+    constructor(name, volume = 50) {
+        super(name);
+        this.volume = volume;
+    }
+    
+    setVolume(volume) {
+        this.volume = volume;
+        console.log(Volume set to {volume});
+    }
+}
+
+class VideoPlayer extends MediaPlayer {
+    constructor(name, resolution = "1080p") {
+        super(name);
+        this.resolution = resolution;
+    }
+    
+    setResolution(resolution) {
+        this.resolution = resolution;
+        console.log(Resolution set to {resolution});
+    }
+}
+
+// JavaScript doesn't support multiple inheritance directly, 
+// leading to complex mixin patterns or prototype manipulation
+
+// GOOD: Composition-based design using ES6+ features
+class AudioController {
+    #volume;
+    #previousVolume;
+    
+    constructor(initialVolume = 50) {
+        this.#volume = initialVolume;
+    }
+    
+    setVolume(volume) {
+        if (volume >= 0 && volume <= 100) {
+            this.#volume = volume;
+            console.log(Audio volume set to {volume});
+        } else {
+            throw new Error("Volume must be between 0 and 100");
+        }
+    }
+    
+    getVolume() {
+        return this.#volume;
+    }
+    
+    mute() {
+        this.#previousVolume = this.#volume;
+        this.#volume = 0;
+        console.log("Audio muted");
+    }
+    
+    unmute() {
+        if (this.#previousVolume !== undefined) {
+            this.#volume = this.#previousVolume;
+            console.log(Audio unmuted, volume restored to {this.#volume});
+        }
+    }
+}
+
+class VideoController {
+    #resolution;
+    #supportedResolutions = ["480p", "720p", "1080p", "4K"];
+    
+    constructor(initialResolution = "1080p") {
+        this.#resolution = initialResolution;
+    }
+    
+    setResolution(resolution) {
+        if (this.#supportedResolutions.includes(resolution)) {
+            this.#resolution = resolution;
+            console.log(Video resolution set to {resolution});
+        } else {
+            throw new Error(Resolution must be one of {this.#supportedResolutions.join(', ')});
+        }
+    }
+    
+    getResolution() {
+        return this.#resolution;
+    }
+    
+    getSupportedResolutions() {
+        return [...this.#supportedResolutions]; // Return copy
+    }
+}
+
+class PlaybackController {
+    #isPlaying = false;
+    #isPaused = false;
+    
+    play() {
+        this.#isPlaying = true;
+        this.#isPaused = false;
+        console.log("Playback started");
+    }
+    
+    pause() {
+        if (this.#isPlaying) {
+            this.#isPaused = true;
+            console.log("Playback paused");
+        } else {
+            console.log("Cannot pause - not currently playing");
+        }
+    }
+    
+    stop() {
+        this.#isPlaying = false;
+        this.#isPaused = false;
+        console.log("Playback stopped");
+    }
+    
+    get isPlaying() {
+        return this.#isPlaying && !this.#isPaused;
+    }
+    
+    get isPaused() {
+        return this.#isPaused;
+    }
+}
+
+// Composed media players
+class ComposedAudioPlayer {
+    #audioController;
+    #playbackController;
+    
+    constructor(name, initialVolume = 50) {
+        this.name = name;
+        this.#audioController = new AudioController(initialVolume);
+        this.#playbackController = new PlaybackController();
+    }
+    
+    play() {
+        console.log([{this.name}] Starting audio playback);
+        this.#playbackController.play();
+    }
+    
+    pause() {
+        this.#playbackController.pause();
+    }
+    
+    stop() {
+        this.#playbackController.stop();
+    }
+    
+    setVolume(volume) {
+        this.#audioController.setVolume(volume);
+    }
+    
+    getVolume() {
+        return this.#audioController.getVolume();
+    }
+    
+    mute() {
+        this.#audioController.mute();
+    }
+    
+    unmute() {
+        this.#audioController.unmute();
+    }
+    
+    get isPlaying() {
+        return this.#playbackController.isPlaying;
+    }
+}
+
+class ComposedVideoPlayer {
+    #videoController;
+    #playbackController;
+    
+    constructor(name, initialResolution = "1080p") {
+        this.name = name;
+        this.#videoController = new VideoController(initialResolution);
+        this.#playbackController = new PlaybackController();
+    }
+    
+    play() {
+        console.log({this.name}] Starting video playback at {this.getResolution()});
+        this.#playbackController.play();
+    }
+    
+    pause() {
+        this.#playbackController.pause();
+    }
+    
+    stop() {
+        this.#playbackController.stop();
+    }
+    
+    setResolution(resolution) {
+        this.#videoController.setResolution(resolution);
+    }
+    
+    getResolution() {
+        return this.#videoController.getResolution();
+    }
+    
+    get isPlaying() {
+        return this.#playbackController.isPlaying;
+    }
+}
+
+// Advanced multimedia player with dynamic composition
+class MultimediaPlayer {
+    #audioController = null;
+    #videoController = null;
+    #playbackController;
+    
+    constructor(name, { hasAudio = true, hasVideo = true } = {}) {
+        this.name = name;
+        this.#playbackController = new PlaybackController();
+        
+        // Compose only needed capabilities
+        if (hasAudio) {
+            this.#audioController = new AudioController();
+        }
+        if (hasVideo) {
+            this.#videoController = new VideoController();
+        }
+    }
+    
+    play() {
+        const capabilities = [];
+        if (this.#audioController) capabilities.push("audio");
+        if (this.#videoController) capabilities.push("video");
+        
+        console.log([{this.name}] Starting multimedia playback: {capabilities.join(', ')});
+        this.#playbackController.play();
+    }
+    
+    pause() {
+        this.#playbackController.pause();
+    }
+    
+    stop() {
+        this.#playbackController.stop();
+    }
+    
+    // Audio methods with capability checking
+    setVolume(volume) {
+        if (!this.#audioController) {
+            throw new Error("This player doesn't support audio");
+        }
+        this.#audioController.setVolume(volume);
+    }
+    
+    getVolume() {
+        if (!this.#audioController) {
+            throw new Error("This player doesn't support audio");
+        }
+        return this.#audioController.getVolume();
+    }
+    
+    // Video methods with capability checking
+    setResolution(resolution) {
+        if (!this.#videoController) {
+            throw new Error("This player doesn't support video");
+        }
+        this.#videoController.setResolution(resolution);
+    }
+    
+    getResolution() {
+        if (!this.#videoController) {
+            throw new Error("This player doesn't support video");
+        }
+        return this.#videoController.getResolution();
+    }
+    
+    get capabilities() {
+        const caps = ["playback"];
+        if (this.#audioController) caps.push("audio");
+        if (this.#videoController) caps.push("video");
+        return caps;
+    }
+    
+    get isPlaying() {
+        return this.#playbackController.isPlaying;
+    }
+}
+
+// Factory pattern for creating players
+class PlayerFactory {
+    static createAudioPlayer(name, volume = 50) {
+        return new ComposedAudioPlayer(name, volume);
+    }
+    
+    static createVideoPlayer(name, resolution = "1080p") {
+        return new ComposedVideoPlayer(name, resolution);
+    }
+    
+    static createMultimediaPlayer(name, options = {}) {
+        return new MultimediaPlayer(name, options);
+    }
+}
+
+// Usage examples
+try {
+    console.log("=== Audio Player ===");
+    const audioPlayer = PlayerFactory.createAudioPlayer("Spotify Player", 75);
+    audioPlayer.play();
+    audioPlayer.setVolume(80);
+    console.log(Volume: {audioPlayer.getVolume()});
+    audioPlayer.mute();
+    audioPlayer.stop();
+    
+    console.log("\n=== Video Player ===");
+    const videoPlayer = PlayerFactory.createVideoPlayer("YouTube Player", "4K");
+    videoPlayer.play();
+    videoPlayer.setResolution("1080p");
+    console.log(Resolution: {videoPlayer.getResolution()});
+    videoPlayer.stop();
+    
+    console.log("\n=== Multimedia Player ===");
+    const multimediaPlayer = PlayerFactory.createMultimediaPlayer("VLC Player");
+    multimediaPlayer.play();
+    multimediaPlayer.setVolume(60);
+    multimediaPlayer.setResolution("720p");
+    console.log(Capabilities: {multimediaPlayer.capabilities.join(', ')});
+    multimediaPlayer.stop();
+    
+    console.log("\n=== Runtime Composition ===");
+    const audioOnlyPlayer = new MultimediaPlayer("Audio Only Player", { hasAudio: true, hasVideo: false });
+    console.log(Audio-only capabilities: {audioOnlyPlayer.capabilities.join(', ')});
+    audioOnlyPlayer.play();
+    audioOnlyPlayer.setVolume(90);
+    
+    try {
+        audioOnlyPlayer.setResolution("1080p"); // This will throw an error
+    } catch (error) {
+        console.log(Error: {error.message});
+    }
+    
+} catch (error) {
+    console.error("Error:", error.message);
+}
+</code></pre>
+            </div>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Strategy Pattern with Composition
+            </h4>
+            
+            <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+              <pre><code>// Python: Strategy pattern using composition
+class CompressionStrategy(ABC):
+    @abstractmethod
+    def compress(self, data: str) -> str:
+        pass
+
+class ZipCompression(CompressionStrategy):
+    def compress(self, data: str) -> str:
+        return f"ZIP compressed: {data[:10]}..."
+
+class RarCompression(CompressionStrategy):
+    def compress(self, data: str) -> str:
+        return f"RAR compressed: {data[:10]}..."
+
+class FileProcessor:
+    def __init__(self, compression_strategy: CompressionStrategy):
+        self._compression_strategy = compression_strategy
+    
+    def set_compression_strategy(self, strategy: CompressionStrategy):
+        self._compression_strategy = strategy
+    
+    def process_file(self, data: str) -> str:
+        return self._compression_strategy.compress(data)
+
+# Usage - behavior can be changed at runtime
+processor = FileProcessor(ZipCompression())
+result1 = processor.process_file("large data file content")
+
+processor.set_compression_strategy(RarCompression())  # Change strategy at runtime
+result2 = processor.process_file("large data file content")
+`,
+            questions: [
+              {
+                question:
+                  "What's the difference between abstraction and encapsulation?",
+                solution:
+                  "<p>Abstraction focuses on hiding implementation complexity and exposing only necessary interfaces, while encapsulation bundles data and methods together and controls access to them. Abstraction is about 'what' an object does, encapsulation is about 'how' it protects its internal state. Both work together to create maintainable, secure code where implementation details can change without affecting client code.</p>",
+              },
+              {
+                question:
+                  "How do private fields enhance encapsulation in modern JavaScript?",
+                solution:
+                  "<p>Private fields (using # prefix) provide true privacy in JavaScript classes, preventing external access to internal state. Unlike naming conventions (like _private), private fields are enforced by the language runtime. This enables better encapsulation by ensuring that object state can only be modified through controlled public interfaces, preventing accidental or malicious modification of internal data.</p>",
+              },
+            ],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://refactoring.guru/design-patterns/abstract-factory",
+            ],
+          },
+          {
+            topic: "Aggregation vs Composition",
+            tags: [
+              "Aggregation",
+              "Composition",
+              "Relationships",
+              "Object Lifecycle",
+            ],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              Aggregation and Composition are both forms of association in object-oriented design, but they represent different strengths of relationships between objects. Understanding the distinction is crucial for designing proper object lifecycles and dependencies.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Composition (Strong "Part-of" Relationship)
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Ownership:</span> The parent owns the child objects completely.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Dependency:</span> Child objects cannot exist without the parent.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Exclusive Relationship:</span> Child objects belong to only one parent at a time.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Destruction:</span> When parent is destroyed, children are automatically destroyed.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Aggregation (Weak "Has-a" Relationship)
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Shared Ownership:</span> The parent uses child objects but doesn't own them exclusively.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Independent Lifecycle:</span> Child objects can exist independently of the parent.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Shared Relationship:</span> Child objects can be shared among multiple parents.
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Preservation:</span> When parent is destroyed, children can continue to exist.
+              </li>
+            </ol>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Python Implementation - University System Example
+            </h4>
+            
+            <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+              <pre><code>from typing import List, Optional
+from dataclasses import dataclass, field
+from datetime import datetime
+import uuid
+
+# COMPOSITION Example: House and Rooms
+# Rooms cannot exist without a House, and are owned exclusively by one House
+
+@dataclass
+class Room:
+    """Room class - exists only as part of a House (Composition)"""
+    room_type: str  # "bedroom", "kitchen", "bathroom", etc.
+    area_sqft: float
+    _room_id: str = field(default_factory=lambda: str(uuid.uuid4()))
+    
+    def __post_init__(self):
+        print(f"Room created: {self.room_type} ({self.area_sqft} sq ft)")
+    
+    def get_room_info(self) -> dict:
+        return {
+            'id': self._room_id,
+            'type': self.room_type,
+            'area': self.area_sqft
+        }
+    
+    def __del__(self):
+        print(f"Room destroyed: {self.room_type}")
+
+class House:
+    """House class - owns its rooms completely (Composition)"""
+    
+    def __init__(self, address: str):
+        self.address = address
+        self._rooms: List[Room] = []  # House creates and owns rooms
+        self._house_id = str(uuid.uuid4())
+        print(f"House created at: {address}")
+    
+    def add_room(self, room_type: str, area_sqft: float) -> Room:
+        """House creates and manages its own rooms"""
+        room = Room(room_type, area_sqft)  # House creates the room
+        self._rooms.append(room)
+        return room
+    
+    def remove_room(self, room: Room) -> bool:
+        """Remove a room from the house"""
+        if room in self._rooms:
+            self._rooms.remove(room)
+            # Room will be garbage collected since House owned it exclusively
+            return True
+        return False
+    
+    def get_total_area(self) -> float:
+        """Calculate total house area"""
+        return sum(room.area_sqft for room in self._rooms)
+    
+    def get_rooms_by_type(self, room_type: str) -> List[Room]:
+        """Get all rooms of a specific type"""
+        return [room for room in self._rooms if room.room_type == room_type]
+    
+    @property
+    def room_count(self) -> int:
+        return len(self._rooms)
+    
+    def __del__(self):
+        print(f"House destroyed: {self.address}")
+        # All rooms will be destroyed with the house (Composition)
+
+# AGGREGATION Example: University and Students
+# Students can exist independently of University and can belong to multiple Universities
+
+@dataclass
+class Student:
+    """Student class - exists independently (Aggregation)"""
+    name: str
+    student_id: str
+    email: str
+    _courses_enrolled: List[str] = field(default_factory=list)
+    
+    def __post_init__(self):
+        print(f"Student created: {self.name} ({self.student_id})")
+    
+    def enroll_course(self, course_code: str) -> None:
+        if course_code not in self._courses_enrolled:
+            self._courses_enrolled.append(course_code)
+            print(f"{self.name} enrolled in {course_code}")
+    
+    def drop_course(self, course_code: str) -> None:
+        if course_code in self._courses_enrolled:
+            self._courses_enrolled.remove(course_code)
+            print(f"{self.name} dropped {course_code}")
+    
+    @property
+    def courses(self) -> List[str]:
+        return self._courses_enrolled.copy()
+    
+    def get_student_info(self) -> dict:
+        return {
+            'name': self.name,
+            'id': self.student_id,
+            'email': self.email,
+            'courses': self.courses
+        }
+    
+    def __del__(self):
+        print(f"Student object destroyed: {self.name}")
+
+class University:
+    """University class - aggregates students (Aggregation)"""
+    
+    def __init__(self, name: str, location: str):
+        self.name = name
+        self.location = location
+        self._students: List[Student] = []  # University references existing students
+        self._courses: List[str] = []
+        print(f"University created: {name} at {location}")
+    
+    def add_student(self, student: Student) -> None:
+        """Add an existing student to the university (Aggregation)"""
+        if student not in self._students:
+            self._students.append(student)
+            print(f"{student.name} joined {self.name}")
+    
+    def remove_student(self, student: Student) -> None:
+        """Remove student from university but student continues to exist"""
+        if student in self._students:
+            self._students.remove(student)
+            print(f"{student.name} left {self.name}")
+            # Student object continues to exist independently
+    
+    def add_course(self, course_code: str) -> None:
+        """Add a course to the university"""
+        if course_code not in self._courses:
+            self._courses.append(course_code)
+            print(f"Course added: {course_code}")
+    
+    def enroll_student_in_course(self, student: Student, course_code: str) -> bool:
+        """Enroll a student in a course"""
+        if student in self._students and course_code in self._courses:
+            student.enroll_course(course_code)
+            return True
+        return False
+    
+    def get_students_in_course(self, course_code: str) -> List[Student]:
+        """Get all students enrolled in a specific course"""
+        return [student for student in self._students 
+                if course_code in student.courses]
+    
+    @property
+    def student_count(self) -> int:
+        return len(self._students)
+    
+    @property
+    def students(self) -> List[Student]:
+        return self._students.copy()  # Return copy for encapsulation
+    
+    def get_university_stats(self) -> dict:
+        return {
+            'name': self.name,
+            'location': self.location,
+            'student_count': self.student_count,
+            'course_count': len(self._courses),
+            'courses': self._courses.copy()
+        }
+    
+    def __del__(self):
+        print(f"University destroyed: {self.name}")
+        # Students continue to exist independently (Aggregation)
+
+# Advanced example: Library System showing both relationships
+class Book:
+    """Book class - exists independently"""
+    def __init__(self, title: str, author: str, isbn: str):
+        self.title = title
+        self.author = author
+        self.isbn = isbn
+        self.is_available = True
+         print(f"Book created: {title} by {author}")
+    
+    def __str__(self):
+        return f"{self.title} by {self.author} (ISBN: {self.isbn})"
+
+class BookCopy:
+    """BookCopy - part of Library's collection (Composition)"""
+    def __init__(self, book: Book, copy_id: str):
+        self.book = book  # Reference to Book (Aggregation with Book)
+        self.copy_id = copy_id
+        self.condition = "new"
+        self.is_borrowed = False
+        self.borrowed_by = None
+        print(f"Book copy created: {copy_id} for {book.title}")
+    
+    def __del__(self):
+        print(f"Book copy destroyed: {self.copy_id}")
+
+class Library:
+    """Library - demonstrates both Composition and Aggregation"""
+    def __init__(self, name: str):
+        self.name = name
+        self._book_copies: List[BookCopy] = []  # Composition: owns book copies
+        self._members: List[Student] = []       # Aggregation: references students
+        print(f"Library created: {name}")
+    
+    def add_book(self, book: Book, num_copies: int = 1) -> None:
+        """Add book copies to library (Composition)"""
+        for i in range(num_copies):
+            copy_id = f"{book.isbn}-{len(self._book_copies) + 1:03d}"
+            book_copy = BookCopy(book, copy_id)  # Library creates and owns copies
+            self._book_copies.append(book_copy)
+    
+    def register_member(self, student: Student) -> None:
+        """Register existing student as library member (Aggregation)"""
+        if student not in self._members:
+            self._members.append(student)
+            print(f"{student.name} registered as library member")
+    
+    def borrow_book(self, member: Student, isbn: str) -> bool:
+        """Allow member to borrow a book"""
+        if member not in self._members:
+            return False
+        
+        available_copy = next(
+            (copy for copy in self._book_copies 
+             if copy.book.isbn == isbn and not copy.is_borrowed), 
+            None
+        )
+        
+        if available_copy:
+            available_copy.is_borrowed = True
+            available_copy.borrowed_by = member
+            print(f"{member.name} borrowed {available_copy.book.title}")
+            return True
+        return False
+    
+    def return_book(self, copy_id: str) -> bool:
+        """Return a borrowed book"""
+        book_copy = next(
+            (copy for copy in self._book_copies if copy.copy_id == copy_id), 
+            None
+        )
+        
+        if book_copy and book_copy.is_borrowed:
+            borrower = book_copy.borrowed_by
+            book_copy.is_borrowed = False
+            book_copy.borrowed_by = None
+            print(f"{borrower.name} returned {book_copy.book.title}")
+            return True
+        return False
+    
+    def __del__(self):
+        print(f"Library destroyed: {self.name}")
+        # Book copies are destroyed (Composition)
+        # Members continue to exist (Aggregation)
+
+# Usage example demonstrating the differences
+if __name__ == "__main__":
+    print("=== COMPOSITION EXAMPLE: House and Rooms ===")
+    house = House("123 Main St")
+    
+    # House creates and owns rooms
+    living_room = house.add_room("living room", 300)
+    kitchen = house.add_room("kitchen", 150)
+    bedroom = house.add_room("bedroom", 200)
+    
+    print(f"Total house area: {house.get_total_area()} sq ft")
+    print(f"Bedrooms: {len(house.get_rooms_by_type('bedroom'))}")
+    
+    # When house is destroyed, all rooms are destroyed too
+    del house  # This will destroy all rooms
+    
+    print("\n=== AGGREGATION EXAMPLE: University and Students ===")
+    # Students exist independently
+    student1 = Student("Alice Johnson", "S001", "alice@email.com")
+    student2 = Student("Bob Smith", "S002", "bob@email.com")
+    student3 = Student("Carol Davis", "S003", "carol@email.com")
+    
+    # Universities aggregate students
+    university1 = University("Tech University", "Silicon Valley")
+    university2 = University("State College", "Downtown")
+    
+    # Add courses
+    university1.add_course("CS101")
+    university1.add_course("CS201")
+    university2.add_course("MATH101")
+    
+    # Students can join multiple universities
+    university1.add_student(student1)
+    university1.add_student(student2)
+    university2.add_student(student1)  # Student1 in both universities
+    university2.add_student(student3)
+    
+    # Enroll students in courses
+    university1.enroll_student_in_course(student1, "CS101")
+    university1.enroll_student_in_course(student2, "CS101")
+    university2.enroll_student_in_course(student1, "MATH101")
+    
+    print(f"\nUniversity 1 stats: {university1.get_university_stats()}")
+    print(f"Student1 info: {student1.get_student_info()}")
+    
+    # Remove student from one university - student continues to exist
+    university1.remove_student(student1)
+    print(f"Student1 still exists with courses: {student1.courses}")
+    
+    # When university is destroyed, students continue to exist
+    del university1
+    print(f"Student1 still exists: {student1.name}")
+    
+    print("\n=== MIXED EXAMPLE: Library System ===")
+    # Books exist independently
+    book1 = Book("Python Programming", "John Doe", "978-0123456789")
+    book2 = Book("Data Structures", "Jane Smith", "978-0987654321")
+    
+    library = Library("City Library")
+    
+    # Library creates copies (Composition) of books (Aggregation)
+    library.add_book(book1, 3)  # 3 copies of book1
+    library.add_book(book2, 2)  # 2 copies of book2
+    
+    # Register students as members (Aggregation)
+    library.register_member(student2)
+    library.register_member(student3)
+    
+    # Borrow books
+    library.borrow_book(student2, "978-0123456789")
+    library.borrow_book(student3, "978-0987654321")
+    
+    # Return books
+    library.return_book("978-0123456789-001")
+    
+    # When library is destroyed, copies are destroyed but books and students exist
+    del library
+    print(f"Book1 still exists: {book1}")
+    print(f"Student2 still exists: {student2.name}")
+</code></pre>
+            </div>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JavaScript Implementation - Same University System
+            </h4>
+            
+            <div style="padding: 16px; background-color: #f8f9fa; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+              <pre><code>// COMPOSITION Example: House and Rooms in JavaScript
+class Room {
+    #roomId = crypto.randomUUID();
+    
+    constructor(roomType, areaSqft) {
+        this.roomType = roomType;
+        this.areaSqft = areaSqft;
+        console.log(Room created: {roomType} ({areaSqft} sq ft));
+    }
+    
+    getRoomInfo() {
+        return {
+            id: this.#roomId,
+            type: this.roomType,
+            area: this.areaSqft
+        };
+    }
+    
+    // Finalizer to demonstrate lifecycle
+    destroy() {
+        console.log(Room destroyed: {this.roomType});
+    }
+}
+
+class House {
+    #rooms = [];
+    #houseId = crypto.randomUUID();
+    
+    constructor(address) {
+        this.address = address;
+        console.log(House created at: {address});
+    }
+    
+    // House creates and owns rooms (Composition)
+    addRoom(roomType, areaSqft) {
+        const room = new Room(roomType, areaSqft);
+        this.#rooms.push(room);
+        return room;
+    }
+    
+    removeRoom(room) {
+        const index = this.#rooms.indexOf(room);
+        if (index > -1) {
+            this.#rooms.splice(index, 1);
+            room.destroy(); // Explicitly destroy the room
+            return true;
+        }
+        return false;
+    }
+    
+    getTotalArea() {
+        return this.#rooms.reduce((total, room) => total + room.areaSqft, 0);
+    }
+    
+    getRoomsByType(roomType) {
+        return this.#rooms.filter(room => room.roomType === roomType);
+    }
+    
+    get roomCount() {
+        return this.#rooms.length;
+    }
+    
+    destroy() {
+        console.log(House destroyed: {this.address});
+        // Destroy all rooms (Composition)
+        this.#rooms.forEach(room => room.destroy());
+        this.#rooms = [];
+    }
+}
+
+// AGGREGATION Example: University and Students
+class Student {
+    #coursesEnrolled = [];
+    
+    constructor(name, studentId, email) {
+        this.name = name;
+        this.studentId = studentId;
+        this.email = email;
+        console.log(Student created: {name} ({studentId}));
+    }
+    
+    enrollCourse(courseCode) {
+        if (!this.#coursesEnrolled.includes(courseCode)) {
+            this.#coursesEnrolled.push(courseCode);
+            console.log({this.name} enrolled in {courseCode});
+        }
+    }
+    
+    dropCourse(courseCode) {
+        const index = this.#coursesEnrolled.indexOf(courseCode);
+        if (index > -1) {
+            this.#coursesEnrolled.splice(index, 1);
+            console.log({this.name} dropped {courseCode});
+        }
+    }
+    
+    get courses() {
+        return [...this.#coursesEnrolled]; // Return copy
+    }
+    
+    getStudentInfo() {
+        return {
+            name: this.name,
+            id: this.studentId,
+            email: this.email,
+            courses: this.courses
+        };
+    }
+}
+
+class University {
+    #students = [];
+    #courses = [];
+    
+    constructor(name, location) {
+        this.name = name;
+        this.location = location;
+        console.log(University created: {name} at {location});
+    }
+    
+    // Add existing student to university (Aggregation)
+    addStudent(student) {
+        if (!this.#students.includes(student)) {
+            this.#students.push(student);
+            console.log({student.name} joined {this.name});
+        }
+    }
+    
+    removeStudent(student) {
+        const index = this.#students.indexOf(student);
+        if (index > -1) {
+            this.#students.splice(index, 1);
+            console.log({student.name} left {this.name});
+            // Student continues to exist independently
+        }
+    }
+    
+    addCourse(courseCode) {
+        if (!this.#courses.includes(courseCode)) {
+            this.#courses.push(courseCode);
+            console.log(Course added: {courseCode});
+        }
+    }
+    
+    enrollStudentInCourse(student, courseCode) {
+        if (this.#students.includes(student) && this.#courses.includes(courseCode)) {
+            student.enrollCourse(courseCode);
+            return true;
+        }
+        return false;
+    }
+    
+    getStudentsInCourse(courseCode) {
+        return this.#students.filter(student => 
+            student.courses.includes(courseCode)
+        );
+    }
+    
+    get studentCount() {
+        return this.#students.length;
+    }
+    
+    get students() {
+        return [...this.#students]; // Return copy
+    }
+    
+    getUniversityStats() {
+        return {
+            name: this.name,
+            location: this.location,
+            studentCount: this.studentCount,
+            courseCount: this.#courses.length,
+            courses: [...this.#courses]
+        };
+    }
+}
+
+// Mixed example: Library System
+class Book {
+    constructor(title, author, isbn) {
+        this.title = title;
+        this.author = author;
+        this.isbn = isbn;
+        this.isAvailable = true;
+        console.log(Book created: {title} by {author});
+    }
+    
+    toString() {
+        return {this.title} by {this.author} (ISBN: {this.isbn});
+    }
+}
+
+class BookCopy {
+    constructor(book, copyId) {
+        this.book = book; // Reference to Book (Aggregation with Book)
+        this.copyId = copyId;
+        this.condition = "new";
+        this.isBorrowed = false;
+        this.borrowedBy = null;
+        console.log(Book copy created: {copyId} for {book.title});
+    }
+    
+    destroy() {
+        console.log(Book copy destroyed: {this.copyId});
+    }
+}
+
+class Library {
+    #bookCopies = []; // Composition: owns book copies
+    #members = [];    // Aggregation: references students
+    
+    constructor(name) {
+        this.name = name;
+        console.log(Library created: {name});
+    }
+    
+    addBook(book, numCopies = 1) {
+        for (let i = 0; i < numCopies; i++) {
+            const copyId = {book.isbn}-{(this.#bookCopies.length + 1).toString().padStart(3, '0')};
+            const bookCopy = new BookCopy(book, copyId);
+            this.#bookCopies.push(bookCopy);
+        }
+    }
+    
+    registerMember(student) {
+        if (!this.#members.includes(student)) {
+            this.#members.push(student);
+            console.log({student.name} registered as library member);
+        }
+    }
+    
+    borrowBook(member, isbn) {
+        if (!this.#members.includes(member)) {
+            return false;
+        }
+        
+        const availableCopy = this.#bookCopies.find(copy => 
+            copy.book.isbn === isbn && !copy.isBorrowed
+        );
+        
+        if (availableCopy) {
+            availableCopy.isBorrowed = true;
+            availableCopy.borrowedBy = member;
+            console.log({member.name} borrowed {availableCopy.book.title});
+            return true;
+        }
+        return false;
+    }
+    
+    returnBook(copyId) {
+        const bookCopy = this.#bookCopies.find(copy => copy.copyId === copyId);
+        
+        if (bookCopy && bookCopy.isBorrowed) {
+            const borrower = bookCopy.borrowedBy;
+            bookCopy.isBorrowed = false;
+            bookCopy.borrowedBy = null;
+            console.log({borrower.name} returned {bookCopy.book.title});
+            return true;
+        }
+        return false;
+    }
+    
+    destroy() {
+        console.log(Library destroyed: {this.name});
+        // Book copies are destroyed (Composition)
+        this.#bookCopies.forEach(copy => copy.destroy());
+        this.#bookCopies = [];
+        // Members continue to exist (Aggregation)
+    }
+}
+
+// Usage examples
+console.log("=== COMPOSITION EXAMPLE: House and Rooms ===");
+const house = new House("123 Main St");
+
+// House creates and owns rooms
+const livingRoom = house.addRoom("living room", 300);
+const kitchen = house.addRoom("kitchen", 150);
+const bedroom = house.addRoom("bedroom", 200);
+
+console.log(Total house area: {house.getTotalArea()} sq ft);
+console.log(Bedrooms: {house.getRoomsByType('bedroom').length});
+
+// When house is destroyed, all rooms are destroyed too
+house.destroy();
+
+console.log("\n=== AGGREGATION EXAMPLE: University and Students ===");
+// Students exist independently
+const student1 = new Student("Alice Johnson", "S001", "alice@email.com");
+const student2 = new Student("Bob Smith", "S002", "bob@email.com");
+const student3 = new Student("Carol Davis", "S003", "carol@email.com");
+
+// Universities aggregate students
+const university1 = new University("Tech University", "Silicon Valley");
+const university2 = new University("State College", "Downtown");
+
+// Add courses
+university1.addCourse("CS101");
+university1.addCourse("CS201");
+university2.addCourse("MATH101");
+
+// Students can join multiple universities
+university1.addStudent(student1);
+university1.addStudent(student2);
+university2.addStudent(student1); // Student1 in both universities
+university2.addStudent(student3);
+
+// Enroll students in courses
+university1.enrollStudentInCourse(student1, "CS101");
+university1.enrollStudentInCourse(student2, "CS101");
+university2.enrollStudentInCourse(student1, "MATH101");
+
+console.log("\nUniversity 1 stats:", university1.getUniversityStats());
+console.log("Student1 info:", student1.getStudentInfo());
+
+// Remove student from one university - student continues to exist
+university1.removeStudent(student1);
+console.log(Student1 still exists with courses: {student1.courses.join(', ')});
+
+console.log("\n=== MIXED EXAMPLE: Library System ===");
+// Books exist independently
+const book1 = new Book("Python Programming", "John Doe", "978-0123456789");
+const book2 = new Book("Data Structures", "Jane Smith", "978-0987654321");
+
+const library = new Library("City Library");
+
+// Library creates copies (Composition) of books (Aggregation)
+library.addBook(book1, 3); // 3 copies of book1
+library.addBook(book2, 2); // 2 copies of book2
+
+// Register students as members (Aggregation)
+library.registerMember(student2);
+library.registerMember(student3);
+
+// Borrow books
+library.borrowBook(student2, "978-0123456789");
+library.borrowBook(student3, "978-0987654321");
+
+// Return books
+library.returnBook("978-0123456789-001");
+
+// When library is destroyed, copies are destroyed but books and students exist
+library.destroy();
+console.log(Book1 still exists: {book1.toString()});
+console.log(Student2 still exists: {student2.name});
+        `,
+            questions: [
+              {
+                question:
+                  "What's the difference between abstraction and encapsulation?",
+                solution:
+                  "<p>Abstraction focuses on hiding implementation complexity and exposing only necessary interfaces, while encapsulation bundles data and methods together and controls access to them. Abstraction is about 'what' an object does, encapsulation is about 'how' it protects its internal state. Both work together to create maintainable, secure code where implementation details can change without affecting client code.</p>",
+              },
+              {
+                question:
+                  "How do private fields enhance encapsulation in modern JavaScript?",
+                solution:
+                  "<p>Private fields (using # prefix) provide true privacy in JavaScript classes, preventing external access to internal state. Unlike naming conventions (like _private), private fields are enforced by the language runtime. This enables better encapsulation by ensuring that object state can only be modified through controlled public interfaces, preventing accidental or malicious modification of internal data.</p>",
+              },
+            ],
+            links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://refactoring.guru/design-patterns/abstract-factory",
+            ],
+          },
+          {
+            topic: "Law of Demeter (LoD)",
+            tags: ["Design Principle", "Coupling", "Architecture"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Law of Demeter (LoD), also known as the "Principle of Least Knowledge," is a design guideline that promotes loose coupling between classes. It states that an object should only communicate with its immediate neighbors and not with objects that are returned by method calls on those neighbors.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Principle
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A method M of an object O may only invoke the methods of the following kinds of objects:
+   </p>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">O itself (self/this):</span> Methods of the same object
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">M's parameters:</span> Objects passed as parameters to the method
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Objects created within M:</span> Any objects instantiated inside the method
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">O's direct component objects:</span> Instance variables/attributes of O
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Global variables:</span> Objects accessible in the global scope (use sparingly)
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Follow the Law of Demeter?
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reduced Coupling:</span> Less dependency between classes makes the system more modular
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Improved Maintainability:</span> Changes in one class are less likely to break others
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Enhanced Testability:</span> Easier to mock dependencies and write unit tests
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Better Encapsulation:</span> Internal structure of objects remains hidden
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Violation Example (Anti-Pattern)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <strong>Python - Violating LoD:</strong>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-python">
+class Address:
+    def __init__(self, street, city, country):
+        self.street = street
+        self.city = city
+        self.country = country
+
+class Person:
+    def __init__(self, name, address):
+        self.name = name
+        self.address = address
+
+class Company:
+    def __init__(self, employees):
+        self.employees = employees
+    
+    def get_employee_countries(self):
+        countries = []
+        for employee in self.employees:
+            # VIOLATION: Chaining calls employee.address.country
+            countries.append(employee.address.country)
+        return countries
+
+# Usage
+address1 = Address("123 Main St", "New York", "USA")
+person1 = Person("John", address1)
+company = Company([person1])
+countries = company.get_employee_countries()  # Fragile code
+      </code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <strong>JavaScript - Violating LoD:</strong>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-javascript">
+class Address {
+    constructor(street, city, country) {
+        this.street = street;
+        this.city = city;
+        this.country = country;
+    }
+}
+
+class Person {
+    constructor(name, address) {
+        this.name = name;
+        this.address = address;
+    }
+}
+
+class Company {
+    constructor(employees) {
+        this.employees = employees;
+    }
+    
+    getEmployeeCountries() {
+        return this.employees.map(employee => 
+            // VIOLATION: Chaining calls employee.address.country
+            employee.address.country
+        );
+    }
+}
+
+// Usage
+const address1 = new Address("123 Main St", "New York", "USA");
+const person1 = new Person("John", address1);
+const company = new Company([person1]);
+const countries = company.getEmployeeCountries(); // Fragile code
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Correct Implementation (Following LoD)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <strong>Python - Following LoD:</strong>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-python">
+class Address:
+    def __init__(self, street, city, country):
+        self.street = street
+        self.city = city
+        self.country = country
+    
+    def get_country(self):
+        return self.country
+
+class Person:
+    def __init__(self, name, address):
+        self.name = name
+        self.address = address
+    
+    def get_country(self):
+        # Person asks its address for the country
+        return self.address.get_country()
+    
+    def get_location_info(self):
+        return {
+            'street': self.address.street,
+            'city': self.address.city,
+            'country': self.address.country
+        }
+
+class Company:
+    def __init__(self, employees):
+        self.employees = employees
+    
+    def get_employee_countries(self):
+        countries = []
+        for employee in self.employees:
+            # CORRECT: Only talking to immediate neighbor (employee)
+            countries.append(employee.get_country())
+        return countries
+    
+    def get_employees_from_country(self, target_country):
+        return [emp for emp in self.employees 
+                if emp.get_country() == target_country]
+
+# Usage
+address1 = Address("123 Main St", "New York", "USA")
+address2 = Address("456 Oak Ave", "Toronto", "Canada")
+person1 = Person("John", address1)
+person2 = Person("Jane", address2)
+company = Company([person1, person2])
+
+countries = company.get_employee_countries()  # ['USA', 'Canada']
+us_employees = company.get_employees_from_country("USA")  # [person1]
+      </code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <strong>JavaScript - Following LoD:</strong>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-javascript">
+class Address {
+    constructor(street, city, country) {
+        this.street = street;
+        this.city = city;
+        this.country = country;
+    }
+    
+    getCountry() {
+        return this.country;
+    }
+    
+    getFullAddress() {
+        return \`\ {this.street}, \ {this.city}, \ {this.country}\`;
+    }
+}
+
+class Person {
+    constructor(name, address) {
+        this.name = name;
+        this.address = address;
+    }
+    
+    getCountry() {
+        // Person asks its address for the country
+        return this.address.getCountry();
+    }
+    
+    getLocationInfo() {
+        return {
+            street: this.address.street,
+            city: this.address.city,
+            country: this.address.country
+        };
+    }
+    
+    relocate(newAddress) {
+        this.address = newAddress;
+    }
+}
+
+class Company {
+    constructor(employees = []) {
+        this.employees = employees;
+    }
+    
+    addEmployee(employee) {
+        this.employees.push(employee);
+    }
+    
+    getEmployeeCountries() {
+        // CORRECT: Only talking to immediate neighbor (employee)
+        return this.employees.map(employee => employee.getCountry());
+    }
+    
+    getEmployeesFromCountry(targetCountry) {
+        return this.employees.filter(emp => 
+            emp.getCountry() === targetCountry
+        );
+    }
+    
+    getCompanyPresence() {
+        const countries = new Set(this.getEmployeeCountries());
+        return Array.from(countries);
+    }
+}
+
+// Usage
+const address1 = new Address("123 Main St", "New York", "USA");
+const address2 = new Address("456 Oak Ave", "Toronto", "Canada");
+const person1 = new Person("John", address1);
+const person2 = new Person("Jane", address2);
+const company = new Company([person1, person2]);
+
+const countries = company.getEmployeeCountries(); // ['USA', 'Canada']
+const usEmployees = company.getEmployeesFromCountry("USA"); // [person1]
+const presence = company.getCompanyPresence(); // ['USA', 'Canada']
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Systems:</span> Order processing without exposing customer's payment details to shipping modules
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Banking Applications:</span> Account operations without exposing internal transaction mechanisms
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">UI Frameworks:</span> Components communicating through props/events rather than direct DOM manipulation
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Microservices:</span> Services communicating through well-defined APIs rather than direct database access
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits in System Design
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Reduced Ripple Effects:</span> Changes in internal implementation don't cascade through the system
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Improved Scalability:</span> Easier to replace or upgrade individual components
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Enhanced Security:</span> Limits exposure of sensitive internal details
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Better Performance:</span> Reduced unnecessary object traversals and method calls
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Example: E-commerce Order Processing (Following LoD)
+
+class PaymentProcessor:
+    def process_payment(self, amount, payment_method):
+        # Internal payment processing logic
+        return {"status": "success", "transaction_id": "TXN123"}
+
+class ShippingService:
+    def calculate_shipping(self, address, weight):
+        # Shipping calculation logic
+        return 15.99
+
+class Order:
+    def __init__(self, items, customer):
+        self.items = items
+        self.customer = customer
+        self.payment_processor = PaymentProcessor()
+        self.shipping_service = ShippingService()
+    
+    def process(self):
+        # Order only talks to its direct dependencies
+        total = self.calculate_total()
+        shipping_cost = self.shipping_service.calculate_shipping(
+            self.customer.get_address(), 
+            self.calculate_weight()
+        )
+        payment_result = self.payment_processor.process_payment(
+            total + shipping_cost, 
+            self.customer.get_payment_method()
+        )
+        return payment_result
+    
+    def calculate_total(self):
+        return sum(item.price for item in self.items)
+    
+    def calculate_weight(self):
+        return sum(item.weight for item in self.items)`,
+
+              `// JavaScript Example: UI Component Communication (Following LoD)
+
+class DataService {
+    constructor() {
+        this.cache = new Map();
+    }
+    
+    async fetchUserData(userId) {
+        if (this.cache.has(userId)) {
+            return this.cache.get(userId);
+        }
+        
+        // Simulate API call
+        const userData = { id: userId, name: 'John Doe', email: 'john@example.com' };
+        this.cache.set(userId, userData);
+        return userData;
+    }
+}
+
+class UserProfile {
+    constructor(dataService) {
+        this.dataService = dataService;
+        this.userData = null;
+    }
+    
+    async loadProfile(userId) {
+        // Component only talks to its data service
+        this.userData = await this.dataService.fetchUserData(userId);
+        return this.userData;
+    }
+    
+    getDisplayName() {
+        return this.userData ? this.userData.name : 'Unknown User';
+    }
+    
+    getContactInfo() {
+        return this.userData ? this.userData.email : null;
+    }
+}
+
+class Dashboard {
+    constructor() {
+        this.dataService = new DataService();
+        this.userProfile = new UserProfile(this.dataService);
+    }
+    
+    async renderUserSection(userId) {
+        // Dashboard talks to UserProfile, not directly to DataService
+        await this.userProfile.loadProfile(userId);
+        
+        return {
+            displayName: this.userProfile.getDisplayName(),
+            contactInfo: this.userProfile.getContactInfo()
+        };
+    }
+}`,
+            ],
+            questions: [
+              {
+                question: "What happens when you violate the Law of Demeter?",
+                solution:
+                  "<p>Violating the Law of Demeter creates tight coupling between classes, making the system fragile and hard to maintain. When you chain method calls like <code>object.getA().getB().getC()</code>, you create dependencies on the internal structure of multiple objects. If any intermediate object changes its interface, all calling code breaks. This also makes testing difficult because you need to mock entire object hierarchies instead of just immediate dependencies.</p>",
+              },
+              {
+                question:
+                  "Can you provide a real-world scenario where LoD is crucial?",
+                solution:
+                  "<p>In a banking system, consider an <code>AccountManager</code> that needs to process transactions. Following LoD, the AccountManager should call <code>account.processTransaction(amount)</code> rather than <code>account.getBalance().subtract(amount)</code> and <code>account.getTransactionHistory().add(transaction)</code>. This ensures that balance calculations and transaction logging remain encapsulated within the Account class, preventing external classes from accidentally corrupting the account state and making the system more secure and maintainable.</p>",
+              },
+              {
+                question: "How does the Law of Demeter improve system design?",
+                solution:
+                  "<p>The Law of Demeter improves system design by reducing coupling between components, making the system more modular and maintainable. It encourages proper encapsulation by ensuring objects only interact with their immediate collaborators. This leads to better separation of concerns, easier testing (fewer mocks needed), improved flexibility for future changes, and reduced ripple effects",
+              },
+            ],
+            links: [
+              "https://en.wikipedia.org/wiki/Law_of_Demeter",
+              "https://martinfowler.com/bliki/TellDontAsk.html",
+              "https://www.baeldung.com/java-demeter-law",
+            ],
+          },
+          {
+            topic: "Information Hiding & Immutability",
+            tags: [
+              "Encapsulation",
+              "Data Protection",
+              "Functional Programming",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Information Hiding and Immutability are fundamental principles in software design that work together to create robust, maintainable, and secure applications. Information hiding ensures that internal implementation details are concealed from external access, while immutability guarantees that object state cannot be modified after creation.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Information Hiding (Encapsulation)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Information hiding is the principle of concealing the internal implementation details of a class or module while exposing only the necessary interface. This is achieved through access modifiers and well-designed public APIs.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Benefits of Information Hiding:
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Integrity:</span> Prevents unauthorized access and modification of internal state
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Internal changes don't affect external code
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Sensitive data and operations are protected from external access
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Modularity:</span> Clear separation between interface and implementation
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Information Hiding Examples
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-python">
+class BankAccount:
+    def __init__(self, account_number, initial_balance):
+        self._account_number = account_number  # Protected (convention)
+        self.__balance = initial_balance       # Private (name mangling)
+        self.__transaction_history = []        # Private
+    
+    @property
+    def account_number(self):
+        """Public read-only access to account number"""
+        return self._account_number
+    
+    @property
+    def balance(self):
+        """Public read-only access to balance"""
+        return self.__balance
+    
+    def deposit(self, amount):
+        """Public method with validation"""
+        if amount <= 0:
+            raise ValueError("Deposit amount must be positive")
+        
+        self.__balance += amount
+        self.__record_transaction("DEPOSIT", amount)
+        return self.__balance
+    
+    def withdraw(self, amount):
+        """Public method with business logic"""
+        if amount <= 0:
+            raise ValueError("Withdrawal amount must be positive")
+        if amount > self.__balance:
+            raise ValueError("Insufficient funds")
+        
+        self.__balance -= amount
+        self.__record_transaction("WITHDRAWAL", amount)
+        return self.__balance
+    
+    def get_transaction_history(self):
+        """Public method returning copy of history"""
+        return self.__transaction_history.copy()
+    
+    def __record_transaction(self, transaction_type, amount):
+        """Private method - internal implementation"""
+        import datetime
+        self.__transaction_history.append({
+            'type': transaction_type,
+            'amount': amount,
+            'timestamp': datetime.datetime.now(),
+            'balance_after': self.__balance
+        })
+    
+    def __validate_transaction(self, amount, transaction_type):
+        """Private validation method"""
+        # Complex validation logic hidden from outside
+        pass
+
+# Usage demonstrating proper encapsulation
+account = BankAccount("12345", 1000)
+print(account.balance)        # 1000 (read-only property)
+account.deposit(500)          # 1500 (controlled access)
+print(account.get_transaction_history())  # Returns copy, not direct access
+
+# These would fail or be discouraged:
+# print(account.__balance)    # AttributeError (private)
+# account.__balance = 5000    # Doesn't work (name mangling)
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Information Hiding Examples
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-javascript">
+class BankAccount {
+    // Private fields (ES2022)
+    #accountNumber;
+    #balance;
+    #transactionHistory;
+    
+    constructor(accountNumber, initialBalance) {
+        this.#accountNumber = accountNumber;
+        this.#balance = initialBalance;
+        this.#transactionHistory = [];
+    }
+    
+    // Public getter for account number
+    get accountNumber() {
+        return this.#accountNumber;
+    }
+    
+    // Public getter for balance
+    get balance() {
+        return this.#balance;
+    }
+    
+    // Public method with validation
+    deposit(amount) {
+        if (!this.#validateAmount(amount)) {
+            throw new Error("Invalid deposit amount");
+        }
+        
+        this.#balance += amount;
+        this.#recordTransaction("DEPOSIT", amount);
+        return this.#balance;
+    }
+    
+    // Public method with business logic
+    withdraw(amount) {
+        if (!this.#validateAmount(amount)) {
+            throw new Error("Invalid withdrawal amount");
+        }
+        if (amount > this.#balance) {
+            throw new Error("Insufficient funds");
+        }
+        
+        this.#balance -= amount;
+        this.#recordTransaction("WITHDRAWAL", amount);
+        return this.#balance;
+    }
+    
+    // Public method returning copy of history
+    getTransactionHistory() {
+        return [...this.#transactionHistory];
+    }
+    
+    // Private method for validation
+    #validateAmount(amount) {
+        return typeof amount === 'number' && amount > 0;
+    }
+    
+    // Private method for recording transactions
+    #recordTransaction(type, amount) {
+        this.#transactionHistory.push({
+            type,
+            amount,
+            timestamp: new Date(),
+            balanceAfter: this.#balance
+        });
+    }
+}
+
+// Alternative using closures for information hiding (pre-ES2022)
+function createBankAccount(accountNumber, initialBalance) {
+    // Private variables in closure
+    let balance = initialBalance;
+    let transactionHistory = [];
+    
+    function recordTransaction(type, amount) {
+        transactionHistory.push({
+            type,
+            amount,
+            timestamp: new Date(),
+            balanceAfter: balance
+        });
+    }
+    
+    function validateAmount(amount) {
+        return typeof amount === 'number' && amount > 0;
+    }
+    
+    // Return public interface
+    return {
+        get accountNumber() { return accountNumber; },
+        get balance() { return balance; },
+        
+        deposit(amount) {
+            if (!validateAmount(amount)) {
+                throw new Error("Invalid deposit amount");
+            }
+            balance += amount;
+            recordTransaction("DEPOSIT", amount);
+            return balance;
+        },
+        
+        withdraw(amount) {
+            if (!validateAmount(amount)) {
+                throw new Error("Invalid withdrawal amount");
+            }
+            if (amount > balance) {
+                throw new Error("Insufficient funds");
+            }
+            balance -= amount;
+            recordTransaction("WITHDRAWAL", amount);
+            return balance;
+        },
+        
+        getTransactionHistory() {
+            return [...transactionHistory];
+        }
+    };
+}
+
+// Usage
+const account = new BankAccount("12345", 1000);
+console.log(account.balance);     // 1000
+account.deposit(500);             // 1500
+console.log(account.getTransactionHistory());
+
+// These would fail:
+// console.log(account.#balance);    // SyntaxError
+// account.#balance = 5000;          // SyntaxError
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Immutability
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Immutability means that once an object is created, its state cannot be changed. Instead of modifying existing objects, new objects are created with the desired changes. This principle is fundamental in functional programming and provides several benefits.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Immutability:
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Thread Safety:</span> Immutable objects are inherently thread-safe
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Predictable Behavior:</span> No unexpected side effects from object modification
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Easier Debugging:</span> State changes are explicit and trackable
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Cacheable:</span> Hash codes and equality comparisons remain consistent
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Functional Programming:</span> Enables powerful functional programming patterns
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Immutability Examples
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-python">
+from dataclasses import dataclass
+from typing import List, Tuple
+import datetime
+
+# Immutable class using dataclass
+@dataclass(frozen=True)
+class Point:
+    x: float
+    y: float
+    
+    def distance_from_origin(self) -> float:
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+    
+    def move(self, dx: float, dy: float) -> 'Point':
+        """Returns new Point with moved coordinates"""
+        return Point(self.x + dx, self.y + dy)
+    
+    def scale(self, factor: float) -> 'Point':
+        """Returns new Point with scaled coordinates"""
+        return Point(self.x * factor, self.y * factor)
+
+# Immutable class using __slots__ and properties
+class ImmutablePerson:
+    __slots__ = ('_name', '_age', '_email', '_created_at')
+    
+    def __init__(self, name: str, age: int, email: str):
+        # Use object.__setattr__ to set values during initialization
+        object.__setattr__(self, '_name', name)
+        object.__setattr__(self, '_age', age)
+        object.__setattr__(self, '_email', email)
+        object.__setattr__(self, '_created_at', datetime.datetime.now())
+    
+    @property
+    def name(self) -> str:
+        return self._name
+    
+    @property
+    def age(self) -> int:
+        return self._age
+    
+    @property
+    def email(self) -> str:
+        return self._email
+    
+    @property
+    def created_at(self) -> datetime.datetime:
+        return self._created_at
+    
+    def __setattr__(self, name, value):
+        raise AttributeError(f"Can't set attribute '{name}' on immutable object")
+    
+    def __delattr__(self, name):
+        raise AttributeError(f"Can't delete attribute '{name}' on immutable object")
+    
+    def with_age(self, new_age: int) -> 'ImmutablePerson':
+        """Returns new ImmutablePerson with updated age"""
+        return ImmutablePerson(self._name, new_age, self._email)
+    
+    def with_email(self, new_email: str) -> 'ImmutablePerson':
+        """Returns new ImmutablePerson with updated email"""
+        return ImmutablePerson(self._name, self._age, new_email)
+    
+    def __str__(self):
+        return f"Person(name='{self._name}', age={self._age}, email='{self._email}')"
+    
+    def __hash__(self):
+        return hash((self._name, self._age, self._email))
+    
+    def __eq__(self, other):
+        if not isinstance(other, ImmutablePerson):
+            return False
+        return (self._name == other._name and 
+                self._age == other._age and 
+                self._email == other._email)
+
+# Immutable collection wrapper
+class ImmutableList:
+    def __init__(self, items: List = None):
+        self._items = tuple(items or [])  # Store as tuple for immutability
+    
+    def __getitem__(self, index):
+        return self._items[index]
+    
+    def __len__(self):
+        return len(self._items)
+    
+    def __iter__(self):
+        return iter(self._items)
+    
+    def append(self, item) -> 'ImmutableList':
+        """Returns new ImmutableList with item appended"""
+        return ImmutableList(self._items + (item,))
+    
+    def remove(self, item) -> 'ImmutableList':
+        """Returns new ImmutableList with item removed"""
+        new_items = [x for x in self._items if x != item]
+        return ImmutableList(new_items)
+    
+    def filter(self, predicate) -> 'ImmutableList':
+        """Returns new ImmutableList with filtered items"""
+        filtered_items = [x for x in self._items if predicate(x)]
+        return ImmutableList(filtered_items)
+    
+    def map(self, func) -> 'ImmutableList':
+        """Returns new ImmutableList with transformed items"""
+        mapped_items = [func(x) for x in self._items]
+        return ImmutableList(mapped_items)
+    
+    def __str__(self):
+        return f"ImmutableList({list(self._items)})"
+
+# Usage examples
+# Points are immutable
+p1 = Point(3, 4)
+p2 = p1.move(2, 1)  # Creates new Point(5, 5)
+p3 = p1.scale(2)    # Creates new Point(6, 8)
+
+# Person is immutable
+person1 = ImmutablePerson("Alice", 30, "alice@example.com")
+person2 = person1.with_age(31)  # Creates new person with updated age
+
+# List operations create new lists
+numbers = ImmutableList([1, 2, 3, 4, 5])
+evens = numbers.filter(lambda x: x % 2 == 0)    # ImmutableList([2, 4])
+doubled = numbers.map(lambda x: x * 2)          # ImmutableList([2, 4, 6, 8, 10])
+extended = numbers.append(6)                    # ImmutableList([1, 2, 3, 4, 5, 6])
+
+print(f"Original: {numbers}")    # [1, 2, 3, 4, 5]
+print(f"Evens: {evens}")         # [2, 4]
+print(f"Doubled: {doubled}")     # [2, 4, 6, 8, 10]
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Immutability Examples
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-javascript">
+// Immutable class using Object.freeze()
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        // Freeze the object to make it immutable
+        Object.freeze(this);
+    }
+    
+    distanceFromOrigin() {
+        return Math.sqrt(this.x ** 2 + this.y ** 2);
+    }
+    
+    move(dx, dy) {
+        // Returns new Point with moved coordinates
+        return new Point(this.x + dx, this.y + dy);
+    }
+    
+    scale(factor) {
+        // Returns new Point with scaled coordinates
+        return new Point(this.x * factor, this.y * factor);
+    }
+    
+    toString() {
+        return Point({this.x}, {this.y});
+    }
+}
+
+// Immutable Person class with builder pattern
+class ImmutablePerson {
+    constructor(name, age, email) {
+        this._name = name;
+        this._age = age;
+        this._email = email;
+        this._createdAt = new Date();
+        
+        // Make all properties read-only
+        Object.defineProperty(this, 'name', {
+            value: name,
+            writable: false,
+            enumerable: true,
+            configurable: false
+        });
+        
+        Object.defineProperty(this, 'age', {
+            value: age,
+            writable: false,
+            enumerable: true,
+            configurable: false
+        });
+        
+        Object.defineProperty(this, 'email', {
+            value: email,
+            writable: false,
+            enumerable: true,
+            configurable: false
+        });
+        
+        Object.defineProperty(this, 'createdAt', {
+            value: new Date(this._createdAt),
+            writable: false,
+            enumerable: true,
+            configurable: false
+        });
+        
+        Object.freeze(this);
+    }
+    
+    withAge(newAge) {
+        return new ImmutablePerson(this.name, newAge, this.email);
+    }
+    
+    withEmail(newEmail) {
+        return new ImmutablePerson(this.name, this.age, newEmail);
+    }
+    
+    toString() {
+        return Person(name: '{this.name}', age: {this.age}, email: '{this.email}');
+    }
+}
+
+// Immutable array implementation
+class ImmutableArray {
+    constructor(items = []) {
+        this._items = Object.freeze([...items]);
+        Object.freeze(this);
+    }
+    
+    get length() {
+        return this._items.length;
+    }
+    
+    get(index) {
+        return this._items[index];
+    }
+    
+    toArray() {
+        return [...this._items];
+    }
+    
+    append(item) {
+        return new ImmutableArray([...this._items, item]);
+    }
+    
+    prepend(item) {
+        return new ImmutableArray([item, ...this._items]);
+    }
+    
+    remove(item) {
+        const newItems = this._items.filter(x => x !== item);
+        return new ImmutableArray(newItems);
+    }
+    
+    removeAt(index) {
+        const newItems = [
+            ...this._items.slice(0, index),
+            ...this._items.slice(index + 1)
+        ];
+        return new ImmutableArray(newItems);
+    }
+    
+    map(func) {
+        return new ImmutableArray(this._items.map(func));
+    }
+    
+    filter(predicate) {
+        return new ImmutableArray(this._items.filter(predicate));
+    }
+    
+    reduce(reducer, initialValue) {
+        return this._items.reduce(reducer, initialValue);
+    }
+    
+    find(predicate) {
+        return this._items.find(predicate);
+    }
+    
+    forEach(callback) {
+        this._items.forEach(callback);
+    }
+    
+    *[Symbol.iterator]() {
+        yield* this._items;
+    }
+    
+    toString() {
+        return ImmutableArray([{this._items.join(', ')}]);
+    }
+}
+
+// Immutable Map implementation
+class ImmutableMap {
+    constructor(entries = []) {
+        this._map = new Map(entries);
+        // Freeze the internal map to prevent direct manipulation
+        Object.freeze(this._map);
+        Object.freeze(this);
+    }
+    
+    get size() {
+        return this._map.size;
+    }
+    
+    has(key) {
+        return this._map.has(key);
+    }
+    
+    get(key) {
+        return this._map.get(key);
+    }
+    
+    set(key, value) {
+        const newEntries = [...this._map.entries()];
+        const existingIndex = newEntries.findIndex(([k]) => k === key);
+        
+        if (existingIndex >= 0) {
+            newEntries[existingIndex] = [key, value];
+        } else {
+            newEntries.push([key, value]);
+        }
+        
+        return new ImmutableMap(newEntries);
+    }
+    
+    delete(key) {
+        const newEntries = [...this._map.entries()].filter(([k]) => k !== key);
+        return new ImmutableMap(newEntries);
+    }
+    
+    keys() {
+        return this._map.keys();
+    }
+    
+    values() {
+        return this._map.values();
+    }
+    
+    entries() {
+        return this._map.entries();
+    }
+    
+    forEach(callback) {
+        this._map.forEach(callback);
+    }
+    
+    *[Symbol.iterator]() {
+        yield* this._map;
+    }
+    
+    toString() {
+        const entries = [...this._map.entries()]
+            .map(([k, v]) => {k} => {v})
+            .join(', ');
+        return ImmutableMap({{entries}});
+    }
+}
+
+// Usage examples
+// Points are immutable
+const p1 = new Point(3, 4);
+const p2 = p1.move(2, 1);  // Creates new Point(5, 5)
+const p3 = p1.scale(2);    // Creates new Point(6, 8)
+
+console.log(p1.toString()); // Point(3, 4) - original unchanged
+console.log(p2.toString()); // Point(5, 5)
+
+// Person is immutable
+const person1 = new ImmutablePerson("Alice", 30, "alice@example.com");
+const person2 = person1.withAge(31);  // Creates new person with updated age
+
+// Array operations create new arrays
+const numbers = new ImmutableArray([1, 2, 3, 4, 5]);
+const evens = numbers.filter(x => x % 2 === 0);    // ImmutableArray([2, 4])
+const doubled = numbers.map(x => x * 2);           // ImmutableArray([2, 4, 6, 8, 10])
+const extended = numbers.append(6);                // ImmutableArray([1, 2, 3, 4, 5, 6])
+
+console.log(Original: {numbers});    // [1, 2, 3, 4, 5]
+console.log(Evens: {evens});         // [2, 4]
+console.log(Extended: {extended});   // [1, 2, 3, 4, 5, 6]
+
+// Map operations create new maps
+const userMap = new ImmutableMap([['user1', 'Alice'], ['user2', 'Bob']]);
+const updatedMap = userMap.set('user3', 'Charlie');
+const withoutUser = updatedMap.delete('user1');
+
+console.log(Original: {userMap});     // user1 => Alice, user2 => Bob
+console.log(Updated: {updatedMap});   // user1 => Alice, user2 => Bob, user3 => Charlie
+console.log(Removed: {withoutUser});  // user2 => Bob, user3 => Charlie
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Combining Information Hiding and Immutability
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     When combined, information hiding and immutability create extremely robust and secure systems. Here's an advanced example showing both principles working together:
+   </p>
+
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code class="language-python">
+# Python: Advanced example combining both principles
+from typing import Dict, List, Optional
+from dataclasses import dataclass
+from datetime import datetime
+import hashlib
+
+@dataclass(frozen=True)
+class Transaction:
+    transaction_id: str
+    amount: float
+    transaction_type: str
+    timestamp: datetime
+    description: str
+
+class SecureBankAccount:
+    """
+    Demonstrates both information hiding and controlled immutability
+    """
+    def __init__(self, account_number: str, initial_balance: float, owner_ssn: str):
+        # Private fields (information hiding)
+        self.__account_number = account_number
+        self.__balance = initial_balance
+        self.__owner_ssn_hash = self.__hash_ssn(owner_ssn)  # Store hash, not actual SSN
+        self.__transactions: List[Transaction] = []
+        self.__frozen = False
+        
+        # Record initial balance as transaction
+        self.__record_transaction("INITIAL_DEPOSIT", initial_balance, "Account opening")
+    
+    # Public read-only properties (controlled access)
+    @property
+    def account_number(self) -> str:
+        return self.__account_number
+    
+    @property
+    def balance(self) -> float:
+        return self.__balance
+    
+    @property
+    def transaction_count(self) -> int:
+        return len(self.__transactions)
+    
+    def get_transaction_history(self) -> List[Transaction]:
+        """Returns immutable copy of transaction history"""
+        return self.__transactions.copy()
+    
+    def get_recent_transactions(self, count: int = 10) -> List[Transaction]:
+        """Returns immutable copy of recent transactions"""
+        return self.__transactions[-count:].copy()
+    
+    def deposit(self, amount: float, description: str = "") -> 'AccountSnapshot':
+        """Returns immutable snapshot of account state after operation"""
+        self.__validate_not_frozen()
+        self.__validate_amount(amount, "deposit")
+        
+        new_balance = self.__balance + amount
+        transaction = self.__record_transaction("DEPOSIT", amount, description)
+        self.__balance = new_balance
+        
+        return self.__create_snapshot()
+    
+    def withdraw(self, amount: float, description: str = "") -> 'AccountSnapshot':
+        """Returns immutable snapshot of account state after operation"""
+        self.__validate_not_frozen()
+        self.__validate_amount(amount, "withdrawal")
+        
+        if amount > self.__balance:
+            raise ValueError("Insufficient funds")
+        
+        new_balance = self.__balance - amount
+        transaction = self.__record_transaction("WITHDRAWAL", amount, description)
+        self.__balance = new_balance
+        
+        return self.__create_snapshot()
+    
+    def freeze_account(self, reason: str) -> None:
+        """Freeze account to prevent further transactions"""
+        self.__frozen = True
+        self.__record_transaction("FREEZE", 0, f"Account frozen: {reason}")
+    
+    def verify_owner(self, ssn: str) -> bool:
+        """Verify owner without exposing actual SSN"""
+        return self.__hash_ssn(ssn) == self.__owner_ssn_hash
+    
+    # Private methods (information hiding)
+    def __validate_not_frozen(self) -> None:
+        if self.__frozen:
+            raise ValueError("Account is frozen")
+    
+    def __validate_amount(self, amount: float, operation: str) -> None:
+        if not isinstance(amount, (int, float)):
+            raise TypeError(f"{operation.capitalize()} amount must be a number")
+        if amount <= 0:
+            raise ValueError(f"{operation.capitalize()} amount must be positive")
+    
+    def __hash_ssn(self, ssn: str) -> str:
+        """Private method to hash SSN for security"""
+        return hashlib.sha256(ssn.encode()).hexdigest()
+    
+    def __record_transaction(self, trans_type: str, amount: float, description: str) -> Transaction:
+        """Private method to record transactions"""
+        transaction = Transaction(
+            transaction_id=f"TXN{len(self.__transactions) + 1:06d}",
+            amount=amount,
+            transaction_type=trans_type,
+            timestamp=datetime.now(),
+            description=description
+        )
+        self.__transactions.append(transaction)
+        return transaction
+    
+    def __create_snapshot(self) -> 'AccountSnapshot':
+        """Private method to create immutable account snapshot"""
+        return AccountSnapshot(
+            account_number=self.__account_number,
+            balance=self.__balance,
+            transaction_count=len(self.__transactions),
+            last_transaction=self.__transactions[-1] if self.__transactions else None
+        )
+
+@dataclass(frozen=True)
+class AccountSnapshot:
+    """Immutable snapshot of account state"""
+    account_number: str
+    balance: float
+    transaction_count: int
+    last_transaction: Optional[Transaction]
+    snapshot_time: datetime = dataclass.field(default_factory=datetime.now)
+    
+    def __str__(self):
+        return f"AccountSnapshot(account={self.account_number}, balance={self.balance:.2f}, transactions={self.transaction_count})"
+
+# Usage example
+account = SecureBankAccount("ACC001", 1000.0, "123-45-6789")
+
+# All operations return immutable snapshots
+snapshot1 = account.deposit(500, "Salary deposit")
+snapshot2 = account.withdraw(200, "ATM withdrawal")
+
+# Information is hidden - these won't work:
+# print(account.__balance)  # AttributeError
+# account.__transactions.append(...)  # AttributeError
+
+# Controlled access only
+print(f"Current balance: {account.balance}")
+print(f"Transaction history: {len(account.get_transaction_history())} transactions")
+print(f"Latest snapshot: {snapshot2}")
+
+# Snapshots are immutable
+try:
+    snapshot1.balance = 5000  # This will raise an error
+except AttributeError as e:
+    print(f"Immutability enforced: {e}")
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Applications
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Financial Systems:</span> Account balances, transaction records, and audit trails
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Blockchain & Cryptocurrencies:</span> Immutable transaction ledgers
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Configuration Management:</span> Application settings that shouldn't change during runtime
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Caching Systems:</span> Cache keys and values that remain consistent
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Event Sourcing:</span> Historical events that must never be modified
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">React/Redux Applications:</span> State management with predictable updates
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Considerations
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Memory Usage:</span> Immutable objects can increase memory usage due to object creation
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Structural Sharing:</span> Advanced immutable libraries use structural sharing to minimize memory overhead
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Garbage Collection:</span> More objects may increase GC pressure but eliminate certain classes of bugs
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Optimization:</span> JIT compilers can better optimize immutable code patterns
+     </li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Use Builder Patterns:</span> For complex immutable objects with many fields
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Provide Copy Methods:</span> Methods like 'withField()' for creating modified copies
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Validate at Boundaries:</span> Perform validation when data enters the system
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Use Type Systems:</span> Leverage static typing to enforce immutability contracts
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Document Mutability:</span> Clearly document which objects are mutable vs immutable
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Example: E-commerce Order Processing (Following LoD)
+
+class PaymentProcessor:
+    def process_payment(self, amount, payment_method):
+        # Internal payment processing logic
+        return {"status": "success", "transaction_id": "TXN123"}
+
+class ShippingService:
+    def calculate_shipping(self, address, weight):
+        # Shipping calculation logic
+        return 15.99
+
+class Order:
+    def __init__(self, items, customer):
+        self.items = items
+        self.customer = customer
+        self.payment_processor = PaymentProcessor()
+        self.shipping_service = ShippingService()
+    
+    def process(self):
+        # Order only talks to its direct dependencies
+        total = self.calculate_total()
+        shipping_cost = self.shipping_service.calculate_shipping(
+            self.customer.get_address(), 
+            self.calculate_weight()
+        )
+        payment_result = self.payment_processor.process_payment(
+            total + shipping_cost, 
+            self.customer.get_payment_method()
+        )
+        return payment_result
+    
+    def calculate_total(self):
+        return sum(item.price for item in self.items)
+    
+    def calculate_weight(self):
+        return sum(item.weight for item in self.items)`,
+
+              `// JavaScript Example: UI Component Communication (Following LoD)
+
+class DataService {
+    constructor() {
+        this.cache = new Map();
+    }
+    
+    async fetchUserData(userId) {
+        if (this.cache.has(userId)) {
+            return this.cache.get(userId);
+        }
+        
+        // Simulate API call
+        const userData = { id: userId, name: 'John Doe', email: 'john@example.com' };
+        this.cache.set(userId, userData);
+        return userData;
+    }
+}
+
+class UserProfile {
+    constructor(dataService) {
+        this.dataService = dataService;
+        this.userData = null;
+    }
+    
+    async loadProfile(userId) {
+        // Component only talks to its data service
+        this.userData = await this.dataService.fetchUserData(userId);
+        return this.userData;
+    }
+    
+    getDisplayName() {
+        return this.userData ? this.userData.name : 'Unknown User';
+    }
+    
+    getContactInfo() {
+        return this.userData ? this.userData.email : null;
+    }
+}
+
+class Dashboard {
+    constructor() {
+        this.dataService = new DataService();
+        this.userProfile = new UserProfile(this.dataService);
+    }
+    
+    async renderUserSection(userId) {
+        // Dashboard talks to UserProfile, not directly to DataService
+        await this.userProfile.loadProfile(userId);
+        
+        return {
+            displayName: this.userProfile.getDisplayName(),
+            contactInfo: this.userProfile.getContactInfo()
+        };
+    }
+}`,
+            ],
+            questions: [
+              {
+                question: "What happens when you violate the Law of Demeter?",
+                solution:
+                  "<p>Violating the Law of Demeter creates tight coupling between classes, making the system fragile and hard to maintain. When you chain method calls like <code>object.getA().getB().getC()</code>, you create dependencies on the internal structure of multiple objects. If any intermediate object changes its interface, all calling code breaks. This also makes testing difficult because you need to mock entire object hierarchies instead of just immediate dependencies.</p>",
+              },
+              {
+                question:
+                  "Can you provide a real-world scenario where LoD is crucial?",
+                solution:
+                  "<p>In a banking system, consider an <code>AccountManager</code> that needs to process transactions. Following LoD, the AccountManager should call <code>account.processTransaction(amount)</code> rather than <code>account.getBalance().subtract(amount)</code> and <code>account.getTransactionHistory().add(transaction)</code>. This ensures that balance calculations and transaction logging remain encapsulated within the Account class, preventing external classes from accidentally corrupting the account state and making the system more secure and maintainable.</p>",
+              },
+              {
+                question: "How does the Law of Demeter improve system design?",
+                solution:
+                  "<p>The Law of Demeter improves system design by reducing coupling between components, making the system more modular and maintainable. It encourages proper encapsulation by ensuring objects only interact with their immediate collaborators. This leads to better separation of concerns, easier testing (fewer mocks needed), improved flexibility for future changes, and reduced ripple effects",
+              },
+            ],
+            links: [
+              "https://en.wikipedia.org/wiki/Law_of_Demeter",
+              "https://martinfowler.com/bliki/TellDontAsk.html",
+              "https://www.baeldung.com/java-demeter-law",
+            ],
+          },
+          {
+            topic: "Covariant Return Types",
+            tags: ["polymorphism", "inheritance", "return-types"],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              Covariant return types allow a method in a derived class to return a more specific type than the method it overrides in the base class. This enables type-safe polymorphism where the return type becomes more specialized as you move down the inheritance hierarchy.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Key Concepts
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Structural Typing:</span> Type compatibility based on structure, not explicit inheritance
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Runtime Flexibility:</span> Type checking happens at runtime when methods are called
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Interface Implicit:</span> No need to explicitly declare interface implementation
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Late Binding:</span> Method resolution happens when the method is actually invoked
+              </li>
+            </ol>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Python Example - File-like Objects
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-python">
+# Duck typing example - File-like objects
+import io
+from typing import Any
+
+class StringBuffer:
+    """Custom file-like object that behaves like a file"""
+    def __init__(self):
+        self.content = []
+        self.position = 0
+    
+    def write(self, data: str) -> int:
+        """Duck typing: implements write method like a file"""
+        self.content.append(data)
+        return len(data)
+    
+    def read(self, size: int = -1) -> str:
+        """Duck typing: implements read method like a file"""
+        if size == -1:
+            result = ''.join(self.content[self.position:])
+            self.position = len(self.content)
+        else:
+            end_pos = min(self.position + size, len(self.content))
+            result = ''.join(self.content[self.position:end_pos])
+            self.position = end_pos
+        return result
+    
+    def close(self):
+        """Duck typing: implements close method like a file"""
+        print("StringBuffer closed")
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.close()
+
+class NetworkBuffer:
+    """Another file-like object with different implementation"""
+    def __init__(self, url: str):
+        self.url = url
+        self.data = f"Data from {url}"
+        self.closed = False
+    
+    def write(self, data: str) -> int:
+        if self.closed:
+            raise ValueError("Cannot write to closed buffer")
+        print(f"Sending to {self.url}: {data}")
+        return len(data)
+    
+    def read(self, size: int = -1) -> str:
+        if self.closed:
+            raise ValueError("Cannot read from closed buffer")
+        if size == -1:
+            return self.data
+        return self.data[:size]
+    
+    def close(self):
+        self.closed = True
+        print(f"Connection to {self.url} closed")
+
+class DatabaseBuffer:
+    """Database-backed file-like object"""
+    def __init__(self, table_name: str):
+        self.table_name = table_name
+        self.records = []
+    
+    def write(self, data: str) -> int:
+        # Simulate database write
+        record_id = len(self.records) + 1
+        self.records.append({"id": record_id, "data": data})
+        print(f"Inserted record {record_id} into {self.table_name}")
+        return len(data)
+    
+    def read(self, size: int = -1) -> str:
+        # Simulate database read
+        all_data = " | ".join([record["data"] for record in self.records])
+        if size == -1:
+            return all_data
+        return all_data[:size]
+    
+    def close(self):
+        print(f"Database connection for {self.table_name} closed")
+
+# Functions using duck typing
+def write_data_to_file_like(file_like_obj: Any, data: str):
+    """
+    This function works with ANY object that has a write method
+    It doesn't care about the actual type - just the interface
+    """
+    try:
+        bytes_written = file_like_obj.write(data)
+        print(f"Successfully wrote {bytes_written} characters")
+    except AttributeError as e:
+        print(f"Object doesn't support write operation: {e}")
+
+def copy_data(source: Any, destination: Any, chunk_size: int = 1024):
+    """
+    Copy data between any file-like objects
+    Uses duck typing - works with any objects that have read/write methods
+    """
+    try:
+        while True:
+            chunk = source.read(chunk_size)
+            if not chunk:
+                break
+            destination.write(chunk)
+        print("Data copied successfully")
+    except AttributeError as e:
+        print(f"Objects don't support required operations: {e}")
+
+def process_file_like_collection(file_objects: list, data: str):
+    """
+    Process a collection of file-like objects
+    Demonstrates polymorphic behavior through duck typing
+    """
+    for i, file_obj in enumerate(file_objects):
+        print(f"\\n--- Processing object {i+1}: {type(file_obj).__name__} ---")
+        
+        # Duck typing in action - call methods without checking type
+        try:
+            file_obj.write(f"{data} (object {i+1})")
+            content = file_obj.read()
+            print(f"Content: {content}")
+            file_obj.close()
+        except AttributeError as e:
+            print(f"Object doesn't implement required interface: {e}")
+
+# Advanced duck typing with protocols (Python 3.8+)
+from typing import Protocol
+
+class Writable(Protocol):
+    """Protocol defining the writable interface"""
+    def write(self, data: str) -> int:
+        ...
+
+class Readable(Protocol):
+    """Protocol defining the readable interface"""
+    def read(self, size: int = -1) -> str:
+        ...
+
+class Filelike(Protocol):
+    """Combined protocol for file-like objects"""
+    def write(self, data: str) -> int:
+        ...
+    
+    def read(self, size: int = -1) -> str:
+        ...
+    
+    def close(self) -> None:
+        ...
+
+def typed_write_function(writable: Writable, data: str):
+    """
+    Function with protocol typing - provides type hints
+    while maintaining duck typing flexibility
+    """
+    return writable.write(data)
+
+# Usage demonstration
+def demonstrate_duck_typing():
+    print("=== Duck Typing Demonstration ===")
+    
+    # Create different objects with file-like interface
+    string_buf = StringBuffer()
+    network_buf = NetworkBuffer("https://api.example.com")
+    db_buf = DatabaseBuffer("logs")
+    
+    # Also works with built-in file-like objects
+    memory_file = io.StringIO()
+    
+    # All these objects can be used interchangeably due to duck typing
+    file_like_objects = [string_buf, network_buf, db_buf, memory_file]
+    
+    print("\\n--- Individual Object Testing ---")
+    test_data = "Hello, duck typing!"
+    for obj in file_like_objects:
+        print(f"\\nTesting {type(obj).__name__}:")
+        write_data_to_file_like(obj, test_data)
+    
+    print("\\n--- Collection Processing ---")
+    # Create fresh objects for collection processing
+    fresh_objects = [
+        StringBuffer(),
+        NetworkBuffer("https://data.service.com"),
+        DatabaseBuffer("user_actions"),
+        io.StringIO()
+    ]
+    
+    process_file_like_collection(fresh_objects, "Duck typing data")
+    
+    print("\\n--- Data Copying Between Different Types ---")
+    source = StringBuffer()
+    source.write("Data to be copied")
+    
+    destinations = [
+        StringBuffer(),
+        DatabaseBuffer("copied_data")
+    ]
+    
+    for dest in destinations:
+        print(f"\\nCopying to {type(dest).__name__}:")
+        # Reset source position for each copy
+        source.position = 0
+        copy_data(source, dest)
+    
+    print("\\n--- Protocol-based Typing ---")
+    typed_objects = [StringBuffer(), io.StringIO()]
+    for obj in typed_objects:
+        result = typed_write_function(obj, "Protocol-typed data")
+        print(f"Wrote {result} bytes to {type(obj).__name__}")
+
+demonstrate_duck_typing()
+              </code></pre>
+            </div>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JavaScript Example - Event-like Objects
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// Duck typing in JavaScript - Event-like objects
+
+class CustomEvent {
+    constructor(type, data = {}) {
+        this.type = type;
+        this.data = data;
+        this.timestamp = Date.now();
+    }
+    
+    // Event-like interface
+    preventDefault() {
+        this.defaultPrevented = true;
+        console.log(Default action prevented for {this.type} event);
+    }
+    
+    stopPropagation() {
+        this.propagationStopped = true;
+        console.log(Propagation stopped for {this.type} event);
+    }
+    
+    toString() {
+        return CustomEvent({this.type});
+    }
+}
+
+class NetworkEvent {
+    constructor(url, method, status) {
+        this.type = 'network';
+        this.url = url;
+        this.method = method;
+        this.status = status;
+        this.timestamp = Date.now();
+    }
+    
+    // Same interface as CustomEvent
+    preventDefault() {
+        console.log(Network request to {this.url} cancelled);
+        this.cancelled = true;
+    }
+    
+    stopPropagation() {
+        console.log(Network event propagation stopped);
+        this.propagationStopped = true;
+    }
+    
+    toString() {
+        return NetworkEvent({this.method} {this.url} - {this.status});
+    }
+    
+    // Additional methods specific to NetworkEvent
+    retry() {
+        console.log(Retrying {this.method} request to {this.url});
+        return new NetworkEvent(this.url, this.method, 'pending');
+    }
+}
+
+class TimerEvent {
+    constructor(interval, callback) {
+        this.type = 'timer';
+        this.interval = interval;
+        this.callback = callback;
+        this.timestamp = Date.now();
+        this.executed = false;
+    }
+    
+    // Event-like interface
+    preventDefault() {
+        this.cancelled = true;
+        console.log(Timer event cancelled);
+    }
+    
+    stopPropagation() {
+        this.propagationStopped = true;
+        console.log(Timer event propagation stopped);
+    }
+    
+    toString() {
+        return TimerEvent({this.interval}ms);
+    }
+    
+    // Timer-specific methods
+    execute() {
+        if (!this.cancelled && !this.executed) {
+            this.callback();
+            this.executed = true;
+        }
+    }
+}
+
+// Duck typing with iterables
+class CustomIterable {
+    constructor(items) {
+        this.items = items;
+        this.index = 0;
+    }
+    
+    // Iterator protocol - makes it iterable
+    [Symbol.iterator]() {
+        return {
+            next: () => {
+                if (this.index < this.items.length) {
+                    return { value: this.items[this.index++], done: false };
+                } else {
+                    return { done: true };
+                }
+            }
+        };
+    }
+    
+    // Array-like methods (duck typing)
+    forEach(callback) {
+        for (let i = 0; i < this.items.length; i++) {
+            callback(this.items[i], i, this);
+        }
+    }
+    
+    map(callback) {
+        const result = [];
+        for (let i = 0; i < this.items.length; i++) {
+            result.push(callback(this.items[i], i, this));
+        }
+        return result;
+    }
+    
+    filter(predicate) {
+        const result = [];
+        for (let i = 0; i < this.items.length; i++) {
+            if (predicate(this.items[i], i, this)) {
+                result.push(this.items[i]);
+            }
+        }
+        return new CustomIterable(result);
+    }
+    
+    get length() {
+        return this.items.length;
+    }
+}
+
+class EventProcessor {
+    constructor() {
+        this.processed = [];
+        this.handlers = new Map();
+    }
+    
+    // Duck typing - works with any object that has event-like properties
+    processEvent(eventLikeObject) {
+        console.log(nProcessing: {eventLikeObject.toString()});
+        
+        // Check if object has event-like properties (duck typing)
+        if (typeof eventLikeObject.type === 'string') {
+            console.log(Event type: {eventLikeObject.type});
+        }
+        
+        if (typeof eventLikeObject.timestamp === 'number') {
+            const date = new Date(eventLikeObject.timestamp);
+            console.log(Event time: {date.toISOString()});
+        }
+        
+        // Try to call event methods (duck typing)
+        if (typeof eventLikeObject.preventDefault === 'function') {
+            // Don't actually call it, just acknowledge it exists
+            console.log('Event supports preventDefault');
+        }
+        
+        if (typeof eventLikeObject.stopPropagation === 'function') {
+            console.log('Event supports stopPropagation');
+        }
+        
+        this.processed.push(eventLikeObject);
+    }
+    
+    // Duck typing with iterable collections
+    processEventCollection(iterableCollection) {
+        console.log(n=== Processing Event Collection ===);
+        console.log(Collection type: {iterableCollection.constructor.name});
+        
+        // Works with arrays, custom iterables, or any iterable
+        if (typeof iterableCollection[Symbol.iterator] === 'function') {
+            console.log('Collection is iterable');
+            
+            for (const event of iterableCollection) {
+                this.processEvent(event);
+            }
+        } else if (typeof iterableCollection.forEach === 'function') {
+            // Fallback to forEach if available
+            console.log('Collection has forEach method');
+            iterableCollection.forEach(event => this.processEvent(event));
+        } else {
+            console.log('Collection is not processable');
+        }
+    }
+    
+    // Duck typing with array-like objects
+    processArrayLike(arrayLikeObject) {
+        console.log(=== Processing Array-like Object ===);
+        console.log(Object type: {arrayLikeObject.constructor.name});
+        
+        // Check for array-like properties
+        if (typeof arrayLikeObject.length === 'number') {
+            console.log(Length: {arrayLikeObject.length});
+            
+            // Access items by index (duck typing)
+            for (let i = 0; i < arrayLikeObject.length; i++) {
+                if (arrayLikeObject[i]) {
+                    this.processEvent(arrayLikeObject[i]);
+                }
+            }
+        }
+        
+        // Check for array-like methods
+        if (typeof arrayLikeObject.forEach === 'function') {
+            console.log('Has forEach method');
+        }
+        
+        if (typeof arrayLikeObject.map === 'function') {
+            console.log('Has map method');
+        }
+    }
+}
+
+// Utility functions using duck typing
+function isEventLike(obj) {
+    return obj && 
+           typeof obj.type === 'string' && 
+           typeof obj.timestamp === 'number' &&
+           typeof obj.preventDefault === 'function';
+}
+
+function isIterableLike(obj) {
+    return obj && 
+           (typeof obj[Symbol.iterator] === 'function' || 
+            typeof obj.forEach === 'function');
+}
+
+function isArrayLike(obj) {
+    return obj && 
+           typeof obj.length === 'number' &&
+           obj.length >= 0;
+}
+
+// Advanced duck typing - Promise-like objects
+class CustomPromise {
+    constructor(executor) {
+        this.state = 'pending';
+        this.value = undefined;
+        this.handlers = [];
+        
+        const resolve = (value) => {
+            if (this.state === 'pending') {
+                this.state = 'fulfilled';
+                this.value = value;
+                this.handlers.forEach(handler => handler.onFulfilled(value));
+            }
+        };
+        
+        const reject = (reason) => {
+            if (this.state === 'pending') {
+                this.state = 'rejected';
+                this.value = reason;
+                this.handlers.forEach(handler => handler.onRejected(reason));
+            }
+        };
+        
+        try {
+            executor(resolve, reject);
+        } catch (error) {
+            reject(error);
+        }
+    }
+    
+    // Promise-like interface
+    then(onFulfilled, onRejected) {
+        return new CustomPromise((resolve, reject) => {
+            const handler = {
+                onFulfilled: (value) => {
+                    try {
+                        const result = onFulfilled ? onFulfilled(value) : value;
+                        resolve(result);
+                    } catch (error) {
+                        reject(error);
+                    }
+                },
+                onRejected: (reason) => {
+                    try {
+                        const result = onRejected ? onRejected(reason) : Promise.reject(reason);
+                        resolve(result);
+                    } catch (error) {
+                        reject(error);
+                    }
+                }
+            };
+            
+            if (this.state === 'fulfilled') {
+                setTimeout(() => handler.onFulfilled(this.value), 0);
+            } else if (this.state === 'rejected') {
+                setTimeout(() => handler.onRejected(this.value), 0);
+            } else {
+                this.handlers.push(handler);
+            }
+        });
+    }
+    
+    catch(onRejected) {
+        return this.then(null, onRejected);
+    }
+}
+
+// Function that works with any promise-like object
+async function handlePromiseLike(promiseLikeObject) {
+    console.log(nHandling promise-like object: {promiseLikeObject.constructor.name});
+    
+    if (typeof promiseLikeObject.then === 'function') {
+        try {
+            const result = await promiseLikeObject;
+            console.log(Promise resolved with: {result});
+            return result;
+        } catch (error) {
+            console.log(Promise rejected with: {error});
+            throw error;
+        }
+    } else {
+        console.log('Object is not promise-like');
+        return promiseLikeObject;
+    }
+}
+
+// Demonstration function
+async function demonstrateDuckTyping() {
+    console.log('=== JavaScript Duck Typing Demonstration ===');
+    
+    const processor = new EventProcessor();
+    
+    // Create different event-like objects
+    const events = [
+        new CustomEvent('click', { button: 'left' }),
+        new NetworkEvent('https://api.example.com', 'GET', 200),
+        new TimerEvent(1000, () => console.log('Timer executed!')),
+        // Even plain objects work if they have the right shape
+        {
+            type: 'custom',
+            timestamp: Date.now(),
+            preventDefault: () => console.log('Plain object preventDefault'),
+            stopPropagation: () => console.log('Plain object stopPropagation'),
+            toString: () => 'PlainObjectEvent'
+        }
+    ];
+    
+    // Process individual events
+    console.log('\\n--- Processing Individual Events ---');
+    events.forEach(event => processor.processEvent(event));
+    
+    // Test with different iterable types
+    console.log('\\n--- Testing with Different Iterables ---');
+    const customIterable = new CustomIterable(events);
+    processor.processEventCollection(customIterable);
+    
+    // Regular array (also iterable)
+    processor.processEventCollection(events);
+    
+    // Test array-like behavior
+    console.log('\\n--- Testing Array-like Behavior ---');
+    processor.processArrayLike(customIterable);
+    
+    // Test duck typing checks
+    console.log('\\n--- Duck Typing Checks ---');
+    events.forEach(event => {
+        console.log({event.toString()} is event-like: {isEventLike(event)});
+    });
+    
+    console.log(Array is iterable-like: {isIterableLike(events)});
+    console.log(CustomIterable is array-like: {isArrayLike(customIterable)});
+    
+    // Test promise-like duck typing
+    console.log('\\n--- Promise-like Duck Typing ---');
+    
+    const regularPromise = Promise.resolve('Regular promise result');
+    const customPromise = new CustomPromise(resolve => {
+        setTimeout(() => resolve('Custom promise result'), 100);
+    });
+    
+    await handlePromiseLike(regularPromise);
+    await handlePromiseLike(customPromise);
+    
+    // Test with thenable object
+    const thenable = {
+        then: (onFulfilled) => {
+            setTimeout(() => onFulfilled('Thenable result'), 50);
+        }
+    };
+    
+    await handlePromiseLike(thenable);
+}
+
+demonstrateDuckTyping();
+              </code></pre>
+            </div>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Advantages and Considerations
+            </h4>
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Flexibility:</span> No need for explicit interface declarations or inheritance hierarchies
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Rapid Prototyping:</span> Quick to implement and modify object behaviors
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Runtime Discovery:</span> Object capabilities discovered at runtime
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Interoperability:</span> Easy integration with third-party objects
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Trade-offs:</span> Less compile-time safety, potential runtime errors
+              </li>
+            </ol>
+          </div>`,
+            examples: [
+              `# Python - Duck Typing with File Operations
+def save_data(file_like, data):
+    # Works with files, StringIO, custom objects
+    file_like.write(data)
+    
+# All these work due to duck typing:
+save_data(open('file.txt', 'w'), 'data')
+save_data(io.StringIO(), 'data')
+save_data(CustomBuffer(), 'data')`,
+
+              `// JavaScript - Duck Typing with Iterables
+function processItems(iterable) {
+    for (const item of iterable) {
+        console.log(item);
+    }
+}
+
+// Works with any iterable:
+processItems([1, 2, 3]);           // Array
+processItems(new Set([1, 2, 3]));  // Set
+processItems("hello");             // String
+processItems(customIterable);      // Custom object`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is duck typing and how does it differ from traditional inheritance?",
+                solution:
+                  "<p>Duck typing is a programming concept where an object's suitability is determined by the presence of certain methods and properties rather than its explicit type. Unlike traditional inheritance which requires explicit interface implementation or class extension, duck typing allows any object with the right 'shape' (methods/properties) to be used polymorphically. This provides more flexibility but less compile-time safety.</p>",
+              },
+              {
+                question:
+                  "What are the advantages and disadvantages of duck typing?",
+                solution:
+                  "<p><strong>Advantages:</strong> Increased flexibility, easier testing with mocks, no need for complex inheritance hierarchies, better interoperability. <strong>Disadvantages:</strong> Less compile-time safety, potential for runtime errors, harder to understand object contracts, may lead to unexpected behavior if objects don't fully implement expected interface.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/glossary.html#term-duck-typing",
+              "https://realpython.com/lessons/duck-typing/",
+              "https://developer.mozilla.org/en-US/docs/Glossary/Duck_typing",
+            ],
+          },
+          {
+            topic: "Multiple Dispatch",
+            tags: ["multiple-dispatch", "method-resolution", "multimethods"],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              Multiple dispatch is a feature where the method to be called is determined by the runtime types of multiple arguments, not just the receiver object. Unlike single dispatch (traditional method calls), multiple dispatch considers all arguments to determine which method implementation to execute.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Key Concepts
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Multi-parameter Dispatch:</span> Method selection based on types of multiple arguments
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Runtime Resolution:</span> Best matching method chosen at runtime
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Type Hierarchy:</span> Uses inheritance relationships for method matching
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Ambiguity Resolution:</span> Handles conflicts when multiple methods could match
+              </li>
+            </ol>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Python Example - Multiple Dispatch with functools.singledispatch
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-python">
+from functools import singledispatch, singledispatchmethod
+from typing import Union, Any
+import json
+
+# Basic single dispatch example
+@singledispatch
+def process_data(data):
+    """Default implementation for unknown types"""
+    return f"Processing unknown type: {type(data).__name__}"
+
+@process_data.register
+def _(data: str):
+    """Handle string data"""
+    return f"Processing string: '{data}' (length: {len(data)})"
+
+@process_data.register
+def _(data: int):
+    """Handle integer data"""
+    return f"Processing integer: {data} (squared: {data**2})"
+
+@process_data.register
+def _(data: list):
+    """Handle list data"""
+    return f"Processing list: {len(data)} items - {data}"
+
+@process_data.register
+def _(data: dict):
+    """Handle dictionary data"""
+    return f"Processing dict: {len(data)} keys - {list(data.keys())}"
+
+# Custom multiple dispatch implementation
+class MultipleDispatch:
+    """Custom implementation of multiple dispatch"""
+    
+    def __init__(self):
+        self.registry = {}
+    
+    def register(self, *types):
+        """Register a method for specific types"""
+        def decorator(func):
+            key = tuple(types)
+            self.registry[key] = func
+            return func
+        return decorator
+    
+    def dispatch(self, *args):
+        """Find and call the best matching method"""
+        arg_types = tuple(type(arg) for arg in args)
+        
+        # Try exact match first
+        if arg_types in self.registry:
+            return self.registry[arg_types](*args)
+        
+        # Try to find compatible match using MRO (Method Resolution Order)
+        for registered_types, func in self.registry.items():
+            if len(registered_types) == len(arg_types):
+                if all(issubclass(arg_type, reg_type) 
+                      for arg_type, reg_type in zip(arg_types, registered_types)):
+                    return func(*args)
+        
+        # No match found
+        raise NotImplementedError(
+            f"No implementation found for types: {arg_types}"
+        )
+
+# Create multiple dispatch instance for mathematical operations
+math_ops = MultipleDispatch()
+
+# Different implementations based on argument types
+@math_ops.register(int, int)
+def add_ints(a, b):
+    result = a + b
+    return f"Integer addition: {a} + {b} = {result}"
+
+@math_ops.register(float, float)
+def add_floats(a, b):
+    result = a + b
+    return f"Float addition: {a:.2f} + {b:.2f} = {result:.2f}"
+
+@math_ops.register(str, str)
+def add_strings(a, b):
+    result = a + b
+    return f"String concatenation: '{a}' + '{b}' = '{result}'"
+
+@math_ops.register(list, list)
+def add_lists(a, b):
+    result = a + b
+    return f"List concatenation: {a} + {b} = {result}"
+
+@math_ops.register(int, float)
+def add_int_float(a, b):
+    result = a + b
+    return f"Mixed addition (int + float): {a} + {b:.2f} = {result:.2f}"
+
+@math_ops.register(float, int)
+def add_float_int(a, b):
+    result = a + b
+    return f"Mixed addition (float + int): {a:.2f} + {b} = {result:.2f}"
+
+# Complex multiple dispatch for collision detection
+class GameObject:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __repr__(self):
+        return f"{self.__class__.__name__}({
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Type Safety:</span> Maintains compile-time type checking while allowing flexibility
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Inheritance Hierarchy:</span> Return types follow the same hierarchy as the classes
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Liskov Substitution:</span> Derived classes can be used wherever base classes are expected
+              </li>
+            </ol>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Python Example - Animal Factory Pattern
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-python">
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def make_sound(self):
+        pass
+    
+    def clone(self):
+        """Base method returns Animal type"""
+        return Animal(self.name + "_clone")
+
+class Dog(Animal):
+    def make_sound(self):
+        return f"{self.name} barks: Woof!"
+    
+    def clone(self):
+        """Covariant return - returns Dog type"""
+        return Dog(self.name + "_clone")
+    
+    def fetch(self):
+        return f"{self.name} fetches the ball"
+
+class Cat(Animal):
+    def make_sound(self):
+        return f"{self.name} meows: Meow!"
+    
+    def clone(self):
+        """Covariant return - returns Cat type"""
+        return Cat(self.name + "_clone")
+    
+    def hunt(self):
+        return f"{self.name} hunts mice"
+
+# Usage demonstrating covariant return types
+def demonstrate_covariance():
+    dog = Dog("Buddy")
+    cat = Cat("Whiskers")
+    
+    # Clone returns specific types, not generic Animal
+    dog_clone = dog.clone()  # Returns Dog, can call dog-specific methods
+    cat_clone = cat.clone()  # Returns Cat, can call cat-specific methods
+    
+    print(dog_clone.fetch())  # Works because clone() returned Dog
+    print(cat_clone.hunt())   # Works because clone() returned Cat
+    
+    return dog_clone, cat_clone
+
+demonstrate_covariance()
+              </code></pre>
+            </div>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JavaScript Example - Document Builder Pattern
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+class Document {
+    constructor(title) {
+        this.title = title;
+        this.content = [];
+    }
+    
+    addContent(content) {
+        this.content.push(content);
+        return this; // Returns Document for method chaining
+    }
+    
+    clone() {
+        const cloned = new Document(this.title + "_copy");
+        cloned.content = [...this.content];
+        return cloned; // Base return type
+    }
+}
+
+class PDFDocument extends Document {
+    constructor(title) {
+        super(title);
+        this.format = "PDF";
+        this.pages = 1;
+    }
+    
+    addPage() {
+        this.pages++;
+        return this; // Returns PDFDocument for chaining
+    }
+    
+    clone() {
+        const cloned = new PDFDocument(this.title + "_copy");
+        cloned.content = [...this.content];
+        cloned.pages = this.pages;
+        return cloned; // Covariant return - returns PDFDocument
+    }
+    
+    generatePDF() {
+        return PDF generated with {this.pages} pages;
+    }
+}
+
+class WordDocument extends Document {
+    constructor(title) {
+        super(title);
+        this.format = "DOCX";
+        this.wordCount = 0;
+    }
+    
+    addText(text) {
+        this.content.push(text);
+        this.wordCount += text.split(' ').length;
+        return this; // Returns WordDocument for chaining
+    }
+    
+    clone() {
+        const cloned = new WordDocument(this.title + "_copy");
+        cloned.content = [...this.content];
+        cloned.wordCount = this.wordCount;
+        return cloned; // Covariant return - returns WordDocument
+    }
+    
+    getWordCount() {
+        return Document has {this.wordCount} words;
+    }
+}
+
+// Usage demonstrating covariant return types
+function demonstrateDocumentCovariance() {
+    const pdf = new PDFDocument("Technical Manual");
+    pdf.addContent("Introduction").addPage().addContent("Chapter 1");
+    
+    const word = new WordDocument("Report");
+    word.addText("Executive summary").addText("Detailed analysis");
+    
+    // Clone returns specific types
+    const pdfClone = pdf.clone(); // Returns PDFDocument
+    const wordClone = word.clone(); // Returns WordDocument
+    
+    // Can use specific methods on cloned objects
+    console.log(pdfClone.generatePDF()); // Works - PDF-specific method
+    console.log(wordClone.getWordCount()); // Works - Word-specific method
+    
+    return { pdfClone, wordClone };
+}
+
+demonstrateDocumentCovariance();
+              </code></pre>
+            </div>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Benefits and Use Cases
+            </h4>
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Factory Patterns:</span> Create specific types while maintaining polymorphic interface
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Builder Patterns:</span> Enable method chaining with type-specific builders
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Clone Operations:</span> Return exact type copies for deep cloning
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Fluent Interfaces:</span> Maintain type information across method chains
+              </li>
+            </ol>
+          </div>`,
+            examples: [
+              `# Python Factory with Covariant Returns
+class VehicleFactory:
+    def create_vehicle(self):
+        return Vehicle()
+
+class CarFactory(VehicleFactory):
+    def create_vehicle(self):
+        return Car()  # More specific return type
+
+class TruckFactory(VehicleFactory):
+    def create_vehicle(self):
+        return Truck()  # More specific return type`,
+
+              `// JavaScript Builder with Covariant Returns
+class QueryBuilder {
+    where(condition) {
+        this.conditions.push(condition);
+        return this; // Returns QueryBuilder
+    }
+}
+
+class SQLQueryBuilder extends QueryBuilder {
+    join(table) {
+        this.joins.push(table);
+        return this; // Returns SQLQueryBuilder (more specific)
+    }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are covariant return types and why are they useful?",
+                solution:
+                  "<p>Covariant return types allow overridden methods in derived classes to return more specific types than the base class method. They're useful because they maintain type safety while enabling polymorphism, allow for more precise type information in derived classes, and support patterns like fluent interfaces and method chaining with proper typing.</p>",
+              },
+              {
+                question:
+                  "How do covariant return types work with the Liskov Substitution Principle?",
+                solution:
+                  "<p>Covariant return types are compatible with LSP because a more specific return type is still substitutable for the base type. If a method returns Animal, returning Dog (which is-a Animal) maintains behavioral compatibility. The derived class can be used wherever the base class is expected, but provides more specific functionality.</p>",
+              },
+            ],
+            links: [
+              "https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)",
               "https://docs.oracle.com/javase/tutorial/java/IandI/override.html",
+              "https://refactoring.guru/design-patterns/factory-method",
+            ],
+          },
+          {
+            topic: "Polymorphic Behavior in Collections and Frameworks",
+            tags: ["collections", "frameworks", "polymorphism", "containers"],
+            explanation: `<div>
+            <p style="line-height: 1.75; margin-top: 1.5rem;">
+              Polymorphic behavior in collections allows storing objects of different types that share a common interface in the same collection. This enables uniform processing of heterogeneous data while maintaining type safety and leveraging inheritance hierarchies.
+            </p>
+            
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Core Principles
+            </h4>
+            
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Uniform Interface:</span> All objects in collection share common methods
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Runtime Binding:</span> Method calls resolved at runtime based on actual object type
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Type Safety:</span> Collections maintain type constraints while allowing polymorphism
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> New types can be added without modifying existing code
+              </li>
+            </ol>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Python Example - Graphics Framework
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-python">
+from abc import ABC, abstractmethod
+from typing import List, Protocol
+import math
+
+class Drawable(Protocol):
+    """Protocol defining drawable interface"""
+    def draw(self) -> str:
+        ...
+    
+    def get_area(self) -> float:
+        ...
+
+class Shape(ABC):
+    """Abstract base class for all shapes"""
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+    
+    @abstractmethod
+    def draw(self) -> str:
+        pass
+    
+    @abstractmethod
+    def get_area(self) -> float:
+        pass
+    
+    def move(self, dx: float, dy: float):
+        self.x += dx
+        self.y += dy
+
+class Circle(Shape):
+    def __init__(self, x: float, y: float, radius: float):
+        super().__init__(x, y)
+        self.radius = radius
+    
+    def draw(self) -> str:
+        return f"Drawing Circle at ({self.x}, {self.y}) with radius {self.radius}"
+    
+    def get_area(self) -> float:
+        return math.pi * self.radius ** 2
+
+class Rectangle(Shape):
+    def __init__(self, x: float, y: float, width: float, height: float):
+        super().__init__(x, y)
+        self.width = width
+        self.height = height
+    
+    def draw(self) -> str:
+        return f"Drawing Rectangle at ({self.x}, {self.y}) - {self.width}x{self.height}"
+    
+    def get_area(self) -> float:
+        return self.width * self.height
+
+class Triangle(Shape):
+    def __init__(self, x: float, y: float, base: float, height: float):
+        super().__init__(x, y)
+        self.base = base
+        self.height = height
+    
+    def draw(self) -> str:
+        return f"Drawing Triangle at ({self.x}, {self.y}) - base: {self.base}, height: {self.height}"
+    
+    def get_area(self) -> float:
+        return 0.5 * self.base * self.height
+
+class Canvas:
+    """Framework class demonstrating polymorphic collections"""
+    def __init__(self):
+        self.shapes: List[Shape] = []
+        self.drawing_stats = {"total_draws": 0, "total_area": 0}
+    
+    def add_shape(self, shape: Shape):
+        """Add any shape to the canvas"""
+        self.shapes.append(shape)
+    
+    def add_shapes(self, shapes: List[Shape]):
+        """Add multiple shapes at once"""
+        self.shapes.extend(shapes)
+    
+    def render_all(self) -> List[str]:
+        """Polymorphic rendering - calls appropriate draw method for each shape"""
+        renders = []
+        for shape in self.shapes:
+            # Polymorphic method call - runtime binding
+            render_result = shape.draw()
+            renders.append(render_result)
+            self.drawing_stats["total_draws"] += 1
+        return renders
+    
+    def calculate_total_area(self) -> float:
+        """Polymorphic area calculation"""
+        total = sum(shape.get_area() for shape in self.shapes)
+        self.drawing_stats["total_area"] = total
+        return total
+    
+    def filter_by_area(self, min_area: float) -> List[Shape]:
+        """Filter shapes using polymorphic area calculation"""
+        return [shape for shape in self.shapes if shape.get_area() >= min_area]
+    
+    def move_all_shapes(self, dx: float, dy: float):
+        """Move all shapes using inherited method"""
+        for shape in self.shapes:
+            shape.move(dx, dy)
+    
+    def group_by_type(self):
+        """Group shapes by their actual type"""
+        groups = {}
+        for shape in self.shapes:
+            shape_type = type(shape).__name__
+            if shape_type not in groups:
+                groups[shape_type] = []
+            groups[shape_type].append(shape)
+        return groups
+
+# Usage demonstration
+def demonstrate_polymorphic_collections():
+    canvas = Canvas()
+    
+    # Create heterogeneous collection of shapes
+    shapes = [
+        Circle(10, 20, 5),
+        Rectangle(30, 40, 15, 10),
+        Triangle(50, 60, 12, 8),
+        Circle(70, 80, 3),
+        Rectangle(90, 100, 20, 25)
+    ]
+    
+    # Add to canvas (polymorphic storage)
+    canvas.add_shapes(shapes)
+    
+    # Polymorphic operations
+    print("=== Rendering All Shapes ===")
+    renders = canvas.render_all()
+    for render in renders:
+        print(render)
+    
+    print(f"\n=== Total Area: {canvas.calculate_total_area():.2f} ===")
+    
+    print("\n=== Large Shapes (Area >= 100) ===")
+    large_shapes = canvas.filter_by_area(100)
+    for shape in large_shapes:
+        print(f"{type(shape).__name__}: {shape.get_area():.2f}")
+    
+    print("\n=== Shapes by Type ===")
+    groups = canvas.group_by_type()
+    for shape_type, shape_list in groups.items():
+        print(f"{shape_type}: {len(shape_list)} shapes")
+    
+    # Move all shapes (using inherited behavior)
+    canvas.move_all_shapes(5, 5)
+    print("\n=== After moving all shapes by (5, 5) ===")
+    for shape in canvas.shapes[:2]:  # Show first two
+        print(f"{type(shape).__name__} now at ({shape.x}, {shape.y})")
+
+demonstrate_polymorphic_collections()
+              </code></pre>
+            </div>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              JavaScript Example - Event System Framework
+            </h4>
+            <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+              <pre><code className="language-javascript">
+// Base Event class
+class Event {
+    constructor(type, timestamp = Date.now()) {
+        this.type = type;
+        this.timestamp = timestamp;
+        this.handled = false;
+    }
+    
+    handle() {
+        this.handled = true;
+        return \`Handling \ {this.type} event at \ {this.timestamp}\`;
+    }
+    
+    serialize() {
+        return JSON.stringify({
+            type: this.type,
+            timestamp: this.timestamp,
+            handled: this.handled
+        });
+    }
+}
+
+// Specific event types
+class MouseEvent extends Event {
+    constructor(x, y, button, timestamp) {
+        super('mouse', timestamp);
+        this.x = x;
+        this.y = y;
+        this.button = button;
+    }
+    
+    handle() {
+        super.handle();
+        return \`Mouse \ {this.button} clicked at (\ {this.x}, \ {this.y})\`;
+    }
+    
+    serialize() {
+        const base = JSON.parse(super.serialize());
+        return JSON.stringify({
+            ...base,
+            coordinates: { x: this.x, y: this.y },
+            button: this.button
+        });
+    }
+}
+
+class KeyboardEvent extends Event {
+    constructor(key, modifiers = [], timestamp) {
+        super('keyboard', timestamp);
+        this.key = key;
+        this.modifiers = modifiers;
+    }
+    
+    handle() {
+        super.handle();
+        const mods = this.modifiers.length > 0 ? \` with \ {this.modifiers.join('+')}\` : '';
+        return \`Key '\ {this.key}' pressed\ {mods}\`;
+    }
+    
+    serialize() {
+        const base = JSON.parse(super.serialize());
+        return JSON.stringify({
+            ...base,
+            key: this.key,
+            modifiers: this.modifiers
+        });
+    }
+}
+
+class NetworkEvent extends Event {
+    constructor(url, method, status, timestamp) {
+        super('network', timestamp);
+        this.url = url;
+        this.method = method;
+        this.status = status;
+    }
+    
+    handle() {
+        super.handle();
+        return \`Network \ {this.method} to \ {this.url} - Status: \ {this.status}\`;
+    }
+    
+    serialize() {
+        const base = JSON.parse(super.serialize());
+        return JSON.stringify({
+            ...base,
+            url: this.url,
+            method: this.method,
+            status: this.status
+        });
+    }
+}
+
+// Event Management Framework
+class EventManager {
+    constructor() {
+        this.events = [];
+        this.handlers = new Map();
+        this.stats = {
+            totalEvents: 0,
+            handledEvents: 0,
+            eventsByType: {}
+        };
+    }
+    
+    // Polymorphic event storage
+    addEvent(event) {
+        if (!(event instanceof Event)) {
+            throw new Error('Object must be an Event instance');
+        }
+        
+        this.events.push(event);
+        this.updateStats(event);
+    }
+    
+    addEvents(events) {
+        events.forEach(event => this.addEvent(event));
+    }
+    
+    // Polymorphic event processing
+    processAllEvents() {
+        const results = [];
+        
+        for (const event of this.events) {
+            if (!event.handled) {
+                // Polymorphic method call - each event type handles differently
+                const result = event.handle();
+                results.push(result);
+                this.stats.handledEvents++;
+            }
+        }
+        
+        return results;
+    }
+    
+    // Filter events by type using polymorphism
+    getEventsByType(eventType) {
+        return this.events.filter(event => event.type === eventType);
+    }
+    
+    // Filter events by custom criteria
+    filterEvents(predicate) {
+        return this.events.filter(predicate);
+    }
+    
+    // Polymorphic serialization
+    exportEvents(format = 'json') {
+        const serialized = this.events.map(event => event.serialize());
+        
+        if (format === 'json') {
+            return JSON.stringify(serialized, null, 2);
+        } else if (format === 'csv') {
+            // Simple CSV export
+            const headers = 'Type,Timestamp,Handled,Details\\n';
+            const rows = this.events.map(event => {
+                const data = JSON.parse(event.serialize());
+                return \`\ {data.type},\ {data.timestamp},\ {data.handled},"\ {JSON.stringify(data)}"\`;
+            }).join('\\n');
+            return headers + rows;
+        }
+    }
+    
+    // Group events polymorphically
+    groupEventsByType() {
+        const groups = {};
+        
+        for (const event of this.events) {
+            const type = event.constructor.name;
+            if (!groups[type]) {
+                groups[type] = [];
+            }
+            groups[type].push(event);
+        }
+        
+        return groups;
+    }
+    
+    // Process events with different strategies
+    processWithStrategy(strategy) {
+        const results = [];
+        
+        for (const event of this.events) {
+            // Polymorphic strategy application
+            const result = strategy.process(event);
+            results.push(result);
+        }
+        
+        return results;
+    }
+    
+    updateStats(event) {
+        this.stats.totalEvents++;
+        
+        if (!this.stats.eventsByType[event.type]) {
+            this.stats.eventsByType[event.type] = 0;
+        }
+        this.stats.eventsByType[event.type]++;
+    }
+    
+    getStatistics() {
+        return {
+            ...this.stats,
+            handledPercentage: (this.stats.handledEvents / this.stats.totalEvents * 100).toFixed(2)
+        };
+    }
+}
+
+// Strategy pattern for different processing approaches
+class EventProcessingStrategy {
+    process(event) {
+        return event.handle();
+    }
+}
+
+class LoggingStrategy extends EventProcessingStrategy {
+    process(event) {
+        const result = super.process(event);
+        console.log(\`[LOG] \ {result}\`);
+        return result;
+    }
+}
+
+class MetricsStrategy extends EventProcessingStrategy {
+    constructor() {
+        super();
+        this.metrics = {};
+    }
+    
+    process(event) {
+        const result = super.process(event);
+        
+        if (!this.metrics[event.type]) {
+            this.metrics[event.type] = 0;
+        }
+        this.metrics[event.type]++;
+        
+        return result;
+    }
+    
+    getMetrics() {
+        return this.metrics;
+    }
+}
+
+// Usage demonstration
+function demonstratePolymorphicEventSystem() {
+    const manager = new EventManager();
+    
+    // Create heterogeneous collection of events
+    const events = [
+        new MouseEvent(100, 200, 'left'),
+        new KeyboardEvent('Enter', ['ctrl', 'shift']),
+        new NetworkEvent('https://api.example.com/data', 'GET', 200),
+        new MouseEvent(150, 250, 'right'),
+        new KeyboardEvent('A', ['ctrl']),
+        new NetworkEvent('https://api.example.com/upload', 'POST', 201)
+    ];
+    
+    // Add to manager (polymorphic storage)
+    manager.addEvents(events);
+    
+    console.log('=== Processing All Events ===');
+    const results = manager.processAllEvents();
+    results.forEach(result => console.log(result));
+    
+    console.log('\\n=== Events by Type ===');
+    const groups = manager.groupEventsByType();
+    Object.entries(groups).forEach(([type, eventList]) => {
+        console.log(\`\ {type}: \ {eventList.length} events\`);
+    });
+    
+    console.log('\\n=== Mouse Events Only ===');
+    const mouseEvents = manager.getEventsByType('mouse');
+    mouseEvents.forEach(event => console.log(event.serialize()));
+    
+    console.log('\\n=== Statistics ===');
+    console.log(manager.getStatistics());
+    
+    // Demonstrate strategy pattern with polymorphic events
+    console.log('\\n=== Using Metrics Strategy ===');
+    const metricsStrategy = new MetricsStrategy();
+    
+    // Create new events for strategy demo
+    const newEvents = [
+        new MouseEvent(300, 400, 'left'),
+        new KeyboardEvent('Space'),
+        new NetworkEvent('https://test.com', 'DELETE', 404)
+    ];
+    
+    const strategyManager = new EventManager();
+    strategyManager.addEvents(newEvents);
+    strategyManager.processWithStrategy(metricsStrategy);
+    
+    console.log('Strategy Metrics:', metricsStrategy.getMetrics());
+}
+
+demonstratePolymorphicEventSystem();
+              </code></pre>
+            </div>
+
+            <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+              Framework Design Patterns
+            </h4>
+            <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Strategy Pattern:</span> Algorithms work polymorphically with different object types
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Observer Pattern:</span> Observers handle different event types uniformly
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Command Pattern:</span> Commands execute different operations through common interface
+              </li>
+              <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Composite Pattern:</span> Treat individual objects and composites uniformly
+              </li>
+            </ol>
+          </div>`,
+            examples: [
+              `# Python - Polymorphic Processing Pipeline
+class DataProcessor:
+    def process(self, items: List[Processable]):
+        results = []
+        for item in items:
+            # Polymorphic processing
+            result = item.process()
+            results.append(result)
+        return results
+
+# Different types, same interface
+processors = [JSONProcessor(), XMLProcessor(), CSVProcessor()]
+pipeline.process_all(processors)`,
+
+              `// JavaScript - Polymorphic Component Framework
+class ComponentManager {
+    constructor() {
+        this.components = [];
+    }
+    
+    render() {
+        return this.components.map(component => 
+            component.render() // Polymorphic render call
+        );
+    }
+}
+
+// Mixed component types
+manager.add(new Button("Click me"));
+manager.add(new TextInput("Enter text"));
+manager.add(new Image("photo.jpg"));`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does polymorphism work in collections and why is it beneficial?",
+                solution:
+                  "<p>Polymorphism in collections allows storing objects of different types that share a common interface in the same collection. Benefits include: uniform processing of heterogeneous data, reduced code duplication, improved extensibility (new types can be added without changing existing code), and better maintainability through consistent interfaces.</p>",
+              },
+              {
+                question:
+                  "What are the key considerations when designing polymorphic frameworks?",
+                solution:
+                  "<p>Key considerations include: defining clear and consistent interfaces, ensuring proper inheritance hierarchies, maintaining type safety while allowing flexibility, providing extension points for new types, handling edge cases gracefully, and balancing performance with flexibility. The framework should be open for extension but closed for modification.</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/strategy",
+              "https://docs.python.org/3/library/abc.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
+            ],
+          },
+          {
+            topic: "Duck Typing in Dynamically-Typed Languages",
+            tags: ["polymorphism", "dynamic typing", "python", "javascript"],
+            explanation: `<div>
+  <h3 style="margin-top: 1.75rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;">
+    1. Definition & Philosophy
+  </h3>
+  <p style="line-height: 1.8; margin-top: 1rem;">
+    Duck typing is a programming paradigm in which <strong>an object’s suitability is determined by the presence of certain methods and properties, rather than by the type of the object itself</strong>.  It derives its name from the aphorism:
+  </p>
+  <blockquote style="margin: 1rem 0 1rem 2rem; padding-left: 1rem; border-left: 4px solid #00ACC1; font-style: italic;">
+    “If it walks like a duck and quacks like a duck, then it must be a duck.”
+  </blockquote>
+  <p style="line-height: 1.8;">
+    In dynamically-typed languages such as Python and JavaScript, variables are mere <em>names bound to objects at runtime</em>.  The interpreter or engine <strong>never checks the declared type</strong>; it only verifies that the requested attribute exists and is callable when the code actually runs.  This allows unrelated classes to be used interchangeably as long as they satisfy the expected interface.
+  </p>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    2. Core Mechanics
+  </h4>
+  <ul style="margin: 1rem 0 0 2rem; line-height: 1.7;">
+    <li><strong>Structural Compatibility:</strong>  An object is acceptable if it exposes the required <em>structure</em> (data attributes + callables).</li>
+    <li><strong>Runtime Lookup:</strong>  Attribute access is resolved dynamically via <code>obj.__getattr__</code> (Python) or <code>obj[methodName]</code> (JS).</li>
+    <li><strong>No Inheritance Required:</strong>  Two classes with no common ancestor can both satisfy the same interface.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    3. Step-by-Step Mental Model
+  </h4>
+  <ol style="margin: 1rem 0 0 2rem; line-height: 1.7;">
+    <li>A function <code>f(x)</code> declares: “I will call <code>x.quack()</code>.”</li>
+    <li>At runtime, the interpreter asks: “Does the object bound to <code>x</code> have an attribute named <code>quack</code> that is callable?”</li>
+    <li>If yes, the call proceeds; if not, an exception (<code>AttributeError</code> in Python, <code>TypeError</code> in JS) is raised.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    4. Canonical Use-Case: Universal Serializer
+  </h4>
+  <p style="line-height: 1.8;">
+    Suppose we need a utility that can serialize <strong>any object</strong> into JSON, provided the object can describe itself.  Rather than requiring every class to inherit from <code>Serializable</code>, we adopt the duck-typed protocol: <em>“If you have a <code>to_dict()</code> method that returns a plain dict, we can serialize you.”</em>
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.1 Python – Deep Dive</h5>
+  <p style="line-height: 1.8;">
+    <strong>Step 1 – Define the protocol (informal):</strong>
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+# Expected protocol
+class HasToDict:
+    def to_dict(self) -> dict: ...
+  </pre>
+  <p style="line-height: 1.8;">
+    <strong>Step 2 – Provide unrelated classes:</strong>
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class Dog:
+    def __init__(self, name, age):
+        self.name, self.age = name, age
+    def to_dict(self):
+        return {"kind": "Dog", "name": self.name, "age": self.age}
+
+class Car:
+    def __init__(self, model, year):
+        self.model, self.year = model, year
+    def to_dict(self):
+        return {"kind": "Car", "model": self.model, "year": self.year}
+  </pre>
+  <p style="line-height: 1.8;">
+    <strong>Step 3 – The duck-typed serializer:</strong>
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+import json
+
+def serialize(obj):
+    if not hasattr(obj, 'to_dict'):
+        raise TypeError(f"{type(obj).__name__} is not serializable (missing to_dict)")
+    return json.dumps(obj.to_dict())
+
+# Usage
+print(serialize(Dog("Buddy", 4)))
+print(serialize(Car("Model S", 2023)))
+  </pre>
+  <p style="line-height: 1.8;">
+    <strong>Runtime behavior:</strong>
+    <ul style="margin-left: 2rem; line-height: 1.7;">
+      <li><code>hasattr(obj, 'to_dict')</code> returns <code>True</code> for both <code>Dog</code> and <code>Car</code> instances.</li>
+      <li>The JSON encoder receives a plain dict and succeeds.</li>
+      <li>If we pass <code>42</code>, the guard raises <code>TypeError</code> immediately.</li>
+    </ul>
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.2 JavaScript – Deep Dive</h5>
+  <p style="line-height: 1.8;">
+    JavaScript objects are dictionaries; property access is string-keyed.  The same protocol applies.
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class Dog {
+  constructor(name, age) { this.name = name; this.age = age; }
+  toDict() { return {kind: 'Dog', name: this.name, age: this.age}; }
+}
+
+class Car {
+  constructor(model, year) { this.model = model; this.year = year; }
+  toDict() { return {kind: 'Car', model: this.model, year: this.year}; }
+}
+
+function serialize(obj) {
+  if (typeof obj?.toDict !== 'function')
+    throw new TypeError({obj} is not serializable (missing toDict));
+  return JSON.stringify(obj.toDict());
+}
+
+console.log(serialize(new Dog('Buddy', 4)));
+console.log(serialize(new Car('Model S', 2023)));
+  </pre>
+  <p style="line-height: 1.8;">
+    <strong>Runtime behavior:</strong>  The optional chaining operator (<code>obj?.toDict</code>) safely probes for the method.  If absent, the guard throws; otherwise, the method is invoked.
+  </p>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    5. Extending the Protocol Post-Hoc
+  </h4>
+  <p style="line-height: 1.8;">
+    Duck typing shines when third-party classes must retroactively satisfy an interface.  Without altering their source, we can wrap or monkey-patch them:
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+# External library class
+class ExternalUser:
+    def __init__(self, login):
+        self.login = login
+
+# Adapter without inheritance
+def user_to_dict(self):
+    return {"user": self.login}
+
+ExternalUser.to_dict = user_to_dict   # Monkey-patch
+print(serialize(ExternalUser("alice")))  # Works
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    6. Error Handling Patterns
+  </h4>
+  <table style="width:100%;margin-top:1rem;border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Strategy</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Python</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">JavaScript</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Look-before-you-leap</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;"><code>hasattr(obj, 'method')</code></td>
+        <td style="padding:0.5rem;border:1px solid #ccc;"><code>'method' in obj</code></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">EAFP / try-catch</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;"><code>try: obj.method()</code></td>
+        <td style="padding:0.5rem;border:1px solid #ccc;"><code>try { obj.method() }</code></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Protocol annotations</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;"><code>typing.Protocol</code> (PEP 544)</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">TypeScript interfaces (compile-time)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    7. Benefits & Trade-offs
+  </h4>
+  <ul style="margin: 1rem 0 0 2rem; line-height: 1.7;">
+    <li><strong>Pros:</strong>
+      <ul style="margin-left: 1.5rem;">
+        <li>Minimal boilerplate; no need for explicit interfaces.</li>
+        <li>Enables powerful plugin systems (e.g., Flask request objects).</li>
+        <li>Natural fit for scripting and rapid prototyping.</li>
+      </ul>
+    </li>
+    <li><strong>Cons:</strong>
+      <ul style="margin-left: 1.5rem;">
+        <li>Runtime errors instead of compile-time guarantees.</li>
+        <li>IDEs provide weaker autocompletion and refactoring support.</li>
+        <li>Method name clashes can cause subtle bugs.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    8. Testing Duck-Typed Code
+  </h4>
+  <p style="line-height: 1.8;">
+    Because correctness is only provable at runtime, <em>contract tests</em> are essential.  For the serializer example, a simple test matrix can be created:
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+# pytest
+import pytest
+from mylib import serialize, Dog, Car
+
+@pytest.mark.parametrize("obj", [Dog("D", 1), Car("C", 2023)])
+def test_serialize_success(obj):
+    assert isinstance(serialize(obj), str)
+
+def test_serialize_failure():
+    with pytest.raises(TypeError):
+        serialize(42)
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    9. Relationship to Static Typing
+  </h4>
+  <p style="line-height: 1.8;">
+    Even in statically-typed ecosystems, duck typing can be simulated.  Python 3.8+ offers <code>typing.Protocol</code>; TypeScript uses <em>structural types</em>.  These tools give IDE support and compile-time checking while preserving duck-typed flexibility.
+  </p>
+</div>`,
+            examples: [
+              `# Python - Polymorphic Processing Pipeline
+class DataProcessor:
+    def process(self, items: List[Processable]):
+        results = []
+        for item in items:
+            # Polymorphic processing
+            result = item.process()
+            results.append(result)
+        return results
+
+# Different types, same interface
+processors = [JSONProcessor(), XMLProcessor(), CSVProcessor()]
+pipeline.process_all(processors)`,
+
+              `// JavaScript - Polymorphic Component Framework
+class ComponentManager {
+    constructor() {
+        this.components = [];
+    }
+    
+    render() {
+        return this.components.map(component => 
+            component.render() // Polymorphic render call
+        );
+    }
+}
+
+// Mixed component types
+manager.add(new Button("Click me"));
+manager.add(new TextInput("Enter text"));
+manager.add(new Image("photo.jpg"));`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does polymorphism work in collections and why is it beneficial?",
+                solution:
+                  "<p>Polymorphism in collections allows storing objects of different types that share a common interface in the same collection. Benefits include: uniform processing of heterogeneous data, reduced code duplication, improved extensibility (new types can be added without changing existing code), and better maintainability through consistent interfaces.</p>",
+              },
+              {
+                question:
+                  "What are the key considerations when designing polymorphic frameworks?",
+                solution:
+                  "<p>Key considerations include: defining clear and consistent interfaces, ensuring proper inheritance hierarchies, maintaining type safety while allowing flexibility, providing extension points for new types, handling edge cases gracefully, and balancing performance with flexibility. The framework should be open for extension but closed for modification.</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/strategy",
+              "https://docs.python.org/3/library/abc.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
+            ],
+          },
+          {
+            topic: "Multiple Dispatch (Multimethods)",
+            tags: [
+              "polymorphism",
+              "dispatch",
+              "julia",
+              "multimethods",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+  <h3 style="margin-top: 1.75rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;">
+    1. What is Multiple Dispatch?
+  </h3>
+  <p style="line-height: 1.8; margin-top: 1rem;">
+    Multiple dispatch (often called <strong>multimethods</strong>) is a form of polymorphism in which the <em>function implementation is chosen based on the runtime types of <strong>all</strong> positional arguments</em>, not just the receiver (as in single dispatch).  In other words, the dispatch table is indexed by a <em>tuple of argument types</em> rather than a single type.
+  </p>
+  <p style="line-height: 1.8;">
+    Languages with native support include <strong>Julia</strong> (where it is the default dispatch mechanism), <strong>Clojure</strong>, <strong>Dylan</strong>, and <strong>Common Lisp (CLOS)</strong>.  In Python and JavaScript we can emulate the feature via libraries or small dispatch engines.
+  </p>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    2. Core Concepts & Vocabulary
+  </h4>
+  <ul style="margin: 1rem 0 0 2rem; line-height: 1.7;">
+    <li><strong>Method Specializers:</strong>  Each argument position can be annotated with a type; together they form a <em>signature tuple</em>.</li>
+    <li><strong>Most-Specific Rule:</strong>  At runtime, the dispatcher selects the overload whose signature is the <em>closest ancestor</em> of the actual argument types (similar to C++ overload resolution).</li>
+    <li><strong>Extensibility:</strong>  New overloads can be registered after the fact without touching existing code—ideal for plug-ins.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    3. Mental Model – Dispatch Table
+  </h4>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+DispatchTable = {
+  (Circle, Circle)    -> circle_circle_collision,
+  (Circle, Rectangle) -> circle_rect_collision,
+  (Rectangle, Circle) -> rect_circle_collision,
+  (Rectangle, Rectangle) -> rect_rect_collision,
+  ...
+}
+  </pre>
+  <p style="line-height: 1.8;">
+    Calling <code>collide(c, r)</code> where <code>c: Circle</code> and <code>r: Rectangle</code> performs the table lookup using the tuple <code>(Circle, Rectangle)</code> and immediately invokes the matched function.
+  </p>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    4. Canonical Use-Case: 2-D Game Collision System
+  </h4>
+  <p style="line-height: 1.8;">
+    Detecting intersection between arbitrary shapes is the textbook example because the optimal algorithm depends on the <em>pair</em> of shapes involved.  A single dispatch approach would require nested <code>if/else</code> or the Visitor pattern; multiple dispatch allows us to express each case as an independent overload.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.1 Julia – Native Multimethods</h5>
+  <p style="line-height: 1.8;">
+    Julia makes multiple dispatch a first-class citizen.
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+abstract type Shape end
+struct Circle    <: Shape; radius::Float64 end
+struct Rectangle <: Shape; w::Float64; h::Float64 end
+
+# Method 1
+collide(a::Circle,    b::Circle)    = "Circle × Circle algorithm"
+# Method 2
+collide(a::Circle,    b::Rectangle) = "Circle × Rectangle algorithm"
+# Method 3
+collide(a::Rectangle, b::Rectangle) = "Rectangle × Rectangle algorithm"
+
+c = Circle(1.0)
+r = Rectangle(2.0, 3.0)
+
+collide(c, c)  # → "Circle × Circle algorithm"
+collide(c, r)  # → "Circle × Rectangle algorithm"
+  </pre>
+  <p style="line-height: 1.8;">
+    Adding <code>Triangle</code> later is a one-liner:
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+struct Triangle <: Shape end
+collide(a::Triangle, b::Shape) = "Triangle × (any) algorithm"
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.2 Python – Emulation via <code>multipledispatch</code></h5>
+  <p style="line-height: 1.8;">
+    The <code>multipledispatch</code> package provides Julia-like syntax.
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+from multipledispatch import dispatch
+
+class Circle:    pass
+class Rectangle: pass
+
+@dispatch(Circle, Circle)
+def collide(a: Circle, b: Circle):
+    return "Circle × Circle"
+
+@dispatch(Circle, Rectangle)
+def collide(a: Circle, b: Rectangle):
+    return "Circle × Rectangle"
+
+@dispatch(Rectangle, Rectangle)
+def collide(a: Rectangle, b: Rectangle):
+    return "Rectangle × Rectangle"
+
+# Usage
+collide(Circle(), Rectangle())  # → 'Circle × Rectangle'
+  </pre>
+  <p style="line-height: 1.8;">
+    Under the hood, the decorator builds a trie keyed by <code>(type(a), type(b))</code> and caches the lookup for speed.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.3 JavaScript – Micro-Framework from Scratch</h5>
+  <p style="line-height: 1.8;">
+    JavaScript lacks native multimethods, but a 50-line helper suffices.
+  </p>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+function createDispatcher() {
+  const table = new Map();
+  return {
+    add(types, fn) { table.set(types.join('|'), fn); },
+    dispatch(...args) {
+      const key = args.map(a => a.constructor.name).join('|');
+      return (table.get(key) || (() => 'Unsupported'))(...args);
+    }
+  };
+}
+
+class Circle {}
+class Rectangle {}
+
+const collide = createDispatcher();
+collide.add(['Circle', 'Circle'],    () => 'Circle × Circle');
+collide.add(['Circle', 'Rectangle'], () => 'Circle × Rectangle');
+collide.add(['Rectangle', 'Rectangle'], () => 'Rectangle × Rectangle');
+
+console.log(collide.dispatch(new Circle(), new Rectangle()));
+// → Circle × Rectangle
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    5. Comparison with Single Dispatch & Visitor Pattern
+  </h4>
+  <table style="width:100%;margin-top:1rem;border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Aspect</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Single Dispatch</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Multiple Dispatch</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Visitor Pattern</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Dispatch Key</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Receiver type only</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Tuple of all arg types</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Double-dispatch via accept()</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Extensibility</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Add new classes OK</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Add new overloads OK</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Requires visitor class changes</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Boilerplate</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Low</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Very low</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">High (accept + visit methods)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    6. Performance Considerations
+  </h4>
+  <ul style="margin: 1rem 0 0 2rem; line-height: 1.7;">
+    <li><strong>Caching:</strong>  Most libraries memoize the tuple-to-function mapping; repeated calls with the same types become O(1).</li>
+    <li><strong>Combinatorial Growth:</strong>  N concrete types yield N² signatures.  Mitigate via abstract base classes or default catch-all overloads.</li>
+    <li><strong>JIT Optimizations (Julia):</strong>  The Julia compiler can inline the most-specific method after the first dispatch, achieving near-static-call performance.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    7. Real-World Applications
+  </h4>
+  <ul style="margin: 1rem 0 0 2rem; line-height: 1.7;">
+    <li><strong>Scientific Computing (Julia):</strong>  Linear algebra (<code>*(::Matrix, ::Vector)</code>, <code>*(::SparseMatrix, ::Vector)</code>) uses multimethods for BLAS vs. sparse dispatch.</li>
+    <li><strong>Symbolic Math (SymPy, Julia Symbolics):</strong>  Simplification rules like <code>add(::Integer, ::Integer)</code>, <code>add(::Expr, ::Expr)</code>.</li>
+    <li><strong>Game Engines:</strong>  Collision, AI reaction tables, shader variant selection.</li>
+    <li><strong>Rule Engines & DSLs:</strong>  Business rules indexed by event type combinations.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    8. Testing Multimethods
+  </h4>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+# pytest example
+@pytest.mark.parametrize("a,b,expected", [
+    (Circle(), Circle(), "Circle × Circle"),
+    (Circle(), Rectangle(), "Circle × Rectangle"),
+    (Rectangle(), Rectangle(), "Rectangle × Rectangle"),
+])
+def test_collide(a, b, expected):
+    assert collide(a, b) == expected
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    9. Relationship to Static Overloading
+  </h4>
+  <p style="line-height: 1.8;">
+    Traditional method overloading in Java or C++ is resolved at <em>compile time</em> based on <em>static types</em>.  Multiple dispatch is <em>runtime</em> and considers <em>actual object types</em>, enabling far richer polymorphism for heterogeneous data structures.
+  </p>
+</div>`,
+            examples: [
+              `# Python - Polymorphic Processing Pipeline
+class DataProcessor:
+    def process(self, items: List[Processable]):
+        results = []
+        for item in items:
+            # Polymorphic processing
+            result = item.process()
+            results.append(result)
+        return results
+
+# Different types, same interface
+processors = [JSONProcessor(), XMLProcessor(), CSVProcessor()]
+pipeline.process_all(processors)`,
+
+              `// JavaScript - Polymorphic Component Framework
+class ComponentManager {
+    constructor() {
+        this.components = [];
+    }
+    
+    render() {
+        return this.components.map(component => 
+            component.render() // Polymorphic render call
+        );
+    }
+}
+
+// Mixed component types
+manager.add(new Button("Click me"));
+manager.add(new TextInput("Enter text"));
+manager.add(new Image("photo.jpg"));`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does polymorphism work in collections and why is it beneficial?",
+                solution:
+                  "<p>Polymorphism in collections allows storing objects of different types that share a common interface in the same collection. Benefits include: uniform processing of heterogeneous data, reduced code duplication, improved extensibility (new types can be added without changing existing code), and better maintainability through consistent interfaces.</p>",
+              },
+              {
+                question:
+                  "What are the key considerations when designing polymorphic frameworks?",
+                solution:
+                  "<p>Key considerations include: defining clear and consistent interfaces, ensuring proper inheritance hierarchies, maintaining type safety while allowing flexibility, providing extension points for new types, handling edge cases gracefully, and balancing performance with flexibility. The framework should be open for extension but closed for modification.</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/strategy",
+              "https://docs.python.org/3/library/abc.html",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
+            ],
+          },
+          {
+            topic: "Object Creation Patterns Factory, Builder, Prototype",
+            tags: [
+              "creational-patterns",
+              "object-lifecycle",
+              "memory-management",
+              "python",
+              "javascript",
+            ],
+            explanation: `<div>
+  <h3 style="margin-top: 1.75rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;">
+    1. Why Object Creation Patterns Matter
+  </h3>
+  <p style="line-height: 1.8; margin-top: 1rem;">
+    Creating objects is trivial (<code>new Foo()</code>), yet **real-world construction** often involves:
+  </p>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li>Complex validation</li>
+    <li>Flexible configuration (optional parameters, defaults)</li>
+    <li>Re-use of expensive or partially-initialized objects</li>
+    <li>Hiding concrete classes from the caller</li>
+  </ul>
+  <p style="line-height: 1.8;">
+    The <strong>Factory</strong>, <strong>Builder</strong>, and <strong>Prototype</strong> patterns encapsulate these concerns, decoupling **what** is built from **how** it is built, thereby improving testability, memory usage, and maintainability.
+  </p>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    2. Factory Pattern – Intent & Mechanics
+  </h4>
+  <p style="line-height: 1.8;">
+    A <strong>Factory</strong> centralizes object creation behind an interface or function so that **callers do not depend on concrete classes**.  Useful when:
+  </p>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li>There is a family of related products</li>
+    <li>Construction logic may change (DB vs. file, mock vs. real)</li>
+    <li>Object pooling or caching is desired</li>
+  </ul>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">2.1 Python – Classic Factory</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+from abc import ABC, abstractmethod
+
+class Transport(ABC):
+    @abstractmethod
+    def deliver(self): ...
+
+class Truck(Transport):
+    def deliver(self):
+        return "Deliver by 🚚 road"
+
+class Ship(Transport):
+    def deliver(self):
+        return "Deliver by 🚢 sea"
+
+class TransportFactory:
+    @staticmethod
+    def create(transport_type: str) -> Transport:
+        mapping = {"truck": Truck, "ship": Ship}
+        if transport_type not in mapping:
+            raise ValueError("Unknown transport")
+        return mapping[transport_type]()
+
+# Client code
+print(TransportFactory.create("truck").deliver())  # Deliver by 🚚 road
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">2.2 JavaScript – Factory Function with Closures</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class Truck {
+  deliver() { return 'Deliver by 🚚 road'; }
+}
+class Ship {
+  deliver() { return 'Deliver by 🚢 sea'; }
+}
+
+const TransportFactory = {
+  create(type) {
+    const map = { truck: Truck, ship: Ship };
+    if (!map[type]) throw new Error('Unknown transport');
+    return new map[type]();
+  }
+};
+
+console.log(TransportFactory.create('ship').deliver()); // Deliver by 🚢 sea
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    3. Builder Pattern – Intent & Mechanics
+  </h4>
+  <p style="line-height: 1.8;">
+    The <strong>Builder</strong> constructs a complex object <strong>step-by-step</strong>, keeping construction and representation separate.  Ideal when:
+  </p>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li>Many optional parameters or nested configuration</li>
+    <li>Immutable end-product desired</li>
+    <li>Validation can occur after all parts are supplied</li>
+  </ul>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">3.1 Python – Fluent Builder with Validation</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class Pizza:
+    def __init__(self, size, cheese=False, pepperoni=False, gluten_free=False):
+        self.size, self.cheese, self.pepperoni, self.gluten_free = \
+            size, cheese, pepperoni, gluten_free
+    def __repr__(self):
+        return (f"Pizza({self.size}\", cheese={self.cheese}, "
+                f"pepperoni={self.pepperoni}, gluten_free={self.gluten_free})")
+
+class PizzaBuilder:
+    def __init__(self, size):
+        self._size = size
+        self._cheese = False
+        self._pepperoni = False
+        self._gluten_free = False
+
+    def add_cheese(self):
+        self._cheese = True
+        return self  # fluent
+
+    def add_pepperoni(self):
+        self._pepperoni = True
+        return self
+
+    def make_gluten_free(self):
+        self._gluten_free = True
+        return self
+
+    def build(self):
+        if self._size <= 0:
+            raise ValueError("Invalid size")
+        return Pizza(self._size, self._cheese, self._pepperoni, self._gluten_free)
+
+# Usage
+pizza = PizzaBuilder(14).add_cheese().add_pepperoni().make_gluten_free().build()
+print(pizza)  # Pizza(14", cheese=True, pepperoni=True, gluten_free=True)
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">3.2 JavaScript – Builder with Optional Chaining</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class Pizza {
+  constructor(size, cheese = false, pepperoni = false, glutenFree = false) {
+    Object.assign(this, { size, cheese, pepperoni, glutenFree });
+  }
+  toString() {
+    return JSON.stringify(this);
+  }
+}
+
+class PizzaBuilder {
+  constructor(size) {
+    this.props = { size };
+  }
+  addCheese()   { this.props.cheese = true;    return this; }
+  addPepperoni(){ this.props.pepperoni = true; return this; }
+  makeGlutenFree(){ this.props.glutenFree = true; return this; }
+  build() {
+    if (this.props.size <= 0) throw new Error('Bad size');
+    return new Pizza(
+      this.props.size,
+      this.props.cheese,
+      this.props.pepperoni,
+      this.props.glutenFree
+    );
+  }
+}
+
+const pizza = new PizzaBuilder(12).addCheese().makeGlutenFree().build();
+console.log(pizza.toString()); // {"size":12,"cheese":true,"pepperoni":false,"glutenFree":true}
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    4. Prototype Pattern – Intent & Mechanics
+  </h4>
+  <p style="line-height: 1.8;">
+    The <strong>Prototype</strong> pattern creates new objects by <strong>cloning</strong> an existing instance (the prototype), avoiding expensive initialization or subclassing.  Use when:
+  </p>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li>Object creation is more expensive than copying</li>
+    <li>Runtime configuration determines the “template”</li>
+    <li>Class proliferation is undesirable</li>
+  </ul>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.1 Python – Deep & Shallow Copy</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+import copy
+
+class Config:
+    def __init__(self, host, port, features):
+        self.host, self.port, self.features = host, port, features
+    def clone(self):
+        # deep copy so nested lists/dicts are independent
+        return copy.deepcopy(self)
+    def __repr__(self):
+        return f"Config({self.host}:{self.port}, {self.features})"
+
+# Prototype registry
+prototypes = {
+    "dev":  Config("localhost", 8000, ["debug", "logging"]),
+    "prod": Config("0.0.0.0", 80, ["logging"])
+}
+
+# Clone and tweak
+cfg = prototypes["dev"].clone()
+cfg.port = 9000
+print(cfg)  # Config(localhost:9000, ['debug', 'logging'])
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.2 JavaScript – Prototype Delegation & Structured Clone</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class Config {
+  constructor(host, port, features) {
+    Object.assign(this, { host, port, features });
+  }
+  clone() {
+    // Structured clone for deep copy
+    return new Config(
+      this.host,
+      this.port,
+      structuredClone(this.features)
+    );
+  }
+}
+
+const prototypes = {
+  dev:  new Config('localhost', 8000, ['debug', 'logging']),
+  prod: new Config('0.0.0.0', 80, ['logging'])
+};
+
+const cfg = prototypes.dev.clone();
+cfg.port = 9000;
+console.log(cfg); // Config { host: 'localhost', port: 9000, features: [ 'debug', 'logging' ] }
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    5. Memory & Lifecycle Implications
+  </h4>
+  <table style="width:100%;margin-top:1rem;border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Pattern</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Memory Footprint</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">GC Impact</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Typical Mitigation</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Factory</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">One instance per call</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Normal churn</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Object pooling if allocation heavy</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Builder</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Temporary builder object</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Short-lived (escape analysis)</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Reuse builders via reset()</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Prototype</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">One template + clones</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Template retained, clones collected normally</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Weak references to templates</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    6. Testing & Mocking Strategies
+  </h4>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Factory:</strong> Inject a factory function in tests to return mocks/stubs.</li>
+    <li><strong>Builder:</strong> Assert intermediate build state; verify validation rules.</li>
+    <li><strong>Prototype:</strong> Clone an object, mutate, assert independence (deep vs. shallow).</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    7. When to Use Which?
+  </h4>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Factory</strong> – family of products, creation logic may change, dependency injection.</li>
+    <li><strong>Builder</strong> – many optional parameters, step-by-step construction, immutable result.</li>
+    <li><strong>Prototype</strong> – expensive initialization, runtime templates, reduce subclassing.</li>
+  </ul>
+</div>`,
+            examples: [
+              {
+                language: "python",
+                snippet: "class Transport(ABC): ...",
+              },
+              {
+                language: "javascript",
+                snippet: "class Truck { ...",
+              },
+            ],
+            questions: [
+              {
+                question:
+                  "When would you choose Factory vs. Builder vs. Prototype?",
+                solution:
+                  "Use Factory when you have a family of related classes and want to hide instantiation logic. Use Builder when you need step-by-step construction of a complex object with many optional parameters. Use Prototype when object creation is expensive and cloning is cheaper.",
+              },
+              {
+                question:
+                  "How do these patterns affect memory usage and garbage collection?",
+                solution:
+                  "Factory typically creates one new instance per call; mitigate with object pooling. Builder adds a short-lived builder object—usually collected quickly. Prototype keeps a template alive and clones it; memory is saved when clones are cheaper to produce than fresh instances.",
+              },
+              {
+                question:
+                  "Provide an example of combining Builder with Prototype.",
+                solution:
+                  "Start with a Prototype template of a partially-configured object, then use a Builder to mutate/extend it before finalizing: <pre>template = ConfigPrototype.clone(); builder = ConfigBuilder(template); cfg = builder.addSSL().build();</pre>",
+              },
+            ],
+            links: [
+              '<url id="d2hdf6mf2kq9tlu6t040" type="url" status="parsed" title="All Creational Design Patterns with Java Examples" wc="7073">https://medium.com/@Lakshitha_Fernando/all-creational-design-patterns-singleton-builder-factory-abstract-factory-and-prototype-3fc75f6f53ac</url>',
+              '<url id="d2hdf6mf2kq9tlu6t04g" type="url" status="parsed" title="Factory Method – Refactoring Guru" wc="5629">https://refactoring.guru/design-patterns/factory-method</url>',
+              '<url id="d2hdf6mf2kq9tlu6t050" type="url" status="parsed" title="Creational Patterns in C# – Medium" wc="4987">https://medium.com/@hanxuyang0826/exploring-advanced-creational-patterns-abstract-factory-builder-and-prototype-in-c-8642466a6563</url>',
+              '<url id="d2hdf6mf2kq9tlu6t05g" type="url" status="parsed" title="Java Design Patterns – DigitalOcean" wc="4987">https://www.digitalocean.com/community/tutorials/java-design-patterns-example-tutorial</url>',
+              '<url id="d2hdf6mf2kq9tlu6t060" type="url" status="parsed" title="Creational Design Patterns Overview – Baeldung" wc="4987">https://www.baeldung.com/creational-design-patterns</url>',
+            ],
+          },
+          {
+            topic: "Object Destruction & Garbage Collection",
+            tags: [
+              "gc",
+              "memory-management",
+              "destructor",
+              "python",
+              "javascript",
+              "finalizer",
+            ],
+            explanation: `<div>
+  <h3 style="margin-top: 1.75rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;">
+    1. Why Object Destruction Matters
+  </h3>
+  <p style="line-height: 1.8; margin-top: 1rem;">
+    After an object is no longer reachable, its memory must be reclaimed and any external resources (file handles, sockets, GPU memory) must be released.  Mismanaging this leads to <strong>memory leaks</strong> (retained but unused objects) or <strong>resource leaks</strong> (exhaustion of OS handles).  High-level languages automate memory reclamation via <strong>garbage collectors (GC)</strong>, but developers still need deterministic cleanup patterns.
+  </p>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    2. Core Concepts & Terminology
+  </h4>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Reachability:</strong>  An object is reachable if it is referenced by roots (globals, stack frames, CPU registers) or by other reachable objects.</li>
+    <li><strong>Garbage Collector (GC):</strong>  Runtime subsystem that identifies unreachable objects and reclaims their memory automatically.</li>
+    <li><strong>Finalizer / Destructor:</strong>  User code executed <em>after</em> GC decides an object is unreachable but <em>before</em> its memory is freed.</li>
+    <li><strong>Dispose / Close Pattern:</strong>  Explicit deterministic cleanup (e.g., Python’s <code>with</code>, JavaScript’s <code>using</code>).</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    3. Python Memory Model & GC
+  </h4>
+  <p style="line-height: 1.8;">
+    CPython uses <strong>reference counting</strong> + a <strong>cycle detector</strong>.  When an object’s ref-count drops to zero, its destructor (<code>__del__</code>) runs immediately.  Cycles are broken by the generational GC.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">3.1 Lifecycle Hooks</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class TempFile:
+    def __init__(self, path):
+        self.path = path
+        self.file = open(path, "w+")
+    # Destructor
+    def __del__(self):
+        print(f"[GC] Cleaning {self.path}")
+        try:
+            self.file.close()
+            import os; os.remove(self.path)
+        except Exception:
+            pass  # already closed or deleted
+
+# Usage
+obj = TempFile("/tmp/demo")
+del obj  # __del__ runs immediately if no cycles
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">3.2 Context Manager – Deterministic Cleanup</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class ManagedTempFile:
+    def __init__(self, path):
+        self.path = path
+    def __enter__(self):
+        self.file = open(self.path, "w+")
+        return self
+    def __exit__(self, exc_type, exc, tb):
+        self.file.close()
+        import os; os.remove(self.path)
+
+with ManagedTempFile("/tmp/demo2") as tmp:
+    tmp.file.write("hello")
+# __exit__ guaranteed when block exits
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">3.3 Weak References & Callbacks</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+import weakref, gc
+
+class Node:
+    def __init__(self, value):
+        self.value = value
+
+def on_destroy(wr):
+    print("Node collected:", wr)
+
+node = Node(42)
+wr = weakref.ref(node, on_destroy)
+del node
+gc.collect()  # force cycle GC
+# → Node collected: <weakref at ...; dead>
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    4. JavaScript Memory Model & GC
+  </h4>
+  <p style="line-height: 1.8;">
+    JavaScript engines use <strong>mark-and-sweep</strong> (with generational / incremental / concurrent variants).  There is <strong>no reference counting</strong>, so finalizers run <em>at some future GC pause</em>, never synchronously.
+  </p>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.1 FinalizationRegistry & WeakRef (ES2021)</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class TempFileJS {
+  constructor(path) {
+    this.path = path;
+    this.fd = fs.openSync(path, "w+");
+  }
+}
+
+// GC callback
+const registry = new FinalizationRegistry(path => {
+  console.log("[GC] Cleaning", path);
+  try { fs.unlinkSync(path); } catch {}
+});
+
+function makeTemp() {
+  const tmp = new TempFileJS("/tmp/jsdemo");
+  registry.register(tmp, tmp.path); // attach finalizer
+  return tmp;
+}
+
+let t = makeTemp();
+t = null; // becomes unreachable
+// later GC → "[GC] Cleaning /tmp/jsdemo"
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.2 Explicit Disposal – DisposableStack (TC39)</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+class ManagedTempFileJS {
+  constructor(path) {
+    this.path = path;
+    this.fd = fs.openSync(path, "w+");
+  }
+  [Symbol.dispose]() {
+    fs.closeSync(this.fd);
+    fs.unlinkSync(this.path);
+  }
+}
+
+{
+  using tmp = new ManagedTempFileJS("/tmp/jsdemo2");
+  fs.writeSync(tmp.fd, "hello");
+} // Symbol.dispose called synchronously
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    5. Memory Leak Scenarios & Diagnosis
+  </h4>
+  <table style="width:100%;margin-top:1rem;border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Pattern</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Python Symptom</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">JS Symptom</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Fix</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Unbounded caches</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;"><code>dict</code> w/o eviction</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;"><code>Map</code> holding keys</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Use <code>weakref.WeakValueDictionary</code> / <code>WeakMap</code></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Event listeners</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Bound methods in long-lived objects</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">DOM node refs in closures</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Remove listeners / use <code>AbortController</code></td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Reference cycles</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Objects with <code>__del__</code> in cycles</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Cross-referenced objects</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Break cycle manually / weak refs</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    6. Profiling & Debugging Tools
+  </h4>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Python:</strong> <code>tracemalloc</code>, <code>objgraph</code>, <code>gc.get_objects()</code>, memory_profiler.</li>
+    <li><strong>JS (Node):</strong> <code>--inspect</code> with Chrome DevTools, <code>heapdump</code>, <code>clinic.js</code>.</li>
+    <li><strong>Browser:</strong> Chrome Memory tab → heap snapshots, retainers view.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    7. Best-Practice Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li>Prefer explicit disposal (<code>with</code>, <code>using</code>) over <code>__del__</code>/<code>FinalizationRegistry</code>.</li>
+    <li>Use weak references for caches, listeners, and bidirectional links.</li>
+    <li>Break cycles manually when objects contain <code>__del__</code> (Python) or circular JS references.</li>
+    <li>Run memory profilers in CI to detect regressions.</li>
+  </ul>
+</div>`,
+            questions: [
+              {
+                question:
+                  "In Python, why can objects with __del__ sometimes never be collected when part of a reference cycle?",
+                solution:
+                  "<p>CPython’s cycle detector cannot break a cycle that contains an object with a <code>__del__</code> method because the finalizer might rely on the still-reachable cycle members.  Consequently, the entire cycle is leaked.  The remedy is to:</p><ul><li>Avoid defining <code>__del__</code> when possible.</li><li>Use context managers or <code>weakref</code> to break cycles.</li><li>Call <code>gc.collect()</code> manually only if you have removed all <code>__del__</code> objects from the cycle.</li></ul>",
+              },
+              {
+                question:
+                  "How would you ensure a file is closed deterministically in JavaScript when the object holding it might be garbage collected at an unknown time?",
+                solution:
+                  "<p>Use the <strong>explicit disposal</strong> pattern:</p><pre>class ManagedFile { constructor(path){ this.fd = fs.openSync(path,'r'); } [Symbol.dispose](){ fs.closeSync(this.fd); } } { using file = new ManagedFile('data.txt'); // ...use file } // Symbol.dispose runs synchronously on block exit.</pre><p>If Symbol.dispose is unavailable, register a <code>FinalizationRegistry</code> as a last-chance safety net:</p><pre>const registry = new FinalizationRegistry(fd => fs.closeSync(fd)); registry.register(file, file.fd);</pre>",
+              },
+              {
+                question:
+                  "Give a real-world code snippet in Python that leaks memory because of an unbounded cache and show how to fix it with weak references.",
+                solution:
+                  "<p><strong>Leaking version</strong>:</p><pre>class UserService: _cache = {}  # keeps users alive forever def get(self, uid): if uid not in self._cache: self._cache[uid] = self._load(uid) return self._cache[uid]</pre><p><strong>Fixed with WeakValueDictionary</strong>:</p><pre>import weakref class UserService: _cache = weakref.WeakValueDictionary() def get(self, uid): if uid not in self._cache: self._cache[uid] = self._load(uid) return self._cache[uid] # Users disappear when no strong references remain.</pre>",
+              },
+              {
+                question:
+                  "Explain the difference between mark-and-sweep and reference-counting GC and when each might fail.",
+                solution:
+                  "<ul><li><strong>Reference-counting</strong> (CPython) decrements an integer when references disappear; it fails to reclaim cyclic garbage but gives immediate destruction (when count hits zero).</li><li><strong>Mark-and-sweep</strong> (JavaScript) starts from roots, marks reachable objects, then sweeps the rest; it handles cycles but introduces nondeterministic pauses and delayed finalization.</li></ul>",
+              },
+              {
+                question:
+                  "Write a JavaScript function that opens a file, returns it, and guarantees cleanup even if an exception is thrown inside the caller.",
+                solution:
+                  "<pre>function withFile(path, fn) { using file = new ManagedFile(path); return fn(file); } // Usage: try { const result = withFile('log.txt', f => f.read()); } catch (e) { /* file already closed */ }</pre><p>Before <code>using</code> syntax, wrap in try/finally:</p><pre>function withFile(path, fn) { const file = new ManagedFile(path); try { return fn(file); } finally { file[Symbol.dispose]?.(); } }</pre>",
+              },
+              {
+                question:
+                  "Show how to detect reference cycles in Python and break them manually.",
+                solution:
+                  "<pre>import gc, objgraph # create cycle a = []; b = [a]; a.append(b) # Detect cycles gc.set_debug(gc.DEBUG_LEAK) gc.collect() objgraph.show_backrefs([a], filename='cycle.png') # Break cycle a.clear(); b.clear() gc.collect() # cycle now collectible</pre>",
+              },
+            ],
+          },
+          {
+            topic: "Memory Allocation for Objects Stack vs Heap",
+            tags: ["memory-model", "stack", "heap", "python", "javascript"],
+            explanation: `<div>
+  <h3 style="margin-top: 1.75rem; font-size: 1.35rem; font-weight: 700; letter-spacing: -0.02em;">
+    1. The Two Memory Regions
+  </h3>
+  <p style="line-height: 1.8; margin-top: 1rem;">
+    Every modern runtime divides RAM into at least two areas:
+  </p>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Stack</strong> – Last-in/first-out (LIFO) area holding <em>activation records</em> (function parameters, return addresses, local primitive values). Allocation/deallocation is <em>automatic and cost-free</em>.</li>
+    <li><strong>Heap</strong> – A large, unstructured pool where <em>dynamically-sized or longer-lived objects</em> (instances, closures, arrays) are placed. Allocation is <em>explicit</em> and deallocation relies on the <strong>garbage collector (GC)</strong>.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    2. Life-Cycle Mental Model
+  </h4>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+┌────────────┐
+│   Stack    │  grows down
+├────────────┤
+│   Heap     │  grows up
+└────────────┘
+  </pre>
+  <p style="line-height: 1.8;">
+    When a function is <strong>called</strong>, a <em>stack frame</em> is pushed; when it <strong>returns</strong>, the frame is popped.  Objects whose lifetime <em>may exceed the call</em> are moved to the heap.
+  </p>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    3. Python Memory Allocation Deep Dive
+  </h4>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">3.1 CPython Internals</h5>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Small integers &amp; short strings are pre-allocated</strong> in <code>[-5, 256]</code> and <em>interned</em> in a global pool (heap).</li>
+    <li><strong>Everything else is heap-allocated</strong> – even integers and floats – because Python objects are <em>reference-counted</em>.</li>
+    <li><strong>Stack frames</strong> hold <em>pointers</em> to heap objects, never the objects themselves.</li>
+  </ul>
+
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+import sys, gc
+
+def foo():
+    a = 42          # int object on heap
+    b = [1, 2, 3]   # list object on heap
+    print(sys.getsizeof(a), "bytes for int")        # 28 bytes on 64-bit
+    print(sys.getsizeof(b), "bytes for list")       # 80 bytes container + elements
+    return b        # caller keeps a reference → list survives
+
+foo()
+gc.collect()        # trigger cycle GC
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">3.2 Stack vs Heap – Demonstration via <code>id()</code></h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+def scope_demo():
+    x = 10          # new int object (heap)
+    print("id(x)=", id(x))
+    return x
+
+outer = scope_demo()
+print("id(outer)=", id(outer))  # same id → object survived the call
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    4. JavaScript (V8) Memory Allocation Deep Dive
+  </h4>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.1 Allocation Sites</h5>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Call stack</strong> holds <em>primitive values</em> (numbers, booleans) when the compiler can prove they never escape.</li>
+    <li><strong>Young-generation heap (new-space)</strong> – small, fast allocation for short-lived objects.</li>
+    <li><strong>Old-generation heap (old-space)</strong> – objects promoted after surviving GC.</li>
+  </ul>
+
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+function bar() {
+    const n = 3.14;          // may stay in registers / stack
+    const arr = new Array(1e6).fill(0); // large array → heap
+    return arr;              // survives → promoted to old-space
+}
+  </pre>
+
+  <h5 style="margin-top: 1.5rem; font-size: 1.15rem; font-weight: 600;">4.2 Escape Analysis & Stack Allocation</h5>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+function escapeDemo() {
+    const point = { x: 1, y: 2 }; // does NOT escape → JIT may allocate on stack
+    return point.x + point.y;
+}
+
+console.log(escapeDemo()); // returns 3, point never on heap
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    5. Visualizing Memory Layout
+  </h4>
+  <pre style="background:#f4f8fb;border:1px solid #d6e4ef;border-radius:6px;padding:1rem;font-size:0.9rem;line-height:1.5;overflow-x:auto;">
+Python (CPython 64-bit) layout:
+
+Stack frame
+┌────────────┐
+│ locals     │  →  &PyObject*  (8 bytes)
+│            │     points to heap
+└────────────┘
+
+Heap
+┌────────────┐
+│ PyObject   │  PyVarObject header (16–24 bytes)
+│ ob_type    │
+│ ob_refcnt  │
+│ payload    │  actual int, list, etc.
+└────────────┘
+  </pre>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    6. Performance & Memory Footprint Comparison
+  </h4>
+  <table style="width:100%;margin-top:1rem;border-collapse:collapse;">
+    <thead>
+      <tr>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Metric</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Stack</th>
+        <th style="padding:0.5rem;border:1px solid #ccc;text-align:left;">Heap</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Allocation Cost</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Single pointer increment (O(1))</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Free-list / bump allocator (O(1) amortized)</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Lifetime</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Scope-bound</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Garbage-collected</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Memory Overhead</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">0 bytes</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">8–40 byte object header + alignment</td>
+      </tr>
+      <tr>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Thread Safety</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Thread-local stack</td>
+        <td style="padding:0.5rem;border:1px solid #ccc;">Requires locks / TLAB</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    7. Profiling Allocations
+  </h4>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li><strong>Python:</strong> <code>tracemalloc.start()</code> → snapshots, <code>objgraph.show_backrefs()</code>.</li>
+    <li><strong>Node.js:</strong> <code>--inspect</code> → Chrome DevTools → Allocation instrumentation.</li>
+    <li><strong>Browser:</strong> DevTools → Memory → Allocation timeline.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.75rem; font-size: 1.25rem; font-weight: 600;">
+    8. Best-Practice Checklist
+  </h4>
+  <ul style="margin-left: 1.5rem; line-height: 1.7;">
+    <li>Keep short-lived objects small so they stay in young-generation / nursery.</li>
+    <li>Avoid large monolithic arrays; prefer chunked structures.</li>
+    <li>Use <code>with</code> / <code>using</code> to release external resources promptly.</li>
+    <li>Profile before optimizing – premature micro-optimizations often hurt readability.</li>
+  </ul>
+</div>`,
+            questions: [
+              {
+                question:
+                  "Why does returning a local list from a Python function not crash, unlike C/C++?",
+                solution:
+                  "In Python every object is heap-allocated and reference-counted; the caller receives a reference, so the list survives as long as needed.",
+              },
+              {
+                question:
+                  "How can a JavaScript engine sometimes avoid heap allocation for temporary objects?",
+                solution:
+                  "Modern JITs perform escape analysis. If an object never escapes its scope, the engine allocates it on the stack or in registers.",
+              },
+              {
+                question: "What happens if the stack space is exhausted?",
+                solution:
+                  "A <code>RecursionError: maximum recursion depth exceeded</code> in Python or <code>RangeError: Maximum call stack size exceeded</code> in JavaScript.",
+              },
+              {
+                question:
+                  "Where are the variables captured by a closure stored?",
+                solution:
+                  "They are stored in special <em>closure cells</em> on the heap so that their lifetime extends beyond the original function call.",
+              },
+            ],
+            links: [
+              '<url id="6" type="url" status="parsed" title="Stack vs Heap Memory Allocation - GeeksforGeeks">https://www.geeksforgeeks.org/dsa/stack-vs-heap-memory-allocation/</url>',
+              '<url id="7" type="url" status="parsed" title="Interview question: heap vs stack (C#) - DEV Community">https://dev.to/tyrrrz/interview-question-heap-vs-stack-c-5aae</url>',
+              '<url id="8" type="url" status="parsed" title="CS 225 | Stack and Heap Memory">https://courses.grainger.illinois.edu/cs225/fa2022/resources/stack-heap/</url>',
+              '<url id="10" type="url" status="parsed" title="Heap vs. Stack Memory in Java">https://devcookies.medium.com/heap-vs-stack-memory-in-java-key-differences-explained-%EF%B8%8F-e6fcc5ea84d4</url>',
+              '<url id="13" type="url" status="parsed" title="Stack vs. Heap: Explaining the Difference">https://phoenixnap.com/kb/stack-vs-heap</url>',
+            ],
+          },
+
+          {
+            topic: "Single Responsibility Principle (SRP)",
+            tags: ["SOLID", "Design Principles", "Clean Code"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Single Responsibility Principle states that a class should have only one reason to change, meaning it should have only one job or responsibility. This principle helps create more maintainable, testable, and flexible code by ensuring each class focuses on a single concern.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Follow SRP?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Easier Maintenance:</span> Changes to one responsibility don't affect others.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Better Testing:</span> Each class can be tested independently for its specific responsibility.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Improved Readability:</span> Code becomes more understandable when each class has a clear purpose.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reduced Coupling:</span> Classes become less dependent on each other.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Increased Reusability:</span> Focused classes can be reused in different contexts.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Identifying Violations
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Signs that a class violates SRP include:
+   </p>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li>The class has multiple reasons to change</li>
+     <li>The class name contains "and" or "or"</li>
+     <li>The class has many methods that seem unrelated</li>
+     <li>Different stakeholders would request changes to the same class</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example: Violation vs. Compliance
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">❌ SRP Violation:</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class User:
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+        self.orders = []
+    
+    # User data management
+    def update_profile(self, name, email):
+        self.name = name
+        self.email = email
+    
+    # Order management (different responsibility)
+    def add_order(self, order):
+        self.orders.append(order)
+    
+    def get_order_history(self):
+        return self.orders
+    
+    # Email functionality (another responsibility)
+    def send_email(self, subject, message):
+        print(f"Sending email to {self.email}")
+        print(f"Subject: {subject}")
+        print(f"Message: {message}")
+    
+    # Database operations (yet another responsibility)
+    def save_to_database(self):
+        print(f"Saving user {self.name} to database")
+    
+    def load_from_database(self, user_id):
+        print(f"Loading user {user_id} from database")
+</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">✅ SRP Compliant:</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+# Single responsibility: User data management
+class User:
+    def __init__(self, name, email):
+        self.name = name
+        self.email = email
+    
+    def update_profile(self, name, email):
+        self.name = name
+        self.email = email
+    
+    def get_user_info(self):
+        return {"name": self.name, "email": self.email}
+
+# Single responsibility: Order management
+class OrderManager:
+    def __init__(self):
+        self.orders = []
+    
+    def add_order(self, order):
+        self.orders.append(order)
+    
+    def get_order_history(self):
+        return self.orders
+    
+    def remove_order(self, order_id):
+        self.orders = [order for order in self.orders if order.id != order_id]
+
+# Single responsibility: Email operations
+class EmailService:
+    def send_email(self, email, subject, message):
+        print(f"Sending email to {email}")
+        print(f"Subject: {subject}")
+        print(f"Message: {message}")
+    
+    def send_welcome_email(self, user):
+        self.send_email(
+            user.email, 
+            "Welcome!", 
+            f"Hello {user.name}, welcome to our platform!"
+        )
+
+# Single responsibility: Database operations
+class UserRepository:
+    def save_user(self, user):
+        print(f"Saving user {user.name} to database")
+    
+    def load_user(self, user_id):
+        print(f"Loading user {user_id} from database")
+        # Return user object
+    
+    def delete_user(self, user_id):
+        print(f"Deleting user {user_id} from database")
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example: Violation vs. Compliance
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">❌ SRP Violation:</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class User {
+    constructor(name, email) {
+        this.name = name;
+        this.email = email;
+        this.orders = [];
+    }
+    
+    // User data management
+    updateProfile(name, email) {
+        this.name = name;
+        this.email = email;
+    }
+    
+    // Order management (different responsibility)
+    addOrder(order) {
+        this.orders.push(order);
+    }
+    
+    getOrderHistory() {
+        return this.orders;
+    }
+    
+    // Email functionality (another responsibility)
+    sendEmail(subject, message) {
+        console.log(Sending email to {this.email});
+        console.log(Subject: {subject});
+        console.log(Message: {message});
+    }
+    
+    // Database operations (yet another responsibility)
+    saveToDatabase() {
+        console.log(Saving user {this.name} to database);
+    }
+    
+    loadFromDatabase(userId) {
+        console.log(Loading user {userId} from database);
+    }
+    
+    // Validation logic (another responsibility)
+    validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+ /;
+        return emailRegex.test(email);
+    }
+}
+</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">✅ SRP Compliant:</p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Single responsibility: User data management
+class User {
+    constructor(name, email) {
+        this.name = name;
+        this.email = email;
+    }
+    
+    updateProfile(name, email) {
+        this.name = name;
+        this.email = email;
+    }
+    
+    getUserInfo() {
+        return { name: this.name, email: this.email };
+    }
+}
+
+// Single responsibility: Order management
+class OrderManager {
+    constructor() {
+        this.orders = [];
+    }
+    
+    addOrder(order) {
+        this.orders.push(order);
+    }
+    
+    getOrderHistory() {
+        return this.orders;
+    }
+    
+    removeOrder(orderId) {
+        this.orders = this.orders.filter(order => order.id !== orderId);
+    }
+    
+    getTotalOrderValue() {
+        return this.orders.reduce((total, order) => total + order.amount, 0);
+    }
+}
+
+// Single responsibility: Email operations
+class EmailService {
+    sendEmail(email, subject, message) {
+        console.log(Sending email to {email});
+        console.log(Subject: {subject});
+        console.log(Message: {message});
+    }
+    
+    sendWelcomeEmail(user) {
+        this.sendEmail(
+            user.email,
+            "Welcome!",
+            Hello {user.name}, welcome to our platform!
+        );
+    }
+    
+    sendOrderConfirmation(user, order) {
+        this.sendEmail(
+            user.email,
+            "Order Confirmation",
+            Your order # {order.id} has been confirmed.
+        );
+    }
+}
+
+// Single responsibility: Data validation
+class Validator {
+    validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+ /;
+        return emailRegex.test(email);
+    }
+    
+    validateName(name) {
+        return name && name.length >= 2 && name.length <= 50;
+    }
+    
+    validateOrder(order) {
+        return order && order.id && order.amount > 0;
+    }
+}
+
+// Single responsibility: Database operations
+class UserRepository {
+    saveUser(user) {
+        console.log(Saving user {user.name} to database);
+        // Database save logic
+    }
+    
+    loadUser(userId) {
+        console.log(Loading user {userId} from database);
+        // Return user object
+    }
+    
+    deleteUser(userId) {
+        console.log(Deleting user {userId} from database);
+    }
+    
+    findUserByEmail(email) {
+        console.log(Finding user by email: {email});
+        // Return user object
+    }
+}
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Case: E-commerce System
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Let's apply SRP to a real e-commerce system:
+   </p>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+# Python Implementation
+from abc import ABC, abstractmethod
+from datetime import datetime
+import json
+
+# Single responsibility: Product data management
+class Product:
+    def __init__(self, product_id, name, price, stock):
+        self.id = product_id
+        self.name = name
+        self.price = price
+        self.stock = stock
+    
+    def update_stock(self, quantity):
+        self.stock = quantity
+    
+    def is_available(self, quantity=1):
+        return self.stock >= quantity
+
+# Single responsibility: Price calculations
+class PriceCalculator:
+    def calculate_subtotal(self, products):
+        return sum(product.price * quantity for product, quantity in products)
+    
+    def calculate_tax(self, subtotal, tax_rate=0.1):
+        return subtotal * tax_rate
+    
+    def calculate_total(self, subtotal, tax, shipping=0):
+        return subtotal + tax + shipping
+
+# Single responsibility: Inventory management
+class InventoryManager:
+    def check_availability(self, product, quantity):
+        return product.is_available(quantity)
+    
+    def reserve_stock(self, product, quantity):
+        if self.check_availability(product, quantity):
+            product.stock -= quantity
+            return True
+        return False
+    
+    def release_stock(self, product, quantity):
+        product.stock += quantity
+
+# Single responsibility: Order processing
+class OrderProcessor:
+    def __init__(self, inventory_manager, price_calculator):
+        self.inventory_manager = inventory_manager
+        self.price_calculator = price_calculator
+    
+    def process_order(self, order_items):
+        # Check availability for all items
+        for product, quantity in order_items:
+            if not self.inventory_manager.check_availability(product, quantity):
+                raise ValueError(f"Insufficient stock for {product.name}")
+        
+        # Reserve stock
+        for product, quantity in order_items:
+            self.inventory_manager.reserve_stock(product, quantity)
+        
+        # Calculate totals
+        subtotal = self.price_calculator.calculate_subtotal(order_items)
+        tax = self.price_calculator.calculate_tax(subtotal)
+        total = self.price_calculator.calculate_total(subtotal, tax)
+        
+        return {
+            "subtotal": subtotal,
+            "tax": tax,
+            "total": total,
+            "timestamp": datetime.now()
+        }
+
+# Usage Example
+def main():
+    # Create products
+    laptop = Product(1, "Laptop", 999.99, 10)
+    mouse = Product(2, "Mouse", 29.99, 50)
+    
+    # Create services
+    inventory = InventoryManager()
+    calculator = PriceCalculator()
+    processor = OrderProcessor(inventory, calculator)
+    
+    # Process order
+    order_items = [(laptop, 1), (mouse, 2)]
+    result = processor.process_order(order_items)
+    print(f"Order total: {result['total']:.2f}")
+</code></pre>
+   </div>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// JavaScript Implementation
+
+// Single responsibility: Product data management
+class Product {
+    constructor(id, name, price, stock) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+    }
+    
+    updateStock(quantity) {
+        this.stock = quantity;
+    }
+    
+    isAvailable(quantity = 1) {
+        return this.stock >= quantity;
+    }
+}
+
+// Single responsibility: Price calculations
+class PriceCalculator {
+    calculateSubtotal(orderItems) {
+        return orderItems.reduce((total, item) => {
+            return total + (item.product.price * item.quantity);
+        }, 0);
+    }
+    
+    calculateTax(subtotal, taxRate = 0.1) {
+        return subtotal * taxRate;
+    }
+    
+    calculateTotal(subtotal, tax, shipping = 0) {
+        return subtotal + tax + shipping;
+    }
+    
+    applyDiscount(amount, discountPercent) {
+        return amount * (1 - discountPercent / 100);
+    }
+}
+
+// Single responsibility: Inventory management
+class InventoryManager {
+    checkAvailability(product, quantity) {
+        return product.isAvailable(quantity);
+    }
+    
+    reserveStock(product, quantity) {
+        if (this.checkAvailability(product, quantity)) {
+            product.stock -= quantity;
+            return true;
+        }
+        return false;
+    }
+    
+    releaseStock(product, quantity) {
+        product.stock += quantity;
+    }
+    
+    getLowStockProducts(threshold = 5) {
+        // This would typically query all products
+        // For demo, assume we have access to products
+        return []; // Return products with stock below threshold
+    }
+}
+
+// Single responsibility: Order processing logic
+class OrderProcessor {
+    constructor(inventoryManager, priceCalculator) {
+        this.inventoryManager = inventoryManager;
+        this.priceCalculator = priceCalculator;
+    }
+    
+    processOrder(orderItems) {
+        // Validate availability
+        for (const item of orderItems) {
+            if (!this.inventoryManager.checkAvailability(item.product, item.quantity)) {
+                throw new Error(Insufficient stock for {item.product.name});
+            }
+        }
+        
+        // Reserve stock
+        for (const item of orderItems) {
+            this.inventoryManager.reserveStock(item.product, item.quantity);
+        }
+        
+        // Calculate pricing
+        const subtotal = this.priceCalculator.calculateSubtotal(orderItems);
+        const tax = this.priceCalculator.calculateTax(subtotal);
+        const total = this.priceCalculator.calculateTotal(subtotal, tax);
+        
+        return {
+            subtotal: subtotal,
+            tax: tax,
+            total: total,
+            timestamp: new Date(),
+            items: orderItems
+        };
+    }
+}
+
+// Single responsibility: Order validation
+class OrderValidator {
+    validateOrderItem(item) {
+        if (!item.product || !item.quantity) {
+            return false;
+        }
+        
+        if (item.quantity <= 0) {
+            return false;
+        }
+        
+        if (item.product.price <= 0) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    validateOrder(orderItems) {
+        if (!orderItems || orderItems.length === 0) {
+            return { valid: false, error: "Order cannot be empty" };
+        }
+        
+        for (const item of orderItems) {
+            if (!this.validateOrderItem(item)) {
+                return { valid: false, error: Invalid item: {item.product?.name || 'Unknown'} };
+            }
+        }
+        
+        return { valid: true };
+    }
+}
+
+// Usage Example
+function main() {
+    // Create products
+    const laptop = new Product(1, "Laptop", 999.99, 10);
+    const mouse = new Product(2, "Mouse", 29.99, 50);
+    
+    // Create services
+    const inventory = new InventoryManager();
+    const calculator = new PriceCalculator();
+    const validator = new OrderValidator();
+    const processor = new OrderProcessor(inventory, calculator);
+    
+    // Create order
+    const orderItems = [
+        { product: laptop, quantity: 1 },
+        { product: mouse, quantity: 2 }
+    ];
+    
+    // Validate and process order
+    const validation = validator.validateOrder(orderItems);
+    if (validation.valid) {
+        const result = processor.processOrder(orderItems);
+        console.log(Order total: {result.total.toFixed(2)});
+    } else {
+        console.log(Order validation failed: {validation.error});
+    }
+}
+</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits Demonstrated
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Modularity:</span> Each class can be modified independently.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Testability:</span> Easy to unit test each class in isolation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reusability:</span> EmailService can be used across different parts of the application.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Changes to email logic don't affect user management.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Clear Ownership:</span> Each class has a clear, single purpose.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python: File Manager (SRP Violation)
+class FileManager:
+    def read_file(self, filename):
+        with open(filename, 'r') as file:
+            return file.read()
+    
+    def write_file(self, filename, content):
+        with open(filename, 'w') as file:
+            file.write(content)
+    
+    def compress_file(self, filename):
+        # Compression logic
+        pass
+    
+    def send_file_email(self, filename, recipient):
+        # Email sending logic
+        pass
+
+# SRP Compliant Solution
+class FileReader:
+    def read_file(self, filename):
+        with open(filename, 'r') as file:
+            return file.read()
+
+class FileWriter:
+    def write_file(self, filename, content):
+        with open(filename, 'w') as file:
+            file.write(content)
+
+class FileCompressor:
+    def compress_file(self, filename):
+        # Compression logic
+        pass
+
+class EmailService:
+    def send_file_email(self, filename, recipient):
+        # Email sending logic
+        pass`,
+              `// JavaScript: Blog System (SRP Violation)
+class BlogPost {
+    constructor(title, content, author) {
+        this.title = title;
+        this.content = content;
+        this.author = author;
+        this.comments = [];
+    }
+    
+    addComment(comment) {
+        this.comments.push(comment);
+    }
+    
+    saveToDatabase() {
+        console.log("Saving to database...");
+    }
+    
+    sendNotificationEmail() {
+        console.log("Sending notification email...");
+    }
+    
+    generateHTML() {
+        return \`<article><h1>\{this.title}</h1><p>\{this.content}</p></article>\`;
+    }
+}
+
+// SRP Compliant Solution
+class BlogPost {
+    constructor(title, content, author) {
+        this.title = title;
+        this.content = content;
+        this.author = author;
+    }
+}
+
+class CommentManager {
+    constructor() {
+        this.comments = new Map();
+    }
+    
+    addComment(postId, comment) {
+        if (!this.comments.has(postId)) {
+            this.comments.set(postId, []);
+        }
+        this.comments.get(postId).push(comment);
+    }
+}
+
+class BlogRepository {
+    savePost(post) {
+        console.log("Saving to database...");
+    }
+}
+
+class NotificationService {
+    sendPostNotification(post) {
+        console.log("Sending notification email...");
+    }
+}
+
+class HTMLRenderer {
+    renderPost(post) {
+        return \`<article><h1>\{post.title}</h1><p>\{post.content}</p></article>\`;
+    }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What happens when a class violates the Single Responsibility Principle?",
+                solution:
+                  "<p>When a class violates SRP, several problems arise: the class becomes harder to understand and maintain, changes to one responsibility can break other functionalities, testing becomes more complex as you need to test multiple responsibilities together, the class becomes tightly coupled with multiple concerns, and reusability decreases since the class carries unnecessary dependencies. This leads to fragile, monolithic code that's difficult to modify and extend.</p>",
+              },
+              {
+                question:
+                  "How do you identify if a class follows the Single Responsibility Principle?",
+                solution:
+                  "<p>To identify if a class follows SRP, ask these questions: Does the class have only one reason to change? Can you describe the class's purpose in a single, clear sentence without using 'and' or 'or'? Do all methods in the class relate to the same core responsibility? Would different stakeholders (database admin, UI designer, business analyst) request changes to this class? If the class has multiple reasons to change or serves different stakeholders, it likely violates SRP.</p>",
+              },
+              {
+                question:
+                  "Can you provide a practical example of refactoring code to follow SRP?",
+                solution: `<p>Here's a practical refactoring example:</p>
+             <pre><code className="language-javascript">
+// Before (SRP Violation)
+class Invoice {
+    calculateTotal() { /* calculation logic */ }
+    printInvoice() { /* printing logic */ }
+    saveToDatabase() { /* database logic */ }
+}
+
+// After (SRP Compliant)
+class Invoice {
+    calculateTotal() { /* only calculation logic */ }
+}
+
+class InvoicePrinter {
+    print(invoice) { /* only printing logic */ }
+}
+
+class InvoiceRepository {
+    save(invoice) { /* only database logic */ }
+}
+            </code></pre>
+           <p>Each class now has a single, clear responsibility and can be modified independently.</p>`,
+              },
+            ],
+            links: [
+              "https://blog.cleancoder.com/uncle-bob/2014/05/08/SingleReponsibilityPrinciple.html",
+              "https://www.digitalocean.com/community/conceptual_articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design",
+              "https://medium.com/@cramirez92/s-o-l-i-d-the-first-5-priciples-of-object-oriented-design-with-python-790f6ac0b9cc",
+            ],
+          },
+          //Pending SOLID
+          //Pending PAttern
+          {
+            topic: "Singleton Pattern",
+            tags: ["Design Pattern", "Creational", "Instance Management"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Singleton pattern ensures that a class has only one instance and provides a global point of access to that instance. This pattern is useful when you need exactly one object to coordinate actions across the system, such as database connections, logging services, or configuration managers.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single Instance:</span> Only one instance of the class can exist.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Global Access:</span> Provides a global access point to the instance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lazy Initialization:</span> Instance is created only when first requested.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Thread Safety:</span> Must handle concurrent access properly.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Database connection pools</li>
+     <li style="margin-top: 0.5rem;">Logging services</li>
+     <li style="margin-top: 0.5rem;">Configuration managers</li>
+     <li style="margin-top: 0.5rem;">Cache implementations</li>
+     <li style="margin-top: 0.5rem;">Thread pools</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+class DatabaseConnection:
+    _instance = None
+    _lock = threading.Lock()
+    
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+                    cls._instance._initialized = False
+        return cls._instance
+    
+    def __init__(self):
+        if not self._initialized:
+            self.connection_string = "database://localhost:5432"
+            self.is_connected = False
+            self._initialized = True
+    
+    def connect(self):
+        if not self.is_connected:
+            print(f"Connecting to {self.connection_string}")
+            self.is_connected = True
+        return self
+    
+    def execute_query(self, query):
+        if self.is_connected:
+            print(f"Executing: {query}")
+        else:
+            print("Not connected to database")
+
+# Usage
+db1 = DatabaseConnection()
+db2 = DatabaseConnection()
+print(db1 is db2)  # True - Same instance
+
+db1.connect().execute_query("SELECT * FROM users")
+db2.execute_query("SELECT * FROM products")  # Uses same connection
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-javascript">
+// Abstract Products (Base Classes)
+class DatabaseConnection {
+    connect() {
+        throw new Error('connect() method must be implemented');
+    }
+    
+    query(sql) {
+        throw new Error('query() method must be implemented');
+    }
+    
+    disconnect() {
+        throw new Error('disconnect() method must be implemented');
+    }
+}
+
+class DatabaseCommand {
+    execute() {
+        throw new Error('execute() method must be implemented');
+    }
+}
+
+class DatabaseTransaction {
+    begin() {
+        throw new Error('begin() method must be implemented');
+    }
+    
+    commit() {
+        throw new Error('commit() method must be implemented');
+    }
+    
+    rollback() {
+        throw new Error('rollback() method must be implemented');
+    }
+}
+
+// MySQL Concrete Products
+class MySQLConnection extends DatabaseConnection {
+    constructor(host, port = 3306) {
+        super();
+        this.host = host;
+        this.port = port;
+        this.connected = false;
+    }
+    
+    connect() {
+        this.connected = true;
+        return Connected to MySQL server at {this.host}:{this.port};
+    }
+    
+    query(sql) {
+        if (!this.connected) return 'Not connected to MySQL';
+        return Executing MySQL query: {sql};
+    }
+    
+    disconnect() {
+        this.connected = false;
+        return 'Disconnected from MySQL server';
+    }
+}
+
+class MySQLCommand extends DatabaseCommand {
+    constructor(connection, sql) {
+        super();
+        this.connection = connection;
+        this.sql = sql;
+    }
+    
+    execute() {
+        return this.connection.query(this.sql) + ' (MySQL Command)';
+    }
+}
+
+class MySQLTransaction extends DatabaseTransaction {
+    constructor(connection) {
+        super();
+        this.connection = connection;
+        this.active = false;
+    }
+    
+    begin() {
+        this.active = true;
+        return this.connection.query('START TRANSACTION');
+    }
+    
+    commit() {
+        this.active = false;
+        return this.connection.query('COMMIT');
+    }
+    
+    rollback() {
+        this.active = false;
+        return this.connection.query('ROLLBACK');
+    }
+}
+
+// PostgreSQL Concrete Products
+class PostgreSQLConnection extends DatabaseConnection {
+    constructor(host, port = 5432) {
+        super();
+        this.host = host;
+        this.port = port;
+        this.connected = false;
+    }
+    
+    connect() {
+        this.connected = true;
+        return Connected to PostgreSQL server at {this.host}:{this.port};
+    }
+    
+    query(sql) {
+        if (!this.connected) return 'Not connected to PostgreSQL';
+        return Executing PostgreSQL query: {sql};
+    }
+    
+    disconnect() {
+        this.connected = false;
+        return 'Disconnected from PostgreSQL server';
+    }
+}
+
+class PostgreSQLCommand extends DatabaseCommand {
+    constructor(connection, sql) {
+        super();
+        this.connection = connection;
+        this.sql = sql;
+    }
+    
+    execute() {
+        return this.connection.query(this.sql) + ' (PostgreSQL Command)';
+    }
+}
+
+class PostgreSQLTransaction extends DatabaseTransaction {
+    constructor(connection) {
+        super();
+        this.connection = connection;
+        this.active = false;
+    }
+    
+    begin() {
+        this.active = true;
+        return this.connection.query('BEGIN');
+    }
+    
+    commit() {
+        this.active = false;
+        return this.connection.query('COMMIT');
+    }
+    
+    rollback() {
+        this.active = false;
+        return this.connection.query('ROLLBACK');
+    }
+}
+
+// Abstract Factory
+class DatabaseFactory {
+    createConnection(host) {
+        throw new Error('createConnection() method must be implemented');
+    }
+    
+    createCommand(connection, sql) {
+        throw new Error('createCommand() method must be implemented');
+    }
+    
+    createTransaction(connection) {
+        throw new Error('createTransaction() method must be implemented');
+    }
+}
+
+// Concrete Factories
+class MySQLFactory extends DatabaseFactory {
+    createConnection(host) {
+        return new MySQLConnection(host);
+    }
+    
+    createCommand(connection, sql) {
+        return new MySQLCommand(connection, sql);
+    }
+    
+    createTransaction(connection) {
+        return new MySQLTransaction(connection);
+    }
+}
+
+class PostgreSQLFactory extends DatabaseFactory {
+    createConnection(host) {
+        return new PostgreSQLConnection(host);
+    }
+    
+    createCommand(connection, sql) {
+        return new PostgreSQLCommand(connection, sql);
+    }
+    
+    createTransaction(connection) {
+        return new PostgreSQLTransaction(connection);
+    }
+}
+
+// Client Code
+class DatabaseManager {
+    constructor(factory, host) {
+        this.factory = factory;
+        this.connection = factory.createConnection(host);
+    }
+    
+    initialize() {
+        return this.connection.connect();
+    }
+    
+    executeQuery(sql) {
+        const command = this.factory.createCommand(this.connection, sql);
+        return command.execute();
+    }
+    
+    executeTransaction(queries) {
+        const transaction = this.factory.createTransaction(this.connection);
+        const results = [];
+        
+        results.push(transaction.begin());
+        
+        try {
+            queries.forEach(sql => {
+                const command = this.factory.createCommand(this.connection, sql);
+                results.push(command.execute());
+            });
+            
+            results.push(transaction.commit());
+            return results;
+        } catch (error) {
+            results.push(transaction.rollback());
+            throw error;
+        }
+    }
+    
+    shutdown() {
+        return this.connection.disconnect();
+    }
+}
+
+// Factory Provider
+class DatabaseFactoryProvider {
+    static getFactory(type) {
+        const factories = {
+            'mysql': () => new MySQLFactory(),
+            'postgresql': () => new PostgreSQLFactory(),
+            'postgres': () => new PostgreSQLFactory()
+        };
+        
+        const factory = factories[type.toLowerCase()];
+        if (!factory) {
+            throw new Error(Unsupported database type: {type});
+        }
+        return factory();
+    }
+}
+
+// Usage Example
+function demonstrateDatabase(dbType, host) {
+    console.log(\\n=== {dbType.toUpperCase()} Database Demo ===);
+    
+    const factory = DatabaseFactoryProvider.getFactory(dbType);
+    const dbManager = new DatabaseManager(factory, host);
+    
+    // Initialize connection
+    console.log(dbManager.initialize());
+    
+    // Execute single query
+    console.log(dbManager.executeQuery('SELECT * FROM users'));
+    
+    // Execute transaction
+    const transactionQueries = [
+        'INSERT INTO users (name) VALUES ("John")',
+        'UPDATE users SET active = true WHERE name = "John"'
+    ];
+    
+    const transactionResults = dbManager.executeTransaction(transactionQueries);
+    transactionResults.forEach(result => console.log(result));
+    
+    // Shutdown
+    console.log(dbManager.shutdown());
+}
+
+// Examples
+demonstrateDatabase('mysql', 'localhost');
+demonstrateDatabase('postgresql', 'db.example.com');
+ </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python - Gaming Abstract Factory
+class GameFactory:
+    @abstractmethod
+    def create_character(self):
+        pass
+    
+    @abstractmethod
+    def create_weapon(self):
+        pass
+    
+    @abstractmethod
+    def create_environment(self):
+        pass
+
+class FantasyGameFactory(GameFactory):
+    def create_character(self):
+        return Knight()
+    
+    def create_weapon(self):
+        return Sword()
+    
+    def create_environment(self):
+        return Castle()
+
+class SciFiGameFactory(GameFactory):
+    def create_character(self):
+        return SpaceMarine()
+    
+    def create_weapon(self):
+        return LaserGun()
+    
+    def create_environment(self):
+        return SpaceStation()
+
+# Usage
+fantasy_factory = FantasyGameFactory()
+character = fantasy_factory.create_character()
+weapon = fantasy_factory.create_weapon()
+environment = fantasy_factory.create_environment()`,
+            ],
+            questions: [
+              {
+                question:
+                  "How does Abstract Factory differ from Factory Method pattern?",
+                solution:
+                  "<p><strong>Factory Method:</strong></p><ul><li>Creates one product at a time</li><li>Uses inheritance (subclasses decide which class to instantiate)</li><li>Has one factory method</li><li>Creates objects of a single product family</li></ul><p><strong>Abstract Factory:</strong></p><ul><li>Creates families of related products</li><li>Uses composition (factory object creates products)</li><li>Has multiple factory methods (one for each product type)</li><li>Creates objects that work together as a set</li><li>Ensures all products belong to the same family</li></ul>",
+              },
+              {
+                question:
+                  "What are the advantages and disadvantages of Abstract Factory?",
+                solution:
+                  "<p><strong>Advantages:</strong></p><ul><li>Ensures compatibility between related products</li><li>Promotes consistency across product families</li><li>Isolates concrete classes from client code</li><li>Easy to exchange product families</li><li>Supports variations of products</li></ul><p><strong>Disadvantages:</strong></p><ul><li>Difficult to add new product types (requires changing all factory interfaces)</li><li>Can lead to complex code structure</li><li>May result in many small classes</li><li>Increases abstraction level</li></ul>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/abstract-factory",
+              "https://sourcemaking.com/design_patterns/abstract_factory",
+              "https://en.wikipedia.org/wiki/Abstract_factory_pattern",
+            ],
+          },
+          {
+            topic: "Builder Pattern",
+            tags: ["Design Pattern", "Creational", "Complex Objects"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Builder pattern allows you to construct complex objects step by step. It separates the construction of a complex object from its representation, allowing the same construction process to create different representations. This pattern is especially useful when creating objects that require many parameters or when the creation process involves multiple steps.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Step-by-step Construction:</span> Objects are built incrementally through method calls.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Fluent Interface:</span> Often implements method chaining for readable code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Flexible Construction:</span> Different builders can create different representations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Optional Parameters:</span> Handles objects with many optional parameters elegantly.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Creating complex configuration objects</li>
+     <li style="margin-top: 0.5rem;">Building SQL queries dynamically</li>
+     <li style="margin-top: 0.5rem;">Constructing UI components with many options</li>
+     <li style="margin-top: 0.5rem;">Creating test data objects</li>
+     <li style="margin-top: 0.5rem;">Building HTTP requests</li>
+     <li style="margin-top: 0.5rem;">Constructing documents or reports</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+from dataclasses import dataclass
+from typing import List, Optional
+from enum import Enum
+
+# Product classes
+class ComputerType(Enum):
+    DESKTOP = "Desktop"
+    LAPTOP = "Laptop"
+    SERVER = "Server"
+
+@dataclass
+class Computer:
+    # Required parameters
+    cpu: str
+    ram: int
+    
+    # Optional parameters with defaults
+    computer_type: ComputerType = ComputerType.DESKTOP
+    storage: str = "500GB SSD"
+    graphics_card: Optional[str] = None
+    motherboard: str = "Standard ATX"
+    power_supply: str = "500W"
+    case: str = "Mid Tower"
+    peripherals: List[str] = None
+    operating_system: str = "Windows 11"
+    warranty_years: int = 1
+    
+    def __post_init__(self):
+        if self.peripherals is None:
+            self.peripherals = []
+    
+    def get_specifications(self):
+        specs = []
+        specs.append(f"Type: {self.computer_type.value}")
+        specs.append(f"CPU: {self.cpu}")
+        specs.append(f"RAM: {self.ram}GB")
+        specs.append(f"Storage: {self.storage}")
+        
+        if self.graphics_card:
+            specs.append(f"Graphics: {self.graphics_card}")
+        
+        specs.append(f"Motherboard: {self.motherboard}")
+        specs.append(f"Power Supply: {self.power_supply}")
+        specs.append(f"Case: {self.case}")
+        specs.append(f"OS: {self.operating_system}")
+        specs.append(f"Warranty: {self.warranty_years} years")
+        
+        if self.peripherals:
+            specs.append(f"Peripherals: {', '.join(self.peripherals)}")
+        
+        return "\\n".join(specs)
+    
+    def get_estimated_price(self):
+        base_price = 500  # Base computer cost
+        
+        # CPU pricing
+        if "i9" in self.cpu or "Ryzen 9" in self.cpu:
+            base_price += 400
+        elif "i7" in self.cpu or "Ryzen 7" in self.cpu:
+            base_price += 250
+        elif "i5" in self.cpu or "Ryzen 5" in self.cpu:
+            base_price += 150
+        
+        # RAM pricing (roughly  4 per GB)
+        base_price += self.ram * 4
+        
+        # Storage pricing
+        if "1TB SSD" in self.storage:
+            base_price += 100
+        elif "2TB SSD" in self.storage:
+            base_price += 200
+        elif "500GB SSD" in self.storage:
+            base_price += 50
+        
+        # Graphics card pricing
+        if self.graphics_card:
+            if "RTX 4090" in self.graphics_card:
+                base_price += 1500
+            elif "RTX 4080" in self.graphics_card:
+                base_price += 1000
+            elif "RTX 4070" in self.graphics_card:
+                base_price += 600
+        
+        # Type multiplier
+        if self.computer_type == ComputerType.SERVER:
+            base_price *= 1.5
+        elif self.computer_type == ComputerType.LAPTOP:
+            base_price *= 1.2
+        
+        # Peripherals
+        base_price += len(self.peripherals) * 50
+        
+        return int(base_price)
+
+# Builder class
+class ComputerBuilder:
+    def __init__(self):
+        self.reset()
+    
+    def reset(self):
+        self._computer_data = {
+            'peripherals': []
+        }
+        return self
+    
+    # Required parameters
+    def set_cpu(self, cpu: str):
+        self._computer_data['cpu'] = cpu
+        return self
+    
+    def set_ram(self, ram: int):
+        self._computer_data['ram'] = ram
+        return self
+    
+    # Optional parameters
+    def set_type(self, computer_type: ComputerType):
+        self._computer_data['computer_type'] = computer_type
+        return self
+    
+    def set_storage(self, storage: str):
+        self._computer_data['storage'] = storage
+        return self
+    
+    def set_graphics_card(self, graphics_card: str):
+        self._computer_data['graphics_card'] = graphics_card
+        return self
+    
+    def set_motherboard(self, motherboard: str):
+        self._computer_data['motherboard'] = motherboard
+        return self
+    
+    def set_power_supply(self, power_supply: str):
+        self._computer_data['power_supply'] = power_supply
+        return self
+    
+    def set_case(self, case: str):
+        self._computer_data['case'] = case
+        return self
+    
+    def add_peripheral(self, peripheral: str):
+        self._computer_data['peripherals'].append(peripheral)
+        return self
+    
+    def set_operating_system(self, os: str):
+        self._computer_data['operating_system'] = os
+        return self
+    
+    def set_warranty(self, years: int):
+        self._computer_data['warranty_years'] = years
+        return self
+    
+    def build(self) -> Computer:
+        # Validate required parameters
+        if 'cpu' not in self._computer_data or 'ram' not in self._computer_data:
+            raise ValueError("CPU and RAM are required parameters")
+        
+        computer = Computer(**self._computer_data)
+        self.reset()  # Reset for next build
+        return computer
+
+# Director class (optional - provides pre-configured builds)
+class ComputerDirector:
+    def __init__(self, builder: ComputerBuilder):
+        self.builder = builder
+    
+    def build_gaming_pc(self):
+        return (self.builder
+                .set_cpu("Intel i7-13700K")
+                .set_ram(32)
+                .set_type(ComputerType.DESKTOP)
+                .set_storage("1TB SSD")
+                .set_graphics_card("RTX 4070 Super")
+                .set_power_supply("750W Gold")
+                .set_case("RGB Gaming Case")
+                .add_peripheral("Gaming Keyboard")
+                .add_peripheral("Gaming Mouse")
+                .add_peripheral("27-inch Monitor")
+                .set_warranty(3)
+                .build())
+    
+    def build_office_pc(self):
+        return (self.builder
+                .set_cpu("Intel i5-13400")
+                .set_ram(16)
+                .set_type(ComputerType.DESKTOP)
+                .set_storage("500GB SSD")
+                .set_power_supply("400W")
+                .set_case("Compact Case")
+                .add_peripheral("Wireless Keyboard")
+                .add_peripheral("Wireless Mouse")
+                .set_warranty(2)
+                .build())
+    
+    def build_budget_laptop(self):
+        return (self.builder
+                .set_cpu("AMD Ryzen 5 7520U")
+                .set_ram(8)
+                .set_type(ComputerType.LAPTOP)
+                .set_storage("256GB SSD")
+                .set_warranty(1)
+                .build())
+
+# Usage Examples
+def demonstrate_builder_pattern():
+    builder = ComputerBuilder()
+    director = ComputerDirector(builder)
+    
+    # Using director for pre-configured builds
+    print("=== Gaming PC (using Director) ===")
+    gaming_pc = director.build_gaming_pc()
+    print(gaming_pc.get_specifications())
+    print(f"Estimated Price: {gaming_pc.get_estimated_price()}")
+    
+    print("\\n=== Office PC (using Director) ===")
+    office_pc = director.build_office_pc()
+    print(office_pc.get_specifications())
+    print(f"Estimated Price: {office_pc.get_estimated_price()}")
+    
+    # Using builder directly for custom builds
+    print("\\n=== Custom Server (using Builder directly) ===")
+    custom_server = (ComputerBuilder()
+                     .set_cpu("Intel Xeon E5-2690")
+                     .set_ram(128)
+                     .set_type(ComputerType.SERVER)
+                     .set_storage("2TB SSD")
+                     .set_motherboard("Server Grade Motherboard")
+                     .set_power_supply("1200W Platinum")
+                     .set_case("4U Rack Case")
+                     .set_operating_system("Windows Server 2022")
+                     .set_warranty(5)
+                     .build())
+    
+    print(custom_server.get_specifications())
+    print(f"Estimated Price: {custom_server.get_estimated_price()}")
+
+# Run demonstration
+demonstrate_builder_pattern()
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-javascript">
+// Product class
+class HTTPRequest {
+    constructor() {
+        this.url = '';
+        this.method = 'GET';
+        this.headers = new Map();
+        this.queryParams = new Map();
+        this.body = null;
+        this.timeout = 5000;
+        this.retryAttempts = 0;
+        this.followRedirects = true;
+        this.validateSSL = true;
+    }
+    
+    // Method to execute the request (simulation)
+    async execute() {
+        const requestDetails = this.getRequestDetails();
+        console.log('Executing HTTP Request:');
+        console.log(requestDetails);
+        
+        // Simulate request execution
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve({
+                    status: 200,
+                    statusText: 'OK',
+                    data: { message: 'Request successful', requestDetails },
+                    headers: { 'content-type': 'application/json' }
+                });
+            }, 1000);
+        });
+    }
+    
+    getRequestDetails() {
+        const details = {
+            url: this.getFullUrl(),
+            method: this.method,
+            headers: Object.fromEntries(this.headers),
+            timeout: this.timeout,
+            retryAttempts: this.retryAttempts,
+            followRedirects: this.followRedirects,
+            validateSSL: this.validateSSL
+        };
+        
+        if (this.body) {
+            details.body = this.body;
+        }
+        
+        return details;
+    }
+    
+    getFullUrl() {
+        let fullUrl = this.url;
+        if (this.queryParams.size > 0) {
+            const params = Array.from(this.queryParams.entries())
+                .map(([key, value]) => {encodeURIComponent(key)}={encodeURIComponent(value)})
+                .join('&');
+            fullUrl += ?{params};
+        }
+        return fullUrl;
+    }
+}
+
+// Builder class
+class HTTPRequestBuilder {
+    constructor() {
+        this.reset();
+    }
+    
+    reset() {
+        this.request = new HTTPRequest();
+        return this;
+    }
+    
+    // URL and method
+    setUrl(url) {
+        this.request.url = url;
+        return this;
+    }
+    
+    setMethod(method) {
+        this.request.method = method.toUpperCase();
+        return this;
+    }
+    
+    // Convenience methods for HTTP methods
+    get(url) {
+        return this.setUrl(url).setMethod('GET');
+    }
+    
+    post(url) {
+        return this.setUrl(url).setMethod('POST');
+    }
+    
+    put(url) {
+        return this.setUrl(url).setMethod('PUT');
+    }
+    
+    delete(url) {
+        return this.setUrl(url).setMethod('DELETE');
+    }
+    
+    patch(url) {
+        return this.setUrl(url).setMethod('PATCH');
+    }
+    
+    // Headers
+    setHeader(name, value) {
+        this.request.headers.set(name, value);
+        return this;
+    }
+    
+    setHeaders(headers) {
+        Object.entries(headers).forEach(([name, value]) => {
+            this.request.headers.set(name, value);
+        });
+        return this;
+    }
+    
+    setAuthorizationHeader(token, type = 'Bearer') {
+        return this.setHeader('Authorization', {type} {token});
+    }
+    
+    setContentType(contentType) {
+        return this.setHeader('Content-Type', contentType);
+    }
+    
+    setUserAgent(userAgent) {
+        return this.setHeader('User-Agent', userAgent);
+    }
+    
+    // Query parameters
+    setQueryParam(name, value) {
+        this.request.queryParams.set(name, value);
+        return this;
+    }
+    
+    setQueryParams(params) {
+        Object.entries(params).forEach(([name, value]) => {
+            this.request.queryParams.set(name, value);
+        });
+        return this;
+    }
+    
+    // Request body
+    setBody(body) {
+        this.request.body = body;
+        return this;
+    }
+    
+    setJsonBody(data) {
+        this.request.body = JSON.stringify(data);
+        return this.setContentType('application/json');
+    }
+    
+    setFormBody(data) {
+        if (data instanceof FormData) {
+            this.request.body = data;
+        } else {
+            const formData = new URLSearchParams();
+            Object.entries(data).forEach(([key, value]) => {
+                formData.append(key, value);
+            });
+            this.request.body = formData.toString();
+            this.setContentType('application/x-www-form-urlencoded');
+        }
+        return this;
+    }
+    
+    // Request configuration
+    setTimeout(timeout) {
+        this.request.timeout = timeout;
+        return this;
+    }
+    
+    setRetryAttempts(attempts) {
+        this.request.retryAttempts = attempts;
+        return this;
+    }
+    
+    setFollowRedirects(follow) {
+        this.request.followRedirects = follow;
+        return this;
+    }
+    
+    setValidateSSL(validate) {
+        this.request.validateSSL = validate;
+        return this;
+    }
+    
+    // Build the final request
+    build() {
+        if (!this.request.url) {
+            throw new Error('URL is required');
+        }
+        
+        const builtRequest = this.request;
+        this.reset(); // Reset for next build
+        return builtRequest;
+    }
+}
+
+// Director class for common request patterns
+class HTTPRequestDirector {
+    constructor(builder) {
+        this.builder = builder;
+    }
+    
+    buildAPIGetRequest(baseUrl, endpoint, token) {
+        return this.builder
+            .get({baseUrl}{endpoint})
+            .setAuthorizationHeader(token)
+            .setHeader('Accept', 'application/json')
+            .setUserAgent('MyApp/1.0')
+            .setTimeout(10000)
+            .setRetryAttempts(3)
+            .build();
+    }
+    
+    buildAPIPostRequest(baseUrl, endpoint, data, token) {
+        return this.builder
+            .post({baseUrl}{endpoint})
+            .setAuthorizationHeader(token)
+            .setJsonBody(data)
+            .setHeader('Accept', 'application/json')
+            .setUserAgent('MyApp/1.0')
+            .setTimeout(15000)
+            .setRetryAttempts(2)
+            .build();
+    }
+    
+    buildFormSubmissionRequest(url, formData) {
+        return this.builder
+            .post(url)
+            .setFormBody(formData)
+            .setHeader('Accept', 'text/html,application/json')
+            .setTimeout(30000)
+            .setFollowRedirects(true)
+            .build();
+    }
+    
+    buildFileUploadRequest(url, fileData, token) {
+        return this.builder
+            .post(url)
+            .setAuthorizationHeader(token)
+            .setBody(fileData)
+            .setHeader('Accept', 'application/json')
+            .setTimeout(60000)
+            .setRetryAttempts(1)
+            .build();
+    }
+}
+
+// Usage Examples
+async function demonstrateBuilderPattern() {
+    const builder = new HTTPRequestBuilder();
+    const director = new HTTPRequestDirector(builder);
+    
+    console.log('=== Basic GET Request (Manual Building) ===');
+    const getRequest = builder
+        .get('https://jsonplaceholder.typicode.com/posts')
+        .setQueryParam('userId', '1')
+        .setQueryParam('_limit', '5')
+        .setHeader('Accept', 'application/json')
+        .setTimeout(8000)
+        .build();
+    
+    let response = await getRequest.execute();
+    console.log('Response status:', response.status);
+    
+    console.log('\\n=== POST Request with JSON Body ===');
+    const postData = {
+        title: 'New Post',
+        body: 'This is the post content',
+        userId: 1
+    };
+    
+    const postRequest = builder
+        .post('https://jsonplaceholder.typicode.com/posts')
+        .setJsonBody(postData)
+        .setAuthorizationHeader('abc123token')
+        .setUserAgent('MyBlogApp/2.0')
+        .setRetryAttempts(3)
+        .build();
+    
+    response = await postRequest.execute();
+    console.log('POST Response:', response.data);
+    
+    console.log('\\n=== Using Director for API Requests ===');
+    const apiGetRequest = director.buildAPIGetRequest(
+        'https://;">
+      <pre><code class="language-javascript">
+class ConfigurationManager {
+    constructor() {
+        if (ConfigurationManager.instance) {
+            return ConfigurationManager.instance;
+        }
+        
+        this.config = {
+            apiUrl: 'https://api.example.com',
+            timeout: 5000,
+            retryAttempts: 3
+        };
+        
+        ConfigurationManager.instance = this;
+        return this;
+    }
+    
+    getConfig(key) {
+        return this.config[key];
+    }
+    
+    setConfig(key, value) {
+        this.config[key] = value;
+    }
+    
+    getAllConfig() {
+        return { ...this.config };
+    }
+}
+
+// Alternative implementation using closure
+const Logger = (() => {
+    let instance;
+    let logs = [];
+    
+    function createInstance() {
+        return {
+            log(message) {
+                const timestamp = new Date().toISOString();
+                logs.push({ timestamp, message });
+                console.log([{timestamp}] {message});
+            },
+            
+            getLogs() {
+                return [...logs];
+            },
+            
+            clearLogs() {
+                logs = [];
+            }
+        };
+    }
+    
+    return {
+        getInstance() {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
+        }
+    };
+})();
+
+// Usage
+const config1 = new ConfigurationManager();
+const config2 = new ConfigurationManager();
+console.log(config1 === config2); // true
+
+config1.setConfig('debug', true);
+console.log(config2.getConfig('debug')); // true
+
+const logger1 = Logger.getInstance();
+const logger2 = Logger.getInstance();
+logger1.log('Application started');
+console.log(logger2.getLogs()); // Shows the log from logger1
+ </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python Decorator-based Singleton
+def singleton(cls):
+    instances = {}
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return get_instance
+
+@singleton
+class AppSettings:
+    def __init__(self):
+        self.theme = 'dark'
+        self.language = 'en'
+
+# Usage
+settings1 = AppSettings()
+settings2 = AppSettings()
+print(settings1 is settings2)  # True`,
+              `// JavaScript Module Pattern Singleton
+const UserManager = (() => {
+    let currentUser = null;
+    let isLoggedIn = false;
+    
+    return {
+        login(username, password) {
+            // Simulate authentication
+            if (username && password) {
+                currentUser = { username, loginTime: Date.now() };
+                isLoggedIn = true;
+                return true;
+            }
+            return false;
+        },
+        
+        logout() {
+            currentUser = null;
+            isLoggedIn = false;
+        },
+        
+        getCurrentUser() {
+            return isLoggedIn ? { ...currentUser } : null;
+        },
+        
+        isAuthenticated() {
+            return isLoggedIn;
+        }
+    };
+})();
+
+// Usage
+UserManager.login('john_doe', 'password123');
+console.log(UserManager.getCurrentUser()); // { username: 'john_doe', loginTime: ... }`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages and disadvantages of using the Singleton pattern?",
+                solution:
+                  "<p><strong>Advantages:</strong></p><ul><li>Controlled access to sole instance</li><li>Reduced namespace pollution</li><li>Permits refinement of operations and representation</li><li>Can control the number of instances</li></ul><p><strong>Disadvantages:</strong></p><ul><li>Difficult to test due to global state</li><li>Can create hidden dependencies</li><li>Violates Single Responsibility Principle</li><li>Can cause issues in multithreaded environments</li><li>Makes code tightly coupled</li></ul>",
+              },
+              {
+                question:
+                  "How do you ensure thread safety in Singleton implementation?",
+                solution:
+                  "<p>Thread safety can be ensured through:</p><ul><li><strong>Double-checked locking:</strong> Check if instance exists, acquire lock, check again, then create</li><li><strong>Eager initialization:</strong> Create instance at class loading time</li><li><strong>Synchronized methods:</strong> Use locks or synchronized blocks</li><li><strong>Enum-based implementation:</strong> In languages that support it, enums are inherently thread-safe</li></ul><p>The double-checked locking pattern is most commonly used for lazy initialization with thread safety.</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/singleton",
+              "https://sourcemaking.com/design_patterns/singleton",
+              "https://en.wikipedia.org/wiki/Singleton_pattern",
+            ],
+          },
+          {
+            topic: "Factory Pattern",
+            tags: ["Design Pattern", "Creational", "Object Creation"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Factory pattern provides an interface for creating objects without specifying their exact class. It encapsulates object creation logic and allows the client to request objects using a common interface. This pattern is useful when the creation process is complex or when you need to create different types of objects based on certain conditions.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Encapsulation:</span> Object creation logic is encapsulated in factory methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Easy to add new product types without changing existing code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Abstraction:</span> Clients don't need to know concrete classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Loose Coupling:</span> Reduces dependencies between client and concrete classes.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Creating different types of database connections</li>
+     <li style="margin-top: 0.5rem;">UI component creation based on platform</li>
+     <li style="margin-top: 0.5rem;">Document parsers for different file formats</li>
+     <li style="margin-top: 0.5rem;">Payment processing for different gateways</li>
+     <li style="margin-top: 0.5rem;">Creating different types of vehicles or animals</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+# Product interface
+class Payment(ABC):
+    @abstractmethod
+    def process_payment(self, amount):
+        pass
+
+# Concrete Products
+class CreditCardPayment(Payment):
+    def __init__(self, card_number):
+        self.card_number = card_number
+    
+    def process_payment(self, amount):
+        return f"Processing {amount} via Credit Card ending in {self.card_number[-4:]}"
+
+class PayPalPayment(Payment):
+    def __init__(self, email):
+        self.email = email
+    
+    def process_payment(self, amount):
+        return f"Processing {amount} via PayPal account {self.email}"
+
+class BankTransferPayment(Payment):
+    def __init__(self, account_number):
+        self.account_number = account_number
+    
+    def process_payment(self, amount):
+        return f"Processing {amount} via Bank Transfer to {self.account_number}"
+
+# Factory
+class PaymentFactory:
+    @staticmethod
+    def create_payment(payment_type, **kwargs):
+        if payment_type.lower() == 'credit_card':
+            return CreditCardPayment(kwargs.get('card_number'))
+        elif payment_type.lower() == 'paypal':
+            return PayPalPayment(kwargs.get('email'))
+        elif payment_type.lower() == 'bank_transfer':
+            return BankTransferPayment(kwargs.get('account_number'))
+        else:
+            raise ValueError(f"Unknown payment type: {payment_type}")
+
+# Usage
+def process_order_payment(payment_type, amount, **payment_details):
+    payment_processor = PaymentFactory.create_payment(payment_type, **payment_details)
+    return payment_processor.process_payment(amount)
+
+# Examples
+print(process_order_payment('credit_card', 100.50, card_number='1234567890123456'))
+print(process_order_payment('paypal', 75.25, email='user@example.com'))
+print(process_order_payment('bank_transfer', 200.00, account_number='ACC123456'))
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-javascript">
+// Product interface (using class)
+class Vehicle {
+    constructor(make, model) {
+        this.make = make;
+        this.model = model;
+    }
+    
+    start() {
+        throw new Error('start() method must be implemented');
+    }
+    
+    getInfo() {
+        return {this.make} {this.model};
+    }
+}
+
+// Concrete Products
+class Car extends Vehicle {
+    constructor(make, model, doors = 4) {
+        super(make, model);
+        this.doors = doors;
+        this.type = 'Car';
+    }
+    
+    start() {
+        return {this.getInfo()} car engine started. Ready to drive!;
+    }
+    
+    getInfo() {
+        return {super.getInfo()} ({this.doors}-door {this.type});
+    }
+}
+
+class Motorcycle extends Vehicle {
+    constructor(make, model, engineSize) {
+        super(make, model);
+        this.engineSize = engineSize;
+        this.type = 'Motorcycle';
+    }
+    
+    start() {
+        return {this.getInfo()} motorcycle engine roared to life!;
+    }
+    
+    getInfo() {
+        return {super.getInfo()} ({this.engineSize}cc {this.type});
+    }
+}
+
+class Truck extends Vehicle {
+    constructor(make, model, capacity) {
+        super(make, model);
+        this.capacity = capacity;
+        this.type = 'Truck';
+    }
+    
+    start() {
+        return {this.getInfo()} truck engine started. Ready for heavy duty!;
+    }
+    
+    getInfo() {
+        return {super.getInfo()} ({this.capacity}t capacity {this.type});
+    }
+}
+
+// Factory
+class VehicleFactory {
+    static createVehicle(type, make, model, ...specs) {
+        switch (type.toLowerCase()) {
+            case 'car':
+                return new Car(make, model, specs[0] || 4);
+            case 'motorcycle':
+                return new Motorcycle(make, model, specs[0] || 250);
+            case 'truck':
+                return new Truck(make, model, specs[0] || 10);
+            default:
+                throw new Error(Unknown vehicle type: {type});
+        }
+    }
+    
+    // Alternative factory method with configuration object
+    static createFromConfig(config) {
+        const { type, make, model, doors, engineSize, capacity } = config;
+        
+        switch (type.toLowerCase()) {
+            case 'car':
+                return new Car(make, model, doors);
+            case 'motorcycle':
+                return new Motorcycle(make, model, engineSize);
+            case 'truck':
+                return new Truck(make, model, capacity);
+            default:
+                throw new Error(Unknown vehicle type: {type});
+        }
+    }
+}
+
+// Usage
+const vehicles = [
+    VehicleFactory.createVehicle('car', 'Toyota', 'Camry', 4),
+    VehicleFactory.createVehicle('motorcycle', 'Harley-Davidson', 'Sportster', 883),
+    VehicleFactory.createVehicle('truck', 'Ford', 'F-150', 2.5)
+];
+
+vehicles.forEach(vehicle => {
+    console.log(vehicle.getInfo());
+    console.log(vehicle.start());
+    console.log('---');
+});
+
+// Using configuration object
+const carConfig = {
+    type: 'car',
+    make: 'BMW',
+    model: 'X5',
+    doors: 5
+};
+
+const bmw = VehicleFactory.createFromConfig(carConfig);
+console.log(bmw.start());
+ </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `# Python - Simple Factory with Registration
+class AnimalFactory:
+    _animals = {}
+    
+    @classmethod
+    def register(cls, animal_type, animal_class):
+        cls._animals[animal_type] = animal_class
+    
+    @classmethod
+    def create(cls, animal_type, *args, **kwargs):
+        animal_class = cls._animals.get(animal_type)
+        if not animal_class:
+            raise ValueError(f"Unknown animal type: {animal_type}")
+        return animal_class(*args, **kwargs)
+
+class Dog:
+    def __init__(self, name, breed):
+        self.name = name
+        self.breed = breed
+    
+    def speak(self):
+        return f"{self.name} the {self.breed} says Woof!"
+
+class Cat:
+    def __init__(self, name, color):
+        self.name = name
+        self.color = color
+    
+    def speak(self):
+        return f"{self.name} the {self.color} cat says Meow!"
+
+# Register animals
+AnimalFactory.register('dog', Dog)
+AnimalFactory.register('cat', Cat)
+
+# Usage
+pet1 = AnimalFactory.create('dog', 'Buddy', 'Golden Retriever')
+pet2 = AnimalFactory.create('cat', 'Whiskers', 'orange')`,
+              `// JavaScript - Factory with Method Chaining
+class NotificationFactory {
+    static create(type) {
+        const factories = {
+            email: () => new EmailNotification(),
+            sms: () => new SMSNotification(),
+            push: () => new PushNotification()
+        };
+        
+        const factory = factories[type.toLowerCase()];
+        if (!factory) {
+            throw new Error(\`Unknown notification type: \ {type}\`);
+        }
+        return factory();
+    }
+}
+
+class EmailNotification {
+    setRecipient(email) {
+        this.email = email;
+        return this;
+    }
+    
+    setSubject(subject) {
+        this.subject = subject;
+        return this;
+    }
+    
+    setMessage(message) {
+        this.message = message;
+        return this;
+    }
+    
+    send() {
+        return \`Email sent to \ {this.email}: \ {this.subject}\`;
+    }
+}
+
+// Usage with method chaining
+const notification = NotificationFactory.create('email')
+    .setRecipient('user@example.com')
+    .setSubject('Welcome!')
+    .setMessage('Thanks for signing up!')
+    .send();`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between Factory Method and Abstract Factory patterns?",
+                solution:
+                  "<p><strong>Factory Method:</strong></p><ul><li>Creates objects of a single product family</li><li>Uses inheritance to decide which object to create</li><li>Has one factory method per product type</li><li>Focuses on creating one type of object</li></ul><p><strong>Abstract Factory:</strong></p><ul><li>Creates families of related objects</li><li>Uses composition to decide which objects to create</li><li>Has multiple factory methods for different product types</li><li>Focuses on creating multiple related objects</li></ul>",
+              },
+              {
+                question:
+                  "When should you use the Factory pattern instead of direct instantiation?",
+                solution:
+                  "<p>Use Factory pattern when:</p><ul><li><strong>Complex object creation:</strong> When object creation involves complex logic or multiple steps</li><li><strong>Runtime decisions:</strong> When the exact type of object to create is determined at runtime</li><li><strong>Multiple implementations:</strong> When you have multiple implementations of an interface</li><li><strong>Dependency management:</strong> When you want to reduce coupling between client and concrete classes</li><li><strong>Configuration-based creation:</strong> When object creation depends on configuration or external parameters</li><li><strong>Testing:</strong> When you need to easily substitute mock objects for testing</li></ul>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/factory-method",
+              "https://sourcemaking.com/design_patterns/factory_method",
+              "https://en.wikipedia.org/wiki/Factory_method_pattern",
+            ],
+          },
+          {
+            topic: "Abstract Factory Pattern",
+            tags: ["Design Pattern", "Creational", "Object Families"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Abstract Factory pattern provides an interface for creating families of related or dependent objects without specifying their concrete classes. It's like a factory of factories - it creates other factories that are responsible for creating objects that belong to a specific family or theme.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Family Creation:</span> Creates families of related objects together.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consistency:</span> Ensures that products from the same family are used together.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Interchangeability:</span> Different factories can be substituted without changing client code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Isolation:</span> Isolates concrete classes from the client.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Cross-platform UI components (Windows, Mac, Linux themes)</li>
+     <li style="margin-top: 0.5rem;">Database connections for different vendors</li>
+     <li style="margin-top: 0.5rem;">Document creation systems (PDF, Word, HTML)</li>
+     <li style="margin-top: 0.5rem;">Game development (different environments or levels)</li>
+     <li style="margin-top: 0.5rem;">E-commerce systems with different product categories</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+# Abstract Products
+class Button(ABC):
+    @abstractmethod
+    def render(self):
+        pass
+    
+    @abstractmethod
+    def click(self):
+        pass
+
+class Checkbox(ABC):
+    @abstractmethod
+    def render(self):
+        pass
+    
+    @abstractmethod
+    def toggle(self):
+        pass
+
+class TextField(ABC):
+    @abstractmethod
+    def render(self):
+        pass
+    
+    @abstractmethod
+    def get_text(self):
+        pass
+
+# Windows Concrete Products
+class WindowsButton(Button):
+    def __init__(self):
+        self.is_pressed = False
+    
+    def render(self):
+        return "Rendering Windows-style button with blue border"
+    
+    def click(self):
+        self.is_pressed = True
+        return "Windows button clicked with satisfying click sound"
+
+class WindowsCheckbox(Checkbox):
+    def __init__(self):
+        self.is_checked = False
+    
+    def render(self):
+        return "Rendering Windows-style checkbox with square design"
+    
+    def toggle(self):
+        self.is_checked = not self.is_checked
+        return f"Windows checkbox {'checked' if self.is_checked else 'unchecked'}"
+
+class WindowsTextField(TextField):
+    def __init__(self):
+        self.text = ""
+    
+    def render(self):
+        return "Rendering Windows-style text field with sharp corners"
+    
+    def get_text(self):
+        return self.text
+
+# Mac Concrete Products
+class MacButton(Button):
+    def __init__(self):
+        self.is_pressed = False
+    
+    def render(self):
+        return "Rendering Mac-style button with rounded corners and gradient"
+    
+    def click(self):
+        self.is_pressed = True
+        return "Mac button clicked with subtle haptic feedback"
+
+class MacCheckbox(Checkbox):
+    def __init__(self):
+        self.is_checked = False
+    
+    def render(self):
+        return "Rendering Mac-style checkbox with rounded design"
+    
+    def toggle(self):
+        self.is_checked = not self.is_checked
+        return f"Mac checkbox {'checked' if self.is_checked else 'unchecked'} with animation"
+
+class MacTextField(TextField):
+    def __init__(self):
+        self.text = ""
+    
+    def render(self):
+        return "Rendering Mac-style text field with rounded borders"
+    
+    def get_text(self):
+        return self.text
+
+# Abstract Factory
+class GUIFactory(ABC):
+    @abstractmethod
+    def create_button(self):
+        pass
+    
+    @abstractmethod
+    def create_checkbox(self):
+        pass
+    
+    @abstractmethod
+    def create_text_field(self):
+        pass
+
+# Concrete Factories
+class WindowsGUIFactory(GUIFactory):
+    def create_button(self):
+        return WindowsButton()
+    
+    def create_checkbox(self):
+        return WindowsCheckbox()
+    
+    def create_text_field(self):
+        return WindowsTextField()
+
+class MacGUIFactory(GUIFactory):
+    def create_button(self):
+        return MacButton()
+    
+    def create_checkbox(self):
+        return MacCheckbox()
+    
+    def create_text_field(self):
+        return MacTextField()
+
+# Client Code
+class Application:
+    def __init__(self, factory: GUIFactory):
+        self.factory = factory
+        self.button = factory.create_button()
+        self.checkbox = factory.create_checkbox()
+        self.text_field = factory.create_text_field()
+    
+    def render_ui(self):
+        ui_elements = [
+            self.button.render(),
+            self.checkbox.render(),
+            self.text_field.render()
+        ]
+        return "\\n".join(ui_elements)
+    
+    def interact(self):
+        interactions = [
+            self.button.click(),
+            self.checkbox.toggle(),
+            f"Text field contains: '{self.text_field.get_text()}'"
+        ]
+        return "\\n".join(interactions)
+
+# Usage
+def create_application(platform):
+    if platform.lower() == 'windows':
+        factory = WindowsGUIFactory()
+    elif platform.lower() == 'mac':
+        factory = MacGUIFactory()
+    else:
+        raise ValueError(f"Unsupported platform: {platform}")
+    
+    return Application(factory)
+
+# Examples
+windows_app = create_application('windows')
+print("Windows Application:")
+print(windows_app.render_ui())
+print("\\nInteractions:")
+print(windows_app.interact())
+
+mac_app = create_application('mac')
+print("\\n\\nMac Application:")
+print(mac_app.render_ui())
+print("\\nInteractions:")
+print(mac_app.interact())
+ </code></pre>
+  </div>`,
+            examples: [
+              `# Python - Simple Factory with Registration
+class AnimalFactory:
+    _animals = {}
+    
+    @classmethod
+    def register(cls, animal_type, animal_class):
+        cls._animals[animal_type] = animal_class
+    
+    @classmethod
+    def create(cls, animal_type, *args, **kwargs):
+        animal_class = cls._animals.get(animal_type)
+        if not animal_class:
+            raise ValueError(f"Unknown animal type: {animal_type}")
+        return animal_class(*args, **kwargs)
+
+class Dog:
+    def __init__(self, name, breed):
+        self.name = name
+        self.breed = breed
+    
+    def speak(self):
+        return f"{self.name} the {self.breed} says Woof!"
+
+class Cat:
+    def __init__(self, name, color):
+        self.name = name
+        self.color = color
+    
+    def speak(self):
+        return f"{self.name} the {self.color} cat says Meow!"
+
+# Register animals
+AnimalFactory.register('dog', Dog)
+AnimalFactory.register('cat', Cat)
+
+# Usage
+pet1 = AnimalFactory.create('dog', 'Buddy', 'Golden Retriever')
+pet2 = AnimalFactory.create('cat', 'Whiskers', 'orange')`,
+              `// JavaScript - Factory with Method Chaining
+class NotificationFactory {
+    static create(type) {
+        const factories = {
+            email: () => new EmailNotification(),
+            sms: () => new SMSNotification(),
+            push: () => new PushNotification()
+        };
+        
+        const factory = factories[type.toLowerCase()];
+        if (!factory) {
+            throw new Error(\`Unknown notification type: \ {type}\`);
+        }
+        return factory();
+    }
+}
+
+class EmailNotification {
+    setRecipient(email) {
+        this.email = email;
+        return this;
+    }
+    
+    setSubject(subject) {
+        this.subject = subject;
+        return this;
+    }
+    
+    setMessage(message) {
+        this.message = message;
+        return this;
+    }
+    
+    send() {
+        return \`Email sent to \ {this.email}: \ {this.subject}\`;
+    }
+}
+
+// Usage with method chaining
+const notification = NotificationFactory.create('email')
+    .setRecipient('user@example.com')
+    .setSubject('Welcome!')
+    .setMessage('Thanks for signing up!')
+    .send();`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between Factory Method and Abstract Factory patterns?",
+                solution:
+                  "<p><strong>Factory Method:</strong></p><ul><li>Creates objects of a single product family</li><li>Uses inheritance to decide which object to create</li><li>Has one factory method per product type</li><li>Focuses on creating one type of object</li></ul><p><strong>Abstract Factory:</strong></p><ul><li>Creates families of related objects</li><li>Uses composition to decide which objects to create</li><li>Has multiple factory methods for different product types</li><li>Focuses on creating multiple related objects</li></ul>",
+              },
+              {
+                question:
+                  "When should you use the Factory pattern instead of direct instantiation?",
+                solution:
+                  "<p>Use Factory pattern when:</p><ul><li><strong>Complex object creation:</strong> When object creation involves complex logic or multiple steps</li><li><strong>Runtime decisions:</strong> When the exact type of object to create is determined at runtime</li><li><strong>Multiple implementations:</strong> When you have multiple implementations of an interface</li><li><strong>Dependency management:</strong> When you want to reduce coupling between client and concrete classes</li><li><strong>Configuration-based creation:</strong> When object creation depends on configuration or external parameters</li><li><strong>Testing:</strong> When you need to easily substitute mock objects for testing</li></ul>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/factory-method",
+              "https://sourcemaking.com/design_patterns/factory_method",
+              "https://en.wikipedia.org/wiki/Factory_method_pattern",
             ],
           },
         ],
