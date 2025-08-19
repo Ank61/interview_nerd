@@ -71605,7 +71605,6 @@ Heap
               '<url id="13" type="url" status="parsed" title="Stack vs. Heap: Explaining the Difference">https://phoenixnap.com/kb/stack-vs-heap</url>',
             ],
           },
-
           {
             topic: "Single Responsibility Principle (SRP)",
             tags: ["SOLID", "Design Principles", "Clean Code"],
@@ -72347,8 +72346,1892 @@ class InvoiceRepository {
               "https://medium.com/@cramirez92/s-o-l-i-d-the-first-5-priciples-of-object-oriented-design-with-python-790f6ac0b9cc",
             ],
           },
-          //Pending SOLID
-          //Pending PAttern
+          {
+            topic: "Open/Closed Principle (OCP)",
+            tags: ["SOLID", "Design Patterns", "Extensibility"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Open/Closed Principle states that software entities (classes, modules, functions) should be <strong>open for extension but closed for modification</strong>. This means you should be able to add new functionality without changing existing code.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Open/Closed Principle?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reduces Risk:</span> Existing code doesn't need to be modified, reducing the chance of introducing bugs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Code becomes more maintainable and easier to extend.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> New features can be added without affecting existing functionality.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Testing:</span> Existing tests remain valid when extending functionality.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates OCP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+class DiscountCalculator:
+    def calculate_discount(self, customer_type, amount):
+        if customer_type == "regular":
+            return amount * 0.05
+        elif customer_type == "premium":
+            return amount * 0.10
+        elif customer_type == "vip":
+            return amount * 0.15
+        # Adding new customer type requires modifying this method
+        return 0
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows OCP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+from abc import ABC, abstractmethod
+
+class DiscountStrategy(ABC):
+    @abstractmethod
+    def calculate(self, amount):
+        pass
+
+class RegularCustomerDiscount(DiscountStrategy):
+    def calculate(self, amount):
+        return amount * 0.05
+
+class PremiumCustomerDiscount(DiscountStrategy):
+    def calculate(self, amount):
+        return amount * 0.10
+
+class VIPCustomerDiscount(DiscountStrategy):
+    def calculate(self, amount):
+        return amount * 0.15
+
+class DiscountCalculator:
+    def __init__(self, strategy: DiscountStrategy):
+        self.strategy = strategy
+    
+    def calculate_discount(self, amount):
+        return self.strategy.calculate(amount)
+
+# Usage
+regular_calc = DiscountCalculator(RegularCustomerDiscount())
+print(regular_calc.calculate_discount(100))  # 5.0
+
+# Adding new customer type without modifying existing code
+class SuperVIPDiscount(DiscountStrategy):
+    def calculate(self, amount):
+        return amount * 0.25
+
+super_vip_calc = DiscountCalculator(SuperVIPDiscount())
+print(super_vip_calc.calculate_discount(100))  # 25.0
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates OCP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+class DiscountCalculator {
+    calculateDiscount(customerType, amount) {
+        if (customerType === "regular") {
+            return amount * 0.05;
+        } else if (customerType === "premium") {
+            return amount * 0.10;
+        } else if (customerType === "vip") {
+            return amount * 0.15;
+        }
+        // Adding new customer type requires modifying this method
+        return 0;
+    }
+}
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows OCP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+class DiscountStrategy {
+    calculate(amount) {
+        throw new Error("calculate method must be implemented");
+    }
+}
+
+class RegularCustomerDiscount extends DiscountStrategy {
+    calculate(amount) {
+        return amount * 0.05;
+    }
+}
+
+class PremiumCustomerDiscount extends DiscountStrategy {
+    calculate(amount) {
+        return amount * 0.10;
+    }
+}
+
+class VIPCustomerDiscount extends DiscountStrategy {
+    calculate(amount) {
+        return amount * 0.15;
+    }
+}
+
+class DiscountCalculator {
+    constructor(strategy) {
+        this.strategy = strategy;
+    }
+    
+    calculateDiscount(amount) {
+        return this.strategy.calculate(amount);
+    }
+}
+
+// Usage
+const regularCalc = new DiscountCalculator(new RegularCustomerDiscount());
+console.log(regularCalc.calculateDiscount(100)); // 5
+
+// Adding new customer type without modifying existing code
+class SuperVIPDiscount extends DiscountStrategy {
+    calculate(amount) {
+        return amount * 0.25;
+    }
+}
+
+const superVipCalc = new DiscountCalculator(new SuperVIPDiscount());
+console.log(superVipCalc.calculateDiscount(100)); // 25
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Payment Processing:</span> Adding new payment methods without modifying existing payment logic
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">File Formats:</span> Supporting new file formats in a document processor
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Notification Systems:</span> Adding new notification channels (email, SMS, push, etc.)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Database Drivers:</span> Supporting different database types without changing core logic
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Real-World Example: Payment Processing System
+from abc import ABC, abstractmethod
+
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def process_payment(self, amount):
+        pass
+
+class CreditCardProcessor(PaymentProcessor):
+    def process_payment(self, amount):
+        return f"Processing ${amount} via Credit Card"
+
+class PayPalProcessor(PaymentProcessor):
+    def process_payment(self, amount):
+        return f"Processing ${amount} via PayPal"
+
+class PaymentService:
+    def __init__(self, processor: PaymentProcessor):
+        self.processor = processor
+    
+    def make_payment(self, amount):
+        return self.processor.process_payment(amount)
+
+# Usage - easily extensible for new payment methods
+service = PaymentService(CreditCardProcessor())
+print(service.make_payment(100))`,
+
+              `// JavaScript Real-World Example: Shape Drawing System
+class Shape {
+    draw() {
+        throw new Error("draw method must be implemented");
+    }
+    
+    area() {
+        throw new Error("area method must be implemented");
+    }
+}
+
+class Circle extends Shape {
+    constructor(radius) {
+        super();
+        this.radius = radius;
+    }
+    
+    draw() {
+        return "Drawing a circle";
+    }
+    
+    area() {
+        return Math.PI * this.radius * this.radius;
+    }
+}
+
+class Rectangle extends Shape {
+    constructor(width, height) {
+        super();
+        this.width = width;
+        this.height = height;
+    }
+    
+    draw() {
+        return "Drawing a rectangle";
+    }
+    
+    area() {
+        return this.width * this.height;
+    }
+}
+
+class DrawingApp {
+    drawShapes(shapes) {
+        return shapes.map(shape => shape.draw());
+    }
+}
+
+// Usage - can add new shapes without modifying existing code
+const app = new DrawingApp();
+const shapes = [new Circle(5), new Rectangle(4, 6)];
+console.log(app.drawShapes(shapes));`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the benefits of following the Open/Closed Principle?",
+                solution:
+                  "<p>The Open/Closed Principle provides several key benefits: <strong>Risk Reduction</strong> - existing code doesn't need modification, reducing bugs; <strong>Easier Testing</strong> - existing tests remain valid; <strong>Better Maintainability</strong> - code is easier to extend and maintain; <strong>Flexibility</strong> - new features can be added without affecting existing functionality; <strong>Code Reusability</strong> - promotes composition over modification.</p>",
+              },
+              {
+                question: "How does the Strategy pattern help implement OCP?",
+                solution:
+                  "<p>The Strategy pattern helps implement OCP by: <strong>Encapsulating Algorithms</strong> - each strategy encapsulates a specific algorithm; <strong>Runtime Selection</strong> - strategies can be selected at runtime; <strong>Easy Extension</strong> - new strategies can be added without modifying existing code; <strong>Separation of Concerns</strong> - each strategy handles one specific behavior; <strong>Testability</strong> - each strategy can be tested independently.</p>",
+              },
+            ],
+            links: [
+              "https://blog.cleancoder.com/uncle-bob/2014/05/12/TheOpenClosedPrinciple.html",
+              "https://stackify.com/solid-design-open-closed-principle/",
+              "https://medium.com/@cramirez92/s-o-l-i-d-the-first-5-principles-of-object-oriented-design-with-python-2b6c9d7b1723",
+            ],
+          },
+          {
+            topic: "Liskov Substitution Principle (LSP)",
+            tags: ["SOLID", "Inheritance", "Polymorphism"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Liskov Substitution Principle states that <strong>objects of a superclass should be replaceable with objects of its subclasses without breaking the application</strong>. In other words, derived classes must be substitutable for their base classes.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Concept
+   </h4>
+ 
+   <p style="margin-top: 1rem;">
+     If S is a subtype of T, then objects of type T in a program may be replaced with objects of type S without altering any of the desirable properties of that program.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     LSP Rules
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Preconditions:</span> Cannot be strengthened in derived classes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Postconditions:</span> Cannot be weakened in derived classes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Invariants:</span> Must be preserved in derived classes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Exception Rule:</span> New exceptions cannot be thrown by derived class methods
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates LSP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+class Bird:
+    def fly(self):
+        return "Flying"
+    
+    def make_sound(self):
+        return "Chirp"
+
+class Sparrow(Bird):
+    def fly(self):
+        return "Sparrow flying"
+
+class Penguin(Bird):  # Violates LSP
+    def fly(self):
+        raise Exception("Penguins can't fly!")  # Breaking contract
+    
+    def make_sound(self):
+        return "Squawk"
+
+# This will break when using Penguin
+def bird_flight_test(bird: Bird):
+    return bird.fly()  # Expects all birds to fly
+
+sparrow = Sparrow()
+penguin = Penguin()
+
+print(bird_flight_test(sparrow))  # Works
+print(bird_flight_test(penguin))  # Throws exception!
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows LSP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+from abc import ABC, abstractmethod
+
+class Bird(ABC):
+    @abstractmethod
+    def make_sound(self):
+        pass
+    
+    @abstractmethod
+    def move(self):
+        pass
+
+class FlyingBird(Bird):
+    def fly(self):
+        return "Flying"
+    
+    def move(self):
+        return self.fly()
+
+class SwimmingBird(Bird):
+    def swim(self):
+        return "Swimming"
+    
+    def move(self):
+        return self.swim()
+
+class Sparrow(FlyingBird):
+    def make_sound(self):
+        return "Chirp"
+    
+    def fly(self):
+        return "Sparrow flying high"
+
+class Penguin(SwimmingBird):
+    def make_sound(self):
+        return "Squawk"
+    
+    def swim(self):
+        return "Penguin swimming fast"
+
+# Now all birds can be used interchangeably
+def bird_behavior_test(bird: Bird):
+    return f"{bird.make_sound()} and {bird.move()}"
+
+sparrow = Sparrow()
+penguin = Penguin()
+
+print(bird_behavior_test(sparrow))  # "Chirp and Sparrow flying high"
+print(bird_behavior_test(penguin))  # "Squawk and Penguin swimming fast"
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates LSP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+class Rectangle {
+    constructor(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+    
+    setWidth(width) {
+        this.width = width;
+    }
+    
+    setHeight(height) {
+        this.height = height;
+    }
+    
+    getArea() {
+        return this.width * this.height;
+    }
+}
+
+class Square extends Rectangle {  // Violates LSP
+    constructor(side) {
+        super(side, side);
+    }
+    
+    setWidth(width) {
+        this.width = width;
+        this.height = width;  // Forces height to equal width
+    }
+    
+    setHeight(height) {
+        this.width = height;  // Forces width to equal height
+        this.height = height;
+    }
+}
+
+// This function expects Rectangle behavior
+function calculateArea(rectangle) {
+    rectangle.setWidth(5);
+    rectangle.setHeight(4);
+    return rectangle.getArea(); // Expected: 20
+}
+
+const rect = new Rectangle(0, 0);
+const square = new Square(0);
+
+console.log(calculateArea(rect));   // 20 (correct)
+console.log(calculateArea(square)); // 16 (incorrect, violates LSP)
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows LSP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+class Shape {
+    getArea() {
+        throw new Error("getArea method must be implemented");
+    }
+    
+    getPerimeter() {
+        throw new Error("getPerimeter method must be implemented");
+    }
+}
+
+class Rectangle extends Shape {
+    constructor(width, height) {
+        super();
+        this.width = width;
+        this.height = height;
+    }
+    
+    getArea() {
+        return this.width * this.height;
+    }
+    
+    getPerimeter() {
+        return 2 * (this.width + this.height);
+    }
+    
+    setDimensions(width, height) {
+        this.width = width;
+        this.height = height;
+    }
+}
+
+class Square extends Shape {
+    constructor(side) {
+        super();
+        this.side = side;
+    }
+    
+    getArea() {
+        return this.side * this.side;
+    }
+    
+    getPerimeter() {
+        return 4 * this.side;
+    }
+    
+    setSide(side) {
+        this.side = side;
+    }
+}
+
+// Now both can be used interchangeably as Shape
+function printShapeInfo(shape) {
+    return \`Area: \${shape.getArea()}, Perimeter: \${shape.getPerimeter()}\`;
+}
+
+const rectangle = new Rectangle(5, 4);
+const square = new Square(4);
+
+console.log(printShapeInfo(rectangle)); // Area: 20, Perimeter: 18
+console.log(printShapeInfo(square));    // Area: 16, Perimeter: 16
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Database Connections:</span> Different database implementations should work interchangeably
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">File Systems:</span> Local and cloud storage should have consistent interfaces
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">User Authentication:</span> Different auth providers should follow same contract
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Collection Classes:</span> Lists, arrays, and sets should be interchangeable where appropriate
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Real-World Example: Database Repository
+from abc import ABC, abstractmethod
+
+class Repository(ABC):
+    @abstractmethod
+    def save(self, entity):
+        pass
+    
+    @abstractmethod
+    def find_by_id(self, id):
+        pass
+    
+    @abstractmethod
+    def find_all(self):
+        pass
+
+class MySQLRepository(Repository):
+    def save(self, entity):
+        return f"Saving {entity} to MySQL"
+    
+    def find_by_id(self, id):
+        return f"Finding entity {id} from MySQL"
+    
+    def find_all(self):
+        return "Getting all entities from MySQL"
+
+class PostgreSQLRepository(Repository):
+    def save(self, entity):
+        return f"Saving {entity} to PostgreSQL"
+    
+    def find_by_id(self, id):
+        return f"Finding entity {id} from PostgreSQL"
+    
+    def find_all(self):
+        return "Getting all entities from PostgreSQL"
+
+# Service can work with any repository implementation
+class UserService:
+    def __init__(self, repository: Repository):
+        self.repository = repository
+    
+    def create_user(self, user):
+        return self.repository.save(user)
+    
+    def get_user(self, user_id):
+        return self.repository.find_by_id(user_id)
+
+# Both implementations work seamlessly
+mysql_service = UserService(MySQLRepository())
+postgres_service = UserService(PostgreSQLRepository())
+
+print(mysql_service.create_user("John"))
+print(postgres_service.create_user("Jane"))`,
+
+              `// JavaScript Real-World Example: Media Player
+class MediaPlayer {
+    play() {
+        throw new Error("play method must be implemented");
+    }
+    
+    pause() {
+        throw new Error("pause method must be implemented");
+    }
+    
+    stop() {
+        throw new Error("stop method must be implemented");
+    }
+    
+    getDuration() {
+        throw new Error("getDuration method must be implemented");
+    }
+}
+
+class AudioPlayer extends MediaPlayer {
+    constructor(audioFile) {
+        super();
+        this.audioFile = audioFile;
+        this.duration = 180; // 3 minutes
+    }
+    
+    play() {
+        return \`Playing audio: \${this.audioFile}\`;
+    }
+    
+    pause() {
+        return "Audio paused";
+    }
+    
+    stop() {
+        return "Audio stopped";
+    }
+    
+    getDuration() {
+        return this.duration;
+    }
+}
+
+class VideoPlayer extends MediaPlayer {
+    constructor(videoFile) {
+        super();
+        this.videoFile = videoFile;
+        this.duration = 7200; // 2 hours
+    }
+    
+    play() {
+        return \`Playing video: \${this.videoFile}\`;
+    }
+    
+    pause() {
+        return "Video paused";
+    }
+    
+    stop() {
+        return "Video stopped";
+    }
+    
+    getDuration() {
+        return this.duration;
+    }
+}
+
+// Media controller works with any player
+class MediaController {
+    constructor(player) {
+        this.player = player;
+    }
+    
+    startPlayback() {
+        const duration = this.player.getDuration();
+        return \`\${this.player.play()} - Duration: \${duration} seconds\`;
+    }
+    
+    pausePlayback() {
+        return this.player.pause();
+    }
+}
+
+// Both players can be used interchangeably
+const audioController = new MediaController(new AudioPlayer("song.mp3"));
+const videoController = new MediaController(new VideoPlayer("movie.mp4"));
+
+console.log(audioController.startPlayback());
+console.log(videoController.startPlayback());`,
+            ],
+            questions: [
+              {
+                question: "What happens when LSP is violated?",
+                solution:
+                  "<p>When LSP is violated, several problems occur: <strong>Unexpected Behavior</strong> - substituting objects breaks functionality; <strong>Runtime Errors</strong> - exceptions thrown where none were expected; <strong>Conditional Logic</strong> - need for type checking defeats polymorphism; <strong>Fragile Code</strong> - changes in derived classes break client code; <strong>Testing Issues</strong> - tests that work for base class fail for derived classes.</p>",
+              },
+              {
+                question: "How can you identify LSP violations?",
+                solution:
+                  "<p>LSP violations can be identified by: <strong>Type Checking</strong> - if you need instanceof/type checks; <strong>Exception Throwing</strong> - derived classes throw exceptions not expected in base class; <strong>Strengthened Preconditions</strong> - derived class requires more than base class; <strong>Weakened Postconditions</strong> - derived class guarantees less than base class; <strong>Broken Contracts</strong> - derived class behavior contradicts base class documentation.</p>",
+              },
+            ],
+            links: [
+              "https://stackify.com/solid-design-liskov-substitution-principle/",
+              "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
+              "https://medium.com/@mirzafarrukh13/liskov-substitution-principle-explained-with-examples-6b2d8d4d6b2d",
+            ],
+          },
+          {
+            topic: "Interface Segregation Principle (ISP)",
+            tags: ["SOLID", "Interfaces", "Cohesion"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Interface Segregation Principle states that <strong>clients should not be forced to depend on interfaces they do not use</strong>. It promotes splitting large interfaces into smaller, more specific ones so that clients only need to know about methods that are relevant to them.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Benefits
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reduced Coupling:</span> Classes depend only on interfaces they actually use
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Higher Cohesion:</span> Interfaces are focused on specific functionality
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Easier Testing:</span> Smaller interfaces are easier to mock and test
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Better Flexibility:</span> Changes to unused methods don't affect clients
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates ISP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+from abc import ABC, abstractmethod
+
+class Machine(ABC):  # Fat interface - violates ISP
+    @abstractmethod
+    def print_document(self, document):
+        pass
+    
+    @abstractmethod
+    def scan_document(self):
+        pass
+    
+    @abstractmethod
+    def fax_document(self, document):
+        pass
+    
+    @abstractmethod
+    def copy_document(self):
+        pass
+
+class AllInOnePrinter(Machine):
+    def print_document(self, document):
+        return f"Printing: {document}"
+    
+    def scan_document(self):
+        return "Scanning document"
+    
+    def fax_document(self, document):
+        return f"Faxing: {document}"
+    
+    def copy_document(self):
+        return "Copying document"
+
+class SimplePrinter(Machine):  # Forced to implement unused methods
+    def print_document(self, document):
+        return f"Printing: {document}"
+    
+    def scan_document(self):
+        raise NotImplementedError("SimplePrinter cannot scan")
+    
+    def fax_document(self, document):
+        raise NotImplementedError("SimplePrinter cannot fax")
+    
+    def copy_document(self):
+        raise NotImplementedError("SimplePrinter cannot copy")
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows ISP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+from abc import ABC, abstractmethod
+
+# Segregated interfaces
+class Printer(ABC):
+    @abstractmethod
+    def print_document(self, document):
+        pass
+
+class Scanner(ABC):
+    @abstractmethod
+    def scan_document(self):
+        pass
+
+class FaxMachine(ABC):
+    @abstractmethod
+    def fax_document(self, document):
+        pass
+
+class Copier(ABC):
+    @abstractmethod
+    def copy_document(self):
+        pass
+
+# Implementations only implement what they need
+class SimplePrinter(Printer):
+    def print_document(self, document):
+        return f"Printing: {document}"
+
+class AllInOnePrinter(Printer, Scanner, FaxMachine, Copier):
+    def print_document(self, document):
+        return f"Printing: {document}"
+    
+    def scan_document(self):
+        return "Scanning document"
+    
+    def fax_document(self, document):
+        return f"Faxing: {document}"
+    
+    def copy_document(self):
+        return "Copying document"
+
+class PrinterScanner(Printer, Scanner):
+    def print_document(self, document):
+        return f"Printing: {document}"
+    
+    def scan_document(self):
+        return "Scanning document"
+
+# Usage - clients depend only on what they need
+def print_documents(printer: Printer, docs):
+    return [printer.print_document(doc) for doc in docs]
+
+def scan_and_print(device: Scanner, printer: Printer):
+    scanned = device.scan_document()
+    printed = printer.print_document(scanned)
+    return f"{scanned} -> {printed}"
+
+simple = SimplePrinter()
+all_in_one = AllInOnePrinter()
+combo = PrinterScanner()
+
+print(print_documents(simple, ["doc1.pdf"]))
+print(scan_and_print(combo, combo))
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates ISP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+// Fat interface - violates ISP
+class Worker {
+    work() {
+        throw new Error("work method must be implemented");
+    }
+    
+    eat() {
+        throw new Error("eat method must be implemented");
+    }
+    
+    sleep() {
+        throw new Error("sleep method must be implemented");
+    }
+}
+
+class HumanWorker extends Worker {
+    work() {
+        return "Human working";
+    }
+    
+    eat() {
+        return "Human eating";
+    }
+    
+    sleep() {
+        return "Human sleeping";
+    }
+}
+
+class RobotWorker extends Worker {  // Forced to implement irrelevant methods
+    work() {
+        return "Robot working";
+    }
+    
+    eat() {
+        throw new Error("Robots don't eat!");  // Violates contract
+    }
+    
+    sleep() {
+        throw new Error("Robots don't sleep!"); // Violates contract
+    }
+}
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows ISP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+// Segregated interfaces
+class Workable {
+    work() {
+        throw new Error("work method must be implemented");
+    }
+}
+
+class Eatable {
+    eat() {
+        throw new Error("eat method must be implemented");
+    }
+}
+
+class Sleepable {
+    sleep() {
+        throw new Error("sleep method must be implemented");
+    }
+}
+
+// Implementations only implement relevant interfaces
+class HumanWorker extends Workable {
+    work() {
+        return "Human working";
+    }
+}
+
+class Human extends HumanWorker {
+    eat() {
+        return "Human eating";
+    }
+    
+    sleep() {
+        return "Human sleeping";
+    }
+}
+
+class Robot extends Workable {
+    work() {
+        return "Robot working";
+    }
+    
+    charge() {
+        return "Robot charging";
+    }
+}
+
+// Usage - functions depend only on needed interfaces
+function manageWork(worker) {
+    if (worker instanceof Workable) {
+        return worker.work();
+    }
+}
+
+function manageMealTime(eater) {
+    if (typeof eater.eat === 'function') {
+        return eater.eat();
+    }
+    return "No eating required";
+}
+
+function manageSleep(sleeper) {
+    if (typeof sleeper.sleep === 'function') {
+        return sleeper.sleep();
+    }
+    return "No sleep required";
+}
+
+const human = new Human();
+const robot = new Robot();
+
+console.log(manageWork(human));      // "Human working"
+console.log(manageWork(robot));      // "Robot working"
+console.log(manageMealTime(human));  // "Human eating"
+console.log(manageMealTime(robot));  // "No eating required"
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">User Roles:</span> Admin, Editor, Viewer interfaces with different permissions
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Database Operations:</span> Readable, Writable, Cacheable interfaces
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">UI Components:</span> Clickable, Draggable, Resizable interfaces
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">File Operations:</span> Readable, Writable, Executable interfaces
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Real-World Example: User Management System
+from abc import ABC, abstractmethod
+
+# Segregated interfaces for different user capabilities
+class Readable(ABC):
+    @abstractmethod
+    def read(self, resource_id):
+        pass
+
+class Writable(ABC):
+    @abstractmethod
+    def write(self, resource_id, data):
+        pass
+
+class Deletable(ABC):
+    @abstractmethod
+    def delete(self, resource_id):
+        pass
+
+class AdminOperations(ABC):
+    @abstractmethod
+    def manage_users(self):
+        pass
+    
+    @abstractmethod
+    def system_settings(self):
+        pass
+
+# User implementations based on roles
+class Viewer(Readable):
+    def read(self, resource_id):
+        return f"Reading resource {resource_id}"
+
+class Editor(Readable, Writable):
+    def read(self, resource_id):
+        return f"Reading resource {resource_id}"
+    
+    def write(self, resource_id, data):
+        return f"Writing {data} to resource {resource_id}"
+
+class Admin(Readable, Writable, Deletable, AdminOperations):
+    def read(self, resource_id):
+        return f"Admin reading resource {resource_id}"
+    
+    def write(self, resource_id, data):
+        return f"Admin writing {data} to resource {resource_id}"
+    
+    def delete(self, resource_id):
+        return f"Admin deleting resource {resource_id}"
+    
+    def manage_users(self):
+        return "Managing users"
+    
+    def system_settings(self):
+        return "Configuring system settings"
+
+# Services depend only on needed capabilities
+class DocumentService:
+    def read_document(self, user: Readable, doc_id):
+        return user.read(doc_id)
+    
+    def edit_document(self, user: Writable, doc_id, content):
+        if isinstance(user, Writable):
+            return user.write(doc_id, content)
+        raise PermissionError("User cannot write")
+
+# Usage
+viewer = Viewer()
+editor = Editor()
+admin = Admin()
+
+doc_service = DocumentService()
+print(doc_service.read_document(viewer, "doc1"))
+print(doc_service.edit_document(editor, "doc1", "new content"))`,
+
+              `// JavaScript Real-World Example: Media Interface Segregation
+// Segregated interfaces for different media capabilities
+class Playable {
+    play() {
+        throw new Error("play method must be implemented");
+    }
+    
+    pause() {
+        throw new Error("pause method must be implemented");
+    }
+    
+    stop() {
+        throw new Error("stop method must be implemented");
+    }
+}
+
+class Seekable {
+    seek(position) {
+        throw new Error("seek method must be implemented");
+    }
+    
+    getCurrentPosition() {
+        throw new Error("getCurrentPosition method must be implemented");
+    }
+}
+
+class VolumeControlled {
+    setVolume(level) {
+        throw new Error("setVolume method must be implemented");
+    }
+    
+    getVolume() {
+        throw new Error("getVolume method must be implemented");
+    }
+}
+
+class Recordable {
+    startRecording() {
+        throw new Error("startRecording method must be implemented");
+    }
+    
+    stopRecording() {
+        throw new Error("stopRecording method must be implemented");
+    }
+}
+
+// Implementations based on device capabilities
+class SimpleRadio extends Playable {
+    constructor() {
+        super();
+        this.isPlaying = false;
+    }
+    
+    play() {
+        this.isPlaying = true;
+        return "Radio playing";
+    }
+    
+    pause() {
+        this.isPlaying = false;
+        return "Radio paused";
+    }
+    
+    stop() {
+        this.isPlaying = false;
+        return "Radio stopped";
+    }
+}
+
+class AudioPlayer extends Playable {
+    constructor() {
+        super();
+        this.isPlaying = false;
+        this.position = 0;
+        this.volume = 50;
+    }
+    
+    play() {
+        this.isPlaying = true;
+        return "Audio playing";
+    }
+    
+    pause() {
+        this.isPlaying = false;
+        return "Audio paused";
+    }
+    
+    stop() {
+        this.isPlaying = false;
+        this.position = 0;
+        return "Audio stopped";
+    }
+    
+    seek(position) {
+        this.position = position;
+        return \`Seeking to \${position}\`;
+    }
+    
+    getCurrentPosition() {
+        return this.position;
+    }
+    
+    setVolume(level) {
+        this.volume = Math.max(0, Math.min(100, level));
+        return \`Volume set to \${this.volume}\`;
+    }
+    
+    getVolume() {
+        return this.volume;
+    }
+}
+
+class AdvancedRecorder extends AudioPlayer {
+    constructor() {
+        super();
+        this.isRecording = false;
+    }
+    
+    startRecording() {
+        this.isRecording = true;
+        return "Recording started";
+    }
+    
+    stopRecording() {
+        this.isRecording = false;
+        return "Recording stopped";
+    }
+}
+
+// Controllers depend only on needed interfaces
+class MediaController {
+    static playMedia(device) {
+        if (device instanceof Playable) {
+            return device.play();
+        }
+        return "Device cannot play media";
+    }
+    
+    static adjustVolume(device, level) {
+        if (typeof device.setVolume === 'function') {
+            return device.setVolume(level);
+        }
+        return "Volume control not available";
+    }
+    
+    static recordAudio(device) {
+        if (typeof device.startRecording === 'function') {
+            return device.startRecording();
+        }
+        return "Recording not supported";
+    }
+}
+
+// Usage
+const radio = new SimpleRadio();
+const player = new AudioPlayer();
+const recorder = new AdvancedRecorder();
+
+console.log(MediaController.playMedia(radio));        // "Radio playing"
+console.log(MediaController.adjustVolume(radio, 75)); // "Volume control not available"
+console.log(MediaController.adjustVolume(player, 75)); // "Volume set to 75"
+console.log(MediaController.recordAudio(recorder));    // "Recording started"`,
+            ],
+            questions: [
+              {
+                question: "How do you identify when ISP is being violated?",
+                solution:
+                  "<p>ISP violations can be identified by these signs: <strong>Empty Implementations</strong> - methods that throw NotImplementedError or do nothing; <strong>Fat Interfaces</strong> - interfaces with too many unrelated methods; <strong>Forced Dependencies</strong> - classes depending on methods they never use; <strong>Interface Changes</strong> - adding methods breaks many unrelated clients; <strong>Conditional Logic</strong> - checking if methods exist before calling them.</p>",
+              },
+              {
+                question: "What are the benefits of following ISP?",
+                solution:
+                  "<p>Following ISP provides several benefits: <strong>Reduced Coupling</strong> - clients depend only on needed interfaces; <strong>Easier Testing</strong> - smaller interfaces are simpler to mock; <strong>Better Flexibility</strong> - changes don't affect unrelated clients; <strong>Clear Responsibilities</strong> - interfaces have focused, cohesive purposes; <strong>Parallel Development</strong> - teams can work on different interfaces independently.</p>",
+              },
+            ],
+            links: [
+              "https://stackify.com/interface-segregation-principle/",
+              "https://blog.cleancoder.com/uncle-bob/2020/10/18/Solid-Relevance.html",
+              "https://medium.com/@cramirez92/s-o-l-i-d-the-first-5-principles-of-object-oriented-design-with-python-2b6c9d7b1723",
+            ],
+          },
+          {
+            topic: "Dependency Inversion Principle (DIP)",
+            tags: ["SOLID", "Dependency Injection", "Abstraction"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Dependency Inversion Principle states that <strong>high-level modules should not depend on low-level modules; both should depend on abstractions</strong>. Additionally, <strong>abstractions should not depend on details; details should depend on abstractions</strong>.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Concepts
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">High-level modules:</span> Business logic and policies
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Low-level modules:</span> Implementation details (databases, file systems, etc.)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Abstractions:</span> Interfaces or abstract classes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dependency Injection:</span> Providing dependencies from outside rather than creating them internally
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates DIP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+# Low-level module
+class MySQLDatabase:
+    def save(self, data):
+        return f"Saving {data} to MySQL database"
+    
+    def fetch(self, id):
+        return f"Fetching data {id} from MySQL"
+
+# High-level module directly depends on low-level module
+class UserService:
+    def __init__(self):
+        self.database = MySQLDatabase()  # Direct dependency
+    
+    def create_user(self, user_data):
+        # Business logic
+        validated_data = self.validate_user(user_data)
+        return self.database.save(validated_data)
+    
+    def get_user(self, user_id):
+        return self.database.fetch(user_id)
+    
+    def validate_user(self, user_data):
+        return f"Validated {user_data}"
+
+# Problems:
+# 1. UserService is tightly coupled to MySQLDatabase
+# 2. Hard to test (can't easily mock database)
+# 3. Hard to change database implementation
+# 4. Violates DIP - high-level depends on low-level
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows DIP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-python">
+from abc import ABC, abstractmethod
+
+# Abstraction
+class DatabaseInterface(ABC):
+    @abstractmethod
+    def save(self, data):
+        pass
+    
+    @abstractmethod
+    def fetch(self, id):
+        pass
+
+# Low-level modules depend on abstraction
+class MySQLDatabase(DatabaseInterface):
+    def save(self, data):
+        return f"Saving {data} to MySQL database"
+    
+    def fetch(self, id):
+        return f"Fetching data {id} from MySQL"
+
+class PostgreSQLDatabase(DatabaseInterface):
+    def save(self, data):
+        return f"Saving {data} to PostgreSQL database"
+    
+    def fetch(self, id):
+        return f"Fetching data {id} from PostgreSQL"
+
+class MongoDatabase(DatabaseInterface):
+    def save(self, data):
+        return f"Saving {data} to MongoDB"
+    
+    def fetch(self, id):
+        return f"Fetching data {id} from MongoDB"
+
+# High-level module depends on abstraction
+class UserService:
+    def __init__(self, database: DatabaseInterface):
+        self.database = database  # Depends on abstraction
+    
+    def create_user(self, user_data):
+        # Business logic remains the same regardless of database
+        validated_data = self.validate_user(user_data)
+        return self.database.save(validated_data)
+    
+    def get_user(self, user_id):
+        return self.database.fetch(user_id)
+    
+    def validate_user(self, user_data):
+        return f"Validated {user_data}"
+
+# Dependency injection in action
+mysql_db = MySQLDatabase()
+postgres_db = PostgreSQLDatabase()
+mongo_db = MongoDatabase()
+
+# Same service, different implementations
+user_service_mysql = UserService(mysql_db)
+user_service_postgres = UserService(postgres_db)
+user_service_mongo = UserService(mongo_db)
+
+print(user_service_mysql.create_user("John"))     # Uses MySQL
+print(user_service_postgres.create_user("Jane"))  # Uses PostgreSQL
+print(user_service_mongo.create_user("Bob"))      # Uses MongoDB
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   
+   <p style="margin-top: 1rem; font-weight: 600;">❌ Bad Example (Violates DIP):</p>
+   <div style="background: #FEF2F2; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+// Low-level module
+class EmailService {
+    sendEmail(to, subject, body) {
+        return \`Sending email to \${to}: \${subject}\`;
+    }
+}
+
+// High-level module directly depends on low-level module
+class NotificationService {
+    constructor() {
+        this.emailService = new EmailService(); // Direct dependency
+    }
+    
+    sendWelcomeNotification(user) {
+        const subject = "Welcome!";
+        const body = \`Welcome \${user.name}!\`;
+        return this.emailService.sendEmail(user.email, subject, body);
+    }
+    
+    sendPasswordResetNotification(user) {
+        const subject = "Password Reset";
+        const body = \`Reset your password, \${user.name}\`;
+        return this.emailService.sendEmail(user.email, subject, body);
+    }
+}
+
+// Problems:
+// 1. NotificationService is tightly coupled to EmailService
+// 2. Can't easily add SMS, push notifications, etc.
+// 3. Hard to test without actually sending emails
+// 4. Violates DIP
+      </code></pre>
+   </div>
+
+   <p style="margin-top: 1rem; font-weight: 600;">✅ Good Example (Follows DIP):</p>
+   <div style="background: #F0FDF4; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 8px;">
+      <pre><code className="language-javascript">
+// Abstraction
+class NotificationProvider {
+    send(recipient, subject, message) {
+        throw new Error("send method must be implemented");
+    }
+}
+
+// Low-level modules depend on abstraction
+class EmailProvider extends NotificationProvider {
+    send(recipient, subject, message) {
+        return \`Email sent to \${recipient}: \${subject} - \${message}\`;
+    }
+}
+
+class SMSProvider extends NotificationProvider {
+    send(recipient, subject, message) {
+        return \`SMS sent to \${recipient}: \${message}\`;
+    }
+}
+
+class PushNotificationProvider extends NotificationProvider {
+    send(recipient, subject, message) {
+        return \`Push notification sent to \${recipient}: \${subject}\`;
+    }
+}
+
+class SlackProvider extends NotificationProvider {
+    send(recipient, subject, message) {
+        return \`Slack message sent to \${recipient}: \${message}\`;
+    }
+}
+
+// High-level module depends on abstraction
+class NotificationService {
+    constructor(provider) {
+        this.provider = provider; // Depends on abstraction
+    }
+    
+    sendWelcomeNotification(user) {
+        const subject = "Welcome!";
+        const message = \`Welcome to our platform, \${user.name}!\`;
+        return this.provider.send(user.contact, subject, message);
+    }
+    
+    sendPasswordResetNotification(user) {
+        const subject = "Password Reset";
+        const message = \`Hi \${user.name}, reset your password using this link.\`;
+        return this.provider.send(user.contact, subject, message);
+    }
+    
+    // Method to change notification provider at runtime
+    setProvider(provider) {
+        this.provider = provider;
+    }
+}
+
+// Dependency injection in action
+const emailProvider = new EmailProvider();
+const smsProvider = new SMSProvider();
+const pushProvider = new PushNotificationProvider();
+const slackProvider = new SlackProvider();
+
+const user = { name: "John", contact: "john@example.com" };
+
+// Same service, different providers
+const emailNotificationService = new NotificationService(emailProvider);
+const smsNotificationService = new NotificationService(smsProvider);
+const pushNotificationService = new NotificationService(pushProvider);
+
+console.log(emailNotificationService.sendWelcomeNotification(user));
+console.log(smsNotificationService.sendWelcomeNotification(user));
+console.log(pushNotificationService.sendWelcomeNotification(user));
+
+// Runtime provider switching
+const multiChannelService = new NotificationService(emailProvider);
+console.log(multiChannelService.sendWelcomeNotification(user));
+
+multiChannelService.setProvider(slackProvider);
+console.log(multiChannelService.sendPasswordResetNotification(user));
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dependency Injection Patterns
+   </h4>
+   
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Constructor Injection:</span> Dependencies passed through constructor
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Setter Injection:</span> Dependencies set through setter methods
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Interface Injection:</span> Dependencies provided through interface methods
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Service Locator:</span> Dependencies retrieved from a central registry
+     </li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Database Access:</span> Business logic independent of specific database
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">External APIs:</span> Services that can work with different API providers
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Logging Systems:</span> Applications that can log to different destinations
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Testing:</span> Easy mocking and stubbing of dependencies
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Real-World Example: E-commerce Order Processing
+from abc import ABC, abstractmethod
+
+# Abstractions
+class PaymentGateway(ABC):
+    @abstractmethod
+    def process_payment(self, amount, card_details):
+        pass
+
+class InventoryService(ABC):
+    @abstractmethod
+    def reserve_items(self, items):
+        pass
+    
+    @abstractmethod
+    def release_items(self, items):
+        pass
+
+class EmailService(ABC):
+    @abstractmethod
+    def send_confirmation(self, email, order_details):
+        pass
+
+# Low-level implementations
+class StripePaymentGateway(PaymentGateway):
+    def process_payment(self, amount, card_details):
+        return f"Processed ${amount} payment via Stripe"
+
+class PayPalPaymentGateway(PaymentGateway):
+    def process_payment(self, amount, card_details):
+        return f"Processed ${amount} payment via PayPal"
+
+class DatabaseInventoryService(InventoryService):
+    def reserve_items(self, items):
+        return f"Reserved {len(items)} items in database"
+    
+    def release_items(self, items):
+        return f"Released {len(items)} items from database"
+
+class SMTPEmailService(EmailService):
+    def send_confirmation(self, email, order_details):
+        return f"Sent order confirmation to {email}"
+
+# High-level business logic
+class OrderProcessor:
+    def __init__(self, payment_gateway: PaymentGateway, 
+                 inventory_service: InventoryService,
+                 email_service: EmailService):
+        self.payment_gateway = payment_gateway
+        self.inventory_service = inventory_service
+        self.email_service = email_service
+    
+    def process_order(self, order):
+        try:
+            # Reserve inventory
+            reservation_result = self.inventory_service.reserve_items(order['items'])
+            
+            # Process payment
+            payment_result = self.payment_gateway.process_payment(
+                order['total'], order['card_details']
+            )
+            
+            # Send confirmation
+            email_result = self.email_service.send_confirmation(
+                order['customer_email'], order
+            )
+            
+            return {
+                'status': 'success',
+                'reservation': reservation_result,
+                'payment': payment_result,
+                'email': email_result
+            }
+            
+        except Exception as e:
+            # Release reserved items on failure
+            self.inventory_service.release_items(order['items'])
+            return {'status': 'failed', 'error': str(e)}
+
+# Dependency injection
+stripe_gateway = StripePaymentGateway()
+paypal_gateway = PayPalPaymentGateway()
+inventory_service = DatabaseInventoryService()
+email_service = SMTPEmailService()
+
+# Different configurations for different scenarios
+standard_processor = OrderProcessor(stripe_gateway, inventory_service, email_service)
+paypal_processor = OrderProcessor(paypal_gateway, inventory_service, email_service)
+
+order = {
+    'items': ['item1', 'item2'],
+    'total': 99.99,
+    'card_details': 'card_info',
+    'customer_email': 'customer@example.com'
+}
+
+print(standard_processor.process_order(order))
+print(paypal_processor.process_order(order))`,
+
+              `// JavaScript Real-World Example: Content Management System
+// Abstractions
+class ContentStorage {
+    save(content) {
+        throw new Error("save method must be implemented");
+    }
+    
+    load(id) {
+        throw new Error("load method must be implemented");
+    }
+    
+    delete(id) {
+        throw new Error("delete method must be implemented");
+    }
+}
+
+class SearchEngine {
+    index(content) {
+        throw new Error("index method must be implemented");
+    }
+    
+    search(query) {
+        throw new Error("search method must be implemented");
+    }
+}
+
+class CacheService {
+    get(key) {
+        throw new Error("get method must be implemented");
+    }
+    
+    set(key, value, ttl) {
+        throw new Error("set method must be implemented");
+    }
+    
+    invalidate(key) {
+        throw new Error("invalidate method must be implemented");
+    }
+}
+
+// Low-level implementations
+class DatabaseStorage extends ContentStorage {
+    save(content) {
+        return \`Saved content "\${content.title}" to database\`;
+    }
+    
+    load(id) {
+        return { id, title: \`Content \${id}\`, body: "Content body..." };
+    }
+    
+    delete(id) {
+        return \`Deleted content \${id} from database\`;
+    }
+}
+
+class FileSystemStorage extends ContentStorage {
+    save(content) {
+        return \`Saved content "\${content.title}" to file system\`;
+    }
+    
+    load(id) {
+        return { id, title: \`File Content \${id}\`, body: "File content..." };
+    }
+    
+    delete(id) {
+        return \`Deleted content \${id} from file system\`;
+    }
+}
+
+class ElasticsearchEngine extends SearchEngine {
+    index(content) {
+        return \`Indexed "\${content.title}" in Elasticsearch\`;
+    }
+    
+    search(query) {
+        return [\`Result 1 for "\${query}"\`, \`Result 2 for "\${query}"\`];
+    }
+}
+
+class RedisCache extends CacheService {
+    constructor() {
+        super();
+        this.cache = new Map();
+    }
+    
+    get(key) {
+        return this.cache.get(key) || null;
+    }
+    
+    set(key, value, ttl = 3600) {
+        this.cache.set(key, value);
+        return \`Cached \${key} in Redis for \${ttl}s\`;
+    }
+    
+    invalidate(key) {
+        this.cache.delete(key);
+        return \`Invalidated cache for \${key}\`;
+    }
+}
+
+// High-level business logic
+class ContentManagementSystem {
+    constructor(storage, searchEngine, cache) {
+        this.storage = storage;
+        this.searchEngine = searchEngine;
+        this.cache = cache;
+    }
+    
+    createContent(content) {
+        // Save to storage
+        const saveResult = this.storage.save(content);
+        
+        // Index for search
+        const indexResult = this.searchEngine.index(content);
+        
+        // Cache the content
+        const cacheResult = this.cache.set(\`content_\${content.id}\`, content);
+        
+        return {
+            saved: saveResult,
+            indexed: indexResult,
+            cached: cacheResult
+        };
+    }
+    
+    getContent(id) {
+        // Try cache first
+        const cacheKey = \`content_\${id}\`;
+        let content = this.cache.get(cacheKey);
+        
+        if (!content) {
+            // Load from storage if not in cache
+            content = this.storage.load(id);
+            this.cache.set(cacheKey, content);
+            return {
+                content,
+                source: 'storage',
+                cached: true
+            };
+        }
+        
+        return {
+            content,
+            source: 'cache',
+            cached: false
+        };
+    }
+    
+    searchContent(query) {
+        return this.searchEngine.search(query);
+    }
+    
+    deleteContent(id) {
+        const deleteResult = this.storage.delete(id);
+        const cacheResult = this.cache.invalidate(\`content_\${id}\`);
+        
+        return {
+            deleted: deleteResult,
+            cacheInvalidated: cacheResult
+        };
+    }
+}
+
+// Dependency injection for different environments
+const databaseStorage = new DatabaseStorage();
+const fileStorage = new FileSystemStorage();
+const searchEngine = new ElasticsearchEngine();
+const cache = new RedisCache();
+
+// Production CMS with database storage
+const productionCMS = new ContentManagementSystem(
+    databaseStorage, 
+    searchEngine, 
+    cache
+);
+
+// Development CMS with file storage
+const developmentCMS = new ContentManagementSystem(
+    fileStorage, 
+    searchEngine, 
+    cache
+);
+
+const content = {
+    id: 1,
+    title: "My First Article",
+    body: "This is the content of my first article..."
+};
+
+console.log("Production CMS:");
+console.log(productionCMS.createContent(content));
+console.log(productionCMS.getContent(1));
+console.log(productionCMS.searchContent("article"));
+
+console.log("\\nDevelopment CMS:");
+console.log(developmentCMS.createContent(content));
+console.log(developmentCMS.getContent(1));`,
+            ],
+            questions: [
+              {
+                question: "What are the main benefits of following DIP?",
+                solution:
+                  "<p>Following DIP provides several key benefits: <strong>Loose Coupling</strong> - high-level modules are independent of low-level implementation details; <strong>Testability</strong> - dependencies can be easily mocked or stubbed for testing; <strong>Flexibility</strong> - implementations can be swapped without changing business logic; <strong>Maintainability</strong> - changes in low-level modules don't affect high-level modules; <strong>Extensibility</strong> - new implementations can be added without modifying existing code.</p>",
+              },
+              {
+                question:
+                  "What's the difference between Dependency Inversion and Dependency Injection?",
+                solution:
+                  "<p><strong>Dependency Inversion Principle</strong> is a design principle that states high-level modules should not depend on low-level modules; both should depend on abstractions. <strong>Dependency Injection</strong> is a technique/pattern used to implement DIP by providing dependencies from external sources rather than creating them internally. DIP is the 'what' (the principle), while DI is the 'how' (the implementation technique).</p>",
+              },
+            ],
+            links: [
+              "https://stackify.com/dependency-inversion-principle/",
+              "https://blog.cleancoder.com/uncle-bob/2016/01/04/ALittleArchitecture.html",
+              "https://medium.com/@kedren.villena/simplifying-dependency-inversion-principle-dip-59228122649a",
+            ],
+          },
           {
             topic: "Singleton Pattern",
             tags: ["Design Pattern", "Creational", "Instance Management"],
@@ -74175,6 +76058,5249 @@ const notification = NotificationFactory.create('email')
               "https://refactoring.guru/design-patterns/factory-method",
               "https://sourcemaking.com/design_patterns/factory_method",
               "https://en.wikipedia.org/wiki/Factory_method_pattern",
+            ],
+          },
+          {
+            topic: "Adapter Pattern",
+            tags: [
+              "Structural Pattern",
+              "Interface Conversion",
+              "Legacy Integration",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Adapter Pattern is a structural design pattern that allows objects with incompatible interfaces to work together. It acts as a bridge between two incompatible interfaces by wrapping an existing class with a new interface.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Adapter Pattern?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Legacy Code Integration:</span> When you need to use an existing class with an incompatible interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Third-Party Library Integration:</span> When integrating external libraries with different interfaces.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Interface Standardization:</span> When you want to create a uniform interface for different classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Format Conversion:</span> When converting data from one format to another.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Target:</span> The interface that the client expects to work with.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Adaptee:</span> The existing class that needs to be adapted.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Adapter:</span> The class that implements the target interface and wraps the adaptee.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client:</span> The code that uses the target interface.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Payment gateway integration (PayPal, Stripe, Square)</li>
+     <li style="margin-top: 0.5rem;">Database drivers (MySQL, PostgreSQL, MongoDB)</li>
+     <li style="margin-top: 0.5rem;">Media players (MP3, MP4, AVI formats)</li>
+     <li style="margin-top: 0.5rem;">API integration between different services</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Example - Payment Gateway Adapter
+from abc import ABC, abstractmethod
+
+# Target Interface
+class PaymentProcessor(ABC):
+    @abstractmethod
+    def process_payment(self, amount: float) -> str:
+        pass
+
+# Adaptee - PayPal API
+class PayPalAPI:
+    def make_payment(self, sum_amount: float) -> str:
+        return f"PayPal payment of {sum_amount} processed successfully"
+
+# Adaptee - Stripe API  
+class StripeAPI:
+    def charge(self, total: float) -> str:
+        return f"Stripe charge of {total} completed"
+
+# Adapter for PayPal
+class PayPalAdapter(PaymentProcessor):
+    def __init__(self, paypal_api: PayPalAPI):
+        self.paypal_api = paypal_api
+    
+    def process_payment(self, amount: float) -> str:
+        return self.paypal_api.make_payment(amount)
+
+# Adapter for Stripe
+class StripeAdapter(PaymentProcessor):
+    def __init__(self, stripe_api: StripeAPI):
+        self.stripe_api = stripe_api
+    
+    def process_payment(self, amount: float) -> str:
+        return self.stripe_api.charge(amount)
+
+# Client Code
+def process_order_payment(processor: PaymentProcessor, amount: float):
+    return processor.process_payment(amount)
+
+# Usage
+paypal = PayPalAdapter(PayPalAPI())
+stripe = StripeAdapter(StripeAPI())
+
+print(process_order_payment(paypal, 100.0))
+print(process_order_payment(stripe, 150.0))`,
+              `// JavaScript Example - Media Player Adapter
+// Target Interface
+class MediaPlayer {
+    play(audioType, fileName) {
+        throw new Error("Method must be implemented");
+    }
+}
+
+// Adaptee - Advanced Media Player
+class AdvancedMediaPlayer {
+    playVlc(fileName) {
+        return \`Playing vlc file: \${fileName}\`;
+    }
+    
+    playMp4(fileName) {
+        return \`Playing mp4 file: \${fileName}\`;
+    }
+}
+
+// Adapter
+class MediaAdapter extends MediaPlayer {
+    constructor(audioType) {
+        super();
+        this.audioType = audioType;
+        this.advancedPlayer = new AdvancedMediaPlayer();
+    }
+    
+    play(audioType, fileName) {
+        if (audioType === "vlc") {
+            return this.advancedPlayer.playVlc(fileName);
+        } else if (audioType === "mp4") {
+            return this.advancedPlayer.playMp4(fileName);
+        }
+        return "Unsupported format";
+    }
+}
+
+// Concrete Implementation
+class AudioPlayer extends MediaPlayer {
+    play(audioType, fileName) {
+        if (audioType === "mp3") {
+            return \`Playing mp3 file: \${fileName}\`;
+        } else if (audioType === "vlc" || audioType === "mp4") {
+            const adapter = new MediaAdapter(audioType);
+            return adapter.play(audioType, fileName);
+        } else {
+            return \`Invalid media. \${audioType} format not supported\`;
+        }
+    }
+}
+
+// Usage
+const player = new AudioPlayer();
+console.log(player.play("mp3", "song.mp3"));
+console.log(player.play("vlc", "movie.vlc"));
+console.log(player.play("mp4", "video.mp4"));`,
+            ],
+            questions: [
+              {
+                question: "What is the main purpose of the Adapter Pattern?",
+                solution:
+                  "<p>The Adapter Pattern's main purpose is to allow two incompatible interfaces to work together. It acts as a bridge that converts one interface into another interface that clients expect, enabling classes with incompatible interfaces to collaborate without modifying their existing code.</p>",
+              },
+              {
+                question:
+                  "How does the Adapter Pattern differ from the Facade Pattern?",
+                solution:
+                  "<p>While both patterns provide a different interface to existing functionality, they serve different purposes:<br/><strong>Adapter:</strong> Converts one interface to another to make incompatible interfaces work together.<br/><strong>Facade:</strong> Provides a simplified interface to a complex subsystem without changing existing interfaces.</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/adapter",
+              "https://sourcemaking.com/design_patterns/adapter",
+              "https://www.geeksforgeeks.org/adapter-pattern/",
+            ],
+          },
+          {
+            topic: "Decorator Pattern",
+            tags: [
+              "Structural Pattern",
+              "Behavior Enhancement",
+              "Runtime Extension",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Decorator Pattern is a structural design pattern that allows you to attach new behaviors to objects by placing them inside wrapper objects that contain these behaviors. It provides a flexible alternative to subclassing for extending functionality.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Decorator Pattern?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Behavior Addition:</span> When you need to add responsibilities to objects dynamically and transparently.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoiding Class Explosion:</span> When extending functionality through inheritance would result in too many subclasses.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Responsibilities Combination:</span> When you need to combine multiple optional features.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Runtime Configuration:</span> When behavior needs to be configured at runtime.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Component:</span> The common interface for both concrete components and decorators.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Concrete Component:</span> The basic implementation of the component interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Base Decorator:</span> The base class for all decorators that implements the component interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Concrete Decorators:</span> Classes that extend the base decorator and add specific functionality.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Coffee shop ordering system (size, extras, toppings)</li>
+     <li style="margin-top: 0.5rem;">Text formatting (bold, italic, underline)</li>
+     <li style="margin-top: 0.5rem;">Stream processing (encryption, compression, buffering)</li>
+     <li style="margin-top: 0.5rem;">UI component enhancement (borders, scrollbars, tooltips)</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Example - Coffee Shop Decorator
+from abc import ABC, abstractmethod
+
+# Component Interface
+class Coffee(ABC):
+    @abstractmethod
+    def cost(self) -> float:
+        pass
+    
+    @abstractmethod
+    def description(self) -> str:
+        pass
+
+# Concrete Component
+class SimpleCoffee(Coffee):
+    def cost(self) -> float:
+        return 2.0
+    
+    def description(self) -> str:
+        return "Simple Coffee"
+
+# Base Decorator
+class CoffeeDecorator(Coffee):
+    def __init__(self, coffee: Coffee):
+        self._coffee = coffee
+    
+    def cost(self) -> float:
+        return self._coffee.cost()
+    
+    def description(self) -> str:
+        return self._coffee.description()
+
+# Concrete Decorators
+class MilkDecorator(CoffeeDecorator):
+    def cost(self) -> float:
+        return self._coffee.cost() + 0.5
+    
+    def description(self) -> str:
+        return self._coffee.description() + ", Milk"
+
+class SugarDecorator(CoffeeDecorator):
+    def cost(self) -> float:
+        return self._coffee.cost() + 0.2
+    
+    def description(self) -> str:
+        return self._coffee.description() + ", Sugar"
+
+class WhippedCreamDecorator(CoffeeDecorator):
+    def cost(self) -> float:
+        return self._coffee.cost() + 0.8
+    
+    def description(self) -> str:
+        return self._coffee.description() + ", Whipped Cream"
+
+# Usage
+coffee = SimpleCoffee()
+print(f"{coffee.description()} - {coffee.cost()}")
+
+# Add decorators
+coffee = MilkDecorator(coffee)
+coffee = SugarDecorator(coffee)
+coffee = WhippedCreamDecorator(coffee)
+
+print(f"{coffee.description()} - {coffee.cost()}")`,
+              `// JavaScript Example - Text Formatting Decorator
+// Component Interface
+class Text {
+    write() {
+        throw new Error("Method must be implemented");
+    }
+}
+
+// Concrete Component
+class PlainText extends Text {
+    constructor(content) {
+        super();
+        this.content = content;
+    }
+    
+    write() {
+        return this.content;
+    }
+}
+
+// Base Decorator
+class TextDecorator extends Text {
+    constructor(text) {
+        super();
+        this.text = text;
+    }
+    
+    write() {
+        return this.text.write();
+    }
+}
+
+// Concrete Decorators
+class BoldDecorator extends TextDecorator {
+    write() {
+        return \`<b>\${this.text.write()}</b>\`;
+    }
+}
+
+class ItalicDecorator extends TextDecorator {
+    write() {
+        return \`<i>\${this.text.write()}</i>\`;
+    }
+}
+
+class UnderlineDecorator extends TextDecorator {
+    write() {
+        return \`<u>\${this.text.write()}</u>\`;
+    }
+}
+
+class ColorDecorator extends TextDecorator {
+    constructor(text, color) {
+        super(text);
+        this.color = color;
+    }
+    
+    write() {
+        return \`<span style="color:\${this.color}">\${this.text.write()}</span>\`;
+    }
+}
+
+// Usage
+let text = new PlainText("Hello World");
+console.log(text.write()); // Hello World
+
+// Apply decorators
+text = new BoldDecorator(text);
+text = new ItalicDecorator(text);
+text = new UnderlineDecorator(text);
+text = new ColorDecorator(text, "red");
+
+console.log(text.write()); // <span style="color:red"><u><i><b>Hello World</b></i></u></span>`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the advantages of using the Decorator Pattern over inheritance?",
+                solution:
+                  "<p>The Decorator Pattern offers several advantages over inheritance:<br/>1. <strong>Runtime flexibility:</strong> You can add/remove behaviors dynamically<br/>2. <strong>Composition over inheritance:</strong> More flexible than static inheritance<br/>3. <strong>Single Responsibility:</strong> Each decorator has one specific responsibility<br/>4. <strong>Avoids class explosion:</strong> No need for multiple subclasses for every combination<br/>5. <strong>Open/Closed Principle:</strong> Open for extension, closed for modification</p>",
+              },
+              {
+                question:
+                  "When would you choose Decorator Pattern over Strategy Pattern?",
+                solution:
+                  "<p><strong>Choose Decorator when:</strong><br/>- You need to add multiple behaviors to an object<br/>- Behaviors can be combined in various ways<br/>- You want to add responsibilities transparently<br/><br/><strong>Choose Strategy when:</strong><br/>- You have different algorithms for the same task<br/>- You want to select one algorithm at runtime<br/>- Behaviors are mutually exclusive</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/decorator",
+              "https://sourcemaking.com/design_patterns/decorator",
+              "https://www.tutorialspoint.com/design_pattern/decorator_pattern.htm",
+            ],
+          },
+          {
+            topic: "Proxy Pattern",
+            tags: [
+              "Structural Pattern",
+              "Access Control",
+              "Lazy Loading",
+              "Caching",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Proxy Pattern is a structural design pattern that provides a placeholder or surrogate for another object to control access to it. The proxy acts as an intermediary that can add additional functionality like access control, caching, lazy loading, or logging.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Proxies
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtual Proxy:</span> Controls access to expensive resources by creating them on-demand (lazy loading).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Protection Proxy:</span> Controls access rights to the original object based on permissions.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Remote Proxy:</span> Provides a local representative for an object in a different address space.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Smart Reference:</span> Provides additional actions when an object is accessed (reference counting, logging).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Caching Proxy:</span> Stores results of expensive operations and returns cached results when appropriate.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Subject:</span> The common interface for both RealSubject and Proxy.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">RealSubject:</span> The actual object that the proxy represents.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Proxy:</span> Contains a reference to the RealSubject and controls access to it.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client:</span> Works with both RealSubjects and Proxies via the Subject interface.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Image loading in web applications (lazy loading)</li>
+     <li style="margin-top: 0.5rem;">Database connection pooling and access control</li>
+     <li style="margin-top: 0.5rem;">API rate limiting and caching</li>
+     <li style="margin-top: 0.5rem;">Security proxies for sensitive operations</li>
+     <li style="margin-top: 0.5rem;">Virtual file systems and cloud storage access</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Example - Image Loading Virtual Proxy
+from abc import ABC, abstractmethod
+import time
+
+# Subject Interface
+class Image(ABC):
+    @abstractmethod
+    def display(self) -> str:
+        pass
+
+# RealSubject
+class RealImage(Image):
+    def __init__(self, filename: str):
+        self.filename = filename
+        self._load_from_disk()
+    
+    def _load_from_disk(self):
+        print(f"Loading image: {self.filename}")
+        time.sleep(1)  # Simulate expensive loading operation
+        print(f"Image {self.filename} loaded successfully")
+    
+    def display(self) -> str:
+        return f"Displaying image: {self.filename}"
+
+# Virtual Proxy
+class ImageProxy(Image):
+    def __init__(self, filename: str):
+        self.filename = filename
+        self._real_image = None
+    
+    def display(self) -> str:
+        if self._real_image is None:
+            self._real_image = RealImage(self.filename)
+        return self._real_image.display()
+
+# Protection Proxy Example
+class User:
+    def __init__(self, name: str, role: str):
+        self.name = name
+        self.role = role
+
+class Database:
+    def get_data(self) -> str:
+        return "Sensitive database information"
+    
+    def modify_data(self, data: str) -> str:
+        return f"Data modified: {data}"
+
+class DatabaseProxy:
+    def __init__(self, database: Database, user: User):
+        self._database = database
+        self._user = user
+    
+    def get_data(self) -> str:
+        if self._user.role in ['admin', 'user']:
+            return self._database.get_data()
+        return "Access denied: Insufficient permissions"
+    
+    def modify_data(self, data: str) -> str:
+        if self._user.role == 'admin':
+            return self._database.modify_data(data)
+        return "Access denied: Admin privileges required"
+
+# Usage
+print("=== Virtual Proxy Example ===")
+image1 = ImageProxy("photo1.jpg")
+image2 = ImageProxy("photo2.jpg")
+
+# Images are not loaded yet
+print("Images created")
+
+# Now images will be loaded on first access
+print(image1.display())
+print(image2.display())
+
+print("\\n=== Protection Proxy Example ===")
+db = Database()
+admin_user = User("Alice", "admin")
+regular_user = User("Bob", "user")
+
+admin_proxy = DatabaseProxy(db, admin_user)
+user_proxy = DatabaseProxy(db, regular_user)
+
+print(admin_proxy.get_data())
+print(admin_proxy.modify_data("new data"))
+print(user_proxy.get_data())
+print(user_proxy.modify_data("unauthorized change"))`,
+              `// JavaScript Example - API Caching Proxy
+// Subject Interface
+class APIService {
+    fetchData(endpoint) {
+        throw new Error("Method must be implemented");
+    }
+}
+
+// RealSubject
+class RealAPIService extends APIService {
+    constructor(baseUrl) {
+        super();
+        this.baseUrl = baseUrl;
+    }
+    
+    async fetchData(endpoint) {
+        console.log(\`Fetching data from: \${this.baseUrl}\${endpoint}\`);
+        
+        // Simulate API call delay
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Simulate API response
+        return {
+            data: \`Data from \${endpoint}\`,
+            timestamp: new Date().toISOString(),
+            source: 'API'
+        };
+    }
+}
+
+// Caching Proxy
+class CachingAPIProxy extends APIService {
+    constructor(apiService, cacheTimeout = 5000) {
+        super();
+        this.apiService = apiService;
+        this.cache = new Map();
+        this.cacheTimeout = cacheTimeout;
+    }
+    
+    async fetchData(endpoint) {
+        const cacheKey = endpoint;
+        
+        // Check cache
+        if (this.cache.has(cacheKey)) {
+            const cached = this.cache.get(cacheKey);
+            const isExpired = Date.now() - cached.timestamp > this.cacheTimeout;
+            
+            if (!isExpired) {
+                console.log(\`Cache hit for: \${endpoint}\`);
+                return {
+                    ...cached.data,
+                    source: 'Cache'
+                };
+            } else {
+                this.cache.delete(cacheKey);
+            }
+        }
+        
+        // Fetch from API
+        console.log(\`Cache miss for: \${endpoint}\`);
+        const data = await this.apiService.fetchData(endpoint);
+        
+        // Store in cache
+        this.cache.set(cacheKey, {
+            data: data,
+            timestamp: Date.now()
+        });
+        
+        return data;
+    }
+}
+
+// Access Control Proxy
+class AccessControlProxy extends APIService {
+    constructor(apiService, allowedUsers = []) {
+        super();
+        this.apiService = apiService;
+        this.allowedUsers = allowedUsers;
+    }
+    
+    async fetchData(endpoint, userId) {
+        if (!this.allowedUsers.includes(userId)) {
+            throw new Error(\`Access denied for user: \${userId}\`);
+        }
+        
+        console.log(\`Access granted for user: \${userId}\`);
+        return await this.apiService.fetchData(endpoint);
+    }
+}
+
+// Usage Example
+async function demonstrateProxies() {
+    const realAPI = new RealAPIService('https://api.example.com');
+    const cachingProxy = new CachingAPIProxy(realAPI, 3000);
+    
+    console.log("=== Caching Proxy Demo ===");
+    
+    // First call - cache miss
+    let result1 = await cachingProxy.fetchData('/users');
+    console.log('Result 1:', result1);
+    
+    // Second call - cache hit
+    let result2 = await cachingProxy.fetchData('/users');
+    console.log('Result 2:', result2);
+    
+    console.log("\\n=== Access Control Proxy Demo ===");
+    const accessProxy = new AccessControlProxy(realAPI, ['admin', 'user123']);
+    
+    try {
+        await accessProxy.fetchData('/sensitive-data', 'admin');
+        console.log('Admin access successful');
+    } catch (error) {
+        console.error(error.message);
+    }
+    
+    try {
+        await accessProxy.fetchData('/sensitive-data', 'hacker');
+    } catch (error) {
+        console.error(error.message);
+    }
+}
+
+// Uncomment to run the demo
+// demonstrateProxies();`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between Proxy and Decorator patterns?",
+                solution:
+                  "<p><strong>Proxy Pattern:</strong><br/>- Controls access to the subject<br/>- Same interface as the subject<br/>- Usually manages the subject's lifecycle<br/>- Focus on access control, lazy loading, caching<br/><br/><strong>Decorator Pattern:</strong><br/>- Adds new functionality to the subject<br/>- Enhances or modifies behavior<br/>- Can be stacked/combined<br/>- Focus on extending functionality</p>",
+              },
+              {
+                question: "When should you use a Virtual Proxy?",
+                solution:
+                  "<p>Use a Virtual Proxy when:<br/>1. <strong>Expensive Object Creation:</strong> The subject is expensive to create or load<br/>2. <strong>Lazy Loading:</strong> You want to defer object creation until it's actually needed<br/>3. <strong>Memory Optimization:</strong> You want to save memory by not loading unnecessary objects<br/>4. <strong>Performance:</strong> Initial application startup should be fast<br/><br/>Common examples: Large images, database connections, heavy computations, file loading</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/proxy",
+              "https://sourcemaking.com/design_patterns/proxy",
+              "https://www.tutorialspoint.com/design_pattern/proxy_pattern.htm",
+            ],
+          },
+          {
+            topic: "Composite Pattern",
+            tags: [
+              "Structural Pattern",
+              "Tree Structure",
+              "Hierarchy",
+              "Uniform Treatment",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Composite Pattern is a structural design pattern that allows you to compose objects into tree structures to represent part-whole hierarchies. It lets clients treat individual objects and compositions of objects uniformly, enabling you to work with complex tree structures more easily.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Composite
+     </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Tree Structures:</span> When you need to represent hierarchical structures like file systems, UI components, or organizational charts.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Uniform Treatment:</span> When you want to treat individual objects and compositions uniformly.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Recursive Structures:</span> When dealing with structures that can contain themselves (nested elements).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Complex Hierarchies:</span> When you need to perform operations on entire object hierarchies.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Component:</span> The base interface for all objects in the composition.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Leaf:</span> Represents end objects with no children that implement the component interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Composite:</span> Defines behavior for components with children and stores child components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client:</span> Manipulates objects in the composition through the component interface.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">File system hierarchies (files and folders)</li>
+     <li style="margin-top: 0.5rem;">GUI component trees (windows, panels, buttons)</li>
+     <li style="margin-top: 0.5rem;">Organizational structures (companies, departments, employees)</li>
+     <li style="margin-top: 0.5rem;">Mathematical expressions (numbers, operations)</li>
+     <li style="margin-top: 0.5rem;">Menu systems and navigation trees</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Example - File System Composite
+from abc import ABC, abstractmethod
+from typing import List
+
+# Component Interface
+class FileSystemComponent(ABC):
+    def __init__(self, name: str):
+        self.name = name
+    
+    @abstractmethod
+    def get_size(self) -> int:
+        pass
+    
+    @abstractmethod
+    def display(self, indent: int = 0) -> str:
+        pass
+    
+    def add(self, component: 'FileSystemComponent'):
+        raise NotImplementedError("Cannot add to a leaf")
+    
+    def remove(self, component: 'FileSystemComponent'):
+        raise NotImplementedError("Cannot remove from a leaf")
+
+# Leaf - File
+class File(FileSystemComponent):
+    def __init__(self, name: str, size: int):
+        super().__init__(name)
+        self.size = size
+    
+    def get_size(self) -> int:
+        return self.size
+    
+    def display(self, indent: int = 0) -> str:
+        return "  " * indent + f"📄 {self.name} ({self.size} KB)"
+
+# Composite - Directory
+class Directory(FileSystemComponent):
+    def __init__(self, name: str):
+        super().__init__(name)
+        self.children: List[FileSystemComponent] = []
+    
+    def add(self, component: FileSystemComponent):
+        self.children.append(component)
+    
+    def remove(self, component: FileSystemComponent):
+        self.children.remove(component)
+    
+    def get_size(self) -> int:
+        return sum(child.get_size() for child in self.children)
+    
+    def display(self, indent: int = 0) -> str:
+        result = "  " * indent + f"📁 {self.name}/ ({self.get_size()} KB total)\\n"
+        for child in self.children:
+            result += child.display(indent + 1) + "\\n"
+        return result.rstrip()
+
+# Usage Example
+root = Directory("root")
+documents = Directory("Documents")
+pictures = Directory("Pictures")
+
+# Add files to documents
+documents.add(File("resume.pdf", 150))
+documents.add(File("report.docx", 200))
+
+# Add files to pictures
+pictures.add(File("vacation.jpg", 1200))
+pictures.add(File("family.png", 800))
+
+# Create nested structure
+projects = Directory("Projects")
+project1 = Directory("Project1")
+project1.add(File("main.py", 50))
+project1.add(File("config.json", 5))
+projects.add(project1)
+
+# Build the tree
+root.add(documents)
+root.add(pictures)
+root.add(projects)
+
+print("File System Structure:")
+print(root.display())
+print(f"\\nTotal size: {root.get_size()} KB")
+           // JavaScript Example - UI Component Composite
+// Component Interface
+class UIComponent {
+    constructor(name) {
+        this.name = name;
+    }
+    
+    render() {
+        throw new Error("Method must be implemented");
+    }
+    
+    add(component) {
+        throw new Error("Cannot add to a leaf component");
+    }
+    
+    remove(component) {
+        throw new Error("Cannot remove from a leaf component");
+    }
+    
+    getChild(index) {
+        throw new Error("No children in leaf component");
+    }
+}
+
+// Leaf Components
+class Button extends UIComponent {
+    constructor(name, text) {
+        super(name);
+        this.text = text;
+    }
+    
+    render() {
+        return \`<button id="\${this.name}">\${this.text}</button>\`;
+    }
+}
+
+class TextInput extends UIComponent {
+    constructor(name, placeholder) {
+        super(name);
+        this.placeholder = placeholder;
+    }
+    
+    render() {
+        return \`<input type="text" id="\${this.name}" placeholder="\${this.placeholder}" />\`;
+    }
+}
+
+class Label extends UIComponent {
+    constructor(name, text) {
+        super(name);
+        this.text = text;
+    }
+    
+    render() {
+        return \`<label id="\${this.name}">\${this.text}</label>\`;
+    }
+}
+
+// Composite Components
+class Panel extends UIComponent {
+    constructor(name, cssClass = '') {
+        super(name);
+        this.children = [];
+        this.cssClass = cssClass;
+    }
+    
+    add(component) {
+        this.children.push(component);
+    }
+    
+    remove(component) {
+        const index = this.children.indexOf(component);
+        if (index > -1) {
+            this.children.splice(index, 1);
+        }
+    }
+    
+    getChild(index) {
+        return this.children[index];
+    }
+    
+    render() {
+        const childrenHtml = this.children
+            .map(child => child.render())
+            .join('\\n    ');
+        
+        return \`<div id="\${this.name}" class="\${this.cssClass}">
+    \${childrenHtml}
+</div>\`;
+    }
+}
+
+class Form extends UIComponent {
+    constructor(name, action = '', method = 'POST') {
+        super(name);
+        this.children = [];
+        this.action = action;
+        this.method = method;
+    }
+    
+    add(component) {
+        this.children.push(component);
+    }
+    
+    remove(component) {
+        const index = this.children.indexOf(component);
+        if (index > -1) {
+            this.children.splice(index, 1);
+        }
+    }
+    
+    render() {
+        const childrenHtml = this.children
+            .map(child => child.render())
+            .join('\\n    ');
+        
+        return \`<form id="\${this.name}" action="\${this.action}" method="\${this.method}">
+    \${childrenHtml}
+</form>\`;
+    }
+}
+
+// Usage Example
+const loginForm = new Form('loginForm', '/login');
+
+// Create form fields
+const usernameLabel = new Label('usernameLabel', 'Username:');
+const usernameInput = new TextInput('username', 'Enter username');
+const passwordLabel = new Label('passwordLabel', 'Password:');
+const passwordInput = new TextInput('password', 'Enter password');
+const submitButton = new Button('submit', 'Login');
+
+// Create panels for organization
+const usernamePanel = new Panel('usernamePanel', 'field-group');
+usernamePanel.add(usernameLabel);
+usernamePanel.add(usernameInput);
+
+const passwordPanel = new Panel('passwordPanel', 'field-group');
+passwordPanel.add(passwordLabel);
+passwordPanel.add(passwordInput);
+
+const buttonPanel = new Panel('buttonPanel', 'button-group');
+buttonPanel.add(submitButton);
+
+// Add panels to form
+loginForm.add(usernamePanel);
+loginForm.add(passwordPanel);
+loginForm.add(buttonPanel);
+
+console.log("Generated UI Structure:");
+console.log(loginForm.render());`,
+            ],
+            questions: [
+              {
+                question: "What's the key benefit of the Composite Pattern?",
+                solution:
+                  "<p>The key benefit is <strong>uniform treatment</strong> of individual objects and compositions. Clients can work with complex tree structures using the same interface, without needing to distinguish between leaf and composite objects. This simplifies client code and makes the system more flexible for adding new component types.</p>",
+              },
+              {
+                question: "When should you NOT use the Composite Pattern?",
+                solution:
+                  "<p>Avoid the Composite Pattern when:<br/>1. <strong>No tree structure needed:</strong> Your objects don't form hierarchies<br/>2. <strong>Different interfaces:</strong> Leaf and composite objects need significantly different interfaces<br/>3. <strong>Performance critical:</strong> The pattern adds overhead for simple operations<br/>4. <strong>Type safety important:</strong> You need compile-time type checking between different component types<br/>5. <strong>Simple structures:</strong> The hierarchy is shallow and unlikely to change</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/composite",
+              "https://sourcemaking.com/design_patterns/composite",
+              "https://www.tutorialspoint.com/design_pattern/composite_pattern.htm",
+            ],
+          },
+          {
+            topic: "Facade Pattern",
+            tags: [
+              "Structural Pattern",
+              "Simplified Interface",
+              "Subsystem Wrapper",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Facade Pattern is a structural design pattern that provides a simplified interface to a complex subsystem. It defines a higher-level interface that makes the subsystem easier to use by hiding the complexity of the subsystem from clients.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Facade Pattern?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Complex Subsystems:</span> When you have a complex subsystem with many interdependent classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Simplified Interface:</span> When you want to provide a simple interface to a complex system.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Loose Coupling:</span> When you want to decouple clients from subsystem components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Legacy Integration:</span> When integrating with legacy systems or third-party libraries.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Facade:</span> The simplified interface that delegates work to subsystem objects.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Subsystem Classes:</span> The complex classes that implement the actual functionality.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client:</span> Uses the facade instead of calling subsystem objects directly.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Home theater system (TV, sound system, lights, projector)</li>
+     <li style="margin-top: 0.5rem;">Computer startup process (CPU, memory, hard drive)</li>
+     <li style="margin-top: 0.5rem;">Online shopping checkout (payment, inventory, shipping)</li>
+     <li style="margin-top: 0.5rem;">Banking system interface (accounts, loans, transactions)</li>
+     <li style="margin-top: 0.5rem;">Framework APIs that wrap complex libraries</li>
+   </ul>
+</div>
+`,
+            questions: [
+              {
+                question:
+                  "How does Facade Pattern differ from Adapter Pattern?",
+                solution:
+                  "<p><strong>Facade Pattern:</strong><br/>- Provides a simplified interface to a complex subsystem<br/>- Creates a new, easier-to-use interface<br/>- Hides complexity from clients<br/>- Works with multiple subsystem classes<br/><br/><strong>Adapter Pattern:</strong><br/>- Converts one interface to another<br/>- Makes incompatible interfaces work together<br/>- Focuses on interface compatibility<br/>- Usually works with a single adaptee class</p>",
+              },
+              {
+                question: "What are the benefits of using the Facade Pattern?",
+                solution:
+                  "<p>Benefits of the Facade Pattern:<br/>1. <strong>Simplified Interface:</strong> Provides an easy-to-use interface for complex systems<br/>2. <strong>Loose Coupling:</strong> Decouples clients from subsystem components<br/>3. <strong>Better Organization:</strong> Centralizes complex operations in one place<br/>4. <strong>Easier Maintenance:</strong> Changes to subsystems don't affect clients<br/>5. <strong>Improved Readability:</strong> Makes code more understandable<br/>6. <strong>Flexible Implementation:</strong> Clients can still access subsystems directly if needed</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/facade",
+              "https://sourcemaking.com/design_patterns/facade",
+              "https://www.tutorialspoint.com/design_pattern/facade_pattern.htm",
+            ],
+          },
+          {
+            topic: "Strategy Pattern",
+            tags: ["Behavioral", "Design Pattern", "Polymorphism"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable. It lets the algorithm vary independently from clients that use it. This pattern is particularly useful when you have multiple ways to perform a task and want to choose the method at runtime.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Strategy Interface:</span> Defines the contract for all concrete strategies.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Concrete Strategies:</span> Implement different algorithms using the strategy interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context:</span> Uses a strategy object to perform its task.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Payment processing (Credit Card, PayPal, Bank Transfer)</li>
+     <li style="margin-top: 0.5rem;">Sorting algorithms (QuickSort, MergeSort, BubbleSort)</li>
+     <li style="margin-top: 0.5rem;">Compression algorithms (ZIP, RAR, 7Z)</li>
+     <li style="margin-top: 0.5rem;">Validation strategies for different input types</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+# Strategy Interface
+class PaymentStrategy(ABC):
+    @abstractmethod
+    def pay(self, amount):
+        pass
+
+# Concrete Strategies
+class CreditCardPayment(PaymentStrategy):
+    def __init__(self, card_number, cvv):
+        self.card_number = card_number
+        self.cvv = cvv
+    
+    def pay(self, amount):
+        return f"Paid ${amount} using Credit Card ending in {self.card_number[-4:]}"
+
+class PayPalPayment(PaymentStrategy):
+    def __init__(self, email):
+        self.email = email
+    
+    def pay(self, amount):
+        return f"Paid ${amount} using PayPal account: {self.email}"
+
+class BankTransferPayment(PaymentStrategy):
+    def __init__(self, account_number):
+        self.account_number = account_number
+    
+    def pay(self, amount):
+        return f"Paid ${amount} via Bank Transfer from account: {self.account_number}"
+
+# Context
+class PaymentProcessor:
+    def __init__(self):
+        self._strategy = None
+    
+    def set_payment_strategy(self, strategy: PaymentStrategy):
+        self._strategy = strategy
+    
+    def process_payment(self, amount):
+        if not self._strategy:
+            return "No payment method selected"
+        return self._strategy.pay(amount)
+
+# Usage Example
+processor = PaymentProcessor()
+
+# Using Credit Card
+credit_card = CreditCardPayment("1234567890123456", "123")
+processor.set_payment_strategy(credit_card)
+print(processor.process_payment(100))  # Paid $100 using Credit Card ending in 3456
+
+# Switching to PayPal
+paypal = PayPalPayment("user@example.com")
+processor.set_payment_strategy(paypal)
+print(processor.process_payment(75))   # Paid $75 using PayPal account: user@example.com
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-javascript">
+// Strategy Interface (using ES6 classes)
+class PaymentStrategy {
+    pay(amount) {
+        throw new Error("pay method must be implemented");
+    }
+}
+
+// Concrete Strategies
+class CreditCardPayment extends PaymentStrategy {
+    constructor(cardNumber, cvv) {
+        super();
+        this.cardNumber = cardNumber;
+        this.cvv = cvv;
+    }
+    
+    pay(amount) {
+        return Paid $ {amount} using Credit Card ending in {this.cardNumber.slice(-4)};
+    }
+}
+
+class PayPalPayment extends PaymentStrategy {
+    constructor(email) {
+        super();
+        this.email = email;
+    }
+    
+    pay(amount) {
+        return Paid {amount} using PayPal account: {this.email};
+    }
+}
+
+class BankTransferPayment extends PaymentStrategy {
+    constructor(accountNumber) {
+        super();
+        this.accountNumber = accountNumber;
+    }
+    
+    pay(amount) {
+        return Paid {amount} via Bank Transfer from account: {this.accountNumber};
+    }
+}
+
+// Context
+class PaymentProcessor {
+    constructor() {
+        this.strategy = null;
+    }
+    
+    setPaymentStrategy(strategy) {
+        this.strategy = strategy;
+    }
+    
+    processPayment(amount) {
+        if (!this.strategy) {
+            return "No payment method selected";
+        }
+        return this.strategy.pay(amount);
+    }
+}
+
+// Usage Example
+const processor = new PaymentProcessor();
+
+// Using Credit Card
+const creditCard = new CreditCardPayment("1234567890123456", "123");
+processor.setPaymentStrategy(creditCard);
+console.log(processor.processPayment(100)); // Paid $100 using Credit Card ending in 3456
+
+// Switching to PayPal
+const paypal = new PayPalPayment("user@example.com");
+processor.setPaymentStrategy(paypal);
+console.log(processor.processPayment(75));  // Paid $75 using PayPal account: user@example.com
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Open/Closed Principle:</span> Open for extension, closed for modification</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Runtime Algorithm Selection:</span> Choose algorithms dynamically</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Code Reusability:</span> Strategies can be reused across different contexts</li>
+     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Testability:</span> Each strategy can be tested independently</li>
+   </ul>
+</div>
+`,
+            examples: [
+              `# Python - Sorting Strategy Example
+class SortingStrategy(ABC):
+    @abstractmethod
+    def sort(self, data):
+        pass
+
+class QuickSort(SortingStrategy):
+    def sort(self, data):
+        if len(data) <= 1:
+            return data
+        pivot = data[len(data) // 2]
+        left = [x for x in data if x < pivot]
+        middle = [x for x in data if x == pivot]
+        right = [x for x in data if x > pivot]
+        return self.sort(left) + middle + self.sort(right)
+
+class BubbleSort(SortingStrategy):
+    def sort(self, data):
+        n = len(data)
+        for i in range(n):
+            for j in range(0, n - i - 1):
+                if data[j] > data[j + 1]:
+                    data[j], data[j + 1] = data[j + 1], data[j]
+        return data
+
+class Sorter:
+    def __init__(self, strategy):
+        self.strategy = strategy
+    
+    def sort_data(self, data):
+        return self.strategy.sort(data.copy())
+
+# Usage
+data = [64, 34, 25, 12, 22, 11, 90]
+quick_sorter = Sorter(QuickSort())
+bubble_sorter = Sorter(BubbleSort())
+
+print(quick_sorter.sort_data(data))  # [11, 12, 22, 25, 34, 64, 90]
+print(bubble_sorter.sort_data(data)) # [11, 12, 22, 25, 34, 64, 90]`,
+
+              `// JavaScript - Compression Strategy Example
+class CompressionStrategy {
+    compress(data) {
+        throw new Error("compress method must be implemented");
+    }
+}
+
+class ZipCompression extends CompressionStrategy {
+    compress(data) {
+        return \`ZIP compressed: \${data} (reduced by 60%)\`;
+    }
+}
+
+class RarCompression extends CompressionStrategy {
+    compress(data) {
+        return \`RAR compressed: \${data} (reduced by 70%)\`;
+    }
+}
+
+class FileCompressor {
+    constructor(strategy) {
+        this.strategy = strategy;
+    }
+    
+    setStrategy(strategy) {
+        this.strategy = strategy;
+    }
+    
+    compressFile(filename) {
+        return this.strategy.compress(filename);
+    }
+}
+
+// Usage
+const compressor = new FileCompressor(new ZipCompression());
+console.log(compressor.compressFile("document.pdf")); 
+// ZIP compressed: document.pdf (reduced by 60%)
+
+compressor.setStrategy(new RarCompression());
+console.log(compressor.compressFile("document.pdf")); 
+// RAR compressed: document.pdf (reduced by 70%)`,
+            ],
+            questions: [
+              {
+                question: "When should you use the Strategy Pattern?",
+                solution:
+                  "<p>Use the Strategy Pattern when:</p><ul><li>You have multiple ways to perform a task and want to choose the method at runtime</li><li>You want to avoid conditional statements for algorithm selection</li><li>You need to make algorithms interchangeable</li><li>You want to isolate algorithm implementation details from client code</li><li>You have a family of related algorithms that differ only in their behavior</li></ul>",
+              },
+              {
+                question:
+                  "What's the difference between Strategy and State patterns?",
+                solution:
+                  "<p>Key differences:</p><ul><li><strong>Strategy Pattern:</strong> Focuses on interchangeable algorithms; context doesn't change its behavior based on internal state</li><li><strong>State Pattern:</strong> Focuses on changing behavior based on internal state; the object appears to change its class</li><li><strong>Strategy:</strong> Client usually chooses the strategy</li><li><strong>State:</strong> State transitions happen automatically based on conditions</li><li><strong>Strategy:</strong> Strategies are typically stateless</li><li><strong>State:</strong> States often maintain their own data</li></ul>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/strategy",
+              "https://sourcemaking.com/design_patterns/strategy",
+              "https://python-patterns.guide/gang-of-four/strategy/",
+            ],
+          },
+          {
+            topic: "Observer Pattern",
+            tags: ["Behavioral", "Design Pattern", "Event Handling"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Observer Pattern defines a one-to-many dependency between objects so that when one object changes state, all its dependents are notified and updated automatically. It's also known as the Publish-Subscribe pattern and is fundamental to event-driven programming.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Subject (Observable):</span> Maintains a list of observers and notifies them of state changes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Observer:</span> Defines an interface for objects that should be notified of changes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Concrete Subject:</span> Stores state and sends notifications to observers.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Concrete Observer:</span> Implements the observer interface and updates itself based on notifications.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Model-View-Controller (MVC) architectures</li>
+     <li style="margin-top: 0.5rem;">Event handling systems (GUI applications)</li>
+     <li style="margin-top: 0.5rem;">Newsletter subscriptions</li>
+     <li style="margin-top: 0.5rem;">Stock price monitoring systems</li>
+     <li style="margin-top: 0.5rem;">Social media notifications</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+from abc import ABC, abstractmethod
+from typing import List
+
+# Observer Interface
+class Observer(ABC):
+    @abstractmethod
+    def update(self, subject):
+        pass
+
+# Subject Interface
+class Subject(ABC):
+    @abstractmethod
+    def attach(self, observer: Observer):
+        pass
+    
+    @abstractmethod
+    def detach(self, observer: Observer):
+        pass
+    
+    @abstractmethod
+    def notify(self):
+        pass
+
+# Concrete Subject
+class NewsAgency(Subject):
+    def __init__(self):
+        self._observers: List[Observer] = []
+        self._news = ""
+    
+    def attach(self, observer: Observer):
+        if observer not in self._observers:
+            self._observers.append(observer)
+            print(f"Observer {observer.__class__.__name__} attached")
+    
+    def detach(self, observer: Observer):
+        if observer in self._observers:
+            self._observers.remove(observer)
+            print(f"Observer {observer.__class__.__name__} detached")
+    
+    def notify(self):
+        print(f"Notifying {len(self._observers)} observers...")
+        for observer in self._observers:
+            observer.update(self)
+    
+    def set_news(self, news: str):
+        self._news = news
+        self.notify()
+    
+    def get_news(self):
+        return self._news
+
+# Concrete Observers
+class NewsChannel(Observer):
+    def __init__(self, name: str):
+        self.name = name
+    
+    def update(self, subject: NewsAgency):
+        news = subject.get_news()
+        print(f"{self.name} received breaking news: {news}")
+
+class NewsWebsite(Observer):
+    def __init__(self, name: str):
+        self.name = name
+    
+    def update(self, subject: NewsAgency):
+        news = subject.get_news()
+        print(f"{self.name} published article: {news}")
+
+class MobileApp(Observer):
+    def __init__(self, name: str):
+        self.name = name
+    
+    def update(self, subject: NewsAgency):
+        news = subject.get_news()
+        print(f"{self.name} sent push notification: {news}")
+
+# Usage Example
+agency = NewsAgency()
+
+# Create observers
+cnn = NewsChannel("CNN")
+bbc_website = NewsWebsite("BBC Website")
+news_app = MobileApp("News App")
+
+# Attach observers
+agency.attach(cnn)
+agency.attach(bbc_website)
+agency.attach(news_app)
+
+# Breaking news!
+agency.set_news("Python 4.0 Released!")
+print("---")
+agency.set_news("New Design Patterns Discovered!")
+
+# Remove an observer
+print("---")
+agency.detach(cnn)
+agency.set_news("Observer Pattern Mastered!")
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-javascript">
+// Observer Interface
+class Observer {
+    update(subject) {
+        throw new Error("update method must be implemented");
+    }
+}
+
+// Subject Interface
+class Subject {
+    constructor() {
+        this.observers = [];
+    }
+    
+    attach(observer) {
+        if (!this.observers.includes(observer)) {
+            this.observers.push(observer);
+            console.log(\`Observer \${observer.constructor.name} attached\`);
+        }
+    }
+    
+    detach(observer) {
+        const index = this.observers.indexOf(observer);
+        if (index > -1) {
+            this.observers.splice(index, 1);
+            console.log(\`Observer \${observer.constructor.name} detached\`);
+        }
+    }
+    
+    notify() {
+        console.log(\`Notifying \${this.observers.length} observers...\`);
+        this.observers.forEach(observer => observer.update(this));
+    }
+}
+
+// Concrete Subject
+class StockPrice extends Subject {
+    constructor(symbol) {
+        super();
+        this.symbol = symbol;
+        this.price = 0;
+    }
+    
+    setPrice(price) {
+        this.price = price;
+        this.notify();
+    }
+    
+    getPrice() {
+        return this.price;
+    }
+    
+    getSymbol() {
+        return this.symbol;
+    }
+}
+
+// Concrete Observers
+class StockTrader extends Observer {
+    constructor(name) {
+        super();
+        this.name = name;
+    }
+    
+    update(subject) {
+        const price = subject.getPrice();
+        const symbol = subject.getSymbol();
+        console.log(\`\${this.name}: \${symbol} is now $\${price}. Analyzing trade opportunity...\`);
+    }
+}
+
+class StockDisplay extends Observer {
+    constructor(displayName) {
+        super();
+        this.displayName = displayName;
+    }
+    
+    update(subject) {
+        const price = subject.getPrice();
+        const symbol = subject.getSymbol();
+        console.log(\`\${this.displayName} updated: \${symbol} = $\${price}\`);
+    }
+}
+
+class PriceAlert extends Observer {
+    constructor(alertThreshold) {
+        super();
+        this.alertThreshold = alertThreshold;
+    }
+    
+    update(subject) {
+        const price = subject.getPrice();
+        const symbol = subject.getSymbol();
+        if (price > this.alertThreshold) {
+            console.log(\`🚨 ALERT: \${symbol} exceeded threshold! Current price: $\${price}\`);
+        }
+    }
+}
+
+// Usage Example
+const appleStock = new StockPrice("AAPL");
+
+// Create observers
+const trader1 = new StockTrader("John Trader");
+const display1 = new StockDisplay("Wall Street Display");
+const alert1 = new PriceAlert(180);
+
+// Attach observers
+appleStock.attach(trader1);
+appleStock.attach(display1);
+appleStock.attach(alert1);
+
+// Stock price updates
+appleStock.setPrice(175.50);
+console.log("---");
+appleStock.setPrice(185.75);
+
+// Remove an observer
+console.log("---");
+appleStock.detach(trader1);
+appleStock.setPrice(190.25);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits & Drawbacks
+   </h4>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #059669;">Benefits:</h5>
+   <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Loose coupling between subject and observers</li>
+     <li style="margin-top: 0.5rem;">Dynamic subscription/unsubscription</li>
+     <li style="margin-top: 0.5rem;">Broadcast communication</li>
+     <li style="margin-top: 0.5rem;">Supports Open/Closed principle</li>
+   </ul>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #DC2626;">Drawbacks:</h5>
+   <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Memory leaks if observers aren't properly detached</li>
+     <li style="margin-top: 0.5rem;">Unexpected updates and cascading effects</li>
+     <li style="margin-top: 0.5rem;">Performance issues with many observers</li>
+   </ul>
+</div>
+`,
+            examples: [
+              `# Python - Event System Example
+class EventSystem(Subject):
+    def __init__(self):
+        super().__init__()
+        self._events = {}
+    
+    def subscribe(self, event_type, observer):
+        if event_type not in self._events:
+            self._events[event_type] = []
+        if observer not in self._events[event_type]:
+            self._events[event_type].append(observer)
+    
+    def unsubscribe(self, event_type, observer):
+        if event_type in self._events:
+            if observer in self._events[event_type]:
+                self._events[event_type].remove(observer)
+    
+    def publish(self, event_type, data):
+        if event_type in self._events:
+            for observer in self._events[event_type]:
+                observer.handle_event(event_type, data)
+
+class UserObserver(Observer):
+    def __init__(self, name):
+        self.name = name
+    
+    def handle_event(self, event_type, data):
+        print(f"{self.name} received {event_type}: {data}")
+
+# Usage
+event_system = EventSystem()
+user1 = UserObserver("Alice")
+user2 = UserObserver("Bob")
+
+event_system.subscribe("login", user1)
+event_system.subscribe("purchase", user2)
+
+event_system.publish("login", {"user": "john", "time": "2024-01-01"})
+event_system.publish("purchase", {"item": "laptop", "price": 999})`,
+
+              `// JavaScript - Model-View Example
+class Model extends Subject {
+    constructor() {
+        super();
+        this.data = {};
+    }
+    
+    setData(key, value) {
+        this.data[key] = value;
+        this.notify();
+    }
+    
+    getData(key) {
+        return this.data[key];
+    }
+    
+    getAllData() {
+        return { ...this.data };
+    }
+}
+
+class View extends Observer {
+    constructor(name) {
+        super();
+        this.name = name;
+    }
+    
+    update(model) {
+        console.log(\`\${this.name} updated with data:\`, model.getAllData());
+    }
+    
+    render() {
+        console.log(\`\${this.name} is rendering...\`);
+    }
+}
+
+// Usage
+const userModel = new Model();
+const headerView = new View("Header View");
+const profileView = new View("Profile View");
+
+userModel.attach(headerView);
+userModel.attach(profileView);
+
+userModel.setData("username", "john_doe");
+userModel.setData("email", "john@example.com");`,
+            ],
+            questions: [
+              {
+                question: "What are the main benefits of the Observer Pattern?",
+                solution:
+                  "<p>Main benefits include:</p><ul><li><strong>Loose Coupling:</strong> Subject and observers are loosely coupled; they can interact without knowing much about each other</li><li><strong>Dynamic Relationships:</strong> Observers can be added or removed at runtime</li><li><strong>Broadcast Communication:</strong> One subject can notify multiple observers simultaneously</li><li><strong>Open/Closed Principle:</strong> You can introduce new observer types without changing subject code</li><li><strong>Single Responsibility:</strong> Separates business logic from presentation logic</li></ul>",
+              },
+              {
+                question:
+                  "What are potential issues with the Observer Pattern?",
+                solution:
+                  "<p>Common issues include:</p><ul><li><strong>Memory Leaks:</strong> If observers aren't properly detached, they may not be garbage collected</li><li><strong>Unexpected Updates:</strong> Observers might receive notifications they don't need</li><li><strong>Cascading Updates:</strong> One update might trigger a chain of updates</li><li><strong>Performance:</strong> With many observers, notification can become expensive</li><li><strong>Update Order:</strong> Order of notification isn't guaranteed and might matter in some cases</li></ul>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/observer",
+              "https://sourcemaking.com/design_patterns/observer",
+              "https://addyosmani.com/resources/essentialjsdesignpatterns/book/#observerpatternjavascript",
+            ],
+          },
+          {
+            topic: "Command Pattern",
+            tags: ["Behavioral", "Design Pattern", "Encapsulation"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Command Pattern encapsulates a request as an object, allowing you to parameterize clients with different requests, queue or log requests, and support undoable operations. It decouples the object that invokes the operation from the object that performs it.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Command:</span> Interface for executing an operation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Concrete Command:</span> Implements the command interface and defines the binding between a Receiver and an action.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Receiver:</span> The object that performs the actual work.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Invoker:</span> Asks the command to carry out the request.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Client:</span> Creates concrete command objects and sets their receivers.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">GUI buttons and menu items</li>
+     <li style="margin-top: 0.5rem;">Undo/Redo functionality</li>
+     <li style="margin-top: 0.5rem;">Macro recording and playback</li>
+     <li style="margin-top: 0.5rem;">Queuing and logging requests</li>
+     <li style="margin-top: 0.5rem;">Remote procedure calls</li>
+     <li style="margin-top: 0.5rem;">Transaction processing</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+# Command Interface
+class Command(ABC):
+    @abstractmethod
+    def execute(self):
+        pass
+    
+    @abstractmethod
+    def undo(self):
+        pass
+
+# Receiver - Light
+class Light:
+    def __init__(self, location):
+        self.location = location
+        self.is_on = False
+        self.brightness = 0
+    
+    def turn_on(self):
+        self.is_on = True
+        self.brightness = 100
+        print(f"{self.location} light is ON (brightness: {self.brightness}%)")
+    
+    def turn_off(self):
+        self.is_on = False
+        self.brightness = 0
+        print(f"{self.location} light is OFF")
+    
+    def dim(self, level):
+        if self.is_on:
+            self.brightness = level
+            print(f"{self.location} light dimmed to {self.brightness}%")
+        else:
+            print(f"{self.location} light is OFF, cannot dim")
+
+# Receiver - Fan
+class Fan:
+    def __init__(self, location):
+        self.location = location
+        self.speed = 0
+        self.is_on = False
+    
+    def turn_on(self):
+        self.is_on = True
+        self.speed = 1
+        print(f"{self.location} fan is ON (speed: {self.speed})")
+    
+    def turn_off(self):
+        self.is_on = False
+        self.speed = 0
+        print(f"{self.location} fan is OFF")
+    
+    def set_speed(self, speed):
+        if self.is_on and 1 <= speed <= 5:
+            self.speed = speed
+            print(f"{self.location} fan speed set to {self.speed}")
+
+# Concrete Commands
+class LightOnCommand(Command):
+    def __init__(self, light):
+        self.light = light
+        self.previous_state = None
+    
+    def execute(self):
+        self.previous_state = self.light.is_on
+        self.light.turn_on()
+    
+    def undo(self):
+        if not self.previous_state:
+            self.light.turn_off()
+
+class LightOffCommand(Command):
+    def __init__(self, light):
+        self.light = light
+        self.previous_state = None
+    
+    def execute(self):
+        self.previous_state = self.light.is_on
+        self.light.turn_off()
+    
+    def undo(self):
+        if self.previous_state:
+            self.light.turn_on()
+
+class FanOnCommand(Command):
+    def __init__(self, fan):
+        self.fan = fan
+        self.previous_speed = None
+    
+    def execute(self):
+        self.previous_speed = self.fan.speed
+        self.fan.turn_on()
+    
+    def undo(self):
+        if self.previous_speed == 0:
+            self.fan.turn_off()
+        else:
+            self.fan.set_speed(self.previous_speed)
+
+class MacroCommand(Command):
+    def __init__(self, commands):
+        self.commands = commands
+    
+    def execute(self):
+        for command in self.commands:
+            command.execute()
+    
+    def undo(self):
+        # Undo in reverse order
+        for command in reversed(self.commands):
+            command.undo()
+
+# Invoker - Remote Control
+class RemoteControl:
+    def __init__(self):
+        self.commands = {}
+        self.last_command = None
+    
+    def set_command(self, slot, command):
+        self.commands[slot] = command
+    
+    def press_button(self, slot):
+        if slot in self.commands:
+            self.commands[slot].execute()
+            self.last_command = self.commands[slot]
+        else:
+            print(f"No command set for slot {slot}")
+    
+    def press_undo(self):
+        if self.last_command:
+            self.last_command.undo()
+            print("Last command undone")
+        else:
+            print("No command to undo")
+
+# Usage Example
+# Create receivers
+living_room_light = Light("Living Room")
+bedroom_fan = Fan("Bedroom")
+
+# Create commands
+light_on = LightOnCommand(living_room_light)
+light_off = LightOffCommand(living_room_light)
+fan_on = FanOnCommand(bedroom_fan)
+
+# Create macro command
+party_mode = MacroCommand([light_on, fan_on])
+
+# Create invoker and set commands
+remote = RemoteControl()
+remote.set_command(1, light_on)
+remote.set_command(2, light_off)
+remote.set_command(3, fan_on)
+remote.set_command(4, party_mode)
+
+# Use the remote
+remote.press_button(1)  # Turn on living room light
+remote.press_button(3)  # Turn on bedroom fan
+remote.press_undo()     # Undo last command
+remote.press_button(4)  # Activate party mode
+remote.press_undo()     # Undo party mode
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-javascript">
+// Command Interface
+class Command {
+    execute() {
+        throw new Error("execute method must be implemented");
+    }
+    
+    undo() {
+        throw new Error("undo method must be implemented");
+    }
+}
+
+// Receiver - Document
+class Document {
+    constructor() {
+        this.content = "";
+    }
+    
+    write(text) {
+        this.content += text;
+        console.log(\`Document content: "\${this.content}"\`);
+    }
+    
+    delete(length) {
+        this.content = this.content.slice(0, -length);
+        console.log(\`Document content: "\${this.content}"\`);
+    }
+    
+    getContent() {
+        return this.content;
+    }
+}
+
+// Concrete Commands
+class WriteCommand extends Command {
+    constructor(document, text) {
+        super();
+        this.document = document;
+        this.text = text;
+    }
+    
+    execute() {
+        this.document.write(this.text);
+    }
+    
+    undo() {
+        this.document.delete(this.text.length);
+    }
+}
+
+class DeleteCommand extends Command {
+    constructor(document, length) {
+        super();
+        this.document = document;
+        this.length = length;
+        this.deletedText = "";
+    }
+    
+    execute() {
+        const content = this.document.getContent();
+        this.deletedText = content.slice(-this.length);
+        this.document.delete(this.length);
+    }
+    
+    undo() {
+        this.document.write(this.deletedText);
+    }
+}
+
+// Invoker - Text Editor
+class TextEditor {
+    constructor() {
+        this.history = [];
+        this.currentPosition = -1;
+    }
+    
+    executeCommand(command) {
+        // Remove any commands after current position (for redo functionality)
+        this.history = this.history.slice(0, this.currentPosition + 1);
+        
+        // Execute and add to history
+        command.execute();
+        this.history.push(command);
+        this.currentPosition++;
+    }
+    
+    undo() {
+        if (this.currentPosition >= 0) {
+            const command = this.history[this.currentPosition];
+            command.undo();
+            this.currentPosition--;
+            console.log("Command undone");
+        } else {
+            console.log("Nothing to undo");
+        }
+    }
+    
+    redo() {
+        if (this.currentPosition < this.history.length - 1) {
+            this.currentPosition++;
+            const command = this.history[this.currentPosition];
+            command.execute();
+            console.log("Command redone");
+        } else {
+            console.log("Nothing to redo");
+        }
+    }
+}
+
+// Usage Example
+const document = new Document();
+const editor = new TextEditor();
+
+// Create and execute commands
+const writeHello = new WriteCommand(document, "Hello ");
+const writeWorld = new WriteCommand(document, "World!");
+const deleteChars = new DeleteCommand(document, 6);
+
+editor.executeCommand(writeHello);  // "Hello "
+editor.executeCommand(writeWorld);  // "Hello World!"
+editor.executeCommand(deleteChars); // "Hello "
+
+console.log("---");
+editor.undo();  // Back to "Hello World!"
+editor.undo();  // Back to "Hello "
+editor.redo();  // Forward to "Hello World!"
+
+// Command Queue Example
+class CommandQueue {
+    constructor() {
+        this.queue = [];
+    }
+    
+    addCommand(command) {
+        this.queue.push(command);
+    }
+    
+    executeAll() {
+        while (this.queue.length > 0) {
+            const command = this.queue.shift();
+            command.execute();
+        }
+    }
+}
+
+// Usage of Command Queue
+const queue = new CommandQueue();
+queue.addCommand(new WriteCommand(document, " - Queued"));
+queue.addCommand(new WriteCommand(document, " Command"));
+queue.executeAll();
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits & Applications
+   </h4>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #059669;">Benefits:</h5>
+   <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Decouples invoker from receiver</li>
+     <li style="margin-top: 0.5rem;">Supports undo/redo operations</li>
+     <li style="margin-top: 0.5rem;">Allows queuing and logging of requests</li>
+     <li style="margin-top: 0.5rem;">Supports macro commands (composite commands)</li>
+     <li style="margin-top: 0.5rem;">Easy to add new commands without changing existing code</li>
+   </ul>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #7C3AED;">Applications:</h5>
+   <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Text editors with undo/redo functionality</li>
+     <li style="margin-top: 0.5rem;">GUI applications with toolbar buttons</li>
+     <li style="margin-top: 0.5rem;">Transaction processing systems</li>
+     <li style="margin-top: 0.5rem;">Home automation systems</li>
+   </ul>
+</div>
+`,
+            examples: [
+              `# Python - Calculator with Undo Example
+class Calculator:
+    def __init__(self):
+        self.result = 0
+    
+    def add(self, value):
+        self.result += value
+        return self.result
+    
+    def subtract(self, value):
+        self.result -= value
+        return self.result
+    
+    def get_result(self):
+        return self.result
+    
+    def set_result(self, value):
+        self.result = value
+
+class CalculatorCommand(Command):
+    def __init__(self, calculator, operation, value):
+        self.calculator = calculator
+        self.operation = operation
+        self.value = value
+        self.previous_result = None
+    
+    def execute(self):
+        self.previous_result = self.calculator.get_result()
+        if self.operation == "add":
+            self.calculator.add(self.value)
+        elif self.operation == "subtract":
+            self.calculator.subtract(self.value)
+        print(f"Result: {self.calculator.get_result()}")
+    
+    def undo(self):
+        self.calculator.set_result(self.previous_result)
+        print(f"Undone. Result: {self.calculator.get_result()}")
+
+# Usage
+calc = Calculator()
+add_5 = CalculatorCommand(calc, "add", 5)
+subtract_3 = CalculatorCommand(calc, "subtract", 3)
+
+add_5.execute()      # Result: 5
+subtract_3.execute() # Result: 2
+subtract_3.undo()    # Undone. Result: 5`,
+
+              `// JavaScript - File System Commands
+class FileSystem {
+    constructor() {
+        this.files = new Set();
+        this.directories = new Set();
+    }
+    
+    createFile(filename) {
+        this.files.add(filename);
+        console.log(\`Created file: \${filename}\`);
+    }
+    
+    deleteFile(filename) {
+        this.files.delete(filename);
+        console.log(\`Deleted file: \${filename}\`);
+    }
+    
+    createDirectory(dirname) {
+        this.directories.add(dirname);
+        console.log(\`Created directory: \${dirname}\`);
+    }
+    
+    deleteDirectory(dirname) {
+        this.directories.delete(dirname);
+        console.log(\`Deleted directory: \${dirname}\`);
+    }
+    
+    fileExists(filename) {
+        return this.files.has(filename);
+    }
+    
+    directoryExists(dirname) {
+        return this.directories.has(dirname);
+    }
+}
+
+class CreateFileCommand extends Command {
+    constructor(fileSystem, filename) {
+        super();
+        this.fileSystem = fileSystem;
+        this.filename = filename;
+    }
+    
+    execute() {
+        this.fileSystem.createFile(this.filename);
+    }
+    
+    undo() {
+        this.fileSystem.deleteFile(this.filename);
+    }
+}
+
+class DeleteFileCommand extends Command {
+    constructor(fileSystem, filename) {
+        super();
+        this.fileSystem = fileSystem;
+        this.filename = filename;
+        this.fileExisted = false;
+    }
+    
+    execute() {
+        this.fileExisted = this.fileSystem.fileExists(this.filename);
+        if (this.fileExisted) {
+            this.fileSystem.deleteFile(this.filename);
+        }
+    }
+    
+    undo() {
+        if (this.fileExisted) {
+            this.fileSystem.createFile(this.filename);
+        }
+    }
+}
+
+// Usage
+const fs = new FileSystem();
+const createCmd = new CreateFileCommand(fs, "document.txt");
+const deleteCmd = new DeleteFileCommand(fs, "document.txt");
+
+createCmd.execute(); // Created file: document.txt
+deleteCmd.execute(); // Deleted file: document.txt
+deleteCmd.undo();    // Created file: document.txt`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the main advantages of the Command Pattern?",
+                solution:
+                  "<p>Main advantages include:</p><ul><li><strong>Decoupling:</strong> Separates the object that invokes the operation from the object that performs it</li><li><strong>Undo/Redo Support:</strong> Commands can store state to reverse their effects</li><li><strong>Queuing:</strong> Commands can be stored and executed later</li><li><strong>Logging:</strong> Commands can be logged for audit trails or crash recovery</li><li><strong>Macro Support:</strong> Multiple commands can be combined into composite commands</li><li><strong>Extensibility:</strong> New commands can be added without changing existing code</li></ul>",
+              },
+              {
+                question:
+                  "How does the Command Pattern support undo functionality?",
+                solution:
+                  "<p>The Command Pattern supports undo through:</p><ul><li><strong>State Preservation:</strong> Commands store their previous state before execution</li><li><strong>Reverse Operations:</strong> Each command implements an undo method that reverses its execute method</li><li><strong>Command History:</strong> Invokers maintain a history stack of executed commands</li><li><strong>Memento Integration:</strong> Commands can use the Memento pattern to save and restore object states</li><li><strong>Compensation:</strong> Commands can implement compensating actions to reverse their effects</li></ul>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/command",
+              "https://sourcemaking.com/design_patterns/command",
+              "https://python-patterns.guide/gang-of-four/command/",
+            ],
+          },
+          {
+            topic: "State Pattern",
+            tags: ["Behavioral", "Design Pattern", "State Management"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The State Pattern allows an object to alter its behavior when its internal state changes. The object will appear to change its class. It's particularly useful when an object's behavior depends on its state, and it must change its behavior at runtime depending on that state.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Components
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context:</span> Maintains a reference to the current state and delegates behavior to it.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">State Interface:</span> Defines the interface for different states.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Concrete States:</span> Implement specific behaviors associated with a state of the context.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">State machines (traffic lights, vending machines)</li>
+     <li style="margin-top: 0.5rem;">Game character states (idle, walking, running, jumping)</li>
+     <li style="margin-top: 0.5rem;">Document workflow states (draft, review, approved)</li>
+     <li style="margin-top: 0.5rem;">Network connection states (connected, disconnected, reconnecting)</li>
+     <li style="margin-top: 0.5rem;">Media player states (playing, paused, stopped)</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-python">
+from abc import ABC, abstractmethod
+
+# State Interface
+class MediaPlayerState(ABC):
+    @abstractmethod
+    def play(self, player):
+        pass
+    
+    @abstractmethod
+    def pause(self, player):
+        pass
+    
+    @abstractmethod
+    def stop(self, player):
+        pass
+
+# Concrete States
+class StoppedState(MediaPlayerState):
+    def play(self, player):
+        print("Starting playback...")
+        player.current_position = 0
+        player.set_state(player.playing_state)
+    
+    def pause(self, player):
+        print("Cannot pause - player is stopped")
+    
+    def stop(self, player):
+        print("Already stopped")
+
+class PlayingState(MediaPlayerState):
+    def play(self, player):
+        print("Already playing")
+    
+    def pause(self, player):
+        print("Pausing playback...")
+        player.set_state(player.paused_state)
+    
+    def stop(self, player):
+        print("Stopping playback...")
+        player.current_position = 0
+        player.set_state(player.stopped_state)
+
+class PausedState(MediaPlayerState):
+    def play(self, player):
+        print("Resuming playback...")
+        player.set_state(player.playing_state)
+    
+    def pause(self, player):
+        print("Already paused")
+    
+    def stop(self, player):
+        print("Stopping from pause...")
+        player.current_position = 0
+        player.set_state(player.stopped_state)
+
+# Context
+class MediaPlayer:
+    def __init__(self):
+        # Initialize states
+        self.stopped_state = StoppedState()
+        self.playing_state = PlayingState()
+        self.paused_state = PausedState()
+        
+        # Set initial state
+        self.current_state = self.stopped_state
+        self.current_position = 0
+        self.current_song = None
+    
+    def set_state(self, state):
+        self.current_state = state
+        print(f"State changed to: {state.__class__.__name__}")
+    
+    def play(self):
+        self.current_state.play(self)
+    
+    def pause(self):
+        self.current_state.pause(self)
+    
+    def stop(self):
+        self.current_state.stop(self)
+    
+    def load_song(self, song):
+        self.current_song = song
+        print(f"Loaded song: {song}")
+    
+    def get_status(self):
+        return {
+            "state": self.current_state.__class__.__name__,
+            "song": self.current_song,
+            "position": self.current_position
+        }
+
+# Advanced Example - Vending Machine
+class VendingMachineState(ABC):
+    @abstractmethod
+    def insert_coin(self, machine):
+        pass
+    
+    @abstractmethod
+    def select_product(self, machine):
+        pass
+    
+    @abstractmethod
+    def dispense(self, machine):
+        pass
+
+class IdleState(VendingMachineState):
+    def insert_coin(self, machine):
+        print("Coin inserted. Please select a product.")
+        machine.set_state(machine.has_coin_state)
+    
+    def select_product(self, machine):
+        print("Please insert a coin first.")
+    
+    def dispense(self, machine):
+        print("Please insert a coin and select a product first.")
+
+class HasCoinState(VendingMachineState):
+    def insert_coin(self, machine):
+        print("Coin already inserted.")
+    
+    def select_product(self, machine):
+        if machine.inventory > 0:
+            print("Product selected. Dispensing...")
+            machine.set_state(machine.dispensing_state)
+        else:
+            print("Product out of stock. Returning coin...")
+            machine.set_state(machine.idle_state)
+    
+    def dispense(self, machine):
+        print("Please select a product first.")
+
+class DispensingState(VendingMachineState):
+    def insert_coin(self, machine):
+        print("Please wait, dispensing in progress...")
+    
+    def select_product(self, machine):
+        print("Please wait, dispensing in progress...")
+    
+    def dispense(self, machine):
+        print("Product dispensed!")
+        machine.inventory -= 1
+        machine.set_state(machine.idle_state)
+
+class VendingMachine:
+    def __init__(self, inventory=5):
+        self.idle_state = IdleState()
+        self.has_coin_state = HasCoinState()
+        self.dispensing_state = DispensingState()
+        
+        self.current_state = self.idle_state
+        self.inventory = inventory
+    
+    def set_state(self, state):
+        self.current_state = state
+        print(f"Machine state: {state.__class__.__name__}")
+    
+    def insert_coin(self):
+        self.current_state.insert_coin(self)
+    
+    def select_product(self):
+        self.current_state.select_product(self)
+    
+    def dispense(self):
+        self.current_state.dispense(self)
+
+# Usage Example
+print("=== Media Player Example ===")
+player = MediaPlayer()
+player.load_song("Bohemian Rhapsody")
+
+player.play()   # Starting playback...
+player.pause()  # Pausing playback...
+player.play()   # Resuming playback...
+player.stop()   # Stopping playback...
+
+print("\n=== Vending Machine Example ===")
+machine = VendingMachine()
+
+machine.select_product()  # Please insert a coin first.
+machine.insert_coin()     # Coin inserted. Please select a product.
+machine.select_product()  # Product selected. Dispensing...
+machine.dispense()        # Product dispensed!
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px;">
+      <pre><code class="language-javascript">
+// State Interface
+class TrafficLightState {
+    handle(context) {
+        throw new Error("handle method must be implemented");
+    }
+    
+    getColor() {
+        throw new Error("getColor method must be implemented");
+    }
+    
+    getDuration() {
+        return 3000; // Default 3 seconds
+    }
+}
+
+// Concrete States
+class RedState extends TrafficLightState {
+    handle(context) {
+        console.log("🔴 RED: Stop!");
+        setTimeout(() => {
+            context.setState(context.greenState);
+        }, this.getDuration());
+    }
+    
+    getColor() {
+        return "RED";
+    }
+    
+    getDuration() {
+        return 5000; // Red light lasts 5 seconds
+    }
+}
+
+class YellowState extends TrafficLightState {
+    handle(context) {
+        console.log("🟡 YELLOW: Caution!");
+        setTimeout(() => {
+            context.setState(context.redState);
+        }, this.getDuration());
+    }
+    
+    getColor() {
+        return "YELLOW";
+    }
+    
+    getDuration() {
+        return 2000; // Yellow light lasts 2 seconds
+    }
+}
+
+class GreenState extends TrafficLightState {
+    handle(context) {
+        console.log("🟢 GREEN: Go!");
+        setTimeout(() => {
+            context.setState(context.yellowState);
+        }, this.getDuration());
+    }
+    
+    getColor() {
+        return "GREEN";
+    }
+    
+    getDuration() {
+        return 4000; // Green light lasts 4 seconds
+    }
+}
+
+// Context
+class TrafficLight {
+    constructor() {
+        this.redState = new RedState();
+        this.yellowState = new YellowState();
+        this.greenState = new GreenState();
+        
+        this.currentState = this.redState;
+        this.isRunning = false;
+    }
+    
+    setState(state) {
+        console.log(\`State changing from \${this.currentState.getColor()} to \${state.getColor()}\`);
+        this.currentState = state;
+        if (this.isRunning) {
+            this.currentState.handle(this);
+        }
+    }
+    
+    start() {
+        console.log("Traffic light starting...");
+        this.isRunning = true;
+        this.currentState.handle(this);
+    }
+    
+    stop() {
+        console.log("Traffic light stopped.");
+        this.isRunning = false;
+    }
+    
+    getCurrentColor() {
+        return this.currentState.getColor();
+    }
+}
+
+// Advanced Example - Game Character States
+class CharacterState {
+    enter(character) {
+        // Called when entering this state
+    }
+    
+    exit(character) {
+        // Called when leaving this state
+    }
+    
+    update(character) {
+        throw new Error("update method must be implemented");
+    }
+    
+    handleInput(character, input) {
+        // Handle user input
+    }
+}
+
+class IdleCharacterState extends CharacterState {
+    enter(character) {
+        console.log(\`\${character.name} is now idle\`);
+        character.velocity = { x: 0, y: 0 };
+    }
+    
+    update(character) {
+        // Idle animation logic
+        character.energy = Math.min(character.maxEnergy, character.energy + 1);
+    }
+    
+    handleInput(character, input) {
+        switch(input) {
+            case 'MOVE':
+                character.setState(character.walkingState);
+                break;
+            case 'JUMP':
+                character.setState(character.jumpingState);
+                break;
+            case 'RUN':
+                if (character.energy > 20) {
+                    character.setState(character.runningState);
+                }
+                break;
+        }
+    }
+}
+
+class WalkingCharacterState extends CharacterState {
+    enter(character) {
+        console.log(\`\${character.name} starts walking\`);
+        character.velocity = { x: 2, y: 0 };
+    }
+    
+    update(character) {
+        character.position.x += character.velocity.x;
+        // Walking doesn't consume energy
+    }
+    
+    handleInput(character, input) {
+        switch(input) {
+            case 'STOP':
+                character.setState(character.idleState);
+                break;
+            case 'RUN':
+                if (character.energy > 20) {
+                    character.setState(character.runningState);
+                }
+                break;
+            case 'JUMP':
+                character.setState(character.jumpingState);
+                break;
+        }
+    }
+}
+
+class RunningCharacterState extends CharacterState {
+    enter(character) {
+        console.log(\`\${character.name} starts running\`);
+        character.velocity = { x: 5, y: 0 };
+    }
+    
+    update(character) {
+        character.position.x += character.velocity.x;
+        character.energy -= 2; // Running consumes energy
+        
+        if (character.energy <= 0) {
+            console.log({character.name} is exhausted and stops running\`);
+            character.setState(character.walkingState);
+        }
+    }
+    
+    exit(character) {
+        console.log(\`\${character.name} stops running\`);
+    }
+    
+    handleInput(character, input) {
+        switch(input) {
+            case 'STOP':
+                character.setState(character.idleState);
+                break;
+            case 'WALK':
+                character.setState(character.walkingState);
+                break;
+            case 'JUMP':
+                character.setState(character.jumpingState);
+                break;
+        }
+    }
+}
+
+class JumpingCharacterState extends CharacterState {
+    constructor() {
+        super();
+        this.jumpDuration = 1000; // 1 second jump
+        this.jumpTimer = null;
+    }
+    
+    enter(character) {
+        console.log(\`\${character.name} jumps!\`);
+        character.velocity = { x: character.velocity.x, y: -10 };
+        character.energy -= 5;
+        
+        // Automatically return to previous movement state after jump
+        this.jumpTimer = setTimeout(() => {
+            if (character.velocity.x === 0) {
+                character.setState(character.idleState);
+            } else {
+                character.setState(character.walkingState);
+            }
+        }, this.jumpDuration);
+    }
+    
+    update(character) {
+        character.position.x += character.velocity.x;
+        character.position.y += character.velocity.y;
+        character.velocity.y += 0.5; // Gravity
+    }
+    
+    exit(character) {
+        if (this.jumpTimer) {
+            clearTimeout(this.jumpTimer);
+        }
+        character.velocity.y = 0;
+        character.position.y = 0; // Ground level
+    }
+    
+    handleInput(character, input) {
+        // Limited input during jump
+        if (input === 'MOVE') {
+            character.velocity.x = 2;
+        }
+    }
+}
+
+class GameCharacter {
+    constructor(name) {
+        this.name = name;
+        this.position = { x: 0, y: 0 };
+        this.velocity = { x: 0, y: 0 };
+        this.energy = 100;
+        this.maxEnergy = 100;
+        
+        // Initialize states
+        this.idleState = new IdleCharacterState();
+        this.walkingState = new WalkingCharacterState();
+        this.runningState = new RunningCharacterState();
+        this.jumpingState = new JumpingCharacterState();
+        
+        this.currentState = this.idleState;
+        this.currentState.enter(this);
+    }
+    
+    setState(newState) {
+        if (this.currentState !== newState) {
+            this.currentState.exit(this);
+            this.currentState = newState;
+            this.currentState.enter(this);
+        }
+    }
+    
+    update() {
+        this.currentState.update(this);
+    }
+    
+    handleInput(input) {
+        this.currentState.handleInput(this, input);
+    }
+    
+    getStatus() {
+        return {
+            name: this.name,
+            state: this.currentState.constructor.name,
+            position: this.position,
+            velocity: this.velocity,
+            energy: this.energy
+        };
+    }
+}
+
+// Usage Examples
+console.log("=== Traffic Light Example ===");
+const trafficLight = new TrafficLight();
+trafficLight.start();
+
+// Stop after 15 seconds
+setTimeout(() => {
+    trafficLight.stop();
+}, 15000);
+
+console.log("\\n=== Game Character Example ===");
+const hero = new GameCharacter("Hero");
+
+// Simulate game loop
+let gameTime = 0;
+const gameLoop = setInterval(() => {
+    hero.update();
+    
+    // Simulate random inputs
+    const inputs = ['MOVE', 'STOP', 'RUN', 'JUMP'];
+    if (gameTime % 3 === 0) { // Every 3 iterations
+        const randomInput = inputs[Math.floor(Math.random() * inputs.length)];
+        hero.handleInput(randomInput);
+    }
+    
+    console.log(\`Time: \${gameTime}, Status:\`, hero.getStatus());
+    
+    gameTime++;
+    if (gameTime > 10) {
+        clearInterval(gameLoop);
+    }
+}, 1000);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     State vs Strategy Pattern
+   </h4>
+   
+   <div style="background-color: #f0f9ff; padding: 1rem; border-left: 4px solid #0ea5e9; margin-top: 1rem;">
+     <h5 style="font-weight: 600; color: #0c4a6e;">Key Differences:</h5>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+       <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">State Pattern:</span> Object behavior changes based on internal state transitions</li>
+       <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Strategy Pattern:</span> Algorithm selection is typically external and doesn't change automatically</li>
+       <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">State:</span> States know about each other and can trigger transitions</li>
+       <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Strategy:</span> Strategies are typically independent of each other</li>
+     </ul>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits & Considerations
+   </h4>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #059669;">Benefits:</h5>
+   <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Eliminates complex conditional statements</li>
+     <li style="margin-top: 0.5rem;">Makes state transitions explicit and manageable</li>
+     <li style="margin-top: 0.5rem;">Each state is encapsulated in its own class</li>
+     <li style="margin-top: 0.5rem;">Easy to add new states without modifying existing code</li>
+     <li style="margin-top: 0.5rem;">Promotes single responsibility principle</li>
+   </ul>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #DC2626;">Considerations:</h5>
+   <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">Can lead to many small classes (state explosion)</li>
+     <li style="margin-top: 0.5rem;">Complex state diagrams can be hard to understand</li>
+     <li style="margin-top: 0.5rem;">Memory overhead for state objects</li>
+     <li style="margin-top: 0.5rem;">May be overkill for simple state machines</li>
+   </ul>
+</div>
+`,
+          },
+          {
+            topic: "Association in Object Relationships",
+            tags: ["Relationships", "Design Patterns", "UML"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Association represents a relationship between two separate objects where both objects can exist independently. It's a "uses-a" or "knows-about" relationship. Objects are loosely coupled and can exist without each other.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Characteristics of Association
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Independence:</span> Both objects can exist independently
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Loose Coupling:</span> Objects are not tightly bound together
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Relationship:</span> Association can be established and removed at runtime
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Bidirectional or Unidirectional:</span> Can flow in one or both directions
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Student and Course (Student enrolls in Course)</li>
+     <li style="margin-top: 0.5rem;">Doctor and Patient (Doctor treats Patient)</li>
+     <li style="margin-top: 0.5rem;">Customer and Order (Customer places Order)</li>
+     <li style="margin-top: 0.5rem;">User and Social Media Post (User creates Post)</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-python">
+class Student:
+    def __init__(self, name, student_id):
+        self.name = name
+        self.student_id = student_id
+        self.courses = []  # Association with Course objects
+    
+    def enroll_course(self, course):
+        """Establish association with a course"""
+        if course not in self.courses:
+            self.courses.append(course)
+            course.add_student(self)
+    
+    def drop_course(self, course):
+        """Remove association with a course"""
+        if course in self.courses:
+            self.courses.remove(course)
+            course.remove_student(self)
+    
+    def get_courses(self):
+        return [course.name for course in self.courses]
+
+class Course:
+    def __init__(self, name, code):
+        self.name = name
+        self.code = code
+        self.students = []  # Association with Student objects
+    
+    def add_student(self, student):
+        """Add student to course"""
+        if student not in self.students:
+            self.students.append(student)
+    
+    def remove_student(self, student):
+        """Remove student from course"""
+        if student in self.students:
+            self.students.remove(student)
+    
+    def get_enrolled_students(self):
+        return [student.name for student in self.students]
+
+# Usage Example
+student1 = Student("Alice", "S001")
+student2 = Student("Bob", "S002")
+course1 = Course("Python Programming", "CS101")
+course2 = Course("Data Structures", "CS102")
+
+# Establish associations
+student1.enroll_course(course1)
+student1.enroll_course(course2)
+student2.enroll_course(course1)
+
+print(f"Alice's courses: {student1.get_courses()}")
+print(f"CS101 students: {course1.get_enrolled_students()}")
+
+# Objects can exist independently
+del student1  # Course still exists
+print(f"CS101 still has students: {course1.get_enrolled_students()}")
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-javascript">
+class Student {
+    constructor(name, studentId) {
+        this.name = name;
+        this.studentId = studentId;
+        this.courses = []; // Association with Course objects
+    }
+    
+    enrollCourse(course) {
+        // Establish association with a course
+        if (!this.courses.includes(course)) {
+            this.courses.push(course);
+            course.addStudent(this);
+        }
+    }
+    
+    dropCourse(course) {
+        // Remove association with a course
+        const index = this.courses.indexOf(course);
+        if (index > -1) {
+            this.courses.splice(index, 1);
+            course.removeStudent(this);
+        }
+    }
+    
+    getCourses() {
+        return this.courses.map(course => course.name);
+    }
+}
+
+class Course {
+    constructor(name, code) {
+        this.name = name;
+        this.code = code;
+        this.students = []; // Association with Student objects
+    }
+    
+    addStudent(student) {
+        // Add student to course
+        if (!this.students.includes(student)) {
+            this.students.push(student);
+        }
+    }
+    
+    removeStudent(student) {
+        // Remove student from course
+        const index = this.students.indexOf(student);
+        if (index > -1) {
+            this.students.splice(index, 1);
+        }
+    }
+    
+    getEnrolledStudents() {
+        return this.students.map(student => student.name);
+    }
+}
+
+// Usage Example
+const student1 = new Student("Alice", "S001");
+const student2 = new Student("Bob", "S002");
+const course1 = new Course("JavaScript Fundamentals", "JS101");
+const course2 = new Course("Advanced JavaScript", "JS102");
+
+// Establish associations
+student1.enrollCourse(course1);
+student1.enrollCourse(course2);
+student2.enrollCourse(course1);
+
+console.log("Alice's courses:", student1.getCourses());
+console.log("JS101 students:", course1.getEnrolledStudents());
+
+// Demonstrate independence
+delete student1; // Course still exists
+console.log("JS101 still has students:", course1.getEnrolledStudents());
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     UML Diagram Representation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+┌─────────────────┐                    ┌─────────────────┐
+│    Student      │ *              *   │     Course      │
+├─────────────────┤◇─────────────────◇┤├─────────────────┤
+│ - name: String  │   enrolls in       │ - name: String  │
+│ - id: String    │                    │ - code: String  │
+├─────────────────┤                    ├─────────────────┤
+│ + enroll()      │                    │ + addStudent()  │
+│ + drop()        │                    │ + removeStudent()│
+└─────────────────┘                    └─────────────────┘
+
+Legend: ◇────◇ Association (many-to-many)
+      </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `# Association Example: Library System
+class Book:
+    def __init__(self, title, isbn):
+        self.title = title
+        self.isbn = isbn
+        
+class Member:
+    def __init__(self, name, member_id):
+        self.name = name
+        self.member_id = member_id
+        self.borrowed_books = []  # Association
+        
+    def borrow_book(self, book):
+        self.borrowed_books.append(book)
+        
+member = Member("John", "M001")
+book = Book("Python Guide", "978-123456")
+member.borrow_book(book)  # Association established`,
+              `// Association Example: Social Media System
+class User {
+    constructor(username) {
+        this.username = username;
+        this.posts = []; // Association with posts
+    }
+    
+    createPost(post) {
+        this.posts.push(post);
+    }
+}
+
+class Post {
+    constructor(content) {
+        this.content = content;
+        this.timestamp = new Date();
+    }
+}
+
+const user = new User("alice");
+const post = new Post("Hello World!");
+user.createPost(post); // Association`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the key difference between Association and other relationships?",
+                solution:
+                  "<p>Association differs from Aggregation and Composition in that both objects in an Association can exist independently. When one object is destroyed, the associated object continues to exist. For example, if a Student object is deleted, the Course objects they were enrolled in still exist and can be associated with other students.</p>",
+              },
+              {
+                question: "When should you use Association in system design?",
+                solution:
+                  "<p>Use Association when objects have a 'uses-a' or 'knows-about' relationship, both objects have independent lifecycles, the relationship can change dynamically at runtime, and you want loose coupling between objects. Examples include User-Post, Customer-Order, or Doctor-Patient relationships.</p>",
+              },
+            ],
+            links: [
+              "https://www.geeksforgeeks.org/association-composition-aggregation-java/",
+              "https://stackoverflow.com/questions/885937/what-is-the-difference-between-association-aggregation-and-composition",
+              "https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-aggregation-vs-composition/",
+            ],
+          },
+          {
+            topic: "Aggregation - 'Has-A' Relationships",
+            tags: ["Aggregation", "Object Relations", "Design"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Aggregation is a specialized form of Association that represents a "has-a" relationship. It indicates a whole-part relationship where the part can exist independently of the whole. This is also known as a "weak" ownership relationship.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Characteristics of Aggregation
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Whole-Part Relationship:</span> Represents a container-contained relationship
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Independent Existence:</span> Parts can exist without the whole
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shared Ownership:</span> Parts can belong to multiple wholes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Weak Ownership:</span> Destroying the whole doesn't destroy the parts
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">Department and Employee (Employee can work for multiple departments)</li>
+     <li style="margin-top: 0.5rem;">Team and Player (Player can be part of multiple teams)</li>
+     <li style="margin-top: 0.5rem;">Library and Book (Books exist independently of the library)</li>
+     <li style="margin-top: 0.5rem;">Playlist and Song (Songs exist independently of playlists)</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-python">
+class Employee:
+    def __init__(self, name, employee_id, salary):
+        self.name = name
+        self.employee_id = employee_id
+        self.salary = salary
+    
+    def __str__(self):
+        return f"Employee: {self.name} (ID: {self.employee_id})"
+
+class Department:
+    def __init__(self, name, dept_code):
+        self.name = name
+        self.dept_code = dept_code
+        self.employees = []  # Aggregation: has employees
+        
+    def add_employee(self, employee):
+        """Add existing employee to department (Aggregation)"""
+        if employee not in self.employees:
+            self.employees.append(employee)
+            print(f"{employee.name} added to {self.name} department")
+    
+    def remove_employee(self, employee):
+        """Remove employee from department (employee still exists)"""
+        if employee in self.employees:
+            self.employees.remove(employee)
+            print(f"{employee.name} removed from {self.name} department")
+    
+    def get_employees(self):
+        return [emp.name for emp in self.employees]
+    
+    def get_total_salary_budget(self):
+        return sum(emp.salary for emp in self.employees)
+    
+    def __del__(self):
+        """When department is destroyed, employees still exist"""
+        print(f"Department {self.name} is being dissolved")
+        print("Employees are being transferred to other departments")
+
+class Company:
+    def __init__(self, name):
+        self.name = name
+        self.departments = []  # Aggregation: has departments
+        self.all_employees = []  # Keep track of all employees
+    
+    def add_department(self, department):
+        self.departments.append(department)
+    
+    def hire_employee(self, name, employee_id, salary):
+        """Create new employee"""
+        employee = Employee(name, employee_id, salary)
+        self.all_employees.append(employee)
+        return employee
+    
+    def get_company_stats(self):
+        total_employees = len(self.all_employees)
+        total_departments = len(self.departments)
+        return f"Company: {total_employees} employees across {total_departments} departments"
+
+# Usage Example
+company = Company("TechCorp")
+
+# Create employees (they exist independently)
+emp1 = company.hire_employee("Alice Johnson", "E001", 75000)
+emp2 = company.hire_employee("Bob Smith", "E002", 68000)
+emp3 = company.hire_employee("Carol White", "E003", 82000)
+
+# Create departments
+it_dept = Department("IT", "IT001")
+hr_dept = Department("HR", "HR001")
+finance_dept = Department("Finance", "FIN001")
+
+# Add departments to company
+company.add_department(it_dept)
+company.add_department(hr_dept)
+company.add_department(finance_dept)
+
+# Add employees to departments (Aggregation)
+it_dept.add_employee(emp1)
+it_dept.add_employee(emp2)
+hr_dept.add_employee(emp1)  # Employee can be in multiple departments
+finance_dept.add_employee(emp3)
+
+print(f"IT Department employees: {it_dept.get_employees()}")
+print(f"IT Department budget: {it_dept.get_total_salary_budget()}")
+print(company.get_company_stats())
+
+# Demonstrate independent existence
+print("\n--- Dissolving IT Department ---")
+del it_dept  # Department is destroyed, but employees still exist
+
+print(f"Alice still exists: {emp1}")
+print(f"HR Department still has Alice: {hr_dept.get_employees()}")
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code class="language-javascript">
+class Song {
+    constructor(title, artist, duration) {
+        this.title = title;
+        this.artist = artist;
+        this.duration = duration;
+        this.id = Date.now() + Math.random(); // Simple ID generation
+    }
+    
+    toString() {
+        return {this.title} by {this.artist} ({this.duration});
+    }
+}
+
+class Playlist {
+    constructor(name, owner) {
+        this.name = name;
+        this.owner = owner;
+        this.songs = []; // Aggregation: has songs
+        this.createdAt = new Date();
+    }
+    
+    addSong(song) {
+        // Add existing song to playlist (Aggregation)
+        if (!this.songs.find(s => s.id === song.id)) {
+            this.songs.push(song);
+            console.log(Added "{song.title}" to playlist "{this.name}");
+        }
+    }
+    
+    removeSong(song) {
+        // Remove song from playlist (song still exists elsewhere)
+        const index = this.songs.findIndex(s => s.id === song.id);
+        if (index > -1) {
+            this.songs.splice(index, 1);
+            console.log(Removed "{song.title}" from playlist "{this.name}");
+        }
+    }
+    
+    getSongs() {
+        return this.songs.map(song => song.title);
+    }
+    
+    getTotalDuration() {
+        return this.songs.reduce((total, song) => {
+            const [minutes, seconds] = song.duration.split(':').map(Number);
+            return total + (minutes * 60) + seconds;
+        }, 0);
+    }
+    
+    shuffle() {
+        // Fisher-Yates shuffle algorithm
+        for (let i = this.songs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [this.songs[i], this.songs[j]] = [this.songs[j], this.songs[i]];
+        }
+        console.log(Playlist "{this.name}" shuffled);
+    }
+}
+
+class MusicLibrary {
+    constructor(owner) {
+        this.owner = owner;
+        this.songs = []; // All songs in the library
+        this.playlists = []; // Aggregation: has playlists
+    }
+    
+    addSong(title, artist, duration) {
+        const song = new Song(title, artist, duration);
+        this.songs.push(song);
+        console.log(Added song to library: {song.toString()});
+        return song;
+    }
+    
+    createPlaylist(name) {
+        const playlist = new Playlist(name, this.owner);
+        this.playlists.push(playlist);
+        return playlist;
+    }
+    
+    findSong(title) {
+        return this.songs.find(song => 
+            song.title.toLowerCase().includes(title.toLowerCase())
+        );
+    }
+    
+    getLibraryStats() {
+        const totalSongs = this.songs.length;
+        const totalPlaylists = this.playlists.length;
+        const totalDuration = this.songs.reduce((total, song) => {
+            const [minutes, seconds] = song.duration.split(':').map(Number);
+            return total + (minutes * 60) + seconds;
+        }, 0);
+        
+        return {
+            totalSongs,
+            totalPlaylists,
+            totalDurationMinutes: Math.floor(totalDuration / 60)
+        };
+    }
+}
+
+// Usage Example
+const myLibrary = new MusicLibrary("Alice");
+
+// Add songs to library
+const song1 = myLibrary.addSong("Bohemian Rhapsody", "Queen", "5:55");
+const song2 = myLibrary.addSong("Imagine", "John Lennon", "3:07");
+const song3 = myLibrary.addSong("Billie Jean", "Michael Jackson", "4:54");
+const song4 = myLibrary.addSong("Stairway to Heaven", "Led Zeppelin", "8:02");
+
+// Create playlists
+const rockPlaylist = myLibrary.createPlaylist("Classic Rock");
+const favouritesPlaylist = myLibrary.createPlaylist("My Favourites");
+
+// Add songs to playlists (Aggregation)
+rockPlaylist.addSong(song1);
+rockPlaylist.addSong(song4);
+favouritesPlaylist.addSong(song1); // Same song in multiple playlists
+favouritesPlaylist.addSong(song2);
+favouritesPlaylist.addSong(song3);
+
+console.log("Rock Playlist songs:", rockPlaylist.getSongs());
+console.log("Favourites Playlist songs:", favouritesPlaylist.getSongs());
+console.log("Library stats:", myLibrary.getLibraryStats());
+
+// Demonstrate independent existence
+console.log("\n--- Deleting Rock Playlist ---");
+myLibrary.playlists = myLibrary.playlists.filter(p => p !== rockPlaylist);
+console.log("{song1.title}" still exists in library and other playlists);
+console.log("Favourites still has:", favouritesPlaylist.getSongs());
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     UML Diagram Representation
+   </h4>
+   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+      <pre><code>
+┌─────────────────┐                    ┌─────────────────┐
+│   Department    │ 1              *   │    Employee     │
+├─────────────────┤◇─────────────────◆─┤├─────────────────┤
+│ - name: String  │      has           │ - name: String  │
+│ - code: String  │                    │ - id: String    │
+├─────────────────┤                    │ - salary: Number│
+│ + addEmployee() │                    ├─────────────────┤
+│ + removeEmp()   │                    │ + work()        │
+└─────────────────┘                    │ + getDetails()  │
+                                       └─────────────────┘
+
+Legend: ◇────◆ Aggregation (empty diamond = has-a relationship)
+        1 to * (one department has many employees)
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences from Association
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;"><strong>Directionality:</strong> Aggregation is typically unidirectional (whole knows about parts)</li>
+     <li style="margin-top: 0.5rem;"><strong>Ownership:</strong> Implies a stronger "ownership" relationship than simple association</li>
+     <li style="margin-top: 0.5rem;"><strong>Lifecycle:</strong> Parts can exist independently but are often managed by the whole</li>
+     <li style="margin-top: 0.5rem;"><strong>Purpose:</strong> Represents containment or collection relationships</li>
+   </ul>
+</div>`,
+            examples: [
+              `# Aggregation Example: University System
+class Professor:
+    def __init__(self, name, subject):
+        self.name = name
+        self.subject = subject
+
+class University:
+    def __init__(self, name):
+        self.name = name
+        self.professors = []  # Aggregation
+        
+    def hire_professor(self, professor):
+        self.professors.append(professor)
+        
+    def fire_professor(self, professor):
+        self.professors.remove(professor)
+        # Professor object still exists elsewhere
+
+university = University("MIT")
+prof = Professor("Dr. Smith", "Computer Science")
+university.hire_professor(prof)  # Aggregation established`,
+              `// Aggregation Example: Sports Team
+class Player {
+    constructor(name, position) {
+        this.name = name;
+        this.position = position;
+    }
+}
+
+class Team {
+    constructor(name) {
+        this.name = name;
+        this.players = [];  // Aggregation
+    }
+    
+    addPlayer(player) {
+        this.players.push(player);
+    }
+    
+    removePlayer(player) {
+        const index = this.players.indexOf(player);
+        if (index > -1) this.players.splice(index, 1);
+        // Player still exists, can join another team
+    }
+}
+
+const team = new Team("Lakers");
+const player = new Player("LeBron", "Forward");
+team.addPlayer(player);  // Aggregation`,
+            ],
+            questions: [
+              {
+                question:
+                  "How is Aggregation different from simple Association?",
+                solution:
+                  "<p>Aggregation is a special type of Association that represents a 'has-a' or 'part-of' relationship. While Association is a general relationship between objects, Aggregation specifically indicates that one object (the whole) contains or owns other objects (the parts), but the parts can exist independently. It's a stronger relationship than Association but weaker than Composition.</p>",
+              },
+              {
+                question:
+                  "Can you provide a memory management perspective on Aggregation?",
+                solution:
+                  "<p>In Aggregation, when the container object is destroyed, the contained objects are not automatically destroyed. For example, if a Department object is deleted, the Employee objects it contained continue to exist in memory and can be referenced by other objects. This is because Aggregation represents shared ownership rather than exclusive ownership.</p>",
+              },
+            ],
+            links: [
+              "https://www.geeksforgeeks.org/aggregation-in-java/",
+              "https://en.wikipedia.org/wiki/Object_composition#Aggregation",
+              "https://www.tutorialspoint.com/java/java_aggregation.htm",
+            ],
+          },
+          {
+            topic:
+              "Object Relationships in System Design – Composition in Complex Systems",
+            tags: [
+              "OOP",
+              "Composition",
+              "System Design",
+              "Python",
+              "JavaScript",
+            ],
+            explanation: `<div>
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+    1. What is Composition?
+  </h4>
+  <p style="line-height: 1.75;">
+    Composition is a fundamental object-oriented design principle where a class contains an instance of another class to reuse its functionality.  
+    The container object (the “whole”) is composed of one or more contained objects (the “parts”).  
+    This <strong>“has-a”</strong> relationship (e.g., <em>a Car <strong>has an</strong> Engine</em>) is preferred over inheritance (<em>“is-a”</em>) when:
+  </p>
+  <ul style="margin-left: 1.5rem; list-style-type: disc;">
+    <li>Parts can vary or be replaced at runtime.</li>
+    <li>Multiple inheritance is needed (languages with single-inheritance).</li>
+    <li>Loose coupling is required for testability or micro-service boundaries.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    2. Core Sub-topics & Use-cases
+  </h4>
+  <ol style="margin-left: 1.5rem; list-style-type: number;">
+    <li><strong>Object Ownership & Lifecycle</strong> – When the parent is destroyed, parts are usually destroyed.</li>
+    <li><strong>Delegation & Forwarding</strong> – The parent delegates work to its parts.</li>
+    <li><strong>Polymorphic Parts</strong> – Parts can be swapped for different implementations (Strategy pattern).</li>
+    <li><strong>Collections of Parts</strong> – A parent may manage many parts (e.g., list of <code>Wheel</code> objects).</li>
+    <li><strong>Cross-language Usage</strong> – Same mental model in Python & JavaScript despite syntactic differences.</li>
+  </ol>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    3. Python Deep-Dive with Examples
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code class="language-python">from abc import ABC, abstractmethod
+
+# --- Part Interface & Implementations ---
+class Engine(ABC):
+    @abstractmethod
+    def start(self): ...
+
+class ElectricEngine(Engine):
+    def start(self):
+        return "⚡ Electric engine humming..."
+
+class CombustionEngine(Engine):
+    def start(self):
+        return "🔥 Vroooom!"
+
+# --- Another Part ---
+class Transmission:
+    def __init__(self, gears: int):
+        self.gears = gears
+
+    def shift_up(self):
+        return f"Shifted to next gear (max {self.gears})"
+
+# --- Whole (Composition Root) ---
+class Car:
+    def __init__(self, engine: Engine, transmission: Transmission):
+        self._engine = engine        # has-a Engine
+        self._transmission = transmission
+
+    def start(self):
+        return self._engine.start()
+
+    def accelerate(self):
+        return self._transmission.shift_up()
+
+# ---- Usage ----
+if __name__ == "__main__":
+    electric_car = Car(ElectricEngine(), Transmission(1))
+    print(electric_car.start())          # ⚡ Electric engine humming...
+    print(electric_car.accelerate())     # Shifted to next gear (max 1)
+
+    # Runtime swap of parts
+    electric_car._engine = CombustionEngine()
+    print(electric_car.start())          # 🔥 Vroooom!
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    4. JavaScript Deep-Dive with Examples
+  </h4>
+  <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+    <pre><code class="language-javascript">// --- Part Interface (duck-typed) ---
+class ElectricEngine {
+  start() { return "⚡ Electric engine humming..."; }
+}
+
+class CombustionEngine {
+  start() { return "🔥 Vroooom!"; }
+}
+
+class Transmission {
+  constructor(gears) { this.gears = gears; }
+  shiftUp() { return Shifted to next gear (max {this.gears}); }
+}
+
+// --- Whole (Composition Root) ---
+class Car {
+  constructor(engine, transmission) {
+    this.engine = engine;          // has-a Engine
+    this.transmission = transmission;
+  }
+  start() { return this.engine.start(); }
+  accelerate() { return this.transmission.shiftUp(); }
+}
+
+// ---- Usage ----
+const tesla = new Car(new ElectricEngine(), new Transmission(1));
+console.log(tesla.start());       // ⚡ Electric engine humming...
+console.log(tesla.accelerate());  // Shifted to next gear (max 1)
+
+// Runtime swap
+tesla.engine = new CombustionEngine();
+console.log(tesla.start());       // 🔥 Vroooom!
+</code></pre>
+  </div>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    5. Advanced Composition Patterns
+  </h4>
+  <ul style="margin-left: 1.5rem; list-style-type: disc;">
+    <li><strong>Builder Pattern</strong> – Construct complex objects step-by-step (fluent interface).</li>
+    <li><strong>Decorator Pattern</strong> – Attach additional responsibilities at runtime by wrapping objects.</li>
+    <li><strong>Dependency Injection</strong> – Pass parts from outside to achieve inversion of control (popular in web frameworks).</li>
+    <li><strong>Micro-service Composition</strong> – Services treated as parts orchestrated by a gateway or workflow engine.</li>
+  </ul>
+
+  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
+    6. Edge Cases & Best Practices
+  </h4>
+  <ol style="margin-left: 1.5rem; list-style-type: number;">
+    <li><strong>Circular References</strong> – Avoid parent ↔ part strong references; use weak references or events to break cycles.</li>
+    <li><strong>Serialization</strong> – When converting to JSON, exclude composed objects that are not data-transfer objects (DTOs).</li>
+    <li><strong>Testing</strong> – Inject mocked parts for unit tests (Python <code>unittest.mock</code>, JavaScript <code>jest.fn()</code>).</li>
+    <li><strong>Memory Leaks</strong> – Explicitly dispose parts holding resources (close files, DB connections).</li>
+  </ol>
+</div>`,
+            examples: [
+              `# Python: Swappable persistence layer\nclass MySQLRepo:\n    def save(self, data): return \"Saved to MySQL\"\n\nclass InMemoryRepo:\n    def save(self, data): return \"Saved to RAM\"\n\nclass UserService:\n    def __init__(self, repo): self.repo = repo\n    def create(self, user):\n        return self.repo.save(user)\n\n# Composition in action\nservice = UserService(InMemoryRepo())\nprint(service.create({"name": "Alice"}))  # Saved to RAM`,
+              `// JavaScript: Composition with higher-order functions\nconst withLogging = (component) => ({\n  ...component,\n  start() {\n    console.log("Logging start...");\n    return component.start();\n  }\n});\n\nconst noisyEngine = withLogging(new ElectricEngine());\nconsole.log(noisyEngine.start());  // Logging start... ⚡ Electric...`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why favor composition over inheritance in large systems?",
+                solution:
+                  "<p>Composition provides: <ul><li>Flexibility to change behavior at runtime by swapping parts.</li><li>Avoids fragile base-class problem.</li><li>Easier unit testing via dependency injection.</li><li>Supports multiple orthogonal behaviors (mixins/decorators).</li></ul></p>",
+              },
+              {
+                question: "How do you manage lifecycle of composed objects?",
+                solution:
+                  "<p>Use factory functions or IoC containers to create and dispose parts. In Python, context managers (<code>with</code>) ensure cleanup. In JS, implement <code>dispose()</code> methods and call them when the parent is destroyed.</p>",
+              },
+              {
+                question: "Can you show micro-service composition?",
+                solution:
+                  "<p>Yes. An API-gateway composes calls to auth-service, user-service, and payment-service. Each service is a replaceable part. The gateway orchestrates but does not inherit from services.</p>",
+              },
+            ],
+            links: [
+              "https://refactoring.guru/design-patterns/composite",
+              "https://sourcemaking.com/design_patterns/composition",
+              "https://python-patterns.guide/gang-of-four/composition-over-inheritance/",
+            ],
+          },
+          {
+            topic: "Diamond Problem & Multiple Inheritance Resolution",
+            tags: [
+              "inheritance",
+              "multiple-inheritance",
+              "diamond-problem",
+              "mro",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The Diamond Problem occurs in multiple inheritance when a class inherits from two classes that share a common base class, creating an ambiguous inheritance hierarchy that resembles a diamond shape. This leads to confusion about which method implementation should be used when calling methods from the common base class.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is the Diamond Problem?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Ambiguity:</span> When multiple parent classes have the same method, which one should be called?
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Duplication:</span> The base class might be instantiated multiple times.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Inconsistent State:</span> Multiple instances of the base class can lead to inconsistent object state.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python's Solution: Method Resolution Order (MRO)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Python uses the C3 linearization algorithm to determine the Method Resolution Order, ensuring a consistent and predictable method lookup sequence.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example - Diamond Problem
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class Animal:
+    def __init__(self):
+        self.species = "Unknown"
+        print("Animal constructor called")
+    
+    def make_sound(self):
+        return "Some generic sound"
+    
+    def info(self):
+        return f"I am an {self.species}"
+
+class Mammal(Animal):
+    def __init__(self):
+        super().__init__()
+        self.warm_blooded = True
+        print("Mammal constructor called")
+    
+    def make_sound(self):
+        return "Mammalian sound"
+    
+    def breathe(self):
+        return "Breathing with lungs"
+
+class Bird(Animal):
+    def __init__(self):
+        super().__init__()
+        self.can_fly = True
+        print("Bird constructor called")
+    
+    def make_sound(self):
+        return "Chirp chirp"
+    
+    def fly(self):
+        return "Flying high"
+
+# Diamond Problem: Bat inherits from both Mammal and Bird
+class Bat(Mammal, Bird):
+    def __init__(self):
+        super().__init__()  # Only calls the first parent's __init__
+        self.nocturnal = True
+        print("Bat constructor called")
+    
+    def echolocation(self):
+        return "Using echolocation"
+
+# Usage and MRO demonstration
+bat = Bat()
+print("\nMethod Resolution Order:")
+print(Bat.__mro__)
+print("\nMRO names:")
+for cls in Bat.__mro__:
+    print(cls.__name__)
+
+print(f"\nBat sound: {bat.make_sound()}")  # Which make_sound() is called?
+print(f"Bat info: {bat.info()}")
+print(f"Can breathe: {bat.breathe()}")
+print(f"Can fly: {bat.fly()}")
+print(f"Echolocation: {bat.echolocation()}")
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Approach - Prototype Chain
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     JavaScript doesn't have true multiple inheritance, but we can simulate it using mixins or composition patterns.
+   </p>
+   
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Base class
+class Animal {
+    constructor() {
+        this.species = "Unknown";
+        console.log("Animal constructor called");
+    }
+    
+    makeSound() {
+        return "Some generic sound";
+    }
+    
+    info() {
+        return \`I am an \${this.species}\`;
+    }
+}
+
+class Mammal extends Animal {
+    constructor() {
+        super();
+        this.warmBlooded = true;
+        console.log("Mammal constructor called");
+    }
+    
+    makeSound() {
+        return "Mammalian sound";
+    }
+    
+    breathe() {
+        return "Breathing with lungs";
+    }
+}
+
+class Bird extends Animal {
+    constructor() {
+        super();
+        this.canFly = true;
+        console.log("Bird constructor called");
+    }
+    
+    makeSound() {
+        return "Chirp chirp";
+    }
+    
+    fly() {
+        return "Flying high";
+    }
+}
+
+// JavaScript solution: Mixin approach
+function createMixin(...mixins) {
+    class Mix {
+        constructor(...args) {
+            for (let mixin of mixins) {
+                copyProperties(this, new mixin(...args));
+            }
+        }
+    }
+    
+    for (let mixin of mixins) {
+        copyProperties(Mix.prototype, mixin.prototype);
+    }
+    
+    return Mix;
+}
+
+function copyProperties(target, source) {
+    for (let key of Reflect.ownKeys(source)) {
+        if (key !== "constructor" && key !== "prototype" && key !== "name") {
+            let desc = Object.getOwnPropertyDescriptor(source, key);
+            Object.defineProperty(target, key, desc);
+        }
+    }
+}
+
+// Creating Bat with multiple inheritance simulation
+class Bat extends createMixin(Mammal, Bird) {
+    constructor() {
+        super();
+        this.nocturnal = true;
+        console.log("Bat constructor called");
+    }
+    
+    echolocation() {
+        return "Using echolocation";
+    }
+    
+    // Override makeSound to resolve conflict
+    makeSound() {
+        return "Ultrasonic squeaks";
+    }
+}
+
+// Usage
+const bat = new Bat();
+console.log("\nBat properties:");
+console.log("Warm blooded:", bat.warmBlooded);
+console.log("Can fly:", bat.canFly);
+console.log("Nocturnal:", bat.nocturnal);
+console.log("Sound:", bat.makeSound());
+console.log("Breathe:", bat.breathe());
+console.log("Fly:", bat.fly());
+console.log("Echolocation:", bat.echolocation());
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Diamond Problem Resolution
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">GUI Frameworks:</span> Window classes inheriting from both Drawable and EventHandler.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Database Models:</span> Models inheriting from both Timestamped and Auditable.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Game Development:</span> Characters inheriting from both Moveable and Drawable.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Plugin Systems:</span> Plugins inheriting from multiple interface classes.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python - Cooperative Inheritance with super()
+class A:
+    def __init__(self):
+        print("A init")
+    def method(self):
+        print("A method")
+
+class B(A):
+    def __init__(self):
+        super().__init__()
+        print("B init")
+    def method(self):
+        super().method()
+        print("B method")
+
+class C(A):
+    def __init__(self):
+        super().__init__()
+        print("C init")
+    def method(self):
+        super().method()
+        print("C method")
+
+class D(B, C):
+    def __init__(self):
+        super().__init__()
+        print("D init")
+    def method(self):
+        super().method()
+        print("D method")
+
+# MRO: D -> B -> C -> A
+d = D()
+d.method()`,
+              `// JavaScript - Advanced Mixin Pattern
+const Flyable = {
+    fly() { return "Flying through the air"; }
+};
+
+const Swimmable = {
+    swim() { return "Swimming in water"; }
+};
+
+const Walkable = {
+    walk() { return "Walking on ground"; }
+};
+
+function mixinFactory(...mixins) {
+    return function(BaseClass) {
+        let Mixed = class extends BaseClass {};
+        
+        for (let mixin of mixins) {
+            Object.getOwnPropertyNames(mixin).forEach(name => {
+                if (name !== 'constructor') {
+                    Mixed.prototype[name] = mixin[name];
+                }
+            });
+        }
+        
+        return Mixed;
+    };
+}
+
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+}
+
+class Duck extends mixinFactory(Flyable, Swimmable, Walkable)(Animal) {
+    constructor(name) {
+        super(name);
+    }
+    
+    introduce() {
+        return \`I'm \${this.name}, I can \${this.fly()}, \${this.swim()}, and \${this.walk()}\`;
+    }
+}
+
+const duck = new Duck("Donald");
+console.log(duck.introduce());`,
+            ],
+            questions: [
+              {
+                question: "What is the Diamond Problem and why does it occur?",
+                solution:
+                  "<p>The Diamond Problem occurs in multiple inheritance when a class inherits from two or more classes that share a common base class, creating an ambiguous inheritance hierarchy. It happens because:</p><ul><li>There's ambiguity about which version of a method should be called when multiple parent classes override the same method from the base class</li><li>The base class might be instantiated multiple times, leading to memory duplication</li><li>It can cause inconsistent object state when multiple instances of the base class exist</li></ul><p>Python solves this using Method Resolution Order (MRO) with the C3 linearization algorithm, while JavaScript uses composition patterns and mixins since it doesn't support true multiple inheritance.</p>",
+              },
+              {
+                question:
+                  "How does Python's MRO resolve method conflicts in multiple inheritance?",
+                solution:
+                  "<p>Python's Method Resolution Order (MRO) uses the C3 linearization algorithm to create a consistent method lookup sequence:</p><ul><li><strong>Left-to-right precedence:</strong> Methods from classes listed first in the inheritance list take precedence</li><li><strong>Monotonicity:</strong> The MRO respects the inheritance order defined in each class</li><li><strong>Extended precedence:</strong> A class appears before its parents in the MRO</li><li><strong>Consistent linearization:</strong> The algorithm ensures no class appears before its dependencies</li></ul><p>You can view the MRO using <code>ClassName.__mro__</code> or <code>ClassName.mro()</code>. The <code>super()</code> function follows this MRO to call the next method in the chain, enabling cooperative inheritance.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/tutorial/classes.html#multiple-inheritance",
+              "https://www.python.org/download/releases/2.3/mro/",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model",
+            ],
+          },
+          {
+            topic: "Mixins & Traits (Language-Specific)",
+            tags: ["mixins", "traits", "composition", "multiple-inheritance"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Mixins and traits are design patterns that provide a way to reuse code across multiple classes without using traditional inheritance. They allow you to compose functionality by combining small, focused pieces of behavior, promoting code reuse and flexibility while avoiding the complexities of multiple inheritance.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What are Mixins?
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Mixins are classes or objects that provide methods and properties that can be "mixed into" other classes. They represent a "has-a" or "can-do" relationship rather than an "is-a" relationship.
+   </p>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reusability:</span> Same functionality can be added to multiple unrelated classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Modularity:</span> Functionality is broken into small, focused units.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Composition over Inheritance:</span> Promotes flexible design patterns.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoiding Diamond Problem:</span> Reduces complex inheritance hierarchies.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Mixins Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+# Mixin classes - provide specific functionality
+class TimestampMixin:
+    """Adds timestamp functionality to any class"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from datetime import datetime
+        self.created_at = datetime.now()
+        self.updated_at = datetime.now()
+    
+    def touch(self):
+        """Update the timestamp"""
+        from datetime import datetime
+        self.updated_at = datetime.now()
+    
+    def age_in_seconds(self):
+        """Get age in seconds"""
+        from datetime import datetime
+        return (datetime.now() - self.created_at).total_seconds()
+
+class ValidationMixin:
+    """Adds validation functionality"""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.errors = []
+    
+    def add_error(self, field, message):
+        self.errors.append({"field": field, "message": message})
+    
+    def is_valid(self):
+        return len(self.errors) == 0
+    
+    def validate(self):
+        """Override this method in subclasses"""
+        pass
+
+class SerializableMixin:
+    """Adds serialization functionality"""
+    def to_dict(self):
+        """Convert object to dictionary"""
+        result = {}
+        for key, value in self.__dict__.items():
+            if not key.startswith('_'):
+                if hasattr(value, 'to_dict'):
+                    result[key] = value.to_dict()
+                elif isinstance(value, (list, tuple)):
+                    result[key] = [
+                        item.to_dict() if hasattr(item, 'to_dict') else item 
+                        for item in value
+                    ]
+                else:
+                    result[key] = str(value)
+        return result
+    
+    def from_dict(self, data):
+        """Load object from dictionary"""
+        for key, value in data.items():
+            if hasattr(self, key):
+                setattr(self, key, value)
+
+# Base classes
+class User:
+    def __init__(self, username, email):
+        self.username = username
+        self.email = email
+        super().__init__()  # Important: call super() for mixin chain
+    
+    def validate(self):
+        if not self.username:
+            self.add_error("username", "Username is required")
+        if "@" not in self.email:
+            self.add_error("email", "Invalid email format")
+
+class Product:
+    def __init__(self, name, price):
+        self.name = name
+        self.price = price
+        super().__init__()
+    
+    def validate(self):
+        if not self.name:
+            self.add_error("name", "Product name is required")
+        if self.price < 0:
+            self.add_error("price", "Price cannot be negative")
+
+# Combining mixins with base classes
+class AuditableUser(TimestampMixin, ValidationMixin, SerializableMixin, User):
+    def __init__(self, username, email):
+        super().__init__(username, email)
+
+class AuditableProduct(TimestampMixin, ValidationMixin, SerializableMixin, Product):
+    def __init__(self, name, price):
+        super().__init__(name, price)
+
+# Usage examples
+user = AuditableUser("john_doe", "john@example.com")
+print(f"User created at: {user.created_at}")
+print(f"User age: {user.age_in_seconds()} seconds")
+
+user.validate()
+print(f"User is valid: {user.is_valid()}")
+print(f"User dict: {user.to_dict()}")
+
+import time
+time.sleep(1)
+user.touch()
+print(f"User updated at: {user.updated_at}")
+
+# Invalid product example
+product = AuditableProduct("", -10)
+product.validate()
+print(f"Product is valid: {product.is_valid()}")
+print(f"Product errors: {product.errors}")
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Mixins Implementation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Mixin objects - functional approach
+const TimestampMixin = {
+    initTimestamp() {
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+    },
+    
+    touch() {
+        this.updatedAt = new Date();
+    },
+    
+    ageInSeconds() {
+        return Math.floor((new Date() - this.createdAt) / 1000);
+    }
+};
+
+const ValidationMixin = {
+    initValidation() {
+        this.errors = [];
+    },
+    
+    addError(field, message) {
+        this.errors.push({ field, message });
+    },
+    
+    isValid() {
+        return this.errors.length === 0;
+    },
+    
+    clearErrors() {
+        this.errors = [];
+    }
+};
+
+const SerializableMixin = {
+    toJSON() {
+        const result = {};
+        for (const [key, value] of Object.entries(this)) {
+            if (!key.startsWith('_') && typeof value !== 'function') {
+                if (value && typeof value.toJSON === 'function') {
+                    result[key] = value.toJSON();
+                } else if (Array.isArray(value)) {
+                    result[key] = value.map(item => 
+                        item && typeof item.toJSON === 'function' ? item.toJSON() : item
+                    );
+                } else {
+                    result[key] = value;
+                }
+            }
+        }
+        return result;
+    },
+    
+    fromJSON(data) {
+        for (const [key, value] of Object.entries(data)) {
+            if (this.hasOwnProperty(key) || key in this) {
+                this[key] = value;
+            }
+        }
+    }
+};
+
+// Mixin function to apply mixins to a class
+function applyMixins(targetClass, ...mixins) {
+    mixins.forEach(mixin => {
+        Object.getOwnPropertyNames(mixin).forEach(name => {
+            if (name !== 'constructor') {
+                targetClass.prototype[name] = mixin[name];
+            }
+        });
+    });
+}
+
+// Alternative: Factory function approach
+function createMixinClass(BaseClass, ...mixins) {
+    class MixedClass extends BaseClass {
+        constructor(...args) {
+            super(...args);
+            
+            // Initialize all mixins
+            mixins.forEach(mixin => {
+                if (mixin.init) {
+                    mixin.init.call(this);
+                }
+            });
+        }
+    }
+    
+    // Apply mixin methods
+    mixins.forEach(mixin => {
+        Object.getOwnPropertyNames(mixin).forEach(name => {
+            if (name !== 'constructor' && name !== 'init') {
+                MixedClass.prototype[name] = mixin[name];
+            }
+        });
+    });
+    
+    return MixedClass;
+}
+
+// Base classes
+class User {
+    constructor(username, email) {
+        this.username = username;
+        this.email = email;
+        
+        // Initialize mixins
+        if (this.initTimestamp) this.initTimestamp();
+        if (this.initValidation) this.initValidation();
+    }
+    
+    validate() {
+        this.clearErrors();
+        if (!this.username) {
+            this.addError("username", "Username is required");
+        }
+        if (!this.email.includes("@")) {
+            this.addError("email", "Invalid email format");
+        }
+    }
+}
+
+class Product {
+    constructor(name, price) {
+        this.name = name;
+        this.price = price;
+        
+        // Initialize mixins
+        if (this.initTimestamp) this.initTimestamp();
+        if (this.initValidation) this.initValidation();
+    }
+    
+    validate() {
+        this.clearErrors();
+        if (!this.name) {
+            this.addError("name", "Product name is required");
+        }
+        if (this.price < 0) {
+            this.addError("price", "Price cannot be negative");
+        }
+    }
+}
+
+// Apply mixins to classes
+applyMixins(User, TimestampMixin, ValidationMixin, SerializableMixin);
+applyMixins(Product, TimestampMixin, ValidationMixin, SerializableMixin);
+
+// Usage
+const user = new User("john_doe", "john@example.com");
+console.log("User created at:", user.createdAt);
+console.log("User age:", user.ageInSeconds(), "seconds");
+
+user.validate();
+console.log("User is valid:", user.isValid());
+console.log("User JSON:", JSON.stringify(user.toJSON(), null, 2));
+
+setTimeout(() => {
+    user.touch();
+    console.log("User updated at:", user.updatedAt);
+}, 1000);
+
+// Invalid product example
+const product = new Product("", -10);
+product.validate();
+console.log("Product is valid:", product.isValid());
+console.log("Product errors:", product.errors);
+
+// Alternative using factory function
+const EnhancedUser = createMixinClass(
+    class BaseUser {
+        constructor(username, email) {
+            this.username = username;
+            this.email = email;
+        }
+    },
+    {
+        init() { this.initTimestamp(); this.initValidation(); },
+        ...TimestampMixin,
+        ...ValidationMixin,
+        ...SerializableMixin
+    }
+);
+
+const enhancedUser = new EnhancedUser("jane_doe", "jane@example.com");
+console.log("Enhanced user:", enhancedUser.toJSON());
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Traits vs Mixins
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Traits:</span> More formal construct with conflict resolution mechanisms (Scala, PHP).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Mixins:</span> More flexible, language-specific implementations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Composition:</span> Both promote composition over inheritance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Stateless vs Stateful:</span> Traits are typically stateless, mixins can have state.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Mixins
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Database Models:</span> Adding auditing, validation, soft-delete functionality.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">API Development:</span> Adding serialization, caching, rate-limiting.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">GUI Components:</span> Adding drag-and-drop, resizing, styling capabilities.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Testing:</span> Adding mock, stub, or assertion capabilities.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python - Advanced Mixin Pattern with Method Resolution
+class LoggerMixin:
+    def log(self, message, level="INFO"):
+        print(f"[{level}] {self.__class__.__name__}: {message}")
+
+class CacheableMixin:
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._cache = {}
+    
+    def get_from_cache(self, key):
+        return self._cache.get(key)
+    
+    def set_cache(self, key, value):
+        self._cache[key] = value
+
+class APIEndpoint(LoggerMixin, CacheableMixin):
+    def __init__(self, path):
+        super().__init__()
+        self.path = path
+        self.log(f"Endpoint created for {path}")
+    
+    def handle_request(self, request_id):
+        # Check cache first
+        cached = self.get_from_cache(request_id)
+        if cached:
+            self.log(f"Cache hit for {request_id}")
+            return cached
+        
+        # Process request
+        result = f"Processed {request_id} at {self.path}"
+        self.set_cache(request_id, result)
+        self.log(f"Request processed: {request_id}")
+        return result
+
+endpoint = APIEndpoint("/api/users")
+print(endpoint.handle_request("req_123"))
+print(endpoint.handle_request("req_123"))  # Cache hit`,
+              `// JavaScript - Mixin Composition Pattern
+const EventEmitterMixin = {
+    initEvents() {
+        this._events = {};
+    },
+    
+    on(event, callback) {
+        if (!this._events[event]) {
+            this._events[event] = [];
+        }
+        this._events[event].push(callback);
+    },
+    
+    emit(event, ...args) {
+        if (this._events[event]) {
+            this._events[event].forEach(callback => callback(...args));
+        }
+    },
+    
+    off(event, callback) {
+        if (this._events[event]) {
+            this._events[event] = this._events[event].filter(cb => cb !== callback);
+        }
+    }
+};
+
+const StateMachineMixin = {
+    initStateMachine(initialState) {
+        this._state = initialState;
+        this._transitions = {};
+    },
+    
+    addTransition(from, to, action) {
+        if (!this._transitions[from]) {
+            this._transitions[from] = {};
+        }
+        this._transitions[from][to] = action;
+    },
+    
+    transition(to) {
+        const transition = this._transitions[this._state] && this._transitions[this._state][to];
+        if (transition) {
+            const oldState = this._state;
+            this._state = to;
+            if (this.emit) {
+                this.emit('stateChange', { from: oldState, to: to });
+            }
+            if (typeof transition === 'function') {
+                transition.call(this);
+            }
+            return true;
+        }
+        return false;
+    },
+    
+    getState() {
+        return this._state;
+    }
+};
+
+function createComponent(BaseClass, ...mixins) {
+    class Component extends BaseClass {
+        constructor(...args) {
+            super(...args);
+            mixins.forEach(mixin => {
+                Object.getOwnPropertyNames(mixin).forEach(prop => {
+                    if (typeof mixin[prop] === 'function' && prop.startsWith('init')) {
+                        mixin[prop].call(this, ...args);
+                    }
+                });
+            });
+        }
+    }
+    
+    mixins.forEach(mixin => {
+        Object.assign(Component.prototype, mixin);
+    });
+    
+    return Component;
+}
+
+class Door extends createComponent(class {
+    constructor(name) {
+        this.name = name;
+    }
+}, EventEmitterMixin, StateMachineMixin) {
+    constructor(name) {
+        super(name);
+        this.initEvents();
+        this.initStateMachine('closed');
+        
+        this.addTransition('closed', 'open', () => console.log(\`\${this.name} opened\`));
+        this.addTransition('open', 'closed', () => console.log(\`\${this.name} closed\`));
+        
+        this.on('stateChange', (change) => {
+            console.log(\`Door \${this.name} changed from \${change.from} to \${change.to}\`);
+        });
+    }
+    
+    open() {
+        return this.transition('open');
+    }
+    
+    close() {
+        return this.transition('closed');
+    }
+}
+
+const door = new Door("Main Door");
+door.open();  // Opens door and emits event
+door.close(); // Closes door and emits event`,
+            ],
+          },
+          {
+            topic: "Virtual Inheritance (C++ Concept)",
+            tags: [
+              "virtual-inheritance",
+              "cpp",
+              "memory-layout",
+              "diamond-problem",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Virtual inheritance is a C++ feature that solves the diamond problem by ensuring that only one instance of a base class exists in the inheritance hierarchy, even when multiple inheritance paths lead to the same base class. While Python and JavaScript don't have virtual inheritance, understanding this concept helps in designing better inheritance patterns and avoiding similar issues in other languages.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Virtual Inheritance?
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Virtual inheritance is a mechanism where a base class is inherited virtually, meaning that regardless of how many times it appears in the inheritance hierarchy, only one instance of that class will exist in the final derived object.
+   </p>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single Instance:</span> Only one copy of the virtual base class exists.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shared Access:</span> All derived classes access the same instance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Efficiency:</span> Reduces memory duplication.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consistent State:</span> Eliminates state inconsistency issues.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Simulation of Virtual Inheritance Concept
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     While Python doesn't have virtual inheritance, we can simulate similar behavior using metaclasses and design patterns:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class SingletonMeta(type):
+    """Metaclass that ensures single instance behavior similar to virtual inheritance"""
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class VirtualBase(metaclass=SingletonMeta):
+    """Simulates a virtual base class"""
+    def __init__(self):
+        if not hasattr(self, '_initialized'):
+            print("VirtualBase: Initializing single instance")
+            self.shared_data = {}
+            self.instance_count = 0
+            self._initialized = True
+        self.instance_count += 1
+    
+    def set_shared_value(self, key, value):
+        self.shared_data[key] = value
+        print(f"VirtualBase: Set {key} = {value}")
+    
+    def get_shared_value(self, key):
+        return self.shared_data.get(key, "Not found")
+    
+    def get_info(self):
+        return f"VirtualBase instance, accessed {self.instance_count} times"
+
+class LeftBranch(VirtualBase):
+    def __init__(self):
+        super().__init__()
+        print("LeftBranch: Initialized")
+        self.left_specific = "Left data"
+    
+    def left_method(self):
+        return f"Left method, shared data: {self.shared_data}"
+
+class RightBranch(VirtualBase):
+    def __init__(self):
+        super().__init__()
+        print("RightBranch: Initialized")
+        self.right_specific = "Right data"
+    
+    def right_method(self):
+        return f"Right method, shared data: {self.shared_data}"
+
+class DiamondChild(LeftBranch, RightBranch):
+    def __init__(self):
+        # Python's MRO ensures proper initialization
+        super().__init__()
+        print("DiamondChild: Initialized")
+    
+    def child_method(self):
+        return f"Child method accessing virtual base: {self.get_info()}"
+
+# Alternative approach using composition
+class VirtualBaseComposition:
+    """Shared instance approach using composition"""
+    _shared_instance = None
+    
+    @classmethod
+    def get_shared_instance(cls):
+        if cls._shared_instance is None:
+            cls._shared_instance = cls()
+        return cls._shared_instance
+    
+    def __init__(self):
+        print("VirtualBaseComposition: Creating shared instance")
+        self.data = {}
+        self.version = 1
+    
+    def update_data(self, key, value):
+        self.data[key] = value
+        self.version += 1
+    
+    def get_data(self, key):
+        return self.data.get(key)
+    
+    def get_version(self):
+        return self.version
+
+class CompositionLeft:
+    def __init__(self):
+        self.shared = VirtualBaseComposition.get_shared_instance()
+        self.left_data = "Left specific"
+        print("CompositionLeft: Initialized")
+    
+    def left_operation(self, key, value):
+        self.shared.update_data(f"left_{key}", value)
+        return f"Left updated {key}"
+
+class CompositionRight:
+    def __init__(self):
+        self.shared = VirtualBaseComposition.get_shared_instance()
+        self.right_data = "Right specific"
+        print("CompositionRight: Initialized")
+    
+    def right_operation(self, key, value):
+        self.shared.update_data(f"right_{key}", value)
+        return f"Right updated {key}"
+
+class CompositionDiamond(CompositionLeft, CompositionRight):
+    def __init__(self):
+        CompositionLeft.__init__(self)
+        CompositionRight.__init__(self)
+        print("CompositionDiamond: Initialized")
+    
+    def diamond_operation(self):
+        left_data = self.shared.get_data("left_test")
+        right_data = self.shared.get_data("right_test")
+        return f"Diamond sees - Left: {left_data}, Right: {right_data}, Version: {self.shared.get_version()}"
+
+# Usage and demonstration
+print("=== Virtual Inheritance Simulation ===")
+diamond1 = DiamondChild()
+diamond1.set_shared_value("test1", "value1")
+
+diamond2 = DiamondChild()  # Same instance due to metaclass
+print(f"Same instance: {diamond1 is diamond2}")
+print(f"Diamond2 sees: {diamond2.get_shared_value('test1')}")
+
+print("\n=== Composition Approach ===")
+comp_diamond = CompositionDiamond()
+comp_diamond.left_operation("test", "left_value")
+comp_diamond.right_operation("test", "right_value")
+print(comp_diamond.diamond_operation())
+
+# Demonstrate shared state
+comp_diamond2 = CompositionDiamond()
+print(f"Same shared instance: {comp_diamond.shared is comp_diamond2.shared}")
+print(comp_diamond2.diamond_operation())
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Simulation of Virtual Inheritance
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Singleton pattern to simulate virtual inheritance
+class VirtualBase {
+    static _instance = null;
+    
+    static getInstance() {
+        if (!VirtualBase._instance) {
+            VirtualBase._instance = new VirtualBase();
+        }
+        return VirtualBase._instance;
+    }
+    
+    constructor() {
+        if (VirtualBase._instance) {
+            return VirtualBase._instance;
+        }
+        
+        console.log("VirtualBase: Creating single instance");
+        this.sharedState = new Map();
+        this.accessCount = 0;
+        this.initialized = true;
+        
+        VirtualBase._instance = this;
+    }
+    
+    setSharedValue(key, value) {
+        this.sharedState.set(key, value);
+        console.log(\`VirtualBase: Set \${key} = \${value}\`);
+    }
+    
+    getSharedValue(key) {
+        this.accessCount++;
+        return this.sharedState.get(key);
+    }
+    
+    getInfo() {
+        return \`VirtualBase accessed \${this.accessCount} times, has \${this.sharedState.size} values\`;
+    }
+}
+
+// Mixin approach for virtual inheritance simulation
+const VirtualInheritanceMixin = {
+    initVirtualBase() {
+        this._virtualBase = VirtualBase.getInstance();
+        console.log(\`\${this.constructor.name}: Connected to virtual base\`);
+    },
+    
+    setShared(key, value) {
+        return this._virtualBase.setSharedValue(key, value);
+    },
+    
+    getShared(key) {
+        return this._virtualBase.getSharedValue(key);
+    },
+    
+    getVirtualInfo() {
+        return this._virtualBase.getInfo();
+    }
+};
+
+class LeftBranch {
+    constructor() {
+        this.leftData = "Left specific data";
+        this.initVirtualBase();
+        console.log("LeftBranch: Initialized");
+    }
+    
+    leftMethod() {
+        this.setShared("leftAccess", new Date().toISOString());
+        return \`Left method executed at \${this.getShared("leftAccess")}\`;
+    }
+}
+
+class RightBranch {
+    constructor() {
+        this.rightData = "Right specific data";
+        this.initVirtualBase();
+        console.log("RightBranch: Initialized");
+    }
+    
+    rightMethod() {
+        this.setShared("rightAccess", new Date().toISOString());
+        return \`Right method executed at \${this.getShared("rightAccess")}\`;
+    }
+}
+
+// Apply mixin to both branches
+Object.assign(LeftBranch.prototype, VirtualInheritanceMixin);
+Object.assign(RightBranch.prototype, VirtualInheritanceMixin);
+
+class DiamondChild extends LeftBranch {
+    constructor() {
+        super();
+        
+        // Manually apply RightBranch functionality
+        RightBranch.call(this);
+        Object.getOwnPropertyNames(RightBranch.prototype).forEach(name => {
+            if (name !== 'constructor' && typeof RightBranch.prototype[name] === 'function') {
+                this[name] = RightBranch.prototype[name].bind(this);
+            }
+        });
+        
+        console.log("DiamondChild: Initialized");
+    }
+    
+    childMethod() {
+        const leftTime = this.getShared("leftAccess");
+        const rightTime = this.getShared("rightAccess");
+        return \`Child method - Left: \${leftTime}, Right: \${rightTime}\`;
+    }
+    
+    demonstrateSharedState() {
+        console.log("=== Demonstrating Shared Virtual Base ===");
+        console.log(this.getVirtualInfo());
+        
+        this.leftMethod();
+        this.rightMethod();
+        
+        console.log("After method calls:");
+        console.log(this.getVirtualInfo());
+        console.log(this.childMethod());
+    }
+}
+
+// Advanced approach using Proxy for virtual inheritance
+class VirtualInheritanceProxy {
+    constructor(baseClass) {
+        this.baseClass = baseClass;
+        this.sharedInstance = null;
+    }
+    
+    createProxy(targetClass) {
+        return new Proxy(targetClass, {
+            construct: (target, args) => {
+                const instance = new target(...args);
+                
+                if (!this.sharedInstance) {
+                    this.sharedInstance = new this.baseClass();
+                    console.log("VirtualInheritanceProxy: Created shared base instance");
+                }
+                
+                // Create proxy that delegates base class methods to shared instance
+                return new Proxy(instance, {
+                    get: (target, prop) => {
+                        if (prop in this.sharedInstance && typeof this.sharedInstance[prop] === 'function') {
+                            return this.sharedInstance[prop].bind(this.sharedInstance);
+                        }
+                        return target[prop];
+                    },
+                    
+                    set: (target, prop, value) => {
+                        if (prop in this.sharedInstance) {
+                            this.sharedInstance[prop] = value;
+                        } else {
+                            target[prop] = value;
+                        }
+                        return true;
+                    }
+                });
+            }
+        });
+    }
+}
+
+// Usage examples
+console.log("=== Basic Virtual Inheritance Simulation ===");
+const diamond1 = new DiamondChild();
+diamond1.setShared("test1", "value1");
+
+const diamond2 = new DiamondChild();
+console.log("Diamond2 sees shared value:", diamond2.getShared("test1"));
+console.log("Same virtual base:", diamond1._virtualBase === diamond2._virtualBase);
+
+console.log("\n=== Demonstration ===");
+diamond1.demonstrateSharedState();
+
+// Advanced proxy example
+console.log("\n=== Advanced Proxy Approach ===");
+class SharedBase {
+    constructor() {
+        this.counter = 0;
+        this.data = {};
+    }
+    
+    increment() {
+        this.counter++;
+        return this.counter;
+    }
+    
+    store(key, value) {
+        this.data[key] = value;
+    }
+    
+    retrieve(key) {
+        return this.data[key];
+    }
+}
+
+const virtualProxy = new VirtualInheritanceProxy(SharedBase);
+
+const ProxiedLeft = virtualProxy.createProxy(class {
+    constructor(name) {
+        this.name = name;
+        this.type = "left";
+    }
+    
+    leftAction() {
+        const count = this.increment();
+        this.store(\`left_\${this.name}\`, count);
+        return \`Left \${this.name} action #\${count}\`;
+    }
+});
+
+const ProxiedRight = virtualProxy.createProxy(class {
+    constructor(name) {
+        this.name = name;
+        this.type = "right";
+    }
+    
+    rightAction() {
+        const count = this.increment();
+        this.store(\`right_\${this.name}\`, count);
+        return \`Right \${this.name} action #\${count}\`;
+    }
+});
+
+const leftObj = new ProxiedLeft("L1");
+const rightObj = new ProxiedRight("R1");
+
+console.log(leftObj.leftAction());   // Left L1 action #1
+console.log(rightObj.rightAction()); // Right R1 action #2
+console.log("Left sees right's data:", leftObj.retrieve("right_R1")); // 2
+console.log("Right sees left's data:", rightObj.retrieve("left_L1"));  // 1
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Concepts and Benefits
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Efficiency:</span> Single instance reduces memory footprint.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">State Consistency:</span> All derived objects share the same base state.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Initialization Control:</span> Base class is initialized only once.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Reduces object construction overhead.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases and Applications
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shared Resources:</span> Database connections, configuration objects.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Logging Systems:</span> Centralized logging across inheritance hierarchies.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">State Management:</span> Global application state in complex hierarchies.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Plugin Architecture:</span> Shared plugin registry or manager.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python - Resource Manager with Virtual-like Behavior
+class ResourceManagerMeta(type):
+    _instances = {}
+    
+    def __call__(cls, *args, **kwargs):
+        if cls not in cls._instances:
+            cls._instances[cls] = super().__call__(*args, **kwargs)
+        return cls._instances[cls]
+
+class ResourceManager(metaclass=ResourceManagerMeta):
+    def __init__(self):
+        if not hasattr(self, '_initialized'):
+            print("ResourceManager: Initializing shared resources")
+            self.connections = {}
+            self.cache = {}
+            self.stats = {"requests": 0, "cache_hits": 0}
+            self._initialized = True
+    
+    def get_connection(self, name):
+        self.stats["requests"] += 1
+        if name not in self.connections:
+            self.connections[name] = f"Connection to {name}"
+            print(f"Created new connection: {name}")
+        else:
+            self.stats["cache_hits"] += 1
+        return self.connections[name]
+    
+    def get_stats(self):
+        return self.stats.copy()
+
+class DatabaseService(ResourceManager):
+    def __init__(self):
+        super().__init__()
+        self.service_type = "database"
+    
+    def query(self, sql):
+        conn = self.get_connection("database")
+        return f"Executed: {sql} using {conn}"
+
+class CacheService(ResourceManager):
+    def __init__(self):
+        super().__init__()
+        self.service_type = "cache"
+    
+    def get_cached(self, key):
+        conn = self.get_connection("cache")
+        return f"Retrieved {key} using {conn}"
+
+class HybridService(DatabaseService, CacheService):
+    def __init__(self):
+        super().__init__()
+        self.service_type = "hybrid"
+    
+    def hybrid_operation(self):
+        db_result = self.query("SELECT * FROM users")
+        cache_result = self.get_cached("user_list")
+        return f"DB: {db_result}, Cache: {cache_result}"
+
+# All services share the same ResourceManager instance
+hybrid1 = HybridService()
+hybrid2 = HybridService()
+print(f"Same resource manager: {hybrid1 is hybrid2}")
+print(f"Stats after creation: {hybrid1.get_stats()}")`,
+              `// JavaScript - Shared Event System
+class SharedEventSystem {
+    static instance = null;
+    
+    constructor() {
+        if (SharedEventSystem.instance) {
+            return SharedEventSystem.instance;
+        }
+        
+        this.listeners = new Map();
+        this.eventHistory = [];
+        this.stats = { emitted: 0, listened: 0 };
+        
+        SharedEventSystem.instance = this;
+    }
+    
+    on(event, callback) {
+        if (!this.listeners.has(event)) {
+            this.listeners.set(event, new Set());
+        }
+        this.listeners.get(event).add(callback);
+        this.stats.listened++;
+    }
+    
+    emit(event, data) {
+        this.eventHistory.push({ event, data, timestamp: Date.now() });
+        this.stats.emitted++;
+        
+        if (this.listeners.has(event)) {
+            this.listeners.get(event).forEach(callback => callback(data));
+        }
+    }
+    
+    getStats() {
+        return { ...this.stats, totalEvents: this.eventHistory.length };
+    }
+}
+
+const EventMixin = {
+    initEvents() {
+        this.eventSystem = new SharedEventSystem();
+    },
+    
+    on(event, callback) {
+        this.eventSystem.on(event, callback);
+    },
+    
+    emit(event, data) {
+        this.eventSystem.emit(event, data);
+    },
+    
+    getEventStats() {
+        return this.eventSystem.getStats();
+    }
+};
+
+class Component {
+    constructor(name) {
+        this.name = name;
+        this.initEvents();
+    }
+}
+
+Object.assign(Component.prototype, EventMixin);
+
+class Button extends Component {
+    constructor(name) {
+        super(name);
+        this.on('click', (data) => {
+            console.log(\`Button \${this.name} received click: \${data}\`);
+        });
+    }
+    
+    click(data) {
+        this.emit('click', \`\${this.name}: \${data}\`);
+    }
+}
+
+class Form extends Component {
+    constructor(name) {
+        super(name);
+        this.on('click', (data) => {
+            console.log(\`Form \${this.name} detected click: \${data}\`);
+        });
+    }
+    
+    submit() {
+        this.emit('submit', \`Form \${this.name} submitted\`);
+    }
+}
+
+const btn1 = new Button("Submit");
+const btn2 = new Button("Cancel");
+const form = new Form("LoginForm");
+
+// All components share the same event system
+btn1.click("user action");
+form.submit();
+console.log("Shared stats:", btn1.getEventStats());`,
+            ],
+            questions: [
+              {
+                question:
+                  "What problems does virtual inheritance solve and how?",
+                solution:
+                  "<p>Virtual inheritance solves several problems related to the diamond problem in multiple inheritance:</p><ul><li><strong>Memory duplication:</strong> Without virtual inheritance, the base class would be instantiated multiple times, wasting memory. Virtual inheritance ensures only one instance exists.</li><li><strong>Ambiguity:</strong> When multiple inheritance paths lead to the same base class, it's unclear which instance to use. Virtual inheritance eliminates this ambiguity by providing a single shared instance.</li><li><strong>State inconsistency:</strong> Multiple instances of the base class can have different states, leading to inconsistent behavior. Virtual inheritance maintains a single, consistent state.</li><li><strong>Initialization complexity:</strong> Virtual inheritance handles the complex initialization order, ensuring the virtual base is initialized exactly once.</li></ul>",
+              },
+              {
+                question:
+                  "How can we simulate virtual inheritance behavior in Python and JavaScript?",
+                solution:
+                  "<p>Since Python and JavaScript don't have true virtual inheritance, we can simulate similar behavior using several patterns:</p><p><strong>Python approaches:</strong></p><ul><li><strong>Singleton metaclass:</strong> Create a metaclass that ensures only one instance of a base class exists</li><li><strong>Composition pattern:</strong> Use composition with a shared instance instead of inheritance</li><li><strong>Factory pattern:</strong> Create objects that share common instances through factories</li></ul><p><strong>JavaScript approaches:</strong></p><ul><li><strong>Singleton pattern:</strong> Implement singleton behavior in base classes</li><li><strong>Mixin with shared state:</strong> Use mixins that reference a single shared instance</li><li><strong>Proxy pattern:</strong> Use proxies to redirect base class access to a shared instance</li></ul><p>These patterns achieve the same goals as virtual inheritance: single instance, shared state, and memory efficiency.</p>",
+              },
+            ],
+            links: [
+              "https://docs.python.org/3/reference/datamodel.html#metaclasses",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects",
+              "https://en.wikipedia.org/wiki/Virtual_inheritance",
             ],
           },
         ],
