@@ -81307,4 +81307,4235 @@ console.log("Shared stats:", btn1.getEventStats());`,
       },
     ],
   },
+  {
+    id: 11,
+    category: "SQL",
+    themeBgColor: "#E6F3FF",
+    textColor: "#1E3A8A",
+    topicColor: "#1E3A8A",
+    lightColor: "#F0F7FF",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "What is SQL? (DDL, DML, DCL, TCL categories)",
+            tags: ["SQL Basics", "Database Commands", "SQL Categories"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     SQL (Structured Query Language) is a standardized programming language designed for managing and manipulating relational databases. It provides a powerful way to create, read, update, and delete data in database systems. SQL is the backbone of most relational database management systems (RDBMS) like MySQL, PostgreSQL, Oracle, SQL Server, and SQLite.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SQL Command Categories
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     SQL commands are classified into four main categories based on their functionality:
+   </p>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DDL (Data Definition Language):</span> Commands that define the structure of the database and its objects.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li><strong>CREATE:</strong> Creates new database objects (tables, indexes, views)</li>
+        <li><strong>ALTER:</strong> Modifies existing database objects</li>
+        <li><strong>DROP:</strong> Deletes database objects</li>
+        <li><strong>TRUNCATE:</strong> Removes all records from a table but keeps the structure</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DML (Data Manipulation Language):</span> Commands that manipulate data within database objects.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li><strong>SELECT:</strong> Retrieves data from tables</li>
+        <li><strong>INSERT:</strong> Adds new records to tables</li>
+        <li><strong>UPDATE:</strong> Modifies existing records</li>
+        <li><strong>DELETE:</strong> Removes specific records from tables</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DCL (Data Control Language):</span> Commands that control access to data and database objects.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li><strong>GRANT:</strong> Gives specific privileges to users</li>
+        <li><strong>REVOKE:</strong> Removes specific privileges from users</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TCL (Transaction Control Language):</span> Commands that manage database transactions.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li><strong>COMMIT:</strong> Saves all changes made in the current transaction</li>
+        <li><strong>ROLLBACK:</strong> Undoes changes made in the current transaction</li>
+        <li><strong>SAVEPOINT:</strong> Sets a point within a transaction to which you can rollback</li>
+      </ul>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases and Examples
+   </h4>
+   
+   <h5 style="margin-top: 1rem; font-weight: 600;">DDL Examples:</h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- CREATE: Creating a new table
+CREATE TABLE employees (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    salary DECIMAL(10,2),
+    hire_date DATE
+);
+
+-- ALTER: Adding a new column
+ALTER TABLE employees ADD COLUMN department VARCHAR(50);
+
+-- DROP: Deleting a table
+DROP TABLE old_employees;
+
+-- TRUNCATE: Removing all data but keeping structure
+TRUNCATE TABLE temp_data;
+      </code></pre>
+   </div>
+   
+   <h5 style="margin-top: 1rem; font-weight: 600;">DML Examples:</h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- INSERT: Adding new employee
+INSERT INTO employees (name, email, salary, hire_date, department)
+VALUES ('John Smith', 'john@company.com', 75000.00, '2024-01-15', 'IT');
+
+-- SELECT: Retrieving employee data
+SELECT name, salary, department 
+FROM employees 
+WHERE salary > 50000;
+
+-- UPDATE: Modifying employee salary
+UPDATE employees 
+SET salary = 80000.00 
+WHERE name = 'John Smith';
+
+-- DELETE: Removing an employee
+DELETE FROM employees 
+WHERE email = 'john@company.com';
+      </code></pre>
+   </div>
+   
+   <h5 style="margin-top: 1rem; font-weight: 600;">DCL Examples:</h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- GRANT: Giving permissions to a user
+GRANT SELECT, INSERT ON employees TO 'hr_user'@'localhost';
+
+-- REVOKE: Removing permissions
+REVOKE INSERT ON employees FROM 'hr_user'@'localhost';
+      </code></pre>
+   </div>
+   
+   <h5 style="margin-top: 1rem; font-weight: 600;">TCL Examples:</h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Starting a transaction
+BEGIN TRANSACTION;
+
+-- Making changes
+UPDATE employees SET salary = salary * 1.1 WHERE department = 'IT';
+INSERT INTO salary_history (employee_id, old_salary, new_salary, change_date)
+SELECT id, salary / 1.1, salary, CURRENT_DATE FROM employees WHERE department = 'IT';
+
+-- If everything looks good, commit the changes
+COMMIT;
+
+-- If something went wrong, rollback
+-- ROLLBACK;
+      </code></pre>
+   </div>
+</div>
+`,
+            examples: [
+              `-- Complete example: Managing a company database
+
+-- DDL: Create tables
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(50) NOT NULL,
+    manager_id INT
+);
+
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    salary DECIMAL(10,2),
+    hire_date DATE,
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);
+
+-- DML: Insert sample data
+INSERT INTO departments VALUES 
+(1, 'Human Resources', NULL),
+(2, 'Information Technology', NULL),
+(3, 'Finance', NULL);
+
+INSERT INTO employees (first_name, last_name, email, salary, hire_date, dept_id)
+VALUES 
+('John', 'Doe', 'john.doe@company.com', 75000, '2023-01-15', 2),
+('Jane', 'Smith', 'jane.smith@company.com', 68000, '2023-02-20', 1),
+('Mike', 'Johnson', 'mike.johnson@company.com', 82000, '2023-03-10', 3);
+
+-- DML: Query data
+SELECT e.first_name, e.last_name, d.dept_name, e.salary
+FROM employees e
+JOIN departments d ON e.dept_id = d.dept_id
+WHERE e.salary > 70000;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between TRUNCATE and DELETE commands?",
+                solution:
+                  "<p><strong>TRUNCATE:</strong> Removes all rows from a table quickly, resets auto-increment counters, cannot be rolled back in some databases, and doesn't fire triggers. It's a DDL command.</p><p><strong>DELETE:</strong> Can remove specific rows with WHERE clause, slower for large datasets, can be rolled back, fires triggers, and doesn't reset auto-increment counters. It's a DML command.</p>",
+              },
+              {
+                question:
+                  "Why do we need different categories of SQL commands?",
+                solution:
+                  "<p>Different categories serve different purposes: <strong>DDL</strong> manages database structure and schema changes, <strong>DML</strong> handles day-to-day data operations, <strong>DCL</strong> ensures security and access control, and <strong>TCL</strong> maintains data integrity through transaction management. This separation provides better organization, security, and control over database operations.</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_intro.asp",
+              "https://www.sqlshack.com/sql-commands-types/",
+              "https://www.geeksforgeeks.org/sql-ddl-dql-dml-dcl-tcl-commands/",
+            ],
+          },
+          {
+            topic: "Relational Database Concepts",
+            tags: ["Database Theory", "RDBMS", "Normalization", "Keys"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A relational database is a type of database that stores and organizes data in tables (also called relations). These tables consist of rows (records/tuples) and columns (attributes/fields). The relational model was introduced by Edgar F. Codd in 1970 and is based on mathematical set theory and predicate logic.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Components of Relational Databases
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Tables (Relations):</span> The fundamental structure that stores data in rows and columns.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Each table represents an entity (like Customer, Product, Order)</li>
+        <li>Tables have a unique name within the database</li>
+        <li>Structure is defined by a schema</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Rows (Tuples/Records):</span> Individual data entries in a table.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Each row represents a single instance of the entity</li>
+        <li>All rows in a table have the same structure</li>
+        <li>Order of rows doesn't matter in relational theory</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Columns (Attributes/Fields):</span> Individual data elements that define the structure.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Each column has a specific data type</li>
+        <li>Column names must be unique within a table</li>
+        <li>Columns define what kind of data can be stored</li>
+      </ul>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Concepts in Relational Databases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Primary Key:</span> A unique identifier for each row in a table.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Must be unique for every row</li>
+        <li>Cannot contain NULL values</li>
+        <li>Should be stable (not change over time)</li>
+        <li>Can be a single column or combination of columns</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Foreign Key:</span> A column that references the primary key of another table.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Creates relationships between tables</li>
+        <li>Ensures referential integrity</li>
+        <li>Can contain NULL values (unless specified otherwise)</li>
+        <li>Must match an existing primary key value in the referenced table</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Relationships:</span> Connections between tables through keys.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li><strong>One-to-One (1:1):</strong> Each row in table A relates to exactly one row in table B</li>
+        <li><strong>One-to-Many (1:N):</strong> Each row in table A can relate to multiple rows in table B</li>
+        <li><strong>Many-to-Many (M:N):</strong> Multiple rows in table A can relate to multiple rows in table B</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Normalization:</span> The process of organizing data to reduce redundancy.
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li><strong>First Normal Form (1NF):</strong> Eliminate duplicate columns and ensure atomic values</li>
+        <li><strong>Second Normal Form (2NF):</strong> Remove partial dependencies on primary key</li>
+        <li><strong>Third Normal Form (3NF):</strong> Remove transitive dependencies</li>
+      </ul>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     ACID Properties
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Relational databases ensure data integrity through ACID properties:
+   </p>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;"><strong>Atomicity:</strong> Transactions are all-or-nothing</li>
+     <li style="margin-top: 0.5rem;"><strong>Consistency:</strong> Data remains in a valid state</li>
+     <li style="margin-top: 0.5rem;"><strong>Isolation:</strong> Concurrent transactions don't interfere</li>
+     <li style="margin-top: 0.5rem;"><strong>Durability:</strong> Committed changes are permanent</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: E-commerce Database
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Customers table
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    registration_date DATE
+);
+
+-- Products table
+CREATE TABLE products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(100) NOT NULL,
+    price DECIMAL(10,2) NOT NULL,
+    stock_quantity INT DEFAULT 0,
+    category VARCHAR(50)
+);
+
+-- Orders table (One-to-Many with customers)
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    total_amount DECIMAL(10,2),
+    status VARCHAR(20) DEFAULT 'pending',
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Order_items table (Many-to-Many relationship between orders and products)
+CREATE TABLE order_items (
+    order_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT NOT NULL,
+    product_id INT NOT NULL,
+    quantity INT NOT NULL,
+    unit_price DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+      </code></pre>
+   </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Query Examples Demonstrating Relationships
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Get customer order history (One-to-Many relationship)
+SELECT c.first_name, c.last_name, o.order_date, o.total_amount
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE c.customer_id = 1;
+
+-- Get detailed order information (Many-to-Many through junction table)
+SELECT o.order_id, c.first_name, c.last_name, p.product_name, 
+       oi.quantity, oi.unit_price, (oi.quantity * oi.unit_price) as line_total
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id
+WHERE o.order_id = 1001;
+      </code></pre>
+   </div>
+</div>
+`,
+            examples: [
+              `-- Example: Library Management System demonstrating relational concepts
+
+-- Authors table
+CREATE TABLE authors (
+    author_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    birth_date DATE,
+    nationality VARCHAR(50)
+);
+
+-- Books table
+CREATE TABLE books (
+    book_id INT PRIMARY KEY AUTO_INCREMENT,
+    title VARCHAR(200) NOT NULL,
+    isbn VARCHAR(13) UNIQUE,
+    publication_year INT,
+    genre VARCHAR(50),
+    author_id INT,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+);
+
+-- Members table
+CREATE TABLE members (
+    member_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE,
+    join_date DATE,
+    membership_type ENUM('standard', 'premium')
+);
+
+-- Borrowings table (tracks book loans)
+CREATE TABLE borrowings (
+    borrowing_id INT PRIMARY KEY AUTO_INCREMENT,
+    member_id INT NOT NULL,
+    book_id INT NOT NULL,
+    borrow_date DATE NOT NULL,
+    due_date DATE NOT NULL,
+    return_date DATE NULL,
+    fine_amount DECIMAL(5,2) DEFAULT 0.00,
+    FOREIGN KEY (member_id) REFERENCES members(member_id),
+    FOREIGN KEY (book_id) REFERENCES books(book_id)
+);
+
+-- Insert sample data
+INSERT INTO authors (first_name, last_name, nationality) VALUES
+('George', 'Orwell', 'British'),
+('Jane', 'Austen', 'British'),
+('Mark', 'Twain', 'American');
+
+INSERT INTO books (title, isbn, publication_year, genre, author_id) VALUES
+('1984', '9780451524935', 1949, 'Dystopian Fiction', 1),
+('Animal Farm', '9780451526342', 1945, 'Political Satire', 1),
+('Pride and Prejudice', '9780141439518', 1813, 'Romance', 2);
+
+-- Query demonstrating relationships
+SELECT 
+    b.title,
+    CONCAT(a.first_name, ' ', a.last_name) as author_name,
+    b.publication_year,
+    b.genre
+FROM books b
+JOIN authors a ON b.author_id = a.author_id
+ORDER BY b.publication_year;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between a primary key and a foreign key?",
+                solution:
+                  "<p><strong>Primary Key:</strong> Uniquely identifies each row in its own table, cannot be NULL, and there can be only one primary key per table. It ensures entity integrity.</p><p><strong>Foreign Key:</strong> References the primary key of another table, can be NULL (unless specified otherwise), creates relationships between tables, and there can be multiple foreign keys in a table. It ensures referential integrity.</p>",
+              },
+              {
+                question:
+                  "Explain the concept of normalization and its benefits.",
+                solution:
+                  "<p>Normalization is the process of organizing database tables to reduce data redundancy and improve data integrity. Benefits include: 1) Eliminates data duplication, 2) Reduces storage space, 3) Prevents update anomalies, 4) Ensures data consistency, 5) Makes database maintenance easier. The main normal forms (1NF, 2NF, 3NF) progressively eliminate different types of dependencies and redundancies.</p>",
+              },
+            ],
+            links: [
+              "https://www.tutorialspoint.com/sql/sql-rdbms-concepts.htm",
+              "https://www.geeksforgeeks.org/introduction-of-relational-model-and-codd-rules-in-dbms/",
+              "https://www.studytonight.com/dbms/database-normalization.php",
+            ],
+          },
+          {
+            topic: "Difference between SQL and NoSQL",
+            tags: ["Database Types", "SQL vs NoSQL", "Database Selection"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The choice between SQL and NoSQL databases is one of the most important architectural decisions in modern application development. Both have their strengths and are designed to solve different types of problems. Understanding their differences helps in making informed decisions based on specific use cases and requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SQL Databases (Relational Databases)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     SQL databases are relational databases that use structured query language (SQL) for defining and manipulating data. They follow the ACID properties and use a predefined schema.
+   </p>
+ 
+   <h5 style="margin-top: 1rem; font-weight: 600;">Characteristics of SQL Databases:</h5>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;"><strong>Structured Data:</strong> Data is organized in tables with rows and columns</li>
+     <li style="margin-top: 0.5rem;"><strong>ACID Compliance:</strong> Ensures data integrity and consistency</li>
+     <li style="margin-top: 0.5rem;"><strong>Schema-based:</strong> Predefined structure that must be followed</li>
+     <li style="margin-top: 0.5rem;"><strong>Relationships:</strong> Tables can be related through foreign keys</li>
+     <li style="margin-top: 0.5rem;"><strong>SQL Language:</strong> Standardized query language</li>
+     <li style="margin-top: 0.5rem;"><strong>Vertical Scaling:</strong> Scale by increasing server power</li>
+   </ul>
+
+   <h5 style="margin-top: 1rem; font-weight: 600;">Popular SQL Databases:</h5>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li>MySQL, PostgreSQL, Oracle, SQL Server, SQLite</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     NoSQL Databases (Non-Relational Databases)
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     NoSQL databases are non-relational databases designed to handle large volumes of unstructured or semi-structured data. They sacrifice some ACID properties for scalability and flexibility.
+   </p>
+
+   <h5 style="margin-top: 1rem; font-weight: 600;">Types of NoSQL Databases:</h5>
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Document Databases:</span> Store data as documents (JSON, BSON)
+      <ul style="margin-left: 1rem;">
+        <li>Examples: MongoDB, CouchDB</li>
+        <li>Use case: Content management, catalogs</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Key-Value Stores:</span> Simple key-value pairs
+      <ul style="margin-left: 1rem;">
+        <li>Examples: Redis, DynamoDB</li>
+        <li>Use case: Caching, session management</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Column-Family:</span> Store data in column families
+      <ul style="margin-left: 1rem;">
+        <li>Examples: Cassandra, HBase</li>
+        <li>Use case: Time-series data, IoT applications</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Graph Databases:</span> Store data as nodes and relationships
+      <ul style="margin-left: 1rem;">
+        <li>Examples: Neo4j, ArangoDB</li>
+        <li>Use case: Social networks, recommendation engines</li>
+      </ul>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Detailed Comparison Table
+   </h4>
+   
+   <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.9rem;">
+     <tr style="background-color: #f8f9fa;">
+       <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">Aspect</th>
+       <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">SQL Databases</th>
+       <th style="border: 1px solid #ddd; padding: 8px; text-align: left;">NoSQL Databases</th>
+     </tr>
+     <tr>
+       <td style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Data Structure</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Structured (tables, rows, columns)</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Flexible (documents, key-value, graphs)</td>
+     </tr>
+     <tr>
+       <td style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Schema</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Rigid, predefined schema</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Dynamic, flexible schema</td>
+     </tr>
+     <tr>
+       <td style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Scaling</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Vertical (scale up)</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Horizontal (scale out)</td>
+     </tr>
+     <tr>
+       <td style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">ACID Properties</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Full ACID compliance</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Eventually consistent (BASE)</td>
+     </tr>
+     <tr>
+       <td style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Query Language</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Standard SQL</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Database-specific APIs</td>
+     </tr>
+     <tr>
+       <td style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Relationships</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Complex relationships via JOINs</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">No built-in relationships</td>
+     </tr>
+     <tr>
+       <td style="border: 1px solid #ddd; padding: 8px; font-weight: 600;">Performance</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Good for complex queries</td>
+       <td style="border: 1px solid #ddd; padding: 8px;">Fast for simple read/write operations</td>
+     </tr>
+   </table>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Choose SQL Databases
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;"><strong>ACID compliance is crucial:</strong> Financial systems, banking applications</li>
+     <li style="margin-top: 0.5rem;"><strong>Complex relationships:</strong> When data has many relationships and you need complex queries</li>
+     <li style="margin-top: 0.5rem;"><strong>Structured data:</strong> Data that fits well into tables and has a consistent structure</li>
+     <li style="margin-top: 0.5rem;"><strong>Mature ecosystem:</strong> When you need proven tools, extensive documentation</li>
+     <li style="margin-top: 0.5rem;"><strong>Standard SQL:</strong> When your team is familiar with SQL</li>
+     <li style="margin-top: 0.5rem;"><strong>Data integrity:</strong> When data accuracy and consistency are paramount</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Choose NoSQL Databases
+   </h4>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;"><strong>Scalability needs:</strong> Applications expecting rapid growth and high traffic</li>
+     <li style="margin-top: 0.5rem;"><strong>Flexible data structure:</strong> When data structure changes frequently</li>
+     <li style="margin-top: 0.5rem;"><strong>Unstructured data:</strong> JSON documents, media files, sensor data</li>
+     <li style="margin-top: 0.5rem;"><strong>Real-time applications:</strong> Gaming, IoT, real-time analytics</li>
+     <li style="margin-top: 0.5rem;"><strong>Rapid development:</strong> Agile development with changing requirements</li>
+     <li style="margin-top: 0.5rem;"><strong>Big data:</strong> Large volumes of data that don't fit traditional models</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     SQL Database Example: E-commerce Order System
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- SQL approach with normalized tables and relationships
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100) UNIQUE
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    order_date TIMESTAMP,
+    total_amount DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE order_items (
+    item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    product_name VARCHAR(100),
+    quantity INT,
+    price DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id)
+);
+
+-- Complex query with JOINs
+SELECT 
+    c.first_name,
+    c.last_name,
+    o.order_date,
+    SUM(oi.quantity * oi.price) as total_spent
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+GROUP BY c.customer_id, o.order_id
+HAVING total_spent > 100;
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     NoSQL Database Example: Same System Using MongoDB
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-json">
+// NoSQL approach with embedded documents
+// Single document containing all order information
+{
+  "_id": ObjectId("..."),
+  "customer": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "email": "john.doe@email.com"
+  },
+  "orderDate": "2024-01-15T10:30:00Z",
+  "status": "completed",
+  "items": [
+    {
+      "productName": "Laptop",
+      "quantity": 1,
+      "price": 999.99
+    },
+    {
+      "productName": "Mouse",
+      "quantity": 2,
+      "price": 25.99
+    }
+  ],
+  "totalAmount": 1051.97,
+  "shippingAddress": {
+    "street": "123 Main St",
+    "city": "Anytown",
+    "zipCode": "12345"
+  }
+}
+      </code></pre>
+   </div>
+
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// MongoDB query (using JavaScript/Node.js)
+db.orders.find({
+  "totalAmount": { $gt: 100 },
+  "status": "completed"
+}).forEach(function(order) {
+  print(order.customer.firstName + " " + order.customer.lastName + 
+        " spent $" + order.totalAmount);
+});
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Hybrid Approach: Polyglot Persistence
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Modern applications often use both SQL and NoSQL databases in the same system, choosing the right tool for each specific use case:
+   </p>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;"><strong>User profiles and authentication:</strong> SQL database for ACID compliance</li>
+     <li style="margin-top: 0.5rem;"><strong>Product catalog:</strong> NoSQL document database for flexible schema</li>
+     <li style="margin-top: 0.5rem;"><strong>Shopping cart:</strong> NoSQL key-value store for fast access</li>
+     <li style="margin-top: 0.5rem;"><strong>Analytics and reporting:</strong> SQL database for complex queries</li>
+     <li style="margin-top: 0.5rem;"><strong>Recommendations:</strong> Graph database for relationship analysis</li>
+   </ul>
+</div>
+`,
+            examples: [
+              `-- Real-world comparison: Blog Platform
+
+-- SQL Approach (PostgreSQL)
+CREATE TABLE users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE posts (
+    post_id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    published_at TIMESTAMP,
+    status VARCHAR(20) DEFAULT 'draft',
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+CREATE TABLE comments (
+    comment_id SERIAL PRIMARY KEY,
+    post_id INT NOT NULL,
+    user_id INT NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(post_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
+-- Complex query: Get all posts with comment counts
+SELECT 
+    p.title,
+    u.username as author,
+    p.published_at,
+    COUNT(c.comment_id) as comment_count
+FROM posts p
+JOIN users u ON p.user_id = u.user_id
+LEFT JOIN comments c ON p.post_id = c.post_id
+WHERE p.status = 'published'
+GROUP BY p.post_id, p.title, u.username, p.published_at
+ORDER BY p.published_at DESC;
+
+-- NoSQL Approach (MongoDB document structure)
+{
+  "_id": ObjectId("..."),
+  "title": "Getting Started with NoSQL",
+  "content": "NoSQL databases provide flexibility...",
+  "author": {
+    "userId": "user123",
+    "username": "johndoe",
+    "email": "john@example.com"
+  },
+  "publishedAt": "2024-01-15T09:00:00Z",
+  "status": "published",
+  "tags": ["database", "nosql", "mongodb"],
+  "comments": [
+    {
+      "commentId": "comment1",
+      "userId": "user456",
+      "username": "janedoe",
+      "content": "Great article!",
+      "createdAt": "2024-01-15T10:15:00Z"
+    },
+    {
+      "commentId": "comment2",
+      "userId": "user789",
+      "username": "bobsmith",
+      "content": "Very informative, thanks!",
+      "createdAt": "2024-01-15T11:30:00Z"
+    }
+  ],
+  "metadata": {
+    "views": 1250,
+    "likes": 45,
+    "shares": 12
+  }
+}`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the main advantages of SQL databases over NoSQL databases?",
+                solution:
+                  "<p>SQL databases offer several key advantages: <strong>1) ACID compliance</strong> ensures data consistency and integrity, <strong>2) Mature ecosystem</strong> with extensive tools and documentation, <strong>3) Standardized query language</strong> that's widely known, <strong>4) Complex relationships</strong> handled efficiently through JOINs, <strong>5) Strong consistency</strong> guarantees, and <strong>6) Better for complex analytical queries</strong> and reporting.</p>",
+              },
+              {
+                question:
+                  "When would you choose a NoSQL database over a SQL database?",
+                solution:
+                  "<p>Choose NoSQL when you need: <strong>1) High scalability</strong> for large amounts of data, <strong>2) Flexible schema</strong> for rapidly changing requirements, <strong>3) Fast read/write operations</strong> for real-time applications, <strong>4) Handling unstructured data</strong> like JSON documents or media files, <strong>5) Horizontal scaling</strong> across multiple servers, and <strong>6) Big data applications</strong> where eventual consistency is acceptable.</p>",
+              },
+              {
+                question:
+                  "Can SQL and NoSQL databases be used together in the same application?",
+                solution:
+                  "<p>Yes, this approach is called <strong>Polyglot Persistence</strong>. Many modern applications use different databases for different purposes: SQL databases for transactional data requiring ACID properties (user accounts, orders), NoSQL document stores for flexible content (product catalogs), key-value stores for caching (session data), and graph databases for relationships (recommendations, social connections). This allows leveraging the strengths of each database type.</p>",
+              },
+            ],
+            links: [
+              "https://www.mongodb.com/nosql-explained/nosql-vs-sql",
+              "https://www.geeksforgeeks.org/difference-between-sql-and-nosql/",
+              "https://aws.amazon.com/nosql/",
+              "https://www.oracle.com/database/what-is-database/",
+            ],
+          },
+          {
+            topic: "Primary Key Constraint",
+            tags: ["constraints", "data-integrity", "unique-identifier"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A Primary Key is a constraint that uniquely identifies each record in a database table. It ensures that no two rows can have the same primary key value, and it cannot contain NULL values. Every table should have a primary key to maintain data integrity and establish relationships with other tables.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Characteristics of Primary Key
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Uniqueness:</span> Each value must be unique across all rows.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Not Null:</span> Cannot contain NULL values.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Immutable:</span> Should not be changed once assigned.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single per Table:</span> Each table can have only one primary key.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Index Creation:</span> Automatically creates a unique index for faster data retrieval.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating Primary Key
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 1: During Table Creation</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100)
+);</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 2: Composite Primary Key</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>CREATE TABLE order_details (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price DECIMAL(10,2),
+    PRIMARY KEY (order_id, product_id)
+);</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 3: Adding Primary Key to Existing Table</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>ALTER TABLE employees 
+ADD CONSTRAINT pk_employee_id PRIMARY KEY (employee_id);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases and Real-World Examples
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Management System:</span>
+      <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+         <pre><code>CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE,
+    email VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);</code></pre>
+      </div>
+      <p style="margin-top: 0.5rem;">Here, user_id serves as the primary key, ensuring each user has a unique identifier.</p>
+     </li>
+     
+     <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Product Catalog:</span>
+      <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+         <pre><code>CREATE TABLE products (
+    product_id VARCHAR(10) PRIMARY KEY,  -- e.g., 'PROD001'
+    product_name VARCHAR(200),
+    category_id INT,
+    price DECIMAL(10,2),
+    stock_quantity INT
+);</code></pre>
+      </div>
+      <p style="margin-top: 0.5rem;">Product ID ensures each product can be uniquely identified in inventory systems.</p>
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- Creating a simple table with primary key
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    grade_level INT
+);
+
+-- Inserting data
+INSERT INTO students VALUES (1, 'John', 'Doe', 10);
+INSERT INTO students VALUES (2, 'Jane', 'Smith', 11);
+
+-- This will fail due to duplicate primary key
+INSERT INTO students VALUES (1, 'Bob', 'Johnson', 9); -- ERROR`,
+
+              `-- Composite primary key example
+CREATE TABLE course_enrollments (
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    grade CHAR(2),
+    PRIMARY KEY (student_id, course_id)
+);
+
+-- Valid insertions
+INSERT INTO course_enrollments VALUES (1, 101, '2024-01-15', 'A');
+INSERT INTO course_enrollments VALUES (1, 102, '2024-01-16', 'B');
+INSERT INTO course_enrollments VALUES (2, 101, '2024-01-15', 'A');
+
+-- This will fail - same student in same course
+INSERT INTO course_enrollments VALUES (1, 101, '2024-01-17', 'A+'); -- ERROR`,
+            ],
+            questions: [
+              {
+                question:
+                  "What happens if you try to insert duplicate values in a primary key column?",
+                solution:
+                  "<p>The database will reject the insertion and throw a constraint violation error. Primary keys must be unique, so duplicate values are not allowed. This ensures data integrity and prevents duplicate records.</p>",
+              },
+              {
+                question: "Can a table exist without a primary key?",
+                solution:
+                  "<p>While technically possible in some databases, it's not recommended. Tables without primary keys can lead to issues with replication, indexing, and data integrity. Most database systems and ORMs expect tables to have primary keys for optimal performance and functionality.</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_primarykey.asp",
+              "https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/constraint.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/primary-key-optimization.html",
+            ],
+          },
+          {
+            topic: "Foreign Key Constraint",
+            tags: ["constraints", "relationships", "referential-integrity"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     A Foreign Key is a constraint that establishes a link between data in two tables. It refers to the primary key of another table, ensuring referential integrity by preventing actions that would destroy links between tables. Foreign keys help maintain consistent relationships between related data.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Characteristics of Foreign Key
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">References Primary Key:</span> Must reference a primary key or unique key in another table.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Can be NULL:</span> Unlike primary keys, foreign keys can contain NULL values.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multiple Foreign Keys:</span> A table can have multiple foreign key constraints.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Referential Actions:</span> Can specify actions for UPDATE and DELETE operations.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating Foreign Key Relationships
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Basic Foreign Key Creation</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>-- Parent table
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(100),
+    location VARCHAR(100)
+);
+
+-- Child table with foreign key
+CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    emp_name VARCHAR(100),
+    dept_id INT,
+    FOREIGN KEY (dept_id) REFERENCES departments(dept_id)
+);</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Foreign Key with Referential Actions</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Referential Actions
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">CASCADE:</span> Automatically delete/update child records when parent is deleted/updated.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SET NULL:</span> Set foreign key values to NULL when parent is deleted/updated.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">RESTRICT:</span> Prevent deletion/update of parent if child records exist.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">NO ACTION:</span> Similar to RESTRICT, but check is deferred.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce Order System:</span>
+      <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+         <pre><code>CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    email VARCHAR(100)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+        ON DELETE RESTRICT  -- Prevent deleting customers with orders
+);</code></pre>
+      </div>
+     </li>
+     
+     <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Library Management System:</span>
+      <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+         <pre><code>CREATE TABLE authors (
+    author_id INT PRIMARY KEY,
+    author_name VARCHAR(100)
+);
+
+CREATE TABLE books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(200),
+    author_id INT,
+    published_year INT,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+        ON DELETE SET NULL  -- Keep book even if author is deleted
+);</code></pre>
+      </div>
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- Creating related tables with foreign keys
+CREATE TABLE categories (
+    category_id INT PRIMARY KEY,
+    category_name VARCHAR(50)
+);
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100),
+    category_id INT,
+    price DECIMAL(10,2),
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+-- Insert parent records first
+INSERT INTO categories VALUES (1, 'Electronics'), (2, 'Clothing');
+
+-- Insert child records
+INSERT INTO products VALUES (1, 'Laptop', 1, 999.99);
+INSERT INTO products VALUES (2, 'T-Shirt', 2, 19.99);
+
+-- This will fail - category 3 doesn't exist
+INSERT INTO products VALUES (3, 'Phone', 3, 699.99); -- ERROR`,
+
+              `-- Demonstrating CASCADE behavior
+CREATE TABLE authors (
+    author_id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE books (
+    book_id INT PRIMARY KEY,
+    title VARCHAR(200),
+    author_id INT,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+        ON DELETE CASCADE
+);
+
+INSERT INTO authors VALUES (1, 'J.K. Rowling');
+INSERT INTO books VALUES (1, 'Harry Potter', 1);
+INSERT INTO books VALUES (2, 'Fantastic Beasts', 1);
+
+-- This will delete the author AND all related books
+DELETE FROM authors WHERE author_id = 1;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What happens when you try to delete a record that is referenced by a foreign key?",
+                solution:
+                  "<p>The behavior depends on the referential action specified. With RESTRICT or NO ACTION, the deletion will be prevented. With CASCADE, the child records will also be deleted. With SET NULL, the foreign key values in child records will be set to NULL.</p>",
+              },
+              {
+                question:
+                  "Can a foreign key reference a column that is not a primary key?",
+                solution:
+                  "<p>Yes, a foreign key can reference any column that has a UNIQUE constraint, not just primary keys. However, the referenced column must have unique values to maintain referential integrity.</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_foreignkey.asp",
+              "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-FK",
+              "https://dev.mysql.com/doc/refman/8.0/en/create-table-foreign-keys.html",
+            ],
+          },
+          {
+            topic: "Unique Constraint",
+            tags: ["constraints", "data-integrity", "unique-values"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The UNIQUE constraint ensures that all values in a column or a set of columns are different from each other. Unlike PRIMARY KEY, a table can have multiple UNIQUE constraints, and UNIQUE columns can contain NULL values (though only one NULL is typically allowed per column).
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Characteristics of UNIQUE Constraint
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Ensures Uniqueness:</span> No two rows can have the same value in unique column(s).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Allows NULL Values:</span> Can contain NULL values (usually one per column).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multiple per Table:</span> A table can have multiple UNIQUE constraints.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Automatic Index:</span> Creates an index automatically for performance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Can be Composite:</span> Can span multiple columns.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating UNIQUE Constraints
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 1: Column-level UNIQUE</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    phone VARCHAR(15)
+);</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 2: Table-level UNIQUE with Named Constraint</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>CREATE TABLE employees (
+    emp_id INT PRIMARY KEY,
+    email VARCHAR(100),
+    social_security VARCHAR(11),
+    employee_number VARCHAR(10),
+    CONSTRAINT uk_email UNIQUE (email),
+    CONSTRAINT uk_ssn UNIQUE (social_security)
+);</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Method 3: Composite UNIQUE Constraint</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>CREATE TABLE course_sections (
+    section_id INT PRIMARY KEY,
+    course_code VARCHAR(10),
+    semester VARCHAR(20),
+    year INT,
+    room_number VARCHAR(10),
+    CONSTRAINT uk_course_semester UNIQUE (course_code, semester, year)
+);</code></pre>
+   </div>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">Adding UNIQUE to Existing Table</span>
+   </p>
+   <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+      <pre><code>ALTER TABLE products 
+ADD CONSTRAINT uk_product_code UNIQUE (product_code);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Use Cases
+   </h4>
+   
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Registration System:</span>
+      <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+         <pre><code>CREATE TABLE user_accounts (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(30) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    phone VARCHAR(15) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Prevents duplicate usernames and emails
+INSERT INTO user_accounts (username, email) 
+VALUES ('john_doe', 'john@email.com');
+
+-- This will fail due to duplicate username
+INSERT INTO user_accounts (username, email) 
+VALUES ('john_doe', 'john.doe@email.com'); -- ERROR</code></pre>
+      </div>
+     </li>
+     
+     <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Product Inventory System:</span>
+      <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+         <pre><code>CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_code VARCHAR(20) UNIQUE NOT NULL,  -- SKU
+    barcode VARCHAR(13) UNIQUE,                -- UPC/EAN
+    product_name VARCHAR(200),
+    category_id INT
+);
+
+-- Each product has unique code and barcode
+INSERT INTO products (product_code, barcode, product_name) 
+VALUES ('LAPTOP001', '1234567890123', 'Gaming Laptop');</code></pre>
+      </div>
+     </li>
+
+     <li style="margin-top: 1rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Employee Management:</span>
+      <div style="background-color: #f8f9fa; padding: 1rem; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+         <pre><code>CREATE TABLE employees (
+    emp_id INT AUTO_INCREMENT PRIMARY KEY,
+    employee_number VARCHAR(10) UNIQUE NOT NULL,
+    social_security VARCHAR(11) UNIQUE,
+    email VARCHAR(100) UNIQUE,
+    badge_number VARCHAR(8) UNIQUE,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+);</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     UNIQUE vs PRIMARY KEY
+   </h4>
+   
+   <div style="background-color: #f0f8ff; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+     <table style="width: 100%; border-collapse: collapse;">
+       <tr style="border-bottom: 1px solid #ddd;">
+         <th style="text-align: left; padding: 8px; font-weight: 600;">Aspect</th>
+         <th style="text-align: left; padding: 8px; font-weight: 600;">PRIMARY KEY</th>
+         <th style="text-align: left; padding: 8px; font-weight: 600;">UNIQUE</th>
+       </tr>
+       <tr style="border-bottom: 1px solid #ddd;">
+         <td style="padding: 8px;">NULL Values</td>
+         <td style="padding: 8px;">Not allowed</td>
+         <td style="padding: 8px;">One NULL allowed</td>
+       </tr>
+       <tr style="border-bottom: 1px solid #ddd;">
+         <td style="padding: 8px;">Quantity per table</td>
+         <td style="padding: 8px;">Only one</td>
+         <td style="padding: 8px;">Multiple allowed</td>
+       </tr>
+       <tr style="border-bottom: 1px solid #ddd;">
+         <td style="padding: 8px;">Index type</td>
+         <td style="padding: 8px;">Clustered index</td>
+         <td style="padding: 8px;">Non-clustered index</td>
+       </tr>
+       <tr>
+         <td style="padding: 8px;">Purpose</td>
+         <td style="padding: 8px;">Row identifier</td>
+         <td style="padding: 8px;">Data integrity</td>
+       </tr>
+     </table>
+   </div>
+</div>`,
+            examples: [
+              `-- Creating table with multiple unique constraints
+CREATE TABLE student_records (
+    student_id INT PRIMARY KEY,
+    student_number VARCHAR(10) UNIQUE,    -- University student number
+    email VARCHAR(100) UNIQUE,            -- Email address
+    social_security VARCHAR(11) UNIQUE,   -- SSN
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+);
+
+-- Valid insertions
+INSERT INTO student_records VALUES 
+(1, 'STU001', 'john@university.edu', '123-45-6789', 'John', 'Doe');
+
+INSERT INTO student_records VALUES 
+(2, 'STU002', 'jane@university.edu', '987-65-4321', 'Jane', 'Smith');
+
+-- This will fail - duplicate email
+INSERT INTO student_records VALUES 
+(3, 'STU003', 'john@university.edu', '111-22-3333', 'Bob', 'Johnson'); -- ERROR`,
+
+              `-- Composite unique constraint example
+CREATE TABLE class_schedules (
+    schedule_id INT PRIMARY KEY,
+    course_id VARCHAR(10),
+    room_number VARCHAR(10),
+    time_slot VARCHAR(20),
+    day_of_week VARCHAR(10),
+    semester VARCHAR(20),
+    -- Ensure no room conflicts: same room, time, day in same semester
+    CONSTRAINT uk_room_schedule UNIQUE (room_number, time_slot, day_of_week, semester)
+);
+
+-- Valid insertions
+INSERT INTO class_schedules VALUES 
+(1, 'CS101', 'ROOM101', '09:00-10:30', 'Monday', 'Fall2024');
+
+INSERT INTO class_schedules VALUES 
+(2, 'CS102', 'ROOM102', '09:00-10:30', 'Monday', 'Fall2024');
+
+-- This will fail - same room, time, day, semester
+INSERT INTO class_schedules VALUES 
+(3, 'CS103', 'ROOM101', '09:00-10:30', 'Monday', 'Fall2024'); -- ERROR`,
+            ],
+            questions: [
+              {
+                question: "Can a UNIQUE constraint column contain NULL values?",
+                solution:
+                  "<p>Yes, UNIQUE constraints typically allow NULL values, and usually only one NULL value per column is permitted. However, this behavior can vary between database systems. In most systems, NULL is considered unique, so multiple NULLs might be allowed in some implementations.</p>",
+              },
+              {
+                question:
+                  "What's the difference between UNIQUE and PRIMARY KEY constraints?",
+                solution:
+                  "<p>PRIMARY KEY cannot contain NULL values and there can be only one per table, while UNIQUE can contain NULL values (usually one) and a table can have multiple UNIQUE constraints. PRIMARY KEY also serves as the default clustered index and row identifier.</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_unique.asp",
+              "https://docs.microsoft.com/en-us/sql/relational-databases/tables/unique-constraints-and-check-constraints",
+              "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS",
+            ],
+          },
+
+          {
+            topic: "Numeric Data Types INT and BIGINT",
+            tags: ["integers", "whole-numbers", "primary-keys"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Numeric data types in SQL are used to store numerical values. INT and BIGINT are integer data types that store whole numbers without decimal points. They are fundamental for storing counts, IDs, ages, quantities, and other discrete numeric values.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     INT (Integer) Data Type
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> -2,147,483,648 to 2,147,483,647 (4 bytes storage)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Cases:</span> User IDs, product quantities, age, count of items
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> Uses 4 bytes of storage space
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Fast arithmetic operations and comparisons
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     BIGINT Data Type
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807 (8 bytes storage)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Cases:</span> Large datasets, timestamps, financial calculations, scientific data
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> Uses 8 bytes of storage space
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">When to Use:</span> When INT range is insufficient
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Table Creation Examples
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Creating a users table with INT and BIGINT
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,           -- Primary key using INT
+    age INT,                          -- Age field
+    phone_number BIGINT,              -- Phone numbers need BIGINT
+    total_posts INT DEFAULT 0,        -- Post count with default value
+    account_balance BIGINT            -- Large financial values
+);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce:</span> Product IDs (INT), Order quantities (INT), Customer phone numbers (BIGINT)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Social Media:</span> User IDs (INT), Follower counts (INT), Post timestamps (BIGINT)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Financial Systems:</span> Transaction amounts in cents (BIGINT), Account numbers (BIGINT)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Gaming:</span> Player scores (INT), Experience points (BIGINT for high-level games)
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- Insert data into users table
+INSERT INTO users (user_id, age, phone_number, total_posts, account_balance) 
+VALUES 
+(1, 25, 1234567890123, 150, 250000),
+(2, 30, 9876543210987, 75, 1500000),
+(3, 22, 5555666677778, 0, 0);
+
+-- Query examples
+SELECT user_id, age FROM users WHERE age > 25;
+SELECT * FROM users WHERE phone_number > 5000000000000;
+SELECT AVG(age) as average_age FROM users;`,
+              `-- Auto-increment INT example
+CREATE TABLE products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    quantity_in_stock INT,
+    total_sales BIGINT DEFAULT 0
+);
+
+INSERT INTO products (name, quantity_in_stock) 
+VALUES ('Laptop', 50), ('Mouse', 200);`,
+            ],
+            questions: [
+              {
+                question: "When should you use BIGINT instead of INT?",
+                solution:
+                  "<p>Use BIGINT when you expect values to exceed the INT range (-2.1 billion to 2.1 billion). Common scenarios include: storing phone numbers, large financial amounts, timestamps in milliseconds, user IDs in very large systems, or scientific calculations with large numbers. The trade-off is that BIGINT uses twice the storage space (8 bytes vs 4 bytes).</p>",
+              },
+              {
+                question: "Can you store decimal numbers in INT or BIGINT?",
+                solution:
+                  "<p>No, INT and BIGINT can only store whole numbers (integers). If you try to insert a decimal value, it will be truncated (the decimal part will be removed). For decimal numbers, use DECIMAL, FLOAT, or DOUBLE data types instead.</p>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/integer-types.html",
+              "https://www.postgresql.org/docs/current/datatype-numeric.html",
+              "https://www.w3schools.com/sql/sql_datatypes.asp",
+            ],
+          },
+          {
+            topic: "Numeric Data Types DECIMAL and FLOAT",
+            tags: ["decimals", "precision", "monetary", "scientific"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     DECIMAL and FLOAT are numeric data types designed to handle fractional numbers. DECIMAL provides exact precision and is ideal for financial calculations, while FLOAT offers approximate precision with a larger range, suitable for scientific calculations and measurements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     DECIMAL Data Type
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Precision:</span> Exact decimal representation - no rounding errors
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Syntax:</span> DECIMAL(precision, scale) - e.g., DECIMAL(10,2) for 99999999.99
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Cases:</span> Money, prices, tax calculations, financial reports
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> Variable storage based on precision (typically 1-16 bytes)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> Depends on precision setting, up to 65 digits total
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     FLOAT Data Type
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Precision:</span> Approximate floating-point representation
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> ±1.175494351E-38 to ±3.402823466E+38 (4 bytes)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Cases:</span> Scientific calculations, measurements, statistical data
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Faster calculations than DECIMAL
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Caution:</span> May have small rounding errors due to binary representation
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Table Creation Examples
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- E-commerce products table
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2),           -- Exact price: $99999999.99
+    weight_kg FLOAT,               -- Approximate weight
+    discount_rate DECIMAL(5,4),    -- Precise discount: 99.9999%
+    temperature_celsius FLOAT      -- Scientific measurement
+);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Financial vs Scientific Applications
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Financial (use DECIMAL):</span>
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Bank account balances: DECIMAL(15,2)</li>
+        <li>Product prices: DECIMAL(8,2)</li>
+        <li>Tax rates: DECIMAL(5,4)</li>
+        <li>Exchange rates: DECIMAL(12,8)</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Scientific (use FLOAT):</span>
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>GPS coordinates</li>
+        <li>Temperature readings</li>
+        <li>Statistical measurements</li>
+        <li>Engineering calculations</li>
+      </ul>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences Summary
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- DECIMAL: Exact precision for financial data
+SELECT 0.1 + 0.2 as decimal_result;  -- Returns exactly 0.3
+
+-- FLOAT: Approximate precision, potential rounding
+SELECT 0.1 + 0.2 as float_result;    -- May return 0.30000000000000004
+ </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `-- Financial application example
+CREATE TABLE bank_accounts (
+    account_id INT PRIMARY KEY,
+    balance DECIMAL(15,2),        -- Up to $9,999,999,999,999.99
+    interest_rate DECIMAL(5,4),   -- Up to 99.9999%
+    monthly_fee DECIMAL(6,2)      -- Up to $9,999.99
+);
+
+INSERT INTO bank_accounts VALUES 
+(1, 15000.50, 2.5000, 25.00),
+(2, 250000.00, 1.7500, 0.00);
+
+-- Calculate interest
+SELECT account_id, 
+       balance, 
+       balance * (interest_rate / 100) as yearly_interest
+FROM bank_accounts;`,
+              `-- Scientific measurements table
+CREATE TABLE weather_data (
+    reading_id INT PRIMARY KEY,
+    temperature FLOAT,        -- Can be negative, high precision
+    humidity_percent DECIMAL(5,2), -- Exact percentage
+    wind_speed_kmh FLOAT,     -- Variable precision measurement
+    pressure_hpa FLOAT        -- Atmospheric pressure
+);
+
+INSERT INTO weather_data VALUES 
+(1, -15.5, 65.50, 12.7, 1013.25),
+(2, 22.3, 80.00, 5.2, 1008.75);`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why should you use DECIMAL for money instead of FLOAT?",
+                solution:
+                  "<p>DECIMAL provides exact precision without rounding errors, which is crucial for financial calculations. FLOAT uses binary representation which can cause small rounding errors (e.g., 0.1 + 0.2 might not equal exactly 0.3). In financial systems, even tiny rounding errors can accumulate and cause significant discrepancies in accounting.</p>",
+              },
+              {
+                question: "What does DECIMAL(10,2) mean?",
+                solution:
+                  "<p>DECIMAL(10,2) means the number can have up to 10 total digits with exactly 2 digits after the decimal point. So it can store values from -99999999.99 to 99999999.99. The first number (10) is precision (total digits), the second number (2) is scale (digits after decimal point).</p>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/fixed-point-types.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/floating-point-types.html",
+              "https://www.postgresql.org/docs/current/datatype-numeric.html",
+            ],
+          },
+          {
+            topic: "Character Data Types CHAR and VARCHAR",
+            tags: ["text", "strings", "fixed-length", "variable-length"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Character data types store text data in SQL databases. CHAR provides fixed-length storage while VARCHAR offers variable-length storage. Understanding when to use each type is crucial for database performance and storage optimization.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     CHAR Data Type (Fixed-Length)
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> Always uses the full declared length, padded with spaces
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> 0 to 255 characters
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Faster for fixed-width data due to predictable storage
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Cases:</span> Country codes, state abbreviations, gender codes, status flags
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory:</span> Uses full declared size regardless of actual content length
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     VARCHAR Data Type (Variable-Length)
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> Uses only the space needed plus 1-2 bytes for length info
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> 0 to 65,535 characters (MySQL), varies by database system
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Efficiency:</span> More storage-efficient for variable-length text
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Cases:</span> Names, addresses, descriptions, email addresses
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Can store any length up to the maximum specified
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Examples Table
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- User information table
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    first_name VARCHAR(50),        -- Variable: "John" vs "Alexandra"
+    last_name VARCHAR(100),        -- Variable length surnames
+    country_code CHAR(2),          -- Fixed: "US", "UK", "CA"
+    state_code CHAR(2),            -- Fixed: "NY", "CA", "TX"
+    gender CHAR(1),                -- Fixed: "M", "F", "O"
+    email VARCHAR(255),            -- Variable length emails
+    phone_number VARCHAR(20)       -- Variable: different formats
+);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Storage Comparison Example
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Storage efficiency demonstration
+-- Storing "Hello" in different field types:
+
+CHAR(10)     -- Stores "Hello     " (10 bytes total)
+VARCHAR(10)  -- Stores "Hello" (5 bytes + 1 length byte = 6 bytes)
+
+-- For 1000 records with average 5-character strings:
+-- CHAR(10): 1000 * 10 = 10,000 bytes
+-- VARCHAR(10): 1000 * 6 = 6,000 bytes (40% space savings)
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use Each Type
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use CHAR when:</span>
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Data length is consistent (country codes, status flags)</li>
+        <li>Performance is critical and data is frequently accessed</li>
+        <li>Storage space is not a primary concern</li>
+        <li>Working with legacy systems that expect fixed-width fields</li>
+      </ul>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use VARCHAR when:</span>
+      <ul style="margin-left: 1rem; margin-top: 0.5rem;">
+        <li>Data length varies significantly (names, descriptions)</li>
+        <li>Storage efficiency is important</li>
+        <li>Most values are shorter than the maximum length</li>
+        <li>Dealing with user-generated content</li>
+      </ul>
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- E-commerce product catalog
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(200),     -- Variable: "USB Cable" vs "Professional Gaming Mechanical Keyboard"
+    category VARCHAR(50),          -- Variable: "Electronics", "Books"
+    sku_code CHAR(8),             -- Fixed: "PROD0001", "ELEC4567"
+    status CHAR(1),               -- Fixed: "A"=Active, "I"=Inactive, "D"=Discontinued
+    currency_code CHAR(3),        -- Fixed: "USD", "EUR", "GBP"
+    description VARCHAR(1000)      -- Variable length product descriptions
+);
+
+INSERT INTO products VALUES 
+(1, 'Wireless Bluetooth Headphones', 'Electronics', 'ELEC0001', 'A', 'USD', 'High-quality wireless headphones with noise cancellation'),
+(2, 'USB-C Cable', 'Accessories', 'ACCE0012', 'A', 'USD', 'Durable USB-C charging cable');`,
+              `-- Employee management system
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(75),
+    department_code CHAR(4),      -- Fixed: "TECH", "SALE", "HR01"
+    employee_status CHAR(1),      -- Fixed: "A"=Active, "T"=Terminated
+    office_location CHAR(3),      -- Fixed: "NYC", "LAX", "CHI"
+    job_title VARCHAR(100),       -- Variable: "Manager" vs "Senior Software Development Engineer"
+    email_address VARCHAR(150)    -- Variable length email addresses
+);
+
+-- Query examples showing CHAR vs VARCHAR usage
+SELECT * FROM employees WHERE department_code = 'TECH';  -- Exact match for CHAR
+SELECT * FROM employees WHERE job_title LIKE '%Manager%'; -- Pattern search for VARCHAR`,
+            ],
+            questions: [
+              {
+                question:
+                  "What happens if you insert a string shorter than CHAR length?",
+                solution:
+                  "<p>When you insert a string shorter than the declared CHAR length, the database automatically pads it with trailing spaces to reach the full length. For example, inserting 'CA' into CHAR(5) results in 'CA   ' (with 3 trailing spaces). These spaces are typically removed when you retrieve the data, but the full storage space is still used.</p>",
+              },
+              {
+                question:
+                  "Which is more efficient for storing names: CHAR or VARCHAR?",
+                solution:
+                  "<p>VARCHAR is more efficient for storing names because name lengths vary significantly. Using CHAR(50) for names would waste space for short names like 'Li' or 'Kim' while using VARCHAR(50) only uses the actual space needed plus a small overhead. For example, 'John' in CHAR(50) uses 50 bytes, while in VARCHAR(50) it uses only 5 bytes.</p>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/char.html",
+              "https://www.postgresql.org/docs/current/datatype-character.html",
+              "https://www.w3schools.com/sql/sql_datatypes.asp",
+            ],
+          },
+          {
+            topic: "Character Data Types TEXT",
+            tags: ["large-text", "blobs", "content", "descriptions"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     TEXT data types are designed to store large amounts of character data that exceed the limitations of VARCHAR. They're essential for storing content like articles, descriptions, comments, and any text that can be very long and variable in size.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     TEXT Type Variants
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TINYTEXT:</span> Up to 255 characters (255 bytes)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TEXT:</span> Up to 65,535 characters (~64KB)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">MEDIUMTEXT:</span> Up to 16,777,215 characters (~16MB)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LONGTEXT:</span> Up to 4,294,967,295 characters (~4GB)
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> Stored separately from the row data, only a pointer is kept in the row
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Indexing:</span> Cannot be fully indexed, but prefix indexing is possible
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Default Values:</span> Cannot have default values (except NULL)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Slower than VARCHAR for small text, but necessary for large content
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Sorting:</span> Only first few characters used for sorting (configurable)
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Usage Examples
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Blog/CMS system
+CREATE TABLE articles (
+    article_id INT PRIMARY KEY,
+    title VARCHAR(255),           -- Article titles
+    summary TEXT,                 -- Article summaries (~1-2 paragraphs)
+    content LONGTEXT,             -- Full article content (could be very long)
+    meta_keywords TEXT,           -- SEO keywords and tags
+    author_bio MEDIUMTEXT,        -- Author biography
+    comments LONGTEXT             -- Reader comments (can be extensive)
+);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     TEXT vs VARCHAR Decision Guide
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Use VARCHAR when:
+description VARCHAR(500)  -- Short product descriptions
+comment VARCHAR(1000)     -- Brief comments
+address VARCHAR(200)      -- Addresses (predictable length)
+
+-- Use TEXT when:
+article_content TEXT      -- Blog posts, articles
+user_review MEDIUMTEXT    -- Detailed product reviews
+legal_document LONGTEXT   -- Terms of service, privacy policies
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases by Industry
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Content Management:</span> Blog posts, articles, page content, news stories
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">E-commerce:</span> Detailed product descriptions, customer reviews, return policies
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Social Media:</span> Posts, comments, user-generated content, message threads
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Documentation:</span> Technical manuals, help articles, FAQ content
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Legal/Compliance:</span> Contracts, terms of service, privacy policies
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Considerations
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Indexing Strategy:</span> Use prefix indexes for TEXT columns: INDEX(content(100))
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Query Optimization:</span> Avoid selecting TEXT columns unless necessary
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage Impact:</span> TEXT data stored separately, affecting row size and caching
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Usage:</span> Large TEXT values consume more memory during processing
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- Social media platform example
+CREATE TABLE posts (
+    post_id INT PRIMARY KEY,
+    user_id INT,
+    title VARCHAR(200),
+    content TEXT,                 -- Post content (tweets, status updates)
+    hashtags VARCHAR(500),        -- Space-separated hashtags
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP
+);
+
+CREATE TABLE comments (
+    comment_id INT PRIMARY KEY,
+    post_id INT,
+    user_id INT,
+    comment_text MEDIUMTEXT,      -- Detailed comments and replies
+    created_at TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES posts(post_id)
+);
+
+-- Insert sample data
+INSERT INTO posts VALUES 
+(1, 101, 'My Journey with SQL', 'Learning SQL has been an incredible experience. Starting with basic queries and now working with complex joins...', '#SQL #database #learning', NOW(), NOW());`,
+              `-- E-commerce product catalog with reviews
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(200),
+    short_description VARCHAR(500),    -- Brief description for listings
+    detailed_description LONGTEXT,     -- Comprehensive product details
+    specifications MEDIUMTEXT,         -- Technical specifications
+    warranty_info TEXT                 -- Warranty terms and conditions
+);
+
+CREATE TABLE product_reviews (
+    review_id INT PRIMARY KEY,
+    product_id INT,
+    customer_id INT,
+    rating INT,
+    review_title VARCHAR(200),
+    review_content LONGTEXT,           -- Detailed customer reviews
+    pros_cons MEDIUMTEXT,              -- Structured pros and cons
+    created_at TIMESTAMP
+);
+
+-- Search in TEXT fields (requires careful indexing)
+SELECT product_id, name FROM products 
+WHERE MATCH(detailed_description) AGAINST('wireless bluetooth' IN BOOLEAN MODE);`,
+            ],
+            questions: [
+              {
+                question: "When should you choose TEXT over VARCHAR?",
+                solution:
+                  "<p>Choose TEXT when you need to store more than 65,535 characters (VARCHAR's limit), when the content length is highly variable and unpredictable, or when storing large blocks of text like articles, reviews, or documents. TEXT is also better when you don't need to index the entire content or when storage efficiency for large content is more important than query performance.</p>",
+              },
+              {
+                question:
+                  "Can you use TEXT columns in WHERE clauses and how does it affect performance?",
+                solution:
+                  "<p>Yes, you can use TEXT columns in WHERE clauses, but it's slower than VARCHAR comparisons. TEXT columns cannot be fully indexed, so searches require full table scans unless you use prefix indexes or full-text search. For better performance, consider using MATCH...AGAINST for full-text searches or create prefix indexes on TEXT columns: INDEX(column_name(100)).</p>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/blob.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/fulltext-search.html",
+              "https://www.postgresql.org/docs/current/datatype-character.html",
+            ],
+          },
+          {
+            topic: "Date & Time Data Types DATE",
+            tags: ["date", "calendar", "birthday", "events"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The DATE data type stores calendar dates without time information. It's perfect for storing birthdays, event dates, deadlines, and any scenario where you only need to track the day, month, and year. DATE provides a standardized way to handle dates across different applications and systems.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     DATE Data Type Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Format:</span> 'YYYY-MM-DD' (e.g., '2024-03-15')
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> '1000-01-01' to '9999-12-31'
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> 3 bytes per date value
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Time Zone:</span> No time zone information stored
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Precision:</span> Day-level precision only
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Personal Information:</span> Birth dates, anniversary dates
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Business Operations:</span> Order dates, delivery dates, due dates
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Events & Scheduling:</span> Event dates, appointment dates, holiday schedules
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Financial:</span> Transaction dates, invoice dates, payment due dates
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reporting:</span> Report generation dates, data cutoff dates
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Table Creation Examples
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Employee management system
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    birth_date DATE,              -- Employee birthday
+    hire_date DATE,               -- Date they started working
+    termination_date DATE,        -- NULL if still employed
+    next_review_date DATE         -- Performance review schedule
+);
+
+-- Event management system
+CREATE TABLE events (
+    event_id INT PRIMARY KEY,
+    event_name VARCHAR(200),
+    event_date DATE,              -- When the event occurs
+    registration_deadline DATE,    -- Last day to register
+    created_date DATE DEFAULT (CURRENT_DATE)  -- When event was created
+);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Date Functions and Operations
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Common date functions
+SELECT 
+    CURRENT_DATE as today,                    -- Current date
+    DATE('2024-03-15') as specific_date,      -- Create date from string
+    YEAR(birth_date) as birth_year,           -- Extract year
+    MONTH(birth_date) as birth_month,         -- Extract month
+    DAY(birth_date) as birth_day,             -- Extract day
+    DAYNAME(birth_date) as day_of_week,       -- Day name (Monday, Tuesday, etc.)
+    DATEDIFF(CURRENT_DATE, hire_date) as days_employed,  -- Difference in days
+    DATE_ADD(event_date, INTERVAL 7 DAY) as week_after   -- Add 7 days
+FROM employees;
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Date Validation and Constraints
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Format Validation:</span> Database automatically validates date format
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range Checks:</span> Can add constraints to ensure reasonable date ranges
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Business Rules:</span> Hire date cannot be in the future, birth date must be in the past
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Leap Year Handling:</span> Automatically handles leap years and varying month lengths
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Always use ISO format:</span> 'YYYY-MM-DD' for consistency
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consider NULL values:</span> Allow NULL for optional dates (like termination_date)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use appropriate indexes:</span> Index frequently queried date columns
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Validate business logic:</span> Add CHECK constraints for reasonable date ranges
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- Customer orders system
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    birth_date DATE,              -- For age verification and birthday promotions
+    registration_date DATE,       -- When they joined
+    last_purchase_date DATE       -- Track customer activity
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,              -- When order was placed
+    required_date DATE,           -- When customer needs it
+    shipped_date DATE,            -- When it was shipped (NULL if not shipped)
+    delivery_date DATE            -- When it was delivered (NULL if not delivered)
+);
+
+-- Insert sample data
+INSERT INTO customers VALUES 
+(1, 'John', 'Doe', '1985-06-15', '2023-01-10', '2024-03-01'),
+(2, 'Jane', 'Smith', '1990-12-22', '2023-02-20', '2024-02-28');
+
+-- Useful date queries
+SELECT * FROM customers WHERE MONTH(birth_date) = MONTH(CURRENT_DATE);  -- Birthday this month
+SELECT * FROM orders WHERE order_date >= DATE_SUB(CURRENT_DATE, INTERVAL 30 DAY);  -- Last 30 days`,
+              `-- Project management system
+CREATE TABLE projects (
+    project_id INT PRIMARY KEY,
+    project_name VARCHAR(200),
+    start_date DATE,
+    planned_end_date DATE,
+    actual_end_date DATE,         -- NULL if project is still ongoing
+    budget_approval_date DATE,
+    CHECK (start_date <= planned_end_date),  -- Ensure logical date order
+    CHECK (actual_end_date IS NULL OR actual_end_date >= start_date)
+);
+
+-- Age calculation and date arithmetic
+SELECT 
+    customer_id,
+    first_name,
+    birth_date,
+    TIMESTAMPDIFF(YEAR, birth_date, CURRENT_DATE) as age,
+    CASE 
+        WHEN MONTH(birth_date) = MONTH(CURRENT_DATE) 
+        AND DAY(birth_date) = DAY(CURRENT_DATE) 
+        THEN 'Today is their birthday!' 
+        ELSE 'Not birthday today' 
+    END as birthday_status
+FROM customers;`,
+            ],
+            questions: [
+              {
+                question: "How do you calculate age from a birth date in SQL?",
+                solution:
+                  "<p>Use the TIMESTAMPDIFF function: `TIMESTAMPDIFF(YEAR, birth_date, CURRENT_DATE)`. This calculates the number of complete years between the birth date and today. For example: `SELECT TIMESTAMPDIFF(YEAR, '1990-05-15', CURRENT_DATE) as age` will return the person's current age in years.</p>",
+              },
+              {
+                question:
+                  "What happens if you insert an invalid date like '2023-02-30'?",
+                solution:
+                  "<p>The database will reject the invalid date and throw an error because February 30th doesn't exist. SQL databases automatically validate dates, checking for valid months (1-12), valid days for each month, and leap year rules. You must provide valid dates in the correct format (YYYY-MM-DD).</p>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/date-and-time-types.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html",
+              "https://www.w3schools.com/sql/sql_dates.asp",
+            ],
+          },
+          {
+            topic: "Date & Time Data Types TIME",
+            tags: ["time", "duration", "schedule", "hours"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The TIME data type stores time values without date information. It's perfect for storing times of day, durations, schedules, and any scenario where you need to track hours, minutes, and seconds independently of the calendar date. TIME can also represent time intervals and elapsed time.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     TIME Data Type Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Format:</span> 'HH:MM:SS' (e.g., '14:30:00', '09:15:30')
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Range:</span> '-838:59:59' to '838:59:59'
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage:</span> 3 bytes per time value
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Precision:</span> Can include fractional seconds (microseconds)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Extended Range:</span> Can store values beyond 24 hours for durations
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Business Hours:</span> Store opening/closing times, shift schedules
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Appointments:</span> Doctor appointments, meeting times, class schedules
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Duration Tracking:</span> Task completion time, exercise duration, call duration
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Media & Entertainment:</span> Song length, video duration, show times
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Sports & Fitness:</span> Race times, workout duration, lap times
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Table Creation Examples
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Restaurant management system
+CREATE TABLE restaurants (
+    restaurant_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    opening_time TIME,            -- Daily opening time
+    closing_time TIME,            -- Daily closing time
+    lunch_start TIME,             -- Lunch menu start
+    lunch_end TIME,               -- Lunch menu end
+    happy_hour_start TIME,        -- Happy hour promotion start
+    happy_hour_end TIME           -- Happy hour promotion end
+);
+
+-- Fitness tracking system
+CREATE TABLE workouts (
+    workout_id INT PRIMARY KEY,
+    user_id INT,
+    exercise_name VARCHAR(100),
+    start_time TIME,              -- When exercise started
+    end_time TIME,                -- When exercise ended
+    duration TIME,                -- Calculated or manual duration
+    rest_time TIME,               -- Rest between sets
+    workout_date DATE             -- Separate date field
+);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     TIME Functions and Operations
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Common time functions and calculations
+SELECT 
+    CURRENT_TIME as current_time,             -- Current time
+    TIME('14:30:00') as specific_time,        -- Create time from string
+    HOUR(start_time) as hour_part,            -- Extract hour (0-23)
+    MINUTE(start_time) as minute_part,        -- Extract minutes (0-59)
+    SECOND(start_time) as second_part,        -- Extract seconds (0-59)
+    TIMEDIFF(end_time, start_time) as duration,  -- Time difference
+    ADDTIME(start_time, '01:30:00') as plus_90_min,  -- Add time
+    TIME_FORMAT(opening_time, '%h:%i %p') as formatted_time  -- 12-hour format
+FROM restaurants;
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Time vs Duration Concepts
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Time of Day:</span> '09:30:00' (9:30 AM), '18:45:00' (6:45 PM)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Duration/Elapsed:</span> '02:30:00' (2.5 hours), '00:45:30' (45.5 minutes)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Extended Duration:</span> '25:15:00' (25 hours 15 minutes - over 24 hours)
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Negative Duration:</span> '-02:30:00' (negative 2.5 hours for calculations)
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common TIME Patterns
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+-- Business hours validation
+SELECT * FROM restaurants 
+WHERE CURRENT_TIME BETWEEN opening_time AND closing_time;
+
+-- Calculate work shift duration
+SELECT 
+    employee_id,
+    shift_start,
+    shift_end,
+    TIMEDIFF(shift_end, shift_start) as shift_duration,
+    CASE 
+        WHEN TIMEDIFF(shift_end, shift_start) > '08:00:00' 
+        THEN 'Overtime' 
+        ELSE 'Regular' 
+    END as shift_type
+FROM employee_shifts;
+ </code></pre>
+  </div>
+</div>`,
+            examples: [
+              `-- Appointment scheduling system
+CREATE TABLE appointments (
+    appointment_id INT PRIMARY KEY,
+    patient_id INT,
+    doctor_id INT,
+    appointment_date DATE,
+    appointment_time TIME,        -- Specific time slot
+    duration TIME,                -- Expected appointment length
+    actual_start TIME,            -- When appointment actually started
+    actual_end TIME,              -- When appointment actually ended
+    status VARCHAR(20)
+);
+
+-- Media library system
+CREATE TABLE songs (
+    song_id INT PRIMARY KEY,
+    title VARCHAR(200),
+    artist VARCHAR(100),
+    duration TIME,                -- Song length (MM:SS format works too)
+    intro_length TIME,            -- Length of intro
+    fade_out_start TIME           -- When fade-out begins
+);
+
+-- Insert sample data
+INSERT INTO appointments VALUES 
+(1, 101, 5, '2024-03-20', '09:30:00', '00:30:00', '09:35:00', '10:05:00', 'Completed');
+
+INSERT INTO songs VALUES 
+(1, 'Bohemian Rhapsody', 'Queen', '00:05:55', '00:00:20', '00:05:30');
+
+-- Query examples
+SELECT * FROM appointments WHERE appointment_time BETWEEN '09:00:00' AND '12:00:00';
+SELECT title, TIME_FORMAT(duration, '%i:%s') as minutes_seconds FROM songs;`,
+              `-- Employee shift management
+CREATE TABLE employee_shifts (
+    shift_id INT PRIMARY KEY,
+    employee_id INT,
+    shift_date DATE,
+    clock_in TIME,                -- When employee clocked in
+    clock_out TIME,               -- When employee clocked out
+    break_start TIME,             -- Break start time
+    break_end TIME,               -- Break end time
+    overtime_start TIME           -- When overtime begins (if any)
+);
+
+-- Calculate payroll based on time worked
+SELECT 
+    employee_id,
+    shift_date,
+    clock_in,
+    clock_out,
+    TIMEDIFF(clock_out, clock_in) as total_hours,
+    TIMEDIFF(break_end, break_start) as break_duration,
+    SUBTIME(
+        TIMEDIFF(clock_out, clock_in), 
+        TIMEDIFF(break_end, break_start)
+    ) as paid_hours,
+    CASE 
+        WHEN SUBTIME(TIMEDIFF(clock_out, clock_in), TIMEDIFF(break_end, break_start)) > '08:00:00'
+        THEN SUBTIME(
+            SUBTIME(TIMEDIFF(clock_out, clock_in), TIMEDIFF(break_end, break_start)),
+            '08:00:00'
+        )
+        ELSE '00:00:00'
+    END as overtime_hours
+FROM employee_shifts;`,
+            ],
+            questions: [
+              {
+                question:
+                  "How do you calculate the difference between two TIME values?",
+                solution:
+                  "<p>Use the TIMEDIFF() function: `TIMEDIFF(end_time, start_time)`. For example: `SELECT TIMEDIFF('17:30:00', '09:00:00')` returns '08:30:00' (8 hours 30 minutes). This function handles time calculations automatically, including cases where the end time is past midnight.</p>",
+              },
+              {
+                question: "Can TIME store values greater than 24 hours?",
+                solution:
+                  "<p>Yes! TIME can store values up to 838:59:59, making it perfect for durations that exceed 24 hours. For example, '25:30:00' represents 25 hours and 30 minutes. This is useful for tracking total work time over multiple days, project durations, or any elapsed time that spans more than a day.</p>",
+              },
+            ],
+            links: ["https://dev.mysql.com/doc/refman/8.0/en/time.html"],
+          },
+          {
+            topic: "Boolean Data Type",
+            tags: ["boolean", "true", "false", "logical"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Boolean data type in SQL represents logical values that can be either TRUE, FALSE, or NULL. This data type is fundamental for conditional logic, filtering data, and implementing business rules in database applications.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Boolean Type Characteristics
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Three-Valued Logic:</span> Can store TRUE, FALSE, or NULL (unknown).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Storage Efficiency:</span> Typically stored as a single bit or byte depending on the database system.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Implicit Conversion:</span> Numbers can be converted to boolean (0 = FALSE, non-zero = TRUE).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Case Insensitive:</span> TRUE, true, True are all equivalent.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Creating Boolean Columns
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #007bff;">
+      <pre><code className="language-sql">
+-- MySQL/PostgreSQL
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    username VARCHAR(50),
+    is_active BOOLEAN DEFAULT TRUE,
+    is_premium BOOLEAN DEFAULT FALSE,
+    email_verified BOOLEAN
+);
+
+-- SQL Server (uses BIT instead of BOOLEAN)
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    username VARCHAR(50),
+    is_active BIT DEFAULT 1,
+    is_premium BIT DEFAULT 0,
+    email_verified BIT
+);
+ </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Inserting Boolean Values
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #28a745;">
+      <pre><code className="language-sql">
+-- Different ways to insert boolean values
+INSERT INTO users (id, username, is_active, is_premium, email_verified) 
+VALUES 
+    (1, 'john_doe', TRUE, FALSE, TRUE),
+    (2, 'jane_smith', 1, 0, NULL),
+    (3, 'bob_wilson', 'true', 'false', 'true'),
+    (4, 'alice_brown', 'yes', 'no', NULL);
+
+-- PostgreSQL specific - accepts more string formats
+INSERT INTO users VALUES 
+    (5, 'charlie', 'on', 'off', 'y'),
+    (6, 'diana', 't', 'f', 'n');
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Querying Boolean Data
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #ffc107;">
+      <pre><code className="language-sql">
+-- Find all active users
+SELECT * FROM users WHERE is_active = TRUE;
+SELECT * FROM users WHERE is_active;  -- Shorthand for TRUE
+
+-- Find inactive users
+SELECT * FROM users WHERE is_active = FALSE;
+SELECT * FROM users WHERE NOT is_active;
+
+-- Find users with unknown email verification status
+SELECT * FROM users WHERE email_verified IS NULL;
+
+-- Complex boolean logic
+SELECT * FROM users 
+WHERE is_active = TRUE 
+  AND (is_premium = TRUE OR email_verified = TRUE);
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Boolean Operations and Functions
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #dc3545;">
+      <pre><code className="language-sql">
+-- Boolean aggregations
+SELECT 
+    COUNT(*) as total_users,
+    COUNT(CASE WHEN is_active THEN 1 END) as active_users,
+    COUNT(CASE WHEN is_premium THEN 1 END) as premium_users,
+    ROUND(AVG(CASE WHEN is_active THEN 1.0 ELSE 0.0 END) * 100, 2) as active_percentage
+FROM users;
+
+-- Update boolean values based on conditions
+UPDATE users 
+SET is_premium = TRUE 
+WHERE id IN (1, 3, 5);
+
+-- Toggle boolean values
+UPDATE users 
+SET is_active = NOT is_active 
+WHERE username = 'john_doe';
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for Boolean Data Type
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User Status Management:</span> Track active/inactive users, premium subscriptions, email verification.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Feature Flags:</span> Enable/disable features for different users or environments.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Permissions:</span> Store user permissions like can_edit, can_delete, is_admin.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Product Attributes:</span> Track product availability, featured status, visibility.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Order Processing:</span> Track order status like is_paid, is_shipped, is_delivered.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- E-commerce Product Table with Boolean Flags
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(10,2),
+    is_available BOOLEAN DEFAULT TRUE,
+    is_featured BOOLEAN DEFAULT FALSE,
+    is_digital BOOLEAN DEFAULT FALSE,
+    requires_shipping BOOLEAN DEFAULT TRUE
+);
+
+-- Insert sample products
+INSERT INTO products VALUES
+    (1, 'Laptop', 999.99, TRUE, TRUE, FALSE, TRUE),
+    (2, 'E-book', 19.99, TRUE, FALSE, TRUE, FALSE),
+    (3, 'Phone', 699.99, FALSE, TRUE, FALSE, TRUE);
+
+-- Query available featured products
+SELECT * FROM products 
+WHERE is_available = TRUE AND is_featured = TRUE;`,
+
+              `-- User Permissions System
+CREATE TABLE user_permissions (
+    user_id INT,
+    can_read BOOLEAN DEFAULT TRUE,
+    can_write BOOLEAN DEFAULT FALSE,
+    can_delete BOOLEAN DEFAULT FALSE,
+    is_admin BOOLEAN DEFAULT FALSE
+);
+
+-- Grant admin privileges
+UPDATE user_permissions 
+SET can_read = TRUE, can_write = TRUE, can_delete = TRUE, is_admin = TRUE 
+WHERE user_id = 1;
+
+-- Find users with write permissions
+SELECT user_id FROM user_permissions WHERE can_write = TRUE;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the three possible values for a Boolean data type in SQL?",
+                solution:
+                  "<p>A Boolean data type in SQL can have three possible values: TRUE, FALSE, and NULL. This is known as three-valued logic. TRUE represents a true condition, FALSE represents a false condition, and NULL represents an unknown or undefined state. This NULL handling is crucial because it allows for situations where the boolean value hasn't been set or is indeterminate.</p>",
+              },
+              {
+                question:
+                  "How do you query for NULL boolean values and why is it important?",
+                solution: `<p>To query for NULL boolean values, you must use the IS NULL or IS NOT NULL operators, not equality operators:</p>
+              <pre><code className="language-sql">
+-- Correct way to find NULL boolean values
+SELECT * FROM users WHERE email_verified IS NULL;
+
+-- Incorrect - this won't work as expected
+SELECT * FROM users WHERE email_verified = NULL;
+              </code></pre>
+              <p>This is important because NULL represents unknown state, not false. In business logic, you might need to treat unverified users (NULL) differently from users who have explicitly failed verification (FALSE).</p>`,
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/boolean-literals.html",
+              "https://www.postgresql.org/docs/current/datatype-boolean.html",
+              "https://docs.microsoft.com/en-us/sql/t-sql/data-types/bit-transact-sql",
+            ],
+          },
+          {
+            topic: "NULL Handling and Its Implications",
+            tags: ["null", "three-valued-logic", "coalesce", "isnull"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     NULL in SQL represents the absence of a value or unknown data. Unlike zero or empty string, NULL indicates that no value has been stored in the field. Understanding NULL behavior is crucial for writing correct SQL queries and avoiding common pitfalls that can lead to unexpected results.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is NULL?
+   </h4>
+ 
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Absence of Value:</span> NULL means no value is present, not zero or empty string.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Unknown State:</span> Represents unknown or missing information.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Three-Valued Logic:</span> SQL uses TRUE, FALSE, and UNKNOWN (NULL) logic.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Special Handling Required:</span> Cannot use regular comparison operators with NULL.
+     </li>
+   </ol>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     NULL Comparison Behavior
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #fff3cd; border-left: 4px solid #ffc107;">
+      <pre><code className="language-sql">
+-- These comparisons all return NULL (unknown), not TRUE or FALSE
+SELECT 
+    NULL = NULL as result1,        -- Returns NULL, not TRUE
+    NULL <> NULL as result2,       -- Returns NULL, not FALSE  
+    NULL > 5 as result3,           -- Returns NULL
+    5 + NULL as result4,           -- Returns NULL
+    'Hello' || NULL as result5;    -- Returns NULL
+
+-- Correct way to check for NULL
+SELECT * FROM employees WHERE salary IS NULL;
+SELECT * FROM employees WHERE salary IS NOT NULL;
+
+-- Wrong way - these won't find NULL values
+SELECT * FROM employees WHERE salary = NULL;     -- Returns no rows
+SELECT * FROM employees WHERE salary <> NULL;    -- Returns no rows
+ </code></pre>
+  </div>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     NULL in WHERE Clauses
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #007bff;">
+      <pre><code className="language-sql">
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(50),
+    salary DECIMAL(10,2),
+    department VARCHAR(30),
+    phone VARCHAR(15)
+);
+
+INSERT INTO employees VALUES
+    (1, 'John Doe', 50000, 'IT', '555-1234'),
+    (2, 'Jane Smith', NULL, 'HR', NULL),
+    (3, 'Bob Wilson', 60000, NULL, '555-5678'),
+    (4, 'Alice Brown', 0, 'Finance', '555-9012');
+
+-- Find employees with unknown salary
+SELECT * FROM employees WHERE salary IS NULL;
+
+-- Find employees with known salary
+SELECT * FROM employees WHERE salary IS NOT NULL;
+
+-- Find employees with salary greater than 40000 (excludes NULL)
+SELECT * FROM employees WHERE salary > 40000;
+
+-- Include NULL handling in conditions
+SELECT * FROM employees 
+WHERE salary > 40000 OR salary IS NULL;
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     NULL Handling Functions
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #28a745;">
+      <pre><code className="language-sql">
+-- COALESCE - returns first non-NULL value
+SELECT 
+    name,
+    COALESCE(phone, 'No phone provided') as contact_phone,
+    COALESCE(salary, 0) as salary_with_default
+FROM employees;
+
+-- ISNULL (SQL Server) / IFNULL (MySQL)
+SELECT 
+    name,
+    ISNULL(department, 'Unassigned') as dept,
+    ISNULL(salary, 0) as salary
+FROM employees;
+
+-- NULLIF - returns NULL if two values are equal
+SELECT 
+    name,
+    NULLIF(salary, 0) as salary_null_if_zero  -- Converts 0 to NULL
+FROM employees;
+
+-- CASE statement for complex NULL handling
+SELECT 
+    name,
+    CASE 
+        WHEN salary IS NULL THEN 'Salary not set'
+        WHEN salary = 0 THEN 'Unpaid position'
+        WHEN salary < 30000 THEN 'Entry level'
+        ELSE 'Standard salary'
+    END as salary_category
+FROM employees;
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     NULL in Aggregate Functions
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #dc3545;">
+      <pre><code className="language-sql">
+-- Aggregate functions ignore NULL values
+SELECT 
+    COUNT(*) as total_employees,           -- Counts all rows including NULL
+    COUNT(salary) as employees_with_salary, -- Counts only non-NULL salaries
+    AVG(salary) as average_salary,         -- Averages only non-NULL values
+    SUM(salary) as total_salary,           -- Sums only non-NULL values
+    MIN(salary) as minimum_salary,         -- Minimum of non-NULL values
+    MAX(salary) as maximum_salary          -- Maximum of non-NULL values
+FROM employees;
+
+-- Handling NULL in GROUP BY
+SELECT 
+    COALESCE(department, 'Unknown') as dept,
+    COUNT(*) as employee_count,
+    AVG(COALESCE(salary, 0)) as avg_salary_with_zero_default
+FROM employees
+GROUP BY department;  -- NULL department creates its own group
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     NULL in JOINs
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border-left: 4px solid #6f42c1;">
+      <pre><code className="language-sql">
+CREATE TABLE departments (
+    dept_id INT PRIMARY KEY,
+    dept_name VARCHAR(30)
+);
+
+INSERT INTO departments VALUES (1, 'IT'), (2, 'HR'), (3, 'Finance');
+
+-- NULL values don't match in JOINs
+SELECT e.name, d.dept_name
+FROM employees e
+LEFT JOIN departments d ON e.department = d.dept_name;
+-- Employees with NULL department will show NULL dept_name
+
+-- Finding unmatched records due to NULL
+SELECT e.name, e.department
+FROM employees e
+LEFT JOIN departments d ON e.department = d.dept_name
+WHERE d.dept_name IS NULL;
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common NULL-Related Pitfalls and Solutions
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Incorrect NULL Comparisons:</span> Use IS NULL/IS NOT NULL instead of = NULL.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">COUNT() vs COUNT(column):</span> COUNT(*) includes NULLs, COUNT(column) excludes them.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">String Concatenation:</span> Concatenating with NULL often results in NULL.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Mathematical Operations:</span> Any arithmetic with NULL returns NULL.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">JOIN Behavior:</span> NULL values don't match in JOINs, can cause unexpected results.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">NOT IN with NULLs:</span> NOT IN returns no results if the subquery contains NULL.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for NULL Handling
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Define NOT NULL Constraints:</span> Use NOT NULL for required fields.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Provide Default Values:</span> Use DEFAULT constraints to avoid NULLs where appropriate.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Explicit NULL Handling:</span> Always consider NULL cases in your logic.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use COALESCE:</span> Provide fallback values for NULL fields.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Document NULL Meanings:</span> Clearly document what NULL means in each column.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- Comprehensive NULL Handling Example
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT NOT NULL,
+    order_date DATE NOT NULL,
+    shipped_date DATE,         -- NULL means not shipped yet
+    delivery_date DATE,        -- NULL means not delivered yet
+    discount_percent DECIMAL(5,2), -- NULL means no discount
+    notes TEXT                 -- NULL means no special notes
+);
+
+INSERT INTO orders VALUES
+    (1, 101, '2024-01-15', '2024-01-16', '2024-01-18', 10.00, 'Express delivery'),
+    (2, 102, '2024-01-16', '2024-01-17', NULL, NULL, NULL),
+    (3, 103, '2024-01-17', NULL, NULL, 5.50, 'Gift wrapping requested'),
+    (4, 104, '2024-01-18', '2024-01-19', '2024-01-21', NULL, NULL);
+
+-- Query with proper NULL handling
+SELECT 
+    order_id,
+    customer_id,
+    order_date,
+    CASE 
+        WHEN shipped_date IS NULL THEN 'Not Shipped'
+        WHEN delivery_date IS NULL THEN 'Shipped, Not Delivered'
+        ELSE 'Delivered'
+    END as order_status,
+    COALESCE(discount_percent, 0) as discount,
+    COALESCE(notes, 'No special instructions') as order_notes
+FROM orders;`,
+
+              `-- Handling NULL in Complex Queries
+-- Find orders with missing information
+SELECT 
+    order_id,
+    CASE 
+        WHEN shipped_date IS NULL THEN 'Missing ship date'
+        WHEN delivery_date IS NULL AND shipped_date IS NOT NULL THEN 'Missing delivery date'
+        WHEN discount_percent IS NULL THEN 'No discount info'
+        ELSE 'Complete information'
+    END as data_completeness
+FROM orders;
+
+-- Calculate average discount (excluding NULL values)
+SELECT 
+    AVG(discount_percent) as avg_discount_excluding_null,
+    AVG(COALESCE(discount_percent, 0)) as avg_discount_including_null_as_zero
+FROM orders;
+
+-- Count different NULL scenarios  
+SELECT 
+    COUNT(*) as total_orders,
+    COUNT(shipped_date) as shipped_orders,
+    COUNT(delivery_date) as delivered_orders,
+    COUNT(discount_percent) as orders_with_discount
+FROM orders;`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why does NULL = NULL return NULL instead of TRUE in SQL?",
+                solution:
+                  "<p>NULL = NULL returns NULL (unknown) because NULL represents an unknown value, not a specific value. Since we don't know what either NULL represents, we cannot determine if they are equal. This follows SQL's three-valued logic (TRUE, FALSE, UNKNOWN). To check if a value is NULL, you must use the IS NULL operator, which is specifically designed for this purpose. This behavior prevents logical errors that would occur if NULL = NULL returned TRUE.</p>",
+              },
+              {
+                question:
+                  "How do aggregate functions handle NULL values and what should you be aware of?",
+                solution: `<p>Aggregate functions handle NULL values by ignoring them completely:</p>
+              <pre><code className="language-sql">
+-- Consider this table with NULL salary
+SELECT 
+    COUNT(*) as total_employees,        -- Returns 4 (includes NULL)
+    COUNT(salary) as with_salary,       -- Returns 3 (excludes NULL)  
+    AVG(salary) as average_salary,      -- Calculates average of 3 non-NULL values
+    SUM(salary) as total_salary         -- Sums only non-NULL values
+FROM employees;
+              </code></pre>
+              <p>Key points: COUNT(*) counts all rows including NULLs, while COUNT(column) only counts non-NULL values. AVG, SUM, MIN, MAX ignore NULLs entirely. This can significantly affect calculations if you're not aware of it. Use COALESCE to provide default values if you want to include NULL rows in calculations.</p>`,
+              },
+              {
+                question:
+                  "What problems can arise with NOT IN queries when NULL values are present?",
+                solution: `<p>NOT IN queries can return unexpected results when the subquery contains NULL values. Here's why:</p>
+              <pre><code className="language-sql">
+-- This query might return no results if subquery has NULL
+SELECT * FROM employees 
+WHERE department NOT IN (SELECT dept_name FROM departments WHERE active = 1);
+
+-- If departments table has NULL dept_name, the NOT IN returns no rows
+-- because NOT IN with NULL uses three-valued logic
+              </code></pre>
+              <p>The problem occurs because NOT IN is equivalent to a series of <> comparisons with OR, and any comparison with NULL returns NULL (unknown). Since SQL only returns rows where the condition is TRUE (not NULL), the query returns no results. Solution: Use NOT EXISTS or explicitly handle NULLs with WHERE dept_name IS NOT NULL in the subquery.</p>`,
+              },
+            ],
+            links: [
+              "https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/Nulls.html",
+              "https://www.postgresql.org/docs/current/functions-conditional.html#FUNCTIONS-COALESCE-NVL-NVL2",
+              "https://docs.microsoft.com/en-us/sql/t-sql/language-elements/null-and-unknown-transact-sql",
+            ],
+          },
+          {
+            topic: "CREATE Statement",
+            tags: ["DDL", "Database", "Tables", "Schemas"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     TRUNCATE removes all rows from a table by deallocating the data pages, making it much faster than DELETE for removing all data. It resets auto-increment counters and cannot be used with WHERE clauses.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Basic TRUNCATE syntax
+TRUNCATE TABLE employees;
+
+-- TRUNCATE with CASCADE (PostgreSQL) - removes from related tables
+TRUNCATE TABLE orders CASCADE;
+
+-- Some systems require specifying TABLE keyword
+TRUNCATE employees;  -- MySQL allows this
+
+-- Cannot use WHERE clause with TRUNCATE
+-- This is INVALID:
+-- TRUNCATE TABLE employees WHERE department = 'Sales';</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     DELETE Command
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     DELETE removes rows one by one and supports selective deletion with WHERE clauses. It can be rolled back and maintains transaction logs.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Delete all rows (equivalent to TRUNCATE but slower)
+DELETE FROM employees;
+
+-- Selective deletion with WHERE clause
+DELETE FROM employees WHERE department = 'Sales';
+DELETE FROM orders WHERE order_date < '2023-01-01';
+
+-- Delete with JOIN (remove related data)
+DELETE e FROM employees e
+JOIN departments d ON e.dept_id = d.dept_id
+WHERE d.dept_name = 'Closed Department';
+
+-- Delete with LIMIT
+DELETE FROM audit_log ORDER BY created_date LIMIT 1000;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences Comparison
+   </h4>
+   
+   <div style="overflow-x: auto; margin-top: 1rem;">
+     <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+       <thead style="background-color: #e9ecef;">
+         <tr>
+           <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left; font-weight: 600;">Aspect</th>
+           <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left; font-weight: 600;">TRUNCATE</th>
+           <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left; font-weight: 600;">DELETE</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Command Type</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">DDL (Data Definition Language)</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">DML (Data Manipulation Language)</td>
+         </tr>
+         <tr style="background-color: #f8f9fa;">
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Speed</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Very Fast - deallocates pages</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Slower - removes row by row</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">WHERE Clause</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Not supported</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Supported - selective deletion</td>
+         </tr>
+         <tr style="background-color: #f8f9fa;">
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Transaction Log</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Minimal logging</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Full logging - each row</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Rollback</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Limited (depends on system)</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Full rollback support</td>
+         </tr>
+         <tr style="background-color: #f8f9fa;">
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Auto-increment Reset</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Yes - resets to initial value</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">No - maintains counter</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Triggers</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Does not fire triggers</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Fires DELETE triggers</td>
+         </tr>
+         <tr style="background-color: #f8f9fa;">
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Foreign Keys</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Cannot truncate if referenced</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Respects FK constraints</td>
+         </tr>
+         <tr>
+           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Storage Space</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">Immediately reclaimed</td>
+           <td style="padding: 12px; border: 1px solid #dee2e6;">May need manual cleanup</td>
+         </tr>
+       </tbody>
+     </table>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use TRUNCATE
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Clearing entire tables:</span> When you need to remove all data quickly
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Resetting test data:</span> Development and testing environments
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data loading preparation:</span> Before bulk imports
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance critical:</span> Large tables where speed is important
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Auto-increment reset:</span> When you need to restart ID sequences
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use DELETE
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Selective removal:</span> Removing specific rows with conditions
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Trigger requirements:</span> When DELETE triggers must fire
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Transaction control:</span> Need full rollback capability
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Foreign key tables:</span> Tables referenced by foreign keys
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Audit requirements:</span> When you need detailed logging
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Considerations
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #fff3cd; border: 1px solid #ffeaa7;">
+      <pre><code>-- Performance comparison example
+-- For a table with 1 million rows:
+
+-- TRUNCATE: Nearly instantaneous
+TRUNCATE TABLE large_table;  -- ~0.1 seconds
+
+-- DELETE: Much slower, depends on table size
+DELETE FROM large_table;     -- ~30-300 seconds
+
+-- DELETE with small batches for better performance
+DELETE FROM large_table LIMIT 10000;  -- Repeat in batches
+
+-- Check table size before deciding
+SELECT 
+    COUNT(*) as row_count,
+    ROUND(((data_length + index_length) / 1024 / 1024), 2) AS 'Size (MB)'
+FROM information_schema.TABLES 
+WHERE table_name = 'your_table';</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Usage Scenarios
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #d1ecf1; border: 1px solid #bee5eb;">
+      <pre><code>-- Scenario 1: Daily data processing cleanup
+-- Clear staging tables after processing
+TRUNCATE TABLE daily_sales_staging;
+TRUNCATE TABLE import_temp_data;
+
+-- Scenario 2: Remove old audit logs selectively
+-- Keep last 90 days, remove older entries
+DELETE FROM audit_logs 
+WHERE created_date < DATE_SUB(NOW(), INTERVAL 90 DAY);
+
+-- Scenario 3: Development environment reset
+-- Clear test data but preserve structure
+TRUNCATE TABLE test_users;
+TRUNCATE TABLE test_orders;
+TRUNCATE TABLE test_products;
+
+-- Scenario 4: Gradual cleanup of large table
+-- Delete in batches to avoid locking
+DELETE FROM large_archive_table 
+WHERE archive_date < '2020-01-01' 
+LIMIT 5000;
+
+-- Scenario 5: Clear cache tables
+-- Fast cleanup of temporary data
+TRUNCATE TABLE session_cache;
+TRUNCATE TABLE query_results_cache;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #d4edda; border: 1px solid #c3e6cb;">
+     <ul style="margin-left: 1rem; list-style-type: disc;">
+       <li style="margin-top: 0.5rem;"><strong>Backup first:</strong> Always backup important data before mass deletion</li>
+       <li style="margin-top: 0.5rem;"><strong>Use transactions:</strong> Wrap DELETE operations in transactions for safety</li>
+       <li style="margin-top: 0.5rem;"><strong>Check foreign keys:</strong> Verify constraints before using TRUNCATE</li>
+       <li style="margin-top: 0.5rem;"><strong>Monitor performance:</strong> DELETE large tables in batches</li>
+       <li style="margin-top: 0.5rem;"><strong>Test first:</strong> Try operations in development environment first</li>
+     </ul>
+   </div>
+</div>`,
+            examples: [
+              `-- Real-world comparison scenarios
+
+-- Scenario 1: E-commerce order processing cleanup
+-- Clear temporary cart data (use TRUNCATE for speed)
+TRUNCATE TABLE shopping_cart_temp;
+
+-- Remove expired user sessions (use DELETE for selective)
+DELETE FROM user_sessions 
+WHERE last_activity < DATE_SUB(NOW(), INTERVAL 24 HOUR);
+
+-- Scenario 2: Data warehouse maintenance
+-- Clear staging area after ETL (TRUNCATE - fast reset)
+TRUNCATE TABLE sales_staging;
+TRUNCATE TABLE product_staging;
+
+-- Archive old transactions (DELETE - selective with audit)
+INSERT INTO sales_archive 
+SELECT * FROM sales_transactions 
+WHERE transaction_date < '2023-01-01';
+
+DELETE FROM sales_transactions 
+WHERE transaction_date < '2023-01-01';
+
+-- Scenario 3: Application cache management
+-- Reset application cache tables
+TRUNCATE TABLE api_response_cache;
+TRUNCATE TABLE search_results_cache;
+
+-- Remove specific cache entries
+DELETE FROM user_preference_cache 
+WHERE user_id IN (
+    SELECT user_id FROM users WHERE status = 'inactive'
+);
+
+-- Scenario 4: Testing environment setup
+-- Quick test data reset
+TRUNCATE TABLE test_customers;  -- Resets customer_id sequence
+INSERT INTO test_customers VALUES 
+(1, 'Test User 1', 'test1@example.com'),
+(2, 'Test User 2', 'test2@example.com');
+
+-- Performance monitoring example
+-- Check execution time difference
+SET @start_time = NOW(6);
+DELETE FROM large_test_table;
+SELECT TIMESTAMPDIFF(MICROSECOND, @start_time, NOW(6)) / 1000000 AS delete_seconds;
+
+SET @start_time = NOW(6);
+TRUNCATE TABLE large_test_table;
+SELECT TIMESTAMPDIFF(MICROSECOND, @start_time, NOW(6)) / 1000000 AS truncate_seconds;`,
+            ],
+            questions: [
+              {
+                question:
+                  "Why can't TRUNCATE be used on tables with foreign key references?",
+                solution:
+                  "<p>TRUNCATE cannot be used on tables that are referenced by foreign keys because:</p><ul><li><strong>Referential Integrity:</strong> TRUNCATE doesn't check foreign key constraints, which could leave orphaned records in child tables</li><li><strong>DDL Nature:</strong> As a DDL command, TRUNCATE operates at the storage level and bypasses constraint checking</li><li><strong>Solutions:</strong><ul><li>Use DELETE instead: <code>DELETE FROM parent_table;</code></li><li>Temporarily disable constraints (not recommended in production)</li><li>TRUNCATE child tables first, then parent tables</li><li>Use CASCADE option where supported: <code>TRUNCATE TABLE parent_table CASCADE;</code></li></ul></li></ul>",
+              },
+              {
+                question:
+                  "How do you choose between TRUNCATE and DELETE for large tables?",
+                solution:
+                  "<p>Choose based on these factors:</p><table><tr><th>Use TRUNCATE when:</th><th>Use DELETE when:</th></tr><tr><td>• Removing ALL rows<br>• Speed is critical<br>• Table has no FK references<br>• Auto-increment reset needed<br>• No triggers required</td><td>• Selective deletion needed<br>• Foreign keys exist<br>• Triggers must fire<br>• Rollback capability needed<br>• Gradual cleanup preferred</td></tr></table><p><strong>For very large tables:</strong> Consider DELETE in batches:</p><pre><code>-- Process in chunks\nDELETE FROM large_table WHERE id BETWEEN 1 AND 10000;\n-- Repeat until done</code></pre>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/truncate-table.html",
+              "https://www.postgresql.org/docs/current/sql-truncate.html",
+              "https://stackoverflow.com/questions/139630/whats-the-difference-between-truncate-and-delete-in-sql",
+            ],
+          },
+          {
+            topic: "ALTER Statement",
+            tags: ["DDL", "Modify", "Columns", "Constraints"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The ALTER statement is used to modify existing database objects like tables, columns, and constraints. It allows you to add, modify, or delete columns, change data types, add or drop constraints, and rename objects without recreating them.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Adding Columns
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Adding new columns to existing tables is one of the most common ALTER operations, especially during application evolution.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Add a single column
+ALTER TABLE employees 
+ADD COLUMN middle_name VARCHAR(50);
+
+-- Add multiple columns
+ALTER TABLE employees 
+ADD COLUMN phone VARCHAR(20),
+ADD COLUMN department_id INT;
+
+-- Add column with constraints
+ALTER TABLE employees 
+ADD COLUMN status ENUM('active', 'inactive') DEFAULT 'active' NOT NULL;
+
+-- Add column with position specification (MySQL)
+ALTER TABLE employees 
+ADD COLUMN employee_code VARCHAR(10) AFTER employee_id;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Modifying Columns
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Column modification allows changing data types, sizes, constraints, and default values of existing columns.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Modify column data type
+ALTER TABLE employees 
+MODIFY COLUMN salary DECIMAL(12,2);
+
+-- Change column data type and add constraint (PostgreSQL)
+ALTER TABLE employees 
+ALTER COLUMN email TYPE VARCHAR(255),
+ALTER COLUMN email SET NOT NULL;
+
+-- Rename column (MySQL 8.0+)
+ALTER TABLE employees 
+RENAME COLUMN first_name TO fname;
+
+-- Change column with full specification
+ALTER TABLE products 
+CHANGE COLUMN price product_price DECIMAL(10,2) NOT NULL;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dropping Columns
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Removing columns permanently deletes the column and all its data from the table.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Drop a single column
+ALTER TABLE employees 
+DROP COLUMN middle_name;
+
+-- Drop multiple columns
+ALTER TABLE employees 
+DROP COLUMN phone,
+DROP COLUMN temporary_field;
+
+-- Drop column with cascade (removes dependent objects)
+ALTER TABLE products 
+DROP COLUMN old_category CASCADE;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Managing Constraints
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Add primary key
+ALTER TABLE departments 
+ADD PRIMARY KEY (dept_id);
+
+-- Add foreign key constraint
+ALTER TABLE employees 
+ADD CONSTRAINT fk_emp_dept 
+FOREIGN KEY (department_id) REFERENCES departments(dept_id);
+
+-- Add unique constraint
+ALTER TABLE employees 
+ADD CONSTRAINT uk_emp_email UNIQUE (email);
+
+-- Add check constraint
+ALTER TABLE employees 
+ADD CONSTRAINT chk_salary CHECK (salary > 0);
+
+-- Drop constraint
+ALTER TABLE employees 
+DROP CONSTRAINT fk_emp_dept;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Table-Level Modifications
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Rename table
+ALTER TABLE employees 
+RENAME TO staff_members;
+
+-- Add index
+ALTER TABLE employees 
+ADD INDEX idx_last_name (last_name);
+
+-- Drop index
+ALTER TABLE employees 
+DROP INDEX idx_last_name;
+
+-- Change table engine (MySQL)
+ALTER TABLE employees 
+ENGINE = InnoDB;
+
+-- Change table character set
+ALTER TABLE employees 
+CONVERT TO CHARACTER SET utf8mb4 
+COLLATE utf8mb4_unicode_ci;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for ALTER
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Schema Evolution:</span> Adding new features without data loss
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance Optimization:</span> Adding indexes and changing data types
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Integrity:</span> Adding constraints to existing tables
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Compliance Requirements:</span> Adding audit columns or changing data types
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Bug Fixes:</span> Correcting column definitions or constraints
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `-- Real-world schema evolution example
+-- Initial table
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Evolution: Add new features
+-- 1. Add user profile fields
+ALTER TABLE users 
+ADD COLUMN first_name VARCHAR(100),
+ADD COLUMN last_name VARCHAR(100),
+ADD COLUMN phone VARCHAR(20),
+ADD COLUMN avatar_url VARCHAR(500);
+
+-- 2. Add account status tracking
+ALTER TABLE users 
+ADD COLUMN status ENUM('active', 'inactive', 'suspended') DEFAULT 'active',
+ADD COLUMN last_login TIMESTAMP NULL,
+ADD COLUMN email_verified BOOLEAN DEFAULT FALSE;
+
+-- 3. Improve email constraint
+ALTER TABLE users 
+ADD CONSTRAINT uk_user_email UNIQUE (email);
+
+-- 4. Add audit trail
+ALTER TABLE users 
+ADD COLUMN updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+ADD COLUMN updated_by INT;
+
+-- 5. Performance optimization
+ALTER TABLE users 
+ADD INDEX idx_status (status),
+ADD INDEX idx_email_verified (email_verified);`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between MODIFY and CHANGE in ALTER TABLE?",
+                solution:
+                  "<p>MODIFY and CHANGE are both used to alter column definitions, but they work differently:</p><ul><li><strong>MODIFY:</strong> Changes column definition without renaming (MySQL specific). You specify the new definition: <code>MODIFY COLUMN name VARCHAR(100)</code></li><li><strong>CHANGE:</strong> Can both rename and modify the column. You specify old name, new name, and new definition: <code>CHANGE COLUMN old_name new_name VARCHAR(100)</code></li><li><strong>ALTER COLUMN:</strong> Standard SQL way (PostgreSQL, SQL Server) to modify column properties individually</li></ul>",
+              },
+              {
+                question:
+                  "How do you safely add a NOT NULL column to a table with existing data?",
+                solution:
+                  "<p>To safely add a NOT NULL column to a table with existing data:</p><ol><li><strong>Add column with DEFAULT:</strong> <code>ALTER TABLE users ADD COLUMN status VARCHAR(10) DEFAULT 'active' NOT NULL;</code></li><li><strong>Or add nullable first, update data, then add NOT NULL:</strong></li></ol><pre><code>-- Step 1: Add nullable column\nALTER TABLE users ADD COLUMN status VARCHAR(10);\n\n-- Step 2: Update existing rows\nUPDATE users SET status = 'active' WHERE status IS NULL;\n\n-- Step 3: Make it NOT NULL\nALTER TABLE users MODIFY COLUMN status VARCHAR(10) NOT NULL;</code></pre>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/alter-table.html",
+              "https://www.postgresql.org/docs/current/sql-altertable.html",
+              "https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-table-transact-sql",
+            ],
+          },
+          {
+            topic: "DROP Statement",
+            tags: ["DDL", "Delete", "Remove", "Cleanup"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The DROP statement permanently removes database objects like tables, databases, schemas, indexes, and views from the database system. Unlike DELETE which removes data, DROP removes the entire structure and cannot be undone without backups.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dropping Tables
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Dropping tables removes the table structure and all data permanently. Always ensure you have backups before dropping tables in production.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Basic table drop
+DROP TABLE employees;
+
+-- Drop table only if it exists (prevents errors)
+DROP TABLE IF EXISTS temp_calculations;
+
+-- Drop multiple tables
+DROP TABLE old_logs, temp_data, backup_table;
+
+-- Drop with CASCADE (removes dependent objects)
+DROP TABLE departments CASCADE;
+
+-- Drop with RESTRICT (prevents drop if dependencies exist)
+DROP TABLE products RESTRICT;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dropping Databases
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Dropping databases removes the entire database and all its objects including tables, views, procedures, and data.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Drop database
+DROP DATABASE old_project_db;
+
+-- Drop database if exists
+DROP DATABASE IF EXISTS test_environment;
+
+-- PostgreSQL: Terminate connections before dropping
+SELECT pg_terminate_backend(pg_stat_activity.pid)
+FROM pg_stat_activity
+WHERE pg_stat_activity.datname = 'database_to_drop'
+  AND pid <> pg_backend_pid();
+
+DROP DATABASE database_to_drop;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dropping Schemas
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Drop empty schema
+DROP SCHEMA test_schema;
+
+-- Drop schema with all objects
+DROP SCHEMA test_schema CASCADE;
+
+-- Drop schema if exists
+DROP SCHEMA IF EXISTS old_module;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dropping Indexes and Constraints
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Drop index
+DROP INDEX idx_employee_email;
+
+-- Drop index on specific table (SQL Server)
+DROP INDEX employees.idx_employee_email;
+
+-- Drop constraint (part of ALTER TABLE)
+ALTER TABLE employees DROP CONSTRAINT fk_emp_dept;
+
+-- Drop primary key
+ALTER TABLE temp_table DROP PRIMARY KEY;
+
+-- Drop foreign key
+ALTER TABLE orders DROP FOREIGN KEY fk_customer_id;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dropping Views and Other Objects
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Drop view
+DROP VIEW employee_summary;
+
+-- Drop materialized view (PostgreSQL)
+DROP MATERIALIZED VIEW sales_report;
+
+-- Drop procedure
+DROP PROCEDURE calculate_bonus;
+
+-- Drop function
+DROP FUNCTION get_full_name;
+
+-- Drop trigger
+DROP TRIGGER audit_trigger;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Safe DROP Practices
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #fff3cd; border: 1px solid #ffeaa7;">
+      <pre><code>-- Always backup before dropping in production
+CREATE TABLE employees_backup AS SELECT * FROM employees;
+
+-- Use transactions for multiple drops
+START TRANSACTION;
+DROP TABLE temp_table1;
+DROP TABLE temp_table2;
+-- ROLLBACK; -- if something goes wrong
+COMMIT;
+
+-- Check dependencies before dropping
+SELECT 
+    TABLE_NAME,
+    CONSTRAINT_NAME,
+    REFERENCED_TABLE_NAME
+FROM information_schema.KEY_COLUMN_USAGE 
+WHERE REFERENCED_TABLE_NAME = 'table_to_drop';
+
+-- Rename instead of drop for safer testing
+ALTER TABLE important_table RENAME TO important_table_backup;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases for DROP
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Development Cleanup:</span> Removing test tables and temporary objects
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Schema Refactoring:</span> Removing obsolete tables and columns
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance Optimization:</span> Dropping unused indexes
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Archival:</span> Removing old data tables after archiving
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Environment Cleanup:</span> Removing development/test databases
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     ⚠️ Important Warnings
+   </h4>
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8d7da; border: 1px solid #f1aeb5;">
+     <ul style="margin-left: 1rem; list-style-type: disc;">
+       <li style="margin-top: 0.5rem;"><strong>Irreversible:</strong> DROP operations cannot be undone without backups</li>
+       <li style="margin-top: 0.5rem;"><strong>Cascading Effects:</strong> Dropping tables may break dependent objects</li>
+       <li style="margin-top: 0.5rem;"><strong>Production Safety:</strong> Always test DROP operations in development first</li>
+       <li style="margin-top: 0.5rem;"><strong>Active Connections:</strong> Some systems require terminating connections before dropping databases</li>
+     </ul>
+   </div>
+</div>`,
+            examples: [
+              `-- Safe database cleanup procedure
+-- 1. Create backup of important data
+CREATE TABLE employees_backup_2024 AS 
+SELECT * FROM employees WHERE hire_date < '2024-01-01';
+
+-- 2. Check for dependencies
+SELECT 
+    CONSTRAINT_NAME,
+    TABLE_NAME,
+    REFERENCED_TABLE_NAME
+FROM information_schema.KEY_COLUMN_USAGE 
+WHERE REFERENCED_TABLE_NAME IN ('old_table1', 'old_table2');
+
+-- 3. Drop dependent objects first
+DROP VIEW employee_department_view;
+DROP TABLE order_items;  -- has FK to orders
+
+-- 4. Drop main tables
+DROP TABLE orders;
+DROP TABLE old_calculations;
+
+-- 5. Clean up indexes that weren't dropped automatically
+DROP INDEX IF EXISTS idx_old_field;
+
+-- 6. Development environment cleanup
+DROP DATABASE IF EXISTS test_db_2023;
+DROP SCHEMA IF EXISTS experimental_features;
+
+-- 7. Verify cleanup
+SHOW TABLES LIKE '%old_%';
+SHOW DATABASES LIKE '%test%';`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between DROP TABLE and DELETE FROM table?",
+                solution:
+                  "<p><strong>DROP TABLE</strong> vs <strong>DELETE FROM</strong>:</p><ul><li><strong>DROP TABLE:</strong> Removes the entire table structure including data, indexes, triggers, and constraints. Cannot be rolled back in most systems.</li><li><strong>DELETE FROM:</strong> Removes only the data rows, keeping the table structure intact. Can be rolled back and supports WHERE clauses for selective deletion.</li><li><strong>Performance:</strong> DROP is faster as it deallocates storage immediately, while DELETE may be slower with large datasets.</li><li><strong>Recovery:</strong> DROP requires recreation of table structure, DELETE only needs data restoration.</li></ul>",
+              },
+              {
+                question:
+                  "How do you handle foreign key constraints when dropping tables?",
+                solution:
+                  "<p>When dropping tables with foreign key relationships:</p><ol><li><strong>Check dependencies first:</strong><pre><code>SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE REFERENCED_TABLE_NAME = 'parent_table';</code></pre></li><li><strong>Drop child tables first:</strong><pre><code>DROP TABLE order_items;  -- child table\nDROP TABLE orders;       -- parent table</code></pre></li><li><strong>Or drop constraints first:</strong><pre><code>ALTER TABLE order_items DROP FOREIGN KEY fk_order_id;\nDROP TABLE orders;</code></pre></li><li><strong>Use CASCADE (PostgreSQL):</strong><pre><code>DROP TABLE orders CASCADE;</code></pre></li></ol>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/drop-table.html",
+              "https://www.postgresql.org/docs/current/sql-droptable.html",
+              "https://docs.microsoft.com/en-us/sql/t-sql/statements/drop-table-transact-sql",
+            ],
+          },
+          {
+            topic: "TRUNCATE vs DELETE - Core Differences",
+            tags: ["DDL", "DML", "Performance", "Data Management"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     TRUNCATE and DELETE are both SQL commands used to remove data from tables, but they work in fundamentally different ways. Understanding their differences is crucial for database performance optimization, transaction management, and data recovery strategies.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is TRUNCATE?
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     TRUNCATE is a DDL (Data Definition Language) command that removes all rows from a table by deallocating data pages. It's essentially dropping and recreating the table structure without the data.
+   </p>
+ 
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is DELETE?
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     DELETE is a DML (Data Manipulation Language) command that removes rows from a table one by one based on specified conditions. It can remove all rows or specific rows based on WHERE clause.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Differences Overview
+   </h4>
+   
+   <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.95rem;">
+     <thead>
+       <tr style="background-color: #F3F4F6;">
+         <th style="border: 1px solid #D1D5DB; padding: 12px; text-align: left; font-weight: 600;">Aspect</th>
+         <th style="border: 1px solid #D1D5DB; padding: 12px; text-align: left; font-weight: 600;">TRUNCATE</th>
+         <th style="border: 1px solid #D1D5DB; padding: 12px; text-align: left; font-weight: 600;">DELETE</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Command Type</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">DDL (Data Definition Language)</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">DML (Data Manipulation Language)</td>
+       </tr>
+       <tr style="background-color: #F9FAFB;">
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">WHERE Clause</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Not supported</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Supported</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Speed</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Very Fast</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Slower (row-by-row)</td>
+       </tr>
+       <tr style="background-color: #F9FAFB;">
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Transaction Log</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Minimal logging</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Full logging</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Rollback</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Cannot rollback (auto-commit)</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Can rollback within transaction</td>
+       </tr>
+       <tr style="background-color: #F9FAFB;">
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Identity Reset</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Resets to seed value</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Does not reset</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Triggers</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Does not fire triggers</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px;">Fires DELETE triggers</td>
+       </tr>
+     </tbody>
+   </table>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Use Cases
+   </h4>
+   
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; color: #059669; margin-bottom: 0.5rem;">When to Use TRUNCATE:</h5>
+     <ul style="margin-left: 1.5rem; line-height: 1.6;">
+       <li>Clearing entire tables for data refresh operations</li>
+       <li>Resetting test databases</li>
+       <li>Bulk data loading scenarios where you need to clear staging tables</li>
+       <li>When performance is critical and you don't need conditional deletion</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; color: #DC2626; margin-bottom: 0.5rem;">When to Use DELETE:</h5>
+     <ul style="margin-left: 1.5rem; line-height: 1.6;">
+       <li>Removing specific rows based on conditions</li>
+       <li>When you need to maintain transaction control</li>
+       <li>When triggers must be executed</li>
+       <li>When foreign key constraints are involved</li>
+       <li>When you need the ability to rollback the operation</li>
+     </ul>
+   </div>
+
+</div>`,
+            examples: [
+              `-- TRUNCATE Example
+-- Remove all data from employees table
+TRUNCATE TABLE employees;
+
+-- This will:
+-- 1. Remove all rows instantly
+-- 2. Reset identity column to seed value
+-- 3. Deallocate data pages
+-- 4. Cannot be rolled back`,
+
+              `-- DELETE Example
+-- Remove all employees
+DELETE FROM employees;
+
+-- Remove specific employees
+DELETE FROM employees 
+WHERE department = 'Sales' AND hire_date < '2020-01-01';
+
+-- This will:
+-- 1. Remove rows one by one
+-- 2. Log each deletion
+-- 3. Can be rolled back within transaction
+-- 4. Fire DELETE triggers if any`,
+
+              `-- Performance Comparison Example
+-- For a table with 1 million rows:
+
+-- TRUNCATE (milliseconds)
+TRUNCATE TABLE large_table;
+
+-- DELETE (several seconds to minutes)
+DELETE FROM large_table;`,
+            ],
+            questions: [
+              {
+                question: "Can you rollback a TRUNCATE operation?",
+                solution:
+                  "<p>No, you cannot rollback a TRUNCATE operation in most database systems. TRUNCATE is a DDL command that auto-commits, meaning it's immediately permanent. However, DELETE operations can be rolled back if they're within an explicit transaction that hasn't been committed yet.</p>",
+              },
+              {
+                question:
+                  "Which is faster: TRUNCATE or DELETE without WHERE clause?",
+                solution:
+                  "<p>TRUNCATE is significantly faster than DELETE without a WHERE clause. TRUNCATE deallocates entire data pages at once, while DELETE processes each row individually and logs every deletion. For large tables, TRUNCATE can be hundreds of times faster.</p>",
+              },
+              {
+                question:
+                  "What happens to identity columns with TRUNCATE vs DELETE?",
+                solution:
+                  "<p>TRUNCATE resets identity columns back to their seed value (usually 1), while DELETE maintains the current identity value. If you had an identity column that reached 1000, after TRUNCATE the next insert would start from 1, but after DELETE it would continue from 1001.</p>",
+              },
+            ],
+            links: [
+              "https://docs.microsoft.com/en-us/sql/t-sql/statements/truncate-table-transact-sql",
+              "https://docs.microsoft.com/en-us/sql/t-sql/statements/delete-transact-sql",
+              "https://www.postgresql.org/docs/current/sql-truncate.html",
+            ],
+          },
+          {
+            topic: "Transaction Behavior and Logging",
+            tags: ["Transactions", "Logging", "Recovery", "Performance"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Understanding how TRUNCATE and DELETE behave within transactions and their logging mechanisms is crucial for database administration, backup strategies, and recovery planning. These differences significantly impact performance, storage requirements, and data recovery capabilities.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Transaction Behavior
+   </h4>
+   
+   <div style="background-color: #FEF7E3; border-left: 4px solid #F59E0B; padding: 1rem; margin: 1rem 0;">
+     <h5 style="font-weight: 600; color: #92400E; margin-bottom: 0.5rem;">TRUNCATE Transaction Behavior:</h5>
+     <ul style="margin-left: 1rem; color: #92400E;">
+       <li>Auto-commits immediately (cannot be part of a user transaction)</li>
+       <li>Cannot be rolled back once executed</li>
+       <li>Does not respect transaction boundaries</li>
+       <li>Locks the entire table during operation</li>
+     </ul>
+   </div>
+
+   <div style="background-color: #EFF6FF; border-left: 4px solid #3B82F6; padding: 1rem; margin: 1rem 0;">
+     <h5 style="font-weight: 600; color: #1E40AF; margin-bottom: 0.5rem;">DELETE Transaction Behavior:</h5>
+     <ul style="margin-left: 1rem; color: #1E40AF;">
+       <li>Respects transaction boundaries</li>
+       <li>Can be rolled back within a transaction</li>
+       <li>Can be part of larger transactions</li>
+       <li>Uses row-level locking (in most databases)</li>
+     </ul>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Logging Mechanisms
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     The logging behavior is one of the most significant differences affecting performance and recovery:
+   </p>
+
+   <div style="margin-top: 1.5rem;">
+     <h5 style="font-weight: 600; margin-bottom: 1rem;">TRUNCATE Logging:</h5>
+     <ol style="margin-left: 1.5rem; line-height: 1.7;">
+       <li><strong>Minimal Logging:</strong> Only logs page deallocations, not individual row deletions</li>
+       <li><strong>Transaction Log Impact:</strong> Very small transaction log footprint</li>
+       <li><strong>Recovery:</strong> Only the table structure change is logged</li>
+       <li><strong>Performance:</strong> Minimal I/O overhead for logging</li>
+     </ol>
+   </div>
+
+   <div style="margin-top: 1.5rem;">
+     <h5 style="font-weight: 600; margin-bottom: 1rem;">DELETE Logging:</h5>
+     <ol style="margin-left: 1.5rem; line-height: 1.7;">
+       <li><strong>Full Logging:</strong> Each row deletion is individually logged</li>
+       <li><strong>Transaction Log Impact:</strong> Can cause significant log growth</li>
+       <li><strong>Recovery:</strong> Complete point-in-time recovery possible</li>
+       <li><strong>Performance:</strong> High I/O overhead for logging operations</li>
+     </ol>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Impact on Database Maintenance
+   </h4>
+
+   <div style="background-color: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+     <h5 style="font-weight: 600; color: #166534; margin-bottom: 0.5rem;">Backup Considerations:</h5>
+     <ul style="margin-left: 1rem; color: #166534; line-height: 1.6;">
+       <li><strong>TRUNCATE:</strong> May cause issues with differential backups as it's a schema change</li>
+       <li><strong>DELETE:</strong> Properly captured in transaction log backups for point-in-time recovery</li>
+     </ul>
+   </div>
+
+   <div style="background-color: #FDF2F8; border: 1px solid #FBCFE8; border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+     <h5 style="font-weight: 600; color: #BE185D; margin-bottom: 0.5rem;">Replication Impact:</h5>
+     <ul style="margin-left: 1rem; color: #BE185D; line-height: 1.6;">
+       <li><strong>TRUNCATE:</strong> Replicated as a single operation, very efficient</li>
+       <li><strong>DELETE:</strong> Each row deletion is replicated individually, can cause lag</li>
+     </ul>
+   </div>
+
+</div>`,
+            examples: [
+              `-- Transaction behavior demonstration
+
+-- DELETE with transaction control
+BEGIN TRANSACTION;
+  DELETE FROM test_table WHERE status = 'inactive';
+  -- You can inspect results here
+  SELECT COUNT(*) FROM test_table; 
+  -- If satisfied, commit; otherwise rollback
+COMMIT; -- or ROLLBACK;`,
+
+              `-- TRUNCATE cannot be rolled back
+BEGIN TRANSACTION;
+  TRUNCATE TABLE test_table; -- Auto-commits immediately
+  ROLLBACK; -- This won't restore the data!`,
+
+              `-- Log space usage comparison
+-- Check transaction log space before operation
+DBCC SQLPERF(logspace);
+
+-- DELETE operation (generates lots of log records)
+DELETE FROM large_table; -- 1M rows
+
+-- Check log space after DELETE
+DBCC SQLPERF(logspace); -- Log grows significantly
+
+-- Reset table
+INSERT INTO large_table SELECT * FROM backup_table;
+
+-- TRUNCATE operation (minimal logging)
+TRUNCATE TABLE large_table;
+
+-- Check log space after TRUNCATE
+DBCC SQLPERF(logspace); -- Log grows very little`,
+
+              `-- Transaction log backup frequency impact
+-- With frequent DELETEs, you need frequent log backups
+-- to prevent log file growth
+
+-- DELETE scenario (requires frequent log backups)
+BACKUP LOG database_name TO DISK = 'logbackup.trn';
+DELETE FROM large_table WHERE created_date < GETDATE()-30;
+BACKUP LOG database_name TO DISK = 'logbackup2.trn';
+
+-- TRUNCATE scenario (minimal log impact)
+TRUNCATE TABLE staging_table; -- Minimal log impact`,
+            ],
+            questions: [
+              {
+                question: "Why does TRUNCATE have minimal transaction logging?",
+                solution:
+                  "<p>TRUNCATE has minimal logging because it operates at the page level rather than the row level. Instead of logging each individual row deletion, it only logs the deallocation of data pages. This is possible because TRUNCATE removes all data from the table, so there's no need to track individual row changes for recovery purposes.</p>",
+              },
+              {
+                question: "Can TRUNCATE be part of an explicit transaction?",
+                solution:
+                  "<p>In most database systems, TRUNCATE cannot be part of an explicit transaction because it auto-commits immediately. However, some databases like PostgreSQL allow TRUNCATE within transactions. In SQL Server and MySQL, TRUNCATE is always auto-commit and cannot be rolled back.</p>",
+              },
+              {
+                question: "How does logging behavior affect backup strategies?",
+                solution:
+                  "<p>DELETE operations require more frequent transaction log backups to manage log file growth and ensure point-in-time recovery. TRUNCATE operations have minimal impact on transaction logs, but they may affect differential backup strategies since they're considered schema changes in some database systems.</p>",
+              },
+            ],
+            links: [
+              "https://docs.microsoft.com/en-us/sql/relational-databases/logs/the-transaction-log-sql-server",
+              "https://dev.mysql.com/doc/refman/8.0/en/truncate-table.html",
+              "https://www.postgresql.org/docs/current/wal-intro.html",
+            ],
+          },
+          {
+            topic: "Performance Analysis and Optimization",
+            tags: ["Performance", "Optimization", "Indexing", "Storage"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Performance is where TRUNCATE and DELETE show their most dramatic differences. Understanding these performance characteristics helps in choosing the right approach for different scenarios and optimizing database operations.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Comparison Metrics
+   </h4>
+
+   <table style="width: 100%; border-collapse: collapse; margin-top: 1rem; font-size: 0.95rem;">
+     <thead>
+       <tr style="background-color: #F3F4F6;">
+         <th style="border: 1px solid #D1D5DB; padding: 12px; text-align: left; font-weight: 600;">Performance Factor</th>
+         <th style="border: 1px solid #D1D5DB; padding: 12px; text-align: left; font-weight: 600;">TRUNCATE</th>
+         <th style="border: 1px solid #D1D5DB; padding: 12px; text-align: left; font-weight: 600;">DELETE</th>
+       </tr>
+     </thead>
+     <tbody>
+       <tr>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Execution Time</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #059669;">Constant (O(1)) - Milliseconds</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #DC2626;">Linear (O(n)) - Seconds to Hours</td>
+       </tr>
+       <tr style="background-color: #F9FAFB;">
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Memory Usage</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #059669;">Very Low</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #DC2626;">High (proportional to rows)</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">I/O Operations</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #059669;">Minimal (page deallocations)</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #DC2626;">High (row-by-row + logging)</td>
+       </tr>
+       <tr style="background-color: #F9FAFB;">
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">Lock Duration</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #F59E0B;">Short but exclusive table lock</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #DC2626;">Long duration, multiple row locks</td>
+       </tr>
+       <tr>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; font-weight: 500;">CPU Usage</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #059669;">Very Low</td>
+         <td style="border: 1px solid #D1D5DB; padding: 10px; color: #DC2626;">High (row processing + indexing)</td>
+       </tr>
+     </tbody>
+   </table>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Detailed Performance Analysis
+   </h4>
+
+   <div style="margin-top: 1.5rem;">
+     <h5 style="font-weight: 600; color: #059669; margin-bottom: 1rem;">TRUNCATE Performance Characteristics:</h5>
+     <ol style="margin-left: 1.5rem; line-height: 1.7;">
+       <li><strong>Page-Level Operations:</strong> Deallocates entire data pages rather than processing individual rows</li>
+       <li><strong>Minimal Index Impact:</strong> Indexes are also truncated quickly by deallocating index pages</li>
+       <li><strong>No WHERE Clause Processing:</strong> No need to evaluate conditions or scan rows</li>
+       <li><strong>Constant Time Complexity:</strong> Performance doesn't degrade with table size</li>
+       <li><strong>Minimal Resource Consumption:</strong> Low CPU, memory, and I/O requirements</li>
+     </ol>
+   </div>
+
+   <div style="margin-top: 1.5rem;">
+     <h5 style="font-weight: 600; color: #DC2626; margin-bottom: 1rem;">DELETE Performance Characteristics:</h5>
+     <ol style="margin-left: 1.5rem; line-height: 1.7;">
+       <li><strong>Row-by-Row Processing:</strong> Must read, evaluate, and delete each row individually</li>
+       <li><strong>Index Maintenance:</strong> All indexes must be updated for each deleted row</li>
+       <li><strong>WHERE Clause Evaluation:</strong> Must scan and evaluate conditions (even for full table deletes)</li>
+       <li><strong>Linear Time Complexity:</strong> Performance degrades linearly with row count</li>
+       <li><strong>High Resource Usage:</strong> Significant CPU, memory, and I/O overhead</li>
+     </ol>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Performance Scenarios
+   </h4>
+
+   <div style="background-color: #F0FDF4; border-left: 4px solid #10B981; padding: 1rem; margin: 1rem 0;">
+     <h5 style="font-weight: 600; color: #065F46; margin-bottom: 0.5rem;">Scenario 1: Data Warehouse ETL</h5>
+     <p style="color: #065F46; margin-bottom: 0.5rem;"><strong>Situation:</strong> Daily refresh of 50 million row staging table</p>
+     <ul style="margin-left: 1rem; color: #065F46;">
+       <li><strong>TRUNCATE:</strong> 2-3 seconds</li>
+       <li><strong>DELETE:</strong> 45+ minutes</li>
+       <li><strong>Recommendation:</strong> Use TRUNCATE for staging table refresh</li>
+     </ul>
+   </div>
+
+   <div style="background-color: #FEF7E3; border-left: 4px solid #F59E0B; padding: 1rem; margin: 1rem 0;">
+     <h5 style="font-weight: 600; color: #92400E; margin-bottom: 0.5rem;">Scenario 2: Archival Process</h5>
+     <p style="color: #92400E; margin-bottom: 0.5rem;"><strong>Situation:</strong> Remove records older than 5 years</p>
+     <ul style="margin-left: 1rem; color: #92400E;">
+       <li><strong>TRUNCATE:</strong> Cannot be used (needs WHERE clause)</li>
+       <li><strong>DELETE:</strong> Use with proper indexing and batching</li>
+       <li><strong>Recommendation:</strong> Batch DELETEs with partitioning strategy</li>
+     </ul>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Optimization Strategies
+   </h4>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">For TRUNCATE Operations:</h5>
+     <ul style="margin-left: 1.5rem; line-height: 1.6;">
+       <li>Ensure no foreign key references to the table</li>
+       <li>Drop and recreate indexes if table will be repopulated immediately</li>
+       <li>Consider using in off-peak hours due to table locking</li>
+       <li>Backup table structure and data before operation if recovery might be needed</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h5 style="font-weight: 600; margin-bottom: 0.5rem;">For DELETE Operations:</h5>
+     <ul style="margin-left: 1.5rem; line-height: 1.6;">
+       <li>Use appropriate indexes on WHERE clause columns</li>
+       <li>Batch large DELETE operations to avoid lock escalation</li>
+       <li>Consider using EXISTS instead of IN for subqueries</li>
+       <li>Monitor transaction log space and backup frequency</li>
+       <li>Use LIMIT/TOP clauses to process data in chunks</li>
+     </ul>
+   </div>
+
+</div>`,
+            examples: [
+              `-- Performance benchmarking example
+-- Create test table with 1 million rows
+CREATE TABLE performance_test (
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    data VARCHAR(100),
+    created_date DATETIME DEFAULT GETDATE()
+);
+
+-- Populate with sample data
+INSERT INTO performance_test (data)
+SELECT 'Sample data ' + CAST(number AS VARCHAR(10))
+FROM master..spt_values
+WHERE type = 'P' AND number BETWEEN 1 AND 1000000;
+
+-- Benchmark DELETE operation
+DECLARE @start_time DATETIME = GETDATE();
+DELETE FROM performance_test;
+DECLARE @delete_duration INT = DATEDIFF(ms, @start_time, GETDATE());
+PRINT 'DELETE duration: ' + CAST(@delete_duration AS VARCHAR(10)) + ' ms';
+
+-- Repopulate for TRUNCATE test
+INSERT INTO performance_test (data)
+SELECT 'Sample data ' + CAST(number AS VARCHAR(10))
+FROM master..spt_values
+WHERE type = 'P' AND number BETWEEN 1 AND 1000000;
+
+-- Benchmark TRUNCATE operation  
+SET @start_time = GETDATE();
+TRUNCATE TABLE performance_test;
+DECLARE @truncate_duration INT = DATEDIFF(ms, @start_time, GETDATE());
+PRINT 'TRUNCATE duration: ' + CAST(@truncate_duration AS VARCHAR(10)) + ' ms';`,
+
+              `-- Optimized batch DELETE for large tables
+DECLARE @batch_size INT = 10000;
+DECLARE @rows_affected INT = 1;
+
+WHILE @rows_affected > 0
+BEGIN
+    DELETE TOP (@batch_size) 
+    FROM large_table 
+    WHERE status = 'inactive' 
+    AND created_date < DATEADD(YEAR, -2, GETDATE());
+    
+    SET @rows_affected = @@ROWCOUNT;
+    
+    -- Small delay to prevent blocking other operations
+    WAITFOR DELAY '00:00:01';
+    
+    -- Optional: Backup transaction log if it's growing too large
+    IF @@ROWCOUNT > 0 
+        BACKUP LOG database_name TO DISK = 'temp_log_backup.trn';
+END;`,
+
+              `-- I/O and resource monitoring during operations
+-- Monitor I/O statistics
+SET STATISTICS IO ON;
+SET STATISTICS TIME ON;
+
+-- DELETE operation monitoring
+DELETE FROM test_table WHERE category = 'old_data';
+
+-- TRUNCATE operation monitoring
+TRUNCATE TABLE test_table;
+
+SET STATISTICS IO OFF;
+SET STATISTICS TIME OFF;`,
+            ],
+            questions: [],
+          },
+        ],
+      },
+    ],
+  },
 ];

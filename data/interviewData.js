@@ -7036,4 +7036,3292 @@ export const interviewData = [
       },
     ],
   },
+  {
+    id: 39,
+    topic: "SQL",
+    categories: "Junior",
+    tags: [
+      { name: "basics", link: "" },
+      { name: "exchanges", link: "" },
+      { name: "queues", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is SQL?",
+        solution:
+          "SQL (Structured Query Language) is a standard language for storing, manipulating and retrieving data in relational database systems such as MySQL, PostgreSQL, SQL Server, Oracle, etc.",
+      },
+      {
+        question: "What are the different types of SQL commands?",
+        solution:
+          "Five broad categories:\n1. DDL – CREATE, ALTER, DROP (define structure)\n2. DML – SELECT, INSERT, UPDATE, DELETE (manipulate data)\n3. DCL – GRANT, REVOKE (control access)\n4. TCL – COMMIT, ROLLBACK, SAVEPOINT (transaction control)",
+      },
+      {
+        question: "What is a primary key in SQL?",
+        solution:
+          "A PRIMARY KEY is a column (or set of columns) that uniquely identifies each row in a table. It enforces entity integrity, disallows NULLs, and automatically creates a unique index on the key column(s).",
+      },
+      {
+        question: "What is a foreign key?",
+        solution:
+          "A FOREIGN KEY is a column (or columns) that references the PRIMARY KEY of another table. It enforces referential integrity by ensuring values in the child table always match values in the parent table.",
+      },
+      {
+        question:
+          "Explain the difference between the DELETE and TRUNCATE commands.",
+        solution:
+          "DELETE removes rows one-by-one and can include a WHERE clause; it fires triggers and can be rolled back. TRUNCATE is a DDL operation that de-allocates all data pages instantly; it cannot include a WHERE clause, does not fire triggers, and usually cannot be rolled back.",
+      },
+      {
+        question: "What is a JOIN in SQL, and what are its types?",
+        solution:
+          "A JOIN combines rows from two or more tables based on a related column.\nTypes: INNER, LEFT (OUTER), RIGHT (OUTER), FULL (OUTER), CROSS, and SELF joins.",
+      },
+      {
+        question: "How do you optimize SQL queries?",
+        solution:
+          "Use selective WHERE clauses, proper indexes, avoid SELECT *, limit the result set with LIMIT/TOP, rewrite sub-queries as joins when possible, analyze execution plans, and keep statistics updated.",
+      },
+      {
+        question: "What is the difference between UNION and UNION ALL?",
+        solution:
+          "UNION combines result sets and removes duplicate rows. UNION ALL concatenates result sets including duplicates; it is faster because it skips duplicate elimination.",
+      },
+      {
+        question: "What are correlated subqueries?",
+        solution:
+          "A correlated subquery references columns from the outer query and is executed once for every candidate row in the outer query, making it potentially slower than non-correlated subqueries.",
+      },
+      {
+        question: "Explain ACID properties in SQL.",
+        solution:
+          "Atomicity – all or none of a transaction completes. Consistency – the database remains in a valid state after the transaction. Isolation – concurrent transactions do not interfere. Durability – committed changes persist even after crashes.",
+      },
+      {
+        question: "How do you find the second highest salary in a table?",
+        solution:
+          "SELECT MAX(salary) AS SecondHighest FROM employees WHERE salary < (SELECT MAX(salary) FROM employees);",
+      },
+      {
+        question: "What is the difference between CHAR and VARCHAR data types?",
+        solution:
+          "CHAR has a fixed length (padded with spaces) and is faster for small, consistent strings. VARCHAR has a variable length, uses only the space needed plus a length prefix, and is more space-efficient but slightly slower.",
+      },
+      {
+        question: "How do you use the GROUP BY clause?",
+        solution:
+          "GROUP BY groups rows sharing the same values in specified columns so that aggregate functions (COUNT, SUM, AVG, MAX, MIN) can be applied to each group.",
+      },
+      {
+        question: "What is the difference between INNER JOIN and OUTER JOIN?",
+        solution:
+          "INNER JOIN returns only matching rows from both tables. OUTER JOIN returns matching rows plus non-matching rows from one or both tables, filling NULLs where no match exists.",
+      },
+      {
+        question: "How do you use the HAVING clause?",
+        solution:
+          "HAVING filters groups after aggregation is performed. It is used with GROUP BY to include only groups that meet a specified condition.",
+      },
+      {
+        question: "What is a view in SQL?",
+        solution:
+          "A VIEW is a virtual table based on the result set of a SQL statement. It simplifies complex queries, restricts access to underlying tables, and can sometimes be updated if it meets certain criteria.",
+      },
+      {
+        question: "How do you use the DISTINCT keyword?",
+        solution:
+          "SELECT DISTINCT column_name FROM table_name; returns unique values for the specified column(s), removing duplicates from the result set.",
+      },
+      {
+        question: "What is a transaction in SQL?",
+        solution:
+          "A transaction is a single logical unit of work that must either complete entirely or not at all. It is controlled with BEGIN, COMMIT, and ROLLBACK statements.",
+      },
+      {
+        question: "How do you use the LIKE operator?",
+        solution:
+          "LIKE is used in a WHERE clause for pattern matching with wildcards: % (any sequence of characters), _ (single character). Example: WHERE name LIKE 'A%';",
+      },
+      {
+        question: "What is a subquery?",
+        solution:
+          "A subquery (inner query) is a query nested inside another SQL statement (outer query) and can return a scalar, single column, or full result set to be used by the outer query.",
+      },
+      {
+        question: "What does SELECT 1 do in SQL?",
+        solution:
+          "The SQL statement **SELECT 1** returns a single column with a value of **1** for each row that satisfies the `WHERE` clause. It is primarily used for existence checks, particularly in subqueries with the `EXISTS` operator. Its main benefit is **performance**. By selecting a constant value (1), the database engine does not need to retrieve and transfer actual data from the disk. It simply needs to find a single matching row to confirm that the condition is met. This makes it significantly more efficient than using `SELECT *` or `SELECT column_name` for the same purpose, as those queries would involve a full data scan and retrieval.",
+      },
+      {
+        question: "How do you list all tables in PostgreSQL?",
+        solution:
+          "There are two primary methods to list all tables in **PostgreSQL**:\n\n1.  **psql command-line tool:** Use the meta-command `\\dt`. This is the quickest way to get a formatted list of tables, views, and sequences in the current database schema.\n\n2.  **SQL query:** You can query the **`information_schema.tables`** view, which is part of the SQL standard. This approach is useful for programmatic access or when you need more detailed information. The query is: `SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_type = 'BASE TABLE';`.\n\n`table_schema = 'public'` filters for tables in the default schema, while `table_type = 'BASE TABLE'` ensures that only actual tables (not views or system tables) are returned.",
+      },
+      {
+        question: "How do you list all tables in MySQL?",
+        solution:
+          "Listing tables in **MySQL** can be done with a simple command or a standard query:\n\n1.  **SQL command:** The most common method is using `SHOW TABLES;`. This is a MySQL-specific command that quickly returns a list of all tables in the currently selected database.\n\n2.  **SQL query:** For a more general approach, you can query the **`information_schema`** database. The query to list tables in a specific database is: `SELECT table_name FROM information_schema.tables WHERE table_schema = 'your_database_name';`.",
+      },
+      {
+        question: "How do you list all tables in SQL Server?",
+        solution:
+          "In **SQL Server**, you can list tables by querying system views:\n\n1.  **Using `information_schema`:** This is a standard method that is portable across different database systems: `SELECT table_name FROM information_schema.tables WHERE table_type = 'BASE TABLE';`.\n\n2.  **Using `sys.tables`:** This is the more common and powerful SQL Server-specific approach. The `sys.tables` catalog view contains detailed metadata about tables in the current database: `SELECT name FROM sys.tables;`.",
+      },
+      {
+        question: "What is the default sort order of ORDER BY in SQL?",
+        solution:
+          "The default sort order of the **`ORDER BY`** clause is **ascending (`ASC`)**. When you sort a result set without specifying `ASC` or `DESC`, the database sorts the values from lowest to highest. For numbers, this means 1, 2, 3...; for dates, oldest to newest; and for text, alphabetically from A-Z.",
+      },
+      {
+        question: "How do you concatenate first and last names in SQL?",
+        solution:
+          "Concatenating strings (joining them together) is done differently across database systems:\n\n1.  **Standard SQL, PostgreSQL, and MySQL:** Use the **`CONCAT()`** function. This function takes a variable number of arguments and joins them into a single string. Example: `SELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;`.\n\n2.  **SQL Server:** Use the `+` operator. Example: `SELECT first_name + ' ' + last_name AS full_name FROM employees;`.\n\n3.  **Oracle and PostgreSQL:** The `||` operator is also used. Example: `SELECT first_name || ' ' || last_name AS full_name FROM employees;`.",
+      },
+      {
+        question: "How do you get today’s date in SQL?",
+        solution:
+          "Retrieving the current date is a basic function with varying names:\n\n* **Standard SQL:** `CURRENT_DATE` returns the current date without the time component.\n* **SQL Server:** `GETDATE()` returns the current date and time.\n* **MySQL:** `CURDATE()` returns just the date, while `NOW()` returns date and time.\n* **PostgreSQL:** `CURRENT_DATE` returns the date, while `NOW()` or `CURRENT_TIMESTAMP` return both date and time.",
+      },
+      {
+        question: "How do you add 30 days to a date column in SQL?",
+        solution:
+          "Adding or subtracting days from a date column requires specific syntax for each database management system:\n\n* **PostgreSQL and MySQL:** Use the **`INTERVAL`** keyword. Example: `SELECT date_column + INTERVAL '30 days' FROM table_name;`.\n\n* **SQL Server:** Use the **`DATEADD()`** function, which takes the interval unit, the number of units, and the date column. Example: `SELECT DATEADD(day, 30, date_column) FROM table_name;`.\n\n* **Oracle:** You can simply add the integer to the date column. Example: `SELECT date_column + 30 FROM table_name;`.",
+      },
+      {
+        question: "What is an alias and why is it used?",
+        solution:
+          "An **alias** is a temporary, alternative name given to a column or a table within a SQL query, using the `AS` keyword. Aliases are crucial for improving the **readability** and **simplicity** of queries. They are used to:\n\n* **Rename columns:** Give a more descriptive name to a column in the result set, which is useful for reports.\n* **Simplify joins:** Use short aliases for long table names to make join conditions easier to write and read.\n* **Handle self-joins:** When a table is joined with itself, aliases are required to distinguish between the two instances of the table.",
+      },
+      {
+        question: "What is the difference between WHERE and HAVING?",
+        solution:
+          "The key difference between `WHERE` and `HAVING` lies in **when** they filter data in a query's execution order.  \n\n* **`WHERE` clause:** Filters individual rows **before** they are grouped by the `GROUP BY` clause. You cannot use aggregate functions (`SUM`, `COUNT`, `AVG`) within the `WHERE` clause.\n\n* **`HAVING` clause:** Filters groups of rows **after** they have been created by the `GROUP BY` clause. This is the correct place to use aggregate functions to filter results based on an aggregated value.\n\n**Analogy:** If you have a box of apples, `WHERE` is like picking out all the rotten apples **before** you put them into baskets (groups). `HAVING` is like looking at all the baskets and throwing away any that have fewer than 10 apples.",
+      },
+      {
+        question: "How do you count the number of rows in a table?",
+        solution:
+          "You count rows using the **`COUNT()`** aggregate function.\n\n* **`COUNT(*)`:** This is the most efficient method to count all rows, including those with `NULL` values. The asterisk (`*`) instructs the database to count all rows without checking any specific column's value. \n\n* **`COUNT(column_name)`:** This counts only the rows where the specified `column_name` is **not NULL**. If a row has a `NULL` value in that column, it will not be included in the count.",
+      },
+      {
+        question: "How do you retrieve the top 5 records in SQL Server?",
+        solution:
+          "In **SQL Server**, you use the **`TOP`** keyword in the `SELECT` statement to limit the number of rows. It's almost always used with an `ORDER BY` clause to define what constitutes the 'top' records.\n\nExample: `SELECT TOP 5 * FROM employees ORDER BY salary DESC;` (This returns the 5 employees with the highest salaries).",
+      },
+      {
+        question: "How do you retrieve the top 5 records in MySQL/PostgreSQL?",
+        solution:
+          "In **MySQL** and **PostgreSQL**, you use the **`LIMIT`** clause at the end of the query to specify the maximum number of rows to return. As with `TOP`, it's best to use it with `ORDER BY`.\n\nExample: `SELECT * FROM employees ORDER BY salary DESC LIMIT 5;`.",
+      },
+      {
+        question: "How do you remove duplicate rows from a result set?",
+        solution:
+          "To return a result set with only unique rows, you use the **`DISTINCT`** keyword immediately after `SELECT`. `DISTINCT` considers all columns in the `SELECT` list and returns only unique combinations of values.\n\nExample: `SELECT DISTINCT city, state FROM customers;` (This will return a unique list of city/state pairs. If multiple customers are from 'New York, NY', only one instance will appear).",
+      },
+      {
+        question: "Can you use ORDER BY without SELECTing the column?",
+        solution:
+          "Yes, it is perfectly valid to use `ORDER BY` on a column that is not in the `SELECT` list. The `ORDER BY` clause operates on the entire result set, sorting the data based on the specified column's values before presenting the final output. This is useful when you need to order the results by a specific criteria but don't need to display that criteria in the final output.",
+      },
+      {
+        question: "How do you sort by multiple columns?",
+        solution:
+          "To sort by multiple columns, you simply list them in the `ORDER BY` clause, separated by commas. The sorting is **hierarchical**. SQL first sorts by the first column, and then for any rows that have identical values in the first column, it uses the second column for sorting, and so on.\n\nExample: `SELECT first_name, last_name FROM employees ORDER BY last_name ASC, first_name DESC;` (This sorts employees alphabetically by last name, and for those with the same last name, it sorts their first names in reverse alphabetical order).",
+      },
+      {
+        question: "How do you rename a column in a query result?",
+        solution:
+          "You rename a column in a query's output using a **column alias** with the **`AS`** keyword. This temporary name exists only for the duration of the query. It is a best practice to use aliases to make your query results more readable and understandable, especially when using functions or complex expressions.\n\nExample: `SELECT first_name AS first_name, last_name AS surname FROM employees;`.",
+      },
+      {
+        question: "How do you comment a single line in SQL?",
+        solution:
+          "To add a single-line comment in SQL, you use two consecutive hyphens (`--`). Everything from the hyphens to the end of that line is ignored by the database engine. This is a standard and very common method for adding notes or disabling parts of a query temporarily.",
+      },
+      {
+        question: "How do you comment multiple lines in SQL?",
+        solution:
+          "To add a multi-line comment, you use the `/* ... */` syntax. All text between the `/*` and `*/` markers is treated as a comment, allowing you to easily comment out large blocks of code or write detailed explanations.",
+      },
+      {
+        question: "What is the result of SELECT * FROM table WHERE 1 = 0?",
+        solution:
+          "The result of `SELECT * FROM table WHERE 1 = 0;` is an **empty result set** (zero rows). The `WHERE` clause's condition, `1 = 0`, is a logical expression that is always false. Since no rows can ever satisfy this condition, the query will return nothing, but it will not produce an error because the syntax is valid.",
+      },
+      {
+        question: "How do you check if a column value is NULL?",
+        solution:
+          "To check for a `NULL` value, you must use the `IS NULL` operator. You cannot use the equality operator (`=`) because `NULL` is not a value; it's a marker for missing or unknown data. A comparison like `column_name = NULL` will always return unknown, which is treated as false. \n\nExample: `SELECT * FROM employees WHERE hire_date IS NULL;`.",
+      },
+      {
+        question: "How do you return all rows where a column is NOT NULL?",
+        solution:
+          "To find all rows where a column contains a value (is not `NULL`), you use the `IS NOT NULL` operator.\n\nExample: `SELECT * FROM employees WHERE hire_date IS NOT NULL;`.",
+      },
+      {
+        question: "What happens if you omit the WHERE clause in an UPDATE?",
+        solution:
+          "If you omit the `WHERE` clause in an `UPDATE` statement, the database will update the specified column(s) for **every single row** in the table. This is an extremely dangerous and destructive operation, and it's a common mistake that can lead to data loss or corruption. Always use a `WHERE` clause to target specific rows.",
+      },
+      {
+        question: "What happens if you omit the WHERE clause in a DELETE?",
+        solution:
+          "If you omit the `WHERE` clause in a `DELETE` statement, the query will **delete every single row** from the table, effectively emptying it. This is a permanent and irreversible action. A safer alternative to deleting all rows is often using `TRUNCATE TABLE`, which is faster as it deallocates the data pages but does not log individual row deletions. However, `TRUNCATE` is also irreversible.",
+      },
+      {
+        question: "How do you calculate the sum of a numeric column?",
+        solution:
+          "To calculate the sum of values in a numeric column, you use the **`SUM()`** aggregate function. This function returns the total sum of all values in a specified column for the rows that match the query's criteria.\n\nExample: `SELECT SUM(salary) FROM employees;`.",
+      },
+      {
+        question: "How do you calculate the average of a numeric column?",
+        solution:
+          "To calculate the average (arithmetic mean) of values in a numeric column, you use the **`AVG()`** aggregate function. This function sums all the non-NULL values in the column and divides by the number of those values.\n\nExample: `SELECT AVG(total_price) FROM orders;`.",
+      },
+      {
+        question: "How do you calculate the minimum and maximum of a column?",
+        solution:
+          "You use the aggregate functions **`MIN()`** and **`MAX()`** to find the minimum and maximum values in a column, respectively. These functions work on both numeric and character data types, returning the lowest or highest value in a specified column. For example, `SELECT MIN(price) AS min_price, MAX(price) AS max_price FROM products;` will return the lowest and highest product prices from the `products` table.",
+      },
+      {
+        question: "How do you round a numeric value to two decimal places?",
+        solution:
+          "You use the **`ROUND()`** function to round a numeric value. It typically takes two arguments: the numeric value to be rounded and the number of decimal places to which it should be rounded. For example, `SELECT ROUND(price, 2) FROM products;` will round the values in the `price` column to two decimal places. In some database systems like MySQL, a single-argument `ROUND()` rounds to the nearest whole number.",
+      },
+      {
+        question: "How do you convert a string to a date in SQL?",
+        solution:
+          "Converting a string to a date depends on the database system. Most systems provide a function for this purpose:\n\n* **SQL Server:** Use **`CONVERT()`** or **`CAST()`**. Example: `SELECT CONVERT(DATE, '2023-10-26');`\n* **PostgreSQL:** Use **`TO_DATE()`** or `CAST()`. Example: `SELECT TO_DATE('26 Oct 2023', 'DD Mon YYYY');` or `SELECT CAST('2023-10-26' AS DATE);`\n* **MySQL:** Use **`STR_TO_DATE()`**. Example: `SELECT STR_TO_DATE('October 26, 2023', '%M %d, %Y');`",
+      },
+      {
+        question:
+          "How do you convert a date to a string with format 'YYYY-MM-DD'?",
+        solution:
+          "Converting a date to a string with a specific format also varies by database:\n\n* **SQL Server:** Use **`FORMAT()`** or **`CONVERT()`**. Example: `SELECT FORMAT(GETDATE(), 'yyyy-MM-dd');` or `SELECT CONVERT(VARCHAR, GETDATE(), 120);` (Style code 120 is for 'YYYY-MM-DD HH:MI:SS', but SQL Server will handle the date part correctly).\n* **PostgreSQL:** Use **`TO_CHAR()`**. Example: `SELECT TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD');`\n* **MySQL:** Use **`DATE_FORMAT()`**. Example: `SELECT DATE_FORMAT(NOW(), '%Y-%m-%d');`",
+      },
+      {
+        question: "What is the difference between IN and EXISTS?",
+        solution:
+          "Both `IN` and `EXISTS` are used in subqueries to check for the existence of data, but they differ in how they operate and their performance characteristics.\n\n* **`IN`:** The `IN` operator works by first executing the inner subquery, which returns a list of values. The outer query then checks if a value exists within that list. This can be inefficient for large lists because the database must load all the values from the subquery into memory.\n\n* **`EXISTS`:** The `EXISTS` operator works by executing the outer query first. For each row in the outer query, it checks if the inner subquery returns **any** rows. As soon as the subquery finds one matching row, it returns true and stops scanning. This is generally more efficient than `IN`, especially with large subquery result sets, because it doesn't need to load all data from the subquery into memory.",
+      },
+      {
+        question: "How do you use BETWEEN in SQL?",
+        solution:
+          "The **`BETWEEN`** operator is used to select values within a specified range, inclusive of the start and end values. The syntax is `column_name BETWEEN value1 AND value2`. It is a shorthand for a combination of `>=` and `<=` operators. For example, `SELECT * FROM orders WHERE order_date BETWEEN '2023-01-01' AND '2023-01-31';` will return all orders placed in January 2023.",
+      },
+      {
+        question: "How do you use IN with a list of values?",
+        solution:
+          "The **`IN`** operator is used to check if a value is present in a list of specified values. The list is provided in parentheses, separated by commas. It is a more concise way of writing multiple `OR` conditions. For example, `SELECT * FROM students WHERE major IN ('Computer Science', 'Physics', 'Mathematics');` will return students whose major is either 'Computer Science', 'Physics', or 'Mathematics'.",
+      },
+      {
+        question: "How do you use LIKE to find names starting with 'A'?",
+        solution:
+          "You use the **`LIKE`** operator with the percent wildcard (`%`) at the end of the string. The query `SELECT * FROM employees WHERE first_name LIKE 'A%';` will return all employees whose first name begins with the letter 'A'. The `%` matches any sequence of zero or more characters.",
+      },
+      {
+        question: "How do you use LIKE to find names ending with 'son'?",
+        solution:
+          "To find names ending with a specific string, you use the percent wildcard (`%`) at the beginning. The query `SELECT * FROM employees WHERE last_name LIKE '%son';` will return all employees whose last name ends with 'son'.",
+      },
+      {
+        question: "How do you use LIKE to find names containing 'an'?",
+        solution:
+          "To find names that contain a specific substring, you place the percent wildcard (`%`) at both the beginning and the end of the substring. The query `SELECT * FROM employees WHERE first_name LIKE '%an%';` will return all employees whose first name contains 'an'.",
+      },
+      {
+        question:
+          "What is the wildcard character for a single character in LIKE?",
+        solution:
+          "The wildcard character for a single character in the `LIKE` operator is the **underscore (`_`)**. It matches exactly one character, regardless of what that character is. For example, `SELECT * FROM products WHERE product_code LIKE 'T_5';` would match 'T15', 'T25', 'T-5', etc., but not 'T105' or 'T5'.",
+      },
+      {
+        question: "How do you escape a wildcard character in LIKE?",
+        solution:
+          "To search for a literal `%` or `_` character instead of using it as a wildcard, you need to use an `ESCAPE` clause. You define a character to act as the escape character, which is then placed before the wildcard. For example, `SELECT * FROM products WHERE sku LIKE '100\\%A' ESCAPE '\\';` will search for SKUs that literally contain `100%A`.",
+      },
+      {
+        question: "How do you create an index on a column?",
+        solution:
+          "You create an index on a column using the **`CREATE INDEX`** statement. This command improves query performance by allowing the database to quickly locate data without having to scan the entire table. The syntax is `CREATE INDEX index_name ON table_name (column_name);`. For example, `CREATE INDEX idx_last_name ON employees (last_name);`.",
+      },
+      {
+        question: "How do you drop an index?",
+        solution:
+          "You drop an index using the **`DROP INDEX`** statement. This command removes the index from the table. The syntax varies slightly by database system, but generally follows the format `DROP INDEX index_name ON table_name;` (SQL Server) or `DROP INDEX index_name;` (MySQL/PostgreSQL).",
+      },
+      {
+        question: "What is a composite index?",
+        solution:
+          "A **composite index** (also known as a multicolumn index) is an index that is created on two or more columns of a table. It is used to improve the performance of queries that frequently filter or sort by a combination of those columns. The order of the columns in the index is important as it dictates how the data is sorted and accessed.",
+      },
+      {
+        question: "How do you create a composite index?",
+        solution:
+          "You create a composite index using the `CREATE INDEX` statement, but you list multiple column names inside the parentheses, separated by commas. For example, `CREATE INDEX idx_name ON employees (last_name, first_name);` will create a composite index that is efficient for queries filtering on both `last_name` and `first_name`.",
+      },
+      {
+        question: "How do you see the execution plan in SQL Server?",
+        solution:
+          "In SQL Server Management Studio (SSMS), you can see the execution plan by selecting your query and pressing **`Ctrl + L`** (for the Estimated Execution Plan) or by clicking the 'Display Estimated Execution Plan' button on the toolbar. For the Actual Execution Plan, you can select the query and press **`Ctrl + M`** or click the 'Include Actual Execution Plan' button before running the query. The plan is a visual representation of how the database engine will process your query.",
+      },
+      {
+        question: "How do you see the execution plan in PostgreSQL?",
+        solution:
+          "In PostgreSQL, you can see the execution plan by using the **`EXPLAIN`** command before your query. \n\n* `EXPLAIN SELECT * FROM products WHERE price > 100;` will show the estimated plan without running the query.\n* `EXPLAIN ANALYZE SELECT * FROM products WHERE price > 100;` will run the query and show the actual execution plan, including timing and row counts.",
+      },
+      {
+        question:
+          "What is the difference between clustered and non-clustered indexes?",
+        solution:
+          "This is a key concept in database indexing:\n\n* **Clustered Index:** A clustered index determines the physical order of data storage in the table. A table can only have **one** clustered index because data can only be sorted in one way. The leaf nodes of a clustered index are the actual data rows. It's often created automatically on the primary key.\n\n* **Non-Clustered Index:** A non-clustered index does not change the physical order of the data. It is a separate structure that contains the indexed column values and a pointer (a row locator) to the actual data row. A table can have **multiple** non-clustered indexes.",
+      },
+      {
+        question: "How do you add a new column to an existing table?",
+        solution:
+          "You add a new column to an existing table using the **`ALTER TABLE`** statement with the `ADD COLUMN` clause. For example, `ALTER TABLE employees ADD COLUMN start_date DATE;` will add a new column named `start_date` with a `DATE` data type to the `employees` table.",
+      },
+      {
+        question: "How do you drop a column from a table?",
+        solution:
+          "You drop a column from an existing table using the **`ALTER TABLE`** statement with the `DROP COLUMN` clause. For example, `ALTER TABLE employees DROP COLUMN start_date;` will remove the `start_date` column from the `employees` table. This is a permanent and irreversible action.",
+      },
+      {
+        question: "How do you change the data type of a column?",
+        solution:
+          "You change the data type of a column using the **`ALTER TABLE`** statement with a `MODIFY COLUMN` or `ALTER COLUMN` clause, depending on the database. For example, `ALTER TABLE employees ALTER COLUMN phone_number VARCHAR(15);` (SQL Server) or `ALTER TABLE employees MODIFY COLUMN phone_number VARCHAR(15);` (MySQL) or `ALTER TABLE employees ALTER COLUMN phone_number TYPE VARCHAR(15);` (PostgreSQL).",
+      },
+      {
+        question: "How do you set a default value for a column?",
+        solution:
+          "You set a default value for a column using the **`DEFAULT`** keyword. This value will be automatically inserted into the column if a new row is created without a value specified for that column. You can set a default value when creating a new column or by altering an existing one. For example, `ALTER TABLE products ADD COLUMN status VARCHAR(20) DEFAULT 'in stock';`.",
+      },
+      {
+        question: "How do you remove a default value from a column?",
+        solution:
+          "You remove a default value from a column using the **`ALTER TABLE`** statement. The specific syntax varies by database system. In **SQL Server** and **PostgreSQL**, you use `DROP CONSTRAINT` or `ALTER COLUMN DROP DEFAULT`. In **MySQL**, you use `ALTER COLUMN DROP DEFAULT`. The command to remove the default from the `status` column would look like `ALTER TABLE products ALTER COLUMN status DROP DEFAULT;`.",
+      },
+      {
+        question: "How do you create a simple stored procedure?",
+        solution:
+          "You create a stored procedure using the **`CREATE PROCEDURE`** or **`CREATE OR REPLACE PROCEDURE`** statement, which defines a reusable block of SQL code. This code can be executed on demand. The structure typically includes a name, an optional list of parameters, and the SQL statements to be executed. For example, `CREATE PROCEDURE GetEmployees AS SELECT * FROM employees;` (SQL Server) or `CREATE PROCEDURE get_employees() LANGUAGE SQL AS $$ SELECT * FROM employees; $$;` (PostgreSQL).",
+      },
+      {
+        question: "How do you execute a stored procedure?",
+        solution:
+          "You execute a stored procedure using the **`EXEC`** or **`CALL`** command. In **SQL Server**, you use `EXEC procedure_name;`. In **MySQL** and **PostgreSQL**, you use `CALL procedure_name();`. You can also pass parameters to the procedure in the command, such as `EXEC GetEmployeeById 123;`.",
+      },
+      {
+        question: "How do you drop a stored procedure?",
+        solution:
+          "You drop a stored procedure using the **`DROP PROCEDURE`** statement. This command permanently removes the stored procedure from the database. The syntax is `DROP PROCEDURE procedure_name;`.",
+      },
+      {
+        question: "How do you create a user-defined function?",
+        solution:
+          "You create a user-defined function (UDF) using the **`CREATE FUNCTION`** statement. Unlike a stored procedure, a UDF is designed to return a value and can be used in a `SELECT` statement. The syntax includes the function name, parameters, and the data type of the return value. For example, `CREATE FUNCTION GetTotalSales() RETURNS INT AS BEGIN RETURN (SELECT SUM(total) FROM orders); END;` (SQL Server).",
+      },
+      {
+        question: "How do you call a user-defined function?",
+        solution:
+          "You call a user-defined function in a `SELECT` statement or other SQL expressions. The function name is followed by parentheses, which contain any required arguments. For example, `SELECT dbo.GetTotalSales();` (SQL Server) or `SELECT get_total_sales();` (PostgreSQL/MySQL).",
+      },
+      {
+        question: "How do you create a simple trigger?",
+        solution:
+          "A trigger is a set of SQL statements that automatically execute when a specific event (like an `INSERT`, `UPDATE`, or `DELETE`) occurs on a table. You create one with the **`CREATE TRIGGER`** statement. The syntax specifies the trigger name, the event (`AFTER INSERT`, `BEFORE UPDATE`, etc.), the table it applies to, and the code to be executed. For example, `CREATE TRIGGER update_timestamp AFTER UPDATE ON products FOR EACH ROW UPDATE products SET last_modified = NOW() WHERE id = OLD.id;`.",
+      },
+      {
+        question: "How do you disable a trigger?",
+        solution:
+          "To temporarily disable a trigger without dropping it, you use the **`ALTER TABLE`** or **`ALTER TRIGGER`** statement. In **SQL Server**, you would use `DISABLE TRIGGER trigger_name ON table_name;`. In **PostgreSQL**, it's `ALTER TABLE table_name DISABLE TRIGGER trigger_name;`.",
+      },
+      {
+        question: "How do you enable a trigger?",
+        solution:
+          "To re-enable a disabled trigger, you use the **`ALTER TABLE`** or **`ALTER TRIGGER`** statement with the `ENABLE` clause. In **SQL Server**, it's `ENABLE TRIGGER trigger_name ON table_name;`. In **PostgreSQL**, it's `ALTER TABLE table_name ENABLE TRIGGER trigger_name;`.",
+      },
+      {
+        question: "How do you drop a trigger?",
+        solution:
+          "You permanently remove a trigger from the database using the **`DROP TRIGGER`** statement. The syntax is `DROP TRIGGER trigger_name;`.",
+      },
+      {
+        question: "What is the purpose of the LIMIT clause (MySQL/PostgreSQL)?",
+        solution:
+          "The **`LIMIT`** clause in **MySQL** and **PostgreSQL** is used to constrain the number of rows returned by a query. It's often used with `ORDER BY` to retrieve the 'top N' records, a specific number of records from a sorted list, or for pagination (e.g., `LIMIT 10 OFFSET 20` to get the third page of results).",
+      },
+      {
+        question: "What is the purpose of the TOP clause (SQL Server)?",
+        solution:
+          "The **`TOP`** clause in **SQL Server** serves a similar purpose to `LIMIT`. It is used to return a specified number of rows from the top of the result set. It is almost always used with an `ORDER BY` clause to define the sort order of the 'top' rows. You can also specify a percentage of rows to return, such as `SELECT TOP 50 PERCENT * FROM products;`.",
+      },
+      {
+        question: "How do you perform a bulk insert in SQL Server?",
+        solution:
+          "In **SQL Server**, you can perform a bulk insert from a file using the **`BULK INSERT`** statement. It's a high-performance method for loading data from a data file into a table. For example, `BULK INSERT employees FROM 'C:\\data\\employees.csv' WITH (FIELDTERMINATOR = ',', ROWTERMINATOR = '\\n');`.",
+      },
+      {
+        question: "How do you perform a bulk insert in PostgreSQL?",
+        solution:
+          "In **PostgreSQL**, you use the **`COPY`** command to import data from a file directly into a table. It is one of the fastest ways to load data. The syntax is `COPY employees FROM 'C:\\data\\employees.csv' WITH (FORMAT CSV, HEADER);`.",
+      },
+      {
+        question: "How do you perform a bulk insert in MySQL?",
+        solution:
+          "In **MySQL**, the **`LOAD DATA INFILE`** statement is used for bulk data loading. It is extremely fast for large datasets. The syntax is `LOAD DATA INFILE 'C:\\data\\employees.csv' INTO TABLE employees FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' IGNORE 1 ROWS;`.",
+      },
+      {
+        question: "How do you export query results to CSV?",
+        solution:
+          "Exporting query results to a CSV file is typically done through a command-line utility or a GUI tool, as standard SQL doesn't have a direct `EXPORT TO CSV` command. For example, in **psql** (PostgreSQL), you would use `\\copy (SELECT * FROM products) TO 'C:\\exports\\products.csv' WITH CSV HEADER;`. In **MySQL**, you can use `SELECT ... INTO OUTFILE`. Most graphical tools like DBeaver or SSMS have a right-click menu option to export the results of a query.",
+      },
+      {
+        question: "How do you import data from CSV into a table?",
+        solution:
+          "Similar to exporting, importing data from a CSV file is handled by database-specific commands designed for bulk loading, such as **`BULK INSERT`** (SQL Server), **`COPY`** (PostgreSQL), and **`LOAD DATA INFILE`** (MySQL). These commands are optimized for performance and handle the file parsing.",
+      },
+      {
+        question: "How do you check the current database you are connected to?",
+        solution:
+          "To check the current database, you can execute a system-specific command or function. In **SQL Server**, you can use `SELECT DB_NAME();`. In **MySQL**, you can use `SELECT DATABASE();` or `SELECT CURRENT_SCHEMA();`. In **PostgreSQL**, you can use `SELECT current_database();`.",
+      },
+      {
+        question: "How do you list all databases on the server?",
+        solution:
+          "You can list all databases using a command or query. In **SQL Server**, you use `SELECT name FROM sys.databases;`. In **MySQL**, you use `SHOW DATABASES;`. In **PostgreSQL**, you use the meta-command `\\l` in psql or the query `SELECT datname FROM pg_database;`.",
+      },
+      {
+        question: "How do you switch databases in SQL?",
+        solution:
+          "You switch the active database using the `USE` or `\\c` command. In **SQL Server** and **MySQL**, you use `USE database_name;`. In **PostgreSQL**, you use the psql meta-command `\\c database_name;`.",
+      },
+      {
+        question: "How do you create a new database?",
+        solution:
+          "You create a new database using the **`CREATE DATABASE`** statement. For example, `CREATE DATABASE new_database_name;`.",
+      },
+      {
+        question: "How do you drop a database?",
+        solution:
+          "You permanently delete a database using the **`DROP DATABASE`** statement. This command deletes the database and all objects and data within it. It's a highly destructive and irreversible action. For example, `DROP DATABASE old_database_name;`.",
+      },
+      {
+        question: "How do you back up a database in SQL Server?",
+        solution:
+          "In **SQL Server**, you can back up a database using the **`BACKUP DATABASE`** command. This command creates a backup file. For example, `BACKUP DATABASE MyDatabase TO DISK = 'C:\\backups\\MyDatabase.bak';`.",
+      },
+      {
+        question: "How do you restore a database in SQL Server?",
+        solution:
+          "To restore a database in **SQL Server**, you use the **`RESTORE DATABASE`** command. The database must be in single-user mode to prevent other connections. For example, `RESTORE DATABASE MyDatabase FROM DISK = 'C:\\backups\\MyDatabase.bak' WITH REPLACE;`.",
+      },
+      {
+        question: "How do you back up a database in PostgreSQL?",
+        solution:
+          "You back up a PostgreSQL database using the command-line utility `pg_dump`. This command creates a script file containing SQL commands that can be used to recreate the database. 🐘\n\n## Key Concepts\n- **`pg_dump`**: A utility for backing up a single PostgreSQL database. It creates a consistent snapshot, meaning the backup reflects the database's state at the moment `pg_dump` was started.\n- **Formats**: You can create backups in plain text (`.sql`) or compressed archive formats (`-Fc` for custom format, which is recommended for flexibility).\n\n## Detailed Steps & Commands\n\n1.  **Open your terminal or command prompt.**\n\n2.  **Basic Backup (Plain SQL format):**\n    This command dumps the database named `mydatabase` into a file called `mydatabase.sql`.\n    ```sql\n    pg_dump -U myuser -h localhost mydatabase > mydatabase.sql\n    ```\n    - `-U myuser`: Specifies the PostgreSQL username.\n    - `-h localhost`: Specifies the database server host. You can omit this if connecting locally.\n    - `mydatabase`: The name of the database you want to back up.\n    - `> mydatabase.sql`: Redirects the output to a file.\n\n3.  **Recommended Backup (Custom-compressed format):**\n    This format is compressed, more flexible for restoring specific objects, and generally preferred.\n    ```sql\n    pg_dump -U myuser -h localhost -Fc mydatabase > mydatabase.dump\n    ```\n    - `-Fc`: Specifies the custom archive file format.\n\n4.  **Backing up all databases:**\n    Use the `pg_dumpall` utility to back up all databases, along with global objects like roles and tablespaces.\n    ```sql\n    pg_dumpall -U postgres > all_databases.sql\n    ```",
+      },
+      {
+        question: "How do you restore a database in PostgreSQL?",
+        solution:
+          "You restore a PostgreSQL database using either `psql` (for plain SQL files) or `pg_restore` (for compressed archive formats created by `pg_dump`).\n\n## Key Concepts\n- **`psql`**: The standard interactive terminal for PostgreSQL. It can execute SQL commands from a file.\n- **`pg_restore`**: A utility to restore a PostgreSQL database from an archive created by `pg_dump` in a non-plain-text format (like custom, directory, or tar).\n\n## Detailed Steps & Commands\n\n**Scenario 1: Restoring from a plain SQL file (`.sql`)**\n\n1.  **Create a new, empty database** in PostgreSQL where you'll restore the data.\n    ```sql\n    -- Connect to postgres and run:\n    CREATE DATABASE mydatabase_restored;\n    ```\n\n2.  **Use `psql` to execute the backup file.**\n    ```sql\n    psql -U myuser -d mydatabase_restored < mydatabase.sql\n    ```\n    - `-d mydatabase_restored`: Specifies the target database to restore into.\n    - `< mydatabase.sql`: Feeds the SQL file into the `psql` command.\n\n--- \n\n**Scenario 2: Restoring from a custom-format archive (`.dump`)**\nThis is the more robust method.\n\n1.  **Create a new, empty database** as in the previous scenario.\n    ```sql\n    CREATE DATABASE mydatabase_restored;\n    ```\n\n2.  **Use `pg_restore` to load the archive.**\n    ```sql\n    pg_restore -U myuser -d mydatabase_restored mydatabase.dump\n    ```\n    - `-d mydatabase_restored`: The target database.\n    - `mydatabase.dump`: The archive file you want to restore.",
+      },
+      {
+        question: "How do you back up a database in MySQL?",
+        solution:
+          "You back up a MySQL database using the `mysqldump` command-line utility. It generates a `.sql` file containing the necessary `CREATE TABLE` and `INSERT INTO` statements to rebuild the database. 🐬\n\n## Key Concepts\n- **`mysqldump`**: A client utility that performs logical backups, producing a set of SQL statements that can be executed to reproduce the original database object definitions and table data.\n\n## Detailed Steps & Commands\n\n1.  **Open your terminal or command prompt.**\n\n2.  **Back up a single database:**\n    This command backs up the `mydatabase` schema into a file named `backup.sql`.\n    ```sql\n    mysqldump -u myuser -p mydatabase > backup.sql\n    ```\n    - `-u myuser`: Specifies the MySQL username.\n    - `-p`: Prompts you to enter the password securely.\n    - `mydatabase`: The name of the database to back up.\n    - `> backup.sql`: Redirects the output to the specified file.\n\n3.  **Back up multiple specific databases:**\n    ```sql\n    mysqldump -u myuser -p --databases db1 db2 > multiple_db_backup.sql\n    ```\n\n4.  **Back up all databases on the server:**\n    Use the `--all-databases` flag.\n    ```sql\n    mysqldump -u root -p --all-databases > all_databases_backup.sql\n    ```",
+      },
+      {
+        question: "How do you restore a database in MySQL?",
+        solution:
+          "You restore a MySQL database by executing the `.sql` backup file using the `mysql` command-line client.\n\n## Key Concepts\n- **`mysql` client**: The standard command-line tool for interacting with a MySQL server. It can execute scripts fed to it via standard input.\n\n## Detailed Steps & Commands\n\n1.  **Create an empty database (if it doesn't exist):**\n    Log in to MySQL and create the database that will receive the restored data.\n    ```sql\n    -- Login to mysql\n    mysql -u root -p\n\n    -- Create the database\n    CREATE DATABASE mydatabase_restored;\n    EXIT;\n    ```\n\n2.  **Restore the backup file using the `mysql` client.**\n    This command connects to the `mydatabase_restored` and executes the commands from `backup.sql`.\n    ```sql\n    mysql -u myuser -p mydatabase_restored < backup.sql\n    ```\n    - `mydatabase_restored`: The target database for the restore operation.\n    - `< backup.sql`: Redirects the content of the `.sql` file as input to the `mysql` client.\n\n3.  **Alternative: Restore from within the MySQL client:**\n    You can also use the `SOURCE` command after logging into the MySQL client.\n    ```sql\n    -- Login to mysql\n    mysql -u myuser -p\n\n    -- Select the target database\n    USE mydatabase_restored;\n\n    -- Run the source command\n    SOURCE /path/to/your/backup.sql;\n    ```",
+      },
+      {
+        question: "How do you create a new user in SQL Server?",
+        solution:
+          "Creating a user in SQL Server is a two-step process: first, you create a **Login** at the server level, and then you create a **User** in a specific database and map it to that login.\n\n## Key Concepts\n- **Login**: An identity that can connect to the SQL Server instance (server-level). It authenticates you.\n- **User**: An identity that has permissions within a specific database (database-level). It authorizes you.\n\n## Detailed Steps & Commands\n\n1.  **Create a Server-Level Login:**\n    This login allows the user to connect to the SQL Server instance.\n    ```sql\n    -- Use the master database to create server-level objects\n    USE master;\n    GO\n\n    -- Create a login with a password\n    CREATE LOGIN new_user_login\n    WITH PASSWORD = 'a_very_strong_password';\n    GO\n    ```\n\n2.  **Create a Database-Level User and Map to the Login:**\n    Now, go into the specific database where the user needs access and create a user mapped to the login from Step 1.\n    ```sql\n    -- Switch to the target database\n    USE YourDatabaseName;\n    GO\n\n    -- Create a user in this database for the login created above\n    CREATE USER new_user_name FOR LOGIN new_user_login;\n    GO\n    ```\n    Now, `new_user_name` can access `YourDatabaseName` after authenticating as `new_user_login`.",
+      },
+      {
+        question: "How do you grant SELECT permission to a user?",
+        solution:
+          "You grant permissions using the `GRANT` statement. To give a user the ability to read data from a table, you grant them `SELECT` permission.\n\n## Syntax\n```sql\nGRANT permission_type ON object_name TO user_or_role;\n```\n\n## Detailed Steps & Commands\n\n1.  **Ensure you are in the correct database context.**\n    ```sql\n    USE YourDatabaseName;\n    GO\n    ```\n\n2.  **Grant `SELECT` on a specific table:**\n    This allows `new_user_name` to run `SELECT` queries only on the `Employees` table.\n    ```sql\n    GRANT SELECT ON dbo.Employees TO new_user_name;\n    GO\n    ```\n\n3.  **Grant `SELECT` on all tables in a schema (e.g., `dbo`):**\n    ```sql\n    GRANT SELECT ON SCHEMA::dbo TO new_user_name;\n    GO\n    ```",
+      },
+      {
+        question: "How do you revoke permissions from a user?",
+        solution:
+          "You revoke permissions using the `REVOKE` statement. This is the opposite of `GRANT` and is used to remove access rights.\n\n## Syntax\n```sql\nREVOKE permission_type ON object_name FROM user_or_role;\n```\n\n## Detailed Steps & Commands\n\n1.  **Ensure you are in the correct database context.**\n    ```sql\n    USE YourDatabaseName;\n    GO\n    ```\n\n2.  **Revoke `SELECT` on a specific table:**\n    This removes the previously granted `SELECT` permission on the `Employees` table from `new_user_name`.\n    ```sql\n    REVOKE SELECT ON dbo.Employees FROM new_user_name;\n    GO\n    ```",
+      },
+      {
+        question:
+          "How do you create a table with an auto-increment primary key in MySQL?",
+        solution:
+          "In MySQL, you create an auto-incrementing primary key by using the `AUTO_INCREMENT` attribute on an integer-based primary key column.\n\n## Detailed Syntax\nWhen you insert a new row without specifying a value for this column (or by specifying `NULL` or `0`), MySQL automatically generates the next sequential integer.\n```sql\nCREATE TABLE Products (\n    product_id INT AUTO_INCREMENT PRIMARY KEY,\n    product_name VARCHAR(255) NOT NULL,\n    price DECIMAL(10, 2)\n);\n```\n- **`INT`**: The column must be an integer type (e.g., `INT`, `BIGINT`).\n- **`AUTO_INCREMENT`**: This keyword tells MySQL to automatically generate a value for this column on new inserts.\n- **`PRIMARY KEY`**: An `AUTO_INCREMENT` column must be indexed, and it's almost always the primary key.",
+      },
+      {
+        question:
+          "How do you create a table with an auto-increment primary key in PostgreSQL?",
+        solution:
+          "In PostgreSQL, there are two common ways to create an auto-incrementing primary key: the traditional `SERIAL` pseudo-type and the modern, SQL-standard `IDENTITY` column.\n\n## Method 1: Using `SERIAL` (Traditional)\n`SERIAL` is a shorthand that automatically creates a sequence object and sets the column's default value to the next value from that sequence.\n```sql\nCREATE TABLE Products (\n    product_id SERIAL PRIMARY KEY,\n    product_name VARCHAR(255) NOT NULL,\n    price DECIMAL(10, 2)\n);\n```\n- **`SERIAL`** is an alias for `INT`. There is also `BIGSERIAL` for `BIGINT`.\n\n## Method 2: Using `IDENTITY` (Modern & Recommended)\nThis is the SQL-standard way and provides more control.\n```sql\nCREATE TABLE Products (\n    product_id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,\n    product_name VARCHAR(255) NOT NULL,\n    price DECIMAL(10, 2)\n);\n```\n- **`GENERATED ALWAYS AS IDENTITY`**: This enforces that the value is always generated. You cannot manually insert a value into this column. You can also use `GENERATED BY DEFAULT AS IDENTITY` if you want to allow manual overrides.",
+      },
+      {
+        question:
+          "How do you create a table with an identity column in SQL Server?",
+        solution:
+          "In SQL Server, you create an auto-incrementing column, known as an **identity column**, using the `IDENTITY` property.\n\n## Detailed Syntax\n```sql\nCREATE TABLE Products (\n    ProductID INT IDENTITY(1,1) PRIMARY KEY,\n    ProductName VARCHAR(255) NOT NULL,\n    Price DECIMAL(10, 2)\n);\n```\n- **`IDENTITY(seed, increment)`**: This property defines the column as an identity column.\n  - **`seed`**: The starting value for the first row inserted. `IDENTITY(1,1)` starts at 1.\n  - **`increment`**: The value to add to the previous identity value for each new row. `IDENTITY(1,1)` increments by 1.\n- The column must be of an integer data type (like `int`, `bigint`, `smallint`, `tinyint`).",
+      },
+      {
+        question: "What is the difference between NOW() and CURRENT_TIMESTAMP?",
+        solution:
+          "In modern, mainstream SQL databases like **PostgreSQL** and **MySQL**, there is **no functional difference** between `NOW()` and `CURRENT_TIMESTAMP`. They are synonyms and both return the timestamp representing the start of the current transaction.\n\n## Key Points\n- **Synonyms**: For all practical purposes at a junior level, you can treat them as identical. `CURRENT_TIMESTAMP` is defined in the SQL standard, while `NOW()` is a common and traditional function name.\n- **Transaction Start Time**: It's important to remember that they return a stable timestamp for the duration of a transaction. If you run multiple statements inside a `BEGIN`/`COMMIT` block, `NOW()` will return the same value in all of them.\n\n## Example (in PostgreSQL or MySQL)\n```sql\nSELECT NOW(), CURRENT_TIMESTAMP;\n```\nThis query will return the exact same value in both columns. ✅",
+      },
+      {
+        question: "How do you get yesterday’s date in SQL?",
+        solution:
+          "The method to get yesterday's date varies by SQL dialect because date/time functions are not perfectly standardized.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  You can use `INTERVAL` arithmetic.\n  ```sql\n  SELECT CURRENT_DATE - INTERVAL '1 day';\n  ```\n\n- **MySQL:**\n  You can use `INTERVAL` or the `DATE_SUB()` function.\n  ```sql\n  SELECT CURDATE() - INTERVAL 1 DAY;\n  -- Or, more explicitly:\n  SELECT DATE_SUB(CURDATE(), INTERVAL 1 DAY);\n  ```\n\n- **SQL Server:**\n  Use the `DATEADD()` function.\n  ```sql\n  SELECT DATEADD(day, -1, GETDATE());\n  ```",
+      },
+      {
+        question: "How do you get the first day of the current month?",
+        solution:
+          "This also depends on the specific SQL database you are using.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  The `DATE_TRUNC()` function is perfect for this.\n  ```sql\n  SELECT DATE_TRUNC('month', CURRENT_DATE);\n  ```\n\n- **MySQL:**\n  You can construct the date by taking the year and month from the current date.\n  ```sql\n  SELECT DATE_FORMAT(CURDATE(), '%Y-%m-01');\n  ```\n\n- **SQL Server:**\n  You can use `DATEFROMPARTS` or a combination of `DATEADD` and `DATEDIFF`.\n  ```sql\n  -- Modern and clean approach\n  SELECT DATEFROMPARTS(YEAR(GETDATE()), MONTH(GETDATE()), 1);\n  ```",
+      },
+      {
+        question: "How do you get the last day of the current month?",
+        solution:
+          "Finding the last day of the month is a common task with specific functions available in most databases.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  A common trick is to find the first day of the *next* month and subtract one day.\n  ```sql\n  SELECT (DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '1 month' - INTERVAL '1 day')::date;\n  ```\n\n- **MySQL:**\n  MySQL has a convenient built-in function, `LAST_DAY()`.\n  ```sql\n  SELECT LAST_DAY(CURDATE());\n  ```\n\n- **SQL Server:**\n  SQL Server has a handy function called `EOMONTH()` (End Of Month).\n  ```sql\n  SELECT EOMONTH(GETDATE());\n  ```",
+      },
+      {
+        question: "How do you extract the year from a date column?",
+        solution:
+          "You can extract the year from a date using the standard `EXTRACT` function or database-specific functions like `YEAR()`.\n\n## SQL Standard: `EXTRACT()`\nThis works in PostgreSQL, Oracle, and MySQL.\n```sql\nSELECT EXTRACT(YEAR FROM order_date) FROM orders;\n```\n\n## Database-Specific Functions\n\n- **MySQL and SQL Server:**\n  Both support the convenient `YEAR()` function.\n  ```sql\n  SELECT YEAR(order_date) FROM orders;\n  ```",
+      },
+      {
+        question: "How do you extract the month from a date column?",
+        solution:
+          "Similar to extracting the year, you can use the standard `EXTRACT` function or specific functions like `MONTH()`.\n\n## SQL Standard: `EXTRACT()`\nThis works in PostgreSQL, Oracle, and MySQL.\n```sql\nSELECT EXTRACT(MONTH FROM order_date) FROM orders;\n```\n\n## Database-Specific Functions\n\n- **MySQL and SQL Server:**\n  Both support the `MONTH()` function.\n  ```sql\n  SELECT MONTH(order_date) FROM orders;\n  ```",
+      },
+      {
+        question: "How do you extract the day of the week from a date?",
+        solution:
+          "Extracting the day of the week can be tricky because the numbering can differ (e.g., does the week start on Sunday or Monday?).\n\n## Examples by Database\n\n- **PostgreSQL:**\n  `EXTRACT(DOW ...)` gives a number where Sunday=0, Saturday=6.\n  `EXTRACT(ISODOW ...)` gives the ISO 8601 standard where Monday=1, Sunday=7.\n  ```sql\n  -- Sunday=0, Monday=1, ..., Saturday=6\n  SELECT EXTRACT(DOW FROM '2025-08-22'); -- Returns 5 (Friday)\n\n  -- Monday=1, ..., Sunday=7\n  SELECT EXTRACT(ISODOW FROM '2025-08-22'); -- Returns 5 (Friday)\n  ```\n\n- **MySQL:**\n  `DAYOFWEEK()` returns a number where Sunday=1, Saturday=7.\n  ```sql\n  SELECT DAYOFWEEK('2025-08-22'); -- Returns 6 (Friday)\n  ```\n\n- **SQL Server:**\n  `DATEPART(weekday, ...)` returns a number that depends on the server's `@@DATEFIRST` setting. If `@@DATEFIRST` is 7 (the US default), Sunday=1.\n  ```sql\n  -- Assuming @@DATEFIRST = 7 (default US)\n  SELECT DATEPART(weekday, '2025-08-22'); -- Returns 6 (Friday)\n  ```",
+      },
+      {
+        question: "How do you format a date as DD-MON-YYYY in Oracle?",
+        solution:
+          "In Oracle, you use the `TO_CHAR()` function to convert a date into a formatted string.\n\n## Syntax & Example\n```sql\nTO_CHAR(date_value, 'format_model')\n```\nTo get the `DD-MON-YYYY` format (e.g., `22-AUG-2025`), you would use the following query:\n```sql\nSELECT TO_CHAR(SYSDATE, 'DD-MON-YYYY') FROM dual;\n```\n- **`SYSDATE`**: Oracle's function for the current date and time.\n- **`'DD-MON-YYYY'`**: The format model.\n  - `DD`: Day of the month (01-31).\n  - `MON`: Abbreviated, three-letter month name in uppercase (e.g., AUG).\n  - `YYYY`: Four-digit year.\n- **`dual`**: A special one-row, one-column table in Oracle used for queries where you don't need data from a real table.",
+      },
+      {
+        question:
+          "How do you calculate the difference in days between two dates?",
+        solution:
+          "Calculating the difference in days between two dates varies across different SQL databases.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  You can directly subtract date values. The result is an integer representing the number of days.\n  ```sql\n  SELECT '2025-09-01'::date - '2025-08-22'::date;\n  -- Result: 10\n  ```\n\n- **MySQL:**\n  Use the `DATEDIFF()` function. Note the order of arguments: `DATEDIFF(later_date, earlier_date)`.\n  ```sql\n  SELECT DATEDIFF('2025-09-01', '2025-08-22');\n  -- Result: 10\n  ```\n\n- **SQL Server:**\n  Use the `DATEDIFF()` function. The first argument specifies the unit of time (`day`). The order is `DATEDIFF(unit, earlier_date, later_date)`.\n  ```sql\n  SELECT DATEDIFF(day, '2025-08-22', '2025-09-01');\n  -- Result: 10\n  ```",
+      },
+      {
+        question: "How do you add 1 hour to a timestamp?",
+        solution:
+          "Adding an interval of time to a timestamp is a common operation, and the syntax differs slightly between database systems.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  Use the `+` operator with an `INTERVAL`.\n  ```sql\n  SELECT NOW() + INTERVAL '1 hour';\n  ```\n\n- **MySQL:**\n  You can use the `+` operator with `INTERVAL` or the `DATE_ADD()` function.\n  ```sql\n  -- Using the + operator\n  SELECT NOW() + INTERVAL 1 HOUR;\n\n  -- Using the DATE_ADD function (more explicit)\n  SELECT DATE_ADD(NOW(), INTERVAL 1 HOUR);\n  ```\n\n- **SQL Server:**\n  Use the `DATEADD()` function, specifying `hour` as the time part to modify.\n  ```sql\n  SELECT DATEADD(hour, 1, GETDATE());\n  ```",
+      },
+      {
+        question: "How do you subtract 30 minutes from a timestamp?",
+        solution:
+          "Subtracting an interval of time from a timestamp is a common operation, with syntax that varies slightly across different database systems. ⏱️\n\n## Examples by Database\n\n- **PostgreSQL:**\n  Use the `-` operator with an `INTERVAL`.\n  ```sql\n  SELECT NOW() - INTERVAL '30 minutes';\n  ```\n\n- **MySQL:**\n  You can use the `-` operator with `INTERVAL` or the `DATE_SUB()` function.\n  ```sql\n  -- Using the - operator\n  SELECT NOW() - INTERVAL 30 MINUTE;\n\n  -- Using the DATE_SUB function\n  SELECT DATE_SUB(NOW(), INTERVAL 30 MINUTE);\n  ```\n\n- **SQL Server:**\n  Use the `DATEADD()` function with a negative number.\n  ```sql\n  SELECT DATEADD(minute, -30, GETDATE());\n  ```",
+      },
+      {
+        question: "How do you check if a table exists before creating it?",
+        solution:
+          "The best practice to avoid errors is to conditionally create a table only if it doesn't already exist. The modern and easiest way is to use the `IF NOT EXISTS` clause.\n\n## Examples by Database\n\n- **PostgreSQL & MySQL (Recommended):**\n  Both systems support the `IF NOT EXISTS` clause directly in the `CREATE TABLE` statement. This is the most concise method.\n  ```sql\n  CREATE TABLE IF NOT EXISTS employees (\n      id INT PRIMARY KEY,\n      name VARCHAR(100)\n  );\n  ```\n\n- **SQL Server:**\n  You need to check the system catalog views (like `sys.objects`) within an `IF` block.\n  ```sql\n  IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.employees') AND type in (N'U'))\n  BEGIN\n      CREATE TABLE dbo.employees (\n          id INT PRIMARY KEY,\n          name VARCHAR(100)\n      );\n  END\n  ```",
+      },
+      {
+        question: "How do you check if a column exists before adding it?",
+        solution:
+          "Conditionally adding a column prevents errors when running scripts multiple times. The approach varies by database.\n\n## Examples by Database\n\n- **PostgreSQL (version 9.6+):**\n  PostgreSQL supports an `IF NOT EXISTS` clause for adding columns.\n  ```sql\n  ALTER TABLE employees\n  ADD COLUMN IF NOT EXISTS hire_date DATE;\n  ```\n\n- **SQL Server:**\n  You query the `sys.columns` system view before running the `ALTER TABLE` statement.\n  ```sql\n  IF NOT EXISTS (SELECT * FROM sys.columns WHERE Name = N'hire_date' AND Object_ID = Object_ID(N'dbo.employees'))\n  BEGIN\n      ALTER TABLE dbo.employees\n      ADD hire_date DATE;\n  END\n  ```\n\n- **MySQL:**\n  MySQL does not have a direct `IF NOT EXISTS` for `ADD COLUMN`. You must write a stored procedure or query `information_schema.columns` from an application layer to check first. A common simplified approach in a script is to query first:\n  ```sql\n  -- This is a conceptual example, usually done in a scripting language or stored procedure.\n  -- 1. Query to check if the column exists:\n  SELECT COUNT(*)\n  FROM information_schema.columns\n  WHERE table_schema = 'your_database' AND table_name = 'employees' AND column_name = 'hire_date';\n  \n  -- 2. If the count is 0, then run the ALTER statement:\n  ALTER TABLE employees ADD COLUMN hire_date DATE;\n  ```",
+      },
+      {
+        question: "How do you list all constraints on a table in PostgreSQL?",
+        solution:
+          "You can list a table's constraints in PostgreSQL by querying the standard `information_schema` views, which provide a database-agnostic way to see metadata.\n\n## Query\nThis query retrieves the name and type of all constraints associated with a specific table.\n```sql\nSELECT\n    constraint_name,\n    constraint_type\nFROM\n    information_schema.table_constraints\nWHERE\n    table_name = 'your_table_name';\n```\n- **`constraint_type`** can be `PRIMARY KEY`, `FOREIGN KEY`, `UNIQUE`, or `CHECK`.",
+      },
+      {
+        question: "How do you list all constraints on a table in SQL Server?",
+        solution:
+          "In SQL Server, the easiest way to list all constraints on a table is to use the `sp_helpconstraint` system stored procedure.\n\n## Command\nSimply execute the procedure with the table name as the argument.\n```sql\nEXEC sp_helpconstraint 'dbo.your_table_name';\n```\nThis command provides a detailed and readable list of all primary keys, foreign keys, defaults, check, and unique constraints on the specified table.",
+      },
+      {
+        question: "How do you list all constraints on a table in MySQL?",
+        solution:
+          "Like PostgreSQL, MySQL allows you to query the `information_schema` to get metadata about table constraints.\n\n## Query\nThis query will list the names and types of all constraints on the `your_table_name` table within a specific database schema.\n```sql\nSELECT\n    constraint_name,\n    constraint_type\nFROM\n    information_schema.table_constraints\nWHERE\n    table_schema = 'your_database_name'\n    AND table_name = 'your_table_name';\n```\n- **`constraint_type`** will show values like `PRIMARY KEY`, `UNIQUE`, `FOREIGN KEY`, etc.",
+      },
+      {
+        question: "How do you disable a foreign key constraint temporarily?",
+        solution:
+          "Disabling a foreign key is often necessary during large data imports to avoid validation checks on every row. The method is specific to each database.\n\n## Examples by Database\n\n- **MySQL:**\n  You can disable checks for the entire session. This is the most common approach.\n  ```sql\n  -- Disable for the current session\n  SET foreign_key_checks = 0;\n  \n  -- ... perform your bulk data operations ...\n  ```\n\n- **SQL Server:**\n  You can disable a specific constraint by name.\n  ```sql\n  -- Disable a specific constraint\n  ALTER TABLE dbo.Orders NOCHECK CONSTRAINT FK_Orders_Customers;\n  ```\n\n- **PostgreSQL:**\n  You can temporarily disable all triggers on a table (foreign keys are implemented via triggers).\n  ```sql\n  -- Disable all triggers (including FKs) for the table\n  ALTER TABLE public.orders DISABLE TRIGGER ALL;\n  ```",
+      },
+      {
+        question: "How do you re-enable a foreign key constraint?",
+        solution:
+          "After your data operations are complete, you must re-enable the constraints to ensure data integrity.\n\n## Examples by Database\n\n- **MySQL:**\n  You simply set the session variable back to its default value.\n  ```sql\n  -- Re-enable for the current session\n  SET foreign_key_checks = 1;\n  ```\n\n- **SQL Server:**\n  You re-enable the specific constraint and tell the server to check all existing data against it.\n  ```sql\n  -- Re-enable the constraint and validate existing data\n  ALTER TABLE dbo.Orders CHECK CONSTRAINT FK_Orders_Customers;\n  ```\n\n- **PostgreSQL:**\n  You re-enable the triggers you previously disabled.\n  ```sql\n  -- Re-enable all triggers for the table\n  ALTER TABLE public.orders ENABLE TRIGGER ALL;\n  ```",
+      },
+      {
+        question: "How do you create a unique constraint on a column?",
+        solution:
+          "A unique constraint ensures that all values in a column (or a set of columns) are distinct. You can add it when creating a table or to an existing table.\n\n## Method 1: During Table Creation\n```sql\nCREATE TABLE Users (\n    user_id INT PRIMARY KEY,\n    username VARCHAR(50) NOT NULL UNIQUE, -- Inline method\n    email VARCHAR(100) NOT NULL,\n    CONSTRAINT UQ_Users_Email UNIQUE (email) -- Constraint method\n);\n```\n\n## Method 2: On an Existing Table\nThis is useful when you need to enforce uniqueness on a table that already contains data.\n```sql\nALTER TABLE Users\nADD CONSTRAINT UQ_Users_Email UNIQUE (email);\n```\n- **`UQ_Users_Email`** is a custom, descriptive name for the constraint, which is good practice.",
+      },
+      {
+        question: "How do you drop a unique constraint?",
+        solution:
+          "Dropping a unique constraint removes the rule that values in the column must be unique. You must know the name of the constraint to drop it.\n\n## Syntax\n\n- **PostgreSQL & SQL Server:**\n  ```sql\n  ALTER TABLE Users DROP CONSTRAINT UQ_Users_Email;\n  ```\n\n- **MySQL:**\n  In MySQL, a unique constraint is implemented as a unique index. You drop the index to remove the constraint.\n  ```sql\n  ALTER TABLE Users DROP INDEX UQ_Users_Email;\n  ```",
+      },
+      {
+        question: "How do you create a check constraint?",
+        solution:
+          "A `CHECK` constraint is used to limit the value range that can be placed in a column. It enforces a specific condition on the data.\n\n## Method 1: During Table Creation\n```sql\nCREATE TABLE Products (\n    product_id INT PRIMARY KEY,\n    product_name VARCHAR(100),\n    price DECIMAL(10, 2) NOT NULL CHECK (price > 0),\n    stock_level INT NOT NULL,\n    CONSTRAINT CHK_Stock_Positive CHECK (stock_level >= 0)\n);\n```\n\n## Method 2: On an Existing Table\n```sql\nALTER TABLE Products\nADD CONSTRAINT CHK_Price_Positive CHECK (price > 0);\n```\n**Note:** While MySQL has parsed `CHECK` constraint syntax for years, it only began enforcing them in version 8.0.16.",
+      },
+      {
+        question: "How do you drop a check constraint?",
+        solution:
+          "You can remove a `CHECK` constraint using the `ALTER TABLE...DROP CONSTRAINT` statement. You will need to know the name of the constraint.\n\n## Syntax (PostgreSQL, SQL Server, MySQL 8+)\n```sql\nALTER TABLE Products DROP CONSTRAINT CHK_Price_Positive;\n```",
+      },
+      {
+        question: "How do you rename a table in SQL?",
+        solution:
+          "The syntax for renaming a table varies slightly across different SQL database systems.\n\n## Examples by Database\n\n- **PostgreSQL & MySQL:**\n  Both use a simple and intuitive `ALTER TABLE...RENAME TO` syntax.\n  ```sql\n  ALTER TABLE old_table_name RENAME TO new_table_name;\n  ```\n\n- **SQL Server:**\n  SQL Server uses the `sp_rename` system stored procedure.\n  ```sql\n  EXEC sp_rename 'dbo.old_table_name', 'new_table_name';\n  ```",
+      },
+      {
+        question: "How do you copy data from one table to another?",
+        solution:
+          "You can copy data from one table to another using an `INSERT INTO ... SELECT` statement. This assumes the destination table (`table2`) already exists and its column structure is compatible with the data being selected from the source table (`table1`).\n\n## Syntax\n```sql\nINSERT INTO table2 (column1, column2, column3)\nSELECT columnA, columnB, columnC\nFROM table1\nWHERE condition;\n```\n\n## Example: Copying all data\nIf the columns are in the same order and are compatible, you can simplify it:\n```sql\n-- Assuming 'archived_employees' exists and has the same structure as 'employees'\nINSERT INTO archived_employees\nSELECT * FROM employees WHERE status = 'inactive';\n```",
+      },
+      {
+        question: "How do you clone a table with data?",
+        solution:
+          "Cloning a table with its data means creating a new table with the exact same structure and content as an existing one. This is often used for creating quick backups or test tables.\n\n## Examples by Database\n\n- **MySQL:**\n  Use the `CREATE TABLE ... AS SELECT` syntax.\n  ```sql\n  CREATE TABLE new_employees AS SELECT * FROM employees;\n  ```\n\n- **PostgreSQL & SQL Server:**\n  Use the `SELECT ... INTO` syntax.\n  ```sql\n  SELECT * INTO new_employees FROM employees;\n  ```\n**Note:** These methods typically copy only the basic column definitions, data types, and the data itself. They usually **do not** copy constraints, indexes, or triggers. You would need to add those manually.",
+      },
+      {
+        question: "How do you clone a table without data?",
+        solution:
+          "Cloning a table's structure without any of its data is useful for creating a new empty table with an identical schema.\n\n## Examples by Database\n\n- **MySQL:**\n  Use the `CREATE TABLE ... LIKE` command. This is very effective as it also copies indexes and constraints.\n  ```sql\n  CREATE TABLE new_employees LIKE employees;\n  ```\n\n- **PostgreSQL:**\n  Also uses a `LIKE` clause, which is very powerful.\n  ```sql\n  -- This creates an empty table with the same columns and data types.\n  CREATE TABLE new_employees (LIKE employees);\n\n  -- To also include constraints, indexes, etc., use INCLUDING ALL:\n  CREATE TABLE new_employees (LIKE employees INCLUDING ALL);\n  ```\n\n- **SQL Server:**\n  A common trick is to use `SELECT INTO` with a condition that is never true, like `WHERE 1 = 0`.\n  ```sql\n  SELECT * INTO new_employees FROM employees WHERE 1 = 0;\n  ```",
+      },
+      {
+        question: "How do you swap the values of two columns in a table?",
+        solution:
+          "You can swap the values of two columns for every row in a table with a single, simple `UPDATE` statement. This works across all major SQL databases.\n\n## Syntax\n```sql\nUPDATE your_table\nSET column1 = column2, \n    column2 = column1;\n```\n\n## Example\nLet's say you have a `Users` table with `first_name` and `last_name` columns and you want to swap them.\n```sql\nUPDATE Users\nSET first_name = last_name,\n    last_name = first_name;\n```\nThe database handles the transaction correctly, so you don't need to worry about using a temporary variable. It reads the original values of all columns on the right side of the `SET` clause before assigning them to the columns on the left.",
+      },
+      {
+        question: "How do you update multiple columns in a single statement?",
+        solution:
+          "You can update multiple columns in a single row or multiple rows by separating each column-value assignment with a comma in the `SET` clause of your `UPDATE` statement.\n\n## Syntax\n```sql\nUPDATE table_name\nSET \n    column1 = value1,\n    column2 = value2,\n    column3 = value3\nWHERE \n    condition;\n```\n\n## Example\nUpdate the email and department for an employee with a specific ID.\n```sql\nUPDATE Employees\nSET \n    email = 'jane.d.smith@example.com',\n    department = 'Sales',\n    last_updated = NOW()\nWHERE \n    employee_id = 101;\n```\nThis is more efficient than running separate `UPDATE` statements for each column.",
+      },
+      {
+        question: "How do you delete duplicate rows keeping only one?",
+        solution:
+          "The most modern and reliable way to delete duplicate rows is by using a **Common Table Expression (CTE)** with the `ROW_NUMBER()` window function. This approach gives you precise control over which row to keep.\n\n## Method using CTE and `ROW_NUMBER()`\n\n1.  **Identify Duplicates**: Use `ROW_NUMBER()` to assign a unique, sequential integer to rows partitioned by the columns that define a duplicate. For example, if a duplicate is defined by having the same `email`, we partition by `email`.\n2.  **Select a Keeper**: Within each partition, you order the rows by some criteria (e.g., a timestamp or a primary key) to decide which one to keep. The first one (`rn = 1`) is the keeper.\n3.  **Delete the Rest**: Delete all rows where the row number is greater than 1.\n\n## Example\nImagine a `Customers` table where duplicate entries have the same `email`. We want to keep the one with the highest `customer_id` (the most recent entry).\n\n```sql\n-- This works in PostgreSQL, SQL Server, and modern MySQL\nWITH DuplicateCTE AS (\n    SELECT \n        customer_id,\n        ROW_NUMBER() OVER(\n            PARTITION BY email \n            ORDER BY customer_id DESC\n        ) as rn\n    FROM \n        Customers\n)\nDELETE FROM Customers\nWHERE customer_id IN (SELECT customer_id FROM DuplicateCTE WHERE rn > 1);\n```\n- **`PARTITION BY email`**: Groups rows with the same email together.\n- **`ORDER BY customer_id DESC`**: Within each group, orders them from newest to oldest.\n- **`rn > 1`**: Identifies all rows in each group except the first one (which we want to keep).",
+      },
+      {
+        question: "How do you find the Nth highest salary without a subquery?",
+        solution:
+          "You can find the Nth highest salary without a traditional subquery by using `OFFSET` and `LIMIT` (or `FETCH`) clauses, which are designed for pagination.\n\n## Key Idea\n1.  **Order** all salaries in descending order (`DESC`).\n2.  **Skip** the first `N-1` salaries using `OFFSET`.\n3.  **Take** the very next one using `LIMIT 1`.\n\n## Examples by Database\nLet's find the **4th** highest salary (so N=4, and we need to offset by N-1=3).\n\n- **PostgreSQL & MySQL:**\n  ```sql\n  SELECT DISTINCT salary\n  FROM employees\n  ORDER BY salary DESC\n  LIMIT 1 OFFSET 3;\n  ```\n\n- **SQL Server:**\n  ```sql\n  SELECT DISTINCT salary\n  FROM employees\n  ORDER BY salary DESC\n  OFFSET 3 ROWS\n  FETCH NEXT 1 ROWS ONLY;\n  ```\nUsing `DISTINCT` is important to handle cases where multiple employees have the same salary.",
+      },
+      {
+        question: "How do you find the Nth lowest salary without a subquery?",
+        solution:
+          "This is the same logic as finding the Nth highest salary, but you simply reverse the sort order to ascending (`ASC`).\n\n## Key Idea\n1.  **Order** all salaries in ascending order (`ASC`).\n2.  **Skip** the first `N-1` salaries using `OFFSET`.\n3.  **Take** the very next one using `LIMIT 1`.\n\n## Examples by Database\nLet's find the **3rd** lowest salary (so N=3, and we need to offset by N-1=2).\n\n- **PostgreSQL & MySQL:**\n  ```sql\n  SELECT DISTINCT salary\n  FROM employees\n  ORDER BY salary ASC\n  LIMIT 1 OFFSET 2;\n  ```\n\n- **SQL Server:**\n  ```sql\n  SELECT DISTINCT salary\n  FROM employees\n  ORDER BY salary ASC\n  OFFSET 2 ROWS\n  FETCH NEXT 1 ROWS ONLY;\n  ```",
+      },
+      {
+        question: "How do you generate a running total in SQL?",
+        solution:
+          "The best way to generate a running total (or cumulative sum) is by using the `SUM()` window function. This is an elegant and efficient SQL-standard feature.\n\n## Syntax\n```sql\nSUM(column_to_sum) OVER (ORDER BY ordering_column)\n```\n- **`SUM(column)`**: The aggregate function.\n- **`OVER (...)`**: Defines it as a window function.\n- **`ORDER BY column`**: This is the crucial part for a running total. It tells the `SUM` to accumulate values in the specified order. The sum for a given row includes that row and all preceding rows.\n\n## Example\nImagine a `Sales` table. We want to see the daily sales and a running total of sales over time.\n```sql\nSELECT\n    sale_date,\n    daily_revenue,\n    SUM(daily_revenue) OVER (ORDER BY sale_date) AS running_total_revenue\nFROM\n    Sales\nORDER BY\n    sale_date;\n```\nThis query will produce a result where each row shows the `sale_date`, its `daily_revenue`, and a `running_total_revenue` that grows with each passing day. You can also add `PARTITION BY` inside the `OVER()` clause to restart the running total for different groups (e.g., `PARTITION BY product_id`).",
+      },
+      {
+        question: "How do you calculate a cumulative sum by group?",
+        solution:
+          "To calculate a cumulative sum that resets for each group, you add the **`PARTITION BY`** clause to your window function. This is extremely useful for things like calculating a running total of sales for each individual product. 📈\n\n## Syntax & Explanation\n```sql\nSUM(column_to_sum) OVER (PARTITION BY grouping_column ORDER BY ordering_column)\n```\n- **`PARTITION BY grouping_column`**: This is the key part. It divides the rows into groups (partitions). The `SUM()` will be calculated independently for each group and will reset to zero when the group changes.\n- **`ORDER BY ordering_column`**: Within each group, this defines the order of accumulation, just like a regular running total.\n\n## Example\nLet's calculate the running total of sales for each `product_id` over time.\n```sql\nSELECT\n    sale_date,\n    product_id,\n    daily_revenue,\n    SUM(daily_revenue) OVER (PARTITION BY product_id ORDER BY sale_date) AS running_product_total\nFROM\n    Sales\nORDER BY\n    product_id,\n    sale_date;\n```\nIn the result, `running_product_total` will increase for product 1, then when `product_id` changes to 2, it will start over from that product's first `daily_revenue`.",
+      },
+      {
+        question:
+          "How do you create a row number starting at 1 for each group?",
+        solution:
+          "You can assign a sequential number to rows within a specific group using the **`ROW_NUMBER()`** window function combined with **`PARTITION BY`**. This is perfect for ranking items within categories.\n\n## Syntax & Explanation\n```sql\nROW_NUMBER() OVER (PARTITION BY grouping_column ORDER BY ordering_column)\n```\n- **`PARTITION BY grouping_column`**: Divides the data into groups. The row numbering will restart at 1 for each new group.\n- **`ORDER BY ordering_column`**: Determines the sequence of numbering *within* each group.\n\n## Example\nRank employees in each department based on their salary, from highest to lowest.\n```sql\nSELECT \n    employee_name, \n    department, \n    salary,\n    ROW_NUMBER() OVER(PARTITION BY department ORDER BY salary DESC) as salary_rank_in_dept\nFROM \n    employees;\n```\nThis will assign `salary_rank_in_dept` of 1 to the highest-paid employee in 'Sales', 2 to the second-highest in 'Sales', and so on. Then, it will restart the count at 1 for the highest-paid employee in the 'Engineering' department.",
+      },
+      {
+        question:
+          "How do you find the longest and shortest string lengths in a column?",
+        solution:
+          "You can find the maximum and minimum string lengths in a text column by combining the `MAX()` and `MIN()` aggregate functions with the appropriate string length function for your database.\n\n## Key Functions\n- **`LENGTH(column)`** or **`CHAR_LENGTH(column)`**: Standard SQL, used by PostgreSQL and MySQL.\n- **`LEN(column)`**: Used by SQL Server.\n\n## Example\nFind the lengths of the longest and shortest product names in a `Products` table.\n\n- **PostgreSQL / MySQL:**\n  ```sql\n  SELECT \n      MAX(LENGTH(product_name)) AS longest_name,\n      MIN(LENGTH(product_name)) AS shortest_name\n  FROM Products;\n  ```\n\n- **SQL Server:**\n  ```sql\n  SELECT \n      MAX(LEN(product_name)) AS longest_name,\n      MIN(LEN(product_name)) AS shortest_name\n  FROM Products;\n  ```\n**Note**: `LEN()` in SQL Server notoriously does not count trailing spaces, while `LENGTH()` in other databases usually does. `DATALENGTH()` in SQL Server can be used to get the length in bytes, including spaces.",
+      },
+      {
+        question:
+          "How do you remove leading and trailing spaces from a column?",
+        solution:
+          "The standard SQL function to remove both leading and trailing whitespace from a string is **`TRIM()`**. Most databases also provide `LTRIM()` to remove only leading spaces and `RTRIM()` to remove only trailing spaces.\n\n## Syntax\n```sql\nSELECT TRIM(column_name) FROM your_table;\n```\n\n## Example\nImagine a `users` table where the `email` column might have extra spaces from data entry errors.\n```sql\n-- This query selects the cleaned email addresses\nSELECT TRIM(email) as cleaned_email FROM users;\n\n-- This statement updates the table to fix the data permanently\nUPDATE users SET email = TRIM(email);\n```",
+      },
+      {
+        question:
+          "How do you replace NULL with a default value in the result set?",
+        solution:
+          "The standard and most portable way to replace `NULL` values with a default value in a query result is by using the **`COALESCE()`** function. It returns the first non-NULL value from its list of arguments.\n\n## Syntax\n```sql\nCOALESCE(column_name, default_value)\n```\n\n## Example\nSuppose a `products` table has a `description` column that can be `NULL`. If it's `NULL`, we want to display 'No description available' instead.\n```sql\nSELECT \n    product_name,\n    COALESCE(description, 'No description available') AS product_description\nFROM \n    products;\n```\nIf the `description` for a product is 'Great product!', the query returns 'Great product!'. If it's `NULL`, the query returns 'No description available'.",
+      },
+      {
+        question: "How do you use COALESCE vs ISNULL vs NVL?",
+        solution:
+          "These three functions all replace `NULL` values, but they differ in their standardization, number of arguments, and behavior.\n\n### `COALESCE(arg1, arg2, ...)`\n- **Standardization**: ANSI SQL standard. ✅ It's the **most portable** and generally recommended function.\n- **Arguments**: Takes **two or more** arguments.\n- **Behavior**: Returns the first non-NULL argument in the list.\n- **Example**: `COALESCE(phone_number, mobile_number, office_number, 'N/A')`\n\n--- \n\n### `ISNULL(check_expression, replacement_value)`\n- **Standardization**: **SQL Server specific**. ❌ Not portable.\n- **Arguments**: Takes only **two** arguments.\n- **Behavior**: Returns `replacement_value` if `check_expression` is `NULL`.\n- **Example**: `ISNULL(phone_number, 'N/A')`\n\n--- \n\n### `NVL(expr1, expr2)`\n- **Standardization**: **Oracle specific**. ❌ Not portable.\n- **Arguments**: Takes only **two** arguments.\n- **Behavior**: Functionally identical to `ISNULL`. Returns `expr2` if `expr1` is `NULL`.\n- **Example**: `NVL(phone_number, 'N/A')`\n\n**Conclusion**: Always prefer **`COALESCE`** for better portability and flexibility unless you are certain your code will only ever run on SQL Server or Oracle.",
+      },
+      {
+        question: "How do you split a comma-separated string into rows?",
+        solution:
+          "Splitting a delimited string into multiple rows is a common data transformation task. Modern databases provide specific functions for this.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  PostgreSQL offers a clean two-function approach: `string_to_array()` followed by `unnest()`.\n  ```sql\n  -- Given a string 'apple,banana,cherry'\n  SELECT unnest(string_to_array('apple,banana,cherry', ','));\n  ```\n\n- **SQL Server (2016+):**\n  SQL Server has the built-in `STRING_SPLIT` table-valued function.\n  ```sql\n  -- Given a string 'apple,banana,cherry'\n  SELECT value FROM STRING_SPLIT('apple,banana,cherry', ',');\n  ```\n\n- **MySQL:**\n  MySQL historically lacked a simple built-in function for this. In modern versions (8+), you can write a **recursive Common Table Expression (CTE)** to achieve this, but it's significantly more complex than the other systems. For junior developers, it's often better to handle this transformation in the application layer before the data enters the database.",
+      },
+      {
+        question: "How do you reverse a string in SQL?",
+        solution:
+          "Most major database systems provide a simple and straightforward `REVERSE()` function.\n\n## Syntax & Example\nThis works in **PostgreSQL, MySQL, and SQL Server**.\n\n```sql\n-- Returns 'tac'\nSELECT REVERSE('cat');\n\n-- Example on a table column\nSELECT product_name, REVERSE(product_name) AS reversed_name\nFROM Products;\n```",
+      },
+      {
+        question: "How do you convert uppercase to lowercase and vice-versa?",
+        solution:
+          "The standard SQL functions for changing character case are **`LOWER()`** for lowercase and **`UPPER()`** for uppercase. They are available in virtually all SQL databases.\n\n## Syntax & Examples\n\n- **Convert to Lowercase:**\n  ```sql\n  -- Returns 'hello world'\n  SELECT LOWER('HELLO World');\n  ```\n\n- **Convert to Uppercase:**\n  ```sql\n  -- Returns 'HELLO WORLD'\n  SELECT UPPER('Hello World');\n  ```\n\n- **Usage in a query:**\n  This is often used to standardize data for case-insensitive comparisons.\n  ```sql\n  -- Find a user regardless of the case they used to sign up\n  SELECT * \n  FROM Users \n  WHERE LOWER(username) = 'admin';\n  ```",
+      },
+      {
+        question: "How do you extract the first word from a string?",
+        solution:
+          "Extracting the first word typically involves finding the position of the first space and taking the substring from the beginning up to that point.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  Uses the convenient `split_part()` function.\n  ```sql\n  -- The '1' means take the first part\n  SELECT split_part('Hello World From Postgres', ' ', 1);\n  -- Returns: 'Hello'\n  ```\n\n- **SQL Server:**\n  Combines `SUBSTRING()` with `CHARINDEX()` to find the first space.\n  ```sql\n  -- Note the '- 1' to avoid including the space itself\n  SELECT SUBSTRING('Hello World', 1, CHARINDEX(' ', 'Hello World') - 1);\n  -- Returns: 'Hello'\n  ```\n\n- **MySQL:**\n  Similar to SQL Server, but uses `LOCATE()` instead of `CHARINDEX()`.\n  ```sql\n  SELECT SUBSTRING('Hello World', 1, LOCATE(' ', 'Hello World') - 1);\n  -- Returns: 'Hello'\n  ```",
+      },
+      {
+        question: "How do you extract the last word from a string?",
+        solution:
+          "Extracting the last word is trickier than the first. A common and clever technique is to reverse the entire string, find the *first* word of the reversed string, and then reverse that result back.\n\n## Example using the Reverse Trick (All Databases)\nThis conceptual approach works in any database that has `REVERSE()` and a way to find the first word.\n\nLet's extract the last word from 'Find the last word'.\n\n1.  **Reverse the full string**: `REVERSE('Find the last word')` -> `'drow tsal eht dniF'`\n2.  **Find the position of the first space**: `CHARINDEX(' ', 'drow tsal eht dniF')` -> `5`\n3.  **Take the substring before that space**: `SUBSTRING('drow tsal eht dniF', 1, 4)` -> `'drow'`\n4.  **Reverse the result**: `REVERSE('drow')` -> `'word'`\n\n## SQL Server Implementation\n```sql\nDECLARE @s VARCHAR(100) = 'Find the last word';\nSELECT REVERSE(SUBSTRING(REVERSE(@s), 1, CHARINDEX(' ', REVERSE(@s)) - 1));\n```",
+      },
+      {
+        question: "How do you count the number of words in a string?",
+        solution:
+          "A simple and clever trick to count words is to count the number of spaces and add one. This works assuming words are separated by a single space.\n\n## The Logic\n1.  Get the total length of the original string.\n2.  Create a new string with all spaces removed.\n3.  Get the length of the new string.\n4.  The difference in lengths is the number of spaces.\n5.  The number of words is `(number of spaces) + 1`.\n\n## Example (Works in Most Databases)\n```sql\n-- For 'SQL is a powerful language'\n-- Original Length: 26\n-- String with spaces removed ('SQLisapowerfullanguage'): Length 22\n-- Number of spaces: 26 - 22 = 4\n-- Number of words: 4 + 1 = 5\n\n-- Generic SQL (using LENGTH)\nSELECT \n    (LENGTH(my_column) - LENGTH(REPLACE(my_column, ' ', ''))) + 1 AS word_count\nFROM my_table;\n\n-- For SQL Server (using LEN)\nSELECT \n    (LEN(my_column) - LEN(REPLACE(my_column, ' ', ''))) + 1 AS word_count\nFROM my_table;\n```",
+      },
+      {
+        question: "How do you count the number of occurrences of a substring?",
+        solution:
+          "You can count substring occurrences using a logic similar to counting words: calculate the difference in string length after removing all instances of the substring, and then divide by the length of the substring itself.\n\n## The Logic\n```\n(OriginalLength - LengthAfterRemovingSubstring) / LengthOfSubstring\n```\n\n## Example\nLet's count how many times 'is' appears in the string 'This is his mission.'\n\n- Original String: `'This is his mission.'` (Length: 20)\n- Substring: `'is'` (Length: 2)\n- String with 'is' removed: `'Th h h mson.'` (Length: 14)\n- Difference in length: `20 - 14 = 6`\n- Occurrences: `6 / 2 = 3`\n\n## SQL Implementation\n```sql\n-- Generic SQL (using LENGTH)\nSELECT \n    (LENGTH('This is his mission.') - LENGTH(REPLACE('This is his mission.', 'is', ''))) / LENGTH('is') AS occurrences;\n\n-- For SQL Server (using LEN)\nSELECT \n    (LEN('This is his mission.') - LEN(REPLACE('This is his mission.', 'is', ''))) / LEN('is') AS occurrences;\n```",
+      },
+      {
+        question: "How do you pad a string with leading zeros?",
+        solution:
+          "Padding a string, often a number, with leading zeros to meet a fixed length is a common formatting task.\n\n## Examples by Database\n\n- **PostgreSQL / MySQL / Oracle:**\n  These databases provide the convenient `LPAD()` (Left Pad) function.\n  ```sql\n  -- LPAD(string, total_length, character_to_pad_with)\n  SELECT LPAD('42', 5, '0'); \n  -- Returns: '00042'\n\n  SELECT LPAD(CAST(id AS TEXT), 8, '0') FROM my_table;\n  ```\n\n- **SQL Server:**\n  SQL Server doesn't have a built-in `LPAD()`. A common method is to concatenate a string of zeros to the front and then take the rightmost characters.\n  ```sql\n  -- Pad the number 42 to a total length of 5\n  SELECT RIGHT('00000' + CAST(42 AS VARCHAR(5)), 5);\n  -- Returns: '00042'\n  ```",
+      },
+      {
+        question:
+          "How do you remove non-alphanumeric characters from a string?",
+        solution:
+          "Removing non-alphanumeric characters usually requires regular expressions, which are supported in modern versions of most databases.\n\n## Examples by Database\n\n- **PostgreSQL & MySQL (8.0+):**\n  Both use `REGEXP_REPLACE`.\n  ```sql\n  -- The regex '[^a-zA-Z0-9]' means 'any character that is NOT (^)\n  -- in the set of a-z, A-Z, or 0-9'.\n  SELECT REGEXP_REPLACE('AB-123-CD!@#$', '[^a-zA-Z0-9]', '');\n  -- Returns: 'AB123CD'\n  ```\n\n- **SQL Server:**\n  SQL Server does not have a built-in `REGEXP_REPLACE` function. The process is much more cumbersome, often requiring a custom function (CLR or T-SQL) or a long chain of nested `REPLACE` calls for each character you want to remove.\n  ```sql\n  -- Example: A highly inefficient way for just a few characters\n  SELECT \n      REPLACE(REPLACE(REPLACE('AB-123-CD!@#$', '-', ''), '!', ''), '@', '');\n  ```",
+      },
+      {
+        question: "How do you generate a random number in SQL?",
+        solution:
+          "Most databases provide a function to generate a random floating-point number between 0 (inclusive) and 1 (exclusive).\n\n- **PostgreSQL:** `RANDOM()`\n- **MySQL:** `RAND()`\n- **SQL Server:** `RAND()`\n\n## Example\n```sql\n-- PostgreSQL\nSELECT RANDOM(); -- Returns a value like 0.8432156\n\n-- MySQL or SQL Server\nSELECT RAND(); -- Returns a value like 0.5487912\n```\n**Important Note for SQL Server**: When used in a `SELECT` statement on a table, `RAND()` will return the *same* random value for every single row. To get a different random number for each row, you can use `RAND(CHECKSUM(NEWID()))`.",
+      },
+      {
+        question: "How do you generate a random integer between 1 and 100?",
+        solution:
+          "To generate a random integer within a specific range, you scale the result of the basic random function (which is between 0 and 1) and then use `FLOOR()` to convert it to an integer.\n\n## The Formula\n```\nFLOOR( random_function() * (max - min + 1) ) + min\n```\nFor a range of 1 to 100, `max=100` and `min=1`. The formula simplifies to `FLOOR(RAND() * 100) + 1`.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  ```sql\n  SELECT floor(random() * 100 + 1)::int;\n  ```\n\n- **MySQL:**\n  ```sql\n  SELECT FLOOR(RAND() * 100) + 1;\n  ```\n\n- **SQL Server:**\n  ```sql\n  -- The RAND() function needs a seed to generate different values per row\n  SELECT FLOOR(RAND(CHECKSUM(NEWID())) * 100) + 1;\n  ```",
+      },
+      {
+        question: "How do you shuffle rows randomly?",
+        solution:
+          "You can easily shuffle the entire result set of a query by using the `ORDER BY` clause with your database's random function.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  ```sql\n  SELECT * FROM employees ORDER BY RANDOM();\n  ```\n\n- **MySQL:**\n  ```sql\n  SELECT * FROM employees ORDER BY RAND();\n  ```\n\n- **SQL Server:**\n  SQL Server's `RAND()` returns the same value for every row, so it can't be used for ordering. Instead, you must use `NEWID()`, which generates a unique identifier for each row.\n  ```sql\n  SELECT * FROM employees ORDER BY NEWID();\n  ```",
+      },
+      {
+        question: "How do you sample 10 random rows from a table?",
+        solution:
+          "To get a random sample of rows, you combine the shuffling method (`ORDER BY RAND()`) with a way to limit the number of rows returned.\n\n## Examples by Database\n\n- **PostgreSQL & MySQL:**\n  Use `ORDER BY` with the random function and then `LIMIT` the result.\n  ```sql\n  -- PostgreSQL\n  SELECT * FROM employees ORDER BY RANDOM() LIMIT 10;\n\n  -- MySQL\n  SELECT * FROM employees ORDER BY RAND() LIMIT 10;\n  ```\n\n- **SQL Server:**\n  Use `ORDER BY NEWID()` and take the `TOP 10` rows.\n  ```sql\n  SELECT TOP 10 * FROM employees ORDER BY NEWID();\n  ```\n**Performance Note**: On very large tables, `ORDER BY RAND()` can be slow because it must generate a random number for every row and then sort them. For truly large-scale sampling, more advanced techniques are used.",
+      },
+      {
+        question: "How do you create a simple numbers (tally) table?",
+        solution:
+          "A numbers or 'tally' table is a simple table containing a sequence of integers (1, 2, 3, ...). It's a surprisingly powerful tool for solving many complex SQL problems.\n\n## Examples by Database\n\n- **PostgreSQL:**\n  PostgreSQL has a dedicated function, `generate_series()`, which makes this trivial.\n  ```sql\n  -- Creates a result set with numbers from 1 to 1000\n  SELECT n FROM generate_series(1, 1000) AS n;\n  ```\n\n- **SQL Server & MySQL (Modern Versions):**\n  The standard way is to use a **recursive Common Table Expression (CTE)**.\n  ```sql\n  WITH RECURSIVE Tally (n) AS (\n      -- Anchor member: the starting point\n      SELECT 1\n      UNION ALL\n      -- Recursive member: adds to the previous result\n      SELECT n + 1 FROM Tally WHERE n < 1000\n  )\n  SELECT n FROM Tally;\n  ```\n  *Note: MySQL requires the `RECURSIVE` keyword, while SQL Server does not.*",
+      },
+      {
+        question: "How do you create a calendar table for one year?",
+        solution:
+          "A calendar table is an extension of a numbers table, containing a row for every day in a given range. They are incredibly useful for time-based analysis. You can build one using a numbers generator and date functions.\n\n## Examples by Database\nLet's create a calendar for the year 2025.\n\n- **PostgreSQL:**\n  Combine `generate_series()` with date casting.\n  ```sql\n  SELECT CAST('2025-01-01' AS DATE) + (n - 1) * INTERVAL '1 day' AS calendar_date\n  FROM generate_series(1, 365) AS s(n);\n  ```\n\n- **SQL Server:**\n  Use a recursive CTE and the `DATEADD()` function.\n  ```sql\n  WITH CalendarCTE AS (\n      SELECT CAST('2025-01-01' AS DATE) AS calendar_date\n      UNION ALL\n      SELECT DATEADD(day, 1, calendar_date)\n      FROM CalendarCTE\n      WHERE calendar_date < '2025-12-31'\n  )\n  SELECT calendar_date FROM CalendarCTE OPTION (MAXRECURSION 366);\n  ```",
+      },
+      {
+        question: "How do you fill gaps in a date series?",
+        solution:
+          "To find and fill gaps in your data (e.g., days with no sales), you can **`LEFT JOIN`** a complete calendar table to your data table.\n\n## The Logic\n1.  Start with a complete **calendar table** (the source of all possible dates).\n2.  `LEFT JOIN` your `sales` data to the calendar table `ON calendar_date = sale_date`.\n3.  When a date exists in the calendar but has no matching sale, the columns from the `sales` table will be **`NULL`**. These `NULL`s represent the gaps.\n4.  You can then use `COALESCE` to fill these gaps with a zero.\n\n## Example\n```sql\nSELECT\n    c.calendar_date,\n    COALESCE(s.daily_revenue, 0) AS revenue -- If revenue is NULL, use 0\nFROM\n    Calendar c\nLEFT JOIN\n    Sales s ON c.calendar_date = s.sale_date\nWHERE\n    c.calendar_date BETWEEN '2025-01-01' AND '2025-01-31'\nORDER BY\n    c.calendar_date;\n```",
+      },
+      {
+        question: "How do you explode a date range into individual days?",
+        solution:
+          "To 'explode' a start and end date into a row for each day in that range, you can **`JOIN`** your data table with a calendar table.\n\n## The Logic\nJoin your table of date ranges to a calendar table where the calendar's date falls **`BETWEEN`** the `start_date` and `end_date`.\n\n## Example\nImagine a `Projects` table with `start_date` and `end_date` columns. We want a row for every single day each project was active.\n\n```sql\nSELECT\n    p.project_name,\n    c.calendar_date\nFROM\n    Projects p\nJOIN\n    Calendar c ON c.calendar_date BETWEEN p.start_date AND p.end_date\nORDER BY\n    p.project_name, c.calendar_date;\n```\nThis will generate one row for 'Project A' on 2025-01-01, another for 'Project A' on 2025-01-02, and so on, until its `end_date`.",
+      },
+      {
+        question: "How do you calculate business days between two dates?",
+        solution:
+          "Calculating the number of business days (excluding weekends) is complex because it requires generating the series of dates and checking each one. A simplified approach that ignores public holidays is to join with a calendar table.\n\n## The Logic\n1.  Generate all the days between the start and end dates.\n2.  For each generated day, determine its day of the week.\n3.  Count only the rows that are not a Saturday or Sunday.\n\n## Example (Conceptual)\nThis example uses a calendar table that has a pre-calculated `day_of_week` column (e.g., where Monday=1, Sunday=7).\n\n```sql\nSELECT\n    COUNT(*)\nFROM\n    Calendar\nWHERE\n    calendar_date >= '2025-08-01' \n    AND calendar_date <= '2025-08-31'\n    AND day_of_week NOT IN (6, 7); -- Assuming 6=Saturday, 7=Sunday\n```\n**Note**: This is a simplified solution. A robust solution would also require a separate `Holidays` table to exclude those dates as well.",
+      },
+      {
+        question: "How do you exclude weekends from a date diff?",
+        solution:
+          "Excluding weekends from a date difference calculation is the same problem as counting business days. The most reliable method is to generate the series of dates and count only the weekdays.\n\n## The Logic\nInstead of a simple `DATEDIFF(end, start)`, you count the number of rows from a calendar table that meet your criteria.\n\n## Example (SQL Server)\nLet's find the number of weekdays between two dates.\n```sql\nDECLARE @StartDate DATE = '2025-08-01';\nDECLARE @EndDate DATE = '2025-08-31';\n\n-- Uses a recursive CTE to generate the dates\nWITH DateSeries AS (\n    SELECT @StartDate AS MyDate\n    UNION ALL\n    SELECT DATEADD(day, 1, MyDate)\n    FROM DateSeries\n    WHERE MyDate < @EndDate\n)\nSELECT COUNT(*)\nFROM DateSeries\nWHERE DATEPART(weekday, MyDate) NOT IN (1, 7); -- Assuming Sunday=1, Saturday=7\n```",
+      },
+      {
+        question: "How do you create an index on a computed column?",
+        solution:
+          "Indexing a computed column, also known as an **index on an expression**, allows the database to quickly access rows based on the result of a function or expression, rather than just the raw column value. This is great for case-insensitive searches.\n\n## Examples by Database\n\n- **PostgreSQL (Index on Expression):**\n  PostgreSQL allows you to directly index the result of an expression.\n  ```sql\n  -- Create an index on the lowercase version of the email column\n  CREATE INDEX idx_users_email_lower ON users (LOWER(email));\n  \n  -- A query can now use this index:\n  -- SELECT * FROM users WHERE LOWER(email) = 'test@example.com';\n  ```\n\n- **SQL Server (Index on Computed Column):**\n  In SQL Server, you must first add a formal computed column to the table, and then you can create an index on it. The column must be 'persisted' (physically stored) if the expression is not deterministic.\n  ```sql\n  -- 1. Add the computed column\n  ALTER TABLE users ADD email_lower AS LOWER(email);\n  \n  -- 2. Create the index on the new column\n  CREATE INDEX idx_users_email_lower ON users (email_lower);\n  ```",
+      },
+      {
+        question: "How do you create a filtered index (SQL Server)?",
+        solution:
+          "A **filtered index** is a special type of index in SQL Server that only includes rows that meet a specific `WHERE` condition. This is highly efficient for queries that frequently target a small, well-defined subset of data (e.g., only active orders).\n\n## Use Case\nImagine you have an `Orders` table with millions of rows, but 99% of them have a status of 'Shipped' or 'Complete'. Queries for 'Pending' orders are frequent but scan a lot of irrelevant data. A filtered index can solve this.\n\n## Syntax\n```sql\nCREATE NONCLUSTERED INDEX IX_Orders_PendingStatus\nON Orders (CustomerID, OrderDate) -- Columns in the index\nWHERE Status = 'Pending'; -- The filter condition\n```\nNow, any query like `SELECT * FROM Orders WHERE Status = 'Pending'` will use this small, highly efficient index instead of scanning the entire table.",
+      },
+      {
+        question: "How do you create a partial index (PostgreSQL)?",
+        solution:
+          "A **partial index** in PostgreSQL is conceptually identical to a filtered index in SQL Server. It's an index built over a subset of a table's rows, defined by a `WHERE` clause.\n\n## Use Case\nImagine a `users` table where you want to enforce that the `email` is unique, but only for active users, allowing `NULL` or duplicate emails for inactive users.\n\n## Syntax\n```sql\n-- This index only includes rows for active users\nCREATE UNIQUE INDEX idx_users_active_email\nON users (email)\nWHERE is_active = TRUE;\n```\nThis partial unique index is much smaller than a full unique index and only enforces the uniqueness constraint on the subset of rows defined by the `WHERE` clause.",
+      },
+      {
+        question: "How do you check index fragmentation?",
+        solution:
+          "Index fragmentation occurs when the logical ordering of pages in an index doesn't match the physical ordering on disk, which can slow down read performance. The concept and tools to check it differ by database.\n\n## Examples by Database\n\n- **SQL Server:**\n  SQL Server provides a Dynamic Management View (DMV) specifically for this.\n  ```sql\n  SELECT \n      dbschemas.name as 'Schema',\n      dbtables.name as 'Table',\n      dbindexes.name as 'Index',\n      indexstats.avg_fragmentation_in_percent\n  FROM \n      sys.dm_db_index_physical_stats (DB_ID(), NULL, NULL, NULL, NULL) AS indexstats\n  INNER JOIN sys.tables dbtables on dbtables.object_id = indexstats.object_id\n  INNER JOIN sys.schemas dbschemas on dbtables.schema_id = dbschemas.schema_id\n  INNER JOIN sys.indexes AS dbindexes ON dbindexes.object_id = indexstats.object_id AND indexstats.index_id = dbindexes.index_id\n  WHERE \n      indexstats.avg_fragmentation_in_percent > 30 -- General rule of thumb\n  ORDER BY \n      indexstats.avg_fragmentation_in_percent DESC;\n  ```\n  - **< 5%**: Fine.\n  - **5% - 30%**: `ALTER INDEX ... REORGANIZE`.\n  - **> 30%**: `ALTER INDEX ... REBUILD`.\n\n- **PostgreSQL:**\n  PostgreSQL's architecture (MVCC) makes fragmentation less of an issue than 'bloat' (dead, unused space left by old row versions). There is no direct fragmentation metric. Instead, you check for bloat using extensions like `pgstattuple` or by running analysis queries that compare the estimated table size to the actual size. The fix for bloat is typically `VACUUM FULL` or tools like `pg_repack`.\n\n- **MySQL (InnoDB):**\n  For InnoDB tables, you can get an idea of fragmentation by checking the `Data_free` value in the output of `SHOW TABLE STATUS`. A high `Data_free` value indicates space that can be reclaimed. The command `OPTIMIZE TABLE your_table;` can be used to defragment the table and its indexes.",
+      },
+      {
+        question: "How do you rebuild an index?",
+        solution:
+          "Rebuilding an index drops and recreates it. This process removes fragmentation, reclaims space, and re-orders the pages, resulting in a fresh, contiguous index. It's a more intensive operation than reorganizing and can be an offline operation by default, locking the table. ⚙️\n\n## Examples by Database\n\n- **SQL Server:**\n  Uses the `ALTER INDEX...REBUILD` command. Enterprise editions support online rebuilds.\n  ```sql\n  -- A standard, offline rebuild (locks the table)\n  ALTER INDEX IX_Orders_OrderDate ON dbo.Orders REBUILD;\n\n  -- An online rebuild (Enterprise Edition feature, allows concurrent user access)\n  ALTER INDEX IX_Orders_OrderDate ON dbo.Orders REBUILD WITH (ONLINE = ON);\n  ```\n\n- **PostgreSQL:**\n  Uses the `REINDEX` command. This is always a blocking operation.\n  ```sql\n  -- Rebuild a single index\n  REINDEX INDEX ix_orders_orderdate;\n\n  -- Rebuild all indexes on a table\n  REINDEX TABLE orders;\n  ```\n\n- **MySQL:**\n  There isn't a direct `REBUILD` command for a single index. The common practice is to run `OPTIMIZE TABLE`, which analyzes, repairs, and rebuilds the table and all its indexes.\n  ```sql\n  OPTIMIZE TABLE orders;\n  ```",
+      },
+      {
+        question: "How do you reorganize an index?",
+        solution:
+          "Reorganizing an index is a lighter-weight maintenance operation compared to rebuilding. It defragments the leaf-level pages of the index by physically reordering them to match the logical order. It is always an **online operation**.\n\n## Key Differences from Rebuild\n- **Less disruptive**: It's online and uses minimal system resources.\n- **Less effective**: Only works on the leaf level; does not create a brand new structure.\n- **When to use**: Best for indexes with low to medium fragmentation (e.g., 5%-30%).\n\n## Examples by Database\n\n- **SQL Server:**\n  This is the primary database that has a distinct `REORGANIZE` command.\n  ```sql\n  ALTER INDEX IX_Orders_OrderDate ON dbo.Orders REORGANIZE;\n  ```\n\n- **PostgreSQL & MySQL:**\n  These databases do not have a direct `REORGANIZE` command. Their storage engines (MVCC in Postgres, InnoDB in MySQL) handle space management differently. The closest equivalents are:\n  - **PostgreSQL**: Running a regular `VACUUM` (not `VACUUM FULL`) helps reclaim space from dead rows, which is a form of maintenance.\n  - **MySQL**: The InnoDB storage engine has background threads that clean up and merge changes automatically.",
+      },
+      {
+        question: "How do you find unused indexes?",
+        solution:
+          "Unused indexes provide no benefit to `SELECT` queries but still add overhead to write operations (`INSERT`, `UPDATE`, `DELETE`) and consume disk space. It's good practice to identify and drop them.\n\n## Logic\nDatabases keep usage statistics for indexes. We can query system views to find indexes that have been updated but never used for reads (seeks, scans, or lookups).\n\n## Examples by Database\n\n- **SQL Server:**\n  Query the `sys.dm_db_index_usage_stats` DMV.\n  ```sql\n  SELECT \n      OBJECT_NAME(s.object_id) AS 'Table',\n      i.name AS 'Index',\n      i.index_id,\n      s.user_updates AS 'Writes'\n  FROM sys.dm_db_index_usage_stats AS s\n  INNER JOIN sys.indexes AS i ON s.object_id = i.object_id AND s.index_id = i.index_id\n  WHERE s.database_id = DB_ID()\n    AND OBJECTPROPERTY(s.object_id, 'IsUserTable') = 1\n    AND s.user_seeks = 0 AND s.user_scans = 0 AND s.user_lookups = 0\n    AND i.is_primary_key = 0; -- Exclude primary keys\n  ```\n\n- **PostgreSQL:**\n  Query the `pg_stat_user_indexes` view.\n  ```sql\n  SELECT\n      relname AS table_name,\n      indexrelname AS index_name,\n      idx_scan\n  FROM pg_stat_user_indexes\n  WHERE idx_scan = 0\n    AND indexrelname NOT LIKE '%_pkey'; -- Exclude primary keys\n  ```\n\n- **MySQL (with Performance Schema enabled):**\n  Query the `schema_unused_indexes` view.\n  ```sql\n  SELECT * FROM sys.schema_unused_indexes;\n  ```",
+      },
+      {
+        question: "How do you find missing indexes suggested by the optimizer?",
+        solution:
+          "The query optimizer can identify when a query's performance could be significantly improved by a new index. In some databases, these suggestions are stored in system views for analysis.\n\n## Examples by Database\n\n- **SQL Server:**\n  This is a standout feature of SQL Server. It provides a set of Dynamic Management Views (DMVs) specifically for this purpose.\n  ```sql\n  SELECT \n      'CREATE NONCLUSTERED INDEX [IX_' + t.name + '_Suggested] ON ' + \n      s.name + '.' + t.name + ' (' + ISNULL(mid.equality_columns, '') + \n      CASE WHEN mid.equality_columns IS NOT NULL AND mid.inequality_columns IS NOT NULL THEN ',' ELSE '' END + \n      ISNULL(mid.inequality_columns, '') + ')' + \n      ISNULL(' INCLUDE (' + mid.included_columns + ')', '') AS create_statement,\n      migs.avg_total_user_cost * migs.avg_user_impact * (migs.user_seeks + migs.user_scans) AS improvement_measure\n  FROM sys.dm_db_missing_index_group_stats AS migs\n  INNER JOIN sys.dm_db_missing_index_groups AS mig ON migs.group_handle = mig.index_group_handle\n  INNER JOIN sys.dm_db_missing_index_details AS mid ON mig.index_handle = mid.index_handle\n  INNER JOIN sys.tables AS t ON mid.object_id = t.object_id\n  INNER JOIN sys.schemas AS s ON t.schema_id = s.schema_id\n  ORDER BY improvement_measure DESC;\n  ```\n\n- **PostgreSQL & MySQL:**\n  These databases **do not have** a built-in feature that automatically suggests missing indexes in a system view. The standard process is more manual:\n  1.  Identify slow-running queries using the **slow query log**.\n  2.  Take a slow query and run it with **`EXPLAIN`** (or `EXPLAIN ANALYZE` in Postgres).\n  3.  Analyze the execution plan to see if it's performing full table scans where an index seek would be better. Based on this analysis, you manually decide which index to create.",
+      },
+      {
+        question: "How do you see which queries are currently running?",
+        solution:
+          "Viewing active sessions and their current queries is essential for real-time monitoring and troubleshooting performance issues.\n\n## Examples by Database\n\n- **SQL Server:**\n  The classic stored procedure is `sp_who2`. A more detailed approach uses DMVs.\n  ```sql\n  -- Quick and easy\n  EXEC sp_who2;\n\n  -- More detailed view\n  SELECT \n      s.session_id,\n      r.status,\n      r.command,\n      t.text AS sql_text,\n      r.wait_type,\n      r.cpu_time,\n      r.total_elapsed_time\n  FROM sys.dm_exec_requests r\n  CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) t\n  JOIN sys.dm_exec_sessions s ON r.session_id = s.session_id\n  WHERE s.is_user_process = 1;\n  ```\n\n- **PostgreSQL:**\n  Query the `pg_stat_activity` view.\n  ```sql\n  SELECT \n      pid,\n      usename,\n      client_addr,\n      state,\n      wait_event,\n      query\n  FROM pg_stat_activity\n  WHERE state <> 'idle';\n  ```\n\n- **MySQL:**\n  Use the `SHOW PROCESSLIST` command.\n  ```sql\n  -- Shows all active processes\n  SHOW FULL PROCESSLIST;\n  ```",
+      },
+      {
+        question: "How do you kill a long-running query?",
+        solution:
+          "If a query is consuming excessive resources or blocking other processes, you may need to terminate it manually. This should be done with caution, as it will roll back any work the query has done.\n\n## Steps\n1.  **Identify the Process/Session ID** of the query you want to terminate using the methods from the previous question (e.g., `sp_who2`, `pg_stat_activity`, `SHOW PROCESSLIST`).\n2.  **Use the `KILL` command** with that ID.\n\n## Examples by Database\n\n- **SQL Server:**\n  The ID is called a `Session ID` or `SPID`.\n  ```sql\n  -- First, find the SPID (e.g., 52)\n  EXEC sp_who2;\n\n  -- Then, kill it\n  KILL 52;\n  ```\n\n- **PostgreSQL:**\n  The ID is a process ID (`pid`). The function is `pg_terminate_backend()`.\n  ```sql\n  -- First, find the PID (e.g., 12345)\n  SELECT pid, query FROM pg_stat_activity;\n\n  -- Then, terminate it\n  SELECT pg_terminate_backend(12345);\n  ```\n\n- **MySQL:**\n  The ID is the process `Id`.\n  ```sql\n  -- First, find the Id (e.g., 8)\n  SHOW FULL PROCESSLIST;\n\n  -- Then, kill it\n  KILL 8;\n  ```",
+      },
+      {
+        question: "How do you set a lock timeout in SQL Server?",
+        solution:
+          "In SQL Server, you can control how long a specific session will wait for a locked resource before giving up and returning an error. This is done with the `SET LOCK_TIMEOUT` command.\n\n## Key Concepts\n- **Scope**: The setting applies only to the **current session**. It resets when the connection is closed.\n- **Units**: The timeout is specified in **milliseconds**.\n- **Default**: The default value is -1, which means wait forever.\n\n## Syntax & Example\n```sql\n-- Set the lock timeout to 10 seconds (10,000 milliseconds)\nSET LOCK_TIMEOUT 10000;\n\n-- Now, try to execute a query that might get blocked\nBEGIN TRY\n    UPDATE dbo.Products SET UnitsInStock = 50 WHERE ProductID = 1;\nEND TRY\nBEGIN CATCH\n    IF ERROR_NUMBER() = 1222\n        PRINT 'The statement timed out because it was blocked by another process.';\n    ELSE\n        THROW;\nEND CATCH;\n\n-- Set it back to waiting indefinitely\nSET LOCK_TIMEOUT -1;\n```",
+      },
+      {
+        question: "How do you check for blocking transactions?",
+        solution:
+          "A blocking transaction occurs when one session holds a lock that another session is waiting to acquire. Identifying the 'head' of a blocking chain is key to resolving the issue.\n\n## Examples by Database\n\n- **SQL Server:**\n  Query the `sys.dm_exec_requests` DMV, looking for a `blocking_session_id`.\n  ```sql\n  SELECT \n      r.session_id, \n      r.status, \n      r.wait_type, \n      r.blocking_session_id,\n      t.text AS blocking_query, -- The query being blocked\n      (SELECT text FROM sys.dm_exec_sql_text(s.sql_handle)) AS blocker_query -- The query holding the lock\n  FROM sys.dm_exec_requests r\n  CROSS APPLY sys.dm_exec_sql_text(r.sql_handle) t\n  LEFT JOIN sys.dm_exec_sessions s ON r.blocking_session_id = s.session_id\n  WHERE r.blocking_session_id <> 0;\n  ```\n\n- **PostgreSQL:**\n  Query the `pg_locks` view to find sessions that are waiting for a lock (`granted = false`).\n  ```sql\n  SELECT\n      blocked_locks.pid     AS blocked_pid,\n      blocked_activity.usename  AS blocked_user,\n      blocked_activity.query    AS blocked_statement,\n      blocking_locks.pid     AS blocking_pid,\n      blocking_activity.usename AS blocking_user,\n      blocking_activity.query   AS current_statement_in_blocking_process\n  FROM  pg_catalog.pg_locks         blocked_locks\n  JOIN  pg_catalog.pg_stat_activity blocked_activity  ON blocked_activity.pid = blocked_locks.pid\n  JOIN  pg_catalog.pg_locks         blocking_locks \n     ON blocking_locks.locktype = blocked_locks.locktype\n     AND blocking_locks.DATABASE IS NOT DISTINCT FROM blocked_locks.DATABASE\n     AND blocking_locks.relation IS NOT DISTINCT FROM blocked_locks.relation\n     AND blocking_locks.page IS NOT DISTINCT FROM blocked_locks.page\n     AND blocking_locks.tuple IS NOT DISTINCT FROM blocked_locks.tuple\n     AND blocking_locks.virtualxid IS NOT DISTINCT FROM blocked_locks.virtualxid\n     AND blocking_locks.transactionid IS NOT DISTINCT FROM blocked_locks.transactionid\n     AND blocking_locks.classid IS NOT DISTINCT FROM blocked_locks.classid\n     AND blocking_locks.objid IS NOT DISTINCT FROM blocked_locks.objid\n     AND blocking_locks.objsubid IS NOT DISTINCT FROM blocked_locks.objsubid\n     AND blocking_locks.pid != blocked_locks.pid\n  JOIN  pg_catalog.pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid\n  WHERE NOT blocked_locks.granted;\n  ```\n\n- **MySQL:**\n  Query the `information_schema.innodb_lock_waits` and `innodb_trx` tables.\n  ```sql\n  SELECT\n    r.trx_id waiting_trx_id,\n    r.trx_mysql_thread_id waiting_thread,\n    r.trx_query waiting_query,\n    b.trx_id blocking_trx_id,\n    b.trx_mysql_thread_id blocking_thread,\n    b.trx_query blocking_query\n  FROM information_schema.innodb_lock_waits w\n  JOIN information_schema.innodb_trx b ON b.trx_id = w.blocking_trx_id\n  JOIN information_schema.innodb_trx r ON r.trx_id = w.requesting_trx_id;\n  ```",
+      },
+      {
+        question: "How do you identify deadlock events?",
+        solution:
+          "A deadlock occurs when two or more sessions are mutually blocking each other in a circular chain. The database engine automatically detects this, kills one session (the 'victim'), and rolls back its transaction to let the other proceed.\n\n## How to Find Evidence\n\n- **SQL Server:**\n  SQL Server provides excellent tooling for this. You can use the **system_health Extended Event session**, which captures deadlock graphs by default. You can view this in SSMS by navigating to Management -> Extended Events -> Sessions -> system_health -> package0.event_file -> View Target Data, and then filtering for the `xml_deadlock_report` event.\n\n- **PostgreSQL:**\n  When a deadlock occurs, PostgreSQL logs a detailed error message to the server's standard log file. You need to check the database logs for messages containing the keyword **`deadlock detected`**. To get more context, you can enable the `log_lock_waits` parameter in `postgresql.conf`.\n\n- **MySQL:**\n  The most common way is to use the `SHOW ENGINE INNODB STATUS` command. This produces a large text output. You need to scroll through it and look for a section titled **`LATEST DETECTED DEADLOCK`**, which provides a detailed breakdown of the transactions, locks, and statements involved.",
+      },
+      {
+        question: "How do you trace SQL statements in MySQL?",
+        solution:
+          "In MySQL, there are two primary logs for tracing SQL statements: the General Query Log and the Slow Query Log.\n\n### General Query Log\nThis log captures **every single action** that happens on the server: every connection, disconnection, and query. It's extremely detailed but also has a **very high performance overhead**. It should only be enabled temporarily for specific debugging tasks.\n\n- **To Enable:**\n  ```sql\n  SET GLOBAL general_log = 'ON';\n  SET GLOBAL log_output = 'TABLE'; -- Or 'FILE'\n  ```\n- **To View (if logged to table):**\n  ```sql\n  SELECT * FROM mysql.general_log;\n  ```\n- **To Disable:**\n  ```sql\n  SET GLOBAL general_log = 'OFF';\n  ```\n\n### Slow Query Log\nThis log is much more practical for performance tuning. It only records queries that take **longer than a specified amount of time** to execute.\n\n- **To Enable and Configure:**\n  ```sql\n  -- Enable the log\n  SET GLOBAL slow_query_log = 'ON';\n  \n  -- Set the threshold (e.g., log queries that take more than 2 seconds)\n  SET GLOBAL long_query_time = 2;\n  ```\n- **To View (if logged to file):**\n  You must check the log file on the database server's file system, typically located in the data directory.",
+      },
+      {
+        question: "How do you use EXPLAIN in MySQL?",
+        solution:
+          "The `EXPLAIN` command in MySQL is a powerful diagnostic tool that shows how the query optimizer plans to execute a SQL statement. It reveals which indexes will be used, how tables will be joined, and estimates the number of rows to be examined.\n\n## How to Use\nSimply prepend `EXPLAIN` to your `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement.\n```sql\nEXPLAIN SELECT \n    c.customer_name, \n    o.order_date \nFROM customers c \nJOIN orders o ON c.customer_id = o.customer_id \nWHERE c.country = 'USA';\n```\n\n## Key Columns in the Output\n- **`id`**: The sequence number of the operation.\n- **`select_type`**: The type of SELECT (e.g., `SIMPLE`, `PRIMARY`, `SUBQUERY`).\n- **`table`**: The table being accessed.\n- **`type`**: **(Most Important)** The join type. You want to see `ref`, `eq_ref`, or `const`. `index` is okay. **`ALL` is bad**, as it indicates a full table scan.\n- **`possible_keys`**: Indexes that MySQL could potentially use.\n- **`key`**: The actual index that MySQL decided to use.\n- **`rows`**: An *estimate* of the number of rows MySQL needs to read to execute this step.\n- **`Extra`**: Additional information, such as `Using where`, `Using index` (a good sign for covering indexes), or `Using filesort` (a bad sign).",
+      },
+      {
+        question: "How do you use EXPLAIN ANALYZE in PostgreSQL?",
+        solution:
+          "In PostgreSQL, `EXPLAIN ANALYZE` is a supercharged version of `EXPLAIN`. While a regular `EXPLAIN` shows the optimizer's *plan*, `EXPLAIN ANALYZE` actually **executes the query** and then displays the plan along with the **actual execution statistics**. This is far more accurate for diagnosing performance issues.\n\n## How to Use\nSimply prepend `EXPLAIN ANALYZE` to your query.\n```sql\nEXPLAIN ANALYZE SELECT \n    c.customer_name, \n    o.order_date \nFROM customers c \nJOIN orders o ON c.customer_id = o.customer_id \nWHERE c.country = 'USA';\n```\n**Warning**: Because it runs the query, be cautious with `UPDATE` or `DELETE` statements. Wrap them in a transaction (`BEGIN; ... ROLLBACK;`) if you don't want to commit the changes.\n\n## Key Information in the Output\nFor each node in the plan, you'll see:\n- **`cost=0.00..123.45`**: The optimizer's *estimated* cost (startup..total).\n- **`rows=1000`**: The optimizer's *estimated* number of rows.\n- **`actual time=0.010..5.678`**: The **actual time taken** in milliseconds (startup..total). This is the most valuable metric.\n- **`rows=987`**: The **actual number of rows** returned by that node.\n- **`Loops`**: How many times the node was executed.\n\nBy comparing the estimated `rows` to the actual `rows`, you can identify where the optimizer's estimates are wrong, which often points to stale statistics.",
+      },
+      {
+        question: "How do you read an execution plan’s cost estimates?",
+        solution:
+          "The 'cost' shown in an execution plan is one of the most frequently misunderstood metrics. Here's what you need to know:\n\n- **It's Not Time**: The cost estimate is **not a measure of time** (e.g., milliseconds or seconds). It's an arbitrary, unitless number.\n\n- **It's Relative**: The cost is a **relative value** that the query optimizer calculates to compare different possible execution plans against each other. The optimizer's entire job is to find the valid plan with the **lowest total cost**.\n\n- **How It's Calculated**: The cost is an internal calculation based on estimates of I/O operations (reading pages from disk) and CPU operations (comparing values, sorting data). Reading from disk is considered much more 'expensive' than processing data already in memory.\n\n- **What to Look For**: When analyzing a plan, don't focus on the absolute cost number. Instead, look for the **operators with the highest relative cost** within the plan. A single operator that accounts for 90% of the total plan cost is the first place you should investigate for optimization.",
+      },
+      {
+        question: "How do you force an index hint in MySQL?",
+        solution:
+          "An index hint is a directive you give to the MySQL optimizer to influence its choice of index for a query. This should be used as a last resort when you are certain the optimizer is making a mistake.\n\n## Syntax\nThere are a few types of hints:\n- **`USE INDEX (index_name)`**: Suggests that the optimizer use one of the listed indexes.\n- **`FORCE INDEX (index_name)`**: Stronger than `USE`, this tells the optimizer that a table scan is extremely expensive and it should strongly prefer using the index.\n- **`IGNORE INDEX (index_name)`**: Tells the optimizer *not* to use a particular index.\n\n## Example\nImagine MySQL is choosing to do a full table scan on `employees` instead of using the `ix_department` index.\n```sql\n-- The original query that is slow\nSELECT * FROM employees WHERE department_id = 10;\n\n-- The query with a hint to force the index\nSELECT * FROM employees FORCE INDEX (ix_department) WHERE department_id = 10;\n```",
+      },
+      {
+        question: "How do you force an index hint in SQL Server?",
+        solution:
+          "In SQL Server, an index hint is specified using the `WITH` clause in the query. Like in other databases, this should only be done when you have thoroughly analyzed a query and are confident you can choose a better plan than the optimizer.\n\n## Syntax\nThe hint is placed after the table name.\n```sql\nSELECT column_list \nFROM table_name WITH (INDEX(index_name))\nWHERE ...;\n```\n\n## Example\nSuppose the optimizer is incorrectly choosing a table scan on the `Sales.SalesOrderDetail` table instead of using a specific non-clustered index `IX_SalesOrderDetail_ProductID`.\n```sql\n-- The original query\nSELECT OrderQty, UnitPrice\nFROM Sales.SalesOrderDetail\nWHERE ProductID = 870;\n\n-- The query with the index hint\nSELECT OrderQty, UnitPrice\nFROM Sales.SalesOrderDetail WITH (INDEX(IX_SalesOrderDetail_ProductID))\nWHERE ProductID = 870;\n```",
+      },
+      {
+        question: "How do you disable an index temporarily?",
+        solution:
+          "Disabling an index makes it unavailable to the query optimizer but keeps its definition in the metadata. This is useful for bulk-loading data, as it avoids the overhead of updating the index for every inserted row.\n\n## Examples by Database\n\n- **SQL Server:**\n  SQL Server has a straightforward `DISABLE` command. To use the index again, it must be `REBUILD`ed.\n  ```sql\n  -- To disable the index\n  ALTER INDEX IX_Orders_OrderDate ON dbo.Orders DISABLE;\n\n  -- ... perform bulk operations ...\n\n  -- To re-enable the index\n  ALTER INDEX IX_Orders_OrderDate ON dbo.Orders REBUILD;\n  ```\n\n- **MySQL (8.0+):**\n  MySQL uses the concept of 'invisible' indexes. An invisible index is not used by the optimizer but is still maintained in the background.\n  ```sql\n  -- To make an index invisible (disable it)\n  ALTER TABLE orders ALTER INDEX ix_orders_orderdate INVISIBLE;\n\n  -- To make it visible again (enable it)\n  ALTER TABLE orders ALTER INDEX ix_orders_orderdate VISIBLE;\n  ```\n\n- **PostgreSQL:**\n  PostgreSQL does not have a direct `DISABLE` or `INVISIBLE` command. The standard practice is to `DROP` the index before a large data load and then `CREATE` it again afterward.",
+      },
+      {
+        question: "How do you create a covering index?",
+        solution:
+          "A **covering index** is an index that contains all the columns required to satisfy a query without having to look up data in the main table. Because the database can get everything it needs from the smaller, more efficient index structure, these queries can be extremely fast.\n\n## The Concept\nA query is 'covered' if every column mentioned in the `SELECT`, `JOIN`, `WHERE`, and `ORDER BY` clauses exists within the index itself.\n\n## Examples by Database\nConsider this query: `SELECT OrderDate, ShipCountry FROM Orders WHERE CustomerID = 'ALFKI';`\n\n- **SQL Server:**\n  SQL Server has a special `INCLUDE` clause to store non-key columns in the leaf level of the index.\n  ```sql\n  CREATE NONCLUSTERED INDEX IX_Orders_Covering\n  ON Orders (CustomerID)       -- The column for the WHERE clause\n  INCLUDE (OrderDate, ShipCountry); -- The columns for the SELECT clause\n  ```\n\n- **PostgreSQL & MySQL:**\n  These databases do not have an `INCLUDE` clause. To create a covering index, you simply add all the required columns as part of the index definition. The columns you filter on (`WHERE`) should come first.\n  ```sql\n  CREATE INDEX ix_orders_covering\n  ON Orders (CustomerID, OrderDate, ShipCountry);\n  ```",
+      },
+      {
+        question: "How do you create a unique filtered index?",
+        solution:
+          "A unique filtered (or partial) index is a powerful feature that enforces uniqueness on a **subset of rows** in a table, as defined by a `WHERE` clause.\n\n## Use Case\nThis is perfect for implementing 'soft deletes'. Imagine you want every active user to have a unique email, but when a user is deleted (e.g., `is_deleted = true`), their email should be freed up for a new user to register with. A normal unique index would prevent this.\n\n## Examples by Database\nLet's enforce uniqueness on the `email` column, but only for rows where `is_deleted` is `false`.\n\n- **SQL Server (Filtered Index):**\n  ```sql\n  CREATE UNIQUE NONCLUSTERED INDEX UQ_Users_ActiveEmail\n  ON dbo.Users (Email)\n  WHERE (is_deleted = 0);\n  ```\n\n- **PostgreSQL (Partial Index):**\n  ```sql\n  CREATE UNIQUE INDEX uq_users_active_email\n  ON users (email)\n  WHERE is_deleted = false;\n  ```\n\n- **MySQL:**\n  MySQL does not support filtered/partial indexes directly. This logic often has to be enforced at the application level or with complex triggers.",
+      },
+      {
+        question:
+          "How do you find duplicate records based on multiple columns?",
+        solution:
+          "You can find duplicate rows based on a combination of columns by using the `GROUP BY` clause on those columns and then filtering the results with a `HAVING` clause to find groups with more than one record.\n\n## The Logic\n1.  **`GROUP BY`** the set of columns that define a duplicate (e.g., `first_name`, `last_name`, `date_of_birth`).\n2.  Use **`COUNT(*)`** to count how many rows fall into each group.\n3.  Use **`HAVING COUNT(*) > 1`** to filter out the unique records, leaving only the groups of duplicates.\n\n## Example\nFind customers who have the same `first_name` and `last_name` in a `Customers` table.\n```sql\nSELECT\n    first_name,\n    last_name,\n    COUNT(*) AS duplicate_count\nFROM\n    Customers\nGROUP BY\n    first_name, \n    last_name\nHAVING \n    COUNT(*) > 1\nORDER BY\n    duplicate_count DESC;\n```",
+      },
+      {
+        question: "How do you delete duplicates keeping the newest row?",
+        solution:
+          "A common and robust method to delete duplicate records while keeping one specific version (like the newest or oldest) is to use a **Common Table Expression (CTE)** with the `ROW_NUMBER()` window function.\n\n## The Logic\n1.  Use `ROW_NUMBER()` to assign a rank to each row.\n2.  `PARTITION BY` the columns that define a duplicate (e.g., `email`). This makes the ranking restart for each group of duplicates.\n3.  `ORDER BY` a column that defines which row to keep. To keep the newest, you would order by a creation date or ID in descending (`DESC`) order, so the newest row gets rank #1.\n4.  Delete all rows from the CTE where the rank is greater than 1.\n\n## Example\nIn a `Subscribers` table, delete duplicate emails, keeping only the one with the highest `id` (the most recent entry).\n```sql\nWITH NumberedSubscribers AS (\n    SELECT \n        id, \n        ROW_NUMBER() OVER(\n            PARTITION BY email \n            ORDER BY id DESC\n        ) AS rn\n    FROM \n        Subscribers\n)\nDELETE FROM Subscribers\nWHERE id IN (SELECT id FROM NumberedSubscribers WHERE rn > 1);\n```",
+      },
+      {
+        question: "How do you update statistics on a table?",
+        solution:
+          "Database statistics are metadata about the distribution of values in your columns. The query optimizer relies on them to make smart decisions. When data changes significantly, statistics can become stale, leading to bad execution plans. Manually updating them can resolve performance issues.\n\n## Examples by Database\n\n- **SQL Server:**\n  ```sql\n  -- Update statistics for all indexes and columns on a table\n  UPDATE STATISTICS dbo.SalesOrderDetail;\n\n  -- Update with a full scan for maximum accuracy (slower)\n  UPDATE STATISTICS dbo.SalesOrderDetail WITH FULLSCAN;\n  ```\n\n- **PostgreSQL:**\n  The command is `ANALYZE`. It's often run as part of `VACUUM ANALYZE`.\n  ```sql\n  -- Update statistics for a table\n  ANALYZE public.orders;\n\n  -- For more detailed output\n  ANALYZE VERBOSE public.orders;\n  ```\n\n- **MySQL:**\n  The command is `ANALYZE TABLE`.\n  ```sql\n  ANALYZE TABLE sales.orders;\n  ```",
+      },
+      {
+        question: "How do you check when statistics were last updated?",
+        solution:
+          "Knowing when statistics were last updated helps you determine if they might be stale and contributing to poor query performance.\n\n## Examples by Database\n\n- **SQL Server:**\n  You can use the `STATS_DATE()` function or query the `sys.stats` catalog view.\n  ```sql\n  SELECT \n      s.name AS statistics_name,\n      STATS_DATE(s.object_id, s.stats_id) AS last_updated_date\n  FROM sys.stats AS s\n  WHERE s.object_id = OBJECT_ID('dbo.SalesOrderDetail');\n  ```\n\n- **PostgreSQL:**\n  Query the `pg_stat_user_tables` system view. This shows the times for the last manual or autovacuum `ANALYZE`.\n  ```sql\n  SELECT \n      relname AS table_name,\n      last_analyze,\n      last_autoanalyze\n  FROM pg_stat_user_tables\n  WHERE relname = 'orders';\n  ```\n\n- **MySQL:**\n  Query the `information_schema.tables` view and look for the `UPDATE_TIME` column. This reflects the last update, which includes statistics updates from `ANALYZE TABLE`.\n  ```sql\n  SELECT UPDATE_TIME\n  FROM information_schema.tables\n  WHERE table_schema = 'your_database' AND table_name = 'orders';\n  ```",
+      },
+      {
+        question: "How do you create a simple audit trigger?",
+        solution:
+          "An audit trigger is a special stored procedure that automatically runs when a data modification event (`INSERT`, `UPDATE`, or `DELETE`) occurs on a table. It's used to log who changed what, and when.\n\n## Core Components\n1.  **An Audit Table**: A separate table to store the history of changes (e.g., `Products_Audit`).\n2.  **The Trigger**: A procedure attached to the primary table (e.g., `Products`) that fires on an event.\n3.  **Logging Logic**: Inside the trigger, an `INSERT` statement that records the relevant information into the audit table.\n\n## Example (Conceptual T-SQL for SQL Server)\n```sql\n-- 1. Create the audit table\nCREATE TABLE Products_Audit (\n    AuditID INT IDENTITY(1,1) PRIMARY KEY,\n    ProductID INT,\n    OldPrice DECIMAL(10,2),\n    NewPrice DECIMAL(10,2),\n    ChangedBy NVARCHAR(128),\n    ChangedAt DATETIME\n);\nGO\n\n-- 2. Create the trigger on the Products table\nCREATE TRIGGER trg_Products_Audit\nON dbo.Products\nAFTER UPDATE\nAS\nBEGIN\n    -- Check if the price column was actually updated\n    IF UPDATE(UnitPrice)\n    BEGIN\n        INSERT INTO Products_Audit (ProductID, OldPrice, NewPrice, ChangedBy, ChangedAt)\n        SELECT\n            i.ProductID,      -- Get ProductID from the 'inserted' table\n            d.UnitPrice,      -- Get the old price from the 'deleted' table\n            i.UnitPrice,      -- Get the new price from the 'inserted' table\n            SUSER_SNAME(),    -- Get the current user\n            GETDATE()         -- Get the current timestamp\n        FROM\n            inserted i\n        JOIN\n            deleted d ON i.ProductID = d.ProductID;\n    END\nEND;\nGO\n```",
+      },
+      {
+        question: "How do you log changes to a table into an audit table?",
+        solution:
+          "To properly log changes, a trigger needs to access both the old state of the data (before the change) and the new state (after the change). Different databases provide special pseudo-tables or records for this purpose.\n\n## Accessing Old vs. New Data\n\n- **SQL Server:**\n  Inside a trigger, SQL Server provides two special tables: `inserted` and `deleted`.\n  - For an `INSERT`, `inserted` contains the new rows.\n  - For a `DELETE`, `deleted` contains the old rows.\n  - For an `UPDATE`, `deleted` contains the old versions of the rows, and `inserted` contains the new versions.\n  ```sql\n  -- Inside an UPDATE trigger:\n  INSERT INTO MyAuditTable (ID, OldValue, NewValue)\n  SELECT d.ID, d.MyColumn, i.MyColumn\n  FROM deleted d JOIN inserted i ON d.ID = i.ID;\n  ```\n\n- **PostgreSQL & MySQL:**\n  These systems use special records named `OLD` and `NEW` that represent a single row being affected by the trigger.\n  - For an `INSERT`, only `NEW` is available.\n  - For a `DELETE`, only `OLD` is available.\n  - For an `UPDATE`, both `OLD` and `NEW` are available.\n  ```sql\n  -- Inside an UPDATE trigger (PostgreSQL syntax):\n  INSERT INTO MyAuditTable (ID, OldValue, NewValue)\n  VALUES (OLD.ID, OLD.MyColumn, NEW.MyColumn);\n  ```",
+      },
+      {
+        question: "How do you implement soft deletes (is_deleted flag)?",
+        solution:
+          "A 'soft delete' is a design pattern where you don't physically remove data from a table. Instead, you mark it as inactive using a flag. This preserves data history and referential integrity.\n\n## Implementation Steps\n\n1.  **Add a Flag Column**: Add a column to your table, typically a `BOOLEAN` or `BIT` named `is_deleted` or `is_active`. It's helpful to add a `deleted_at` timestamp as well.\n    ```sql\n    ALTER TABLE Customers\n    ADD COLUMN is_deleted BOOLEAN NOT NULL DEFAULT FALSE,\n    ADD COLUMN deleted_at TIMESTAMP NULL;\n    ```\n\n2.  **Change `DELETE` Operations to `UPDATE`s**: Instead of running `DELETE FROM Customers WHERE CustomerID = 123;`, your application logic now runs an `UPDATE`.\n    ```sql\n    UPDATE Customers\n    SET is_deleted = TRUE, deleted_at = NOW()\n    WHERE CustomerID = 123;\n    ```\n\n3.  **Modify `SELECT` Queries**: All queries that fetch data from this table must now include a `WHERE` clause to exclude the soft-deleted records.\n    ```sql\n    SELECT * FROM Customers WHERE is_deleted = FALSE;\n    ```\n\n4.  **(Optional) Create a View**: To simplify step 3, you can create a view that automatically filters out the deleted records. Your application can then query the view instead of the base table.\n    ```sql\n    CREATE VIEW vw_ActiveCustomers AS\n    SELECT * FROM Customers WHERE is_deleted = FALSE;\n    ```",
+      },
+      {
+        question: "How do you archive old data to another table?",
+        solution:
+          "Archiving involves moving old, infrequently accessed data from a primary 'hot' table to a secondary 'cold' archive table. This keeps the primary table smaller and faster.\n\n## The Process\nThis is typically a two-step process performed within a single transaction to ensure data consistency.\n\n1.  **Copy the Data**: Use an `INSERT INTO ... SELECT` statement to copy the target rows from the primary table to the archive table.\n2.  **Delete the Data**: Use a `DELETE` statement to remove the copied rows from the primary table.\n\n## Example\nLet's archive all orders placed before the year 2020 from `dbo.Orders` to `dbo.Orders_Archive`.\n```sql\n-- Ensure both steps succeed or fail together\nBEGIN TRANSACTION;\n\nBEGIN TRY\n    -- Step 1: Copy the old data to the archive table\n    INSERT INTO dbo.Orders_Archive (OrderID, CustomerID, OrderDate, Amount)\n    SELECT OrderID, CustomerID, OrderDate, Amount\n    FROM dbo.Orders\n    WHERE OrderDate < '2020-01-01';\n\n    -- Step 2: Delete the old data from the primary table\n    DELETE FROM dbo.Orders\n    WHERE OrderDate < '2020-01-01';\n\n    -- If both succeed, commit the changes\n    COMMIT TRANSACTION;\n    PRINT 'Archive completed successfully.';\n\nEND TRY\nBEGIN CATCH\n    -- If anything fails, roll back all changes\n    ROLLBACK TRANSACTION;\n    PRINT 'Archive failed. All changes have been rolled back.';\n    THROW;\nEND CATCH;\n```",
+      },
+      {
+        question: "How do you partition a table by date in PostgreSQL?",
+        solution:
+          "PostgreSQL provides a powerful feature called **declarative partitioning**. You create a 'parent' partitioned table and then define 'child' tables, each holding a specific range of data.\n\n## Steps to Partition by Date Range\n\n1.  **Create the Parent Table**: Define the table structure and specify the partitioning method (`RANGE`) and the partition key column (`order_date`).\n    ```sql\n    CREATE TABLE sales (\n        sale_id INT PRIMARY KEY,\n        product_id INT,\n        order_date DATE NOT NULL,\n        amount DECIMAL(10, 2)\n    )\n    PARTITION BY RANGE (order_date);\n    ```\n\n2.  **Create the Child Partitions**: Create individual tables that will store the data for specific time periods. Each is defined as a `PARTITION OF` the parent table.\n    ```sql\n    -- Partition for sales in Q1 2024\n    CREATE TABLE sales_2024_q1 PARTITION OF sales\n    FOR VALUES FROM ('2024-01-01') TO ('2024-04-01');\n\n    -- Partition for sales in Q2 2024\n    CREATE TABLE sales_2024_q2 PARTITION OF sales\n    FOR VALUES FROM ('2024-04-01') TO ('2024-07-01');\n    ```\nWhen you insert data into the main `sales` table, PostgreSQL automatically routes the row to the correct partition. When you query the `sales` table with a `WHERE` clause on `order_date`, the optimizer knows to only scan the relevant partition(s), which is called **partition pruning**.",
+      },
+      {
+        question: "How do you partition a table by range in MySQL 8?",
+        solution:
+          "MySQL 8 supports native partitioning, allowing you to split a table into smaller, more manageable pieces based on a key column's value.\n\n## Steps to Partition by Range\nWhen you create the table, you define the partitioning scheme directly in the `CREATE TABLE` statement using the `PARTITION BY RANGE` clause.\n\n## Example\nLet's partition an `employees` table based on the year they were hired (`hired_year`).\n```sql\nCREATE TABLE employees (\n    id INT NOT NULL,\n    first_name VARCHAR(30),\n    last_name VARCHAR(30),\n    hired_date DATE NOT NULL,\n    hired_year INT NOT NULL -- The partition key column\n)\nPARTITION BY RANGE (hired_year) (\n    -- Partition for employees hired before 1991\n    PARTITION p0 VALUES LESS THAN (1991),\n    \n    -- Partition for hires from 1991 to 1995\n    PARTITION p1 VALUES LESS THAN (1996),\n    \n    -- Partition for hires from 1996 to 2000\n    PARTITION p2 VALUES LESS THAN (2001),\n    \n    -- A catch-all for any hires after 2000\n    PARTITION p3 VALUES LESS THAN MAXVALUE\n);\n```\nWith this structure, when you run a query like `SELECT * FROM employees WHERE hired_year = 1998;`, MySQL's optimizer knows it only needs to look inside the `p2` partition, significantly speeding up the query.",
+      },
+      {
+        question: "How do you switch a table to a new partition scheme?",
+        solution:
+          "Applying a new partitioning scheme to an existing, non-partitioned table is a significant operation that involves migrating all the data. There is no simple `ALTER TABLE` command to do this directly. The process generally involves creating a new table and swapping it with the old one.\n\n## High-Level Steps\nThis is a simplified outline of a common strategy:\n\n1.  **Create a New Partitioned Table**: Create a new table (`MyTable_new`) with the exact same columns, indexes, and constraints as the original table, but with the desired new partitioning scheme.\n\n2.  **Migrate the Data**: Copy all the data from the old table to the new partitioned table. This is often the most time-consuming step.\n    ```sql\n    INSERT INTO MyTable_new (col1, col2, ...)\n    SELECT col1, col2, ... FROM MyTable_old;\n    ```\n\n3.  **Perform the Swap**: During a planned maintenance window, you perform a quick rename operation to swap the tables.\n    ```sql\n    -- Swap the tables using RENAME\n    RENAME TABLE MyTable_old TO MyTable_archive, MyTable_new TO MyTable;\n    ```\n\n4.  **Verification**: Verify that the application works correctly with the new partitioned table.\n\n5.  **Drop the Old Table**: Once everything is confirmed to be working, you can drop the archived old table (`MyTable_archive`).",
+      },
+      {
+        question: "How do you shrink a transaction log file (SQL Server)?",
+        solution:
+          "Shrinking a transaction log file in SQL Server reclaims unused space, reducing the physical file size on disk. **This is not a routine maintenance task** and should only be performed after an unusual event has caused the log to grow unexpectedly large.\n\n## Why it Grows\nIn `FULL` or `BULK_LOGGED` recovery models, the log cannot be reused until it has been backed up. If log backups are missed, the file will grow continuously.\n\n## The Correct Shrink Procedure\n\n1.  **Identify the Issue**: First, determine why the log grew. The most common reason is missed log backups.\n\n2.  **Back Up the Log**: Before you can shrink, you must back up the transaction log. This marks the internal portions of the log as reusable.\n    ```sql\n    -- Perform a log backup\n    BACKUP LOG [YourDatabase] TO DISK = N'C:\\Path\\To\\YourDatabase.trn' WITH NOFORMAT, NOINIT, SKIP, NOREWIND, NOUNLOAD, STATS = 10;\n    ```\n    *You may need to run this more than once if there's a lot of log to clear.*\n\n3.  **Shrink the File**: After backing up, use `DBCC SHRINKFILE` to shrink the log file to a reasonable target size.\n    ```sql\n    -- First, find the logical name of your log file\n    USE [YourDatabase];\n    SELECT name FROM sys.database_files WHERE type_desc = 'LOG';\n    -- (Let's assume the name is 'YourDatabase_log')\n\n    -- Now, shrink it (e.g., to 1024 MB)\n    DBCC SHRINKFILE (N'YourDatabase_log', 1024);\n    ```\n\n4.  **Fix the Underlying Problem**: Ensure that your regular log backup jobs are running correctly to prevent the issue from happening again.",
+      },
+    ],
+  },
+  {
+    id: 42,
+    topic: "SQL",
+    categories: "Mid",
+    tags: [
+      { name: "basics", link: "" },
+      { name: "exchanges", link: "" },
+      { name: "queues", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question:
+          "How do you create empty tables with the same structure as another table?",
+        solution:
+          "You can create an empty table with the same structure as an existing table using a couple of common methods. 🤓\n\n### Method 1: Using `LIKE` (Most Databases)\nThis is the most straightforward way. It copies the column definitions, data types, and constraints (like `NOT NULL`), but not the data itself.\n\n**Syntax:**\n```sql\nCREATE TABLE new_table LIKE original_table;\n```\n**Example:** To create a new table `archived_employees` with the same structure as `employees`:\n```sql\nCREATE TABLE archived_employees LIKE employees;\n```\n\n### Method 2: Using `SELECT ... WHERE` (Universally Supported)\nThis method creates a new table based on the result of a `SELECT` query. By using a `WHERE` clause that is always false (like `1=0`), you ensure no rows are selected, resulting in an empty table with the same column structure.\n\n**Syntax:**\n```sql\nCREATE TABLE new_table AS SELECT * FROM original_table WHERE 1=0;\n```\n**Example:**\n```sql\nCREATE TABLE archived_employees AS SELECT * FROM employees WHERE 1=0;\n```\nThis second method is very flexible, as you can select specific columns or modify them if you don't want the exact same structure.",
+      },
+      {
+        question: "What is a Recursive Stored Procedure?",
+        solution:
+          "A **recursive stored procedure** is a stored procedure that calls itself until a specific condition, known as a **base condition**, is met. It's a way to perform repetitive tasks, especially on hierarchical or tree-structured data. 🌳\n\n**Key Components:**\n1.  **Base Case:** A condition that stops the recursion. Without it, the procedure would call itself indefinitely, leading to a stack overflow error.\n2.  **Recursive Call:** The part of the procedure where it calls itself, typically with modified parameters that move it closer to the base case.\n\n**Common Use Case: Organizational Hierarchy**\nImagine a table of employees where each employee has a `manager_id` that points to another employee. A recursive procedure could be used to find all employees under a specific manager at all levels.\n\n**Simplified Example:**\nLet's say you want to find the entire management chain for a given employee.\n```sql\n-- Procedure to find the manager of a given employee and then their manager, and so on.\nCREATE PROCEDURE GetManagementChain (@employeeID INT)\nAS\nBEGIN\n    DECLARE @managerID INT;\n\n    -- Select the manager for the current employee\n    SELECT @managerID = manager_id \n    FROM employees \n    WHERE employee_id = @employeeID;\n\n    -- Base Case: If there is no manager, the recursion stops.\n    IF @managerID IS NOT NULL\n    BEGIN\n        PRINT 'Manager ID: ' + CAST(@managerID AS VARCHAR);\n        \n        -- Recursive Call: Call the same procedure for the manager.\n        EXEC GetManagementChain @employeeID = @managerID;\n    END\nEND;\n```",
+      },
+      {
+        question: "What is a Stored Procedure?",
+        solution:
+          "A **stored procedure** is a pre-compiled set of one or more SQL statements that are stored in the database. Instead of writing the same complex query over and over, you can save it as a stored procedure and then just call it by name. Think of it as a function or a macro for your database. 🚀\n\n**Key Benefits:**\n* **Performance:** Stored procedures are compiled once and stored in executable form. This means subsequent calls are very fast because the query execution plan is already created.\n* **Reusability & Reduced Network Traffic:** You can execute complex operations by calling a single procedure name instead of sending hundreds of lines of SQL code over the network.\n* **Security:** You can grant users permission to execute a stored procedure without giving them direct access to the underlying tables. This prevents malicious or accidental data manipulation.\n* **Maintainability:** If the business logic changes, you only need to update the stored procedure in one place, and all applications that use it will automatically get the update.\n\n**Example:**\nA simple procedure to get all employees from a specific department.\n```sql\nCREATE PROCEDURE GetEmployeesByDepartment (@DeptName VARCHAR(50))\nAS\nBEGIN\n    SELECT \n        e.employee_id,\n        e.first_name,\n        e.last_name\n    FROM \n        employees e\n    JOIN \n        departments d ON e.department_id = d.department_id\n    WHERE \n        d.department_name = @DeptName;\nEND;\n```\nTo run it, you would simply execute:\n```sql\nEXEC GetEmployeesByDepartment @DeptName = 'Sales';\n```",
+      },
+      {
+        question: "What is the difference between DDL and DML commands?",
+        solution:
+          "The main difference between **DDL (Data Definition Language)** and **DML (Data Manipulation Language)** is that DDL commands define and manage the database's structure, while DML commands manage the data within that structure. 🏗️ vs. ✍️\n\n--- \n\n## DDL (Data Definition Language)\nDDL is used to define or modify the database schema. It deals with the \"skeleton\" of the database.\n* **Purpose:** To create and manage database objects like tables, indexes, and users.\n* **Commands:** \n    * `CREATE`: To create new database objects (e.g., `CREATE TABLE ...`).\n    * `ALTER`: To modify the structure of existing objects (e.g., `ALTER TABLE ... ADD COLUMN ...`).\n    * `DROP`: To permanently delete objects (e.g., `DROP TABLE ...`).\n    * `TRUNCATE`: To delete all data from a table quickly (it's faster than `DELETE` and cannot be rolled back easily).\n* **Transaction Control:** DDL commands are generally **auto-committed**, meaning they cannot be rolled back once executed.\n\n--- \n\n## DML (Data Manipulation Language)\nDML is used for adding, retrieving, or updating the data inside the tables.\n* **Purpose:** To interact with the data stored in the database objects.\n* **Commands:** \n    * `SELECT`: To retrieve data from tables.\n    * `INSERT`: To add new rows of data into a table.\n    * `UPDATE`: To modify existing rows in a table.\n    * `DELETE`: To remove rows from a table.\n* **Transaction Control:** DML commands are **not auto-committed**. They can be part of a transaction and can be rolled back using `ROLLBACK` until `COMMIT` is issued.",
+      },
+      {
+        question: "What is the purpose of the SQL ORDER BY clause?",
+        solution:
+          "The purpose of the `ORDER BY` clause in SQL is to **sort the rows in a result set** returned by a `SELECT` query. Sorting can be done based on one or more columns, in either ascending or descending order. ↕️\n\n**Key Features:**\n* **Sorting Order:**\n    * `ASC` (Ascending): Sorts from lowest to highest value (A to Z, 0 to 9). This is the **default** order if none is specified.\n    * `DESC` (Descending): Sorts from highest to lowest value (Z to A, 9 to 0).\n* **Multi-column Sorting:** You can sort by one column, and then by another column if the values in the first column are the same.\n* **Placement:** The `ORDER BY` clause is almost always the last clause in a `SELECT` statement.\n\n**Syntax:**\n```sql\nSELECT column1, column2, ...\nFROM table_name\nORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ...;\n```\n\n**Example:**\nTo get a list of employees, sorted first by their department in alphabetical order (`ASC`), and then by their salary from highest to lowest (`DESC`) within each department.\n```sql\nSELECT first_name, last_name, department, salary\nFROM employees\nORDER BY department ASC, salary DESC;\n```",
+      },
+      {
+        question: "What are the differences between SQL and NoSQL databases?",
+        solution:
+          "SQL and NoSQL databases are fundamentally different in their structure, data models, and scalability. Choosing between them depends entirely on the application's needs. Here’s a breakdown of the key differences:\n\n\n\n--- \n\n## SQL (Relational Databases) 🗂️\nSQL databases are also known as **relational databases**. They store data in a structured way, using tables with rows and columns. They enforce a predefined schema.\n* **Data Model:** Relational (tables with rows and columns).\n* **Schema:** **Predefined and strict** (schema-on-write). The table structure must be defined before inserting data.\n* **Examples:** MySQL, PostgreSQL, Microsoft SQL Server, Oracle Database.\n* **Scalability:** Primarily **vertically scalable**. You increase capacity by adding more resources (CPU, RAM) to a single server.\n* **Consistency:** Emphasizes **ACID** properties (Atomicity, Consistency, Isolation, Durability), making them ideal for transactional systems like banking and e-commerce.\n* **Best For:** Applications requiring high consistency, complex queries, and structured data (e.g., financial systems, order management).\n\n--- \n\n## NoSQL (Non-Relational Databases) 📑\nNoSQL databases encompass a variety of database types that are non-relational and do not require a fixed schema.\n* **Data Model:** Varies. Can be **document** (MongoDB), **key-value** (Redis), **column-family** (Cassandra), or **graph** (Neo4j).\n* **Schema:** **Dynamic** (schema-on-read). Data can be stored without a predefined structure.\n* **Examples:** MongoDB, Redis, Cassandra, Neo4j, Couchbase.\n* **Scalability:** Primarily **horizontally scalable**. You increase capacity by adding more servers to a cluster.\n* **Consistency:** Often favors **BASE** properties (Basically Available, Soft state, Eventual consistency). This allows for higher availability and scalability at the cost of immediate consistency.\n* **Best For:** Applications with large volumes of unstructured data, a need for high availability, and rapid development (e.g., social media feeds, IoT data, content management systems).",
+      },
+      {
+        question: "What is a table in SQL?",
+        solution:
+          "In SQL, a **table** is the primary database object used to store data. It organizes information into a structured grid format consisting of **rows** and **columns**. 📊\n\n* **Columns (Fields/Attributes):** The vertical entities in a table. Each column has a specific name and data type (e.g., `INTEGER`, `VARCHAR`, `DATE`) and defines a particular attribute of the data being stored. For example, in an `Employees` table, columns might be `EmployeeID`, `FirstName`, and `HireDate`.\n\n* **Rows (Records/Tuples):** The horizontal entities in a table. Each row represents a single, complete record or entry in the table. For example, one row in the `Employees` table would contain all the information for a single employee.\n\nThink of a table as a spreadsheet. The columns are the headers at the top, and each row is a line item containing the data for one specific item.",
+      },
+      {
+        question: "What is the purpose of the SQL SELECT statement?",
+        solution:
+          "The purpose of the `SELECT` statement is fundamental to SQL: it is used to **retrieve or query data** from one or more tables in a database. It allows you to specify exactly what data you want to see. 🔎\n\nIt's the most commonly used SQL command and can be very simple or incredibly complex. The statement's power comes from its various clauses that allow you to filter, sort, group, and aggregate the data.\n\n**Basic Syntax:**\n```sql\nSELECT column1, column2, ...\nFROM table_name;\n```\n\n**Common Clauses Used with `SELECT`:**\n* `FROM`: Specifies the table(s) from which to retrieve the data.\n* `WHERE`: Filters records based on a specific condition.\n* `GROUP BY`: Groups rows that have the same values into summary rows.\n* `HAVING`: Filters groups based on a condition, used after `GROUP BY`.\n* `ORDER BY`: Sorts the result set.\n* `JOIN`: Combines rows from two or more tables.\n\n**Example:**\nTo retrieve the first name and salary of all employees in the 'Sales' department who earn more than $50,000, and sort them by salary in descending order:\n```sql\nSELECT \n    first_name, \n    salary\nFROM \n    employees\nWHERE \n    department = 'Sales' AND salary > 50000\nORDER BY \n    salary DESC;\n```",
+      },
+      {
+        question: "What are NULL values in SQL?",
+        solution:
+          "In SQL, a `NULL` value represents a **missing, unknown, or not applicable value** in a column. It's a placeholder, not a value itself. ❓\n\nIt's crucial to understand that `NULL` is **not the same as:**\n* **Zero (`0`)**: Zero is a specific numerical value.\n* **An empty string (`''`)**: An empty string is a specific character value of zero length.\n* **A blank space (`' '`)**: A blank space is a character.\n\n**Key Behaviors of `NULL`:**\n1.  **Comparisons:** Any arithmetic or comparison operation with `NULL` (e.g., `NULL = 5`, `NULL > 10`, `NULL = NULL`) results in `UNKNOWN` (which is treated as false in `WHERE` clauses). To check for `NULL`, you must use the `IS NULL` or `IS NOT NULL` operators.\n    ```sql\n    -- Correct way to find records with a missing manager_id\n    SELECT * FROM employees WHERE manager_id IS NULL;\n\n    -- Incorrect way (will not return any rows)\n    SELECT * FROM employees WHERE manager_id = NULL;\n    ```\n2.  **Aggregate Functions:** Most aggregate functions like `SUM()`, `AVG()`, `MAX()`, `MIN()` **ignore** `NULL` values. The `COUNT(*)` function counts all rows, while `COUNT(column_name)` counts only the non-`NULL` values in that specific column.",
+      },
+      {
+        question: "What is a subquery?",
+        solution:
+          "A **subquery**, also known as an **inner query** or a **nested query**, is a `SELECT` statement that is embedded inside another SQL statement. The result of the subquery is used by the outer query to help restrict or evaluate its data.  nesting doll of queries! 🪆\n\nSubqueries can be used in several places within a larger query:\n* In a `WHERE` clause for filtering.\n* In a `FROM` clause to create a temporary table-like result set.\n* In a `SELECT` clause to retrieve a single value (a scalar subquery).\n* With operators like `IN`, `NOT IN`, `ANY`, `ALL`, and `EXISTS`.\n\n**Example: Subquery in a `WHERE` Clause**\nLet's find all employees who work in the same department as an employee named 'John'.\n\n1.  **Inner Query:** First, find the department ID for 'John'.\n    ```sql\n    (SELECT department_id FROM employees WHERE first_name = 'John')\n    ```\n2.  **Outer Query:** Then, find all employees who have that department ID.\n    ```sql\n    SELECT first_name, last_name\n    FROM employees\n    WHERE department_id IN (SELECT department_id FROM employees WHERE first_name = 'John');\n    ```\nIn this example, the inner query runs first and returns a list of department IDs. The outer query then uses this list to filter its results.",
+      },
+      {
+        question: "How do you use the CASE statement in SQL?",
+        solution:
+          "The `CASE` statement in SQL acts like an **if-then-else** construct, allowing you to add conditional logic directly into your queries. It evaluates a list of conditions and returns one of multiple possible result expressions. It's incredibly useful for categorizing data or applying different logic based on column values. 🚦\n\n**Syntax:**\n```sql\nCASE\n    WHEN condition1 THEN result1\n    WHEN condition2 THEN result2\n    ...\n    ELSE result_else\nEND\n```\n* The database evaluates the `WHEN` conditions in order.\n* It stops and returns the `result` for the first condition that is true.\n* If no conditions are true, it returns the value in the `ELSE` clause.\n* The `ELSE` clause is optional. If it's omitted and no conditions are met, `NULL` is returned.\n\n**Example:**\nImagine you want to categorize employees based on their salary. You can use a `CASE` statement to create a new column called `SalaryCategory`.\n\n```sql\nSELECT \n    first_name,\n    last_name,\n    salary,\n    CASE\n        WHEN salary >= 100000 THEN 'High Earner'\n        WHEN salary >= 50000 AND salary < 100000 THEN 'Mid Earner'\n        ELSE 'Standard Earner'\n    END AS SalaryCategory\nFROM \n    employees;\n```\nThis query will return the employee's name, salary, and a new, dynamically created 'SalaryCategory' column with the appropriate label for each employee.",
+      },
+      {
+        question: "What is a cursor in SQL?",
+        solution:
+          "A **cursor** is a database object that allows you to retrieve and process the rows from a result set one by one, rather than all at once. Think of it as a pointer that navigates through the rows of a query's result, similar to how a cursor on your screen moves through text. 👆\n\nWhile standard SQL operations are set-based (they operate on all rows at once), cursors provide a way to perform **row-by-row processing**. This is sometimes necessary for complex, sequential logic that can't be handled by a single SQL statement.\n\n**The general process of using a cursor is:**\n1.  **`DECLARE`:** Define the cursor and associate it with a `SELECT` statement.\n2.  **`OPEN`:** Execute the `SELECT` statement and populate the cursor with the result set.\n3.  **`FETCH`:** Retrieve one row from the result set and move the pointer to the next row.\n4.  **Process:** Perform operations on the data from the fetched row.\n5.  **Loop:** Repeat the `FETCH` and process steps until all rows are processed.\n6.  **`CLOSE`:** Deactivate the cursor.\n7.  **`DEALLOCATE`:** Release the resources used by the cursor.\n\n**When to Use Cursors (and When to Avoid):**\n* **Use Case:** Cursors can be useful for administrative tasks, complex sequential validations, or calling a stored procedure for each row in a result set.\n* **Caution:** Cursors are generally **inefficient and resource-intensive** compared to set-based operations. They can lead to poor performance and should be avoided whenever a standard `JOIN` or subquery can achieve the same result. They are often considered a last resort in application code.",
+      },
+      {
+        question: "How do you use the EXISTS clause?",
+        solution:
+          "The `EXISTS` clause is a boolean operator in SQL used to test for the existence of any records in a subquery. It returns `TRUE` if the subquery returns one or more rows, and `FALSE` if the subquery returns zero rows. It is used in the `WHERE` clause of the outer query. ✅\n\n**Key Characteristics:**\n* **Efficiency:** `EXISTS` is highly efficient because the database engine can stop processing the subquery as soon as it finds the **first matching row**. It doesn't need to collect all the matching rows, unlike an `IN` clause or a `JOIN`.\n* **No Data Returned:** The subquery inside `EXISTS` doesn't return data to the outer query; it only returns a `TRUE` or `FALSE` signal. For this reason, it's common and good practice to use `SELECT 1` or `SELECT *` in the subquery, as the columns selected are ignored.\n\n**Syntax:**\n```sql\nSELECT column_name(s)\nFROM table_name\nWHERE EXISTS (SELECT 1 FROM another_table WHERE condition);\n```\n\n**Example:**\nLet's find all departments that have at least one employee.\n\nWe can use `EXISTS` to check if, for each department, there is at least one corresponding record in the `employees` table.\n```sql\nSELECT department_name\nFROM departments d\nWHERE EXISTS (\n    SELECT 1 \n    FROM employees e \n    WHERE e.department_id = d.department_id\n);\n```\nIn this query, for each row in the `departments` table, the subquery is executed. If the subquery finds even one employee with the matching `department_id`, it returns `TRUE`, and the `department_name` is included in the final result set.",
+      },
+      {
+        question: "How do you use the UNION and UNION ALL operators?",
+        solution:
+          "The `UNION` and `UNION ALL` operators are used to combine the result sets of two or more `SELECT` statements into a single result set. 🔀\n\nFor these operators to work, the `SELECT` statements must follow these rules:\n1.  They must have the same number of columns.\n2.  The columns must have similar data types.\n3.  The columns in each `SELECT` statement must be in the same order.\n\n--- \n\n## `UNION`\nThe `UNION` operator combines the result sets and then **removes any duplicate rows**. Because it has to check for and eliminate duplicates, it is slightly slower than `UNION ALL`.\n\n**Syntax:**\n```sql\nSELECT column_name(s) FROM table1\nUNION\nSELECT column_name(s) FROM table2;\n```\n\n**Example:** Get a unique list of all cities where customers and suppliers are located.\n```sql\nSELECT City FROM Customers\nUNION\nSELECT City FROM Suppliers;\n```\nIf 'New York' exists in both tables, it will appear only once in the final result.\n\n--- \n\n## `UNION ALL`\nThe `UNION ALL` operator combines the result sets but **includes all rows, including duplicates**. It is faster than `UNION` because it doesn't perform the extra step of checking for duplicates.\n\n**Syntax:**\n```sql\nSELECT column_name(s) FROM table1\nUNION ALL\nSELECT column_name(s) FROM table2;\n```\n\n**Example:** Get a combined list of all customer and supplier cities, allowing for duplicates.\n```sql\nSELECT City FROM Customers\nUNION ALL\nSELECT City FROM Suppliers;\n```\nIf 'New York' exists in both tables, it will appear twice in the final result.",
+      },
+      {
+        question: "What is a view in SQL?",
+        solution:
+          "A **view** in SQL is a **virtual table** that is based on the result set of a `SELECT` statement. It contains rows and columns just like a real table, but it doesn't store any data itself. Instead, the data is dynamically generated from one or more underlying base tables whenever the view is queried. 🖼️\n\nThink of a view as a stored query that you can interact with as if it were a table.\n\n**Key Purposes and Benefits:**\n1.  **Simplicity:** A view can simplify complex queries. You can join multiple tables and use various functions in a view, and then users can query the view with a simple `SELECT` statement without needing to know the complex logic behind it.\n2.  **Security:** You can use a view to restrict access to data. For example, you can create a view that only shows certain columns or rows from a table (e.g., hiding salary information from most users), and then grant users permission to the view instead of the underlying table.\n3.  **Logical Data Independence:** A view can provide a consistent structure to users even if the underlying tables are changed. If you need to refactor or normalize the base tables, you can maintain the original view structure so that applications that use it don't break.\n\n**Example:**\nLet's create a view that shows the full name and department of each employee, hiding their salary and other personal info.\n```sql\nCREATE VIEW EmployeeDepartmentView AS\nSELECT \n    e.first_name,\n    e.last_name,\n    d.department_name\nFROM \n    employees e\nJOIN \n    departments d ON e.department_id = d.department_id;\n```\nNow, instead of writing the `JOIN` every time, a user can simply query the view:\n```sql\nSELECT * FROM EmployeeDepartmentView WHERE department_name = 'Sales';\n```",
+      },
+      {
+        question: "How do you use the JOIN clause?",
+        solution:
+          "The `JOIN` clause is used in SQL to **combine rows from two or more tables** based on a related column between them. It is one of the most powerful and fundamental features of relational databases. 🤝\n\nThere are several types of `JOIN`s, each serving a different purpose.\n\n--- \n\n### `INNER JOIN`\nThis is the most common type of join. It returns only the rows where the join condition is met in **both** tables. It finds the intersection of the two tables.\n\n**Example:** Get a list of employees and their department names. This will only include employees who are assigned to a department.\n```sql\nSELECT e.first_name, d.department_name\nFROM employees e\nINNER JOIN departments d ON e.department_id = d.department_id;\n```\n\n\n--- \n\n### `LEFT JOIN` (or `LEFT OUTER JOIN`)\nThis returns **all rows from the left table** and the matched rows from the right table. If there is no match in the right table for a row from the left table, the result will contain `NULL` values for the columns from the right table.\n\n**Example:** Get all employees and their department, including employees who are not yet assigned to any department.\n```sql\nSELECT e.first_name, d.department_name\nFROM employees e\nLEFT JOIN departments d ON e.department_id = d.department_id;\n```\n\n\n--- \n\n### `RIGHT JOIN` (or `RIGHT OUTER JOIN`)\nThis is the opposite of a `LEFT JOIN`. It returns **all rows from the right table** and the matched rows from the left table. If there's no match, the columns from the left table will be `NULL`.\n\n**Example:** Get all departments and the employees in them, including departments that have no employees.\n```sql\nSELECT e.first_name, d.department_name\nFROM employees e\nRIGHT JOIN departments d ON e.department_id = d.department_id;\n```\n\n--- \n\n### `FULL OUTER JOIN`\nThis returns all rows when there is a match in either the left or the right table. It essentially combines the results of `LEFT JOIN` and `RIGHT JOIN`. If there's no match, the missing side's columns will be `NULL`.\n\n**Example:** Get all employees and all departments, matching them where possible but including unmatched employees and unmatched departments.\n```sql\nSELECT e.first_name, d.department_name\nFROM employees e\nFULL OUTER JOIN departments d ON e.department_id = d.department_id;\n```",
+      },
+      {
+        question: "What is a transaction in SQL?",
+        solution:
+          "A **transaction** is a sequence of operations performed as a **single logical unit of work**. All the operations within a transaction must succeed; if any one of them fails, the entire transaction is rolled back, and the database is returned to the state it was in before the transaction began. This ensures data integrity. 🛡️\n\nA transaction is defined by the **ACID** properties, which guarantee its reliability:\n\n1.  **Atomicity:** (All or nothing) A transaction is an indivisible unit. It either completes in its entirety (`COMMIT`) or fails completely (`ROLLBACK`). There is no partial completion.\n\n2.  **Consistency:** A transaction brings the database from one valid state to another. It preserves the database's integrity constraints. For example, a transaction to transfer money between two bank accounts should not change the total amount of money in the system.\n\n3.  **Isolation:** Transactions are often executed concurrently. Isolation ensures that the execution of one transaction does not interfere with another. It makes each transaction feel as if it's the only one running on the system.\n\n4.  **Durability:** Once a transaction has been successfully committed, the changes it made to the database are permanent and will survive any subsequent system failures (like a power outage or crash).\n\n**Common SQL Transaction Commands:**\n* `BEGIN TRANSACTION`: Starts a new transaction.\n* `COMMIT`: Saves all the changes made in the transaction to the database.\n* `ROLLBACK`: Undoes all the changes made in the transaction.\n* `SAVEPOINT`: Sets a point within a transaction to which you can later roll back.",
+      },
+      {
+        question: "How do you use the GROUP BY clause?",
+        solution:
+          "The `GROUP BY` clause is used in SQL to arrange identical data into groups. It is almost always used in conjunction with **aggregate functions** (`COUNT()`, `MAX()`, `MIN()`, `SUM()`, `AVG()`) to perform calculations on each group. 🧮\n\nIn essence, `GROUP BY` collapses multiple rows into a single summary row based on the values in the specified column(s).\n\n**How it works:**\n1.  It takes all the rows from the `FROM` and `WHERE` clauses.\n2.  It groups them so that all rows with the same value in the `GROUP BY` column are put into a single group.\n3.  The aggregate function then calculates a result for each of these groups.\n\n**Syntax:**\n```sql\nSELECT column_name(s), aggregate_function(column_name)\nFROM table_name\nWHERE condition\nGROUP BY column_name(s)\nORDER BY column_name(s);\n```\n\n**Important Rule:** When you use `GROUP BY`, any column in your `SELECT` list must either be part of the `GROUP BY` clause or be used inside an aggregate function.\n\n**Example:**\nLet's say you have an `orders` table and you want to find the total number of orders placed by each customer.\n\n```sql\nSELECT\n    customer_id,\n    COUNT(order_id) AS total_orders\nFROM \n    orders\nGROUP BY \n    customer_id;\n```\n\n**Result:**\nThis query will produce a result set with two columns: `customer_id` and `total_orders`. Each row will show a unique `customer_id` and the count of how many orders that specific customer has placed.",
+      },
+      {
+        question: "What is a primary key in SQL?",
+        solution:
+          "A **primary key** is a constraint in SQL that **uniquely identifies each record** in a table. It acts as a unique identifier for each row, ensuring that you can always pinpoint a specific entry. 🔑\n\n**Fundamental Properties of a Primary Key:**\n1.  **Must Be Unique:** No two rows in a table can have the same primary key value. This enforces the uniqueness of each record.\n2.  **Cannot Contain `NULL` Values:** A primary key column must have a value. It cannot be left empty or `NULL`, ensuring that every record has an identifier.\n\n**Key Characteristics:**\n* A table can have **only one** primary key.\n* This primary key can consist of a single column (a simple key) or multiple columns (a composite key). When multiple columns are used, the *combination* of their values must be unique for each row.\n* When a primary key is created, most database systems automatically create a unique **index** on that key to speed up data retrieval.\n\n**Example:**\nIn an `Employees` table, the `EmployeeID` column would be an ideal primary key. Each employee has a unique ID, and no employee can exist without one.\n\n**Defining a Primary Key:**\nYou can define a primary key when you create a table (`CREATE TABLE`) or add it to an existing table (`ALTER TABLE`).\n\n```sql\n-- Defining a primary key during table creation\nCREATE TABLE Employees (\n    EmployeeID INT PRIMARY KEY,\n    FirstName VARCHAR(50) NOT NULL,\n    LastName VARCHAR(50) NOT NULL\n);\n\n-- Or, for a composite primary key\nCREATE TABLE OrderDetails (\n    OrderID INT,\n    ProductID INT,\n    Quantity INT,\n    PRIMARY KEY (OrderID, ProductID) -- Combination of OrderID and ProductID is unique\n);\n```",
+      },
+      {
+        question:
+          "What is a foreign key and how does it differ from a primary key?",
+        solution:
+          "A **foreign key** is a key used to link two tables together. It's a field (or a collection of fields) in one table that refers to the **primary key** in another table. The main purpose of a foreign key is to enforce **referential integrity**, ensuring that relationships between tables remain consistent. 🔗\n\nHere’s a breakdown of the differences between a primary key and a foreign key:\n\n--- \n\n## Primary Key (PK) 🔑\n* **Purpose:** To **uniquely identify** each record within its **own** table.\n* **Uniqueness:** Must contain unique values.\n* **NULL Values:** Cannot contain `NULL` values.\n* **Quantity:** A table can have **only one** primary key.\n* **Indexing:** Is automatically indexed (a clustered index by default in many systems).\n\n**Example:** In an `Employees` table, `EmployeeID` is the primary key.\n\n--- \n\n## Foreign Key (FK) 🗝️\n* **Purpose:** To **create a link** between two tables. It references the primary key of another table to establish a relationship.\n* **Uniqueness:** Can contain duplicate values. For example, multiple employees can belong to the same department, so the `DepartmentID` foreign key in the `Employees` table will have duplicate values.\n* **NULL Values:** Can contain `NULL` values. For example, an employee might not yet be assigned to a department.\n* **Quantity:** A table can have **multiple** foreign keys, each linking to a different table.\n* **Indexing:** Is not automatically indexed, but it's often a good practice to index them for performance.\n\n**Example:**\nConsider two tables: `Departments` and `Employees`.\n\n* `Departments` table has `DepartmentID` as its **primary key**.\n* `Employees` table has `EmployeeID` as its **primary key** and also has a `DepartmentID` column.\n\nIn the `Employees` table, the `DepartmentID` column is a **foreign key** that points to the `DepartmentID` (the primary key) in the `Departments` table. This link ensures that you cannot add an employee with a `DepartmentID` that does not exist in the `Departments` table.",
+      },
+      {
+        question: "How do you find duplicate records in a table?",
+        solution:
+          "The most common way to find duplicate records in a table is by using the `GROUP BY` clause in combination with the `HAVING` clause and the `COUNT()` aggregate function. This approach allows you to group rows based on the columns you suspect have duplicates and then filter those groups to find the ones with more than one entry. 🕵️‍♀️\n\n**The Method:**\n1.  **`GROUP BY`:** Group the rows by the set of columns where you want to check for duplicates (e.g., `first_name`, `last_name`, `email`).\n2.  **`COUNT(*)`:** For each group, count the number of rows in it.\n3.  **`HAVING`:** Filter the results to keep only those groups where the count is greater than 1. These are your duplicates.\n\n**Example Query:**\nSuppose you have a `Contacts` table and you want to find people who have the same `first_name` and `last_name`.\n\n```sql\nSELECT\n    first_name,\n    last_name,\n    COUNT(*) AS duplicate_count\nFROM\n    Contacts\nGROUP BY\n    first_name,\n    last_name\nHAVING\n    COUNT(*) > 1;\n```\n\n**Explanation:**\n* `SELECT first_name, last_name, COUNT(*)`: This selects the columns that define a duplicate and shows how many times each combination appears.\n* `FROM Contacts`: Specifies the table.\n* `GROUP BY first_name, last_name`: This tells the database to treat all rows with the same `first_name` and `last_name` as a single group.\n* `HAVING COUNT(*) > 1`: This is the crucial filtering step. After grouping, it checks the count for each group and only returns the groups that have a count of more than one, which are by definition the duplicates.\n\nTo see the full duplicate records (including their primary keys), you could use this query in a subquery or a Common Table Expression (CTE).",
+      },
+      {
+        question:
+          "Write a query to find the 3rd highest salary from an employees table.",
+        solution:
+          "Finding the nth highest value is a classic SQL problem. The most robust and modern way to solve this is by using a window function like `DENSE_RANK()`. This method correctly handles ties in salaries.\n\n### Method: Using `DENSE_RANK()`\n`DENSE_RANK()` assigns a rank to each row within a partition of a result set, with no gaps in the ranking values. This is perfect for finding the 'nth' item.\n\n```sql\nWITH SalaryRanks AS (\n    SELECT\n        salary,\n        DENSE_RANK() OVER (ORDER BY salary DESC) as rank_num\n    FROM\n        employees\n)\nSELECT salary\nFROM SalaryRanks\nWHERE rank_num = 3;\n```\n\n**How it Works:**\n1.  The **Common Table Expression (CTE)** `SalaryRanks` first calculates the rank of each unique salary in descending order. If two employees have the same salary, they get the same rank.\n2.  The outer query then simply selects the salary from the CTE where the calculated rank is 3. 🥉\n\nThis is generally preferred over methods using `LIMIT` and `OFFSET` because `LIMIT`/`OFFSET` can skip ranks if there are ties for the highest or second-highest salaries.",
+      },
+      {
+        question:
+          "Explain the difference between INNER JOIN and LEFT JOIN with examples.",
+        solution:
+          "The fundamental difference between `INNER JOIN` and `LEFT JOIN` lies in how they handle rows that don't have a match in the other table. 🤝\n\n--- \n\n### `INNER JOIN`\nAn `INNER JOIN` returns **only the rows where the join condition is met in both tables**. It finds the intersection of the two tables. Think of it as finding matching puzzle pieces; you only keep the ones that fit together perfectly.\n\n**Example:** Get a list of employees and the name of the department they work in.\n```sql\nSELECT e.employee_name, d.department_name\nFROM employees e\nINNER JOIN departments d ON e.department_id = d.department_id;\n```\nThis query will **only** return employees who are assigned to a department that exists in the `departments` table. An employee with a `NULL` or invalid `department_id` would be excluded.\n\n\n--- \n\n### `LEFT JOIN` (or `LEFT OUTER JOIN`)\nA `LEFT JOIN` returns **all rows from the left table** and the matched rows from the right table. If there is no match for a row from the left table in the right table, the result will show `NULL` values for the columns from the right table.\n\n**Example:** Get a list of *all* employees and their department name, including those not yet assigned to a department.\n```sql\nSELECT e.employee_name, d.department_name\nFROM employees e\nLEFT JOIN departments d ON e.department_id = d.department_id;\n```\nThis query returns every single employee. If an employee isn't in a department, their `department_name` will appear as `NULL` in the result set.\n",
+      },
+      {
+        question:
+          "How do you use the HAVING clause and when is it different from WHERE?",
+        solution:
+          "The `HAVING` and `WHERE` clauses both filter data, but they operate at different stages of a query.\n\n* `WHERE` filters **individual rows** *before* any grouping occurs.\n* `HAVING` filters **groups of rows** *after* they have been aggregated by the `GROUP BY` clause.\n\n**Analogy:** Imagine baking cakes. 🎂\n* The **`WHERE`** clause is like choosing your ingredients. You decide *before* baking which ingredients to include (e.g., `WHERE flour_type = 'whole_wheat'`).\n* The **`HAVING`** clause is like choosing which of the finished cakes to keep. You filter *after* baking, based on a characteristic of the group (e.g., `HAVING weight_of_cake > 2`).\n\n### Example\nFind all departments with more than 10 employees who were hired after the year 2020.\n\n```sql\nSELECT \n    d.department_name,\n    COUNT(e.employee_id) as number_of_employees\nFROM \n    employees e\nJOIN \n    departments d ON e.department_id = d.department_id\nWHERE \n    e.hire_date > '2020-12-31'  -- Filters individual rows BEFORE grouping\nGROUP BY \n    d.department_name\nHAVING \n    COUNT(e.employee_id) > 10;  -- Filters the GROUPS AFTER grouping\n```\n\nIn this query:\n1.  **`WHERE`** first removes any employee hired in 2020 or earlier.\n2.  **`GROUP BY`** then groups the remaining employees by their department.\n3.  **`HAVING`** finally filters out any of those groups that don't have more than 10 employees.",
+      },
+      {
+        question: "What is the purpose of the DISTINCT keyword?",
+        solution:
+          "The purpose of the `DISTINCT` keyword in a `SELECT` statement is to **remove duplicate rows** from the result set. It ensures that every row returned is unique. ✨\n\nWhen `DISTINCT` is applied to one or more columns, the query returns only the unique combinations of values for those columns.\n\n### Example: Single Column\nIf you want a list of all the unique cities where your customers live, you would use:\n```sql\nSELECT DISTINCT city\nFROM customers;\n```\nIf 'London' appears 10 times in the `city` column, this query will only return it once.\n\n### Example: Multiple Columns\nWhen used with multiple columns, `DISTINCT` returns the unique *combination* of those columns.\n```sql\nSELECT DISTINCT city, country\nFROM customers;\n```\nThis query will return rows like ('London', 'UK') and ('London', 'USA') as separate, unique rows because the combination of city and country is different.",
+      },
+      {
+        question:
+          "How do you update records based on values from another table?",
+        solution:
+          "You can update records in one table using values from another by joining the tables in the `UPDATE` statement. The syntax can vary slightly between database systems (like SQL Server vs. PostgreSQL), but the concept is the same.\n\n### Standard SQL Approach (PostgreSQL, SQL Server)\nThe most common method involves a `FROM` clause in the `UPDATE` statement to perform a join.\n\n**Scenario:** You have a `products` table and a `price_updates` table. You need to update the `price` in the `products` table with the `new_price` from `price_updates`.\n\n```sql\nUPDATE products p\nSET price = pu.new_price\nFROM price_updates pu\nWHERE p.product_id = pu.product_id;\n```\n\n**How it Works:**\n1.  `UPDATE products p`: Specifies the target table to be updated.\n2.  `SET price = pu.new_price`: Defines the column to update and the new value it should take from the source table.\n3.  `FROM price_updates pu`: Specifies the source table.\n4.  `WHERE p.product_id = pu.product_id`: This is the join condition that links the target row to the correct source row.\n\nSome database systems, like Oracle, use a slightly different syntax involving a correlated subquery in the `SET` clause.",
+      },
+      {
+        question:
+          "What is the difference between COUNT(*) and COUNT(column_name)?",
+        solution:
+          "Both `COUNT(*)` and `COUNT(column_name)` are aggregate functions used to count rows, but they differ in how they handle `NULL` values.\n\n--- \n\n### `COUNT(*)`\nThis function counts the **total number of rows** in a table or a group. It does not consider the values within the columns at all; it simply counts rows.\n\n**Example:**\n```sql\nSELECT COUNT(*) FROM employees;\n```\nThis will return the total number of employees in the table, regardless of whether some of their information is missing.\n\n--- \n\n### `COUNT(column_name)`\nThis function counts the number of rows where the specified `column_name` has a **non-NULL value**. It ignores any rows where that specific column is `NULL`.\n\n**Example:**\nSuppose you have an `employees` table where the `manager_id` column is `NULL` for employees who don't have a manager.\n```sql\nSELECT COUNT(manager_id) FROM employees;\n```\nThis will return the number of employees who are assigned a manager, excluding any where `manager_id` is `NULL`.\n\n**In summary:** Use `COUNT(*)` to get the total row count, and use `COUNT(column_name)` when you want to count entries that have a specific piece of data present.",
+      },
+      {
+        question: "Explain the concept of database normalization.",
+        solution:
+          "Database normalization is the process of organizing columns and tables in a relational database to **minimize data redundancy** and improve data integrity. The goal is to ensure that data is stored logically and that dependencies are enforced correctly. 📚\n\nBy reducing redundancy, you avoid issues like:\n* **Update Anomalies:** Having to change the same piece of data in multiple places.\n* **Insertion Anomalies:** Being unable to add a record because some related data is missing.\n* **Deletion Anomalies:** Accidentally losing data because deleting one record removes related information.\n\nNormalization is typically broken down into different **Normal Forms (NF)**:\n\n1.  **First Normal Form (1NF):**\n    * Ensures a table has a primary key.\n    * Eliminates repeating groups of columns.\n    * Ensures that values in each column are atomic (indivisible).\n\n2.  **Second Normal Form (2NF):**\n    * Must be in 1NF.\n    * All non-key attributes must be fully dependent on the entire primary key. (This is mainly relevant for tables with composite primary keys).\n\n3.  **Third Normal Form (3NF):**\n    * Must be in 2NF.\n    * Eliminates transitive dependencies. This means no non-key attribute should be dependent on another non-key attribute.\n\nFor most applications, achieving **3NF** provides a good balance between data integrity and performance.",
+      },
+      {
+        question: "How do you create indexes and when should you use them?",
+        solution:
+          "An **index** is a database object that improves the speed of data retrieval operations on a table. It works like the index in the back of a book; instead of searching through the entire book (the table), the database can use the index to find the location of the data quickly. 📖\n\n### How to Create an Index\n\nThe syntax is straightforward:\n```sql\nCREATE INDEX index_name\nON table_name (column1, column2, ...);\n```\n\n**Example:** To create an index on the `last_name` column of an `employees` table to speed up searches by last name:\n```sql\nCREATE INDEX idx_employees_lastname\nON employees (last_name);\n```\n\n### When to Use Indexes\nYou should create indexes on:\n* **Columns frequently used in `WHERE` clauses:** This is the most common reason. If you often filter by a specific column, an index will make those queries much faster.\n* **Columns used in `JOIN` conditions:** Indexes on foreign key columns dramatically speed up join operations.\n* **Columns used in `ORDER BY` or `GROUP BY` clauses:** An index can help the database retrieve data in a sorted order without having to perform a separate sort operation.\n\n### The Trade-off\nWhile indexes speed up read operations (`SELECT`), they **slow down write operations** (`INSERT`, `UPDATE`, `DELETE`). This is because every time you modify the data in the table, the database must also update the index. Therefore, you should avoid over-indexing tables that have frequent write operations.",
+      },
+      {
+        question: "What is a self-join and provide a real-world use case.",
+        solution:
+          "A **self-join** is a regular join, but it involves joining a table to **itself**. To do this, you must use table aliases to give the table two different temporary names so that the database can handle it as if they were two separate tables. 🎭\n\n### Real-World Use Case: Employee-Manager Hierarchy\nA classic example is an `employees` table where each employee has a `manager_id` that refers to the `employee_id` of another employee in the *same table*. A self-join can be used to display each employee's name alongside their manager's name.\n\n**Table Structure (`employees`):**\n\n| employee_id | employee_name | manager_id |\n|-------------|---------------|------------|\n| 1           | Alice         | 3          |\n| 2           | Bob           | 3          |\n| 3           | Charlie       | NULL       |\n\n\n**Query:**\n```sql\nSELECT\n    e.employee_name AS EmployeeName,\n    m.employee_name AS ManagerName\nFROM\n    employees e\nLEFT JOIN\n    employees m ON e.manager_id = m.employee_id;\n```\n\n**How it Works:**\n1.  We refer to the `employees` table twice, giving it two aliases: `e` (for the employee) and `m` (for the manager).\n2.  We perform a `LEFT JOIN` from `e` to `m`.\n3.  The join condition `e.manager_id = m.employee_id` matches the employee's `manager_id` with their manager's `employee_id`.\n4.  A `LEFT JOIN` is used to include employees who don't have a manager (like the CEO), where the `ManagerName` would be `NULL`.",
+      },
+      {
+        question: "How do you handle NULL values in aggregate functions?",
+        solution:
+          "Aggregate functions in SQL are designed to handle `NULL` values in a specific way: they simply **ignore them** during calculation. This is a critical behavior to understand as it can affect your results. 🤔\n\nHere's how the common aggregate functions behave:\n\n* `COUNT(column_name)`: Counts only the non-`NULL` values in the specified column.\n* `COUNT(*)`: Counts all rows, regardless of `NULL` values.\n* `SUM(column_name)`: Calculates the sum of all non-`NULL` values.\n* `MAX(column_name)`: Finds the maximum value among all non-`NULL` entries.\n* `MIN(column_name)`: Finds the minimum value among all non-`NULL` entries.\n* `AVG(column_name)`: Calculates the average of all non-`NULL` values. This one can be tricky! The average is `SUM(column_name) / COUNT(column_name)`, not `SUM(column_name) / COUNT(*)`. \n\n### Handling `NULL`s explicitly\nIf you want to treat `NULL`s as a specific value (like zero) in your calculations, you must do so explicitly using a function like `COALESCE` or `ISNULL`.\n\n**Example:** To calculate an average salary where `NULL` salaries are treated as `0`:\n```sql\n-- This will give an incorrect average if NULLs should be included as 0\nSELECT AVG(salary) FROM employees;\n\n-- This correctly treats NULL salaries as 0 in the calculation\nSELECT AVG(COALESCE(salary, 0)) FROM employees;\n```\nThe `COALESCE(salary, 0)` function returns the salary if it's not `NULL`, otherwise it returns `0`.",
+      },
+      {
+        question:
+          "Write a query to find records that exist in one table but not another.",
+        solution:
+          "Finding records that exist in one table but not a second is a common task, often used for data reconciliation. There are two primary, efficient methods to achieve this: `LEFT JOIN` with a `NULL` check, and `NOT EXISTS`.\n\n**Scenario:** Find all customers in the `Customers` table who have never placed an order in the `Orders` table.\n\n### Method 1: `LEFT JOIN ... WHERE IS NULL` (Most Common)\nThis is a very intuitive approach. You perform a `LEFT JOIN` from the first table to the second and then filter for rows where the primary key from the second (right) table is `NULL`, which indicates no match was found.\n\n```sql\nSELECT c.*\nFROM Customers c\nLEFT JOIN Orders o ON c.CustomerID = o.CustomerID\nWHERE o.CustomerID IS NULL;\n```\n\n### Method 2: `NOT EXISTS`\nThis method uses a correlated subquery to check for the non-existence of a matching record. It can be more efficient in some database systems as it stops searching as soon as it confirms a record doesn't exist.\n\n```sql\nSELECT c.*\nFROM Customers c\nWHERE NOT EXISTS (\n    SELECT 1\n    FROM Orders o\n    WHERE o.CustomerID = c.CustomerID\n);\n```\nBoth queries will return the list of customers who have no corresponding entries in the `Orders` table. 🕵️‍♂️",
+      },
+      {
+        question: "What is the difference between DELETE and TRUNCATE?",
+        solution:
+          "Both `DELETE` and `TRUNCATE` are used to remove data from a table, but they work in fundamentally different ways and have different implications.\n\n| Feature             | `DELETE`                                  | `TRUNCATE`                                       |\n|---------------------|-------------------------------------------|--------------------------------------------------|\n| **Type** | DML (Data Manipulation Language) command. | DDL (Data Definition Language) command.          |\n| **Operation** | Removes rows one by one.                  | Deallocates the data pages, a quick bulk delete. |\n| **`WHERE` Clause** | **Can** be used to delete specific rows.  | **Cannot** be used. It removes all rows.         |\n| **Speed** | Slower, as it logs each row deletion.     | Much faster, as it logs the page deallocation.   |\n| **Triggers** | Fires `DELETE` triggers for each row.     | Does **not** fire `DELETE` triggers.             |\n| **Transactions** | Can be rolled back.                       | Cannot be easily rolled back (some systems allow it). |\n| **Identity Reset** | Does not reset identity columns.          | Resets the table's identity column to its seed value. |\n\n**In summary:** Use **`DELETE`** when you need to remove specific rows or when you need the operation to be logged and reversible. Use **`TRUNCATE`** when you want to quickly delete all rows from a table and don't need row-level triggers or an easy rollback. 🔥",
+      },
+      {
+        question:
+          "How do you use string functions like SUBSTRING, CONCAT, and REPLACE?",
+        solution:
+          "String functions are essential for manipulating and cleaning text data in SQL. Here’s how three of the most common ones work:\n\n### `SUBSTRING()` (or `SUBSTR`)\nThis function extracts a part of a string.\n\n**Syntax:** `SUBSTRING(string, start_position, length)`\n\n**Example:** Extract the year from a date string 'YYYY-MM-DD'.\n```sql\nSELECT SUBSTRING('2025-08-21', 1, 4); -- Returns '2025'\n```\n\n--- \n\n### `CONCAT()`\nThis function joins two or more strings together.\n\n**Syntax:** `CONCAT(string1, string2, ...)`\n\n**Example:** Combine first and last names into a full name.\n```sql\nSELECT CONCAT(first_name, ' ', last_name) AS full_name FROM employees;\n-- Returns 'John Doe'\n```\n\n--- \n\n### `REPLACE()`\nThis function replaces all occurrences of a specified substring with another substring.\n\n**Syntax:** `REPLACE(original_string, substring_to_replace, new_substring)`\n\n**Example:** Standardize phone number formats.\n```sql\nSELECT REPLACE('123-456-7890', '-', ''); -- Returns '1234567890'\n```",
+      },
+      {
+        question: "Explain the GROUP BY clause with multiple columns.",
+        solution:
+          "Using `GROUP BY` with multiple columns allows you to create hierarchical groups. It aggregates rows based on the **unique combination** of values in all the specified columns. 🗂️\n\nThink of it as creating groups, and then sub-groups within those groups.\n\n**How it Works:**\nThe database first groups all rows that have the same value in the first column. Then, within each of those primary groups, it creates sub-groups for all rows that have the same value in the second column, and so on.\n\n### Example\nImagine you want to count the number of orders for each product category in each sales region.\n\n```sql\nSELECT\n    region,\n    product_category,\n    COUNT(order_id) AS number_of_orders\nFROM\n    sales\nGROUP BY\n    region, product_category\nORDER BY\n    region, product_category;\n```\n\n**Result:**\nThis query will produce a summary showing the order count for every unique combination of `region` and `product_category`.\n\n| region    | product_category | number_of_orders |\n|-----------|------------------|------------------|\n| North     | Electronics      | 150              |\n| North     | Clothing         | 210              |\n| South     | Electronics      | 125              |\n| South     | Clothing         | 180              |",
+      },
+      {
+        question: "How do you calculate running totals in SQL?",
+        solution:
+          "The modern and most efficient way to calculate running totals (also known as cumulative sums) in SQL is by using **window functions**, specifically `SUM() OVER (...)`.\n\nThis approach avoids complex self-joins and provides a clean, readable solution.\n\n### Syntax\n```sql\nSUM(column_to_sum) OVER (PARTITION BY grouping_column ORDER BY ordering_column)\n```\n* `PARTITION BY`: (Optional) This clause divides the rows into groups (e.g., by customer or department). The running total will restart for each new group.\n* `ORDER BY`: This clause is mandatory. It specifies the order in which the rows should be processed to calculate the cumulative sum.\n\n### Example\nCalculate the running total of sales for each day.\n\n```sql\nSELECT\n    sale_date,\n    daily_sales,\n    SUM(daily_sales) OVER (ORDER BY sale_date) AS running_total_sales\nFROM\n    daily_sales_summary;\n```\n\n**Result:**\n\n| sale_date  | daily_sales | running_total_sales |\n|------------|-------------|---------------------|\n| 2025-01-01 | 1000        | 1000                |\n| 2025-01-02 | 1500        | 2500                |\n| 2025-01-03 | 1200        | 3700                |\n| 2025-01-04 | 2000        | 5700                |\n\nEach value in `running_total_sales` is the sum of the `daily_sales` for that day and all the preceding days. 📈",
+      },
+      {
+        question: "What is the purpose of the CASE statement?",
+        solution:
+          "The `CASE` statement in SQL allows you to implement **if-then-else conditional logic** directly within your queries. Its purpose is to evaluate a series of conditions and return a specific value when the first condition is met. It's incredibly versatile for tasks like categorizing data, transforming values, or handling different scenarios in a single column. 🚦\n\n### How it Works\nThe statement goes through `WHEN` conditions in order. The first condition that evaluates to true determines the result. If no conditions are met, the value in the optional `ELSE` clause is returned. If `ELSE` is omitted, `NULL` is returned.\n\n### Example: Tiering Customers\nSuppose you want to categorize customers into tiers based on their total spending.\n\n```sql\nSELECT\n    customer_name,\n    total_spent,\n    CASE\n        WHEN total_spent > 5000 THEN 'Platinum'\n        WHEN total_spent > 1000 THEN 'Gold'\n        WHEN total_spent > 200  THEN 'Silver'\n        ELSE 'Bronze'\n    END AS customer_tier\nFROM\n    customer_spending;\n```\nThis query doesn't just retrieve data; it creates a new, meaningful column (`customer_tier`) on the fly based on your business rules.",
+      },
+      {
+        question: "How do you convert data types in SQL (CAST vs CONVERT)?",
+        solution:
+          "Both `CAST` and `CONVERT` are used to change an expression from one data type to another. The main difference between them is that `CAST` is an ANSI SQL standard, making it more portable across different database systems, while `CONVERT` is often specific to a particular database (like SQL Server) and can offer more formatting options.\n\n### `CAST()`\n* **Standard:** ANSI SQL-92 standard. Supported by most databases (PostgreSQL, MySQL, SQL Server, Oracle, etc.).\n* **Syntax:** `CAST (expression AS data_type)`\n* **Best For:** General-purpose data type conversions where portability is important.\n\n**Example:**\n```sql\nSELECT CAST('123' AS INT);\nSELECT CAST(150.55 AS DECIMAL(10, 2));\n```\n\n--- \n\n### `CONVERT()`\n* **Standard:** Not an ANSI standard. Its implementation is specific to the database system (most famously in SQL Server).\n* **Syntax:** `CONVERT (data_type, expression, [style_code])`\n* **Best For:** When you need specific formatting, especially for dates and times. The optional `style_code` argument allows you to define the output format.\n\n**Example (in SQL Server):**\n```sql\n-- Simple conversion\nSELECT CONVERT(INT, '123');\n\n-- Date formatting using a style code (103 = dd/mm/yyyy)\nSELECT CONVERT(VARCHAR, GETDATE(), 103); -- Returns something like '21/08/2025'\n```",
+      },
+      {
+        question: "Write a query to find the top 10 customers by revenue.",
+        solution:
+          "To find the top 10 customers by revenue, you need to join the relevant tables, calculate the total revenue for each customer, sort them in descending order, and then take the top 10.\n\n**Assumed Tables:**\n* `Customers` (CustomerID, CustomerName)\n* `Orders` (OrderID, CustomerID)\n* `OrderDetails` (OrderID, ProductID, Quantity, UnitPrice)\n\n### The Query\n```sql\nSELECT\n    c.CustomerName,\n    SUM(od.Quantity * od.UnitPrice) AS TotalRevenue\nFROM\n    Customers c\nJOIN\n    Orders o ON c.CustomerID = o.CustomerID\nJOIN\n    OrderDetails od ON o.OrderID = od.OrderID\nGROUP BY\n    c.CustomerID, c.CustomerName -- Group by ID for accuracy, Name for display\nORDER BY\n    TotalRevenue DESC\nLIMIT 10;\n```\n\n**Explanation:**\n1.  **`JOIN`**: We link `Customers` to `Orders` and then `Orders` to `OrderDetails` to connect customers to what they bought.\n2.  **`SUM(...)`**: We calculate the revenue for each line item (`Quantity * UnitPrice`) and then sum it up for each customer.\n3.  **`GROUP BY`**: This aggregates all the order details for each unique customer.\n4.  **`ORDER BY ... DESC`**: This sorts the customers from the highest revenue to the lowest.\n5.  **`LIMIT 10`**: This restricts the final output to only the top 10 results. (Note: In SQL Server, you would use `TOP 10` in the `SELECT` clause). 🏆",
+      },
+      {
+        question: "Explain the difference between UNION and UNION ALL.",
+        solution:
+          "Both `UNION` and `UNION ALL` are used to combine the result sets of two or more `SELECT` statements. The key difference lies in how they handle duplicate rows.\n\nFor either operator to work, the columns in the `SELECT` statements must match in number, order, and have compatible data types.\n\n--- \n\n### `UNION`\n`UNION` combines the result sets and then **removes any duplicate rows**. Because it has to perform this extra step of checking for and eliminating duplicates, it is inherently slower than `UNION ALL`.\n\n**Example:** Get a unique list of all cities where customers and suppliers are located.\n```sql\nSELECT City FROM Customers\nUNION\nSELECT City FROM Suppliers;\n```\nIf 'Paris' is a city in both tables, it will appear **only once** in the final result.\n\n--- \n\n### `UNION ALL`\n`UNION ALL` combines the result sets and **includes all rows, including any duplicates**. It is faster because it simply appends one result set to the other without checking for duplicates.\n\n**Example:** Get a complete list of all customer and supplier cities.\n```sql\nSELECT City FROM Customers\nUNION ALL\nSELECT City FROM Suppliers;\n```\nIf 'Paris' is in both tables, it will appear **twice** in the final result.\n\n**Guideline:** If you know for sure that your result sets have no duplicates or if the duplicates don't matter, always use `UNION ALL` for better performance. ⚡️",
+      },
+      {
+        question: "How do you use subqueries in the SELECT statement?",
+        solution:
+          "A subquery used in a `SELECT` clause is called a **scalar subquery**. Its defining characteristic is that it **must return a single value** (i.e., one row with one column). This single value is then included as a column in the result set of the outer query.\n\nScalar subqueries are useful for retrieving an aggregated value related to each row in the outer query.\n\n### Example\nLet's say you want to get a list of all employees and, for each employee, also show the total number of orders they have processed.\n\n```sql\nSELECT\n    e.EmployeeID,\n    e.FirstName,\n    e.LastName,\n    (SELECT COUNT(o.OrderID)\n     FROM Orders o\n     WHERE o.EmployeeID = e.EmployeeID) AS TotalOrdersProcessed\nFROM\n    Employees e;\n```\n\n**How it Works:**\nFor each row being processed in the outer query (for each employee `e`), the inner query (the subquery) is executed. It filters the `Orders` table for that specific employee (`WHERE o.EmployeeID = e.EmployeeID`) and returns the count of their orders. This count becomes the value for the `TotalOrdersProcessed` column for that employee's row.\n\n**Caution:** Scalar subqueries can be inefficient because they may execute once for every row in the outer query's result set. Often, a `LEFT JOIN` with `GROUP BY` can achieve the same result more performantly.",
+      },
+      {
+        question: "What is a correlated subquery and when would you use it?",
+        solution:
+          "A **correlated subquery** is an inner query that depends on the outer query for its values. Unlike a regular subquery that runs once, a correlated subquery is evaluated **once for each row** processed by the outer query. It uses values from the outer query's current row to filter its own results. 🔄\n\nThis 'correlation' between the inner and outer queries is what defines it.\n\n### When to Use It\nYou use a correlated subquery when you need to answer a question that depends on the specific row being examined in the outer query. A classic use case is comparing a value in a row to an aggregate value of a group that the row belongs to.\n\n### Example\nFind all employees whose salary is higher than the average salary of their **own department**.\n\n```sql\nSELECT\n    e1.EmployeeName,\n    e1.Salary,\n    e1.DepartmentID\nFROM\n    Employees e1\nWHERE\n    e1.Salary > (SELECT AVG(e2.Salary)\n                 FROM Employees e2\n                 WHERE e2.DepartmentID = e1.DepartmentID);\n```\n\n**How it Works:**\n1.  The outer query gets a row for an employee, let's say 'Alice' in Department 10 (`e1`).\n2.  The inner subquery then runs, but it uses `e1.DepartmentID` (which is 10) from the outer query's current row.\n3.  The subquery calculates the average salary *only* for Department 10.\n4.  The `WHERE` clause of the outer query then compares Alice's salary to this calculated average.\n5.  The process repeats for the next employee in the outer query.\n\nWhile powerful, correlated subqueries can be slow. In many cases, they can be rewritten using joins or window functions for better performance.",
+      },
+      {
+        question: "How do you find the oldest and newest records in a table?",
+        solution:
+          "You can find the oldest and newest records in a table, typically based on a date or timestamp column, using a couple of simple methods.\n\n**Scenario:** Find the first and most recent order dates from an `Orders` table with an `OrderDate` column.\n\n### Method 1: Using `MIN()` and `MAX()` Aggregate Functions\nThis is the most direct way to find the oldest and newest dates themselves.\n\n```sql\nSELECT\n    MIN(OrderDate) AS FirstOrderDate,\n    MAX(OrderDate) AS MostRecentOrderDate\nFROM\n    Orders;\n```\nThis gives you the two dates but not the full records associated with them.\n\n--- \n\n### Method 2: Using `ORDER BY` and `LIMIT`\nTo get the entire record for the oldest or newest entry, you can sort the table and take the first row.\n\n**To find the oldest record:**\n```sql\nSELECT *\nFROM Orders\nORDER BY OrderDate ASC\nLIMIT 1;\n```\n\n**To find the newest record:**\n```sql\nSELECT *\nFROM Orders\nORDER BY OrderDate DESC\nLIMIT 1;\n```\n(Note: In SQL Server, you would use `SELECT TOP 1 * ...` instead of `LIMIT 1`). This method is great for retrieving the full details of that specific record.",
+      },
+      {
+        question: "Write a query to calculate monthly sales totals.",
+        solution:
+          "To calculate monthly sales totals, you need to extract the year and month from a date column, and then use `SUM()` and `GROUP BY` to aggregate the sales data for each of those periods.\n\n**Assumed Table:** `Sales` (SaleID, SaleDate, SaleAmount)\n\nThe exact function to extract the date parts can vary by SQL dialect.\n\n### Example (using standard SQL functions)\nMany databases support `EXTRACT` or similar functions.\n\n```sql\nSELECT\n    EXTRACT(YEAR FROM SaleDate) AS SalesYear,\n    EXTRACT(MONTH FROM SaleDate) AS SalesMonth,\n    SUM(SaleAmount) AS TotalMonthlySales\nFROM\n    Sales\nGROUP BY\n    EXTRACT(YEAR FROM SaleDate),\n    EXTRACT(MONTH FROM SaleDate)\nORDER BY\n    SalesYear, SalesMonth;\n```\n\n### Example (using `DATE_TRUNC` - PostgreSQL/others)\n`DATE_TRUNC` is often a cleaner way to group by a time period as it truncates the date to the beginning of the specified interval (e.g., the first day of the month).\n\n```sql\nSELECT\n    DATE_TRUNC('month', SaleDate)::DATE AS SalesMonth,\n    SUM(SaleAmount) AS TotalMonthlySales\nFROM\n    Sales\nGROUP BY\n    SalesMonth\nORDER BY\n    SalesMonth;\n```\nThis query groups all sales from the same month and year together and calculates their sum, giving you a clear monthly sales report. 📅",
+      },
+      {
+        question: "What is the purpose of the BETWEEN operator?",
+        solution:
+          "The `BETWEEN` operator in SQL is used to filter results within a specific range. It's a convenient shorthand for a pair of `AND` conditions.\n\nThe range is **inclusive**, meaning it includes the start and end values.\n\n### Syntax\n```sql\nWHERE column_name BETWEEN value1 AND value2;\n```\nThis is equivalent to:\n```sql\nWHERE column_name >= value1 AND column_name <= value2;\n```\n\n### Example\nTo find all products with a price between $50 and $100, inclusive:\n```sql\nSELECT\n    ProductName,\n    Price\nFROM\n    Products\nWHERE\n    Price BETWEEN 50 AND 100;\n```\nThis is much more readable and concise than writing:\n```sql\nSELECT\n    ProductName,\n    Price\nFROM\n    Products\nWHERE\n    Price >= 50 AND Price <= 100;\n```\nThe `BETWEEN` operator can be used with numbers, text, and dates.",
+      },
+      {
+        question: "How do you use the LIKE operator for pattern matching?",
+        solution:
+          "The `LIKE` operator is used in a `WHERE` clause to search for a specified pattern in a column. It's an essential tool for flexible string searches. `LIKE` uses two main wildcard characters:\n\n1.  **`%` (Percent Sign):** Represents zero, one, or multiple characters.\n2.  **`_` (Underscore):** Represents a single character.\n\n### Examples\n\n* **Find names that start with 'A':**\n    ```sql\n    SELECT * FROM Customers WHERE CustomerName LIKE 'A%';\n    -- Matches: 'Alice', 'Anna', 'Anderson'\n    ```\n\n* **Find names that end with 'son':**\n    ```sql\n    SELECT * FROM Customers WHERE CustomerName LIKE '%son';\n    -- Matches: 'Johnson', 'Peterson'\n    ```\n\n* **Find names that contain 'oh':**\n    ```sql\n    SELECT * FROM Customers WHERE CustomerName LIKE '%oh%';\n    -- Matches: 'John', 'Johnson', 'Mohr'\n    ```\n\n* **Find names that are exactly 4 letters long and start with 'J':**\n    ```sql\n    SELECT * FROM Customers WHERE CustomerName LIKE 'J___';\n    -- Matches: 'John', 'Jane'\n    ```\n\n* **Find names that start with 'S' and have 'n' as the third letter:**\n    ```sql\n    SELECT * FROM Customers WHERE CustomerName LIKE 'S_n%';\n    -- Matches: 'Sun', 'Sanjay'\n    ```",
+      },
+      {
+        question: "Explain the concept of referential integrity.",
+        solution:
+          "Referential integrity is a core concept in relational databases that ensures relationships between tables remain consistent. It is a set of rules, enforced by the database, that prevents users from entering inconsistent data. ⛓️\n\nThe primary mechanism for enforcing referential integrity is the **foreign key** constraint.\n\n### Key Rules of Referential Integrity\n1.  **Prevents Orphan Records:** A foreign key in one table must match a primary key in another table, or it must be `NULL`. This rule prevents you from adding a record to a related table unless a corresponding record exists in the primary table. For example, you can't create an `Order` for a `CustomerID` that doesn't exist in the `Customers` table.\n2.  **Governs Deletions:** It dictates what happens when you try to delete a record that has other records referencing it. You can't delete a customer from the `Customers` table if they still have orders in the `Orders` table (unless you have a cascading delete rule set up).\n3.  **Governs Updates:** Similarly, you typically can't change a primary key value in a primary table if that key is being referenced by records in another table.\n\nBy enforcing these rules, referential integrity guarantees that the links between your data are always valid and reliable, preventing data corruption.",
+      },
+      {
+        question: "How do you add and remove columns from existing tables?",
+        solution:
+          "You can add and remove columns from an existing table using the `ALTER TABLE` statement. This is a common Data Definition Language (DDL) operation for modifying a table's structure.\n\n### Adding a Column\nTo add a new column, you specify the table name, the new column name, and its data type.\n\n**Syntax:**\n```sql\nALTER TABLE table_name\nADD COLUMN new_column_name data_type [constraints];\n```\n\n**Example:** Add a `PhoneNumber` column to the `Employees` table.\n```sql\nALTER TABLE Employees\nADD COLUMN PhoneNumber VARCHAR(20);\n```\n\n--- \n\n### Removing (Dropping) a Column\nTo remove an existing column, you specify the table name and the name of the column you want to delete.\n\n**Caution:** Dropping a column is a destructive and often irreversible action that will permanently delete all data within that column. ⚠️\n\n**Syntax:**\n```sql\nALTER TABLE table_name\nDROP COLUMN column_name;\n```\n\n**Example:** Remove the `PhoneNumber` column from the `Employees` table.\n```sql\nALTER TABLE Employees\nDROP COLUMN PhoneNumber;\n```",
+      },
+      {
+        id: 1,
+        question: "What is the difference between CHAR and VARCHAR data types?",
+        solution: `CHAR and VARCHAR are both string data types but with key differences:
+
+CHAR:
+- Fixed-length character string
+- Always uses the declared length (padded with spaces if needed)
+- Faster for fixed-length data (phone numbers, ZIP codes, status codes)
+- Maximum length: 255 characters (varies by DBMS)
+- Storage: Uses full declared length regardless of actual content
+
+VARCHAR:
+- Variable-length character string
+- Uses only the space needed for actual content (plus length overhead)
+- More storage-efficient for variable-length data (names, addresses, descriptions)
+- Maximum length: Typically 65,535 characters (varies by DBMS)
+- Storage: Content length + 1-2 bytes for length information
+
+Example usage:
+- CHAR(10) storing 'ABC' uses 10 bytes: 'ABC       ' (with 7 spaces)
+- VARCHAR(10) storing 'ABC' uses 4 bytes: length byte + 'ABC'
+
+Performance considerations:
+- CHAR is faster for exact-length comparisons and fixed patterns
+- VARCHAR is more storage-efficient for variable-length data
+- CHAR may perform better for frequently updated columns with fixed lengths`,
+      },
+      {
+        id: 2,
+        question:
+          "Write a query to identify customers who haven't placed orders in the last 6 months",
+        solution: `-- Using current date as reference
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    c.email,
+    MAX(o.order_date) as last_order_date,
+    DATEDIFF(CURDATE(), MAX(o.order_date)) as days_since_last_order
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name, c.email
+HAVING MAX(o.order_date) IS NULL 
+    OR MAX(o.order_date) < DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+ORDER BY last_order_date DESC;
+
+-- Alternative using subquery for better performance with large datasets
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    c.email
+FROM customers c
+WHERE NOT EXISTS (
+    SELECT 1 
+    FROM orders o 
+    WHERE o.customer_id = c.customer_id 
+    AND o.order_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+)
+OR c.customer_id NOT IN (
+    SELECT DISTINCT customer_id 
+    FROM orders
+);
+
+-- For databases without DATE_SUB function (using date arithmetic)
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    c.email
+FROM customers c
+LEFT JOIN (
+    SELECT customer_id, MAX(order_date) as last_order
+    FROM orders
+    GROUP BY customer_id
+) recent_orders ON c.customer_id = recent_orders.customer_id
+WHERE recent_orders.last_order IS NULL 
+    OR recent_orders.last_order < CURRENT_DATE - INTERVAL '6 months';`,
+      },
+      {
+        id: 3,
+        question: "How do you calculate year-over-year growth using SQL?",
+        solution: `-- Calculate YoY growth for monthly sales
+WITH monthly_sales AS (
+    SELECT 
+        EXTRACT(YEAR FROM order_date) as year,
+        EXTRACT(MONTH FROM order_date) as month,
+        SUM(sales_amount) as total_sales
+    FROM orders
+    GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date)
+),
+yoy_comparison AS (
+    SELECT 
+        year,
+        month,
+        total_sales as current_sales,
+        LAG(total_sales, 12) OVER (ORDER BY year, month) as previous_year_sales
+    FROM monthly_sales
+)
+SELECT 
+    year,
+    month,
+    current_sales,
+    previous_year_sales,
+    ROUND(
+        ((current_sales - previous_year_sales) / previous_year_sales) * 100, 
+        2
+    ) as yoy_growth_percent,
+    CASE 
+        WHEN previous_year_sales IS NULL THEN 'No previous data'
+        WHEN current_sales > previous_year_sales THEN 'Growth'
+        ELSE 'Decline'
+    END as growth_status
+FROM yoy_comparison
+ORDER BY year, month;
+
+-- Alternative for specific metric comparison
+SELECT 
+    current_year.year,
+    current_year.metric,
+    current_year.value as current_value,
+    previous_year.value as previous_value,
+    ROUND(
+        ((current_year.value - previous_year.value) / previous_year.value) * 100, 
+        2
+    ) as yoy_growth_percent
+FROM metrics current_year
+LEFT JOIN metrics previous_year 
+    ON current_year.metric = previous_year.metric 
+    AND current_year.year = previous_year.year + 1
+WHERE current_year.period = 'annual';`,
+      },
+      {
+        id: 4,
+        question: "Write a query to find the median salary in each department",
+        solution: `-- Method 1: Using PERCENTILE_CONT (available in PostgreSQL, SQL Server, BigQuery)
+SELECT 
+    department,
+    PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY salary) as median_salary
+FROM employees
+GROUP BY department;
+
+-- Method 2: Using window functions (works in most databases)
+WITH ranked_salaries AS (
+    SELECT 
+        department,
+        salary,
+        ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary) as row_num,
+        COUNT(*) OVER (PARTITION BY department) as total_count
+    FROM employees
+    WHERE salary IS NOT NULL
+)
+SELECT 
+    department,
+    AVG(salary) as median_salary
+FROM ranked_salaries
+WHERE row_num IN (
+    FLOOR((total_count + 1) / 2), 
+    CEIL((total_count + 1) / 2)
+)
+GROUP BY department;
+
+-- Method 3: Using self-join for databases without window functions
+SELECT 
+    e1.department,
+    AVG(e1.salary) as median_salary
+FROM employees e1
+JOIN employees e2 ON e1.department = e2.department
+GROUP BY e1.department, e1.salary
+HAVING SUM(CASE WHEN e2.salary <= e1.salary THEN 1 ELSE 0 END) >= COUNT(*)/2
+   AND SUM(CASE WHEN e2.salary >= e1.salary THEN 1 ELSE 0 END) >= COUNT(*)/2
+GROUP BY e1.department;`,
+      },
+      {
+        id: 5,
+        question:
+          "How do you identify and remove duplicate records while keeping the most recent?",
+        solution: `-- Step 1: Identify duplicates
+SELECT 
+    customer_id, 
+    email, 
+    COUNT(*) as duplicate_count,
+    MAX(created_at) as most_recent
+FROM customers
+GROUP BY customer_id, email
+HAVING COUNT(*) > 1;
+
+-- Step 2: Create a temporary table with unique records
+CREATE TEMPORARY TABLE unique_customers AS
+SELECT DISTINCT ON (customer_id, email) *
+FROM customers
+ORDER BY customer_id, email, created_at DESC;
+
+-- Alternative using window functions
+WITH ranked_customers AS (
+    SELECT *,
+        ROW_NUMBER() OVER (
+            PARTITION BY customer_id, email 
+            ORDER BY created_at DESC
+        ) as rn
+    FROM customers
+)
+SELECT * 
+INTO temp_unique_customers
+FROM ranked_customers
+WHERE rn = 1;
+
+-- Step 3: Delete duplicates and reinsert unique records
+BEGIN TRANSACTION;
+
+-- Delete all duplicates
+DELETE FROM customers 
+WHERE (customer_id, email, created_at) NOT IN (
+    SELECT customer_id, email, MAX(created_at)
+    FROM customers
+    GROUP BY customer_id, email
+);
+
+-- Or using CTID (PostgreSQL) or ROWID (Oracle) for exact row identification
+DELETE FROM customers
+WHERE ctid IN (
+    SELECT ctid
+    FROM (
+        SELECT ctid,
+            ROW_NUMBER() OVER (
+                PARTITION BY customer_id, email 
+                ORDER BY created_at DESC
+            ) as rn
+        FROM customers
+    ) ranked
+    WHERE rn > 1
+);
+
+COMMIT;
+
+-- Step 4: Add unique constraint to prevent future duplicates
+ALTER TABLE customers
+ADD CONSTRAINT unique_customer_email UNIQUE (customer_id, email);`,
+      },
+      {
+        id: 6,
+        question:
+          "Write a query to calculate the cumulative sum of sales by date",
+        solution: `-- Using window functions (modern approach)
+SELECT 
+    order_date,
+    SUM(sales_amount) as daily_sales,
+    SUM(SUM(sales_amount)) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) as cumulative_sales
+FROM orders
+GROUP BY order_date
+ORDER BY order_date;
+
+-- Alternative for databases without window functions
+SELECT 
+    o1.order_date,
+    SUM(o1.sales_amount) as daily_sales,
+    (
+        SELECT SUM(o2.sales_amount)
+        FROM orders o2
+        WHERE o2.order_date <= o1.order_date
+    ) as cumulative_sales
+FROM orders o1
+GROUP BY o1.order_date
+ORDER BY o1.order_date;
+
+-- Cumulative sum by category and date
+SELECT 
+    category,
+    order_date,
+    SUM(sales_amount) as daily_sales,
+    SUM(SUM(sales_amount)) OVER (
+        PARTITION BY category
+        ORDER BY order_date 
+        ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+    ) as cumulative_sales_by_category
+FROM orders
+GROUP BY category, order_date
+ORDER BY category, order_date;
+
+-- Using Common Table Expression for better readability
+WITH daily_totals AS (
+    SELECT 
+        order_date,
+        SUM(sales_amount) as daily_total
+    FROM orders
+    GROUP BY order_date
+)
+SELECT 
+    order_date,
+    daily_total,
+    SUM(daily_total) OVER (ORDER BY order_date) as running_total
+FROM daily_totals
+ORDER BY order_date;`,
+      },
+      {
+        id: 7,
+        question: "How do you find consecutive login days for users?",
+        solution: `-- Method using window functions and date difference
+WITH login_groups AS (
+    SELECT 
+        user_id,
+        login_date,
+        login_date - INTERVAL '1 day' * 
+            ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY login_date) as grp
+    FROM user_logins
+    GROUP BY user_id, login_date  -- Remove duplicates for same day
+),
+consecutive_days AS (
+    SELECT 
+        user_id,
+        grp,
+        MIN(login_date) as start_date,
+        MAX(login_date) as end_date,
+        COUNT(*) as consecutive_days
+    FROM login_groups
+    GROUP BY user_id, grp
+)
+SELECT 
+    user_id,
+    MAX(consecutive_days) as max_consecutive_days,
+    ARRAY_AGG(
+        JSON_BUILD_OBJECT(
+            'start_date', start_date,
+            'end_date', end_date,
+            'days', consecutive_days
+        )
+    ) as consecutive_periods
+FROM consecutive_days
+WHERE consecutive_days >= 3  -- Filter for meaningful streaks
+GROUP BY user_id
+ORDER BY max_consecutive_days DESC;
+
+-- Alternative using LAG to find breaks in sequence
+WITH login_sequence AS (
+    SELECT 
+        user_id,
+        login_date,
+        LAG(login_date) OVER (PARTITION BY user_id ORDER BY login_date) as prev_login,
+        CASE 
+            WHEN login_date - LAG(login_date) OVER (
+                PARTITION BY user_id ORDER BY login_date
+            ) = 1 THEN 0 
+            ELSE 1 
+        END as new_streak
+    FROM (
+        SELECT DISTINCT user_id, login_date
+        FROM user_logins
+    ) distinct_logins
+),
+streak_groups AS (
+    SELECT 
+        user_id,
+        login_date,
+        SUM(new_streak) OVER (PARTITION BY user_id ORDER BY login_date) as streak_id
+    FROM login_sequence
+)
+SELECT 
+    user_id,
+    streak_id,
+    MIN(login_date) as streak_start,
+    MAX(login_date) as streak_end,
+    COUNT(*) as consecutive_days
+FROM streak_groups
+GROUP BY user_id, streak_id
+HAVING COUNT(*) >= 3
+ORDER BY user_id, streak_start;`,
+      },
+      {
+        id: 8,
+        question:
+          "Write a query to identify the top 5% of customers by spending",
+        solution: `-- Using NTILE window function
+WITH customer_spending AS (
+    SELECT 
+        customer_id,
+        customer_name,
+        SUM(order_amount) as total_spent,
+        NTILE(20) OVER (ORDER BY SUM(order_amount) DESC) as percentile_group
+    FROM orders o
+    JOIN customers c ON o.customer_id = c.customer_id
+    GROUP BY customer_id, customer_name
+)
+SELECT 
+    customer_id,
+    customer_name,
+    total_spent,
+    percentile_group,
+    CASE 
+        WHEN percentile_group = 1 THEN 'Top 5%'
+        ELSE 'Other'
+    END as customer_segment
+FROM customer_spending
+WHERE percentile_group = 1
+ORDER BY total_spent DESC;
+
+-- Alternative using PERCENT_RANK
+WITH customer_spending AS (
+    SELECT 
+        customer_id,
+        customer_name,
+        SUM(order_amount) as total_spent,
+        PERCENT_RANK() OVER (ORDER BY SUM(order_amount) DESC) as percentile_rank
+    FROM orders o
+    JOIN customers c ON o.customer_id = c.customer_id
+    GROUP BY customer_id, customer_name
+)
+SELECT 
+    customer_id,
+    customer_name,
+    total_spent,
+    ROUND(percentile_rank * 100, 2) as percentile,
+    'Top 5% Spender' as segment
+FROM customer_spending
+WHERE percentile_rank <= 0.05
+ORDER BY total_spent DESC;
+
+-- Using COUNT and mathematical calculation
+WITH customer_ranking AS (
+    SELECT 
+        customer_id,
+        customer_name,
+        SUM(order_amount) as total_spent,
+        ROW_NUMBER() OVER (ORDER BY SUM(order_amount) DESC) as rank,
+        COUNT(*) OVER () as total_customers
+    FROM orders o
+    JOIN customers c ON o.customer_id = c.customer_id
+    GROUP BY customer_id, customer_name
+)
+SELECT 
+    customer_id,
+    customer_name,
+    total_spent,
+    rank,
+    total_customers,
+    ROUND((rank::decimal / total_customers) * 100, 2) as top_percentage
+FROM customer_ranking
+WHERE rank <= CEIL(total_customers * 0.05)
+ORDER BY rank;`,
+      },
+      {
+        id: 9,
+        question: "How do you calculate retention rates using SQL?",
+        solution: `-- Calculate monthly retention rate
+WITH user_cohorts AS (
+    SELECT 
+        user_id,
+        DATE_TRUNC('month', MIN(created_at)) as cohort_month
+    FROM users
+    GROUP BY user_id
+),
+monthly_activity AS (
+    SELECT 
+        u.user_id,
+        c.cohort_month,
+        DATE_TRUNC('month', a.activity_date) as activity_month,
+        EXTRACT(MONTH FROM AGE(
+            DATE_TRUNC('month', a.activity_date), 
+            c.cohort_month
+        )) as months_since_cohort
+    FROM users u
+    JOIN user_cohorts c ON u.user_id = c.user_id
+    JOIN user_activities a ON u.user_id = a.user_id
+    WHERE a.activity_date >= c.cohort_month
+),
+cohort_size AS (
+    SELECT 
+        cohort_month,
+        COUNT(DISTINCT user_id) as total_users
+    FROM user_cohorts
+    GROUP BY cohort_month
+),
+retention_data AS (
+    SELECT 
+        cohort_month,
+        months_since_cohort,
+        COUNT(DISTINCT user_id) as active_users
+    FROM monthly_activity
+    GROUP BY cohort_month, months_since_cohort
+)
+SELECT 
+    r.cohort_month,
+    c.total_users as cohort_size,
+    r.months_since_cohort,
+    r.active_users,
+    ROUND(
+        (r.active_users::decimal / c.total_users) * 100, 
+        2
+    ) as retention_rate_percent
+FROM retention_data r
+JOIN cohort_size c ON r.cohort_month = c.cohort_month
+ORDER BY r.cohort_month, r.months_since_cohort;
+
+-- Simplified version for specific time period
+SELECT 
+    DATE_TRUNC('month', u.created_at) as signup_month,
+    COUNT(DISTINCT u.user_id) as total_signups,
+    COUNT(DISTINCT a.user_id) as active_this_month,
+    ROUND(
+        (COUNT(DISTINCT a.user_id)::decimal / COUNT(DISTINCT u.user_id)) * 100, 
+        2
+    ) as monthly_retention_rate
+FROM users u
+LEFT JOIN user_activities a ON u.user_id = a.user_id
+    AND DATE_TRUNC('month', a.activity_date) = DATE_TRUNC('month', u.created_at) + INTERVAL '1 month'
+WHERE u.created_at >= '2023-01-01'
+GROUP BY DATE_TRUNC('month', u.created_at)
+ORDER BY signup_month;`,
+      },
+      {
+        id: 10,
+        question:
+          "Write a query to find the first and last transaction per customer",
+        solution: `-- Using window functions (most efficient)
+SELECT 
+    customer_id,
+    transaction_id,
+    transaction_date,
+    amount,
+    CASE 
+        WHEN first_transaction = 1 THEN 'First'
+        WHEN last_transaction = 1 THEN 'Last'
+        ELSE 'Middle'
+    END as transaction_type
+FROM (
+    SELECT 
+        customer_id,
+        transaction_id,
+        transaction_date,
+        amount,
+        ROW_NUMBER() OVER (
+            PARTITION BY customer_id 
+            ORDER BY transaction_date
+        ) as first_transaction,
+        ROW_NUMBER() OVER (
+            PARTITION BY customer_id 
+            ORDER BY transaction_date DESC
+        ) as last_transaction
+    FROM transactions
+) ranked
+WHERE first_transaction = 1 OR last_transaction = 1
+ORDER BY customer_id, transaction_date;
+
+-- Alternative using aggregate functions
+SELECT 
+    t.customer_id,
+    t.transaction_id as first_transaction_id,
+    t.transaction_date as first_transaction_date,
+    t.amount as first_amount,
+    last_t.transaction_id as last_transaction_id,
+    last_t.transaction_date as last_transaction_date,
+    last_t.amount as last_amount
+FROM transactions t
+JOIN (
+    SELECT 
+        customer_id,
+        MIN(transaction_date) as first_date
+    FROM transactions
+    GROUP BY customer_id
+) first ON t.customer_id = first.customer_id AND t.transaction_date = first.first_date
+JOIN (
+    SELECT 
+        customer_id,
+        MAX(transaction_date) as last_date
+    FROM transactions
+    GROUP BY customer_id
+) last ON t.customer_id = last.customer_id
+JOIN transactions last_t ON last.customer_id = last_t.customer_id 
+    AND last.last_date = last_t.transaction_date;
+
+-- Using FIRST_VALUE and LAST_VALUE window functions
+SELECT DISTINCT
+    customer_id,
+    FIRST_VALUE(transaction_id) OVER (
+        PARTITION BY customer_id 
+        ORDER BY transaction_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) as first_transaction_id,
+    FIRST_VALUE(transaction_date) OVER (
+        PARTITION BY customer_id 
+        ORDER BY transaction_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) as first_transaction_date,
+    LAST_VALUE(transaction_id) OVER (
+        PARTITION BY customer_id 
+        ORDER BY transaction_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) as last_transaction_id,
+    LAST_VALUE(transaction_date) OVER (
+        PARTITION BY customer_id 
+        ORDER BY transaction_date
+        ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING
+    ) as last_transaction_date
+FROM transactions;`,
+      },
+      {
+        id: 11,
+        question: "How do you identify seasonality patterns in sales data?",
+        solution: `-- Analyze sales by month to identify seasonal patterns
+WITH monthly_sales AS (
+    SELECT 
+        EXTRACT(YEAR FROM order_date) as year,
+        EXTRACT(MONTH FROM order_date) as month,
+        TO_CHAR(order_date, 'Month') as month_name,
+        SUM(sales_amount) as total_sales,
+        COUNT(*) as order_count
+    FROM orders
+    GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date), TO_CHAR(order_date, 'Month')
+),
+monthly_avg AS (
+    SELECT 
+        month,
+        month_name,
+        AVG(total_sales) as avg_monthly_sales,
+        AVG(order_count) as avg_monthly_orders,
+        STDDEV(total_sales) as sales_stddev,
+        MIN(total_sales) as min_sales,
+        MAX(total_sales) as max_sales
+    FROM monthly_sales
+    GROUP BY month, month_name
+)
+SELECT 
+    m.month,
+    m.month_name,
+    m.avg_monthly_sales,
+    m.avg_monthly_orders,
+    ROUND(
+        (m.avg_monthly_sales / (SELECT AVG(avg_monthly_sales) FROM monthly_avg) - 1) * 100, 
+        2
+    ) as sales_deviation_percent,
+    CASE 
+        WHEN m.avg_monthly_sales > (SELECT AVG(avg_monthly_sales) FROM monthly_avg) * 1.2 
+            THEN 'Peak Season'
+        WHEN m.avg_monthly_sales < (SELECT AVG(avg_monthly_sales) FROM monthly_avg) * 0.8 
+            THEN 'Low Season'
+        ELSE 'Normal Season'
+    END as seasonality_classification
+FROM monthly_avg m
+ORDER BY m.month;
+
+-- Additional analysis: Day of week patterns
+SELECT 
+    EXTRACT(DOW FROM order_date) as day_of_week,
+    TO_CHAR(order_date, 'Day') as day_name,
+    AVG(sales_amount) as avg_daily_sales,
+    COUNT(*) as total_orders,
+    SUM(sales_amount) as total_sales
+FROM orders
+GROUP BY EXTRACT(DOW FROM order_date), TO_CHAR(order_date, 'Day')
+ORDER BY day_of_week;
+
+-- Time series decomposition using moving averages
+SELECT 
+    order_date,
+    sales_amount,
+    AVG(sales_amount) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) as weekly_moving_avg,
+    AVG(sales_amount) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 29 PRECEDING AND CURRENT ROW
+    ) as monthly_moving_avg
+FROM (
+    SELECT 
+        order_date,
+        SUM(sales_amount) as sales_amount
+    FROM orders
+    GROUP BY order_date
+) daily_sales
+ORDER BY order_date;`,
+      },
+      {
+        id: 12,
+        question:
+          "Write a query to calculate moving averages over 7-day windows",
+        solution: `-- Calculate 7-day moving average of daily sales
+SELECT 
+    order_date,
+    daily_sales,
+    AVG(daily_sales) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) as moving_avg_7d,
+    -- Additional metrics for context
+    MIN(daily_sales) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) as min_7d,
+    MAX(daily_sales) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) as max_7d
+FROM (
+    SELECT 
+        order_date,
+        SUM(sales_amount) as daily_sales
+    FROM orders
+    GROUP BY order_date
+) daily_totals
+ORDER BY order_date;
+
+-- For databases that don't support window frame syntax
+SELECT 
+    d1.order_date,
+    d1.daily_sales,
+    (
+        SELECT AVG(d2.daily_sales)
+        FROM (
+            SELECT order_date, SUM(sales_amount) as daily_sales
+            FROM orders
+            GROUP BY order_date
+        ) d2
+        WHERE d2.order_date BETWEEN d1.order_date - INTERVAL '6 days' 
+            AND d1.order_date
+    ) as moving_avg_7d
+FROM (
+    SELECT 
+        order_date,
+        SUM(sales_amount) as daily_sales
+    FROM orders
+    GROUP BY order_date
+) d1
+ORDER BY d1.order_date;
+
+-- Moving average with handling for incomplete windows (beginning of dataset)
+SELECT 
+    order_date,
+    daily_sales,
+    CASE 
+        WHEN row_num >= 7 THEN
+            AVG(daily_sales) OVER (
+                ORDER BY order_date 
+                ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+            )
+        ELSE
+            AVG(daily_sales) OVER (
+                ORDER BY order_date 
+                ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+            )
+    END as moving_avg_7d_adjusted
+FROM (
+    SELECT 
+        order_date,
+        SUM(sales_amount) as daily_sales,
+        ROW_NUMBER() OVER (ORDER BY order_date) as row_num
+    FROM orders
+    GROUP BY order_date
+) numbered_days
+ORDER BY order_date;
+
+-- Multiple moving averages for comparison
+SELECT 
+    order_date,
+    daily_sales,
+    AVG(daily_sales) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+    ) as ma_7d,
+    AVG(daily_sales) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 29 PRECEDING AND CURRENT ROW
+    ) as ma_30d,
+    AVG(daily_sales) OVER (
+        ORDER BY order_date 
+        ROWS BETWEEN 89 PRECEDING AND CURRENT ROW
+    ) as ma_90d
+FROM (
+    SELECT 
+        order_date,
+        SUM(sales_amount) as daily_sales
+    FROM orders
+    GROUP BY order_date
+) daily_totals
+ORDER BY order_date;`,
+      },
+      {
+        id: 13,
+        question: "How do you find the longest streak of daily active users?",
+        solution: `-- Find the longest streak of daily active users
+WITH daily_activity AS (
+    SELECT 
+        activity_date,
+        COUNT(DISTINCT user_id) as active_users
+    FROM user_activities
+    GROUP BY activity_date
+),
+activity_streaks AS (
+    SELECT 
+        activity_date,
+        active_users,
+        CASE 
+            WHEN active_users > 0 THEN 1
+            ELSE 0
+        END as had_activity,
+        activity_date - INTERVAL '1 day' * 
+            ROW_NUMBER() OVER (ORDER BY activity_date) as streak_group
+    FROM daily_activity
+    WHERE activity_date BETWEEN '2023-01-01' AND '2023-12-31'
+),
+streak_lengths AS (
+    SELECT 
+        MIN(activity_date) as streak_start,
+        MAX(activity_date) as streak_end,
+        COUNT(*) as streak_length,
+        SUM(active_users) as total_activity_during_streak
+    FROM activity_streaks
+    WHERE had_activity = 1
+    GROUP BY streak_group
+)
+SELECT 
+    streak_start,
+    streak_end,
+    streak_length,
+    total_activity_during_streak,
+    ROUND(total_activity_during_streak::decimal / streak_length, 2) as avg_daily_activity
+FROM streak_lengths
+ORDER BY streak_length DESC, total_activity_during_streak DESC
+LIMIT 10;
+
+-- Alternative: Find the current active streak
+WITH daily_status AS (
+    SELECT 
+        generate_series::date as calendar_date,
+        COALESCE(da.active_users, 0) as active_users,
+        CASE 
+            WHEN da.active_users > 0 THEN 1
+            ELSE 0
+        END as had_activity
+    FROM generate_series(
+        '2023-01-01'::date, 
+        CURRENT_DATE, 
+        '1 day'::interval
+    )
+    LEFT JOIN daily_activity da ON generate_series::date = da.activity_date
+),
+streak_calc AS (
+    SELECT 
+        calendar_date,
+        active_users,
+        had_activity,
+        SUM(CASE WHEN had_activity = 0 THEN 1 ELSE 0 END) OVER (
+            ORDER BY calendar_date DESC
+        ) as reverse_streak_group
+    FROM daily_status
+    ORDER BY calendar_date DESC
+)
+SELECT 
+    MIN(calendar_date) as current_streak_start,
+    MAX(calendar_date) as current_streak_end,
+    COUNT(*) as current_streak_length,
+    SUM(active_users) as total_activity_current_streak
+FROM streak_calc
+WHERE had_activity = 1
+AND reverse_streak_group = 0;`,
+      },
+      {
+        id: 14,
+        question:
+          "Write a query to identify customers with declining purchase frequency",
+        solution: `-- Identify customers with declining purchase frequency over time
+WITH customer_purchase_trends AS (
+    SELECT 
+        customer_id,
+        DATE_TRUNC('month', order_date) as order_month,
+        COUNT(*) as monthly_orders,
+        AVG(COUNT(*)) OVER (
+            PARTITION BY customer_id
+            ORDER BY DATE_TRUNC('month', order_date)
+            ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+        ) as moving_avg_3m,
+        LAG(COUNT(*), 1) OVER (
+            PARTITION BY customer_id 
+            ORDER BY DATE_TRUNC('month', order_date)
+        ) as prev_month_orders
+    FROM orders
+    WHERE order_date >= CURRENT_DATE - INTERVAL '6 months'
+    GROUP BY customer_id, DATE_TRUNC('month', order_date)
+),
+trend_analysis AS (
+    SELECT 
+        customer_id,
+        order_month,
+        monthly_orders,
+        moving_avg_3m,
+        prev_month_orders,
+        CASE 
+            WHEN monthly_orders < moving_avg_3m * 0.7 THEN 'Significant Decline'
+            WHEN monthly_orders < prev_month_orders THEN 'Declining'
+            WHEN monthly_orders > prev_month_orders THEN 'Increasing'
+            ELSE 'Stable'
+        END as trend_direction,
+        ROUND(
+            ((monthly_orders - prev_month_orders)::decimal / 
+            NULLIF(prev_month_orders, 0)) * 100, 
+            2
+        ) as month_over_month_change
+    FROM customer_purchase_trends
+)
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    c.email,
+    t.order_month,
+    t.monthly_orders,
+    t.trend_direction,
+    t.month_over_month_change,
+    CASE 
+        WHEN t.trend_direction IN ('Significant Decline', 'Declining') 
+            AND t.month_over_month_change < -20 
+            THEN 'At Risk - Declining Frequency'
+        ELSE 'Normal'
+    END as customer_status
+FROM trend_analysis t
+JOIN customers c ON t.customer_id = c.customer_id
+WHERE t.trend_direction IN ('Significant Decline', 'Declining')
+ORDER BY t.month_over_month_change ASC, t.customer_id;
+
+-- Additional analysis: Calculate slope of regression line
+WITH monthly_orders AS (
+    SELECT 
+        customer_id,
+        EXTRACT(MONTH FROM AGE(order_date, '2023-01-01')) as month_index,
+        COUNT(*) as order_count
+    FROM orders
+    WHERE order_date >= '2023-01-01'
+    GROUP BY customer_id, EXTRACT(MONTH FROM AGE(order_date, '2023-01-01'))
+),
+regression_slopes AS (
+    SELECT 
+        customer_id,
+        -- Calculate slope using linear regression formula
+        (COUNT(*) * SUM(month_index * order_count) - 
+         SUM(month_index) * SUM(order_count)) /
+        (COUNT(*) * SUM(month_index * month_index) - 
+         SUM(month_index) * SUM(month_index)) as slope
+    FROM monthly_orders
+    GROUP BY customer_id
+    HAVING COUNT(*) >= 3  -- Need at least 3 data points
+)
+SELECT 
+    r.customer_id,
+    c.customer_name,
+    r.slope,
+    CASE 
+        WHEN r.slope < -0.5 THEN 'Rapid Decline'
+        WHEN r.slope < -0.1 THEN 'Gradual Decline'
+        WHEN r.slope > 0.1 THEN 'Increasing'
+        ELSE 'Stable'
+    END as trend_category
+FROM regression_slopes r
+JOIN customers c ON r.customer_id = c.customer_id
+WHERE r.slope < -0.1  -- Filter for declining trends
+ORDER BY r.slope ASC;`,
+      },
+      {
+        id: 15,
+        question:
+          "How do you calculate the percentage contribution of each product to total sales?",
+        solution: `-- Calculate product contribution to total sales
+WITH product_sales AS (
+    SELECT 
+        p.product_id,
+        p.product_name,
+        p.category,
+        SUM(o.quantity * o.unit_price) as total_sales,
+        COUNT(*) as order_count
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    GROUP BY p.product_id, p.product_name, p.category
+),
+total_sales AS (
+    SELECT SUM(total_sales) as grand_total
+    FROM product_sales
+)
+SELECT 
+    ps.product_id,
+    ps.product_name,
+    ps.category,
+    ps.total_sales,
+    ps.order_count,
+    ROUND(
+        (ps.total_sales / ts.grand_total) * 100, 
+        2
+    ) as contribution_percent,
+    ROUND(
+        SUM(ps.total_sales) OVER (
+            ORDER BY ps.total_sales DESC
+        ) / ts.grand_total * 100, 
+        2
+    ) as cumulative_percent
+FROM product_sales ps
+CROSS JOIN total_sales ts
+ORDER BY ps.total_sales DESC;
+
+-- Breakdown by category and product
+SELECT 
+    category,
+    product_name,
+    total_sales,
+    category_sales,
+    ROUND((total_sales / category_sales) * 100, 2) as percent_of_category,
+    ROUND((total_sales / grand_total) * 100, 2) as percent_of_total
+FROM (
+    SELECT 
+        p.category,
+        p.product_name,
+        SUM(o.quantity * o.unit_price) as total_sales,
+        SUM(SUM(o.quantity * o.unit_price)) OVER (
+            PARTITION BY p.category
+        ) as category_sales,
+        SUM(SUM(o.quantity * o.unit_price)) OVER () as grand_total
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    GROUP BY p.category, p.product_name
+) sales_data
+ORDER BY category, total_sales DESC;
+
+-- Pareto analysis (80/20 rule)
+WITH product_contributions AS (
+    SELECT 
+        product_name,
+        total_sales,
+        ROUND((total_sales / SUM(total_sales) OVER ()) * 100, 2) as contribution_percent,
+        ROUND(
+            SUM(total_sales) OVER (
+                ORDER BY total_sales DESC
+            ) / SUM(total_sales) OVER () * 100, 
+            2
+        ) as cumulative_percent
+    FROM (
+        SELECT 
+            p.product_name,
+            SUM(o.quantity * o.unit_price) as total_sales
+        FROM orders o
+        JOIN order_items oi ON o.order_id = oi.order_id
+        JOIN products p ON oi.product_id = p.product_id
+        GROUP BY p.product_name
+    ) product_sales
+)
+SELECT 
+    product_name,
+    total_sales,
+    contribution_percent,
+    cumulative_percent,
+    CASE 
+        WHEN cumulative_percent <= 80 THEN 'A - Top 80%'
+        WHEN cumulative_percent <= 95 THEN 'B - Next 15%'
+        ELSE 'C - Bottom 5%'
+    END as pareto_category
+FROM product_contributions
+ORDER BY total_sales DESC;`,
+      },
+      {
+        id: 16,
+        question:
+          "Write a query to find the most common product combinations in orders",
+        solution: `-- Find most common product pairs in orders
+WITH order_products AS (
+    SELECT 
+        o.order_id,
+        oi.product_id,
+        p.product_name
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+),
+product_pairs AS (
+    SELECT 
+        op1.product_id as product1_id,
+        op1.product_name as product1_name,
+        op2.product_id as product2_id,
+        op2.product_name as product2_name,
+        COUNT(DISTINCT op1.order_id) as order_count
+    FROM order_products op1
+    JOIN order_products op2 ON op1.order_id = op2.order_id
+    WHERE op1.product_id < op2.product_id  -- Avoid duplicates and self-pairs
+    GROUP BY op1.product_id, op1.product_name, op2.product_id, op2.product_name
+),
+total_orders AS (
+    SELECT COUNT(DISTINCT order_id) as total_order_count
+    FROM orders
+)
+SELECT 
+    pp.product1_name,
+    pp.product2_name,
+    pp.order_count,
+    ROUND(
+        (pp.order_count::decimal / t.total_order_count) * 100, 
+        2
+    ) as penetration_rate,
+    ROW_NUMBER() OVER (
+        ORDER BY pp.order_count DESC
+    ) as popularity_rank
+FROM product_pairs pp
+CROSS JOIN total_orders t
+WHERE pp.order_count >= 10  -- Minimum threshold
+ORDER BY pp.order_count DESC
+LIMIT 20;
+
+-- Find most common product triplets
+WITH order_products AS (
+    SELECT 
+        order_id,
+        ARRAY_AGG(product_id ORDER BY product_id) as product_array
+    FROM order_items
+    GROUP BY order_id
+    HAVING COUNT(*) >= 3
+),
+product_triplets AS (
+    SELECT 
+        product_array[1] as product1,
+        product_array[2] as product2,
+        product_array[3] as product3,
+        COUNT(*) as order_count
+    FROM order_products
+    WHERE array_length(product_array, 1) >= 3
+    GROUP BY product_array[1], product_array[2], product_array[3]
+)
+SELECT 
+    p1.product_name as product1,
+    p2.product_name as product2,
+    p3.product_name as product3,
+    pt.order_count,
+    ROUND(
+        (pt.order_count::decimal / (SELECT COUNT(*) FROM orders)) * 100, 
+        4
+    ) as penetration_rate
+FROM product_triplets pt
+JOIN products p1 ON pt.product1 = p1.product_id
+JOIN products p2 ON pt.product2 = p2.product_id
+JOIN products p3 ON pt.product3 = p3.product_id
+ORDER BY pt.order_count DESC
+LIMIT 15;
+
+-- Using market basket analysis (association rules)
+WITH product_cooccurrence AS (
+    SELECT 
+        oi1.product_id as product_a,
+        oi2.product_id as product_b,
+        COUNT(DISTINCT oi1.order_id) as cooccurrence_count,
+        (SELECT COUNT(DISTINCT order_id) FROM order_items) as total_orders
+    FROM order_items oi1
+    JOIN order_items oi2 ON oi1.order_id = oi2.order_id
+    WHERE oi1.product_id != oi2.product_id
+    GROUP BY oi1.product_id, oi2.product_id
+),
+product_support AS (
+    SELECT 
+        product_id,
+        COUNT(DISTINCT order_id) as support_count
+    FROM order_items
+    GROUP BY product_id
+)
+SELECT 
+    pa.product_name as product_a,
+    pb.product_name as product_b,
+    pc.cooccurrence_count,
+    ROUND(
+        (pc.cooccurrence_count::decimal / pc.total_orders) * 100, 
+        2
+    ) as support_percent,
+    ROUND(
+        (pc.cooccurrence_count::decimal / ps_a.support_count) * 100, 
+        2
+    ) as confidence_percent,
+    ROUND(
+        (pc.cooccurrence_count::decimal / pc.total_orders) / 
+        ((ps_a.support_count::decimal / pc.total_orders) * 
+         (ps_b.support_count::decimal / pc.total_orders)), 
+        2
+    ) as lift_ratio
+FROM product_cooccurrence pc
+JOIN products pa ON pc.product_a = pa.product_id
+JOIN products pb ON pc.product_b = pb.product_id
+JOIN product_support ps_a ON pc.product_a = ps_a.product_id
+JOIN product_support ps_b ON pc.product_b = ps_b.product_id
+WHERE pc.cooccurrence_count >= 50
+ORDER BY lift_ratio DESC, cooccurrence_count DESC
+LIMIT 20;`,
+      },
+      {
+        id: 17,
+        question: "How do you identify outliers in transaction amounts?",
+        solution: `-- Identify outliers using statistical methods
+WITH transaction_stats AS (
+    SELECT 
+        AVG(amount) as mean_amount,
+        STDDEV(amount) as stddev_amount,
+        PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY amount) as q1,
+        PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY amount) as q3,
+        PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY amount) - 
+        PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY amount) as iqr
+    FROM transactions
+    WHERE amount > 0
+),
+outlier_analysis AS (
+    SELECT 
+        t.transaction_id,
+        t.customer_id,
+        t.amount,
+        t.transaction_date,
+        ts.mean_amount,
+        ts.stddev_amount,
+        ts.q1,
+        ts.q3,
+        ts.iqr,
+        -- Z-score method
+        ABS((t.amount - ts.mean_amount) / ts.stddev_amount) as z_score,
+        -- IQR method
+        CASE 
+            WHEN t.amount < ts.q1 - 1.5 * ts.iqr THEN 'Low Outlier'
+            WHEN t.amount > ts.q3 + 1.5 * ts.iqr THEN 'High Outlier'
+            ELSE 'Normal'
+        END as iqr_outlier_status
+    FROM transactions t
+    CROSS JOIN transaction_stats ts
+    WHERE t.amount > 0
+)
+SELECT 
+    transaction_id,
+    customer_id,
+    amount,
+    transaction_date,
+    ROUND(z_score, 2) as z_score,
+    iqr_outlier_status,
+    CASE 
+        WHEN z_score > 3 THEN 'Extreme Outlier (Z > 3)'
+        WHEN z_score > 2 THEN 'Moderate Outlier (Z > 2)'
+        WHEN iqr_outlier_status != 'Normal' THEN 'IQR Outlier'
+        ELSE 'Normal'
+    END as outlier_classification,
+    ROUND(mean_amount, 2) as average_amount,
+    ROUND(stddev_amount, 2) as standard_deviation
+FROM outlier_analysis
+WHERE z_score > 2 OR iqr_outlier_status != 'Normal'
+ORDER BY amount DESC;
+
+-- Additional analysis: Customer-specific outliers
+WITH customer_stats AS (
+    SELECT 
+        customer_id,
+        AVG(amount) as cust_mean,
+        STDDEV(amount) as cust_stddev,
+        COUNT(*) as transaction_count
+    FROM transactions
+    WHERE amount > 0
+    GROUP BY customer_id
+    HAVING COUNT(*) >= 10
+),
+customer_outliers AS (
+    SELECT 
+        t.transaction_id,
+        t.customer_id,
+        t.amount,
+        t.transaction_date,
+        cs.cust_mean,
+        cs.cust_stddev,
+        ABS((t.amount - cs.cust_mean) / cs.cust_stddev) as cust_z_score
+    FROM transactions t
+    JOIN customer_stats cs ON t.customer_id = cs.customer_id
+    WHERE t.amount > 0
+)
+SELECT 
+    co.transaction_id,
+    co.customer_id,
+    c.customer_name,
+    co.amount,
+    co.transaction_date,
+    ROUND(co.cust_z_score, 2) as customer_z_score,
+    ROUND(co.cust_mean, 2) as customer_average,
+    CASE 
+        WHEN co.cust_z_score > 3 THEN 'Extreme Customer Outlier'
+        WHEN co.cust_z_score > 2 THEN 'Moderate Customer Outlier'
+        ELSE 'Normal for Customer'
+    END as customer_outlier_status
+FROM customer_outliers co
+JOIN customers c ON co.customer_id = c.customer_id
+WHERE co.cust_z_score > 2
+ORDER BY co.cust_z_score DESC;
+
+-- Using MAD (Median Absolute Deviation) for robust outlier detection
+WITH transaction_medians AS (
+    SELECT 
+        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY amount) as median_amount
+    FROM transactions
+    WHERE amount > 0
+),
+absolute_deviations AS (
+    SELECT 
+        transaction_id,
+        amount,
+        ABS(amount - (SELECT median_amount FROM transaction_medians)) as abs_deviation
+    FROM transactions
+    WHERE amount > 0
+),
+mad_value AS (
+    SELECT 
+        PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY abs_deviation) as mad
+    FROM absolute_deviations
+)
+SELECT 
+    t.transaction_id,
+    t.customer_id,
+    t.amount,
+    t.transaction_date,
+    ROUND(ad.abs_deviation / mv.mad, 2) as mad_score,
+    CASE 
+        WHEN ad.abs_deviation / mv.mad > 3.5 THEN 'Outlier (MAD > 3.5)'
+        ELSE 'Normal'
+    END as mad_outlier_status
+FROM transactions t
+JOIN absolute_deviations ad ON t.transaction_id = ad.transaction_id
+CROSS JOIN mad_value mv
+WHERE ad.abs_deviation / mv.mad > 3.5
+ORDER BY ad.abs_deviation / mv.mad DESC;`,
+      },
+      {
+        id: 18,
+        question: "Write a query to calculate customer lifetime value (CLV)",
+        solution: `-- Calculate Customer Lifetime Value (CLV)
+WITH customer_transactions AS (
+    SELECT 
+        customer_id,
+        MIN(order_date) as first_order_date,
+        MAX(order_date) as last_order_date,
+        COUNT(DISTINCT order_id) as total_orders,
+        SUM(order_amount) as total_revenue,
+        AVG(order_amount) as avg_order_value
+    FROM orders
+    GROUP BY customer_id
+),
+customer_lifespan AS (
+    SELECT 
+        customer_id,
+        first_order_date,
+        last_order_date,
+        total_orders,
+        total_revenue,
+        avg_order_value,
+        EXTRACT(DAY FROM (last_order_date - first_order_date)) as lifespan_days,
+        CASE 
+            WHEN EXTRACT(DAY FROM (last_order_date - first_order_date)) > 0 
+            THEN total_orders::decimal / 
+                 EXTRACT(DAY FROM (last_order_date - first_order_date)) * 365
+            ELSE 0
+        END as projected_annual_orders
+    FROM customer_transactions
+),
+clv_calculation AS (
+    SELECT 
+        cl.customer_id,
+        c.customer_name,
+        cl.first_order_date,
+        cl.last_order_date,
+        cl.lifespan_days,
+        cl.total_orders,
+        cl.total_revenue,
+        cl.avg_order_value,
+        cl.projected_annual_orders,
+        -- Simple CLV: Average revenue per year
+        CASE 
+            WHEN cl.lifespan_days > 0
+            THEN (cl.total_revenue / cl.lifespan_days) * 365
+            ELSE 0
+        END as simple_clv,
+        -- Predictive CLV: Using purchase frequency and average value
+        cl.projected_annual_orders * cl.avg_order_value as predictive_clv,
+        -- Historical CLV: Total revenue adjusted for time
+        cl.total_revenue * 
+            (365 / GREATEST(cl.lifespan_days, 1)) as time_adjusted_clv
+    FROM customer_lifespan cl
+    JOIN customers c ON cl.customer_id = c.customer_id
+    WHERE cl.total_orders >= 2  -- Only customers with multiple orders
+)
+SELECT 
+    customer_id,
+    customer_name,
+    first_order_date,
+    last_order_date,
+    lifespan_days,
+    total_orders,
+    total_revenue,
+    ROUND(avg_order_value, 2) as avg_order_value,
+    ROUND(projected_annual_orders, 2) as projected_annual_orders,
+    ROUND(simple_clv, 2) as simple_clv,
+    ROUND(predictive_clv, 2) as predictive_clv,
+    ROUND(time_adjusted_clv, 2) as time_adjusted_clv,
+    CASE 
+        WHEN simple_clv > 1000 THEN 'VIP'
+        WHEN simple_clv > 500 THEN 'Premium'
+        WHEN simple_clv > 100 THEN 'Standard'
+        ELSE 'Low Value'
+    END as clv_segment
+FROM clv_calculation
+ORDER BY simple_clv DESC;
+
+-- Advanced CLV with retention rates and discount factors
+WITH customer_metrics AS (
+    SELECT 
+        customer_id,
+        COUNT(DISTINCT order_id) as total_orders,
+        SUM(order_amount) as total_revenue,
+        AVG(order_amount) as avg_order_value,
+        EXTRACT(MONTH FROM AGE(MAX(order_date), MIN(order_date))) as tenure_months
+    FROM orders
+    GROUP BY customer_id
+),
+retention_rates AS (
+    SELECT 
+        customer_id,
+        CASE 
+            WHEN COUNT(DISTINCT DATE_TRUNC('month', order_date)) > 1
+            THEN COUNT(DISTINCT order_id)::decimal / 
+                 COUNT(DISTINCT DATE_TRUNC('month', order_date))
+            ELSE 0
+        END as retention_rate
+    FROM orders
+    GROUP BY customer_id
+)
+SELECT 
+    cm.customer_id,
+    c.customer_name,
+    cm.total_orders,
+    cm.total_revenue,
+    cm.avg_order_value,
+    cm.tenure_months,
+    rr.retention_rate,
+    -- CLV formula: Avg Order Value × Purchase Frequency × Customer Lifespan
+    cm.avg_order_value * 
+    (cm.total_orders / GREATEST(cm.tenure_months, 1)) * 
+    (12 * rr.retention_rate) as advanced_clv,
+    -- Discounted CLV (assuming 10% discount rate)
+    cm.avg_order_value * 
+    (cm.total_orders / GREATEST(cm.tenure_months, 1)) * 
+    (12 * rr.retention_rate) / 
+    POWER(1.10, cm.tenure_months/12) as discounted_clv
+FROM customer_metrics cm
+JOIN retention_rates rr ON cm.customer_id = rr.customer_id
+JOIN customers c ON cm.customer_id = c.customer_id
+WHERE cm.tenure_months >= 3
+ORDER BY advanced_clv DESC;`,
+      },
+      {
+        id: 19,
+        question:
+          "How do you find the optimal price point using historical sales data?",
+        solution: `-- Price elasticity and optimal pricing analysis
+WITH price_sales_data AS (
+    SELECT 
+        product_id,
+        unit_price,
+        COUNT(DISTINCT order_id) as order_count,
+        SUM(quantity) as total_quantity,
+        SUM(quantity * unit_price) as total_revenue,
+        AVG(quantity) as avg_quantity_per_order
+    FROM order_items
+    WHERE unit_price > 0
+    GROUP BY product_id, unit_price
+    HAVING COUNT(DISTINCT order_id) >= 10  -- Minimum data points
+),
+price_elasticity AS (
+    SELECT 
+        product_id,
+        unit_price,
+        order_count,
+        total_quantity,
+        total_revenue,
+        avg_quantity_per_order,
+        LAG(unit_price) OVER (
+            PARTITION BY product_id 
+            ORDER BY unit_price
+        ) as prev_price,
+        LAG(total_quantity) OVER (
+            PARTITION BY product_id 
+            ORDER BY unit_price
+        ) as prev_quantity,
+        CASE 
+            WHEN LAG(unit_price) OVER (
+                PARTITION BY product_id 
+                ORDER BY unit_price
+            ) IS NOT NULL
+            THEN (
+                (total_quantity - LAG(total_quantity) OVER (
+                    PARTITION BY product_id 
+                    ORDER BY unit_price
+                )) / 
+                LAG(total_quantity) OVER (
+                    PARTITION BY product_id 
+                    ORDER BY unit_price
+                )
+            ) / (
+                (unit_price - LAG(unit_price) OVER (
+                    PARTITION BY product_id 
+                    ORDER BY unit_price
+                )) / 
+                LAG(unit_price) OVER (
+                    PARTITION BY product_id 
+                    ORDER BY unit_price
+                )
+            )
+            ELSE NULL
+        END as price_elasticity
+    FROM price_sales_data
+),
+optimal_pricing AS (
+    SELECT 
+        pe.product_id,
+        p.product_name,
+        pe.unit_price,
+        pe.total_quantity,
+        pe.total_revenue,
+        pe.price_elasticity,
+        -- Revenue optimization: where marginal revenue = marginal cost
+        -- Assuming cost is 60% of price for demonstration
+        pe.unit_price * 0.6 as estimated_cost,
+        pe.total_revenue - (pe.total_quantity * pe.unit_price * 0.6) as gross_profit,
+        -- Find price that maximizes profit
+        FIRST_VALUE(pe.unit_price) OVER (
+            PARTITION BY pe.product_id 
+            ORDER BY pe.total_revenue - (pe.total_quantity * pe.unit_price * 0.6) DESC
+        ) as suggested_optimal_price,
+        FIRST_VALUE(pe.total_revenue - (pe.total_quantity * pe.unit_price * 0.6)) OVER (
+            PARTITION BY pe.product_id 
+            ORDER BY pe.total_revenue - (pe.total_quantity * pe.unit_price * 0.6) DESC
+        ) as max_profit
+    FROM price_elasticity pe
+    JOIN products p ON pe.product_id = p.product_id
+    WHERE pe.price_elasticity IS NOT NULL
+)
+SELECT 
+    product_id,
+    product_name,
+    unit_price as current_price,
+    total_quantity as units_sold,
+    total_revenue,
+    ROUND(price_elasticity, 2) as elasticity,
+    ROUND(estimated_cost, 2) as estimated_cost,
+    ROUND(gross_profit, 2) as gross_profit,
+    suggested_optimal_price,
+    ROUND(max_profit, 2) as estimated_max_profit,
+    CASE 
+        WHEN price_elasticity < -1 THEN 'Elastic (price sensitive)'
+        WHEN price_elasticity > -1 THEN 'Inelastic (price insensitive)'
+        ELSE 'Unitary elastic'
+    END as elasticity_type,
+    CASE 
+        WHEN unit_price < suggested_optimal_price THEN 'UNDERPRICED'
+        WHEN unit_price > suggested_optimal_price THEN 'OVERPRICED'
+        ELSE 'OPTIMAL'
+    END as pricing_status
+FROM optimal_pricing
+WHERE total_quantity >= 100  -- Only products with significant sales
+ORDER BY (gross_profit - max_profit) DESC, product_id;
+
+-- Additional analysis: Price sensitivity by customer segment
+WITH customer_price_sensitivity AS (
+    SELECT 
+        o.customer_id,
+        oi.product_id,
+        oi.unit_price,
+        oi.quantity,
+        c.income_level,
+        c.customer_segment,
+        AVG(oi.unit_price) OVER (PARTITION BY oi.product_id) as avg_product_price,
+        CASE 
+            WHEN oi.unit_price > AVG(oi.unit_price) OVER (PARTITION BY oi.product_id) 
+            THEN 'Above Average'
+            ELSE 'Below Average'
+        END as price_position
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN customers c ON o.customer_id = c.customer_id
+),
+segment_elasticity AS (
+    SELECT 
+        product_id,
+        customer_segment,
+        price_position,
+        COUNT(*) as order_count,
+        SUM(quantity) as total_quantity,
+        AVG(unit_price) as avg_price_paid,
+        -- Calculate price sensitivity by segment
+        CORR(unit_price, quantity) as price_sensitivity_correlation
+    FROM customer_price_sensitivity
+    GROUP BY product_id, customer_segment, price_position
+)
+SELECT 
+    p.product_name,
+    cps.customer_segment,
+    cps.price_position,
+    cps.order_count,
+    cps.total_quantity,
+    ROUND(cps.avg_price_paid, 2) as avg_price_paid,
+    ROUND(cps.price_sensitivity_correlation, 3) as price_sensitivity,
+    CASE 
+        WHEN cps.price_sensitivity_correlation < -0.3 THEN 'Highly Price Sensitive'
+        WHEN cps.price_sensitivity_correlation < -0.1 THEN 'Moderately Sensitive'
+        WHEN cps.price_sensitivity_correlation > 0.1 THEN 'Price Insensitive'
+        ELSE 'Neutral'
+    END as sensitivity_category
+FROM segment_elasticity cps
+JOIN products p ON cps.product_id = p.product_id
+WHERE cps.order_count >= 50
+ORDER BY p.product_name, cps.customer_segment, cps.price_sensitivity_correlation;`,
+      },
+      {
+        id: 20,
+        question: "Write a query to identify cross-selling opportunities",
+        solution: `-- Identify cross-selling opportunities between product categories
+WITH customer_purchase_history AS (
+    SELECT 
+        o.customer_id,
+        p.category,
+        COUNT(DISTINCT o.order_id) as order_count,
+        MAX(o.order_date) as last_purchase_date
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    GROUP BY o.customer_id, p.category
+),
+customer_category_matrix AS (
+    SELECT 
+        customer_id,
+        MAX(CASE WHEN category = 'Electronics' THEN 1 ELSE 0 END) as bought_electronics,
+        MAX(CASE WHEN category = 'Books' THEN 1 ELSE 0 END) as bought_books,
+        MAX(CASE WHEN category = 'Clothing' THEN 1 ELSE 0 END) as bought_clothing,
+        MAX(CASE WHEN category = 'Home' THEN 1 ELSE 0 END) as bought_home,
+        COUNT(DISTINCT category) as total_categories
+    FROM customer_purchase_history
+    GROUP BY customer_id
+),
+cross_sell_opportunities AS (
+    SELECT 
+        customer_id,
+        total_categories,
+        -- Identify what customers haven't bought but might be interested in
+        CASE 
+            WHEN bought_electronics = 1 AND bought_books = 0 THEN 'Books'
+            WHEN bought_books = 1 AND bought_electronics = 0 THEN 'Electronics'
+            WHEN bought_clothing = 1 AND bought_home = 0 THEN 'Home'
+            WHEN bought_home = 1 AND bought_clothing = 0 THEN 'Clothing'
+            ELSE 'Multiple Opportunities'
+        END as suggested_category,
+        -- Score based on purchase history
+        total_categories * order_count as opportunity_score
+    FROM customer_category_matrix ccm
+    JOIN (
+        SELECT customer_id, COUNT(*) as order_count
+        FROM orders
+        GROUP BY customer_id
+    ) oc ON ccm.customer_id = oc.customer_id
+    WHERE total_categories < 4  -- Customers who haven't bought from all categories
+)
+SELECT 
+    cso.customer_id,
+    c.customer_name,
+    c.email,
+    cso.total_categories,
+    cso.suggested_category,
+    cso.opportunity_score,
+    cph.last_purchase_date,
+    CASE 
+        WHEN cso.opportunity_score > 100 THEN 'High Priority'
+        WHEN cso.opportunity_score > 50 THEN 'Medium Priority'
+        ELSE 'Low Priority'
+    END as priority_level
+FROM cross_sell_opportunities cso
+JOIN customers c ON cso.customer_id = c.customer_id
+JOIN (
+    SELECT customer_id, MAX(last_purchase_date) as last_purchase_date
+    FROM customer_purchase_history
+    GROUP BY customer_id
+) cph ON cso.customer_id = cph.customer_id
+WHERE cso.suggested_category != 'Multiple Opportunities'
+ORDER BY cso.opportunity_score DESC;
+
+-- Product-level cross-selling recommendations
+WITH product_affinities AS (
+    SELECT 
+        oi1.product_id as product_a,
+        oi2.product_id as product_b,
+        COUNT(DISTINCT oi1.order_id) as co_purchase_count,
+        COUNT(DISTINCT oi1.order_id)::decimal / 
+        (SELECT COUNT(DISTINCT order_id) FROM order_items WHERE product_id = oi1.product_id) as confidence_ab,
+        COUNT(DISTINCT oi1.order_id)::decimal / 
+        (SELECT COUNT(DISTINCT order_id) FROM order_items WHERE product_id = oi2.product_id) as confidence_ba
+    FROM order_items oi1
+    JOIN order_items oi2 ON oi1.order_id = oi2.order_id
+    WHERE oi1.product_id != oi2.product_id
+    GROUP BY oi1.product_id, oi2.product_id
+    HAVING COUNT(DISTINCT oi1.order_id) >= 5
+),
+customer_product_gaps AS (
+    SELECT 
+        o.customer_id,
+        pa.product_a as owned_product,
+        pa.product_b as recommended_product,
+        pa.co_purchase_count,
+        pa.confidence_ab,
+        c.total_orders,
+        -- Has customer bought product_a but not product_b?
+        CASE 
+            WHEN EXISTS (
+                SELECT 1 FROM order_items oi 
+                JOIN orders o2 ON oi.order_id = o2.order_id 
+                WHERE o2.customer_id = o.customer_id 
+                AND oi.product_id = pa.product_a
+            ) AND NOT EXISTS (
+                SELECT 1 FROM order_items oi 
+                JOIN orders o2 ON oi.order_id = o2.order_id 
+                WHERE o2.customer_id = o.customer_id 
+                AND oi.product_id = pa.product_b
+            ) THEN 1
+            ELSE 0
+        END as is_opportunity
+    FROM product_affinities pa
+    CROSS JOIN (
+        SELECT DISTINCT customer_id, COUNT(*) as total_orders
+        FROM orders
+        GROUP BY customer_id
+    ) c
+    WHERE pa.confidence_ab > 0.3  -- Minimum confidence threshold
+)
+SELECT 
+    cpg.customer_id,
+    c.customer_name,
+    p1.product_name as owned_product,
+    p2.product_name as recommended_product,
+    cpg.co_purchase_count,
+    ROUND(cpg.confidence_ab * 100, 2) as confidence_percent,
+    cpg.total_orders,
+    ROW_NUMBER() OVER (
+        PARTITION BY cpg.customer_id 
+        ORDER BY cpg.confidence_ab DESC
+    ) as recommendation_rank
+FROM customer_product_gaps cpg
+JOIN customers c ON cpg.customer_id = c.customer_id
+JOIN products p1 ON cpg.owned_product = p1.product_id
+JOIN products p2 ON cpg.recommended_product = p2.product_id
+WHERE cpg.is_opportunity = 1
+AND cpg.total_orders >= 3
+ORDER BY cpg.confidence_ab DESC, cpg.customer_id
+LIMIT 50;`,
+      },
+      {
+        id: 21,
+        question: "How do you calculate inventory turnover rates?",
+        solution: `-- Calculate inventory turnover rates by product and category
+WITH inventory_movements AS (
+    SELECT 
+        product_id,
+        DATE_TRUNC('month', movement_date) as movement_month,
+        SUM(CASE WHEN movement_type = 'PURCHASE' THEN quantity ELSE 0 END) as purchases,
+        SUM(CASE WHEN movement_type = 'SALE' THEN quantity ELSE 0 END) as sales,
+        SUM(CASE WHEN movement_type = 'RETURN' THEN quantity ELSE 0 END) as returns,
+        SUM(CASE WHEN movement_type = 'ADJUSTMENT' THEN quantity ELSE 0 END) as adjustments
+    FROM inventory_transactions
+    WHERE movement_date >= CURRENT_DATE - INTERVAL '12 months'
+    GROUP BY product_id, DATE_TRUNC('month', movement_date)
+),
+inventory_costs AS (
+    SELECT 
+        product_id,
+        AVG(unit_cost) as avg_unit_cost
+    FROM purchase_orders
+    GROUP BY product_id
+),
+turnover_calculation AS (
+    SELECT 
+        im.product_id,
+        p.product_name,
+        p.category,
+        im.movement_month,
+        im.sales as units_sold,
+        im.purchases as units_purchased,
+        ic.avg_unit_cost,
+        -- Cost of Goods Sold
+        im.sales * ic.avg_unit_cost as cogs,
+        -- Average Inventory (simplified)
+        (COALESCE(LAG(im.purchases - im.sales + im.returns) OVER (
+            PARTITION BY im.product_id 
+            ORDER BY im.movement_month
+        ), 0) + (im.purchases - im.sales + im.returns)) / 2 as avg_inventory_value,
+        -- Inventory Turnover Ratio
+        CASE 
+            WHEN (COALESCE(LAG(im.purchases - im.sales + im.returns) OVER (
+                PARTITION BY im.product_id 
+                ORDER BY im.movement_month
+            ), 0) + (im.purchases - im.sales + im.returns)) / 2 > 0
+            THEN (im.sales * ic.avg_unit_cost) / 
+                 ((COALESCE(LAG(im.purchases - im.sales + im.returns) OVER (
+                     PARTITION BY im.product_id 
+                     ORDER BY im.movement_month
+                 ), 0) + (im.purchases - im.sales + im.returns)) / 2)
+            ELSE NULL
+        END as turnover_ratio,
+        -- Days in Inventory
+        CASE 
+            WHEN (im.sales * ic.avg_unit_cost) > 0
+            THEN 365 / ((im.sales * ic.avg_unit_cost) / 
+                 ((COALESCE(LAG(im.purchases - im.sales + im.returns) OVER (
+                     PARTITION BY im.product_id 
+                     ORDER BY im.movement_month
+                 ), 0) + (im.purchases - im.sales + im.returns)) / 2))
+            ELSE NULL
+        END as days_in_inventory
+    FROM inventory_movements im
+    JOIN products p ON im.product_id = p.product_id
+    LEFT JOIN inventory_costs ic ON im.product_id = ic.product_id
+)
+SELECT 
+    product_id,
+    product_name,
+    category,
+    movement_month,
+    units_sold,
+    units_purchased,
+    ROUND(avg_unit_cost, 2) as avg_unit_cost,
+    ROUND(cogs, 2) as cost_of_goods_sold,
+    ROUND(avg_inventory_value, 2) as average_inventory_value,
+    ROUND(turnover_ratio, 2) as inventory_turnover_ratio,
+    ROUND(days_in_inventory, 2) as days_in_inventory,
+    CASE 
+        WHEN turnover_ratio > 12 THEN 'Very Fast Moving'
+        WHEN turnover_ratio > 6 THEN 'Fast Moving'
+        WHEN turnover_ratio > 3 THEN 'Medium Moving'
+        WHEN turnover_ratio > 1 THEN 'Slow Moving'
+        ELSE 'Very Slow Moving'
+    END as turnover_category
+FROM turnover_calculation
+WHERE turnover_ratio IS NOT NULL
+ORDER BY category, product_id, movement_month;
+
+-- Annual summary by category
+SELECT 
+    category,
+    COUNT(DISTINCT product_id) as product_count,
+    ROUND(AVG(turnover_ratio), 2) as avg_turnover_ratio,
+    ROUND(MIN(turnover_ratio), 2) as min_turnover_ratio,
+    ROUND(MAX(turnover_ratio), 2) as max_turnover_ratio,
+    ROUND(AVG(days_in_inventory), 2) as avg_days_in_inventory,
+    SUM(units_sold) as total_units_sold,
+    ROUND(SUM(cogs), 2) as total_cogs
+FROM turnover_calculation
+WHERE movement_month >= DATE_TRUNC('year', CURRENT_DATE)
+GROUP BY category
+ORDER BY avg_turnover_ratio DESC;
+
+-- Identify slow-moving and fast-moving products
+WITH annual_turnover AS (
+    SELECT 
+        product_id,
+        product_name,
+        category,
+        AVG(turnover_ratio) as avg_turnover,
+        AVG(days_in_inventory) as avg_days_inventory,
+        SUM(units_sold) as annual_units_sold
+    FROM turnover_calculation
+    WHERE movement_month >= DATE_TRUNC('year', CURRENT_DATE) - INTERVAL '1 year'
+    GROUP BY product_id, product_name, category
+)
+SELECT 
+    product_id,
+    product_name,
+    category,
+    ROUND(avg_turnover, 2) as annual_turnover_rate,
+    ROUND(avg_days_inventory, 2) as avg_days_in_inventory,
+    annual_units_sold,
+    CASE 
+        WHEN avg_turnover > 8 THEN 'Fast Moving - Consider increasing stock'
+        WHEN avg_turnover < 2 THEN 'Slow Moving - Review inventory levels'
+        ELSE 'Normal Moving'
+    END as inventory_status,
+    CASE 
+        WHEN avg_turnover < 2 AND annual_units_sold > 100 THEN 
+            'Slow mover with high volume - Investigate'
+        WHEN avg_turnover > 8 AND annual_units_sold < 50 THEN 
+            'Fast mover with low volume - Potential opportunity'
+        ELSE 'Normal'
+    END as action_required
+FROM annual_turnover
+ORDER BY avg_turnover DESC;`,
+      },
+      {
+        id: 22,
+        question: "Write a query to identify slow-moving inventory",
+        solution: `-- Identify slow-moving inventory items
+WITH inventory_age AS (
+    SELECT 
+        p.product_id,
+        p.product_name,
+        p.category,
+        p.supplier_id,
+        s.supplier_name,
+        i.quantity_on_hand,
+        i.unit_cost,
+        i.quantity_on_hand * i.unit_cost as inventory_value,
+        MAX(m.movement_date) as last_movement_date,
+        CURRENT_DATE - MAX(m.movement_date) as days_since_last_movement,
+        COUNT(DISTINCT m.movement_id) as movement_count,
+        SUM(CASE WHEN m.movement_type = 'SALE' THEN m.quantity ELSE 0 END) as units_sold_90d,
+        SUM(CASE WHEN m.movement_type = 'SALE' THEN m.quantity * i.unit_cost ELSE 0 END) as sales_value_90d
+    FROM products p
+    JOIN inventory i ON p.product_id = i.product_id
+    LEFT JOIN inventory_movements m ON p.product_id = m.product_id
+        AND m.movement_date >= CURRENT_DATE - INTERVAL '90 days'
+    JOIN suppliers s ON p.supplier_id = s.supplier_id
+    WHERE i.quantity_on_hand > 0
+    GROUP BY p.product_id, p.product_name, p.category, p.supplier_id, 
+             s.supplier_name, i.quantity_on_hand, i.unit_cost
+),
+sales_velocity AS (
+    SELECT 
+        product_id,
+        AVG(
+            CASE 
+                WHEN movement_type = 'SALE' AND movement_date >= CURRENT_DATE - INTERVAL '90 days'
+                THEN quantity 
+                ELSE 0 
+            END
+        ) as avg_daily_sales_90d,
+        STDDEV(
+            CASE 
+                WHEN movement_type = 'SALE' AND movement_date >= CURRENT_DATE - INTERVAL '90 days'
+                THEN quantity 
+                ELSE 0 
+            END
+        ) as sales_volatility
+    FROM inventory_movements
+    WHERE movement_date >= CURRENT_DATE - INTERVAL '90 days'
+    GROUP BY product_id
+),
+slow_moving_analysis AS (
+    SELECT 
+        ia.product_id,
+        ia.product_name,
+        ia.category,
+        ia.supplier_name,
+        ia.quantity_on_hand,
+        ia.unit_cost,
+        ia.inventory_value,
+        ia.days_since_last_movement,
+        ia.movement_count,
+        ia.units_sold_90d,
+        ia.sales_value_90d,
+        COALESCE(sv.avg_daily_sales_90d, 0) as avg_daily_sales,
+        COALESCE(sv.sales_volatility, 0) as sales_volatility,
+        -- Days of supply based on recent sales velocity
+        CASE 
+            WHEN COALESCE(sv.avg_daily_sales_90d, 0) > 0
+            THEN ia.quantity_on_hand / sv.avg_daily_sales_90d
+            ELSE 999  -- Infinite supply if no sales
+        END as days_of_supply,
+        -- Inventory turnover rate
+        CASE 
+            WHEN ia.inventory_value > 0
+            THEN ia.sales_value_90d / ia.inventory_value * 4  -- Annualized
+            ELSE 0
+        END as annualized_turnover
+    FROM inventory_age ia
+    LEFT JOIN sales_velocity sv ON ia.product_id = sv.product_id
+    WHERE ia.quantity_on_hand > 0
+)
+SELECT 
+    product_id,
+    product_name,
+    category,
+    supplier_name,
+    quantity_on_hand,
+    ROUND(unit_cost, 2) as unit_cost,
+    ROUND(inventory_value, 2) as inventory_value,
+    days_since_last_movement,
+    movement_count,
+    units_sold_90d,
+    ROUND(sales_value_90d, 2) as sales_value_90d,
+    ROUND(avg_daily_sales, 2) as avg_daily_sales,
+    ROUND(days_of_supply, 2) as days_of_supply,
+    ROUND(annualized_turnover, 2) as annualized_turnover,
+    CASE 
+        WHEN days_since_last_movement > 90 THEN 'No Movement > 90 days'
+        WHEN units_sold_90d = 0 THEN 'No Sales in 90 days'
+        WHEN days_of_supply > 180 THEN 'Excess Stock (>6 months supply)'
+        WHEN annualized_turnover < 1 THEN 'Very Slow Turnover (<1x annual)'
+        WHEN annualized_turnover < 2 THEN 'Slow Turnover (<2x annual)'
+        ELSE 'Normal Movement'
+    END as slow_moving_status,
+    CASE 
+        WHEN days_of_supply > 365 THEN 'CRITICAL: >1 year supply'
+        WHEN days_of_supply > 180 THEN 'HIGH: >6 months supply'
+        WHEN days_of_supply > 90 THEN 'MEDIUM: >3 months supply'
+        WHEN units_sold_90d = 0 THEN 'NO SALES: Consider liquidation'
+        ELSE 'LOW RISK'
+    END as risk_level,
+    -- Recommended actions
+    CASE 
+        WHEN days_of_supply > 365 THEN 'Immediate liquidation required'
+        WHEN days_of_supply > 180 THEN 'Aggressive discounting needed'
+        WHEN days_of_supply > 90 THEN 'Review purchasing strategy'
+        WHEN units_sold_90d = 0 THEN 'Evaluate product viability'
+        ELSE 'Monitor regularly'
+    END as recommended_action
+FROM slow_moving_analysis
+WHERE days_since_last_movement > 60  -- At least 60 days since last movement
+   OR units_sold_90d = 0
+   OR days_of_supply > 90
+   OR annualized_turnover < 2
+ORDER BY days_of_supply DESC, inventory_value DESC;
+
+-- Summary by category and supplier
+SELECT 
+    category,
+    supplier_name,
+    COUNT(*) as slow_moving_items,
+    SUM(quantity_on_hand) as total_slow_moving_quantity,
+    SUM(inventory_value) as total_slow_moving_value,
+    AVG(days_of_supply) as avg_days_supply,
+    MIN(days_of_supply) as min_days_supply,
+    MAX(days_of_supply) as max_days_supply
+FROM slow_moving_analysis
+WHERE days_of_supply > 90 OR units_sold_90d = 0
+GROUP BY category, supplier_name
+HAVING SUM(inventory_value) > 1000
+ORDER BY total_slow_moving_value DESC;`,
+      },
+    ],
+  },
 ];
