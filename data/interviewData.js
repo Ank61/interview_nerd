@@ -10322,6 +10322,3870 @@ GROUP BY category, supplier_name
 HAVING SUM(inventory_value) > 1000
 ORDER BY total_slow_moving_value DESC;`,
       },
+      {
+        question: "How do you determine the most effective marketing channels?",
+        solution: `-- Analyze marketing channel effectiveness
+WITH channel_performance AS (
+  SELECT 
+    m.channel_name,
+    m.campaign_id,
+    COUNT(DISTINCT c.customer_id) as acquired_customers,
+    SUM(o.order_amount) as total_revenue,
+    COUNT(DISTINCT o.order_id) as total_orders,
+    SUM(m.marketing_spend) as total_spend,
+    -- Calculate ROI
+    CASE 
+      WHEN SUM(m.marketing_spend) > 0 
+      THEN (SUM(o.order_amount) - SUM(m.marketing_spend)) / SUM(m.marketing_spend) 
+      ELSE NULL 
+    END as roi,
+    -- Customer Acquisition Cost
+    CASE 
+      WHEN COUNT(DISTINCT c.customer_id) > 0 
+      THEN SUM(m.marketing_spend) / COUNT(DISTINCT c.customer_id) 
+      ELSE NULL 
+    END as cac,
+    -- Lifetime Value (simplified)
+    AVG(o.order_amount) * 4.5 as estimated_ltv
+  FROM marketing_campaigns m
+  LEFT JOIN customers c ON m.campaign_id = c.acquisition_campaign
+  LEFT JOIN orders o ON c.customer_id = o.customer_id
+  WHERE m.start_date >= CURRENT_DATE - INTERVAL '12 months'
+  GROUP BY m.channel_name, m.campaign_id
+),
+channel_attribution AS (
+  SELECT
+    channel_name,
+    COUNT(DISTINCT campaign_id) as campaign_count,
+    SUM(acquired_customers) as total_acquired_customers,
+    SUM(total_revenue) as total_revenue,
+    SUM(total_spend) as total_spend,
+    AVG(roi) as avg_roi,
+    AVG(cac) as avg_cac,
+    AVG(estimated_ltv) as avg_ltv,
+    -- Channel efficiency score
+    (AVG(roi) * 0.4) + (AVG(estimated_ltv) / NULLIF(AVG(cac), 0) * 0.6) as efficiency_score
+  FROM channel_performance
+  GROUP BY channel_name
+  HAVING SUM(acquired_customers) >= 10
+)
+SELECT
+  channel_name,
+  campaign_count,
+  total_acquired_customers,
+  ROUND(total_revenue, 2) as total_revenue,
+  ROUND(total_spend, 2) as total_spend,
+  ROUND(avg_roi * 100, 2) as roi_percent,
+  ROUND(avg_cac, 2) as customer_acquisition_cost,
+  ROUND(avg_ltv, 2) as estimated_lifetime_value,
+  ROUND(avg_ltv / NULLIF(avg_cac, 0), 2) as ltv_to_cac_ratio,
+  ROUND(efficiency_score, 3) as channel_efficiency_score,
+  CASE
+    WHEN efficiency_score >= 8 THEN 'Highly Effective'
+    WHEN efficiency_score >= 5 THEN 'Effective'
+    WHEN efficiency_score >= 3 THEN 'Moderate'
+    ELSE 'Inefficient'
+  END as effectiveness_rating
+FROM channel_attribution
+ORDER BY efficiency_score DESC;
+
+-- Multi-touch attribution model
+WITH customer_journey AS (
+  SELECT
+    c.customer_id,
+    m.channel_name,
+    m.touchpoint_date,
+    ROW_NUMBER() OVER (PARTITION BY c.customer_id ORDER BY m.touchpoint_date) as touchpoint_order,
+    COUNT(*) OVER (PARTITION BY c.customer_id) as total_touchpoints
+  FROM customers c
+  JOIN marketing_touchpoints m ON c.customer_id = m.customer_id
+  WHERE m.touchpoint_date BETWEEN c.created_at - INTERVAL '30 days' AND c.created_at
+),
+attribution_weights AS (
+  SELECT
+    customer_id,
+    channel_name,
+    CASE
+      WHEN total_touchpoints = 1 THEN 1.0
+      WHEN touchpoint_order = 1 THEN 0.4  -- First touch
+      WHEN touchpoint_order = total_touchpoints THEN 0.3  -- Last touch
+      ELSE 0.3 / (total_touchpoints - 2)  -- Distributed among middle touches
+    END as attribution_weight
+  FROM customer_journey
+)
+SELECT
+  channel_name,
+  COUNT(DISTINCT customer_id) as attributed_customers,
+  SUM(attribution_weight) as total_attribution,
+  ROUND(SUM(attribution_weight) / COUNT(DISTINCT customer_id), 3) as avg_attribution_per_customer
+FROM attribution_weights
+GROUP BY channel_name
+ORDER BY total_attribution DESC;`,
+      },
+      {
+        id: 24,
+        question:
+          "Write a query to calculate email campaign performance metrics",
+        solution: `-- Email campaign performance analysis
+WITH email_metrics AS (
+  SELECT
+    ec.campaign_id,
+    ec.campaign_name,
+    ec.send_date,
+    COUNT(DISTINCT es.email_id) as total_sent,
+    COUNT(DISTINCT CASE WHEN es.opened = TRUE THEN es.email_id END) as total_opened,
+    COUNT(DISTINCT CASE WHEN es.clicked = TRUE THEN es.email_id END) as total_clicked,
+    COUNT(DISTINCT CASE WHEN es.bounced = TRUE THEN es.email_id END) as total_bounced,
+    COUNT(DISTINCT CASE WHEN es.unsubscribed = TRUE THEN es.email_id END) as total_unsubscribed,
+    COUNT(DISTINCT o.order_id) as orders_generated,
+    SUM(o.order_amount) as revenue_generated
+  FROM email_campaigns ec
+  LEFT JOIN email_sends es ON ec.campaign_id = es.campaign_id
+  LEFT JOIN orders o ON es.email_id = o.source_email_id
+    AND o.order_date BETWEEN ec.send_date AND ec.send_date + INTERVAL '7 days'
+  GROUP BY ec.campaign_id, ec.campaign_name, ec.send_date
+)
+SELECT
+  campaign_id,
+  campaign_name,
+  send_date,
+  total_sent,
+  total_opened,
+  total_clicked,
+  total_bounced,
+  total_unsubscribed,
+  orders_generated,
+  revenue_generated,
+  -- Calculate rates
+  ROUND((total_opened::DECIMAL / NULLIF(total_sent - total_bounced, 0)) * 100, 2) as open_rate,
+  ROUND((total_clicked::DECIMAL / NULLIF(total_opened, 0)) * 100, 2) as click_through_rate,
+  ROUND((total_bounced::DECIMAL / NULLIF(total_sent, 0)) * 100, 2) as bounce_rate,
+  ROUND((total_unsubscribed::DECIMAL / NULLIF(total_sent, 0)) * 100, 4) as unsubscribe_rate,
+  ROUND((orders_generated::DECIMAL / NULLIF(total_clicked, 0)) * 100, 2) as conversion_rate,
+  ROUND((revenue_generated::DECIMAL / NULLIF(total_clicked, 0)), 2) as revenue_per_click,
+  ROUND((revenue_generated::DECIMAL / NULLIF(orders_generated, 0)), 2) as average_order_value,
+  -- Campaign effectiveness score
+  CASE
+    WHEN total_sent >= 1000 THEN
+      (open_rate * 0.2) + (click_through_rate * 0.3) + 
+      (conversion_rate * 0.4) + (revenue_per_click * 0.1)
+    ELSE NULL
+  END as effectiveness_score
+FROM email_metrics
+ORDER BY send_date DESC, effectiveness_score DESC NULLS LAST;
+
+-- Segment performance by customer type
+SELECT
+  ec.campaign_id,
+  ec.campaign_name,
+  c.customer_segment,
+  COUNT(DISTINCT es.email_id) as total_sent,
+  COUNT(DISTINCT CASE WHEN es.opened = TRUE THEN es.email_id END) as total_opened,
+  COUNT(DISTINCT CASE WHEN es.clicked = TRUE THEN es.email_id END) as total_clicked,
+  ROUND((COUNT(DISTINCT CASE WHEN es.opened = TRUE THEN es.email_id END)::DECIMAL / 
+         NULLIF(COUNT(DISTINCT es.email_id), 0)) * 100, 2) as segment_open_rate,
+  ROUND((COUNT(DISTINCT CASE WHEN es.clicked = TRUE THEN es.email_id END)::DECIMAL / 
+         NULLIF(COUNT(DISTINCT CASE WHEN es.opened = TRUE THEN es.email_id END), 0)) * 100, 2) as segment_ctr
+FROM email_campaigns ec
+JOIN email_sends es ON ec.campaign_id = es.campaign_id
+JOIN customers c ON es.customer_id = c.customer_id
+GROUP BY ec.campaign_id, ec.campaign_name, c.customer_segment
+HAVING COUNT(DISTINCT es.email_id) >= 50
+ORDER BY ec.campaign_id, segment_open_rate DESC;
+
+-- Time-based performance analysis
+SELECT
+  DATE_TRUNC('hour', es.send_timestamp) as send_hour,
+  DAYNAME(es.send_timestamp) as day_of_week,
+  COUNT(DISTINCT es.email_id) as total_sent,
+  AVG(CASE WHEN es.opened = TRUE THEN 1 ELSE 0 END) * 100 as open_rate,
+  AVG(CASE WHEN es.clicked = TRUE THEN 1 ELSE 0 END) * 100 as click_rate,
+  AVG(EXTRACT(EPOCH FROM (es.open_timestamp - es.send_timestamp)) / 60) as avg_minutes_to_open
+FROM email_sends es
+WHERE es.send_timestamp >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY DATE_TRUNC('hour', es.send_timestamp), DAYNAME(es.send_timestamp)
+HAVING COUNT(DISTINCT es.email_id) >= 100
+ORDER BY open_rate DESC;`,
+      },
+      {
+        id: 25,
+        question: "How do you identify fraudulent transactions?",
+        solution: `-- Fraud detection using multiple heuristic rules
+WITH transaction_features AS (
+  SELECT
+    t.transaction_id,
+    t.customer_id,
+    t.amount,
+    t.transaction_date,
+    t.merchant_id,
+    t.country,
+    t.ip_address,
+    t.device_id,
+    c.avg_transaction_amount,
+    c.last_transaction_date,
+    -- Feature engineering
+    ABS(t.amount - c.avg_transaction_amount) / NULLIF(c.avg_transaction_amount, 0) as amount_deviation,
+    EXTRACT(HOUR FROM t.transaction_date) as transaction_hour,
+    CASE WHEN t.country != c.home_country THEN 1 ELSE 0 END as foreign_transaction,
+    CASE WHEN t.device_id != c.last_device_id THEN 1 ELSE 0 END as new_device,
+    CASE WHEN t.ip_address::inet <<= '192.168.0.0/16'::inet THEN 1 ELSE 0 END as internal_ip,
+    -- Behavioral features
+    COUNT(*) OVER (PARTITION BY t.customer_id 
+                   ORDER BY t.transaction_date 
+                   ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as recent_transaction_count,
+    SUM(t.amount) OVER (PARTITION BY t.customer_id 
+                        ORDER BY t.transaction_date 
+                        ROWS BETWEEN 10 PRECEDING AND 1 PRECEDING) as recent_transaction_total
+  FROM transactions t
+  JOIN customers c ON t.customer_id = c.customer_id
+  WHERE t.transaction_date >= CURRENT_DATE - INTERVAL '7 days'
+),
+fraud_scoring AS (
+  SELECT
+    transaction_id,
+    customer_id,
+    amount,
+    transaction_date,
+    merchant_id,
+    -- Apply fraud detection rules with weights
+    CASE WHEN amount_deviation > 3 THEN 0.3 ELSE 0 END +
+    CASE WHEN transaction_hour BETWEEN 0 AND 5 THEN 0.2 ELSE 0 END +
+    CASE WHEN foreign_transaction = 1 THEN 0.1 ELSE 0 END +
+    CASE WHEN new_device = 1 THEN 0.15 ELSE 0 END +
+    CASE WHEN internal_ip = 1 THEN -0.1 ELSE 0 END +
+    CASE WHEN recent_transaction_count > 5 AND amount > recent_transaction_total * 0.5 THEN 0.25 ELSE 0 END
+    as fraud_score,
+    -- Individual flags
+    amount_deviation > 3 as high_amount_deviation,
+    transaction_hour BETWEEN 0 AND 5 as unusual_hours,
+    foreign_transaction = 1 as foreign_country,
+    new_device = 1 as new_device_flag,
+    internal_ip = 1 as internal_ip_flag
+  FROM transaction_features
+)
+SELECT
+  transaction_id,
+  customer_id,
+  amount,
+  transaction_date,
+  merchant_id,
+  ROUND(fraud_score, 3) as fraud_score,
+  high_amount_deviation,
+  unusual_hours,
+  foreign_country,
+  new_device_flag,
+  internal_ip_flag,
+  CASE
+    WHEN fraud_score >= 0.7 THEN 'HIGH RISK'
+    WHEN fraud_score >= 0.4 THEN 'MEDIUM RISK'
+    WHEN fraud_score >= 0.2 THEN 'LOW RISK'
+    ELSE 'NORMAL'
+  END as risk_level,
+  CASE
+    WHEN fraud_score >= 0.7 THEN 'Review immediately and consider blocking'
+    WHEN fraud_score >= 0.4 THEN 'Review and potentially request verification'
+    WHEN fraud_score >= 0.2 THEN 'Monitor for additional suspicious activity'
+    ELSE 'No action needed'
+  END as recommended_action
+FROM fraud_scoring
+WHERE fraud_score >= 0.2
+ORDER BY fraud_score DESC, amount DESC;
+
+-- Merchant-level fraud analysis
+SELECT
+  merchant_id,
+  m.merchant_name,
+  COUNT(*) as total_transactions,
+  SUM(amount) as total_amount,
+  AVG(fs.fraud_score) as avg_fraud_score,
+  SUM(CASE WHEN fs.fraud_score >= 0.4 THEN 1 ELSE 0 END) as suspicious_transactions,
+  ROUND(SUM(CASE WHEN fs.fraud_score >= 0.4 THEN 1 ELSE 0 END)::DECIMAL / 
+        COUNT(*) * 100, 2) as suspicious_percentage
+FROM fraud_scoring fs
+JOIN merchants m ON fs.merchant_id = m.merchant_id
+GROUP BY merchant_id, m.merchant_name
+HAVING COUNT(*) >= 10
+ORDER BY suspicious_percentage DESC;
+
+-- Real-time fraud detection view for monitoring
+CREATE VIEW real_time_fraud_monitor AS
+SELECT
+  transaction_id,
+  customer_id,
+  amount,
+  transaction_date,
+  fraud_score,
+  risk_level,
+  EXTRACT(EPOCH FROM (CURRENT_TIMESTAMP - transaction_date)) / 60 as minutes_ago
+FROM fraud_scoring
+WHERE transaction_date >= CURRENT_TIMESTAMP - INTERVAL '1 hour'
+AND fraud_score >= 0.4
+ORDER BY transaction_date DESC;`,
+      },
+      {
+        id: 26,
+        question:
+          "Write a query to segment customers based on purchase behavior",
+        solution: `-- RFM (Recency, Frequency, Monetary) Segmentation
+WITH customer_rfm AS (
+  SELECT
+    customer_id,
+    -- Recency: days since last purchase
+    EXTRACT(DAY FROM (CURRENT_DATE - MAX(order_date))) as recency,
+    -- Frequency: number of purchases in last 12 months
+    COUNT(DISTINCT order_id) as frequency,
+    -- Monetary: total spending in last 12 months
+    SUM(order_amount) as monetary
+  FROM orders
+  WHERE order_date >= CURRENT_DATE - INTERVAL '12 months'
+  GROUP BY customer_id
+  HAVING SUM(order_amount) > 0
+),
+rfm_scores AS (
+  SELECT
+    customer_id,
+    recency,
+    frequency,
+    monetary,
+    -- Score each dimension (1-5, with 5 being best)
+    NTILE(5) OVER (ORDER BY recency DESC) as recency_score,
+    NTILE(5) OVER (ORDER BY frequency) as frequency_score,
+    NTILE(5) OVER (ORDER BY monetary) as monetary_score,
+    -- Combined RFM score
+    (NTILE(5) OVER (ORDER BY recency DESC) * 100) +
+    (NTILE(5) OVER (ORDER BY frequency) * 10) +
+    NTILE(5) OVER (ORDER BY monetary) as rfm_score
+  FROM customer_rfm
+),
+rfm_segments AS (
+  SELECT
+    customer_id,
+    recency,
+    frequency,
+    monetary,
+    recency_score,
+    frequency_score,
+    monetary_score,
+    rfm_score,
+    CASE
+      WHEN recency_score >= 4 AND frequency_score >= 4 AND monetary_score >= 4 THEN 'Champions'
+      WHEN recency_score >= 3 AND frequency_score >= 3 AND monetary_score >= 3 THEN 'Loyal Customers'
+      WHEN recency_score >= 4 THEN 'New Customers'
+      WHEN recency_score >= 3 AND frequency_score >= 1 AND monetary_score >= 1 THEN 'Potential Loyalists'
+      WHEN recency_score >= 2 AND frequency_score >= 2 AND monetary_score >= 2 THEN 'Need Attention'
+      WHEN recency_score <= 2 AND frequency_score >= 3 AND monetary_score >= 3 THEN 'At Risk'
+      WHEN recency_score <= 1 AND frequency_score >= 1 AND monetary_score >= 1 THEN 'Cant Lose Them'
+      WHEN recency_score <= 2 AND frequency_score <= 2 AND monetary_score <= 2 THEN 'Hibernating'
+      ELSE 'Others'
+    END as rfm_segment
+  FROM rfm_scores
+)
+SELECT
+  rfm_segment,
+  COUNT(*) as customer_count,
+  ROUND(AVG(recency), 1) as avg_recency_days,
+  ROUND(AVG(frequency), 1) as avg_frequency,
+  ROUND(AVG(monetary), 2) as avg_monetary,
+  ROUND(SUM(monetary), 2) as total_monetary,
+  ROUND(COUNT(*)::DECIMAL / (SELECT COUNT(*) FROM rfm_segments) * 100, 2) as percentage
+FROM rfm_segments
+GROUP BY rfm_segment
+ORDER BY total_monetary DESC;
+
+-- Additional behavioral segmentation
+WITH customer_behavior AS (
+  SELECT
+    o.customer_id,
+    c.customer_name,
+    c.join_date,
+    -- Purchase behavior
+    COUNT(DISTINCT o.order_id) as total_orders,
+    SUM(o.order_amount) as total_spent,
+    AVG(o.order_amount) as avg_order_value,
+    MIN(o.order_date) as first_order_date,
+    MAX(o.order_date) as last_order_date,
+    -- Product preferences
+    COUNT(DISTINCT oi.product_id) as unique_products,
+    MAX(p.category) as favorite_category,
+    -- Time patterns
+    AVG(EXTRACT(HOUR FROM o.order_date)) as avg_order_hour,
+    MODE() WITHIN GROUP (ORDER BY EXTRACT(DOW FROM o.order_date)) as most_common_day
+  FROM orders o
+  JOIN customers c ON o.customer_id = c.customer_id
+  JOIN order_items oi ON o.order_id = oi.order_id
+  JOIN products p ON oi.product_id = p.product_id
+  GROUP BY o.customer_id, c.customer_name, c.join_date
+),
+behavior_segments AS (
+  SELECT
+    customer_id,
+    customer_name,
+    total_orders,
+    total_spent,
+    avg_order_value,
+    -- Segment based on behavior patterns
+    CASE
+      WHEN total_orders >= 10 AND total_spent >= 1000 THEN 'VIP'
+      WHEN total_orders >= 5 AND total_spent >= 500 THEN 'Premium'
+      WHEN total_orders >= 2 THEN 'Regular'
+      ELSE 'New/Infrequent'
+    END as value_segment,
+    
+    CASE
+      WHEN avg_order_hour BETWEEN 9 AND 17 THEN 'Day Shopper'
+      WHEN avg_order_hour BETWEEN 18 AND 23 THEN 'Evening Shopper'
+      ELSE 'Night Owl'
+    END as time_segment,
+    
+    CASE
+      WHEN unique_products >= 10 THEN 'Variety Seeker'
+      WHEN unique_products BETWEEN 5 AND 9 THEN 'Moderate Explorer'
+      ELSE 'Brand Loyal'
+    END as variety_segment
+  FROM customer_behavior
+)
+SELECT
+  value_segment,
+  time_segment,
+  variety_segment,
+  COUNT(*) as customer_count,
+  ROUND(AVG(total_spent), 2) as avg_spent,
+  ROUND(AVG(total_orders), 1) as avg_orders
+FROM behavior_segments
+GROUP BY value_segment, time_segment, variety_segment
+ORDER BY value_segment, customer_count DESC;`,
+      },
+      {
+        id: 27,
+        question: "How do you calculate the impact of promotional campaigns?",
+        solution: `-- Promotional campaign impact analysis
+WITH campaign_periods AS (
+  SELECT
+    campaign_id,
+    campaign_name,
+    start_date,
+    end_date,
+    discount_percentage,
+    promotion_type
+  FROM promotions
+  WHERE end_date >= CURRENT_DATE - INTERVAL '6 months'
+),
+campaign_performance AS (
+  SELECT
+    cp.campaign_id,
+    cp.campaign_name,
+    cp.start_date,
+    cp.end_date,
+    cp.discount_percentage,
+    cp.promotion_type,
+    -- Sales during campaign
+    COUNT(DISTINCT o.order_id) as campaign_orders,
+    SUM(o.order_amount) as campaign_revenue,
+    SUM(oi.quantity) as campaign_units,
+    -- Baseline sales (same period before campaign)
+    (SELECT COUNT(DISTINCT order_id)
+     FROM orders 
+     WHERE order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+    ) as baseline_orders,
+    (SELECT SUM(order_amount)
+     FROM orders 
+     WHERE order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+    ) as baseline_revenue,
+    -- Incremental impact
+    COUNT(DISTINCT o.order_id) - 
+    (SELECT COUNT(DISTINCT order_id)
+     FROM orders 
+     WHERE order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+    ) as incremental_orders,
+    SUM(o.order_amount) - 
+    (SELECT SUM(order_amount)
+     FROM orders 
+     WHERE order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+    ) as incremental_revenue,
+    -- Campaign cost
+    SUM(o.order_amount * cp.discount_percentage / 100) as total_discount_amount
+  FROM campaign_periods cp
+  LEFT JOIN orders o ON o.order_date BETWEEN cp.start_date AND cp.end_date
+  LEFT JOIN order_items oi ON o.order_id = oi.order_id
+  GROUP BY cp.campaign_id, cp.campaign_name, cp.start_date, cp.end_date, 
+           cp.discount_percentage, cp.promotion_type
+)
+SELECT
+  campaign_id,
+  campaign_name,
+  start_date,
+  end_date,
+  promotion_type,
+  discount_percentage,
+  campaign_orders,
+  campaign_revenue,
+  baseline_orders,
+  baseline_revenue,
+  incremental_orders,
+  incremental_revenue,
+  total_discount_amount,
+  -- Calculate ROI
+  ROUND((incremental_revenue - total_discount_amount) / NULLIF(total_discount_amount, 0), 2) as roi,
+  -- Calculate incremental revenue per dollar spent
+  ROUND(incremental_revenue / NULLIF(total_discount_amount, 0), 2) as revenue_per_discount_dollar,
+  -- Statistical significance
+  CASE
+    WHEN baseline_orders > 0 AND campaign_orders > 0 THEN
+      ABS(campaign_orders - baseline_orders) / 
+      SQRT(baseline_orders + campaign_orders)
+    ELSE 0
+  END as statistical_significance,
+  -- Campaign effectiveness rating
+  CASE
+    WHEN (incremental_revenue - total_discount_amount) > 0 THEN 'Profitable'
+    WHEN incremental_revenue > 0 THEN 'Revenue Positive'
+    ELSE 'Ineffective'
+  END as effectiveness
+FROM campaign_performance
+ORDER BY roi DESC;
+
+-- Product-level campaign impact
+SELECT
+  p.product_id,
+  p.product_name,
+  cp.campaign_name,
+  SUM(oi.quantity) as units_sold_during_campaign,
+  (SELECT SUM(quantity)
+   FROM order_items oi2
+   JOIN orders o2 ON oi2.order_id = o2.order_id
+   WHERE oi2.product_id = p.product_id
+   AND o2.order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+  ) as baseline_units,
+  SUM(oi.quantity) - 
+  (SELECT SUM(quantity)
+   FROM order_items oi2
+   JOIN orders o2 ON oi2.order_id = o2.order_id
+   WHERE oi2.product_id = p.product_id
+   AND o2.order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+  ) as incremental_units,
+  ROUND((SUM(oi.quantity) - 
+   (SELECT SUM(quantity)
+    FROM order_items oi2
+    JOIN orders o2 ON oi2.order_id = o2.order_id
+    WHERE oi2.product_id = p.product_id
+    AND o2.order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+   )) / NULLIF(
+   (SELECT SUM(quantity)
+    FROM order_items oi2
+    JOIN orders o2 ON oi2.order_id = o2.order_id
+    WHERE oi2.product_id = p.product_id
+    AND o2.order_date BETWEEN cp.start_date - INTERVAL '30 days' AND cp.end_date - INTERVAL '30 days'
+   ), 0) * 100, 2) as uplift_percentage
+FROM campaign_periods cp
+JOIN orders o ON o.order_date BETWEEN cp.start_date AND cp.end_date
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY p.product_id, p.product_name, cp.campaign_name, cp.start_date, cp.end_date
+HAVING SUM(oi.quantity) >= 10
+ORDER BY uplift_percentage DESC;`,
+      },
+      {
+        id: 28,
+        question:
+          "Write a query to identify churned customers and their characteristics",
+        solution: `-- Customer churn analysis
+WITH customer_activity AS (
+  SELECT
+    c.customer_id,
+    c.customer_name,
+    c.join_date,
+    c.customer_segment,
+    MAX(o.order_date) as last_order_date,
+    COUNT(DISTINCT o.order_id) as total_orders,
+    SUM(o.order_amount) as total_spent,
+    -- Days since last activity
+    EXTRACT(DAY FROM (CURRENT_DATE - MAX(o.order_date))) as days_since_last_order,
+    -- Average order frequency
+    EXTRACT(DAY FROM (MAX(o.order_date) - MIN(o.order_date))) / 
+    NULLIF(COUNT(DISTINCT o.order_id) - 1, 0) as avg_days_between_orders
+  FROM customers c
+  LEFT JOIN orders o ON c.customer_id = o.customer_id
+  GROUP BY c.customer_id, c.customer_name, c.join_date, c.customer_segment
+),
+churn_candidates AS (
+  SELECT
+    customer_id,
+    customer_name,
+    join_date,
+    customer_segment,
+    last_order_date,
+    total_orders,
+    total_spent,
+    days_since_last_order,
+    avg_days_between_orders,
+    -- Churn probability based on activity patterns
+    CASE
+      WHEN total_orders = 0 THEN 1.0
+      WHEN days_since_last_order > avg_days_between_orders * 3 THEN 0.8
+      WHEN days_since_last_order > avg_days_between_orders * 2 THEN 0.6
+      WHEN days_since_last_order > avg_days_between_orders * 1.5 THEN 0.4
+      ELSE 0.2
+    END as churn_probability,
+    -- Churn status
+    CASE
+      WHEN total_orders = 0 AND join_date < CURRENT_DATE - INTERVAL '90 days' THEN 'Never Activated'
+      WHEN days_since_last_order > 90 THEN 'Churned (>90 days)'
+      WHEN days_since_last_order > 60 THEN 'At Risk (>60 days)'
+      WHEN days_since_last_order > 30 THEN 'Dormant (>30 days)'
+      ELSE 'Active'
+    END as churn_status
+  FROM customer_activity
+)
+SELECT
+  churn_status,
+  COUNT(*) as customer_count,
+  ROUND(AVG(total_orders), 1) as avg_orders,
+  ROUND(AVG(total_spent), 2) as avg_spent,
+  ROUND(AVG(days_since_last_order), 1) as avg_days_inactive,
+  ROUND(AVG(churn_probability) * 100, 2) as avg_churn_probability,
+  -- Customer value at risk
+  SUM(CASE WHEN churn_status IN ('Churned (>90 days)', 'At Risk (>60 days)') 
+           THEN total_spent ELSE 0 END) as revenue_at_risk,
+  -- Segment analysis
+  MODE() WITHIN GROUP (ORDER BY customer_segment) as most_common_segment
+FROM churn_candidates
+GROUP BY churn_status
+ORDER BY 
+  CASE churn_status
+    WHEN 'Churned (>90 days)' THEN 1
+    WHEN 'At Risk (>60 days)' THEN 2
+    WHEN 'Dormant (>30 days)' THEN 3
+    WHEN 'Never Activated' THEN 4
+    ELSE 5
+  END;
+
+-- Detailed churn characteristics
+SELECT
+  cc.customer_id,
+  cc.customer_name,
+  cc.churn_status,
+  cc.churn_probability,
+  cc.total_orders,
+  cc.total_spent,
+  cc.days_since_last_order,
+  c.email,
+  c.phone,
+  c.location,
+  -- Last order details
+  (SELECT product_name 
+   FROM order_items oi
+   JOIN products p ON oi.product_id = p.product_id
+   JOIN orders o ON oi.order_id = o.order_id
+   WHERE o.customer_id = cc.customer_id
+   ORDER BY o.order_date DESC
+   LIMIT 1) as last_product,
+  -- Customer service interactions
+  (SELECT COUNT(*)
+   FROM customer_service_tickets cst
+   WHERE cst.customer_id = cc.customer_id) as support_tickets,
+  -- Feedback sentiment
+  (SELECT AVG(sentiment_score)
+   FROM customer_feedback cf
+   WHERE cf.customer_id = cc.customer_id) as avg_feedback_sentiment
+FROM churn_candidates cc
+JOIN customers c ON cc.customer_id = c.customer_id
+WHERE cc.churn_status IN ('Churned (>90 days)', 'At Risk (>60 days)')
+ORDER BY cc.churn_probability DESC, cc.total_spent DESC;
+
+-- Churn prediction model training data
+SELECT
+  customer_id,
+  total_orders,
+  total_spent,
+  days_since_last_order,
+  avg_days_between_orders,
+  EXTRACT(MONTH FROM AGE(CURRENT_DATE, join_date)) as tenure_months,
+  CASE WHEN customer_segment = 'VIP' THEN 1 ELSE 0 END as is_vip,
+  churn_status,
+  churn_probability
+FROM churn_candidates
+WHERE total_orders > 0  -- Only customers with at least one order
+ORDER BY customer_id;`,
+      },
+      {
+        id: 29,
+        question: "How do you analyze customer journey funnels using SQL?",
+        solution: `-- Customer journey funnel analysis
+WITH user_journey AS (
+  SELECT
+    user_id,
+    session_id,
+    MIN(event_timestamp) as session_start,
+    MAX(event_timestamp) as session_end,
+    -- Check for each step in the funnel
+    MAX(CASE WHEN event_name = 'page_view' THEN 1 ELSE 0 END) as viewed_page,
+    MAX(CASE WHEN event_name = 'product_view' THEN 1 ELSE 0 END) as viewed_product,
+    MAX(CASE WHEN event_name = 'add_to_cart' THEN 1 ELSE 0 END) as added_to_cart,
+    MAX(CASE WHEN event_name = 'checkout_start' THEN 1 ELSE 0 END) as started_checkout,
+    MAX(CASE WHEN event_name = 'purchase_complete' THEN 1 ELSE 0 END) as completed_purchase
+  FROM user_events
+  WHERE event_timestamp >= CURRENT_DATE - INTERVAL '30 days'
+  GROUP BY user_id, session_id
+),
+funnel_steps AS (
+  SELECT
+    COUNT(DISTINCT session_id) as total_sessions,
+    SUM(viewed_page) as step1_page_views,
+    SUM(viewed_product) as step2_product_views,
+    SUM(added_to_cart) as step3_add_to_cart,
+    SUM(started_checkout) as step4_checkout_start,
+    SUM(completed_purchase) as step5_purchase_complete
+  FROM user_journey
+),
+funnel_rates AS (
+  SELECT
+    total_sessions,
+    step1_page_views,
+    step2_product_views,
+    step3_add_to_cart,
+    step4_checkout_start,
+    step5_purchase_complete,
+    -- Conversion rates between steps
+    ROUND(step2_product_views::DECIMAL / NULLIF(step1_page_views, 0) * 100, 2) as page_to_product_rate,
+    ROUND(step3_add_to_cart::DECIMAL / NULLIF(step2_product_views, 0) * 100, 2) as product_to_cart_rate,
+    ROUND(step4_checkout_start::DECIMAL / NULLIF(step3_add_to_cart, 0) * 100, 2) as cart_to_checkout_rate,
+    ROUND(step5_purchase_complete::DECIMAL / NULLIF(step4_checkout_start, 0) * 100, 2) as checkout_to_purchase_rate,
+    -- Overall conversion rate
+    ROUND(step5_purchase_complete::DECIMAL / NULLIF(step1_page_views, 0) * 100, 4) as overall_conversion_rate
+  FROM funnel_steps
+)
+SELECT
+  total_sessions,
+  step1_page_views,
+  step2_product_views,
+  step3_add_to_cart,
+  step4_checkout_start,
+  step5_purchase_complete,
+  page_to_product_rate,
+  product_to_cart_rate,
+  cart_to_checkout_rate,
+  checkout_to_purchase_rate,
+  overall_conversion_rate,
+  -- Identify biggest drop-off point
+  CASE
+    WHEN page_to_product_rate <= 50 THEN 'Page to Product'
+    WHEN product_to_cart_rate <= 30 THEN 'Product to Cart'
+    WHEN cart_to_checkout_rate <= 40 THEN 'Cart to Checkout'
+    WHEN checkout_to_purchase_rate <= 60 THEN 'Checkout to Purchase'
+    ELSE 'All steps performing well'
+  END as biggest_dropoff_point
+FROM funnel_rates;
+
+-- Funnel analysis by traffic source
+SELECT
+  u.traffic_source,
+  COUNT(DISTINCT uj.session_id) as total_sessions,
+  SUM(uj.viewed_page) as page_views,
+  SUM(uj.viewed_product) as product_views,
+  SUM(uj.added_to_cart) as add_to_cart,
+  SUM(uj.started_checkout) as checkout_start,
+  SUM(uj.completed_purchase) as purchase_complete,
+  ROUND(SUM(uj.viewed_product)::DECIMAL / NULLIF(SUM(uj.viewed_page), 0) * 100, 2) as page_to_product_rate,
+  ROUND(SUM(uj.added_to_cart)::DECIMAL / NULLIF(SUM(uj.viewed_product), 0) * 100, 2) as product_to_cart_rate,
+  ROUND(SUM(uj.completed_purchase)::DECIMAL / NULLIF(SUM(uj.viewed_page), 0) * 100, 4) as overall_conversion_rate
+FROM user_journey uj
+JOIN user_sessions u ON uj.session_id = u.session_id
+GROUP BY u.traffic_source
+HAVING COUNT(DISTINCT uj.session_id) >= 100
+ORDER BY overall_conversion_rate DESC;
+
+-- Time-based funnel analysis
+SELECT
+  DATE_TRUNC('day', uj.session_start) as journey_date,
+  COUNT(DISTINCT uj.session_id) as daily_sessions,
+  SUM(uj.viewed_page) as daily_page_views,
+  SUM(uj.completed_purchase) as daily_purchases,
+  ROUND(SUM(uj.completed_purchase)::DECIMAL / NULLIF(SUM(uj.viewed_page), 0) * 100, 4) as daily_conversion_rate,
+  -- 7-day moving average conversion rate
+  AVG(SUM(uj.completed_purchase)::DECIMAL / NULLIF(SUM(uj.viewed_page), 0)) 
+    OVER (ORDER BY DATE_TRUNC('day', uj.session_start) 
+          ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) * 100 as moving_avg_conversion_rate
+FROM user_journey uj
+GROUP BY DATE_TRUNC('day', uj.session_start)
+ORDER BY journey_date DESC;`,
+      },
+      {
+        id: 30,
+        question:
+          "Write a query to calculate revenue per visitor for e-commerce",
+        solution: `-- Revenue per visitor (RPV) calculation
+WITH visitor_revenue AS (
+  SELECT
+    u.user_id,
+    u.traffic_source,
+    u.device_type,
+    u.country,
+    COUNT(DISTINCT u.session_id) as total_sessions,
+    SUM(CASE WHEN e.event_name = 'purchase_complete' THEN e.order_amount ELSE 0 END) as total_revenue,
+    COUNT(DISTINCT CASE WHEN e.event_name = 'purchase_complete' THEN e.order_id END) as total_orders
+  FROM user_sessions u
+  LEFT JOIN user_events e ON u.session_id = e.session_id
+  WHERE u.visit_date >= CURRENT_DATE - INTERVAL '30 days'
+  GROUP BY u.user_id, u.traffic_source, u.device_type, u.country
+),
+rpv_calculation AS (
+  SELECT
+    user_id,
+    traffic_source,
+    device_type,
+    country,
+    total_sessions,
+    total_revenue,
+    total_orders,
+    -- Revenue per visitor
+    ROUND(total_revenue / NULLIF(total_sessions, 0), 2) as revenue_per_visit,
+    -- Average order value
+    ROUND(total_revenue / NULLIF(total_orders, 0), 2) as average_order_value,
+    -- Conversion rate
+    ROUND(total_orders::DECIMAL / NULLIF(total_sessions, 0) * 100, 2) as conversion_rate
+  FROM visitor_revenue
+)
+SELECT
+  traffic_source,
+  device_type,
+  country,
+  COUNT(DISTINCT user_id) as unique_visitors,
+  SUM(total_sessions) as total_visits,
+  SUM(total_revenue) as total_revenue,
+  SUM(total_orders) as total_orders,
+  ROUND(SUM(total_revenue) / NULLIF(SUM(total_sessions), 0), 2) as overall_rpv,
+  ROUND(AVG(revenue_per_visit), 2) as avg_rpv_per_visitor,
+  ROUND(SUM(total_orders)::DECIMAL / NULLIF(SUM(total_sessions), 0) * 100, 2) as overall_conversion_rate,
+  -- Statistical significance
+  STDDEV(revenue_per_visit) as rpv_std_dev,
+  MIN(revenue_per_visit) as min_rpv,
+  MAX(revenue_per_visit) as max_rpv
+FROM rpv_calculation
+GROUP BY traffic_source, device_type, country
+HAVING SUM(total_sessions) >= 100
+ORDER BY overall_rpv DESC;
+
+-- RPV trend analysis over time
+SELECT
+  DATE_TRUNC('day', u.visit_date) as visit_date,
+  u.traffic_source,
+  COUNT(DISTINCT u.user_id) as daily_visitors,
+  COUNT(DISTINCT u.session_id) as daily_sessions,
+  SUM(CASE WHEN e.event_name = 'purchase_complete' THEN e.order_amount ELSE 0 END) as daily_revenue,
+  ROUND(SUM(CASE WHEN e.event_name = 'purchase_complete' THEN e.order_amount ELSE 0 END) / 
+        NULLIF(COUNT(DISTINCT u.session_id), 0), 2) as daily_rpv,
+  -- 7-day moving average RPV
+  AVG(SUM(CASE WHEN e.event_name = 'purchase_complete' THEN e.order_amount ELSE 0 END) / 
+      NULLIF(COUNT(DISTINCT u.session_id), 0)) 
+    OVER (PARTITION BY u.traffic_source 
+          ORDER BY DATE_TRUNC('day', u.visit_date)
+          ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) as moving_avg_rpv
+FROM user_sessions u
+LEFT JOIN user_events e ON u.session_id = e.session_id
+WHERE u.visit_date >= CURRENT_DATE - INTERVAL '90 days'
+GROUP BY DATE_TRUNC('day', u.visit_date), u.traffic_source
+HAVING COUNT(DISTINCT u.session_id) >= 10
+ORDER BY visit_date DESC, daily_rpv DESC;
+
+-- Cohort-based RPV analysis
+WITH visitor_cohorts AS (
+  SELECT
+    user_id,
+    DATE_TRUNC('month', MIN(visit_date)) as cohort_month,
+    traffic_source
+  FROM user_sessions
+  GROUP BY user_id, traffic_source
+),
+cohort_rpv AS (
+  SELECT
+    vc.cohort_month,
+    vc.traffic_source,
+    EXTRACT(MONTH FROM AGE(u.visit_date, vc.cohort_month)) as months_since_cohort,
+    COUNT(DISTINCT u.session_id) as cohort_sessions,
+    SUM(CASE WHEN e.event_name = 'purchase_complete' THEN e.order_amount ELSE 0 END) as cohort_revenue,
+    ROUND(SUM(CASE WHEN e.event_name = 'purchase_complete' THEN e.order_amount ELSE 0 END) / 
+          NULLIF(COUNT(DISTINCT u.session_id), 0), 2) as cohort_rpv
+  FROM visitor_cohorts vc
+  JOIN user_sessions u ON vc.user_id = u.user_id
+  LEFT JOIN user_events e ON u.session_id = e.session_id
+  WHERE vc.cohort_month >= CURRENT_DATE - INTERVAL '12 months'
+  GROUP BY vc.cohort_month, vc.traffic_source, EXTRACT(MONTH FROM AGE(u.visit_date, vc.cohort_month))
+)
+SELECT
+  cohort_month,
+  traffic_source,
+  months_since_cohort,
+  cohort_sessions,
+  cohort_revenue,
+  cohort_rpv,
+  -- Percentage change from previous month
+  ROUND((cohort_rpv - LAG(cohort_rpv) OVER (PARTITION BY cohort_month, traffic_source ORDER BY months_since_cohort)) /
+        NULLIF(LAG(cohort_rpv) OVER (PARTITION BY cohort_month, traffic_source ORDER BY months_since_cohort), 0) * 100, 2) 
+        as rpv_growth_percent
+FROM cohort_rpv
+WHERE cohort_sessions >= 50
+ORDER BY cohort_month DESC, months_since_cohort;`,
+      },
+      {
+        id: 31,
+        question: "How do you identify peak usage hours for an application?",
+        solution: `-- Identify peak usage hours
+WITH usage_by_hour AS (
+  SELECT
+    DATE_TRUNC('hour', event_timestamp) as usage_hour,
+    EXTRACT(HOUR FROM event_timestamp) as hour_of_day,
+    TO_CHAR(event_timestamp, 'Day') as day_name,
+    COUNT(DISTINCT user_id) as unique_users,
+    COUNT(DISTINCT session_id) as total_sessions,
+    COUNT(*) as total_events,
+    -- Different types of events
+    SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) as page_views,
+    SUM(CASE WHEN event_type = 'api_call' THEN 1 ELSE 0 END) as api_calls,
+    SUM(CASE WHEN event_type = 'transaction' THEN 1 ELSE 0 END) as transactions
+  FROM application_events
+  WHERE event_timestamp >= CURRENT_DATE - INTERVAL '30 days'
+  GROUP BY DATE_TRUNC('hour', event_timestamp), EXTRACT(HOUR FROM event_timestamp), TO_CHAR(event_timestamp, 'Day')
+),
+hourly_stats AS (
+  SELECT
+    hour_of_day,
+    day_name,
+    AVG(unique_users) as avg_unique_users,
+    AVG(total_sessions) as avg_sessions,
+    AVG(total_events) as avg_events,
+    AVG(page_views) as avg_page_views,
+    AVG(api_calls) as avg_api_calls,
+    AVG(transactions) as avg_transactions,
+    PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY unique_users) as p95_users,
+    PERCENTILE_CONT(0.95) WITHIN GROUP (ORDER BY total_events) as p95_events,
+    -- Peak hour identification
+    CASE
+      WHEN AVG(unique_users) >= PERCENTILE_CONT(0.75) OVER (ORDER BY AVG(unique_users)) THEN 'Peak Hour'
+      WHEN AVG(unique_users) <= PERCENTILE_CONT(0.25) OVER (ORDER BY AVG(unique_users)) THEN 'Off-Peak Hour'
+      ELSE 'Normal Hour'
+    END as usage_category
+  FROM usage_by_hour
+  GROUP BY hour_of_day, day_name
+)
+SELECT
+  hour_of_day,
+  day_name,
+  ROUND(avg_unique_users, 0) as avg_users_per_hour,
+  ROUND(avg_events, 0) as avg_events_per_hour,
+  ROUND(avg_api_calls, 0) as avg_api_calls_per_hour,
+  ROUND(p95_users, 0) as p95_users_per_hour,
+  ROUND(p95_events, 0) as p95_events_per_hour,
+  usage_category,
+  -- Load factor (peak vs average)
+  ROUND(avg_unique_users / NULLIF(MIN(avg_unique_users) OVER (), 0), 2) as load_factor,
+  -- Recommended scaling strategy
+  CASE
+    WHEN usage_category = 'Peak Hour' AND p95_users > avg_unique_users * 2 THEN 'Scale up before peak'
+    WHEN usage_category = 'Off-Peak Hour' AND avg_unique_users < 10 THEN 'Scale down'
+    ELSE 'Maintain current capacity'
+  END as scaling_recommendation
+FROM hourly_stats
+ORDER BY day_name, hour_of_day;
+
+-- Peak usage analysis by day of week
+SELECT
+  EXTRACT(DOW FROM event_timestamp) as day_of_week,
+  TO_CHAR(event_timestamp, 'Day') as day_name,
+  COUNT(DISTINCT user_id) as unique_users,
+  COUNT(DISTINCT session_id) as total_sessions,
+  COUNT(*) as total_events,
+  ROUND(COUNT(*)::DECIMAL / 24, 0) as avg_events_per_hour,
+  MAX(COUNT(*)) OVER (PARTITION BY EXTRACT(DOW FROM event_timestamp)) as peak_daily_events,
+  -- Busiest hour for each day
+  MODE() WITHIN GROUP (ORDER BY EXTRACT(HOUR FROM event_timestamp)) as peak_hour
+FROM application_events
+WHERE event_timestamp >= CURRENT_DATE - INTERVAL '90 days'
+GROUP BY EXTRACT(DOW FROM event_timestamp), TO_CHAR(event_timestamp, 'Day')
+ORDER BY day_of_week;
+
+-- Real-time peak detection for monitoring
+WITH current_usage AS (
+  SELECT
+    DATE_TRUNC('hour', event_timestamp) as current_hour,
+    COUNT(DISTINCT user_id) as current_users,
+    COUNT(*) as current_events,
+    AVG(COUNT(DISTINCT user_id)) OVER (
+      ORDER BY DATE_TRUNC('hour', event_timestamp)
+      ROWS BETWEEN 24 PRECEDING AND 1 PRECEDING
+    ) as trailing_24h_avg
+  FROM application_events
+  WHERE event_timestamp >= CURRENT_TIMESTAMP - INTERVAL '1 hour'
+  GROUP BY DATE_TRUNC('hour', event_timestamp)
+)
+SELECT
+  current_hour,
+  current_users,
+  current_events,
+  trailing_24h_avg,
+  ROUND((current_users - trailing_24h_avg) / NULLIF(trailing_24h_avg, 0) * 100, 2) as deviation_percent,
+  CASE
+    WHEN current_users > trailing_24h_avg * 1.5 THEN 'CRITICAL: Unusual peak detected'
+    WHEN current_users > trailing_24h_avg * 1.3 THEN 'WARNING: High load detected'
+    WHEN current_users < trailing_24h_avg * 0.5 THEN 'INFO: Low load period'
+    ELSE 'NORMAL'
+  END as load_status
+FROM current_usage;`,
+      },
+      {
+        id: 32,
+        question: "Explain Common Table Expressions (CTEs) with examples",
+        solution: `-- Common Table Expressions (CTEs) explanation and examples
+
+/*
+WHAT ARE CTEs?
+- CTEs are temporary named result sets that exist only within the execution of a single SQL statement
+- They improve readability and maintainability of complex queries
+- They can be recursive (for hierarchical data) or non-recursive
+- CTEs are defined using the WITH clause
+*/
+
+-- Example 1: Basic CTE for readability
+WITH recent_orders AS (
+  SELECT 
+    customer_id,
+    order_date,
+    order_amount
+  FROM orders
+  WHERE order_date >= CURRENT_DATE - INTERVAL '30 days'
+)
+SELECT 
+  customer_id,
+  COUNT(*) as order_count,
+  SUM(order_amount) as total_spent
+FROM recent_orders
+GROUP BY customer_id
+HAVING COUNT(*) >= 2
+ORDER BY total_spent DESC;
+
+-- Example 2: Multiple CTEs in single query
+WITH 
+customer_stats AS (
+  SELECT 
+    customer_id,
+    COUNT(*) as total_orders,
+    SUM(order_amount) as lifetime_value
+  FROM orders
+  GROUP BY customer_id
+),
+recent_activity AS (
+  SELECT 
+    customer_id,
+    MAX(order_date) as last_order_date
+  FROM orders
+  GROUP BY customer_id
+)
+SELECT 
+  c.customer_id,
+  c.customer_name,
+  cs.total_orders,
+  cs.lifetime_value,
+  ra.last_order_date,
+  EXTRACT(DAY FROM (CURRENT_DATE - ra.last_order_date)) as days_since_last_order
+FROM customers c
+JOIN customer_stats cs ON c.customer_id = cs.customer_id
+JOIN recent_activity ra ON c.customer_id = ra.customer_id
+WHERE cs.lifetime_value > 1000
+ORDER BY cs.lifetime_value DESC;
+
+-- Example 3: CTE with window functions
+WITH order_ranking AS (
+  SELECT 
+    customer_id,
+    order_id,
+    order_date,
+    order_amount,
+    ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) as recent_rank,
+    SUM(order_amount) OVER (PARTITION BY customer_id) as customer_total
+  FROM orders
+)
+SELECT 
+  customer_id,
+  order_id,
+  order_date,
+  order_amount,
+  customer_total,
+  ROUND((order_amount / customer_total) * 100, 2) as percent_of_total
+FROM order_ranking
+WHERE recent_rank = 1  -- Most recent order for each customer
+ORDER BY customer_total DESC;
+
+-- Example 4: Recursive CTE for hierarchical data
+WITH RECURSIVE category_tree AS (
+  -- Anchor member: top-level categories
+  SELECT 
+    category_id,
+    category_name,
+    parent_category_id,
+    1 as depth,
+    category_name::TEXT as path
+  FROM categories
+  WHERE parent_category_id IS NULL
+  
+  UNION ALL
+  
+  -- Recursive member: subcategories
+  SELECT 
+    c.category_id,
+    c.category_name,
+    c.parent_category_id,
+    ct.depth + 1,
+    ct.path || ' > ' || c.category_name
+  FROM categories c
+  JOIN category_tree ct ON c.parent_category_id = ct.category_id
+)
+SELECT 
+  category_id,
+  category_name,
+  depth,
+  path
+FROM category_tree
+ORDER BY path;
+
+-- Example 5: CTE for data transformation
+WITH cleaned_data AS (
+  SELECT 
+    order_id,
+    customer_id,
+    -- Data cleaning operations
+    TRIM(UPPER(product_name)) as normalized_product,
+    NULLIF(order_amount, 0) as order_amount,  -- Replace 0 with NULL
+    CASE 
+      WHEN order_date < '2020-01-01' THEN NULL  -- Filter out old invalid dates
+      ELSE order_date
+    END as valid_order_date
+  FROM raw_orders
+  WHERE customer_id IS NOT NULL
+),
+aggregated_data AS (
+  SELECT 
+    customer_id,
+    normalized_product,
+    COUNT(*) as order_count,
+    SUM(order_amount) as total_spent
+  FROM cleaned_data
+  WHERE valid_order_date IS NOT NULL
+  GROUP BY customer_id, normalized_product
+)
+SELECT 
+  normalized_product,
+  COUNT(DISTINCT customer_id) as unique_customers,
+  SUM(order_count) as total_orders,
+  ROUND(AVG(total_spent), 2) as avg_customer_value
+FROM aggregated_data
+GROUP BY normalized_product
+HAVING COUNT(DISTINCT customer_id) >= 5
+ORDER BY total_orders DESC;
+
+-- Example 6: CTE for complex business logic
+WITH 
+monthly_revenue AS (
+  SELECT 
+    DATE_TRUNC('month', order_date) as revenue_month,
+    SUM(order_amount) as total_revenue
+  FROM orders
+  GROUP BY DATE_TRUNC('month', order_date)
+),
+growth_calculation AS (
+  SELECT
+    revenue_month,
+    total_revenue,
+    LAG(total_revenue) OVER (ORDER BY revenue_month) as previous_revenue,
+    total_revenue - LAG(total_revenue) OVER (ORDER BY revenue_month) as revenue_growth,
+    ROUND((total_revenue - LAG(total_revenue) OVER (ORDER BY revenue_month)) / 
+          LAG(total_revenue) OVER (ORDER BY revenue_month) * 100, 2) as growth_percentage
+  FROM monthly_revenue
+)
+SELECT
+  revenue_month,
+  total_revenue,
+  previous_revenue,
+  revenue_growth,
+  growth_percentage,
+  CASE
+    WHEN growth_percentage > 10 THEN 'High Growth'
+    WHEN growth_percentage > 0 THEN 'Moderate Growth'
+    WHEN growth_percentage = 0 THEN 'Stagnant'
+    ELSE 'Declining'
+  END as growth_status
+FROM growth_calculation
+ORDER BY revenue_month DESC;
+
+/*
+BENEFITS OF USING CTEs:
+1. Improved readability and maintainability
+2. Breaking down complex queries into logical parts
+3. Ability to reference the same subquery multiple times
+4. Support for recursive queries
+5. Better performance in some cases (materialized CTEs in some databases)
+
+LIMITATIONS:
+1. CTEs are not stored objects and exist only during query execution
+2. Performance may vary across different database systems
+3. Some databases have limitations on recursive CTE depth
+*/`,
+      },
+      {
+        id: 33,
+        question: "How do you use window functions for ranking?",
+        solution: `-- Window functions for ranking data
+
+/*
+COMMON RANKING FUNCTIONS:
+1. ROW_NUMBER() - Unique sequential integers
+2. RANK() - Ranking with gaps for ties
+3. DENSE_RANK() - Ranking without gaps for ties
+4. NTILE(n) - Divides rows into n groups
+*/
+
+-- Example 1: Basic ranking of customers by total spending
+WITH customer_ranking AS (
+  SELECT
+    customer_id,
+    customer_name,
+    SUM(order_amount) as total_spent,
+    ROW_NUMBER() OVER (ORDER BY SUM(order_amount) DESC) as row_num,
+    RANK() OVER (ORDER BY SUM(order_amount) DESC) as rank,
+    DENSE_RANK() OVER (ORDER BY SUM(order_amount) DESC) as dense_rank,
+    NTILE(4) OVER (ORDER BY SUM(order_amount) DESC) as quartile
+  FROM orders o
+  JOIN customers c ON o.customer_id = c.customer_id
+  GROUP BY customer_id, customer_name
+)
+SELECT
+  customer_id,
+  customer_name,
+  total_spent,
+  row_num,
+  rank,
+  dense_rank,
+  CASE quartile
+    WHEN 1 THEN 'Top 25%'
+    WHEN 2 THEN 'Upper Middle 25%'
+    WHEN 3 THEN 'Lower Middle 25%'
+    WHEN 4 THEN 'Bottom 25%'
+  END as spending_quartile
+FROM customer_ranking
+ORDER BY total_spent DESC;
+
+-- Example 2: Ranking within partitions (categories)
+SELECT
+  product_id,
+  product_name,
+  category,
+  unit_price,
+  -- Rank products by price within each category
+  ROW_NUMBER() OVER (PARTITION BY category ORDER BY unit_price DESC) as price_rank_in_category,
+  RANK() OVER (PARTITION BY category ORDER BY unit_price DESC) as price_rank_with_gaps,
+  DENSE_RANK() OVER (PARTITION BY category ORDER BY unit_price DESC) as price_dense_rank,
+  -- Compare to category average
+  unit_price - AVG(unit_price) OVER (PARTITION BY category) as price_difference_from_avg,
+  ROUND((unit_price / AVG(unit_price) OVER (PARTITION BY category) - 1) * 100, 2) as price_percent_difference
+FROM products
+ORDER BY category, unit_price DESC;
+
+-- Example 3: Time-based ranking (most recent orders per customer)
+SELECT
+  customer_id,
+  order_id,
+  order_date,
+  order_amount,
+  ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) as recent_order_rank,
+  FIRST_VALUE(order_amount) OVER (PARTITION BY customer_id ORDER BY order_date DESC) as most_recent_order_amount,
+  LAST_VALUE(order_amount) OVER (PARTITION BY customer_id ORDER BY order_date 
+                                ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) as first_order_amount,
+  -- Percentage of total spending for this order
+  ROUND(order_amount * 100.0 / SUM(order_amount) OVER (PARTITION BY customer_id), 2) as percent_of_customer_total
+FROM orders
+QUALIFY ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date DESC) <= 3
+ORDER BY customer_id, order_date DESC;
+
+-- Example 4: Advanced ranking with multiple criteria
+WITH sales_ranking AS (
+  SELECT
+    s.salesperson_id,
+    s.salesperson_name,
+    r.region_name,
+    SUM(o.order_amount) as total_sales,
+    COUNT(DISTINCT o.customer_id) as unique_customers,
+    -- Multiple ranking criteria
+    ROW_NUMBER() OVER (ORDER BY SUM(o.order_amount) DESC) as sales_rank,
+    RANK() OVER (PARTITION BY r.region_name ORDER BY SUM(o.order_amount) DESC) as region_sales_rank,
+    DENSE_RANK() OVER (ORDER BY COUNT(DISTINCT o.customer_id) DESC) as customer_count_rank,
+    -- Percentile ranking
+    ROUND(PERCENT_RANK() OVER (ORDER BY SUM(o.order_amount)) * 100, 2) as sales_percentile,
+    -- Moving average for context
+    AVG(SUM(o.order_amount)) OVER (ORDER BY s.salesperson_id 
+                                  ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING) as moving_avg_sales
+  FROM orders o
+  JOIN salespersons s ON o.salesperson_id = s.salesperson_id
+  JOIN regions r ON s.region_id = r.region_id
+  WHERE o.order_date >= CURRENT_DATE - INTERVAL '12 months'
+  GROUP BY s.salesperson_id, s.salesperson_name, r.region_name
+)
+SELECT
+  salesperson_id,
+  salesperson_name,
+  region_name,
+  total_sales,
+  unique_customers,
+  sales_rank,
+  region_sales_rank,
+  customer_count_rank,
+  sales_percentile,
+  moving_avg_sales,
+  CASE
+    WHEN sales_percentile >= 90 THEN 'Top 10% Performer'
+    WHEN sales_percentile >= 75 THEN 'Top 25% Performer'
+    WHEN sales_percentile >= 50 THEN 'Above Average'
+    ELSE 'Needs Improvement'
+  END as performance_category
+FROM sales_ranking
+ORDER BY sales_rank;
+
+-- Example 5: Ranking with filters and conditional logic
+SELECT
+  product_id,
+  product_name,
+  category,
+  unit_price,
+  units_in_stock,
+  -- Rank by price but only consider products with sufficient stock
+  CASE 
+    WHEN units_in_stock > 0 THEN
+      RANK() OVER (PARTITION BY category ORDER BY unit_price DESC)
+    ELSE NULL
+  END as in_stock_price_rank,
+  -- Rank products by profitability (assuming 40% margin)
+  RANK() OVER (ORDER BY (unit_price * 0.4) DESC) as profitability_rank,
+  -- Rank within price ranges
+  CASE
+    WHEN unit_price < 50 THEN NTILE(4) OVER (PARTITION BY category, 
+                                           CASE WHEN unit_price < 50 THEN 1 ELSE 0 END 
+                                           ORDER BY unit_price DESC)
+    WHEN unit_price BETWEEN 50 AND 200 THEN NTILE(4) OVER (PARTITION BY category, 
+                                                         CASE WHEN unit_price BETWEEN 50 AND 200 THEN 1 ELSE 0 END 
+                                                         ORDER BY unit_price DESC)
+    ELSE NTILE(4) OVER (PARTITION BY category, 
+                       CASE WHEN unit_price > 200 THEN 1 ELSE 0 END 
+                       ORDER BY unit_price DESC)
+  END as price_segment_rank
+FROM products
+WHERE discontinued = FALSE
+ORDER BY category, unit_price DESC;
+
+/*
+PERFORMANCE CONSIDERATIONS:
+1. Window functions can be expensive on large datasets
+2. Proper indexing on PARTITION BY and ORDER BY columns improves performance
+3. Consider using WHERE clauses to limit data before window function processing
+4. Some databases optimize certain window functions better than others
+
+USE CASES:
+- Top-N per category queries
+- Percentile calculations
+- Running totals and moving averages
+- Gap analysis (comparing to peers)
+- Ranking for reporting and analytics
+*/`,
+      },
+      {
+        id: 34,
+        question:
+          "What is the difference between ROW_NUMBER(), RANK(), and DENSE_RANK()?",
+        solution: `-- Differences between ROW_NUMBER(), RANK(), and DENSE_RANK()
+
+/*
+KEY DIFFERENCES:
+1. ROW_NUMBER(): Assigns unique sequential integers to each row, even with ties
+2. RANK(): Assigns same rank to tied values, with gaps in the sequence
+3. DENSE_RANK(): Assigns same rank to tied values, without gaps in the sequence
+*/
+
+-- Demonstration with sample data
+WITH sample_scores AS (
+  SELECT 1 as student_id, 'Math' as subject, 95 as score UNION ALL
+  SELECT 2, 'Math', 92 UNION ALL
+  SELECT 3, 'Math', 92 UNION ALL  -- Tie with student 2
+  SELECT 4, 'Math', 88 UNION ALL
+  SELECT 5, 'Math', 88 UNION ALL  -- Tie with student 4
+  SELECT 6, 'Math', 85 UNION ALL
+  SELECT 7, 'Math', 82 UNION ALL
+  SELECT 8, 'Math', 82 UNION ALL  -- Tie with student 7
+  SELECT 9, 'Math', 78 UNION ALL
+  SELECT 10, 'Math', 75
+)
+SELECT
+  student_id,
+  subject,
+  score,
+  ROW_NUMBER() OVER (ORDER BY score DESC) as row_number,
+  RANK() OVER (ORDER BY score DESC) as rank,
+  DENSE_RANK() OVER (ORDER BY score DESC) as dense_rank
+FROM sample_scores
+ORDER BY score DESC;
+
+/*
+EXPECTED RESULTS:
+student_id | subject | score | row_number | rank | dense_rank
+-----------+---------+-------+------------+------+-----------
+1          | Math    | 95    | 1          | 1    | 1
+2          | Math    | 92    | 2          | 2    | 2
+3          | Math    | 92    | 3          | 2    | 2  -- Same rank as student 2
+4          | Math    | 88    | 4          | 4    | 3  -- Rank jumps to 4 (gap), Dense continues to 3
+5          | Math    | 88    | 5          | 4    | 3  -- Same as student 4
+6          | Math    | 85    | 6          | 6    | 4  -- Rank jumps to 6, Dense continues to 4
+7          | Math    | 82    | 7          | 7    | 5
+8          | Math    | 82    | 8          | 7    | 5  -- Same as student 7
+9          | Math    | 78    | 9          | 9    | 6  -- Rank jumps to 9
+10         | Math    | 75    | 10         | 10   | 7
+*/
+
+-- Practical example with sales data
+WITH sales_data AS (
+  SELECT
+    salesperson_id,
+    region,
+    sales_amount,
+    ROW_NUMBER() OVER (PARTITION BY region ORDER BY sales_amount DESC) as row_num,
+    RANK() OVER (PARTITION BY region ORDER BY sales_amount DESC) as rank,
+    DENSE_RANK() OVER (PARTITION BY region ORDER BY sales_amount DESC) as dense_rank
+  FROM sales
+  WHERE sales_date >= CURRENT_DATE - INTERVAL '3 months'
+)
+SELECT
+  salesperson_id,
+  region,
+  sales_amount,
+  row_num,
+  rank,
+  dense_rank,
+  CASE
+    WHEN rank = 1 THEN 'Top Performer'
+    WHEN dense_rank <= 3 THEN 'Top 3 in Region'
+    WHEN dense_rank <= 10 THEN 'Top 10 in Region'
+    ELSE 'Other'
+  END as performance_category
+FROM sales_data
+ORDER BY region, sales_amount DESC;
+
+-- When to use each function:
+
+-- 1. Use ROW_NUMBER() when you need unique sequential numbers
+--    Example: Pagination, selecting top N per group without ties
+SELECT *
+FROM (
+  SELECT
+    product_id,
+    product_name,
+    category,
+    unit_price,
+    ROW_NUMBER() OVER (PARTITION BY category ORDER BY unit_price DESC) as price_rank
+  FROM products
+) ranked
+WHERE price_rank <= 5;  -- Exactly 5 products per category
+
+-- 2. Use RANK() when you want to show position with gaps for ties
+--    Example: Competition rankings where tied scores get same rank but next rank has gap
+SELECT
+  student_id,
+  test_score,
+  RANK() OVER (ORDER BY test_score DESC) as class_rank
+FROM test_scores
+ORDER BY class_rank;
+
+-- 3. Use DENSE_RANK() when you want consecutive ranking without gaps
+--    Example: Tier-based systems where you want continuous tier numbers
+SELECT
+  customer_id,
+  total_spent,
+  DENSE_RANK() OVER (ORDER BY total_spent DESC) as customer_tier
+FROM customer_lifetime_value
+ORDER BY customer_tier;
+
+-- Advanced example showing all three functions together
+WITH employee_salaries AS (
+  SELECT
+    department_id,
+    employee_id,
+    salary,
+    ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY salary DESC) as row_num,
+    RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as rank,
+    DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as dense_rank,
+    -- Additional context
+    AVG(salary) OVER (PARTITION BY department_id) as avg_department_salary,
+    salary - AVG(salary) OVER (PARTITION BY department_id) as difference_from_avg
+  FROM employees
+  WHERE active = true
+)
+SELECT
+  department_id,
+  employee_id,
+  salary,
+  row_num,
+  rank,
+  dense_rank,
+  avg_department_salary,
+  difference_from_avg,
+  CASE
+    WHEN rank = 1 THEN 'Highest Paid'
+    WHEN dense_rank <= 3 THEN 'Top 3 in Department'
+    WHEN salary > avg_department_salary THEN 'Above Average'
+    ELSE 'Below Average'
+  END as salary_status
+FROM employee_salaries
+ORDER BY department_id, salary DESC;
+
+/*
+PERFORMANCE NOTES:
+- ROW_NUMBER() is generally the fastest as it doesn't need to handle ties
+- RANK() and DENSE_RANK() have similar performance characteristics
+- All three functions require sorting by the ORDER BY clause
+- Partitioning can improve performance by allowing parallel processing
+*/`,
+      },
+      {
+        id: 35,
+        question: "How do you use the LAG and LEAD functions?",
+        solution: `-- Using LAG and LEAD functions for time series analysis
+
+/*
+LAG(): Accesses data from previous rows in the result set
+LEAD(): Accesses data from following rows in the result set
+
+Syntax:
+LAG(column, offset, default_value) OVER (PARTITION BY ... ORDER BY ...)
+LEAD(column, offset, default_value) OVER (PARTITION BY ... ORDER BY ...)
+*/
+
+-- Example 1: Basic LAG and LEAD for month-over-month comparison
+WITH monthly_sales AS (
+  SELECT
+    DATE_TRUNC('month', order_date) as sales_month,
+    SUM(order_amount) as total_sales,
+    COUNT(DISTINCT order_id) as order_count
+  FROM orders
+  WHERE order_date >= CURRENT_DATE - INTERVAL '12 months'
+  GROUP BY DATE_TRUNC('month', order_date)
+)
+SELECT
+  sales_month,
+  total_sales,
+  order_count,
+  -- Previous month values
+  LAG(total_sales) OVER (ORDER BY sales_month) as previous_month_sales,
+  LAG(order_count) OVER (ORDER BY sales_month) as previous_month_orders,
+  -- Next month values
+  LEAD(total_sales) OVER (ORDER BY sales_month) as next_month_sales,
+  LEAD(order_count) OVER (ORDER BY sales_month) as next_month_orders,
+  -- Month-over-month growth
+  ROUND((total_sales - LAG(total_sales) OVER (ORDER BY sales_month)) / 
+        LAG(total_sales) OVER (ORDER BY sales_month) * 100, 2) as sales_growth_percent,
+  -- Difference from next month
+  LEAD(total_sales) OVER (ORDER BY sales_month) - total_sales as sales_change_next_month
+FROM monthly_sales
+ORDER BY sales_month;
+
+-- Example 2: Using LAG/LEAD with partitions (by category)
+SELECT
+  product_id,
+  category,
+  price_date,
+  unit_price,
+  -- Previous price in same category
+  LAG(unit_price) OVER (PARTITION BY category ORDER BY price_date) as previous_price,
+  -- Next price in same category
+  LEAD(unit_price) OVER (PARTITION BY category ORDER BY price_date) as next_price,
+  -- Price change from previous
+  unit_price - LAG(unit_price) OVER (PARTITION BY category ORDER BY price_date) as price_change,
+  -- Percent change from previous
+  ROUND((unit_price - LAG(unit_price) OVER (PARTITION BY category ORDER BY price_date)) / 
+        LAG(unit_price) OVER (PARTITION BY category ORDER BY price_date) * 100, 2) as price_change_percent,
+  -- Flag significant changes
+  CASE
+    WHEN ABS(unit_price - LAG(unit_price) OVER (PARTITION BY category ORDER BY price_date)) > 
+         LAG(unit_price) OVER (PARTITION BY category ORDER BY price_date) * 0.1 THEN 'Significant Change'
+    ELSE 'Normal Change'
+  END as change_type
+FROM product_prices
+ORDER BY category, price_date;
+
+-- Example 3: Analyzing time between events
+WITH user_sessions AS (
+  SELECT
+    user_id,
+    session_id,
+    session_start,
+    session_end,
+    -- Previous session end time
+    LAG(session_end) OVER (PARTITION BY user_id ORDER BY session_start) as previous_session_end,
+    -- Time between sessions
+    EXTRACT(EPOCH FROM (session_start - 
+          LAG(session_end) OVER (PARTITION BY user_id ORDER BY session_start))) / 3600 as hours_between_sessions,
+    -- Next session start time
+    LEAD(session_start) OVER (PARTITION BY user_id ORDER BY session_start) as next_session_start
+  FROM user_activity_sessions
+  WHERE session_start >= CURRENT_DATE - INTERVAL '30 days'
+)
+SELECT
+  user_id,
+  session_id,
+  session_start,
+  session_end,
+  previous_session_end,
+  ROUND(hours_between_sessions, 2) as hours_between_sessions,
+  next_session_start,
+  -- Session duration in hours
+  EXTRACT(EPOCH FROM (session_end - session_start)) / 3600 as session_duration_hours,
+  -- User engagement pattern
+  CASE
+    WHEN hours_between_sessions < 1 THEN 'Highly Engaged'
+    WHEN hours_between_sessions < 24 THEN 'Daily User'
+    WHEN hours_between_sessions < 168 THEN 'Weekly User'
+    ELSE 'Infrequent User'
+  END as engagement_pattern
+FROM user_sessions
+ORDER BY user_id, session_start;
+
+-- Example 4: Calculating running differences and trends
+WITH daily_metrics AS (
+  SELECT
+    metric_date,
+    active_users,
+    revenue,
+    LAG(active_users) OVER (ORDER BY metric_date) as previous_users,
+    LAG(revenue) OVER (ORDER BY metric_date) as previous_revenue,
+    LEAD(active_users) OVER (ORDER BY metric_date) as next_users,
+    LEAD(revenue) OVER (ORDER BY metric_date) as next_revenue
+  FROM daily_performance
+  WHERE metric_date >= CURRENT_DATE - INTERVAL '90 days'
+)
+SELECT
+  metric_date,
+  active_users,
+  revenue,
+  -- User changes
+  active_users - previous_users as user_change,
+  ROUND((active_users - previous_users)::DECIMAL / NULLIF(previous_users, 0) * 100, 2) as user_change_percent,
+  -- Revenue changes
+  revenue - previous_revenue as revenue_change,
+  ROUND((revenue - previous_revenue)::DECIMAL / NULLIF(previous_revenue, 0) * 100, 2) as revenue_change_percent,
+  -- 3-day trend
+  CASE
+    WHEN revenue > previous_revenue AND revenue > next_revenue THEN 'Peak'
+    WHEN revenue < previous_revenue AND revenue < next_revenue THEN 'Trough'
+    WHEN revenue > previous_revenue THEN 'Increasing'
+    WHEN revenue < previous_revenue THEN 'Decreasing'
+    ELSE 'Stable'
+  END as revenue_trend
+FROM daily_metrics
+ORDER BY metric_date;
+
+-- Example 5: Advanced pattern detection with multiple offsets
+SELECT
+  log_timestamp,
+  error_type,
+  error_count,
+  -- Multiple previous values
+  LAG(error_count, 1) OVER (ORDER BY log_timestamp) as prev_1,
+  LAG(error_count, 2) OVER (ORDER BY log_timestamp) as prev_2,
+  LAG(error_count, 3) OVER (ORDER BY log_timestamp) as prev_3,
+  -- Multiple next values
+  LEAD(error_count, 1) OVER (ORDER BY log_timestamp) as next_1,
+  LEAD(error_count, 2) OVER (ORDER BY log_timestamp) as next_2,
+  LEAD(error_count, 3) OVER (ORDER BY log_timestamp) as next_3,
+  -- Detect spikes (current > 2x average of previous 3)
+  CASE
+    WHEN error_count > COALESCE(LAG(error_count, 1) OVER (ORDER BY log_timestamp), 0) * 2
+     AND error_count > COALESCE(LAG(error_count, 2) OVER (ORDER BY log_timestamp), 0) * 2
+     AND error_count > COALESCE(LAG(error_count, 3) OVER (ORDER BY log_timestamp), 0) * 2
+    THEN 'SPIKE_DETECTED'
+    ELSE 'NORMAL'
+  END as spike_status,
+  -- Moving average for comparison
+  AVG(error_count) OVER (ORDER BY log_timestamp ROWS BETWEEN 3 PRECEDING AND 3 FOLLOWING) as moving_avg
+FROM error_logs
+WHERE log_timestamp >= CURRENT_TIMESTAMP - INTERVAL '24 hours'
+ORDER BY log_timestamp;
+
+/*
+COMMON USE CASES:
+1. Time series analysis and trend detection
+2. Calculating period-over-period changes
+3. Identifying patterns and anomalies
+4. Calculating time differences between events
+5. Comparing current values with historical benchmarks
+
+PERFORMANCE TIPS:
+1. Use appropriate indexes on PARTITION BY and ORDER BY columns
+2. Limit the range of data using WHERE clauses when possible
+3. Consider using materialized views for frequently accessed historical comparisons
+4. Use default values to handle NULLs appropriately
+*/`,
+      },
+
+      {
+        id: 36,
+        question:
+          "Write a query using recursive CTEs to handle hierarchical data",
+        solution: `-- Recursive CTE for organizational hierarchy
+WITH RECURSIVE org_hierarchy AS (
+  -- Anchor member: top-level employees (those with no manager)
+  SELECT 
+    employee_id,
+    employee_name,
+    manager_id,
+    title,
+    1 as depth,
+    employee_name::TEXT as hierarchy_path,
+    ARRAY[employee_id] as path_ids
+  FROM employees
+  WHERE manager_id IS NULL
+  
+  UNION ALL
+  
+  -- Recursive member: subordinates of previous level
+  SELECT 
+    e.employee_id,
+    e.employee_name,
+    e.manager_id,
+    e.title,
+    oh.depth + 1,
+    oh.hierarchy_path || ' -> ' || e.employee_name,
+    oh.path_ids || e.employee_id
+  FROM employees e
+  INNER JOIN org_hierarchy oh ON e.manager_id = oh.employee_id
+  WHERE NOT e.employee_id = ANY(oh.path_ids) -- Prevent cycles
+)
+SELECT 
+  employee_id,
+  employee_name,
+  manager_id,
+  title,
+  depth,
+  hierarchy_path,
+  -- Indentation for visual hierarchy
+  REPEAT('  ', depth - 1) || employee_name as visual_hierarchy,
+  -- Count subordinates
+  (SELECT COUNT(*) FROM employees WHERE manager_id = oh.employee_id) as direct_reports
+FROM org_hierarchy oh
+ORDER BY path_ids;
+
+-- Recursive CTE for product categories hierarchy
+WITH RECURSIVE category_tree AS (
+  -- Anchor: root categories
+  SELECT 
+    category_id,
+    category_name,
+    parent_category_id,
+    1 as level,
+    category_name::TEXT as full_path,
+    CAST(category_id AS TEXT) as category_path
+  FROM categories
+  WHERE parent_category_id IS NULL
+  
+  UNION ALL
+  
+  -- Recursive: subcategories
+  SELECT 
+    c.category_id,
+    c.category_name,
+    c.parent_category_id,
+    ct.level + 1,
+    ct.full_path || ' > ' || c.category_name,
+    ct.category_path || '.' || CAST(c.category_id AS TEXT)
+  FROM categories c
+  INNER JOIN category_tree ct ON c.parent_category_id = ct.category_id
+)
+SELECT 
+  category_id,
+  category_name,
+  parent_category_id,
+  level,
+  full_path,
+  category_path,
+  -- Flag leaf nodes (categories with no children)
+  CASE WHEN NOT EXISTS (
+    SELECT 1 FROM categories WHERE parent_category_id = ct.category_id
+  ) THEN 'Leaf' ELSE 'Branch' END as node_type
+FROM category_tree ct
+ORDER BY category_path;
+
+-- Calculating aggregated values in hierarchy (rollup)
+WITH RECURSIVE sales_hierarchy AS (
+  SELECT 
+    d.department_id,
+    d.department_name,
+    d.parent_department_id,
+    d.department_name::TEXT as hierarchy_path,
+    COALESCE(SUM(s.sales_amount), 0) as department_sales
+  FROM departments d
+  LEFT JOIN sales s ON d.department_id = s.department_id
+  WHERE d.parent_department_id IS NULL
+  GROUP BY d.department_id, d.department_name, d.parent_department_id
+  
+  UNION ALL
+  
+  SELECT 
+    d.department_id,
+    d.department_name,
+    d.parent_department_id,
+    sh.hierarchy_path || ' > ' || d.department_name,
+    COALESCE(SUM(s.sales_amount), 0)
+  FROM departments d
+  INNER JOIN sales_hierarchy sh ON d.parent_department_id = sh.department_id
+  LEFT JOIN sales s ON d.department_id = s.department_id
+  GROUP BY d.department_id, d.department_name, d.parent_department_id, sh.hierarchy_path
+)
+SELECT 
+  department_id,
+  department_name,
+  hierarchy_path,
+  department_sales,
+  -- Rollup sales from children
+  (SELECT SUM(department_sales) FROM sales_hierarchy 
+   WHERE hierarchy_path LIKE sh.hierarchy_path || ' > %') as child_sales,
+  department_sales + COALESCE((
+    SELECT SUM(department_sales) FROM sales_hierarchy 
+    WHERE hierarchy_path LIKE sh.hierarchy_path || ' > %'
+  ), 0) as total_sales
+FROM sales_hierarchy sh
+ORDER BY hierarchy_path;`,
+      },
+      {
+        id: 37,
+        question: "How do you implement pagination in SQL queries?",
+        solution: `-- Pagination using LIMIT and OFFSET (PostgreSQL, MySQL, SQLite)
+SELECT 
+  product_id,
+  product_name,
+  category,
+  unit_price,
+  created_date
+FROM products
+WHERE discontinued = FALSE
+  AND unit_price BETWEEN 10 AND 100
+ORDER BY created_date DESC, product_name
+LIMIT 20 OFFSET 40; -- Page 3 (records 41-60)
+
+-- Pagination using ROW_NUMBER() (More standard across databases)
+WITH paginated_results AS (
+  SELECT 
+    product_id,
+    product_name,
+    category,
+    unit_price,
+    created_date,
+    ROW_NUMBER() OVER (ORDER BY created_date DESC, product_name) as row_num
+  FROM products
+  WHERE discontinued = FALSE
+    AND unit_price BETWEEN 10 AND 100
+)
+SELECT 
+  product_id,
+  product_name,
+  category,
+  unit_price,
+  created_date
+FROM paginated_results
+WHERE row_num BETWEEN 41 AND 60;
+
+-- Pagination with total count for UI display
+WITH filtered_products AS (
+  SELECT 
+    product_id,
+    product_name,
+    category,
+    unit_price,
+    created_date
+  FROM products
+  WHERE discontinued = FALSE
+    AND unit_price BETWEEN 10 AND 100
+),
+paginated AS (
+  SELECT 
+    *,
+    ROW_NUMBER() OVER (ORDER BY created_date DESC, product_name) as row_num,
+    COUNT(*) OVER () as total_count
+  FROM filtered_products
+)
+SELECT 
+  product_id,
+  product_name,
+  category,
+  unit_price,
+  created_date,
+  total_count,
+  CEIL(total_count / 20.0) as total_pages,
+  CEIL(row_num / 20.0) as current_page
+FROM paginated
+WHERE row_num BETWEEN 41 AND 60;
+
+-- Keyset pagination (for large datasets, better performance than OFFSET)
+SELECT 
+  product_id,
+  product_name,
+  category,
+  unit_price,
+  created_date
+FROM products
+WHERE discontinued = FALSE
+  AND unit_price BETWEEN 10 AND 100
+  AND (created_date < '2023-06-01' 
+       OR (created_date = '2023-06-01' AND product_id > 1000))
+ORDER BY created_date DESC, product_id
+LIMIT 20;
+
+-- Parameterized pagination stored procedure
+CREATE OR REPLACE FUNCTION get_paginated_products(
+  page_number INTEGER DEFAULT 1,
+  page_size INTEGER DEFAULT 20,
+  min_price DECIMAL DEFAULT 0,
+  max_price DECIMAL DEFAULT 1000
+) RETURNS TABLE (
+  product_id INTEGER,
+  product_name VARCHAR,
+  category VARCHAR,
+  unit_price DECIMAL,
+  created_date DATE,
+  total_count BIGINT,
+  total_pages INTEGER
+) AS $$
+DECLARE
+  offset_val INTEGER;
+BEGIN
+  offset_val := (page_number - 1) * page_size;
+  
+  RETURN QUERY
+  WITH filtered AS (
+    SELECT 
+      product_id,
+      product_name,
+      category,
+      unit_price,
+      created_date
+    FROM products
+    WHERE discontinued = FALSE
+      AND unit_price BETWEEN min_price AND max_price
+  ),
+  paginated AS (
+    SELECT 
+      *,
+      ROW_NUMBER() OVER (ORDER BY created_date DESC, product_name) as row_num,
+      COUNT(*) OVER () as total_records
+    FROM filtered
+  )
+  SELECT 
+    product_id,
+    product_name,
+    category,
+    unit_price,
+    created_date,
+    total_records,
+    CEIL(total_records / page_size::DECIMAL)
+  FROM paginated
+  WHERE row_num > offset_val AND row_num <= offset_val + page_size;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Usage: SELECT * FROM get_paginated_products(3, 20, 10, 100);`,
+      },
+      {
+        id: 38,
+        question: "Explain the concept of materialized views",
+        solution: `-- Materialized Views: Precomputed query results stored as physical tables
+
+-- Creating a materialized view for sales reporting
+CREATE MATERIALIZED VIEW mv_monthly_sales_report AS
+SELECT 
+  DATE_TRUNC('month', order_date) as sales_month,
+  region,
+  product_category,
+  COUNT(DISTINCT order_id) as order_count,
+  SUM(quantity) as total_quantity,
+  SUM(order_amount) as total_revenue,
+  AVG(order_amount) as avg_order_value,
+  COUNT(DISTINCT customer_id) as unique_customers
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id
+WHERE order_date >= CURRENT_DATE - INTERVAL '12 months'
+GROUP BY DATE_TRUNC('month', order_date), region, product_category
+WITH DATA;
+
+-- Refresh the materialized view (required to update data)
+REFRESH MATERIALIZED VIEW mv_monthly_sales_report;
+
+-- Refresh concurrently (allows reads during refresh, requires unique index)
+REFRESH MATERIALIZED VIEW CONCURRENTLY mv_monthly_sales_report;
+
+-- Create index on materialized view for performance
+CREATE UNIQUE INDEX idx_mv_sales_month_region_category 
+ON mv_monthly_sales_report (sales_month, region, product_category);
+
+CREATE INDEX idx_mv_sales_region ON mv_monthly_sales_report (region);
+CREATE INDEX idx_mv_sales_category ON mv_monthly_sales_report (product_category);
+
+-- Query from materialized view (much faster than base tables)
+SELECT 
+  sales_month,
+  region,
+  product_category,
+  total_revenue,
+  unique_customers
+FROM mv_monthly_sales_report
+WHERE region = 'North America'
+  AND sales_month >= '2023-01-01'
+ORDER BY sales_month, product_category;
+
+-- Materialized view for user activity aggregation
+CREATE MATERIALIZED VIEW mv_daily_user_activity AS
+SELECT 
+  DATE(event_timestamp) as activity_date,
+  user_id,
+  COUNT(*) as total_events,
+  COUNT(DISTINCT session_id) as total_sessions,
+  SUM(CASE WHEN event_type = 'purchase' THEN 1 ELSE 0 END) as purchase_events,
+  SUM(CASE WHEN event_type = 'page_view' THEN 1 ELSE 0 END) as page_views,
+  MAX(event_timestamp) as last_activity
+FROM user_events
+WHERE event_timestamp >= CURRENT_DATE - INTERVAL '30 days'
+GROUP BY DATE(event_timestamp), user_id
+WITH DATA;
+
+-- Automated refresh using cron job or scheduled task
+-- Example: Refresh every night at 2 AM
+/*
+0 2 * * * psql -d your_database -c "REFRESH MATERIALIZED VIEW mv_daily_user_activity;"
+*/
+
+-- Materialized view with complex joins and calculations
+CREATE MATERIALIZED VIEW mv_customer_lifetime_value AS
+WITH customer_stats AS (
+  SELECT 
+    c.customer_id,
+    c.join_date,
+    COUNT(DISTINCT o.order_id) as total_orders,
+    SUM(o.order_amount) as total_revenue,
+    MAX(o.order_date) as last_order_date,
+    AVG(o.order_amount) as avg_order_value
+  FROM customers c
+  LEFT JOIN orders o ON c.customer_id = o.customer_id
+  GROUP BY c.customer_id, c.join_date
+),
+cohort_analysis AS (
+  SELECT 
+    customer_id,
+    EXTRACT(MONTH FROM AGE(last_order_date, join_date)) as lifetime_months,
+    total_revenue / NULLIF(EXTRACT(MONTH FROM AGE(last_order_date, join_date)), 0) as monthly_value
+  FROM customer_stats
+  WHERE last_order_date IS NOT NULL
+)
+SELECT 
+  cs.customer_id,
+  cs.join_date,
+  cs.total_orders,
+  cs.total_revenue,
+  cs.last_order_date,
+  cs.avg_order_value,
+  co.lifetime_months,
+  co.monthly_value,
+  co.monthly_value * 12 as predicted_annual_value
+FROM customer_stats cs
+LEFT JOIN cohort_analysis co ON cs.customer_id = co.customer_id
+WITH DATA;
+
+-- Benefits of materialized views:
+-- 1. Dramatically improved query performance for complex aggregations
+-- 2. Reduced load on production databases
+-- 3. Precomputed results for reporting and analytics
+
+-- Limitations:
+-- 1. Data can become stale until refreshed
+-- 2. Storage overhead (duplicate data)
+-- 3. Refresh operations can be resource-intensive
+
+-- When to use materialized views:
+-- * Complex reports that are run frequently
+-- * Dashboards requiring fast response times
+-- * Data that doesn't need real-time freshness
+-- * Aggregations over large datasets`,
+      },
+      {
+        id: 39,
+        question: "How do you use the PIVOT and UNPIVOT operators?",
+        solution: `-- PIVOT: Converting rows to columns for cross-tabulation
+
+-- Monthly sales by category pivot
+SELECT *
+FROM (
+  SELECT 
+    product_category,
+    DATE_TRUNC('month', order_date) as sales_month,
+    order_amount
+  FROM orders o
+  JOIN order_items oi ON o.order_id = oi.order_id
+  JOIN products p ON oi.product_id = p.product_id
+) src
+PIVOT (
+  SUM(order_amount)
+  FOR product_category IN (
+    'Electronics' as electronics,
+    'Clothing' as clothing,
+    'Books' as books,
+    'Home' as home
+  )
+) AS pivot_table
+ORDER BY sales_month;
+
+-- Pivot with multiple aggregate functions
+SELECT *
+FROM (
+  SELECT 
+    region,
+    product_category,
+    order_amount,
+    quantity
+  FROM orders o
+  JOIN order_items oi ON o.order_id = oi.order_id
+  JOIN products p ON oi.product_id = p.product_id
+  JOIN customers c ON o.customer_id = c.customer_id
+) src
+PIVOT (
+  SUM(order_amount) as revenue,
+  AVG(quantity) as avg_quantity
+  FOR product_category IN (
+    'Electronics' as electronics,
+    'Clothing' as clothing
+  )
+) AS pivot_table
+ORDER BY region;
+
+-- Dynamic pivot (when categories are unknown at design time)
+CREATE OR REPLACE FUNCTION dynamic_sales_pivot() 
+RETURNS TABLE (sales_month DATE, categories JSON) 
+AS $$
+DECLARE
+  category_list TEXT;
+  query TEXT;
+BEGIN
+  -- Get distinct categories
+  SELECT STRING_AGG(DISTINCT quote_literal(product_category), ', ')
+  INTO category_list
+  FROM products;
+  
+  -- Build dynamic query
+  query := '
+    SELECT sales_month, JSON_OBJECT_AGG(product_category, revenue) as categories
+    FROM (
+      SELECT 
+        DATE_TRUNC(''month'', order_date) as sales_month,
+        product_category,
+        SUM(order_amount) as revenue
+      FROM orders o
+      JOIN order_items oi ON o.order_id = oi.order_id
+      JOIN products p ON oi.product_id = p.product_id
+      GROUP BY DATE_TRUNC(''month'', order_date), product_category
+    ) src
+    GROUP BY sales_month
+    ORDER BY sales_month';
+  
+  RETURN QUERY EXECUTE query;
+END;
+$$ LANGUAGE plpgsql;
+
+-- UNPIVOT: Converting columns to rows
+
+-- Sales data by quarter in columns
+CREATE TABLE quarterly_sales (
+  product_id INT,
+  product_name VARCHAR,
+  q1_sales DECIMAL,
+  q2_sales DECIMAL,
+  q3_sales DECIMAL,
+  q4_sales DECIMAL
+);
+
+-- Unpivot quarterly sales to rows
+SELECT 
+  product_id,
+  product_name,
+  quarter,
+  sales_amount
+FROM quarterly_sales
+UNPIVOT (
+  sales_amount
+  FOR quarter IN (
+    q1_sales AS 'Q1',
+    q2_sales AS 'Q2',
+    q3_sales AS 'Q3',
+    q4_sales AS 'Q4'
+  )
+);
+
+-- Unpivot with multiple value columns
+SELECT 
+  product_id,
+  product_name,
+  quarter,
+  sales_amount,
+  units_sold
+FROM (
+  SELECT 
+    product_id,
+    product_name,
+    q1_sales, q1_units,
+    q2_sales, q2_units,
+    q3_sales, q3_units,
+    q4_sales, q4_units
+  FROM quarterly_sales
+) src
+UNPIVOT (
+  (sales_amount, units_sold)
+  FOR quarter IN (
+    (q1_sales, q1_units) AS 'Q1',
+    (q2_sales, q2_units) AS 'Q2',
+    (q3_sales, q3_units) AS 'Q3',
+    (q4_sales, q4_units) AS 'Q4'
+  )
+);
+
+-- Using JSON functions for flexible pivoting (PostgreSQL)
+SELECT 
+  sales_month,
+  JSON_OBJECT_AGG(product_category, revenue) as category_revenue
+FROM (
+  SELECT 
+    DATE_TRUNC('month', order_date) as sales_month,
+    product_category,
+    SUM(order_amount) as revenue
+  FROM orders o
+  JOIN order_items oi ON o.order_id = oi.order_id
+  JOIN products p ON oi.product_id = p.product_id
+  GROUP BY DATE_TRUNC('month', order_date), product_category
+) grouped
+GROUP BY sales_month
+ORDER BY sales_month;
+
+-- Conditional aggregation (alternative to PIVOT)
+SELECT 
+  DATE_TRUNC('month', order_date) as sales_month,
+  SUM(CASE WHEN product_category = 'Electronics' THEN order_amount ELSE 0 END) as electronics,
+  SUM(CASE WHEN product_category = 'Clothing' THEN order_amount ELSE 0 END) as clothing,
+  SUM(CASE WHEN product_category = 'Books' THEN order_amount ELSE 0 END) as books,
+  SUM(CASE WHEN product_category = 'Home' THEN order_amount ELSE 0 END) as home,
+  SUM(order_amount) as total_sales
+FROM orders o
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id
+GROUP BY DATE_TRUNC('month', order_date)
+ORDER BY sales_month;`,
+      },
+      {
+        id: 40,
+        question:
+          "Write a query to calculate running totals using window functions",
+        solution: `-- Running total using window functions
+
+-- Basic running total of sales by date
+SELECT 
+  order_date,
+  order_amount,
+  SUM(order_amount) OVER (ORDER BY order_date) as running_total,
+  AVG(order_amount) OVER (ORDER BY order_date) as running_avg
+FROM orders
+WHERE order_date >= '2023-01-01'
+ORDER BY order_date;
+
+-- Running total by customer with partition
+SELECT 
+  customer_id,
+  order_date,
+  order_amount,
+  SUM(order_amount) OVER (
+    PARTITION BY customer_id 
+    ORDER BY order_date
+  ) as customer_running_total,
+  COUNT(*) OVER (
+    PARTITION BY customer_id 
+    ORDER BY order_date
+  ) as customer_order_count
+FROM orders
+ORDER BY customer_id, order_date;
+
+-- Running total with specific window frame
+SELECT 
+  order_date,
+  order_amount,
+  SUM(order_amount) OVER (
+    ORDER BY order_date
+    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+  ) as running_total,
+  SUM(order_amount) OVER (
+    ORDER BY order_date
+    ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+  ) as last_3_days_total,
+  AVG(order_amount) OVER (
+    ORDER BY order_date
+    ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+  ) as last_7_days_avg
+FROM orders
+WHERE order_date >= '2023-01-01'
+ORDER BY order_date;
+
+-- Running percentage of total
+SELECT 
+  order_date,
+  order_amount,
+  SUM(order_amount) OVER (ORDER BY order_date) as running_total,
+  ROUND(
+    order_amount * 100.0 / SUM(order_amount) OVER (ORDER BY order_date),
+    2
+  ) as percent_of_running_total,
+  ROUND(
+    SUM(order_amount) OVER (ORDER BY order_date) * 100.0 / 
+    SUM(order_amount) OVER (),
+    2
+  ) as cumulative_percent
+FROM orders
+WHERE order_date >= '2023-01-01'
+ORDER BY order_date;
+
+-- Running totals with multiple partitions
+SELECT 
+  region,
+  order_date,
+  order_amount,
+  SUM(order_amount) OVER (
+    PARTITION BY region
+    ORDER BY order_date
+  ) as region_running_total,
+  SUM(order_amount) OVER (
+    PARTITION BY DATE_TRUNC('month', order_date)
+    ORDER BY order_date
+  ) as monthly_running_total,
+  SUM(order_amount) OVER (
+    ORDER BY order_date
+  ) as overall_running_total
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+WHERE order_date >= '2023-01-01'
+ORDER BY region, order_date;
+
+-- Running difference from average
+SELECT 
+  order_date,
+  order_amount,
+  AVG(order_amount) OVER (ORDER BY order_date) as running_avg,
+  order_amount - AVG(order_amount) OVER (ORDER BY order_date) as difference_from_avg,
+  ROUND(
+    (order_amount - AVG(order_amount) OVER (ORDER BY order_date)) * 100.0 / 
+    AVG(order_amount) OVER (ORDER BY order_date),
+    2
+  ) as percent_difference
+FROM orders
+WHERE order_date >= '2023-01-01'
+ORDER BY order_date;
+
+-- Running totals with gaps (using date series)
+WITH date_series AS (
+  SELECT generate_series(
+    '2023-01-01'::date,
+    '2023-12-31'::date,
+    '1 day'::interval
+  ) as date_day
+),
+daily_sales AS (
+  SELECT 
+    order_date,
+    SUM(order_amount) as daily_total
+  FROM orders
+  WHERE order_date BETWEEN '2023-01-01' AND '2023-12-31'
+  GROUP BY order_date
+)
+SELECT 
+  ds.date_day,
+  COALESCE(ds.daily_total, 0) as daily_sales,
+  SUM(COALESCE(ds.daily_total, 0)) OVER (
+    ORDER BY ds.date_day
+    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+  ) as running_total,
+  AVG(COALESCE(ds.daily_total, 0)) OVER (
+    ORDER BY ds.date_day
+    ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
+  ) as weekly_moving_avg
+FROM date_series ds
+LEFT JOIN daily_sales ds ON ds.date_day = ds.order_date
+ORDER BY ds.date_day;
+
+-- Performance optimized running totals for large datasets
+SELECT 
+  order_date,
+  daily_total,
+  SUM(daily_total) OVER (ORDER BY order_date) as running_total
+FROM (
+  SELECT 
+    order_date,
+    SUM(order_amount) as daily_total
+  FROM orders
+  WHERE order_date >= '2023-01-01'
+  GROUP BY order_date
+) daily_aggregates
+ORDER BY order_date;`,
+      },
+      {
+        id: 41,
+        question: "How do you handle many-to-many relationships in SQL?",
+        solution: `-- Many-to-many relationships require a junction/join table
+
+-- Example: Students and Courses relationship
+CREATE TABLE students (
+    student_id SERIAL PRIMARY KEY,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL
+);
+
+CREATE TABLE courses (
+    course_id SERIAL PRIMARY KEY,
+    course_name VARCHAR(100) NOT NULL,
+    course_code VARCHAR(20) UNIQUE NOT NULL,
+    credits INT NOT NULL
+);
+
+-- Junction table for many-to-many relationship
+CREATE TABLE student_courses (
+    student_id INT REFERENCES students(student_id) ON DELETE CASCADE,
+    course_id INT REFERENCES courses(course_id) ON DELETE CASCADE,
+    enrollment_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    grade CHAR(2) NULL,
+    PRIMARY KEY (student_id, course_id)  -- Composite primary key
+);
+
+-- Insert sample data
+INSERT INTO students (first_name, last_name, email) VALUES
+('John', 'Doe', 'john.doe@email.com'),
+('Jane', 'Smith', 'jane.smith@email.com');
+
+INSERT INTO courses (course_name, course_code, credits) VALUES
+('Database Systems', 'CS401', 4),
+('Web Development', 'CS402', 3),
+('Data Structures', 'CS403', 4);
+
+INSERT INTO student_courses (student_id, course_id, enrollment_date, grade) VALUES
+(1, 1, '2023-09-01', 'A'),
+(1, 2, '2023-09-01', 'B+'),
+(2, 1, '2023-09-01', 'A-'),
+(2, 3, '2023-09-01', NULL);
+
+-- Query: Find all courses for a specific student
+SELECT s.first_name, s.last_name, c.course_name, c.course_code, sc.enrollment_date, sc.grade
+FROM students s
+JOIN student_courses sc ON s.student_id = sc.student_id
+JOIN courses c ON sc.course_id = c.course_id
+WHERE s.student_id = 1;
+
+-- Query: Find all students in a specific course
+SELECT c.course_name, s.first_name, s.last_name, s.email, sc.grade
+FROM courses c
+JOIN student_courses sc ON c.course_id = sc.course_id
+JOIN students s ON sc.student_id = s.student_id
+WHERE c.course_id = 1;
+
+-- Query: Count students per course
+SELECT c.course_name, COUNT(sc.student_id) as student_count
+FROM courses c
+LEFT JOIN student_courses sc ON c.course_id = sc.course_id
+GROUP BY c.course_id, c.course_name
+ORDER BY student_count DESC;
+
+-- Additional junction table with extra attributes
+CREATE TABLE product_tags (
+    product_id INT REFERENCES products(product_id) ON DELETE CASCADE,
+    tag_id INT REFERENCES tags(tag_id) ON DELETE CASCADE,
+    assigned_by INT REFERENCES users(user_id),
+    assigned_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    confidence_score DECIMAL(3,2) CHECK (confidence_score BETWEEN 0 AND 1),
+    PRIMARY KEY (product_id, tag_id)
+);
+
+-- Query using EXISTS to check relationships
+SELECT p.product_name
+FROM products p
+WHERE EXISTS (
+    SELECT 1 FROM product_tags pt
+    JOIN tags t ON pt.tag_id = t.tag_id
+    WHERE pt.product_id = p.product_id AND t.tag_name = 'electronics'
+);
+
+-- Indexing junction tables for performance
+CREATE INDEX idx_student_courses_student ON student_courses(student_id);
+CREATE INDEX idx_student_courses_course ON student_courses(course_id);
+CREATE INDEX idx_student_courses_grade ON student_courses(grade);
+
+-- Handling cascading deletes
+ALTER TABLE student_courses
+ADD CONSTRAINT fk_student_courses_student
+FOREIGN KEY (student_id) REFERENCES students(student_id)
+ON DELETE CASCADE;
+
+ALTER TABLE student_courses
+ADD CONSTRAINT fk_student_courses_course
+FOREIGN KEY (course_id) REFERENCES courses(course_id)
+ON DELETE CASCADE;`,
+      },
+      {
+        id: 42,
+        question: "Explain the use of CROSS APPLY and OUTER APPLY",
+        solution: `-- CROSS APPLY and OUTER APPLY (SQL Server) / LATERAL JOIN (PostgreSQL)
+
+-- CROSS APPLY: Returns only rows where the right table expression returns results
+-- Similar to INNER JOIN but with the ability to reference columns from the left table
+
+-- Example: Get top 3 most recent orders for each customer
+SELECT c.customer_id, c.customer_name, recent_orders.*
+FROM customers c
+CROSS APPLY (
+    SELECT TOP 3 order_id, order_date, order_amount
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+    ORDER BY order_date DESC
+) recent_orders;
+
+-- Equivalent in PostgreSQL using LATERAL JOIN
+SELECT c.customer_id, c.customer_name, recent_orders.*
+FROM customers c
+CROSS JOIN LATERAL (
+    SELECT order_id, order_date, order_amount
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+    ORDER BY order_date DESC
+    LIMIT 3
+) recent_orders;
+
+-- OUTER APPLY: Returns all rows from left table, even if right table expression returns no results
+-- Similar to LEFT JOIN but with the ability to reference columns from the left table
+
+-- Example: Get top 3 orders for each customer, including customers with no orders
+SELECT c.customer_id, c.customer_name, recent_orders.*
+FROM customers c
+OUTER APPLY (
+    SELECT TOP 3 order_id, order_date, order_amount
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+    ORDER BY order_date DESC
+) recent_orders;
+
+-- Equivalent in PostgreSQL
+SELECT c.customer_id, c.customer_name, recent_orders.*
+FROM customers c
+LEFT JOIN LATERAL (
+    SELECT order_id, order_date, order_amount
+    FROM orders o
+    WHERE o.customer_id = c.customer_id
+    ORDER BY order_date DESC
+    LIMIT 3
+) recent_orders ON true;
+
+-- Practical example: Calculate running totals per customer
+SELECT c.customer_id, c.customer_name, o.order_date, o.order_amount,
+       running.total as running_total
+FROM customers c
+CROSS APPLY (
+    SELECT SUM(order_amount) as total
+    FROM orders o2
+    WHERE o2.customer_id = c.customer_id
+    AND o2.order_date <= o.order_date
+) running
+JOIN orders o ON c.customer_id = o.customer_id
+ORDER BY c.customer_id, o.order_date;
+
+-- Using APPLY with table-valued functions
+CREATE FUNCTION get_customer_orders(@customer_id INT, @min_amount DECIMAL)
+RETURNS TABLE
+AS
+RETURN (
+    SELECT order_id, order_date, order_amount
+    FROM orders
+    WHERE customer_id = @customer_id AND order_amount >= @min_amount
+);
+
+-- Call function for each customer
+SELECT c.customer_id, c.customer_name, co.order_id, co.order_amount
+FROM customers c
+CROSS APPLY get_customer_orders(c.customer_id, 1000) co;
+
+-- Complex example: Top products by category for each customer
+SELECT c.customer_id, c.customer_name, p.category, top_products.*
+FROM customers c
+CROSS APPLY (
+    SELECT DISTINCT p.category
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p ON oi.product_id = p.product_id
+    WHERE o.customer_id = c.customer_id
+) p
+CROSS APPLY (
+    SELECT TOP 3 p2.product_name, SUM(oi.quantity) as total_quantity
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN products p2 ON oi.product_id = p2.product_id
+    WHERE o.customer_id = c.customer_id AND p2.category = p.category
+    GROUP BY p2.product_id, p2.product_name
+    ORDER BY SUM(oi.quantity) DESC
+) top_products;`,
+      },
+      {
+        id: 43,
+        question: "How do you implement full-text search in SQL?",
+        solution: `-- Full-text search implementation across different databases
+
+-- PostgreSQL full-text search
+CREATE TABLE documents (
+    document_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Create GIN index for full-text search
+CREATE INDEX idx_documents_content_gin ON documents 
+USING GIN (to_tsvector('english', content));
+
+CREATE INDEX idx_documents_title_gin ON documents 
+USING GIN (to_tsvector('english', title));
+
+-- Insert sample data
+INSERT INTO documents (title, content, author) VALUES
+('Database Systems', 'Introduction to database management systems and SQL queries.', 'John Doe'),
+('Web Development', 'Building modern web applications with React and Node.js.', 'Jane Smith'),
+('Data Analytics', 'Analyzing large datasets using Python and machine learning.', 'John Doe');
+
+-- Basic full-text search query
+SELECT document_id, title, 
+       ts_headline('english', content, 
+                   to_tsquery('english', 'database & management'), 
+                   'StartSel=<b>, StopSel=</b>') as highlighted_content
+FROM documents
+WHERE to_tsvector('english', content) @@ to_tsquery('english', 'database & management');
+
+-- Search with ranking
+SELECT document_id, title,
+       ts_rank_cd(to_tsvector('english', content), 
+                  to_tsquery('english', 'database | management')) as rank,
+       ts_headline('english', content, 
+                   to_tsquery('english', 'database | management')) as snippet
+FROM documents
+WHERE to_tsvector('english', content) @@ to_tsquery('english', 'database | management')
+ORDER BY rank DESC;
+
+-- MySQL full-text search
+ALTER TABLE documents ADD FULLTEXT(title, content);
+
+SELECT document_id, title, content,
+       MATCH(title, content) AGAINST('database management' IN NATURAL LANGUAGE MODE) as relevance
+FROM documents
+WHERE MATCH(title, content) AGAINST('database management' IN NATURAL LANGUAGE MODE);
+
+-- SQL Server full-text search
+CREATE FULLTEXT CATALOG ft_catalog AS DEFAULT;
+CREATE FULLTEXT INDEX ON documents(title, content) KEY INDEX pk_documents;
+
+SELECT document_id, title, content,
+       FREETEXTTABLE(documents, (title, content), 'database management') as ft
+FROM documents d
+INNER JOIN FREETEXTTABLE(documents, (title, content), 'database management') ft 
+ON d.document_id = ft.[KEY]
+ORDER BY ft.RANK DESC;
+
+-- Advanced search with multiple fields and weights
+SELECT document_id, title,
+       ts_rank_cd(
+         setweight(to_tsvector('english', title), 'A') || 
+         setweight(to_tsvector('english', content), 'B'),
+         to_tsquery('english', 'database & systems')
+       ) as rank
+FROM documents
+WHERE (setweight(to_tsvector('english', title), 'A') || 
+       setweight(to_tsvector('english', content), 'B')) 
+      @@ to_tsquery('english', 'database & systems')
+ORDER BY rank DESC;
+
+-- Search with synonyms and thesaurus
+-- Create a thesaurus file (english.thesaurus) with:
+# database system : dbms, rdbms
+
+SELECT to_tsquery('english', 'thesaurus:database system');
+
+-- Fuzzy search with trigrams (PostgreSQL pg_trgm extension)
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE INDEX idx_documents_title_trgm ON documents USING GIN (title gin_trgm_ops);
+CREATE INDEX idx_documents_content_trgm ON documents USING GIN (content gin_trgm_ops);
+
+SELECT document_id, title, similarity(title, 'datbase') as similarity_score
+FROM documents
+WHERE title % 'datbase'  -- Fuzzy match
+ORDER BY similarity_score DESC;
+
+-- Combined exact and fuzzy search
+SELECT document_id, title, content,
+       CASE 
+         WHEN title ILIKE '%database%' THEN 1.0
+         ELSE similarity(title, 'database')
+       END as search_score
+FROM documents
+WHERE title ILIKE '%database%' OR title % 'database'
+ORDER BY search_score DESC;
+
+-- Search with autocomplete/suggestions
+SELECT DISTINCT word
+FROM ts_stat('SELECT to_tsvector(''english'', title) || 
+                     to_tsvector(''english'', content) 
+              FROM documents')
+WHERE word LIKE 'data%'
+ORDER BY word;`,
+      },
+      {
+        id: 44,
+        question: "Write a query using window functions for cohort analysis",
+        solution: `-- Cohort analysis using window functions
+
+-- Step 1: Define user cohorts based on signup month
+WITH user_cohorts AS (
+  SELECT 
+    user_id,
+    DATE_TRUNC('month', signup_date) as cohort_month,
+    EXTRACT(YEAR FROM signup_date) as cohort_year,
+    EXTRACT(MONTH FROM signup_date) as cohort_month_num
+  FROM users
+  WHERE signup_date >= '2023-01-01'
+),
+
+-- Step 2: Get user activity by month
+user_activity AS (
+  SELECT 
+    u.user_id,
+    uc.cohort_month,
+    DATE_TRUNC('month', a.activity_date) as activity_month,
+    EXTRACT(MONTH FROM AGE(DATE_TRUNC('month', a.activity_date), uc.cohort_month)) as months_since_signup
+  FROM users u
+  JOIN user_cohorts uc ON u.user_id = uc.user_id
+  JOIN user_activities a ON u.user_id = a.user_id
+  WHERE a.activity_date >= '2023-01-01'
+  GROUP BY u.user_id, uc.cohort_month, DATE_TRUNC('month', a.activity_date)
+),
+
+-- Step 3: Calculate cohort sizes and active users
+cohort_analysis AS (
+  SELECT 
+    cohort_month,
+    activity_month,
+    months_since_signup,
+    COUNT(DISTINCT uc.user_id) as cohort_size,
+    COUNT(DISTINCT ua.user_id) as active_users,
+    ROUND(COUNT(DISTINCT ua.user_id) * 100.0 / COUNT(DISTINCT uc.user_id), 2) as retention_rate
+  FROM user_cohorts uc
+  LEFT JOIN user_activity ua ON uc.user_id = ua.user_id 
+    AND ua.activity_month = DATE_TRUNC('month', CURRENT_DATE) - INTERVAL '0 months'
+  GROUP BY cohort_month, activity_month, months_since_signup
+)
+
+-- Step 4: Pivot the data for better visualization
+SELECT 
+  cohort_month,
+  cohort_size,
+  MAX(CASE WHEN months_since_signup = 0 THEN retention_rate END) as month_0,
+  MAX(CASE WHEN months_since_signup = 1 THEN retention_rate END) as month_1,
+  MAX(CASE WHEN months_since_signup = 2 THEN retention_rate END) as month_2,
+  MAX(CASE WHEN months_since_signup = 3 THEN retention_rate END) as month_3,
+  MAX(CASE WHEN months_since_signup = 6 THEN retention_rate END) as month_6,
+  MAX(CASE WHEN months_since_signup = 12 THEN retention_rate END) as month_12
+FROM cohort_analysis
+GROUP BY cohort_month, cohort_size
+ORDER BY cohort_month;
+
+-- Alternative: Using window functions for cumulative retention
+WITH monthly_retention AS (
+  SELECT 
+    DATE_TRUNC('month', u.signup_date) as cohort_month,
+    EXTRACT(MONTH FROM AGE(DATE_TRUNC('month', a.activity_date), u.signup_date)) as month_number,
+    COUNT(DISTINCT u.user_id) as cohort_size,
+    COUNT(DISTINCT a.user_id) as active_users,
+    ROUND(COUNT(DISTINCT a.user_id) * 100.0 / COUNT(DISTINCT u.user_id), 2) as retention_rate
+  FROM users u
+  LEFT JOIN user_activities a ON u.user_id = a.user_id
+    AND DATE_TRUNC('month', a.activity_date) = DATE_TRUNC('month', u.signup_date) + 
+        (EXTRACT(MONTH FROM AGE(DATE_TRUNC('month', a.activity_date), u.signup_date)) || ' months')::INTERVAL
+  WHERE u.signup_date >= '2023-01-01'
+  GROUP BY DATE_TRUNC('month', u.signup_date), 
+           EXTRACT(MONTH FROM AGE(DATE_TRUNC('month', a.activity_date), u.signup_date))
+)
+
+SELECT 
+  cohort_month,
+  month_number,
+  retention_rate,
+  FIRST_VALUE(retention_rate) OVER (PARTITION BY cohort_month ORDER BY month_number) as initial_retention,
+  retention_rate - FIRST_VALUE(retention_rate) OVER (PARTITION BY cohort_month ORDER BY month_number) as change_from_initial
+FROM monthly_retention
+ORDER BY cohort_month, month_number;
+
+-- Cohort analysis with revenue metrics
+WITH revenue_cohorts AS (
+  SELECT 
+    u.user_id,
+    DATE_TRUNC('month', u.signup_date) as cohort_month,
+    DATE_TRUNC('month', o.order_date) as order_month,
+    EXTRACT(MONTH FROM AGE(DATE_TRUNC('month', o.order_date), u.signup_date)) as months_since_signup,
+    SUM(o.order_amount) as monthly_revenue
+  FROM users u
+  JOIN orders o ON u.user_id = o.customer_id
+  WHERE u.signup_date >= '2023-01-01'
+  GROUP BY u.user_id, DATE_TRUNC('month', u.signup_date), DATE_TRUNC('month', o.order_date)
+)
+
+SELECT 
+  cohort_month,
+  months_since_signup,
+  COUNT(DISTINCT user_id) as active_customers,
+  SUM(monthly_revenue) as total_revenue,
+  AVG(monthly_revenue) as avg_revenue_per_customer,
+  SUM(SUM(monthly_revenue)) OVER (PARTITION BY cohort_month ORDER BY months_since_signup) as cumulative_revenue
+FROM revenue_cohorts
+GROUP BY cohort_month, months_since_signup
+ORDER BY cohort_month, months_since_signup;
+
+-- Retention curve analysis
+SELECT 
+  months_since_signup,
+  AVG(retention_rate) as avg_retention_rate,
+  MIN(retention_rate) as min_retention_rate,
+  MAX(retention_rate) as max_retention_rate,
+  STDDEV(retention_rate) as retention_stddev
+FROM (
+  SELECT 
+    cohort_month,
+    months_since_signup,
+    retention_rate
+  FROM cohort_analysis
+) sub
+GROUP BY months_since_signup
+ORDER BY months_since_signup;`,
+      },
+      {
+        id: 45,
+        question: "How do you calculate percentiles using SQL?",
+        solution: `-- Percentile calculations using various methods
+
+-- Method 1: Using PERCENTILE_CONT (continuous percentile)
+SELECT 
+  department_id,
+  PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY salary) as median_salary,
+  PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY salary) as q1_salary,
+  PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY salary) as q3_salary,
+  PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY salary) as p90_salary
+FROM employees
+WHERE salary IS NOT NULL
+GROUP BY department_id;
+
+-- Method 2: Using PERCENTILE_DISC (discrete percentile)
+SELECT 
+  department_id,
+  PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY salary) as median_salary,
+  PERCENTILE_DISC(0.25) WITHIN GROUP (ORDER BY salary) as q1_salary,
+  PERCENTILE_DISC(0.75) WITHIN GROUP (ORDER BY salary) as q3_salary
+FROM employees
+GROUP BY department_id;
+
+-- Method 3: Using NTILE for percentiles
+WITH salary_ntiles AS (
+  SELECT 
+    department_id,
+    salary,
+    NTILE(100) OVER (PARTITION BY department_id ORDER BY salary) as percentile
+  FROM employees
+  WHERE salary IS NOT NULL
+)
+SELECT 
+  department_id,
+  MAX(CASE WHEN percentile = 50 THEN salary END) as median_salary,
+  MAX(CASE WHEN percentile = 25 THEN salary END) as q1_salary,
+  MAX(CASE WHEN percentile = 75 THEN salary END) as q3_salary,
+  MAX(CASE WHEN percentile = 90 THEN salary END) as p90_salary
+FROM salary_ntiles
+GROUP BY department_id;
+
+-- Method 4: Manual percentile calculation using window functions
+WITH ordered_salaries AS (
+  SELECT 
+    department_id,
+    salary,
+    ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY salary) as row_num,
+    COUNT(*) OVER (PARTITION BY department_id) as total_count
+  FROM employees
+  WHERE salary IS NOT NULL
+)
+SELECT 
+  department_id,
+  AVG(salary) as median_salary
+FROM ordered_salaries
+WHERE row_num IN (FLOOR((total_count + 1) / 2), CEIL((total_count + 1) / 2))
+GROUP BY department_id;
+
+-- Multiple percentiles in single query
+SELECT 
+  department_id,
+  PERCENTILE_CONT(ARRAY[0.25, 0.5, 0.75, 0.9, 0.95, 0.99]) 
+    WITHIN GROUP (ORDER BY salary) as percentiles
+FROM employees
+WHERE salary IS NOT NULL
+GROUP BY department_id;
+
+-- Accessing individual percentiles from array
+SELECT 
+  department_id,
+  percentiles[1] as q1_salary,
+  percentiles[2] as median_salary,
+  percentiles[3] as q3_salary,
+  percentiles[4] as p90_salary,
+  percentiles[5] as p95_salary,
+  percentiles[6] as p99_salary
+FROM (
+  SELECT 
+    department_id,
+    PERCENTILE_CONT(ARRAY[0.25, 0.5, 0.75, 0.9, 0.95, 0.99]) 
+      WITHIN GROUP (ORDER BY salary) as percentiles
+  FROM employees
+  WHERE salary IS NOT NULL
+  GROUP BY department_id
+) p;
+
+-- Percentile rank of individual values
+SELECT 
+  employee_id,
+  salary,
+  department_id,
+  PERCENT_RANK() OVER (PARTITION BY department_id ORDER BY salary) as percentile_rank,
+  CASE 
+    WHEN PERCENT_RANK() OVER (PARTITION BY department_id ORDER BY salary) <= 0.1 THEN 'Top 10%'
+    WHEN PERCENT_RANK() OVER (PARTITION BY department_id ORDER BY salary) <= 0.25 THEN 'Top 25%'
+    WHEN PERCENT_RANK() OVER (PARTITION BY department_id ORDER BY salary) <= 0.5 THEN 'Top 50%'
+    ELSE 'Bottom 50%'
+  END as percentile_group
+FROM employees
+WHERE salary IS NOT NULL;
+
+-- Interquartile range (IQR) calculation
+SELECT 
+  department_id,
+  PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY salary) - 
+  PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY salary) as iqr,
+  PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY salary) + 
+  1.5 * (PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY salary) - 
+         PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY salary)) as upper_outlier_threshold,
+  PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY salary) - 
+  1.5 * (PERCENTILE_CONT(0.75) WITHIN GROUP (ORDER BY salary) - 
+         PERCENTILE_CONT(0.25) WITHIN GROUP (ORDER BY salary)) as lower_outlier_threshold
+FROM employees
+WHERE salary IS NOT NULL
+GROUP BY department_id;
+
+-- Percentiles for time-based data
+SELECT 
+  DATE_TRUNC('month', order_date) as order_month,
+  PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY order_amount) as median_order_value,
+  PERCENTILE_CONT(0.9) WITHIN GROUP (ORDER BY order_amount) as p90_order_value,
+  AVG(order_amount) as avg_order_value
+FROM orders
+WHERE order_date >= '2023-01-01'
+GROUP BY DATE_TRUNC('month', order_date)
+ORDER BY order_month;`,
+      },
+      {
+        id: 46,
+        question: "Explain the concept of temporal tables",
+        solution: `-- Temporal tables (system-versioned tables) track historical data automatically
+
+-- SQL Server temporal table implementation
+CREATE TABLE Employees
+(
+    EmployeeID INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Position VARCHAR(100) NOT NULL,
+    Department VARCHAR(100) NOT NULL,
+    Salary DECIMAL(10,2) NOT NULL,
+    -- System period columns
+    ValidFrom DATETIME2 GENERATED ALWAYS AS ROW START,
+    ValidTo DATETIME2 GENERATED ALWAYS AS ROW END,
+    PERIOD FOR SYSTEM_TIME (ValidFrom, ValidTo)
+)
+WITH (SYSTEM_VERSIONING = ON (HISTORY_TABLE = dbo.EmployeesHistory));
+
+-- PostgreSQL temporal table using triggers
+CREATE TABLE employees (
+    employee_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    position VARCHAR(100) NOT NULL,
+    department VARCHAR(100) NOT NULL,
+    salary DECIMAL(10,2) NOT NULL,
+    valid_from TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    valid_to TIMESTAMP NOT NULL DEFAULT '9999-12-31 23:59:59'
+);
+
+CREATE TABLE employees_history (
+    history_id SERIAL PRIMARY KEY,
+    employee_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    position VARCHAR(100) NOT NULL,
+    department VARCHAR(100) NOT NULL,
+    salary DECIMAL(10,2) NOT NULL,
+    valid_from TIMESTAMP NOT NULL,
+    valid_to TIMESTAMP NOT NULL
+);
+
+-- Create trigger function for temporal support
+CREATE OR REPLACE FUNCTION employees_temporal_trigger()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'UPDATE') THEN
+        -- Archive old version
+        INSERT INTO employees_history 
+        (employee_id, name, position, department, salary, valid_from, valid_to)
+        VALUES (OLD.employee_id, OLD.name, OLD.position, OLD.department, OLD.salary, 
+                OLD.valid_from, CURRENT_TIMESTAMP);
+        
+        -- Update valid_from for new version
+        NEW.valid_from := CURRENT_TIMESTAMP;
+        RETURN NEW;
+        
+    ELSIF (TG_OP = 'DELETE') THEN
+        -- Archive deleted row
+        INSERT INTO employees_history 
+        (employee_id, name, position, department, salary, valid_from, valid_to)
+        VALUES (OLD.employee_id, OLD.name, OLD.position, OLD.department, OLD.salary, 
+                OLD.valid_from, CURRENT_TIMESTAMP);
+        RETURN OLD;
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER employees_temporal
+BEFORE UPDATE OR DELETE ON employees
+FOR EACH ROW EXECUTE FUNCTION employees_temporal_trigger();
+
+-- Querying temporal data (SQL Server)
+-- Current data
+SELECT * FROM Employees WHERE EmployeeID = 1;
+
+-- Historical data as of specific time
+SELECT * FROM Employees 
+FOR SYSTEM_TIME AS OF '2023-06-01 10:00:00'
+WHERE EmployeeID = 1;
+
+-- Historical data in time range
+SELECT * FROM Employees 
+FOR SYSTEM_TIME FROM '2023-01-01' TO '2023-06-30'
+WHERE EmployeeID = 1;
+
+-- All historical versions
+SELECT * FROM Employees 
+FOR SYSTEM_TIME ALL
+WHERE EmployeeID = 1;
+
+-- Manual query for PostgreSQL temporal data
+-- Current version
+SELECT * FROM employees WHERE employee_id = 1 AND valid_to = '9999-12-31 23:59:59';
+
+-- Historical version as of specific time
+SELECT * FROM (
+    SELECT * FROM employees 
+    WHERE employee_id = 1 AND valid_from <= '2023-06-01 10:00:00' AND valid_to > '2023-06-01 10:00:00'
+    UNION ALL
+    SELECT employee_id, name, position, department, salary, valid_from, valid_to 
+    FROM employees_history
+    WHERE employee_id = 1 AND valid_from <= '2023-06-01 10:00:00' AND valid_to > '2023-06-01 10:00:00'
+) AS historical_data;
+
+-- Track changes over time
+SELECT 
+    employee_id,
+    name,
+    position,
+    salary,
+    valid_from as change_date,
+    'UPDATE' as change_type
+FROM employees_history
+WHERE employee_id = 1
+UNION ALL
+SELECT 
+    employee_id,
+    name,
+    position,
+    salary,
+    valid_from as change_date,
+    'INSERT' as change_type
+FROM employees
+WHERE employee_id = 1
+ORDER BY change_date;
+
+-- Temporal table for price changes
+CREATE TABLE product_prices (
+    product_id INT,
+    price DECIMAL(10,2),
+    valid_from DATE,
+    valid_to DATE,
+    PRIMARY KEY (product_id, valid_from)
+);
+
+-- Query to find price at specific date
+SELECT product_id, price
+FROM product_prices
+WHERE product_id = 123 
+  AND '2023-06-15' BETWEEN valid_from AND valid_to;
+
+-- Benefits of temporal tables:
+-- 1. Automatic history tracking
+-- 2. Easy point-in-time queries
+-- 3. Audit trail compliance
+-- 4. Simplified change tracking
+
+-- Use cases:
+-- * Regulatory compliance and auditing
+-- * Historical reporting and analysis
+-- * Change tracking for critical data
+-- * Legal and financial record keeping`,
+      },
+      {
+        id: 47,
+        question: "How do you implement row-level security?",
+        solution: `-- Row-Level Security (RLS) implementation
+
+-- PostgreSQL RLS example
+CREATE TABLE documents (
+    document_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT,
+    owner_id INT NOT NULL REFERENCES users(user_id),
+    department_id INT REFERENCES departments(department_id),
+    confidentiality_level INT CHECK (confidentiality_level BETWEEN 1 AND 3)
+);
+
+-- Enable RLS on the table
+ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
+
+-- Create policies
+-- Policy 1: Users can see their own documents
+CREATE POLICY user_own_documents ON documents
+    FOR ALL
+    TO authenticated_user
+    USING (owner_id = current_user_id());
+
+-- Policy 2: Managers can see department documents
+CREATE POLICY manager_department_documents ON documents
+    FOR SELECT
+    TO manager_role
+    USING (department_id IN (
+        SELECT department_id FROM user_departments 
+        WHERE user_id = current_user_id() AND is_manager = true
+    ));
+
+-- Policy 3: Executives can see all documents up to confidentiality level 2
+CREATE POLICY executive_all_documents ON documents
+    FOR SELECT
+    TO executive_role
+    USING (confidentiality_level <= 2);
+
+-- Policy 4: System administrators have full access
+CREATE POLICY admin_all_access ON documents
+    FOR ALL
+    TO admin_role
+    USING (true);
+
+-- SQL Server RLS example
+CREATE SCHEMA Security;
+GO
+
+CREATE FUNCTION Security.fn_security_predicate(@owner_id INT)
+RETURNS TABLE
+WITH SCHEMABINDING
+AS
+    RETURN SELECT 1 AS fn_security_result
+    WHERE @owner_id = USER_ID() 
+       OR USER_NAME() = 'admin'
+       OR IS_MEMBER('managers') = 1;
+GO
+
+CREATE SECURITY POLICY DocumentSecurityPolicy
+    ADD FILTER PREDICATE Security.fn_security_predicate(owner_id) ON dbo.documents,
+    ADD BLOCK PREDICATE Security.fn_security_predicate(owner_id) ON dbo.documents;
+GO
+
+-- Dynamic data masking with RLS (SQL Server)
+CREATE TABLE customer_data (
+    customer_id INT PRIMARY KEY,
+    email VARCHAR(255) MASKED WITH (FUNCTION = 'email()'),
+    phone VARCHAR(20) MASKED WITH (FUNCTION = 'partial(3,"-XXXX-",4)'),
+    ssn VARCHAR(11) MASKED WITH (FUNCTION = 'partial(0,"XXX-XX-",4)'),
+    credit_card VARCHAR(19) MASKED WITH (FUNCTION = 'partial(0,"XXXX-XXXX-XXXX-",4)')
+);
+
+GRANT SELECT ON customer_data TO sales_role;
+GRANT UNMASK TO manager_role;
+
+-- Advanced RLS with multiple conditions
+CREATE POLICY complex_access_policy ON documents
+    FOR ALL
+    TO authenticated_user
+    USING (
+        -- User owns the document
+        owner_id = current_user_id()
+        OR
+        -- User is in the same department and document is not confidential
+        (department_id IN (
+            SELECT department_id FROM user_departments 
+            WHERE user_id = current_user_id()
+        ) AND confidentiality_level <= 2)
+        OR
+        -- User has explicit access through sharing
+        document_id IN (
+            SELECT document_id FROM document_shares 
+            WHERE user_id = current_user_id()
+        )
+    );
+
+-- RLS for multi-tenant applications
+CREATE TABLE tenant_data (
+    id SERIAL PRIMARY KEY,
+    tenant_id INT NOT NULL,
+    data VARCHAR(255),
+    CONSTRAINT fk_tenant FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+);
+
+ALTER TABLE tenant_data ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY tenant_isolation_policy ON tenant_data
+    USING (tenant_id = current_tenant_id());
+
+-- Implementation with application roles
+CREATE TABLE application_roles (
+    user_id INT,
+    role_name VARCHAR(50),
+    department_id INT,
+    PRIMARY KEY (user_id, role_name)
+);
+
+CREATE POLICY role_based_access ON documents
+    USING (
+        EXISTS (
+            SELECT 1 FROM application_roles ar
+            WHERE ar.user_id = current_user_id()
+            AND (
+                (ar.role_name = 'admin')
+                OR
+                (ar.role_name = 'department_manager' 
+                 AND ar.department_id = documents.department_id)
+                OR
+                (ar.role_name = 'user' AND owner_id = current_user_id())
+            )
+        )
+    );
+
+-- Testing RLS policies
+-- Test as regular user
+SET ROLE regular_user;
+SELECT * FROM documents;  -- Should only see owned documents
+
+-- Test as manager
+SET ROLE department_manager;
+SELECT * FROM documents;  -- Should see department documents
+
+-- Test as admin
+SET ROLE admin;
+SELECT * FROM documents;  -- Should see all documents
+
+-- Best practices:
+-- 1. Always test policies with different roles
+-- 2. Use the principle of least privilege
+-- 3. Regularly audit security policies
+-- 4. Combine with column-level security when needed
+-- 5. Document all security policies thoroughly`,
+      },
+      {
+        id: 48,
+        question: "Write a query to handle slowly changing dimensions (SCD)",
+        solution: `-- Slowly Changing Dimensions (SCD) implementation
+
+-- Type 1 SCD: Overwrite old values (no history)
+CREATE TABLE scd_type1_customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    -- No effective date columns
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Update Type 1: Simply overwrite
+UPDATE scd_type1_customers 
+SET customer_name = 'New Name', city = 'New City', updated_at = CURRENT_TIMESTAMP
+WHERE customer_id = 123;
+
+-- Type 2 SCD: Full history tracking
+CREATE TABLE scd_type2_customers (
+    customer_key SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL,
+    customer_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    effective_date DATE NOT NULL,
+    expiration_date DATE NOT NULL DEFAULT '9999-12-31',
+    is_current BOOLEAN NOT NULL DEFAULT true
+);
+
+CREATE INDEX idx_scd2_customer_id ON scd_type2_customers(customer_id);
+CREATE INDEX idx_scd2_current ON scd_type2_customers(is_current);
+
+-- Procedure for Type 2 SCD updates
+CREATE OR REPLACE PROCEDURE update_scd2_customer(
+    p_customer_id INT,
+    p_customer_name VARCHAR,
+    p_email VARCHAR,
+    p_city VARCHAR
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    -- Expire the current record
+    UPDATE scd_type2_customers
+    SET expiration_date = CURRENT_DATE - INTERVAL '1 day',
+        is_current = false
+    WHERE customer_id = p_customer_id AND is_current = true;
+
+    -- Insert the new record
+    INSERT INTO scd_type2_customers 
+    (customer_id, customer_name, email, city, effective_date, expiration_date, is_current)
+    VALUES (p_customer_id, p_customer_name, p_email, p_city, 
+            CURRENT_DATE, '9999-12-31', true);
+END;
+$$;
+
+-- Type 3 SCD: Limited history (previous value only)
+CREATE TABLE scd_type3_customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    current_city VARCHAR(50) NOT NULL,
+    previous_city VARCHAR(50) NULL,
+    city_change_date DATE NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Update Type 3: Track previous value
+UPDATE scd_type3_customers 
+SET previous_city = current_city,
+    current_city = 'New City',
+    city_change_date = CURRENT_DATE,
+    updated_at = CURRENT_TIMESTAMP
+WHERE customer_id = 123;
+
+-- Hybrid approach with all SCD types
+CREATE TABLE customers_scd (
+    customer_key SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL,
+    
+    -- Type 1 attributes (no history)
+    email VARCHAR(100) NOT NULL,
+    
+    -- Type 2 attributes (full history)
+    customer_name VARCHAR(100) NOT NULL,
+    city VARCHAR(50) NOT NULL,
+    
+    -- Type 3 attributes (limited history)
+    previous_segment VARCHAR(20) NULL,
+    segment_change_date DATE NULL,
+    
+    -- SCD metadata
+    effective_date DATE NOT NULL,
+    expiration_date DATE NOT NULL DEFAULT '9999-12-31',
+    is_current BOOLEAN NOT NULL DEFAULT true,
+    version_number INT NOT NULL DEFAULT 1
+);
+
+-- ETL process for SCD Type 2
+WITH current_records AS (
+    SELECT * FROM customers_scd WHERE is_current = true
+),
+new_data AS (
+    SELECT * FROM staging_customers
+),
+changes AS (
+    SELECT 
+        n.customer_id,
+        n.customer_name,
+        n.city,
+        CASE 
+            WHEN c.customer_id IS NULL THEN 'INSERT'
+            WHEN n.customer_name != c.customer_name OR n.city != c.city THEN 'UPDATE'
+            ELSE 'NO_CHANGE'
+        END as change_type
+    FROM new_data n
+    LEFT JOIN current_records c ON n.customer_id = c.customer_id
+)
+-- Handle inserts
+INSERT INTO customers_scd (customer_id, customer_name, city, effective_date)
+SELECT customer_id, customer_name, city, CURRENT_DATE
+FROM changes
+WHERE change_type = 'INSERT'
+
+-- Handle updates
+UNION ALL
+SELECT customer_id, customer_name, city, CURRENT_DATE
+FROM changes
+WHERE change_type = 'UPDATE';
+
+-- Expire old records for updates
+UPDATE customers_scd cs
+SET expiration_date = CURRENT_DATE - INTERVAL '1 day',
+    is_current = false
+FROM changes c
+WHERE cs.customer_id = c.customer_id 
+  AND cs.is_current = true
+  AND c.change_type = 'UPDATE';
+
+-- Query to get current dimension view
+SELECT customer_id, customer_name, email, city
+FROM customers_scd
+WHERE is_current = true;
+
+-- Query to get historical dimension data
+SELECT customer_id, customer_name, city, effective_date, expiration_date
+FROM customers_scd
+WHERE customer_id = 123
+ORDER BY effective_date;
+
+-- SCD with audit tracking
+CREATE TABLE scd_audit_log (
+    audit_id SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL,
+    change_type VARCHAR(10) NOT NULL,
+    old_values JSONB,
+    new_values JSONB,
+    changed_by VARCHAR(50) NOT NULL,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Trigger for SCD audit logging
+CREATE OR REPLACE FUNCTION log_scd_changes()
+RETURNS TRIGGER AS $$
+BEGIN
+    IF (TG_OP = 'UPDATE') THEN
+        INSERT INTO scd_audit_log 
+        (customer_id, change_type, old_values, new_values, changed_by)
+        VALUES (
+            NEW.customer_id,
+            'UPDATE',
+            jsonb_build_object(
+                'customer_name', OLD.customer_name,
+                'city', OLD.city
+            ),
+            jsonb_build_object(
+                'customer_name', NEW.customer_name,
+                'city', NEW.city
+            ),
+            current_user
+        );
+    ELSIF (TG_OP = 'INSERT') THEN
+        INSERT INTO scd_audit_log 
+        (customer_id, change_type, new_values, changed_by)
+        VALUES (
+            NEW.customer_id,
+            'INSERT',
+            jsonb_build_object(
+                'customer_name', NEW.customer_name,
+                'city', NEW.city
+            ),
+            current_user
+        );
+    END IF;
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER scd_audit_trigger
+AFTER INSERT OR UPDATE ON customers_scd
+FOR EACH ROW EXECUTE FUNCTION log_scd_changes();`,
+      },
+      {
+        id: 49,
+        question: "How do you use table-valued parameters?",
+        solution: `-- Table-Valued Parameters (TVPs) allow passing tables to stored procedures
+
+-- SQL Server TVP example
+CREATE TYPE dbo.ProductList AS TABLE (
+    ProductID INT,
+    Quantity INT,
+    UnitPrice DECIMAL(10,2)
+);
+
+CREATE PROCEDURE ProcessOrder
+    @CustomerID INT,
+    @OrderDate DATE,
+    @Products dbo.ProductList READONLY
+AS
+BEGIN
+    BEGIN TRANSACTION;
+    
+    -- Insert order header
+    INSERT INTO Orders (CustomerID, OrderDate, TotalAmount)
+    SELECT @CustomerID, @OrderDate, SUM(Quantity * UnitPrice)
+    FROM @Products;
+    
+    DECLARE @OrderID INT = SCOPE_IDENTITY();
+    
+    -- Insert order details
+    INSERT INTO OrderItems (OrderID, ProductID, Quantity, UnitPrice)
+    SELECT @OrderID, ProductID, Quantity, UnitPrice
+    FROM @Products;
+    
+    COMMIT TRANSACTION;
+END;
+
+-- Calling the procedure with TVP
+DECLARE @ProductTVP dbo.ProductList;
+INSERT INTO @ProductTVP VALUES 
+(1, 2, 10.99),
+(2, 1, 25.50),
+(3, 3, 5.99);
+
+EXEC ProcessOrder 
+    @CustomerID = 123,
+    @OrderDate = '2023-06-15',
+    @Products = @ProductTVP;
+
+-- PostgreSQL equivalent using array types
+CREATE TYPE product_item AS (
+    product_id INT,
+    quantity INT,
+    unit_price DECIMAL(10,2)
+);
+
+CREATE OR REPLACE FUNCTION process_order(
+    p_customer_id INT,
+    p_order_date DATE,
+    p_products product_item[]
+)
+RETURNS INT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_order_id INT;
+    v_total_amount DECIMAL(10,2);
+BEGIN
+    -- Calculate total amount
+    SELECT SUM((item).quantity * (item).unit_price)
+    INTO v_total_amount
+    FROM UNNEST(p_products) AS item;
+    
+    -- Insert order header
+    INSERT INTO orders (customer_id, order_date, total_amount)
+    VALUES (p_customer_id, p_order_date, v_total_amount)
+    RETURNING order_id INTO v_order_id;
+    
+    -- Insert order details
+    INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+    SELECT v_order_id, (item).product_id, (item).quantity, (item).unit_price
+    FROM UNNEST(p_products) AS item;
+    
+    RETURN v_order_id;
+END;
+$$;
+
+-- Calling PostgreSQL function
+SELECT process_order(
+    123,
+    '2023-06-15',
+    ARRAY[
+        (1, 2, 10.99)::product_item,
+        (2, 1, 25.50)::product_item,
+        (3, 3, 5.99)::product_item
+    ]
+);
+
+-- Alternative PostgreSQL approach using JSON
+CREATE OR REPLACE FUNCTION process_order_json(
+    p_customer_id INT,
+    p_order_date DATE,
+    p_products JSON
+)
+RETURNS INT
+LANGUAGE plpgsql
+AS $$
+DECLARE
+    v_order_id INT;
+BEGIN
+    -- Insert order header
+    INSERT INTO orders (customer_id, order_date, total_amount)
+    SELECT p_customer_id, p_order_date, 
+           SUM((item->>'quantity')::INT * (item->>'unitPrice')::DECIMAL)
+    FROM JSON_ARRAY_ELEMENTS(p_products) AS item
+    RETURNING order_id INTO v_order_id;
+    
+    -- Insert order details
+    INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+    SELECT v_order_id, 
+           (item->>'productId')::INT,
+           (item->>'quantity')::INT,
+           (item->>'unitPrice')::DECIMAL
+    FROM JSON_ARRAY_ELEMENTS(p_products) AS item;
+    
+    RETURN v_order_id;
+END;
+$$;
+
+-- Complex TVP with multiple data types
+CREATE TYPE dbo.EmployeeData AS TABLE (
+    EmployeeID INT NULL, -- NULL for new employees
+    FirstName VARCHAR(50),
+    LastName VARCHAR(50),
+    Email VARCHAR(100),
+    DepartmentID INT,
+    Salary DECIMAL(10,2),
+    HireDate DATE,
+    IsActive BIT
+);
+
+CREATE PROCEDURE MergeEmployees
+    @Employees dbo.EmployeeData READONLY
+AS
+BEGIN
+    MERGE INTO Employees AS target
+    USING @Employees AS source
+    ON target.EmployeeID = source.EmployeeID
+    WHEN MATCHED THEN
+        UPDATE SET 
+            FirstName = source.FirstName,
+            LastName = source.LastName,
+            Email = source.Email,
+            DepartmentID = source.DepartmentID,
+            Salary = source.Salary,
+            IsActive = source.IsActive
+    WHEN NOT MATCHED THEN
+        INSERT (FirstName, LastName, Email, DepartmentID, Salary, HireDate, IsActive)
+        VALUES (source.FirstName, source.LastName, source.Email, source.DepartmentID, 
+                source.Salary, source.HireDate, source.IsActive);
+END;
+
+-- TVP for bulk updates
+CREATE TYPE dbo.PriceUpdate AS TABLE (
+    ProductID INT,
+    NewPrice DECIMAL(10,2),
+    EffectiveDate DATE
+);
+
+CREATE PROCEDURE UpdateProductPrices
+    @PriceUpdates dbo.PriceUpdate READONLY
+AS
+BEGIN
+    -- Update current prices
+    UPDATE p
+    SET UnitPrice = pu.NewPrice,
+        LastPriceChange = pu.EffectiveDate
+    FROM Products p
+    INNER JOIN @PriceUpdates pu ON p.ProductID = pu.ProductID;
+    
+    -- Log price changes
+    INSERT INTO PriceHistory (ProductID, OldPrice, NewPrice, ChangeDate)
+    SELECT p.ProductID, p.UnitPrice, pu.NewPrice, pu.EffectiveDate
+    FROM Products p
+    INNER JOIN @PriceUpdates pu ON p.ProductID = pu.ProductID;
+END;
+
+-- Benefits of TVPs:
+-- 1. Reduced round trips to database
+-- 2. Better performance for bulk operations
+-- 3. Type safety and validation
+-- 4. Simplified parameter passing for complex data
+
+-- Limitations:
+-- 1. Database-specific implementation
+-- 2. May have size limitations
+-- 3. Requires type creation`,
+      },
+      {
+        id: 50,
+        question: "Explain the MERGE statement and its use cases",
+        solution: `-- MERGE statement (UPSERT operation) for synchronizing data
+
+-- Basic MERGE example
+MERGE INTO target_table AS target
+USING source_table AS source
+ON target.id = source.id
+WHEN MATCHED THEN
+    UPDATE SET 
+        target.name = source.name,
+        target.value = source.value,
+        target.updated_at = CURRENT_TIMESTAMP
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (id, name, value, created_at)
+    VALUES (source.id, source.name, source.value, CURRENT_TIMESTAMP)
+WHEN NOT MATCHED BY SOURCE THEN
+    DELETE;
+
+-- Practical example: Synchronizing product data
+MERGE INTO products AS target
+USING (
+    SELECT 
+        product_id,
+        product_name,
+        category,
+        unit_price,
+        supplier_id
+    FROM staging_products
+    WHERE processed = false
+) AS source
+ON target.product_id = source.product_id
+WHEN MATCHED AND (
+    target.product_name != source.product_name OR
+    target.category != source.category OR
+    ABS(target.unit_price - source.unit_price) > 0.01
+) THEN
+    UPDATE SET 
+        product_name = source.product_name,
+        category = source.category,
+        unit_price = source.unit_price,
+        supplier_id = source.supplier_id,
+        last_updated = CURRENT_TIMESTAMP
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (product_id, product_name, category, unit_price, supplier_id, created_at)
+    VALUES (source.product_id, source.product_name, source.category, 
+            source.unit_price, source.supplier_id, CURRENT_TIMESTAMP)
+WHEN NOT MATCHED BY SOURCE AND target.discontinued = false THEN
+    UPDATE SET 
+        discontinued = true,
+        discontinued_date = CURRENT_TIMESTAMP
+OUTPUT 
+    $action AS operation,
+    INSERTED.product_id AS inserted_id,
+    DELETED.product_id AS deleted_id;
+
+-- MERGE with additional conditions
+MERGE INTO customer_segments AS target
+USING customer_metrics AS source
+ON target.customer_id = source.customer_id
+WHEN MATCHED AND source.total_spent > 1000 THEN
+    UPDATE SET segment = 'VIP',
+               updated_at = CURRENT_TIMESTAMP
+WHEN MATCHED AND source.total_spent BETWEEN 500 AND 1000 THEN
+    UPDATE SET segment = 'Premium',
+               updated_at = CURRENT_TIMESTAMP
+WHEN MATCHED AND source.total_spent < 500 THEN
+    UPDATE SET segment = 'Standard',
+               updated_at = CURRENT_TIMESTAMP
+WHEN NOT MATCHED BY TARGET AND source.total_spent > 0 THEN
+    INSERT (customer_id, segment, created_at)
+    VALUES (source.customer_id, 
+            CASE 
+                WHEN source.total_spent > 1000 THEN 'VIP'
+                WHEN source.total_spent > 500 THEN 'Premium'
+                ELSE 'Standard'
+            END,
+            CURRENT_TIMESTAMP);
+
+-- MERGE for slowly changing dimensions Type 2
+MERGE INTO scd_customers AS target
+USING staging_customers AS source
+ON target.customer_id = source.customer_id AND target.is_current = true
+WHEN MATCHED AND (
+    target.customer_name != source.customer_name OR
+    target.city != source.city
+) THEN
+    UPDATE SET 
+        is_current = false,
+        expiration_date = CURRENT_DATE - INTERVAL '1 day'
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (customer_id, customer_name, city, effective_date, expiration_date, is_current)
+    VALUES (source.customer_id, source.customer_name, source.city, 
+            CURRENT_DATE, '9999-12-31', true);
+
+-- Insert historical records after MERGE
+INSERT INTO scd_customers (customer_id, customer_name, city, effective_date, expiration_date, is_current)
+SELECT 
+    source.customer_id,
+    source.customer_name,
+    source.city,
+    CURRENT_DATE,
+    '9999-12-31',
+    true
+FROM staging_customers source
+WHERE EXISTS (
+    SELECT 1 FROM scd_customers target
+    WHERE target.customer_id = source.customer_id 
+    AND target.is_current = false
+    AND (
+        target.customer_name != source.customer_name OR
+        target.city != source.city
+    )
+);
+
+-- MERGE with OUTPUT clause for auditing
+MERGE INTO inventory AS target
+USING inventory_updates AS source
+ON target.product_id = source.product_id
+WHEN MATCHED THEN
+    UPDATE SET 
+        quantity = target.quantity + source.adjustment,
+        last_updated = CURRENT_TIMESTAMP
+WHEN NOT MATCHED BY TARGET THEN
+    INSERT (product_id, quantity, created_at)
+    VALUES (source.product_id, source.adjustment, CURRENT_TIMESTAMP)
+OUTPUT 
+    $action AS operation,
+    COALESCE(INSERTED.product_id, DELETED.product_id) AS product_id,
+    INSERTED.quantity AS new_quantity,
+    DELETED.quantity AS old_quantity,
+    GETDATE() AS change_timestamp
+INTO inventory_audit;
+
+-- Handling MERGE conflicts with unique constraints
+BEGIN TRY
+    BEGIN TRANSACTION;
+    
+    MERGE INTO products WITH (HOLDLOCK) AS target
+    USING staging_products AS source
+    ON target.product_code = source.product_code
+    WHEN NOT MATCHED BY TARGET THEN
+        INSERT (product_code, product_name, unit_price)
+        VALUES (source.product_code, source.product_name, source.unit_price);
+    
+    COMMIT TRANSACTION;
+END TRY
+BEGIN CATCH
+    ROLLBACK TRANSACTION;
+    -- Handle error (duplicate key, etc.)
+    THROW;
+END CATCH;
+
+-- Use cases for MERGE:
+-- 1. Data synchronization between tables
+-- 2. ETL processes and data warehousing
+-- 3. Slowly changing dimensions
+-- 4. Incremental data loading
+-- 5. Audit trail generation
+
+-- Best practices:
+-- 1. Always test with sample data first
+-- 2. Use appropriate indexes on join columns
+-- 3. Consider using HOLDLOCK for concurrency control
+-- 4. Use OUTPUT clause for auditing and debugging
+-- 5. Handle potential errors with TRY/CATCH`,
+      },
     ],
   },
 ];
