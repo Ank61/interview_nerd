@@ -72541,11 +72541,11 @@ class PaymentProcessor(ABC):
 
 class CreditCardProcessor(PaymentProcessor):
     def process_payment(self, amount):
-        return f"Processing ${amount} via Credit Card"
+        return f"Processing $ {amount}} via Credit Card"
 
 class PayPalProcessor(PaymentProcessor):
     def process_payment(self, amount):
-        return f"Processing ${amount} via PayPal"
+        return f"Processing $ {amount}} via PayPal"
 
 class PaymentService:
     def __init__(self, processor: PaymentProcessor):
@@ -73942,11 +73942,11 @@ class EmailService(ABC):
 # Low-level implementations
 class StripePaymentGateway(PaymentGateway):
     def process_payment(self, amount, card_details):
-        return f"Processed ${amount} payment via Stripe"
+        return f"Processed $ {amount}} payment via Stripe"
 
 class PayPalPaymentGateway(PaymentGateway):
     def process_payment(self, amount, card_details):
-        return f"Processed ${amount} payment via PayPal"
+        return f"Processed $ {amount}} payment via PayPal"
 
 class DatabaseInventoryService(InventoryService):
     def reserve_items(self, items):
@@ -77202,21 +77202,21 @@ class CreditCardPayment(PaymentStrategy):
         self.cvv = cvv
     
     def pay(self, amount):
-        return f"Paid ${amount} using Credit Card ending in {self.card_number[-4:]}"
+        return f"Paid $ {amount}} using Credit Card ending in {self.card_number[-4:]}"
 
 class PayPalPayment(PaymentStrategy):
     def __init__(self, email):
         self.email = email
     
     def pay(self, amount):
-        return f"Paid ${amount} using PayPal account: {self.email}"
+        return f"Paid $ {amount}} using PayPal account: {self.email}"
 
 class BankTransferPayment(PaymentStrategy):
     def __init__(self, account_number):
         self.account_number = account_number
     
     def pay(self, amount):
-        return f"Paid ${amount} via Bank Transfer from account: {self.account_number}"
+        return f"Paid $ {amount}} via Bank Transfer from account: {self.account_number}"
 
 # Context
 class PaymentProcessor:
@@ -82703,7 +82703,6 @@ INSERT INTO class_schedules VALUES
               "https://www.postgresql.org/docs/current/ddl-constraints.html#DDL-CONSTRAINTS-UNIQUE-CONSTRAINTS",
             ],
           },
-
           {
             topic: "Numeric Data Types INT and BIGINT",
             tags: ["integers", "whole-numbers", "primary-keys"],
@@ -85462,7 +85461,6 @@ TRUNCATE TABLE staging_table; -- Minimal log impact`,
        <li>Use LIMIT/TOP clauses to process data in chunks</li>
      </ul>
    </div>
-
 </div>`,
             examples: [
               `-- Performance benchmarking example
@@ -85533,6 +85531,7 @@ SET STATISTICS IO OFF;
 SET STATISTICS TIME OFF;`,
             ],
             questions: [],
+            links: [],
           },
         ],
       },
