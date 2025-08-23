@@ -55926,7 +55926,7 @@ helm install rabbit bitnami/rabbitmq --set auth.password=StrongPass
   },
   {
     id: 10,
-    category: "Object Oriented Programming",
+    category: "OOP",
     themeBgColor: "#E8F5E8",
     textColor: "#2D5016",
     topicColor: "#2D5016",

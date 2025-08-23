@@ -51,48 +51,8 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        Javascript: {
-          bg: "#FFF59A",
-          text: "#745b10",
-          topic: "#e4bc40",
-          border: "#9c8a68",
-          lightTheme: "#fdf9d7",
-        },
-        React: {
-          bg: "#DBFDFF",
-          text: "#12365F",
-          topic: "#DBFDFF",
-          border: "#12365F",
-          lightTheme: "#ECFEFF",
-        },
-        Node: {
-          bg: "#DFFDEF",
-          text: "#0E5835",
-          topic: "#0E5835",
-          border: "#0E5835",
-          lightTheme: "#ecfdf5",
-        },
-        Next: {
-          bg: "#E1E1E1",
-          text: "#5D5D5D",
-          topic: "#5D5D5D",
-          border: "#0E5835",
-          lightTheme: "#E1E1E1",
-        },
-        Typescript: {
-          bg: "#E9F4FF",
-          text: "#225485",
-          topic: "#225485",
-          border: "#C3E1FF",
-          lightTheme: "#E9F4FF",
-        },
-        AWS: {
-          bg: "#FFEAF0",
-          text: "#9A5761",
-          topic: "#9A5761",
-          border: "#FFEAF0",
-          lightTheme: "#FFEAF0",
-        },
+        // Dynamic theme colors are now handled via inline styles
+        // using the getThemeColors utility from @/lib/themeUtils
       },
       borderRadius: {
         lg: "var(--radius)",

@@ -14188,4 +14188,320 @@ END CATCH;
       },
     ],
   },
+  {
+    id: 15,
+    topic: "SQL",
+    categories: "Junior",
+    tags: [
+      {
+        name: "SELECT statements",
+        link: "",
+      },
+      {
+        name: "JOINs",
+        link: "",
+      },
+      {
+        name: "WHERE clauses",
+        link: "",
+      },
+      {
+        name: "GROUP BY",
+        link: "",
+      },
+      {
+        name: "ORDER BY",
+        link: "",
+      },
+      {
+        name: "indexes",
+        link: "",
+      },
+      {
+        name: "primary keys",
+        link: "",
+      },
+      {
+        name: "foreign keys",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is the difference between INNER JOIN and LEFT JOIN?",
+        solution: "INNER JOIN returns only rows that have matching values in both tables, while LEFT JOIN returns all rows from the left table and matching rows from the right table (with NULL values for non-matching rows).",
+        tags: [{ name: "JOINs", link: "" }],
+      },
+      {
+        question: "Explain the difference between WHERE and HAVING clauses.",
+        solution: "WHERE filters rows before grouping, while HAVING filters groups after GROUP BY operation. WHERE cannot use aggregate functions, but HAVING can.",
+        tags: [{ name: "WHERE", link: "" }, { name: "HAVING", link: "" }],
+      },
+      {
+        question: "What is a primary key and its characteristics?",
+        solution: "A primary key uniquely identifies each row in a table. It cannot be NULL, must be unique, and a table can have only one primary key. It automatically creates a unique index.",
+        tags: [{ name: "primary keys", link: "" }],
+      },
+      {
+        question: "What are the different types of SQL JOINs?",
+        solution: "INNER JOIN (matching rows), LEFT JOIN (all left + matching right), RIGHT JOIN (all right + matching left), FULL OUTER JOIN (all rows from both tables), CROSS JOIN (cartesian product).",
+        tags: [{ name: "JOINs", link: "" }],
+      },
+      {
+        question: "Explain the difference between DELETE, DROP, and TRUNCATE.",
+        solution: "DELETE removes specific rows and can be rolled back, DROP removes entire table structure, TRUNCATE removes all rows but keeps structure and is faster than DELETE but cannot be rolled back in some databases.",
+        tags: [{ name: "DDL", link: "" }, { name: "DML", link: "" }],
+      },
+    ],
+  },
+  {
+    id: 16,
+    topic: "SQL",
+    categories: "Senior",
+    tags: [
+      {
+        name: "query optimization",
+        link: "",
+      },
+      {
+        name: "indexing strategies",
+        link: "",
+      },
+      {
+        name: "stored procedures",
+        link: "",
+      },
+      {
+        name: "triggers",
+        link: "",
+      },
+      {
+        name: "window functions",
+        link: "",
+      },
+      {
+        name: "CTEs",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What are window functions and how do they differ from aggregate functions?",
+        solution: "Window functions perform calculations across a set of rows related to the current row without collapsing rows like aggregate functions. They use OVER() clause and include ROW_NUMBER(), RANK(), LAG(), LEAD(), etc.",
+        tags: [{ name: "window functions", link: "" }],
+      },
+      {
+        question: "Explain query execution plan and how to optimize slow queries.",
+        solution: "Execution plan shows how the database executes a query. Optimize by: adding appropriate indexes, avoiding SELECT *, using WHERE clauses effectively, optimizing JOINs, and analyzing statistics.",
+        tags: [{ name: "query optimization", link: "" }],
+      },
+      {
+        question: "What are CTEs and their advantages over subqueries?",
+        solution: "Common Table Expressions (CTEs) are temporary result sets. Advantages: better readability, can be referenced multiple times, support recursive queries, and easier debugging than nested subqueries.",
+        tags: [{ name: "CTEs", link: "" }],
+      },
+    ],
+  },
+  {
+    id: 17,
+    topic: "RabbitMQ",
+    categories: "Junior",
+    tags: [
+      {
+        name: "message queues",
+        link: "",
+      },
+      {
+        name: "exchanges",
+        link: "",
+      },
+      {
+        name: "routing keys",
+        link: "",
+      },
+      {
+        name: "producers",
+        link: "",
+      },
+      {
+        name: "consumers",
+        link: "",
+      },
+      {
+        name: "bindings",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is RabbitMQ and what problems does it solve?",
+        solution: "RabbitMQ is a message broker that enables asynchronous communication between applications. It solves problems like decoupling services, handling traffic spikes, ensuring message delivery, and enabling scalable architectures.",
+        tags: [{ name: "message queues", link: "" }],
+      },
+      {
+        question: "Explain the difference between exchanges, queues, and bindings.",
+        solution: "Exchanges receive messages from producers and route them to queues based on routing rules. Queues store messages until consumers process them. Bindings are rules that link exchanges to queues.",
+        tags: [{ name: "exchanges", link: "" }, { name: "bindings", link: "" }],
+      },
+      {
+        question: "What are the different types of exchanges in RabbitMQ?",
+        solution: "Direct (routes by exact routing key match), Fanout (broadcasts to all bound queues), Topic (routes by pattern matching), Headers (routes by message headers).",
+        tags: [{ name: "exchanges", link: "" }],
+      },
+      {
+        question: "What is message acknowledgment and why is it important?",
+        solution: "Message acknowledgment confirms that a consumer has successfully processed a message. It ensures message reliability - if a consumer fails before acknowledging, RabbitMQ can redeliver the message.",
+        tags: [{ name: "acknowledgments", link: "" }],
+      },
+    ],
+  },
+  {
+    id: 18,
+    topic: "RabbitMQ",
+    categories: "Senior",
+    tags: [
+      {
+        name: "clustering",
+        link: "",
+      },
+      {
+        name: "high availability",
+        link: "",
+      },
+      {
+        name: "dead letter queues",
+        link: "",
+      },
+      {
+        name: "message persistence",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "How do you implement high availability in RabbitMQ?",
+        solution: "Use clustering with mirrored queues, set up load balancers, implement proper monitoring, configure queue and message durability, and use multiple availability zones.",
+        tags: [{ name: "high availability", link: "" }, { name: "clustering", link: "" }],
+      },
+      {
+        question: "What are dead letter queues and when would you use them?",
+        solution: "Dead letter queues handle messages that cannot be processed successfully. Use them for: message retry logic, debugging failed messages, implementing circuit breakers, and preventing message loss.",
+        tags: [{ name: "dead letter queues", link: "" }],
+      },
+    ],
+  },
+  {
+    id: 19,
+    topic: "OOP",
+    categories: "Junior",
+    tags: [
+      {
+        name: "encapsulation",
+        link: "",
+      },
+      {
+        name: "inheritance",
+        link: "",
+      },
+      {
+        name: "polymorphism",
+        link: "",
+      },
+      {
+        name: "abstraction",
+        link: "",
+      },
+      {
+        name: "classes",
+        link: "",
+      },
+      {
+        name: "objects",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What are the four main principles of Object-Oriented Programming?",
+        solution: "1. Encapsulation (bundling data and methods), 2. Inheritance (deriving new classes from existing ones), 3. Polymorphism (same interface, different implementations), 4. Abstraction (hiding complex implementation details).",
+        tags: [{ name: "OOP principles", link: "" }],
+      },
+      {
+        question: "Explain the difference between a class and an object.",
+        solution: "A class is a blueprint or template that defines the structure and behavior of objects. An object is an instance of a class - a concrete entity created from the class template with actual values.",
+        tags: [{ name: "classes", link: "" }, { name: "objects", link: "" }],
+      },
+      {
+        question: "What is encapsulation and why is it important?",
+        solution: "Encapsulation bundles data (attributes) and methods that operate on that data within a single unit (class). It provides data hiding, controlled access through getters/setters, and maintains object integrity.",
+        tags: [{ name: "encapsulation", link: "" }],
+      },
+      {
+        question: "Explain inheritance and its benefits.",
+        solution: "Inheritance allows a class to inherit properties and methods from another class. Benefits: code reusability, establishing relationships, method overriding, and creating hierarchical classifications.",
+        tags: [{ name: "inheritance", link: "" }],
+      },
+      {
+        question: "What is polymorphism and provide an example.",
+        solution: "Polymorphism allows objects of different classes to be treated as objects of a common base class. Example: different animals (Dog, Cat) implementing a common 'makeSound()' method differently.",
+        tags: [{ name: "polymorphism", link: "" }],
+      },
+    ],
+  },
+  {
+    id: 20,
+    topic: "OOP",
+    categories: "Senior",
+    tags: [
+      {
+        name: "design patterns",
+        link: "",
+      },
+      {
+        name: "SOLID principles",
+        link: "",
+      },
+      {
+        name: "composition vs inheritance",
+        link: "",
+      },
+      {
+        name: "abstract classes",
+        link: "",
+      },
+      {
+        name: "interfaces",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "Explain the SOLID principles in OOP.",
+        solution: "S-Single Responsibility (one reason to change), O-Open/Closed (open for extension, closed for modification), L-Liskov Substitution (subtypes must be substitutable), I-Interface Segregation (many specific interfaces), D-Dependency Inversion (depend on abstractions).",
+        tags: [{ name: "SOLID principles", link: "" }],
+      },
+      {
+        question: "When would you choose composition over inheritance?",
+        solution: "Choose composition when: you need multiple inheritance-like behavior, want loose coupling, need runtime flexibility, or when 'has-a' relationship is more appropriate than 'is-a' relationship.",
+        tags: [{ name: "composition vs inheritance", link: "" }],
+      },
+      {
+        question: "What are common design patterns and their use cases?",
+        solution: "Singleton (single instance), Factory (object creation), Observer (event handling), Strategy (algorithm selection), Decorator (adding behavior), MVC (separation of concerns).",
+        tags: [{ name: "design patterns", link: "" }],
+      },
+    ],
+  },
 ];

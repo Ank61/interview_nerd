@@ -276,7 +276,7 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
             <motion.div
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -417,6 +417,133 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed">
                     Types, interfaces, generics, and more
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => router.push("/category/SQL")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-indigo-200">
+                <CardHeader className="pb-4">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                      {/* <Image src={} width={48} height={48} alt="sql" /> */}
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="#4f46e5"
+                        className="w-12 h-12"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                        />
+                      </svg>
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                      SQL
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center">
+                  <div className="text-2xl font-bold text-indigo-600 mb-2">
+                    +45
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Queries, joins, indexing, and optimization
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => router.push("/category/RabbitMQ")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-orange-200">
+                <CardHeader className="pb-4">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="#ea580c"
+                        className="w-12 h-12"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m0 0h6.75m-6.75 0a1.5 1.5 0 0 0-1.5 1.5v3.75m6.75-7.5H12m0 0v3.75m0-3.75h3.75m-3.75 0V9a1.5 1.5 0 0 1 1.5-1.5h3.75"
+                        />
+                      </svg>
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                      RabbitMQ
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center">
+                  <div className="text-2xl font-bold text-orange-600 mb-2">
+                    +28
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Message queues, exchanges, and routing
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => router.push("/category/OOP")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-purple-200">
+                <CardHeader className="pb-4">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="#9333ea"
+                        className="w-12 h-12"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
+                        />
+                      </svg>
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                      OOP
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center">
+                  <div className="text-2xl font-bold text-purple-600 mb-2">
+                    +35
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed">
+                    Classes, inheritance, polymorphism, and design patterns
                   </p>
                 </CardContent>
               </Card>

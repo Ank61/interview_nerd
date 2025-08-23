@@ -48,6 +48,8 @@ import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { Button, Typography } from "@mui/material";
 import Header from "@/components/header";
+import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export async function getStaticPaths() {
   const topics = [
@@ -57,6 +59,9 @@ export async function getStaticPaths() {
     "Typescript",
     "AWS S3",
     "Next",
+    "SQL",
+    "RabbitMQ",
+    "OOP",
   ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },
@@ -113,8 +118,128 @@ function a11yProps(index) {
   };
 }
 
+function PaginationComponent({ currentPage, totalPages, onPageChange, themeColors }) {
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisiblePages = 5;
+    
+    if (totalPages <= maxVisiblePages) {
+      for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
+
+  if (totalPages <= 1) return null;
+
+  return (
+    <div className="flex items-center justify-center space-x-2 mt-6">
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="flex items-center px-3 py-2 text-sm font-medium rounded-md border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{
+          color: themeColors.text,
+          borderColor: themeColors.border,
+          backgroundColor: 'white'
+        }}
+        onMouseEnter={(e) => {
+          if (currentPage !== 1) {
+            e.target.style.backgroundColor = themeColors.light;
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (currentPage !== 1) {
+            e.target.style.backgroundColor = 'white';
+          }
+        }}
+      >
+        <ChevronLeft className="w-4 h-4 mr-1" />
+        Previous
+      </button>
+      
+      <div className="flex space-x-1">
+        {getPageNumbers().map((page, index) => (
+          page === '...' ? (
+            <span key={`ellipsis-${index}`} className="px-3 py-2 text-sm text-gray-500">
+              ...
+            </span>
+          ) : (
+            <button
+              key={page}
+              onClick={() => onPageChange(page)}
+              className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors ${
+                currentPage === page ? 'font-bold' : ''
+              }`}
+              style={{
+                color: currentPage === page ? themeColors.text : themeColors.text,
+                borderColor: themeColors.border,
+                backgroundColor: currentPage === page ? themeColors.bg : 'white'
+              }}
+              onMouseEnter={(e) => {
+                if (currentPage !== page) {
+                  e.target.style.backgroundColor = themeColors.light;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (currentPage !== page) {
+                  e.target.style.backgroundColor = 'white';
+                }
+              }}
+            >
+              {page}
+            </button>
+          )
+        ))}
+      </div>
+      
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="flex items-center px-3 py-2 text-sm font-medium rounded-md border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        style={{
+          color: themeColors.text,
+          borderColor: themeColors.border,
+          backgroundColor: 'white'
+        }}
+        onMouseEnter={(e) => {
+          if (currentPage !== totalPages) {
+            e.target.style.backgroundColor = themeColors.light;
+          }
+        }}
+        onMouseLeave={(e) => {
+          if (currentPage !== totalPages) {
+            e.target.style.backgroundColor = 'white';
+          }
+        }}
+      >
+        Next
+        <ChevronRight className="w-4 h-4 ml-1" />
+      </button>
+    </div>
+  );
+}
+
 function AccordionQuestion({ question, topic, index }) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const themeColors = getThemeColors(topic);
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
@@ -139,17 +264,8 @@ function AccordionQuestion({ question, topic, index }) {
       >
         <div className="flex-1">
           <h3
-            className={`font-medium text-sm leading-relaxed ${
-              topic === "Javascript"
-                ? "text-Javascript-text"
-                : topic === "React"
-                ? "text-React-text"
-                : topic === "Node"
-                ? "text-Node-text"
-                : topic === "Typescript"
-                ? "text-Typescript-text"
-                : "text-gray-900"
-            }`}
+            className="font-medium text-sm leading-relaxed text-gray-900"
+            style={{ color: themeColors.text }}
           >
             {question.question}
           </h3>
@@ -160,17 +276,8 @@ function AccordionQuestion({ question, topic, index }) {
               {question.tags.slice(0, 3).map((tag, tagIndex) => (
                 <span
                   key={tagIndex}
-                  className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium ${
-                    topic === "Javascript"
-                      ? "bg-Javascript-lightTheme text-Javascript-text"
-                      : topic === "React"
-                      ? "bg-React-lightTheme text-React-text"
-                      : topic === "Node"
-                      ? "bg-Node-lightTheme text-Node-text"
-                      : topic === "Typescript"
-                      ? "bg-Typescript-lightTheme text-Typescript-text"
-                      : "bg-gray-100 text-gray-700"
-                  }`}
+                  className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700"
+                  style={{ backgroundColor: themeColors.light, color: themeColors.text }}
                 >
                   <Hash className="w-3 h-3 mr-1" />
                   {tag.name}
@@ -183,31 +290,13 @@ function AccordionQuestion({ question, topic, index }) {
         <div className="ml-4 flex items-center">
           {isOpen ? (
             <ChevronUp
-              className={`w-5 h-5 transition-transform ${
-                topic === "Javascript"
-                  ? "text-Javascript-text"
-                  : topic === "React"
-                  ? "text-React-text"
-                  : topic === "Node"
-                  ? "text-Node-text"
-                  : topic === "Typescript"
-                  ? "text-Typescript-text"
-                  : "text-gray-500"
-              }`}
+              className="w-5 h-5 transition-transform text-gray-500"
+              style={{ color: themeColors.text }}
             />
           ) : (
             <ChevronDown
-              className={`w-5 h-5 transition-transform ${
-                topic === "Javascript"
-                  ? "text-Javascript-text"
-                  : topic === "React"
-                  ? "text-React-text"
-                  : topic === "Node"
-                  ? "text-Node-text"
-                  : topic === "Typescript"
-                  ? "text-Typescript-text"
-                  : "text-gray-500"
-              }`}
+              className="w-5 h-5 transition-transform text-gray-500"
+              style={{ color: themeColors.text }}
             />
           )}
         </div>
@@ -229,19 +318,8 @@ function AccordionQuestion({ question, topic, index }) {
                   Answer:
                 </h4>
                 <div
-                  className={`p-3 rounded-md ${
-                    topic === "Javascript"
-                      ? "bg-Javascript-lightTheme border border-Javascript-border"
-                      : topic === "React"
-                      ? "bg-React-lightTheme border border-React-border"
-                      : topic === "Node"
-                      ? "bg-Node-lightTheme border border-Node-border"
-                      : topic === "Typescript"
-                      ? "bg-Typescript-lightTheme border border-Typescript-border"
-                      : topic === "AWS S3"
-                      ? "bg-AWS-lightTheme border border-AWS-border"
-                      : "bg-white border border-gray-200"
-                  }`}
+                  className="p-3 rounded-md bg-white border border-gray-200"
+                  style={{ backgroundColor: themeColors.light, borderColor: themeColors.border }}
                 >
                   {question.solution ? (
                     <div
@@ -265,6 +343,7 @@ function AccordionQuestion({ question, topic, index }) {
 }
 
 function QuestionModal({ isOpen, onClose, question, topic }) {
+  const themeColors = getThemeColors(topic);
   if (!isOpen || !question) return null;
 
   return (
@@ -299,17 +378,8 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                       className="p-2 hover:bg-black hover:bg-opacity-10 rounded-full transition-colors"
                     >
                       <X
-                        className={`w-6 h-6 ${
-                          topic === "Javascript"
-                            ? "text-Javascript-text"
-                            : topic === "React"
-                            ? "text-React-text"
-                            : topic === "Node"
-                            ? "text-Node-text"
-                            : topic === "Typescript"
-                            ? "text-Typescript-text"
-                            : "text-gray-600"
-                        }`}
+                        className="w-6 h-6 text-gray-600"
+                        style={{ color: themeColors.text }}
                       />
                     </button>
                   </h3>
@@ -324,17 +394,8 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                     Answer:
                   </h3>
                   <div
-                    className={`p-4 rounded-lg ${
-                      topic === "Javascript"
-                        ? "bg-Javascript-lightTheme border border-Javascript-border"
-                        : topic === "React"
-                        ? "bg-React-lightTheme border border-React-border"
-                        : topic === "Node"
-                        ? "bg-Node-lightTheme border border-Node-border"
-                        : topic === "Typescript"
-                        ? "bg-Typescript-lightTheme border border-Typescript-border"
-                        : "bg-gray-50 border border-gray-200"
-                    }`}
+                    className="p-4 rounded-lg bg-gray-50 border border-gray-200"
+                    style={{ backgroundColor: themeColors.light, borderColor: themeColors.border }}
                   >
                     {question.solution ? (
                       <div
@@ -355,17 +416,8 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
               <div className="flex justify-end p-6 border-t bg-gray-50">
                 <button
                   onClick={onClose}
-                  className={`px-6 py-2 rounded-lg font-medium transition-colors ${
-                    topic === "Javascript"
-                      ? "bg-Javascript-bg text-Javascript-text hover:bg-Javascript-border"
-                      : topic === "React"
-                      ? "bg-React-bg text-React-text hover:bg-React-border"
-                      : topic === "Node"
-                      ? "bg-Node-bg text-Node-text hover:bg-Node-border"
-                      : topic === "Typescript"
-                      ? "bg-Typescript-bg text-Typescript-text hover:bg-Typescript-border"
-                      : "bg-gray-600 text-white hover:bg-gray-700"
-                  }`}
+                  className="px-6 py-2 rounded-lg font-medium transition-colors bg-gray-600 text-white hover:bg-gray-700"
+                  style={{ backgroundColor: themeColors.bg, color: themeColors.text }}
                 >
                   Close
                 </button>
@@ -388,6 +440,16 @@ export default function BasicTabs({
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
+  
+  // Pagination states
+  const [beginnerPage, setBeginnerPage] = React.useState(1);
+  const [advancePage, setAdvancePage] = React.useState(1);
+  const [interviewPage, setInterviewPage] = React.useState(1);
+  const itemsPerPage = 15;
+  
+  // Get theme colors for current topic
+  const themeColors = getThemeColors(topic);
+  const themeCSSProps = getThemeCSSProperties(topic);
 
   const [value, setValue] = React.useState(0);
   const [interviewSelection, setInterviewSelection] = React.useState("Junior");
@@ -395,7 +457,9 @@ export default function BasicTabs({
   const [indexSelected, setIndexValue] = React.useState(0);
   const [topicSelected, setTopicSelected] = React.useState("");
 
-  let selectedTopicData = topicPrepareData?.type || [];
+  const selectedTopicData = React.useMemo(() => {
+    return topicPrepareData?.type || [];
+  }, [topicPrepareData]);
 
   const [learnedConcepts, setLearnedConcepts] = React.useState({});
   const { data: session } = useSession();
@@ -462,7 +526,20 @@ export default function BasicTabs({
       (item) => item.categories === interviewSelection
     );
     setInterviewQues(filteredTopic[0] || {});
+    setInterviewPage(1); // Reset to first page when changing interview level
   }, [interviewSelection, topicInterviewData]);
+
+  // Reset pagination when switching between Beginner/Advance levels
+  React.useEffect(() => {
+    setBeginnerPage(1);
+    setAdvancePage(1);
+  }, [level]);
+
+  // Reset pagination when search query changes
+  React.useEffect(() => {
+    setBeginnerPage(1);
+    setAdvancePage(1);
+  }, [searchQuery]);
 
   React.useEffect(() => {
     if (session?.user?.id) {
@@ -512,6 +589,33 @@ export default function BasicTabs({
       }))
       .filter((level) => level.concepts.length > 0);
   }, [selectedTopicData, searchQuery]);
+
+  // Pagination helpers
+  const getPaginatedData = (data, page) => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return data.slice(startIndex, endIndex);
+  };
+
+  const getTotalPages = (dataLength) => {
+    return Math.ceil(dataLength / itemsPerPage);
+  };
+
+  // Paginated data
+  const paginatedBeginnerData = React.useMemo(() => {
+    const beginnerConcepts = filteredPrepareData[0]?.concepts || [];
+    return getPaginatedData(beginnerConcepts, beginnerPage);
+  }, [filteredPrepareData, beginnerPage]);
+
+  const paginatedAdvanceData = React.useMemo(() => {
+    const advanceConcepts = filteredPrepareData[1]?.concepts || [];
+    return getPaginatedData(advanceConcepts, advancePage);
+  }, [filteredPrepareData, advancePage]);
+
+  const paginatedInterviewData = React.useMemo(() => {
+    const questions = interviewQues?.questions || [];
+    return getPaginatedData(questions, interviewPage);
+  }, [interviewQues, interviewPage]);
   return (
     <>
       {/* <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto"> */}
@@ -524,74 +628,18 @@ export default function BasicTabs({
               onChange={handleChange}
               aria-label="basic tabs example"
               centered
-              sx={
-                topic === "Javascript"
-                  ? {
-                      marginTop: 2,
-                      "& .MuiTabs-indicator": {
-                        backgroundColor: "var(--javascript-bg)",
-                      },
-                      "& .MuiTab-root": {
-                        color: "var(--javascript-text)",
-                      },
-                      "& .MuiTab-root.Mui-selected": {
-                        color: "var(--javascript-topic)",
-                      },
-                    }
-                  : topic === "React"
-                  ? {
-                      marginTop: 2,
-                      "& .MuiTabs-indicator": {
-                        backgroundColor: "var(--react-bg)",
-                      },
-                      "& .MuiTab-root": {
-                        color: "var(--react-text)",
-                      },
-                      "& .MuiTab-root.Mui-selected": {
-                        color: "var(--react-topic)",
-                      },
-                    }
-                  : topic === "Node"
-                  ? {
-                      marginTop: 2,
-                      "& .MuiTabs-indicator": {
-                        backgroundColor: "var(--node-bg)",
-                      },
-                      "& .MuiTab-root": {
-                        color: "var(--node-text)",
-                      },
-                      "& .MuiTab-root.Mui-selected": {
-                        color: "var(--node-topic)",
-                      },
-                    }
-                  : topic === "Typescript"
-                  ? {
-                      marginTop: 2,
-                      "& .MuiTabs-indicator": {
-                        backgroundColor: "var(--ts-bg)",
-                      },
-                      "& .MuiTab-root": {
-                        color: "var(--ts-text)",
-                      },
-                      "& .MuiTab-root.Mui-selected": {
-                        color: "var(--ts-topic)",
-                      },
-                    }
-                  : topic === "AWS S3"
-                  ? {
-                      marginTop: 2,
-                      "& .MuiTabs-indicator": {
-                        backgroundColor: "var(--awss3-bg)",
-                      },
-                      "& .MuiTab-root": {
-                        color: "var(--awss3-text)",
-                      },
-                      "& .MuiTab-root.Mui-selected": {
-                        color: "var(--awss3-topic)",
-                      },
-                    }
-                  : ""
-              }
+              sx={{
+                marginTop: 2,
+                "& .MuiTabs-indicator": {
+                  backgroundColor: themeColors.bg,
+                },
+                "& .MuiTab-root": {
+                  color: themeColors.text,
+                },
+                "& .MuiTab-root.Mui-selected": {
+                  color: themeColors.topic,
+                },
+              }}
             >
               <Tab
                 sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
@@ -607,20 +655,8 @@ export default function BasicTabs({
           </Box>
           <CustomTabPanel value={value} index={0}>
             <div
-              className={`relative rounded-lg border-1 ${
-                topic === "Javascript"
-                  ? "border-Javascript-border"
-                  : topic === "React"
-                  ? "border-React-border "
-                  : topic === "Node"
-                  ? "border-Node-border "
-                  : topic === "Typescript"
-                  ? "border-Typescript-border "
-                  : topic === "AWS S3"
-                  ? "border-AWS-border "
-                  : ""
-              } bg-gray-100 dark:bg-gray-800 w-full`}
-              style={{ textTransform: "none", outline: "none" }}
+              className="relative rounded-lg border-1 bg-gray-100 dark:bg-gray-800 w-full"
+              style={{ textTransform: "none", outline: "none", borderColor: themeColors.border }}
             >
               <Input
                 type="text"
@@ -631,19 +667,8 @@ export default function BasicTabs({
                 className="rounded-lg appearance-none text-[14px] w-full pl-10"
               />
               <SearchIcon
-                className={`absolute left-2.5 top-2.5 w-5 h-5 ${
-                  topic === "Javascript"
-                    ? "text-Javascript-bg"
-                    : topic === "React"
-                    ? "text-React-bg "
-                    : topic === "Node"
-                    ? "text-Node-bg "
-                    : topic === "Typescript"
-                    ? "text-Typescript-text "
-                    : topic === "AWS S3"
-                    ? "text-AWS-text "
-                    : "text-gray-400"
-                }`}
+                className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-400"
+                style={{ color: themeColors.bg }}
               />
             </div>
             <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
@@ -651,38 +676,28 @@ export default function BasicTabs({
                 <TabsTrigger
                   value="Beginner"
                   onClick={() => setLevel("Beginner")}
-                  className={`bg-white ${
-                    topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                      ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
-                      : topic === "Node"
-                      ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text"
-                      : topic === "Typescript"
-                      ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text"
-                      : topic === "AWS S3"
-                      ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text"
-                      : ""
-                  }`}
+                  className="bg-white"
+                  style={{
+                    '--tw-bg-opacity': '1',
+                    '&[data-state=active]': {
+                      backgroundColor: themeColors.bg,
+                      color: themeColors.text
+                    }
+                  }}
                 >
                   Beginner
                 </TabsTrigger>
                 <TabsTrigger
                   value="Advance"
                   onClick={() => setLevel("Advance")}
-                  className={`bg-white ${
-                    topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                      ? "data-[state=active]:bg-React-bg data-[state=active]:text-React-text "
-                      : topic === "Node"
-                      ? "data-[state=active]:bg-Node-bg data-[state=active]:text-Node-text "
-                      : topic === "Typescript"
-                      ? "data-[state=active]:bg-Typescript-bg data-[state=active]:text-Typescript-text "
-                      : topic === "AWS S3"
-                      ? "data-[state=active]:bg-AWS-bg data-[state=active]:text-AWS-text "
-                      : ""
-                  }`}
+                  className="bg-white"
+                  style={{
+                    '--tw-bg-opacity': '1',
+                    '&[data-state=active]': {
+                      backgroundColor: themeColors.bg,
+                      color: themeColors.text
+                    }
+                  }}
                 >
                   Advance
                 </TabsTrigger>
@@ -747,9 +762,8 @@ export default function BasicTabs({
                   </TableRow>
                 </TableHeader> */}
                   <TableBody>
-                    {filteredPrepareData.length > 0 &&
-                    filteredPrepareData[0]?.concepts?.length > 0 ? (
-                      filteredPrepareData[0]?.concepts?.map(
+                    {paginatedBeginnerData.length > 0 ? (
+                      paginatedBeginnerData.map(
                         (concept, index) => (
                           <TableRow key={concept.topic}>
                             {session?.user?.id && (
@@ -769,19 +783,8 @@ export default function BasicTabs({
                               </TableCell>
                             )}
                             <TableCell
-                              className={`text-left font-medium text-[15px] p-[0px] ${
-                                topic === "Javascript"
-                                  ? "text-Javascript-text "
-                                  : topic === "React"
-                                  ? "text-React-text "
-                                  : topic === "Node"
-                                  ? "text-Node-text "
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text "
-                                  : topic === "AWS S3"
-                                  ? "text-gray-900 "
-                                  : ""
-                              } md:pl-4`}
+                              className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
+                              style={{ color: themeColors.text }}
                             >
                               {index <= 8 ? (
                                 <motion.div
@@ -814,36 +817,17 @@ export default function BasicTabs({
                                       `/learn/${topic}/${concept.topic}`
                                     )
                                   }
-                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                                ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-white hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text bg-white hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
-                                    : ""
-                                } 
-                              md:mb-0 md:mr-[3%] md:ml-auto `}
+                                  className="flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md bg-white md:mb-0 md:mr-[3%] md:ml-auto"
+                                  style={{ 
+                                    color: themeColors.text,
+                                    borderColor: themeColors.border
+                                  }}
+                                  onMouseEnter={(e) => e.target.style.backgroundColor = themeColors.bg}
+                                  onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
                                 >
                                   <BookOpenCheck
-                                    className={`mr-2 w-[19px] ${
-                                      topic === "Javascript"
-                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                        : topic === "Node"
-                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                        : ""
-                                    } md: w-[15px]`}
+                                    className="mr-2 w-[19px] md:w-[15px]"
+                                    style={{ color: themeColors.topic }}
                                   />
                                   Learn
                                 </motion.div>
@@ -854,36 +838,17 @@ export default function BasicTabs({
                                       `/learn/${topic}/${concept.topic}`
                                     )
                                   }
-                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
-                                ${
-                                  topic === "Javascript"
-                                    ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-white hover:bg-React-bg"
-                                    : topic === "Node"
-                                    ? "text-Node-text bg-white hover:bg-Node-bg"
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
-                                    : ""
-                                } 
-                              md:mb-0 md:mr-[3%] md:ml-auto `}
+                                  className="flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md bg-white md:mb-0 md:mr-[3%] md:ml-auto"
+                                  style={{ 
+                                    color: themeColors.text,
+                                    borderColor: themeColors.border
+                                  }}
+                                  onMouseEnter={(e) => e.target.style.backgroundColor = themeColors.bg}
+                                  onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
                                 >
                                   <BookOpenCheck
-                                    className={`mr-2 w-[19px]  ${
-                                      topic === "Javascript"
-                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                        : topic === "Node"
-                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                        : ""
-                                    } md: w-[15px]`}
+                                    className="mr-2 w-[19px] md:w-[15px]"
+                                    style={{ color: themeColors.topic }}
                                   />
                                   Learn
                                 </div>
@@ -992,6 +957,14 @@ export default function BasicTabs({
                     ) : null}
                   </TableBody>
                 </Table>
+                {filteredPrepareData[0]?.concepts?.length > 0 && (
+                  <PaginationComponent
+                    currentPage={beginnerPage}
+                    totalPages={getTotalPages(filteredPrepareData[0]?.concepts?.length || 0)}
+                    onPageChange={setBeginnerPage}
+                    themeColors={themeColors}
+                  />
+                )}
               </TabsContent>
               <TabsContent value="Advance" className="mt-4">
                 <Table>
@@ -1037,9 +1010,8 @@ export default function BasicTabs({
                   {/* </TableRow>
                 </TableHeader>  */}
                   <TableBody>
-                    {filteredPrepareData.length > 1 &&
-                    filteredPrepareData[1]?.concepts?.length > 0 ? (
-                      filteredPrepareData[1]?.concepts?.map(
+                    {paginatedAdvanceData.length > 0 ? (
+                      paginatedAdvanceData.map(
                         (concept, index) => (
                           <TableRow key={concept.topic} className="w-full">
                             <TableCell
@@ -1266,6 +1238,14 @@ export default function BasicTabs({
                     ) : null}
                   </TableBody>
                 </Table>
+                {filteredPrepareData[1]?.concepts?.length > 0 && (
+                  <PaginationComponent
+                    currentPage={advancePage}
+                    totalPages={getTotalPages(filteredPrepareData[1]?.concepts?.length || 0)}
+                    onPageChange={setAdvancePage}
+                    themeColors={themeColors}
+                  />
+                )}
               </TabsContent>
             </TAB>
           </CustomTabPanel>
@@ -1336,8 +1316,8 @@ export default function BasicTabs({
               </TabsList>
               <TabsContent value="Junior" className="mt-4">
                 <div className="flex flex-col gap-3">
-                  {interviewQues?.questions
-                    ? interviewQues?.questions?.map((item, index) => (
+                  {paginatedInterviewData.length > 0
+                    ? paginatedInterviewData.map((item, index) => (
                         <AccordionQuestion
                           key={index}
                           question={item}
@@ -1347,11 +1327,19 @@ export default function BasicTabs({
                       ))
                     : null}
                 </div>
+                {interviewQues?.questions?.length > 0 && (
+                  <PaginationComponent
+                    currentPage={interviewPage}
+                    totalPages={getTotalPages(interviewQues?.questions?.length || 0)}
+                    onPageChange={setInterviewPage}
+                    themeColors={themeColors}
+                  />
+                )}
               </TabsContent>
               <TabsContent value="Mid" className="mt-4">
                 <div className="flex flex-col gap-3">
-                  {interviewQues?.questions
-                    ? interviewQues?.questions?.map((item, index) => (
+                  {paginatedInterviewData.length > 0
+                    ? paginatedInterviewData.map((item, index) => (
                         <AccordionQuestion
                           key={index}
                           question={item}
@@ -1361,11 +1349,19 @@ export default function BasicTabs({
                       ))
                     : null}
                 </div>
+                {interviewQues?.questions?.length > 0 && (
+                  <PaginationComponent
+                    currentPage={interviewPage}
+                    totalPages={getTotalPages(interviewQues?.questions?.length || 0)}
+                    onPageChange={setInterviewPage}
+                    themeColors={themeColors}
+                  />
+                )}
               </TabsContent>
               <TabsContent value="Senior" className="mt-4">
                 <div className="flex flex-col gap-3">
-                  {interviewQues?.questions
-                    ? interviewQues?.questions?.map((item, index) => (
+                  {paginatedInterviewData.length > 0
+                    ? paginatedInterviewData.map((item, index) => (
                         <AccordionQuestion
                           key={index}
                           question={item}
@@ -1375,6 +1371,14 @@ export default function BasicTabs({
                       ))
                     : null}
                 </div>
+                {interviewQues?.questions?.length > 0 && (
+                  <PaginationComponent
+                    currentPage={interviewPage}
+                    totalPages={getTotalPages(interviewQues?.questions?.length || 0)}
+                    onPageChange={setInterviewPage}
+                    themeColors={themeColors}
+                  />
+                )}
               </TabsContent>
             </TAB>
           </CustomTabPanel>
