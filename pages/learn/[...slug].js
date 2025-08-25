@@ -43,7 +43,6 @@ export default function Learn({
       <Box 
         sx={{ width: "auto" }} 
         padding={3}
-        style={{ backgroundColor: theme?.lightColor || '#f9f9f9' }}
         className="rounded-lg"
       >
         <h3

@@ -20,6 +20,14 @@ import {
   MonitorCog,
   DatabaseZap,
   Workflow,
+  CheckCircle,
+  Target,
+  Award,
+  Zap,
+  Github,
+  Twitter,
+  Linkedin,
+  Mail,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
@@ -226,13 +234,31 @@ export default function Home() {
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
               Master Tech Interviews with
-              <span className="text-blue-600"> Confidence</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Confidence</span>
             </h1>
-            <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
-              Your professional companion for mastering tech interviews. Curated
-              questions, real scenarios, and expert guidance for modern web
-              technologies.
+            <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-8">
+              Your comprehensive platform for acing technical interviews. Practice with
+              <span className="font-semibold text-gray-800"> 500+ curated questions</span>,
+              real-world scenarios, and expert solutions across all major tech stacks.
             </p>
+            <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 mb-8">
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                <span>500+ Interview Questions</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                <span>Real Company Scenarios</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                <span>Progress Tracking</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CheckCircle className="w-4 h-4 text-green-500" />
+                <span>Expert Solutions</span>
+              </div>
+            </div>
           </motion.div>
 
           <motion.div
@@ -243,18 +269,86 @@ export default function Home() {
           >
             <Button
               size="lg"
-              className="bg-blue-600 text-white font-medium px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors shadow-sm"
+              onClick={() => session ? router.push('/category/Javascript') : router.push('/auth/login')}
+              className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
-              Start Preparing <ArrowRight className="ml-2 w-5 h-5" />
+              {session ? 'Continue Learning' : 'Start Free Trial'} <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button
               variant="outline"
               size="lg"
-              className="border-gray-300 text-gray-700 font-medium px-8 py-3 rounded-lg hover:bg-gray-50 transition-colors"
+              onClick={() => {
+                const categoriesSection = document.getElementById('categories');
+                categoriesSection?.scrollIntoView({ behavior: 'smooth' });
+              }}
+              className="border-2 border-gray-300 text-gray-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-300"
             >
-              View Categories
+              Explore Topics
             </Button>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Statistics Section */}
+      <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Trusted by Developers Worldwide
+              </h2>
+              <p className="text-lg text-blue-100 max-w-2xl mx-auto">
+                Join thousands of successful candidates who landed their dream jobs
+              </p>
+            </motion.div>
+
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-center"
+              >
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2">500+</div>
+                <div className="text-blue-100 font-medium">Interview Questions</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-center"
+              >
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2">10K+</div>
+                <div className="text-blue-100 font-medium">Active Users</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-center"
+              >
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2">95%</div>
+                <div className="text-blue-100 font-medium">Success Rate</div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, scale: 0.5 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-center"
+              >
+                <div className="text-4xl md:text-5xl font-bold text-white mb-2">50+</div>
+                <div className="text-blue-100 font-medium">Top Companies</div>
+              </motion.div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -276,31 +370,34 @@ export default function Home() {
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/Javascript")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-yellow-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-yellow-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/50 to-orange-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-yellow-50 to-yellow-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <Image src={js} width={48} height={48} alt="Javascript" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-700 transition-colors">
                       JavaScript
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-yellow-600 mb-2">
-                    +52
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-yellow-600 mb-3 group-hover:scale-110 transition-transform">
+                    52
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    From ES6 to async/await, closures, and more
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                    ES6+, Async/Await, Closures, Prototypes
                   </p>
                 </CardContent>
               </Card>
@@ -336,29 +433,32 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/React")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-blue-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-blue-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-cyan-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-blue-100 to-cyan-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <Image src={react} width={48} height={48} alt="React" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
                       React.js
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-blue-600 mb-2">
-                    +40
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-blue-600 mb-3 group-hover:scale-110 transition-transform">
+                    40
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
-                    Hooks, state, context, and more
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                    Hooks, State Management, Context, JSX
                   </p>
                 </CardContent>
               </Card>
@@ -954,33 +1054,180 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200">
-        <div className=" border-gray-200 mt-6 pt-6 text-center">
-          <p className="text-gray-500">
-            &copy; 2025 Interview Nerd. All rights reserved.
-          </p>
-        </div>
-        {/* <div className="container mx-auto px-4 py-8"> */}
-        {/* <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center gap-3 mb-4 md:mb-0">
-              <div className="p-2 rounded-lg bg-blue-50">
-                <svg width="20" height="20" fill="none" viewBox="0 0 48 48" className="text-blue-600">
-                  <circle cx="24" cy="24" r="24" fill="#2563eb" fillOpacity="0.08"/>
-                  <path d="M24 14v12l8 4" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+      <footer className="bg-gray-900 text-white">
+        <div className="container mx-auto px-4 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Brand Section */}
+            <div className="col-span-1 md:col-span-2">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-blue-600">
+                  <svg
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    className="text-white"
+                  >
+                    <circle
+                      cx="24"
+                      cy="24"
+                      r="24"
+                      fill="#ffffff"
+                      fillOpacity="0.1"
+                    />
+                    <path
+                      d="M24 14v12l8 4"
+                      stroke="#ffffff"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span className="font-bold text-xl">Interview Nerd</span>
               </div>
-              <span className="font-bold text-lg text-gray-900">Interview Nerd</span>
+              <p className="text-gray-300 mb-6 max-w-md">
+                Your comprehensive platform for mastering technical interviews. 
+                Practice with curated questions and land your dream job.
+              </p>
+              <div className="flex space-x-4">
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="Twitter"
+                >
+                  <Twitter className="w-5 h-5" />
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="GitHub"
+                >
+                  <Github className="w-5 h-5" />
+                </a>
+                <a
+                  href="#"
+                  className="text-gray-400 hover:text-white transition-colors"
+                  aria-label="Email"
+                >
+                  <Mail className="w-5 h-5" />
+                </a>
+              </div>
             </div>
-            <nav className="flex items-center space-x-6">
-              <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">About</Link>
-              <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Contact</Link>
-              <Link href="#" className="text-gray-600 hover:text-blue-600 transition-colors">Privacy Policy</Link>
-            </nav>
-          </div> */}
-        {/* <div className=" border-gray-200 mt-6 pt-6 text-center">
-            <p className="text-gray-500">&copy; 2025 Interview Nerd. All rights reserved.</p>
-          </div> */}
-        {/* </div> */}
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="font-semibold text-lg mb-4">Quick Links</h3>
+              <ul className="space-y-2">
+                <li>
+                  <a
+                    href="#features"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Features
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#categories"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Categories
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#testimonials"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Testimonials
+                  </a>
+                </li>
+                <li>
+                  <Link
+                    href="/auth/login"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Login
+                  </Link>
+                </li>
+              </ul>
+            </div>
+
+            {/* Categories */}
+            <div>
+              <h3 className="font-semibold text-lg mb-4">Popular Topics</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link
+                    href="/category/Javascript"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    JavaScript
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/category/React"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    React.js
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/category/Node"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Node.js
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/category/SQL"
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    SQL
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Section */}
+          <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
+            <p className="text-gray-400 text-sm">
+              &copy; 2025 Interview Nerd. All rights reserved.
+            </p>
+            <div className="flex space-x-6 mt-4 md:mt-0">
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+              >
+                Privacy Policy
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+              >
+                Terms of Service
+              </a>
+              <a
+                href="#"
+                className="text-gray-400 hover:text-white transition-colors text-sm"
+              >
+                Contact
+              </a>
+            </div>
+          </div>
+        </div>
       </footer>
     </div>
   );

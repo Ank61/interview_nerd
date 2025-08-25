@@ -728,7 +728,7 @@ export default function BasicTabs({
                   Advance
                 </TabsTrigger>
               </TabsList>
-              <TabsContent value="Beginner" className="mt-5" style={{ backgroundColor: themeColors.light, borderRadius: '8px', padding: '16px' }}>
+              <TabsContent value="Beginner" className="mt-5">
                 <Table>
                   {/* <TableHeader>
                   <TableRow>
@@ -977,7 +977,7 @@ export default function BasicTabs({
                   />
                 )}
               </TabsContent>
-              <TabsContent value="Advance" className="mt-4" style={{ backgroundColor: themeColors.light, borderRadius: '8px', padding: '16px' }}>
+              <TabsContent value="Advance" className="mt-4">
                 <Table>
                   {/* <TableHeader>
                   <TableRow>
@@ -1142,34 +1142,21 @@ export default function BasicTabs({
                                   delay: 0.2 * index,
                                   ease: [0, 0.71, 0.2, 1.01],
                                 }}
-                                className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                  topic === "Javascript"
-                                    ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-white hover:bg-React-bg "
-                                    : topic === "Node"
-                                    ? "text-Node-text bg-white hover:bg-Node-bg "
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text bg-white hover:bg-AWS-bg "
-                                    : ""
-                                }`}
+                                className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
+                                style={{
+                                  backgroundColor: themeColors.light,
+                                  color: themeColors.text,
+                                }}
+                                onMouseEnter={(e) =>
+                                  (e.target.style.backgroundColor = themeColors.bg)
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.target.style.backgroundColor = themeColors.light)
+                                }
                               >
                                 <Code
-                                  className={`mr-2 w-[19px] ${
-                                    topic === "Javascript"
-                                      ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                      : topic === "React"
-                                      ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                      : topic === "Node"
-                                      ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                      : topic === "Typescript"
-                                      ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                      : topic === "AWS S3"
-                                      ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                      : ""
-                                  } md: w-[15px]`}
+                                  className="mr-2 w-[19px] md:w-[15px]"
+                                  style={{ color: themeColors.topic }}
                                 />
                                 Practice
                               </motion.div>
@@ -1178,32 +1165,21 @@ export default function BasicTabs({
                                 onClick={() =>
                                   router.push(`/test/${topic}/${concept.topic}`)
                                 }
-                                className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
-                                  topic === "Javascript"
-                                    ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
-                                    : topic === "React"
-                                    ? "text-React-text bg-white hover:bg-React-bg "
-                                    : topic === "Typescript"
-                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
-                                    : topic === "AWS S3"
-                                    ? "text-AWS-text bg-white hover:bg-AWS-bg "
-                                    : ""
-                                }`}
+                                className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
+                                style={{
+                                  backgroundColor: themeColors.light,
+                                  color: themeColors.text,
+                                }}
+                                onMouseEnter={(e) =>
+                                  (e.target.style.backgroundColor = themeColors.bg)
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.target.style.backgroundColor = themeColors.light)
+                                }
                               >
                                 <Code
-                                  // style={{width: 12px}}
-                                  className={`mr-2 w-[19px] ${
-                                    topic === "Javascript"
-                                      ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                      : topic === "React"
-                                      ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                      : topic === "Typescript"
-                                      ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                      : topic === "AWS S3"
-                                      ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                      : ""
-                                  } md: w-[15px]`}
-                                  // size={"19px"}
+                                  className="mr-2 w-[19px] md:w-[15px]"
+                                  style={{ color: themeColors.topic }}
                                 />
                                 Practice
                               </div>
