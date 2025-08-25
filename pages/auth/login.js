@@ -66,8 +66,8 @@ export default function Login() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       {/* Back to Home Button */}
-      <Link 
-        href="/" 
+      <Link
+        href="/"
         className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -82,28 +82,51 @@ export default function Login() {
         >
           <Card className="border border-gray-200 shadow-lg bg-white">
             <CardHeader className="space-y-1 text-center pb-6">
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className="flex items-center justify-center gap-3 mb-6"
               >
                 <div className="p-2 rounded-lg bg-blue-50">
-                  <svg width="32" height="32" fill="none" viewBox="0 0 48 48" className="text-blue-600">
-                    <circle cx="24" cy="24" r="24" fill="#2563eb" fillOpacity="0.08"/>
-                    <path d="M24 14v12l8 4" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <svg
+                    width="32"
+                    height="32"
+                    fill="none"
+                    viewBox="0 0 48 48"
+                    className="text-blue-600"
+                  >
+                    <circle
+                      cx="24"
+                      cy="24"
+                      r="24"
+                      fill="#2563eb"
+                      fillOpacity="0.08"
+                    />
+                    <path
+                      d="M24 14v12l8 4"
+                      stroke="#2563eb"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
                   </svg>
                 </div>
-                <span className="font-bold text-xl text-gray-900">Interview Nerd</span>
+                <span className="font-bold text-xl text-gray-900">
+                  Interview Nerd
+                </span>
               </motion.div>
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
               >
-                <CardTitle className="text-3xl font-bold text-gray-900 mb-3">Welcome back</CardTitle>
+                <CardTitle className="text-3xl font-bold text-gray-900 mb-3">
+                  Welcome back
+                </CardTitle>
                 <p className="text-gray-600 leading-relaxed">
-                  Sign in to your account to continue your interview prep journey
+                  Sign in to your account to continue your interview prep
+                  journey
                 </p>
               </motion.div>
             </CardHeader>
@@ -118,10 +141,10 @@ export default function Login() {
                     {error}
                   </div>
                 )}
-                
-                <Button 
-                  variant="outline" 
-                  className="w-full h-12 border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 font-medium" 
+
+                <Button
+                  variant="outline"
+                  className="w-full h-12 border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 font-medium"
                   onClick={handleGoogleLogin}
                   disabled={isLoading}
                 >
@@ -149,26 +172,30 @@ export default function Login() {
                   )}
                   Continue with Google
                 </Button>
-                
+
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-200" />
                   </div>
                   <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-4 text-gray-500 font-medium">Or continue with email</span>
+                    <span className="bg-white px-4 text-gray-500 font-medium">
+                      Or continue with email
+                    </span>
                   </div>
                 </div>
               </motion.div>
 
-              <motion.form 
-                onSubmit={handleSubmit} 
+              <motion.form
+                onSubmit={handleSubmit}
                 className="space-y-5"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.5 }}
               >
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-gray-700 font-medium">Email Address</Label>
+                  <Label htmlFor="email" className="text-gray-700 font-medium">
+                    Email Address
+                  </Label>
                   <Input
                     id="email"
                     type="email"
@@ -179,9 +206,14 @@ export default function Login() {
                     required
                   />
                 </div>
-                
+
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
+                  <Label
+                    htmlFor="password"
+                    className="text-gray-700 font-medium"
+                  >
+                    Password
+                  </Label>
                   <div className="relative">
                     <Input
                       id="password"
@@ -217,9 +249,9 @@ export default function Login() {
                   </Link>
                 </div>
 
-                <Button 
-                  type="submit" 
-                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" 
+                <Button
+                  type="submit"
+                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -233,14 +265,17 @@ export default function Login() {
                 </Button>
               </motion.form>
 
-              <motion.div 
+              <motion.div
                 className="text-center text-sm pt-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.6 }}
               >
-                <span className="text-gray-600">Don't have an account? </span>
-                <Link href="/auth/signup" className="text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors">
+                <span className="text-gray-600">Dont have an account? </span>
+                <Link
+                  href="/auth/signup"
+                  className="text-blue-600 hover:text-blue-700 font-semibold hover:underline transition-colors"
+                >
                   Create one now
                 </Link>
               </motion.div>
