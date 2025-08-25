@@ -150,6 +150,7 @@ export default function Component() {
               delay: 0.2,
             }}
             className={`mt-1 p-4 bg-muted rounded-md overflow-hidden cursor-pointer `}
+            style={{ backgroundColor: themeColor?.lightColor || '#f3f4f6' }}
           >
             <div
               className={`w-full`}

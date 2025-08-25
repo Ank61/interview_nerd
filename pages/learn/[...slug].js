@@ -40,7 +40,12 @@ export default function Learn({
     // <Box className="w-full md:w-6/12 mx-auto">
     <Box className="w-full sm:w-8/12 md:w-10/12 lg:w-8/12 mx-auto px-4">
       <Header topic={category || topic} />
-      <Box sx={{ width: "auto" }} padding={3}>
+      <Box 
+        sx={{ width: "auto" }} 
+        padding={3}
+        style={{ backgroundColor: theme?.lightColor || '#f9f9f9' }}
+        className="rounded-lg"
+      >
         <h3
           style={{ color: theme.textColor }}
           className="scroll-m-20 text-2xl font-semibold tracking-tight"

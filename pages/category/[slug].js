@@ -118,11 +118,16 @@ function a11yProps(index) {
   };
 }
 
-function PaginationComponent({ currentPage, totalPages, onPageChange, themeColors }) {
+function PaginationComponent({
+  currentPage,
+  totalPages,
+  onPageChange,
+  themeColors,
+}) {
   const getPageNumbers = () => {
     const pages = [];
     const maxVisiblePages = 5;
-    
+
     if (totalPages <= maxVisiblePages) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
@@ -130,17 +135,17 @@ function PaginationComponent({ currentPage, totalPages, onPageChange, themeColor
     } else {
       if (currentPage <= 3) {
         for (let i = 1; i <= 4; i++) pages.push(i);
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       } else if (currentPage >= totalPages - 2) {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
       } else {
         pages.push(1);
-        pages.push('...');
+        pages.push("...");
         for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
-        pages.push('...');
+        pages.push("...");
         pages.push(totalPages);
       }
     }
@@ -158,7 +163,7 @@ function PaginationComponent({ currentPage, totalPages, onPageChange, themeColor
         style={{
           color: themeColors.text,
           borderColor: themeColors.border,
-          backgroundColor: 'white'
+          backgroundColor: "white",
         }}
         onMouseEnter={(e) => {
           if (currentPage !== 1) {
@@ -167,18 +172,21 @@ function PaginationComponent({ currentPage, totalPages, onPageChange, themeColor
         }}
         onMouseLeave={(e) => {
           if (currentPage !== 1) {
-            e.target.style.backgroundColor = 'white';
+            e.target.style.backgroundColor = "white";
           }
         }}
       >
         <ChevronLeft className="w-4 h-4 mr-1" />
         Previous
       </button>
-      
+
       <div className="flex space-x-1">
-        {getPageNumbers().map((page, index) => (
-          page === '...' ? (
-            <span key={`ellipsis-${index}`} className="px-3 py-2 text-sm text-gray-500">
+        {getPageNumbers().map((page, index) =>
+          page === "..." ? (
+            <span
+              key={`ellipsis-${index}`}
+              className="px-3 py-2 text-sm text-gray-500"
+            >
               ...
             </span>
           ) : (
@@ -186,12 +194,14 @@ function PaginationComponent({ currentPage, totalPages, onPageChange, themeColor
               key={page}
               onClick={() => onPageChange(page)}
               className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors ${
-                currentPage === page ? 'font-bold' : ''
+                currentPage === page ? "font-bold" : ""
               }`}
               style={{
-                color: currentPage === page ? themeColors.text : themeColors.text,
+                color:
+                  currentPage === page ? themeColors.text : themeColors.text,
                 borderColor: themeColors.border,
-                backgroundColor: currentPage === page ? themeColors.bg : 'white'
+                backgroundColor:
+                  currentPage === page ? themeColors.bg : "white",
               }}
               onMouseEnter={(e) => {
                 if (currentPage !== page) {
@@ -200,16 +210,16 @@ function PaginationComponent({ currentPage, totalPages, onPageChange, themeColor
               }}
               onMouseLeave={(e) => {
                 if (currentPage !== page) {
-                  e.target.style.backgroundColor = 'white';
+                  e.target.style.backgroundColor = "white";
                 }
               }}
             >
               {page}
             </button>
           )
-        ))}
+        )}
       </div>
-      
+
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
@@ -217,7 +227,7 @@ function PaginationComponent({ currentPage, totalPages, onPageChange, themeColor
         style={{
           color: themeColors.text,
           borderColor: themeColors.border,
-          backgroundColor: 'white'
+          backgroundColor: "white",
         }}
         onMouseEnter={(e) => {
           if (currentPage !== totalPages) {
@@ -226,7 +236,7 @@ function PaginationComponent({ currentPage, totalPages, onPageChange, themeColor
         }}
         onMouseLeave={(e) => {
           if (currentPage !== totalPages) {
-            e.target.style.backgroundColor = 'white';
+            e.target.style.backgroundColor = "white";
           }
         }}
       >
@@ -277,7 +287,10 @@ function AccordionQuestion({ question, topic, index }) {
                 <span
                   key={tagIndex}
                   className="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-gray-100 text-gray-700"
-                  style={{ backgroundColor: themeColors.light, color: themeColors.text }}
+                  style={{
+                    backgroundColor: themeColors.light,
+                    color: themeColors.text,
+                  }}
                 >
                   <Hash className="w-3 h-3 mr-1" />
                   {tag.name}
@@ -319,7 +332,10 @@ function AccordionQuestion({ question, topic, index }) {
                 </h4>
                 <div
                   className="p-3 rounded-md bg-white border border-gray-200"
-                  style={{ backgroundColor: themeColors.light, borderColor: themeColors.border }}
+                  style={{
+                    backgroundColor: themeColors.light,
+                    borderColor: themeColors.border,
+                  }}
                 >
                   {question.solution ? (
                     <div
@@ -395,7 +411,10 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                   </h3>
                   <div
                     className="p-4 rounded-lg bg-gray-50 border border-gray-200"
-                    style={{ backgroundColor: themeColors.light, borderColor: themeColors.border }}
+                    style={{
+                      backgroundColor: themeColors.light,
+                      borderColor: themeColors.border,
+                    }}
                   >
                     {question.solution ? (
                       <div
@@ -417,7 +436,10 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                 <button
                   onClick={onClose}
                   className="px-6 py-2 rounded-lg font-medium transition-colors bg-gray-600 text-white hover:bg-gray-700"
-                  style={{ backgroundColor: themeColors.bg, color: themeColors.text }}
+                  style={{
+                    backgroundColor: themeColors.bg,
+                    color: themeColors.text,
+                  }}
                 >
                   Close
                 </button>
@@ -440,13 +462,13 @@ export default function BasicTabs({
   const [selectedQuestion, setSelectedQuestion] = React.useState(null);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
-  
+
   // Pagination states
   const [beginnerPage, setBeginnerPage] = React.useState(1);
   const [advancePage, setAdvancePage] = React.useState(1);
   const [interviewPage, setInterviewPage] = React.useState(1);
   const itemsPerPage = 15;
-  
+
   // Get theme colors for current topic
   const themeColors = getThemeColors(topic);
   const themeCSSProps = getThemeCSSProperties(topic);
@@ -656,7 +678,11 @@ export default function BasicTabs({
           <CustomTabPanel value={value} index={0}>
             <div
               className="relative rounded-lg border-1 bg-gray-100 dark:bg-gray-800 w-full"
-              style={{ textTransform: "none", outline: "none", borderColor: themeColors.border }}
+              style={{
+                textTransform: "none",
+                outline: "none",
+                borderColor: themeColors.border,
+              }}
             >
               <Input
                 type="text"
@@ -678,11 +704,11 @@ export default function BasicTabs({
                   onClick={() => setLevel("Beginner")}
                   className="bg-white"
                   style={{
-                    '--tw-bg-opacity': '1',
-                    '&[data-state=active]': {
+                    "--tw-bg-opacity": "1",
+                    "&[dataState=active]": {
                       backgroundColor: themeColors.bg,
-                      color: themeColors.text
-                    }
+                      color: themeColors.text,
+                    },
                   }}
                 >
                   Beginner
@@ -692,11 +718,11 @@ export default function BasicTabs({
                   onClick={() => setLevel("Advance")}
                   className="bg-white"
                   style={{
-                    '--tw-bg-opacity': '1',
-                    '&[data-state=active]': {
+                    "--tw-bg-opacity": "1",
+                    "&[dataState=active]": {
                       backgroundColor: themeColors.bg,
-                      color: themeColors.text
-                    }
+                      color: themeColors.text,
+                    },
                   }}
                 >
                   Advance
@@ -763,184 +789,193 @@ export default function BasicTabs({
                 </TableHeader> */}
                   <TableBody>
                     {paginatedBeginnerData.length > 0 ? (
-                      paginatedBeginnerData.map(
-                        (concept, index) => (
-                          <TableRow key={concept.topic}>
-                            {session?.user?.id && (
-                              <TableCell className="text-center">
-                                <Checkbox
-                                  className="border-yellow-500 data-[state=checked]:bg-yellow-500 data-[state=checked]:border-yellow-500"
-                                  checked={
-                                    !!learnedConcepts[
-                                      getConceptKey(topic, concept.topic)
-                                    ]
-                                  }
-                                  onCheckedChange={() =>
-                                    handleLearnedToggle(concept)
-                                  }
-                                  aria-label="Mark as learned"
-                                />
-                              </TableCell>
+                      paginatedBeginnerData.map((concept, index) => (
+                        <TableRow key={concept.topic}>
+                          {session?.user?.id && (
+                            <TableCell className="text-center">
+                              <Checkbox
+                                className="data-[state=checked]:text-white"
+                                style={{
+                                  borderColor: themeColors.topic,
+                                  "--radix-checkbox-indicator-color": "white",
+                                }}
+                                data-theme-bg={themeColors.topic}
+                                checked={
+                                  !!learnedConcepts[
+                                    getConceptKey(topic, concept.topic)
+                                  ]
+                                }
+                                onCheckedChange={() =>
+                                  handleLearnedToggle(concept)
+                                }
+                                aria-label="Mark as learned"
+                              />
+                            </TableCell>
+                          )}
+                          <TableCell
+                            className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
+                            style={{ color: themeColors.text }}
+                          >
+                            {index <= 8 ? (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  duration: 0.8,
+                                  delay: 0.2 * index,
+                                  ease: [0, 0.71, 0.2, 1.01],
+                                }}
+                              >
+                                {concept.topic}
+                              </motion.div>
+                            ) : (
+                              <div>{concept.topic}</div>
                             )}
-                            <TableCell
-                              className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
-                              style={{ color: themeColors.text }}
-                            >
-                              {index <= 8 ? (
-                                <motion.div
-                                  initial={{ opacity: 0, scale: 0.5 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    duration: 0.8,
-                                    delay: 0.2 * index,
-                                    ease: [0, 0.71, 0.2, 1.01],
-                                  }}
-                                >
-                                  {concept.topic}
-                                </motion.div>
-                              ) : (
-                                <div>{concept.topic}</div>
-                              )}
-                            </TableCell>
-                            <TableCell className="text-right md:flex">
-                              {index <= 8 ? (
-                                <motion.div
-                                  initial={{ opacity: 0, scale: 0.5 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    duration: 0.8,
-                                    delay: 0.2 * index,
-                                    ease: [0, 0.71, 0.2, 1.01],
-                                  }}
-                                  onClick={() =>
-                                    router.push(
-                                      `/learn/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  className="flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md bg-white md:mb-0 md:mr-[3%] md:ml-auto"
-                                  style={{ 
-                                    color: themeColors.text,
-                                    borderColor: themeColors.border
-                                  }}
-                                  onMouseEnter={(e) => e.target.style.backgroundColor = themeColors.bg}
-                                  onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
-                                >
-                                  <BookOpenCheck
-                                    className="mr-2 w-[19px] md:w-[15px]"
-                                    style={{ color: themeColors.topic }}
-                                  />
-                                  Learn
-                                </motion.div>
-                              ) : (
-                                <div
-                                  onClick={() =>
-                                    router.push(
-                                      `/learn/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  className="flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md bg-white md:mb-0 md:mr-[3%] md:ml-auto"
-                                  style={{ 
-                                    color: themeColors.text,
-                                    borderColor: themeColors.border
-                                  }}
-                                  onMouseEnter={(e) => e.target.style.backgroundColor = themeColors.bg}
-                                  onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
-                                >
-                                  <BookOpenCheck
-                                    className="mr-2 w-[19px] md:w-[15px]"
-                                    style={{ color: themeColors.topic }}
-                                  />
-                                  Learn
-                                </div>
-                              )}
-                              {index <= 8 ? (
-                                <motion.div
-                                  onClick={() =>
-                                    router.push(
-                                      `/test/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  initial={{ opacity: 0, scale: 0.5 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    duration: 0.8,
-                                    delay: 0.2 * index,
-                                    ease: [0, 0.71, 0.2, 1.01],
-                                  }}
-                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                          </TableCell>
+                          <TableCell className="text-right md:flex">
+                            {index <= 8 ? (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  duration: 0.8,
+                                  delay: 0.2 * index,
+                                  ease: [0, 0.71, 0.2, 1.01],
+                                }}
+                                onClick={() =>
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  )
+                                }
+                                className="flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md bg-white md:mb-0 md:mr-[3%] md:ml-auto"
+                                style={{
+                                  color: themeColors.text,
+                                  borderColor: themeColors.border,
+                                }}
+                                onMouseEnter={(e) =>
+                                  (e.target.style.backgroundColor =
+                                    themeColors.bg)
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.target.style.backgroundColor = "white")
+                                }
+                              >
+                                <BookOpenCheck
+                                  className="mr-2 w-[19px] md:w-[15px]"
+                                  style={{ color: themeColors.topic }}
+                                />
+                                Learn
+                              </motion.div>
+                            ) : (
+                              <div
+                                onClick={() =>
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  )
+                                }
+                                className="flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md bg-white md:mb-0 md:mr-[3%] md:ml-auto"
+                                style={{
+                                  color: themeColors.text,
+                                  borderColor: themeColors.border,
+                                }}
+                                onMouseEnter={(e) =>
+                                  (e.target.style.backgroundColor =
+                                    themeColors.bg)
+                                }
+                                onMouseLeave={(e) =>
+                                  (e.target.style.backgroundColor = "white")
+                                }
+                              >
+                                <BookOpenCheck
+                                  className="mr-2 w-[19px] md:w-[15px]"
+                                  style={{ color: themeColors.topic }}
+                                />
+                                Learn
+                              </div>
+                            )}
+                            {index <= 8 ? (
+                              <motion.div
+                                onClick={() =>
+                                  router.push(`/test/${topic}/${concept.topic}`)
+                                }
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  duration: 0.8,
+                                  delay: 0.2 * index,
+                                  ease: [0, 0.71, 0.2, 1.01],
+                                }}
+                                className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : topic === "React"
+                                    ? "text-React-text bg-white hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text bg-white hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                    : ""
+                                }`}
+                              >
+                                <Code
+                                  className={`mr-2 w-[19px] ${
                                     topic === "Javascript"
-                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                       : topic === "React"
-                                      ? "text-React-text bg-white hover:bg-React-bg"
+                                      ? "text-React-text hover:text-React-text hover:bg-React-bg"
                                       : topic === "Node"
-                                      ? "text-Node-text bg-white hover:bg-Node-bg"
+                                      ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                       : topic === "Typescript"
-                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                      ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
                                       : topic === "AWS S3"
-                                      ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                      ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
                                       : ""
-                                  }`}
-                                >
-                                  <Code
-                                    className={`mr-2 w-[19px] ${
-                                      topic === "Javascript"
-                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                        : topic === "Node"
-                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                        : ""
-                                    } md: w-[15px]`}
-                                  />
-                                  Practice
-                                </motion.div>
-                              ) : (
-                                <div
-                                  onClick={() =>
-                                    router.push(
-                                      `/test/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                  } md: w-[15px]`}
+                                />
+                                Practice
+                              </motion.div>
+                            ) : (
+                              <div
+                                onClick={() =>
+                                  router.push(`/test/${topic}/${concept.topic}`)
+                                }
+                                className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : topic === "React"
+                                    ? "text-React-text bg-white hover:bg-React-bg"
+                                    : topic === "Node"
+                                    ? "text-Node-text bg-white hover:bg-Node-bg"
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                    : ""
+                                }`}
+                              >
+                                <Code
+                                  className={`mr-2 w-[19px] ${
                                     topic === "Javascript"
-                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                       : topic === "React"
-                                      ? "text-React-text bg-white hover:bg-React-bg"
+                                      ? "text-React-text hover:text-React-text hover:bg-React-bg"
                                       : topic === "Node"
-                                      ? "text-Node-text bg-white hover:bg-Node-bg"
+                                      ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
                                       : topic === "Typescript"
-                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg"
+                                      ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
                                       : topic === "AWS S3"
-                                      ? "text-AWS-text bg-white hover:bg-AWS-bg"
+                                      ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
                                       : ""
-                                  }`}
-                                >
-                                  <Code
-                                    className={`mr-2 w-[19px] ${
-                                      topic === "Javascript"
-                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:text-React-text hover:bg-React-bg"
-                                        : topic === "Node"
-                                        ? "text-Node-text hover:text-Node-text hover:bg-Node-bg"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:text-Typescript-text hover:bg-Typescript-bg"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:text-AWS-text hover:bg-AWS-bg"
-                                        : ""
-                                    } md: w-[15px]`}
-                                  />
-                                  Practice
-                                </div>
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        )
-                      )
+                                  } md: w-[15px]`}
+                                />
+                                Practice
+                              </div>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))
                     ) : searchQuery.trim() ? (
                       <TableRow>
                         <TableCell
@@ -960,7 +995,9 @@ export default function BasicTabs({
                 {filteredPrepareData[0]?.concepts?.length > 0 && (
                   <PaginationComponent
                     currentPage={beginnerPage}
-                    totalPages={getTotalPages(filteredPrepareData[0]?.concepts?.length || 0)}
+                    totalPages={getTotalPages(
+                      filteredPrepareData[0]?.concepts?.length || 0
+                    )}
                     onPageChange={setBeginnerPage}
                     themeColors={themeColors}
                   />
@@ -1011,57 +1048,66 @@ export default function BasicTabs({
                 </TableHeader>  */}
                   <TableBody>
                     {paginatedAdvanceData.length > 0 ? (
-                      paginatedAdvanceData.map(
-                        (concept, index) => (
-                          <TableRow key={concept.topic} className="w-full">
-                            <TableCell
-                              className={`text-left font-medium text-[15px] p-[0px] ${
-                                topic === "Javascript"
-                                  ? "text-Javascript-text "
-                                  : topic === "React"
-                                  ? "text-React-text"
-                                  : topic === "Node"
-                                  ? "text-Node-text"
-                                  : topic === "Typescript"
-                                  ? "text-Typescript-text"
-                                  : topic === "AWS S3"
-                                  ? "text-gray-900"
-                                  : ""
-                              } md:pl-4`}
-                            >
-                              {index <= 8 ? (
-                                <motion.div
-                                  className="w-full"
-                                  initial={{ opacity: 0, scale: 0.5 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    duration: 0.8,
-                                    delay: 0.2 * index,
-                                    ease: [0, 0.71, 0.2, 1.01],
-                                  }}
-                                >
-                                  {concept.topic}
-                                </motion.div>
-                              ) : (
-                                <div className="w-full">{concept.topic}</div>
-                              )}
+                      paginatedAdvanceData.map((concept, index) => (
+                        <TableRow key={concept.topic} className="w-full">
+                          {session?.user?.id && (
+                            <TableCell className="text-center">
+                              <Checkbox
+                                className="data-[state=checked]:text-white"
+                                style={{
+                                  borderColor: themeColors.topic,
+                                  "--radix-checkbox-indicator-color": "white",
+                                }}
+                                data-theme-bg={themeColors.topic}
+                                checked={
+                                  !!learnedConcepts[
+                                    getConceptKey(topic, concept.topic)
+                                  ]
+                                }
+                                onCheckedChange={() =>
+                                  handleLearnedToggle(concept)
+                                }
+                                aria-label="Mark as learned"
+                              />
                             </TableCell>
-                            <TableCell className="text-right md:flex">
-                              {index <= 8 ? (
-                                <motion.div
-                                  initial={{ opacity: 0, scale: 0.5 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    duration: 0.8,
-                                    delay: 0.2 * index,
-                                    ease: [0, 0.71, 0.2, 1.01],
-                                  }}
-                                  onClick={() =>
-                                    router.push(
-                                      `/learn/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                          )}
+                          <TableCell
+                            className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
+                            style={{ color: themeColors.text }}
+                          >
+                            {index <= 8 ? (
+                              <motion.div
+                                className="w-full"
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  duration: 0.8,
+                                  delay: 0.2 * index,
+                                  ease: [0, 0.71, 0.2, 1.01],
+                                }}
+                              >
+                                {concept.topic}
+                              </motion.div>
+                            ) : (
+                              <div className="w-full">{concept.topic}</div>
+                            )}
+                          </TableCell>
+                          <TableCell className="text-right md:flex">
+                            {index <= 8 ? (
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  duration: 0.8,
+                                  delay: 0.2 * index,
+                                  ease: [0, 0.71, 0.2, 1.01],
+                                }}
+                                onClick={() =>
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  )
+                                }
+                                className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
@@ -1076,32 +1122,32 @@ export default function BasicTabs({
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
-                                >
-                                  <BookOpenCheck
-                                    className={`mr-2 w-[19px] ${
-                                      topic === "Javascript"
-                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                        : topic === "Node"
-                                        ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                        : ""
-                                    } md: w-[15px]`}
-                                  />
-                                  Learn
-                                </motion.div>
-                              ) : (
-                                <div
-                                  onClick={() =>
-                                    router.push(
-                                      `/learn/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                              >
+                                <BookOpenCheck
+                                  className={`mr-2 w-[19px] ${
+                                    topic === "Javascript"
+                                      ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                      : topic === "React"
+                                      ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                      : topic === "Node"
+                                      ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
+                                      : topic === "Typescript"
+                                      ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                      : topic === "AWS S3"
+                                      ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
+                                      : ""
+                                  } md: w-[15px]`}
+                                />
+                                Learn
+                              </motion.div>
+                            ) : (
+                              <div
+                                onClick={() =>
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  )
+                                }
+                                className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
@@ -1116,116 +1162,111 @@ export default function BasicTabs({
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
-                                >
-                                  {" "}
-                                  <BookOpenCheck
-                                    className={`mr-2 w-[19px] ${
-                                      topic === "Javascript"
-                                        ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                        : topic === "Node"
-                                        ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                        : ""
-                                    } md: w-[15px]`}
-                                  />
-                                  Learn
-                                </div>
-                              )}
-                              {index <= 8 ? (
-                                <motion.div
-                                  onClick={() =>
-                                    router.push(
-                                      `/test/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  initial={{ opacity: 0, scale: 0.5 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  transition={{
-                                    duration: 0.8,
-                                    delay: 0.2 * index,
-                                    ease: [0, 0.71, 0.2, 1.01],
-                                  }}
-                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                              >
+                                {" "}
+                                <BookOpenCheck
+                                  className={`mr-2 w-[19px] ${
                                     topic === "Javascript"
-                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      ? " text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                       : topic === "React"
-                                      ? "text-React-text bg-white hover:bg-React-bg "
+                                      ? "text-React-text hover:bg-React-bg hover:text-React-text"
                                       : topic === "Node"
-                                      ? "text-Node-text bg-white hover:bg-Node-bg "
+                                      ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                       : topic === "Typescript"
-                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                      ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
                                       : topic === "AWS S3"
-                                      ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                      ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
                                       : ""
-                                  }`}
-                                >
-                                  <Code
-                                    className={`mr-2 w-[19px] ${
-                                      topic === "Javascript"
-                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                        : topic === "Node"
-                                        ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                        : ""
-                                    } md: w-[15px]`}
-                                  />
-                                  Practice
-                                </motion.div>
-                              ) : (
-                                <div
-                                  onClick={() =>
-                                    router.push(
-                                      `/test/${topic}/${concept.topic}`
-                                    )
-                                  }
-                                  className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                  } md: w-[15px]`}
+                                />
+                                Learn
+                              </div>
+                            )}
+                            {index <= 8 ? (
+                              <motion.div
+                                onClick={() =>
+                                  router.push(`/test/${topic}/${concept.topic}`)
+                                }
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  duration: 0.8,
+                                  delay: 0.2 * index,
+                                  ease: [0, 0.71, 0.2, 1.01],
+                                }}
+                                className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : topic === "React"
+                                    ? "text-React-text bg-white hover:bg-React-bg "
+                                    : topic === "Node"
+                                    ? "text-Node-text bg-white hover:bg-Node-bg "
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                    : ""
+                                }`}
+                              >
+                                <Code
+                                  className={`mr-2 w-[19px] ${
                                     topic === "Javascript"
-                                      ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                      ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
                                       : topic === "React"
-                                      ? "text-React-text bg-white hover:bg-React-bg "
+                                      ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                      : topic === "Node"
+                                      ? "text-Node-text hover:bg-Node-bg hover:text-Node-text"
                                       : topic === "Typescript"
-                                      ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                      ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
                                       : topic === "AWS S3"
-                                      ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                      ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
                                       : ""
-                                  }`}
-                                >
-                                  <Code
-                                    // style={{width: 12px}}
-                                    className={`mr-2 w-[19px] ${
-                                      topic === "Javascript"
-                                        ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
-                                        : topic === "React"
-                                        ? "text-React-text hover:bg-React-bg hover:text-React-text"
-                                        : topic === "Typescript"
-                                        ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
-                                        : topic === "AWS S3"
-                                        ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
-                                        : ""
-                                    } md: w-[15px]`}
-                                    // size={"19px"}
-                                  />
-                                  Practice
-                                </div>
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        )
-                      )
+                                  } md: w-[15px]`}
+                                />
+                                Practice
+                              </motion.div>
+                            ) : (
+                              <div
+                                onClick={() =>
+                                  router.push(`/test/${topic}/${concept.topic}`)
+                                }
+                                className={`flex font-medium cursor-pointer bg-white border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md ${
+                                  topic === "Javascript"
+                                    ? "text-Javascript-text bg-white hover:bg-Javascript-bg"
+                                    : topic === "React"
+                                    ? "text-React-text bg-white hover:bg-React-bg "
+                                    : topic === "Typescript"
+                                    ? "text-Typescript-text bg-white hover:bg-Typescript-bg "
+                                    : topic === "AWS S3"
+                                    ? "text-AWS-text bg-white hover:bg-AWS-bg "
+                                    : ""
+                                }`}
+                              >
+                                <Code
+                                  // style={{width: 12px}}
+                                  className={`mr-2 w-[19px] ${
+                                    topic === "Javascript"
+                                      ? "text-Javascript-topic hover:bg-Javascript-bg hover:text-Javascript-text"
+                                      : topic === "React"
+                                      ? "text-React-text hover:bg-React-bg hover:text-React-text"
+                                      : topic === "Typescript"
+                                      ? "text-Typescript-text hover:bg-Typescript-bg hover:text-Typescript-text"
+                                      : topic === "AWS S3"
+                                      ? "text-AWS-text hover:bg-AWS-bg hover:text-AWS-text"
+                                      : ""
+                                  } md: w-[15px]`}
+                                  // size={"19px"}
+                                />
+                                Practice
+                              </div>
+                            )}
+                          </TableCell>
+                        </TableRow>
+                      ))
                     ) : searchQuery.trim() ? (
                       <TableRow>
                         <TableCell
-                          colSpan={2}
+                          colSpan={session?.user?.id ? 3 : 2}
                           className="text-center py-8 text-gray-500"
                         >
                           <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
@@ -1241,7 +1282,9 @@ export default function BasicTabs({
                 {filteredPrepareData[1]?.concepts?.length > 0 && (
                   <PaginationComponent
                     currentPage={advancePage}
-                    totalPages={getTotalPages(filteredPrepareData[1]?.concepts?.length || 0)}
+                    totalPages={getTotalPages(
+                      filteredPrepareData[1]?.concepts?.length || 0
+                    )}
                     onPageChange={setAdvancePage}
                     themeColors={themeColors}
                   />
@@ -1330,7 +1373,9 @@ export default function BasicTabs({
                 {interviewQues?.questions?.length > 0 && (
                   <PaginationComponent
                     currentPage={interviewPage}
-                    totalPages={getTotalPages(interviewQues?.questions?.length || 0)}
+                    totalPages={getTotalPages(
+                      interviewQues?.questions?.length || 0
+                    )}
                     onPageChange={setInterviewPage}
                     themeColors={themeColors}
                   />
@@ -1352,7 +1397,9 @@ export default function BasicTabs({
                 {interviewQues?.questions?.length > 0 && (
                   <PaginationComponent
                     currentPage={interviewPage}
-                    totalPages={getTotalPages(interviewQues?.questions?.length || 0)}
+                    totalPages={getTotalPages(
+                      interviewQues?.questions?.length || 0
+                    )}
                     onPageChange={setInterviewPage}
                     themeColors={themeColors}
                   />
@@ -1374,7 +1421,9 @@ export default function BasicTabs({
                 {interviewQues?.questions?.length > 0 && (
                   <PaginationComponent
                     currentPage={interviewPage}
-                    totalPages={getTotalPages(interviewQues?.questions?.length || 0)}
+                    totalPages={getTotalPages(
+                      interviewQues?.questions?.length || 0
+                    )}
                     onPageChange={setInterviewPage}
                     themeColors={themeColors}
                   />

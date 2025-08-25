@@ -105,3 +105,13 @@ textarea:focus,
 button:focus div:focus {
   outline: none !important;
 }
+
+/* Custom checkbox styling for theme colors */
+[data-theme-bg] {
+  --checkbox-bg: var(--primary);
+}
+
+[data-theme-bg][data-state="checked"] {
+  background-color: var(--checkbox-bg) !important;
+  border-color: var(--checkbox-bg) !important;
+}

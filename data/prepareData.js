@@ -5,7 +5,7 @@ export const prepareData = [
     themeBgColor: "#FFF59A",
     textColor: "#745b10",
     topicColor: "#e4bc40",
-    lightColor: "#fefbe8",
+    lightColor: "#fdf9d7",
     type: [
       {
         id: 1,
@@ -7428,7 +7428,7 @@ person.greet(); // Output: Hello, undefined
   {
     id: 2,
     category: "React",
-    themeBgColor: "#DBFDFF",
+    themeBgColor: "#BFFCFF",
     textColor: "#12365F",
     topicColor: "#12365F",
     lightColor: "#ECFEFF",
@@ -10489,7 +10489,7 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
   {
     id: 3,
     category: "Node",
-    themeBgColor: "#DFFDEF",
+    themeBgColor: "#BAF7DB",
     textColor: "#0E5835",
     topicColor: "#0E5835",
     lightColor: "#ecfdf5",
