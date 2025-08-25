@@ -160,7 +160,7 @@ const XPNotification = ({
                     Level {newLevel}
                   </p>
                   <p className="text-gray-600 mt-2">
-                    You're getting stronger! 💪
+                    Youre getting stronger! 💪
                   </p>
                 </div>
 
