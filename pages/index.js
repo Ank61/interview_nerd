@@ -404,28 +404,31 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/Next")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-gray-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-gray-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-50/50 to-slate-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300 h-20">
+                    <div className="bg-gradient-to-br from-gray-100 to-slate-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <Image src={next} width={48} height={48} alt="Next.js" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-700 transition-colors">
                       Next.js
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-gray-600 mb-2">
-                    +64
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-gray-600 mb-3 group-hover:scale-110 transition-transform">
+                    64
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
                     Routing, SSR, API routes, and more
                   </p>
                 </CardContent>
@@ -465,28 +468,31 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/Node")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-green-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-green-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-green-50/50 to-emerald-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <Image src={node} width={48} height={48} alt="Node.js" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-700 transition-colors">
                       Node.js
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-green-600 mb-2">
-                    +52
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-green-600 mb-3 group-hover:scale-110 transition-transform">
+                    52
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
                     Express, async, event loop, and more
                   </p>
                 </CardContent>
@@ -494,28 +500,31 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/Typescript")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-blue-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-blue-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-indigo-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-blue-100 to-indigo-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <Image src={ts} width={48} height={48} alt="TypeScript" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
                       TypeScript
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-blue-600 mb-2">
-                    +30
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-blue-600 mb-3 group-hover:scale-110 transition-transform">
+                    30
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
                     Types, interfaces, generics, and more
                   </p>
                 </CardContent>
@@ -523,17 +532,19 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/SQL")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-indigo-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-indigo-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-50/50 to-purple-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
-                      {/* <Image src={} width={48} height={48} alt="sql" /> */}
+                    <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -549,16 +560,16 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-indigo-700 transition-colors">
                       SQL
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-indigo-600 mb-2">
-                    +45
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-indigo-600 mb-3 group-hover:scale-110 transition-transform">
+                    45
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
                     Queries, joins, indexing, and optimization
                   </p>
                 </CardContent>
@@ -566,16 +577,19 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.7 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/RabbitMQ")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-orange-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-orange-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-red-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -591,16 +605,16 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors">
                       RabbitMQ
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-orange-600 mb-2">
-                    +28
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-orange-600 mb-3 group-hover:scale-110 transition-transform">
+                    28
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
                     Message queues, exchanges, and routing
                   </p>
                 </CardContent>
@@ -608,16 +622,19 @@ export default function Home() {
             </motion.div>
 
             <motion.div
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => router.push("/category/OOP")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl group-hover:shadow-lg transition-all duration-300 hover:border-purple-200">
-                <CardHeader className="pb-4">
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-purple-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-pink-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 transition-transform duration-300">
+                    <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -633,16 +650,16 @@ export default function Home() {
                         />
                       </svg>
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-700 transition-colors">
                       OOP
                     </CardTitle>
                   </div>
                 </CardHeader>
-                <CardContent className="pt-0 text-center">
-                  <div className="text-2xl font-bold text-purple-600 mb-2">
-                    +35
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-purple-600 mb-3 group-hover:scale-110 transition-transform">
+                    35
                   </div>
-                  <p className="text-sm text-gray-600 leading-relaxed">
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
                     Classes, inheritance, polymorphism, and design patterns
                   </p>
                 </CardContent>

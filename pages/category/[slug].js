@@ -702,28 +702,38 @@ export default function BasicTabs({
                 <TabsTrigger
                   value="Beginner"
                   onClick={() => setLevel("Beginner")}
-                  className="bg-white"
-                  style={{
-                    "--tw-bg-opacity": "1",
-                    "&[dataState=active]": {
-                      backgroundColor: themeColors.bg,
-                      color: themeColors.text,
-                    },
-                  }}
+                  className={`bg-white ${
+                    topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                      : topic === "Node"
+                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                      : topic === "Typescript"
+                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                      : topic === "AWS S3"
+                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                      : ""
+                  }`}
                 >
                   Beginner
                 </TabsTrigger>
                 <TabsTrigger
                   value="Advance"
                   onClick={() => setLevel("Advance")}
-                  className="bg-white"
-                  style={{
-                    "--tw-bg-opacity": "1",
-                    "&[dataState=active]": {
-                      backgroundColor: themeColors.bg,
-                      color: themeColors.text,
-                    },
-                  }}
+                  className={`bg-white ${
+                    topic === "Javascript"
+                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                      : topic === "React"
+                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                      : topic === "Node"
+                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                      : topic === "Typescript"
+                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                      : topic === "AWS S3"
+                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                      : ""
+                  }`}
                 >
                   Advance
                 </TabsTrigger>

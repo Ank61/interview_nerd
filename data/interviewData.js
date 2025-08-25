@@ -69,64 +69,552 @@ export const interviewData = [
       {
         question:
           "What is event delegation, and how does it function in JavaScript?",
-        solution: "",
+        solution: `Event delegation is a technique in JavaScript where you attach a single event listener to a parent element to handle events for multiple child elements, instead of attaching individual listeners to each child.
+
+**How it works:**
+1. Events bubble up from child elements to their parents
+2. A single listener on the parent can catch events from all children
+3. Use event.target to identify which specific child triggered the event
+
+**Example:**
+\`\`\`javascript
+// Instead of adding listeners to each button
+document.getElementById('parent').addEventListener('click', function(e) {
+  if (e.target.tagName === 'BUTTON') {
+    console.log('Button clicked:', e.target.textContent);
+  }
+});
+\`\`\`
+
+**Benefits:**
+- Better performance (fewer event listeners)
+- Automatically handles dynamically added elements
+- Reduced memory usage
+- Easier to manage and maintain`,
         tags: [{ name: "event delegation", link: "" }],
       },
       {
         question:
           "Differentiate between a variable that is null, undefined, or undeclared.",
-        solution: "",
+        solution: `**Undefined:**
+- A variable has been declared but not assigned a value
+- Default value for uninitialized variables
+- Type: 'undefined'
+
+**Null:**
+- Explicitly assigned value representing "no value" or "empty"
+- Intentional absence of value
+- Type: 'object' (this is a known JavaScript quirk)
+
+**Undeclared:**
+- Variable has not been declared at all
+- Accessing it throws a ReferenceError
+- Not the same as undefined
+
+**Examples:**
+\`\`\`javascript
+let a; // undefined
+let b = null; // null
+console.log(c); // ReferenceError: c is not defined
+
+typeof a; // 'undefined'
+typeof b; // 'object'
+typeof c; // ReferenceError
+\`\`\`
+
+**Key Differences:**
+- undefined: declared but no value
+- null: explicitly set to "no value"
+- undeclared: not declared at all`,
         tags: [],
       },
       {
         question:
           "Define what a closure is and describe its uses and advantages.",
-        solution: "",
+        solution: `A closure is a function that has access to variables in its outer (enclosing) scope even after the outer function has finished executing.
+
+**How closures work:**
+\`\`\`javascript
+function outerFunction(x) {
+  // This is the outer function's scope
+  return function innerFunction(y) {
+    // This inner function has access to 'x'
+    return x + y;
+  };
+}
+
+const addFive = outerFunction(5);
+console.log(addFive(3)); // 8
+\`\`\`
+
+**Common Uses:**
+1. **Data Privacy/Encapsulation:**
+\`\`\`javascript
+function createCounter() {
+  let count = 0;
+  return function() {
+    return ++count;
+  };
+}
+const counter = createCounter();
+\`\`\`
+
+2. **Module Pattern:**
+\`\`\`javascript
+const module = (function() {
+  let privateVar = 0;
+  return {
+    increment: () => ++privateVar,
+    getCount: () => privateVar
+  };
+})();
+\`\`\`
+
+**Advantages:**
+- Data encapsulation and privacy
+- Function factories
+- Callback functions
+- Event handlers
+- Maintaining state in asynchronous operations`,
         tags: [{ name: "closures", link: "" }],
       },
       {
         question:
           "Clarify the distinctions among 'function User(){}', 'var user = User()', and 'var user = new User()'.",
-        solution: "",
+        solution: `**1. function User(){}**
+- This is a function declaration
+- Defines a function named User
+- Can be used as a regular function or constructor
+
+**2. var user = User()**
+- Calls User as a regular function
+- 'this' refers to global object (window in browsers)
+- Returns whatever the function explicitly returns (undefined if no return)
+- No new object is created
+
+**3. var user = new User()**
+- Calls User as a constructor function
+- Creates a new empty object
+- Sets 'this' to point to the new object
+- Automatically returns the new object (unless function explicitly returns another object)
+
+**Example:**
+\`\`\`javascript
+function User(name) {
+  this.name = name;
+  this.greet = function() {
+    return 'Hello, ' + this.name;
+  };
+}
+
+// Regular function call
+var user1 = User('John'); // user1 is undefined, 'this' refers to global
+
+// Constructor call
+var user2 = new User('John'); // user2 is a new User object
+console.log(user2.greet()); // 'Hello, John'
+\`\`\`
+
+**Key Difference:** 'new' creates a new object instance, regular call doesn't.`,
         tags: [],
       },
       {
         question: "Define the concept of 'hoisting'.",
-        solution: "",
+        solution: `Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their containing scope during the compilation phase, before code execution.
+
+**Variable Hoisting:**
+\`\`\`javascript
+console.log(x); // undefined (not ReferenceError)
+var x = 5;
+
+// Interpreted as:
+var x; // hoisted declaration
+console.log(x); // undefined
+x = 5; // assignment stays in place
+\`\`\`
+
+**Function Hoisting:**
+\`\`\`javascript
+sayHello(); // Works! Prints 'Hello'
+
+function sayHello() {
+  console.log('Hello');
+}
+\`\`\`
+
+**Let and Const:**
+\`\`\`javascript
+console.log(y); // ReferenceError: Cannot access 'y' before initialization
+let y = 10;
+
+console.log(z); // ReferenceError: Cannot access 'z' before initialization
+const z = 20;
+\`\`\`
+
+**Function Expressions:**
+\`\`\`javascript
+sayHi(); // TypeError: sayHi is not a function
+var sayHi = function() {
+  console.log('Hi');
+};
+\`\`\`
+
+**Key Points:**
+- Only declarations are hoisted, not assignments
+- let/const are hoisted but in "temporal dead zone"
+- Function declarations are fully hoisted
+- Function expressions follow variable hoisting rules`,
         tags: [{ name: "hoisting", link: "" }],
       },
       {
         question:
           "What is type coercion, and what are some common pitfalls associated with relying on it in JavaScript code?",
-        solution: "",
+        solution: `Type coercion is JavaScript's automatic conversion of values from one data type to another during operations or comparisons.
+
+**Types of Coercion:**
+1. **Implicit (Automatic):** JavaScript does it automatically
+2. **Explicit (Manual):** Developer intentionally converts types
+
+**Common Examples:**
+\`\`\`javascript
+// String coercion
+5 + '3' // '53' (number becomes string)
+'5' - 3 // 2 (string becomes number)
+
+// Boolean coercion
+if ('hello') { } // true (non-empty string is truthy)
+if (0) { } // false (0 is falsy)
+
+// Comparison coercion
+'5' == 5 // true (string coerced to number)
+'5' === 5 // false (no coercion with strict equality)
+\`\`\`
+
+**Common Pitfalls:**
+1. **Unexpected string concatenation:**
+\`\`\`javascript
+let result = 1 + 2 + '3'; // '33' not '6'
+\`\`\`
+
+2. **Falsy values confusion:**
+\`\`\`javascript
+0 == false // true
+'' == false // true
+null == undefined // true
+\`\`\`
+
+3. **Array coercion:**
+\`\`\`javascript
+[] + [] // '' (empty string)
+[] + {} // '[object Object]'
+{} + [] // 0
+\`\`\`
+
+**Best Practices:**
+- Use === instead of ==
+- Explicitly convert types when needed
+- Be aware of truthy/falsy values`,
         tags: [{ name: "type coercion", link: "" }],
       },
       {
         question: "Describe event bubbling and event capturing.",
-        solution: "",
+        solution: `Event bubbling and event capturing are two phases of event propagation in the DOM.
+
+**Event Capturing (Capture Phase):**
+- Events start from the document root and travel down to the target element
+- Also called "trickling down"
+- Happens first, before the target phase
+
+**Event Bubbling (Bubble Phase):**
+- Events start from the target element and bubble up to the document root
+- Default behavior in most cases
+- Happens after the target phase
+
+**Event Flow Order:**
+1. Capture phase (root → target)
+2. Target phase (at the target element)
+3. Bubble phase (target → root)
+
+**Example:**
+\`\`\`javascript
+// Bubble phase (default)
+document.getElementById('child').addEventListener('click', handler);
+
+// Capture phase (set third parameter to true)
+document.getElementById('parent').addEventListener('click', handler, true);
+
+// Stop propagation
+function handler(event) {
+  event.stopPropagation(); // Stops further propagation
+  event.preventDefault(); // Prevents default behavior
+}
+\`\`\`
+
+**Practical Use:**
+- Event delegation uses bubbling
+- Capturing useful for intercepting events early
+- stopPropagation() can control event flow`,
         tags: [{ name: "event bubbling", link: "" }],
       },
       {
         question: "What distinguishes an 'attribute' from a 'property'?",
-        solution: "",
+        solution: `Attributes and properties are related but different concepts in HTML/DOM manipulation.
+
+**Attributes:**
+- Defined in HTML markup
+- Always strings
+- Initial values set in HTML
+- Accessed via getAttribute()/setAttribute()
+
+**Properties:**
+- Live DOM object properties
+- Can be any JavaScript type
+- Current state of the element
+- Accessed via dot notation or bracket notation
+
+**Example:**
+\`\`\`html
+<input id="myInput" type="text" value="initial" />
+\`\`\`
+
+\`\`\`javascript
+const input = document.getElementById('myInput');
+
+// Attributes (HTML)
+input.getAttribute('value'); // 'initial' (always original)
+input.setAttribute('value', 'new');
+
+// Properties (DOM)
+input.value; // Current value (changes with user input)
+input.value = 'updated';
+
+// Type differences
+input.getAttribute('disabled'); // 'disabled' or null
+input.disabled; // true or false
+\`\`\`
+
+**Key Differences:**
+- Attributes reflect HTML, properties reflect current DOM state
+- Properties are live, attributes are static
+- Properties have proper types, attributes are always strings
+- Some properties don't have corresponding attributes (like textContent)
+
+**When to use:**
+- Use properties for dynamic manipulation
+- Use attributes for initial HTML values or custom data attributes`,
         tags: [],
       },
       {
         question:
           "Why is it referred to as a 'Ternary operator,' and what does the term 'Ternary' signify?",
-        solution: "",
+        solution: `The ternary operator is called 'ternary' because it takes three operands, making it the only operator in JavaScript that does so.
+
+**Etymology:**
+- 'Ternary' comes from Latin 'ternarius' meaning 'consisting of three'
+- Also known as the conditional operator
+
+**Syntax:**
+\`\`\`javascript
+condition ? expressionIfTrue : expressionIfFalse
+\`\`\`
+
+**Three Parts:**
+1. **Condition:** Expression that evaluates to true/false
+2. **First Expression:** Executed if condition is true
+3. **Second Expression:** Executed if condition is false
+
+**Examples:**
+\`\`\`javascript
+// Basic usage
+const age = 18;
+const status = age >= 18 ? 'adult' : 'minor';
+
+// Nested ternary (use sparingly)
+const grade = score >= 90 ? 'A' : score >= 80 ? 'B' : 'C';
+
+// Function calls
+const result = isValid ? processData() : showError();
+
+// Assignment
+const message = user.isLoggedIn ? \`Welcome \${user.name}\` : 'Please log in';
+\`\`\`
+
+**Benefits:**
+- Concise alternative to if-else
+- Can be used in expressions
+- Returns a value
+
+**Best Practices:**
+- Keep conditions simple
+- Avoid deep nesting
+- Use for simple conditional assignments`,
         tags: [{ name: "ternary operator", link: "" }],
       },
       {
         question:
           "Explain the disparities between variables created using let, var, or const.",
-        solution: "",
+        solution: `The main differences between var, let, and const relate to scope, hoisting, and reassignment.
+
+**Scope:**
+\`\`\`javascript
+// var: function-scoped
+function example() {
+  if (true) {
+    var x = 1;
+  }
+  console.log(x); // 1 (accessible outside block)
+}
+
+// let/const: block-scoped
+function example2() {
+  if (true) {
+    let y = 1;
+    const z = 1;
+  }
+  console.log(y); // ReferenceError
+  console.log(z); // ReferenceError
+}
+\`\`\`
+
+**Hoisting:**
+\`\`\`javascript
+// var: hoisted and initialized with undefined
+console.log(a); // undefined
+var a = 5;
+
+// let/const: hoisted but not initialized (temporal dead zone)
+console.log(b); // ReferenceError
+let b = 5;
+
+console.log(c); // ReferenceError
+const c = 5;
+\`\`\`
+
+**Reassignment:**
+\`\`\`javascript
+// var: can be redeclared and reassigned
+var name = 'John';
+var name = 'Jane'; // OK
+name = 'Bob'; // OK
+
+// let: can be reassigned but not redeclared
+let age = 25;
+age = 26; // OK
+let age = 27; // SyntaxError
+
+// const: cannot be reassigned or redeclared
+const PI = 3.14;
+PI = 3.15; // TypeError
+const PI = 3.15; // SyntaxError
+\`\`\`
+
+**Object/Array with const:**
+\`\`\`javascript
+const obj = { name: 'John' };
+obj.name = 'Jane'; // OK (modifying property)
+obj = {}; // TypeError (reassigning variable)
+\`\`\`
+
+**Best Practices:**
+- Use const by default
+- Use let when reassignment is needed
+- Avoid var in modern JavaScript`,
         tags: [{ name: "let vs var vs const", link: "" }],
       },
       {
         question:
           "Compare ES6 classes and ES5 function constructors, and furnish a use case for the arrow (=>) function syntax.",
-        solution: "",
+        solution: `**ES5 Function Constructors vs ES6 Classes:**
+
+**ES5 Function Constructor:**
+\`\`\`javascript
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+Person.prototype.greet = function() {
+  return 'Hello, I am ' + this.name;
+};
+
+Person.prototype.getAge = function() {
+  return this.age;
+};
+
+var person1 = new Person('John', 30);
+\`\`\`
+
+**ES6 Class:**
+\`\`\`javascript
+class Person {
+  constructor(name, age) {
+    this.name = name;
+    this.age = age;
+  }
+
+  greet() {
+    return \`Hello, I am \${this.name}\`;
+  }
+
+  getAge() {
+    return this.age;
+  }
+}
+
+const person1 = new Person('John', 30);
+\`\`\`
+
+**Key Differences:**
+- Classes provide cleaner, more readable syntax
+- Classes are hoisted but not initialized (temporal dead zone)
+- Class methods are non-enumerable by default
+- Classes must be called with 'new'
+- Classes have built-in support for inheritance with 'extends'
+
+**Arrow Functions Use Cases:**
+
+**1. Lexical 'this' binding:**
+\`\`\`javascript
+class Timer {
+  constructor() {
+    this.seconds = 0;
+  }
+
+  start() {
+    // Arrow function preserves 'this' from enclosing scope
+    setInterval(() => {
+      this.seconds++;
+      console.log(this.seconds);
+    }, 1000);
+  }
+}
+\`\`\`
+
+**2. Array methods:**
+\`\`\`javascript
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+const evens = numbers.filter(n => n % 2 === 0);
+\`\`\`
+
+**3. Event handlers:**
+\`\`\`javascript
+class Component {
+  constructor() {
+    this.count = 0;
+    // Arrow function maintains 'this' context
+    document.addEventListener('click', () => {
+      this.count++;
+    });
+  }
+}
+\`\`\`
+
+**Arrow Function Benefits:**
+- Shorter syntax for simple functions
+- Lexical 'this' binding
+- Implicit return for single expressions
+- No 'arguments' object (use rest parameters instead)`,
         tags: [{ name: "arrow functions", link: "" }],
       },
     ],
@@ -153,58 +641,1044 @@ export const interviewData = [
       {
         question:
           "Can you provide an illustration of how ES6 has altered the approach to working with 'this' in JavaScript?",
-        solution: "",
+        solution: `ES6 introduced arrow functions which fundamentally changed how 'this' behaves in JavaScript.
+
+**Traditional Function 'this' Behavior:**
+\`\`\`javascript
+const obj = {
+  name: 'John',
+  greet: function() {
+    console.log('Hello, ' + this.name); // 'this' refers to obj
+    
+    setTimeout(function() {
+      console.log('Delayed: ' + this.name); // 'this' refers to global/window
+    }, 1000);
+  }
+};
+\`\`\`
+
+**ES6 Arrow Function Solution:**
+\`\`\`javascript
+const obj = {
+  name: 'John',
+  greet: function() {
+    console.log('Hello, ' + this.name); // 'this' refers to obj
+    
+    setTimeout(() => {
+      console.log('Delayed: ' + this.name); // 'this' still refers to obj
+    }, 1000);
+  }
+};
+\`\`\`
+
+**Key Changes:**
+1. **Lexical 'this' binding:** Arrow functions inherit 'this' from enclosing scope
+2. **No 'this' binding:** Arrow functions don't have their own 'this'
+3. **Cannot be used as constructors:** Arrow functions can't be called with 'new'
+
+**Class Methods Example:**
+\`\`\`javascript
+class Component {
+  constructor() {
+    this.state = { count: 0 };
+  }
+  
+  // Traditional method
+  handleClick() {
+    this.setState({ count: this.state.count + 1 });
+  }
+  
+  // Arrow function method (auto-bound)
+  handleClickArrow = () => {
+    this.setState({ count: this.state.count + 1 });
+  }
+}
+\`\`\`
+
+**Benefits:**
+- Eliminates need for .bind(this)
+- More predictable 'this' behavior
+- Cleaner event handler syntax
+- Better for callbacks and async operations`,
         tags: [{ name: "this in ES6", link: "" }],
       },
       {
         question: "Explain the concept of prototypal inheritance.",
-        solution: "",
+        solution: `Prototypal inheritance is JavaScript's mechanism for objects to inherit properties and methods from other objects through the prototype chain.
+
+**How it works:**
+\`\`\`javascript
+// Constructor function
+function Animal(name) {
+  this.name = name;
+}
+
+// Add method to prototype
+Animal.prototype.speak = function() {
+  return this.name + ' makes a sound';
+};
+
+// Create instance
+const dog = new Animal('Rex');
+console.log(dog.speak()); // 'Rex makes a sound'
+\`\`\`
+
+**Prototype Chain:**
+\`\`\`javascript
+function Dog(name, breed) {
+  Animal.call(this, name); // Call parent constructor
+  this.breed = breed;
+}
+
+// Set up inheritance
+Dog.prototype = Object.create(Animal.prototype);
+Dog.prototype.constructor = Dog;
+
+// Add Dog-specific method
+Dog.prototype.bark = function() {
+  return this.name + ' barks!';
+};
+
+const myDog = new Dog('Buddy', 'Golden Retriever');
+console.log(myDog.speak()); // Inherited from Animal
+console.log(myDog.bark());  // Dog-specific method
+\`\`\`
+
+**ES6 Classes (syntactic sugar):**
+\`\`\`javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  speak() {
+    return this.name + ' makes a sound';
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+  
+  bark() {
+    return this.name + ' barks!';
+  }
+}
+\`\`\`
+
+**Key Concepts:**
+- Every object has a __proto__ property pointing to its prototype
+- Prototype chain: object → Constructor.prototype → Object.prototype → null
+- Methods are shared through prototype, not copied to each instance
+- instanceof operator checks the prototype chain
+
+**Benefits:**
+- Memory efficient (methods shared, not duplicated)
+- Dynamic - can add methods to prototype at runtime
+- Flexible inheritance model`,
         tags: [{ name: "prototypal inheritance", link: "" }],
       },
       {
         question:
           "Explain the primary distinction between the Array.forEach() loop and Array.map() method, as well as when to choose one over the other.",
-        solution: "",
+        solution: `**forEach() vs map() - Key Differences:**
+
+**forEach():**
+- Executes a function for each array element
+- Returns undefined
+- Used for side effects (logging, DOM manipulation, etc.)
+- Mutates original data or performs actions
+
+**map():**
+- Creates a new array with transformed elements
+- Returns a new array of the same length
+- Used for data transformation
+- Follows functional programming principles
+
+**Examples:**
+
+**forEach() - Side Effects:**
+\`\`\`javascript
+const numbers = [1, 2, 3, 4, 5];
+
+// Logging (side effect)
+numbers.forEach(num => console.log(num));
+
+// DOM manipulation
+const items = ['apple', 'banana', 'orange'];
+items.forEach(item => {
+  const li = document.createElement('li');
+  li.textContent = item;
+  document.getElementById('list').appendChild(li);
+});
+
+// Modifying external variable
+let sum = 0;
+numbers.forEach(num => sum += num);
+\`\`\`
+
+**map() - Data Transformation:**
+\`\`\`javascript
+const numbers = [1, 2, 3, 4, 5];
+
+// Transform to new array
+const doubled = numbers.map(num => num * 2);
+// [2, 4, 6, 8, 10]
+
+const users = [
+  { name: 'John', age: 30 },
+  { name: 'Jane', age: 25 }
+];
+
+// Extract specific properties
+const names = users.map(user => user.name);
+// ['John', 'Jane']
+
+// Transform objects
+const userInfo = users.map(user => ({
+  ...user,
+  isAdult: user.age >= 18
+}));
+\`\`\`
+
+**When to use which:**
+
+**Use forEach() when:**
+- You need to perform side effects
+- You don't need a return value
+- You're updating DOM elements
+- You're logging or debugging
+- You're modifying external variables
+
+**Use map() when:**
+- You need to transform data
+- You want to create a new array
+- You're following functional programming
+- You need to chain array methods
+- You want immutable operations
+
+**Chaining Example:**
+\`\`\`javascript
+const numbers = [1, 2, 3, 4, 5];
+
+// map() can be chained
+const result = numbers
+  .map(x => x * 2)
+  .filter(x => x > 5)
+  .map(x => x.toString());
+
+// forEach() cannot be chained (returns undefined)
+// numbers.forEach(x => x * 2).filter(...) // Error!
+\`\`\``,
         tags: [{ name: "array methods", link: "" }],
       },
       {
         question: "Distinguish between host objects and native objects.",
-        solution: "",
+        solution: `**Native Objects vs Host Objects:**
+
+**Native Objects:**
+- Built into JavaScript language itself
+- Defined by ECMAScript specification
+- Available in all JavaScript environments
+- Examples: Object, Array, Function, String, Number, Date, RegExp, Math
+
+**Host Objects:**
+- Provided by the host environment (browser, Node.js, etc.)
+- Not part of ECMAScript specification
+- Environment-specific
+- Examples: window, document, console, XMLHttpRequest, setTimeout
+
+**Examples:**
+
+**Native Objects:**
+\`\`\`javascript
+// These work in any JavaScript environment
+const arr = new Array(1, 2, 3);
+const obj = new Object();
+const date = new Date();
+const regex = new RegExp('pattern');
+const str = new String('hello');
+
+// Built-in methods
+Math.random();
+JSON.parse('{}');
+parseInt('123');
+\`\`\`
+
+**Host Objects (Browser):**
+\`\`\`javascript
+// Browser-specific objects
+window.alert('Hello');
+document.getElementById('myElement');
+console.log('Debug message');
+setTimeout(() => {}, 1000);
+fetch('/api/data');
+localStorage.setItem('key', 'value');
+\`\`\`
+
+**Host Objects (Node.js):**
+\`\`\`javascript
+// Node.js-specific objects
+const fs = require('fs');
+const path = require('path');
+process.env.NODE_ENV;
+__dirname;
+__filename;
+global.myVariable;
+\`\`\`
+
+**Key Differences:**
+
+1. **Portability:**
+   - Native objects work everywhere
+   - Host objects are environment-specific
+
+2. **Standardization:**
+   - Native objects follow ECMAScript standards
+   - Host objects follow host environment APIs
+
+3. **Availability:**
+   - Native objects always available
+   - Host objects may not exist in different environments
+
+**Practical Implications:**
+\`\`\`javascript
+// This works everywhere (native)
+const data = JSON.stringify({name: 'John'});
+
+// This only works in browsers (host)
+if (typeof window !== 'undefined') {
+  window.localStorage.setItem('data', data);
+}
+
+// This only works in Node.js (host)
+if (typeof process !== 'undefined') {
+  process.stdout.write(data);
+}
+\`\`\``,
         tags: [{ name: "host vs native objects", link: "" }],
       },
       {
         question:
           "Can you elucidate the purposes of Function.call and Function.apply, along with their notable differences?",
-        solution: "",
+        solution: `**Function.call() and Function.apply()** are methods used to invoke functions with a specific 'this' context and arguments.
+
+**Purpose:**
+- Explicitly set the 'this' value when calling a function
+- Borrow methods from other objects
+- Invoke functions with different contexts
+
+**Function.call():**
+- Arguments passed individually
+- Syntax: func.call(thisArg, arg1, arg2, ...)
+
+**Function.apply():**
+- Arguments passed as an array
+- Syntax: func.apply(thisArg, [arg1, arg2, ...])
+
+**Examples:**
+
+**Basic Usage:**
+\`\`\`javascript
+function greet(greeting, punctuation) {
+  return greeting + ', ' + this.name + punctuation;
+}
+
+const person = { name: 'John' };
+
+// Using call()
+const result1 = greet.call(person, 'Hello', '!');
+// 'Hello, John!'
+
+// Using apply()
+const result2 = greet.apply(person, ['Hi', '?']);
+// 'Hi, John?'
+\`\`\`
+
+**Method Borrowing:**
+\`\`\`javascript
+const obj1 = {
+  name: 'Object 1',
+  getName: function() {
+    return this.name;
+  }
+};
+
+const obj2 = { name: 'Object 2' };
+
+// Borrow method from obj1
+const name = obj1.getName.call(obj2);
+// 'Object 2'
+\`\`\`
+
+**Array-like Objects:**
+\`\`\`javascript
+// Convert arguments to real array
+function myFunction() {
+  const argsArray = Array.prototype.slice.call(arguments);
+  return argsArray;
+}
+
+// Or with apply
+function findMax() {
+  return Math.max.apply(null, arguments);
+}
+
+console.log(findMax(1, 5, 3, 9, 2)); // 9
+\`\`\`
+
+**Key Differences:**
+
+1. **Argument Passing:**
+   - call(): Individual arguments
+   - apply(): Array of arguments
+
+2. **Use Cases:**
+   - call(): When you know arguments beforehand
+   - apply(): When arguments are in an array
+
+3. **Performance:**
+   - call(): Slightly faster (no array creation)
+   - apply(): Useful for dynamic argument lists
+
+**Modern Alternative - Spread Operator:**
+\`\`\`javascript
+// Instead of apply()
+Math.max.apply(null, [1, 2, 3]);
+
+// Use spread operator
+Math.max(...[1, 2, 3]);
+
+// Instead of call() with array
+func.apply(thisArg, argsArray);
+
+// Use spread operator
+func.call(thisArg, ...argsArray);
+\`\`\``,
         tags: [{ name: "Function.call", link: "" }],
       },
       {
         question: "Describe the Function.prototype.bind method.",
-        solution: "",
+        solution: `**Function.prototype.bind()** creates a new function with a permanently bound 'this' value and optionally pre-filled arguments.
+
+**Syntax:**
+\`\`\`javascript
+func.bind(thisArg, arg1, arg2, ...)
+\`\`\`
+
+**Key Characteristics:**
+- Returns a new function (doesn't invoke immediately)
+- Permanently sets 'this' context
+- Supports partial application (currying)
+- Cannot be overridden once bound
+
+**Basic Usage:**
+\`\`\`javascript
+const person = {
+  name: 'John',
+  greet: function(greeting) {
+    return greeting + ', ' + this.name;
+  }
+};
+
+// Create bound function
+const boundGreet = person.greet.bind(person);
+
+// 'this' is permanently set to person
+console.log(boundGreet('Hello')); // 'Hello, John'
+
+// Even when assigned to variable
+const greetFunc = boundGreet;
+console.log(greetFunc('Hi')); // 'Hi, John'
+\`\`\`
+
+**Event Handlers:**
+\`\`\`javascript
+class Button {
+  constructor(element) {
+    this.element = element;
+    this.clickCount = 0;
+    
+    // Bind method to maintain 'this' context
+    this.element.addEventListener('click', this.handleClick.bind(this));
+  }
+  
+  handleClick() {
+    this.clickCount++;
+    console.log('Clicked ' + this.clickCount + ' times');
+  }
+}
+\`\`\`
+
+**Partial Application:**
+\`\`\`javascript
+function multiply(a, b, c) {
+  return a * b * c;
+}
+
+// Pre-fill first argument
+const multiplyByTwo = multiply.bind(null, 2);
+console.log(multiplyByTwo(3, 4)); // 2 * 3 * 4 = 24
+
+// Pre-fill multiple arguments
+const multiplyByTwoAndThree = multiply.bind(null, 2, 3);
+console.log(multiplyByTwoAndThree(4)); // 2 * 3 * 4 = 24
+\`\`\`
+
+**Differences from call() and apply():**
+
+| Method | Execution | Returns | 'this' binding |
+|--------|-----------|---------|----------------|
+| call() | Immediate | Function result | Temporary |
+| apply() | Immediate | Function result | Temporary |
+| bind() | Deferred | New function | Permanent |
+
+**Polyfill (simplified):**
+\`\`\`javascript
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function(oThis) {
+    const aArgs = Array.prototype.slice.call(arguments, 1);
+    const fToBind = this;
+    
+    return function() {
+      return fToBind.apply(oThis, 
+        aArgs.concat(Array.prototype.slice.call(arguments)));
+    };
+  };
+}
+\`\`\`
+
+**Common Use Cases:**
+- Event handlers in classes
+- Callback functions
+- Partial application/currying
+- Method borrowing with fixed context
+- React component methods`,
         tags: [{ name: "Function.prototype.bind", link: "" }],
       },
       {
         question:
           "Explain the differences between feature detection, feature inference, and utilizing the User Agent (UA) string.",
-        solution: "",
+        solution: `**Three approaches to determine browser capabilities:**
+
+**1. Feature Detection (Recommended):**
+- Directly test if a feature exists
+- Most reliable and future-proof method
+- Tests actual functionality, not assumptions
+
+**2. Feature Inference (Not Recommended):**
+- Assumes feature support based on other features
+- Less reliable than direct detection
+- Can lead to false positives
+
+**3. User Agent String (Avoid):**
+- Parse browser information from navigator.userAgent
+- Unreliable due to spoofing and variations
+- Maintenance nightmare
+
+**Examples:**
+
+**Feature Detection:**
+\`\`\`javascript
+// Check for geolocation support
+if ('geolocation' in navigator) {
+  navigator.geolocation.getCurrentPosition(success, error);
+} else {
+  console.log('Geolocation not supported');
+}
+
+// Check for localStorage
+if (typeof Storage !== 'undefined') {
+  localStorage.setItem('key', 'value');
+} else {
+  // Use cookies or other fallback
+}
+
+// Check for fetch API
+if ('fetch' in window) {
+  fetch('/api/data').then(response => response.json());
+} else {
+  // Use XMLHttpRequest fallback
+}
+\`\`\`
+
+**Feature Inference (Problematic):**
+\`\`\`javascript
+// BAD: Assume touch support based on screen size
+if (screen.width < 768) {
+  // Assume mobile device with touch
+  enableTouchEvents();
+}
+
+// BAD: Assume modern features based on one feature
+if ('querySelector' in document) {
+  // Assume all ES6 features are supported
+  useES6Features();
+}
+\`\`\`
+
+**User Agent String (Unreliable):**
+\`\`\`javascript
+// BAD: Parse user agent string
+const userAgent = navigator.userAgent;
+if (userAgent.includes('Chrome')) {
+  // Assume Chrome-specific behavior
+} else if (userAgent.includes('Firefox')) {
+  // Assume Firefox-specific behavior
+}
+
+// Problems:
+// - Easy to spoof
+// - Constantly changing
+// - Mobile browsers often lie
+// - Edge cases and variations
+\`\`\`
+
+**Best Practices:**
+
+**Progressive Enhancement:**
+\`\`\`javascript
+// Start with basic functionality
+function basicImageGallery() {
+  // Basic image display
+}
+
+// Enhance if features are available
+if ('IntersectionObserver' in window) {
+  // Add lazy loading
+  addLazyLoading();
+}
+
+if ('requestAnimationFrame' in window) {
+  // Add smooth animations
+  addAnimations();
+}
+\`\`\`
+
+**Modernizr Library:**
+\`\`\`javascript
+// Modernizr provides feature detection
+if (Modernizr.webgl) {
+  // Use WebGL
+} else {
+  // Fallback to Canvas 2D
+}
+
+if (Modernizr.localstorage) {
+  // Use localStorage
+} else {
+  // Use cookies
+}
+\`\`\`
+
+**Why Feature Detection Wins:**
+- Future-proof
+- Accurate
+- No maintenance overhead
+- Works with unknown browsers
+- Handles partial implementations`,
         tags: [{ name: "feature detection vs inference", link: "" }],
       },
       {
         question:
           "List the advantages and disadvantages of extending built-in JavaScript objects.",
-        solution: "",
+        solution: `**Extending built-in JavaScript objects** means adding methods or properties to native prototypes like Array.prototype, String.prototype, etc.
+
+**Advantages:**
+
+1. **Convenient API:**
+\`\`\`javascript
+// Add custom method to all arrays
+Array.prototype.last = function() {
+  return this[this.length - 1];
+};
+
+const arr = [1, 2, 3];
+console.log(arr.last()); // 3
+\`\`\`
+
+2. **Polyfills for missing features:**
+\`\`\`javascript
+// Add Array.includes for older browsers
+if (!Array.prototype.includes) {
+  Array.prototype.includes = function(searchElement) {
+    return this.indexOf(searchElement) !== -1;
+  };
+}
+\`\`\`
+
+3. **Consistent interface:**
+- Methods available on all instances
+- Familiar syntax for developers
+
+**Disadvantages:**
+
+1. **Global pollution:**
+\`\`\`javascript
+// Affects ALL arrays in the application
+Array.prototype.customMethod = function() { /* ... */ };
+
+// Every array now has this method
+const arr1 = [];
+const arr2 = new Array();
+// Both have customMethod
+\`\`\`
+
+2. **Naming conflicts:**
+\`\`\`javascript
+// Your extension
+Array.prototype.find = function() { /* custom logic */ };
+
+// Later, native Array.find is added to browsers
+// Your implementation overrides the native one!
+\`\`\`
+
+3. **Enumeration issues:**
+\`\`\`javascript
+Array.prototype.customProp = 'value';
+
+const arr = [1, 2, 3];
+for (let key in arr) {
+  console.log(key); // '0', '1', '2', 'customProp'
+}
+\`\`\`
+
+4. **Library conflicts:**
+\`\`\`javascript
+// Library A adds method
+Array.prototype.helper = function() { /* A's logic */ };
+
+// Library B adds same method
+Array.prototype.helper = function() { /* B's logic */ };
+// B overwrites A's method
+\`\`\`
+
+5. **Maintenance burden:**
+- Hard to track where extensions come from
+- Debugging becomes difficult
+- Can break with browser updates
+
+**Better Alternatives:**
+
+**1. Utility functions:**
+\`\`\`javascript
+// Instead of extending Array.prototype
+const ArrayUtils = {
+  last: (arr) => arr[arr.length - 1],
+  first: (arr) => arr[0]
+};
+
+ArrayUtils.last([1, 2, 3]); // 3
+\`\`\`
+
+**2. Composition:**
+\`\`\`javascript
+class ExtendedArray extends Array {
+  last() {
+    return this[this.length - 1];
+  }
+}
+
+const arr = new ExtendedArray(1, 2, 3);
+arr.last(); // 3
+\`\`\`
+
+**3. Modules:**
+\`\`\`javascript
+// arrayExtensions.js
+export const last = (arr) => arr[arr.length - 1];
+export const first = (arr) => arr[0];
+
+// usage
+import { last } from './arrayExtensions';
+last([1, 2, 3]); // 3
+\`\`\`
+
+**When it's acceptable:**
+- Polyfills for standardized features
+- Internal applications with controlled environment
+- Well-documented team conventions`,
         tags: [],
       },
       {
         question:
           "Discuss the same-origin policy's implications for JavaScript.",
-        solution: "",
+        solution: `**Same-Origin Policy** is a critical security concept that restricts how documents or scripts from one origin can interact with resources from another origin.
+
+**What constitutes an origin:**
+An origin is defined by the combination of:
+- **Protocol** (http/https)
+- **Domain** (example.com)
+- **Port** (80, 443, 3000, etc.)
+
+**Examples:**
+\`\`\`javascript
+// Same origin
+https://example.com/page1
+https://example.com/page2
+
+// Different origins
+https://example.com      // different from http://example.com (protocol)
+https://api.example.com  // different from https://example.com (subdomain)
+https://example.com:3000 // different from https://example.com (port)
+\`\`\`
+
+**What's restricted:**
+
+1. **XMLHttpRequest/Fetch:**
+\`\`\`javascript
+// This will be blocked by same-origin policy
+fetch('https://api.different-domain.com/data')
+  .then(response => response.json())
+  .catch(error => console.log('CORS error:', error));
+\`\`\`
+
+2. **DOM access:**
+\`\`\`javascript
+// Cannot access iframe from different origin
+const iframe = document.getElementById('external-iframe');
+try {
+  iframe.contentDocument.body; // Blocked!
+} catch (error) {
+  console.log('Same-origin policy violation');
+}
+\`\`\`
+
+3. **Local Storage/Session Storage:**
+\`\`\`javascript
+// Cannot access storage from different origins
+// Each origin has its own storage space
+\`\`\`
+
+**Workarounds and Solutions:**
+
+**1. CORS (Cross-Origin Resource Sharing):**
+\`\`\`javascript
+// Server must include CORS headers
+// Access-Control-Allow-Origin: *
+// Access-Control-Allow-Methods: GET, POST
+// Access-Control-Allow-Headers: Content-Type
+
+fetch('https://api.example.com/data', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ data: 'value' })
+});
+\`\`\`
+
+**2. JSONP (Legacy approach):**
+\`\`\`javascript
+// Server wraps response in callback function
+function handleResponse(data) {
+  console.log(data);
+}
+
+// Dynamic script tag bypasses same-origin policy
+const script = document.createElement('script');
+script.src = 'https://api.example.com/data?callback=handleResponse';
+document.head.appendChild(script);
+\`\`\`
+
+**3. Proxy server:**
+\`\`\`javascript
+// Instead of calling external API directly
+// fetch('https://external-api.com/data') // Blocked
+
+// Call your own server which proxies the request
+fetch('/api/proxy/external-data') // Allowed
+\`\`\`
+
+**4. postMessage for iframe communication:**
+\`\`\`javascript
+// Parent window
+const iframe = document.getElementById('myframe');
+iframe.contentWindow.postMessage('Hello', 'https://other-domain.com');
+
+// Child iframe (different origin)
+window.addEventListener('message', (event) => {
+  if (event.origin === 'https://parent-domain.com') {
+    console.log('Received:', event.data);
+  }
+});
+\`\`\`
+
+**Security implications:**
+
+**Protects against:**
+- Cross-site scripting (XSS) attacks
+- Data theft from other websites
+- Unauthorized API calls
+- Session hijacking
+
+**Example attack prevented:**
+\`\`\`javascript
+// Malicious site cannot do this:
+// fetch('https://bank.com/account-info')
+//   .then(data => sendToAttacker(data));
+\`\`\`
+
+**Modern considerations:**
+- Service Workers respect same-origin policy
+- Web Workers have their own origin context
+- Modules (import/export) follow same-origin rules
+- WebSockets can bypass with proper server setup`,
         tags: [{ name: "same-origin policy", link: "" }],
       },
       {
         question:
           "Define strict mode and outline some of its advantages and disadvantages.",
-        solution: "",
+        solution: `**Strict Mode** is a feature in JavaScript that enables a stricter parsing and error handling mode, catching common coding mistakes and preventing unsafe actions.
+
+**How to enable:**
+\`\`\`javascript
+// Global strict mode
+'use strict';
+
+// Function-level strict mode
+function myFunction() {
+  'use strict';
+  // Function code in strict mode
+}
+
+// Module strict mode (ES6 modules are automatically strict)
+export function myModule() {
+  // Already in strict mode
+}
+\`\`\`
+
+**Advantages:**
+
+**1. Catches silent errors:**
+\`\`\`javascript
+'use strict';
+
+// Without strict mode: creates global variable
+// With strict mode: throws ReferenceError
+myVariable = 10; // Error: myVariable is not defined
+\`\`\`
+
+**2. Prevents accidental globals:**
+\`\`\`javascript
+'use strict';
+
+function createUser() {
+  userName = 'John'; // Error: userName is not defined
+  return userName;
+}
+\`\`\`
+
+**3. Eliminates 'this' coercion:**
+\`\`\`javascript
+'use strict';
+
+function regularFunction() {
+  console.log(this); // undefined (not global object)
+}
+
+regularFunction();
+\`\`\`
+
+**4. Prevents duplicate property names:**
+\`\`\`javascript
+'use strict';
+
+// Error in strict mode
+const obj = {
+  prop: 1,
+  prop: 2 // SyntaxError: Duplicate data property
+};
+\`\`\`
+
+**5. Prevents duplicate parameter names:**
+\`\`\`javascript
+'use strict';
+
+// Error in strict mode
+function myFunc(a, a, b) { // SyntaxError
+  return a + b;
+}
+\`\`\`
+
+**6. Makes eval() safer:**
+\`\`\`javascript
+'use strict';
+
+eval('var x = 10');
+console.log(x); // ReferenceError: x is not defined
+// Variables created in eval don't leak to surrounding scope
+\`\`\`
+
+**7. Prevents deletion of undeletable properties:**
+\`\`\`javascript
+'use strict';
+
+delete Object.prototype; // TypeError
+delete window; // TypeError
+\`\`\`
+
+**Disadvantages:**
+
+**1. Breaking changes:**
+\`\`\`javascript
+// Legacy code might break
+function oldCode() {
+  // This worked before strict mode
+  arguments = [1, 2, 3]; // Error in strict mode
+}
+\`\`\`
+
+**2. Limited browser support (historical):**
+- Older browsers might not support all strict mode features
+- Need to test thoroughly
+
+**3. Learning curve:**
+- Developers need to understand new restrictions
+- Some previously valid code becomes invalid
+
+**4. Debugging complexity:**
+\`\`\`javascript
+'use strict';
+
+// More errors to handle
+try {
+  someUndefinedFunction();
+} catch (error) {
+  // Need to handle more potential errors
+}
+\`\`\`
+
+**What strict mode restricts:**
+
+- Using undeclared variables
+- Deleting variables, functions, or arguments
+- Duplicating parameter names
+- Octal numeric literals
+- Writing to read-only properties
+- Using reserved words as variable names
+- Using 'with' statements
+
+**Best Practices:**
+\`\`\`javascript
+// Use strict mode in all new code
+'use strict';
+
+// ES6 modules are automatically strict
+export function myFunction() {
+  // No need for 'use strict' here
+}
+
+// Use linters like ESLint to catch issues
+// Configure build tools to enforce strict mode
+\`\`\`
+
+**Modern JavaScript:**
+- ES6 modules are automatically in strict mode
+- Most modern frameworks assume strict mode
+- Recommended for all new development`,
         tags: [{ name: "strict mode", link: "" }],
       },
       {
@@ -254,19 +1728,458 @@ export const interviewData = [
       {
         question:
           "Enumerate the benefits and drawbacks of immutability and explain how you can achieve it in your code.",
-        solution: "",
+        solution: `**Immutability** means that once an object is created, it cannot be changed. Instead of modifying existing objects, you create new ones with the desired changes.
+
+**Benefits of Immutability:**
+
+**1. Predictable Code:**
+\`\`\`javascript
+// Immutable approach
+const user = { name: 'John', age: 30 };
+const updatedUser = { ...user, age: 31 }; // New object
+
+// Original user object unchanged
+console.log(user.age); // 30
+console.log(updatedUser.age); // 31
+\`\`\`
+
+**2. Easier Debugging:**
+\`\`\`javascript
+// No unexpected mutations
+const processUser = (user) => {
+  return { ...user, processed: true }; // Returns new object
+};
+
+const originalUser = { name: 'Jane' };
+const processedUser = processUser(originalUser);
+// originalUser is unchanged, easier to trace bugs
+\`\`\`
+
+**3. Thread Safety:**
+- Immutable objects are inherently thread-safe
+- No race conditions when sharing data
+- Safe for concurrent operations
+
+**4. Caching and Memoization:**
+\`\`\`javascript
+// React.memo works better with immutable props
+const UserComponent = React.memo(({ user }) => {
+  return <div>{user.name}</div>;
+});
+
+// Shallow comparison works reliably
+\`\`\`
+
+**5. Time Travel Debugging:**
+\`\`\`javascript
+// Redux DevTools can replay actions
+const history = [state1, state2, state3];
+// Each state is immutable snapshot
+\`\`\`
+
+**Drawbacks of Immutability:**
+
+**1. Memory Overhead:**
+\`\`\`javascript
+// Creates many objects
+const users = [];
+for (let i = 0; i < 1000; i++) {
+  users.push({ ...user, id: i }); // 1000 separate objects
+}
+\`\`\`
+
+**2. Performance Cost:**
+\`\`\`javascript
+// Copying large objects is expensive
+const largeObject = { /* thousands of properties */ };
+const updated = { ...largeObject, oneProperty: 'new' };
+\`\`\`
+
+**3. Learning Curve:**
+- Requires different thinking patterns
+- More complex for beginners
+- Need to understand functional programming concepts
+
+**4. Verbose Code:**
+\`\`\`javascript
+// Mutable (simple)
+user.address.city = 'New York';
+
+// Immutable (verbose)
+const updatedUser = {
+  ...user,
+  address: {
+    ...user.address,
+    city: 'New York'
+  }
+};
+\`\`\`
+
+**How to Achieve Immutability:**
+
+**1. Object.freeze():**
+\`\`\`javascript
+const obj = Object.freeze({ name: 'John', age: 30 });
+obj.age = 31; // Silently fails (throws in strict mode)
+console.log(obj.age); // 30
+\`\`\`
+
+**2. Spread Operator:**
+\`\`\`javascript
+// Objects
+const newObj = { ...oldObj, property: 'new value' };
+
+// Arrays
+const newArray = [...oldArray, newItem];
+const filteredArray = oldArray.filter(item => item.id !== targetId);
+\`\`\`
+
+**3. Array Methods (non-mutating):**
+\`\`\`javascript
+// Use these instead of mutating methods
+const newArray = arr.map(item => ({ ...item, processed: true }));
+const filtered = arr.filter(item => item.active);
+const sorted = [...arr].sort((a, b) => a.name.localeCompare(b.name));
+\`\`\`
+
+**4. Libraries (Immutable.js, Immer):**
+\`\`\`javascript
+// Immer example
+import produce from 'immer';
+
+const newState = produce(currentState, draft => {
+  draft.user.name = 'New Name';
+  draft.items.push(newItem);
+});
+\`\`\`
+
+**5. Functional Programming Patterns:**
+\`\`\`javascript
+// Pure functions
+const addTodo = (todos, newTodo) => [...todos, newTodo];
+const updateTodo = (todos, id, updates) => 
+  todos.map(todo => todo.id === id ? { ...todo, ...updates } : todo);
+const removeTodo = (todos, id) => todos.filter(todo => todo.id !== id);
+\`\`\`
+
+**Best Practices:**
+- Use immutability for state management
+- Combine with structural sharing for performance
+- Use linters to prevent mutations
+- Consider libraries for complex nested updates
+- Balance between immutability and performance needs`,
         tags: [{ name: "immutability", link: "" }],
       },
       {
         question:
           "Discuss the same-origin policy's implications for JavaScript.",
-        solution: "",
+        solution: `**Same-Origin Policy** is a critical security concept that restricts how documents or scripts from one origin can interact with resources from another origin.
+
+**What constitutes an origin:**
+An origin is defined by the combination of:
+- **Protocol** (http/https)
+- **Domain** (example.com)
+- **Port** (80, 443, 3000, etc.)
+
+**Examples:**
+\`\`\`javascript
+// Same origin
+https://example.com/page1
+https://example.com/page2
+
+// Different origins
+https://example.com      // different from http://example.com (protocol)
+https://api.example.com  // different from https://example.com (subdomain)
+https://example.com:3000 // different from https://example.com (port)
+\`\`\`
+
+**What's restricted:**
+
+1. **XMLHttpRequest/Fetch:**
+\`\`\`javascript
+// This will be blocked by same-origin policy
+fetch('https://api.different-domain.com/data')
+  .then(response => response.json())
+  .catch(error => console.log('CORS error:', error));
+\`\`\`
+
+2. **DOM access:**
+\`\`\`javascript
+// Cannot access iframe from different origin
+const iframe = document.getElementById('external-iframe');
+try {
+  iframe.contentDocument.body; // Blocked!
+} catch (error) {
+  console.log('Same-origin policy violation');
+}
+\`\`\`
+
+3. **Local Storage/Session Storage:**
+\`\`\`javascript
+// Cannot access storage from different origins
+// Each origin has its own storage space
+\`\`\`
+
+**Workarounds and Solutions:**
+
+**1. CORS (Cross-Origin Resource Sharing):**
+\`\`\`javascript
+// Server must include CORS headers
+// Access-Control-Allow-Origin: *
+// Access-Control-Allow-Methods: GET, POST
+// Access-Control-Allow-Headers: Content-Type
+
+fetch('https://api.example.com/data', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ data: 'value' })
+});
+\`\`\`
+
+**2. JSONP (Legacy approach):**
+\`\`\`javascript
+// Server wraps response in callback function
+function handleResponse(data) {
+  console.log(data);
+}
+
+// Dynamic script tag bypasses same-origin policy
+const script = document.createElement('script');
+script.src = 'https://api.example.com/data?callback=handleResponse';
+document.head.appendChild(script);
+\`\`\`
+
+**3. Proxy server:**
+\`\`\`javascript
+// Instead of calling external API directly
+// fetch('https://external-api.com/data') // Blocked
+
+// Call your own server which proxies the request
+fetch('/api/proxy/external-data') // Allowed
+\`\`\`
+
+**4. postMessage for iframe communication:**
+\`\`\`javascript
+// Parent window
+const iframe = document.getElementById('myframe');
+iframe.contentWindow.postMessage('Hello', 'https://other-domain.com');
+
+// Child iframe (different origin)
+window.addEventListener('message', (event) => {
+  if (event.origin === 'https://parent-domain.com') {
+    console.log('Received:', event.data);
+  }
+});
+\`\`\`
+
+**Security implications:**
+
+**Protects against:**
+- Cross-site scripting (XSS) attacks
+- Data theft from other websites
+- Unauthorized API calls
+- Session hijacking
+
+**Example attack prevented:**
+\`\`\`javascript
+// Malicious site cannot do this:
+// fetch('https://bank.com/account-info')
+//   .then(data => sendToAttacker(data));
+\`\`\`
+
+**Modern considerations:**
+- Service Workers respect same-origin policy
+- Web Workers have their own origin context
+- Modules (import/export) follow same-origin rules
+- WebSockets can bypass with proper server setup`,
         tags: [{ name: "same-origin policy", link: "" }],
       },
       {
         question:
           "Analyze the pros and cons of writing JavaScript code in a language that compiles to JavaScript.",
-        solution: "",
+        solution: `**Languages that compile to JavaScript** include TypeScript, CoffeeScript, Dart, Elm, ClojureScript, ReasonML, and others. These offer different syntax and features while targeting JavaScript as the output.
+
+**Pros:**
+
+**1. Enhanced Type Safety:**
+\`\`\`typescript
+// TypeScript example
+interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
+function processUser(user: User): string {
+  return \`Hello, \${user.name}\`; // Compile-time type checking
+}
+\`\`\`
+
+**2. Modern Language Features:**
+\`\`\`typescript
+// Advanced features before they're in JavaScript
+class UserService {
+  private users: User[] = [];
+  
+  async getUser(id: number): Promise<User | null> {
+    return this.users.find(u => u.id === id) ?? null;
+  }
+}
+\`\`\`
+
+**3. Better Tooling:**
+- Superior IDE support with autocomplete
+- Better refactoring capabilities
+- Compile-time error detection
+- Enhanced debugging experience
+
+**4. Code Organization:**
+\`\`\`typescript
+// Modules, namespaces, interfaces
+export namespace UserUtils {
+  export function validateEmail(email: string): boolean {
+    return /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email);
+  }
+}
+\`\`\`
+
+**5. Documentation Through Types:**
+\`\`\`typescript
+// Self-documenting code
+function calculateTax(
+  income: number,
+  taxRate: number,
+  deductions?: number
+): { grossTax: number; netTax: number } {
+  const grossTax = income * taxRate;
+  const netTax = grossTax - (deductions || 0);
+  return { grossTax, netTax };
+}
+\`\`\`
+
+**6. Large Team Benefits:**
+- Consistent coding standards
+- Easier onboarding
+- Reduced runtime errors
+- Better collaboration
+
+**Cons:**
+
+**1. Build Complexity:**
+\`\`\`json
+// Additional build tools required
+{
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "dev": "ts-node src/index.ts"
+  },
+  "devDependencies": {
+    "typescript": "^4.9.0",
+    "@types/node": "^18.0.0"
+  }
+}
+\`\`\`
+
+**2. Learning Curve:**
+\`\`\`typescript
+// Developers need to learn new syntax
+type ApiResponse<T> = {
+  data: T;
+  status: 'success' | 'error';
+  message?: string;
+};
+
+function handleResponse<T>(
+  response: ApiResponse<T>
+): T | never {
+  if (response.status === 'error') {
+    throw new Error(response.message);
+  }
+  return response.data;
+}
+\`\`\`
+
+**3. Debugging Complexity:**
+\`\`\`javascript
+// Source maps needed for debugging
+// Original TypeScript:
+const users = await fetchUsers();
+
+// Compiled JavaScript (harder to debug):
+var users = await fetchUsers();
+\`\`\`
+
+**4. Compilation Time:**
+- Slower development feedback
+- Build step adds overhead
+- CI/CD pipeline complexity
+
+**5. Third-party Library Issues:**
+\`\`\`typescript
+// Type definitions may be missing or incorrect
+import someLibrary from 'some-library'; // May need @types/some-library
+
+// Or manual type declarations
+declare module 'legacy-library' {
+  export function doSomething(param: any): any;
+}
+\`\`\`
+
+**6. Team Adoption Challenges:**
+- Not all developers may want to learn
+- Migration of existing codebase
+- Potential resistance to change
+
+**Popular Options Comparison:**
+
+**TypeScript:**
+\`\`\`typescript
+// Gradual adoption, JavaScript superset
+let message: string = "Hello, World!";
+function greet(name: string): string {
+  return \`Hello, \${name}!\`;
+}
+\`\`\`
+
+**CoffeeScript:**
+\`\`\`coffeescript
+# More concise syntax
+message = "Hello, World!"
+greet = (name) -> "Hello, #{name}!"
+\`\`\`
+
+**Elm:**
+\`\`\`elm
+-- Functional programming, no runtime errors
+greet : String -> String
+greet name = "Hello, " ++ name ++ "!"
+\`\`\`
+
+**When to Use:**
+
+**Good for:**
+- Large applications
+- Team development
+- Long-term projects
+- Complex business logic
+- When type safety is crucial
+
+**Avoid when:**
+- Simple scripts or prototypes
+- Small teams comfortable with JavaScript
+- Rapid prototyping needed
+- Legacy system constraints
+- Limited development resources
+
+**Best Practices:**
+- Start with TypeScript for gradual adoption
+- Invest in proper tooling setup
+- Train team members adequately
+- Use strict compilation settings
+- Maintain good type definitions`,
         tags: [{ name: "compiling to JavaScript", link: "" }],
       },
     ],
