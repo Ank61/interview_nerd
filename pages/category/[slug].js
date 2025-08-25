@@ -50,6 +50,9 @@ import { Button, Typography } from "@mui/material";
 import Header from "@/components/header";
 import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import GamificationDashboard from "@/components/gamification/GamificationDashboard";
+import XPNotification from "@/components/gamification/XPNotification";
+import { useGamification } from "@/hooks/useGamification";
 
 export async function getStaticPaths() {
   const topics = [
@@ -486,6 +489,10 @@ export default function BasicTabs({
   const [learnedConcepts, setLearnedConcepts] = React.useState({});
   const { data: session } = useSession();
 
+  // Gamification integration
+  const { processQuestionAnswer, notifications, clearNotification } =
+    useGamification();
+
   React.useEffect(() => {
     const stored = localStorage.getItem("learnedConcepts");
     if (stored) {
@@ -518,6 +525,16 @@ export default function BasicTabs({
               topic,
               concept: concept.topic,
             }),
+          });
+
+          // Award XP for learning a concept
+          await processQuestionAnswer({
+            questionId: `concept_${concept.topic}`,
+            category: topic,
+            difficulty: "easy",
+            isCorrect: true,
+            timeSpent: 30,
+            actionType: "concept_learned",
           });
         } else {
           // Removing - call DELETE API
@@ -585,9 +602,21 @@ export default function BasicTabs({
     setValue(newValue);
   };
 
-  const handleQuestionClick = (question) => {
+  const handleQuestionClick = async (question) => {
     setSelectedQuestion(question);
     setIsModalOpen(true);
+
+    // Award XP for viewing a question
+    if (session?.user?.id) {
+      await processQuestionAnswer({
+        questionId: question._id || question.id || `q_${Date.now()}`,
+        category: topic,
+        difficulty: question.difficulty || "medium",
+        isCorrect: true,
+        timeSpent: 5,
+        actionType: "question_viewed",
+      });
+    }
   };
 
   const closeModal = () => {
@@ -640,9 +669,25 @@ export default function BasicTabs({
   }, [interviewQues, interviewPage]);
   return (
     <>
+      {/* XP Notifications */}
+      {notifications?.map((notification) => (
+        <XPNotification
+          key={notification.id}
+          notification={notification}
+          onClose={() => clearNotification(notification.id)}
+        />
+      ))}
+
       {/* <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto"> */}
       <Box className="w-full sm:w-8/12 md:w-10/12 lg:w-8/12 mx-auto px-4">
         <Header topic={topic} indexSelected={indexSelected} />
+
+        {/* Gamification Dashboard */}
+        {session?.user?.id && (
+          <div className="mb-6">
+            <GamificationDashboard userId={session.user.id} />
+          </div>
+        )}
         <Box sx={{ width: "auto" }}>
           <Box>
             <Tabs
@@ -867,7 +912,8 @@ export default function BasicTabs({
                                     themeColors.bg)
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.light)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.light)
                                 }
                               >
                                 <BookOpenCheck
@@ -893,7 +939,8 @@ export default function BasicTabs({
                                     themeColors.bg)
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.light)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.light)
                                 }
                               >
                                 <BookOpenCheck
@@ -921,10 +968,12 @@ export default function BasicTabs({
                                   color: themeColors.text,
                                 }}
                                 onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.bg)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.bg)
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.light)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.light)
                                 }
                               >
                                 <Code
@@ -944,10 +993,12 @@ export default function BasicTabs({
                                   color: themeColors.text,
                                 }}
                                 onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.bg)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.bg)
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.light)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.light)
                                 }
                               >
                                 <Code
@@ -1097,10 +1148,12 @@ export default function BasicTabs({
                                   color: themeColors.text,
                                 }}
                                 onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.bg)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.bg)
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.light)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.light)
                                 }
                               >
                                 <BookOpenCheck
@@ -1158,10 +1211,12 @@ export default function BasicTabs({
                                   color: themeColors.text,
                                 }}
                                 onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.bg)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.bg)
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.light)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.light)
                                 }
                               >
                                 <Code
@@ -1181,10 +1236,12 @@ export default function BasicTabs({
                                   color: themeColors.text,
                                 }}
                                 onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.bg)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.bg)
                                 }
                                 onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor = themeColors.light)
+                                  (e.target.style.backgroundColor =
+                                    themeColors.light)
                                 }
                               >
                                 <Code
