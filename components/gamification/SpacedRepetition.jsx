@@ -380,7 +380,7 @@ const SpacedRepetition = ({ compact = false }) => {
               <div className="p-4 border border-gray-200 rounded-lg">
                 <h5 className="font-medium text-gray-900 mb-2">Mastered Questions</h5>
                 <p className="text-2xl font-bold text-green-600">{stats?.masteredQuestions || 0}</p>
-                <p className="text-sm text-gray-600">Questions you've mastered</p>
+                <p className="text-sm text-gray-600">Questions youve mastered</p>
               </div>
               
               <div className="p-4 border border-gray-200 rounded-lg">

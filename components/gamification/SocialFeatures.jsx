@@ -301,7 +301,7 @@ const SocialFeatures = ({ compact = false }) => {
                       <span>{new Date(request.sentAt).toLocaleDateString()}</span>
                     </div>
                     {request.message && (
-                      <p className="text-sm text-gray-700 mt-1">"{request.message}"</p>
+                      <p className="text-sm text-gray-700 mt-1">{request.message}</p>
                     )}
                   </div>
                   <div className="flex gap-2">

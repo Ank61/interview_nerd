@@ -319,7 +319,7 @@ const GamificationOnboarding = ({
           <div className="text-center p-4 bg-yellow-50 rounded-lg border border-yellow-200">
             <h4 className="font-semibold text-yellow-900 mb-2">🎯 Your First Goal</h4>
             <p className="text-sm text-yellow-800">
-              Complete today's daily challenge to earn <strong>25 XP</strong> and unlock your first achievement!
+              Complete todays daily challenge to earn <strong>25 XP</strong> and unlock your first achievement!
             </p>
           </div>
         </div>

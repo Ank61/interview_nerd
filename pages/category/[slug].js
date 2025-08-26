@@ -37,6 +37,7 @@ import { BookOpenCheck } from "lucide-react";
 import { Code } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { interviewData } from "@/data/interviewData";
 import {
   Tabs,
@@ -252,10 +253,29 @@ function PaginationComponent({
 
 function AccordionQuestion({ question, topic, index }) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isAnswered, setIsAnswered] = React.useState(false);
   const themeColors = getThemeColors(topic);
+  const { processQuestionAnswer } = useGamification();
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleAnswer = async (e) => {
+    e.stopPropagation(); // Prevent accordion from toggling
+    if (isAnswered) return;
+    
+    const result = await processQuestionAnswer({
+      questionId: question.id || question._id,
+      topic,
+      difficulty: question.difficulty || 'medium',
+      isCorrect: true,
+      attempts: 1
+    });
+    
+    if (result) {
+      setIsAnswered(true);
+    }
   };
 
   return (
@@ -341,10 +361,25 @@ function AccordionQuestion({ question, topic, index }) {
                   }}
                 >
                   {question.solution ? (
-                    <div
-                      className="prose prose-sm max-w-none text-sm"
-                      dangerouslySetInnerHTML={{ __html: question.solution }}
-                    />
+                    <div className="space-y-4">
+                      <div
+                        className="prose prose-sm max-w-none text-sm"
+                        dangerouslySetInnerHTML={{ __html: question.solution }}
+                      />
+                      <div className="pt-2">
+                        <button
+                          onClick={handleAnswer}
+                          disabled={isAnswered}
+                          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${isAnswered ? 'bg-green-100 text-green-700 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
+                          style={{
+                            backgroundColor: isAnswered ? themeColors.light : themeColors.bg,
+                            color: isAnswered ? themeColors.text : 'white',
+                          }}
+                        >
+                          {isAnswered ? '✓ Answered' : 'I\'ve Answered This'}
+                        </button>
+                      </div>
+                    </div>
                   ) : (
                     <p className="text-gray-500 italic text-sm">
                       Answer not available yet. This question is under
@@ -363,7 +398,24 @@ function AccordionQuestion({ question, topic, index }) {
 
 function QuestionModal({ isOpen, onClose, question, topic }) {
   const themeColors = getThemeColors(topic);
+  const { processQuestionAnswer } = useGamification();
+  const [isAnswered, setIsAnswered] = useState(false);
+  
   if (!isOpen || !question) return null;
+  
+  const handleAnswer = async () => {
+    if (isAnswered) return;
+    
+    const result = await processQuestionAnswer({
+      questionId: question.id,
+      topic,
+      difficulty: question.difficulty || 'medium'
+    });
+    
+    if (result) {
+      setIsAnswered(true);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -435,7 +487,14 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
               </div>
 
               {/* Footer */}
-              <div className="flex justify-end p-6 border-t bg-gray-50">
+              <div className="flex justify-between items-center p-6 border-t bg-gray-50">
+                <button
+                  onClick={handleAnswer}
+                  disabled={isAnswered}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${isAnswered ? 'bg-green-100 text-green-700 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
+                >
+                  {isAnswered ? '✓ Answered' : 'I\'ve Answered This'}
+                </button>
                 <button
                   onClick={onClose}
                   className="px-6 py-2 rounded-lg font-medium transition-colors bg-gray-600 text-white hover:bg-gray-700"
