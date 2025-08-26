@@ -87,7 +87,7 @@ const userSchema = new mongoose.Schema(
         },
       ],
     },
-    
+
     // Gamification System
     gamification: {
       // XP and Leveling
@@ -99,7 +99,7 @@ const userSchema = new mongoose.Schema(
         type: Number,
         default: 1,
       },
-      
+
       // Streak System
       streaks: {
         current: {
@@ -119,7 +119,7 @@ const userSchema = new mongoose.Schema(
           default: 0,
         },
       },
-      
+
       // Achievement System
       badges: [
         {
@@ -137,13 +137,13 @@ const userSchema = new mongoose.Schema(
           },
           category: {
             type: String,
-            enum: ['learning', 'streak', 'challenge', 'social', 'milestone'],
+            enum: ["learning", "streak", "challenge", "social", "milestone"],
             required: true,
           },
           rarity: {
             type: String,
-            enum: ['common', 'rare', 'epic', 'legendary'],
-            default: 'common',
+            enum: ["common", "rare", "epic", "legendary"],
+            default: "common",
           },
           earnedAt: {
             type: Date,
@@ -151,11 +151,11 @@ const userSchema = new mongoose.Schema(
           },
           icon: {
             type: String,
-            default: '🏆',
+            default: "🏆",
           },
         },
       ],
-      
+
       // Challenge System
       challenges: {
         daily: {
@@ -201,7 +201,7 @@ const userSchema = new mongoose.Schema(
           },
         },
       },
-      
+
       // Leaderboard Rankings
       leaderboards: {
         weeklyRank: {
@@ -225,7 +225,7 @@ const userSchema = new mongoose.Schema(
           default: 0,
         },
       },
-      
+
       // Social Features
       social: {
         friends: [
@@ -252,12 +252,12 @@ const userSchema = new mongoose.Schema(
           ],
           privacy: {
             type: String,
-            enum: ['public', 'friends', 'private'],
-            default: 'friends',
+            enum: ["public", "friends", "private"],
+            default: "friends",
           },
         },
       },
-      
+
       // Statistics
       stats: {
         totalQuestionsAnswered: {
@@ -316,6 +316,234 @@ const userSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+
+// Add methods to the User schema
+userSchema.statics.updateUserStats = async function (userId, topic, isCorrect) {
+  const updateQuery = {
+    $inc: {
+      "gamification.stats.totalQuestionsAnswered": 1,
+      "gamification.xp": isCorrect ? 10 : 2, // 10 XP for correct, 2 for attempt
+    },
+    $set: {
+      "gamification.streaks.lastActivity": new Date(),
+    },
+  };
+
+  // Update correct answers count if answer is correct
+  if (isCorrect) {
+    updateQuery.$inc["gamification.stats.correctAnswers"] = 1;
+  }
+
+  // Update topic mastery
+  const topicUpdate = {
+    $setOnInsert: {
+      "gamification.stats.topicMastery.$[elem].topic": topic,
+      "gamification.stats.topicMastery.$[elem].questionsCompleted": 1,
+      "gamification.stats.topicMastery.$[elem].accuracy": isCorrect ? 100 : 0,
+    },
+    $inc: {
+      "gamification.stats.topicMastery.$[elem].questionsCompleted": 1,
+    },
+    $set: {
+      "gamification.stats.topicMastery.$[elem].lastPracticed": new Date(),
+    },
+  };
+
+  if (isCorrect) {
+    topicUpdate.$inc[
+      "gamification.stats.topicMastery.$[elem].correctAnswers"
+    ] = 1;
+  }
+
+  // First, try to update existing topic mastery
+  const result = await this.updateOne(
+    {
+      _id: userId,
+      "gamification.stats.topicMastery.topic": topic,
+    },
+    [
+      {
+        $set: {
+          "gamification.stats.topicMastery.$[elem].accuracy": {
+            $divide: [
+              {
+                $multiply: [
+                  {
+                    $ifNull: [
+                      "$gamification.stats.topicMastery.$[elem].accuracy",
+                      0,
+                    ],
+                  },
+                  {
+                    $subtract: [
+                      {
+                        $ifNull: [
+                          "$gamification.stats.topicMastery.$[elem].questionsCompleted",
+                          0,
+                        ],
+                      },
+                      { $cond: [isCorrect, 0, 1] },
+                    ],
+                  },
+                ],
+              },
+              {
+                $add: [
+                  {
+                    $ifNull: [
+                      "$gamification.stats.topicMastery.$[elem].questionsCompleted",
+                      0,
+                    ],
+                  },
+                  { $cond: [isCorrect, 1, 0] },
+                ],
+              },
+            ],
+          },
+          "gamification.stats.topicMastery.$[elem].lastPracticed": new Date(),
+        },
+      },
+      {
+        $inc: {
+          "gamification.stats.topicMastery.$[elem].questionsCompleted": 1,
+          "gamification.stats.topicMastery.$[elem].correctAnswers": isCorrect
+            ? 1
+            : 0,
+        },
+      },
+    ],
+    { arrayFilters: [{ "elem.topic": topic }] }
+  );
+
+  // If no existing topic mastery was updated, add a new one
+  if (result.matchedCount === 0) {
+    await this.updateOne(
+      { _id: userId },
+      {
+        $push: {
+          "gamification.stats.topicMastery": {
+            topic,
+            questionsCompleted: 1,
+            correctAnswers: isCorrect ? 1 : 0,
+            accuracy: isCorrect ? 100 : 0,
+            lastPracticed: new Date(),
+          },
+        },
+      }
+    );
+  }
+
+  // Update overall accuracy
+  const user = await this.findById(userId).select("gamification.stats");
+  const { totalQuestionsAnswered, correctAnswers } = user.gamification.stats;
+
+  const newTotal = (totalQuestionsAnswered || 0) + 1;
+  const newCorrect = (correctAnswers || 0) + (isCorrect ? 1 : 0);
+
+  await this.updateOne(
+    { _id: userId },
+    {
+      "gamification.stats.accuracy": Math.round((newCorrect / newTotal) * 100),
+    }
+  );
+
+  // Update user's level based on XP
+  await this.updateUserLevel(userId);
+
+  return this.findById(userId);
+};
+
+// Method to update user's level based on XP
+userSchema.statics.updateUserLevel = async function (userId) {
+  const user = await this.findById(userId).select(
+    "gamification.xp gamification.level"
+  );
+  if (!user) return null;
+
+  const xp = user.gamification.xp;
+  const currentLevel = user.gamification.level;
+  const newLevel = Math.min(Math.floor(Math.sqrt(xp / 100)) + 1, 100); // Cap at level 100
+
+  if (newLevel > currentLevel) {
+    // Level up!
+    await this.updateOne(
+      { _id: userId },
+      {
+        $set: { "gamification.level": newLevel },
+        $push: {
+          "gamification.badges": {
+            id: `level_${newLevel}`,
+            name: `Level ${newLevel} Unlocked`,
+            description: `Reached level ${newLevel}`,
+            category: "milestone",
+            rarity:
+              newLevel % 10 === 0
+                ? "legendary"
+                : newLevel % 5 === 0
+                ? "epic"
+                : newLevel % 2 === 0
+                ? "rare"
+                : "common",
+            icon: "🏆",
+            earnedAt: new Date(),
+          },
+        },
+      }
+    );
+
+    return { levelUp: true, newLevel };
+  }
+
+  return { levelUp: false, currentLevel };
+};
+
+// Method to update user's streak
+const getUserStreak = async function () {
+  const now = new Date();
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  const lastActivity = this.gamification.streaks.lastActivity;
+
+  // If no last activity, start a new streak
+  if (!lastActivity) {
+    this.gamification.streaks = {
+      current: 1,
+      longest: 1,
+      lastActivity: today,
+    };
+    await this.save();
+    return 1;
+  }
+
+  // If already updated today, return current streak
+  if (lastActivity >= today) {
+    return this.gamification.streaks.current;
+  }
+
+  // If last activity was yesterday, increment streak
+  if (lastActivity >= yesterday && lastActivity < today) {
+    this.gamification.streaks.current += 1;
+
+    // Update longest streak if needed
+    if (this.gamification.streaks.current > this.gamification.streaks.longest) {
+      this.gamification.streaks.longest = this.gamification.streaks.current;
+    }
+  } else {
+    // Reset streak if more than one day has passed
+    this.gamification.streaks.current = 1;
+  }
+
+  // Update last activity
+  this.gamification.streaks.lastActivity = today;
+  await this.save();
+
+  return this.gamification.streaks.current;
+};
+
+// Add the method to the schema
+userSchema.methods.updateStreak = getUserStreak;
 
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 

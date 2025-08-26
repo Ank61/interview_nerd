@@ -47,12 +47,13 @@ import {
 } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
-import { Button, Typography } from "@mui/material";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import Header from "@/components/header";
 import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import GamificationDashboard from "@/components/gamification/GamificationDashboard";
 import XPNotification from "@/components/gamification/XPNotification";
+import ActiveChallenge from "@/components/gamification/ActiveChallenge";
+import QuestionFeedback from "@/components/questions/QuestionFeedback";
 import { useGamification } from "@/hooks/useGamification";
 
 export async function getStaticPaths() {
@@ -366,7 +367,7 @@ function AccordionQuestion({ question, topic, index }) {
                         className="prose prose-sm max-w-none text-sm"
                         dangerouslySetInnerHTML={{ __html: question.solution }}
                       />
-                      <div className="pt-2">
+                      <div className="pt-2 space-y-3">
                         <button
                           onClick={handleAnswer}
                           disabled={isAnswered}
@@ -378,6 +379,12 @@ function AccordionQuestion({ question, topic, index }) {
                         >
                           {isAnswered ? '✓ Answered' : 'I\'ve Answered This'}
                         </button>
+                        
+                        {/* Question Feedback Component */}
+                        <QuestionFeedback 
+                          questionId={question.id || question._id} 
+                          className="pt-2 border-t border-gray-100" 
+                        />
                       </div>
                     </div>
                   ) : (
@@ -740,10 +747,11 @@ export default function BasicTabs({
       <Box className="w-full max-w-6xl mx-auto px-4">
         <Header topic={topic} indexSelected={indexSelected} />
 
-        {/* Compact Gamification Dashboard */}
+        {/* Gamification Components */}
         {session?.user?.id && (
-          <div className="mb-4">
+          <div className="mb-4 space-y-4">
             <GamificationDashboard userId={session.user.id} compact={true} />
+            <ActiveChallenge topic={topic} />
           </div>
         )}
         {/* Main Content Card */}
