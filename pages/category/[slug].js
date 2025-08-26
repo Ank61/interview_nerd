@@ -16,7 +16,7 @@
 
 import * as React from "react";
 import PropTypes from "prop-types";
-import Tabs from "@mui/material/Tabs";
+import { Tabs as MuiTabs } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import { motion, AnimatePresence } from "framer-motion";
 import Box from "@mui/material/Box";
@@ -39,7 +39,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from "next-auth/react";
 import { interviewData } from "@/data/interviewData";
 import {
-  Tabs as TAB,
+  Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
@@ -678,57 +678,62 @@ export default function BasicTabs({
         />
       ))}
 
-      {/* <Box className="w-full md:w-7/12 lg:w-7/12 mx-auto"> */}
-      <Box className="w-full sm:w-8/12 md:w-10/12 lg:w-8/12 mx-auto px-4">
+      <Box className="w-full max-w-6xl mx-auto px-4">
         <Header topic={topic} indexSelected={indexSelected} />
 
-        {/* Gamification Dashboard */}
+        {/* Compact Gamification Dashboard */}
         {session?.user?.id && (
-          <div className="mb-6">
-            <GamificationDashboard userId={session.user.id} />
+          <div className="mb-4">
+            <GamificationDashboard userId={session.user.id} compact={true} />
           </div>
         )}
-        <Box sx={{ width: "auto" }}>
-          <Box>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="basic tabs example"
-              centered
-              sx={{
-                marginTop: 2,
-                "& .MuiTabs-indicator": {
-                  backgroundColor: themeColors.bg,
-                },
-                "& .MuiTab-root": {
-                  color: themeColors.text,
-                },
-                "& .MuiTab-root.Mui-selected": {
-                  color: themeColors.topic,
-                },
-              }}
-            >
-              <Tab
-                sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
-                label="Prepare"
-                {...a11yProps(0)}
-              />
-              <Tab
-                sx={{ fontWeight: 600, textTransform: "none", fontSize: 17 }}
-                label="Interview Questions"
-                {...a11yProps(1)}
-              />
-            </Tabs>
-          </Box>
+        {/* Main Content Card */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <Box sx={{ width: "auto" }}>
+            <Box>
+              <MuiTabs
+                value={value}
+                onChange={handleChange}
+                aria-label="basic tabs example"
+                centered
+                sx={{
+                  marginTop: 0,
+                  "& .MuiTabs-indicator": {
+                    backgroundColor: themeColors.bg,
+                  },
+                  "& .MuiTab-root": {
+                    color: themeColors.text,
+                    padding: "16px 24px",
+                    fontSize: "16px",
+                    fontWeight: 600,
+                  },
+                  "& .MuiTab-root.Mui-selected": {
+                    color: themeColors.topic,
+                  },
+                }}
+              >
+                <Tab
+                  sx={{ textTransform: "none" }}
+                  label="📚 Prepare"
+                  {...a11yProps(0)}
+                />
+                <Tab
+                  sx={{ textTransform: "none" }}
+                  label="💼 Interview Questions"
+                  {...a11yProps(1)}
+                />
+              </MuiTabs>
+            </Box>
           <CustomTabPanel value={value} index={0}>
-            <div
-              className="relative rounded-lg border-1 bg-gray-100 dark:bg-gray-800 w-full"
-              style={{
-                textTransform: "none",
-                outline: "none",
-                borderColor: themeColors.border,
-              }}
-            >
+            <div className="p-6">
+              <div
+                className="relative rounded-lg border bg-gray-50 w-full mb-6"
+                style={{
+                  textTransform: "none",
+                  outline: "none",
+                  borderColor: themeColors.border,
+                }}
+              >
               <Input
                 type="text"
                 placeholder="Search topics..."
@@ -742,7 +747,13 @@ export default function BasicTabs({
                 style={{ color: themeColors.bg }}
               />
             </div>
-            <TAB defaultValue="Beginner" value={level} className="w-auto mt-8">
+            <Tabs defaultValue="Beginner" value={level} className="w-auto">
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <BookOpen className="w-5 h-5" style={{ color: themeColors.topic }} />
+                  Learning Path
+                </h3>
+              </div>
               <TabsList className="grid w-full grid-cols-2 bg-white border">
                 <TabsTrigger
                   value="Beginner"
@@ -1281,10 +1292,11 @@ export default function BasicTabs({
                   />
                 )}
               </TabsContent>
-            </TAB>
+            </Tabs>
+            </div>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1}>
-            <TAB
+            <Tabs
               defaultValue="Junior"
               value={interviewSelection}
               className="w-auto mt-2"
@@ -1420,8 +1432,9 @@ export default function BasicTabs({
                   />
                 )}
               </TabsContent>
-            </TAB>
+            </Tabs>
           </CustomTabPanel>
+
         </Box>
 
         {/* Question Modal */}
@@ -1431,6 +1444,7 @@ export default function BasicTabs({
           question={selectedQuestion}
           topic={topic}
         />
+        </div>
       </Box>
     </>
   );

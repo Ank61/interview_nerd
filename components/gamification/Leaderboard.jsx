@@ -164,7 +164,7 @@ const Leaderboard = ({ compact = false }) => {
                   ))}
                 </div>
               ) : (
-                leaderboardData[tab]?.leaderboard.map((user, index) => (
+                leaderboardData[tab]?.leaderboard?.map((user, index) => (
                   <motion.div
                     key={user.id}
                     initial={{ opacity: 0, y: 20 }}

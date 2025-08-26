@@ -1,13 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
 import XPProgressBar from './XPProgressBar';
+import { motion } from "framer-motion";
 import StreakCounter from './StreakCounter';
 import BadgeDisplay from './BadgeDisplay';
 import ChallengeCard from './ChallengeCard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import Leaderboard from './Leaderboard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { TrendingUp, Target, Award, Users } from 'lucide-react';
+import XPNotification from './XPNotification';
+import AIRecommendations from './AIRecommendations';
+import SpacedRepetition from './SpacedRepetition';
+import SocialFeatures from './SocialFeatures';
+import AdvancedAnalytics from './AdvancedAnalytics';
+import { 
+  Trophy, 
+  Target, 
+  TrendingUp, 
+  Calendar, 
+  Award,
+  Users,
+  BookOpen,
+  Zap,
+  Star
+} from 'lucide-react';
 
 const GamificationDashboard = ({ compact = false }) => {
   const { data: session } = useSession();
@@ -62,16 +80,16 @@ const GamificationDashboard = ({ compact = false }) => {
             progressToNextLevel={gamificationData.progressToNextLevel}
           />
           <StreakCounter
-            currentStreak={gamificationData.streaks.current}
-            longestStreak={gamificationData.streaks.longest}
-            freezeTokens={gamificationData.streaks.freezeTokens}
-            lastActivity={gamificationData.streaks.lastActivity}
+            currentStreak={gamificationData.streaks?.current}
+            longestStreak={gamificationData.streaks?.longest}
+            freezeTokens={gamificationData.streaks?.freezeTokens}
+            lastActivity={gamificationData.streaks?.lastActivity}
           />
         </div>
         
         <ChallengeCard
-          challenge={gamificationData.challenges.daily.current}
-          timeRemaining={calculateTimeRemaining(gamificationData.challenges.daily.current?.expiresAt)}
+          challenge={gamificationData.challenges?.daily?.current}
+          timeRemaining={calculateTimeRemaining(gamificationData.challenges?.daily.current?.expiresAt)}
         />
       </div>
     );
@@ -279,6 +297,24 @@ const GamificationDashboard = ({ compact = false }) => {
               <BadgeDisplay badges={gamificationData.badges} />
             </CardContent>
           </Card>
+        </div>
+      </div>
+
+      {/* Advanced Features Section */}
+      <div className="mt-8 space-y-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <AIRecommendations compact={compact} />
+          <SpacedRepetition compact={compact} />
+        </div>
+        
+        {/* Social Features */}
+        <div className="mt-6">
+          <SocialFeatures compact={compact} />
+        </div>
+        
+        {/* Advanced Analytics */}
+        <div className="mt-6">
+          <AdvancedAnalytics compact={compact} />
         </div>
       </div>
     </div>
