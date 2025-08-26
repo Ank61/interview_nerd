@@ -1,24 +1,24 @@
-import { useState, useEffect } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/router';
-import { motion } from 'framer-motion';
-import Header from '@/components/header';
-import GamificationDashboard from '@/components/gamification/GamificationDashboard';
-import Leaderboard from '@/components/gamification/Leaderboard';
-import ActiveChallenge from '@/components/gamification/ActiveChallenge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { 
-  BookOpen, 
-  Target, 
-  TrendingUp, 
-  Users, 
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { motion } from "framer-motion";
+import Header from "@/components/header";
+import GamificationDashboard from "@/components/gamification/GamificationDashboard";
+import Leaderboard from "@/components/gamification/Leaderboard";
+import ActiveChallenge from "@/components/gamification/ActiveChallenge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  BookOpen,
+  Target,
+  TrendingUp,
+  Users,
   Award,
   Calendar,
   Clock,
   BarChart3,
-  ArrowLeft
-} from 'lucide-react';
+  ArrowLeft,
+} from "lucide-react";
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -27,8 +27,8 @@ export default function Dashboard() {
   const [studyStats, setStudyStats] = useState(null);
 
   useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login');
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
     }
   }, [status, router]);
 
@@ -43,7 +43,7 @@ export default function Dashboard() {
       // Fetch recent activity and study stats
       const [activityRes, statsRes] = await Promise.all([
         fetch(`/api/user/activity/${session.user.id}`),
-        fetch(`/api/user/stats/${session.user.id}`)
+        fetch(`/api/user/stats/${session.user.id}`),
       ]);
 
       if (activityRes.ok) {
@@ -56,11 +56,11 @@ export default function Dashboard() {
         setStudyStats(statsData);
       }
     } catch (error) {
-      console.error('Error fetching dashboard data:', error);
+      console.error("Error fetching dashboard data:", error);
     }
   };
 
-  if (status === 'loading') {
+  if (status === "loading") {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
@@ -89,7 +89,7 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      
+
       <div className="container mx-auto px-4 py-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -113,10 +113,10 @@ export default function Dashboard() {
                 </p>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-4">
               <button
-                onClick={() => router.push('/category/Javascript')}
+                onClick={() => router.push("/category/Javascript")}
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
               >
                 Start Learning
@@ -134,11 +134,17 @@ export default function Dashboard() {
                 <TrendingUp className="w-4 h-4" />
                 Progress
               </TabsTrigger>
-              <TabsTrigger value="leaderboard" className="flex items-center gap-2">
+              <TabsTrigger
+                value="leaderboard"
+                className="flex items-center gap-2"
+              >
                 <Users className="w-4 h-4" />
                 Leaderboard
               </TabsTrigger>
-              <TabsTrigger value="achievements" className="flex items-center gap-2">
+              <TabsTrigger
+                value="achievements"
+                className="flex items-center gap-2"
+              >
                 <Award className="w-4 h-4" />
                 Achievements
               </TabsTrigger>
@@ -146,14 +152,14 @@ export default function Dashboard() {
 
             <TabsContent value="overview" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-2 space-y-6">
                   <GamificationDashboard />
                 </div>
-                <div>
+                <div className="space-y-6">
                   <ActiveChallenge topic="Javascript" />
                 </div>
               </div>
-              
+
               {/* Quick Actions */}
               <Card>
                 <CardHeader>
@@ -162,34 +168,36 @@ export default function Dashboard() {
                 <CardContent>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <button
-                      onClick={() => router.push('/category/Javascript')}
+                      onClick={() => router.push("/category/Javascript")}
                       className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg hover:bg-yellow-100 transition-colors text-left"
                     >
                       <div className="text-2xl mb-2">🟨</div>
-                      <div className="font-semibold text-gray-900">JavaScript</div>
+                      <div className="font-semibold text-gray-900">
+                        JavaScript
+                      </div>
                       <div className="text-sm text-gray-600">52 questions</div>
                     </button>
-                    
+
                     <button
-                      onClick={() => router.push('/category/React')}
+                      onClick={() => router.push("/category/React")}
                       className="p-4 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition-colors text-left"
                     >
                       <div className="text-2xl mb-2">⚛️</div>
                       <div className="font-semibold text-gray-900">React</div>
                       <div className="text-sm text-gray-600">40 questions</div>
                     </button>
-                    
+
                     <button
-                      onClick={() => router.push('/category/Node')}
+                      onClick={() => router.push("/category/Node")}
                       className="p-4 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition-colors text-left"
                     >
                       <div className="text-2xl mb-2">🟢</div>
                       <div className="font-semibold text-gray-900">Node.js</div>
                       <div className="text-sm text-gray-600">52 questions</div>
                     </button>
-                    
+
                     <button
-                      onClick={() => router.push('/category/SQL')}
+                      onClick={() => router.push("/category/SQL")}
                       className="p-4 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition-colors text-left"
                     >
                       <div className="text-2xl mb-2">🗄️</div>
@@ -212,11 +220,18 @@ export default function Dashboard() {
                   <CardContent>
                     <div className="space-y-3">
                       {recentActivity.slice(0, 5).map((activity, index) => (
-                        <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
+                        <div
+                          key={index}
+                          className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg"
+                        >
                           <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                           <div className="flex-1">
-                            <p className="text-sm text-gray-900">{activity.description}</p>
-                            <p className="text-xs text-gray-500">{activity.timestamp}</p>
+                            <p className="text-sm text-gray-900">
+                              {activity.description}
+                            </p>
+                            <p className="text-xs text-gray-500">
+                              {activity.timestamp}
+                            </p>
                           </div>
                         </div>
                       ))}
@@ -269,7 +284,7 @@ export default function Dashboard() {
                     </div>
                   </CardContent>
                 </Card>
-                
+
                 <Card>
                   <CardHeader>
                     <CardTitle>Achievement Progress</CardTitle>
@@ -278,31 +293,46 @@ export default function Dashboard() {
                     <div className="space-y-4">
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium">JavaScript Master</span>
+                          <span className="text-sm font-medium">
+                            JavaScript Master
+                          </span>
                           <span className="text-sm text-gray-500">0/52</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div className="bg-yellow-500 h-2 rounded-full" style={{ width: '0%' }}></div>
+                          <div
+                            className="bg-yellow-500 h-2 rounded-full"
+                            style={{ width: "0%" }}
+                          ></div>
                         </div>
                       </div>
-                      
+
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium">First Steps</span>
+                          <span className="text-sm font-medium">
+                            First Steps
+                          </span>
                           <span className="text-sm text-gray-500">0/1</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div className="bg-blue-500 h-2 rounded-full" style={{ width: '0%' }}></div>
+                          <div
+                            className="bg-blue-500 h-2 rounded-full"
+                            style={{ width: "0%" }}
+                          ></div>
                         </div>
                       </div>
-                      
+
                       <div>
                         <div className="flex justify-between mb-2">
-                          <span className="text-sm font-medium">Week Warrior</span>
+                          <span className="text-sm font-medium">
+                            Week Warrior
+                          </span>
                           <span className="text-sm text-gray-500">0/7</span>
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div className="bg-orange-500 h-2 rounded-full" style={{ width: '0%' }}></div>
+                          <div
+                            className="bg-orange-500 h-2 rounded-full"
+                            style={{ width: "0%" }}
+                          ></div>
                         </div>
                       </div>
                     </div>

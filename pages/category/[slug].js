@@ -39,12 +39,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { interviewData } from "@/data/interviewData";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -265,15 +260,15 @@ function AccordionQuestion({ question, topic, index }) {
   const handleAnswer = async (e) => {
     e.stopPropagation(); // Prevent accordion from toggling
     if (isAnswered) return;
-    
+
     const result = await processQuestionAnswer({
       questionId: question.id || question._id,
       topic,
-      difficulty: question.difficulty || 'medium',
+      difficulty: question.difficulty || "medium",
       isCorrect: true,
-      attempts: 1
+      attempts: 1,
     });
-    
+
     if (result) {
       setIsAnswered(true);
     }
@@ -371,19 +366,25 @@ function AccordionQuestion({ question, topic, index }) {
                         <button
                           onClick={handleAnswer}
                           disabled={isAnswered}
-                          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${isAnswered ? 'bg-green-100 text-green-700 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
+                          className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
+                            isAnswered
+                              ? "bg-green-100 text-green-700 cursor-not-allowed"
+                              : "bg-green-600 text-white hover:bg-green-700"
+                          }`}
                           style={{
-                            backgroundColor: isAnswered ? themeColors.light : themeColors.bg,
-                            color: isAnswered ? themeColors.text : 'white',
+                            backgroundColor: isAnswered
+                              ? themeColors.light
+                              : themeColors.bg,
+                            color: isAnswered ? themeColors.text : "white",
                           }}
                         >
-                          {isAnswered ? '✓ Answered' : 'I\'ve Answered This'}
+                          {isAnswered ? "✓ Answered" : "I've Answered This"}
                         </button>
-                        
+
                         {/* Question Feedback Component */}
-                        <QuestionFeedback 
-                          questionId={question.id || question._id} 
-                          className="pt-2 border-t border-gray-100" 
+                        <QuestionFeedback
+                          questionId={question.id || question._id}
+                          className="pt-2 border-t border-gray-100"
                         />
                       </div>
                     </div>
@@ -407,18 +408,21 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
   const themeColors = getThemeColors(topic);
   const { processQuestionAnswer } = useGamification();
   const [isAnswered, setIsAnswered] = useState(false);
-  
+
   if (!isOpen || !question) return null;
-  
+
   const handleAnswer = async () => {
     if (isAnswered) return;
-    
+
     const result = await processQuestionAnswer({
       questionId: question.id,
       topic,
-      difficulty: question.difficulty || 'medium'
+      difficulty: question.difficulty || "medium",
+      isCorrect: true,
+      timeSpent: 5,
+      actionType: "question_viewed",
     });
-    
+
     if (result) {
       setIsAnswered(true);
     }
@@ -498,9 +502,13 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                 <button
                   onClick={handleAnswer}
                   disabled={isAnswered}
-                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${isAnswered ? 'bg-green-100 text-green-700 cursor-not-allowed' : 'bg-green-600 text-white hover:bg-green-700'}`}
+                  className={`px-4 py-2 rounded-lg font-medium transition-colors ${
+                    isAnswered
+                      ? "bg-green-100 text-green-700 cursor-not-allowed"
+                      : "bg-green-600 text-white hover:bg-green-700"
+                  }`}
                 >
-                  {isAnswered ? '✓ Answered' : 'I\'ve Answered This'}
+                  {isAnswered ? "✓ Answered" : "I've Answered This"}
                 </button>
                 <button
                   onClick={onClose}
@@ -781,341 +789,325 @@ export default function BasicTabs({
               >
                 <Tab
                   sx={{ textTransform: "none" }}
-                  label="📚 Prepare"
+                  label="Prepare"
                   {...a11yProps(0)}
                 />
                 <Tab
                   sx={{ textTransform: "none" }}
-                  label="💼 Interview Questions"
+                  label="Interview Questions"
                   {...a11yProps(1)}
                 />
+                {/* <Tab
+                  sx={{ textTransform: "none" }}
+                  label="Daily Challenge"
+                  onClick={() => router.push("/challenge/daily")}
+                /> */}
               </MuiTabs>
             </Box>
-          <CustomTabPanel value={value} index={0}>
-            <div className="p-6">
-              <div className="relative w-full mb-6">
-              <Input
-                type="text"
-                placeholder="Search topics..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="rounded-lg appearance-none text-[14px] w-full pl-10 border-0 border-b-2 border-gray-200 bg-transparent focus:border-gray-300 focus:ring-0 focus:outline-none"
-                style={{ 
-                  textTransform: "none", 
-                  outline: "none",
-                  boxShadow: "none"
-                }}
-              />
-              <SearchIcon
-                className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-400"
-                style={{ color: themeColors.bg }}
-              />
-            </div>
-            <Tabs defaultValue="Beginner" value={level} className="w-auto">
-              <div className="mb-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5" style={{ color: themeColors.topic }} />
-                  Learning Path
-                </h3>
-              </div>
-              <TabsList className="grid w-full grid-cols-2 bg-white border">
-                <TabsTrigger
-                  value="Beginner"
-                  onClick={() => setLevel("Beginner")}
-                  className={`bg-white ${
-                    topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                      : topic === "Node"
-                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                      : topic === "Typescript"
-                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                      : topic === "AWS S3"
-                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                      : ""
-                  }`}
-                >
-                  Beginner
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Advance"
-                  onClick={() => setLevel("Advance")}
-                  className={`bg-white ${
-                    topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                      : topic === "Node"
-                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                      : topic === "Typescript"
-                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                      : topic === "AWS S3"
-                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                      : ""
-                  }`}
-                >
-                  Advance
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="Beginner" className="mt-5">
-                <Table>
-                  {/* <TableHeader>
-                  <TableRow>
-                    <TableHead
-                      className={`px-0 ${
+            <CustomTabPanel value={value} index={0}>
+              <div className="pt-2 pl-6 pr-6 pb-6">
+                <div className="relative w-full mb-6">
+                  <Input
+                    type="text"
+                    placeholder="Search topics..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="rounded-lg appearance-none text-[14px] w-full pl-10 border-0 border border-gray-100 bg-transparent focus:border-gray-300 focus:ring-0 focus:outline-none"
+                    style={{
+                      textTransform: "none",
+                      outline: "none",
+                      boxShadow: "none",
+                    }}
+                  />
+                  <SearchIcon
+                    className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-300"
+                    // style={{ color: themeColors.bg }}
+                  />
+                </div>
+                <Tabs defaultValue="Beginner" value={level} className="w-auto">
+                  {/* <div className="mb-4">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                      <BookOpen
+                        className="w-5 h-5"
+                        style={{ color: themeColors.topic }}
+                      />
+                      Learning Path
+                    </h3>
+                  </div> */}
+                  <TabsList className="grid w-full grid-cols-2 bg-white border">
+                    <TabsTrigger
+                      value="Beginner"
+                      onClick={() => setLevel("Beginner")}
+                      className={`bg-white ${
                         topic === "Javascript"
-                          ? "text-Javascript-text "
+                          ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
                           : topic === "React"
-                          ? "text-React-text "
+                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
                           : topic === "Node"
-                          ? "text-Node-text "
+                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
                           : topic === "Typescript"
-                          ? "text-Typescript-text "
+                          ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
                           : topic === "AWS S3"
-                          ? "text-AWS-text "
-                          : ""
-                      } text-left md:text-center`}
-                    >
-                      Topic
-                    </TableHead>
-                    <TableHead
-                      className={`text-center ${
-                        topic === "Javascript"
-                          ? "text-Javascript-text "
-                          : topic === "React"
-                          ? "text-React-text "
-                          : topic === "Node"
-                          ? "text-Node-text "
-                          : topic === "Typescript"
-                          ? "text-Typescript-text "
-                          : topic === "AWS S3"
-                          ? "text-AWS-text "
+                          ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
                           : ""
                       }`}
+                      style={
+                        level === "Beginner"
+                          ? {
+                              backgroundColor: themeColors.light,
+                              color: themeColors.text,
+                            }
+                          : {}
+                      }
                     >
-                      Action
-                    </TableHead>
-                    {session?.user?.id && (
-                      <TableHead
-                        className={`text-center ${
-                          topic === "Javascript"
-                            ? "text-Javascript-text "
-                            : topic === "React"
-                            ? "text-React-text "
-                            : topic === "Node"
-                            ? "text-Node-text "
-                            : topic === "Typescript"
-                            ? "text-Typescript-text "
-                            : topic === "AWS S3"
-                            ? "text-AWS-text "
-                            : ""
-                        }`}
-                      >
-                        Status
-                      </TableHead>
-                    )}
-                  </TableRow>
-                </TableHeader> */}
-                  <TableBody>
-                    {paginatedBeginnerData.length > 0 ? (
-                      paginatedBeginnerData.map((concept, index) => (
-                        <TableRow key={concept.topic}>
-                          {session?.user?.id && (
-                            <TableCell className="text-center">
-                              <Checkbox
-                                className="data-[state=checked]:text-white"
-                                style={{
-                                  borderColor: themeColors.topic,
-                                  "--radix-checkbox-indicator-color": "white",
-                                }}
-                                data-theme-bg={themeColors.topic}
-                                checked={
-                                  !!learnedConcepts[
-                                    getConceptKey(topic, concept.topic)
-                                  ]
-                                }
-                                onCheckedChange={() =>
-                                  handleLearnedToggle(concept)
-                                }
-                                aria-label="Mark as learned"
-                              />
+                      Beginner
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="Advance"
+                      onClick={() => setLevel("Advance")}
+                      className={`bg-white ${
+                        topic === "Javascript"
+                          ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                          : topic === "React"
+                          ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                          : topic === "Node"
+                          ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                          : topic === "Typescript"
+                          ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                          : topic === "AWS S3"
+                          ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                          : ""
+                      }`}
+                      style={
+                        level === "Advance"
+                          ? {
+                              backgroundColor: themeColors.light,
+                              color: themeColors.text,
+                            }
+                          : {}
+                      }
+                    >
+                      Advance
+                    </TabsTrigger>
+                  </TabsList>
+                  <TabsContent value="Beginner" className="mt-5">
+                    <Table>
+                      <TableBody>
+                        {paginatedBeginnerData.length > 0 ? (
+                          paginatedBeginnerData.map((concept, index) => (
+                            <TableRow key={concept.topic}>
+                              {session?.user?.id && (
+                                <TableCell className="text-center">
+                                  <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index, // same stagger effect as text
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                  >
+                                    <Checkbox
+                                      className="data-[state=checked]:text-white"
+                                      style={{
+                                        borderColor: themeColors.topic,
+                                        "--radix-checkbox-indicator-color":
+                                          "white",
+                                      }}
+                                      data-theme-bg={themeColors.topic}
+                                      checked={
+                                        !!learnedConcepts[
+                                          getConceptKey(topic, concept.topic)
+                                        ]
+                                      }
+                                      onCheckedChange={() =>
+                                        handleLearnedToggle(concept)
+                                      }
+                                      aria-label="Mark as learned"
+                                    />
+                                  </motion.div>
+                                </TableCell>
+                              )}
+                              <TableCell
+                                className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
+                                style={{ color: themeColors.text }}
+                              >
+                                {index <= 8 ? (
+                                  <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index,
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                  >
+                                    {concept.topic}
+                                  </motion.div>
+                                ) : (
+                                  <div>{concept.topic}</div>
+                                )}
+                              </TableCell>
+                              <TableCell className="text-right md:flex">
+                                {index <= 8 ? (
+                                  <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index,
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                    onClick={() =>
+                                      router.push(
+                                        `/learn/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
+                                    style={{
+                                      backgroundColor: themeColors.light,
+                                      color: themeColors.text,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.bg)
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.light)
+                                    }
+                                  >
+                                    <BookOpenCheck
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Learn
+                                  </motion.div>
+                                ) : (
+                                  <div
+                                    onClick={() =>
+                                      router.push(
+                                        `/learn/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
+                                    style={{
+                                      backgroundColor: themeColors.light,
+                                      color: themeColors.text,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.bg)
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.light)
+                                    }
+                                  >
+                                    <BookOpenCheck
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Learn
+                                  </div>
+                                )}
+                                {index <= 8 ? (
+                                  <motion.div
+                                    onClick={() =>
+                                      router.push(
+                                        `/test/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index,
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
+                                    style={{
+                                      backgroundColor: themeColors.light,
+                                      color: themeColors.text,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.bg)
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.light)
+                                    }
+                                  >
+                                    <Code
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Practice
+                                  </motion.div>
+                                ) : (
+                                  <div
+                                    onClick={() =>
+                                      router.push(
+                                        `/test/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
+                                    style={{
+                                      backgroundColor: themeColors.light,
+                                      color: themeColors.text,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.bg)
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.light)
+                                    }
+                                  >
+                                    <Code
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Practice
+                                  </div>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : searchQuery.trim() ? (
+                          <TableRow>
+                            <TableCell
+                              colSpan={3}
+                              className="text-center py-8 text-gray-500"
+                            >
+                              <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                              <p className="text-sm font-medium">
+                                No topics found
+                              </p>
+                              <p className="text-xs">
+                                Try adjusting your search terms
+                              </p>
                             </TableCell>
-                          )}
-                          <TableCell
-                            className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
-                            style={{ color: themeColors.text }}
-                          >
-                            {index <= 8 ? (
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                  duration: 0.8,
-                                  delay: 0.2 * index,
-                                  ease: [0, 0.71, 0.2, 1.01],
-                                }}
-                              >
-                                {concept.topic}
-                              </motion.div>
-                            ) : (
-                              <div>{concept.topic}</div>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-right md:flex">
-                            {index <= 8 ? (
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                  duration: 0.8,
-                                  delay: 0.2 * index,
-                                  ease: [0, 0.71, 0.2, 1.01],
-                                }}
-                                onClick={() =>
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`
-                                  )
-                                }
-                                className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
-                                style={{
-                                  backgroundColor: themeColors.light,
-                                  color: themeColors.text,
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.bg)
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.light)
-                                }
-                              >
-                                <BookOpenCheck
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Learn
-                              </motion.div>
-                            ) : (
-                              <div
-                                onClick={() =>
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`
-                                  )
-                                }
-                                className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
-                                style={{
-                                  backgroundColor: themeColors.light,
-                                  color: themeColors.text,
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.bg)
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.light)
-                                }
-                              >
-                                <BookOpenCheck
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Learn
-                              </div>
-                            )}
-                            {index <= 8 ? (
-                              <motion.div
-                                onClick={() =>
-                                  router.push(`/test/${topic}/${concept.topic}`)
-                                }
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                  duration: 0.8,
-                                  delay: 0.2 * index,
-                                  ease: [0, 0.71, 0.2, 1.01],
-                                }}
-                                className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                style={{
-                                  backgroundColor: themeColors.light,
-                                  color: themeColors.text,
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.bg)
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.light)
-                                }
-                              >
-                                <Code
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Practice
-                              </motion.div>
-                            ) : (
-                              <div
-                                onClick={() =>
-                                  router.push(`/test/${topic}/${concept.topic}`)
-                                }
-                                className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                style={{
-                                  backgroundColor: themeColors.light,
-                                  color: themeColors.text,
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.bg)
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.light)
-                                }
-                              >
-                                <Code
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Practice
-                              </div>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    ) : searchQuery.trim() ? (
-                      <TableRow>
-                        <TableCell
-                          colSpan={3}
-                          className="text-center py-8 text-gray-500"
-                        >
-                          <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                          <p className="text-sm font-medium">No topics found</p>
-                          <p className="text-xs">
-                            Try adjusting your search terms
-                          </p>
-                        </TableCell>
-                      </TableRow>
-                    ) : null}
-                  </TableBody>
-                </Table>
-                {filteredPrepareData[0]?.concepts?.length > 0 && (
-                  <PaginationComponent
-                    currentPage={beginnerPage}
-                    totalPages={getTotalPages(
-                      filteredPrepareData[0]?.concepts?.length || 0
+                          </TableRow>
+                        ) : null}
+                      </TableBody>
+                    </Table>
+                    {filteredPrepareData[0]?.concepts?.length > 0 && (
+                      <PaginationComponent
+                        currentPage={beginnerPage}
+                        totalPages={getTotalPages(
+                          filteredPrepareData[0]?.concepts?.length || 0
+                        )}
+                        onPageChange={setBeginnerPage}
+                        themeColors={themeColors}
+                      />
                     )}
-                    onPageChange={setBeginnerPage}
-                    themeColors={themeColors}
-                  />
-                )}
-              </TabsContent>
-              <TabsContent value="Advance" className="mt-4">
-                <Table>
-                  {/* <TableHeader>
+                  </TabsContent>
+                  <TabsContent value="Advance" className="mt-4">
+                    <Table>
+                      {/* <TableHeader>
                   <TableRow>
                     <TableHead
                       className={`px-0  ${
@@ -1154,97 +1146,108 @@ export default function BasicTabs({
                     >
                       Status
                     </TableHead> */}
-                  {/* </TableRow>
+                      {/* </TableRow>
                 </TableHeader>  */}
-                  <TableBody>
-                    {paginatedAdvanceData.length > 0 ? (
-                      paginatedAdvanceData.map((concept, index) => (
-                        <TableRow key={concept.topic} className="w-full">
-                          {session?.user?.id && (
-                            <TableCell className="text-center">
-                              <Checkbox
-                                className="data-[state=checked]:text-white"
-                                style={{
-                                  borderColor: themeColors.topic,
-                                  "--radix-checkbox-indicator-color": "white",
-                                }}
-                                data-theme-bg={themeColors.topic}
-                                checked={
-                                  !!learnedConcepts[
-                                    getConceptKey(topic, concept.topic)
-                                  ]
-                                }
-                                onCheckedChange={() =>
-                                  handleLearnedToggle(concept)
-                                }
-                                aria-label="Mark as learned"
-                              />
-                            </TableCell>
-                          )}
-                          <TableCell
-                            className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
-                            style={{ color: themeColors.text }}
-                          >
-                            {index <= 8 ? (
-                              <motion.div
-                                className="w-full"
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                  duration: 0.8,
-                                  delay: 0.2 * index,
-                                  ease: [0, 0.71, 0.2, 1.01],
-                                }}
+                      <TableBody>
+                        {paginatedAdvanceData.length > 0 ? (
+                          paginatedAdvanceData.map((concept, index) => (
+                            <TableRow key={concept.topic} className="w-full">
+                              {session?.user?.id && (
+                                <TableCell className="text-center">
+                                  <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index, // same stagger effect as text
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                  >
+                                    <Checkbox
+                                      className="data-[state=checked]:text-white"
+                                      style={{
+                                        borderColor: themeColors.topic,
+                                        "--radix-checkbox-indicator-color":
+                                          "white",
+                                      }}
+                                      data-theme-bg={themeColors.topic}
+                                      checked={
+                                        !!learnedConcepts[
+                                          getConceptKey(topic, concept.topic)
+                                        ]
+                                      }
+                                      onCheckedChange={() =>
+                                        handleLearnedToggle(concept)
+                                      }
+                                      aria-label="Mark as learned"
+                                    />
+                                  </motion.div>
+                                </TableCell>
+                              )}
+                              <TableCell
+                                className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
+                                style={{ color: themeColors.text }}
                               >
-                                {concept.topic}
-                              </motion.div>
-                            ) : (
-                              <div className="w-full">{concept.topic}</div>
-                            )}
-                          </TableCell>
-                          <TableCell className="text-right md:flex">
-                            {index <= 8 ? (
-                              <motion.div
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                  duration: 0.8,
-                                  delay: 0.2 * index,
-                                  ease: [0, 0.71, 0.2, 1.01],
-                                }}
-                                onClick={() =>
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`
-                                  )
-                                }
-                                className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
-                                style={{
-                                  backgroundColor: themeColors.light,
-                                  color: themeColors.text,
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.bg)
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.light)
-                                }
-                              >
-                                <BookOpenCheck
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Learn
-                              </motion.div>
-                            ) : (
-                              <div
-                                onClick={() =>
-                                  router.push(
-                                    `/learn/${topic}/${concept.topic}`
-                                  )
-                                }
-                                className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
+                                {index <= 8 ? (
+                                  <motion.div
+                                    className="w-full"
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index,
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                  >
+                                    {concept.topic}
+                                  </motion.div>
+                                ) : (
+                                  <div className="w-full">{concept.topic}</div>
+                                )}
+                              </TableCell>
+                              <TableCell className="text-right md:flex">
+                                {index <= 8 ? (
+                                  <motion.div
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index,
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                    onClick={() =>
+                                      router.push(
+                                        `/learn/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    className="flex mb-1 font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md md:mb-0 md:mr-[3%] md:ml-auto"
+                                    style={{
+                                      backgroundColor: themeColors.light,
+                                      color: themeColors.text,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.bg)
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.light)
+                                    }
+                                  >
+                                    <BookOpenCheck
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Learn
+                                  </motion.div>
+                                ) : (
+                                  <div
+                                    onClick={() =>
+                                      router.push(
+                                        `/learn/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    className={`flex mb-1 font-medium cursor-pointer border pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md 
                               ${
                                 topic === "Javascript"
                                   ? " text-Javascript-text bg-white hover:bg-Javascript-bg"
@@ -1259,255 +1262,284 @@ export default function BasicTabs({
                                   : ""
                               } 
                             md:mb-0 md:mr-[3%] md:ml-auto `}
-                              >
-                                {" "}
-                                <BookOpenCheck
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Learn
-                              </div>
-                            )}
-                            {index <= 8 ? (
-                              <motion.div
-                                onClick={() =>
-                                  router.push(`/test/${topic}/${concept.topic}`)
-                                }
-                                initial={{ opacity: 0, scale: 0.5 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                transition={{
-                                  duration: 0.8,
-                                  delay: 0.2 * index,
-                                  ease: [0, 0.71, 0.2, 1.01],
-                                }}
-                                className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                style={{
-                                  backgroundColor: themeColors.light,
-                                  color: themeColors.text,
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.bg)
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.light)
-                                }
-                              >
-                                <Code
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Practice
-                              </motion.div>
-                            ) : (
-                              <div
-                                onClick={() =>
-                                  router.push(`/test/${topic}/${concept.topic}`)
-                                }
-                                className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
-                                style={{
-                                  backgroundColor: themeColors.light,
-                                  color: themeColors.text,
-                                }}
-                                onMouseEnter={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.bg)
-                                }
-                                onMouseLeave={(e) =>
-                                  (e.target.style.backgroundColor =
-                                    themeColors.light)
-                                }
-                              >
-                                <Code
-                                  className="mr-2 w-[19px] md:w-[15px]"
-                                  style={{ color: themeColors.topic }}
-                                />
-                                Practice
-                              </div>
-                            )}
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    ) : searchQuery.trim() ? (
-                      <TableRow>
-                        <TableCell
-                          colSpan={session?.user?.id ? 3 : 2}
-                          className="text-center py-8 text-gray-500"
-                        >
-                          <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
-                          <p className="text-sm font-medium">No topics found</p>
-                          <p className="text-xs">
-                            Try adjusting your search terms
-                          </p>
-                        </TableCell>
-                      </TableRow>
-                    ) : null}
-                  </TableBody>
-                </Table>
-                {filteredPrepareData[1]?.concepts?.length > 0 && (
-                  <PaginationComponent
-                    currentPage={advancePage}
-                    totalPages={getTotalPages(
-                      filteredPrepareData[1]?.concepts?.length || 0
+                                  >
+                                    {" "}
+                                    <BookOpenCheck
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Learn
+                                  </div>
+                                )}
+                                {index <= 8 ? (
+                                  <motion.div
+                                    onClick={() =>
+                                      router.push(
+                                        `/test/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{
+                                      duration: 0.8,
+                                      delay: 0.2 * index,
+                                      ease: [0, 0.71, 0.2, 1.01],
+                                    }}
+                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
+                                    style={{
+                                      backgroundColor: themeColors.light,
+                                      color: themeColors.text,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.bg)
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.light)
+                                    }
+                                  >
+                                    <Code
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Practice
+                                  </motion.div>
+                                ) : (
+                                  <div
+                                    onClick={() =>
+                                      router.push(
+                                        `/test/${topic}/${concept.topic}`
+                                      )
+                                    }
+                                    className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
+                                    style={{
+                                      backgroundColor: themeColors.light,
+                                      color: themeColors.text,
+                                    }}
+                                    onMouseEnter={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.bg)
+                                    }
+                                    onMouseLeave={(e) =>
+                                      (e.target.style.backgroundColor =
+                                        themeColors.light)
+                                    }
+                                  >
+                                    <Code
+                                      className="mr-2 w-[19px] md:w-[15px]"
+                                      style={{ color: themeColors.topic }}
+                                    />
+                                    Practice
+                                  </div>
+                                )}
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : searchQuery.trim() ? (
+                          <TableRow>
+                            <TableCell
+                              colSpan={session?.user?.id ? 3 : 2}
+                              className="text-center py-8 text-gray-500"
+                            >
+                              <SearchIcon className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                              <p className="text-sm font-medium">
+                                No topics found
+                              </p>
+                              <p className="text-xs">
+                                Try adjusting your search terms
+                              </p>
+                            </TableCell>
+                          </TableRow>
+                        ) : null}
+                      </TableBody>
+                    </Table>
+                    {filteredPrepareData[1]?.concepts?.length > 0 && (
+                      <PaginationComponent
+                        currentPage={advancePage}
+                        totalPages={getTotalPages(
+                          filteredPrepareData[1]?.concepts?.length || 0
+                        )}
+                        onPageChange={setAdvancePage}
+                        themeColors={themeColors}
+                      />
                     )}
-                    onPageChange={setAdvancePage}
-                    themeColors={themeColors}
-                  />
-                )}
-              </TabsContent>
-            </Tabs>
-            </div>
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={1}>
-            <Tabs
-              defaultValue="Junior"
-              value={interviewSelection}
-              className="w-auto mt-2"
-            >
-              <TabsList className="grid w-full grid-cols-3 bg-white border">
-                <TabsTrigger
-                  value="Junior"
-                  onClick={() => setInterviewSelection("Junior")}
-                  className={`bg-white ${
-                    topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                      : topic === "Node"
-                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                      : topic === "Typescript"
-                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                      : topic === "AWS S3"
-                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                      : ""
-                  }`}
-                >
-                  Junior
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Mid"
-                  onClick={() => setInterviewSelection("Mid")}
-                  className={`bg-white ${
-                    topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                      : topic === "Node"
-                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                      : topic === "Typescript"
-                      ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
-                      : topic === "AWS S3"
-                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                      : ""
-                  }`}
-                >
-                  Mid
-                </TabsTrigger>
-                <TabsTrigger
-                  value="Senior"
-                  onClick={() => setInterviewSelection("Senior")}
-                  className={`bg-white ${
-                    topic === "Javascript"
-                      ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
-                      : topic === "React"
-                      ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
-                      : topic === "Node"
-                      ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
-                      : topic === "Typescript"
-                      ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
-                      : topic === "AWS S3"
-                      ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
-                      : ""
-                  }`}
-                >
-                  Senior
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="Junior" className="mt-4">
-                <div className="flex flex-col gap-3">
-                  {paginatedInterviewData.length > 0
-                    ? paginatedInterviewData.map((item, index) => (
-                        <AccordionQuestion
-                          key={index}
-                          question={item}
-                          topic={topic}
-                          index={index}
-                        />
-                      ))
-                    : null}
-                </div>
-                {interviewQues?.questions?.length > 0 && (
-                  <PaginationComponent
-                    currentPage={interviewPage}
-                    totalPages={getTotalPages(
-                      interviewQues?.questions?.length || 0
-                    )}
-                    onPageChange={setInterviewPage}
-                    themeColors={themeColors}
-                  />
-                )}
-              </TabsContent>
-              <TabsContent value="Mid" className="mt-4">
-                <div className="flex flex-col gap-3">
-                  {paginatedInterviewData.length > 0
-                    ? paginatedInterviewData.map((item, index) => (
-                        <AccordionQuestion
-                          key={index}
-                          question={item}
-                          topic={topic}
-                          index={index}
-                        />
-                      ))
-                    : null}
-                </div>
-                {interviewQues?.questions?.length > 0 && (
-                  <PaginationComponent
-                    currentPage={interviewPage}
-                    totalPages={getTotalPages(
-                      interviewQues?.questions?.length || 0
-                    )}
-                    onPageChange={setInterviewPage}
-                    themeColors={themeColors}
-                  />
-                )}
-              </TabsContent>
-              <TabsContent value="Senior" className="mt-4">
-                <div className="flex flex-col gap-3">
-                  {paginatedInterviewData.length > 0
-                    ? paginatedInterviewData.map((item, index) => (
-                        <AccordionQuestion
-                          key={index}
-                          question={item}
-                          topic={topic}
-                          index={index}
-                        />
-                      ))
-                    : null}
-                </div>
-                {interviewQues?.questions?.length > 0 && (
-                  <PaginationComponent
-                    currentPage={interviewPage}
-                    totalPages={getTotalPages(
-                      interviewQues?.questions?.length || 0
-                    )}
-                    onPageChange={setInterviewPage}
-                    themeColors={themeColors}
-                  />
-                )}
-              </TabsContent>
-            </Tabs>
-          </CustomTabPanel>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </CustomTabPanel>
+            <CustomTabPanel value={value} index={1}>
+              <Tabs
+                defaultValue="Junior"
+                value={interviewSelection}
+                className="w-auto mt-2"
+              >
+                <TabsList className="grid w-full grid-cols-3 bg-white border">
+                  <TabsTrigger
+                    value="Junior"
+                    onClick={() => setInterviewSelection("Junior")}
+                    className={`bg-white ${
+                      topic === "Javascript"
+                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                        : topic === "React"
+                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                        : topic === "Node"
+                        ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                        : topic === "Typescript"
+                        ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                        : topic === "AWS S3"
+                        ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                        : ""
+                    }`}
+                    style={
+                      interviewSelection === "Junior"
+                        ? {
+                            backgroundColor: themeColors.light,
+                            color: themeColors.text,
+                          }
+                        : {}
+                    }
+                  >
+                    Junior
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="Mid"
+                    onClick={() => setInterviewSelection("Mid")}
+                    className={`bg-white ${
+                      topic === "Javascript"
+                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                        : topic === "React"
+                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                        : topic === "Node"
+                        ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                        : topic === "Typescript"
+                        ? "data-[state=active]:text-Typescript-text data-[state=active]:bg-Typescript-bg"
+                        : topic === "AWS S3"
+                        ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                        : ""
+                    }`}
+                    style={
+                      interviewSelection === "Mid"
+                        ? {
+                            backgroundColor: themeColors.light,
+                            color: themeColors.text,
+                          }
+                        : {}
+                    }
+                  >
+                    Mid
+                  </TabsTrigger>
+                  <TabsTrigger
+                    value="Senior"
+                    onClick={() => setInterviewSelection("Senior")}
+                    className={`bg-white ${
+                      topic === "Javascript"
+                        ? "data-[state=active]:bg-Javascript-bg data-[state=active]:text-Javascript-text"
+                        : topic === "React"
+                        ? "data-[state=active]:text-React-text data-[state=active]:bg-React-bg"
+                        : topic === "Node"
+                        ? "data-[state=active]:text-Node-text data-[state=active]:bg-Node-bg"
+                        : topic === "Typescript"
+                        ? "data-[state=active]:text-TypeScript-text data-[state=active]:bg-TypeScript-bg"
+                        : topic === "AWS S3"
+                        ? "data-[state=active]:text-AWS-text data-[state=active]:bg-AWS-bg"
+                        : ""
+                    }`}
+                    style={
+                      interviewSelection === "Senior"
+                        ? {
+                            backgroundColor: themeColors.light,
+                            color: themeColors.text,
+                          }
+                        : {}
+                    }
+                  >
+                    Senior
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="Junior" className="mt-4">
+                  <div className="flex flex-col gap-3">
+                    {paginatedInterviewData.length > 0
+                      ? paginatedInterviewData.map((item, index) => (
+                          <AccordionQuestion
+                            key={index}
+                            question={item}
+                            topic={topic}
+                            index={index}
+                          />
+                        ))
+                      : null}
+                  </div>
+                  {interviewQues?.questions?.length > 0 && (
+                    <PaginationComponent
+                      currentPage={interviewPage}
+                      totalPages={getTotalPages(
+                        interviewQues?.questions?.length || 0
+                      )}
+                      onPageChange={setInterviewPage}
+                      themeColors={themeColors}
+                    />
+                  )}
+                </TabsContent>
+                <TabsContent value="Mid" className="mt-4">
+                  <div className="flex flex-col gap-3">
+                    {paginatedInterviewData.length > 0
+                      ? paginatedInterviewData.map((item, index) => (
+                          <AccordionQuestion
+                            key={index}
+                            question={item}
+                            topic={topic}
+                            index={index}
+                          />
+                        ))
+                      : null}
+                  </div>
+                  {interviewQues?.questions?.length > 0 && (
+                    <PaginationComponent
+                      currentPage={interviewPage}
+                      totalPages={getTotalPages(
+                        interviewQues?.questions?.length || 0
+                      )}
+                      onPageChange={setInterviewPage}
+                      themeColors={themeColors}
+                    />
+                  )}
+                </TabsContent>
+                <TabsContent value="Senior" className="mt-4">
+                  <div className="flex flex-col gap-3">
+                    {paginatedInterviewData.length > 0
+                      ? paginatedInterviewData.map((item, index) => (
+                          <AccordionQuestion
+                            key={index}
+                            question={item}
+                            topic={topic}
+                            index={index}
+                          />
+                        ))
+                      : null}
+                  </div>
+                  {interviewQues?.questions?.length > 0 && (
+                    <PaginationComponent
+                      currentPage={interviewPage}
+                      totalPages={getTotalPages(
+                        interviewQues?.questions?.length || 0
+                      )}
+                      onPageChange={setInterviewPage}
+                      themeColors={themeColors}
+                    />
+                  )}
+                </TabsContent>
+              </Tabs>
+            </CustomTabPanel>
+          </Box>
 
-        </Box>
-
-        {/* Question Modal */}
-        <QuestionModal
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          question={selectedQuestion}
-          topic={topic}
-        />
+          {/* Question Modal */}
+          <QuestionModal
+            isOpen={isModalOpen}
+            onClose={closeModal}
+            question={selectedQuestion}
+            topic={topic}
+          />
         </div>
       </Box>
     </>

@@ -10,11 +10,13 @@ const ChallengeCard = ({
 }) => {
   if (!challenge) {
     return (
-      <div className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
-        <div className="text-center py-4">
+      <div 
+      // className="bg-gradient-to-r from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200"
+      >
+        {/* <div className="text-center py-4">
           <Target className="w-8 h-8 text-gray-400 mx-auto mb-2" />
           <p className="text-gray-500 text-sm">No active challenge</p>
-        </div>
+        </div> */}
       </div>
     );
   }

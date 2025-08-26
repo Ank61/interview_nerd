@@ -7431,7 +7431,7 @@ person.greet(); // Output: Hello, undefined
     themeBgColor: "#BFFCFF",
     textColor: "#12365F",
     topicColor: "#12365F",
-    lightColor: "#ECFEFF",
+    lightColor: "#EEFAFF",
     type: [
       {
         id: 1,
