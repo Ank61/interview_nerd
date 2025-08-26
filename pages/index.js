@@ -98,6 +98,12 @@ export default function Home() {
               </a>
               {session ? (
                 <>
+                  <Link
+                    href="/dashboard"
+                    className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                  >
+                    Dashboard
+                  </Link>
                   <Button
                     size="sm"
                     className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -163,16 +169,25 @@ export default function Home() {
                 </a>
                 <div className="border-t border-gray-200 pt-4">
                   {session ? (
-                    <Button
-                      size="sm"
-                      className="w-full bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-                      onClick={() => {
-                        signOut({ callbackUrl: "/" });
-                        setIsMobileMenuOpen(false);
-                      }}
-                    >
-                      Logout
-                    </Button>
+                    <div className="space-y-2">
+                      <Link
+                        href="/dashboard"
+                        className="block text-gray-600 hover:text-blue-600 transition-colors py-2 text-center font-medium"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <Button
+                        size="sm"
+                        className="w-full bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                        onClick={() => {
+                          signOut({ callbackUrl: "/" });
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        Logout
+                      </Button>
+                    </div>
                   ) : (
                     <div className="space-y-2">
                       <Link

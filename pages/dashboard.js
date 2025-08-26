@@ -15,7 +15,8 @@ import {
   Award,
   Calendar,
   Clock,
-  BarChart3
+  BarChart3,
+  ArrowLeft
 } from 'lucide-react';
 
 export default function Dashboard() {
@@ -95,13 +96,21 @@ export default function Dashboard() {
           transition={{ duration: 0.5 }}
         >
           <div className="flex items-center justify-between mb-8">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Welcome back, {session.user.name}! 👋
-              </h1>
-              <p className="text-gray-600 mt-2">
-                Ready to level up your interview skills today?
-              </p>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={() => router.back()}
+                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors p-2 rounded-lg hover:bg-gray-100"
+              >
+                <ArrowLeft className="w-5 h-5" />
+              </button>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">
+                  Welcome back, {session.user.name}! 👋
+                </h1>
+                <p className="text-gray-600 mt-2">
+                  Ready to level up your interview skills today?
+                </p>
+              </div>
             </div>
             
             <div className="flex items-center gap-4">

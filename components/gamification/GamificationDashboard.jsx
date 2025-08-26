@@ -117,7 +117,7 @@ const GamificationDashboard = ({ compact = false }) => {
                 <div>
                   <p className="text-sm text-gray-600">Accuracy</p>
                   <p className="text-2xl font-bold text-gray-900">
-                    {Math.round(gamificationData.stats?.accuracy)}%
+                    {gamificationData.stats?.accuracy ? Math.round(gamificationData.stats.accuracy) : 0}%
                   </p>
                 </div>
               </div>
@@ -161,7 +161,7 @@ const GamificationDashboard = ({ compact = false }) => {
                 <div>
                   <p className="text-sm text-gray-600">Rank</p>
                   <p className="text-2xl font-bold text-gray-900">
-                    #{gamificationData.leaderboards?.weeklyRank || 'N/A'}
+                    #{gamificationData.leaderboards?.weeklyRank || 'Unranked'}
                   </p>
                 </div>
               </div>
@@ -198,13 +198,13 @@ const GamificationDashboard = ({ compact = false }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="text-center p-4 bg-blue-50 rounded-lg">
                       <p className="text-2xl font-bold text-blue-600">
-                        {gamificationData.stats?.totalQuestionsAnswered}
+                        {gamificationData.stats?.totalQuestionsAnswered || 0}
                       </p>
                       <p className="text-sm text-gray-600">Questions Answered</p>
                     </div>
                     <div className="text-center p-4 bg-green-50 rounded-lg">
                       <p className="text-2xl font-bold text-green-600">
-                        {gamificationData.stats?.correctAnswers}
+                        {gamificationData.stats?.correctAnswers || 0}
                       </p>
                       <p className="text-sm text-gray-600">Correct Answers</p>
                     </div>
@@ -212,22 +212,28 @@ const GamificationDashboard = ({ compact = false }) => {
                 </TabsContent>
                 
                 <TabsContent value="topics" className="space-y-4">
-                  {gamificationData.stats?.topicMastery.map((topic, index) => (
-                    <div key={topic.topic} className="space-y-2">
-                      <div className="flex justify-between">
-                        <span className="font-medium">{topic.topic}</span>
-                        <span className="text-sm text-gray-600">
-                          {Math.round(topic.masteryLevel)}%
-                        </span>
+                  {gamificationData.stats?.topicMastery?.length > 0 ? (
+                    gamificationData.stats.topicMastery.map((topic, index) => (
+                      <div key={topic.topic} className="space-y-2">
+                        <div className="flex justify-between">
+                          <span className="font-medium">{topic.topic}</span>
+                          <span className="text-sm text-gray-600">
+                            {topic.masteryLevel ? Math.round(topic.masteryLevel) : 0}%
+                          </span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div
+                            className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                            style={{ width: `${topic.masteryLevel || 0}%` }}
+                          />
+                        </div>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className="bg-blue-600 h-2 rounded-full transition-all duration-300"
-                          style={{ width: `${topic.masteryLevel}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
+                    ))
+                  ) : (
+                    <p className="text-gray-500 text-center py-4">
+                      Start answering questions to see topic mastery progress
+                    </p>
+                  )}
                 </TabsContent>
                 
                 <TabsContent value="history">

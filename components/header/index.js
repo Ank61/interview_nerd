@@ -1,7 +1,11 @@
 import Box from "@mui/material/Box";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, BarChart3 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function Header({ topic, indexSelected }) {
+  const { data: session } = useSession();
+  const router = useRouter();
   return (
     <Box
       className="sticky top-0 z-10 bg-white"
@@ -33,7 +37,7 @@ export default function Header({ topic, indexSelected }) {
           </div>
         </div> */}
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center" }}>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         {indexSelected !== -1 && (
           <span
             className={`scroll-m-20 text-[22px] font-semibold tracking-tight ${
@@ -48,6 +52,17 @@ export default function Header({ topic, indexSelected }) {
           >
             {topic}
           </span>
+        )}
+        
+        {session?.user?.id && (
+          <button
+            onClick={() => router.push('/dashboard')}
+            className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            title="Go to Dashboard"
+          >
+            <BarChart3 className="w-4 h-4" />
+            Dashboard
+          </button>
         )}
       </Box>
     </Box>
