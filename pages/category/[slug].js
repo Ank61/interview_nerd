@@ -155,95 +155,104 @@ function PaginationComponent({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex items-center justify-center space-x-2 mt-6">
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="flex items-center px-3 py-2 text-sm font-medium rounded-md border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        style={{
-          color: themeColors.text,
-          borderColor: themeColors.border,
-          backgroundColor: "white",
-        }}
-        onMouseEnter={(e) => {
-          if (currentPage !== 1) {
-            e.target.style.backgroundColor = themeColors.light;
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (currentPage !== 1) {
-            e.target.style.backgroundColor = "white";
-          }
-        }}
-      >
-        <ChevronLeft className="w-4 h-4 mr-1" />
-        Previous
-      </button>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      className="flex items-center justify-center mt-8 mb-4"
+    >
+      <div className="flex items-center bg-white rounded-xl shadow-lg border border-gray-100 p-2 gap-1">
+        {/* Previous Button */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => onPageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+            currentPage === 1 
+              ? "opacity-40 cursor-not-allowed text-gray-400" 
+              : "hover:shadow-md"
+          }`}
+          style={{
+            color: currentPage === 1 ? "#9CA3AF" : themeColors.text,
+            backgroundColor: currentPage === 1 ? "transparent" : "white",
+            border: `1px solid ${currentPage === 1 ? "#E5E7EB" : themeColors.border}`,
+          }}
+        >
+          <ChevronLeft className="w-4 h-4 mr-1.5" />
+          <span className="hidden sm:inline">Previous</span>
+        </motion.button>
 
-      <div className="flex space-x-1">
-        {getPageNumbers().map((page, index) =>
-          page === "..." ? (
-            <span
-              key={`ellipsis-${index}`}
-              className="px-3 py-2 text-sm text-gray-500"
-            >
-              ...
-            </span>
-          ) : (
-            <button
-              key={page}
-              onClick={() => onPageChange(page)}
-              className={`px-3 py-2 text-sm font-medium rounded-md border transition-colors ${
-                currentPage === page ? "font-bold" : ""
-              }`}
-              style={{
-                color:
-                  currentPage === page ? themeColors.text : themeColors.text,
-                borderColor: themeColors.border,
-                backgroundColor:
-                  currentPage === page ? themeColors.bg : "white",
-              }}
-              onMouseEnter={(e) => {
-                if (currentPage !== page) {
-                  e.target.style.backgroundColor = themeColors.light;
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (currentPage !== page) {
-                  e.target.style.backgroundColor = "white";
-                }
-              }}
-            >
-              {page}
-            </button>
-          )
-        )}
+        {/* Page Numbers */}
+        <div className="flex items-center gap-1 mx-2">
+          {getPageNumbers().map((page, index) =>
+            page === "..." ? (
+              <span
+                key={`ellipsis-${index}`}
+                className="px-3 py-2 text-sm text-gray-400 font-medium"
+              >
+                ⋯
+              </span>
+            ) : (
+              <motion.button
+                key={page}
+                whileHover={{ scale: currentPage !== page ? 1.1 : 1 }}
+                whileTap={{ scale: 0.9 }}
+                onClick={() => onPageChange(page)}
+                className={`relative px-3.5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 min-w-[44px] ${
+                  currentPage === page 
+                    ? "text-white shadow-lg transform scale-105" 
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-md"
+                }`}
+                style={{
+                  backgroundColor: currentPage === page ? themeColors.bg : "transparent",
+                  color: currentPage === page ? "white" : themeColors.text,
+                  boxShadow: currentPage === page 
+                    ? `0 4px 12px ${themeColors.bg}40, 0 2px 4px ${themeColors.bg}20`
+                    : "none",
+                }}
+              >
+                {currentPage === page && (
+                  <motion.div
+                    layoutId="activePage"
+                    className="absolute inset-0 rounded-lg"
+                    style={{ backgroundColor: themeColors.bg }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <span className="relative z-10">{page}</span>
+              </motion.button>
+            )
+          )}
+        </div>
+
+        {/* Next Button */}
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => onPageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+            currentPage === totalPages 
+              ? "opacity-40 cursor-not-allowed text-gray-400" 
+              : "hover:shadow-md"
+          }`}
+          style={{
+            color: currentPage === totalPages ? "#9CA3AF" : themeColors.text,
+            backgroundColor: currentPage === totalPages ? "transparent" : "white",
+            border: `1px solid ${currentPage === totalPages ? "#E5E7EB" : themeColors.border}`,
+          }}
+        >
+          <span className="hidden sm:inline">Next</span>
+          <ChevronRight className="w-4 h-4 ml-1.5" />
+        </motion.button>
       </div>
 
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="flex items-center px-3 py-2 text-sm font-medium rounded-md border transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        style={{
-          color: themeColors.text,
-          borderColor: themeColors.border,
-          backgroundColor: "white",
-        }}
-        onMouseEnter={(e) => {
-          if (currentPage !== totalPages) {
-            e.target.style.backgroundColor = themeColors.light;
-          }
-        }}
-        onMouseLeave={(e) => {
-          if (currentPage !== totalPages) {
-            e.target.style.backgroundColor = "white";
-          }
-        }}
-      >
-        Next
-        <ChevronRight className="w-4 h-4 ml-1" />
-      </button>
-    </div>
+      {/* Page Info */}
+      <div className="ml-4 text-sm text-gray-500 font-medium hidden md:block">
+        Page {currentPage} of {totalPages}
+      </div>
+    </motion.div>
   );
 }
 
