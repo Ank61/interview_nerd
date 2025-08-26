@@ -4,16 +4,18 @@ import DailyChallenge from '../../../../models/DailyChallenge';
 import User from '../../../../models/User';
 import dbConnect from '../../../../lib/mongodb';
 import { withStreakTracking } from '../../../../middleware/streakMiddleware';
+import { calculateAnswerSimilarity, gradeAnswer } from '../../../../lib/answerSimilarity';
 
 async function handler(req, res) {
   const { method } = req;
+  
+  await dbConnect();
+  
   const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
     return res.status(401).json({ success: false, message: 'Please log in first' });
   }
-
-  await dbConnect();
 
   try {
     const userId = session.user.id;
@@ -62,108 +64,122 @@ async function handler(req, res) {
         return res.status(200).json({ success: true, data: response });
 
       case 'POST':
-        const { challengeId, answers } = req.body;
+        // Handle challenge submission
+        const { answers, challengeId } = req.body;
         
-        if (!challengeId || !answers || !Array.isArray(answers)) {
-          return res.status(400).json({ success: false, message: 'Invalid request data' });
+        if (!answers || !challengeId) {
+          return res.status(400).json({ success: false, message: 'Missing required fields' });
         }
 
-        // Get the challenge
+        // Find the challenge
         const currentChallenge = await DailyChallenge.findById(challengeId);
         if (!currentChallenge) {
           return res.status(404).json({ success: false, message: 'Challenge not found' });
         }
 
-        // Check if challenge is for today
-        const today = new Date();
-        today.setUTCHours(0, 0, 0, 0);
-        if (currentChallenge.date.getTime() !== today.getTime()) {
-          return res.status(400).json({ success: false, message: 'This challenge has expired' });
-        }
-
-        // Get the questions for this challenge
-        await currentChallenge.populate('questions');
+        // Evaluate answers using similarity comparison
+        const totalQuestions = currentChallenge.questions.length;
+        let totalScore = 0;
+        const answerResults = [];
         
-        // Calculate score
-        let correctAnswers = 0;
-        const results = [];
-        
-        currentChallenge.questions.forEach((question, index) => {
-          const userAnswer = answers[index];
-          const isCorrect = question.correctAnswer === userAnswer;
-          if (isCorrect) correctAnswers++;
+        // Process each answer
+        for (let i = 0; i < totalQuestions; i++) {
+          const userAnswer = answers[i] || '';
+          const question = currentChallenge.questions[i];
+          const referenceAnswer = question.solution || question.answer || '';
           
-          results.push({
-            questionId: question._id,
-            userAnswer,
-            correctAnswer: question.correctAnswer,
-            isCorrect
-          });
-        });
-        
-        const score = Math.round((correctAnswers / currentChallenge.questions.length) * 100);
-        const isCompleted = score >= 70; // 70% or higher to complete
-        
-        // Update user's challenge progress
-        const updatedUser = await User.findByIdAndUpdate(
-          userId,
-          {
-            $set: {
-              'gamification.challenges.daily.completed': isCompleted,
-              'gamification.challenges.daily.progress': Math.max(
-                isCompleted ? 100 : score,
-                user.gamification.challenges.daily.progress || 0
-              ),
-              'gamification.challenges.daily.completedAt': isCompleted ? new Date() : null,
-              'gamification.challenges.daily.completedToday': isCompleted
-            },
-            $inc: {
-              'gamification.xp': isCompleted ? currentChallenge.xpReward : 0,
-              'gamification.stats.totalQuestionsAnswered': currentChallenge.questions.length,
-              'gamification.stats.correctAnswers': correctAnswers
-            }
-          },
-          { new: true }
-        );
-
-        // Update streak if challenge was completed
-        let streakMessage = '';
-        if (isCompleted) {
-          const lastActivity = updatedUser.gamification.streaks.lastActivity;
-          const yesterday = new Date();
-          yesterday.setDate(yesterday.getDate() - 1);
-          
-          let newStreak = updatedUser.gamification.streaks.current;
-          
-          if (!lastActivity || lastActivity < yesterday) {
-            // Reset streak if more than a day has passed
-            newStreak = 1;
-            streakMessage = 'New streak started!';
-          } else if (lastActivity < today) {
-            // Increment streak if last activity was yesterday
-            newStreak++;
-            streakMessage = `Streak increased to ${newStreak} days!`;
+          if (userAnswer.trim().length === 0) {
+            answerResults.push({
+              questionIndex: i,
+              similarity: 0,
+              grade: { grade: 'F', points: 0, feedback: 'No answer provided.' },
+              userAnswer,
+              referenceAnswer
+            });
+            continue;
           }
           
-          // Update streak
-          await User.findByIdAndUpdate(userId, {
-            'gamification.streaks.current': newStreak,
-            'gamification.streaks.longest': Math.max(
-              newStreak,
-              updatedUser.gamification.streaks.longest
-            ),
-            'gamification.streaks.lastActivity': today
+          // Calculate similarity
+          const similarity = calculateAnswerSimilarity(
+            userAnswer, 
+            referenceAnswer, 
+            currentChallenge.topic
+          );
+          
+          const grade = gradeAnswer(similarity.score);
+          
+          answerResults.push({
+            questionIndex: i,
+            similarity: similarity.score,
+            grade,
+            userAnswer,
+            referenceAnswer,
+            breakdown: similarity.breakdown
           });
+          
+          totalScore += grade.points;
         }
+        
+        const averageScore = Math.round(totalScore / totalQuestions);
+        const correctAnswers = answerResults.filter(r => r.grade.points >= 70).length;
+
+        // Update user's challenge progress
+        const challengeUser = await User.findById(userId);
+        if (!challengeUser.gamification) {
+          challengeUser.gamification = {};
+        }
+        if (!challengeUser.gamification.challenges) {
+          challengeUser.gamification.challenges = { daily: {} };
+        }
+
+        challengeUser.gamification.challenges.daily = {
+          ...challengeUser.gamification.challenges.daily,
+          completedToday: true,
+          lastCompleted: new Date(),
+          progress: 100,
+          completed: true
+        };
+
+        // Update streak
+        const today = new Date();
+        const yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        
+        const lastActivity = challengeUser.gamification.streaks?.lastActivity;
+        let currentStreak = challengeUser.gamification.streaks?.current || 0;
+        
+        if (!lastActivity || lastActivity < yesterday) {
+          currentStreak = 1; // Start new streak
+        } else if (lastActivity.toDateString() === yesterday.toDateString()) {
+          currentStreak += 1; // Continue streak
+        }
+
+        challengeUser.gamification.streaks = {
+          current: currentStreak,
+          longest: Math.max(challengeUser.gamification.streaks?.longest || 0, currentStreak),
+          lastActivity: today
+        };
+
+        // Award XP based on performance with streak bonus
+        const baseXP = Math.round((currentChallenge.xpReward * averageScore) / 100);
+        const streakBonus = currentChallenge.streakBonus * currentStreak;
+        const xpEarned = baseXP + streakBonus;
+        challengeUser.gamification.xp = (challengeUser.gamification.xp || 0) + xpEarned;
+
+        await challengeUser.save();
 
         return res.status(200).json({
           success: true,
+          message: 'Challenge completed successfully',
           data: {
-            score,
-            isCompleted,
-            results,
-            xpEarned: isCompleted ? currentChallenge.xpReward : 0,
-            streakMessage: isCompleted ? streakMessage : undefined
+            isCompleted: averageScore >= 50, // Pass threshold
+            score: averageScore,
+            correctCount: correctAnswers,
+            totalQuestions,
+            streak: currentStreak,
+            xpEarned,
+            answerResults,
+            streakMessage: currentStreak > 1 ? `${currentStreak} day streak!` : null
           }
         });
 

@@ -1,8 +1,10 @@
 import GamificationEngine from '@/lib/gamification';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
+import dbConnect from '@/lib/mongodb';
 
 export default async function handler(req, res) {
+  await dbConnect();
   const session = await getServerSession(req, res, authOptions);
   
   if (!session) {

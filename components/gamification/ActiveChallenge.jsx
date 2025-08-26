@@ -1,15 +1,20 @@
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
-import { Flame, Zap, Award, CheckCircle } from 'lucide-react';
+import { Flame, Zap, Award, CheckCircle, Clock, Target, ArrowRight, Calendar } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
 import { Button } from '../ui/button';
 import { Progress } from '../ui/progress';
+import { Badge } from '../ui/badge';
 import { useToast } from '../ui/use-toast';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 
 export default function ActiveChallenge({ topic, className = '' }) {
   const { data: session } = useSession();
   const { toast } = useToast();
+  const router = useRouter();
   const [challenge, setChallenge] = useState(null);
   const [loading, setLoading] = useState(true);
   const [timeLeft, setTimeLeft] = useState('');
@@ -33,7 +38,7 @@ export default function ActiveChallenge({ topic, className = '' }) {
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       
       setTimeLeft(`${hours}h ${minutes}m`);
-    }, 60000); // Update every minute
+    }, 60000);
 
     // Initial call
     const now = new Date();
@@ -72,117 +77,176 @@ export default function ActiveChallenge({ topic, className = '' }) {
     }
   };
 
+  const handleStartChallenge = () => {
+    router.push(`/challenge/${topic}`);
+  };
+
   if (loading) {
     return (
-      <Card className={className}>
-        <CardHeader className="pb-3">
-          <div className="h-6 w-48 animate-pulse rounded bg-muted" />
-          <div className="mt-2 h-4 w-32 animate-pulse rounded bg-muted" />
-        </CardHeader>
-        <CardContent>
-          <div className="h-4 w-full animate-pulse rounded bg-muted" />
-          <div className="mt-4 flex justify-between">
-            <div className="h-10 w-24 animate-pulse rounded bg-muted" />
-            <div className="h-10 w-24 animate-pulse rounded bg-muted" />
-          </div>
-        </CardContent>
-      </Card>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Card className={`${className} border-l-4 border-l-blue-500`}>
+          <CardHeader className="pb-3">
+            <div className="flex items-center space-x-3">
+              <div className="h-10 w-10 animate-pulse rounded-full bg-muted" />
+              <div className="space-y-2">
+                <div className="h-5 w-32 animate-pulse rounded bg-muted" />
+                <div className="h-4 w-48 animate-pulse rounded bg-muted" />
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <div className="h-4 w-full animate-pulse rounded bg-muted" />
+              <div className="h-10 w-full animate-pulse rounded bg-muted" />
+            </div>
+          </CardContent>
+        </Card>
+      </motion.div>
     );
   }
 
   if (!challenge) {
-    return null;
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        <Card className={`${className} border-l-4 border-l-gray-400`}>
+          <CardHeader className="pb-3">
+            <div className="flex items-center space-x-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
+                <Calendar className="h-5 w-5 text-gray-500" />
+              </div>
+              <div>
+                <CardTitle className="text-lg text-gray-700">Daily Challenge</CardTitle>
+                <CardDescription className="text-sm">
+                  No challenge available today
+                </CardDescription>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <p className="text-sm text-muted-foreground">
+              Check back tomorrow for a new challenge!
+            </p>
+          </CardContent>
+        </Card>
+      </motion.div>
+    );
   }
 
   const progress = challenge.userProgress?.progress || 0;
   const isCompleted = challenge.userProgress?.completed;
   const streak = challenge.userProgress?.streak || 0;
+  const questionsCount = challenge.questions?.length || 0;
 
   return (
-    <Card className={className}>
-      <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-lg">Daily Challenge</CardTitle>
-          {!isCompleted && timeLeft && (
-            <div className="rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/20 dark:text-amber-200">
-              {timeLeft} left
-            </div>
-          )}
-        </div>
-        <CardDescription>
-          {isCompleted 
-            ? 'You&apos;ve completed today&apos;s challenge! 🎉' 
-            : 'Complete the challenge to earn XP and maintain your streak.'}
-        </CardDescription>
-        
-        <div className="pt-2">
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
-            <span>Progress</span>
-            <span>{progress}%</span>
-          </div>
-          <Progress value={progress} className="mt-1 h-2" />
-        </div>
-      </CardHeader>
-
-      <CardContent>
-        {isCompleted ? (
-          <div className="rounded-lg bg-green-50 p-4 text-center dark:bg-green-900/20">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
-              <Award className="h-6 w-6 text-green-600 dark:text-green-400" />
-            </div>
-            <h4 className="mt-3 text-lg font-medium text-green-800 dark:text-green-200">
-              Challenge Completed!
-            </h4>
-            <p className="mt-1 text-sm text-green-700 dark:text-green-300">
-              Youve earned {challenge.xpReward} XP for todays challenge.
-            </p>
-            {streak > 1 && (
-              <div className="mt-2 inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">
-                <Flame className="mr-1 h-3 w-3" />
-                {streak} day streak!
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+    >
+      <Card className={`${className} border-l-4 ${isCompleted ? 'border-l-green-500' : 'border-l-blue-500'} hover:shadow-md transition-shadow`}>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className={`flex h-10 w-10 items-center justify-center rounded-full ${
+                isCompleted ? 'bg-green-100' : 'bg-blue-100'
+              }`}>
+                {isCompleted ? (
+                  <Award className="h-5 w-5 text-green-600" />
+                ) : (
+                  <Target className="h-5 w-5 text-blue-600" />
+                )}
               </div>
+              <div>
+                <CardTitle className="text-lg flex items-center gap-2">
+                  Daily Challenge
+                  {streak > 0 && (
+                    <Badge variant="secondary" className="bg-amber-100 text-amber-800 hover:bg-amber-200">
+                      <Flame className="mr-1 h-3 w-3" />
+                      {streak}
+                    </Badge>
+                  )}
+                </CardTitle>
+                <CardDescription className="text-sm">
+                  {isCompleted 
+                    ? `Completed! +${challenge.xpReward} XP earned` 
+                    : `${questionsCount} questions • ${challenge.xpReward} XP`}
+                </CardDescription>
+              </div>
+            </div>
+            
+            {!isCompleted && timeLeft && (
+              <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">
+                <Clock className="mr-1 h-3 w-3" />
+                {timeLeft}
+              </Badge>
             )}
           </div>
-        ) : (
-          <div className="space-y-4">
-            <div className="flex items-center justify-between rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-              <div className="flex items-center space-x-3">
-                <div className="rounded-full bg-blue-100 p-2 dark:bg-blue-800/30">
-                  <Zap className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+          
+          <div className="mt-3">
+            <div className="flex items-center justify-between text-sm text-muted-foreground mb-2">
+              <span>Progress</span>
+              <span>{progress}%</span>
+            </div>
+            <Progress 
+              value={progress} 
+              className={`h-2 ${isCompleted ? 'bg-green-100' : 'bg-blue-100'}`}
+            />
+          </div>
+        </CardHeader>
+
+        <CardContent>
+          {isCompleted ? (
+            <motion.div 
+              initial={{ scale: 0.95 }}
+              animate={{ scale: 1 }}
+              className="rounded-lg bg-gradient-to-r from-green-50 to-emerald-50 p-4 text-center border border-green-200"
+            >
+              <div className="flex items-center justify-center space-x-2 text-green-700 mb-2">
+                <CheckCircle className="h-5 w-5" />
+                <span className="font-semibold">Challenge Completed!</span>
+              </div>
+              <p className="text-sm text-green-600 mb-3">
+                Great job! You've earned {challenge.xpReward} XP today.
+              </p>
+              {streak > 1 && (
+                <div className="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
+                  <Flame className="mr-1 h-3 w-3" />
+                  {streak} day streak!
                 </div>
-                <div>
-                  <h4 className="font-medium text-blue-900 dark:text-blue-100">
-                    {challenge.xpReward} XP
-                  </h4>
-                  <p className="text-xs text-blue-700 dark:text-blue-300">
-                    +{challenge.streakBonus * (streak || 1)} XP streak bonus
-                  </p>
+              )}
+            </motion.div>
+          ) : (
+            <div className="space-y-4">
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <Zap className="h-4 w-4 text-blue-500" />
+                  <span>Earn {challenge.xpReward} XP</span>
+                </div>
+                <div className="text-muted-foreground">
+                  {questionsCount} questions
                 </div>
               </div>
               
-              <Button asChild size="sm">
-                <Link href={`/challenge/${topic}`}>
-                  Start Challenge
-                </Link>
+              <Button 
+                onClick={handleStartChallenge}
+                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+                size="lg"
+              >
+                Start Challenge
+                <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </div>
-            
-            {streak > 0 && (
-              <div className="flex items-center justify-between rounded-lg border p-3">
-                <div className="flex items-center space-x-2">
-                  <Flame className="h-5 w-5 text-amber-500" />
-                  <span className="text-sm font-medium">
-                    {streak} day{streak !== 1 ? 's' : ''} streak
-                  </span>
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  Complete today to keep it going!
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+          )}
+        </CardContent>
+      </Card>
+    </motion.div>
   );
 }

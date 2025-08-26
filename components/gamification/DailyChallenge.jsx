@@ -315,7 +315,7 @@ export default function DailyChallenge({ topic, className = '', onComplete }) {
                       <div>
                         <p className="font-medium">{question.question}</p>
                         <div className="mt-2 space-y-2">
-                          {question.options.map((option, oIndex) => (
+                          {question.options?.map((option, oIndex) => (
                             <div 
                               key={oIndex}
                               className={`block w-full cursor-pointer rounded border p-2 text-sm transition-colors ${

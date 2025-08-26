@@ -9,15 +9,14 @@ import { withStreakTracking } from "../../../middleware/streakMiddleware";
 
 async function handler(req, res) {
   const { method } = req;
+  
+  await dbConnect();
+  
   const session = await getServerSession(req, res, authOptions);
 
   if (!session) {
-    return res
-      .status(401)
-      .json({ success: false, message: "Please log in first" });
+    return res.status(401).json({ success: false, message: 'Please log in first' });
   }
-
-  await dbConnect();
 
   try {
     const userId = session.user.id;

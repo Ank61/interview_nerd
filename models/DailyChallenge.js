@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { interviewData } from '../data/interviewData.js';
 
 const dailyChallengeSchema = new mongoose.Schema({
   date: {
@@ -15,11 +16,10 @@ const dailyChallengeSchema = new mongoose.Schema({
   topic: {
     type: String,
     required: true,
-    enum: ['javascript', 'react', 'node', 'typescript', 'sql', 'nextjs', 'rabbitmq', 'oop']
+    enum: ['Javascript', 'React', 'Node', 'Typescript', 'SQL', 'Next', 'RabbitMQ', 'OOP', 'AWS S3']
   },
   questions: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'InterviewQuestion',
+    type: mongoose.Schema.Types.Mixed,
     required: true
   }],
   difficulty: {
@@ -30,7 +30,7 @@ const dailyChallengeSchema = new mongoose.Schema({
   xpReward: {
     type: Number,
     required: true,
-    default: 50
+    default: 30
   },
   streakBonus: {
     type: Number,
@@ -61,20 +61,29 @@ dailyChallengeSchema.statics.getOrCreateForToday = async function(topic) {
   
   // If no challenge exists for today, create one
   if (!challenge) {
-    // Find random questions for this topic
-    const questions = await mongoose.model('InterviewQuestion').aggregate([
-      { $match: { category: topic } },
-      { $sample: { size: 3 } } // Get 3 random questions
-    ]);
+    // Find questions for this topic from interviewData
+    const topicData = interviewData.find(item => item.topic === topic);
     
-    if (questions.length === 0) {
-      throw new Error(`No questions found for topic: ${topic}`);
+    if (!topicData || !topicData.questions || topicData.questions.length === 0) {
+      throw new Error(`No questions found for topic: ${topic}. Available topics: ${interviewData.map(item => item.topic).join(', ')}`);
     }
+    
+    // Get 2 random questions from the topic
+    const shuffled = [...topicData.questions].sort(() => 0.5 - Math.random());
+    const selectedQuestions = shuffled.slice(0, Math.min(2, shuffled.length));
+    
+    // Add unique IDs to questions for tracking
+    const questionsWithIds = selectedQuestions.map((q, index) => ({
+      ...q,
+      _id: `${topic}_${today.getTime()}_${index}`,
+      topic: topic,
+      difficulty: ['easy', 'medium', 'hard'][Math.floor(Math.random() * 3)]
+    }));
     
     challenge = new this({
       date: today,
       topic: topic,
-      questions: questions.map(q => q._id),
+      questions: questionsWithIds,
       difficulty: ['easy', 'medium', 'hard'][Math.floor(Math.random() * 3)]
     });
     
