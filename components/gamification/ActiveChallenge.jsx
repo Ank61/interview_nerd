@@ -134,7 +134,7 @@ export default function ActiveChallenge({ topic, className = '' }) {
               Challenge Completed!
             </h4>
             <p className="mt-1 text-sm text-green-700 dark:text-green-300">
-              You've earned {challenge.xpReward} XP for today's challenge.
+              Youve earned {challenge.xpReward} XP for todays challenge.
             </p>
             {streak > 1 && (
               <div className="mt-2 inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800 dark:bg-amber-900/30 dark:text-amber-200">
