@@ -1,7 +1,18 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { ArrowLeft, Loader2, CheckCircle, XCircle, Save, Clock, Target, Flame, Award, BookOpen } from "lucide-react";
+import {
+  ArrowLeft,
+  Loader2,
+  CheckCircle,
+  XCircle,
+  Save,
+  Clock,
+  Target,
+  Flame,
+  Award,
+  BookOpen,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -29,7 +40,7 @@ export default function ChallengePage() {
   const [results, setResults] = useState(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState('');
+  const [timeLeft, setTimeLeft] = useState("");
   const [autoSaving, setAutoSaving] = useState(false);
 
   useEffect(() => {
@@ -45,11 +56,11 @@ export default function ChallengePage() {
       const now = new Date();
       const endOfDay = new Date(now);
       endOfDay.setHours(23, 59, 59, 999);
-      
+
       const diff = endOfDay - now;
       const hours = Math.floor(diff / (1000 * 60 * 60));
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-      
+
       setTimeLeft(`${hours}h ${minutes}m`);
     }, 60000);
 
@@ -68,7 +79,10 @@ export default function ChallengePage() {
   // Auto-save functionality
   useEffect(() => {
     const autoSaveTimer = setTimeout(() => {
-      if (Object.keys(answers).length > 0 && !challenge?.userProgress?.completed) {
+      if (
+        Object.keys(answers).length > 0 &&
+        !challenge?.userProgress?.completed
+      ) {
         saveProgress();
       }
     }, 2000); // Auto-save after 2 seconds of inactivity
@@ -89,10 +103,11 @@ export default function ChallengePage() {
         // Initialize answers with saved progress or empty answers
         const initialAnswers = {};
         data.data.questions.forEach((q, index) => {
-          initialAnswers[index] = data.data.userProgress?.answers?.[index] || '';
+          initialAnswers[index] =
+            data.data.userProgress?.answers?.[index] || "";
         });
         setAnswers(initialAnswers);
-        
+
         if (data.data.userProgress?.completed) {
           setResults({
             score: 100,
@@ -122,71 +137,74 @@ export default function ChallengePage() {
 
   const saveProgress = async () => {
     if (!challenge || autoSaving) return;
-    
+
     try {
       setAutoSaving(true);
-      const response = await fetch('/api/gamification/challenges/save-progress', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          challengeId: challenge._id,
-          topic,
-          answers,
-          currentQuestionIndex
-        }),
-      });
+      const response = await fetch(
+        "/api/gamification/challenges/save-progress",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            challengeId: challenge._id,
+            topic,
+            answers,
+            currentQuestionIndex,
+          }),
+        }
+      );
 
       const data = await response.json();
       if (!data.success) {
-        console.error('Failed to save progress:', data.message);
+        console.error("Failed to save progress:", data.message);
       }
     } catch (error) {
-      console.error('Error saving progress:', error);
+      console.error("Error saving progress:", error);
     } finally {
       setAutoSaving(false);
     }
   };
 
   const handleAnswerChange = (questionIndex, answer) => {
-    setAnswers(prev => ({
+    setAnswers((prev) => ({
       ...prev,
-      [questionIndex]: answer
+      [questionIndex]: answer,
     }));
   };
 
   const submitChallenge = async () => {
     if (!challenge || submitting) return;
-    
+
     const answerArray = Object.values(answers);
-    if (answerArray.some(a => !a?.trim())) {
+    if (answerArray.some((a) => !a?.trim())) {
       toast({
-        title: 'Incomplete',
-        description: 'Please answer all questions before submitting.',
-        variant: 'destructive',
+        title: "Incomplete",
+        description: "Please answer all questions before submitting.",
+        variant: "destructive",
       });
       return;
     }
 
     try {
       setSaving(true);
-      const response = await fetch('/api/gamification/challenges/daily', {
-        method: 'POST',
+      const response = await fetch("/api/gamification/challenges/daily", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           challengeId: challenge._id,
-          answers: answerArray
+          answers: answerArray,
         }),
       });
 
       const data = await response.json();
-      
+
       if (data.success) {
         setResults(data.data);
-        setChallenge(prev => ({
+        setChallenge((prev) => ({
           ...prev,
           userProgress: {
             ...prev.userProgress,
@@ -194,22 +212,24 @@ export default function ChallengePage() {
             progress: 100,
           },
         }));
-        
+
         toast({
-          title: data.data.isCompleted ? 'Challenge Completed! 🎉' : 'Challenge Submitted',
-          description: data.data.isCompleted 
+          title: data.data.isCompleted
+            ? "Challenge Completed! 🎉"
+            : "Challenge Submitted",
+          description: data.data.isCompleted
             ? `+${challenge.xpReward} XP earned!`
             : `You scored ${data.data.score}%. Try again tomorrow!`,
         });
       } else {
-        throw new Error(data.message || 'Failed to submit challenge');
+        throw new Error(data.message || "Failed to submit challenge");
       }
     } catch (error) {
-      console.error('Error submitting challenge:', error);
+      console.error("Error submitting challenge:", error);
       toast({
-        title: 'Error',
-        description: error.message || 'Failed to submit challenge',
-        variant: 'destructive',
+        title: "Error",
+        description: error.message || "Failed to submit challenge",
+        variant: "destructive",
       });
     } finally {
       setSaving(false);
@@ -292,7 +312,7 @@ export default function ChallengePage() {
             <CardHeader>
               <CardTitle>Challenge Not Available</CardTitle>
               <CardDescription>
-                We couldn't load the challenge. Please try again later.
+                We couldnt load the challenge. Please try again later.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -302,8 +322,11 @@ export default function ChallengePage() {
   }
 
   const totalQuestions = challenge.questions?.length || 0;
-  const answeredQuestions = Object.values(answers).filter(a => a?.trim()).length;
-  const progress = totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
+  const answeredQuestions = Object.values(answers).filter((a) =>
+    a?.trim()
+  ).length;
+  const progress =
+    totalQuestions > 0 ? (answeredQuestions / totalQuestions) * 100 : 0;
   const isCompleted = challenge.userProgress?.completed;
   const streak = challenge.userProgress?.streak || 0;
 
@@ -326,7 +349,7 @@ export default function ChallengePage() {
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to {topic}
             </Button>
-            
+
             <div className="flex items-center space-x-3">
               {autoSaving && (
                 <Badge variant="secondary" className="bg-blue-50 text-blue-700">
@@ -335,7 +358,10 @@ export default function ChallengePage() {
                 </Badge>
               )}
               {timeLeft && !isCompleted && (
-                <Badge variant="outline" className="bg-amber-50 text-amber-700 border-amber-200">
+                <Badge
+                  variant="outline"
+                  className="bg-amber-50 text-amber-700 border-amber-200"
+                >
                   <Clock className="mr-1 h-3 w-3" />
                   {timeLeft} left
                 </Badge>
@@ -348,8 +374,8 @@ export default function ChallengePage() {
               Daily {topic.charAt(0).toUpperCase() + topic.slice(1)} Challenge
             </h1>
             <p className="text-lg text-muted-foreground">
-              {isCompleted 
-                ? 'You\'ve completed today\'s challenge! 🎉'
+              {isCompleted
+                ? "You've completed today's challenge! 🎉"
                 : `Answer ${totalQuestions} questions to earn ${challenge.xpReward} XP`}
             </p>
           </div>
@@ -361,7 +387,9 @@ export default function ChallengePage() {
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
                     <Target className="h-5 w-5 text-blue-600" />
-                    <span className="font-medium">Progress: {Math.round(progress)}%</span>
+                    <span className="font-medium">
+                      Progress: {Math.round(progress)}%
+                    </span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <BookOpen className="h-5 w-5 text-green-600" />
@@ -370,7 +398,7 @@ export default function ChallengePage() {
                     </span>
                   </div>
                 </div>
-                
+
                 {streak > 0 && (
                   <Badge className="bg-amber-100 text-amber-800 hover:bg-amber-200">
                     <Flame className="mr-1 h-3 w-3" />
@@ -378,7 +406,7 @@ export default function ChallengePage() {
                   </Badge>
                 )}
               </div>
-              
+
               <Progress value={progress} className="mt-3 h-2" />
             </CardHeader>
           </Card>
@@ -398,7 +426,8 @@ export default function ChallengePage() {
                     Challenge Completed!
                   </CardTitle>
                   <CardDescription className="text-lg mb-6">
-                    You've earned {challenge.xpReward} XP for completing this challenge.
+                    Youve earned {challenge.xpReward} XP for completing this
+                    challenge.
                   </CardDescription>
 
                   {streak > 1 && (
@@ -414,7 +443,11 @@ export default function ChallengePage() {
                         Continue Learning
                       </Link>
                     </Button>
-                    <Button variant="outline" size="lg" onClick={() => router.push('/dashboard')}>
+                    <Button
+                      variant="outline"
+                      size="lg"
+                      onClick={() => router.push("/dashboard")}
+                    >
                       View Dashboard
                     </Button>
                   </div>
@@ -438,7 +471,11 @@ export default function ChallengePage() {
                           <CardTitle className="text-lg">
                             Question {index + 1}
                           </CardTitle>
-                          <Badge variant={answers[index]?.trim() ? "default" : "secondary"}>
+                          <Badge
+                            variant={
+                              answers[index]?.trim() ? "default" : "secondary"
+                            }
+                          >
                             {answers[index]?.trim() ? "Answered" : "Pending"}
                           </Badge>
                         </div>
@@ -449,8 +486,10 @@ export default function ChallengePage() {
                       <CardContent>
                         <Textarea
                           placeholder="Type your answer here..."
-                          value={answers[index] || ''}
-                          onChange={(e) => handleAnswerChange(index, e.target.value)}
+                          value={answers[index] || ""}
+                          onChange={(e) =>
+                            handleAnswerChange(index, e.target.value)
+                          }
                           className="min-h-[120px] resize-none"
                         />
                         <div className="mt-2 text-xs text-muted-foreground">
@@ -467,24 +506,30 @@ export default function ChallengePage() {
                 <CardContent className="pt-6">
                   <div className="flex items-center justify-between">
                     <div className="text-sm text-muted-foreground">
-                      {answeredQuestions === totalQuestions 
+                      {answeredQuestions === totalQuestions
                         ? "All questions answered! Ready to submit."
-                        : `${totalQuestions - answeredQuestions} questions remaining`}
+                        : `${
+                            totalQuestions - answeredQuestions
+                          } questions remaining`}
                     </div>
-                    
+
                     <div className="flex space-x-3">
-                      <Button 
-                        variant="outline" 
+                      <Button
+                        variant="outline"
                         onClick={saveProgress}
-                        disabled={autoSaving || Object.keys(answers).length === 0}
+                        disabled={
+                          autoSaving || Object.keys(answers).length === 0
+                        }
                       >
                         <Save className="mr-2 h-4 w-4" />
-                        {autoSaving ? 'Saving...' : 'Save Progress'}
+                        {autoSaving ? "Saving..." : "Save Progress"}
                       </Button>
-                      
-                      <Button 
+
+                      <Button
                         onClick={submitChallenge}
-                        disabled={answeredQuestions !== totalQuestions || submitting}
+                        disabled={
+                          answeredQuestions !== totalQuestions || submitting
+                        }
                         size="lg"
                         className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
                       >

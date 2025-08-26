@@ -793,21 +793,18 @@ export default function BasicTabs({
             </Box>
           <CustomTabPanel value={value} index={0}>
             <div className="p-6">
-              <div
-                className="relative rounded-lg border bg-gray-50 w-full mb-6"
-                style={{
-                  textTransform: "none",
-                  outline: "none",
-                  borderColor: themeColors.border,
-                }}
-              >
+              <div className="relative w-full mb-6">
               <Input
                 type="text"
                 placeholder="Search topics..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                style={{ textTransform: "none", outline: "none" }}
-                className="rounded-lg appearance-none text-[14px] w-full pl-10"
+                className="rounded-lg appearance-none text-[14px] w-full pl-10 border-0 border-b-2 border-gray-200 bg-transparent focus:border-gray-300 focus:ring-0 focus:outline-none"
+                style={{ 
+                  textTransform: "none", 
+                  outline: "none",
+                  boxShadow: "none"
+                }}
               />
               <SearchIcon
                 className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-400"

@@ -275,22 +275,6 @@ const GamificationDashboard = ({ compact = false }) => {
 
           <Card>
             <CardHeader>
-              <CardTitle>Daily Challenge</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChallengeCard
-                challenge={gamificationData.challenges?.daily?.current}
-                timeRemaining={calculateTimeRemaining(gamificationData.challenges?.daily.current?.expiresAt)}
-                onStart={() => {
-                  // Navigate to appropriate challenge page
-                  console.log('Starting challenge...');
-                }}
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
               <CardTitle>Achievements</CardTitle>
             </CardHeader>
             <CardContent>

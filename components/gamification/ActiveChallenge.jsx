@@ -9,6 +9,7 @@ import { useToast } from '../ui/use-toast';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { getThemeColors } from '@/lib/themeUtils';
 
 
 export default function ActiveChallenge({ topic, className = '' }) {
@@ -110,40 +111,16 @@ export default function ActiveChallenge({ topic, className = '' }) {
   }
 
   if (!challenge) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <Card className={`${className} border-l-4 border-l-gray-400`}>
-          <CardHeader className="pb-3">
-            <div className="flex items-center space-x-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100">
-                <Calendar className="h-5 w-5 text-gray-500" />
-              </div>
-              <div>
-                <CardTitle className="text-lg text-gray-700">Daily Challenge</CardTitle>
-                <CardDescription className="text-sm">
-                  No challenge available today
-                </CardDescription>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <p className="text-sm text-muted-foreground">
-              Check back tomorrow for a new challenge!
-            </p>
-          </CardContent>
-        </Card>
-      </motion.div>
-    );
+    return null; // Don't show anything when there's no challenge
   }
 
   const progress = challenge.userProgress?.progress || 0;
   const isCompleted = challenge.userProgress?.completed;
   const streak = challenge.userProgress?.streak || 0;
   const questionsCount = challenge.questions?.length || 0;
+  
+  // Get theme colors for the current topic
+  const themeColors = getThemeColors(topic);
 
   return (
     <motion.div
@@ -151,17 +128,27 @@ export default function ActiveChallenge({ topic, className = '' }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
     >
-      <Card className={`${className} border-l-4 ${isCompleted ? 'border-l-green-500' : 'border-l-blue-500'} hover:shadow-md transition-shadow`}>
+      <Card 
+        className={`${className} border-l-4 hover:shadow-md transition-shadow`}
+        style={{
+          borderLeftColor: isCompleted ? '#10b981' : themeColors.bg,
+          backgroundColor: 'white',
+          borderColor: themeColors.border
+        }}
+      >
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-full ${
-                isCompleted ? 'bg-green-100' : 'bg-blue-100'
-              }`}>
+              <div 
+                className="flex h-10 w-10 items-center justify-center rounded-full"
+                style={{
+                  backgroundColor: isCompleted ? '#dcfce7' : themeColors.light
+                }}
+              >
                 {isCompleted ? (
                   <Award className="h-5 w-5 text-green-600" />
                 ) : (
-                  <Target className="h-5 w-5 text-blue-600" />
+                  <Target className="h-5 w-5" style={{ color: themeColors.text }} />
                 )}
               </div>
               <div>
@@ -197,7 +184,10 @@ export default function ActiveChallenge({ topic, className = '' }) {
             </div>
             <Progress 
               value={progress} 
-              className={`h-2 ${isCompleted ? 'bg-green-100' : 'bg-blue-100'}`}
+              className="h-2"
+              style={{
+                backgroundColor: isCompleted ? '#dcfce7' : themeColors.light
+              }}
             />
           </div>
         </CardHeader>
@@ -214,7 +204,7 @@ export default function ActiveChallenge({ topic, className = '' }) {
                 <span className="font-semibold">Challenge Completed!</span>
               </div>
               <p className="text-sm text-green-600 mb-3">
-                Great job! You've earned {challenge.xpReward} XP today.
+                Great job! Youve earned {challenge.xpReward} XP today.
               </p>
               {streak > 1 && (
                 <div className="inline-flex items-center rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-800">
@@ -237,7 +227,11 @@ export default function ActiveChallenge({ topic, className = '' }) {
               
               <Button 
                 onClick={handleStartChallenge}
-                className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white"
+                className="w-full text-white"
+                style={{
+                  background: `linear-gradient(to right, ${themeColors.bg}, ${themeColors.text})`,
+                  borderColor: themeColors.border
+                }}
                 size="lg"
               >
                 Start Challenge
