@@ -6,6 +6,7 @@ import Header from "@/components/header";
 import GamificationDashboard from "@/components/gamification/GamificationDashboard";
 import ActiveChallenge from "@/components/gamification/ActiveChallenge";
 import TopicsProgressChart from "@/components/gamification/TopicsProgressChart";
+import PlaygroundStats from "@/components/gamification/PlaygroundStats";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -16,6 +17,8 @@ import {
   Clock,
   BarChart3,
   ArrowLeft,
+  Code,
+  Play,
 } from "lucide-react";
 
 export default function Dashboard() {
@@ -113,6 +116,13 @@ export default function Dashboard() {
             </div>
 
             <div className="flex items-center gap-4">
+              <button
+                onClick={() => router.push("/playground")}
+                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-purple-700 hover:to-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-2"
+              >
+                <Code className="w-4 h-4" />
+                Code Playground
+              </button>
               <button
                 onClick={() => router.push("/category/Javascript")}
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
@@ -298,6 +308,14 @@ export default function Dashboard() {
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: 0.7 }}
                   >
+                    <PlaygroundStats userId={session?.user?.id} />
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.8 }}
+                  >
                     <ActiveChallenge topic="Javascript" />
                   </motion.div>
 
@@ -306,7 +324,7 @@ export default function Dashboard() {
                     <motion.div
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.6, delay: 0.8 }}
+                      transition={{ duration: 0.6, delay: 0.9 }}
                     >
                       <Card className="shadow-lg">
                         <CardHeader>
@@ -346,7 +364,7 @@ export default function Dashboard() {
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.9 }}
+                    transition={{ duration: 0.6, delay: 1.0 }}
                   >
                     <Card className="bg-gradient-to-br from-indigo-50 to-purple-50 border-indigo-200 shadow-lg">
                       <CardHeader>

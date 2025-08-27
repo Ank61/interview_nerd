@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import react from "../images/react.png";
 import next from "../images/next.png";
@@ -28,6 +29,9 @@ import {
   Twitter,
   Linkedin,
   Mail,
+  Code,
+  Play,
+  Brain,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
@@ -90,6 +94,15 @@ export default function Home() {
               >
                 Categories
               </a>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => session ? router.push('/playground') : router.push('/auth/login')}
+                className="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+              >
+                <Code className="w-4 h-4" />
+                Playground
+              </Button>
               <a
                 href="#testimonials"
                 className="text-gray-600 hover:text-blue-600 transition-colors"
@@ -160,6 +173,18 @@ export default function Home() {
                 >
                   Categories
                 </a>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    session ? router.push('/playground') : router.push('/auth/login');
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1 justify-start w-full py-2"
+                >
+                  <Code className="w-4 h-4" />
+                  Playground
+                </Button>
                 <a
                   href="#testimonials"
                   className="block text-gray-600 hover:text-blue-600 transition-colors py-2"
@@ -363,6 +388,98 @@ export default function Home() {
                 <div className="text-blue-100 font-medium">Top Companies</div>
               </motion.div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Code Playground Feature Section */}
+      <section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16">
+        <div className="container mx-auto px-4">
+          <div className="max-w-6xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-center mb-12"
+            >
+              <div className="inline-flex items-center gap-2 bg-white/10 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+                <Zap className="w-4 h-4" />
+                New Feature: AI-Powered Learning
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+                Code Playground
+              </h2>
+              <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+                Practice coding with our interactive playground featuring adaptive difficulty, 
+                real-time feedback, and AI-powered recommendations across JavaScript, TypeScript, and Python.
+              </p>
+            </motion.div>
+
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <Brain className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">Adaptive AI</h3>
+                  <p className="text-blue-100 text-sm">
+                    Smart algorithm adjusts difficulty based on your performance and learning patterns
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <Code className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">Multi-Language</h3>
+                  <p className="text-blue-100 text-sm">
+                    Practice in JavaScript, TypeScript, and Python with real-time code execution
+                  </p>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <TrendingUp className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">Progress Tracking</h3>
+                  <p className="text-blue-100 text-sm">
+                    Track your coding skills, success rates, and improvement over time
+                  </p>
+                </div>
+              </motion.div>
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-center"
+            >
+              <Button
+                size="lg"
+                onClick={() => session ? router.push('/playground') : router.push('/auth/login')}
+                className="bg-white text-purple-600 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                <Play className="mr-2 w-5 h-5" />
+                {session ? 'Start Coding Now' : 'Try Code Playground'}
+              </Button>
+              <p className="text-blue-100 text-sm mt-4">
+                🚀 Powered by adaptive AI • 🎯 Personalized learning • 🏆 Gamified experience
+              </p>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -890,6 +1007,27 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
+              className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
+              onClick={() => session ? router.push('/playground') : router.push('/auth/login')}
+            >
+              <div className="p-3 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg mb-4">
+                <Code className="w-8 h-8 text-white" />
+              </div>
+              <h3 className="font-semibold text-lg mb-2 text-gray-900">
+                Code Playground
+              </h3>
+              <p className="text-gray-600 text-center text-sm leading-relaxed">
+                Interactive coding environment with AI-powered adaptive difficulty and real-time feedback.
+              </p>
+              <Badge className="mt-2 bg-purple-100 text-purple-800 text-xs">
+                🆕 New Feature
+              </Badge>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
               className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="p-3 bg-blue-50 rounded-lg mb-4">
@@ -907,7 +1045,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
               className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="p-3 bg-green-50 rounded-lg mb-4">
@@ -924,7 +1062,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
               className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow"
             >
               <div className="p-3 bg-purple-50 rounded-lg mb-4">
@@ -935,23 +1073,6 @@ export default function Home() {
               </h3>
               <p className="text-gray-600 text-center text-sm leading-relaxed">
                 Monitor your improvement and focus on your weak spots.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="bg-white border border-gray-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-md transition-shadow"
-            >
-              <div className="p-3 bg-orange-50 rounded-lg mb-4">
-                <Users className="w-8 h-8 text-orange-600" />
-              </div>
-              <h3 className="font-semibold text-lg mb-2 text-gray-900">
-                Community Insights
-              </h3>
-              <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Get tips and experiences from successful candidates and experts.
               </p>
             </motion.div>
           </div>
