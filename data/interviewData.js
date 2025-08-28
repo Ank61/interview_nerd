@@ -13473,4 +13473,435 @@ greet name = "Hello, " ++ name ++ "!"
       },
     ],
   },
+  {
+    id: 22,
+    topic: "React",
+    categories: "Mid",
+    tags: [
+      { name: "runtime", link: "" },
+      { name: "javascript", link: "" },
+      { name: "npm", link: "" },
+      { name: "modules", link: "" },
+      { name: "fundamentals", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What problem does Context API solve in React?",
+        solution:
+          "The Context API in React primarily solves the issue of 'prop drilling,' which occurs when data or state needs to be passed through multiple layers of nested components, even if intermediate components do not use that data themselves. This can lead to cluttered code, reduced maintainability, and unnecessary prop passing that complicates component reusability. By using Context, you can create a shared data layer that any component in the tree can access directly, without explicit prop threading. This is particularly useful for global data like themes, authentication status, user preferences, or locale settings, where the data is needed across distant parts of the component hierarchy. Overall, it promotes cleaner code architecture by decoupling data providers from consumers, making applications easier to scale and refactor while avoiding the overhead of prop chains in deeply nested UIs.",
+      },
+      {
+        question: "When should you prefer Context over props drilling?",
+        solution:
+          "You should prefer Context over prop drilling when the data or state needs to be accessed by many components at various levels of the component tree, especially if intermediate components do not require the data but must pass it along. Prop drilling becomes problematic in large applications with deep nesting, as it increases code verbosity, makes refactoring harder, and can introduce bugs from missed prop updates. Context is ideal for scenarios like sharing theme objects, user authentication details, or global configurations that are consumed sporadically across the app. However, if the data is only needed by a direct parent-child pair or a small subtree, prop drilling might be simpler and more performant since Context introduces subscription overhead. Additionally, use Context when you anticipate future expansions where more components might need the same data, as it avoids retroactive prop additions. In summary, Context shines in reducing boilerplate for widely shared state, but for localized data, stick with props to avoid unnecessary re-render triggers.",
+      },
+      {
+        question: "Explain the three steps to create and use a context.",
+        solution:
+          "To create and use a Context in React, follow these three steps: First, create the context object using React.createContext(defaultValue), where defaultValue is the fallback if no provider is found—this could be null, an object, or any initial value. This returns an object with Provider and Consumer components. Second, wrap the part of your component tree that needs access to the context with the Provider component, like <MyContext.Provider value={someValue}>, where 'value' is the data you want to share, which can be state, functions, or computed values; this Provider can be placed high in the tree, such as in the root App component. Third, consume the context in descendant components using either the useContext(MyContext) hook in functional components, which returns the current value, or the <MyContext.Consumer> render prop in class or functional components for more complex rendering logic. These steps ensure data flows efficiently without prop drilling, and consumers automatically re-render on value changes, covering the full lifecycle from creation to consumption while handling defaults and updates seamlessly.",
+      },
+      {
+        question:
+          "What is the default value argument in createContext used for?",
+        solution:
+          "The default value argument in React.createContext(defaultValue) serves as a fallback value that is provided to consumers if no matching Provider is found higher up in the component tree. This is crucial for scenarios where a consumer might be rendered outside a Provider, such as during testing, in isolated components, or in optional Provider setups. For example, if you create a ThemeContext with createContext({ mode: 'light' }), any consumer without a Provider will receive { mode: 'light' }. It helps in debugging by providing a sensible initial state and prevents undefined errors in consumers. However, it's not a global default for the app; it's only used in the absence of a Provider. Best practices include setting it to a representative value that matches the expected shape (e.g., an empty object or null), ensuring type consistency. This argument wholly supports robust context usage by safeguarding against incomplete Provider hierarchies and aiding in component isolation.",
+      },
+      {
+        question: "How do you consume multiple contexts in a single component?",
+        solution:
+          "To consume multiple contexts in a single React component, you can use the useContext hook multiple times within a functional component, each call targeting a different context. For instance, const theme = useContext(ThemeContext); const user = useContext(UserContext); allows independent access to each value. In class components or older code, you would nest multiple <consumer> components, but this can lead to callback hell, so hooks are preferred for simplicity. Ensure the component is a descendant of all relevant Providers. This approach covers scenarios like combining authentication, theme, and locale data in one UI element. Performance-wise, each useContext subscribes separately, so re-renders occur only if the specific context changes. If using Consumers, wrap them in a way that avoids deep nesting. Overall, this method enables modular data consumption, promoting composability while handling multiple shared states without conflicts.",
+      },
+      {
+        question:
+          "Describe the difference between Context.Provider and Context.Consumer.",
+        solution:
+          "Context.Provider and Context.Consumer are two key components returned by React.createContext(). The Provider is a wrapper component that supplies the context value to its descendants via the 'value' prop, like &#x3C;MyContext.Provider value={data}>, and it enables subscription to changes—whenever the value prop changes (new reference), all subscribed consumers re-render. It's typically placed higher in the tree to broadcast data globally or to a subtree. In contrast, Context.Consumer is a component that subscribes to the nearest Provider's value and uses a render prop pattern to render content based on that value, e.g., &#x3C;MyContext.Consumer>{value => </consumer>{value}}</MyContext.Consumer>. It's useful in class components or for dynamic rendering without hooks. The main differences lie in their roles: Provider broadcasts and updates, while Consumer receives and renders. With hooks like useContext replacing Consumer in modern code, this duo covers the full provider-consumer pattern, ensuring efficient data flow and re-render management.",
+      },
+      {
+        question:
+          "How can you optimize context value to avoid unnecessary re-renders?",
+        solution:
+          "To optimize context values and prevent unnecessary re-renders in React, use memoization techniques like useMemo for object or array values and useCallback for functions provided in the context. For example, if the value is an object { data, setData }, wrap it in useMemo(() => ({ data, setData }), [data]) to ensure a stable reference unless dependencies change. Split contexts into smaller, independent ones for different state slices (e.g., separate ThemeContext and UserContext) so that updates in one don't trigger re-renders in unrelated consumers. Avoid inline objects or functions in the value prop, as they create new references on every render. Use React.memo on consumer components to shallow-compare props and skip re-renders if unchanged. For complex cases, consider state management libraries if Context alone causes performance issues. These strategies wholly address re-render optimization by stabilizing references, minimizing subscription scope, and leveraging React's built-in memoization, ensuring efficient UI updates in large apps.",
+      },
+      {
+        question: "What happens if you mutate the context value directly?",
+        solution:
+          "If you mutate the context value directly, such as by modifying an object property like value.data = newData without updating the value prop itself, React will not detect the change and thus won't trigger re-renders in consumers. This is because Context relies on reference equality checks for the value prop—mutations keep the same reference, so no update propagates. This can lead to stale data in UI, bugs where components don't reflect changes, and hard-to-debug inconsistencies. To properly update, always create a new value reference, e.g., setValue({ ...value, data: newData }) using state setters. Direct mutations violate React's immutability principles, potentially causing side effects in shared state. In summary, while technically possible, it's an anti-pattern that breaks the reactive model; always use immutable updates to ensure reliable propagation, covering the importance of reference-based change detection in Context's design.",
+      },
+      {
+        question:
+          "Explain how to split contexts to minimize re-rendering scope.",
+        solution:
+          "Splitting contexts in React involves creating multiple separate contexts for different, independent pieces of state to minimize re-rendering scope. For example, instead of a single AppContext holding { theme, user, locale }, create ThemeContext, UserContext, and LocaleContext. Each Provider wraps the tree independently or compositely, and consumers subscribe only to what's needed, e.g., a component using useContext(ThemeContext) re-renders only on theme changes, not user updates. This reduces unnecessary re-renders since each context change affects only its subscribers. Place Providers at the appropriate tree level—global for app-wide, subtree for localized. Use a composite provider component to avoid nesting hell. This approach covers performance optimization by granularizing subscriptions, preventing broad re-render cascades in large apps, and aligning with single-responsibility principles for maintainable state management.",
+      },
+      {
+        question:
+          "Can context hold non-primitive values (objects, functions)? Caveats?",
+        solution:
+          "Yes, React Context can hold non-primitive values like objects, arrays, or functions, making it versatile for complex data such as { state, dispatch } or theme objects. However, caveats include reference stability: passing a new object or function on each render (e.g., value={{ key: value }}) causes unnecessary re-renders in all consumers due to failed reference equality checks, even if contents are identical. Mitigate with useMemo for objects/arrays and useCallback for functions to memoize based on dependencies. Another caveat is mutation risks—altering shared objects can lead to unpredictable behavior without re-renders. Performance can suffer if large objects are passed without memoization. For functions, avoid closures capturing unstable vars. Overall, while powerful for rich data sharing, these caveats emphasize the need for immutability, memoization, and careful dependency management to maintain efficiency and correctness in Context usage.",
+      },
+      {
+        question: "How do you test components that rely on context?",
+        solution:
+          "Testing components that rely on React Context involves wrapping the component in a mock Provider during renders to simulate the context value. Using libraries like @testing-library/react, create a custom render function that includes the Provider, e.g., const customRender = (ui, { providerProps }) => render(<MyContext.Provider {...providerProps}>{ui}</MyContext.Provider>); then test with customRender(<component>, { providerProps: { value: mockValue } }). For hooks, test useContext indirectly via component behavior. In Jest, mock the entire context module or use jest.mock to override createContext. Assert on rendered output, interactions, and state changes. For edge cases, test without Provider to verify default value usage. This covers isolation, mocking, and integration testing, ensuring components behave correctly under various context scenarios without full app setup, promoting reliable unit tests.",
+      },
+      {
+        question: "Describe the displayName property on context.",
+        solution:
+          "The displayName property on a React context object is a string that you can set for debugging purposes, such as MyContext.displayName = 'MyContext';. It appears in React DevTools to label the context in the component tree and profiler, making it easier to identify and inspect specific contexts in complex apps with multiple ones. Without it, DevTools shows a generic name like 'Context'. This is particularly useful during development for tracing value providers and consumers. It doesn't affect runtime behavior or performance but enhances developer experience. Set it after createContext for clarity. Overall, displayName covers the debugging aspect of Context, aiding in maintenance and troubleshooting by providing human-readable identifiers in tools.",
+      },
+      {
+        question: "Explain server-side rendering considerations for Context.",
+        solution:
+          "For server-side rendering (SSR) with React Context, ensure the context value is computed correctly on the server, as it runs in a Node.js environment without browser APIs. Use libraries like Next.js or ReactDOMServer to render the Provider-wrapped tree, serializing the initial value (avoid functions or non-serializable data). On client hydration, match the server value exactly to avoid mismatches. Dynamic values (e.g., based on cookies) require careful handling—compute on server and pass via props or data attributes. Contexts with side effects should use useEffect for client-only updates. Test for hydration errors. This covers SSR compatibility, ensuring consistent rendering, serialization safety, and seamless client takeover, making Context viable for universal apps without breaking isomorphism.",
+      },
+      {
+        question: "How does useContext work internally?",
+        solution:
+          "Internally, useContext(MyContext) in React hooks into the fiber node's context dependencies, reading the current value from the nearest Provider up the tree via React's context stack. It subscribes the component to context changes by adding it to a dependency list. When a Provider's value changes (new prop reference), React marks all subscribed components for re-render during the next update phase, forcing a fresh read. If no Provider exists, it falls back to the default. This uses React's dispatcher and fiber reconciliation for efficiency. Hooks rules ensure it's called unconditionally. Overall, it leverages React's internal context propagation and update mechanisms for reactive consumption, covering subscription, reading, and re-rendering logic without manual event handling.",
+      },
+      {
+        question: "What is the performance cost of deeply nested contexts?",
+        solution:
+          "Deeply nested contexts in React incur minimal direct performance cost for rendering, as each Provider adds only a shallow layer to the virtual DOM tree, but the main overhead comes from re-renders: when a high-level context changes, it can cascade re-renders through all nested Providers and consumers if not optimized. Subscription management is O(1) per context, but many layers increase the reconciliation work slightly. In large apps, this can amplify if combined with un-memoized values. Mitigate by flattening with composite providers or splitting contexts. No significant memory or initial render cost beyond standard components. This covers the nuanced performance implications, emphasizing re-render propagation over nesting depth itself, guiding towards optimized architectures.",
+      },
+      {
+        question: "How would you implement theme switching with Context?",
+        solution:
+          "To implement theme switching with React Context, first create a ThemeContext = React.createContext({ theme: 'light', toggleTheme: () => {} });. In a provider component, use state like const [theme, setTheme] = useState('light'); const toggleTheme = () => setTheme(prev => prev === 'light' ? 'dark' : 'light');, then &#x3C;ThemeContext.Provider value={{ theme, toggleTheme }}>. Wrap your app with this Provider. Consume in components via const { theme } = useContext(ThemeContext); and apply styles, e.g., <div class='{theme}'>. For persistence, use localStorage in useEffect. Memoize the value object. This covers full implementation: creation, state management, consumption, and extras like persistence, enabling dynamic UI theming without prop drilling.",
+      },
+      {
+        question: "Explain dynamic context updates (e.g., user locale).",
+        solution:
+          "Dynamic context updates in React, like changing user locale, involve holding mutable state in the Provider and updating it via setters. For example, create LocaleContext with value { locale: 'en', setLocale: (newLocale) => {} }; use useState in the Provider to manage locale, updating on events like button clicks or API responses. Consumers via useContext will automatically re-render on value change due to new reference. For async updates, integrate with useEffect. Ensure immutability in updates. This pattern covers reactivity for user-driven or external changes, such as locale detection from browser or server, ensuring the entire subtree reflects updates seamlessly without manual propagation.",
+      },
+      {
+        question: "Describe pattern to avoid “provider hell”.",
+        solution:
+          "To avoid 'provider hell'—deeply nested Provider components cluttering the JSX—use a composition pattern by creating a single wrapper component that nests all Providers, like function AppProviders({ children }) { return <themeprovider><userprovider><localeprovider>{children}</localeprovider></userprovider></themeprovider>; }, then wrap your app with <appproviders><app></app></appproviders>. This keeps the root clean while maintaining hierarchy. For order-dependent Providers, nest accordingly. Use TypeScript for prop typing. This approach covers maintainability, reducing indentation and improving readability in apps with multiple contexts, without altering functionality.",
+      },
+      {
+        question: "How do you reset context state to default?",
+        solution:
+          "Resetting context state to default in React isn't direct, as Context doesn't have built-in reset; instead, manage it via the Provider's state. If using useState in the Provider, add a reset function like setValue(defaultValue) where defaultValue matches createContext's arg. Provide this reset in the value object for consumers to call. Alternatively, conditionally render the Provider only when needed, falling back to default without it. For complex state, use useReducer with a RESET action. This covers strategies for reversion, emphasizing state management integration since Context is a distribution mechanism, ensuring controlled resets without side effects.",
+      },
+      {
+        question:
+          "Explain React.createContext vs third-party libraries like Redux.",
+        solution:
+          "React.createContext provides a built-in way to share state across components without prop drilling, suitable for simple, medium-scale apps needing global data like themes or user info, with easy setup using Providers and hooks. However, it lacks advanced features like middleware, time-travel debugging, or normalized state, and can cause performance issues with frequent updates due to broad re-renders. Third-party libraries like Redux offer centralized stores, action creators, reducers for predictable state, devtools, and plugins for async logic (thunks/sagas), making them better for complex, large-scale apps with intricate state logic. Context can pair with useReducer to mimic Redux lightly. Choose Context for simplicity and no boilerplate; Redux for robustness and ecosystem. This comparison covers use cases, strengths, and when to escalate, guiding architectural decisions.",
+      },
+      {
+        question: "Describe context scoping for micro-frontends.",
+        solution:
+          "In micro-frontends, context scoping involves isolating Contexts per micro-app to avoid global conflicts, or sharing via a shell app's Context if integration requires. Each micro-frontend bundle can define its own Contexts, ensuring independence. For cross-MFE communication, use a parent shell Provider that MFEs consume via shared Context, or events/custom elements. Tools like Module Federation help share Contexts across bundles. Scoped Providers prevent leakage. This covers modularity in distributed UIs, balancing isolation with collaboration, addressing challenges like versioning and state synchronization in MFE architectures.",
+      },
+      {
+        question: "How can context be used for dependency injection?",
+        solution:
+          "Context can serve as a dependency injection (DI) mechanism in React by providing services, APIs, or mocks via the value prop, allowing components to consume them without hardcoding. For example, create ServicesContext with value={{ api: mockApi }} for testing, or realApi in production; components use const { api } = useContext(ServicesContext); to call methods. This decouples components from implementations, aiding testability (inject mocks) and modularity. Caveats: ensure stable references. Unlike dedicated DI frameworks, it's UI-tree bound. This pattern covers DI principles in React, enhancing flexibility, especially for utilities like loggers or fetchers, without external libs.",
+      },
+      {
+        question: "Explain the relationship between context and re-renders.",
+        solution:
+          "The relationship between Context and re-renders in React is subscription-based: when a Provider's value prop changes (new reference), all descendant consumers re-render, as React forces updates on subscribed components. This ensures reactivity but can cause unnecessary re-renders if values are unstable or contexts are monolithic. Consumers don't re-render on unchanged values due to reference equality. Optimize with memoization and splitting. Parent re-renders can indirectly affect if value recomputes. This covers the reactive model, highlighting change detection via references, and strategies to mitigate cascade effects for performant apps.",
+      },
+      {
+        question:
+          "How do you combine Context with useReducer for global state?",
+        solution:
+          "To combine Context with useReducer for global state in React, create a Context for the state and dispatch, then in the Provider, use const [state, dispatch] = useReducer(reducer, initialState); and &#x3C;MyContext.Provider value={{ state, dispatch }}>. Consumers access via useContext to read state or dispatch actions. This mimics a mini-Redux: reducer handles logic centrally. Add middleware via custom dispatch if needed. Place Provider at root for app-wide access. This setup covers scalable state management, leveraging useReducer's complex logic handling with Context's distribution, ideal for apps outgrowing useState without full Redux.",
+      },
+      {
+        question:
+          "What are the pitfalls of putting functions in context value?",
+        solution:
+          "Putting functions in React Context value has pitfalls like causing unnecessary re-renders if the function is recreated on each Provider render (new reference), triggering consumer updates even without changes. Mitigate with useCallback: const memoizedFn = useCallback(() => {}, [deps]);. Closures can capture stale state if not careful with deps. Performance overhead if functions are heavy. Mutations via functions can bypass re-renders. Avoid overusing for simple callbacks. This covers stability, closure, and efficiency issues, emphasizing memoization and dependency management for reliable function sharing.",
+      },
+      {
+        question: "Describe the signature of useReducer.",
+        solution:
+          "The signature of React's useReducer hook is const [state, dispatch] = useReducer(reducer, initialArg, init?), where 'reducer' is a function that takes the current state and an action, returning the new state; 'initialArg' is the initial state or argument passed to the optional 'init' function; and 'init' is an optional lazy initializer that computes the initial state from initialArg, useful for expensive computations. This hook returns the current state and a dispatch function to send actions. It's called at the top level of functional components, following hooks rules. This signature enables complex state logic, akin to Redux reducers, covering declarative updates, predictability, and lazy init for optimization in React apps.",
+      },
+      {
+        question: "Explain the role of the reducer function.",
+        solution:
+          "The reducer function in useReducer plays a central role in managing state transitions by taking the current state and an action object (typically { type: string, payload? }), and returning a new state without mutating the old one. It encapsulates all state update logic in one pure function, promoting predictability, testability, and separation of concerns—actions describe 'what happened,' reducers decide 'how state changes.' This pattern handles complex scenarios like conditional updates or multiple state fields better than useState. Reducers must be pure (no side effects) for consistent behavior. Overall, it covers the core of functional state management, enabling scalable apps by centralizing logic and avoiding imperative state setters.",
+      },
+      {
+        question: "How do you handle async operations inside a reducer?",
+        solution:
+          "You shouldn't handle async operations directly inside a reducer, as reducers must be pure synchronous functions without side effects like API calls. Instead, perform async logic outside, in event handlers or useEffect, then dispatch actions with results. For example, use thunks: dispatch a function that does async work and dispatches success/failure actions. Libraries like redux-thunk enable this, or manually in useReducer by checking if action is a function: if (typeof action === 'function') action(dispatch). This keeps reducers pure while handling async flows like loading data, covering patterns for real-world apps without breaking predictability.",
+      },
+      {
+        question:
+          "Describe the third argument to useReducer (lazy initialization).",
+        solution:
+          "The third argument to useReducer is an optional 'init' function for lazy initialization: useReducer(reducer, initialArg, init), where 'init' takes initialArg and returns the actual initial state. This defers expensive computations (e.g., parsing large data) until the component mounts, avoiding unnecessary work on every render if initialArg changes. For example, init could compute state from localStorage. Without it, initialArg is the state directly. This feature covers optimization for initial state setup, enhancing performance in scenarios with costly derivations or side-effect-free init.",
+      },
+      {
+        question: "How can you combine multiple reducers?",
+        solution:
+          "To combine multiple reducers in React, create a root reducer that delegates to sub-reducers for different state slices, similar to Redux's combineReducers. For example, function rootReducer(state, action) { return { todos: todosReducer(state.todos, action), filters: filtersReducer(state.filters, action) }; }. Use this root in useReducer. For modularity, use object keys to namespace actions. This approach covers scalable state management, allowing independent development of reducers for large apps while maintaining a single state tree.",
+      },
+      {
+        question: "Explain how to reset state via dispatch.",
+        solution:
+          "To reset state via dispatch in useReducer, define a 'RESET' action type in the reducer that returns the initial state or a default value: if (action.type === 'RESET') return initialState;. Then, dispatch({ type: 'RESET' }) from components. For partial resets, include payload like { type: 'RESET', section: 'todos' } and handle accordingly. This keeps resets declarative and integrated into the action flow, covering maintainable state recovery without direct state manipulation.",
+      },
+      {
+        question: "Describe how to share dispatch across components.",
+        solution:
+          "To share dispatch across components, combine useReducer with Context: place useReducer in a Provider component, then provide { state, dispatch } via Context.value. Descendant components consume dispatch with useContext. This avoids prop drilling for actions, ideal for global state. Alternatively, pass dispatch via props for localized sharing. This method covers distributed dispatching, enabling coordinated updates in complex UIs while keeping state centralized.",
+      },
+      {
+        question: "What is the difference between Flux and useReducer?",
+        solution:
+          "Flux is an architectural pattern from Facebook for unidirectional data flow, involving actions, dispatcher, stores, and views, popularized by Redux. useReducer is a React hook implementing a reducer pattern for local state, similar to a mini-Flux store per component. Key differences: Flux/Redux is app-wide with middleware and devtools; useReducer is component-scoped, simpler, no built-in middleware. useReducer can scale with Context to mimic Flux. This covers conceptual overlap and distinctions, guiding when to use each for state management.",
+      },
+      {
+        question: "How do you test reducer logic in isolation?",
+        solution:
+          "To test reducer logic in isolation, write unit tests that call the reducer with mock state and actions, asserting the returned new state: expect(reducer(initialState, { type: 'INCREMENT' })).toEqual(expectedState);. Use Jest or similar, covering all action types, edge cases, and immutability. No need for ReactDOM; it's pure JS. This ensures logic correctness independently of UI, covering comprehensive testing for reliable reducers.",
+      },
+      {
+        question: "Explain action creators and action types.",
+        solution:
+          "Action creators are functions that return action objects, like function addTodo(text) { return { type: 'ADD_TODO', payload: text }; }, promoting consistency and reusability. Action types are string constants defining action kinds, like const ADD_TODO = 'ADD_TODO';, avoiding typos via exports. Together, they standardize dispatching, making code readable and refactorable. This covers best practices for structured actions in reducer-based systems.",
+      },
+      {
+        question: "Describe middleware pattern with reducers.",
+        solution:
+          "The middleware pattern with reducers involves chaining functions that intercept actions before the reducer, enabling logging, async, or modifications. In useReducer, implement manually: wrap dispatch in a middleware function, like const logger = dispatch => action => { console.log(action); return dispatch(action); }; then use composed middleware. For complex, use libraries like redux-middleware. This extends functionality without altering reducers, covering extensibility for advanced features.",
+      },
+      {
+        question: "How do you avoid stale state in closures?",
+        solution:
+          "To avoid stale state in closures with useReducer, use functional updates in dispatch if needed, but since dispatch is stable, closures capturing it are fine. For effects or callbacks, include state in dependencies or use ref for latest state. Dispatch actions with current computations outside closures. This mitigates closure pitfalls, ensuring fresh data in async or memoized contexts.",
+      },
+      {
+        question: "Explain immer usage with useReducer.",
+        solution:
+          "Immer integrates with useReducer by allowing mutable-like code in reducers via produce: import produce from 'immer'; const reducer = (state, action) => produce(state, draft => { if (action.type === 'UPDATE') draft.prop = newValue; });. It creates immutable updates under the hood, simplifying complex nested state changes without spreads. This covers ease-of-use for immutable patterns, reducing boilerplate in reducers.",
+      },
+      {
+        question: "Describe optimistic updates using reducers.",
+        solution:
+          "Optimistic updates with reducers involve dispatching an action to immediately update UI state as if a async operation succeeded, then rollback on failure. For example, dispatch({ type: 'ADD_ITEM_OPTIMISTIC', item }); then on API success, confirm; on error, dispatch undo. Use unique IDs for pending items. This improves perceived performance, covering UX enhancements in async flows.",
+      },
+      {
+        question: "How do you persist reducer state to localStorage?",
+        solution:
+          "To persist reducer state to localStorage, use useEffect to save state on changes: useEffect(() => localStorage.setItem('state', JSON.stringify(state)), [state]);. On init, load via lazy init: useReducer(reducer, undefined, () => JSON.parse(localStorage.getItem('state')) || initialState);. Handle serialization errors. This covers persistence for offline or refresh resilience.",
+      },
+      {
+        question: "Explain undo/redo with useReducer.",
+        solution:
+          "For undo/redo with useReducer, maintain a state with { past: [], present, future: [] }; reducer handles actions by pushing present to past, applying new present, clearing future; undo pops past to present, pushes old present to future. Dispatch 'UNDO'/'REDO' actions. Limit history depth. This covers time-travel features, useful for editors or forms.",
+      },
+      {
+        question: "Describe state machines vs reducers.",
+        solution:
+          "State machines (e.g., XState) define finite states and transitions with guards/effects, enforcing valid flows. Reducers are more flexible, handling any action-to-state mapping without explicit states. Machines prevent invalid states; reducers require manual checks. Use machines for constrained UIs, reducers for general state. This covers structured vs free-form management.",
+      },
+      {
+        question: "How do you create reusable reducer hooks?",
+        solution:
+          "Create reusable reducer hooks by exporting a custom hook: function useTodoReducer(initial) { return useReducer(todoReducer, initial); }, with shared reducer logic. Parametrize for variations. Combine with Context for sharing. This promotes DRY code across components.",
+      },
+      {
+        question: "Explain performance considerations of large state objects.",
+        solution:
+          "Large state objects in useReducer can cause performance issues from deep copies in immutable updates or re-renders on partial changes. Mitigate by normalizing state, splitting reducers, or using immer for efficient drafts. Memoize selectors. This covers optimization for scalability.",
+      },
+      {
+        question: "Describe conditional dispatch logic.",
+        solution:
+          "Conditional dispatch in useReducer involves checking conditions in the reducer before applying changes, or outside before dispatching. Use guards in actions. This ensures controlled updates, preventing invalid states.",
+      },
+      {
+        question: "How do you type reducer actions with TypeScript?",
+        solution:
+          "Type reducer actions with TypeScript by defining action unions: type Action = { type: 'INCREMENT' } | { type: 'DECREMENT', payload: number }; then reducer: (state: State, action: Action) => State. Use discriminated unions for type safety. This covers robust typing for error-free dispatching.",
+      },
+      {
+        question: "Explain error handling inside reducers.",
+        solution:
+          "Error handling in reducers involves dedicated error actions: dispatch({ type: 'ERROR', error }); reducer adds error to state. Keep pure—no throws. Handle in UI via state. This integrates errors into state flow.",
+      },
+      {
+        question: "Describe how to batch multiple dispatch calls.",
+        solution:
+          "Batch dispatches with React.batchUpdates or multiple in one effect/callback; React auto-batches in events. For manual, use unstable_batchedUpdates. This reduces re-renders for efficiency.",
+      },
+      {
+        question: "How do you debug reducer actions in DevTools?",
+        solution:
+          "Debug with Redux DevTools via adapter for useReducer, or log actions/state. For native, use React DevTools profiler. This covers tracing for issues.",
+      },
+      {
+        question: "What is React.memo and when should you use it?",
+        solution:
+          "React.memo is a higher-order component that memoizes a functional component, preventing re-renders if props are shallow-equal. Use for pure components with expensive renders or in lists, but not if props change often or with deep objects without custom compare. This optimizes by skipping unnecessary work.",
+      },
+      {
+        question: "Explain the second argument of React.memo.",
+        solution:
+          "The second argument to React.memo is an optional areEqual function: (prevProps, nextProps) => boolean, for custom prop comparison beyond shallow. Return true to skip render. Useful for deep equality or ignoring props. This customizes memoization.",
+      },
+      {
+        question: "How does useCallback differ from useMemo?",
+        solution:
+          "useCallback memoizes functions: useCallback(fn, deps), returning same reference if deps unchanged. useMemo memoizes values: useMemo(() => compute, deps). useCallback is sugar for useMemo(() => fn, deps). UseCallback for callbacks to avoid child re-renders; useMemo for computations.",
+      },
+      {
+        question: "When should you not memoize?",
+        solution:
+          "Avoid memoizing if computation is cheap (overhead outweighs), deps change frequently (negates benefits), or in simple components. Premature optimization; profile first. Not for side effects or unstable refs.",
+      },
+      {
+        question: "Describe the signature of useReducer.",
+        solution:
+          "The signature of useReducer in React is const [state, dispatch] = useReducer(reducer, initialArg, init?); where 'reducer' is a function that takes the current state and an action, returning the new state; 'initialArg' is the initial state or an argument passed to the optional 'init' function for lazy initialization; and 'init' is an optional function that computes the initial state from initialArg, useful for expensive setups. This hook returns the current state and a dispatch function to send actions. It must be called unconditionally at the top level of a functional component. This signature enables complex state logic management, akin to Redux reducers, covering declarative updates, predictability, and integration with other hooks for robust state handling in components.",
+      },
+      {
+        question: "Explain the role of the reducer function.",
+        solution:
+          "The reducer function in useReducer plays a central role by taking the current state and an action object (typically with 'type' and payload), then returning a new state based on that action without mutating the old one. It encapsulates all state transition logic in one place, promoting predictability and testability—e.g., switch on action.type to handle cases like 'increment' or 'reset'. This pure function approach avoids side effects, ensuring consistent behavior. In larger apps, it simplifies debugging by centralizing updates. Overall, the reducer fosters a Flux-like unidirectional data flow within components, covering immutability, action-based updates, and separation of concerns for maintainable state management.",
+      },
+      {
+        question: "How do you handle async operations inside a reducer?",
+        solution:
+          "You should not handle async operations directly inside a reducer, as reducers must be pure synchronous functions without side effects. Instead, perform async logic outside, in effects or event handlers, then dispatch actions with results. For example, in a useEffect or button handler, fetch data async, then dispatch({ type: 'SUCCESS', data }) or ({ type: 'ERROR', error }). Use libraries like redux-thunk for middleware if scaled up, but for useReducer, wrap in custom hooks. This maintains reducer purity while handling real-world async flows like API calls, covering patterns like pending/success/failure states for comprehensive async management.",
+      },
+      {
+        question:
+          "Describe the third argument to useReducer (lazy initialization).",
+        solution:
+          "The third argument to useReducer is an optional 'init' function for lazy initialization, called only once with the initialArg (second arg) to compute the starting state—e.g., useReducer(reducer, undefined, () => expensiveComputation()). This defers heavy work until needed, avoiding unnecessary computations on every render or if the component unmounts early. InitialArg can be any value passed to init. Without it, initialArg is the state directly. This feature covers optimization for initial state setup, especially useful for parsing localStorage or complex objects, enhancing performance in hooks-based state.",
+      },
+      {
+        question: "How can you combine multiple reducers?",
+        solution:
+          "To combine multiple reducers in React, create a root reducer that delegates to sub-reducers by slicing state—e.g., function rootReducer(state, action) { return { counter: counterReducer(state.counter, action), todo: todoReducer(state.todo, action) }; }. Use with useReducer(rootReducer, { counter: initialCounter, todo: initialTodo }). For TypeScript, union action types. This modularizes logic, similar to Redux's combineReducers, allowing independent development of state slices. Covers scalability, reusability, and organization for apps with multifaceted state, preventing monolithic reducers.",
+      },
+      {
+        question: "Explain how to reset state via dispatch.",
+        solution:
+          "To reset state via dispatch in useReducer, define a 'RESET' action type in the reducer that returns the initial state or a default—e.g., if (action.type === 'RESET') return initialState;. Then, from components, call dispatch({ type: 'RESET' }). For partial resets, include payloads like { type: 'RESET', section: 'counter' }. Pass initialState to reducer if needed. This action-based reset ensures consistency without direct state manipulation, covering use cases like form clears or game restarts, integrating seamlessly with the dispatch model.",
+      },
+      {
+        question: "Describe how to share dispatch across components.",
+        solution:
+          "To share dispatch across components, combine useReducer with Context: create a Context for { state, dispatch }, place useReducer in a high-level Provider, and consume dispatch via useContext in descendants. Alternatively, pass dispatch as props for localized sharing. Avoid sharing state directly if not needed, to minimize re-renders. For global use, this setup mimics Redux stores. Covers decoupling dispatch from state consumption, enabling actions from anywhere without prop drilling, for flexible, scalable architectures.",
+      },
+      {
+        question: "What is the difference between Flux and useReducer?",
+        solution:
+          "Flux is an architectural pattern with stores, dispatchers, actions, and views for unidirectional data flow, originally for large apps; useReducer is a React hook implementing a reducer pattern for local component state, returning state and dispatch. Flux is framework-agnostic and global; useReducer is component-scoped but can be globalized with Context. Flux often uses central stores; useReducer is lightweight without boilerplate. Both use actions/reducers for updates. Covers conceptual overlaps and distinctions, guiding when to use simple hooks vs full Flux implementations like Redux.",
+      },
+      {
+        question: "How do you test reducer logic in isolation?",
+        solution:
+          "To test reducer logic in isolation, write unit tests calling the reducer with mock state and actions, asserting the returned state—e.g., expect(reducer(initialState, { type: 'INCREMENT' })).toEqual(expected). Use Jest or similar; cover all action types, edge cases, and immutability (deepFreeze state). No React needed, as it's pure JS. For async, test thunks separately. This ensures reliability without components, covering comprehensive testing strategies for pure functions.",
+      },
+      {
+        question: "Explain action creators and action types.",
+        solution:
+          "Action creators are functions returning action objects, e.g., const increment = (amount) => ({ type: 'INCREMENT', payload: amount });, promoting consistency and reusability. Action types are string constants like const INCREMENT = 'INCREMENT';, avoiding typos via exports. Together, they standardize dispatching, e.g., dispatch(increment(5)). Use enums or unions in TS. Covers organization, error reduction, and scalability in reducer-based systems.",
+      },
+      {
+        question: "Describe middleware pattern with reducers.",
+        solution:
+          "The middleware pattern with reducers involves functions wrapping dispatch to add behavior like logging, async, or crash reporting—e.g., const logger = (dispatch) => (action) => { console.log(action); return dispatch(action); }; chain via compose. For useReducer, apply by overriding dispatch: const enhancedDispatch = compose(logger, thunk)(originalDispatch);. Handles cross-cutting concerns without polluting reducers. Covers extensibility, keeping core logic pure.",
+      },
+      {
+        question: "How do you avoid stale state in closures?",
+        solution:
+          "To avoid stale state in closures with useReducer, use functional updates in dispatch if needed, but since dispatch is stable, closures capture current state via deps in useEffect/useCallback. Include state in deps or use ref for latest. For actions, pass values in payload. Covers common pitfalls in async callbacks, ensuring freshness via dependencies or payloads.",
+      },
+      {
+        question: "Explain immer usage with useReducer.",
+        solution:
+          "Immer simplifies immutable updates in useReducer by allowing mutable-like code in produce: import produce from 'immer'; reducer = (state, action) => produce(state, draft => { draft.count++; });. Returns new state safely. Integrates via wrapping reducer logic. Covers deep updates ease, reducing boilerplate like ...spread, for complex nested state.",
+      },
+      {
+        question: "Describe optimistic updates using reducers.",
+        solution:
+          "Optimistic updates with reducers involve dispatching an action to update UI immediately, then async confirm/revert on failure—e.g., dispatch({ type: 'ADD_TODO_OPTIMISTIC', todo }); then API call, on success dispatch('ADD_TODO_SUCCESS'), on fail('REVERT_ADD'). Use IDs for tracking. Covers UX improvement, handling latency with rollback for consistency.",
+      },
+      {
+        question: "How do you persist reducer state to localStorage?",
+        solution:
+          "To persist reducer state, use useEffect to save state on changes: useEffect(() => localStorage.setItem('state', JSON.stringify(state)), [state]); initialize via lazy init: useReducer(reducer, null, () => JSON.parse(localStorage.getItem('state')) || initial). Handle migrations/errors. Covers durability across refreshes, with serialization caveats.",
+      },
+      {
+        question: "Explain undo/redo with useReducer.",
+        solution:
+          "For undo/redo, maintain history in state: { present, past: [], future: [] }; reducer pushes present to past on actions, applies from future on redo. Dispatch 'UNDO'/'REDO'. Limit history depth. Covers time-travel features, enhancing user experience in editors/apps.",
+      },
+      {
+        question: "Describe state machines vs reducers.",
+        solution:
+          "State machines define finite states/transitions, enforcing valid flows; reducers are general, handling any actions without built-in constraints. Use XState for machines with React. Reducers suit open-ended state; machines for structured. Covers when to choose for predictability.",
+      },
+      {
+        question: "How do you create reusable reducer hooks?",
+        solution:
+          "Create reusable hooks like function useCounter(initial) { return useReducer(counterReducer, initial); }; export with types. Customize via params. Covers abstraction, sharing logic across components.",
+      },
+      {
+        question: "Explain performance considerations of large state objects.",
+        solution:
+          "Large state objects can cause slow spreads/deep copies; mitigate by normalizing, splitting reducers, or using immer. Avoid unnecessary deps. Covers optimization for scalability.",
+      },
+      {
+        question: "Describe conditional dispatch logic.",
+        solution:
+          "Conditional dispatch checks conditions before/inside actions: if (condition) dispatch(action); or in reducer. Use thunks for complex. Covers guarded updates.",
+      },
+      {
+        question: "How do you type reducer actions with TypeScript?",
+        solution:
+          "Use union types: type Action = { type: 'INCREMENT'; payload: number } | { type: 'RESET' }; reducer: (state: State, action: Action) => State;. Covers type safety.",
+      },
+      {
+        question: "Explain error handling inside reducers.",
+        solution:
+          "Handle errors via state: dispatch({ type: 'ERROR', error }); reducer sets error field. Keep pure—no throws. Covers robust failure management.",
+      },
+      {
+        question: "Describe how to batch multiple dispatch calls.",
+        solution:
+          "Use React.batch for multiples: import { unstable_batchedUpdates } from 'react-dom'; batchedUpdates(() => { dispatch1(); dispatch2(); });. Or single action with multi-effects. Covers performance by reducing renders.",
+      },
+      {
+        question: "How do you debug reducer actions in DevTools?",
+        solution:
+          "Use Redux DevTools via adapter: const [state, dispatch] = useReducerWithDevTools(reducer, initial); custom middleware logs. Covers inspection of actions/state.",
+      },
+      {
+        question: "What is React.memo and when should you use it?",
+        solution:
+          "React.memo is a HOC wrapping functional components to memoize renders, shallow-comparing props; if unchanged, skips re-render. Use for pure components with expensive renders or in lists, but not if props change often or comparison is costly. Covers optimization for performance in prop-stable scenarios.",
+      },
+      {
+        question: "Explain the second argument of React.memo.",
+        solution:
+          "The second arg is a custom comparison function (prevProps, nextProps) => boolean; return true to skip render if equal. Defaults to shallowEqual. Use for deep compares or ignoring keys. Covers flexible memoization.",
+      },
+      {
+        question: "How does useCallback differ from useMemo?",
+        solution:
+          "useCallback memoizes functions: useCallback(fn, deps); useMemo memoizes values: useMemo(() => compute, deps). useCallback is sugar for useMemo(() => fn, deps). UseCallback for callbacks to avoid recreations; useMemo for expensive computations. Covers reference stability.",
+      },
+      {
+        question: "When should you not memoize?",
+        solution:
+          "Avoid memoizing if deps change frequently (overhead > benefit), simple components (premature opt), or when it complicates code without gains. Profile first. Covers anti-patterns in optimization.",
+      },
+    ],
+  },
 ];
