@@ -155,7 +155,7 @@ function PaginationComponent({
   if (totalPages <= 1) return null;
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
@@ -169,14 +169,16 @@ function PaginationComponent({
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
           className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-            currentPage === 1 
-              ? "opacity-40 cursor-not-allowed text-gray-400" 
+            currentPage === 1
+              ? "opacity-40 cursor-not-allowed text-gray-400"
               : "hover:shadow-md"
           }`}
           style={{
             color: currentPage === 1 ? "#9CA3AF" : themeColors.text,
             backgroundColor: currentPage === 1 ? "transparent" : "white",
-            border: `1px solid ${currentPage === 1 ? "#E5E7EB" : themeColors.border}`,
+            border: `1px solid ${
+              currentPage === 1 ? "#E5E7EB" : themeColors.border
+            }`,
           }}
         >
           <ChevronLeft className="w-4 h-4 mr-1.5" />
@@ -200,16 +202,18 @@ function PaginationComponent({
                 whileTap={{ scale: 0.9 }}
                 onClick={() => onPageChange(page)}
                 className={`relative px-3.5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-200 min-w-[44px] ${
-                  currentPage === page 
-                    ? "text-white shadow-lg transform scale-105" 
+                  currentPage === page
+                    ? "text-white shadow-lg transform scale-105"
                     : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 hover:shadow-md"
                 }`}
                 style={{
-                  backgroundColor: currentPage === page ? themeColors.bg : "transparent",
+                  backgroundColor:
+                    currentPage === page ? themeColors.bg : "transparent",
                   color: currentPage === page ? "white" : themeColors.text,
-                  boxShadow: currentPage === page 
-                    ? `0 4px 12px ${themeColors.bg}40, 0 2px 4px ${themeColors.bg}20`
-                    : "none",
+                  boxShadow:
+                    currentPage === page
+                      ? `0 4px 12px ${themeColors.bg}40, 0 2px 4px ${themeColors.bg}20`
+                      : "none",
                 }}
               >
                 {currentPage === page && (
@@ -233,14 +237,17 @@ function PaginationComponent({
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
           className={`flex items-center px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
-            currentPage === totalPages 
-              ? "opacity-40 cursor-not-allowed text-gray-400" 
+            currentPage === totalPages
+              ? "opacity-40 cursor-not-allowed text-gray-400"
               : "hover:shadow-md"
           }`}
           style={{
             color: currentPage === totalPages ? "#9CA3AF" : themeColors.text,
-            backgroundColor: currentPage === totalPages ? "transparent" : "white",
-            border: `1px solid ${currentPage === totalPages ? "#E5E7EB" : themeColors.border}`,
+            backgroundColor:
+              currentPage === totalPages ? "transparent" : "white",
+            border: `1px solid ${
+              currentPage === totalPages ? "#E5E7EB" : themeColors.border
+            }`,
           }}
         >
           <span className="hidden sm:inline">Next</span>
@@ -249,9 +256,9 @@ function PaginationComponent({
       </div>
 
       {/* Page Info */}
-      <div className="ml-4 text-sm text-gray-500 font-medium hidden md:block">
+      {/* <div className="ml-4 text-sm text-gray-500 font-medium hidden md:block">
         Page {currentPage} of {totalPages}
-      </div>
+      </div> */}
     </motion.div>
   );
 }

@@ -12353,4 +12353,1124 @@ greet name = "Hello, " ++ name ++ "!"
       },
     ],
   },
+  {
+    id: 22,
+    topic: "React",
+    categories: "Junior",
+    tags: [
+      { name: "runtime", link: "" },
+      { name: "javascript", link: "" },
+      { name: "npm", link: "" },
+      { name: "modules", link: "" },
+      { name: "fundamentals", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is JSX and why do we use it in React?",
+        solution:
+          "JSX (JavaScript XML) is a syntax extension for JavaScript that allows you to write HTML-like code within JavaScript. It's not HTML or a string - it's a syntactic sugar for React.createElement() calls. We use JSX in React because: 1) It provides a more intuitive way to describe the UI structure, making code more readable and maintainable. 2) It allows us to combine JavaScript logic with markup in the same file. 3) It enables better developer experience with syntax highlighting and error checking. 4) JSX gets transpiled to regular JavaScript function calls, so it's just JavaScript under the hood. Example: const element = <h1>Hello World</h1>; is more readable than React.createElement('h1', null, 'Hello World').",
+      },
+      {
+        question: "How does JSX differ from regular JavaScript?",
+        solution:
+          "JSX differs from regular JavaScript in several ways: 1) Syntax: JSX allows HTML-like tags within JavaScript code, while regular JS uses string concatenation or DOM methods for HTML. 2) Compilation: JSX must be transpiled (using Babel) to regular JavaScript before browsers can execute it. Regular JS runs directly. 3) Element creation: JSX creates React elements declaratively (<div>content</div>), while regular JS would use React.createElement('div', null, 'content') or DOM methods like document.createElement(). 4) Expressions: JSX uses curly braces {} to embed JavaScript expressions, while regular JS doesn't need this syntax. 5) Attributes: JSX uses camelCase for attributes (className, onClick) while HTML uses kebab-case (class, onclick).",
+      },
+      {
+        question: "Write the simplest 'Hello World' using JSX.",
+        solution:
+          "The simplest 'Hello World' using JSX: ```jsx import React from 'react'; import ReactDOM from 'react-dom/client'; const App = () => { return <h1>Hello World</h1>; }; const root = ReactDOM.createRoot(document.getElementById('root')); root.render(<App />); ``` Or even simpler as a direct render: ```jsx import React from 'react'; import ReactDOM from 'react-dom/client'; const root = ReactDOM.createRoot(document.getElementById('root')); root.render(<h1>Hello World</h1>); ``` The JSX <h1>Hello World</h1> gets transpiled to React.createElement('h1', null, 'Hello World').",
+      },
+      {
+        question: "Explain how JSX expressions are compiled to JavaScript.",
+        solution:
+          "JSX expressions are compiled to JavaScript through a transpilation process, typically using Babel: 1) JSX tags become React.createElement() calls. 2) The first argument is the element type (string for HTML elements, function/class for components). 3) The second argument is the props object (or null if no props). 4) Remaining arguments are children. Examples: - <div>Hello</div> → React.createElement('div', null, 'Hello') - <div className='container'>Hello</div> → React.createElement('div', {className: 'container'}, 'Hello') - <Button onClick={handleClick}>Click me</Button> → React.createElement(Button, {onClick: handleClick}, 'Click me') - Nested elements: <div><span>Hello</span></div> → React.createElement('div', null, React.createElement('span', null, 'Hello')). This compilation happens at build time, not runtime.",
+      },
+      {
+        question:
+          "Can we use JavaScript expressions inside JSX? Show an example.",
+        solution:
+          "Yes, we can use JavaScript expressions inside JSX by wrapping them in curly braces {}. This allows dynamic content and logic within JSX. Examples: ```jsx const name = 'John'; const age = 25; const isLoggedIn = true; const users = ['Alice', 'Bob', 'Charlie']; const MyComponent = () => { return ( <div> <h1>Hello, {name}!</h1> <p>You are {age} years old</p> <p>Next year you'll be {age + 1}</p> <p>Status: {isLoggedIn ? 'Logged In' : 'Logged Out'}</p> <p>Current time: {new Date().toLocaleTimeString()}</p> <p>Users count: {users.length}</p> <button onClick={() => alert('Clicked!')}>Click me</button> </div> ); }; ``` You can use variables, function calls, arithmetic operations, conditional expressions, and any valid JavaScript expression inside {}.",
+      },
+      {
+        question: "What are the rules for using JSX?",
+        solution:
+          "Key rules for using JSX: 1) **Single Parent Element**: JSX expressions must have one parent element or use React Fragments. 2) **Close All Tags**: All tags must be properly closed, including self-closing tags like <img /> or <br />. 3) **CamelCase Attributes**: Use camelCase for attributes (className, onClick, htmlFor). 4) **JavaScript Expressions in Braces**: Use {} to embed JavaScript expressions. 5) **No Adjacent Elements**: Multiple adjacent elements need a wrapper or Fragment. 6) **Reserved Words**: Avoid JavaScript reserved words (use className instead of class, htmlFor instead of for). 7) **Return Statement**: In components, JSX must be returned from render method or function. 8) **Case Sensitivity**: Component names must start with capital letter, HTML elements lowercase. Examples: ✅ <div className='container'><img src='pic.jpg' /></div> ❌ <div class='container'><img src='pic.jpg'></div> ✅ <><div>First</div><div>Second</div></> ❌ <div>First</div><div>Second</div>",
+      },
+      {
+        question:
+          "Why must JSX elements be wrapped in a single parent element?",
+        solution:
+          "JSX elements must be wrapped in a single parent element because: 1) **JavaScript Function Limitation**: JSX compiles to React.createElement() calls, and JavaScript functions can only return one value. Multiple adjacent elements would require returning multiple values, which isn't valid JavaScript. 2) **Virtual DOM Structure**: React's Virtual DOM expects a single root node to efficiently diff and update the real DOM. 3) **Parsing Logic**: The JSX parser needs a clear tree structure with one root to properly transpile the code. Solutions: ```jsx // ❌ Invalid - Multiple roots function App() { return ( <h1>Title</h1> <p>Content</p> ); } // ✅ Valid - Single parent <div> function App() { return ( <div> <h1>Title</h1> <p>Content</p> </div> ); } // ✅ Valid - React Fragment function App() { return ( <> <h1>Title</h1> <p>Content</p> </> ); } ``` React Fragments solve this without adding extra DOM nodes.",
+      },
+      {
+        question: "How do you embed variables in JSX?",
+        solution:
+          "Variables are embedded in JSX using curly braces {}. This allows you to display dynamic content: ```jsx const userName = 'Alice'; const userAge = 28; const isActive = true; const userProfile = { name: 'Bob', email: 'bob@email.com' }; const colors = ['red', 'blue', 'green']; function UserCard() { return ( <div> <h2>Welcome, {userName}!</h2> <p>Age: {userAge}</p> <p>Status: {isActive ? 'Active' : 'Inactive'}</p> <p>Email: {userProfile.email}</p> <p>Favorite color: {colors[0]}</p> <img src={`/images/${userName.toLowerCase()}.jpg`} alt={userName} /> </div> ); } ``` Key points: 1) Use {} to wrap any JavaScript variable or expression. 2) Variables can be strings, numbers, booleans, arrays, objects. 3) Objects cannot be directly rendered (except as attribute values). 4) Template literals work inside {} for dynamic strings. 5) You can access object properties and array elements.",
+      },
+      {
+        question: "How do you embed expressions in JSX?",
+        solution:
+          "Expressions in JSX are embedded using curly braces {} and can include any valid JavaScript expression: ```jsx const price = 99.99; const discount = 0.1; const items = ['apple', 'banana', 'orange']; const user = { name: 'John', isVip: true }; function ProductCard() { return ( <div> <h3>Product Details</h3> <p>Original Price: ${price}</p> <p>Discounted Price: ${(price * (1 - discount)).toFixed(2)}</p> <p>Available Items: {items.length}</p> <p>First Item: {items[0].toUpperCase()}</p> <p>User Type: {user.isVip ? 'VIP Customer' : 'Regular Customer'}</p> <p>Random Number: {Math.floor(Math.random() * 100)}</p> <p>Current Time: {new Date().toLocaleString()}</p> <button onClick={() => console.log('Button clicked!')}> {user.isVip ? 'VIP Checkout' : 'Regular Checkout'} </button> </div> ); } ``` Types of expressions you can use: Mathematical operations, Function calls, Conditional (ternary) operators, Logical operators, Method chaining, Template literals, Arrow functions.",
+      },
+      {
+        question: "Explain the difference between JSX and HTML attributes.",
+        solution:
+          "JSX attributes differ from HTML attributes in several ways: **1. Naming Convention:** - HTML uses kebab-case: class, for, tabindex - JSX uses camelCase: className, htmlFor, tabIndex **2. Reserved Words:** - HTML: class, for - JSX: className (class is reserved in JS), htmlFor (for is reserved) **3. Event Handlers:** - HTML: onclick, onchange (lowercase) - JSX: onClick, onChange (camelCase) **4. Boolean Attributes:** - HTML: disabled, checked (presence = true) - JSX: disabled={true} or just disabled **5. Style Attribute:** - HTML: style='color: red; font-size: 14px' - JSX: style={{color: 'red', fontSize: '14px'}} (object) **6. Custom Attributes:** - HTML: data-* and aria-* pass through - JSX: Only known HTML attributes pass through, others ignored Examples: ```jsx // JSX <div className='container' htmlFor='input1' onClick={handleClick} disabled={isDisabled} style={{backgroundColor: 'blue'}} data-testid='my-div' /> // Equivalent HTML <div class='container' for='input1' onclick='handleClick()' disabled style='background-color: blue' data-testid='my-div'></div> ```",
+      },
+      {
+        question: "How do you add comments in JSX?",
+        solution:
+          "Comments in JSX follow specific rules since JSX is JavaScript: **1. Inside JSX (within curly braces):** Use JavaScript comment syntax inside {} ```jsx function MyComponent() { return ( <div> {/* This is a JSX comment */} <h1>Hello World</h1> {/* Multi-line comment works too */} {/* You can also use // single line comments inside {} but they need to be on separate lines */} </div> ); } ``` **2. Outside JSX (in JavaScript code):** Use regular JavaScript comments ```jsx function MyComponent() { // Regular JavaScript comment const name = 'John'; /* Multi-line JavaScript comment */ return ( <div> {/* JSX comment inside the return */} <h1>Hello {name}</h1> </div> ); } ``` **Important Notes:** - Don't use HTML comments <!-- --> in JSX, they won't work - JSX comments {/* */} don't appear in the final DOM - Comments inside {} are treated as JavaScript expressions - Single-line // comments inside JSX need proper placement **Wrong:** ```jsx <div>// This won't work</div> ``` **Correct:** ```jsx <div>{// This works}</div> ```",
+      },
+      {
+        question: "What is the className attribute in JSX?",
+        solution:
+          "className is the JSX equivalent of HTML's class attribute. It's used to apply CSS classes to elements: **Why className instead of class:** - 'class' is a reserved keyword in JavaScript (used for ES6 classes) - JSX is JavaScript, so it uses className to avoid conflicts **Usage Examples:** ```jsx // Basic usage <div className='container'>Content</div> // Multiple classes <div className='btn btn-primary btn-large'>Button</div> // Dynamic classes const isActive = true; const theme = 'dark'; <button className={isActive ? 'active' : 'inactive'}> Click me </button> // Conditional classes <div className={`card ${theme} ${isActive ? 'highlight' : ''}`}> Card content </div> // Using template literals const getButtonClass = (type, size) => `btn btn-${type} btn-${size}`; <button className={getButtonClass('primary', 'large')}> Submit </button> // With CSS modules import styles from './Button.module.css'; <button className={styles.primaryButton}>Styled Button</button> ``` **Key Points:** 1. className accepts strings 2. Use template literals or concatenation for dynamic classes 3. Works with CSS modules and styled-components 4. Multiple classes separated by spaces 5. Can be conditional using ternary operators",
+      },
+      {
+        question: "How do you apply inline styles in JSX?",
+        solution:
+          "Inline styles in JSX are applied using the style attribute with a JavaScript object, not a string like in HTML: **Basic Syntax:** ```jsx <div style={{property: 'value'}}>Content</div> ``` **Key Differences from HTML:** - Use camelCase for CSS properties (backgroundColor, not background-color) - Values are JavaScript expressions (strings, numbers, variables) - Use double braces: outer {} for JSX expression, inner {} for object **Examples:** ```jsx // Basic inline styles <div style={{ color: 'red', backgroundColor: 'blue', fontSize: '16px', marginTop: '10px' }}> Styled content </div> // Using variables const primaryColor = '#007bff'; const fontSize = 18; <h1 style={{ color: primaryColor, fontSize: fontSize // or just fontSize in ES6 }}> Heading </h1> // Dynamic styles const isHighlighted = true; <p style={{ backgroundColor: isHighlighted ? 'yellow' : 'transparent', fontWeight: isHighlighted ? 'bold' : 'normal' }}> Conditional styling </p> // Style object const buttonStyle = { padding: '10px 20px', border: 'none', borderRadius: '4px', cursor: 'pointer' }; <button style={buttonStyle}>Click me</button> // Merging styles const baseStyle = {color: 'black'}; const extraStyle = {fontSize: '20px'}; <div style={{...baseStyle, ...extraStyle}}>Merged styles</div> ``` **Important Notes:** - Numbers without units default to 'px' for size properties - Use quotes for string values - Prefer external CSS for complex styling",
+      },
+      {
+        question: "How do you render lists in JSX?",
+        solution:
+          "Lists in JSX are rendered using JavaScript array methods, primarily .map(). Each list item needs a unique 'key' prop: **Basic List Rendering:** ```jsx const fruits = ['apple', 'banana', 'orange']; function FruitList() { return ( <ul> {fruits.map((fruit, index) => ( <li key={index}>{fruit}</li> ))} </ul> ); } ``` **Rendering Objects:** ```jsx const users = [ {id: 1, name: 'Alice', age: 25}, {id: 2, name: 'Bob', age: 30}, {id: 3, name: 'Charlie', age: 35} ]; function UserList() { return ( <div> {users.map(user => ( <div key={user.id}> <h3>{user.name}</h3> <p>Age: {user.age}</p> </div> ))} </div> ); } ``` **Key Prop Rules:** ```jsx // ✅ Good - unique, stable keys {users.map(user => <div key={user.id}>{user.name}</div>)} // ⚠️ Acceptable - index as key (only if list doesn't change) {items.map((item, index) => <div key={index}>{item}</div>)} // ❌ Bad - non-unique keys {users.map(user => <div key={user.name}>{user.name}</div>)} ``` **Advanced List Rendering:** ```jsx const products = [{id: 1, name: 'Laptop', price: 999, inStock: true}]; function ProductList() { return ( <div> {products .filter(product => product.inStock) .map(product => ( <div key={product.id} className='product-card'> <h3>{product.name}</h3> <p>${product.price}</p> </div> ))} </div> ); } ``` **Why Keys Matter:** Keys help React identify which items have changed, been added, or removed for efficient re-rendering.",
+      },
+      {
+        question: "Can you use for loops inside JSX?",
+        solution:
+          "No, you cannot use for loops directly inside JSX because JSX only accepts expressions, not statements. For loops are statements in JavaScript: **Why for loops don't work:** ```jsx // ❌ This doesn't work function MyComponent() { return ( <div> {for (let i = 0; i < 5; i++) { <p>Item {i}</p> // This won't work }} </div> ); } ``` **Alternative Solutions:** **1. Use .map() (most common):** ```jsx function NumberList() { const numbers = [1, 2, 3, 4, 5]; return ( <div> {numbers.map(num => <p key={num}>Item {num}</p>)} </div> ); } ``` **2. Create array before JSX:** ```jsx function NumberList() { const items = []; for (let i = 1; i <= 5; i++) { items.push(<p key={i}>Item {i}</p>); } return <div>{items}</div>; } ``` **3. Use Array.from():** ```jsx function NumberList() { return ( <div> {Array.from({length: 5}, (_, i) => ( <p key={i}>Item {i + 1}</p> ))} </div> ); } ``` **4. Extract to function:** ```jsx function NumberList() { const renderItems = () => { const items = []; for (let i = 1; i <= 5; i++) { items.push(<p key={i}>Item {i}</p>); } return items; }; return <div>{renderItems()}</div>; } ``` **Best Practice:** Use .map(), .filter(), .reduce() and other array methods for list rendering as they're expressions and work directly in JSX.",
+      },
+      {
+        question: "Explain the concept of fragments in JSX.",
+        solution:
+          "React Fragments allow you to group multiple elements without adding extra DOM nodes. They solve the 'single parent element' requirement in JSX: **Problem Fragments Solve:** ```jsx // ❌ Error - multiple root elements function MyComponent() { return ( <h1>Title</h1> <p>Description</p> ); } // ✅ Works but adds unnecessary <div> function MyComponent() { return ( <div> <h1>Title</h1> <p>Description</p> </div> ); } ``` **Fragment Solutions:** **1. React.Fragment:** ```jsx import React from 'react'; function MyComponent() { return ( <React.Fragment> <h1>Title</h1> <p>Description</p> </React.Fragment> ); } ``` **2. Short Syntax (<>):** ```jsx function MyComponent() { return ( <> <h1>Title</h1> <p>Description</p> </> ); } ``` **3. Fragments with Keys (for lists):** ```jsx function ItemList({items}) { return ( <> {items.map(item => ( <React.Fragment key={item.id}> <h3>{item.title}</h3> <p>{item.description}</p> </React.Fragment> ))} </> ); } ``` **When to Use Fragments:** - Avoiding unnecessary wrapper divs - Table rows/cells grouping - Conditional rendering of multiple elements - List items without containers **Benefits:** 1. Cleaner DOM structure 2. Better performance (fewer DOM nodes) 3. Correct semantic HTML 4. Avoids CSS layout issues **Note:** Short syntax <> doesn't support keys or attributes, use <React.Fragment> when you need them.",
+      },
+      {
+        question: "How do you write self-closing tags in JSX?",
+        solution:
+          "Self-closing tags in JSX must always include a forward slash before the closing bracket, unlike HTML where some tags can be left open: **JSX Requirements:** ```jsx // ✅ Correct - all self-closing tags need /> <img src='image.jpg' alt='description' /> <input type='text' placeholder='Enter name' /> <br /> <hr /> <meta name='description' content='Page description' /> <link rel='stylesheet' href='styles.css' /> ``` **Common Self-Closing Tags:** ```jsx function MyForm() { return ( <div> <img src='/logo.png' alt='Logo' /> <input type='email' placeholder='Email' required /> <input type='password' placeholder='Password' /> <br /> <button type='submit'>Submit</button> <hr /> <p>Or sign up below:</p> <input type='checkbox' id='terms' /> <label htmlFor='terms'>Agree to terms</label> </div> ); } ``` **HTML vs JSX Comparison:** ```html <!-- HTML - some tags can be left open --> <img src='image.jpg' alt='description'> <input type='text'> <br> <hr> <meta name='description' content='Page description'> ``` ```jsx // JSX - ALL self-closing tags MUST have /> <img src='image.jpg' alt='description' /> <input type='text' /> <br /> <hr /> <meta name='description' content='Page description' /> ``` **Custom Components:** ```jsx // Custom components can also be self-closing <MyButton /> <UserProfile userId={123} /> <LoadingSpinner size='large' /> ``` **Error if Missing /:** ```jsx // ❌ This will cause a compilation error <img src='image.jpg' alt='description'> <input type='text'> ``` **Key Rule:** In JSX, if a tag doesn't have children, it MUST be self-closed with />.",
+      },
+      {
+        question: "What happens if you forget to close a tag in JSX?",
+        solution:
+          "Forgetting to close a tag in JSX results in compilation errors because JSX must be valid XML syntax. The build process will fail and show specific error messages: **Common Unclosed Tag Errors:** **1. Missing Closing Tag:** ```jsx // ❌ Error: Expected corresponding JSX closing tag for <div> function MyComponent() { return ( <div> <h1>Title</h1> <p>Content</p> // Missing </div> ); } ``` **Error Message:** 'Expected corresponding JSX closing tag for <div>' **2. Self-Closing Tag Missing />:** ```jsx // ❌ Error: Unterminated JSX contents function MyComponent() { return ( <div> <img src='image.jpg' alt='description'> <input type='text'> </div> ); } ``` **Error Message:** 'Unterminated JSX contents' or 'Expected />' **3. Mismatched Tags:** ```jsx // ❌ Error: Expected corresponding JSX closing tag for <div> function MyComponent() { return ( <div> <h1>Title</h1> </section> // Wrong closing tag ); } ``` **Correct Examples:** ```jsx // ✅ Properly closed tags function MyComponent() { return ( <div> <h1>Title</h1> <p>Content</p> <img src='image.jpg' alt='description' /> <input type='text' /> </div> ); } ``` **Development Experience:** - **Build fails:** Code won't compile - **IDE warnings:** Most editors highlight unclosed tags immediately - **Clear error messages:** Exact location and issue described - **Hot reload stops:** Development server shows error overlay **Best Practices:** 1. Use IDE with JSX support for real-time error detection 2. Use proper code formatting/linting 3. Match opening and closing tags carefully 4. Remember /> for self-closing tags",
+      },
+      {
+        question: "How do you display raw HTML in JSX?",
+        solution:
+          "To display raw HTML in JSX, you use the dangerouslySetInnerHTML prop. React makes this deliberately verbose to highlight security risks: **Basic Syntax:** ```jsx function MyComponent() { const htmlContent = '<p>This is <strong>raw HTML</strong> content</p>'; return ( <div dangerouslySetInnerHTML={{__html: htmlContent}} /> ); } ``` **Common Use Cases:** **1. CMS Content:** ```jsx function BlogPost({post}) { return ( <article> <h1>{post.title}</h1> <div dangerouslySetInnerHTML={{__html: post.content}} /> </article> ); } ``` **2. Dynamic HTML from API:** ```jsx function NewsArticle() { const [article, setArticle] = useState(''); useEffect(() => { fetchArticle().then(data => setArticle(data.htmlContent)); }, []); return ( <div dangerouslySetInnerHTML={{__html: article}} /> ); } ``` **Security Considerations:** ```jsx // ⚠️ DANGEROUS - XSS vulnerability const userInput = '<script>alert('XSS attack!')</script>'; // This could execute malicious code function UnsafeComponent() { return <div dangerouslySetInnerHTML={{__html: userInput}} />; } // ✅ SAFER - Sanitize first import DOMPurify from 'dompurify'; function SaferComponent() { const sanitizedHTML = DOMPurify.sanitize(userInput); return <div dangerouslySetInnerHTML={{__html: sanitizedHTML}} />; } ``` **Alternatives to dangerouslySetInnerHTML:** **1. React Components (preferred):** ```jsx // Instead of raw HTML, use React components function SafeContent() { return ( <p>This is <strong>safe React</strong> content</p> ); } ``` **2. Libraries for Markdown:** ```jsx import ReactMarkdown from 'react-markdown'; function MarkdownContent() { const markdown = '# Heading\\n\\nThis is **bold** text'; return <ReactMarkdown>{markdown}</ReactMarkdown>; } ``` **Key Points:** - dangerouslySetInnerHTML bypasses React's XSS protection - Always sanitize user-generated content - Use React components when possible - The double underscore (__html) is intentional to make it obvious",
+      },
+      {
+        question:
+          "Explain the difference between && and ternary operators in JSX.",
+        solution:
+          "Both && and ternary operators are used for conditional rendering in JSX, but they serve different purposes: **Logical AND (&&) Operator:** Used for conditional rendering when you want to render something OR nothing: ```jsx function WelcomeMessage({user}) { return ( <div> <h1>Welcome to our site</h1> {user && <p>Hello, {user.name}!</p>} {user && user.isAdmin && <button>Admin Panel</button>} {items.length > 0 && ( <ul> {items.map(item => <li key={item.id}>{item.name}</li>)} </ul> )} </div> ); } ``` **Ternary Operator (? :):** Used when you want to render one thing OR another thing: ```jsx function UserStatus({user}) { return ( <div> <p> Status: {user ? 'Logged In' : 'Logged Out'} </p> <button> {user ? 'Logout' : 'Login'} </button> {user ? ( <div> <h2>Welcome, {user.name}</h2> <p>Your dashboard</p> </div> ) : ( <div> <h2>Please log in</h2> <p>Sign in to continue</p> </div> )} </div> ); } ``` **Key Differences:** | && Operator | Ternary Operator | |-------------|------------------| | Renders element OR nothing | Renders one element OR another | | Returns false/0/null = nothing rendered | Always renders something | | Shorter syntax for simple conditions | More explicit, always has two outcomes | **Gotchas with && Operator:** ```jsx const count = 0; // ❌ This renders '0' on screen, not nothing! {count && <p>Items found</p>} // ✅ Better - explicit boolean conversion {count > 0 && <p>Items found</p>} // ✅ Alternative {Boolean(count) && <p>Items found</p>} ``` **When to Use Which:** - **Use &&:** When you want to conditionally show/hide elements - **Use ternary:** When you need to choose between two different renders - **Complex conditions:** Extract to variables or functions for readability",
+      },
+      {
+        question: "What is a React component?",
+        solution:
+          "A React component is a reusable, independent piece of UI that encapsulates its own logic, state, and rendering. Components are the building blocks of React applications: **Key Characteristics:** 1. **Reusable:** Can be used multiple times with different props 2. **Composable:** Components can contain other components 3. **Encapsulated:** Manages its own state and logic 4. **Declarative:** Describes what the UI should look like **Component Types:** ```jsx // 1. Functional Component function Welcome(props) { return <h1>Hello, {props.name}!</h1>; } // 2. Class Component class Welcome extends React.Component { render() { return <h1>Hello, {this.props.name}!</h1>; } } ``` **Component Hierarchy Example:** ```jsx // Parent Component function App() { return ( <div> <Header title='My Website' /> <MainContent> <Article title='React Basics' /> <Sidebar /> </MainContent> <Footer /> </div> ); } // Child Components function Header({title}) { return <header><h1>{title}</h1></header>; } function Article({title}) { return <article><h2>{title}</h2><p>Content...</p></article>; } ``` **Props (Properties):** ```jsx function UserCard({name, email, avatar}) { return ( <div className='user-card'> <img src={avatar} alt={name} /> <h3>{name}</h3> <p>{email}</p> </div> ); } // Usage <UserCard name='John Doe' email='john@example.com' avatar='/avatar.jpg' /> ``` **State Management:** ```jsx function Counter() { const [count, setCount] = useState(0); return ( <div> <p>Count: {count}</p> <button onClick={() => setCount(count + 1)}> Increment </button> </div> ); } ``` **Benefits:** 1. **Modularity:** Break complex UI into smaller pieces 2. **Reusability:** Use same component multiple times 3. **Maintainability:** Easier to debug and update 4. **Testing:** Test components in isolation 5. **Collaboration:** Teams can work on different components",
+      },
+      {
+        question: "How do you export a component?",
+        solution:
+          "Components can be exported using default export or named export. Default export: `export default function MyComponent() { return <div>Hello</div>; }` allows importing with any name. Named export: `export function MyComponent() { return <div>Hello</div>; }` requires importing with exact name. Default export is common for single component per file, while named exports are used for multiple components or utilities in one file.",
+      },
+      {
+        question: "How do you import a component?",
+        solution:
+          "Import default exported components: `import MyComponent from './MyComponent';` (can use any name). Import named exported components: `import { MyComponent } from './MyComponent';` (must use exact name). Import multiple named exports: `import { Header, Footer } from './components';`. Import with alias: `import { MyComponent as MC } from './MyComponent';`. Always use relative paths for local components and package names for external libraries.",
+      },
+      {
+        question: "What is the return type of a functional component?",
+        solution:
+          "A functional component returns JSX.Element or null. JSX.Element represents a React element created by JSX syntax. Component can return: single JSX element `<div>Content</div>`, React Fragment `<>multiple elements</>`, array of elements `[<div key='1'>A</div>, <div key='2'>B</div>]`, string, number, boolean (renders as text), or null/undefined (renders nothing). TypeScript enforces return type as JSX.Element | null for better type safety.",
+      },
+      {
+        question: "Can a component return multiple elements?",
+        solution:
+          "Yes, components can return multiple elements using React Fragment `<React.Fragment>` or short syntax `<>`. Before React 16, components had to wrap multiple elements in a single parent. Now you can return: Fragment `<><div>First</div><div>Second</div></>`, array `[<div key='1'>First</div>, <div key='2'>Second</div>]`, or React.Fragment with key prop `<React.Fragment key='list'><div>First</div><div>Second</div></React.Fragment>`. Arrays require key props for each element.",
+      },
+      {
+        question: "Explain the role of React.Fragment.",
+        solution:
+          "React.Fragment allows grouping multiple elements without adding extra DOM nodes. Before Fragments, you needed wrapper divs that could break CSS layouts or add unnecessary nesting. Fragment benefits: no extra DOM elements, preserves semantic HTML structure, avoids CSS layout issues. Usage: `<React.Fragment><h1>Title</h1><p>Text</p></React.Fragment>` or short syntax `<><h1>Title</h1><p>Text</p></>`. Fragments can have key prop when rendering lists but cannot have other props or event handlers.",
+      },
+      {
+        question: "How do you nest components?",
+        solution:
+          "Components are nested by including one component inside another's JSX return statement. Parent component renders child components as JSX elements: `function Parent() { return <div><Header /><Main><Content /></Main><Footer /></div>; }`. Child components receive props from parent: `<ChildComponent prop1='value' prop2={data} />`. Nesting creates component tree structure. Components can be nested to any depth. Use composition over deep nesting for better maintainability and reusability.",
+      },
+      {
+        question: "What is the naming convention for React components?",
+        solution:
+          "React components must use PascalCase naming convention. Component names start with capital letter: `MyComponent`, `UserProfile`, `NavigationBar`. This distinguishes components from regular DOM elements (lowercase). File names typically match component names: `UserProfile.js` or `UserProfile.jsx`. Folder structure can be `components/UserProfile/UserProfile.js` or `components/UserProfile/index.js`. Custom hooks use camelCase with 'use' prefix: `useUserData`. Constants use UPPER_SNAKE_CASE: `API_BASE_URL`.",
+      },
+      {
+        question: "How do you reuse components?",
+        solution:
+          "Components are reused by importing and rendering them with different props. Create reusable components by: accepting props for customization `function Button({ text, onClick, variant }) { return <button className={variant} onClick={onClick}>{text}</button>; }`, using children prop for flexible content `function Card({ children, title }) { return <div><h2>{title}</h2>{children}</div>; }`, providing default props for common use cases, and creating component libraries. Reuse patterns include render props, higher-order components, and custom hooks for logic reuse.",
+      },
+      {
+        question: "Explain component composition.",
+        solution:
+          "Component composition is combining simple components to build complex UIs instead of inheritance. Composition patterns: containment (components don't know their children beforehand) using children prop `<Dialog><h1>Title</h1><p>Content</p></Dialog>`, specialization (specific version of generic component) like `<WarningDialog>` using `<Dialog>`, and slot-based composition with named props `<Layout header={<Header />} sidebar={<Sidebar />} />`. Composition provides flexibility, reusability, and follows React's philosophy of building UIs from small, focused components.",
+      },
+      {
+        question: "How do you pass children to a component?",
+        solution:
+          "Children are passed by placing content between component opening and closing tags: `<MyComponent><p>This is children</p></MyComponent>`. Access children in component via props.children: `function MyComponent({ children }) { return <div className='wrapper'>{children}</div>; }`. Children can be: JSX elements, text, numbers, arrays of elements, or functions (render props pattern). Multiple children create array automatically. Use React.Children utilities for manipulating children: `React.Children.map()`, `React.Children.count()`, `React.Children.only()`.",
+      },
+      {
+        question: "What is the children prop?",
+        solution:
+          "The children prop is a special prop that contains the content between component's opening and closing tags. It's automatically passed by React and doesn't need to be explicitly defined. Children can be: single element `<div>text</div>`, multiple elements (becomes array), functions for render props `{(data) => <div>{data}</div>}`, or combinations. Access via props.children or destructuring `{ children }`. Children enable composition patterns and make components more flexible. React.Children provides utilities for working with children prop safely.",
+      },
+      {
+        question: "How do you render a component conditionally?",
+        solution:
+          "Conditional rendering uses JavaScript expressions in JSX. Methods: ternary operator `{condition ? <ComponentA /> : <ComponentB />}`, logical AND operator `{condition && <Component />}` (renders nothing if false), if-else statements before return, switch statements for multiple conditions, and early returns `if (!user) return <Login />;`. Common patterns: loading states `{loading ? <Spinner /> : <Content />}`, authentication `{user ? <Dashboard /> : <Login />}`, feature flags `{feature.enabled && <NewFeature />}`. Avoid using || operator as it can render 0 or empty strings.",
+      },
+      {
+        question: "How do you prevent a component from rendering?",
+        solution:
+          "Prevent component rendering by returning null from the component function. When component returns null, React skips rendering but still calls lifecycle methods in class components. Methods: return null `if (!shouldRender) return null;`, conditional JSX `{shouldRender && <Component />}`, early returns based on props/state, or wrapper components that control rendering. Returning null is different from not including the component in JSX - the component function still executes but produces no DOM output. Use for conditional features, permissions, or loading states.",
+      },
+      {
+        question: "Explain React.PureComponent.",
+        solution:
+          "React.PureComponent is a class component that implements shallow comparison in shouldComponentUpdate() automatically. It prevents unnecessary re-renders when props and state haven't changed. PureComponent compares previous and current props/state using Object.is() for primitive values and reference equality for objects/arrays. Benefits: performance optimization, automatic shallow comparison, reduces render cycles. Limitations: only shallow comparison (nested object changes missed), class components only. Use when component renders same output for same props/state. For functional components, use React.memo() instead.",
+      },
+      {
+        question: "What is React.memo?",
+        solution:
+          "React.memo is a higher-order component that memoizes functional components, similar to React.PureComponent for class components. It prevents re-renders when props haven't changed using shallow comparison. Usage: `const MyComponent = React.memo(function MyComponent({ name }) { return <div>{name}</div>; });`. Custom comparison: `React.memo(MyComponent, (prevProps, nextProps) => prevProps.id === nextProps.id)`. Benefits: performance optimization, prevents unnecessary renders, works with functional components. Use sparingly - React is already fast, and unnecessary memoization can hurt performance.",
+      },
+      {
+        question:
+          "Explain the difference between React.memo and PureComponent.",
+        solution:
+          "React.memo is for functional components, PureComponent is for class components. Both implement shallow comparison to prevent unnecessary re-renders. Differences: React.memo wraps functional components `React.memo(MyComponent)`, accepts custom comparison function as second argument, and works with hooks. PureComponent extends class components `class MyComponent extends React.PureComponent`, has built-in shallow comparison in shouldComponentUpdate(), and works with class lifecycle methods. Both compare props shallowly but PureComponent also compares state. Choose React.memo for functional components, PureComponent for class components.",
+      },
+      {
+        question: "What are props in React?",
+        solution:
+          "Props (properties) are read-only data passed from parent to child components. They're JavaScript objects containing all attributes passed to a component. Props enable: data flow from parent to child, component customization, reusability, and communication between components. Props are immutable - child components cannot modify props directly. Access props via function parameter `function MyComponent(props)` or destructuring `function MyComponent({ name, age })`. Props can contain: primitive values, objects, arrays, functions, other React elements. Always validate props using PropTypes or TypeScript for better debugging.",
+      },
+      {
+        question: "How do you pass props to a component?",
+        solution:
+          "Pass props by adding attributes to component JSX tags. Syntax: `<MyComponent name='John' age={25} />`. String props use quotes, other types use curly braces. Examples: string `title='Hello'`, number `count={42}`, boolean `isActive={true}` or `isActive`, array `items={[1,2,3]}`, object `user={{name: 'John', age: 25}}`, function `onClick={handleClick}`, variable `data={userData}`. Spread operator passes multiple props: `<MyComponent {...userProps} />`. Props are received in component as single object parameter.",
+      },
+      {
+        question: "Are props mutable?",
+        solution:
+          "No, props are immutable and read-only. Child components cannot modify props directly - this would violate React's unidirectional data flow principle. Props represent a snapshot of data at render time. Attempting to modify props directly causes errors in strict mode and leads to unpredictable behavior. To change data, parent component must update its state, which will pass new props to children. If child needs to communicate changes back to parent, use callback functions passed as props: `<Child onUpdate={handleUpdate} />`. This ensures predictable data flow and easier debugging.",
+      },
+      {
+        question: "What is state in React?",
+        solution:
+          "State is mutable data that belongs to a component and can change over time. Unlike props (external data), state is internal to the component. State changes trigger re-renders to reflect new data in UI. State characteristics: mutable (can be updated), local to component, triggers re-renders when changed, persists between renders. State holds: user input, API data, UI state (loading, errors), form data, component-specific data. State updates are asynchronous and may be batched. Use state for data that changes over time and affects component rendering.",
+      },
+      {
+        question: "How do you declare state in a functional component?",
+        solution:
+          "Use useState Hook to declare state in functional components. Import useState: `import { useState } from 'react';`. Syntax: `const [stateValue, setStateValue] = useState(initialValue);`. useState returns array with current state value and setter function. Examples: `const [count, setCount] = useState(0);`, `const [name, setName] = useState('');`, `const [user, setUser] = useState(null);`, `const [items, setItems] = useState([]);`. Update state: `setCount(count + 1)` or `setCount(prev => prev + 1)` for functional updates. Multiple state variables use multiple useState calls.",
+      },
+      {
+        question: "How do you declare state in a class component?",
+        solution:
+          "Class components use this.state property and this.setState() method. Initialize state in constructor: `constructor(props) { super(props); this.state = { count: 0, name: '' }; }` or class property: `state = { count: 0, name: '' };`. Update state with setState(): `this.setState({ count: this.state.count + 1 })` or functional update: `this.setState(prevState => ({ count: prevState.count + 1 }))`. setState is asynchronous and may batch multiple updates. Always use setState, never modify this.state directly. setState merges objects shallowly.",
+      },
+      {
+        question: "Explain the difference between props and state.",
+        solution:
+          "Props are external data passed from parent, state is internal data owned by component. Key differences: Props are immutable/read-only, state is mutable. Props come from parent component, state is local to component. Props are for customization/configuration, state is for dynamic data that changes. Props flow down (parent to child), state stays within component unless passed as props. Props don't trigger re-renders when accessed, state changes trigger re-renders. Props are like function parameters, state is like local variables. Use props for external configuration, state for internal component data that changes over time.",
+      },
+      {
+        question: "Can props be updated by the child component?",
+        solution:
+          "No, props cannot be directly updated by child components. Props are read-only and follow unidirectional data flow from parent to child. However, children can communicate with parents through callback functions passed as props. Pattern: parent passes callback `<Child onUpdate={handleUpdate} />`, child calls callback `props.onUpdate(newData)`, parent updates its state which sends new props to child. This maintains React's predictable data flow. If child needs to modify prop-like data locally, copy props to state: `const [localData, setLocalData] = useState(props.initialData);` then modify local state instead.",
+      },
+      {
+        question: "Can state be passed as props?",
+        solution:
+          "Yes, state can be passed as props to child components. This is a common pattern for sharing state between components. Parent component's state becomes props for children: `const [user, setUser] = useState(null);` then `<ChildComponent user={user} />`. Child receives state as props: `function ChildComponent({ user }) { return <div>{user.name}</div>; }`. This enables: data sharing between siblings (via common parent), lifting state up pattern, and maintaining single source of truth. State setter functions can also be passed as props to allow children to update parent state: `<Child user={user} setUser={setUser} />`.",
+      },
+      {
+        question: "Explain functional vs class components.",
+        solution:
+          "Functional components are JavaScript functions that return JSX, while class components are ES6 classes extending React.Component. Key differences: Functional components use hooks for state/lifecycle (useState, useEffect), are simpler and more concise, have better performance, and are the modern React approach. Class components use this.state and lifecycle methods (componentDidMount, componentDidUpdate), have more boilerplate code, and were the traditional way before hooks. Example functional: `function Welcome({ name }) { return <h1>Hello, {name}</h1>; }`. Example class: `class Welcome extends React.Component { render() { return <h1>Hello, {this.props.name}</h1>; } }`. React team recommends functional components with hooks for new development.",
+      },
+      {
+        question: "Write a simple functional component.",
+        solution:
+          "```jsx\n// Function declaration\nfunction Welcome({ name }) {\n  return (\n    <div>\n      <h1>Hello, {name}!</h1>\n      <p>Welcome to React</p>\n    </div>\n  );\n}\n\n// Arrow function\nconst Welcome = ({ name }) => {\n  return (\n    <div>\n      <h1>Hello, {name}!</h1>\n      <p>Welcome to React</p>\n    </div>\n  );\n};\n\n// Arrow function with implicit return\nconst Welcome = ({ name }) => (\n  <div>\n    <h1>Hello, {name}!</h1>\n    <p>Welcome to React</p>\n  </div>\n);\n\nexport default Welcome;\n```\nFunctional components receive props as function parameters and return JSX. They're simpler, more readable, and the preferred approach in modern React development.",
+      },
+      {
+        question: "Write a simple class component.",
+        solution:
+          "```jsx\nimport React, { Component } from 'react';\n\nclass Welcome extends Component {\n  render() {\n    const { name } = this.props;\n    return (\n      <div>\n        <h1>Hello, {name}!</h1>\n        <p>Welcome to React</p>\n      </div>\n    );\n  }\n}\n\n// Alternative with React.Component\nclass Welcome extends React.Component {\n  render() {\n    return (\n      <div>\n        <h1>Hello, {this.props.name}!</h1>\n        <p>Welcome to React</p>\n      </div>\n    );\n  }\n}\n\nexport default Welcome;\n```\nClass components must extend Component or React.Component, implement render() method that returns JSX, and access props via this.props. The render() method is required and must return JSX.",
+      },
+      {
+        question: "Show an example of passing an object as props.",
+        solution:
+          "```jsx\n// Parent component\nfunction App() {\n  const user = {\n    name: 'John Doe',\n    age: 30,\n    email: 'john@example.com',\n    address: {\n      city: 'New York',\n      country: 'USA'\n    }\n  };\n\n  return (\n    <div>\n      <UserProfile user={user} />\n      {/* Or spread the object */}\n      <UserProfile {...user} />\n    </div>\n  );\n}\n\n// Child component receiving object prop\nfunction UserProfile({ user }) {\n  return (\n    <div>\n      <h2>{user.name}</h2>\n      <p>Age: {user.age}</p>\n      <p>Email: {user.email}</p>\n      <p>Location: {user.address.city}, {user.address.country}</p>\n    </div>\n  );\n}\n```\nObjects are passed in curly braces. Use spread operator to pass object properties as individual props. Always handle potential undefined nested properties safely.",
+      },
+      {
+        question: "Show an example of passing a function as props.",
+        solution:
+          "```jsx\n// Parent component\nfunction App() {\n  const [message, setMessage] = useState('');\n\n  const handleButtonClick = (buttonName) => {\n    setMessage(`${buttonName} was clicked!`);\n    console.log(`Button clicked: ${buttonName}`);\n  };\n\n  const handleFormSubmit = (formData) => {\n    console.log('Form submitted with:', formData);\n    // Handle form submission logic\n  };\n\n  return (\n    <div>\n      <p>{message}</p>\n      <Button onClick={() => handleButtonClick('Save')} text=\"Save\" />\n      <ContactForm onSubmit={handleFormSubmit} />\n    </div>\n  );\n}\n\n// Child components receiving function props\nfunction Button({ onClick, text }) {\n  return <button onClick={onClick}>{text}</button>;\n}\n\nfunction ContactForm({ onSubmit }) {\n  const handleSubmit = (e) => {\n    e.preventDefault();\n    const formData = { name: 'John', email: 'john@example.com' };\n    onSubmit(formData);\n  };\n\n  return <form onSubmit={handleSubmit}>/* form content */</form>;\n}\n```\nFunctions are passed as props to enable child-to-parent communication. Common pattern for event handlers and callbacks.",
+      },
+      {
+        question: "How do you set default props?",
+        solution:
+          "```jsx\n// Functional component with default parameters\nfunction Welcome({ name = 'Guest', age = 0, isActive = false }) {\n  return <h1>Hello, {name}! Age: {age}</h1>;\n}\n\n// Using defaultProps property\nWelcome.defaultProps = {\n  name: 'Guest',\n  age: 0,\n  isActive: false\n};\n\n// Class component with defaultProps\nclass Welcome extends React.Component {\n  static defaultProps = {\n    name: 'Guest',\n    age: 0,\n    isActive: false\n  };\n\n  render() {\n    return <h1>Hello, {this.props.name}!</h1>;\n  }\n}\n\n// Or outside class\nWelcome.defaultProps = {\n  name: 'Guest',\n  age: 0\n};\n```\nDefault parameters in functional components are cleaner and more modern. defaultProps is legacy but still supported. Default props are used when prop is undefined, but not when prop is null.",
+      },
+      {
+        question: "Explain PropTypes and why we use them.",
+        solution:
+          "PropTypes provide runtime type checking for React props, helping catch bugs during development. Benefits: type validation catches incorrect prop types, documents component API for other developers, provides better debugging experience, warns in console during development (not production), and improves code reliability. PropTypes check: primitive types (string, number, bool), complex types (array, object, func), required props, custom validators, and specific shapes/structures. While not enforced at runtime in production, PropTypes serve as documentation and catch common mistakes. Modern alternative is TypeScript for compile-time type checking. Install separately: `npm install prop-types`.",
+      },
+      {
+        question: "How do you validate props using PropTypes?",
+        solution:
+          "```jsx\nimport PropTypes from 'prop-types';\n\nfunction UserCard({ name, age, email, hobbies, onEdit, isActive }) {\n  return (\n    <div>\n      <h2>{name}</h2>\n      <p>Age: {age}</p>\n      <p>Email: {email}</p>\n      <ul>{hobbies.map(hobby => <li key={hobby}>{hobby}</li>)}</ul>\n      <button onClick={onEdit}>Edit</button>\n    </div>\n  );\n}\n\nUserCard.propTypes = {\n  name: PropTypes.string.isRequired,\n  age: PropTypes.number,\n  email: PropTypes.string.isRequired,\n  hobbies: PropTypes.arrayOf(PropTypes.string),\n  onEdit: PropTypes.func.isRequired,\n  isActive: PropTypes.bool,\n  user: PropTypes.shape({\n    id: PropTypes.number.isRequired,\n    profile: PropTypes.object\n  }),\n  status: PropTypes.oneOf(['active', 'inactive', 'pending']),\n  data: PropTypes.oneOfType([PropTypes.string, PropTypes.number])\n};\n\nUserCard.defaultProps = {\n  age: 0,\n  isActive: false,\n  hobbies: []\n};\n```\nPropTypes validate prop types and structures. Common validators include basic types, arrays, objects, required props, and custom shapes.",
+      },
+      {
+        question: "What happens if required props are missing?",
+        solution:
+          "When required props are missing, React shows warning in browser console during development (not in production builds). The warning includes: component name, missing prop name, and component location in code. Example warning: 'Warning: Failed prop type: The prop `name` is marked as required in `UserCard`, but its value is `undefined`.' The component still renders but may break or show undefined values. Missing required props can cause: runtime errors if props are accessed without checks, UI displaying 'undefined' or blank content, functions being called on undefined values, and difficult debugging. Always provide required props or use default values/conditional rendering to handle missing props gracefully.",
+      },
+      {
+        question: "Explain useState hook.",
+        solution:
+          "useState is a React hook that adds state management to functional components. It's the functional equivalent of this.state in class components. useState allows functional components to: store and update local state, trigger re-renders when state changes, maintain state between renders, and use multiple state variables. Key characteristics: state updates are asynchronous, React may batch multiple setState calls, state updates trigger component re-render, and state persists between renders but resets on component unmount. useState returns array with current state value and setter function. It's the foundation of state management in modern React functional components.",
+      },
+      {
+        question: "Explain setState in class components.",
+        solution:
+          "setState is the method to update state in class components. Key features: asynchronous updates (React batches multiple setState calls for performance), shallow merging (merges provided object with existing state), triggers re-render after state update, and accepts object or function as parameter. Usage patterns: `this.setState({ count: 5 })` for direct updates, `this.setState(prevState => ({ count: prevState.count + 1 }))` for updates based on previous state, and `this.setState({ name: 'John' }, () => console.log('Updated'))` with callback after update. setState only updates provided properties, leaving others unchanged. Never modify this.state directly - always use setState for proper re-rendering and React lifecycle.",
+      },
+      {
+        question: "How do you update state based on previous state?",
+        solution:
+          "Use functional updates to safely update state based on previous state, avoiding race conditions and stale state issues. In functional components with useState: `setCount(prevCount => prevCount + 1)` instead of `setCount(count + 1)`. In class components with setState: `this.setState(prevState => ({ count: prevState.count + 1 }))`. Why functional updates: React batches state updates, multiple rapid updates might use stale state values, closures can capture old state values, and functional updates ensure you get the latest state. Examples: incrementing counters, toggling booleans `setIsOpen(prev => !prev)`, updating arrays `setItems(prev => [...prev, newItem])`, and updating objects `setUser(prev => ({ ...prev, name: 'New Name' }))`.",
+      },
+      {
+        question: "Explain asynchronous state updates.",
+        solution:
+          "State updates in React are asynchronous and may be batched for performance optimization. This means: state doesn't update immediately after setState/useState call, console.log right after setState shows old state, React batches multiple updates into single re-render, and updates are processed during next render cycle. Implications: don't rely on state immediately after update, use useEffect or componentDidUpdate to react to state changes, use functional updates for dependent state changes, and use callbacks for post-update actions. Example: `setState({ count: 5 }); console.log(this.state.count); // still old value`. In React 18, automatic batching extends to timeouts, promises, and native events. Understanding async nature prevents common bugs and ensures predictable state management.",
+      },
+      {
+        question:
+          "What is the difference between shallow and deep state updates?",
+        solution:
+          "Shallow updates only affect top-level properties, while deep updates modify nested properties. React performs shallow comparison to determine if re-render is needed. Shallow update: `setState({ name: 'John' })` replaces only the name property. Deep update involves nested objects: modifying `user.address.city` requires updating entire user object. In useState, state is replaced entirely, not merged: `setUser({ name: 'John' })` replaces entire user object, losing other properties. For nested updates: spread operator `setUser(prev => ({ ...prev, address: { ...prev.address, city: 'NYC' } }))`, or use libraries like Immer for easier immutable updates. Always create new objects/arrays for state updates to trigger re-renders properly.",
+      },
+      {
+        question: "What is the useState hook?",
+        solution:
+          "useState is a React hook that enables state management in functional components. It's React's way of adding stateful logic to function components without converting to class components. useState provides: local component state, state persistence between re-renders, automatic re-rendering when state changes, and ability to have multiple state variables. The hook follows React's rules: only call at top level (not inside loops/conditions), only call from React functions, and maintains state throughout component lifecycle. useState revolutionized React development by making functional components fully featured, eliminating need for class components in most cases, and providing cleaner, more concise code.",
+      },
+      {
+        question: "How do you import useState?",
+        solution:
+          "```jsx\n// Named import from React (most common)\nimport { useState } from 'react';\n\n// Multiple hooks import\nimport { useState, useEffect, useContext } from 'react';\n\n// Import entire React and access useState\nimport React from 'react';\n// Then use React.useState()\n\n// Import React with all hooks\nimport React, { useState, useEffect } from 'react';\n\n// Dynamic import (less common)\nconst { useState } = require('react');\n```\nNamed import `{ useState }` is the standard and recommended approach. It's more explicit, enables tree-shaking for smaller bundles, and clearly shows which hooks are being used in the component. Always import at the top of the file.",
+      },
+      {
+        question: "What does useState return?",
+        solution:
+          "useState returns an array with exactly two elements: [currentStateValue, setterFunction]. The array uses positional destructuring, allowing custom names: `const [count, setCount] = useState(0)` or `const [name, updateName] = useState('')`. First element is the current state value (initially the value passed to useState), second element is the setter function to update state. The setter function: accepts new state value or function, triggers re-render when called, can be passed as props to child components, and maintains referential equality between renders (same function instance). Example: `const [user, setUser] = useState(null);` gives you current user value and setUser function to update it.",
+      },
+      {
+        question: "Can you use multiple useState hooks in one component?",
+        solution:
+          "Yes, you can use multiple useState hooks in a single component. This is a common and recommended pattern for managing different pieces of state separately. ```jsx\nfunction UserForm() {\n  const [name, setName] = useState('');\n  const [email, setEmail] = useState('');\n  const [age, setAge] = useState(0);\n  const [isLoading, setIsLoading] = useState(false);\n  const [errors, setErrors] = useState({});\n\n  return (\n    <form>\n      <input value={name} onChange={(e) => setName(e.target.value)} />\n      <input value={email} onChange={(e) => setEmail(e.target.value)} />\n      <input value={age} onChange={(e) => setAge(Number(e.target.value))} />\n      {isLoading && <p>Loading...</p>}\n    </form>\n  );\n}\n```\nBenefits: separate concerns, easier to understand, granular updates, and better performance (only affected components re-render). Each useState call is independent with its own state and setter.",
+      },
+      {
+        question: "How do you initialize state with useState?",
+        solution:
+          "useState accepts initial state value as its first parameter. The initial state is only used during the first render. ```jsx\n// Primitive values\nconst [count, setCount] = useState(0);\nconst [name, setName] = useState('');\nconst [isVisible, setIsVisible] = useState(true);\n\n// Objects and arrays\nconst [user, setUser] = useState({ name: '', email: '' });\nconst [items, setItems] = useState([]);\nconst [settings, setSettings] = useState({\n  theme: 'light',\n  notifications: true\n});\n\n// Null/undefined\nconst [data, setData] = useState(null);\nconst [error, setError] = useState(undefined);\n\n// From props or external data\nfunction Component({ initialCount = 0 }) {\n  const [count, setCount] = useState(initialCount);\n}\n```\nInitial state can be any valid JavaScript value. For expensive computations, use lazy initialization to avoid recalculating on every render.",
+      },
+      {
+        question: "How do you update state with useState?",
+        solution:
+          "Update state using the setter function returned by useState. The setter accepts new state value or update function. ```jsx\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  const [user, setUser] = useState({ name: 'John', age: 30 });\n  const [items, setItems] = useState(['apple', 'banana']);\n\n  // Direct value updates\n  const increment = () => setCount(count + 1);\n  const reset = () => setCount(0);\n\n  // Functional updates (safer for async updates)\n  const safeIncrement = () => setCount(prev => prev + 1);\n\n  // Object updates (must spread to avoid replacing entire object)\n  const updateUser = () => setUser(prev => ({ ...prev, age: prev.age + 1 }));\n\n  // Array updates\n  const addItem = () => setItems(prev => [...prev, 'orange']);\n  const removeFirst = () => setItems(prev => prev.slice(1));\n\n  return <div>{count}</div>;\n}\n```\nAlways create new objects/arrays for updates. Use functional updates when new state depends on previous state.",
+      },
+      {
+        question: "Explain lazy initial state in useState.",
+        solution:
+          "Lazy initial state runs initialization function only once during first render, avoiding expensive calculations on every render. Instead of passing value directly, pass function that returns initial state. ```jsx\n// Expensive calculation runs on every render (BAD)\nconst [state, setState] = useState(expensiveCalculation());\n\n// Lazy initialization - runs only once (GOOD)\nconst [state, setState] = useState(() => expensiveCalculation());\n\n// Examples\nconst [data, setData] = useState(() => {\n  const saved = localStorage.getItem('userData');\n  return saved ? JSON.parse(saved) : null;\n});\n\nconst [randomId, setRandomId] = useState(() => Math.random().toString(36));\n\nconst [initialArray, setInitialArray] = useState(() => \n  Array.from({ length: 1000 }, (_, i) => i)\n);\n\n// Function as state value needs extra function wrapper\nconst [callback, setCallback] = useState(() => () => console.log('hello'));\n```\nUse lazy initialization for: expensive computations, localStorage access, complex object creation, and any calculation you want to run only once.",
+      },
+      {
+        question: "How do you reset state to initial value?",
+        solution:
+          "Reset state by calling setter function with original initial value. Store initial value in variable for easy reset. ```jsx\nfunction Form() {\n  const initialFormData = { name: '', email: '', age: 0 };\n  const [formData, setFormData] = useState(initialFormData);\n  const [count, setCount] = useState(0);\n\n  // Reset to initial value\n  const resetForm = () => setFormData(initialFormData);\n  const resetCount = () => setCount(0);\n\n  // Reset multiple state variables\n  const resetAll = () => {\n    setFormData(initialFormData);\n    setCount(0);\n  };\n\n  // Using custom hook for resettable state\n  function useResettableState(initialValue) {\n    const [state, setState] = useState(initialValue);\n    const reset = () => setState(initialValue);\n    return [state, setState, reset];\n  }\n\n  const [data, setData, resetData] = useResettableState({ name: '' });\n\n  return (\n    <div>\n      <button onClick={resetForm}>Reset Form</button>\n      <button onClick={resetAll}>Reset All</button>\n    </div>\n  );\n}\n```\nStore initial values in constants for easy reference. Consider custom hooks for reusable reset logic.",
+      },
+      {
+        question: "What happens if you call setState with the same value?",
+        solution:
+          "React optimizes performance by skipping re-renders when state value hasn't changed, using Object.is() comparison. If new value is identical to current value, React: skips component re-render, doesn't call child components, doesn't trigger useEffect dependencies, and maintains same reference. ```jsx\nfunction Component() {\n  const [count, setCount] = useState(0);\n  const [user, setUser] = useState({ name: 'John' });\n\n  // These won't cause re-render if count is already 0\n  setCount(0);\n  setCount(0);\n\n  // This WILL cause re-render (new object reference)\n  setUser({ name: 'John' });\n\n  // This won't cause re-render (same reference)\n  setUser(user);\n\n  console.log('Component rendered'); // Won't log if no actual change\n}\n```\nFor objects/arrays, React compares references, not contents. Same content but different reference triggers re-render. This optimization prevents unnecessary renders and improves performance.",
+      },
+      {
+        question: "Can you use objects in useState?",
+        solution:
+          "Yes, useState can store objects, but requires careful handling for updates. Objects in state must be treated immutably - create new objects for updates. ```jsx\nfunction UserProfile() {\n  const [user, setUser] = useState({\n    name: 'John',\n    email: 'john@example.com',\n    address: {\n      city: 'New York',\n      country: 'USA'\n    },\n    preferences: {\n      theme: 'light',\n      notifications: true\n    }\n  });\n\n  // Correct way to update object properties\n  const updateName = (newName) => {\n    setUser(prev => ({ ...prev, name: newName }));\n  };\n\n  // Update nested object\n  const updateCity = (newCity) => {\n    setUser(prev => ({\n      ...prev,\n      address: { ...prev.address, city: newCity }\n    }));\n  };\n\n  // Wrong way (mutates existing object)\n  const wrongUpdate = () => {\n    user.name = 'Jane'; // DON'T DO THIS\n    setUser(user);\n  };\n\n  // Multiple property updates\n  const updateMultiple = () => {\n    setUser(prev => ({\n      ...prev,\n      name: 'Jane',\n      email: 'jane@example.com'\n    }));\n  };\n}\n```\nAlways spread existing object and override specific properties. For complex nested updates, consider using useReducer or state management libraries.",
+      },
+      {
+        question: "How do you update nested state objects?",
+        solution:
+          "Use the spread operator to create a new object with updated nested properties. Never mutate state directly - always create new objects/arrays. For deeply nested objects, use multiple spread operations or consider using useReducer for complex state updates.\n\nExample:\nconst [user, setUser] = useState({ profile: { name: 'John', age: 25 }, settings: { theme: 'dark' } });\n\n// Update nested property\nsetUser(prev => ({\n  ...prev,\n  profile: {\n    ...prev.profile,\n    name: 'Jane'\n  }\n}));\n\n// For deeply nested updates, consider using a helper function:\nconst updateNestedState = (obj, path, value) => {\n  const keys = path.split('.');\n  const newObj = { ...obj };\n  let current = newObj;\n  \n  for (let i = 0; i < keys.length - 1; i++) {\n    current[keys[i]] = { ...current[keys[i]] };\n    current = current[keys[i]];\n  }\n  \n  current[keys[keys.length - 1]] = value;\n  return newObj;\n};\n\nsetUser(prev => updateNestedState(prev, 'profile.name', 'Jane'));",
+      },
+      {
+        question: "Show an example of useState with an array.",
+        solution:
+          "useState with arrays requires creating new arrays for updates, never mutating the existing array directly. Use array methods like spread operator, filter, map, and concat to create new arrays.\n\nExample:\nconst [items, setItems] = useState(['apple', 'banana']);\n\n// Add item to end\nsetItems(prev => [...prev, 'orange']);\n\n// Add item to beginning\nsetItems(prev => ['grape', ...prev]);\n\n// Remove item by index\nsetItems(prev => prev.filter((_, index) => index !== 0));\n\n// Update item by index\nsetItems(prev => prev.map((item, index) => \n  index === 1 ? 'mango' : item\n));\n\n// Replace entire array\nsetItems(['new', 'array']);\n\n// Add item at specific position\nsetItems(prev => [\n  ...prev.slice(0, 1),\n  'kiwi',\n  ...prev.slice(1)\n]);\n\n// Sort array\nsetItems(prev => [...prev].sort());",
+      },
+      {
+        question: "Show an example of useState with a boolean.",
+        solution:
+          "useState with booleans is straightforward and commonly used for toggling UI states like visibility, loading states, or form validation.\n\nExample:\nconst [isVisible, setIsVisible] = useState(false);\nconst [isLoading, setIsLoading] = useState(true);\nconst [isChecked, setIsChecked] = useState(false);\n\n// Direct boolean assignment\nsetIsVisible(true);\nsetIsLoading(false);\n\n// Using functional update\nsetIsVisible(prev => !prev);\n\n// In JSX\nreturn (\n  <div>\n    <button onClick={() => setIsVisible(!isVisible)}>\n      {isVisible ? 'Hide' : 'Show'}\n    </button>\n    \n    {isVisible && <div>Content is visible</div>}\n    \n    <input\n      type=\"checkbox\"\n      checked={isChecked}\n      onChange={(e) => setIsChecked(e.target.checked)}\n    />\n    \n    {isLoading ? <div>Loading...</div> : <div>Content loaded</div>}\n  </div>\n);",
+      },
+      {
+        question: "How do you toggle a boolean state?",
+        solution:
+          "Toggle boolean state using functional updates with the NOT operator (!). This ensures you're working with the most current state value and prevents race conditions.\n\nExamples:\nconst [isOpen, setIsOpen] = useState(false);\n\n// Method 1: Functional update (recommended)\nsetIsOpen(prev => !prev);\n\n// Method 2: Direct toggle (avoid if multiple updates possible)\nsetIsOpen(!isOpen);\n\n// Custom toggle hook\nconst useToggle = (initialValue = false) => {\n  const [value, setValue] = useState(initialValue);\n  const toggle = useCallback(() => setValue(prev => !prev), []);\n  return [value, toggle];\n};\n\n// Usage\nconst [isModalOpen, toggleModal] = useToggle(false);\n\n// In component\nreturn (\n  <div>\n    <button onClick={() => setIsOpen(prev => !prev)}>\n      Toggle Menu\n    </button>\n    <button onClick={toggleModal}>\n      Toggle Modal\n    </button>\n  </div>\n);\n\nThe functional update approach is preferred because it uses the latest state value, preventing bugs in scenarios with rapid successive updates.",
+      },
+      {
+        question: "Explain functional updates in useState.",
+        solution:
+          "Functional updates use a function that receives the previous state as an argument and returns the new state. This pattern is crucial when the new state depends on the previous state or when dealing with asynchronous updates.\n\nSyntax: setState(prevState => newState)\n\nBenefits:\n1. Ensures you work with the latest state value\n2. Prevents race conditions in async operations\n3. Enables proper batching of state updates\n4. Required when new state depends on previous state\n\nExamples:\n// Counter increment\nconst [count, setCount] = useState(0);\nsetCount(prev => prev + 1); // Always uses latest count\n\n// Array updates\nconst [items, setItems] = useState([]);\nsetItems(prev => [...prev, newItem]);\n\n// Object updates\nconst [user, setUser] = useState({ name: '', age: 0 });\nsetUser(prev => ({ ...prev, name: 'John' }));\n\n// Complex calculations\nconst [data, setData] = useState({ total: 0, items: [] });\nsetData(prev => ({\n  ...prev,\n  items: [...prev.items, newItem],\n  total: prev.total + newItem.price\n}));\n\n// Why functional updates matter:\n// Bad - may use stale state\nsetCount(count + 1);\nsetCount(count + 1); // Both use same 'count' value\n\n// Good - always uses latest state\nsetCount(prev => prev + 1);\nsetCount(prev => prev + 1); // Second update uses updated value",
+      },
+      {
+        question: "Why shouldn't you mutate state directly?",
+        solution:
+          "Direct state mutation breaks React's rendering optimization and can cause bugs. React relies on reference equality to detect state changes and trigger re-renders.\n\nReasons to avoid direct mutation:\n1. React won't detect the change and won't re-render\n2. Breaks time-travel debugging and dev tools\n3. Interferes with React's reconciliation process\n4. Can cause inconsistent component behavior\n5. Makes state updates unpredictable\n6. Violates React's functional programming principles\n\nBad examples (DON'T DO THIS):\nconst [items, setItems] = useState([1, 2, 3]);\nconst [user, setUser] = useState({ name: 'John', age: 25 });\n\n// Mutating array\nitems.push(4); // Mutates original array\nsetItems(items); // React won't detect change\n\n// Mutating object\nuser.name = 'Jane'; // Mutates original object\nsetUser(user); // React won't detect change\n\nGood examples (DO THIS):\n// Create new array\nsetItems(prev => [...prev, 4]);\nsetItems(prev => prev.concat(4));\nsetItems(prev => prev.filter(item => item !== 2));\n\n// Create new object\nsetUser(prev => ({ ...prev, name: 'Jane' }));\nsetUser(prev => ({ ...prev, age: prev.age + 1 }));\n\n// For complex nested updates, consider using immer library:\nimport { produce } from 'immer';\nsetUser(prev => produce(prev, draft => {\n  draft.profile.name = 'Jane';\n  draft.settings.theme = 'dark';\n}));",
+      },
+      {
+        question: "How do you handle complex state with useState?",
+        solution:
+          "For complex state, you have several strategies: multiple useState calls, single useState with object/array, or useReducer for very complex logic.\n\nStrategies:\n1. Multiple useState for unrelated state pieces\n2. Single useState for related state (objects/arrays)\n3. useReducer for complex state logic\n4. Custom hooks for reusable state logic\n\nExamples:\n// Strategy 1: Multiple useState\nconst [loading, setLoading] = useState(false);\nconst [error, setError] = useState(null);\nconst [data, setData] = useState([]);\n\n// Strategy 2: Single useState with object\nconst [apiState, setApiState] = useState({\n  loading: false,\n  error: null,\n  data: []\n});\n\n// Update complex state\nsetApiState(prev => ({\n  ...prev,\n  loading: true,\n  error: null\n}));\n\n// Strategy 3: useReducer for complex logic\nconst initialState = {\n  user: null,\n  posts: [],\n  loading: false,\n  error: null,\n  filters: { category: 'all', sort: 'date' }\n};\n\nconst stateReducer = (state, action) => {\n  switch (action.type) {\n    case 'FETCH_START':\n      return { ...state, loading: true, error: null };\n    case 'FETCH_SUCCESS':\n      return {\n        ...state,\n        loading: false,\n        [action.dataType]: action.payload\n      };\n    case 'SET_FILTER':\n      return {\n        ...state,\n        filters: { ...state.filters, [action.key]: action.value }\n      };\n    default:\n      return state;\n  }\n};\n\nconst [state, dispatch] = useReducer(stateReducer, initialState);\n\n// Strategy 4: Custom hook\nconst useApiData = (url) => {\n  const [state, setState] = useState({ data: null, loading: true, error: null });\n  \n  useEffect(() => {\n    setState(prev => ({ ...prev, loading: true }));\n    fetch(url)\n      .then(res => res.json())\n      .then(data => setState({ data, loading: false, error: null }))\n      .catch(error => setState({ data: null, loading: false, error }));\n  }, [url]);\n  \n  return state;\n};",
+      },
+      {
+        question: "Explain useState vs this.state.",
+        solution:
+          "useState (hooks) and this.state (class components) are different approaches to managing state in React. useState is the modern functional approach, while this.state was the traditional class-based approach.\n\nKey Differences:\n\n1. Component Type:\n   - useState: Functional components only\n   - this.state: Class components only\n\n2. Syntax:\n   - useState: Destructured array with state and setter\n   - this.state: Object property with setState method\n\n3. State Updates:\n   - useState: Individual setters for each state variable\n   - this.state: Single setState method merges updates\n\n4. Initial State:\n   - useState: Passed as argument to hook\n   - this.state: Set in constructor or class property\n\nExamples:\n\n// Class Component (old way)\nclass Counter extends React.Component {\n  constructor(props) {\n    super(props);\n    this.state = {\n      count: 0,\n      name: 'Counter'\n    };\n  }\n  \n  increment = () => {\n    this.setState({ count: this.state.count + 1 });\n    // or\n    this.setState(prevState => ({ count: prevState.count + 1 }));\n  }\n  \n  render() {\n    return (\n      <div>\n        <p>{this.state.name}: {this.state.count}</p>\n        <button onClick={this.increment}>Increment</button>\n      </div>\n    );\n  }\n}\n\n// Functional Component (modern way)\nfunction Counter() {\n  const [count, setCount] = useState(0);\n  const [name, setName] = useState('Counter');\n  \n  const increment = () => {\n    setCount(count + 1);\n    // or\n    setCount(prev => prev + 1);\n  };\n  \n  return (\n    <div>\n      <p>{name}: {count}</p>\n      <button onClick={increment}>Increment</button>\n    </div>\n  );\n}\n\nAdvantages of useState:\n- Cleaner, more concise syntax\n- Better code reusability with custom hooks\n- No binding issues with 'this'\n- Easier to test and reason about\n- Supports functional programming patterns",
+      },
+      {
+        question: "What is the rule of hooks regarding useState?",
+        solution:
+          "The Rules of Hooks are fundamental guidelines that must be followed when using useState and other hooks. These rules ensure hooks work correctly and consistently.\n\nThe Two Main Rules:\n\n1. Only Call Hooks at the Top Level\n   - Don't call hooks inside loops, conditions, or nested functions\n   - Always call hooks in the same order on every render\n   - This ensures React can correctly associate hook calls with component state\n\n2. Only Call Hooks from React Functions\n   - Call hooks from React functional components\n   - Call hooks from custom hooks (functions starting with 'use')\n   - Don't call hooks from regular JavaScript functions\n\nExamples:\n\n// ❌ WRONG - Conditional hook call\nfunction BadComponent({ condition }) {\n  if (condition) {\n    const [count, setCount] = useState(0); // Breaks rules!\n  }\n  // ...\n}\n\n// ❌ WRONG - Hook in loop\nfunction BadComponent({ items }) {\n  items.forEach(item => {\n    const [value, setValue] = useState(item.value); // Breaks rules!\n  });\n}\n\n// ❌ WRONG - Hook in event handler\nfunction BadComponent() {\n  const handleClick = () => {\n    const [count, setCount] = useState(0); // Breaks rules!\n  };\n}\n\n// ✅ CORRECT - Hooks at top level\nfunction GoodComponent({ condition, items }) {\n  const [count, setCount] = useState(0);\n  const [name, setName] = useState('');\n  const [visible, setVisible] = useState(false);\n  \n  // Conditional rendering, not conditional hooks\n  if (condition) {\n    return <div>Condition met</div>;\n  }\n  \n  return (\n    <div>\n      {visible && <p>Count: {count}</p>}\n      <input value={name} onChange={e => setName(e.target.value)} />\n    </div>\n  );\n}\n\n// ✅ CORRECT - Custom hook follows rules\nfunction useCounter(initialValue = 0) {\n  const [count, setCount] = useState(initialValue);\n  const increment = () => setCount(prev => prev + 1);\n  const decrement = () => setCount(prev => prev - 1);\n  return { count, increment, decrement };\n}\n\nWhy These Rules Exist:\n- React relies on hook call order to maintain state between renders\n- Changing the order breaks React's internal hook tracking\n- Ensures predictable component behavior and debugging experience",
+      },
+      {
+        question: "Show an example of useState with a form input.",
+        solution:
+          'useState with form inputs requires controlled components where React manages the input value through state. This provides full control over form data and enables validation, formatting, and dynamic behavior.\n\nBasic Input Examples:\n\n// Single input\nfunction SimpleForm() {\n  const [name, setName] = useState(\'\');\n  \n  return (\n    <form onSubmit={(e) => {\n      e.preventDefault();\n      console.log(\'Submitted name:\', name);\n    }}>\n      <input\n        type="text"\n        value={name}\n        onChange={(e) => setName(e.target.value)}\n        placeholder="Enter your name"\n      />\n      <button type="submit">Submit</button>\n    </form>\n  );\n}\n\n// Multiple inputs with object state\nfunction ContactForm() {\n  const [formData, setFormData] = useState({\n    name: \'\',\n    email: \'\',\n    message: \'\',\n    age: 0,\n    subscribe: false\n  });\n  \n  const handleChange = (e) => {\n    const { name, value, type, checked } = e.target;\n    setFormData(prev => ({\n      ...prev,\n      [name]: type === \'checkbox\' ? checked : value\n    }));\n  };\n  \n  const handleSubmit = (e) => {\n    e.preventDefault();\n    console.log(\'Form submitted:\', formData);\n  };\n  \n  return (\n    <form onSubmit={handleSubmit}>\n      <input\n        type="text"\n        name="name"\n        value={formData.name}\n        onChange={handleChange}\n        placeholder="Name"\n      />\n      \n      <input\n        type="email"\n        name="email"\n        value={formData.email}\n        onChange={handleChange}\n        placeholder="Email"\n      />\n      \n      <textarea\n        name="message"\n        value={formData.message}\n        onChange={handleChange}\n        placeholder="Message"\n      />\n      \n      <input\n        type="number"\n        name="age"\n        value={formData.age}\n        onChange={handleChange}\n        min="0"\n        max="120"\n      />\n      \n      <label>\n        <input\n          type="checkbox"\n          name="subscribe"\n          checked={formData.subscribe}\n          onChange={handleChange}\n        />\n        Subscribe to newsletter\n      </label>\n      \n      <select\n        name="country"\n        value={formData.country || \'\'}\n        onChange={handleChange}\n      >\n        <option value="">Select Country</option>\n        <option value="us">United States</option>\n        <option value="uk">United Kingdom</option>\n        <option value="ca">Canada</option>\n      </select>\n      \n      <button type="submit">Submit</button>\n    </form>\n  );\n}\n\n// Advanced form with validation\nfunction ValidatedForm() {\n  const [values, setValues] = useState({ email: \'\', password: \'\' });\n  const [errors, setErrors] = useState({});\n  \n  const validate = (name, value) => {\n    switch (name) {\n      case \'email\':\n        return !value.includes(\'@\') ? \'Invalid email\' : \'\';\n      case \'password\':\n        return value.length < 6 ? \'Password too short\' : \'\';\n      default:\n        return \'\';\n    }\n  };\n  \n  const handleChange = (e) => {\n    const { name, value } = e.target;\n    setValues(prev => ({ ...prev, [name]: value }));\n    \n    // Real-time validation\n    const error = validate(name, value);\n    setErrors(prev => ({ ...prev, [name]: error }));\n  };\n  \n  return (\n    <form>\n      <div>\n        <input\n          type="email"\n          name="email"\n          value={values.email}\n          onChange={handleChange}\n          placeholder="Email"\n        />\n        {errors.email && <span className="error">{errors.email}</span>}\n      </div>\n      \n      <div>\n        <input\n          type="password"\n          name="password"\n          value={values.password}\n          onChange={handleChange}\n          placeholder="Password"\n        />\n        {errors.password && <span className="error">{errors.password}</span>}\n      </div>\n      \n      <button type="submit" disabled={Object.values(errors).some(error => error)}>\n        Submit\n      </button>\n    </form>\n  );\n}',
+      },
+      {
+        question: "What is the useEffect hook?",
+        solution:
+          "useEffect is a React hook that lets you perform side effects in functional components. It serves the same purpose as componentDidMount, componentDidUpdate, and componentWillUnmount combined in class components.\n\nKey Concepts:\n1. Side effects are operations that affect something outside the component's scope\n2. useEffect runs after the DOM has been updated\n3. It can optionally clean up after itself\n4. It can be configured to run conditionally based on dependencies\n\nCommon Use Cases:\n- Data fetching from APIs\n- Setting up subscriptions or event listeners\n- Manually changing DOM\n- Starting/stopping timers\n- Cleanup operations\n\nBasic Syntax:\nuseEffect(() => {\n  // Side effect code\n  console.log('Effect runs');\n  \n  // Optional cleanup function\n  return () => {\n    console.log('Cleanup runs');\n  };\n}, [dependencies]); // Dependency array\n\nEffect Patterns:\n\n1. Run on every render:\nuseEffect(() => {\n  console.log('Runs after every render');\n});\n\n2. Run only once (on mount):\nuseEffect(() => {\n  console.log('Runs only once on mount');\n}, []); // Empty dependency array\n\n3. Run when specific values change:\nconst [count, setCount] = useState(0);\nconst [name, setName] = useState('');\n\nuseEffect(() => {\n  console.log('Runs when count changes');\n}, [count]); // Only re-run when count changes\n\n4. Multiple dependencies:\nuseEffect(() => {\n  console.log('Runs when count OR name changes');\n}, [count, name]);\n\n5. With cleanup:\nuseEffect(() => {\n  const timer = setInterval(() => {\n    console.log('Timer tick');\n  }, 1000);\n  \n  // Cleanup function\n  return () => {\n    clearInterval(timer);\n    console.log('Timer cleaned up');\n  };\n}, []);\n\nPractical Example:\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n  \n  useEffect(() => {\n    let isCancelled = false;\n    \n    const fetchUser = async () => {\n      try {\n        setLoading(true);\n        const response = await fetch(`/api/users/${userId}`);\n        const userData = await response.json();\n        \n        if (!isCancelled) {\n          setUser(userData);\n        }\n      } catch (error) {\n        if (!isCancelled) {\n          console.error('Failed to fetch user:', error);\n        }\n      } finally {\n        if (!isCancelled) {\n          setLoading(false);\n        }\n      }\n    };\n    \n    fetchUser();\n    \n    // Cleanup function to prevent state updates if component unmounts\n    return () => {\n      isCancelled = true;\n    };\n  }, [userId]); // Re-run when userId changes\n  \n  if (loading) return <div>Loading...</div>;\n  if (!user) return <div>User not found</div>;\n  \n  return <div>Hello, {user.name}!</div>;\n}",
+      },
+      {
+        question: "How do you import useEffect?",
+        solution:
+          "useEffect must be imported from React before you can use it in your components. There are several ways to import it depending on your import style preference.\n\nImport Methods:\n\n1. Named import (most common and recommended):\nimport { useEffect } from 'react';\n\nfunction MyComponent() {\n  useEffect(() => {\n    console.log('Component mounted or updated');\n  });\n  \n  return <div>Hello World</div>;\n}\n\n2. Import multiple hooks together:\nimport { useState, useEffect, useCallback, useMemo } from 'react';\n\nfunction MyComponent() {\n  const [count, setCount] = useState(0);\n  \n  useEffect(() => {\n    document.title = `Count: ${count}`;\n  }, [count]);\n  \n  return (\n    <button onClick={() => setCount(count + 1)}>\n      Count: {count}\n    </button>\n  );\n}\n\n3. Default import with dot notation (less common):\nimport React from 'react';\n\nfunction MyComponent() {\n  React.useEffect(() => {\n    console.log('Using React.useEffect');\n  });\n  \n  return <div>Hello World</div>;\n}\n\n4. Import all from React (not recommended for performance):\nimport * as React from 'react';\n\nfunction MyComponent() {\n  React.useEffect(() => {\n    console.log('Using React.useEffect');\n  });\n  \n  return <div>Hello World</div>;\n}\n\n5. Mixed import (default + named):\nimport React, { useEffect, useState } from 'react';\n\nfunction MyComponent() {\n  const [data, setData] = useState(null);\n  \n  useEffect(() => {\n    // Fetch data logic here\n  }, []);\n  \n  return <div>{data ? data.name : 'Loading...'}</div>;\n}\n\nBest Practices:\n- Use named imports for hooks (import { useEffect } from 'react')\n- Import only what you need for better tree-shaking\n- Group related imports together\n- Keep imports at the top of your file\n\nComplete Example:\nimport { useEffect, useState } from 'react';\n\nfunction DataFetcher() {\n  const [data, setData] = useState([]);\n  const [loading, setLoading] = useState(true);\n  \n  useEffect(() => {\n    const fetchData = async () => {\n      try {\n        const response = await fetch('/api/data');\n        const result = await response.json();\n        setData(result);\n      } catch (error) {\n        console.error('Error fetching data:', error);\n      } finally {\n        setLoading(false);\n      }\n    };\n    \n    fetchData();\n  }, []);\n  \n  if (loading) return <div>Loading...</div>;\n  \n  return (\n    <ul>\n      {data.map(item => (\n        <li key={item.id}>{item.name}</li>\n      ))}\n    </ul>\n  );\n}\n\nexport default DataFetcher;",
+      },
+      {
+        question: "What are side effects in React?",
+        solution:
+          "Side effects are operations that interact with the outside world or modify something beyond the component's return value. They're called 'side' effects because they happen alongside the main effect (rendering UI). Common side effects include: data fetching from APIs, setting up subscriptions or timers, manually changing DOM elements, logging to console, updating browser title, localStorage operations, and event listener setup. Side effects should not be performed directly in the render function because rendering should be pure (same input = same output). React provides useEffect hook in functional components and lifecycle methods in class components to handle side effects safely. Examples: `fetch('/api/data')`, `document.title = 'New Title'`, `setInterval(() => {}, 1000)`.",
+      },
+      {
+        question: "How do you run an effect only once?",
+        solution:
+          "Run effect only once by passing empty dependency array `[]` to useEffect. This mimics componentDidMount behavior in class components. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction Component() {\n  const [data, setData] = useState(null);\n\n  // Runs only once after initial render\n  useEffect(() => {\n    console.log('This runs only once');\n    \n    // Data fetching\n    fetch('/api/data')\n      .then(res => res.json())\n      .then(setData);\n    \n    // Setup subscriptions\n    const subscription = subscribe();\n    \n    // Cleanup function (optional)\n    return () => {\n      subscription.unsubscribe();\n    };\n  }, []); // Empty dependency array is key\n\n  return <div>{data ? data.name : 'Loading...'}</div>;\n}\n```\nEmpty array tells React this effect doesn't depend on any values from props or state, so it never needs to re-run. Perfect for initial data loading, subscriptions, and one-time setup.",
+      },
+      {
+        question: "How do you run an effect on every render?",
+        solution:
+          "Run effect on every render by omitting the dependency array entirely from useEffect. This mimics componentDidUpdate behavior but also runs after initial render. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction Component() {\n  const [count, setCount] = useState(0);\n  const [name, setName] = useState('');\n\n  // Runs after every render (initial + updates)\n  useEffect(() => {\n    console.log('Component rendered');\n    console.log('Current count:', count);\n    console.log('Current name:', name);\n    \n    // Update document title\n    document.title = `Count: ${count}, Name: ${name}`;\n    \n    // Log to analytics\n    analytics.track('component_render', { count, name });\n  }); // No dependency array\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n      <input value={name} onChange={e => setName(e.target.value)} />\n    </div>\n  );\n}\n```\nUse sparingly as it can cause performance issues. Usually better to specify dependencies or split into multiple focused effects.",
+      },
+      {
+        question: "Explain the dependency array in useEffect.",
+        solution:
+          "The dependency array is the second parameter of useEffect that controls when the effect runs. React compares each dependency with its previous value using Object.is() to decide if effect should re-run. ```jsx\nfunction Component() {\n  const [count, setCount] = useState(0);\n  const [name, setName] = useState('John');\n  const [user, setUser] = useState({ id: 1 });\n\n  // No dependency array - runs on every render\n  useEffect(() => { console.log('Every render'); });\n\n  // Empty array - runs only once (mount)\n  useEffect(() => { console.log('Only once'); }, []);\n\n  // Single dependency - runs when count changes\n  useEffect(() => {\n    console.log('Count changed:', count);\n  }, [count]);\n\n  // Multiple dependencies - runs when any dependency changes\n  useEffect(() => {\n    console.log('Count or name changed');\n  }, [count, name]);\n\n  // Object dependency - compares reference, not contents\n  useEffect(() => {\n    console.log('User reference changed');\n  }, [user]); // Only when user object reference changes\n\n  // Function dependency\n  const fetchData = useCallback(() => fetch('/api'), []);\n  useEffect(() => {\n    fetchData();\n  }, [fetchData]);\n}\n```\nInclude all values from component scope used inside effect to avoid stale closures and bugs.",
+      },
+      {
+        question: "How do you clean up an effect?",
+        solution:
+          "Clean up effects by returning a cleanup function from useEffect. React calls this function before running the effect again or when component unmounts. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction Component() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    // Setup timer\n    const timer = setInterval(() => {\n      setCount(prev => prev + 1);\n    }, 1000);\n\n    // Cleanup function\n    return () => {\n      clearInterval(timer); // Clear timer\n    };\n  }, []); // Run once\n\n  useEffect(() => {\n    // Event listener setup\n    const handleResize = () => console.log('Resized');\n    window.addEventListener('resize', handleResize);\n\n    // Cleanup event listener\n    return () => {\n      window.removeEventListener('resize', handleResize);\n    };\n  }, []);\n\n  useEffect(() => {\n    // Subscription setup\n    const subscription = messageService.subscribe(message => {\n      console.log('Received:', message);\n    });\n\n    // Cleanup subscription\n    return () => {\n      subscription.unsubscribe();\n    };\n  }, []);\n\n  return <div>Count: {count}</div>;\n}\n```\nCleanup prevents memory leaks, stops ongoing operations, and removes event listeners. Always cleanup timers, subscriptions, event listeners, and ongoing requests.",
+      },
+      {
+        question: "What is the return value of useEffect?",
+        solution:
+          "useEffect can return either undefined (nothing) or a cleanup function. It cannot return promises or other values. The return value has specific meaning to React's effect system. ```jsx\nimport { useEffect } from 'react';\n\nfunction Component() {\n  // Returns nothing (undefined) - no cleanup needed\n  useEffect(() => {\n    console.log('Simple effect');\n    document.title = 'New Title';\n    // Implicit return undefined\n  }, []);\n\n  // Returns cleanup function\n  useEffect(() => {\n    const timer = setInterval(() => console.log('Tick'), 1000);\n    \n    return () => clearInterval(timer); // Cleanup function\n  }, []);\n\n  // WRONG - cannot return promise\n  useEffect(() => {\n    return fetch('/api/data'); // This breaks useEffect!\n  }, []);\n\n  // WRONG - cannot return other values\n  useEffect(() => {\n    return 'some value'; // This breaks useEffect!\n  }, []);\n\n  // CORRECT - handle async with inner async function\n  useEffect(() => {\n    const fetchData = async () => {\n      const response = await fetch('/api/data');\n      const data = await response.json();\n      console.log(data);\n    };\n    \n    fetchData();\n    // Return cleanup if needed\n    return () => console.log('Cleanup');\n  }, []);\n}\n```\nOnly return cleanup functions from useEffect. For async operations, use async functions inside the effect.",
+      },
+      {
+        question: "How do you handle subscriptions in useEffect?",
+        solution:
+          "Handle subscriptions by setting them up in useEffect and cleaning them up in the return function to prevent memory leaks. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction ChatComponent({ userId }) {\n  const [messages, setMessages] = useState([]);\n  const [connectionStatus, setConnectionStatus] = useState('disconnected');\n\n  useEffect(() => {\n    // Setup WebSocket subscription\n    const socket = new WebSocket('ws://localhost:8080');\n    \n    socket.onopen = () => {\n      setConnectionStatus('connected');\n      socket.send(JSON.stringify({ type: 'join', userId }));\n    };\n    \n    socket.onmessage = (event) => {\n      const message = JSON.parse(event.data);\n      setMessages(prev => [...prev, message]);\n    };\n    \n    socket.onclose = () => {\n      setConnectionStatus('disconnected');\n    };\n\n    // Cleanup subscription\n    return () => {\n      socket.close();\n    };\n  }, [userId]); // Re-subscribe when userId changes\n\n  useEffect(() => {\n    // Event emitter subscription\n    const handleDataUpdate = (newData) => {\n      console.log('Data updated:', newData);\n    };\n    \n    eventEmitter.on('dataUpdate', handleDataUpdate);\n    \n    return () => {\n      eventEmitter.off('dataUpdate', handleDataUpdate);\n    };\n  }, []);\n\n  useEffect(() => {\n    // Observable subscription\n    const subscription = dataStream$.subscribe({\n      next: (data) => console.log('New data:', data),\n      error: (err) => console.error('Stream error:', err)\n    });\n    \n    return () => subscription.unsubscribe();\n  }, []);\n\n  return (\n    <div>\n      <p>Status: {connectionStatus}</p>\n      <div>{messages.map(msg => <p key={msg.id}>{msg.text}</p>)}</div>\n    </div>\n  );\n}\n```\nAlways cleanup subscriptions to prevent memory leaks, multiple subscriptions, and stale event handlers.",
+      },
+      {
+        question: "Show an example of fetching data in useEffect.",
+        solution:
+          "```jsx\nimport { useEffect, useState } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    // Reset state when userId changes\n    setLoading(true);\n    setError(null);\n\n    // Async function inside useEffect\n    const fetchUser = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}`);\n        \n        if (!response.ok) {\n          throw new Error(`HTTP error! status: ${response.status}`);\n        }\n        \n        const userData = await response.json();\n        setUser(userData);\n      } catch (err) {\n        setError(err.message);\n        console.error('Failed to fetch user:', err);\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    fetchUser();\n\n    // Cleanup: abort request if component unmounts\n    const abortController = new AbortController();\n    \n    const fetchUserWithAbort = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}`, {\n          signal: abortController.signal\n        });\n        const userData = await response.json();\n        setUser(userData);\n      } catch (err) {\n        if (err.name !== 'AbortError') {\n          setError(err.message);\n        }\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    return () => {\n      abortController.abort(); // Cancel ongoing request\n    };\n  }, [userId]); // Re-fetch when userId changes\n\n  if (loading) return <div>Loading user...</div>;\n  if (error) return <div>Error: {error}</div>;\n  if (!user) return <div>No user found</div>;\n\n  return (\n    <div>\n      <h2>{user.name}</h2>\n      <p>{user.email}</p>\n    </div>\n  );\n}\n```\nHandle loading states, errors, and cleanup for robust data fetching. Use AbortController to cancel requests when component unmounts.",
+      },
+      {
+        question: "How do you prevent infinite loops in useEffect?",
+        solution:
+          "Prevent infinite loops by carefully managing dependencies and avoiding unstable references. Common causes and solutions: ```jsx\nimport { useEffect, useState, useCallback, useMemo } from 'react';\n\nfunction Component() {\n  const [count, setCount] = useState(0);\n  const [data, setData] = useState([]);\n\n  // WRONG - Missing dependencies causes stale closures\n  useEffect(() => {\n    setCount(count + 1); // Uses stale count value\n  }, []); // Should include count dependency\n\n  // WRONG - Object dependency changes on every render\n  const config = { api: '/users' }; // New object every render\n  useEffect(() => {\n    fetchData(config);\n  }, [config]); // Infinite loop!\n\n  // CORRECT - Stable object reference\n  const config = useMemo(() => ({ api: '/users' }), []);\n  useEffect(() => {\n    fetchData(config);\n  }, [config]);\n\n  // WRONG - Function dependency changes on every render\n  const fetchUsers = () => fetch('/users');\n  useEffect(() => {\n    fetchUsers();\n  }, [fetchUsers]); // Infinite loop!\n\n  // CORRECT - Stable function reference\n  const fetchUsers = useCallback(() => fetch('/users'), []);\n  useEffect(() => {\n    fetchUsers();\n  }, [fetchUsers]);\n\n  // CORRECT - Define function inside effect\n  useEffect(() => {\n    const fetchUsers = () => fetch('/users');\n    fetchUsers();\n  }, []); // No function dependency needed\n\n  // CORRECT - Functional state updates\n  useEffect(() => {\n    const timer = setInterval(() => {\n      setCount(prev => prev + 1); // Uses latest count\n    }, 1000);\n    return () => clearInterval(timer);\n  }, []); // No count dependency needed\n\n  // WRONG - Setting state that's in dependencies\n  useEffect(() => {\n    if (data.length === 0) {\n      setData([1, 2, 3]); // Infinite loop if data is in dependencies\n    }\n  }, [data]);\n\n  // CORRECT - Use ref for values that don't trigger re-renders\n  const dataRef = useRef([]);\n  useEffect(() => {\n    if (dataRef.current.length === 0) {\n      const newData = [1, 2, 3];\n      dataRef.current = newData;\n      setData(newData);\n    }\n  }, []);\n}\n```\nUse ESLint plugin `react-hooks/exhaustive-deps` to catch dependency issues automatically.",
+      },
+      {
+        question: "Explain useEffect vs componentDidMount.",
+        solution:
+          "useEffect with empty dependency array is similar to componentDidMount but has key differences. ```jsx\n// Class Component\nclass ClassComponent extends React.Component {\n  componentDidMount() {\n    console.log('Component mounted');\n    this.fetchData();\n    \n    // Setup subscriptions\n    this.subscription = eventEmitter.on('data', this.handleData);\n  }\n  \n  componentWillUnmount() {\n    // Manual cleanup required\n    this.subscription.off('data', this.handleData);\n  }\n  \n  fetchData = () => {\n    fetch('/api/data').then(res => res.json()).then(data => {\n      this.setState({ data });\n    });\n  }\n}\n\n// Functional Component\nfunction FunctionalComponent() {\n  useEffect(() => {\n    console.log('Component mounted');\n    \n    const fetchData = async () => {\n      const response = await fetch('/api/data');\n      const data = await response.json();\n      setData(data);\n    };\n    \n    fetchData();\n    \n    // Setup subscription\n    const subscription = eventEmitter.on('data', handleData);\n    \n    // Cleanup in same place\n    return () => {\n      subscription.off('data', handleData);\n    };\n  }, []); // Empty array = runs once like componentDidMount\n}\n```\nKey differences: useEffect runs after DOM updates (componentDidMount runs before), useEffect cleanup is in same function (easier to manage), useEffect can have multiple effects (better separation of concerns), and useEffect has dependency system for optimization.",
+      },
+      {
+        question: "Explain useEffect vs componentDidUpdate.",
+        solution:
+          "useEffect with dependencies is similar to componentDidUpdate but more flexible and focused. ```jsx\n// Class Component\nclass ClassComponent extends React.Component {\n  componentDidUpdate(prevProps, prevState) {\n    // Manual comparison required\n    if (prevProps.userId !== this.props.userId) {\n      this.fetchUserData(this.props.userId);\n    }\n    \n    if (prevState.count !== this.state.count && this.state.count > 5) {\n      console.log('Count exceeded 5');\n    }\n    \n    // Update document title whenever props/state change\n    document.title = `User: ${this.props.userName}, Count: ${this.state.count}`;\n  }\n}\n\n// Functional Component\nfunction FunctionalComponent({ userId, userName }) {\n  const [count, setCount] = useState(0);\n  \n  // Separate effects for different concerns\n  \n  // Effect runs when userId changes (specific dependency)\n  useEffect(() => {\n    fetchUserData(userId);\n  }, [userId]); // Automatic comparison, no manual prevProps needed\n  \n  // Effect runs when count changes and meets condition\n  useEffect(() => {\n    if (count > 5) {\n      console.log('Count exceeded 5');\n    }\n  }, [count]);\n  \n  // Effect runs when userName or count changes\n  useEffect(() => {\n    document.title = `User: ${userName}, Count: ${count}`;\n  }, [userName, count]); // Multiple dependencies\n  \n  // Effect that runs on every update (like componentDidUpdate)\n  useEffect(() => {\n    console.log('Component updated');\n  }); // No dependency array\n}\n```\nAdvantages of useEffect: automatic dependency comparison, separate effects for different concerns, cleaner code without manual prevProps/prevState comparisons, and better optimization through specific dependencies.",
+      },
+      {
+        question: "Explain useEffect vs componentWillUnmount.",
+        solution:
+          "useEffect cleanup function replaces componentWillUnmount with better co-location of setup and teardown logic. ```jsx\n// Class Component\nclass ClassComponent extends React.Component {\n  componentDidMount() {\n    // Setup various subscriptions and listeners\n    this.timer = setInterval(this.updateTime, 1000);\n    this.eventListener = window.addEventListener('resize', this.handleResize);\n    this.subscription = dataService.subscribe(this.handleData);\n    this.websocket = new WebSocket('ws://example.com');\n  }\n  \n  componentWillUnmount() {\n    // Manual cleanup - easy to forget or mismatch\n    clearInterval(this.timer);\n    window.removeEventListener('resize', this.handleResize);\n    this.subscription.unsubscribe();\n    this.websocket.close();\n  }\n  \n  handleResize = () => console.log('Resized');\n  handleData = (data) => this.setState({ data });\n}\n\n// Functional Component\nfunction FunctionalComponent() {\n  useEffect(() => {\n    // Setup timer\n    const timer = setInterval(() => {\n      console.log('Timer tick');\n    }, 1000);\n    \n    // Cleanup co-located with setup\n    return () => clearInterval(timer);\n  }, []);\n  \n  useEffect(() => {\n    // Setup event listener\n    const handleResize = () => console.log('Resized');\n    window.addEventListener('resize', handleResize);\n    \n    // Cleanup co-located\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n  \n  useEffect(() => {\n    // Setup subscription\n    const subscription = dataService.subscribe(data => {\n      setData(data);\n    });\n    \n    // Cleanup co-located\n    return () => subscription.unsubscribe();\n  }, []);\n  \n  useEffect(() => {\n    // Setup WebSocket\n    const ws = new WebSocket('ws://example.com');\n    \n    return () => ws.close();\n  }, []);\n}\n```\nBenefits of useEffect cleanup: setup and cleanup are co-located (easier to maintain), less likely to forget cleanup, multiple focused effects instead of one large unmount method, and automatic cleanup when dependencies change.",
+      },
+      {
+        question: "How do you use multiple useEffect hooks?",
+        solution:
+          "Use multiple useEffect hooks to separate concerns and create focused, maintainable effects. Each effect can have its own dependencies and cleanup logic. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction UserDashboard({ userId }) {\n  const [user, setUser] = useState(null);\n  const [posts, setPosts] = useState([]);\n  const [notifications, setNotifications] = useState([]);\n  const [windowWidth, setWindowWidth] = useState(window.innerWidth);\n\n  // Effect 1: Fetch user data when userId changes\n  useEffect(() => {\n    const fetchUser = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}`);\n        const userData = await response.json();\n        setUser(userData);\n      } catch (error) {\n        console.error('Failed to fetch user:', error);\n      }\n    };\n    \n    if (userId) {\n      fetchUser();\n    }\n  }, [userId]);\n\n  // Effect 2: Fetch user posts when userId changes\n  useEffect(() => {\n    const fetchPosts = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}/posts`);\n        const postsData = await response.json();\n        setPosts(postsData);\n      } catch (error) {\n        console.error('Failed to fetch posts:', error);\n      }\n    };\n    \n    if (userId) {\n      fetchPosts();\n    }\n  }, [userId]);\n\n  // Effect 3: Setup real-time notifications subscription\n  useEffect(() => {\n    const ws = new WebSocket(`ws://api.example.com/notifications/${userId}`);\n    \n    ws.onmessage = (event) => {\n      const notification = JSON.parse(event.data);\n      setNotifications(prev => [notification, ...prev]);\n    };\n    \n    return () => ws.close();\n  }, [userId]);\n\n  // Effect 4: Window resize listener (runs once)\n  useEffect(() => {\n    const handleResize = () => setWindowWidth(window.innerWidth);\n    window.addEventListener('resize', handleResize);\n    \n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n\n  // Effect 5: Update document title when user changes\n  useEffect(() => {\n    if (user) {\n      document.title = `Dashboard - ${user.name}`;\n    }\n    \n    return () => {\n      document.title = 'Dashboard';\n    };\n  }, [user]);\n\n  // Effect 6: Analytics tracking on component mount\n  useEffect(() => {\n    analytics.track('dashboard_viewed', { userId });\n  }, [userId]);\n\n  return (\n    <div>\n      <h1>Welcome {user?.name}</h1>\n      <p>Posts: {posts.length}</p>\n      <p>Notifications: {notifications.length}</p>\n      <p>Window width: {windowWidth}px</p>\n    </div>\n  );\n}\n```\nBenefits: separation of concerns, easier testing and debugging, focused dependencies, independent cleanup logic, and better code organization.",
+      },
+      {
+        question: "Can you use async directly in useEffect?",
+        solution:
+          "No, you cannot use async directly in useEffect because it would return a Promise instead of a cleanup function. Instead, define async functions inside useEffect. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction DataComponent() {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  // WRONG - This breaks useEffect\n  useEffect(async () => {\n    try {\n      const response = await fetch('/api/data');\n      const result = await response.json();\n      setData(result);\n    } catch (err) {\n      setError(err.message);\n    }\n  }, []); // This returns Promise, not cleanup function!\n\n  // CORRECT - Define async function inside useEffect\n  useEffect(() => {\n    const fetchData = async () => {\n      try {\n        setLoading(true);\n        const response = await fetch('/api/data');\n        \n        if (!response.ok) {\n          throw new Error('Failed to fetch data');\n        }\n        \n        const result = await response.json();\n        setData(result);\n      } catch (err) {\n        setError(err.message);\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    fetchData();\n\n    // Optional cleanup\n    return () => {\n      console.log('Cleanup if needed');\n    };\n  }, []);\n\n  // CORRECT - Multiple async operations\n  useEffect(() => {\n    let isCancelled = false;\n\n    const fetchMultipleData = async () => {\n      try {\n        const [userData, postsData] = await Promise.all([\n          fetch('/api/user').then(res => res.json()),\n          fetch('/api/posts').then(res => res.json())\n        ]);\n\n        if (!isCancelled) {\n          setUserData(userData);\n          setPostsData(postsData);\n        }\n      } catch (error) {\n        if (!isCancelled) {\n          setError(error.message);\n        }\n      }\n    };\n\n    fetchMultipleData();\n\n    return () => {\n      isCancelled = true; // Prevent state updates if unmounted\n    };\n  }, []);\n\n  // CORRECT - With AbortController for request cancellation\n  useEffect(() => {\n    const controller = new AbortController();\n\n    const fetchData = async () => {\n      try {\n        const response = await fetch('/api/data', {\n          signal: controller.signal\n        });\n        const result = await response.json();\n        setData(result);\n      } catch (error) {\n        if (error.name !== 'AbortError') {\n          setError(error.message);\n        }\n      }\n    };\n\n    fetchData();\n\n    return () => {\n      controller.abort(); // Cancel request on cleanup\n    };\n  }, []);\n\n  if (loading) return <div>Loading...</div>;\n  if (error) return <div>Error: {error}</div>;\n  return <div>{JSON.stringify(data)}</div>;\n}\n```\nAlways define async functions inside useEffect and call them immediately. Use cleanup to prevent state updates after unmount.",
+      },
+      {
+        question: "What are side effects in React?",
+        solution:
+          "Side effects are operations that interact with the outside world or modify something beyond the component's return value. They're called 'side' effects because they happen alongside the main effect (rendering UI). Common side effects include: data fetching from APIs, setting up subscriptions or timers, manually changing DOM elements, logging to console, updating browser title, localStorage operations, and event listener setup. Side effects should not be performed directly in the render function because rendering should be pure (same input = same output). React provides useEffect hook in functional components and lifecycle methods in class components to handle side effects safely. Examples: `fetch('/api/data')`, `document.title = 'New Title'`, `setInterval(() => {}, 1000)`.",
+      },
+      {
+        question: "How do you run an effect only once?",
+        solution:
+          "Run effect only once by passing empty dependency array `[]` to useEffect. This mimics componentDidMount behavior in class components. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction Component() {\n  const [data, setData] = useState(null);\n\n  // Runs only once after initial render\n  useEffect(() => {\n    console.log('This runs only once');\n    \n    // Data fetching\n    fetch('/api/data')\n      .then(res => res.json())\n      .then(setData);\n    \n    // Setup subscriptions\n    const subscription = subscribe();\n    \n    // Cleanup function (optional)\n    return () => {\n      subscription.unsubscribe();\n    };\n  }, []); // Empty dependency array is key\n\n  return <div>{data ? data.name : 'Loading...'}</div>;\n}\n```\nEmpty array tells React this effect doesn't depend on any values from props or state, so it never needs to re-run. Perfect for initial data loading, subscriptions, and one-time setup.",
+      },
+      {
+        question: "How do you run an effect on every render?",
+        solution:
+          "Run effect on every render by omitting the dependency array entirely from useEffect. This mimics componentDidUpdate behavior but also runs after initial render. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction Component() {\n  const [count, setCount] = useState(0);\n  const [name, setName] = useState('');\n\n  // Runs after every render (initial + updates)\n  useEffect(() => {\n    console.log('Component rendered');\n    console.log('Current count:', count);\n    console.log('Current name:', name);\n    \n    // Update document title\n    document.title = `Count: ${count}, Name: ${name}`;\n    \n    // Log to analytics\n    analytics.track('component_render', { count, name });\n  }); // No dependency array\n\n  return (\n    <div>\n      <p>Count: {count}</p>\n      <button onClick={() => setCount(count + 1)}>Increment</button>\n      <input value={name} onChange={e => setName(e.target.value)} />\n    </div>\n  );\n}\n```\nUse sparingly as it can cause performance issues. Usually better to specify dependencies or split into multiple focused effects.",
+      },
+      {
+        question: "Explain the dependency array in useEffect.",
+        solution:
+          "The dependency array is the second parameter of useEffect that controls when the effect runs. React compares each dependency with its previous value using Object.is() to decide if effect should re-run. ```jsx\nfunction Component() {\n  const [count, setCount] = useState(0);\n  const [name, setName] = useState('John');\n  const [user, setUser] = useState({ id: 1 });\n\n  // No dependency array - runs on every render\n  useEffect(() => { console.log('Every render'); });\n\n  // Empty array - runs only once (mount)\n  useEffect(() => { console.log('Only once'); }, []);\n\n  // Single dependency - runs when count changes\n  useEffect(() => {\n    console.log('Count changed:', count);\n  }, [count]);\n\n  // Multiple dependencies - runs when any dependency changes\n  useEffect(() => {\n    console.log('Count or name changed');\n  }, [count, name]);\n\n  // Object dependency - compares reference, not contents\n  useEffect(() => {\n    console.log('User reference changed');\n  }, [user]); // Only when user object reference changes\n\n  // Function dependency\n  const fetchData = useCallback(() => fetch('/api'), []);\n  useEffect(() => {\n    fetchData();\n  }, [fetchData]);\n}\n```\nInclude all values from component scope used inside effect to avoid stale closures and bugs.",
+      },
+      {
+        question: "How do you clean up an effect?",
+        solution:
+          "Clean up effects by returning a cleanup function from useEffect. React calls this function before running the effect again or when component unmounts. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction Component() {\n  const [count, setCount] = useState(0);\n\n  useEffect(() => {\n    // Setup timer\n    const timer = setInterval(() => {\n      setCount(prev => prev + 1);\n    }, 1000);\n\n    // Cleanup function\n    return () => {\n      clearInterval(timer); // Clear timer\n    };\n  }, []); // Run once\n\n  useEffect(() => {\n    // Event listener setup\n    const handleResize = () => console.log('Resized');\n    window.addEventListener('resize', handleResize);\n\n    // Cleanup event listener\n    return () => {\n      window.removeEventListener('resize', handleResize);\n    };\n  }, []);\n\n  useEffect(() => {\n    // Subscription setup\n    const subscription = messageService.subscribe(message => {\n      console.log('Received:', message);\n    });\n\n    // Cleanup subscription\n    return () => {\n      subscription.unsubscribe();\n    };\n  }, []);\n\n  return <div>Count: {count}</div>;\n}\n```\nCleanup prevents memory leaks, stops ongoing operations, and removes event listeners. Always cleanup timers, subscriptions, event listeners, and ongoing requests.",
+      },
+      {
+        question: "What is the return value of useEffect?",
+        solution:
+          "useEffect can return either undefined (nothing) or a cleanup function. It cannot return promises or other values. The return value has specific meaning to React's effect system. ```jsx\nimport { useEffect } from 'react';\n\nfunction Component() {\n  // Returns nothing (undefined) - no cleanup needed\n  useEffect(() => {\n    console.log('Simple effect');\n    document.title = 'New Title';\n    // Implicit return undefined\n  }, []);\n\n  // Returns cleanup function\n  useEffect(() => {\n    const timer = setInterval(() => console.log('Tick'), 1000);\n    \n    return () => clearInterval(timer); // Cleanup function\n  }, []);\n\n  // WRONG - cannot return promise\n  useEffect(() => {\n    return fetch('/api/data'); // This breaks useEffect!\n  }, []);\n\n  // WRONG - cannot return other values\n  useEffect(() => {\n    return 'some value'; // This breaks useEffect!\n  }, []);\n\n  // CORRECT - handle async with inner async function\n  useEffect(() => {\n    const fetchData = async () => {\n      const response = await fetch('/api/data');\n      const data = await response.json();\n      console.log(data);\n    };\n    \n    fetchData();\n    // Return cleanup if needed\n    return () => console.log('Cleanup');\n  }, []);\n}\n```\nOnly return cleanup functions from useEffect. For async operations, use async functions inside the effect.",
+      },
+      {
+        question: "How do you handle subscriptions in useEffect?",
+        solution:
+          "Handle subscriptions by setting them up in useEffect and cleaning them up in the return function to prevent memory leaks. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction ChatComponent({ userId }) {\n  const [messages, setMessages] = useState([]);\n  const [connectionStatus, setConnectionStatus] = useState('disconnected');\n\n  useEffect(() => {\n    // Setup WebSocket subscription\n    const socket = new WebSocket('ws://localhost:8080');\n    \n    socket.onopen = () => {\n      setConnectionStatus('connected');\n      socket.send(JSON.stringify({ type: 'join', userId }));\n    };\n    \n    socket.onmessage = (event) => {\n      const message = JSON.parse(event.data);\n      setMessages(prev => [...prev, message]);\n    };\n    \n    socket.onclose = () => {\n      setConnectionStatus('disconnected');\n    };\n\n    // Cleanup subscription\n    return () => {\n      socket.close();\n    };\n  }, [userId]); // Re-subscribe when userId changes\n\n  useEffect(() => {\n    // Event emitter subscription\n    const handleDataUpdate = (newData) => {\n      console.log('Data updated:', newData);\n    };\n    \n    eventEmitter.on('dataUpdate', handleDataUpdate);\n    \n    return () => {\n      eventEmitter.off('dataUpdate', handleDataUpdate);\n    };\n  }, []);\n\n  useEffect(() => {\n    // Observable subscription\n    const subscription = dataStream$.subscribe({\n      next: (data) => console.log('New data:', data),\n      error: (err) => console.error('Stream error:', err)\n    });\n    \n    return () => subscription.unsubscribe();\n  }, []);\n\n  return (\n    <div>\n      <p>Status: {connectionStatus}</p>\n      <div>{messages.map(msg => <p key={msg.id}>{msg.text}</p>)}</div>\n    </div>\n  );\n}\n```\nAlways cleanup subscriptions to prevent memory leaks, multiple subscriptions, and stale event handlers.",
+      },
+      {
+        question: "Show an example of fetching data in useEffect.",
+        solution:
+          "```jsx\nimport { useEffect, useState } from 'react';\n\nfunction UserProfile({ userId }) {\n  const [user, setUser] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  useEffect(() => {\n    // Reset state when userId changes\n    setLoading(true);\n    setError(null);\n\n    // Async function inside useEffect\n    const fetchUser = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}`);\n        \n        if (!response.ok) {\n          throw new Error(`HTTP error! status: ${response.status}`);\n        }\n        \n        const userData = await response.json();\n        setUser(userData);\n      } catch (err) {\n        setError(err.message);\n        console.error('Failed to fetch user:', err);\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    fetchUser();\n\n    // Cleanup: abort request if component unmounts\n    const abortController = new AbortController();\n    \n    const fetchUserWithAbort = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}`, {\n          signal: abortController.signal\n        });\n        const userData = await response.json();\n        setUser(userData);\n      } catch (err) {\n        if (err.name !== 'AbortError') {\n          setError(err.message);\n        }\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    return () => {\n      abortController.abort(); // Cancel ongoing request\n    };\n  }, [userId]); // Re-fetch when userId changes\n\n  if (loading) return <div>Loading user...</div>;\n  if (error) return <div>Error: {error}</div>;\n  if (!user) return <div>No user found</div>;\n\n  return (\n    <div>\n      <h2>{user.name}</h2>\n      <p>{user.email}</p>\n    </div>\n  );\n}\n```\nHandle loading states, errors, and cleanup for robust data fetching. Use AbortController to cancel requests when component unmounts.",
+      },
+      {
+        question: "How do you prevent infinite loops in useEffect?",
+        solution:
+          "Prevent infinite loops by carefully managing dependencies and avoiding unstable references. Common causes and solutions: ```jsx\nimport { useEffect, useState, useCallback, useMemo } from 'react';\n\nfunction Component() {\n  const [count, setCount] = useState(0);\n  const [data, setData] = useState([]);\n\n  // WRONG - Missing dependencies causes stale closures\n  useEffect(() => {\n    setCount(count + 1); // Uses stale count value\n  }, []); // Should include count dependency\n\n  // WRONG - Object dependency changes on every render\n  const config = { api: '/users' }; // New object every render\n  useEffect(() => {\n    fetchData(config);\n  }, [config]); // Infinite loop!\n\n  // CORRECT - Stable object reference\n  const config = useMemo(() => ({ api: '/users' }), []);\n  useEffect(() => {\n    fetchData(config);\n  }, [config]);\n\n  // WRONG - Function dependency changes on every render\n  const fetchUsers = () => fetch('/users');\n  useEffect(() => {\n    fetchUsers();\n  }, [fetchUsers]); // Infinite loop!\n\n  // CORRECT - Stable function reference\n  const fetchUsers = useCallback(() => fetch('/users'), []);\n  useEffect(() => {\n    fetchUsers();\n  }, [fetchUsers]);\n\n  // CORRECT - Define function inside effect\n  useEffect(() => {\n    const fetchUsers = () => fetch('/users');\n    fetchUsers();\n  }, []); // No function dependency needed\n\n  // CORRECT - Functional state updates\n  useEffect(() => {\n    const timer = setInterval(() => {\n      setCount(prev => prev + 1); // Uses latest count\n    }, 1000);\n    return () => clearInterval(timer);\n  }, []); // No count dependency needed\n\n  // WRONG - Setting state that's in dependencies\n  useEffect(() => {\n    if (data.length === 0) {\n      setData([1, 2, 3]); // Infinite loop if data is in dependencies\n    }\n  }, [data]);\n\n  // CORRECT - Use ref for values that don't trigger re-renders\n  const dataRef = useRef([]);\n  useEffect(() => {\n    if (dataRef.current.length === 0) {\n      const newData = [1, 2, 3];\n      dataRef.current = newData;\n      setData(newData);\n    }\n  }, []);\n}\n```\nUse ESLint plugin `react-hooks/exhaustive-deps` to catch dependency issues automatically.",
+      },
+      {
+        question: "Explain useEffect vs componentDidMount.",
+        solution:
+          "useEffect with empty dependency array is similar to componentDidMount but has key differences. ```jsx\n// Class Component\nclass ClassComponent extends React.Component {\n  componentDidMount() {\n    console.log('Component mounted');\n    this.fetchData();\n    \n    // Setup subscriptions\n    this.subscription = eventEmitter.on('data', this.handleData);\n  }\n  \n  componentWillUnmount() {\n    // Manual cleanup required\n    this.subscription.off('data', this.handleData);\n  }\n  \n  fetchData = () => {\n    fetch('/api/data').then(res => res.json()).then(data => {\n      this.setState({ data });\n    });\n  }\n}\n\n// Functional Component\nfunction FunctionalComponent() {\n  useEffect(() => {\n    console.log('Component mounted');\n    \n    const fetchData = async () => {\n      const response = await fetch('/api/data');\n      const data = await response.json();\n      setData(data);\n    };\n    \n    fetchData();\n    \n    // Setup subscription\n    const subscription = eventEmitter.on('data', handleData);\n    \n    // Cleanup in same place\n    return () => {\n      subscription.off('data', handleData);\n    };\n  }, []); // Empty array = runs once like componentDidMount\n}\n```\nKey differences: useEffect runs after DOM updates (componentDidMount runs before), useEffect cleanup is in same function (easier to manage), useEffect can have multiple effects (better separation of concerns), and useEffect has dependency system for optimization.",
+      },
+      {
+        question: "Explain useEffect vs componentDidUpdate.",
+        solution:
+          "useEffect with dependencies is similar to componentDidUpdate but more flexible and focused. ```jsx\n// Class Component\nclass ClassComponent extends React.Component {\n  componentDidUpdate(prevProps, prevState) {\n    // Manual comparison required\n    if (prevProps.userId !== this.props.userId) {\n      this.fetchUserData(this.props.userId);\n    }\n    \n    if (prevState.count !== this.state.count && this.state.count > 5) {\n      console.log('Count exceeded 5');\n    }\n    \n    // Update document title whenever props/state change\n    document.title = `User: ${this.props.userName}, Count: ${this.state.count}`;\n  }\n}\n\n// Functional Component\nfunction FunctionalComponent({ userId, userName }) {\n  const [count, setCount] = useState(0);\n  \n  // Separate effects for different concerns\n  \n  // Effect runs when userId changes (specific dependency)\n  useEffect(() => {\n    fetchUserData(userId);\n  }, [userId]); // Automatic comparison, no manual prevProps needed\n  \n  // Effect runs when count changes and meets condition\n  useEffect(() => {\n    if (count > 5) {\n      console.log('Count exceeded 5');\n    }\n  }, [count]);\n  \n  // Effect runs when userName or count changes\n  useEffect(() => {\n    document.title = `User: ${userName}, Count: ${count}`;\n  }, [userName, count]); // Multiple dependencies\n  \n  // Effect that runs on every update (like componentDidUpdate)\n  useEffect(() => {\n    console.log('Component updated');\n  }); // No dependency array\n}\n```\nAdvantages of useEffect: automatic dependency comparison, separate effects for different concerns, cleaner code without manual prevProps/prevState comparisons, and better optimization through specific dependencies.",
+      },
+      {
+        question: "Explain useEffect vs componentWillUnmount.",
+        solution:
+          "useEffect cleanup function replaces componentWillUnmount with better co-location of setup and teardown logic. ```jsx\n// Class Component\nclass ClassComponent extends React.Component {\n  componentDidMount() {\n    // Setup various subscriptions and listeners\n    this.timer = setInterval(this.updateTime, 1000);\n    this.eventListener = window.addEventListener('resize', this.handleResize);\n    this.subscription = dataService.subscribe(this.handleData);\n    this.websocket = new WebSocket('ws://example.com');\n  }\n  \n  componentWillUnmount() {\n    // Manual cleanup - easy to forget or mismatch\n    clearInterval(this.timer);\n    window.removeEventListener('resize', this.handleResize);\n    this.subscription.unsubscribe();\n    this.websocket.close();\n  }\n  \n  handleResize = () => console.log('Resized');\n  handleData = (data) => this.setState({ data });\n}\n\n// Functional Component\nfunction FunctionalComponent() {\n  useEffect(() => {\n    // Setup timer\n    const timer = setInterval(() => {\n      console.log('Timer tick');\n    }, 1000);\n    \n    // Cleanup co-located with setup\n    return () => clearInterval(timer);\n  }, []);\n  \n  useEffect(() => {\n    // Setup event listener\n    const handleResize = () => console.log('Resized');\n    window.addEventListener('resize', handleResize);\n    \n    // Cleanup co-located\n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n  \n  useEffect(() => {\n    // Setup subscription\n    const subscription = dataService.subscribe(data => {\n      setData(data);\n    });\n    \n    // Cleanup co-located\n    return () => subscription.unsubscribe();\n  }, []);\n  \n  useEffect(() => {\n    // Setup WebSocket\n    const ws = new WebSocket('ws://example.com');\n    \n    return () => ws.close();\n  }, []);\n}\n```\nBenefits of useEffect cleanup: setup and cleanup are co-located (easier to maintain), less likely to forget cleanup, multiple focused effects instead of one large unmount method, and automatic cleanup when dependencies change.",
+      },
+      {
+        question: "How do you use multiple useEffect hooks?",
+        solution:
+          "Use multiple useEffect hooks to separate concerns and create focused, maintainable effects. Each effect can have its own dependencies and cleanup logic. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction UserDashboard({ userId }) {\n  const [user, setUser] = useState(null);\n  const [posts, setPosts] = useState([]);\n  const [notifications, setNotifications] = useState([]);\n  const [windowWidth, setWindowWidth] = useState(window.innerWidth);\n\n  // Effect 1: Fetch user data when userId changes\n  useEffect(() => {\n    const fetchUser = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}`);\n        const userData = await response.json();\n        setUser(userData);\n      } catch (error) {\n        console.error('Failed to fetch user:', error);\n      }\n    };\n    \n    if (userId) {\n      fetchUser();\n    }\n  }, [userId]);\n\n  // Effect 2: Fetch user posts when userId changes\n  useEffect(() => {\n    const fetchPosts = async () => {\n      try {\n        const response = await fetch(`/api/users/${userId}/posts`);\n        const postsData = await response.json();\n        setPosts(postsData);\n      } catch (error) {\n        console.error('Failed to fetch posts:', error);\n      }\n    };\n    \n    if (userId) {\n      fetchPosts();\n    }\n  }, [userId]);\n\n  // Effect 3: Setup real-time notifications subscription\n  useEffect(() => {\n    const ws = new WebSocket(`ws://api.example.com/notifications/${userId}`);\n    \n    ws.onmessage = (event) => {\n      const notification = JSON.parse(event.data);\n      setNotifications(prev => [notification, ...prev]);\n    };\n    \n    return () => ws.close();\n  }, [userId]);\n\n  // Effect 4: Window resize listener (runs once)\n  useEffect(() => {\n    const handleResize = () => setWindowWidth(window.innerWidth);\n    window.addEventListener('resize', handleResize);\n    \n    return () => window.removeEventListener('resize', handleResize);\n  }, []);\n\n  // Effect 5: Update document title when user changes\n  useEffect(() => {\n    if (user) {\n      document.title = `Dashboard - ${user.name}`;\n    }\n    \n    return () => {\n      document.title = 'Dashboard';\n    };\n  }, [user]);\n\n  // Effect 6: Analytics tracking on component mount\n  useEffect(() => {\n    analytics.track('dashboard_viewed', { userId });\n  }, [userId]);\n\n  return (\n    <div>\n      <h1>Welcome {user?.name}</h1>\n      <p>Posts: {posts.length}</p>\n      <p>Notifications: {notifications.length}</p>\n      <p>Window width: {windowWidth}px</p>\n    </div>\n  );\n}\n```\nBenefits: separation of concerns, easier testing and debugging, focused dependencies, independent cleanup logic, and better code organization.",
+      },
+      {
+        question: "Can you use async directly in useEffect?",
+        solution:
+          "No, you cannot use async directly in useEffect because it would return a Promise instead of a cleanup function. Instead, define async functions inside useEffect. ```jsx\nimport { useEffect, useState } from 'react';\n\nfunction DataComponent() {\n  const [data, setData] = useState(null);\n  const [loading, setLoading] = useState(true);\n  const [error, setError] = useState(null);\n\n  // WRONG - This breaks useEffect\n  useEffect(async () => {\n    try {\n      const response = await fetch('/api/data');\n      const result = await response.json();\n      setData(result);\n    } catch (err) {\n      setError(err.message);\n    }\n  }, []); // This returns Promise, not cleanup function!\n\n  // CORRECT - Define async function inside useEffect\n  useEffect(() => {\n    const fetchData = async () => {\n      try {\n        setLoading(true);\n        const response = await fetch('/api/data');\n        \n        if (!response.ok) {\n          throw new Error('Failed to fetch data');\n        }\n        \n        const result = await response.json();\n        setData(result);\n      } catch (err) {\n        setError(err.message);\n      } finally {\n        setLoading(false);\n      }\n    };\n\n    fetchData();\n\n    // Optional cleanup\n    return () => {\n      console.log('Cleanup if needed');\n    };\n  }, []);\n\n  // CORRECT - Multiple async operations\n  useEffect(() => {\n    let isCancelled = false;\n\n    const fetchMultipleData = async () => {\n      try {\n        const [userData, postsData] = await Promise.all([\n          fetch('/api/user').then(res => res.json()),\n          fetch('/api/posts').then(res => res.json())\n        ]);\n\n        if (!isCancelled) {\n          setUserData(userData);\n          setPostsData(postsData);\n        }\n      } catch (error) {\n        if (!isCancelled) {\n          setError(error.message);\n        }\n      }\n    };\n\n    fetchMultipleData();\n\n    return () => {\n      isCancelled = true; // Prevent state updates if unmounted\n    };\n  }, []);\n\n  // CORRECT - With AbortController for request cancellation\n  useEffect(() => {\n    const controller = new AbortController();\n\n    const fetchData = async () => {\n      try {\n        const response = await fetch('/api/data', {\n          signal: controller.signal\n        });\n        const result = await response.json();\n        setData(result);\n      } catch (error) {\n        if (error.name !== 'AbortError') {\n          setError(error.message);\n        }\n      }\n    };\n\n    fetchData();\n\n    return () => {\n      controller.abort(); // Cancel request on cleanup\n    };\n  }, []);\n\n  if (loading) return <div>Loading...</div>;\n  if (error) return <div>Error: {error}</div>;\n  return <div>{JSON.stringify(data)}</div>;\n}\n```\nAlways define async functions inside useEffect and call them immediately. Use cleanup to prevent state updates after unmount.",
+      },
+      {
+        question: "What is the unmounting phase?",
+        solution:
+          "The unmounting phase is the final phase in React component lifecycle when a component is being removed from the DOM. This occurs when the component is no longer needed or when its parent component stops rendering it. During unmounting, React calls componentWillUnmount() in class components, allowing cleanup of subscriptions, timers, network requests, and event listeners. In functional components, the cleanup function returned by useEffect serves the same purpose. Proper unmounting prevents memory leaks and ensures optimal performance.",
+      },
+      {
+        question: "Explain constructor in class components.",
+        solution:
+          "The constructor is called before a React class component is mounted. It's used for two main purposes: initializing local state by assigning an object to this.state, and binding event handler methods to the instance. You must call super(props) before any other statement to properly inherit from React.Component. The constructor receives props as an argument. Example: constructor(props) { super(props); this.state = { count: 0 }; this.handleClick = this.handleClick.bind(this); }. Avoid calling setState() in constructor as it can cause side effects.",
+      },
+      {
+        question: "Explain render method.",
+        solution:
+          "The render() method is the only required method in React class components. It examines this.props and this.state and returns JSX, strings, numbers, portals, or null. It should be pure - not modifying component state, returning consistent results for same inputs, and not directly interacting with the browser. React calls render() during mounting and when state/props change. The method should return a single root element (or React Fragment). It runs during both server-side and client-side rendering, making it crucial for component output determination.",
+      },
+      {
+        question: "Explain componentDidMount.",
+        solution:
+          "componentDidMount() is invoked immediately after a component is mounted (inserted into the DOM tree). It's the ideal place for initialization that requires DOM nodes, such as setting up subscriptions, making API calls, starting timers, or initializing third-party libraries. This method runs only once during the component's lifetime. You can call setState() here, which will trigger an additional render but happens before the browser updates the screen. It's commonly used for data fetching: componentDidMount() { fetch('/api/data').then(response => this.setState({data: response})); }.",
+      },
+      {
+        question: "Explain componentDidUpdate.",
+        solution:
+          "componentDidUpdate(prevProps, prevState, snapshot) is invoked immediately after updating occurs, but not for the initial render. It's an opportunity to operate on the DOM when component updates, make network requests based on prop/state changes, or update state conditionally. Always compare current props/state with previous values before making changes to avoid infinite loops. Example: componentDidUpdate(prevProps) { if (this.props.userId !== prevProps.userId) { this.fetchUserData(this.props.userId); } }. The snapshot parameter comes from getSnapshotBeforeUpdate().",
+      },
+      {
+        question: "Explain componentWillUnmount.",
+        solution:
+          "componentWillUnmount() is invoked immediately before a component is unmounted and destroyed. It's used for cleanup tasks such as invalidating timers, canceling network requests, cleaning up subscriptions, or removing event listeners created in componentDidMount(). You should not call setState() here as the component will never re-render. Example: componentWillUnmount() { clearInterval(this.timer); this.subscription.unsubscribe(); document.removeEventListener('scroll', this.handleScroll); }. Proper cleanup prevents memory leaks and unexpected behavior.",
+      },
+      {
+        question: "What is getDerivedStateFromProps?",
+        solution:
+          "getDerivedStateFromProps is a static lifecycle method called right before rendering, both on initial mount and subsequent updates. It should return an object to update state, or null to update nothing. It's used for rare cases where state depends on changes in props over time. Being static, it has no access to component instance. Example: static getDerivedStateFromProps(props, state) { if (props.currentRow !== state.lastRow) { return { isScrollingDown: props.currentRow > state.lastRow, lastRow: props.currentRow }; } return null; }. Use sparingly as it can lead to verbose code.",
+      },
+      {
+        question: "What is shouldComponentUpdate?",
+        solution:
+          "shouldComponentUpdate(nextProps, nextState) is called before rendering when new props or state are received. It returns a boolean indicating whether React should proceed with the update. Default behavior returns true. Used for performance optimization by preventing unnecessary re-renders. Example: shouldComponentUpdate(nextProps, nextState) { return nextProps.id !== this.props.id || nextState.count !== this.state.count; }. React.PureComponent automatically implements shallow comparison. Use React.memo() for functional components. Avoid deep equality checks as they can be expensive.",
+      },
+      {
+        question: "What is getSnapshotBeforeUpdate?",
+        solution:
+          "getSnapshotBeforeUpdate(prevProps, prevState) is invoked right before changes from virtual DOM are reflected in the DOM. It enables capturing information from the DOM (e.g., scroll position) before it's potentially changed. The value returned is passed as third parameter to componentDidUpdate(). Example: getSnapshotBeforeUpdate(prevProps, prevState) { if (prevState.messages.length < this.state.messages.length) { return this.listRef.scrollHeight - this.listRef.scrollTop; } return null; }. Useful for maintaining scroll position in chat applications or preserving user interaction state.",
+      },
+      {
+        question: "How do hooks replace lifecycle methods?",
+        solution:
+          "Hooks replace class component lifecycle methods with useEffect and other hooks. useEffect combines componentDidMount, componentDidUpdate, and componentWillUnmount. The dependency array controls when effects run: [] runs once (like componentDidMount), [dep] runs when dep changes (like componentDidUpdate with condition), and cleanup function acts like componentWillUnmount. useState replaces constructor state initialization. Custom hooks can encapsulate complex lifecycle logic. This approach provides more granular control and eliminates issues with lifecycle method timing and this binding.",
+      },
+      {
+        question: "What is the equivalent of componentDidMount in hooks?",
+        solution:
+          "The equivalent of componentDidMount in hooks is useEffect with an empty dependency array: useEffect(() => { // Code that runs once after initial render fetch('/api/data').then(setData); setupSubscriptions(); return () => { // Cleanup function (equivalent to componentWillUnmount) cleanup(); }; }, []); The empty array [] ensures the effect runs only once after the component mounts. The cleanup function returned is optional and runs when the component unmounts. This pattern is perfect for data fetching, setting up subscriptions, or initializing third-party libraries.",
+      },
+      {
+        question: "What is the equivalent of componentDidUpdate in hooks?",
+        solution:
+          "The equivalent of componentDidUpdate in hooks is useEffect with dependencies: useEffect(() => { // Runs after every render when userId changes console.log('User changed:', userId); fetchUserData(userId); }, [userId]); To mimic componentDidUpdate exactly (skip first render), use useRef: const isFirstRender = useRef(true); useEffect(() => { if (isFirstRender.current) { isFirstRender.current = false; return; } // This runs only on updates, not initial mount handleUpdate(); }, [dependency]). Dependencies control when the effect runs, similar to comparing prevProps/prevState in componentDidUpdate.",
+      },
+      {
+        question: "What is the equivalent of componentWillUnmount in hooks?",
+        solution:
+          "The equivalent of componentWillUnmount in hooks is the cleanup function returned by useEffect: useEffect(() => { const timer = setInterval(() => { console.log('Timer tick'); }, 1000); const subscription = subscribe(); // Cleanup function - equivalent to componentWillUnmount return () => { clearInterval(timer); subscription.unsubscribe(); document.removeEventListener('scroll', handleScroll); }; }, []); The cleanup function runs when the component unmounts or before the effect runs again (if dependencies change). This prevents memory leaks and cleans up resources like timers, subscriptions, and event listeners.",
+      },
+      {
+        question: "Explain useLayoutEffect vs useEffect.",
+        solution:
+          "useLayoutEffect and useEffect have the same API but different timing. useLayoutEffect fires synchronously after all DOM mutations but before the browser paints, similar to componentDidMount/componentDidUpdate. useEffect fires asynchronously after the render is committed to the screen. Use useLayoutEffect when you need to read DOM layout and synchronously re-render, like measuring element dimensions or preventing visual flicker. Example: useLayoutEffect(() => { const height = ref.current.scrollHeight; setHeight(height); }, []); Use useEffect for most cases as it doesn't block browser painting, providing better performance.",
+      },
+      {
+        question:
+          "How do you simulate componentDidCatch in functional components?",
+        solution:
+          "Functional components cannot directly simulate componentDidCatch because error boundaries must be class components. However, you can create a custom error boundary class component and wrap functional components: class ErrorBoundary extends React.Component { constructor(props) { super(props); this.state = { hasError: false }; } static getDerivedStateFromError(error) { return { hasError: true }; } componentDidCatch(error, errorInfo) { console.error('Error caught:', error, errorInfo); } render() { if (this.state.hasError) return <h1>Something went wrong.</h1>; return this.props.children; } } Then wrap: <ErrorBoundary><FunctionalComponent /></ErrorBoundary>. Libraries like react-error-boundary provide hooks-like APIs for error handling.",
+      },
+      {
+        question: "What is useInsertionEffect?",
+        solution:
+          "useInsertionEffect is a specialized hook that fires synchronously before all DOM mutations, earlier than useLayoutEffect. It's designed for CSS-in-JS libraries to inject styles before reading layout in useLayoutEffect. The timing is: useInsertionEffect → DOM mutations → useLayoutEffect → browser paint → useEffect. Example: useInsertionEffect(() => { const style = document.createElement('style'); style.textContent = '.my-class { color: red; }'; document.head.appendChild(style); return () => document.head.removeChild(style); }, []); Most applications should use useEffect or useLayoutEffect instead. Only use useInsertionEffect when you need to inject styles before layout calculations.",
+      },
+      {
+        question: "How do you handle events in React?",
+        solution:
+          "React handles events through synthetic events, which wrap native DOM events with consistent API across browsers. Define event handlers as functions and pass them to JSX elements: function Button() { const handleClick = (event) => { console.log('Button clicked!', event.target); }; return <button onClick={handleClick}>Click me</button>; } Event handlers receive a SyntheticEvent object with preventDefault(), stopPropagation(), and other standard methods. React uses event delegation, attaching a single listener to the document root. Name handlers with 'handle' prefix by convention: handleSubmit, handleChange, handleMouseOver.",
+      },
+      {
+        question: "Explain synthetic events in React.",
+        solution:
+          "Synthetic events are React's wrapper around native DOM events, providing consistent behavior across different browsers. They implement the same interface as native events with methods like preventDefault() and stopPropagation(). React pools synthetic events for performance - the event object is reused and nullified after the handler completes. To access event properties asynchronously, call event.persist() or extract needed values: const handleClick = (event) => { const value = event.target.value; // Extract immediately setTimeout(() => { console.log(value); // Use extracted value }, 1000); }; Synthetic events provide cross-browser compatibility and performance optimizations while maintaining familiar API.",
+      },
+      {
+        question: "How do you pass arguments to event handlers?",
+        solution:
+          "There are several ways to pass arguments to event handlers in React: 1) Arrow function in JSX: <button onClick={(e) => handleClick(e, 'argument')}>Click</button> 2) Using bind: <button onClick={handleClick.bind(this, 'argument')}>Click</button> 3) Wrapper function: const handleClickWrapper = (arg) => (e) => handleClick(e, arg); <button onClick={handleClickWrapper('argument')}>Click</button> 4) Data attributes: <button onClick={handleClick} data-value='argument'>Click</button> then access via event.target.dataset.value. Arrow functions create new functions on each render, while bind creates them once but requires this context.",
+      },
+      {
+        question: "What is the difference between onClick and onclick?",
+        solution:
+          "In React JSX, use camelCase 'onClick' instead of HTML's lowercase 'onclick'. JSX follows JavaScript naming conventions, so all event props use camelCase: onClick, onSubmit, onChange, onMouseOver, etc. 'onClick' attaches React's synthetic event system, providing cross-browser compatibility and additional features. HTML 'onclick' would be treated as a regular prop, not an event handler. Example: // React JSX (correct) <button onClick={handleClick}>Click</button> // HTML (incorrect in JSX) <button onclick={handleClick}>Click</button> React's event system also provides better performance through event delegation and automatic cleanup.",
+      },
+      {
+        question: "How do you prevent default behavior in React events?",
+        solution:
+          "Prevent default behavior using event.preventDefault() in your event handler: const handleSubmit = (event) => { event.preventDefault(); // Prevents form submission console.log('Form submission prevented'); // Handle form data manually }; const handleLinkClick = (event) => { event.preventDefault(); // Prevents navigation console.log('Link click prevented'); // Custom navigation logic }; <form onSubmit={handleSubmit}><button type='submit'>Submit</button></form> <a href='/page' onClick={handleLinkClick}>Link</a> This stops the browser's default action (form submission, link navigation, etc.) while allowing your custom logic to execute. Common use cases include form validation and single-page app navigation.",
+      },
+      {
+        question: "How do you stop event propagation in React?",
+        solution:
+          "Stop event propagation using event.stopPropagation() to prevent the event from bubbling up to parent elements: const handleChildClick = (event) => { event.stopPropagation(); // Stops event from reaching parent console.log('Only child handler runs'); }; const handleParentClick = () => { console.log('Parent handler - will not run if child stops propagation'); }; <div onClick={handleParentClick}> <button onClick={handleChildClick}>Child</button> </div> You can also use event.stopImmediatePropagation() to stop other handlers on the same element. This is useful for preventing unwanted parent handlers from executing when child elements are clicked.",
+      },
+      {
+        question: "Explain this binding in class component event handlers.",
+        solution:
+          "In JavaScript class methods, 'this' context is not automatically bound. When passing class methods as callbacks, 'this' becomes undefined in strict mode. React class components need explicit binding: class MyComponent extends React.Component { constructor(props) { super(props); this.handleClick = this.handleClick.bind(this); // Bind in constructor } handleClick() { console.log(this.state); // 'this' refers to component instance } render() { return <button onClick={this.handleClick}>Click</button>; } } Without binding, this.setState() would fail because 'this' is undefined. This binding ensures the method has access to component instance and its methods/state.",
+      },
+      {
+        question: "How do you bind this in the constructor?",
+        solution:
+          "Bind 'this' in the constructor by assigning the bound method back to the instance: class MyComponent extends React.Component { constructor(props) { super(props); this.state = { count: 0 }; // Bind event handlers to ensure 'this' context this.handleClick = this.handleClick.bind(this); this.handleSubmit = this.handleSubmit.bind(this); this.handleChange = this.handleChange.bind(this); } handleClick() { this.setState({ count: this.state.count + 1 }); } render() { return <button onClick={this.handleClick}>Count: {this.state.count}</button>; } } This approach binds methods once during construction, avoiding performance overhead of creating new functions on each render.",
+      },
+      {
+        question: "How do you use arrow functions for event handlers?",
+        solution:
+          "Arrow functions automatically bind 'this' context, eliminating the need for explicit binding: class MyComponent extends React.Component { state = { count: 0 }; // Arrow function as class property - automatically bound handleClick = () => { this.setState({ count: this.state.count + 1 }); } // Alternative: inline arrow function in JSX handleReset = () => { this.setState({ count: 0 }); } render() { return ( <div> <button onClick={this.handleClick}>Count: {this.state.count}</button> <button onClick={() => this.setState({ count: 0 })}>Reset</button> </div> ); } } Arrow functions capture 'this' from the enclosing scope, ensuring correct component context without explicit binding.",
+      },
+      {
+        question:
+          "What are the performance implications of arrow functions in JSX?",
+        solution:
+          "Arrow functions in JSX create new function instances on every render, which can impact performance in several ways: 1) Memory allocation overhead from creating new functions 2) Breaks React.memo() and PureComponent optimizations because props always appear different 3) Can cause unnecessary re-renders of child components. Example of problem: <ExpensiveChild onClick={() => handleClick(id)} /> // New function every render Better approaches: - Use class property arrow functions - Extract to separate methods - Use useCallback in hooks: const memoizedHandler = useCallback(() => handleClick(id), [id]); For simple handlers on leaf components, performance impact is minimal, but avoid inline arrow functions when passing to optimized components.",
+      },
+      {
+        question: "How do you handle form submission in React?",
+        solution:
+          "Handle form submission by preventing default behavior and processing form data: const ContactForm = () => { const [formData, setFormData] = useState({ name: '', email: '', message: '' }); const handleSubmit = (event) => { event.preventDefault(); // Prevent page reload console.log('Form submitted:', formData); // Process form data (API call, validation, etc.) fetch('/api/contact', { method: 'POST', body: JSON.stringify(formData) }); }; const handleChange = (event) => { setFormData({ ...formData, [event.target.name]: event.target.value }); }; return ( <form onSubmit={handleSubmit}> <input name='name' value={formData.name} onChange={handleChange} /> <button type='submit'>Submit</button> </form> ); }; Use controlled components for form inputs and handle validation before submission.",
+      },
+      {
+        question: "How do you handle errors in useEffect?",
+        solution:
+          "Never make the effect callback itself async (it must return either nothing or a cleanup), instead create/execute an inner async function and use try/catch. For network calls, also support cancellation with AbortController to avoid setting state after unmount or race conditions.\n\nExample:\n\nuseEffect(() => {\n  const ac = new AbortController();\n  async function load() {\n    try {\n      setLoading(true);\n      const res = await fetch('/api/data', { signal: ac.signal });\n      if (!res.ok) throw new Error('Network error');\n      const json = await res.json();\n      setData(json);\n    } catch (err) {\n      if (err.name !== 'AbortError') setError(err);\n    } finally {\n      setLoading(false);\n    }\n  }\n  load();\n  return () => ac.abort();\n}, []);\n\nTips: (1) Guard setState with a ref if you can't cancel. (2) Centralize error UI via an ErrorBoundary for render-time errors; effects require in-effect handling. (3) Log errors for observability.",
+      },
+      {
+        question: "Show an example of useEffect with event listeners.",
+        solution:
+          "Attach the listener inside useEffect and remove it in the cleanup to prevent leaks. Keep a stable handler (useCallback or define inside effect with correct deps) to avoid re-subscribing unnecessarily.\n\nExample (window resize):\n\nuseEffect(() => {\n  const onResize = () => setWidth(window.innerWidth);\n  window.addEventListener('resize', onResize);\n  onResize(); // initialize\n  return () => window.removeEventListener('resize', onResize);\n}, []);\n\nExample (DOM node via ref):\n\nconst ref = useRef(null);\nuseEffect(() => {\n  const el = ref.current;\n  if (!el) return;\n  const onScroll = (e) => setScrollTop(e.target.scrollTop);\n  el.addEventListener('scroll', onScroll);\n  return () => el.removeEventListener('scroll', onScroll);\n}, [ref.current]);",
+      },
+      {
+        question: "Explain how useEffect works under the hood.",
+        solution:
+          "useEffect registers a side-effect that React runs after the DOM commit (post-paint in most cases). On first render, React stores the effect and its dependency list. After commit, it invokes the effect; later re-renders compute whether dependencies changed via shallow comparison. If any dep changed, React schedules the cleanup (from the previous run) before running the new effect. On unmount, React runs the final cleanup. In React 18 StrictMode (development only), React intentionally mounts, cleans, and re-mounts to surface unsafe effects (so effects may run twice). For synchronous DOM reads/mutations that must occur before paint, use useLayoutEffect; otherwise prefer useEffect to avoid blocking the UI thread.",
+      },
+      {
+        question: "How do you test useEffect?",
+        solution:
+          "Use React Testing Library + Jest/Vitest. For async effects, await UI changes with waitFor/findBy*. Mock network calls to assert branching and error handling. Verify cleanup by spying on removeEventListener/abort.\n\nExample (fetch):\n\n// component calls fetch and renders data\nrender(<MyComponent />);\nawait waitFor(() => expect(screen.getByText('Loaded')).toBeInTheDocument());\n\nExample (interval cleanup):\n\njest.useFakeTimers();\nrender(<Ticker />);\nact(() => jest.advanceTimersByTime(1000));\nexpect(screen.getByText('ticks: 1')).toBeInTheDocument();\nunmount();\n// assert clearInterval called via spy or absence of further updates.\n\nTips: Wrap state-changing timers/updates in act(); prefer user-visible assertions over implementation details.",
+      },
+      {
+        question: "What are lifecycle methods in React?",
+        solution:
+          "In class components, lifecycle methods are hooks into the component’s timeline: mounting (constructor, componentDidMount), updating (shouldComponentUpdate, getSnapshotBeforeUpdate, componentDidUpdate), and unmounting (componentWillUnmount). There’s also static getDerivedStateFromProps for rare state derivation. In function components, these patterns map to hooks: useEffect/useLayoutEffect (didMount/didUpdate/willUnmount), useMemo/useCallback (performance), and refs for instance-like values.",
+      },
+      {
+        question: "List the three phases of a component lifecycle.",
+        solution:
+          "1) Mounting: initial render into the DOM. 2) Updating: subsequent renders due to state, props, or context changes. 3) Unmounting: removal from the DOM with cleanup of resources (timers, subscriptions, listeners).",
+      },
+      {
+        question: "What is the mounting phase?",
+        solution:
+          "The component is created and inserted into the DOM. Initial state/props are read, render output is committed, and then effects run. For classes: constructor → render → componentDidMount. For functions: render → commit → useEffect callbacks. Typical tasks: fetch initial data, subscribe to streams, measure DOM (useLayoutEffect if measurement must block paint).",
+      },
+      {
+        question: "What is the updating phase?",
+        solution:
+          "Any re-render after the initial mount triggered by setState, new props, or context. React diffs virtual DOM vs previous output, commits minimal DOM mutations, then runs effect cleanups followed by new effects if dependencies changed. In classes, componentDidUpdate receives prevProps/prevState; in hooks, track dependencies explicitly in useEffect([deps]).",
+      },
+      {
+        question: "How do you handle input changes in React?",
+        solution:
+          "Use controlled inputs where React state is the source of truth. Bind value/checked to state and update in onChange.\n\nExample (single field):\n\nconst [name, setName] = useState('');\n<input value={name} onChange={(e) => setName(e.target.value)} />\n\nExample (multiple fields with one handler):\n\nconst [form, setForm] = useState({ name: '', email: '' });\nconst onChange = (e) => setForm(f => ({ ...f, [e.target.name]: e.target.value }));\n<input name='name' value={form.name} onChange={onChange} />\n<input name='email' value={form.email} onChange={onChange} />",
+      },
+      {
+        question: "Explain controlled vs uncontrolled components.",
+        solution:
+          "Controlled: input state lives in React; use value/checked and onChange. Pros: validation, conditional UI, single source of truth, serialization. Cons: more renders for large forms.\nUncontrolled: DOM holds the value; use defaultValue/defaultChecked and read via refs on submit. Pros: minimal code, better for simple or performance-critical inputs. Cons: harder to validate live, keep in sync, or trigger UI based on input.",
+      },
+      {
+        question: "How do you create a controlled input?",
+        solution:
+          "Tie the input’s value to state and update on change.\n\nconst [value, setValue] = useState('');\n<input value={value} onChange={(e) => setValue(e.target.value)} />\n\nNotes: Initialize with '' to avoid switching between controlled/uncontrolled. For numeric inputs, convert e.target.value to a number as needed.",
+      },
+      {
+        question: "How do you create an uncontrolled input?",
+        solution:
+          "Use a ref to access the DOM value when necessary.\n\nconst inputRef = useRef(null);\n<form onSubmit={(e) => { e.preventDefault(); alert(inputRef.current.value); }}>\n  <input ref={inputRef} defaultValue='hello' />\n  <button type='submit'>Submit</button>\n</form>\n\nUse defaultValue/defaultChecked to set initial values; do not use value/checked.",
+      },
+      {
+        question: "Show an example of handling checkboxes in React.",
+        solution:
+          "Single boolean checkbox (controlled):\n\nconst [agreed, setAgreed] = useState(false);\n<input type='checkbox' checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />\n\nGroup of checkboxes (array of values):\n\nconst OPTIONS = ['red','green','blue'];\nconst [colors, setColors] = useState([]);\nconst toggle = (val) => setColors(list => list.includes(val) ? list.filter(v => v !== val) : [...list, val]);\n{OPTIONS.map(opt => (\n  <label key={opt}>\n    <input type='checkbox' checked={colors.includes(opt)} onChange={() => toggle(opt)} /> {opt}\n  </label>\n))}\n\nOn submit, colors holds the selected values.",
+      },
+      {
+        question: "Show an example of handling radio buttons in React.",
+        solution:
+          "Radios share the same name and represent one selected value.\n\nconst [plan, setPlan] = useState('basic');\n<label>\n  <input type='radio' name='plan' value='basic' checked={plan==='basic'} onChange={(e) => setPlan(e.target.value)} /> Basic\n</label>\n<label>\n  <input type='radio' name='plan' value='pro' checked={plan==='pro'} onChange={(e) => setPlan(e.target.value)} /> Pro\n</label>\n\nUse a single string state; ensure name is the same for all radios in the group.",
+      },
+      {
+        question: "How do you handle select dropdowns in React?",
+        solution:
+          "Controlled single select binds value to state:\n\nconst [fruit, setFruit] = useState('apple');\n<select value={fruit} onChange={(e) => setFruit(e.target.value)}>\n  <option value='apple'>Apple</option>\n  <option value='orange'>Orange</option>\n</select>\n\nMultiple select uses an array of selected options:\n\nconst [langs, setLangs] = useState(['js']);\n<select multiple value={langs} onChange={(e) => setLangs(Array.from(e.target.selectedOptions, o => o.value))}>\n  <option value='js'>JS</option>\n  <option value='py'>Python</option>\n</select>",
+      },
+      {
+        question: "Explain the value prop in form elements.",
+        solution:
+          "The value prop makes inputs controlled by React state. For text/select/textarea, set value and update via onChange. For checkboxes/radios, use checked (not value) to reflect boolean/selection. Use defaultValue/defaultChecked for uncontrolled initial values. Controlled elements ensure the UI always mirrors state, enabling validation and conditional UI.",
+      },
+      {
+        question: "How do you reset form state?",
+        solution:
+          "For controlled forms, reset by setting state back to the initial shape. Keep an initialState constant to simplify resets.\n\nconst initial = { name: '', email: '', agreed: false };\nconst [form, setForm] = useState(initial);\nconst reset = () => setForm(initial);\n\nFor uncontrolled forms, call e.target.reset() or formRef.current.reset(). If mixing types, reset React state and call form.reset() for DOM elements. After remote submit, also clear dependent derived state (errors, touched).",
+      },
+      {
+        question: "What is conditional rendering in React?",
+        solution:
+          "Rendering different UI based on conditions (state/props/context). Because JSX is just JavaScript, you can use if/else, ternary operators, logical &&, switch, or helper functions. Prefer clear, readable conditions and avoid deeply nested ternaries.",
+      },
+      {
+        question: "How do you use if statements for conditional rendering?",
+        solution:
+          "Use an early return or assign a variable before the return.\n\nif (!user) return <Login />;\nreturn <Dashboard />;\n\nOr inside render:\n\nlet content;\nif (loading) content = <Spinner />;\nelse if (error) content = <Error />;\nelse content = <List items={items} />;\nreturn <div>{content}</div>;",
+      },
+      {
+        question: "How do you use ternary operators for conditional rendering?",
+        solution:
+          "Use condition ? A : B inline in JSX for concise alternatives.\n\n<div>{isLoggedIn ? <Profile /> : <AuthCTA />}</div>\n\nKeep branches simple; extract complex branches into functions/components to maintain readability.",
+      },
+      {
+        question: "How do you use && operator for conditional rendering?",
+        solution:
+          "Render something only when a condition is truthy.\n\n{isAdmin && <AdminPanel />}\n\nCaveat: If the left side can be 0, it will render 0. Coerce to boolean when needed: {!!count && <Badge count={count} />} or (count > 0) && <Badge />.",
+      },
+      {
+        question: "How do you conditionally render a component?",
+        solution:
+          "Select which component to mount based on state/props.\n\n{view === 'list' ? <List /> : <Grid />}\n{error ? <ErrorBox msg={error} /> : null}\n\nYou can also map enums to components: const Views = { list: List, grid: Grid }; const V = Views[view]; return <V />; This keeps logic declarative.",
+      },
+      {
+        question: "How do you show/hide elements in React?",
+        solution:
+          "Two strategies: (1) Conditional mount/unmount: {open && <Modal />}. This removes it from the DOM (good for performance/leaks). (2) CSS visibility: always render, toggle a class like 'hidden' to hide visually while keeping state/DOM: <div className={open ? '' : 'hidden'}>...</div>. Choose unmounting for heavy components; choose CSS hide when you need to preserve internal state/animations.",
+      },
+      {
+        question: "Explain inline conditional rendering.",
+        solution:
+          "Placing conditions directly inside JSX using ternaries or &&. Examples: <p>{items.length ? 'Has items' : 'Empty'}</p> and {user && <Avatar user={user} />}. Pros: concise and colocated. Cons: can hurt readability if nested; extract logic when it grows. Always ensure expressions are pure and avoid side effects inside JSX.",
+      },
+      {
+        question:
+          "How do you handle null/undefined values in conditional rendering?",
+        solution:
+          "In React, rendering null or undefined values directly inside JSX can cause unexpected output. The best practice is to explicitly check for these values before rendering. For example:\n\n```jsx\n{value != null ? <p>{value}</p> : <p>No value provided</p>}\n```\n\nHere, if value is `null` or `undefined`, React will render 'No value provided'. You can also use logical AND (`&&`) operators:\n\n```jsx\n{value && <p>{value}</p>}\n```\n\nThis renders the paragraph only if `value` is truthy. Another approach is to provide default values using the Nullish Coalescing Operator (`??`):\n\n```jsx\n<p>{value ?? 'Default value'}</p>\n```\n\nThis ensures your UI never breaks when values are missing.",
+      },
+
+      {
+        question: "Show an example of conditional rendering with props.",
+        solution:
+          'Conditional rendering with props means deciding what to show based on values passed down from the parent component. Example:\n\n```jsx\nfunction UserGreeting({ isLoggedIn, username }) {\n  return (\n    <div>\n      {isLoggedIn ? <h1>Welcome, {username}!</h1> : <h1>Please log in.</h1>}\n    </div>\n  );\n}\n\n<UserGreeting isLoggedIn={true} username="Ankit" />\n```\n\nIf `isLoggedIn` is true, the greeting with the username shows. Otherwise, a login prompt is shown. This pattern is widely used for authentication and role-based UI.',
+      },
+
+      {
+        question: "How do you use switch statements in JSX?",
+        solution:
+          "You cannot directly use switch statements inside JSX, but you can create a helper function or use an IIFE. Example:\n\n```jsx\nfunction StatusMessage({ status }) {\n  const renderMessage = () => {\n    switch (status) {\n      case 'loading':\n        return <p>Loading...</p>;\n      case 'error':\n        return <p>Error occurred!</p>;\n      case 'success':\n        return <p>Data loaded successfully!</p>;\n      default:\n        return <p>Unknown state</p>;\n    }\n  };\n\n  return <div>{renderMessage()}</div>;\n}\n```\n\nThis makes code more readable than deeply nested ternaries.",
+      },
+
+      {
+        question: "Explain conditional rendering with enums.",
+        solution:
+          "Enums (or constants) make conditional rendering safer and more descriptive. Instead of using plain strings, define constants:\n\n```jsx\nconst STATUS = {\n  LOADING: 'loading',\n  ERROR: 'error',\n  SUCCESS: 'success',\n};\n\nfunction StatusComponent({ status }) {\n  if (status === STATUS.LOADING) return <p>Loading...</p>;\n  if (status === STATUS.ERROR) return <p>Error occurred!</p>;\n  if (status === STATUS.SUCCESS) return <p>Success!</p>;\n  return <p>Idle</p>;\n}\n```\n\nThis avoids typos in strings and improves maintainability, especially in larger apps.",
+      },
+
+      {
+        question:
+          "How do you handle loading states with conditional rendering?",
+        solution:
+          "Loading states are commonly managed using state variables. Example:\n\n```jsx\nfunction DataFetcher() {\n  const [loading, setLoading] = React.useState(true);\n  const [data, setData] = React.useState(null);\n\n  React.useEffect(() => {\n    fetch('/api/data')\n      .then(res => res.json())\n      .then(result => {\n        setData(result);\n        setLoading(false);\n      });\n  }, []);\n\n  if (loading) return <p>Loading...</p>;\n  return <div>{JSON.stringify(data)}</div>;\n}\n```\n\nThis ensures users see feedback while waiting for data. A loader/spinner can replace the text for better UX.",
+      },
+
+      {
+        question: "How do you handle error states with conditional rendering?",
+        solution:
+          "Error states are also handled with conditional rendering, usually combined with loading and success states:\n\n```jsx\nfunction DataFetcher() {\n  const [loading, setLoading] = React.useState(true);\n  const [error, setError] = React.useState(null);\n  const [data, setData] = React.useState(null);\n\n  React.useEffect(() => {\n    fetch('/api/data')\n      .then(res => res.json())\n      .then(result => {\n        setData(result);\n        setLoading(false);\n      })\n      .catch(err => {\n        setError(err.message);\n        setLoading(false);\n      });\n  }, []);\n\n  if (loading) return <p>Loading...</p>;\n  if (error) return <p>Error: {error}</p>;\n  return <div>{JSON.stringify(data)}</div>;\n}\n```\n\nThis ensures your UI handles all possible states gracefully.",
+      },
+
+      {
+        question: "Explain conditional rendering with lists.",
+        solution:
+          "Conditional rendering with lists means showing lists only when they exist or meet conditions. Example:\n\n```jsx\nfunction TodoList({ todos }) {\n  if (!todos || todos.length === 0) {\n    return <p>No todos available</p>;\n  }\n  return (\n    <ul>\n      {todos.map(todo => (\n        <li key={todo.id}>{todo.text}</li>\n      ))}\n    </ul>\n  );\n}\n```\n\nHere, if the `todos` list is empty, a message is shown instead of an empty list.",
+      },
+
+      {
+        question: "How do you conditionally render based on state?",
+        solution:
+          "You can use `useState` to manage what gets displayed. Example:\n\n```jsx\nfunction ToggleComponent() {\n  const [visible, setVisible] = React.useState(false);\n\n  return (\n    <div>\n      <button onClick={() => setVisible(!visible)}>Toggle</button>\n      {visible && <p>This is visible now!</p>}\n    </div>\n  );\n}\n```\n\nThe state variable `visible` controls whether the text is rendered.",
+      },
+
+      {
+        question: "How do you conditionally render based on props?",
+        solution:
+          "Props passed from a parent can decide what to render. Example:\n\n```jsx\nfunction Greeting({ isMorning }) {\n  return (\n    <h1>{isMorning ? 'Good Morning!' : 'Good Evening!'}</h1>\n  );\n}\n\n<Greeting isMorning={true} />\n```\n\nThe parent determines the condition, and the child adapts its UI accordingly.",
+      },
+
+      {
+        question: "Explain conditional rendering with CSS classes.",
+        solution:
+          "Instead of showing/hiding elements, sometimes you just want to style them differently. You can apply conditional CSS classes:\n\n```jsx\nfunction Alert({ type }) {\n  const className = type === 'error' ? 'alert-error' : 'alert-success';\n  return <div className={className}>This is an alert</div>;\n}\n```\n\nThis allows different UI styling based on conditions without removing the element from the DOM.",
+      },
+
+      {
+        question: "How do you avoid nested ternary operators?",
+        solution:
+          "Nested ternaries can make JSX unreadable. Alternatives:\n1. Use `if-else` outside JSX.\n2. Use helper functions.\n3. Use switch statements.\n\nExample with helper function:\n\n```jsx\nfunction Status({ status }) {\n  const renderContent = () => {\n    if (status === 'loading') return <p>Loading...</p>;\n    if (status === 'error') return <p>Error!</p>;\n    return <p>Success</p>;\n  };\n\n  return <div>{renderContent()}</div>;\n}\n```\n\nThis improves readability and maintainability.",
+      },
+
+      {
+        question: "Show an example of conditional rendering with arrays.",
+        solution:
+          "Arrays can be used to decide rendering. Example:\n\n```jsx\nfunction Notifications({ messages }) {\n  return (\n    <div>\n      {messages.length > 0 ? (\n        <ul>\n          {messages.map((msg, index) => (\n            <li key={index}>{msg}</li>\n          ))}\n        </ul>\n      ) : (\n        <p>No new notifications</p>\n      )}\n    </div>\n  );\n}\n```\n\nThis way, empty arrays are handled properly.",
+      },
+
+      {
+        question: "How do you test conditional rendering?",
+        solution:
+          "In testing (e.g., Jest + React Testing Library), you check which elements are rendered under conditions:\n\n```jsx\ntest('renders login button when not logged in', () => {\n  render(<UserGreeting isLoggedIn={false} />);\n  expect(screen.getByText(/please log in/i)).toBeInTheDocument();\n});\n\ntest('renders username when logged in', () => {\n  render(<UserGreeting isLoggedIn={true} username=\"Ankit\" />);\n  expect(screen.getByText(/welcome, ankit/i)).toBeInTheDocument();\n});\n```\n\nHere, we verify the correct output based on props.",
+      },
+
+      {
+        question: "How do you render lists in React?",
+        solution:
+          "You typically use the `map` function to transform an array into JSX elements:\n\n```jsx\nconst fruits = ['Apple', 'Banana', 'Mango'];\n\n<ul>\n  {fruits.map((fruit, index) => (\n    <li key={index}>{fruit}</li>\n  ))}\n</ul>\n```\n\nEach item must have a `key` to help React identify and update elements efficiently.",
+      },
+
+      {
+        question: "What is the map function in React?",
+        solution:
+          "The `map` function is a JavaScript array method that creates a new array by applying a callback to each item. In React, it's used to render lists of elements:\n\n```jsx\nnumbers.map(n => <li key={n}>{n}</li>)\n```\n\nThis converts an array of numbers into `<li>` elements. React reuses this technique to build dynamic UIs.",
+      },
+
+      {
+        question: "What are keys in React lists?",
+        solution:
+          "Keys are special string attributes given to list items in React. They help React identify which items have changed, been added, or removed. Without keys, React may re-render elements inefficiently.",
+      },
+
+      {
+        question: "Why are keys important in React lists?",
+        solution:
+          "Keys improve performance and correctness in React’s reconciliation algorithm. If keys are missing or incorrect, React may unnecessarily re-render entire lists or reuse DOM nodes incorrectly, causing UI bugs.",
+      },
+
+      {
+        question: "Can you use the array index as a key?",
+        solution:
+          "Yes, but it's discouraged unless the list is static and items don’t change order. Using indexes as keys can cause rendering issues if items are reordered or deleted, because React may mismatch elements.",
+      },
+
+      {
+        question: "What happens if you don’t provide a key?",
+        solution:
+          "React will fall back to using the array index internally, but this causes warnings and potential performance issues. The UI may display incorrect data if elements are reordered.",
+      },
+
+      {
+        question: "How do you choose a good key for list items?",
+        solution:
+          "A good key is unique and stable across renders. Example: use database IDs or UUIDs. Avoid array indexes if items can move around. Example:\n\n```jsx\nusers.map(user => <li key={user.id}>{user.name}</li>)\n```\n\nHere, `user.id` is a good key because it uniquely identifies the item.",
+      },
+
+      {
+        question: "Show an example of rendering a list of objects.",
+        solution:
+          "Example:\n\n```jsx\nconst users = [\n  { id: 1, name: 'Alice' },\n  { id: 2, name: 'Bob' },\n];\n\n<ul>\n  {users.map(user => (\n    <li key={user.id}>{user.name}</li>\n  ))}\n</ul>\n```\n\nEach user object is mapped to an `<li>` element with a unique key.",
+      },
+
+      {
+        question: "How do you render nested lists in React?",
+        solution:
+          "You can nest `map` calls. Example:\n\n```jsx\nconst categories = [\n  { id: 1, name: 'Fruits', items: ['Apple', 'Banana'] },\n  { id: 2, name: 'Vegetables', items: ['Carrot', 'Spinach'] },\n];\n\n<div>\n  {categories.map(cat => (\n    <div key={cat.id}>\n      <h3>{cat.name}</h3>\n      <ul>\n        {cat.items.map((item, i) => <li key={i}>{item}</li>)}\n      </ul>\n    </div>\n  ))}\n</div>\n```\n\nThis is useful when rendering hierarchical data.",
+      },
+
+      {
+        question: "Explain how React uses keys for reconciliation.",
+        solution:
+          "During reconciliation, React compares the old Virtual DOM tree with the new one. Keys help React match old elements with new ones. If keys match, React reuses the DOM node. If they differ, React destroys the old node and creates a new one. This makes updates faster and prevents bugs in dynamic lists.",
+      },
+
+      {
+        question: "How do you handle list updates in React?",
+        solution:
+          "You update lists by modifying state arrays. Example:\n\n```jsx\nconst [items, setItems] = React.useState(['A', 'B']);\n\nfunction addItem(newItem) {\n  setItems([...items, newItem]);\n}\n```\n\nReact re-renders the updated list automatically when state changes.",
+      },
+
+      {
+        question: "How do you delete items from a list in React?",
+        solution:
+          "Use `filter` to remove items:\n\n```jsx\nsetItems(items.filter(item => item !== 'A'));\n```\n\nThis creates a new array without the removed item and updates state.",
+      },
+
+      {
+        question: "How do you add items to a list in React?",
+        solution:
+          "Use the spread operator or concat:\n\n```jsx\nsetItems([...items, 'New Item']);\n```\n\nThis creates a new array with the added element, keeping state immutable.",
+      },
+      {
+        question: "How do you update items in a list in React?",
+        solution:
+          "Always treat state as immutable — do not mutate the original array. To update an item, create a new array (map, slice + replace, or produce with an immutable helper) so React detects the change. Common pattern: `map` the list and return an updated copy for the matching id.\n\nExample (toggle completed):\n\n```jsx\nconst [todos, setTodos] = useState([{id:1,text:'Buy',done:false}]);\n\nfunction toggleTodo(id) {\n  setTodos(prev => prev.map(todo =>\n    todo.id === id ? { ...todo, done: !todo.done } : todo\n  ));\n}\n```\n\nBest practices & tips:\n- Use functional `setState(prev => ...)` to avoid stale closures when updates are frequent.\n- Use stable keys (id) so React can match DOM nodes correctly.\n- For expensive lists, memoize computations with `useMemo`, and wrap handlers with `useCallback` to avoid unnecessary child renders.\n- Avoid `Array.prototype.splice` on state arrays because it mutates in-place. Prefer `slice` or spread syntax.",
+      },
+      {
+        question: "Explain filtering lists in React.",
+        solution:
+          "Filtering transforms an array to a subset using `Array.prototype.filter`. Decide whether the filtered list should be derived on each render (recommended) or stored in state (useful for persistent filters). For large lists, debounce user input and memoize filter results.\n\nExample (search):\n\n```jsx\nconst [query, setQuery] = useState('');\nconst filtered = useMemo(() =>\n  items.filter(i => i.name.toLowerCase().includes(query.toLowerCase())),\n  [items, query]\n);\n```\n\nBest practices:\n- Use `useMemo` when filtering is expensive.\n- Debounce the search input (e.g., 200–500ms) to reduce re-renders and expensive computations.\n- Preserve the original array in state; never overwrite it if you need to clear filters later.\n\nPitfalls:\n- Filtering in render without memoization on very large arrays can harm performance.\n- Case-sensitivity surprises — normalize strings (`toLowerCase`) consistently.",
+      },
+      {
+        question: "Explain sorting lists in React.",
+        solution:
+          "Sorting reorders data. **Important**: `Array.prototype.sort` mutates the array, so always copy first (spread or slice). Decide whether sorting is stable (preserve equal-order) and manage asc/desc toggles.\n\nExample:\n\n```jsx\nconst [numbers, setNumbers] = useState([3,1,2]);\n\nfunction sortAsc() {\n  setNumbers(prev => [...prev].sort((a,b) => a - b));\n}\n```\n\nBest practices:\n- Copy with `[...arr]` or `arr.slice()` before `.sort()`.\n- Use `useMemo` to compute a sorted view from `items` and `sortKey` so you don't re-sort on every render.\n- For complex sorts (strings with locale), use `localeCompare`.\n\nPitfalls:\n- Mutating original array can cause subtle bugs and stale UI.\n- Sorting on each keypress without memoization is expensive.",
+      },
+      {
+        question: "How do you render lists conditionally?",
+        solution:
+          "Combine a condition (presence, length, permission flag, or view mode) with mapping. Always show a helpful fallback (empty state) and consider skeletons while loading.\n\nExample:\n\n```jsx\nif (!items) return <p>Loading...</p>;\nreturn (\n  items.length > 0 ? (\n    <ul>{items.map(i => <li key={i.id}>{i.name}</li>)}</ul>\n  ) : (\n    <p>No items found</p>\n  )\n);\n```\n\nBest practices:\n- Keep fallback UIs informative (call to action: add item, reload, etc.).\n- For complex conditions, compute a `view` variable (e.g., 'loading', 'empty', 'list') before returning JSX to keep render tidy.\n- Use skeleton loaders for better perceived performance.\n\nTesting:\n- Assert fallback is shown with empty input and list is shown with items.",
+      },
+      {
+        question: "Show an example of rendering a table from a list.",
+        solution:
+          'Use semantic HTML table elements (`<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`) and map rows inside `<tbody>`. Provide keys on `<tr>` and consider accessibility (scope attributes).\n\nExample:\n\n```jsx\nconst users = [{id:1,name:\'Alice\',age:25}];\n\nreturn (\n  <table>\n    <thead>\n      <tr><th scope="col">Name</th><th scope="col">Age</th></tr>\n    </thead>\n    <tbody>\n      {users.map(u => (\n        <tr key={u.id}>\n          <td>{u.name}</td>\n          <td>{u.age}</td>\n        </tr>\n      ))}\n    </tbody>\n  </table>\n);\n```\n\nBest practices & tips:\n- Use table semantics for tabular data—improves accessibility and screen-reader support.\n- Avoid using presentational `<div>`s for tabular datasets.\n- For very large tables, implement virtualization (react-window/react-virtualized) to improve performance.',
+      },
+      {
+        question: "How do you handle empty lists?",
+        solution:
+          "Provide clear UX for empty states: message, illustration, and an action (create item, refresh). Distinguish between `loading`, `empty`, and `error` states.\n\nExample:\n\n```jsx\nif (loading) return <Spinner />;\nif (error) return <ErrorBox />;\nif (items.length === 0) return (\n  <div>\n    <p>No items yet</p>\n    <button onClick={createItem}>Create first item</button>\n  </div>\n);\n```\n\nTips:\n- Use an illustration or short guide for first-time users.\n- Keep empty state actionable — don’t leave the user stuck.\n- Avoid showing raw blank lists; users can assume the app is broken if there’s no message.",
+      },
+      {
+        question: "How do you test list rendering?",
+        solution:
+          "Use React Testing Library (RTL) and assert the DOM output rather than implementation details. Test for presence/absence, correct number of items, and content.\n\nExamples:\n\n```js\nrender(<UserList users={[{id:1,name:'A'},{id:2,name:'B'}]} />);\nexpect(screen.getByText('A')).toBeInTheDocument();\nexpect(screen.getAllByRole('listitem')).toHaveLength(2);\n```\n\nAdvanced tests:\n- Test fallback states (empty, loading, error).\n- Test interactive list updates (add, remove, edit) using `user-event` and assert DOM changes.\n- Avoid asserting on implementation (like `.map` usage) — focus on visible result.",
+      },
+      {
+        question: "How do you create a form in React?",
+        solution:
+          'Decide controlled vs uncontrolled. For controlled forms, bind each field to state and update via `onChange`. The form `onSubmit` should `preventDefault()` and handle validation/submission.\n\nExample (controlled):\n\n```jsx\nfunction Signup() {\n  const [form, setForm] = useState({name:\'\',email:\'\'});\n  const handleChange = e => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));\n  const handleSubmit = e => { e.preventDefault(); submit(form); };\n  return (\n    <form onSubmit={handleSubmit}>\n      <input name="name" value={form.name} onChange={handleChange} />\n      <input name="email" value={form.email} onChange={handleChange} />\n      <button type="submit">Submit</button>\n    </form>\n  );\n}\n```\n\nBest practices:\n- Keep initial form state in a constant to make resets easier.\n- Validate on change or blur depending on UX needs.\n- Disable submit while submission is in progress to prevent duplicate requests.',
+      },
+      {
+        question: "What is a controlled component?",
+        solution:
+          "A controlled component is a form input whose value is driven by React state. Every change flows through React (`value` + `onChange`) so the component's state is always the single source of truth.\n\nExample:\n\n```jsx\nconst [val, setVal] = useState('');\n<input value={val} onChange={e => setVal(e.target.value)} />\n```\n\nPros:\n- Easy validation, conditional enabling/disabling, and serialization for submission.\nCons:\n- Many fields can cause frequent re-renders; consider performance optimizations (useMemo, split state, or a form library).",
+      },
+      {
+        question: "What is an uncontrolled component?",
+        solution:
+          'An uncontrolled component stores its value in the DOM. You read the value via refs when needed. This mirrors traditional HTML forms and can be simpler/performant for simple forms.\n\nExample:\n\n```jsx\nconst ref = useRef();\n<form onSubmit={e => { e.preventDefault(); console.log(ref.current.value); }}>\n  <input defaultValue="hello" ref={ref} />\n</form>\n```\n\nWhen to use:\n- Quick forms, file inputs, or when you want fewer re-renders.\nPitfalls:\n- Harder to implement live validation and conditional UI that depends on values.',
+      },
+      {
+        question: "How do you handle text input in React?",
+        solution:
+          "Prefer controlled inputs for predictable behavior. Use `onChange` to update state and optionally debounce expensive side-effects (autocomplete/search) triggered by typing.\n\nExample:\n\n```jsx\nconst [text, setText] = useState('');\n<input type=\"text\" value={text} onChange={e => setText(e.target.value)} />\n```\n\nTips:\n- Trim or sanitize user input where appropriate before sending to server.\n- For performance, debounce calls caused by typing (e.g., API search) and avoid unnecessary re-renders by localizing state.",
+      },
+      {
+        question: "How do you handle textarea in React?",
+        solution:
+          "Textarea is controlled the same as inputs. Bind `value` and update with `onChange`.\n\nExample:\n\n```jsx\nconst [bio, setBio] = useState('');\n<textarea value={bio} onChange={e => setBio(e.target.value)} />\n```\n\nUX tips:\n- Consider auto-resizing libraries or CSS (`height: auto`) for better UX.\n- Validate length and show remaining characters to users.",
+      },
+      {
+        question: "How do you handle select dropdown in React?",
+        solution:
+          'Use `value` and `onChange`. For multi-select, `selectedOptions` must be read and converted to an array.\n\nSingle select example:\n\n```jsx\nconst [fruit, setFruit] = useState(\'apple\');\n<select value={fruit} onChange={e => setFruit(e.target.value)}>\n  <option value="apple">Apple</option>\n  <option value="banana">Banana</option>\n</select>\n```\n\nMulti-select example:\n\n```jsx\nconst [sel, setSel] = useState([]);\n<select multiple value={sel} onChange={e => setSel(Array.from(e.target.selectedOptions, o => o.value))}>\n  <option value="a">A</option>\n</select>\n```\n\nAccessibility:\n- Add labels and `aria` attributes for better screen-reader support.',
+      },
+      {
+        question: "How do you handle multiple inputs with one handler?",
+        solution:
+          "Use the `name` attribute to map inputs to state keys and update using computed property names. Use functional `setState` to avoid stale state.\n\nExample:\n\n```jsx\nconst [form, setForm] = useState({name:'',email:''});\nconst onChange = e => {\n  const { name, value, type, checked } = e.target;\n  setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));\n};\n\n<input name=\"name\" value={form.name} onChange={onChange} />\n<input name=\"email\" value={form.email} onChange={onChange} />\n```\n\nEdge cases:\n- Handle checkboxes/radios specially (use `checked` not `value`).\n- For file inputs, use `e.target.files` instead of `value`.",
+      },
+      {
+        question: "Explain form validation in React.",
+        solution:
+          "Validation strategies:\n1. **Synchronous client-side** (regex, length checks) — fast immediate feedback.\n2. **Async validation** (unique username check) — requires debouncing and loading states.\n3. **Schema-based validation** with libraries (Yup, Zod) integrated with form libraries.\n\nValidation lifecycle:\n- `onChange` for live validation (good UX but can be noisy),\n- `onBlur` for per-field validation,\n- `onSubmit` for final validation before sending data.\n\nExample (simple):\n\n```jsx\nif (!email.includes('@')) setError('Email must contain @');\n```\n\nBest practices:\n- Centralize validation logic so it’s testable.\n- Run server-side validation as a final guard — never trust client-only validation.\n- Show user-friendly messages and highlight erroneous fields.",
+      },
+      {
+        question: "How do you show validation errors in React?",
+        solution:
+          'Keep an `errors` object keyed by field; render messages conditionally and attach ARIA attributes for accessibility.\n\nExample:\n\n```jsx\nconst [errors, setErrors] = useState({});\n\n<input name="email" aria-invalid={!!errors.email} aria-describedby="email-error" />\n{errors.email && <div id="email-error" role="alert">{errors.email}</div>}\n```\n\nTips:\n- Mark invalid inputs with `aria-invalid="true"` and point `aria-describedby` to the error text.\n- Clear errors appropriately on change/submit to avoid stale error messages.\n- Don’t reveal sensitive validation details (e.g., whether an email exists) — handle those carefully.',
+      },
+      {
+        question: "How do you submit a form in React?",
+        solution:
+          "Handle the `onSubmit` event on the `<form>` element, call `e.preventDefault()` to stop the browser navigation, validate, then send data asynchronously and handle loading/errors.\n\nExample:\n\n```jsx\nasync function handleSubmit(e) {\n  e.preventDefault();\n  if (!validate(form)) return;\n  setSubmitting(true);\n  try {\n    await api.post('/endpoint', form);\n  } catch (err) { setServerError(err.message); }\n  finally { setSubmitting(false); }\n}\n```\n\nBest practices:\n- Disable submit button while submitting.\n- Provide success/error feedback.\n- Use optimistic UI only when appropriate and with rollback on failure.",
+      },
+      {
+        question: "How do you prevent default form submission?",
+        solution:
+          "Call `e.preventDefault()` in the `onSubmit` handler of the `<form>` to prevent the default page reload and allow JavaScript to process the form instead.\n\n```jsx\n<form onSubmit={e => { e.preventDefault(); handleSubmit(); }}>\n```\n\nNote:\n- Always prevent default when you want single-page app behavior; otherwise the browser will perform a page refresh.",
+      },
+      {
+        question: "How do you reset form fields in React?",
+        solution:
+          "For controlled forms: reset state to initial values. For uncontrolled forms: call `formRef.current.reset()`.\n\nExample (controlled):\n\n```jsx\nconst initial = { name: '', email: '' };\nconst [form, setForm] = useState(initial);\nconst reset = () => setForm(initial);\n```\n\nNotes:\n- If using Formik or React Hook Form, they provide helper methods (`resetForm`, `reset`) that also reset touched/errors.\n- After reset, ensure dependent UI (validation messages, selects) also reset.",
+      },
+      {
+        question: "Explain form libraries in React (Formik, React Hook Form).",
+        solution:
+          "Formik: declarative API, good for medium/large forms, integrates well with Yup for schema validation. Tends to use controlled inputs which can cause re-renders but is straightforward.\n\nReact Hook Form (RHF): uses uncontrolled inputs internally and registers refs, minimizing re-renders and providing excellent performance for large forms. RHF integrates with Yup/Zod and exposes simple hooks (`useForm`, `register`, `handleSubmit`).\n\nWhen to use which:\n- Use RHF when you need performance and many inputs.\n- Use Formik when you want an opinionated, structured approach and don't have extreme performance constraints.\n\nBoth reduce boilerplate compared to hand-rolling validation/registration and provide easier testing.",
+      },
+      {
+        question: "How do you handle file uploads in React forms?",
+        solution:
+          "Use `<input type=\"file\"/>` and read `e.target.files`. Use `FormData` to send files via `fetch` or XHR. For large files consider chunked upload or resumable upload (Tus, S3 multipart).\n\nExample:\n\n```jsx\nconst onFile = e => setFile(e.target.files[0]);\n\nconst submit = async () => {\n  const fd = new FormData();\n  fd.append('file', file);\n  await fetch('/upload', { method: 'POST', body: fd });\n}\n```\n\nTips:\n- Add `accept` attribute to restrict file types.\n- Use progress events (XHR `onprogress`) for upload progress UI.\n- Protect endpoints with authentication and validate content server-side.",
+      },
+      {
+        question: "How do you handle checkboxes in React forms?",
+        solution:
+          'Single checkbox: treat like boolean with `checked`.\n\n```jsx\nconst [checked, setChecked] = useState(false);\n<input type="checkbox" checked={checked} onChange={e => setChecked(e.target.checked)} />\n```\n\nMultiple checkboxes (multi-select): keep an array of selected values and toggle values when each checkbox changes.\n\n```jsx\nconst toggle = val => setSelected(prev => prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val]);\n```\n\nTips:\n- Use `checked` for controlled checkboxes (not `value`).\n- For large checkbox groups, RHF/Formik provide helpers to register groups efficiently.',
+      },
+      {
+        question: "How do you handle radio buttons in React forms?",
+        solution:
+          'Radio buttons share a `name` and represent one controlled value. Store a single string value and set it on `onChange`.\n\n```jsx\nconst [color, setColor] = useState(\'\');\n<input type="radio" name="color" value="red" checked={color===\'red\'} onChange={e => setColor(e.target.value)} />\n```\n\nBest practices:\n- Ensure `name` is identical for grouped radios so browser semantics (and accessibility) are preserved.\n- For accessibility, wrap radio + label and use `aria-checked` when building custom radio UI.',
+      },
+      {
+        question: "Explain controlled vs uncontrolled forms performance.",
+        solution:
+          "Controlled forms re-render components on every value change because state updates cause React renders. With many fields or high-frequency updates, this can cause performance issues. Uncontrolled forms reduce React re-renders since the DOM holds values; React only reads values on submit.\n\nReact Hook Form offers a hybrid approach: register inputs (uncontrolled) and only update React when needed (errors, touched), significantly improving performance on large forms.\n\nWhen to choose:\n- Small forms: controlled is simple and fine.\n- Large forms or many fields: uncontrolled or RHF for performance.",
+      },
+      {
+        question: "How do you validate email inputs in React?",
+        solution:
+          "Use layered validation:\n1. **HTML-level**: `<input type=\"email\" />` provides basic browser validation.\n2. **Client regex** for better UX (but be careful — email regex can be complex):\n\n```js\nconst emailRe = /^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$/;\nif (!emailRe.test(value)) setError('Invalid email');\n```\n\n3. **Server-side** validation: final check (deliverability, unique constraint). Always validate on the server because client-side checks can be bypassed.\n\nTip: prefer simple regex for UX (not a perfect RFC match) and rely on server checks for strict correctness.",
+      },
+      {
+        question: "How do you handle form state with useState?",
+        solution:
+          "You can either use a single object (`const [form, setForm] = useState({})`) or multiple `useState` calls for each field. Single-object approach is common for dynamic forms; update with computed keys and functional updates:\n\n```jsx\nsetForm(prev => ({ ...prev, [name]: value }));\n```\n\nTrade-offs:\n- Single-object: simpler serialization and reset, but must shallow-copy the whole object on update.\n- Multiple states: more granular updates, potentially fewer re-renders for unrelated fields, but more boilerplate.\n\nFor complex forms consider using a library (RHF/Formik) to simplify management.",
+      },
+      {
+        question: "How do you test React forms?",
+        solution:
+          "Use React Testing Library + `user-event` to simulate real user interactions rather than directly calling handlers.\n\nCommon tests:\n- Fill fields and expect value changes: `user.type(input, 'text')` then `expect(input).toHaveValue('text')`.\n- Submit form and assert API was called or onSubmit handler invoked.\n- Assert validation errors render after bad input or on blur.\n- Test file inputs using `new File(['content'], 'file.txt', { type: 'text/plain' })` and `user.upload()`.\n\nExample test snippet:\n\n```js\nrender(<LoginForm onSubmit={mock} />);\nawait user.type(screen.getByLabelText(/email/i), 'a@b.com');\nawait user.click(screen.getByRole('button', { name: /submit/i }));\nexpect(mock).toHaveBeenCalledWith(expect.objectContaining({ email: 'a@b.com' }));\n```\n\nTips:\n- Prefer `user-event` over `fireEvent` for realistic events.\n- Mock network requests (MSW) to test submission flows without hitting the real API.\n- Test accessibility: form labels, error roles, and keyboard navigation.",
+      },
+    ],
+  },
 ];
