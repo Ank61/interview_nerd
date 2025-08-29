@@ -617,6 +617,775 @@ class Component {
 - No 'arguments' object (use rest parameters instead)`,
         tags: [{ name: "arrow functions", link: "" }],
       },
+      {
+        question: "What is JavaScript and what are its main characteristics?",
+        solution:
+          "JavaScript is a high-level, interpreted programming language primarily used for web development. Main characteristics: 1) Dynamic typing - variables can hold different data types without explicit declaration. 2) Interpreted language - executed directly by the browser or runtime without compilation. 3) Prototype-based object-oriented programming - objects can inherit directly from other objects. 4) First-class functions - functions can be assigned to variables, passed as arguments, and returned from other functions. 5) Event-driven programming - responds to user interactions and system events. 6) Weakly typed - automatic type conversion occurs. 7) Client-side and server-side capabilities - runs in browsers (client-side) and Node.js (server-side). 8) Multi-paradigm - supports procedural, object-oriented, and functional programming styles.",
+      },
+      {
+        question: "What's the difference between == and === in JavaScript?",
+        solution:
+          "== (loose equality) performs type coercion before comparison, while === (strict equality) compares both value and type without coercion. Examples: '5' == 5 returns true (string '5' is converted to number), but '5' === 5 returns false (different types). null == undefined returns true, but null === undefined returns false. 0 == false returns true, but 0 === false returns false. Best practice: Always use === to avoid unexpected type conversions and ensure predictable comparisons. The == operator can lead to bugs due to JavaScript's complex coercion rules.",
+      },
+      {
+        question: "What is the difference between null and undefined?",
+        solution:
+          "null is an intentional absence of value - explicitly assigned to indicate 'no value'. undefined means a variable has been declared but not assigned a value, or a property doesn't exist. Key differences: 1) typeof null returns 'object' (known JavaScript quirk), typeof undefined returns 'undefined'. 2) null == undefined is true, but null === undefined is false. 3) null is explicitly assigned, undefined is the default state. 4) Function parameters without arguments are undefined. 5) Object properties that don't exist return undefined. 6) Functions without return statements return undefined. Example: let a; (undefined), let b = null; (explicitly null).",
+      },
+      {
+        question: "What are JavaScript data types?",
+        solution:
+          "JavaScript has 8 data types divided into two categories: Primitive types: 1) Number - integers and floating-point numbers (64-bit). 2) String - text data enclosed in quotes. 3) Boolean - true/false values. 4) Undefined - declared but unassigned variables. 5) Null - intentional absence of value. 6) Symbol - unique identifiers (ES6+). 7) BigInt - large integers beyond Number.MAX_SAFE_INTEGER (ES2020). Non-primitive type: 8) Object - collections of key-value pairs, includes arrays, functions, dates, etc. Use typeof operator to check types. All primitives are immutable and passed by value, while objects are mutable and passed by reference.",
+      },
+      {
+        question: "What is hoisting in JavaScript?",
+        solution:
+          "Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their containing scope during compilation phase, before code execution. However, only declarations are hoisted, not initializations. var declarations are hoisted and initialized with undefined. let and const are hoisted but not initialized (temporal dead zone). Function declarations are fully hoisted - can be called before declaration. Function expressions and arrow functions behave like variables. Example: console.log(x); var x = 5; // logs undefined, not error. The declaration 'var x' is hoisted but initialization 'x = 5' stays in place. This can lead to confusion, so ES6 introduced let/const with block scoping to reduce hoisting-related issues.",
+      },
+      {
+        question: "What's the difference between var, let, and const?",
+        solution:
+          "var: Function-scoped or globally-scoped, hoisted with undefined initialization, can be redeclared and reassigned, causes issues in loops and closures. let: Block-scoped, hoisted but not initialized (temporal dead zone), cannot be redeclared in same scope, can be reassigned, preferred for variables that change. const: Block-scoped, hoisted but not initialized, cannot be redeclared or reassigned, must be initialized at declaration, for constants and objects (object contents can still be modified). Key differences: Scope (function vs block), redeclaration rules, reassignment capabilities, and hoisting behavior. Modern best practice: use const by default, let when reassignment needed, avoid var due to scoping issues.",
+      },
+      {
+        question: "What is a closure in JavaScript?",
+        solution:
+          "A closure is a function that has access to variables from its outer (enclosing) scope even after the outer function has returned. It 'closes over' the variables from the outer scope. Closures are created every time a function is created. Key characteristics: 1) Inner function has access to outer function's variables. 2) Outer function's variables remain accessible even after outer function execution completes. 3) Creates private variables and data encapsulation. Common use cases: Module pattern, callbacks, event handlers, factory functions. Example: function outer(x) { return function inner(y) { return x + y; }; } const add5 = outer(5); add5(10); // returns 15. The inner function remembers the value of x even after outer() finishes executing.",
+      },
+      {
+        question:
+          "What is the difference between function declaration and function expression?",
+        solution:
+          "Function Declaration: Uses 'function' keyword followed by name, fully hoisted (can be called before declaration), creates a named function in the current scope. Syntax: function myFunc() {}. Function Expression: Function assigned to a variable, not hoisted (cannot be called before definition), can be anonymous or named. Syntax: const myFunc = function() {}; or const myFunc = () => {}; (arrow function). Key differences: 1) Hoisting behavior - declarations are fully hoisted, expressions follow variable hoisting rules. 2) Timing - declarations available throughout scope, expressions only after assignment. 3) Conditional creation - expressions can be conditionally created, declarations are processed regardless of conditions. Arrow functions are always expressions and have additional differences like lexical 'this' binding.",
+      },
+      {
+        question: "What is the this keyword in JavaScript?",
+        solution:
+          "The 'this' keyword refers to the object that is executing the current function. Its value depends on how the function is called (execution context): 1) Global context - refers to window object (browser) or global object (Node.js). 2) Object method - refers to the object owning the method. 3) Constructor function - refers to the newly created object instance. 4) Event handler - refers to the element that triggered the event. 5) Arrow functions - inherit 'this' from enclosing scope (lexical binding). 6) Explicit binding - can be set using call(), apply(), or bind(). Common gotcha: 'this' in nested functions loses original context. Solutions include storing reference (const self = this), using arrow functions, or explicit binding. In strict mode, 'this' in global context is undefined instead of window object.",
+      },
+      {
+        question: "What are truthy and falsy values in JavaScript?",
+        solution:
+          "Truthy and falsy values determine how values are evaluated in Boolean contexts (if statements, logical operators). Falsy values (8 total): false, 0, -0, 0n (BigInt), '' (empty string), null, undefined, NaN. Everything else is truthy including: '0', 'false', [], {}, function(){}, and all other non-empty strings, non-zero numbers, and objects. Important cases: Empty array [] is truthy but [].length is falsy (0). Empty object {} is truthy. String '0' is truthy but number 0 is falsy. Use Boolean() function or !! operator to explicitly convert to boolean. Understanding truthiness is crucial for conditional logic, default value assignment (||), and nullish coalescing (??) operations.",
+      },
+      {
+        question: "What is type coercion?",
+        solution:
+          "Type coercion is JavaScript's automatic conversion of values from one data type to another when performing operations. Two types: 1) Implicit coercion - automatic conversion by JavaScript engine. Examples: '5' + 3 = '53' (number to string), '5' - 3 = 2 (string to number), true + 1 = 2 (boolean to number). 2) Explicit coercion - manual conversion using functions like Number(), String(), Boolean(), parseInt(), parseFloat(). Common scenarios: String concatenation with + operator, mathematical operations with -, *, /, comparison operations with ==, logical operations. Understanding coercion rules prevents bugs: + operator prefers string concatenation, other math operators convert to numbers, == performs complex coercion while === doesn't. Best practice: use explicit conversion and === operator for predictable code.",
+      },
+      {
+        question:
+          "What's the difference between synchronous and asynchronous code?",
+        solution:
+          "Synchronous code executes sequentially, line by line, blocking subsequent code until current operation completes. Asynchronous code allows operations to run in background while other code continues executing. Synchronous: Predictable execution order, simpler debugging, but can freeze UI during long operations. Example: console.log statements execute in order. Asynchronous: Non-blocking execution, better performance for I/O operations, but complex flow control. Examples: setTimeout, fetch API, file operations. JavaScript handles async with: 1) Callbacks - functions passed as arguments. 2) Promises - objects representing future values with .then()/.catch(). 3) Async/await - syntactic sugar for promises. Event loop manages async operations by moving them to Web APIs, then callback queue, finally back to call stack when stack is empty.",
+      },
+      {
+        question: "What is the Global Execution Context?",
+        solution:
+          "The Global Execution Context is the default environment where JavaScript code runs when not inside any function. It's the outermost execution context created when JavaScript engine starts executing code. Components: 1) Global object - 'window' in browsers, 'global' in Node.js. 2) 'this' keyword - references the global object in non-strict mode. 3) Variable Environment - stores global variables and function declarations. Creation phases: 1) Creation phase - memory allocation for variables (hoisting), function declarations stored entirely. 2) Execution phase - code runs line by line, variables assigned actual values. Only one global execution context exists per JavaScript runtime. When functions execute, new Function Execution Contexts are created and pushed onto the call stack above the global context, which remains at the bottom of the stack.",
+      },
+      {
+        question: "What are higher-order functions?",
+        solution:
+          "Higher-order functions are functions that either: 1) Take other functions as arguments, or 2) Return functions as results, or both. They enable functional programming patterns and code reusability. Common examples: 1) Array methods - map(), filter(), reduce(), forEach() take callback functions. 2) Event handlers - addEventListener() takes function as second parameter. 3) setTimeout/setInterval - take functions as first parameter. 4) Function factories - functions that return other functions. Benefits: Code reusability, abstraction, cleaner syntax, functional programming paradigm. Example: const multiply = (factor) => (number) => number * factor; const double = multiply(2); double(5); // returns 10. Higher-order functions are fundamental to JavaScript's functional programming capabilities and enable powerful patterns like currying, function composition, and declarative programming style.",
+      },
+      {
+        question: "What is the difference between slice() and splice()?",
+        solution:
+          "slice() and splice() are array methods with different purposes: slice(): 1) Returns new array with selected elements, doesn't modify original array. 2) Syntax: array.slice(start, end) - end is exclusive. 3) Negative indices count from end. 4) No parameters returns shallow copy. Example: [1,2,3,4].slice(1,3) returns [2,3]. splice(): 1) Modifies original array by adding/removing elements. 2) Syntax: array.splice(start, deleteCount, item1, item2...). 3) Returns array of deleted elements. 4) Can insert, delete, or replace elements. Example: [1,2,3,4].splice(1,2,'a','b') returns [2,3], original becomes [1,'a','b',4]. Key difference: slice() is immutable (doesn't change original), splice() is mutable (changes original). Use slice() for copying portions, splice() for modifying arrays.",
+      },
+      {
+        question: "What is event bubbling?",
+        solution:
+          "Event bubbling is the default behavior where events propagate from the target element up through its ancestors in the DOM hierarchy. When an event occurs, it first executes on the target element, then 'bubbles up' through parent elements to the document root. Event flow phases: 1) Capturing phase - event travels down from document to target (rarely used). 2) Target phase - event executes on target element. 3) Bubbling phase - event bubbles up through ancestors. Benefits: Event delegation - attach single listener to parent instead of multiple listeners to children. Control: event.stopPropagation() prevents further bubbling. event.preventDefault() stops default browser behavior. addEventListener() third parameter controls capture vs bubble phase. Example: clicking a button inside a div triggers button's click handler, then div's click handler (if any). Understanding bubbling is crucial for event delegation patterns and preventing unwanted event propagation.",
+      },
+      {
+        question: "What is the DOM?",
+        solution:
+          "The DOM (Document Object Model) is a programming interface that represents HTML/XML documents as a tree structure of objects that JavaScript can manipulate. It's the bridge between web pages and programming languages. Structure: Documents contain elements (nodes) in hierarchical tree format. Each HTML element becomes a JavaScript object with properties and methods. Key concepts: 1) Nodes - every part of document (elements, text, attributes). 2) Element selection - getElementById(), querySelector(), etc. 3) Content manipulation - innerHTML, textContent, createElement(). 4) Style changes - element.style or classList. 5) Event handling - addEventListener() for user interactions. DOM API provides methods to: create, modify, delete elements; change content and attributes; handle events; navigate between elements. The DOM is language-independent but JavaScript is the primary language for DOM manipulation in browsers. Modern frameworks like React use virtual DOM for performance optimization.",
+      },
+      {
+        question: "What is the difference between innerHTML and textContent?",
+        solution:
+          "innerHTML and textContent are properties for getting/setting element content with key differences: innerHTML: 1) Gets/sets HTML markup inside element including tags. 2) Parses HTML strings and creates DOM elements. 3) Can execute embedded scripts (security risk). 4) Slower due to HTML parsing. 5) Returns formatted HTML with tags. textContent: 1) Gets/sets only text content, ignores HTML tags. 2) Treats everything as plain text. 3) Safer - no script execution risk. 4) Faster performance. 5) Returns concatenated text of element and descendants. Examples: element.innerHTML = '<b>Bold</b>' creates bold text. element.textContent = '<b>Bold</b>' shows literal text '<b>Bold</b>'. Security: innerHTML vulnerable to XSS attacks if user input isn't sanitized. textContent is safe for user-generated content. Use innerHTML when you need HTML formatting, textContent when you only need text content or handling user input.",
+      },
+      {
+        question: "What is JSON?",
+        solution:
+          'JSON (JavaScript Object Notation) is a lightweight, text-based data interchange format inspired by JavaScript object syntax but language-independent. It\'s human-readable and widely used for APIs and data storage. Structure: Built on key-value pairs, supports nested objects and arrays. Data types: string, number, boolean, null, object, array (no undefined, functions, or dates). Syntax rules: Keys must be strings in double quotes, strings in double quotes only, no trailing commas, no comments allowed. JavaScript methods: JSON.stringify() converts JavaScript objects to JSON strings. JSON.parse() converts JSON strings to JavaScript objects. Common use: API responses, configuration files, data storage. Example: {"name": "John", "age": 30, "skills": ["JavaScript", "Python"]}. JSON is stricter than JavaScript object literals - requires quoted keys and double quotes. Always handle JSON.parse() with try-catch for error handling of malformed JSON.',
+      },
+      {
+        question: "What are template literals?",
+        solution:
+          "Template literals (template strings) are string literals using backticks (`) that allow embedded expressions and multi-line strings, introduced in ES6. Features: 1) String interpolation - embed variables/expressions using ${expression} syntax. 2) Multi-line strings - span multiple lines without concatenation. 3) Expression evaluation - any JavaScript expression inside ${}. 4) Function calls - can call functions within expressions. 5) Nested templates - template literals inside other templates. Benefits: Cleaner syntax than string concatenation, better readability, no need for escape characters in multi-line strings. Examples: `Hello ${name}!`, `Line 1\nLine 2` vs 'Line 1\\nLine 2'. Tagged templates: Advanced feature allowing custom processing with template tag functions. Use cases: Dynamic string creation, HTML generation, SQL queries, formatted output. Template literals make string manipulation more intuitive and reduce common concatenation errors.",
+      },
+      {
+        question: "What is the purpose of 'use strict'?",
+        solution:
+          "'use strict' is a directive that enables strict mode in JavaScript, enforcing stricter parsing and error handling. It eliminates silent errors and prevents problematic features. Effects: 1) Variables must be declared - prevents accidental global variables. 2) Deleting variables/functions/arguments throws error. 3) Duplicate parameter names not allowed. 4) 'this' in functions is undefined (not global object). 5) eval() has its own scope. 6) Reserved keywords protected. 7) Octal literals forbidden. Scope: Can be applied globally (entire script) or function-level. Global: 'use strict' at top of file. Function: 'use strict' at beginning of function body. Benefits: Catches common mistakes, prevents problematic features, makes code more secure, easier debugging, better performance optimizations by JavaScript engines. Modern development: ES6 modules are automatically in strict mode. Most modern tools and frameworks assume strict mode. It's considered best practice for all JavaScript code.",
+      },
+      {
+        question:
+          "What is the difference between primitive and non-primitive data types?",
+        solution:
+          "Primitive types: Stored by value, immutable, compared by value, stack-allocated. Includes: number, string, boolean, undefined, null, symbol, bigint. When assigned/passed, the actual value is copied. Modifying creates new value. Non-primitive types: Stored by reference, mutable, compared by reference, heap-allocated. Includes: object, array, function, date, regex. When assigned/passed, reference to memory location is copied. Multiple variables can reference same object. Key differences: 1) Memory storage - primitives in stack, objects in heap. 2) Assignment behavior - primitives copy value, objects copy reference. 3) Equality comparison - primitives compare values, objects compare references. 4) Mutability - primitives are immutable, objects are mutable. Example: let a = 5; let b = a; (b gets copy of value). let obj1 = {x:1}; let obj2 = obj1; (obj2 references same object). Understanding this difference is crucial for avoiding bugs with object mutations and reference sharing.",
+      },
+      {
+        question: "What is a callback function?",
+        solution:
+          "A callback function is a function passed as an argument to another function and executed at a specific time or after a certain event occurs. It implements the 'call back later' pattern. Characteristics: 1) Higher-order function pattern - function accepting another function as parameter. 2) Asynchronous programming - handle operations that take time. 3) Event handling - respond to user interactions. 4) Control flow - customize behavior of generic functions. Types: 1) Synchronous callbacks - executed immediately (array methods like map, filter). 2) Asynchronous callbacks - executed after operation completes (setTimeout, API calls). Common uses: Event listeners, array iteration methods, AJAX requests, timers. Example: setTimeout(function() { console.log('Called back!'); }, 1000); Problems: Callback hell - deeply nested callbacks hard to read/maintain. Solutions: Promises, async/await. Callbacks are fundamental to JavaScript's event-driven, asynchronous nature.",
+      },
+      {
+        question: "What is scope in JavaScript?",
+        solution:
+          "Scope determines the accessibility/visibility of variables, functions, and objects in code during runtime. It defines where variables can be accessed. Types: 1) Global scope - variables accessible everywhere in program, declared outside functions. 2) Function scope - variables accessible only within declaring function (var keyword). 3) Block scope - variables accessible only within block {} (let, const keywords). 4) Module scope - variables accessible within module file. Scope chain: JavaScript searches for variables from innermost scope outward to global scope. Inner scopes can access outer scope variables but not vice versa. Lexical scoping: Scope determined by where variables are declared in code structure. Important concepts: Variable shadowing - inner scope variable hides outer scope variable with same name. Temporal dead zone - let/const variables inaccessible before declaration. Understanding scope prevents variable conflicts, enables proper encapsulation, and helps debug variable access issues.",
+      },
+      {
+        question: "What's the difference between call(), apply(), and bind()?",
+        solution:
+          "call(), apply(), and bind() are methods for explicitly setting the 'this' context in functions: call(): 1) Invokes function immediately with specified 'this' value. 2) Arguments passed individually. 3) Syntax: func.call(thisValue, arg1, arg2, ...). apply(): 1) Invokes function immediately with specified 'this' value. 2) Arguments passed as array. 3) Syntax: func.apply(thisValue, [arg1, arg2, ...]). bind(): 1) Creates new function with bound 'this' value, doesn't invoke immediately. 2) Returns new function that can be called later. 3) Syntax: const newFunc = func.bind(thisValue, arg1, arg2). Key differences: Invocation timing (immediate vs later), argument format (individual vs array vs pre-set). Use cases: call/apply for immediate execution with different context, bind for event handlers, partial application, method borrowing. Example: const person = {name: 'John'}; function greet(msg) { console.log(msg + this.name); } greet.call(person, 'Hello '); // 'Hello John'.",
+      },
+      {
+        question: "What are immediately invoked function expressions (IIFE)?",
+        solution:
+          "IIFE is a function that runs immediately after being defined. It's wrapped in parentheses and followed by () to execute. Syntax: (function() { /* code */ })() or (() => { /* code */ })(). Benefits: Creates private scope, avoids global namespace pollution, executes initialization code once. Common pattern before modules. Example: (function() { var private = 'hidden'; window.myLib = { public: 'exposed' }; })(); Used in libraries like jQuery to prevent variable conflicts.",
+      },
+      {
+        question: "What is destructuring in JavaScript?",
+        solution:
+          "Destructuring extracts values from arrays/objects into distinct variables using a syntax that mirrors the structure. Array destructuring: const [a, b, ...rest] = [1, 2, 3, 4]; Object destructuring: const {name, age} = person; Supports default values, nested destructuring, renaming ({name: fullName}), and swapping variables ([a, b] = [b, a]). Works in function parameters: function greet({name, age = 25}) {}. Improves code readability and reduces repetitive property access.",
+      },
+      {
+        question: "What are default parameters?",
+        solution:
+          "Default parameters provide fallback values when function arguments are undefined or not passed. Syntax: function greet(name = 'Guest', age = 18) { return `Hello ${name}, ${age}`; }. Evaluated at call time, can reference previous parameters: function calc(a, b = a * 2) {}. Only triggered by undefined, not null or other falsy values. Arrow functions: const add = (a = 0, b = 0) => a + b. Replaces old pattern of name = name || 'default'. Makes functions more robust and self-documenting.",
+      },
+      {
+        question: "What is the spread operator?",
+        solution:
+          "Spread operator (...) expands iterables into individual elements or object properties. Array spreading: [...arr1, ...arr2] for concatenation, Math.max(...numbers) for function arguments. Object spreading: {...obj1, ...obj2} for cloning/merging objects. Creates shallow copies, later properties override earlier ones in objects. Use cases: function arguments, array/object cloning, converting NodeList to array, combining arrays. Example: const newArr = [0, ...oldArr, 4]; const newObj = {...defaults, ...userOptions};",
+      },
+      {
+        question: "What is the rest parameter?",
+        solution:
+          "Rest parameter (...args) collects multiple arguments into an array. Must be the last parameter. Syntax: function sum(...numbers) { return numbers.reduce((a, b) => a + b); }. Replaces arguments object with true array having all array methods. Works with destructuring: const [first, ...others] = array; or {name, ...rest} = object. Useful for functions with variable arguments, extracting some values while keeping others. Example: function log(level, ...messages) { console[level](...messages); }. More explicit than arguments object.",
+      },
+      {
+        question: "What is the difference between for...in and for...of?",
+        solution:
+          "for...in iterates over enumerable property names (keys) of objects, including inherited properties. for...of iterates over iterable values (arrays, strings, Sets, Maps). for...in with arrays gives indices as strings, may include inherited properties and non-numeric keys. for...of gives actual values, only works with iterables. Examples: for (let key in obj) vs for (let value of array). for...in: object properties, for...of: array/string elements. Use for...in for object inspection, for...of for array/collection iteration. for...of is ES6, more predictable for collections.",
+      },
+      {
+        question: "What is a Promise?",
+        solution:
+          "Promise represents eventual completion/failure of asynchronous operation and its resulting value. Creates with new Promise((resolve, reject) => {}). Chainable with .then() for success, .catch() for errors, .finally() for cleanup. Avoids callback hell through chaining. States: pending, fulfilled, rejected. Once settled, state cannot change. Methods: Promise.all() (all succeed), Promise.race() (first settled), Promise.allSettled() (all complete). Example: fetch(url).then(res => res.json()).then(data => console.log(data)).catch(err => console.error(err));",
+      },
+      {
+        question: "What are the states of a Promise?",
+        solution:
+          "Three states: 1) Pending - initial state, operation hasn't completed yet. 2) Fulfilled (resolved) - operation completed successfully with a value. 3) Rejected - operation failed with a reason/error. Promises are immutable once settled (fulfilled/rejected). State transitions: pending → fulfilled or pending → rejected. No other transitions possible. Can check state internally but not directly accessible. Use .then() to handle fulfilled, .catch() for rejected. State determines which handlers execute when promise settles.",
+      },
+      {
+        question: "What is async/await?",
+        solution:
+          "async/await is syntactic sugar over Promises for cleaner asynchronous code. async function returns Promise automatically. await pauses execution until Promise resolves, returns resolved value or throws if rejected. Only works inside async functions. Makes async code look synchronous and easier to read/debug. Error handling with try/catch blocks. Example: async function fetchData() { try { const response = await fetch(url); const data = await response.json(); return data; } catch (error) { console.error(error); } }. Parallel execution: await Promise.all([promise1, promise2]).",
+      },
+      {
+        question: "What is the Event Loop?",
+        solution:
+          "Event Loop manages execution of code, handles asynchronous callbacks, and maintains the call stack. JavaScript is single-threaded but handles concurrency through event loop. Process: 1) Execute synchronous code on call stack. 2) Web APIs handle async operations (setTimeout, HTTP requests). 3) Callbacks go to task queue when complete. 4) Event loop moves tasks from queue to call stack when stack is empty. Microtasks (Promises) have higher priority than macrotasks (setTimeout). Enables non-blocking I/O despite single thread. Understanding helps debug timing issues and performance.",
+      },
+      {
+        question:
+          "What is the difference between setTimeout() and setInterval()?",
+        solution:
+          "setTimeout() executes code once after specified delay: setTimeout(callback, delay). setInterval() repeatedly executes code at specified intervals: setInterval(callback, interval). setTimeout for one-time delayed execution, setInterval for repeated execution. Both return IDs for cancellation: clearTimeout(id), clearInterval(id). setInterval may stack up if callback takes longer than interval. Recursive setTimeout provides more control: setTimeout(function tick() { doSomething(); setTimeout(tick, 1000); }, 1000). setTimeout guarantees delay between executions, setInterval tries to maintain frequency.",
+      },
+      {
+        question: "What is event delegation?",
+        solution:
+          "Event delegation attaches single event listener to parent element to handle events for multiple child elements using event bubbling. Benefits: better performance (fewer listeners), handles dynamically added elements automatically, reduces memory usage. Works because events bubble up from target to ancestors. Use event.target to identify actual clicked element. Example: document.querySelector('ul').addEventListener('click', (e) => { if (e.target.tagName === 'LI') { console.log('List item clicked:', e.target.textContent); } }). Common pattern for handling lists, tables, and dynamic content. Requires understanding of event bubbling.",
+      },
+      {
+        question: "What are arrow functions?",
+        solution:
+          "Arrow functions provide shorter syntax for function expressions: const add = (a, b) => a + b. Key differences from regular functions: 1) Lexical 'this' binding - inherits 'this' from enclosing scope. 2) No 'arguments' object - use rest parameters instead. 3) Cannot be constructors - no 'new'. 4) No function hoisting. 5) Implicit return for single expressions. Syntax variations: () => {}, x => x*2, (a,b) => a+b. Perfect for callbacks, array methods, and when you need to preserve 'this' context. Shorter and often more readable than function expressions.",
+      },
+      {
+        question: "What is the difference between map() and forEach()?",
+        solution:
+          "map() transforms each element and returns new array with same length. forEach() executes function for each element, returns undefined. map() is immutable (doesn't modify original), forEach() may modify if function does. map() is functional programming approach, chainable with other array methods. forEach() is imperative, used for side effects like logging or DOM manipulation. Examples: const doubled = nums.map(x => x * 2); vs nums.forEach(x => console.log(x)). Use map() when transforming data, forEach() when performing actions. map() enables method chaining: arr.map().filter().reduce().",
+      },
+      {
+        question: "What is polyfill?",
+        solution:
+          "Polyfill is code that provides modern functionality to older browsers that lack native support. Implements missing features using existing capabilities. Examples: Array.includes(), Promise, fetch(), Object.assign(). Usually checks if feature exists before adding: if (!Array.prototype.includes) { /* implementation */ }. Libraries like core-js, polyfill.io provide comprehensive polyfills. Babel transpiles syntax, polyfills provide runtime features. Load conditionally or use feature detection. Ensures consistent behavior across browsers. Trade-off between compatibility and bundle size. Essential for supporting legacy browsers while using modern JavaScript features.",
+      },
+      {
+        question: "How do you check the type of a variable in JavaScript?",
+        solution:
+          "Use the `typeof` operator to check variable types in JavaScript. It returns a string indicating the type: `typeof 42` returns 'number', `typeof 'hello'` returns 'string', `typeof true` returns 'boolean', `typeof undefined` returns 'undefined', `typeof {}` returns 'object', `typeof []` returns 'object' (arrays are objects), `typeof function(){}` returns 'function'. For more specific type checking, use `Array.isArray()` for arrays, `instanceof` for constructor types, or `Object.prototype.toString.call()` for precise type identification.",
+      },
+      {
+        question: "What will typeof null return?",
+        solution:
+          "`typeof null` returns 'object', which is a well-known JavaScript quirk and historical bug that cannot be fixed due to backward compatibility. This happens because in JavaScript's original implementation, null was represented as a null pointer (0x00), which was interpreted as an object type. To properly check for null, use strict equality: `value === null`. To check for both null and undefined, use `value == null` or `value === null || value === undefined`.",
+      },
+      {
+        question: "What's the difference between Number() and parseInt()?",
+        solution:
+          "`Number()` converts the entire value to a number and returns NaN if any part is invalid: `Number('123abc')` returns NaN, `Number('123')` returns 123. `parseInt()` parses from left to right until it hits a non-numeric character and returns the parsed portion: `parseInt('123abc')` returns 123, `parseInt('abc123')` returns NaN. `parseInt()` also accepts a radix parameter for different bases: `parseInt('1010', 2)` returns 10. Use `Number()` for strict conversion, `parseInt()` for extracting numbers from mixed strings.",
+      },
+      {
+        question: "What is NaN and how do you check for it?",
+        solution:
+          "NaN (Not a Number) is a special numeric value representing an invalid number operation result. Key characteristics: `typeof NaN` returns 'number', `NaN === NaN` is false (NaN is not equal to itself), `NaN !== NaN` is true. To check for NaN: use `Number.isNaN(value)` (preferred - only returns true for actual NaN values) or `isNaN(value)` (converts value to number first, then checks). Examples: `Number.isNaN(NaN)` is true, `Number.isNaN('hello')` is false, but `isNaN('hello')` is true because it converts 'hello' to NaN first.",
+      },
+      {
+        question: "What's the result of 0.1 + 0.2 in JavaScript?",
+        solution:
+          "`0.1 + 0.2` returns `0.30000000000000004`, not `0.3`. This occurs due to floating-point precision limitations in binary representation (IEEE 754 standard). Decimal fractions like 0.1 cannot be precisely represented in binary. To handle this: use `(0.1 + 0.2).toFixed(1)` for display, `Math.round((0.1 + 0.2) * 10) / 10` for calculation, or libraries like decimal.js for precise decimal arithmetic. Always avoid direct equality comparisons with floating-point numbers.",
+      },
+      {
+        question: "How do you create a variable that cannot be reassigned?",
+        solution:
+          "Use `const` to create variables that cannot be reassigned: `const name = 'John'`. Important notes: `const` prevents reassignment but not mutation of objects/arrays - `const obj = {}; obj.prop = 'value'` is valid. For true immutability, use `Object.freeze()`: `const obj = Object.freeze({})`. `const` variables must be initialized at declaration - `const name;` throws SyntaxError. Block-scoped like `let`, and creates temporal dead zone before declaration.",
+      },
+      {
+        question:
+          "What happens when you don't declare a variable with var, let, or const?",
+        solution:
+          "Undeclared variables become implicit globals attached to the global object (window in browsers). In strict mode (`'use strict'`), this throws a ReferenceError. Example: `x = 5` creates `window.x = 5` in non-strict mode. This is dangerous because: creates global pollution, makes debugging difficult, can overwrite existing globals, and violates encapsulation principles. Always use `var`, `let`, or `const` declarations. In modules and modern JavaScript, strict mode is often enabled by default.",
+      },
+      {
+        question: "What is the difference between String() and .toString()?",
+        solution:
+          "`String()` is a constructor function that safely converts any value to string: `String(null)` returns 'null', `String(undefined)` returns 'undefined'. `.toString()` is a method that throws TypeError on null/undefined: `null.toString()` throws error. `String()` handles all values safely, while `.toString()` requires the value to be an object. `.toString()` accepts optional parameters for numbers (radix): `(255).toString(16)` returns 'ff'. Use `String()` for safe conversion, `.toString()` when you're certain the value isn't null/undefined.",
+      },
+      {
+        question: "How do you check if a variable is an array?",
+        solution:
+          "Use `Array.isArray(variable)` - the most reliable method: `Array.isArray([1,2,3])` returns true, `Array.isArray({})` returns false. This works across frames and contexts. Alternative methods: `variable instanceof Array` (can fail across frames), `Object.prototype.toString.call(variable) === '[object Array]'` (verbose but reliable), `variable.constructor === Array` (unreliable). Avoid `typeof variable === 'object'` as it returns true for objects, null, and arrays.",
+      },
+      {
+        question: 'What is the result of "5" + 3 and "5" - 3?',
+        solution:
+          '`"5" + 3` returns `"53"` (string concatenation) because the + operator converts the number to string when one operand is a string. `"5" - 3` returns `2` (numeric subtraction) because the - operator only works with numbers, so JavaScript converts the string to a number. This demonstrates JavaScript\'s type coercion: + is overloaded for both addition and concatenation, while -, *, /, % only work numerically and trigger string-to-number conversion.',
+      },
+      {
+        question: "What are template literals and how do you use them?",
+        solution:
+          "Template literals use backticks (`) and allow embedded expressions with ${}: `const name = 'John'; const message = `Hello, ${name}!`;` They support: multiline strings without \\n, expression embedding `${2 + 3}`, function calls `${getName()}`, and nested templates. Benefits over regular strings: no concatenation needed, preserves formatting/whitespace, enables tagged template literals for advanced processing. Example: `const html = `<div class=\"${className}\">${content}</div>`;` More readable and maintainable than string concatenation.",
+      },
+      {
+        question: "What is the ternary operator?",
+        solution:
+          "The ternary operator `condition ? valueIfTrue : valueIfFalse` is a concise way to write if-else statements. It's the only three-operand operator in JavaScript. Examples: `const status = age >= 18 ? 'adult' : 'minor'`, `const message = user ? `Hello ${user.name}` : 'Please log in'`. Can be chained: `const grade = score >= 90 ? 'A' : score >= 80 ? 'B' : 'C'` (though nested ternaries can hurt readability). Returns the actual value, not just executes code, making it useful for assignments and JSX expressions.",
+      },
+      {
+        question: "What are logical operators in JavaScript?",
+        solution:
+          "JavaScript has three main logical operators: `&&` (AND) returns the first falsy value or the last value if all are truthy; `||` (OR) returns the first truthy value or the last value if all are falsy; `!` (NOT) returns boolean opposite. They use short-circuit evaluation: `false && anything` doesn't evaluate 'anything'. Common patterns: `user && user.name` for safe property access, `value || 'default'` for default values, `!!value` to convert to boolean. Nullish coalescing `??` returns right operand only when left is null/undefined, unlike `||` which triggers on any falsy value.",
+      },
+      {
+        question: "What is short-circuit evaluation?",
+        solution:
+          "Short-circuit evaluation means logical operators stop evaluating as soon as the result is determined. With `&&`: if first operand is falsy, second isn't evaluated - `false && console.log('never runs')`. With `||`: if first operand is truthy, second isn't evaluated - `true || console.log('never runs')`. This enables patterns like: conditional execution `user && updateUI()`, default values `name || 'Anonymous'`, and safe property access `obj && obj.prop && obj.prop.method()`. Essential for performance and avoiding errors when accessing properties of potentially undefined objects.",
+      },
+      {
+        question: "What's the difference between ++i and i++?",
+        solution:
+          "Both increment `i` by 1, but they return different values: `++i` (pre-increment) increments first, then returns the new value; `i++` (post-increment) returns the current value, then increments. Example: `let i = 5; console.log(++i)` logs 6 and i becomes 6; `let i = 5; console.log(i++)` logs 5 but i becomes 6. In standalone statements, they're equivalent. In expressions, the difference matters: `let arr = [1,2,3]; let i = 0; arr[i++]` accesses arr[0] then increments i, while `arr[++i]` increments i then accesses arr[1].",
+      },
+      {
+        question: "What is the in operator?",
+        solution:
+          "The `in` operator checks if a property exists in an object (including inherited properties): `'name' in obj` returns true if obj has a 'name' property. Works with arrays checking indices: `0 in [1,2,3]` returns true, `3 in [1,2,3]` returns false. Checks prototype chain: `'toString' in {}` returns true because toString is inherited from Object.prototype. Use cases: checking if object has property before accessing, iterating with for-in loops. To check only own properties (not inherited), use `obj.hasOwnProperty('prop')` or `Object.prototype.hasOwnProperty.call(obj, 'prop')`.",
+      },
+      {
+        question: "What is the instanceof operator?",
+        solution:
+          "`instanceof` checks if an object was created by a specific constructor function by examining the prototype chain: `obj instanceof Constructor`. Examples: `[] instanceof Array` returns true, `new Date() instanceof Date` returns true, `'hello' instanceof String` returns false (primitive strings aren't String objects). Works with inheritance: custom classes extending others will return true for both. Limitations: fails across frames/windows due to different constructor references. For built-in types, prefer specific methods: `Array.isArray()` for arrays, `typeof` for primitives.",
+      },
+      {
+        question: "How do you convert string to number?",
+        solution:
+          "Multiple methods exist: `Number('123')` converts entire string or returns NaN; `parseInt('123.45')` returns 123 (integer only), accepts radix parameter; `parseFloat('123.45')` returns 123.45 (includes decimals); `+'123'` (unary plus) quick conversion like Number(); `Math.floor('123.45')` converts and rounds down. `Number()` is strictest (empty string becomes 0), `parseInt()`/`parseFloat()` are most forgiving (parse until non-numeric). Handle edge cases: check `isNaN()` after conversion, validate input format, consider `Number.isInteger()` for integer validation.",
+      },
+      {
+        question: "What is the difference between == null and === null?",
+        solution:
+          "`== null` uses loose equality with type coercion - it returns true for both null and undefined: `null == null` and `undefined == null` both return true. `=== null` uses strict equality without coercion - only returns true for actual null values: `null === null` is true, but `undefined === null` is false. The `== null` pattern is commonly used to check for 'nullish' values (null or undefined) in one comparison. For explicit checks, use `=== null` and `=== undefined` separately. Modern alternative: use nullish coalescing operator `??` for handling null/undefined values.",
+      },
+      {
+        question: "What happens when you compare two objects with == or ===?",
+        solution:
+          "Both `==` and `===` compare object references, not their content. Two objects are only equal if they reference the same object in memory: `{} === {}` returns false (different objects), `{} == {}` also returns false. Example: `const obj1 = {a: 1}; const obj2 = obj1; obj1 === obj2` returns true (same reference). For content comparison, use: `JSON.stringify()` for simple objects (unreliable for complex cases), deep equality libraries like Lodash's `isEqual()`, or custom comparison functions. Arrays behave the same way: `[1,2] === [1,2]` is false.",
+      },
+      {
+        question: "What is type casting vs type conversion?",
+        solution:
+          "Type conversion (coercion) is JavaScript automatically changing types during operations: `'5' - 3` converts string to number. Type casting is explicitly converting types: `Number('5')`, `String(123)`. JavaScript has implicit coercion (automatic) and explicit coercion (manual). Implicit happens with operators: `+` converts to string/number depending on context, comparison operators convert types. Explicit methods: `Number()`, `String()`, `Boolean()`, `parseInt()`, `parseFloat()`. Understanding coercion prevents bugs: know when JavaScript converts types automatically vs when you need explicit conversion.",
+      },
+      {
+        question: "What is the void operator?",
+        solution:
+          "The `void` operator evaluates an expression and returns `undefined`. Syntax: `void expression`. Common uses: `void 0` as a reliable way to get undefined (since undefined can be reassigned in older JavaScript), `javascript:void(0)` in href attributes to prevent navigation while executing JavaScript, preventing function return values from being used. Examples: `void console.log('hello')` logs 'hello' but returns undefined, `<a href='javascript:void(0)' onclick='doSomething()'>Click</a>` executes function without navigating. Rarely used in modern JavaScript except for the `void 0` pattern and preventing unwanted returns in some contexts.",
+      },
+      {
+        question: "How do you check if a variable is undefined?",
+        solution:
+          "There are several ways to check if a variable is undefined: 1) Using strict equality: `variable === undefined` 2) Using typeof operator: `typeof variable === 'undefined'` (safer for undeclared variables) 3) Using void 0: `variable === void 0`. The typeof approach is preferred when you're unsure if the variable has been declared, as it won't throw a ReferenceError for undeclared variables. Example: `if (typeof myVar === 'undefined') { console.log('Variable is undefined'); }`",
+      },
+      {
+        question: "What are comparison operators in JavaScript?",
+        solution:
+          "JavaScript has several comparison operators: 1) Equality operators: `==` (loose equality with type coercion) and `===` (strict equality without coercion) 2) Inequality: `!=` (loose) and `!==` (strict) 3) Relational: `<`, `>`, `<=`, `>=` 4) Examples: `'5' == 5` returns true (coercion), `'5' === 5` returns false (different types), `null == undefined` returns true, `null === undefined` returns false. Always prefer strict equality (===) to avoid unexpected type coercion behavior.",
+      },
+      {
+        question: "What is the comma operator?",
+        solution:
+          "The comma operator (,) evaluates multiple expressions from left to right and returns the value of the last expression. It's commonly used in for loops and variable declarations. Examples: `let a = (1, 2, 3); // a = 3`, `for (let i = 0, j = 10; i < 5; i++, j--) {}`. In expressions, parentheses are needed due to operator precedence: `let x = 1, y = 2; // declares two variables`, `let z = (1, 2); // z = 2`. The comma operator has the lowest precedence of all operators.",
+      },
+      {
+        question: "What happens when you add a number and a string?",
+        solution:
+          "When using the + operator with a number and string, JavaScript performs type coercion and concatenates them as strings. The number is converted to a string first. Examples: `5 + '3'` returns `'53'`, `'Hello' + 5` returns `'Hello5'`, `true + 'test'` returns `'truetest'`. However, other arithmetic operators (-, *, /) attempt to convert strings to numbers: `'10' - 5` returns `5`, `'10' * 2` returns `20`. If string can't be converted to a number, result is NaN: `'hello' - 5` returns `NaN`.",
+      },
+      {
+        question: 'What is the result of Boolean("") and Boolean(0)?',
+        solution:
+          "Both `Boolean('')` and `Boolean(0)` return `false`. JavaScript has 8 falsy values that convert to false when cast to boolean: 1) `false` 2) `0` 3) `-0` 4) `0n` (BigInt zero) 5) `''` (empty string) 6) `null` 7) `undefined` 8) `NaN`. All other values are truthy and convert to `true`. Examples: `Boolean('0')` returns `true` (non-empty string), `Boolean([])` returns `true` (empty array is truthy), `Boolean({})` returns `true` (empty object is truthy).",
+      },
+      {
+        question:
+          "What's the difference between Object and object (lowercase)?",
+        solution:
+          "`Object` (capital O) is the built-in constructor function that creates object instances and provides static methods like `Object.keys()`, `Object.assign()`. `object` (lowercase) is a primitive type identifier used in typeof checks and TypeScript type annotations. Examples: `typeof {}` returns `'object'`, `new Object()` creates an empty object, `Object.prototype` is the base prototype. Note: `typeof null` also returns `'object'` (famous JavaScript quirk), and arrays, functions, and dates are all typeof `'object'` despite being distinct types.",
+      },
+      {
+        question: "How do you create a multi-line string?",
+        solution:
+          "JavaScript offers several ways to create multi-line strings: 1) Template literals (ES6+): ```const str = `Line 1\nLine 2\nLine 3`;``` 2) Escape sequences: ```const str = 'Line 1\\nLine 2\\nLine 3';``` 3) String concatenation: ```const str = 'Line 1' + '\\n' + 'Line 2';``` 4) Array join: ```const str = ['Line 1', 'Line 2'].join('\\n');``` Template literals are preferred as they preserve formatting, support expression interpolation `${variable}`, and are more readable for complex multi-line content.",
+      },
+      {
+        question: "What is exponential notation in JavaScript?",
+        solution:
+          "Exponential notation (scientific notation) represents numbers using the format `aEb` or `aE+b` or `aE-b`, meaning a × 10^b. Examples: `1e3` equals `1000` (1 × 10³), `2.5e2` equals `250`, `1e-3` equals `0.001`, `5.67e+4` equals `56700`. JavaScript automatically uses exponential notation for very large or small numbers: `console.log(1000000000000000000000)` displays `1e+21`. You can use `Number.prototype.toExponential()` to format numbers: `(123.456).toExponential(2)` returns `'1.23e+2'`.",
+      },
+      {
+        question: "What are bitwise operators?",
+        solution:
+          "Bitwise operators perform operations on binary representations of numbers: 1) `&` (AND): `5 & 3` = `1` (101 & 011 = 001) 2) `|` (OR): `5 | 3` = `7` (101 | 011 = 111) 3) `^` (XOR): `5 ^ 3` = `6` (101 ^ 011 = 110) 4) `~` (NOT): `~5` = `-6` (inverts bits) 5) `<<` (left shift): `5 << 1` = `10` (multiply by 2) 6) `>>` (sign-propagating right shift): `5 >> 1` = `2` 7) `>>>` (zero-fill right shift): `5 >>> 1` = `2`. Common uses: checking even/odd `n & 1`, toggling bits, performance optimizations, and working with flags/permissions.",
+      },
+      {
+        question: "What is the delete operator?",
+        solution:
+          "The `delete` operator removes properties from objects and returns `true` if successful, `false` otherwise. Examples: ```const obj = {a: 1, b: 2}; delete obj.a; // obj is now {b: 2}```. Important notes: 1) Cannot delete variables declared with `var`, `let`, or `const` 2) Cannot delete non-configurable properties 3) Returns `true` even for non-existent properties 4) In arrays, creates holes: ```const arr = [1,2,3]; delete arr[1]; // arr becomes [1, empty, 3]``` 5) In strict mode, throws TypeError for undeletable properties. Use `obj.prop = undefined` or destructuring for safer property removal.",
+      },
+      {
+        question: "What's the result of 5 < 6 < 7 and 7 > 6 > 5?",
+        solution:
+          "`5 < 6 < 7` returns `true`, but `7 > 6 > 5` returns `false` due to left-to-right evaluation and type coercion. Breaking it down: `5 < 6 < 7` becomes `(5 < 6) < 7` → `true < 7` → `1 < 7` → `true` (true converts to 1). `7 > 6 > 5` becomes `(7 > 6) > 5` → `true > 5` → `1 > 5` → `false` (true converts to 1). This demonstrates operator associativity and implicit type conversion. For multiple comparisons, use logical operators: `5 < 6 && 6 < 7` or chain explicitly: `x > a && x < b`.",
+      },
+      {
+        question: "What is the new operator?",
+        solution:
+          "The `new` operator creates instances of objects from constructor functions or classes. Process: 1) Creates empty object 2) Sets object's prototype to constructor's prototype 3) Calls constructor with `this` bound to new object 4) Returns the object (or constructor's return value if it's an object). Examples: ```function Person(name) { this.name = name; } const john = new Person('John');``` ```class Car { constructor(brand) { this.brand = brand; } } const toyota = new Car('Toyota');``` Without `new`, `this` refers to global object (or undefined in strict mode). Use `new.target` to detect if function was called with `new`.",
+      },
+      {
+        question: "How do you check if a number is integer?",
+        solution:
+          "Several methods to check if a number is an integer: 1) `Number.isInteger(value)` (ES6+, preferred): returns true only for actual integers, handles edge cases correctly 2) `value % 1 === 0`: works but fails for non-numbers 3) `Math.floor(value) === value`: similar limitations 4) `parseInt(value) === value`: unreliable due to parsing behavior. Examples: `Number.isInteger(5)` → `true`, `Number.isInteger(5.0)` → `true`, `Number.isInteger(5.5)` → `false`, `Number.isInteger('5')` → `false`, `Number.isInteger(NaN)` → `false`, `Number.isInteger(Infinity)` → `false`. Always use `Number.isInteger()` for robust integer checking.",
+      },
+      {
+        question: "What are the different ways to create a function?",
+        solution:
+          "JavaScript provides multiple function creation methods: 1) **Function Declaration**: ```function myFunc() { return 'hello'; }``` (hoisted, can be called before declaration) 2) **Function Expression**: ```const myFunc = function() { return 'hello'; };``` (not hoisted) 3) **Arrow Function**: ```const myFunc = () => 'hello';``` (ES6+, lexical `this`) 4) **Named Function Expression**: ```const myFunc = function namedFunc() { return 'hello'; };``` 5) **Function Constructor**: ```const myFunc = new Function('return \"hello\"');``` (rarely used) 6) **Method Definition**: ```const obj = { myFunc() { return 'hello'; } };``` Each has different hoisting, `this` binding, and use cases.",
+      },
+      {
+        question: "What is function scope vs block scope?",
+        solution:
+          "**Function Scope**: Variables declared with `var` are function-scoped - accessible throughout the entire function regardless of where declared. **Block Scope**: Variables declared with `let` and `const` are block-scoped - only accessible within the nearest enclosing block ({}). Examples: ```function example() { if (true) { var a = 1; // function-scoped let b = 2; // block-scoped } console.log(a); // 1 (accessible) console.log(b); // ReferenceError }``` `var` declarations are hoisted to function top, while `let`/`const` are hoisted but in temporal dead zone until declaration line. Always prefer `let`/`const` for predictable scoping behavior.",
+      },
+      {
+        question:
+          "What happens when you call a function with fewer arguments than parameters?",
+        solution:
+          "When calling a function with fewer arguments than parameters, the missing parameters are assigned `undefined`. JavaScript doesn't throw an error - it's flexible with argument count. Example: ```function greet(first, last) { console.log(first, last); } greet('John'); // logs 'John undefined'``` To handle this: 1) **Default parameters** (ES6+): ```function greet(first = 'Anonymous', last = 'User') {}``` 2) **Manual defaults**: ```function greet(first, last) { first = first || 'Anonymous'; }``` 3) **Parameter validation**: Check if arguments are provided and handle accordingly. The `arguments` object or rest parameters can help manage variable argument counts.",
+      },
+      {
+        question:
+          "What happens when you call a function with more arguments than parameters?",
+        solution:
+          "When calling a function with more arguments than parameters, the extra arguments are ignored in the parameter list but are still accessible via the `arguments` object or rest parameters. JavaScript doesn't throw an error. Example: ```function add(a, b) { console.log(a, b); // 1, 2 console.log(arguments[2]); // 3 } add(1, 2, 3, 4);``` Modern approach uses rest parameters: ```function add(a, b, ...rest) { console.log(a, b); // 1, 2 console.log(rest); // [3, 4] }``` This flexibility allows for function overloading patterns and variadic functions that accept any number of arguments.",
+      },
+      {
+        question: "What is the arguments object?",
+        solution:
+          "The `arguments` object is an array-like object available inside all non-arrow functions that contains the values of arguments passed to the function. Properties: 1) Has `length` property 2) Indexed like arrays (arguments[0], arguments[1]) 3) Not a real array - lacks array methods 4) Has `callee` property (reference to function itself) Example: ```function sum() { let total = 0; for (let i = 0; i < arguments.length; i++) { total += arguments[i]; } return total; } sum(1, 2, 3, 4); // returns 10``` Convert to array: `Array.from(arguments)` or `[...arguments]`. Modern alternative: rest parameters `function sum(...numbers) {}`",
+      },
+      {
+        question: "What is function hoisting?",
+        solution:
+          "Function hoisting is JavaScript's behavior of moving function declarations to the top of their containing scope during compilation phase, making them available before their actual declaration in code. **Function Declarations** are fully hoisted: ```console.log(myFunc()); // works! function myFunc() { return 'Hello'; }``` **Function Expressions** are NOT hoisted: ```console.log(myFunc()); // TypeError var myFunc = function() { return 'Hello'; };``` **Arrow functions** follow same rules as function expressions. **Class declarations** are hoisted but in temporal dead zone. Best practice: declare functions before using them for clearer, more predictable code flow.",
+      },
+      {
+        question: "What's the difference between parameters and arguments?",
+        solution:
+          "In JavaScript, parameters are the variables listed in the function definition that act as placeholders for the values that will be passed to the function. They define what inputs the function expects. Arguments, on the other hand, are the actual values passed to the function when it is called. For example, consider a function definition: function add(a, b) { return a + b; }. Here, 'a' and 'b' are parameters. When calling the function like add(2, 3), the numbers 2 and 3 are arguments. Parameters are part of the function's signature and are local to the function, while arguments are the real data supplied during invocation. If fewer arguments are passed than parameters, the missing parameters default to 'undefined'. This distinction is crucial for understanding function reusability and how data flows into functions.",
+      },
+      {
+        question: "What is a pure function?",
+        solution:
+          "A pure function in JavaScript is a function that always returns the same output for the same input and has no side effects, meaning it doesn't modify any external state or variables outside its scope. It relies only on its input parameters and doesn't depend on or alter global variables, perform I/O operations, or mutate data structures passed to it. For example, function multiply(x, y) { return x * y; } is pure because multiply(2, 3) always returns 6 without changing anything else. In contrast, a function like function addToGlobal(x) { globalVar += x; return globalVar; } is impure as it modifies 'globalVar'. Pure functions promote predictability, easier testing, and composability in code, making them ideal for functional programming paradigms. They avoid issues like race conditions in concurrent environments.",
+      },
+      {
+        question: "What is function currying?",
+        solution:
+          "Function currying in JavaScript is a technique where a function with multiple arguments is transformed into a sequence of nested functions, each taking a single argument. This allows partial application of arguments, returning a new function until all arguments are provided. For instance, a curried add function: function add(x) { return function(y) { return x + y; }; }. You can call it as add(2)(3), which returns 5. Currying is useful for creating reusable function templates, like in event handlers or API calls. It can be implemented manually or using libraries like Lodash. Example: const curriedMultiply = (a) => (b) => (c) => a * b * c; console.log(curriedMultiply(2)(3)(4)); // 24. Currying enhances modularity and is common in functional programming to build complex operations from simpler ones.",
+      },
+      {
+        question: "What is a recursive function?",
+        solution:
+          "A recursive function in JavaScript is a function that calls itself within its own body to solve a problem by breaking it down into smaller instances of the same problem. It requires a base case to stop the recursion and prevent infinite loops or stack overflows. For example, a factorial function: function factorial(n) { if (n <= 1) return 1; return n * factorial(n - 1); }. Calling factorial(5) computes 5 * 4 * 3 * 2 * 1 = 120. Recursion is powerful for tasks like tree traversals or solving problems with divide-and-conquer approaches, such as Fibonacci sequences. However, excessive recursion can lead to stack overflow errors, so tail recursion optimization (though not fully supported in JS) or iterative alternatives are sometimes preferred for efficiency.",
+      },
+      {
+        question: "What is lexical scoping?",
+        solution:
+          "Lexical scoping in JavaScript refers to the way variable visibility is determined by the position of the variable declaration in the source code, specifically within nested scopes like functions or blocks. Variables are resolved based on their lexical environment, meaning inner functions can access variables from outer scopes but not vice versa. For example: let outer = 'visible'; function innerFunc() { console.log(outer); } innerFunc(); // logs 'visible'. This creates closures when inner functions remember their outer scope. Lexical scoping contrasts with dynamic scoping, where resolution happens at runtime. It's fundamental to closures and helps in encapsulation, preventing global pollution. In ES6, 'let' and 'const' introduce block-level lexical scoping, unlike 'var' which is function-scoped.",
+      },
+      {
+        question: "What is the scope chain?",
+        solution:
+          "The scope chain in JavaScript is a hierarchical structure of scopes that the engine traverses to resolve variable identifiers during execution. It starts from the current scope and moves outward to parent scopes until the global scope, following the lexical nesting. For example, in nested functions: function outer() { let a = 1; function inner() { let b = 2; console.log(a + b); } inner(); } The scope chain for 'inner' includes its own scope (with 'b'), then 'outer's scope (with 'a'), then global. If a variable isn't found, it results in a ReferenceError. The scope chain enables variable lookup in closures and is key to understanding hoisting and lexical environments. It impacts performance, as deeper chains require more lookups.",
+      },
+      {
+        question: "What happens if you don't return anything from a function?",
+        solution:
+          "If you don't explicitly return a value from a JavaScript function using the 'return' statement, the function implicitly returns 'undefined'. This is the default behavior. For example: function noReturn() { console.log('Hello'); } console.log(noReturn()); // logs 'Hello' then 'undefined'. This can lead to unexpected results if the caller expects a value, like in assignments: let result = noReturn(); // result is undefined. Functions that perform side effects (like logging or mutating state) often don't need returns, but for value-producing functions, always use 'return'. In constructors or arrow functions, the behavior is similar, but arrow functions without braces implicitly return the expression.",
+      },
+      {
+        question: "What is an anonymous function?",
+        solution:
+          "An anonymous function in JavaScript is a function without a name, often used for one-time or inline purposes, like callbacks or immediately invoked function expressions (IIFEs). It's defined without an identifier after 'function'. Example: setTimeout(function() { console.log('Delayed'); }, 1000); This runs anonymously after 1 second. Anonymous functions are common in event listeners: button.addEventListener('click', function() { alert('Clicked'); }); They can't be reused easily without assignment to a variable. While convenient, they can make debugging harder due to lack of names in stack traces. In ES6, arrow functions like () => console.log('Arrow') are a concise anonymous form.",
+      },
+      {
+        question:
+          "What is the difference between function statement and function expression?",
+        solution:
+          "A function statement (or declaration) in JavaScript is hoisted, meaning it's available throughout its scope before execution, defined as: function name() {}. Example: greet(); function greet() { console.log('Hi'); } // Works due to hoisting. A function expression assigns a function to a variable and isn't hoisted: let greet = function() { console.log('Hi'); }; greet(); // Must be after declaration. Expressions can be anonymous or named, and are useful in closures or as arguments. Statements are for top-level definitions. The key difference is hoisting: statements are fully hoisted, expressions only the variable (if 'var', to undefined).",
+      },
+      {
+        question: "What are named function expressions?",
+        solution:
+          "Named function expressions in JavaScript are function expressions with an internal name, useful for self-reference in recursion or debugging. Unlike anonymous expressions, they have a name scoped only to the function body. Example: let factorial = function fact(n) { if (n <= 1) return 1; return n * fact(n - 1); }; console.log(factorial(5)); // 120. Here, 'fact' is accessible inside but not outside: console.log(fact); // ReferenceError. This aids stack traces (shows 'fact' instead of 'anonymous') and enables recursion without relying on the variable name, which might change. They're a hybrid between declarations and expressions.",
+      },
+      {
+        question: "What is method chaining?",
+        solution:
+          "Method chaining in JavaScript is a pattern where multiple methods are called sequentially on the same object, each returning the object itself ('this') to allow the next call. It's common in libraries like jQuery. Example: let arr = [1, 2, 3]; arr.push(4).pop().push(5); // arr becomes [1,2,3,5]. For custom objects: class Chainable { constructor() { this.value = 0; } add(x) { this.value += x; return this; } multiply(y) { this.value = y; return this; } } let result = new Chainable().add(2).multiply(3).value; // 6. Chaining improves readability for fluent interfaces but can make debugging harder if errors occur mid-chain.",
+      },
+      {
+        question: "What is the return statement?",
+        solution:
+          "The return statement in JavaScript ends function execution and specifies a value to pass back to the caller. It can return primitives, objects, or nothing (implying 'undefined'). Example: function sum(a, b) { return a + b; } let total = sum(1, 2); // 3. Multiple returns are possible for conditional logic: function checkAge(age) { if (age < 18) return 'Minor'; return 'Adult'; }. Return exits the function immediately, ignoring subsequent code. In constructors, returning an object overrides 'this'; otherwise, 'this' is returned implicitly. It's essential for controlling function output and flow.",
+      },
+      {
+        question: "Can you have multiple return statements in a function?",
+        solution:
+          "Yes, JavaScript functions can have multiple return statements, typically for different conditional paths to exit early with specific values. Example: function grade(score) { if (score >= 90) return 'A'; if (score >= 80) return 'B'; if (score >= 70) return 'C'; return 'F'; } This evaluates conditions sequentially and returns the first matching grade. Multiple returns simplify code by avoiding nested if-else structures. However, overusing them can make functions harder to follow, so balance with readability. Only one return executes per call, as it terminates the function.",
+      },
+      {
+        question: "What is variable shadowing?",
+        solution:
+          "Variable shadowing in JavaScript occurs when a variable in an inner scope has the same name as one in an outer scope, 'shadowing' or hiding the outer one. The inner variable takes precedence. Example: let x = 10; function shadow() { let x = 20; console.log(x); // 20 } shadow(); console.log(x); // 10. With 'var', it's function-scoped, but 'let/const' are block-scoped, allowing shadowing in loops or blocks. It can lead to bugs if unintentional, but is useful for local overrides. To access the outer, use different names or closures.",
+      },
+      {
+        question: "What is a getter and setter function?",
+        solution:
+          "Getters and setters in JavaScript are special methods in objects or classes that provide controlled access to properties, acting like properties but with logic. Getter retrieves a value: get prop() { return this._prop; }. Setter assigns: set prop(value) { this._prop = value; }. Example: class Circle { constructor(r) { this._radius = r; } get area() { return Math.PI * this._radius ** 2; } set radius(r) { if (r > 0) this._radius = r; } } let c = new Circle(5); console.log(c.area); // ~78.5, c.radius = 10;. They enable encapsulation, validation, and computed properties without direct access to internals.",
+      },
+      {
+        question: "What is the length property of a function?",
+        solution:
+          "The length property of a JavaScript function returns the number of expected parameters (arity) defined in its signature, excluding rest parameters or defaults. Example: function func(a, b, c) {} console.log(func.length); // 3. For arrow functions: const arrow = (x, y) => {}; console.log(arrow.length); // 2. It ignores actual arguments passed. Useful for introspection, like in currying libraries to determine remaining arguments. For functions with rest params: function rest(a, ...b) {} rest.length // 1. It's read-only and doesn't count optional params unless specified.",
+      },
+      {
+        question: "What is callback hell?",
+        solution:
+          "Callback hell in JavaScript refers to deeply nested callbacks in asynchronous code, making it hard to read and maintain, resembling a pyramid. Example: async1(function(err, res1) { if (!err) async2(res1, function(err, res2) { if (!err) async3(res2, function(err, res3) { // ... }); }); }); This leads to error-prone code. Solutions include Promises: async1().then(res1 => async2(res1)).then(res2 => async3(res2)).catch(err => {}); or async/await: try { const res1 = await async1(); const res2 = await async2(res1); } catch (err) {}. Callback hell arose from Node.js-style error-first callbacks but is mitigated by modern async patterns.",
+      },
+      {
+        question: "What is function composition?",
+        solution:
+          "Function composition in JavaScript combines two or more functions to create a new function, where the output of one becomes the input of the next. It's a functional programming concept. Example: const addOne = x => x + 1; const double = x => x * 2; const compose = (f, g) => x => f(g(x)); const addThenDouble = compose(double, addOne); console.log(addThenDouble(3)); // 8 (double(addOne(3)) = 8). For multiple: const composeMany = (...fns) => x => fns.reduceRight((acc, fn) => fn(acc), x); It's useful for pipelines, like data transformations. Libraries like Ramda provide compose utilities.",
+      },
+      {
+        question: "What is partial application?",
+        solution:
+          "Partial application in JavaScript is applying some arguments to a function upfront, returning a new function that takes the remaining arguments. It's related to currying but doesn't fully curry. Example: function multiply(a, b, c) { return a * b * c; } const partialMultiply = multiply.bind(null, 2); console.log(partialMultiply(3, 4)); // 24. Or manually: const partial = (fn, ...args) => (...moreArgs) => fn(...args, ...moreArgs); const addThree = partial((a,b,c) => a+b+c, 1, 2); addThree(3); // 6. It's great for creating specialized functions from general ones, like in event handlers with preset data.",
+      },
+      {
+        question: "What happens when you assign a function to a variable?",
+        solution:
+          "Assigning a function to a variable in JavaScript creates a function expression, storing the function as a value. The variable references the function, allowing invocation via the variable. Example: let sayHi = function() { console.log('Hi'); }; sayHi(); // 'Hi'. Functions are first-class, so this treats them like objects. The original function name (if named) is internal. Reassignment changes the reference: sayHi = null; // No longer callable. This enables passing functions as arguments or returning them, key to higher-order functions and closures.",
+      },
+      {
+        question:
+          "What is the difference between function.call() and function()?",
+        solution:
+          "function() invokes the function normally, with 'this' determined by the calling context (e.g., global in non-strict). function.call(context, arg1, arg2, ...) invokes it immediately, explicitly setting 'this' to 'context' and passing arguments individually. Example: function greet() { console.log(this.name); } let obj = {name: 'Alice'}; greet(); // undefined or global. greet.call(obj); // 'Alice'. Call is useful for borrowing methods: Array.prototype.slice.call(arguments); vs. direct invocation. Apply is similar but takes an array of args. Both allow controlling 'this' without binding.",
+      },
+      {
+        question: "What are first-class functions?",
+        solution:
+          "First-class functions in JavaScript mean functions are treated as first-class citizens: they can be assigned to variables, passed as arguments, returned from functions, and stored in data structures. Example: function add(a, b) { return a + b; } let funcVar = add; // Assign. function higherOrder(fn) { return fn(1, 2); } higherOrder(add); // Pass, returns 3. function returnFunc() { return add; } let returned = returnFunc(); // Return. This enables callbacks, higher-order functions like map/filter, and functional patterns, making JS versatile for event-driven and async programming.",
+      },
+      {
+        question: "What is a closure memory leak?",
+        solution:
+          "A closure memory leak in JavaScript happens when a closure retains references to unused variables or objects, preventing garbage collection and causing memory buildup. Closures remember their lexical scope, so if an inner function holds a reference to a large outer object unnecessarily, it stays in memory. Example: function outer() { let largeArray = new Array(1000000).fill('data'); return function inner() { console.log('Inner'); }; } let leaked = outer(); // largeArray not collected while 'leaked' exists. To fix, nullify references: largeArray = null; inside outer after use. Common in event listeners: button.addEventListener('click', function() { / references large data */ }); Remove listeners when done. Tools like Chrome DevTools help detect leaks.",
+      },
+      {
+        question: "What is function memoization?",
+        solution:
+          "Function memoization in JavaScript is an optimization technique caching results of expensive function calls, returning cached values for repeat inputs to avoid recomputation. It's useful for pure functions with heavy ops. Example: function fib(n) { if (n <= 1) return n; return fib(n-1) + fib(n-2); } // Slow. Memoized: const memoFib = (function() { let cache = {}; return function(n) { if (n in cache) return cache[n]; if (n <= 1) return n; cache[n] = memoFib(n-1) + memoFib(n-2); return cache[n]; }; })(); memoFib(10); // Faster repeats. Use WeakMap for object keys. Libraries like Lodash have _.memoize. It trades space for time, ideal for recursive or API calls.",
+      },
+      {
+        question: "1. How do you create an array?",
+        solution:
+          "In JavaScript, arrays are ordered collections of values that can hold any data type, including numbers, strings, objects, or even other arrays. You can create an array using array literals or the Array constructor. Using array literals is the most common and straightforward method: const myArray = [1, 2, 3, 'hello']; This creates an array with four elements. Alternatively, using the constructor: const myArray = new Array(1, 2, 3, 'hello'); You can also create an empty array: const emptyArray = []; or with a specified length: const fixedLength = new Array(5); which creates an array with 5 undefined elements. Arrays are dynamic, so you can add or remove elements later. Example: let fruits = ['apple', 'banana']; console.log(fruits); // Output: ['apple', 'banana']. Arrays are zero-indexed, meaning the first element is at index 0.",
+      },
+      {
+        question: "2. What's the difference between push() and unshift()?",
+        solution:
+          "Both push() and unshift() are methods to add elements to an array, but they differ in where they add them. push() adds one or more elements to the end of the array and returns the new length. It modifies the original array in place. Example: let arr = [1, 2]; arr.push(3, 4); console.log(arr); // [1, 2, 3, 4]. unshift() adds one or more elements to the beginning of the array and also returns the new length, modifying the original array. This can be less efficient for large arrays because it requires shifting all existing elements. Example: let arr = [2, 3]; arr.unshift(0, 1); console.log(arr); // [0, 1, 2, 3]. In summary, push() appends to the end (O(1) time), while unshift() prepends to the start (O(n) time).",
+      },
+      {
+        question: "3. What's the difference between pop() and shift()?",
+        solution:
+          "pop() and shift() are methods to remove elements from an array. pop() removes the last element from the array and returns it, modifying the original array. It's efficient with O(1) time complexity. Example: let arr = [1, 2, 3]; let last = arr.pop(); console.log(arr); // [1, 2], last = 3. shift() removes the first element from the array and returns it, also modifying the original array, but it requires shifting all remaining elements, making it O(n) time. Example: let arr = [1, 2, 3]; let first = arr.shift(); console.log(arr); // [2, 3], first = 1. Use pop() for stack-like operations (LIFO) and shift() for queue-like (FIFO).",
+      },
+      {
+        question: "4. What does splice() method do?",
+        solution:
+          "The splice() method modifies an array by removing, replacing, or adding elements at a specified index. It takes parameters: start index, number of elements to delete (optional, default 0), and elements to add (optional). It returns an array of the removed elements and changes the original array. Example: let arr = ['a', 'b', 'c', 'd']; arr.splice(1, 2, 'x', 'y'); console.log(arr); // ['a', 'x', 'y', 'd'] (removes 'b' and 'c', adds 'x' and 'y' starting at index 1). To add without removing: arr.splice(2, 0, 'z'); // Inserts 'z' at index 2. To remove without adding: arr.splice(0, 1); // Removes first element. Negative start index counts from the end. splice() is versatile for array manipulation but mutates the array.",
+      },
+      {
+        question: "5. What does slice() method do?",
+        solution:
+          "The slice() method returns a shallow copy of a portion of an array into a new array, without modifying the original. It takes start index (inclusive, default 0) and end index (exclusive, default array length). Example: let arr = [1, 2, 3, 4, 5]; let sub = arr.slice(1, 3); console.log(sub); // [2, 3], original arr unchanged. To copy the whole array: let copy = arr.slice(); Negative indices count from the end: arr.slice(-2); // [4, 5]. slice() is useful for extracting subsets or cloning arrays, and since it's shallow, nested objects are referenced, not copied deeply.",
+      },
+      {
+        question: "6. What's the difference between find() and filter()?",
+        solution:
+          "find() and filter() both iterate over an array using a callback function but differ in return values. find() returns the first element that satisfies the callback (or undefined if none), stopping early. Example: let arr = [1, 2, 3, 4]; let even = arr.find(x => x % 2 === 0); // 2. filter() returns a new array with all elements that pass the callback, iterating fully. Example: let evens = arr.filter(x => x % 2 === 0); // [2, 4]. Neither modifies the original. Use find() for single matches, filter() for multiple.",
+      },
+      {
+        question: "7. What does map() method do?",
+        solution:
+          "The map() method creates a new array by applying a callback function to each element of the original array, without modifying it. The callback takes element, index, and array as arguments. Example: let arr = [1, 2, 3]; let doubled = arr.map(x => x * 2); console.log(doubled); // [2, 4, 6]. It's great for transforming data, like converting strings: ['1', '2'].map(Number); // [1, 2]. map() preserves array length, even if callback returns undefined.",
+      },
+      {
+        question: "8. What does reduce() method do?",
+        solution:
+          "reduce() applies a callback (reducer) to accumulate a single value from the array, iterating from left to right. Callback takes accumulator, current element, index, array. Optional initial value. Example: let arr = [1, 2, 3, 4]; let sum = arr.reduce((acc, curr) => acc + curr, 0); // 10. Without initial: arr.reduce((acc, curr) => acc + curr); // 10 (starts with first element). Useful for summing, flattening, or grouping. If array empty without initial, throws error.",
+      },
+      {
+        question: "9. What does forEach() method do?",
+        solution:
+          "forEach() executes a callback on each element, for side effects like logging or modifying external state. It doesn't return anything (returns undefined) and doesn't modify the array unless callback does. Callback takes element, index, array. Example: let arr = [1, 2, 3]; arr.forEach(x => console.log(x)); // Logs 1,2,3. Can't break early (use for...of for that). Not chainable like map().",
+      },
+      {
+        question: "10. What's the difference between some() and every()?",
+        solution:
+          "some() checks if at least one element passes the callback, returning true/false, short-circuiting. Example: [1, 2, 3].some(x => x > 2); // true. every() checks if all elements pass, also short-circuiting. Example: [1, 2, 3].every(x => x > 0); // true; [1, -1].every(x => x > 0); // false. Neither modifies array. Use some() for existence, every() for universal truth.",
+      },
+      {
+        question: "11. What does includes() method do?",
+        solution:
+          "includes() checks if an array contains a specific value, returning true/false. It uses strict equality (===). Example: [1, 2, 3].includes(2); // true; ['a'].includes('A'); // false (case-sensitive). Optional fromIndex: [1,2,3].includes(1, 1); // false (starts search from index 1). Works on NaN: [NaN].includes(NaN); // true. Simpler than indexOf() for existence checks.",
+      },
+      {
+        question: "12. What does indexOf() method return?",
+        solution:
+          "indexOf() returns the first index of a specified value, or -1 if not found. Uses strict equality. Example: [1,2,3,2].indexOf(2); // 1. Optional fromIndex: [1,2,3,2].indexOf(2, 2); // 3. Doesn't work well with NaN: [NaN].indexOf(NaN); // -1. For last occurrence, use lastIndexOf().",
+      },
+      {
+        question:
+          "13. What's the difference between indexOf() and findIndex()?",
+        solution:
+          "indexOf() searches for a primitive value using ===, returning index or -1. Example: [1,2,3].indexOf(2); // 1. findIndex() uses a callback for complex conditions, returning index or -1. Example: [{id:1}, {id:2}].findIndex(obj => obj.id === 2); // 1. indexOf() can't handle objects well without references; findIndex() is more flexible.",
+      },
+      {
+        question: "14. What does concat() method do?",
+        solution:
+          "concat() merges two or more arrays into a new array, without modifying originals. Can take arrays or values. Example: [1,2].concat([3,4], 5); // [1,2,3,4,5]. Shallow copy: nested arrays are referenced. Alternative to spread: [...arr1, ...arr2].",
+      },
+      {
+        question: "15. What does join() method do?",
+        solution:
+          "join() converts array to string, joining elements with a separator (default ','). Example: [1,2,3].join('-'); // '1-2-3'; [1,2,3].join(); // '1,2,3'. Non-strings are coerced. Empty array: ''.join(); // ''. Doesn't modify array.",
+      },
+      {
+        question: "16. What does reverse() method do?",
+        solution:
+          "reverse() reverses the array in place, returning the modified array. Example: let arr = [1,2,3]; arr.reverse(); // [3,2,1], arr is now reversed. Mutates original; for copy, use slice().reverse().",
+      },
+      {
+        question: "17. What does sort() method do?",
+        solution:
+          "sort() sorts the array in place, by default as strings (Unicode). Example: [3,1,2].sort(); // [1,2,3]; but [10,2].sort(); // [10,2] (as '10' < '2'). Mutates original. For custom: sort((a,b) => a - b) for numbers ascending.",
+      },
+      {
+        question: "18. How do you sort numbers correctly?",
+        solution:
+          "Default sort() treats as strings, so use compare function: arr.sort((a, b) => a - b); for ascending. Example: [10, 2, 1].sort((a,b)=>a-b); // [1,2,10]. Descending: (a,b)=>b-a. For stability or complex, use localeCompare for strings.",
+      },
+      {
+        question: "19. What is array destructuring?",
+        solution:
+          "Array destructuring unpacks array elements into variables using []. Example: const [first, second] = [1,2,3]; // first=1, second=2. Skip: const [,,third] = [1,2,3]; // third=3. Rest: const [one, ...rest] = [1,2,3]; // one=1, rest=[2,3]. Defaults: const [a=0] = []; // a=0. Useful for swapping: [a,b]=[b,a].",
+      },
+      {
+        question: "20. How do you check if something is an array?",
+        solution:
+          "Use Array.isArray(value). Example: Array.isArray([]); // true; Array.isArray({}); // false. Alternative: value instanceof Array, but fails across frames. Avoid typeof (returns 'object'). For array-like: check length and indices.",
+      },
+      {
+        question: "21. What does flat() method do?",
+        solution:
+          "flat() creates a new array by flattening nested arrays to a specified depth (default 1). Example: [1,[2,[3]]].flat(); // [1,2,[3]]; .flat(2); // [1,2,3]; .flat(Infinity); // fully flat. Doesn't modify original, handles empty slots.",
+      },
+      {
+        question: "22. What does flatMap() method do?",
+        solution:
+          "flatMap() maps each element using a callback (returns array), then flattens by 1 level. Example: [1,2].flatMap(x => [x, x*2]); // [1,2,2,4]. Combines map() and flat(1). Useful for expanding arrays.",
+      },
+      {
+        question: "23. How do you copy an array?",
+        solution:
+          "Shallow copy: arr.slice(), [...arr], Array.from(arr), arr.concat(). Deep copy for nested: JSON.parse(JSON.stringify(arr)) (limitations with functions/dates), or recursive function. Example: let copy = [...[1,2]]; // [1,2].",
+      },
+      {
+        question: "24. What's the difference between sparse and dense arrays?",
+        solution:
+          "Dense arrays have contiguous indices without holes, like [1,2,3]. Sparse have gaps, like let arr = []; arr[0]=1; arr[100]=2; // length=101, but mostly undefined. Sparse use more memory as objects; dense as true arrays. Check: arr.hasOwnProperty(index). Sparse from delete arr[i] (length unchanged).",
+      },
+      {
+        question: "25. How do you remove duplicates from an array?",
+        solution:
+          "Use Set: [...new Set(arr)] for primitives. Example: [...new Set([1,2,2,3])]; // [1,2,3]. For objects, filter with Map or JSON.stringify keys. Or reduce: arr.reduce((acc, curr) => acc.includes(curr) ? acc : [...acc, curr], []). Preserves order with Set in modern JS.",
+      },
+      {
+        question: "How do you create an object?",
+        solution:
+          "In JavaScript, objects are fundamental data structures that store collections of key-value pairs, where keys are strings (or symbols) and values can be any data type, including functions, arrays, or other objects. There are several ways to create objects, each suited for different scenarios.\n\n1. Object Literal Syntax: This is the most common and straightforward method. You define the object directly using curly braces {}.\n   Example:\n   const person = {\n     name: 'Alice',\n     age: 30,\n     greet: function() {\n       console.log('Hello!');\n     }\n   };\n   This creates an object with properties 'name', 'age', and a method 'greet'.\n\n2. Using the Object Constructor: You can use the built-in Object constructor with the 'new' keyword.\n   Example:\n   const person = new Object();\n   person.name = 'Alice';\n   person.age = 30;\n   This is less common as it's more verbose than literals.\n\n3. Using a Constructor Function: Define a function that acts as a blueprint, then instantiate with 'new'.\n   Example:\n   function Person(name, age) {\n     this.name = name;\n     this.age = age;\n   }\n   const alice = new Person('Alice', 30);\n   This is useful for creating multiple similar objects and supports prototypal inheritance.\n\n4. Using Object.create(): Creates a new object with a specified prototype.\n   Example:\n   const proto = { greet: function() { console.log('Hi'); } };\n   const person = Object.create(proto);\n   person.name = 'Alice';\n   This is ideal for inheritance without constructors.\n\nChoosing the method depends on whether you need simplicity (literals), multiple instances (constructors), or custom prototypes (Object.create). Objects are mutable by default, and properties can be added or removed dynamically.",
+      },
+      {
+        question: "What are the ways to access object properties?",
+        solution:
+          "Object properties in JavaScript can be accessed using two main notations: dot notation and bracket notation. Both allow reading, writing, or invoking methods, but they have different use cases.\n\n1. Dot Notation: Use a period (.) followed by the property name. It's cleaner and more readable for static, valid identifier names.\n   Example:\n   const person = { name: 'Alice', age: 30 };\n   console.log(person.name); // 'Alice'\n   person.age = 31; // Updates age\n\n2. Bracket Notation: Use square brackets [] with the property name as a string. It's flexible for dynamic or invalid identifier names.\n   Example:\n   const prop = 'name';\n   console.log(person[prop]); // 'Alice' (dynamic access)\n   person['full-name'] = 'Alice Smith'; // Valid for names with hyphens\n\nIf a property doesn't exist, accessing it returns undefined. For methods, both notations work similarly, e.g., person.greet() or person'greet'. Always prefer dot notation for simplicity unless bracket is required. This covers accessing own properties; inherited ones follow the prototype chain.",
+      },
+      {
+        question: "When should you use bracket notation over dot notation?",
+        solution:
+          "Bracket notation should be used over dot notation in scenarios where dot notation is impractical or impossible. Here's a detailed breakdown:\n\n1. Dynamic Property Names: When the property name is stored in a variable or computed at runtime.\n   Example:\n   const person = { name: 'Alice' };\n   const key = 'name';\n   console.log(person[key]); // 'Alice'\n   Dot notation can't handle variables: person.key would look for a 'key' property.\n\n2. Invalid Identifiers: Property names with spaces, hyphens, numbers at start, or reserved words.\n   Example:\n   const obj = { 'first name': 'Alice', '2nd': 'second' };\n   console.log(obj['first name']); // 'Alice'\n   obj['2nd'] = 'updated';\n   Dot notation fails: obj.first name is syntax error.\n\n3. Expressions as Keys: When keys are results of expressions.\n   Example:\n   const index = 1;\n   obj['item' + index] = 'value';\n\n4. Other Cases: Accessing properties with Symbol keys requires brackets.\n\nIn summary, dot notation is for static, simple access; bracket for flexibility. Both return undefined for non-existent properties, and misuse of dot can lead to errors. This ensures code robustness in varied scenarios.",
+      },
+      {
+        question: "What does Object.keys() return?",
+        solution:
+          "Object.keys(obj) is a static method that returns an array of a given object's own enumerable property names (keys) as strings, in the order they were inserted (for modern JS) or enumeration order. It only includes own properties, not inherited ones from the prototype chain.\n\nKey points:\n- Enumerable means properties where enumerable: true in their descriptor.\n- Ignores symbols and non-enumerable properties.\n- Useful for iteration, checking properties, or converting to arrays.\n\nExample:\nconst person = { name: 'Alice', age: 30, [Symbol('id')]: 1 };\nObject.defineProperty(person, 'hidden', { value: 'secret', enumerable: false });\nconsole.log(Object.keys(person)); // ['name', 'age'] (ignores symbol and non-enumerable)\n\nIf obj is not an object, it's coerced (e.g., Object.keys('abc') returns ['0','1','2']). For arrays, it returns indices as strings. This method is essential for tasks like mapping over object keys without for...in loops, covering enumeration wholly while excluding prototypes.",
+      },
+      {
+        question: "What does Object.values() return?",
+        solution:
+          "Object.values(obj) returns an array of a given object's own enumerable property values, in the same order as Object.keys(). It focuses on values, ignoring keys, symbols, and non-enumerable properties, and skips inherited properties.\n\nDetails:\n- Order matches insertion for objects (ES2017+).\n- Useful for extracting values for processing, like summing or filtering.\n\nExample:\nconst person = { name: 'Alice', age: 30, hidden: 'secret' };\nObject.defineProperty(person, 'hidden', { enumerable: false });\nconsole.log(Object.values(person)); // ['Alice', 30] (only enumerable own values)\n\nFor non-objects, coercion applies (e.g., Object.values([1,2]) returns [1,2]). Combined with keys or entries, it enables full object traversal. This method simplifies value extraction, covering scenarios where direct value lists are needed without manual loops.",
+      },
+      {
+        question: "What does Object.entries() return?",
+        solution:
+          "Object.entries(obj) returns an array of a given object's own enumerable property [key, value] pairs as sub-arrays, ordered like Object.keys(). It excludes symbols, non-enumerable, and inherited properties.\n\nFeatures:\n- Each entry is ['key', value].\n- Great for converting objects to maps or iterating with for...of.\n\nExample:\nconst person = { name: 'Alice', age: 30 };\nconsole.log(Object.entries(person)); // [['name', 'Alice'], ['age', 30]]\n\nFor reversal, use Object.fromEntries(entries). Non-objects are coerced. This method is powerful for serialization, transformation (e.g., via map()), or rebuilding objects, fully covering pair-based operations in modern JS.",
+      },
+      {
+        question: "What is object destructuring?",
+        solution:
+          "Object destructuring is an ES6 syntax for unpacking properties from objects into distinct variables, making code concise and readable. It allows extracting multiple properties at once, with defaults, aliases, and nested support.\n\nSyntax: const { prop1, prop2 } = obj;\n\nDetails:\n- If prop missing, variable is undefined; use defaults: { prop = 'default' }.\n- Aliases: { old: newName }.\n- Nested: const { address: { city } } = person;\n- Rest: const { name, ...rest } = person;\n\nExample:\nconst person = { name: 'Alice', age: 30, address: { city: 'NY' } };\nconst { name, age = 25, address: { city } } = person;\nconsole.log(name, age, city); // 'Alice' 30 'NY'\n\nUsed in function params: function greet({ name }) { ... }\nIt doesn't mutate the object. Covers extraction wholly, reducing boilerplate in assignments, params, and imports.",
+      },
+      {
+        question:
+          "What's the difference between Object.assign() and spread operator for objects?",
+        solution:
+          "Both Object.assign(target, ...sources) and spread operator {...obj} merge or copy objects, but differ in syntax, behavior, and use.\n\n1. Object.assign(): Copies enumerable own properties from sources to target (mutates target). Returns target.\n   - Handles multiple sources.\n   - Overrides keys left-to-right.\n   Example:\n   const target = { a: 1 };\n   const source = { b: 2 };\n   Object.assign(target, source); // target now {a:1, b:2}\n\n2. Spread Operator: In object literals, creates a new object by spreading properties.\n   - Always creates new object, no mutation.\n   - Syntax: const copy = { ...obj, newProp: 3 };\n   Example:\n   const obj = { a: 1 };\n   const copy = { ...obj, b: 2 }; // {a:1, b:2}, obj unchanged\n\nDifferences:\n- Mutation: Assign mutates, spread doesn't.\n- New object: Spread always, Assign if target empty {}.\n- Multiple: Assign native, spread chain { ...obj1, ...obj2 }.\n- Getters/Setters: Spread executes, Assign copies as data.\nBoth shallow copy. Use spread for immutability, Assign for compatibility or mutation.",
+      },
+      {
+        question: "What does hasOwnProperty() method do?",
+        solution:
+          "obj.hasOwnProperty(prop) checks if an object has a property as its own (not inherited from prototype), returning true or false. Prop can be string or symbol.\n\nDetails:\n- Ignores prototype chain.\n- Useful to avoid enumerating inherited props.\n- Returns false for non-existent or inherited.\n\nExample:\nconst person = { name: 'Alice' };\nconsole.log(person.hasOwnProperty('name')); // true\nconsole.log(person.hasOwnProperty('toString')); // false (inherited)\n\nAlternative: Object.hasOwn(obj, prop) (ES2022), static.\nThis method is crucial for safe property checks in loops or conditions, covering ownership distinction wholly to prevent prototype pollution issues.",
+      },
+      {
+        question: "What's the difference between for...in and Object.keys()?",
+        solution:
+          "Both iterate over object properties, but differ in scope, return, and behavior.\n\n1. for...in loop: Iterates over enumerable properties, including inherited from prototype chain.\n   - Syntax: for (let key in obj) { ... }\n   - Includes proto props unless filtered with hasOwnProperty.\n   Example:\n   const proto = { inherited: 1 };\n   const obj = Object.create(proto);\n   obj.own = 2;\n   for (let key in obj) console.log(key); // 'own', 'inherited'\n\n2. Object.keys(obj): Returns array of own enumerable property names, excluding inherited.\n   - Modern, chainable with map/forEach.\n   Example: Object.keys(obj); // ['own']\n\nDifferences:\n- Scope: for...in includes inherited, keys only own.\n- Return: Loop executes, keys returns array.\n- Order: Both insertion/enumeration order.\n- Use: for...in for legacy/simple loops, keys for arrays/functional style.\nFilter for...in with hasOwnProperty for own props. This covers iteration strategies, emphasizing inheritance awareness.",
+      },
+      {
+        question: "What does Object.freeze() do?",
+        solution:
+          "Object.freeze(obj) makes an object immutable by preventing additions, removals, or modifications of properties, and marks it non-extensible. It affects own properties only, shallow (nested objects modifiable).\n\nEffects:\n- Properties non-writable, non-configurable.\n- Can't add/remove props or change descriptors.\n- In strict mode, attempts throw errors; otherwise silent fail.\n\nExample:\nconst obj = { prop: 1 };\nObject.freeze(obj);\nobj.prop = 2; // No effect\nobj.newProp = 3; // No effect\nconsole.log(Object.isFrozen(obj)); // true\n\nUse for constants or data integrity. Doesn't freeze nested: obj.nested = {a:1}; freeze(obj); obj.nested.a=2; works. For deep, recursive freeze. Covers immutability wholly for protection against changes.",
+      },
+      {
+        question: "What does Object.seal() do?",
+        solution:
+          "Object.seal(obj) prevents adding or removing properties (non-extensible), but allows modifying existing writable properties. Properties become non-configurable.\n\nDetails:\n- Can't change descriptors or add/delete.\n- Existing props modifiable if writable.\n- Shallow, like freeze.\n\nExample:\nconst obj = { prop: 1 };\nObject.seal(obj);\nobj.prop = 2; // OK\nobj.newProp = 3; // No effect\ndelete obj.prop; // No effect\nconsole.log(Object.isSealed(obj)); // true\n\nUseful for controlled mutability. In strict mode, errors on invalid ops. Covers sealing for structure preservation while allowing value changes.",
+      },
+      {
+        question:
+          "What's the difference between Object.freeze() and Object.seal()?",
+        solution:
+          "Both make objects partially immutable, but differ in modification allowance.\n\n1. Object.freeze(): Full immutability - no add/remove/modify props, non-extensible, non-configurable, non-writable.\n   Example: Frozen obj can't change values.\n\n2. Object.seal(): Structural immutability - no add/remove, non-extensible, non-configurable, but existing writable props modifiable.\n   Example: Sealed obj can update values.\n\nCommon:\n- Shallow.\n- Prevent descriptor changes.\n- isFrozen/isSealed to check.\n\nDifferences:\n- Modifiability: Freeze no, seal yes.\n- Use: Freeze for constants, seal for fixed keys with variable values.\nBoth silent fail non-strict, error strict. For preventExtensions, separate method allows mod but no add. This covers object protection levels wholly.",
+      },
+      {
+        question: "What is a property descriptor?",
+        solution:
+          "A property descriptor is an object describing a property's attributes: value, writability, enumerability, configurability. Used in defineProperty or getOwnPropertyDescriptor.\n\nTypes:\n- Data: { value: any, writable: bool, enumerable: bool, configurable: bool }\n- Accessor: { get: fn, set: fn, enumerable: bool, configurable: bool }\n\nDefaults: value undefined, others true for manual add.\n\nExample:\nconst obj = {};\nObject.defineProperty(obj, 'prop', { value: 1, writable: false });\nconsole.log(Object.getOwnPropertyDescriptor(obj, 'prop'));\n// {value:1, writable:false, enumerable:true, configurable:true}\n\nEnumerable: shows in for...in/keys.\nConfigurable: allows delete/redefine.\nWritable: allows assignment.\nCovers property control wholly, enabling fine-grained behavior like read-only or hidden props.",
+      },
+      {
+        question: "What does Object.defineProperty() do?",
+        solution:
+          "Object.defineProperty(obj, prop, descriptor) adds or modifies a property on an object with a custom descriptor, controlling its behavior.\n\nArgs:\n- obj: target object.\n- prop: string/symbol key.\n- descriptor: data or accessor object.\n\nReturns obj.\n\nExample:\nconst obj = {};\nObject.defineProperty(obj, 'prop', {\n  value: 42,\n  writable: false,\n  enumerable: true,\n  configurable: false\n});\nobj.prop = 10; // No effect if non-writable\n\nFor accessors:\nObject.defineProperty(obj, 'fullName', {\n  get() { return this.name + ' ' + this.surname; },\n  set(v) { [this.name, this.surname] = v.split(' '); }\n});\n\nIf prop exists, modifies descriptor (if configurable). Throws if not. Covers advanced property definition, for getters/setters or immutable props.",
+      },
+      {
+        question: "What are getters and setters in objects?",
+        solution:
+          "Getters and setters are special properties defined with get/set keywords in object literals or classes, or via defineProperty, allowing computed access or validation on property interaction.\n\n- Getter: Function called on read, no args, returns value.\n- Setter: Function called on assignment, one arg (value).\n\nExample (literal):\nconst person = {\n  first: 'Alice',\n  last: 'Smith',\n  get fullName() { return this.first + ' ' + this.last; },\n  set fullName(name) { [this.first, this.last] = name.split(' '); }\n};\nconsole.log(person.fullName); // 'Alice Smith'\nperson.fullName = 'Bob Johnson'; // Sets first/last\n\nVia defineProperty: as above.\nThey appear as regular props but execute code. Useful for computed props, validation (e.g., set age(v) { if(v>0) this._age=v; }), encapsulation. Covers reactive properties wholly, hiding implementation.",
+      },
+      {
+        question: "What does delete operator do with objects?",
+        solution:
+          "The delete operator removes a property from an object, returning true if successful (or if prop didn't exist), false if non-configurable.\n\nSyntax: delete obj.prop; or delete obj['prop'];\n\nDetails:\n- Only affects own properties, not inherited.\n- Doesn't affect variables or functions (delete var x; false).\n- In strict mode, delete non-configurable throws.\n- Arrays: delete arr[0] sets to undefined, length unchanged.\n\nExample:\nconst obj = { prop: 1 };\ndelete obj.prop; // true, obj now {}\nObject.defineProperty(obj, 'fixed', {value:2, configurable:false});\ndelete obj.fixed; // false\n\nUse for dynamic cleanup. Access deleted prop gives undefined. Covers removal wholly, with caveats on configurability and scope.",
+      },
+      {
+        question:
+          "What's the difference between undefined and missing property?",
+        solution:
+          "Both result in undefined on access, but differ in existence.\n\n1. Undefined Property: Exists but value is undefined.\n   - hasOwnProperty('prop') true.\n   - 'prop' in obj true.\n   Example: const obj = { prop: undefined };\n   console.log(obj.prop); // undefined\n\n2. Missing Property: Doesn't exist on obj or prototype.\n   - hasOwnProperty false.\n   - 'prop' in obj false (if not inherited).\n   Example: const obj = {};\n   console.log(obj.prop); // undefined\n\nDifferences:\n- Existence: Undefined present, missing absent.\n- Iteration: Undefined enumerable if set, missing not.\n- Use: Check with 'in' or hasOwnProperty vs === undefined.\nIf inherited undefined, 'in' true but own false. Covers distinction for robust checks, avoiding false positives.",
+      },
+      {
+        question: "What is object cloning and types of cloning?",
+        solution:
+          "Object cloning creates a copy of an object. JavaScript objects are references, so assignment shares reference; cloning duplicates.\n\nTypes:\n1. Shallow Clone: Copies top-level properties; nested objects shared.\n   - Methods: Object.assign({}, obj), {...obj}, structuredClone (ES2022, deep but limited).\n   Example:\n   const obj = { a:1, nested:{b:2} };\n   const clone = {...obj};\n   clone.nested.b = 3; // Affects original\n\n2. Deep Clone: Recursively copies all levels; no sharing.\n   - Methods: JSON.parse(JSON.stringify(obj)) - loses functions/dates/symbols.\n   - Libraries: lodash.cloneDeep.\n   - Custom recursive function.\n   Example:\n   const deepClone = JSON.parse(JSON.stringify(obj));\n   deepClone.nested.b = 3; // Original unchanged\n\nChoose shallow for performance, deep for independence. Covers cloning wholly, with mutation risks and methods.",
+      },
+      {
+        question: "What does Object.create() do?",
+        solution:
+          "Object.create(proto, [descriptors]) creates a new object with specified prototype and optional property descriptors.\n\nArgs:\n- proto: Object or null for prototype.\n- descriptors: Object with defineProperty-like entries.\n\nReturns new object.\n\nExample:\nconst proto = { greet() { console.log('Hi'); } };\nconst obj = Object.create(proto, {\n  name: { value: 'Alice', writable: true }\n});\nobj.greet(); // 'Hi' (inherited)\nconsole.log(Object.getPrototypeOf(obj) === proto); // true\n\nUse for inheritance without constructors, or null proto for pure dicts (no Object methods). Descriptors default configurable/enumerable/writable true. Covers prototypal creation wholly, enabling clean inheritance.",
+      },
+      {
+        question: "What is the prototype of an object?",
+        solution:
+          "The prototype is an object from which another inherits properties/methods, forming the prototype chain for lookup.\n\nDetails:\n- Every object has a prototype (except null-proto).\n- Access: obj.proto (non-standard), Object.getPrototypeOf(obj).\n- Set: Object.setPrototypeOf(obj, proto) - performance cost.\n- Chain ends at Object.prototype (null proto).\n\nExample:\nfunction Person() {}\nPerson.prototype.greet = function() { console.log('Hello'); };\nconst alice = new Person();\nalice.greet(); // 'Hello' (from prototype)\nconsole.log(Object.getPrototypeOf(alice) === Person.prototype); // true\n\nPrototypes enable shared methods, saving memory. Lookup: own first, then chain. Covers inheritance mechanism wholly, key to JS OOP.",
+      },
     ],
   },
   {
