@@ -13902,6 +13902,1812 @@ greet name = "Hello, " ++ name ++ "!"
         solution:
           "Avoid memoizing if deps change frequently (overhead > benefit), simple components (premature opt), or when it complicates code without gains. Profile first. Covers anti-patterns in optimization.",
       },
+      {
+        question: "Which lifecycle methods define an error boundary?",
+        solution:
+          "Error boundaries are defined using two lifecycle methods: static getDerivedStateFromError() and componentDidCatch(). A class component becomes an error boundary when it defines either one or both of these methods. getDerivedStateFromError() is used to render a fallback UI after an error has been thrown, while componentDidCatch() is used to log error information. The component must be a class component - functional components cannot be error boundaries directly, though you can use libraries like react-error-boundary for functional alternatives.",
+      },
+      {
+        question:
+          "Explain the difference between componentDidCatch and getDerivedStateFromError.",
+        solution:
+          "getDerivedStateFromError() is a static method called during the render phase when an error occurs. It receives the error as a parameter and returns a state object to update the component state, triggering a re-render with fallback UI. It should be pure with no side effects. componentDidCatch() is called during the commit phase after an error has been caught. It receives both the error and error info (component stack trace) and is where you perform side effects like logging errors to external services. getDerivedStateFromError handles UI updates, while componentDidCatch handles error reporting and logging.",
+      },
+      {
+        question: "Can error boundaries catch async errors?",
+        solution:
+          "No, error boundaries cannot catch errors in asynchronous code like setTimeout, requestAnimationFrame, event handlers, or Promise rejections. They only catch errors during rendering, in lifecycle methods, and in constructors of the component tree below them. For async errors, you need to use try-catch blocks and manually update state, or use window.addEventListener('unhandledrejection') for Promise rejections. Libraries like react-error-boundary provide useErrorHandler hook to manually trigger error boundaries for async errors.",
+      },
+      {
+        question: "How do you test error boundaries?",
+        solution:
+          "Test error boundaries by creating components that throw errors on demand. Use React Testing Library with a ThrowError component that throws when a prop is set. Wrap your error boundary around this component, trigger the error, and assert the fallback UI renders. Test both getDerivedStateFromError (UI fallback) and componentDidCatch (error logging) separately. Mock console.error to suppress error logs during testing. Example: render(<ErrorBoundary><ThrowError shouldThrow={true} /></ErrorBoundary>), then assert fallback UI appears and error logging functions are called with correct parameters.",
+      },
+      {
+        question: "Describe fallback UI best practices.",
+        solution:
+          "Fallback UI should be user-friendly, informative without being technical, and actionable. Display a clear message explaining something went wrong, avoid technical error details for end users, provide retry mechanisms or alternative actions, maintain consistent styling with your app's design system. Include error IDs for support purposes, offer ways to report the issue, and consider progressive fallbacks - show partial UI if only part of the component failed. Use loading states during error recovery, provide navigation options to unaffected parts of the app, and ensure fallback UI is accessible with proper ARIA labels.",
+      },
+      {
+        question: "Explain error recovery strategies.",
+        solution:
+          "Error recovery involves resetting error boundary state to retry failed operations. Implement retry buttons that call setState to clear error state, use error boundary keys that change to force remounting, implement automatic retry with exponential backoff for transient errors. Provide selective recovery for partial failures, cache successful data to avoid re-fetching, and implement circuit breaker patterns for repeated failures. Consider user-initiated recovery through refresh buttons, automatic recovery after time delays, and graceful degradation where non-critical features fail silently while core functionality continues working.",
+      },
+      {
+        question: "How do you log boundary errors to external services?",
+        solution:
+          "Use componentDidCatch to send error details to logging services like Sentry, LogRocket, or Bugsnag. Extract relevant information including error message, component stack, user context, browser info, and current route. Implement async error reporting with proper error handling for the logging itself. Include user IDs, session data, and feature flags for context. Debounce rapid repeated errors, sanitize sensitive data before logging, and provide fallback logging mechanisms. Example: componentDidCatch(error, errorInfo) { errorLogger.captureException(error, { extra: errorInfo, user: currentUser, tags: { component: 'ErrorBoundary' } }); }",
+      },
+      {
+        question: "Describe chaining multiple error boundaries.",
+        solution:
+          "Chain error boundaries at different component tree levels to provide granular error handling. Place boundaries around individual features (component-level), page sections (section-level), and entire routes (route-level). Inner boundaries catch specific errors and show contextual fallbacks, while outer boundaries catch uncaught errors and provide app-level fallbacks. This creates a hierarchy where errors are contained at the appropriate level - a failing widget doesn't crash the entire page. Each boundary can have different recovery strategies, logging levels, and fallback UIs appropriate to their scope and criticality.",
+      },
+      {
+        question: "Explain resetting error boundary state.",
+        solution:
+          "Reset error boundaries by updating their key prop to force remounting, or by implementing internal reset methods. Use resetErrorBoundary functions that call setState to clear error state and trigger re-render. Implement automatic resets based on route changes, prop changes, or time intervals. Libraries like react-error-boundary provide resetKeys prop that automatically resets when specified values change. Consider user-initiated resets through retry buttons, programmatic resets after successful recovery actions, and conditional resets based on error types - some errors should be immediately retryable while others require manual intervention.",
+      },
+      {
+        question: "How do you handle errors in event handlers?",
+        solution:
+          "Event handler errors aren't caught by error boundaries, so use try-catch blocks within handlers. Implement consistent error handling patterns across all event handlers, display user-friendly error messages via state updates or toast notifications, and log errors to external services manually. Create custom hooks like useAsyncError that can trigger error boundaries for async operations. Use error handling middleware for API calls, implement global error handlers for unhandled Promise rejections, and provide user feedback for failed actions. Consider debouncing error notifications and implementing retry mechanisms for failed user actions.",
+      },
+      {
+        question: "Describe integration with Sentry.",
+        solution:
+          "Integrate Sentry using @sentry/react which provides ErrorBoundary component with built-in Sentry reporting. Configure Sentry.init() with DSN and environment settings, use Sentry.withErrorBoundary HOC to wrap components, and customize error context with Sentry.setContext(). Implement custom error boundaries that call Sentry.captureException() in componentDidCatch. Set up performance monitoring, user feedback dialogs for errors, and custom fingerprinting for error grouping. Use Sentry.setTag() and Sentry.setUser() for better error categorization. Configure sampling rates for production, set up alerts for critical errors, and use Sentry's release tracking for deployment correlation.",
+      },
+      {
+        question: "Explain retry mechanisms after errors.",
+        solution:
+          "Implement retry mechanisms with exponential backoff and maximum attempt limits. Create retry state management with attempt counters, implement automatic retries for network errors but manual retries for logic errors, and use progressive delays between attempts. Provide clear user feedback during retry attempts, disable retry for permanent errors (4xx HTTP codes), and implement circuit breakers for repeated failures. Consider different retry strategies: immediate for transient errors, delayed for rate limiting, and user-initiated for unknown errors. Cache successful results to avoid unnecessary retries and implement jittered backoff to prevent thundering herd problems.",
+      },
+      {
+        question: "How do you show user-friendly messages?",
+        solution:
+          "Display contextual, non-technical error messages that explain what happened and what users can do. Map technical errors to user-friendly messages using error code dictionaries, provide actionable suggestions like 'Try refreshing the page' or 'Check your internet connection', and maintain consistent tone and branding. Use progressive disclosure - show simple messages initially with options to view more details. Implement different message types for different error severities, localize error messages for international users, and ensure messages are accessible with proper ARIA labels. Avoid stack traces or technical jargon in user-facing messages while providing detailed logs for developers.",
+      },
+      {
+        question: "Describe boundary placement strategies.",
+        solution:
+          "Place error boundaries strategically based on component hierarchy and failure domains. Position boundaries around route components to prevent entire page crashes, around major feature components to isolate functionality, and around third-party components that might be unreliable. Consider user impact when deciding boundary placement - critical path components need closer boundaries than optional features. Place boundaries above data fetching components, around complex interactive features, and at integration points with external services. Avoid over-granular boundaries that create poor UX, but ensure sufficient coverage to prevent cascading failures. Balance between error isolation and user experience.",
+      },
+      {
+        question: "Explain error boundary performance impact.",
+        solution:
+          "Error boundaries have minimal performance impact during normal operation but add overhead during error scenarios. The try-catch behavior in React's reconciliation adds slight overhead to component rendering. During errors, getDerivedStateFromError runs synchronously and can block rendering, while componentDidCatch runs after commit phase. Minimize performance impact by keeping fallback UI lightweight, avoiding expensive operations in error handling methods, and implementing efficient logging mechanisms. Consider lazy loading error reporting libraries, using debouncing for rapid successive errors, and caching error states to prevent repeated processing. Performance impact is typically negligible compared to the benefits of error isolation.",
+      },
+      {
+        question: "How do you propagate errors to parent boundaries?",
+        solution:
+          "Errors automatically propagate up the component tree until caught by an error boundary. If a boundary doesn't handle a specific error type, it can re-throw the error to let parent boundaries handle it. Implement selective error handling where boundaries only catch relevant errors and let others bubble up. Use error type checking to determine handling strategy, implement error transformation where child boundaries modify error context before propagation, and create error boundary hierarchies with different responsibilities. Parent boundaries typically provide more generic fallbacks while child boundaries provide specific recovery options. Consider error context aggregation as errors move up the tree.",
+      },
+      {
+        question: "Describe usage with suspense.",
+        solution:
+          "Error boundaries and Suspense work together to handle both loading and error states in React applications. Wrap Suspense components with error boundaries to catch errors from lazy-loaded components and data fetching. Suspense handles the loading phase while error boundaries handle the error phase of async operations. Position error boundaries above Suspense to catch loading errors, use different fallback strategies for different error types during suspense, and implement combined loading/error states for better UX. Consider that errors during suspense can interrupt the loading flow, so provide appropriate fallbacks. Libraries like React Query integrate both patterns for comprehensive async state management.",
+      },
+      {
+        question: "Explain error boundaries in SSR.",
+        solution:
+          "Error boundaries work differently in server-side rendering environments. During SSR, errors are logged but don't trigger componentDidCatch since there's no commit phase. Use getDerivedStateFromError for SSR-compatible error handling, ensure fallback UI renders consistently on both server and client, and handle hydration mismatches that might occur from different error states. Implement server-side error logging separately from client-side boundaries, consider different error handling strategies for server vs client errors, and ensure error boundaries don't break SSR/hydration process. Some errors only occur client-side, so plan for different error scenarios in different environments.",
+      },
+      {
+        question: "Describe limitations of error boundaries.",
+        solution:
+          "Error boundaries have several key limitations: they don't catch errors in event handlers, async code (setTimeout, promises), during SSR, or in the error boundary itself. They only work in class components, not functional components directly. Error boundaries can't catch errors that occur during the React lifecycle outside of render methods, errors in the error boundary component itself create infinite loops, and they don't provide hooks equivalent without third-party libraries. They also can't catch errors in portals that render outside the component tree, errors in ref callbacks, or errors during hydration mismatches. Understanding these limitations is crucial for comprehensive error handling strategy.",
+      },
+      {
+        question: "Describe the core components of React Router v6.",
+        solution:
+          "React Router v6 core components include BrowserRouter/HashRouter for routing context, Routes for defining route matching, Route for individual route definitions, Link/NavLink for navigation, and Outlet for rendering nested routes. Navigate provides programmatic navigation, useNavigate hook replaces useHistory, useParams extracts route parameters, useLocation accesses current location, and useSearchParams manages query parameters. The router uses a declarative approach with nested route definitions, automatic route ranking, and simplified API compared to v5. Components are more focused with clear separation of concerns between routing logic and UI rendering.",
+      },
+      {
+        question:
+          "Explain the difference between BrowserRouter and HashRouter.",
+        solution:
+          "BrowserRouter uses HTML5 History API with clean URLs (example.com/users/123) and requires server configuration to handle client-side routing. It provides better SEO, user experience, and supports server-side rendering. HashRouter uses URL hash (#) for routing (example.com/#/users/123) and works without server configuration since everything after # isn't sent to server. BrowserRouter is preferred for modern applications with proper server setup, while HashRouter is suitable for static file hosting or when server configuration isn't possible. BrowserRouter supports relative links better and provides cleaner URLs, but HashRouter is more compatible with legacy hosting environments.",
+      },
+      {
+        question: "How do you define nested routes?",
+        solution:
+          "Define nested routes by nesting Route components within parent routes and using the Outlet component to render child routes. Parent routes use relative paths and contain an Outlet where child content renders. Child routes inherit the parent's path automatically. Example: <Route path='users' element={<UsersLayout />}><Route index element={<UsersList />} /><Route path=':id' element={<UserDetail />} /></Route>. The parent component (UsersLayout) includes <Outlet /> where child components render. Index routes render when the parent path is matched exactly. This creates hierarchical routing with shared layouts and automatic path composition.",
+      },
+      {
+        question: "Describe the Outlet component.",
+        solution:
+          "Outlet is a placeholder component that renders the matched child route's element within a parent route component. It enables nested routing by providing a location where child routes render while maintaining parent component structure and state. Outlet can pass context to child routes via the context prop, supports multiple outlets with names for complex layouts, and automatically handles route transitions. The parent component controls layout and shared logic while child routes handle specific content. Outlet makes it easy to create dashboard layouts, multi-panel interfaces, and hierarchical navigation structures with shared headers, sidebars, or other common elements.",
+      },
+      {
+        question: "Explain route parameters and how to read them.",
+        solution:
+          "Route parameters are dynamic segments in URLs defined with colon syntax (:param) in route paths. Use useParams() hook to read parameters in functional components or access them via props in route elements. Parameters are automatically parsed and provided as an object with parameter names as keys. Example: path='/users/:id/posts/:postId' creates id and postId parameters accessible via const { id, postId } = useParams(). Parameters are always strings and should be validated/parsed as needed. Optional parameters use '?' suffix, and wildcard parameters use '*'. Parameters enable dynamic routing for user profiles, product pages, and other content-driven routes.",
+      },
+      {
+        question: "How do you perform redirects programmatically?",
+        solution:
+          "Use the useNavigate hook for programmatic navigation in functional components. const navigate = useNavigate(); then call navigate('/path') to redirect, navigate(-1) to go back, or navigate('/path', { replace: true }) to replace current history entry. For declarative redirects, use the Navigate component with to prop and optional replace prop. Navigate can be conditional: {shouldRedirect && <Navigate to='/login' replace />}. Use navigate with state: navigate('/dashboard', { state: { from: location } }) and access via useLocation().state. For authentication redirects, implement protected route patterns that conditionally render Navigate components or call navigate in useEffect hooks.",
+      },
+      {
+        question: "Describe protected route patterns.",
+        solution:
+          "Implement protected routes using wrapper components that check authentication state and conditionally render content or redirect to login. Create a ProtectedRoute component that accepts authentication state and redirects unauthenticated users: {isAuthenticated ? <Outlet /> : <Navigate to='/login' state={{ from: location }} />}. Use context providers for authentication state, implement role-based access control by checking user permissions, and store redirect paths to return users after login. Consider loading states during authentication checks, implement automatic token refresh, and handle authentication state changes. Protect routes at different levels - entire route trees, individual routes, or specific components within routes.",
+      },
+      {
+        question: "Explain lazy loading routes.",
+        solution:
+          "Implement lazy loading using React.lazy() and dynamic imports for route components. Wrap lazy components with Suspense to handle loading states: const LazyComponent = React.lazy(() => import('./Component')); then <Route path='/path' element={<Suspense fallback={<Loading />}><LazyComponent /></Suspense>} />. This enables code splitting and reduces initial bundle size by loading components only when routes are accessed. Implement loading UI with Suspense fallback, handle loading errors with error boundaries, and consider preloading critical routes on hover or user interaction. Group related components for efficient chunking and implement progressive loading strategies for better user experience.",
+      },
+      {
+        question: "How do you handle 404 pages?",
+        solution:
+          "Handle 404 pages using a catch-all route with path='*' placed at the end of your Routes configuration. This route matches any unmatched paths and renders a NotFound component. Place it after all specific routes: <Route path='*' element={<NotFound />} />. The NotFound component should provide helpful navigation options, search functionality, or suggestions for common pages. For nested routes, place catch-all routes at appropriate levels to handle section-specific 404s. Consider implementing custom 404 pages for different sections, tracking 404 occurrences for debugging, and providing contextual error messages based on the attempted path.",
+      },
+      {
+        question: "Describe search param usage.",
+        solution:
+          "Manage search parameters using useSearchParams hook which returns [searchParams, setSearchParams] similar to useState. Read parameters with searchParams.get('key'), check existence with searchParams.has('key'), and iterate with searchParams.forEach(). Update parameters with setSearchParams({ key: 'value' }) or setSearchParams(prev => { prev.set('key', 'value'); return prev; }). Search params persist across navigation and can be used for filtering, pagination, and form state. Implement URL-driven state for better bookmarking and sharing, sync component state with search params using useEffect, and handle parameter validation and defaults appropriately.",
+      },
+      {
+        question: "Explain useNavigate vs useHistory (v5 vs v6).",
+        solution:
+          "useNavigate (v6) replaces useHistory (v5) with a simplified API focused on navigation actions. useHistory provided history.push(), history.replace(), and history.goBack(), while useNavigate provides navigate('/path'), navigate('/path', { replace: true }), and navigate(-1). useNavigate removes direct access to history object, simplifying the API and reducing confusion. Navigation state is passed as options: navigate('/path', { state: data }), and the API is more declarative. useNavigate supports relative navigation better and integrates with React Router's new routing system. Migration involves replacing history.push with navigate and history.replace with navigate + replace option.",
+      },
+      {
+        question: "Describe the dependency array rules for useEffect.",
+        solution:
+          "useEffect dependency arrays follow strict rules: 1) Include ALL values from component scope used inside the effect (props, state, functions) 2) Omitting dependencies causes stale closures - the effect captures old values 3) Empty array [] means effect runs once after mount 4) No dependency array means effect runs after every render 5) ESLint's exhaustive-deps rule catches missing dependencies 6) For object/array dependencies, use useMemo/useCallback to prevent unnecessary re-runs 7) Functions should be wrapped in useCallback or moved inside useEffect 8) Use functional updates setState(prev => prev + 1) to avoid depending on current state value.",
+      },
+      {
+        question: "Explain stale closures and how to avoid them.",
+        solution:
+          "Stale closures occur when useEffect, useCallback, or event handlers capture outdated values from their creation time. Example: useEffect(() => { setTimeout(() => console.log(count), 1000) }, []) captures initial count value. Solutions: 1) Include all dependencies in dependency arrays 2) Use functional state updates: setCount(prev => prev + 1) 3) Use useRef for mutable values that don't trigger re-renders 4) Move functions inside useEffect when possible 5) Use useCallback with proper dependencies for event handlers 6) For interval/timeout scenarios, use useRef to store current values or clean up and recreate with updated dependencies.",
+      },
+      {
+        question: "How do you measure render performance in DevTools?",
+        solution:
+          "Use React DevTools Profiler and Chrome DevTools: 1) React DevTools Profiler - Record component render times, highlight slow components, view flame graphs, analyze why components re-rendered 2) Chrome DevTools Performance tab - Record runtime performance, identify JavaScript bottlenecks, view main thread blocking 3) User Timing API - performance.mark() and performance.measure() for custom metrics 4) Chrome DevTools Lighthouse - Overall performance scores and recommendations 5) React's Concurrent Mode features - useTransition and useDeferredValue provide built-in performance insights 6) Console timing - console.time()/timeEnd() for quick measurements 7) Third-party tools like React DevTools Profiler extension for production monitoring.",
+      },
+      {
+        question:
+          "What is the difference between useLayoutEffect and useEffect?",
+        solution:
+          "Timing and execution differences: useEffect - Runs asynchronously after DOM mutations are committed and painted to screen, doesn't block browser painting, good for data fetching, subscriptions, most side effects. useLayoutEffect - Runs synchronously after DOM mutations but before browser paint, blocks painting until complete, good for DOM measurements, synchronous DOM mutations, preventing visual flicker. Use cases: useLayoutEffect for measuring DOM elements, positioning tooltips, preventing layout shift, focus management. useEffect for API calls, subscriptions, logging, most other side effects. Performance: useLayoutEffect can cause performance issues if overused since it blocks painting.",
+      },
+      {
+        question: "Describe code-splitting with React.lazy and Suspense.",
+        solution:
+          "Code-splitting reduces bundle size by loading components on-demand: React.lazy(() => import('./Component')) creates a lazy-loaded component that returns a Promise. Suspense provides fallback UI while lazy component loads: <Suspense fallback={<Loading />}><LazyComponent /></Suspense>. Best practices: 1) Split at route level first 2) Split heavy components/libraries 3) Preload critical routes with import() 4) Handle loading states gracefully 5) Error boundaries for failed imports 6) Use React.lazy with dynamic imports, not static imports 7) Nest Suspense boundaries for granular loading states 8) Consider using startTransition for non-urgent lazy loads. Limitations: React.lazy only works with default exports and client-side rendering.",
+      },
+      {
+        question: "Explain route-based code-splitting.",
+        solution:
+          "Split application by routes to load only necessary code per page: 1) Use React.lazy with React Router: const Home = React.lazy(() => import('./Home')); 2) Wrap routes in Suspense: <Suspense fallback={<PageLoader />}><Routes>...</Routes></Suspense> 3) Dynamic imports create separate chunks for each route 4) Browser loads route chunks when navigating 5) Preload next likely routes with <link rel='prefetch'> or import() 6) Use React Router v6's lazy route loading or Next.js automatic code-splitting 7) Consider route-level error boundaries for failed loads 8) Implement progressive loading - load above-the-fold content first 9) Use service workers to cache route chunks 10) Monitor Core Web Vitals impact of code-splitting strategy.",
+      },
+      {
+        question: "How do you virtualize long lists?",
+        solution:
+          "Virtualization renders only visible items to handle large datasets efficiently: 1) Libraries: react-window (lightweight), react-virtualized (feature-rich), @tanstack/react-virtual (modern) 2) Core concept: Calculate visible range based on scroll position, render only visible items plus buffer 3) Implementation: Set container height, calculate item heights, update visible range on scroll 4) Fixed height lists are simpler: <FixedSizeList height={600} itemCount={items.length} itemSize={50} /> 5) Dynamic heights need measurement: <VariableSizeList itemSize={getItemSize} /> 6) Horizontal virtualization for wide data 7) Grid virtualization for 2D data 8) Add overscan for smooth scrolling 9) Handle keyboard navigation and focus management 10) Consider accessibility implications and provide alternatives.",
+      },
+      {
+        question: "Describe useDeferredValue usage.",
+        solution:
+          "useDeferredValue delays non-urgent state updates to keep UI responsive: 1) Defers value updates during high-priority updates (user input) 2) Returns previous value during transitions, new value when settled 3) Usage: const deferredQuery = useDeferredValue(searchQuery); 4) Combine with useMemo for expensive operations: useMemo(() => filterResults(deferredQuery), [deferredQuery]) 5) Good for search-as-you-type, filtering large lists, expensive calculations 6) Automatic - React handles timing based on available time 7) Works with Concurrent Features - pairs well with useTransition 8) Debouncing alternative - handles timing automatically vs manual delays 9) Fallback behavior - show previous results while new ones load 10) Performance monitoring - use React DevTools to see deferred updates.",
+      },
+      {
+        question: "Explain useTransition for non-urgent updates.",
+        solution:
+          "useTransition marks state updates as non-urgent to maintain UI responsiveness: 1) Returns [isPending, startTransition] 2) Wrap non-urgent updates: startTransition(() => setResults(newResults)) 3) isPending indicates transition in progress 4) User interactions (typing, clicking) interrupt transitions 5) Use cases: search results, filtering, navigation, heavy computations 6) Show loading states: {isPending && <Spinner />} 7) Keep previous content visible during transition 8) Automatic prioritization - React schedules around urgent updates 9) Combine with useDeferredValue for complex scenarios 10) Error handling - transitions can be interrupted, handle cleanup 11) Performance - prevents UI blocking during expensive updates 12) Accessibility - maintain keyboard navigation during transitions.",
+      },
+      {
+        question:
+          "How do you prevent child re-renders when props haven't changed?",
+        solution:
+          "Several techniques prevent unnecessary child re-renders: 1) React.memo wraps functional components: React.memo(ChildComponent) does shallow comparison of props 2) Custom comparison function: React.memo(Component, (prevProps, nextProps) => equality check) 3) useMemo for expensive prop calculations: useMemo(() => heavyCalculation(data), [data]) 4) useCallback for function props: useCallback(handleClick, [dependencies]) prevents new function instances 5) Split components - move changing state to separate component 6) Lift content up - pass JSX children instead of data when possible 7) Use primitive props instead of objects when feasible 8) State colocation - keep state close to where it's used 9) Proper key usage in lists prevents reconciliation issues 10) Profile with React DevTools to identify unnecessary renders.",
+      },
+      {
+        question: "Describe profiling with the React DevTools Profiler.",
+        solution:
+          "React DevTools Profiler analyzes component performance: 1) Install React DevTools browser extension 2) Open Profiler tab in DevTools 3) Click record, interact with app, stop recording 4) Flame graph shows render times - wider bars = slower components 5) Ranked chart lists components by render duration 6) Component details show why component rendered (props changed, state changed, parent rendered) 7) Interaction tracking shows which user interactions caused renders 8) Settings: Record why components rendered, highlight updates 9) Timeline view shows renders over time 10) Export profiles for sharing/analysis 11) Production profiling: build with profiling enabled 12) Filter by component names or commit duration 13) Compare before/after optimization profiles.",
+      },
+      {
+        question: "Explain why keys are important for lists.",
+        solution:
+          "Keys help React identify which items changed, added, or removed for efficient reconciliation: 1) Without keys, React uses index position leading to incorrect updates 2) Keys must be stable, unique, and predictable across renders 3) Poor keys cause unnecessary DOM manipulations, lost component state, incorrect focus management 4) React reconciliation algorithm matches elements by key first, then by type 5) Example problem: inserting item at beginning without proper keys causes all items to re-render 6) State preservation: components with same key maintain internal state during reorders 7) Performance: proper keys minimize DOM operations 8) Animation: keys enable proper enter/exit animations 9) Form inputs: keys prevent value mixing when list changes 10) Accessibility: screen readers rely on stable element identity.",
+      },
+      {
+        question: "How should you choose key values?",
+        solution:
+          "Key selection best practices: 1) Use stable, unique identifiers - database IDs, UUIDs, unique properties 2) AVOID array indices when list can change order or length 3) Combine properties for uniqueness: `${user.id}-${user.email}` 4) For dynamic lists, generate stable IDs when items are created 5) Don't use random values - keys must be consistent across renders 6) Avoid complex objects as keys 7) For nested lists, ensure keys are unique within their parent scope 8) Generated content: use content hash if content is stable 9) Temporary items: generate stable temporary IDs 10) Key prefix for different item types: `user-${id}` vs `admin-${id}` 11) Consider using libraries like uuid for key generation 12) Test key strategy with list reordering and filtering.",
+      },
+      {
+        question: "Describe anti-patterns for state updates.",
+        solution:
+          "Common state update mistakes to avoid: 1) Direct mutation: state.items.push(item) - use setState([...items, item]) 2) Async state updates: setTimeout(() => setCount(count + 1)) captures stale value - use setCount(prev => prev + 1) 3) Updating state in render: causes infinite re-render loops 4) Missing dependencies in useEffect causing stale closures 5) Overusing useState for derived state - use useMemo instead 6) Initializing state with props directly without checking for changes 7) Using object spread incorrectly: {...state, nested: {...state.nested, prop: value}} 8) Not handling race conditions in async operations 9) Updating parent state from child components instead of callback props 10) Using array indices as dependencies 11) Conditional effects without proper dependency management.",
+      },
+      {
+        question: "Explain immutability and performance.",
+        solution:
+          "Immutability enables React's efficient rendering optimizations: 1) React uses Object.is() comparison for state changes - mutating objects prevents detection 2) Immutable updates create new references: setState([...items, newItem]) 3) Enables React.memo and shouldComponentUpdate optimizations through shallow comparison 4) PureComponent and React.memo rely on reference equality 5) Time-travel debugging and undo/redo functionality 6) Predictable state changes and easier debugging 7) Performance libraries like Immutable.js and Immer reduce boilerplate 8) Spread operator for objects: {...state, property: newValue} 9) Array methods that return new arrays: map, filter, concat 10) Deep updates require careful nesting: setState(state => ({...state, user: {...state.user, name: 'New Name'}})) 11) Use Immer for complex state structures: produce(state, draft => { draft.property = value })",
+      },
+      {
+        question: "How do you avoid anonymous functions in props?",
+        solution:
+          "Anonymous functions in props cause unnecessary child re-renders: 1) Use useCallback: const handleClick = useCallback(() => action(id), [id, action]) 2) Define functions outside component when no dependencies needed 3) Use class methods for class components (automatically bound) 4) Move event handlers to child component when possible 5) Use data attributes: onClick={handleGenericClick} data-id={item.id} 6) Memoize event handlers: useMemo(() => items.map(item => ({ ...item, onClick: () => action(item.id) })), [items, action]) 7) Custom hooks for reusable handlers 8) Consider if optimization is necessary - profile first 9) For simple cases, anonymous functions might be acceptable 10) Use React DevTools Profiler to identify performance bottlenecks 11) Batch related handlers into single object: const handlers = useCallback({ onEdit, onDelete }, [onEdit, onDelete])",
+      },
+      {
+        question: "Describe the 'lifting state up' performance impact.",
+        solution:
+          "Lifting state up can cause performance issues but is often necessary: 1) Moving state to parent causes all children to re-render when state changes 2) Shared state at top level affects entire subtree 3) Solutions: React.memo for components that don't need updates 4) State colocation - keep state as close to usage as possible 5) Split components - separate concerns to minimize update scope 6) Context for deeply shared state instead of prop drilling 7) State management libraries (Redux, Zustand) for complex shared state 8) Component composition - pass JSX children instead of data props 9) Use multiple smaller contexts instead of one large context 10) Selector patterns to subscribe to specific state slices 11) Profile with React DevTools to measure actual impact 12) Consider render optimization techniques like useMemo and useCallback.",
+      },
+      {
+        question: "Explain how to throttle or debounce state updates.",
+        solution:
+          "Control update frequency for performance and UX: 1) Debouncing delays update until pause in activity: const debouncedValue = useDebounce(value, 300) 2) Throttling limits update frequency: const throttledValue = useThrottle(value, 100) 3) Custom debounce hook: useEffect with setTimeout and cleanup 4) Libraries: lodash.debounce, use-debounce, react-use 5) Throttling for scroll/resize events prevents excessive updates 6) Debouncing for search inputs improves UX and reduces API calls 7) useDeferredValue as built-in React alternative 8) Combine with useTransition for non-blocking updates 9) Local state management: debounce user input, throttle API calls 10) Consider server-side debouncing for expensive operations 11) Error handling: don't lose updates during debounce/throttle 12) Cleanup on unmount to prevent memory leaks.",
+      },
+      {
+        question: "Describe useRef to cache expensive calculations.",
+        solution:
+          "useRef preserves values across renders without triggering re-renders: 1) Cache expensive calculations: const expensiveValueRef = useRef() 2) Store results without re-rendering: if (!expensiveValueRef.current) { expensiveValueRef.current = heavyCalculation() } 3) Mutable cache that persists across renders 4) Unlike useMemo, useRef doesn't automatically recalculate 5) Manual cache invalidation: reset ref.current when dependencies change 6) Store previous values for comparison: const prevPropsRef = useRef(props) 7) Cache DOM measurements, API responses, computed values 8) Combine with useEffect for cache invalidation logic 9) Performance: avoids recalculation on every render 10) Use cases: expensive transformations, compiled regexes, formatted data 11) Consider useMemo first - useRef for cases where automatic dependency tracking isn't needed 12) Memory management: clear cache when component unmounts.",
+      },
+      {
+        question: "How do you reduce bundle size?",
+        solution:
+          "Multiple strategies to minimize JavaScript bundle size: 1) Code splitting with React.lazy and dynamic imports 2) Tree shaking - eliminate dead code with ES modules 3) Bundle analysis tools: webpack-bundle-analyzer, source-map-explorer 4) Remove unused dependencies and imports 5) Use production builds: npm run build 6) Minification and compression (gzip, brotli) 7) Lazy loading for non-critical features 8) Replace heavy libraries with lighter alternatives 9) Import specific functions: import { debounce } from 'lodash' vs import _ from 'lodash' 10) Remove console.log and debug code 11) Optimize images and assets 12) Use CDN for common libraries 13) Service worker caching 14) Implement proper cache headers 15) Consider micro-frontends for large applications.",
+      },
+      {
+        question: "Explain tree-shaking and side-effect flags.",
+        solution:
+          "Tree-shaking eliminates dead code from production bundles: 1) Requires ES modules (import/export) - CommonJS prevents tree-shaking 2) Webpack analyzes import/export statements and removes unused code 3) sideEffects: false in package.json tells bundlers code is side-effect free 4) Side effects: modifying global variables, polyfills, CSS imports 5) Array format: 'sideEffects': ['*.css', './polyfills.js'] for specific files 6) Import specific functions: import { map } from 'lodash' vs import _ from 'lodash' 7) Avoid default exports for libraries - prefer named exports 8) Use production builds to enable tree-shaking 9) Configure babel to preserve ES modules: modules: false 10) Test with bundle analyzer to verify dead code elimination 11) Third-party libraries must support tree-shaking 12) Consider build tool configuration (Rollup, Vite have better tree-shaking than Webpack).",
+      },
+      {
+        question: "Describe dynamic import() patterns.",
+        solution:
+          "Dynamic imports enable code-splitting and lazy loading: 1) Basic: const module = await import('./module') 2) Conditional loading: if (condition) { await import('./feature') } 3) Route-based: const Home = React.lazy(() => import('./Home')) 4) Feature flags: if (featureEnabled) { const feature = await import('./NewFeature') } 5) Polyfills: if (!window.fetch) { await import('whatwg-fetch') } 6) Third-party libraries: const { Chart } = await import('chart.js') 7) Error handling: try/catch around imports with fallbacks 8) Preloading: import('./module') without await to start loading 9) Webpack magic comments: import(/* webpackChunkName: 'chart' */ 'chart.js') 10) Progressive enhancement: load features based on device capabilities 11) User interaction based: load editor when user clicks 'edit' 12) Time-based: load analytics after initial page load.",
+      },
+      {
+        question: "How do you analyze bundle contents?",
+        solution:
+          "Several tools help analyze and optimize bundle size: 1) webpack-bundle-analyzer: visualizes bundle contents with interactive treemap 2) source-map-explorer: analyzes source maps to show original file sizes 3) Bundle Buddy: analyzes which files are loaded together 4) Webpack Bundle Analyzer: npm install --save-dev webpack-bundle-analyzer 5) Next.js Bundle Analyzer: @next/bundle-analyzer plugin 6) Chrome DevTools Coverage tab: shows unused code 7) Lighthouse performance audit: identifies optimization opportunities 8) Size Limit: CI tool to prevent bundle size regression 9) bundlephobia.com: analyze npm package sizes before installing 10) Import Cost VS Code extension: shows import sizes in editor 11) Analyze scripts in package.json: 'analyze': 'npm run build && npx webpack-bundle-analyzer build/static/js/*.js' 12) Focus on largest chunks first for maximum impact.",
+      },
+      {
+        question: "Explain server-side rendering performance benefits.",
+        solution:
+          "SSR improves initial page load and SEO: 1) Faster First Contentful Paint (FCP): HTML content visible immediately 2) Better SEO: search engines can crawl pre-rendered content 3) Improved perceived performance: content appears before JavaScript loads 4) Better Core Web Vitals: especially Largest Contentful Paint (LCP) 5) Social media sharing: meta tags and Open Graph data pre-rendered 6) Accessibility: content available without JavaScript 7) Network resilience: basic content works even if JS fails 8) Trade-offs: increased server load, complexity, Time to Interactive may be slower 9) Hydration overhead: React must attach to server-rendered HTML 10) Implementation: Next.js, Remix, Gatsby provide SSR/SSG solutions 11) Streaming SSR: send HTML chunks as they render 12) Selective hydration: hydrate components as needed.",
+      },
+      {
+        question: "Describe hydration mismatches.",
+        solution:
+          "Hydration mismatches occur when client-side React differs from server-rendered HTML: 1) Causes: different data between server/client, random values, timestamps, browser-only APIs 2) Symptoms: console warnings, incorrect content, broken interactivity 3) Common issues: Math.random(), Date.now(), window object usage 4) Solutions: suppressHydrationWarning for acceptable differences 5) Use useEffect for client-only code: useState with empty initial state, update in useEffect 6) Consistent data: ensure server and client have same initial state 7) Environment checks: typeof window !== 'undefined' 8) Libraries causing issues: moment.js with different locales 9) CSS-in-JS hydration issues: styled-components, emotion 10) Debugging: React DevTools shows hydration mismatches 11) Testing: run builds locally to catch hydration issues 12) Progressive enhancement: start with basic HTML, enhance with JavaScript.",
+      },
+      {
+        question: "Explain how to implement infinite scroll efficiently.",
+        solution:
+          "Infinite scroll loads content progressively as user scrolls: 1) Intersection Observer API: observe sentinel element at bottom of list 2) Virtual scrolling for large datasets: react-window, react-virtualized 3) Load more pattern: useEffect with scroll position or intersection observer 4) Debounce scroll events to prevent excessive API calls 5) Loading states: show spinner while fetching new data 6) Error handling: retry mechanism for failed requests 7) SEO considerations: provide pagination fallback for crawlers 8) Accessibility: announce new content to screen readers, keyboard navigation 9) Memory management: unload off-screen items in very long lists 10) URL state: update URL with current position for bookmarking 11) Prefetch next page: start loading before user reaches end 12) Performance: batch DOM updates, use requestAnimationFrame 13) User experience: smooth scrolling, maintain scroll position on navigation back.",
+      },
+      {
+        question: "What is an error boundary?",
+        solution:
+          "Error boundaries catch JavaScript errors in React component tree: 1) Class component with componentDidCatch() or static getDerivedStateFromError() 2) Catches errors during rendering, lifecycle methods, constructors of child components 3) Does NOT catch: event handlers, async code, SSR errors, errors in error boundary itself 4) Implementation: class ErrorBoundary extends React.Component { static getDerivedStateFromError(error) { return { hasError: true }; } componentDidCatch(error, errorInfo) { logErrorToService(error, errorInfo); } } 5) Usage: <ErrorBoundary><App /></ErrorBoundary> 6) Granular boundaries: wrap individual features, not just entire app 7) Fallback UI: show user-friendly error message instead of white screen 8) Error reporting: integrate with Sentry, Bugsnag, LogRocket 9) Development vs production: show detailed errors in dev, generic in production 10) Recovery: provide retry button or navigation back to working state 11) No functional component equivalent yet - use libraries like react-error-boundary.",
+      },
+      {
+        question: "How do you pass state during navigation?",
+        solution:
+          "Multiple ways to pass state between routes in React Router: 1) URL parameters: navigate('/user/123') access with useParams() 2) Query strings: navigate('/search?q=react') access with useSearchParams() 3) Location state: navigate('/profile', { state: { user: data } }) access with useLocation() 4) Context API: provide state at app level, consume in any route 5) Global state management: Redux, Zustand, Jotai for complex state 6) Session/Local storage for persistence across refreshes 7) React Router loader function: export async function loader({ params }) { return fetchUser(params.id) } 8) URL state encoding: base64 encode complex objects in URL 9) Hash-based state: window.location.hash for simple state 10) Custom hooks for state management across routes 11) Parent route state: nested routes can access parent state 12) Consideration: SEO, bookmarking, refresh behavior when choosing method.",
+      },
+      {
+        question: "Describe route guards.",
+        solution:
+          "Route guards control access to routes based on conditions: 1) Authentication guard: check if user is logged in before accessing protected routes 2) Authorization guard: verify user permissions for specific resources 3) Implementation with React Router: wrapper component or loader function 4) Protected Route component: function ProtectedRoute({ children }) { const user = useAuth(); return user ? children : <Navigate to='/login' />; } 5) Role-based guards: check user roles/permissions before rendering 6) Route loaders for data validation: throw redirect() if conditions not met 7) Custom hooks: useRequireAuth(), useRequireRole() 8) Conditional rendering: show different content based on user state 9) Redirect patterns: preserve intended destination with state 10) Loading states: show spinner while checking authentication 11) Error boundaries: handle guard failures gracefully 12) Testing: mock authentication state for different scenarios 13) Performance: cache auth checks, avoid blocking UI unnecessarily.",
+      },
+      {
+        question: "Explain route transition animations.",
+        solution:
+          "Animate transitions between routes for better UX: 1) CSS transitions: apply to route container with enter/exit classes 2) React Transition Group: <CSSTransition> and <TransitionGroup> components 3) Framer Motion: <AnimatePresence> with motion.div for routes 4) React Spring: useTransition hook for route animations 5) Implementation: wrap <Routes> in animation library components 6) Page transitions: slide, fade, scale effects between routes 7) Shared element transitions: animate elements that persist across routes 8) Performance: use transform and opacity for smooth 60fps animations 9) Accessibility: respect prefers-reduced-motion media query 10) Mobile considerations: use hardware-accelerated properties 11) Route-specific animations: different transitions for different route pairs 12) Loading animations: skeleton screens, progress indicators during route changes 13) Memory management: cleanup animations on route unmount.",
+      },
+      {
+        question: "How do you prefetch routes?",
+        solution:
+          "Prefetching loads route resources before user navigation: 1) Link prefetch: <Link prefetch='intent'> in Remix, rel='prefetch' in HTML 2) Intersection Observer: prefetch when link enters viewport 3) Hover prefetch: load route on link hover with short delay 4) Programmatic: router.prefetch('/route') in Next.js 5) Webpack magic comments: import(/* webpackPrefetch: true */ './Component') 6) Service worker: precache critical routes 7) Route-based splitting: create separate bundles for prefetching 8) Priority-based: prefetch likely next routes first 9) Network-aware: check connection.effectiveType before prefetching 10) User behavior: prefetch based on analytics data 11) Time-based: prefetch during idle time 12) Bundle prefetching: preload entire route chunks 13) Data prefetching: load route data before navigation 14) Browser hints: <link rel='dns-prefetch'>, <link rel='preconnect'>.",
+      },
+      {
+        question: "Describe server-side routing.",
+        solution:
+          "Server handles routing instead of client-side JavaScript: 1) Traditional multi-page applications: each route is separate HTML page 2) Server renders different content based on URL path 3) Full page refreshes on navigation vs SPA client-side routing 4) SEO benefits: each route has unique URL and meta tags 5) Initial load performance: no JavaScript bundle needed for basic functionality 6) Express.js routing: app.get('/users/:id', handler) 7) Next.js file-based routing: pages directory structure maps to URLs 8) SSR with React Router: renderToString() on server with StaticRouter 9) Hydration: server-rendered HTML becomes interactive client-side 10) Progressive enhancement: works without JavaScript, enhanced with it 11) Caching strategies: server-side page caching, CDN edge caching 12) Database integration: server routes can directly query databases 13) Authentication: server-side session management and redirects.",
+      },
+      {
+        question: "Explain basename usage.",
+        solution:
+          "Basename configures base URL for React Router when app is deployed in subdirectory: 1) Usage: <BrowserRouter basename='/myapp'> for apps deployed at domain.com/myapp 2) All routes become relative to basename: '/users' becomes '/myapp/users' 3) Link components automatically include basename: <Link to='/profile'> → '/myapp/profile' 4) Navigate programmatically: navigate('/dashboard') includes basename automatically 5) Environment-based: const basename = process.env.PUBLIC_URL || '/' 6) GitHub Pages deployment: basename typically matches repository name 7) Development vs production: different basenames for different environments 8) Asset paths: ensure CSS, JS, images reference correct paths with basename 9) API calls: don't include basename in API endpoints 10) HashRouter alternative: uses # instead of subdirectories 11) Server configuration: nginx/Apache must serve all routes to index.html 12) Testing: mock basename in test environment.",
+      },
+      {
+        question: "How do you test routing?",
+        solution:
+          "Testing React Router requires mocking routing context: 1) React Testing Library: wrap components in <MemoryRouter initialEntries={['/route']}> 2) Test navigation: fireEvent.click() on links, assert location changes 3) Route params testing: render component with specific route parameters 4) Protected routes: mock authentication state and test redirects 5) Custom render helper: function renderWithRouter(ui, { route = '/' } = {}) { return render(<MemoryRouter initialEntries={[route]}>{ui}</MemoryRouter>) } 6) Integration tests: test entire routing flow with user interactions 7) Snapshot testing: capture routing states for regression testing 8) Mock useNavigate: jest.mock('react-router-dom') for unit tests 9) History testing: access router.state.location in tests 10) Query parameters: test components with different search params 11) Error boundary testing: test route error handling 12) Accessibility: test keyboard navigation and screen reader compatibility 13) E2E testing: Cypress, Playwright for full routing workflows.",
+      },
+      {
+        question: "Describe route-based code splitting.",
+        solution:
+          "Split application code by routes to reduce initial bundle size: 1) React.lazy for route components: const Home = React.lazy(() => import('./Home')) 2) Dynamic imports create separate chunks: webpack automatically splits by route 3) Suspense boundaries: <Suspense fallback={<Loading />}><Routes /></Suspense> 4) Route-level error boundaries for failed chunk loads 5) Preloading strategies: prefetch likely next routes on hover or idle 6) Nested route splitting: split child routes separately from parent 7) Shared dependencies: common components stay in main bundle 8) Bundle analysis: use webpack-bundle-analyzer to verify splits 9) Loading states: show skeleton screens during route transitions 10) Progressive enhancement: critical routes load first, others on demand 11) Service worker caching: cache route chunks for offline access 12) Network-aware loading: adjust strategy based on connection speed 13) Route manifest: generate list of available routes for prefetching decisions.",
+      },
+      {
+        question: "Explain route loader data pattern.",
+        solution:
+          "Route loaders fetch data before route renders (React Router v6.4+): 1) Loader functions: export async function loader({ params }) { return fetchUser(params.id) } 2) Data access: const user = useLoaderData() in route component 3) Parallel loading: loaders run concurrently with route transitions 4) Error handling: throw Response for 404s, errors caught by errorElement 5) Loader dependencies: access request, params, URL from loader context 6) Data revalidation: loaders re-run on form submissions, URL changes 7) Caching strategies: implement custom caching in loader functions 8) Loading states: navigation.state shows 'loading' during data fetch 9) Streaming: defer() for progressive data loading 10) Authentication: redirect() from loader if user unauthorized 11) Type safety: TypeScript inference from loader return types 12) Testing: mock loader functions in route configuration 13) Migration: replace useEffect data fetching with loaders.",
+      },
+      {
+        question: "How do you handle breadcrumbs?",
+        solution:
+          "Breadcrumbs show navigation hierarchy and current location: 1) Route configuration: add breadcrumb data to route objects 2) Context pattern: BreadcrumbProvider tracks current path and titles 3) Automatic generation: use route structure to build breadcrumb trail 4) Custom hook: useBreadcrumbs() extracts path segments and titles 5) Dynamic titles: fetch page titles from API or route data 6) Nested routes: build breadcrumbs from route hierarchy 7) Route handles: { handle: { breadcrumb: 'User Profile' } } in route config 8) URL-based: parse pathname to generate breadcrumb segments 9) Accessibility: use nav element with aria-label='Breadcrumb' 10) Styling: show current page, make previous levels clickable 11) Mobile responsive: show only last few levels on small screens 12) SEO benefits: structured data markup for breadcrumbs 13) User experience: allow navigation to any parent level.",
+      },
+      {
+        question: "Describe route config arrays.",
+        solution:
+          "Route configuration as data structures instead of JSX: 1) Array of objects: [{ path: '/', element: <Home />, children: [...] }] 2) createBrowserRouter(routes) with route config array 3) Centralized routing: all routes defined in single configuration file 4) Dynamic routing: programmatically modify route config 5) Route objects: { path, element, loader, errorElement, children } 6) Nested structures: children array for nested route hierarchies 7) Route guards: add auth requirements to route config objects 8) Code splitting: lazy: () => import('./Component') property 9) Route metadata: custom properties like title, permissions, analytics 10) Type safety: TypeScript interfaces for route configuration 11) Route generation: build routes from API responses or CMS data 12) Testing: easier to unit test route configuration vs JSX 13) Migration: convert JSX routes to config objects for more flexibility.",
+      },
+      {
+        question: "Explain route matching precedence.",
+        solution:
+          "React Router matches routes in specific order to resolve ambiguity: 1) Exact paths match before dynamic segments: '/users/new' before '/users/:id' 2) Static segments have higher priority than parameters 3) Routes are processed in definition order within same specificity 4) Path ranking: more specific paths (more segments) rank higher 5) Parameter vs splat: '/:id' matches before '/*' 6) Index routes: { index: true } matches parent path exactly 7) Nested route precedence: child routes match before parent catch-all 8) Case sensitivity: caseSensitive: true for exact case matching 9) Trailing slashes: path='/users/' vs path='/users' are different 10) Route scoring algorithm: React Router calculates specificity scores 11) Catch-all routes: path='*' should be last, catches unmatched URLs 12) Testing: verify route resolution with different URL patterns 13) Debug: use React Router DevTools to visualize route matching.",
+      },
+      {
+        question: "How do you use Navigate component?",
+        solution:
+          "Navigate component provides programmatic navigation in JSX: 1) Declarative redirects: <Navigate to='/login' replace /> 2) Conditional navigation: {!user && <Navigate to='/login' />} 3) Replace vs push: replace={true} replaces current history entry 4) Relative navigation: <Navigate to='../parent' relative='path' /> 5) State passing: <Navigate to='/profile' state={{ from: location }} /> 6) Authentication redirects: redirect after login/logout 7) Route protection: use in protected route components 8) Form submissions: navigate after successful form post 9) Error recovery: navigate to error page or safe route 10) Cleanup: Navigate unmounts current component, triggers cleanup 11) Timing: Navigate runs during render, not in event handler 12) Alternative to useNavigate hook for JSX-based navigation 13) Testing: assert Navigate renders with correct props.",
+      },
+      {
+        question: "Describe route error elements.",
+        solution:
+          "Error elements handle route-level errors and loading failures: 1) errorElement property: { path: '/', element: <Home />, errorElement: <ErrorPage /> } 2) Boundary behavior: catches errors in route component tree 3) Error context: useRouteError() hook provides error details 4) Loader errors: errorElement catches thrown responses from loaders 5) Component errors: catches JavaScript errors during rendering 6) Nested error handling: child route errors bubble up to parent errorElement 7) Custom error pages: 404, 500, network error specific UIs 8) Error recovery: provide retry buttons or navigation options 9) Error reporting: integrate with monitoring services like Sentry 10) Graceful degradation: show fallback content when features fail 11) Development vs production: detailed errors in dev, generic in prod 12) Accessibility: proper heading structure and screen reader support 13) SEO: appropriate HTTP status codes for error pages.",
+      },
+      {
+        question: "Explain route index property.",
+        solution:
+          "Index routes render when parent route path is exactly matched: 1) Definition: { index: true, element: <Dashboard /> } instead of path 2) Parent path match: index route renders at parent's exact path 3) Default child: renders when no child route segments match 4) No path property: index routes don't add segments to URL 5) Navigation: <Link to=''> or <Link to='.'> navigates to index route 6) Layout routes: parent provides layout, index provides default content 7) Dashboard pattern: index route shows overview, siblings show details 8) Nested index: each route level can have its own index route 9) Outlet rendering: index route renders in parent's <Outlet /> 10) Route hierarchy: /users (index) vs /users/create (sibling route) 11) SEO: index routes handle canonical URLs for parent sections 12) Breadcrumbs: index routes typically don't add breadcrumb segments 13) Error handling: index routes can have their own errorElement.",
+      },
+      {
+        question: "How do you use useMatch hook.",
+        solution:
+          "useMatch hook checks if current location matches a route pattern: 1) Pattern matching: const match = useMatch('/users/:id') 2) Return value: match object with params, pathname, pattern or null 3) Conditional rendering: {match && <UserActions />} 4) Extract parameters: const { id } = match?.params || {} 5) Active link styling: highlight navigation links based on current route 6) Route-specific logic: show different UI based on current route 7) Parent route detection: useMatch('/admin/*') for admin section 8) Exact matching: useMatch({ path: '/users', exact: true }) 9) Case sensitivity: useMatch({ path: '/Users', caseSensitive: true }) 10) Multiple patterns: check several routes with different useMatch calls 11) Custom hooks: useIsAdminRoute() wrapping useMatch logic 12) Performance: useMatch recalculates on location changes 13) Alternative to useLocation for route-specific checks.",
+      },
+      {
+        question: "Describe relative vs absolute links.",
+        solution:
+          "Link paths can be relative to current route or absolute from root: 1) Absolute links: <Link to='/users/profile'> always from app root 2) Relative links: <Link to='profile'> appends to current route 3) Parent navigation: <Link to='..'>Back</Link> goes up one level 4) Current route: <Link to='.'>Refresh</Link> stays on current route 5) Relative prop: <Link to='user' relative='path'> vs relative='route' 6) Route relative: resolves against route hierarchy, not URL path 7) Path relative: resolves against URL path segments 8) Query preservation: relative links can preserve search params 9) Hash navigation: <Link to='#section'> for same-page anchors 10) External links: <Link to='https://example.com'> for external URLs 11) Programmatic: navigate('../parent') vs navigate('/absolute/path') 12) Nested routes: relative links work within route hierarchies 13) Testing: verify link resolution in different route contexts.",
+      },
+      {
+        question: "Explain route change analytics.",
+        solution:
+          "Track user navigation for analytics and monitoring: 1) useLocation effect: useEffect(() => { analytics.page(location.pathname) }, [location]) 2) Router listener: router.subscribe((state) => { trackPageView(state.location) }) 3) Google Analytics: gtag('config', 'GA_ID', { page_path: pathname }) 4) Custom events: track route changes with additional metadata 5) Performance timing: measure route transition duration 6) User flow tracking: analyze navigation patterns and drop-off points 7) Error tracking: report route loading failures and error boundaries 8) A/B testing: track different route experiences 9) Conversion funnels: monitor user progress through route sequences 10) Real User Monitoring: collect Core Web Vitals per route 11) Privacy compliance: respect user preferences for tracking 12) Batch events: avoid excessive analytics calls on rapid navigation 13) Route context: include route metadata like user type, feature flags.",
+      },
+      {
+        question: "Describe scroll restoration.",
+        solution:
+          "Manage scroll position during route transitions: 1) Browser default: preserves scroll position on back/forward navigation 2) React Router: automatic scroll to top on route changes 3) Custom hook: useScrollRestoration() for manual control 4) Scroll to top: useEffect(() => { window.scrollTo(0, 0) }, [pathname]) 5) Preserve position: save scroll position before navigation, restore after 6) Anchor links: scroll to specific elements with useEffect and location.hash 7) Smooth scrolling: scrollIntoView({ behavior: 'smooth' }) 8) Route-specific: different scroll behavior for different route types 9) Loading states: defer scroll until content loads 10) Accessibility: focus management alongside scroll restoration 11) Mobile considerations: handle virtual keyboard and viewport changes 12) Performance: throttle scroll position saving 13) Testing: verify scroll behavior in different navigation scenarios.",
+      },
+      {
+        question: "What rules must custom hooks follow?",
+        solution:
+          "Custom hooks must follow React's Rules of Hooks: 1) Start with 'use' prefix: useCustomHook, useCounter, useApi 2) Only call hooks at top level: never inside loops, conditions, or nested functions 3) Same order every render: hooks must execute in consistent sequence 4) Function component scope: only call hooks from React components or other custom hooks 5) No conditional hooks: if (condition) { useEffect(...) } is invalid 6) Early returns after hooks: all hooks must execute before any early return 7) ESLint plugin: eslint-plugin-react-hooks enforces these rules 8) Composition: custom hooks can call other hooks (built-in or custom) 9) State and effects: custom hooks can use useState, useEffect, etc. 10) Return values: custom hooks can return state, handlers, computed values 11) Parameters: custom hooks can accept parameters like regular functions 12) Reusability: extract common stateful logic into custom hooks 13) Testing: test custom hooks with @testing-library/react-hooks.",
+      },
+      {
+        question: "Explain naming convention for custom hooks.",
+        solution:
+          "Custom hook naming follows specific conventions: 1) 'use' prefix required: useAuth, useCounter, useLocalStorage 2) Descriptive names: describe what the hook does, not how it works 3) Camel case: useApiData, useWindowSize, useDebounce 4) Action-based: useToggle, useFetch, useInterval 5) Data-based: useUser, useProducts, useSettings 6) Feature-based: useCart, useSearch, useNotifications 7) Avoid generic names: use useUserProfile not useData 8) Consistent patterns: useXXXData for data hooks, useXXXState for state hooks 9) Parameters in name: useLocalStorage('key') vs useUserLocalStorage() 10) Boolean hooks: useIsOnline, useIsAuthenticated, useHasPermission 11) Event hooks: useOnClickOutside, useKeyPress, useScrollPosition 12) Library conventions: follow established patterns in your codebase 13) Documentation: clear naming makes hooks self-documenting.",
+      },
+
+      {
+        question: "Describe how to share stateful logic via custom hooks.",
+        solution:
+          "Custom hooks are JavaScript functions starting with 'use' that can call other hooks. They extract component logic into reusable functions. Each component gets its own state instance - logic is shared, not state. Example: function useCounter(initial = 0) { const [count, setCount] = useState(initial); const increment = useCallback(() => setCount(c => c + 1), []); return { count, increment }; }. Multiple components using useCounter get independent state instances.",
+      },
+      {
+        question: "How do you test custom hooks?",
+        solution:
+          "Use @testing-library/react-hooks with renderHook() and act(). Example: const { result } = renderHook(() => useCounter()); expect(result.current.count).toBe(0); act(() => { result.current.increment(); }); expect(result.current.count).toBe(1). Modern approach uses React Testing Library with test wrapper components. Mock dependencies, test state transitions, and verify cleanup functions.",
+      },
+      {
+        question: "Explain extracting data-fetching logic into a hook.",
+        solution:
+          "Create custom hook encapsulating fetch logic, loading states, error handling, and caching. Example: function useApi(url) { const [data, setData] = useState(null); const [loading, setLoading] = useState(true); const [error, setError] = useState(null); useEffect(() => { fetchData(); }, [url]); return { data, loading, error }; }. Include cleanup with AbortController, implement caching with Map, and provide refetch functionality.",
+      },
+      {
+        question: "Describe useFetch implementation.",
+        solution:
+          "function useFetch(url, options = {}) { const [data, setData] = useState(null); const [loading, setLoading] = useState(true); const [error, setError] = useState(null); const fetchData = useCallback(async () => { const controller = new AbortController(); try { setLoading(true); const response = await fetch(url, { ...options, signal: controller.signal }); const result = await response.json(); setData(result); } catch (err) { setError(err.message); } finally { setLoading(false); } return controller; }, [url, options]); useEffect(() => { fetchData(); }, [fetchData]); return { data, loading, error, refetch: fetchData }; }",
+      },
+      {
+        question: "How do you handle loading and error states in a hook?",
+        solution:
+          "Use unified state object with data, loading, error properties. Example: const [state, setState] = useState({ data: null, loading: false, error: null }). Provide execute function that sets loading: true, clears error, then updates with result or error. Include reset function to clear state. Use proper try-catch blocks and ensure loading is set to false in finally blocks.",
+      },
+      {
+        question: "Explain useLocalStorage hook.",
+        solution:
+          "function useLocalStorage(key, initialValue) { const [value, setValue] = useState(() => { try { const item = localStorage.getItem(key); return item ? JSON.parse(item) : initialValue; } catch { return initialValue; } }); const setStoredValue = useCallback((value) => { setValue(value); localStorage.setItem(key, JSON.stringify(value)); }, [key]); useEffect(() => { const handleStorage = (e) => { if (e.key === key) setValue(JSON.parse(e.newValue)); }; window.addEventListener('storage', handleStorage); return () => removeEventListener('storage', handleStorage); }, [key]); return [value, setStoredValue]; }",
+      },
+      {
+        question: "Describe useToggle hook.",
+        solution:
+          "function useToggle(initialValue = false) { const [value, setValue] = useState(initialValue); const toggle = useCallback(() => setValue(prev => !prev), []); const setTrue = useCallback(() => setValue(true), []); const setFalse = useCallback(() => setValue(false), []); const reset = useCallback(() => setValue(initialValue), [initialValue]); return { value, toggle, setTrue, setFalse, reset, setValue }; }. Provides boolean state with convenient toggle methods.",
+      },
+      {
+        question: "How do you create useDebounce?",
+        solution:
+          "function useDebounce(value, delay) { const [debouncedValue, setDebouncedValue] = useState(value); useEffect(() => { const handler = setTimeout(() => setDebouncedValue(value), delay); return () => clearTimeout(handler); }, [value, delay]); return debouncedValue; }. Alternative: useDebouncedCallback with useRef to store timeout and useCallback to return debounced function. Cleanup timeout on unmount.",
+      },
+      {
+        question: "Explain usePrevious hook.",
+        solution:
+          "function usePrevious(value) { const ref = useRef(); useEffect(() => { ref.current = value; }, [value]); return ref.current; }. Uses useRef to store previous value, updates in useEffect after render. Enhanced version can include custom comparison function to determine when to update previous value.",
+      },
+      {
+        question: "Describe useOnClickOutside hook.",
+        solution:
+          "function useOnClickOutside(ref, handler) { useEffect(() => { const listener = (event) => { if (!ref.current || ref.current.contains(event.target)) return; handler(event); }; document.addEventListener('mousedown', listener); document.addEventListener('touchstart', listener); return () => { document.removeEventListener('mousedown', listener); document.removeEventListener('touchstart', listener); }; }, [ref, handler]); }. Detects clicks outside referenced element.",
+      },
+      {
+        question: "Explain useMediaQuery hook.",
+        solution:
+          "function useMediaQuery(query) { const [matches, setMatches] = useState(() => window.matchMedia(query).matches); useEffect(() => { const mediaQuery = window.matchMedia(query); const handleChange = (e) => setMatches(e.matches); mediaQuery.addEventListener('change', handleChange); return () => mediaQuery.removeEventListener('change', handleChange); }, [query]); return matches; }. Responds to CSS media query changes, useful for responsive design.",
+      },
+      {
+        question: "How do you create useForm hook?",
+        solution:
+          "function useForm(initialValues, validationRules) { const [values, setValues] = useState(initialValues); const [errors, setErrors] = useState({}); const [touched, setTouched] = useState({}); const handleChange = useCallback((name, value) => { setValues(prev => ({ ...prev, [name]: value })); if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' })); }, []); const validateField = useCallback((name, value) => { const rule = validationRules[name]; return rule ? rule(value) || '' : ''; }, []); const handleSubmit = useCallback((onSubmit) => (e) => { e.preventDefault(); const isValid = validateForm(); if (isValid) onSubmit(values); }, []); return { values, errors, handleChange, handleSubmit }; }",
+      },
+      {
+        question: "Describe useCounter hook.",
+        solution:
+          "function useCounter(initialValue = 0, { min, max, step = 1 } = {}) { const [count, setCount] = useState(initialValue); const increment = useCallback(() => { setCount(prev => { const newCount = prev + step; return max !== undefined ? Math.min(newCount, max) : newCount; }); }, [step, max]); const decrement = useCallback(() => { setCount(prev => { const newCount = prev - step; return min !== undefined ? Math.max(newCount, min) : newCount; }); }, [step, min]); const reset = useCallback(() => setCount(initialValue), [initialValue]); return { count, increment, decrement, reset, canIncrement: max === undefined || count < max, canDecrement: min === undefined || count > min }; }",
+      },
+      {
+        question: "Explain useInterval hook.",
+        solution:
+          "function useInterval(callback, delay) { const savedCallback = useRef(); useEffect(() => { savedCallback.current = callback; }, [callback]); useEffect(() => { if (delay !== null) { const id = setInterval(() => savedCallback.current(), delay); return () => clearInterval(id); } }, [delay]); }. Enhanced version includes start/stop controls, dynamic delay changes, and active state management.",
+      },
+      {
+        question: "Describe useIntersectionObserver hook.",
+        solution:
+          "function useIntersectionObserver(options = {}) { const [entry, setEntry] = useState(null); const [node, setNode] = useState(null); const observer = useRef(); useEffect(() => { if (observer.current) observer.current.disconnect(); observer.current = new IntersectionObserver(([entry]) => setEntry(entry), options); if (node) observer.current.observe(node); return () => observer.current?.disconnect(); }, [node, options]); const ref = useCallback((node) => setNode(node), []); return [ref, entry]; }. Observes element visibility with customizable threshold and root options.",
+      },
+      {
+        question: "How do you share refs via custom hooks?",
+        solution:
+          "Create custom hooks that return refs or ref callbacks. Example: function useScrollToTop() { const ref = useRef(); const scrollToTop = useCallback(() => { ref.current?.scrollTo({ top: 0, behavior: 'smooth' }); }, []); return [ref, scrollToTop]; }. Can combine multiple refs using useImperativeHandle, forwardRef, or return ref setters. Share ref logic while maintaining component isolation.",
+      },
+      {
+        question: "Explain useScript hook.",
+        solution:
+          "function useScript(src, options = {}) { const [status, setStatus] = useState('loading'); useEffect(() => { let script = document.querySelector(script[src='${src}']); if (!script) { script = document.createElement('script'); script.src = src; script.async = options.async ?? true; script.onload = () => setStatus('ready'); script.onerror = () => setStatus('error'); document.head.appendChild(script); } else { setStatus('ready'); } return () => { if (options.removeOnUnmount) script.remove(); }; }, [src]); return status; }. Dynamically loads external scripts with loading states.",
+      },
+      {
+        question: "Describe useAsync hook.",
+        solution:
+          "function useAsync(asyncFunction, immediate = true) { const [data, setData] = useState(null); const [loading, setLoading] = useState(immediate); const [error, setError] = useState(null); const execute = useCallback(async (...args) => { setLoading(true); setError(null); try { const result = await asyncFunction(...args); setData(result); return result; } catch (error) { setError(error); throw error; } finally { setLoading(false); } }, [asyncFunction]); useEffect(() => { if (immediate) execute(); }, [execute, immediate]); return { execute, data, loading, error }; }. Generic hook for async operations with state management.",
+      },
+      {
+        question: "Explain useKeyPress hook.",
+        solution:
+          "function useKeyPress(targetKey) { const [keyPressed, setKeyPressed] = useState(false); useEffect(() => { const downHandler = ({ key }) => { if (key === targetKey) setKeyPressed(true); }; const upHandler = ({ key }) => { if (key === targetKey) setKeyPressed(false); }; window.addEventListener('keydown', downHandler); window.addEventListener('keyup', upHandler); return () => { window.removeEventListener('keydown', downHandler); window.removeEventListener('keyup', upHandler); }; }, [targetKey]); return keyPressed; }. Enhanced version supports key combinations, multiple keys, and custom event options.",
+      },
+      {
+        question: "Describe useHover hook.",
+        solution:
+          "function useHover() { const [isHovered, setIsHovered] = useState(false); const ref = useRef(); useEffect(() => { const node = ref.current; if (node) { const handleMouseEnter = () => setIsHovered(true); const handleMouseLeave = () => setIsHovered(false); node.addEventListener('mouseenter', handleMouseEnter); node.addEventListener('mouseleave', handleMouseLeave); return () => { node.removeEventListener('mouseenter', handleMouseEnter); node.removeEventListener('mouseleave', handleMouseLeave); }; } }, []); return [ref, isHovered]; }. Returns ref to attach to element and hover state.",
+      },
+      {
+        question: "Explain useWindowSize hook.",
+        solution:
+          "function useWindowSize() { const [windowSize, setWindowSize] = useState({ width: window.innerWidth, height: window.innerHeight }); useEffect(() => { const handleResize = () => { setWindowSize({ width: window.innerWidth, height: window.innerHeight }); }; window.addEventListener('resize', handleResize); return () => window.removeEventListener('resize', handleResize); }, []); return windowSize; }. Enhanced version includes debouncing, SSR support with initial undefined values, and orientation detection.",
+      },
+      {
+        question: "Describe useDarkMode hook.",
+        solution:
+          "function useDarkMode() { const [darkMode, setDarkMode] = useLocalStorage('darkMode', false); const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)'); const enabled = darkMode ?? prefersDarkMode; useEffect(() => { document.body.classList.toggle('dark-mode', enabled); }, [enabled]); return [enabled, setDarkMode]; }. Combines localStorage persistence with system preference detection, automatically applies CSS class to body element.",
+      },
+      {
+        question: "How do you publish custom hooks as npm packages?",
+        solution:
+          "Create package.json with proper entry points (main, module, types). Use TypeScript for type definitions. Structure: src/index.ts exports all hooks, build to dist/ with CommonJS and ESM. Include peer dependencies for React. Setup CI/CD with testing, linting, and automated publishing. Example package.json: { 'name': '@yourorg/react-hooks', 'main': 'dist/index.js', 'module': 'dist/index.esm.js', 'types': 'dist/index.d.ts', 'peerDependencies': { 'react': '>=16.8.0' } }. Document usage, provide examples, and follow semantic versioning.",
+      },
+      {
+        question: "Define controlled component.",
+        solution:
+          "Controlled component's form data is handled by React state. Input value is controlled by state and changes through event handlers. Example: const [value, setValue] = useState(''); <input value={value} onChange={(e) => setValue(e.target.value)} />. React controls the input's value - single source of truth. All changes go through React state, enabling validation, formatting, and predictable behavior.",
+      },
+      {
+        question: "Define uncontrolled component.",
+        solution:
+          "Uncontrolled component's form data is handled by DOM itself. Use refs to access current values. Example: const inputRef = useRef(); <input ref={inputRef} defaultValue='initial' />. DOM maintains the state, React reads value when needed via inputRef.current.value. Useful for simple forms, third-party integrations, or when you need direct DOM access.",
+      },
+      {
+        question: "When would you use uncontrolled?",
+        solution:
+          "Use uncontrolled components when: 1) Simple forms without validation/formatting, 2) Integrating third-party DOM libraries that expect direct access, 3) File inputs (always uncontrolled), 4) Performance critical scenarios with many inputs, 5) Quick prototypes or legacy code integration, 6) When you need immediate DOM access without state synchronization. Generally prefer controlled for better React patterns and predictability.",
+      },
+      {
+        question:
+          "Describe performance trade-offs between controlled and uncontrolled components in React forms.",
+        solution:
+          "Controlled components re-render on every keystroke since state updates trigger renders, causing potential performance issues in complex forms. Each input change calls setState, triggering reconciliation. Uncontrolled components only re-render when the parent re-renders, offering better performance for large forms. However, controlled components provide immediate validation, real-time formatting, and easier state management. Use controlled for small-medium forms with validation needs, uncontrolled for large forms with minimal interaction requirements. Consider debouncing for controlled inputs or React.memo for optimization.",
+      },
+      {
+        question:
+          "Explain how to get form values in uncontrolled components using refs.",
+        solution:
+          "Use useRef to create references to DOM elements and access their values directly. Create refs with useRef(), attach to inputs via ref prop, then access values using ref.current.value. For form submission, iterate through refs or use FormData API. Example: const nameRef = useRef(); <input ref={nameRef} />; const handleSubmit = () => console.log(nameRef.current.value). For multiple inputs, create refs object or use single ref with querySelector. This approach avoids re-renders but loses React's declarative benefits and makes testing harder.",
+      },
+      {
+        question:
+          "Describe validation patterns for controlled components with real-time feedback.",
+        solution:
+          "Implement validation using state for errors alongside input values. Create validation functions that run onChange/onBlur, storing errors in state object keyed by field names. Use custom hooks like useValidation to encapsulate logic. Patterns include: field-level validation (validate single fields), form-level validation (validate entire form), async validation (server-side checks), and schema validation (using libraries like Yup). Display errors conditionally based on touched state to avoid showing errors immediately. Debounce expensive validations and provide visual feedback states (valid/invalid/pending).",
+      },
+      {
+        question:
+          "Explain how to integrate React forms with form libraries like Formik or React Hook Form.",
+        solution:
+          "React Hook Form: Use useForm hook, register inputs with {...register('name', validation)}, handle submission with handleSubmit, access errors via formState.errors. Provides uncontrolled approach with minimal re-renders. Formik: Wrap form with <Formik> component, use initialValues, validationSchema (Yup), onSubmit props. Access values/errors via render props or useFormik hook. Both libraries provide: built-in validation, error handling, touched state, submission states, field arrays for dynamic fields, and integration with UI libraries. Choose React Hook Form for performance, Formik for simplicity and comprehensive features.",
+      },
+      {
+        question:
+          "Describe file upload implementation as uncontrolled component with progress tracking.",
+        solution:
+          "Use input type='file' with ref for accessing files, FormData for upload preparation, and XMLHttpRequest or fetch for submission with progress tracking. Create fileRef with useRef(), access files via fileRef.current.files, validate file types/sizes, create FormData object, and implement upload with progress callbacks. Track upload state (idle/uploading/success/error), progress percentage, and file metadata. Handle multiple files with Array.from(files), implement drag-and-drop with onDrop/onDragOver events, and provide preview functionality. Use uncontrolled approach since file inputs can't be controlled for security reasons.",
+      },
+      {
+        question:
+          "Explain different strategies for resetting form state in both controlled and uncontrolled components.",
+        solution:
+          "Controlled: Reset state to initial values using setState with initialState object. Create resetForm function that calls setFormState(initialFormState). For complex forms, use useReducer with RESET action. Uncontrolled: Use form.reset() method on form element ref, or manually set ref.current.value = '' for each input ref. React Hook Form: reset() method from useForm. Formik: resetForm() method. Additional strategies include: key prop changes to force component remount, conditional rendering based on reset flag, and storing initial values separately. Consider clearing validation errors and touched states during reset.",
+      },
+      {
+        question:
+          "Describe how to handle default values properly in controlled components without warnings.",
+        solution:
+          "Always provide initial values in state to avoid controlled/uncontrolled warnings. Use empty strings for text inputs, false for checkboxes, empty arrays for multi-selects. Never use undefined or null as initial values. For dynamic initial values, use useState(() => computeInitialValue()) or useEffect to set state after component mounts. Handle async initial data with loading states. Use defaultValue prop only for uncontrolled components. For conditional rendering, maintain consistent value types. Example: const [value, setValue] = useState(initialValue || ''); Provide fallbacks: value={formData.name || ''} to ensure controlled behavior.",
+      },
+      {
+        question:
+          "Explain different approaches to handle checkboxes in forms with single and multiple selections.",
+        solution:
+          "Single checkbox: Use boolean state, handle onChange with event.target.checked. Multiple checkboxes: Use array state, add/remove values based on checked state. Create handleCheckboxChange function that checks if value exists in array, then adds or removes accordingly. For object-based state: {...state, [name]: checked}. Use Set for efficient lookups in large lists. Consider controlled vs uncontrolled approaches - controlled for validation/state management, uncontrolled for performance. Implement select all/none functionality, indeterminate state for partial selections, and proper accessibility with labels and fieldsets for groups.",
+      },
+      {
+        question:
+          "Describe radio button grouping patterns and state management for exclusive selections.",
+        solution:
+          "Use same 'name' attribute for radio buttons in same group to ensure exclusivity. In controlled components, use single state value representing selected option. Handle onChange by setting state to event.target.value. For multiple groups, use object state with keys for each group. Implement custom RadioGroup component that manages state and provides context to child Radio components. Use compound component pattern for better API. Ensure proper accessibility with fieldset/legend, aria-labelledby, and keyboard navigation. For dynamic options, map over data array creating radio inputs with proper keys and values.",
+      },
+      {
+        question:
+          "Explain how to implement select elements with multiple selections and proper state management.",
+        solution:
+          "Use select element with multiple attribute, handle onChange with Array.from(event.target.selectedOptions, option => option.value) to get array of selected values. In controlled components, maintain array state and set select value to array. Handle add/remove logic in onChange handler. For better UX, implement custom multi-select with checkboxes or tags. Use Set for efficient lookups when determining if option is selected. Provide search/filter functionality for large option lists. Handle keyboard navigation (arrow keys, space, enter) and accessibility (aria-multiselectable, role='listbox'). Consider virtualization for performance with large datasets.",
+      },
+      {
+        question:
+          "Describe patterns for implementing dynamic form fields with add/remove functionality.",
+        solution:
+          "Use array state to store field data, map over array to render inputs with unique keys (avoid array indices). Implement addField function that appends new field object, removeField that filters by index/id. Use useFieldArray from React Hook Form or Formik's FieldArray for library solutions. Handle validation for dynamic fields by extending validation schema. Provide proper keys for React reconciliation - use stable IDs rather than array indices. Implement drag-and-drop reordering with libraries like react-beautiful-dnd. Consider performance optimization with React.memo for field components. Handle focus management when adding/removing fields and maintain proper form structure for accessibility.",
+      },
+      {
+        question:
+          "Explain comprehensive form submission handling including validation, loading states, and error handling.",
+        solution:
+          "Create handleSubmit function that prevents default, validates data, sets loading state, makes API call, handles success/error states. Use try-catch for error handling, display user-friendly messages. Implement client-side validation before submission, show loading spinner/disable submit button during processing. Handle different error types (validation, network, server errors) with appropriate UI feedback. Use submission state enum (idle/submitting/success/error) rather than boolean flags. Implement retry mechanisms for failed submissions. Consider optimistic updates for better UX. Reset loading states properly and provide success confirmation. Handle form disable during submission to prevent double-submission.",
+      },
+      {
+        question:
+          "Describe implementation of real-time validation with debouncing and async validation patterns.",
+        solution:
+          "Use useEffect with dependency array to trigger validation on value changes. Implement debouncing with setTimeout to avoid excessive API calls - clear previous timeouts before setting new ones. Create custom useDebounce hook for reusability. For async validation, maintain separate loading/error states per field. Use AbortController to cancel in-flight requests when input changes. Show validation states: idle, validating, valid, invalid. Implement field-level validation hooks that return validation state and functions. Consider validation timing: onBlur for UX, onChange for real-time feedback. Handle race conditions in async validation by using timestamps or request IDs to ensure latest request wins.",
+      },
+      {
+        question:
+          "Explain strategies to avoid unnecessary re-renders in controlled form components for better performance.",
+        solution:
+          "Use React.memo to prevent re-renders when props haven't changed. Implement useCallback for event handlers to maintain referential equality. Use useMemo for computed values and complex objects. Debounce input handlers to reduce state updates. Consider field-level state management instead of single form object to isolate re-renders. Use refs for values that don't need to trigger re-renders immediately. Implement controlled components selectively - use uncontrolled for fields that don't need validation. Split large forms into smaller components with isolated state. Use React DevTools Profiler to identify performance bottlenecks and optimize accordingly.",
+      },
+      {
+        question:
+          "Describe the differences between useRef and controlled inputs, including when to use each approach.",
+        solution:
+          "useRef creates mutable reference to DOM elements without triggering re-renders when changed. Controlled inputs use state and cause re-renders on every change. useRef advantages: better performance, no re-renders, direct DOM access, simpler for read-only operations. Controlled advantages: React patterns, easier testing, validation, conditional rendering, state lifting. Use useRef for: large forms with minimal interaction, performance-critical scenarios, accessing DOM methods, file inputs. Use controlled for: validation requirements, state lifting, conditional logic, testing needs, React ecosystem integration. Hybrid approach: use refs for values, state for validation errors and UI states.",
+      },
+      {
+        question:
+          "Explain how to integrate form state with external state management solutions like Redux or Zustand.",
+        solution:
+          "For Redux: Create form slice with actions for field updates, validation, submission. Use useSelector to access form state, useDispatch for updates. Handle form-specific middleware for validation/async actions. For Zustand: Create form store with state and actions, use store hook in components. Consider store scope - global vs component-level. Implement normalization for complex forms, handle optimistic updates, and manage loading/error states. Use form libraries' integration plugins when available. Balance between local form state and global state - keep temporary UI state local, sync important data globally. Implement proper cleanup and reset mechanisms.",
+      },
+      {
+        question:
+          "Describe scenarios and patterns for when to lift form state up to parent components.",
+        solution:
+          "Lift state when: multiple components need form data, parent needs to control submission, implementing multi-step forms, sharing data between siblings, implementing save/restore functionality. Patterns: pass state and setState as props, use custom hooks for form logic, implement compound components with context, use reducer pattern for complex state. Consider data flow: child-to-parent communication via callbacks, parent validation of child data, coordinated state updates across components. Balance between prop drilling and context usage. Implement proper abstractions to avoid tight coupling. Use render props or custom hooks to share form logic while maintaining component independence.",
+      },
+      {
+        question:
+          "Describe React Testing Library philosophy and its advantages over other testing approaches.",
+        solution:
+          "RTL philosophy focuses on testing behavior users actually experience rather than implementation details. Core principles: test how users interact with your app, avoid testing internal state/methods, query elements like users would (by text, role, label). Advantages: more maintainable tests that don't break with refactoring, better accessibility focus, encourages better component design, finds real user issues. RTL promotes testing the component interface, not internals. Use semantic queries that mirror assistive technologies. Focus on user interactions and outcomes rather than technical implementation. This approach leads to more robust tests that provide confidence in actual user experience.",
+      },
+      {
+        question:
+          "Explain the key differences between React Testing Library and Enzyme testing approaches.",
+        solution:
+          "RTL focuses on user behavior and DOM testing, while Enzyme emphasizes component internals and implementation testing. RTL uses real DOM rendering (jsdom), Enzyme uses shallow/mount rendering with virtual representation. Query differences: RTL uses semantic queries (getByRole, getByText), Enzyme uses component methods (find, prop, state). RTL encourages integration testing, Enzyme supports unit testing of isolated components. RTL avoids testing implementation details like state/props directly, Enzyme provides direct access. RTL promotes accessibility-first testing, Enzyme focuses on component structure. RTL has better support for React hooks and modern patterns.",
+      },
+      {
+        question:
+          "How do you test component rendering with different props and state variations using RTL?",
+        solution:
+          "Use render() function with different prop combinations, create helper functions for common setups. Test conditional rendering with expect().toBeInTheDocument() or expect().not.toBeInTheDocument(). For state variations: trigger user interactions that change state, then assert on resulting DOM changes. Create test utilities for complex prop objects, use factories or builders for test data generation. Test edge cases: empty states, loading states, error states. Use screen.debug() to inspect rendered output during test development. Implement custom render function with common providers (theme, router, etc.). Group related tests using describe blocks for better organization and shared setup.",
+      },
+      {
+        question:
+          "Describe different element querying strategies in RTL and best practices for element selection.",
+        solution:
+          "Query priority order: getByRole (most semantic), getByLabelText (form elements), getByPlaceholderText, getByText, getByDisplayValue, getByAltText, getByTitle, getByTestId (last resort). Use getByRole for buttons, links, form controls with proper accessibility. getByLabelText for form inputs with labels. getByText for content-based selection. Avoid CSS selectors and implementation details. Use within() to scope queries to specific containers. Create custom queries for complex selection logic. Use *AllBy variants for multiple elements. Consider query accessibility - if users or screen readers can't find it, your test shouldn't either.",
+      },
+      {
+        question:
+          "Explain the differences between getBy, queryBy, and findBy query variants and when to use each.",
+        solution:
+          "getBy: Returns element or throws error if not found. Use for elements that should exist immediately after render. Best for static content and initial assertions. queryBy: Returns element or null if not found. Use when element might not exist, for conditional assertions, negative testing. Ideal for testing absence of elements. findBy: Returns promise that resolves when element appears, rejects after timeout. Use for asynchronous content, elements that appear after API calls, state updates, or user interactions. Combines waiting with querying. Use await with findBy. Each variant has All versions (*AllBy) for multiple elements. Choose based on element timing: immediate (getBy), conditional (queryBy), async (findBy).",
+      },
+      {
+        question:
+          "How do you test user events and interactions using RTL's user-event library with realistic simulation?",
+        solution:
+          "Import userEvent from '@testing-library/user-event', use userEvent.setup() for modern API. Common interactions: userEvent.click() for clicks, userEvent.type() for text input, userEvent.selectOptions() for selects, userEvent.upload() for file uploads. Use await with all userEvent methods as they return promises. Test complex interactions: userEvent.keyboard() for key combinations, userEvent.hover() for mouse events, userEvent.tab() for focus navigation. Test form submissions with userEvent.click() on submit buttons. Verify state changes after interactions using waitFor() for async updates. Test accessibility interactions like keyboard navigation. Use userEvent over fireEvent for more realistic user simulation that triggers multiple DOM events in proper sequence.",
+      },
+    ],
+  },
+  {
+    id: 22,
+    topic: "React",
+    categories: "Senior",
+    tags: [
+      { name: "runtime", link: "" },
+      { name: "javascript", link: "" },
+      { name: "npm", link: "" },
+      { name: "modules", link: "" },
+      { name: "fundamentals", link: "" },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question:
+          "Describe testing async behavior in React components with proper cleanup and error handling.",
+        solution:
+          "Use waitFor() for async state updates with timeout configuration; implement findBy queries that return promises for elements appearing after async operations; utilize act() wrapper for manual async updates; handle cleanup with waitForElementToBeRemoved(); test loading states with getByText/queryByText patterns; mock async functions with resolved/rejected promises; use userEvent for realistic async interactions; implement custom async utilities with testing-library/react-hooks for complex scenarios; ensure proper cleanup in afterEach hooks to prevent memory leaks.",
+      },
+      {
+        question:
+          "Explain mocking API calls in React tests with different response scenarios and error handling.",
+        solution:
+          "Implement MSW (Mock Service Worker) for intercepting network requests at the network level; create handlers with rest.get/post for RESTful APIs; mock different response scenarios using res.once() for specific tests; simulate network errors with res.networkError(); test loading/error/success states sequentially; use jest.mock() for module-level mocking of fetch/axios; implement custom mock adapters for axios instances; test retry logic with multiple mock responses; verify request payloads with req.body assertions; mock GraphQL queries with graphql.query() handlers; ensure cleanup with server.resetHandlers() between tests.",
+      },
+      {
+        question:
+          "How do you test custom hooks with complex state management and side effects?",
+        solution:
+          "Use renderHook from @testing-library/react-hooks for isolated hook testing; wrap hooks in custom providers using wrapper option; test hook lifecycle with result.current for accessing return values; trigger updates with act() wrapper around state changes; test useEffect cleanup by unmounting with result.unmount(); verify hook parameters changes with rerender(newProps); test error boundaries with ErrorBoundary wrapper; mock dependencies like useContext within wrapper; test async hooks with waitForNextUpdate(); assert on all hook phases including initial render and updates; test custom hooks composition by mocking child hooks.",
+      },
+      {
+        question:
+          "Describe provider wrapper patterns for testing components with multiple context providers.",
+        solution:
+          "Create AllTheProviders wrapper combining Theme, Auth, Router, and State providers in correct order; implement custom render function that accepts provider props for test-specific overrides; use wrapper factories for different test scenarios (authenticated/unauthenticated); compose providers dynamically based on test requirements; mock provider values with partial overrides using spread operator; create test-utils.js with pre-configured render exporting custom queries; implement provider reset utilities for test isolation; use React.cloneElement for injecting test props into provider children; maintain provider hierarchy matching production setup; test provider interactions by asserting on nested component behavior.",
+      },
+      {
+        question:
+          "Explain snapshot testing pros/cons and best practices for maintainable snapshots.",
+        solution:
+          "Pros include regression detection, visual documentation, and quick test creation; Cons involve large diffs, frequent updates, and reviewing overhead; Best practices: use inline snapshots for small components; implement custom serializers for dates/IDs; exclude dynamic content with mock functions; prefer smaller, focused snapshots over full component trees; use snapshot-diff for comparing states; implement snapshot property matchers for dynamic values; review snapshots in PRs thoroughly; combine with explicit assertions for critical logic; avoid snapshots for frequently changing UI; use visual regression tools for style changes; maintain snapshot hygiene with regular reviews.",
+      },
+      {
+        question:
+          "Describe testing error boundaries with different error scenarios and recovery mechanisms.",
+        solution:
+          "Create test ErrorBoundary component with onError spy for assertions; trigger errors using mock component that throws in render/lifecycle; test error boundary fallback UI with screen queries; verify error logging with console.error mock and suppress expected errors; test error boundary reset functionality with resetErrorBoundary prop; simulate async errors in useEffect with act() wrapper; test error propagation through component tree; verify componentDidCatch lifecycle with error and errorInfo parameters; test production vs development error handling differences; implement custom error boundary wrapper for test utilities; assert on error boundary state updates and recovery flows.",
+      },
+      {
+        question:
+          "Explain mocking context providers with dynamic value updates and consumer testing.",
+        solution:
+          "Create MockProvider components accepting value props for test control; implement provider factory functions returning configured providers; test context updates by wrapping rerender with new provider values; mock useContext hook directly with jest.spyOn for isolated testing; test multiple consumers with different subscription patterns; verify context value memoization with render counting; test provider nesting and value inheritance; mock context with partial values using default value spreading; implement context test helpers for common scenarios; test conditional rendering based on context values; verify context performance with React DevTools Profiler in tests.",
+      },
+      {
+        question:
+          "How do you test routing in React applications with protected routes and navigation guards?",
+        solution:
+          "Use MemoryRouter with initialEntries for controlled navigation testing; test route matching with different path configurations; verify protected route redirects with authentication mocks; test navigation guards by mocking auth context; assert on location changes with useLocation hook; test route parameters with dynamic segments; verify nested routing with Outlet components; test programmatic navigation with navigate function mocks; implement custom router wrapper for test utilities; test route transitions and loading states; verify 404 handling with catch-all routes; test browser history manipulation with createMemoryHistory.",
+      },
+      {
+        question:
+          "Describe mocking useNavigate hook for testing navigation logic and side effects.",
+        solution:
+          "Mock react-router-dom module with jest.mock() preserving other exports; create navigateMock function with jest.fn() for tracking calls; test navigation with different argument types (string, number, object); verify navigation options like replace and state; test conditional navigation based on form validation; mock navigation in event handlers and effects; assert on navigation call order in complex flows; test navigation cancellation with beforeUnload events; implement navigation test helpers for common patterns; verify relative vs absolute path navigation; test navigation with search params and hash; restore original implementation in afterEach for isolation.",
+      },
+      {
+        question:
+          "Explain testing route params including dynamic segments and query parameters.",
+        solution:
+          "Mock useParams hook to return test-specific parameter values; test component behavior with different param combinations; use MemoryRouter with initialEntries containing params; test useSearchParams for query string manipulation; verify param validation and error handling; test optional params with undefined values; mock nested route params from parent routes; test param changes triggering re-renders; implement custom param wrapper for test utilities; verify type conversion for numeric params; test URL encoding/decoding for special characters; assert on param-dependent API calls with proper mocking.",
+      },
+      {
+        question:
+          "Describe testing state updates with complex state machines and derived state.",
+        solution:
+          "Test state transitions using userEvent for realistic interactions; verify state updates with waitFor for async assertions; test derived state calculations with multiple state dependencies; use act() wrapper for batch updates testing; verify state update order in complex flows; test optimistic updates with rollback scenarios; implement state history tracking for debugging; test state persistence with localStorage mocks; verify reducer logic with different action types; test state synchronization across components; assert on prevented updates with React.memo; test concurrent state updates with React 18 features; verify state cleanup in unmount scenarios.",
+      },
+      {
+        question:
+          "Explain mocking timers for testing debounced/throttled functions and animations.",
+        solution:
+          "Use jest.useFakeTimers() for controlling time in tests; test debounced input with jest.advanceTimersByTime(); verify throttled scroll handlers with jest.runOnlyPendingTimers(); test setTimeout/setInterval with jest.runAllTimers(); implement custom timer helpers for common patterns; test animation frames with requestAnimationFrame mocks; verify timer cleanup in component unmount; test date-dependent logic with jest.setSystemTime(); combine fake timers with async testing utilities; test recursive timers with controlled advancement; verify timer interaction with React's scheduler; restore real timers with jest.useRealTimers() in afterEach.",
+      },
+      {
+        question:
+          "Describe testing memoized components with React.memo and useMemo optimization.",
+        solution:
+          "Test React.memo by verifying render count with jest.fn() wrapper; compare props with custom comparison function testing; verify memo effectiveness with identical prop references; test useMemo dependencies triggering recalculation; implement render counter utility for optimization verification; test memo breaking with non-primitive props; verify useCallback preventing child re-renders; test memo with context value changes; assert on performance with React Profiler API; test memo boundary conditions with edge cases; verify memo with lazy-loaded components; implement custom memo testing utilities for reusability.",
+      },
+      {
+        question:
+          "Explain code coverage metrics including statement, branch, function, and line coverage targets.",
+        solution:
+          "Configure Jest coverage with collectCoverageFrom patterns excluding test files; set coverage thresholds in jest.config for CI enforcement (80% lines, 75% branches minimum); analyze uncovered branches with coverage reports; use istanbul ignore comments sparingly for untestable code; implement coverage badges with shields.io integration; test edge cases to improve branch coverage; verify error handling paths for complete coverage; use coverage-guided test writing for missing scenarios; integrate with SonarQube for detailed metrics; implement pre-commit hooks checking coverage deltas; generate HTML reports for visual analysis; track coverage trends over time with historical data.",
+      },
+      {
+        question:
+          "Describe CI integration for tests with parallel execution and flaky test handling.",
+        solution:
+          "Configure GitHub Actions/CircleCI with test job matrix for parallel execution; implement test splitting by timing data or file count; use jest-circus for better async test handling; implement retry mechanism for flaky tests with jest-retries; cache node_modules and Jest cache between runs; run tests in band (--runInBand) for debugging failures; implement test result reporting with annotations; use fail-fast strategy for quick feedback; integrate with Slack/email for failure notifications; implement visual regression tests in separate pipeline; use Docker for consistent test environment; generate and store test artifacts for debugging.",
+      },
+      {
+        question:
+          "Explain accessibility testing with jest-axe and ARIA attribute verification.",
+        solution:
+          "Install jest-axe and configure with toHaveNoViolations matcher; test components with axe() for WCAG compliance; verify ARIA labels with getByRole queries; test keyboard navigation with tab/enter/escape events; verify focus management in modals and popups; test screen reader announcements with live regions; validate form accessibility with proper labeling; test color contrast with custom axe rules; verify heading hierarchy and landmark regions; implement custom accessibility matchers; test with different viewport sizes for responsive a11y; integrate pa11y for end-to-end accessibility testing.",
+      },
+      {
+        question:
+          "Describe visual regression testing setup with Percy or Chromatic integration.",
+        solution:
+          "Configure Percy with PERCY_TOKEN in CI environment; implement Percy snapshot calls in critical UI tests; set up Chromatic for Storybook stories testing; configure ignore regions for dynamic content; implement responsive visual tests with multiple viewports; use visual diff thresholds for acceptable changes; integrate approval workflow in PR process; test dark/light theme variations; implement component-level visual tests; use Git branching for baseline management; configure webhook notifications for visual changes; implement visual test budgets for performance; combine with functional tests for comprehensive coverage.",
+      },
+      {
+        question:
+          "Explain performance testing with RTL including render count optimization and memory leak detection.",
+        solution:
+          "Use React Profiler API to measure render time and count; implement custom render counter HOC for optimization testing; test with production build for accurate metrics; verify memory cleanup with weak references; use performance.mark/measure for custom metrics; test large list rendering with virtual scrolling; verify memoization effectiveness with Profiler; implement memory leak detection with heap snapshots; test bundle size impact with size-limit; use Lighthouse CI for performance budgets; verify React.lazy() code splitting; test concurrent features with React 18; implement custom performance testing utilities; monitor component mount/unmount cycles.",
+      },
+      {
+        question:
+          "Describe test-driven development workflow for React components with red-green-refactor cycle.",
+        solution:
+          "Start with failing test describing component behavior (Red phase); write minimal component code to pass test (Green phase); refactor for clarity maintaining green tests (Refactor phase); begin with simple render test then add interaction tests; test public API not implementation details; write tests for edge cases before handling them; use AAA pattern (Arrange-Act-Assert) for test structure; implement integration tests after unit tests; mock external dependencies initially, integrate later; maintain fast feedback loop with watch mode; commit after each green phase for rollback ability; practice outside-in or inside-out TDD based on complexity; document behavior through descriptive test names.",
+      },
+      {
+        question: "Draw the high-level architecture of React Fiber.",
+        solution:
+          "React Fiber architecture consists of: **Scheduler** (priority queues, time-slicing), **Reconciler** (Fiber tree construction, work units), **Renderer** (DOM/Native operations). The **Fiber Node** contains: type, key, props, stateNode, return/child/sibling pointers, effectTag, updateQueue. **Work Loop** processes fiber nodes using **beginWork** (reconciliation) and **completeWork** (effect collection). **Double buffering** maintains current + workInProgress trees. **Effect list** chains nodes needing DOM mutations for efficient commit phase traversal.",
+      },
+      {
+        question:
+          "What problem did Fiber solve that the Stack reconciler could not?",
+        solution:
+          "Stack reconciler was **synchronous and non-interruptible** - once reconciliation started, it blocked main thread until completion, causing jank on large component trees. Fiber introduced: **Incremental rendering** (work can be paused/resumed), **Priority-based scheduling** (urgent updates preempt lower priority work), **Time-slicing** (yields control every 5ms), **Concurrent rendering** (multiple versions of UI can exist), **Error boundaries** (better error handling), **Suspense** (async rendering coordination). This enables smooth 60fps UIs even with complex reconciliation work.",
+      },
+      {
+        question: "Explain 'work unit' and 'work loop' in Fiber's terminology.",
+        solution:
+          "**Work Unit**: A single Fiber node representing reconciliation work - contains component type, props, state, DOM node reference, and parent/child/sibling relationships. Each unit processes via beginWork() → completeWork(). **Work Loop**: The main rendering engine that processes work units incrementally. Uses `workLoopSync()` for synchronous updates or `workLoopConcurrent()` for interruptible work. Loop continues while `workInProgress !== null` and `!shouldYield()`. When deadline approaches, yields control via `scheduler.postMessage()` and resumes later. Maintains **workInProgress** pointer tracking current work unit.",
+      },
+      {
+        question: "How does time-slicing prevent main-thread blocking?",
+        solution:
+          "Time-slicing breaks reconciliation into **5ms chunks** using `shouldYield()` checks. **MessageChannel** posts tasks to event loop, allowing browser to handle high-priority work (user input, animations). When `getCurrentTime() - startTime >= yieldInterval`, React calls `scheduler.postMessage()` to yield control. Browser processes pending events, then resumes React work. **Cooperative scheduling** ensures smooth 60fps by never blocking >5ms. Critical updates (discrete events) can interrupt lower-priority work. **requestIdleCallback** fallback for older browsers. This maintains responsiveness even during heavy reconciliation on large component trees.",
+      },
+      {
+        question:
+          "Describe how React assigns priority to updates (discrete, continuous, idle).",
+        solution:
+          "React uses **Lane-based priority model**: **Discrete** (onClick, onKeyDown) → SyncLane (immediate, blocks render), **Continuous** (onScroll, onMouseMove) → InputContinuousLane (high priority, 250ms timeout), **Idle** (analytics, logging) → IdleLane (lowest priority, preempted easily). **TransitionLane** for non-urgent updates via useTransition(). **Priority assignment**: `getCurrentEventPriority()` maps DOM events to lanes. **Scheduler** maintains priority queues, **higher priority preempts lower**. **Batching** groups same-priority updates. **Starvation prevention** gradually promotes lower priority work. **Lane merging** combines related updates for efficiency.",
+      },
+      {
+        question:
+          "What is performWorkUntilDeadline and why is it 5 ms by default?",
+        solution:
+          "**performWorkUntilDeadline** is the core time-slicing function that processes React work units until the deadline expires. **5ms default** comes from browser research: human perception threshold for smooth interactions is ~16.7ms (60fps), but browsers need time for layout/paint/input processing. **5ms budget** leaves 11.7ms for browser work, ensuring responsiveness. Function checks `shouldYield()` after each work unit completion. **Deadline calculation**: `currentTime + yieldInterval`. **Adaptive scheduling** can adjust based on browser capabilities (`navigator.scheduling.isInputPending()`). **MessageChannel** implementation ensures proper task scheduling priority over setTimeout/setInterval.",
+      },
+      {
+        question: "How do 'beginWork' and 'completeWork' differ in Fiber?",
+        solution:
+          "**beginWork** performs **top-down reconciliation**: compares current vs workInProgress fiber, processes component lifecycle, creates/updates child fibers, handles context propagation, calls render() for components. Returns first child fiber to continue traversal. **completeWork** performs **bottom-up completion**: creates/updates DOM nodes, collects side effects into effect list, handles error boundaries, processes refs, bubbles context changes. Called after all children complete. **Flow**: beginWork(parent) → beginWork(child) → completeWork(child) → completeWork(parent). **Effect collection** chains nodes with DOM changes for efficient commit phase. **Bailout optimizations** skip unnecessary work when props/state unchanged.",
+      },
+      {
+        question:
+          "When does React yield control back to the browser during reconciliation?",
+        solution:
+          "React yields when: **Time deadline reached** (5ms expired via `shouldYield()`), **Higher priority update arrives** (discrete event preempts continuous), **Synchronous boundary hit** (Suspense fallback, error boundary), **Manual yield points** (after completing each fiber node). **Yield mechanism**: `scheduler.postMessage()` posts continuation task, browser processes events/layout/paint, React resumes from `workInProgress` pointer. **No yielding during**: synchronous renders (ReactDOM.render), commit phase (DOM mutations must be atomic), passive effect flushing. **Concurrent features** like useTransition/useDeferredValue rely on this yielding behavior for non-blocking updates.",
+      },
+      {
+        question:
+          "Explain 'double buffering' in the context of React's internal queues.",
+        solution:
+          "**Double buffering** maintains two complete fiber trees: **current tree** (reflects DOM state) and **workInProgress tree** (being constructed). During reconciliation, React builds workInProgress by cloning/reusing current fibers. **Atomic swaps**: after commit phase completes, workInProgress becomes current, preventing inconsistent UI states. **Benefits**: enables **concurrent rendering** (multiple versions exist safely), **time-slicing** (partial work doesn't affect UI), **error recovery** (failed renders don't corrupt current tree). **Memory optimization**: reuses fiber nodes between trees. **Effect scheduling**: effects queue against workInProgress, execute during commit to current tree. **Suspense coordination**: manages pending/resolved states across tree versions.",
+      },
+      {
+        question: "What is current vs workInProgress tree?",
+        solution:
+          "**current tree**: The fiber tree reflecting the **currently rendered UI state** - what's actually in the DOM. Each fiber has `fiber.stateNode` pointing to DOM nodes. **workInProgress tree**: The **in-construction tree** being built during reconciliation - represents the next UI state. **Relationship**: `current.alternate = workInProgress` and `workInProgress.alternate = current`. **Reconciliation flow**: React clones current fibers to workInProgress, applies updates, then **atomically swaps** trees via `root.current = finishedWork`. **Concurrent safety**: current tree remains stable while workInProgress updates, enabling time-slicing and interruption. **Memory sharing**: unchanged subtrees share fiber nodes between trees via reconciliation bailout.",
+      },
+      {
+        question:
+          "How does React detect if a node can be re-used (key + element type)?",
+        solution:
+          "React uses **key + element type comparison** for fiber reuse: **Same key + same type** → reuse fiber, update props/state. **Different key OR different type** → create new fiber, mark old for deletion. **Algorithm**: `sameKeys = oldFiber.key === newElement.key`, `sameType = oldFiber.elementType === newElement.type`. **Reuse benefits**: preserves DOM nodes, component state, refs, avoids expensive mount/unmount. **Lists reconciliation**: React builds key→fiber map for O(1) lookup, handles insertions/deletions/moves efficiently. **No key provided**: uses index as implicit key (dangerous for dynamic lists). **Type changes**: `<div>` to `<span>` forces remount even with same key.",
+      },
+      {
+        question:
+          "Why are array indices dangerous as key values during reconciliation?",
+        solution:
+          "**Index keys break reconciliation assumptions** when list items reorder/insert/delete. **Problem**: `items.map((item, index) => <Component key={index} />)` - when first item deleted, all indices shift, React thinks item[0] became item[1], etc. **Consequences**: **State confusion** (wrong component receives another's state), **Performance loss** (unnecessary re-renders/DOM mutations), **Animation glitches** (transforms apply to wrong elements), **Form data loss** (inputs lose focus/values). **Solution**: use **stable, unique IDs** as keys. **Best practice**: `item.id` from database, or generate UUID during data creation. **Exception**: static lists that never reorder can safely use indices.",
+      },
+      {
+        question:
+          "What happens if two sibling elements swap positions but have the same key?",
+        solution:
+          "**Same keys violate React's reconciliation invariant** - each key must be unique among siblings. **Behavior**: React treats this as **undefined behavior**, typically the **first element wins** and subsequent same-keyed elements are **ignored or replaced**. **Console warning**: 'Warning: Encountered two children with the same key'. **Reconciliation confusion**: React can't determine which element corresponds to which fiber, breaking its diffing algorithm. **DOM effects**: elements may not swap correctly, state preservation fails, animations break. **Debug difficulty**: symptoms appear as mysterious re-renders or lost state. **Solution**: ensure **globally unique keys** among siblings, use compound keys like `${category}-${id}` if needed. **Never use**: duplicate IDs from different data sources.",
+      },
+      {
+        question:
+          "How does React handle component unmounting during reconciliation?",
+        solution:
+          "**Unmounting flow**: fiber marked with `Deletion` effectTag → added to **effect list** → processed during commit phase. **Cleanup sequence**: 1) **componentWillUnmount**/cleanup functions called, 2) **refs** cleared (`ref.current = null`), 3) **DOM nodes removed** from parent, 4) **fiber node recycled**. **Concurrent considerations**: unmounting happens **atomically** during commit (never interrupted), **Suspense** can delay unmounting until fallback resolves, **Error boundaries** catch unmount errors. **Effect cleanup**: useEffect cleanup functions called before DOM removal. **Memory management**: React nulls out fiber references to prevent leaks. **Child handling**: unmounting parent recursively unmounts all children depth-first.",
+      },
+      {
+        question:
+          "Describe the role of shouldComponentUpdate in the Fiber world.",
+        solution:
+          "**shouldComponentUpdate** provides **bailout optimization** during reconciliation - when returns false, React **skips re-rendering** component and its subtree. **Fiber integration**: called during `beginWork()` phase, if false → `bailoutOnAlreadyFinishedWork()` skips children reconciliation. **Performance benefit**: avoids expensive render() calls, virtual DOM diffing, and child reconciliation work. **Concurrent mode**: bailouts respect priority - high-priority updates can still interrupt/override low-priority bailouts. **Modern alternatives**: **React.memo** for functional components, **useMemo/useCallback** for fine-grained optimization. **Limitations**: shallow comparison only, must implement deep equality checks manually. **Effect on Fiber tree**: bailed-out subtrees reuse existing workInProgress fibers.",
+      },
+      {
+        question: "How do React DevTools visualize Fiber nodes?",
+        solution:
+          "DevTools **instrument Fiber nodes** via `__REACT_DEVTOOLS_GLOBAL_HOOK__`: **Component tree**: displays fiber hierarchy with component names, props, state, hooks. **Fiber details**: shows fiber type, key, effectTags, updateQueue, lanes. **Profiler**: visualizes **commit phases**, render timings, **priority lanes**, component re-render causes. **Time travel**: records fiber snapshots for debugging state changes. **Concurrent features**: shows **Suspense boundaries**, time-slicing yields, **priority scheduling**. **Implementation**: DevTools backend traverses fiber tree via `child/sibling/return` pointers, frontend renders virtualized component tree. **Performance monitoring**: tracks **long tasks**, identifies expensive reconciliation work, measures **commit phase duration**.",
+      },
+      {
+        question:
+          "What is the 'effect list' and why is it traversed in a second pass?",
+        solution:
+          "**Effect list** is a **linked list of fibers** with DOM side effects (insertions, updates, deletions) collected during reconciliation. **Construction**: `completeWork()` chains fibers with `effectTag` via `nextEffect` pointer. **Two-pass design**: **Pass 1 (Render)** builds virtual DOM tree, **Pass 2 (Commit)** applies DOM mutations atomically. **Atomic commits**: all DOM changes happen together, preventing inconsistent UI states during paint. **Performance**: avoids traversing entire fiber tree to find effects - O(effects) vs O(nodes). **Effect types**: Placement, Update, Deletion, Passive (useEffect), Layout (useLayoutEffect). **Traversal order**: parent → children for proper DOM insertion order. **Concurrent safety**: commit phase never interrupted, ensuring UI consistency.",
+      },
+      {
+        question:
+          "Explain how Suspense boundaries participate in the work loop.",
+        solution:
+          "**Suspense boundaries** coordinate async rendering via **throw/catch mechanism**: When child throws Promise, nearest Suspense **catches** it and **suspends rendering**. **Work loop integration**: suspended fibers marked with `SuspenseComponent`, workLoop **pauses** that subtree, renders **fallback UI**. **Promise resolution**: triggers **retry** from suspended fiber via `retryTimedOutBoundary()`. **Concurrent features**: Suspense **doesn't block** other priority work, **time-slicing** continues for non-suspended parts. **Nested boundaries**: inner Suspense can resolve before outer. **Error handling**: rejected Promises bubble to error boundaries. **Offscreen rendering**: React **pre-renders** suspended content in background, **commits** atomically when ready. **Hydration**: server-rendered Suspense boundaries coordinate client-side hydration.",
+      },
+      {
+        question: "How does React flush passive effects after paint?",
+        solution:
+          "**Passive effects** (useEffect) are **deferred until after browser paint** to avoid blocking visual updates. **Scheduling**: React uses `requestIdleCallback` or `MessageChannel` to schedule effect execution **post-paint**. **Flush timing**: 1) Commit DOM mutations, 2) Browser paints, 3) **flushPassiveEffects()** runs. **Concurrent coordination**: passive effects can be **interrupted** by higher priority work, **restarted** later. **Effect queue**: maintains **pendingPassiveEffects** list, processes via `flushPassiveEffectsImpl()`. **Cleanup order**: old effect cleanups run **before** new effects. **Performance benefit**: keeps **commit phase fast** (layout effects only), **improves perceived performance** by prioritizing visual updates. **Error handling**: passive effect errors caught by error boundaries.",
+      },
+      {
+        question:
+          "How can useTransition delay non-urgent updates in Concurrent Mode?",
+        solution:
+          "**useTransition** marks updates as **non-urgent** via **TransitionLane** priority, allowing them to be **interrupted** by urgent updates. **API**: `const [isPending, startTransition] = useTransition()` - `startTransition(() => setData(newData))` wraps state updates. **Priority scheduling**: transition updates get **lower priority** than discrete events (clicks), **higher than idle** work. **Interruption**: ongoing transition work **yields** to user interactions, **resumes** later from `workInProgress` pointer. **Loading states**: `isPending` indicates transition in progress for UI feedback. **Concurrent rendering**: enables **background rendering** of expensive updates while keeping UI responsive. **Automatic batching**: multiple transition updates **batch together**. **Use cases**: data fetching, route changes, filtering large lists - anything that can wait for smooth UX.",
+      },
+      {
+        question: "Draw the lifecycle of a render phase vs commit phase.",
+        solution:
+          "**RENDER PHASE** (Interruptible): 1) **Schedule update** (setState/props change), 2) **Begin work loop** (`performWorkUntilDeadline`), 3) **beginWork()** - reconcile current vs workInProgress, 4) **Traverse children** depth-first, 5) **completeWork()** - collect effects, build effect list, 6) **Check shouldYield()** - pause if deadline reached. **COMMIT PHASE** (Atomic): 1) **commitRoot()** - start commit, 2) **Before mutation** - getSnapshotBeforeUpdate, 3) **Mutation phase** - DOM mutations, refs, deletions, 4) **Layout phase** - useLayoutEffect, componentDidMount/Update, 5) **Schedule passive effects** - useEffect via MessageChannel. **Key difference**: render can be **paused/restarted**, commit is **synchronous** and **uninterruptible**.",
+      },
+      {
+        question:
+          "Why is layout read in the commit phase and not during render?",
+        solution:
+          "**Layout reads during render cause inconsistencies** because reconciliation can be **interrupted/restarted** multiple times. **Problems with render-phase reads**: 1) **Stale values** - DOM hasn't been updated yet, 2) **Multiple executions** - time-slicing restarts render work, 3) **Race conditions** - concurrent renders see inconsistent layout, 4) **Performance issues** - forces layout thrashing. **Commit phase guarantees**: 1) **DOM mutations complete** - layout reflects final state, 2) **Single execution** - atomic, uninterruptible, 3) **Consistent timing** - all components see same layout. **useLayoutEffect** provides **synchronous** DOM reads after mutations but **before paint**. **useEffect** for non-critical layout work **after paint**. **Best practice**: defer layout-dependent logic to layout effects.",
+      },
+      {
+        question: "How does React measure 'long tasks' for its scheduler?",
+        solution:
+          "React measures **task duration** via **performance.now()** timestamps around work execution. **Long task detection**: tasks exceeding **5ms threshold** are considered long, trigger **time-slicing yields**. **Measurement points**: 1) **Task start** - `getCurrentTime()` when work begins, 2) **Yield checks** - `shouldYield()` compares elapsed time vs deadline, 3) **Task end** - measure total duration for performance profiling. **Browser integration**: **Long Task API** (`PerformanceObserver`) detects >50ms main thread blocks for debugging. **Scheduler metrics**: tracks **task frequency**, **yield frequency**, **priority distribution** for optimization. **Performance profiling**: React DevTools visualizes task durations, **identifies expensive components**. **Adaptive scheduling**: future enhancement could **adjust time slice** based on device capabilities and measured task performance.",
+      },
+      {
+        question:
+          "What is the interaction between React's scheduler and the browser's event loop?",
+        solution:
+          "React's scheduler uses MessageChannel API to yield control back to the browser's main thread. It implements time-slicing by breaking work into 5ms chunks using scheduler.shouldYield(). The scheduler posts messages to itself, allowing browser to handle high-priority tasks (user input, animations) between React's work units. In concurrent mode, scheduler checks elapsed time and interrupts rendering if frame budget is exceeded, resuming later via scheduler.scheduleCallback() with different priority levels (Immediate, UserBlocking, Normal, Low, Idle).",
+      },
+      {
+        question:
+          "Describe the impact of React 19's Activity API on scheduling.",
+        solution:
+          "React 19's Activity API introduces activity boundaries that help the scheduler understand component lifecycles and optimize work prioritization. Activities group related updates and allow the scheduler to batch related work more intelligently. When an activity starts, React can defer lower-priority updates within that boundary. The API provides activity.start() and activity.end() methods, enabling fine-grained control over when work should be interrupted or batched. This is particularly useful for tab switching, modal interactions, and complex UI transitions where you want to ensure smooth user experience.",
+      },
+      {
+        question: "Compare startTransition vs useDeferredValue.",
+        solution:
+          "startTransition marks updates as non-urgent, allowing React to interrupt them for higher-priority updates. It's used to wrap state updates that should be deprioritized. useDeferredValue returns a deferred version of a value that lags behind during urgent updates. Key differences: startTransition controls the priority of the update itself, while useDeferredValue controls when a derived value updates. startTransition is used at the update site, useDeferredValue at the consumption site. useDeferredValue automatically handles the transition internally and can show stale content during updates, while startTransition requires explicit handling of loading states.",
+      },
+      {
+        question: "When would you choose useId over uuid for SSR-safe IDs?",
+        solution:
+          "useId should be chosen when you need stable, SSR-safe IDs that remain consistent between server and client rendering. It generates deterministic IDs based on component tree position, preventing hydration mismatches. Use useId for: form field associations (htmlFor, aria-describedby), accessibility attributes, and any DOM element that needs consistent identification across SSR/CSR. Choose uuid when you need globally unique identifiers that persist across sessions, like database keys or tracking IDs. useId is lighter weight, doesn't require external dependencies, and is optimized for React's reconciliation, while uuid provides true uniqueness but can cause hydration issues if not handled carefully.",
+      },
+      {
+        question:
+          "Explain automatic batching in React 18 and its performance implications.",
+        solution:
+          "React 18 extends automatic batching to all updates, including those in promises, timeouts, and native event handlers. Previously, only React event handlers were batched. This means multiple setState calls in async functions are now batched into a single render, reducing DOM updates and improving performance. Performance implications: Fewer renders mean less DOM manipulation, better frame rates, and reduced layout thrashing. However, it can delay visual updates if you expect immediate feedback. Use flushSync() to opt out when immediate updates are needed. Batching works by collecting all state updates in a queue and processing them together at the end of the current event loop tick.",
+      },
+      {
+        question: "How does flushSync opt a component out of batching?",
+        solution:
+          "flushSync forces React to synchronously flush all pending updates immediately, bypassing the normal batching behavior. When called, React processes all queued state updates and commits them to the DOM synchronously before continuing execution. This breaks automatic batching within its callback and forces a re-render. Use cases include: measuring DOM elements after state changes, integrating with third-party DOM libraries that need immediate updates, or ensuring visual feedback happens immediately. Performance impact: Creates additional render cycles and can cause layout thrashing if overused. Should be used sparingly and only when the default batching behavior interferes with required functionality.",
+      },
+      {
+        question:
+          "Describe the hydration mismatch error and how React 18 logs it.",
+        solution:
+          "Hydration mismatches occur when server-rendered HTML differs from client-rendered output. React 18 improved error reporting by providing detailed diffs showing exact differences between expected and actual content. The error includes: specific DOM nodes that mismatch, ancestor component stack, and suggestions for fixes. React 18 logs suppressHydrationWarning locations and provides better context about dynamic content that can't match between server/client. Common causes: Date.now(), Math.random(), browser-only APIs, different data between server/client renders. Solutions: Use useEffect for client-only content, ensure consistent data sources, use suppressHydrationWarning sparingly for known mismatches like timestamps.",
+      },
+      {
+        question: "What is selective hydration and how is it triggered?",
+        solution:
+          "Selective hydration allows React 18 to prioritize hydrating components based on user interactions before the entire app is hydrated. When a user clicks on a component wrapped in Suspense that hasn't hydrated yet, React immediately prioritizes hydrating that component and its parents. This is triggered automatically when users interact with non-hydrated components. Implementation: Wrap components in Suspense boundaries, use lazy loading for code splitting, and React will handle selective hydration automatically. Benefits include: faster perceived performance, reduced Time to Interactive (TTI), better user experience on slower devices. The hydration process becomes interruptible and can respond to user priority signals.",
+      },
+      {
+        question: "How does hydrateRoot differ from legacy hydrate?",
+        solution:
+          "hydrateRoot is React 18's new hydration API that enables concurrent features, while legacy hydrate is synchronous. Key differences: hydrateRoot returns a root object with unmount() method, supports selective hydration and streaming SSR, enables concurrent rendering during hydration. Legacy hydrate blocks the main thread until complete, while hydrateRoot can interrupt hydration for high-priority updates. hydrateRoot syntax: const root = hydrateRoot(container, <App />, options). Options include onRecoverableError for handling hydration errors gracefully. Migration requires updating hydration call and potentially wrapping components in Suspense for optimal streaming benefits.",
+      },
+      {
+        question: "Explain the 'hydration shell' concept in Next.js 14.",
+        solution:
+          "The hydration shell in Next.js 14 refers to the minimal interactive shell that hydrates first before the full page content. It includes critical navigation elements, header/footer, and essential interactive components that need immediate functionality. Implementation involves strategic use of dynamic imports with { ssr: false } for non-critical components, Suspense boundaries around heavy components, and prioritizing above-the-fold interactive elements. The shell pattern reduces TTI by hydrating only essential components initially, then progressively hydrating the rest. Benefits include: faster perceived performance, better Core Web Vitals scores, improved user experience on slower connections. Configure using next/dynamic and loading patterns.",
+      },
+      {
+        question: "How do you measure hydration time on real devices?",
+        solution:
+          "Measure hydration time using: Performance API with performance.mark('hydration-start') before hydrateRoot and performance.mark('hydration-end') in useEffect. Use React DevTools Profiler to track component hydration. Implement custom metrics: const hydrationStart = performance.now(); then measure difference when hydration completes. For production monitoring: integrate with RUM tools like DataDog or New Relic, track TTI and hydration-specific metrics, use User Timing API for custom measurements. Key metrics: Time to Hydration (TTH), hydration chunk sizes, selective hydration trigger times. Real device testing: use WebPageTest with real device profiles, lighthouse CI for automated monitoring, field data from Chrome UX Report.",
+      },
+      {
+        question: "When would you enable Strict Effects in development?",
+        solution:
+          "Enable Strict Effects (React.StrictMode) during development to catch bugs related to effect cleanup and double-mounting. It's essential when: building reusable components that need proper cleanup, working with subscriptions/event listeners, integrating with third-party libraries that might leak memory, preparing for concurrent features where effects might run multiple times. Strict Effects double-invokes effects to expose missing cleanup logic, simulates component mounting/unmounting/remounting to catch improper effect dependencies. Enable in development only: wrap your app root with <React.StrictMode>, but remove in production as it impacts performance. Helps identify: missing effect cleanup, impure effects, incorrect dependency arrays.",
+      },
+      {
+        question:
+          "What is the difference between blocking and interruptible rendering?",
+        solution:
+          "Blocking rendering (legacy) processes the entire component tree synchronously, preventing the browser from handling other tasks until complete. The main thread is blocked, causing janky user interactions. Interruptible rendering (concurrent) allows React to pause work, handle high-priority updates (user input), then resume where it left off. React uses time-slicing to work in small chunks, yielding control back to browser between chunks. Blocking rendering has predictable timing but poor user experience, while interruptible rendering provides smooth interactions at the cost of potentially longer total render times. Interruptible rendering enables features like startTransition, useDeferredValue, and Suspense with better user experience prioritization.",
+      },
+      {
+        question: "How does React decide to suspend or resume a tree?",
+        solution:
+          "React suspends when encountering a thrown promise (from lazy components, data fetching) and resumes when the promise resolves. The decision process: React catches the promise, marks the boundary as suspended, shows fallback UI, and attaches a .then() handler. When the promise resolves, React schedules an update to retry rendering. Suspension triggers at the component level but bubbles up to the nearest Suspense boundary. React maintains a cache of resolved promises to avoid re-suspending. Priority influences suspension behavior - high-priority updates may bypass suspended trees. Resume happens automatically when data becomes available, but can be manually triggered using startTransition for lower-priority updates.",
+      },
+      {
+        question:
+          "Describe the fallback prop negotiation with nested Suspense boundaries.",
+        solution:
+          "With nested Suspense boundaries, React determines which fallback to show based on what's suspended and boundary hierarchy. Inner boundaries handle their children's suspension first. If an inner boundary's child suspends, only that inner fallback shows. If the inner boundary itself suspends (due to its fallback being lazy-loaded), the outer boundary's fallback shows. React uses a 'closest boundary' strategy - suspension bubbles up until it finds a boundary that can handle it. Timing matters: if multiple boundaries suspend simultaneously, React chooses the most specific (deepest) boundary. This enables progressive loading patterns where different parts of the UI can show loading states independently.",
+      },
+      {
+        question:
+          "How does useSyncExternalStore prevent tearing in concurrent renders?",
+        solution:
+          "useSyncExternalStore prevents tearing by ensuring all components reading from an external store see consistent values during a render. Tearing occurs when external state changes mid-render, causing some components to see old values and others new values. The hook takes a subscribe function and getSnapshot function. React calls getSnapshot at the start of render and compares it with subsequent calls. If the value changes during render, React restarts the render with the new value. For server-side rendering, provide a getServerSnapshot to ensure consistent initial values. This is essential for integrating with Redux, Zustand, or any external state management that can change independently of React's rendering.",
+      },
+      {
+        question:
+          "Explain the new use hook (React 19) and its server/client semantics.",
+        solution:
+          "The use hook in React 19 enables reading promises and context values inside components. On the server, use() resolves promises synchronously for SSR, enabling data fetching during render. On the client, use() suspends when encountering unresolved promises, triggering Suspense boundaries. Server semantics: use() blocks rendering until promises resolve, enabling streaming SSR with resolved data. Client semantics: use() throws the promise to nearest Suspense boundary, resumes when resolved. Usage: const data = use(fetchPromise); or const context = use(MyContext). This enables components to fetch data without useEffect, supporting both server and client rendering patterns while maintaining Suspense compatibility.",
+      },
+      {
+        question: "How does React 19 handle progressive enhancement for forms?",
+        solution:
+          "React 19 introduces native form actions and progressive enhancement through the action prop on forms. Forms work without JavaScript by using standard HTML form submission, then enhance with React when hydrated. Implementation: <form action={submitAction}> where submitAction can be a server action or client function. React automatically handles form state, validation, and submission. Progressive enhancement stages: 1) HTML form works without JS, 2) React hydrates and adds client-side validation, 3) Server actions handle submission with better UX. Benefits include: accessibility by default, works with disabled JavaScript, smooth upgrade path from static to interactive. Use useFormStatus() to track submission state and useFormState() for server action results.",
+      },
+      {
+        question:
+          "What is the 'Activity' component and why is it useful for tab UIs?",
+        solution:
+          "The Activity component in React 19 provides a declarative way to manage activity states and optimize rendering for tab-like UIs. It helps React understand when content should be kept alive vs unmounted. Usage: <Activity active={isTabActive}><TabContent /></Activity>. When active=false, React can choose to keep components mounted but skip updates, improving performance for inactive tabs. Benefits for tab UIs: preserves scroll position and form state, reduces re-mounting costs, enables better memory management, improves perceived performance when switching tabs. The Activity boundary helps the scheduler prioritize updates for active content while deferring updates for inactive tabs, leading to smoother user interactions and better resource utilization.",
+      },
+      {
+        question: "How can you cancel an in-flight transition update?",
+        solution:
+          "Cancel in-flight transitions using AbortController pattern or by starting a new transition. Method 1: const [isPending, startTransition] = useTransition(); startTransition(() => { /* update */ }); // Starting new transition cancels previous. Method 2: Use AbortController with async operations inside transitions. React automatically cancels previous transitions when new ones start. The cancelled transition's state updates are discarded, and isPending becomes false. This is useful for search queries, pagination, or any scenario where newer user input should cancel previous operations. Components won't re-render with cancelled transition results, preventing stale data from appearing in UI.",
+      },
+      {
+        question:
+          "Describe the impact of concurrent features on existing Redux middleware.",
+        solution:
+          "Concurrent features can affect Redux middleware by introducing timing changes and multiple render phases. Issues include: middleware assuming synchronous updates, side effects running multiple times due to interrupted renders, race conditions with async middleware. Solutions: Use useSyncExternalStore for Redux integration, ensure middleware is idempotent, avoid side effects in reducers that assume single execution. Redux Toolkit's RTK Query handles concurrent features well. Custom middleware should: handle cancelled requests, use AbortController for cleanup, avoid DOM mutations in middleware. Thunks need careful handling of promise cancellation. Migration strategy: audit middleware for concurrent safety, test with React.StrictMode, consider using React 19's use hook for async data fetching instead of middleware patterns.",
+      },
+      {
+        question:
+          "What metrics should you monitor to verify concurrent wins in production?",
+        solution:
+          "Monitor these key metrics: Time to Interactive (TTI) - should decrease with concurrent features, Input Delay - measure with First Input Delay and Interaction to Next Paint, Frame rate during interactions - should stay closer to 60fps, Long Task frequency - concurrent rendering reduces blocking tasks. Custom metrics: Transition completion time using useTransition's isPending, Suspense fallback frequency and duration, Hydration chunks completion time. Use Performance Observer API: observe 'longtask', 'measure', and 'navigation' entries. Production monitoring tools: Core Web Vitals in Chrome DevTools, Real User Monitoring (DataDog, New Relic), custom performance marks around startTransition usage. Key improvements to verify: smoother scrolling during heavy updates, faster response to user input, reduced main thread blocking time.",
+      },
+      {
+        question:
+          "Draw the request/response flow for SSR vs SSG vs ISR in Next.js.",
+        solution:
+          "SSR Flow: Request → Next.js Server → getServerSideProps → Database/API → Render Component → HTML Response → Client. Every request triggers server-side rendering. SSG Flow: Build Time → getStaticProps → Database/API → Pre-render HTML → Store Static Files → Request → CDN/Static Server → Cached HTML Response. ISR Flow: Request → Check Cache → If stale: Background regeneration (getStaticProps → Database/API → Update Cache) + Serve stale content → Next request gets fresh content. ISR combines SSG benefits with dynamic updates. Key differences: SSR has request-time latency but always fresh data, SSG has minimal latency but potentially stale data, ISR provides balance with background updates and stale-while-revalidate strategy.",
+      },
+      {
+        question: "How does getServerSideProps streaming work under the hood?",
+        solution:
+          "getServerSideProps doesn't support streaming directly - it resolves completely before rendering begins. For streaming SSR, Next.js 13+ uses React 18's renderToPipeableStream with Suspense boundaries. The streaming process: Server starts rendering → Encounters Suspense boundary → Sends initial HTML with fallback → Background resolves suspended component → Streams additional HTML chunks → Client receives and patches DOM. Implementation requires: Suspense boundaries around async components, streaming-compatible data fetching (not getServerSideProps), proper hydration handling. Use app router with loading.js files or Server Components for true streaming. The server maintains connection, progressively sends HTML chunks as components resolve, enabling faster TTFB and perceived performance improvements.",
+      },
+      {
+        question:
+          "Explain the difference between generateStaticParams and getStaticPaths.",
+        solution:
+          "generateStaticParams (App Router) vs getStaticPaths (Pages Router) both pre-generate static paths, but with different APIs and capabilities. getStaticPaths returns { paths: [], fallback: boolean/blocking }, while generateStaticParams returns array of param objects. Key differences: generateStaticParams supports nested dynamic routes better, works with Server Components, has simpler API without fallback configuration. generateStaticParams runs at build time and optionally at runtime for ISR, supports async/await natively. Fallback behavior in App Router is handled through not-found.js and loading.js files instead of fallback prop. Migration: extract path generation logic, return param objects instead of full paths, handle fallback scenarios through file-based routing conventions.",
+      },
+      {
+        question: "What is the 'edge runtime' and how does it affect SSR?",
+        solution:
+          "Edge runtime is a lightweight JavaScript runtime optimized for edge computing, using Web APIs instead of Node.js APIs. It affects SSR by: running closer to users (reduced latency), having cold start performance benefits, but with API limitations (no file system, limited Node.js modules). Edge runtime supports: Fetch API, Web Streams, Web Crypto, but not: file system operations, full Node.js modules, long-running processes. For SSR: faster response times globally, better scalability, but requires code adaptations. Use 'edge' runtime by exporting runtime = 'edge' in API routes or pages. Considerations: bundle size limits, memory constraints, compatibility with existing libraries. Benefits for SSR: global distribution, automatic scaling, improved performance for dynamic content delivery.",
+      },
+      {
+        question:
+          "How do you share state between server and client without hydration mismatches?",
+        solution:
+          "Share state using: 1) Initial props from getServerSideProps/getStaticProps passed to components, 2) Next.js built-in serialization for JSON-serializable data, 3) Custom serialization for complex objects (dates, functions), 4) Server-side context providers that serialize state. Avoid hydration mismatches by: ensuring consistent data sources, using useEffect for client-only state, handling dynamic content with suppressHydrationWarning, serializing server state properly. Patterns: Store server data in React context, use SWR/React Query with initialData from server, implement proper date serialization (ISO strings), avoid browser-only APIs during SSR. For complex state: use libraries like Zustand with server-side state hydration, implement custom hooks that handle SSR/CSR differences safely.",
+      },
+      {
+        question: "How do you measure bundle size regressions in CI?",
+        solution:
+          "Implement bundle-analyzer in CI pipeline using webpack-bundle-analyzer or @next/bundle-analyzer. Store baseline bundle stats in Git LFS or artifact storage. Use bundlewatch or bundle-stats to compare current build against baseline, setting thresholds (e.g., +5% regression fails CI). Generate size reports with tree-maps showing chunk-level changes. Integrate with GitHub PR comments showing before/after comparisons. Track metrics: total bundle size, individual chunk sizes, third-party vs first-party code ratio, and unused code percentage. Use tools like source-map-explorer for detailed analysis of what's contributing to size increases.",
+      },
+      {
+        question: "Explain tree-shaking limitations with barrel exports.",
+        solution:
+          "Barrel exports (index.js re-exports) break tree-shaking because bundlers cannot statically analyze which specific exports are used when importing from the barrel. When you import { Button } from './components', bundlers must include all exports from the barrel file. Solutions: Use direct imports { Button } from './components/Button', configure side-effects: false in package.json, use babel-plugin-import for automatic transformation, or implement custom webpack loaders. Modern bundlers like Rollup handle this better with proper ESM analysis, but legacy CommonJS patterns still cause issues. Consider using TypeScript's path mapping for clean imports while maintaining tree-shaking.",
+      },
+      {
+        question: "How do you analyze webpack stats after each PR?",
+        solution:
+          "Generate webpack stats using --json flag, store in CI artifacts. Use webpack-bundle-analyzer programmatically to create reports comparing PR branch against main. Implement custom analysis scripts checking for: new dependencies added, chunk size changes, duplicate modules, unused exports via webpack-unused plugin. Set up automated Slack/GitHub notifications for significant changes. Use tools like statoscope or webpack-dashboard for visual analysis. Track metrics over time: asset sizes, module count, dependency graph complexity, and code-splitting effectiveness. Implement regression tests that fail CI if bundle size exceeds thresholds or if critical chunks aren't properly split.",
+      },
+      {
+        question:
+          "Describe the trade-offs of dynamic import() vs static import.",
+        solution:
+          "Static imports enable tree-shaking, better bundler optimization, and compile-time analysis but increase initial bundle size. Dynamic imports enable code-splitting, reduced initial load, and runtime loading but lose tree-shaking benefits and require loading states management. Trade-offs: Static imports have zero runtime overhead but larger initial bundles; dynamic imports have network latency but smaller critical path. Use static for core dependencies, dynamic for routes/features. Consider preload strategies for dynamic chunks. Dynamic imports complicate dependency analysis and can cause loading waterfalls. Modern patterns: React.lazy() with Suspense, route-based splitting, and feature-based chunks. Monitor loading performance and chunk utilization to optimize the split strategy.",
+      },
+      {
+        question:
+          'How do you preload critical chunks with link rel="modulepreload"?',
+        solution:
+          'Use modulepreload for ES modules that will definitely be needed soon. Add <link rel="modulepreload" href="/chunk.js"> in HTML head or programmatically via document.head.appendChild(). Unlike prefetch, modulepreload downloads AND compiles the module. Implement in Next.js using custom Document or Head component. For dynamic routes, preload chunks based on user interactions (hover over navigation). Use intersection observer to preload chunks when components come into view. Consider bandwidth and CPU cost - only preload critical paths. Combine with dns-prefetch for external dependencies. Monitor effectiveness using Resource Timing API to ensure preloaded resources reduce load times. Avoid over-preloading which wastes bandwidth and competes with critical resources.',
+      },
+      {
+        question: "Explain the memory impact of closures in large lists.",
+        solution:
+          "Closures in large lists cause memory leaks by retaining references to parent scope variables. Each list item's event handler creates a closure capturing the entire parent scope, multiplying memory usage by list length. Solutions: Move handlers outside render scope, use useCallback with proper dependencies, or pass minimal data as parameters. Example: Instead of items.map(item => <div onClick={() => handleClick(item)}>, use items.map(item => <div onClick={handleClick} data-id={item.id}>. For complex state, use data attributes or event delegation. React DevTools Profiler helps identify closure-related memory issues. Consider virtualization for very large lists to limit DOM nodes and associated closures. Modern JS engines optimize some closures, but explicit management prevents accumulation in long-lived components.",
+      },
+      {
+        question: "How does react-window reduce memory pressure?",
+        solution:
+          "react-window renders only visible items plus small buffer, dramatically reducing DOM nodes and memory usage. It reuses DOM elements by repositioning them as user scrolls, maintaining constant memory footprint regardless of list size. Key techniques: virtualization algorithm calculates which items are visible based on scroll position and container height, item recycling reuses DOM nodes for different data, and position: absolute for efficient positioning. Memory benefits: O(visible_items) instead of O(total_items) DOM nodes, reduced event listeners, smaller React component tree. Handles variable heights with react-window-infinite-loader for dynamic loading. Integrates with React DevTools for performance monitoring. Best for lists >100 items where rendering all items causes performance issues.",
+      },
+      {
+        question:
+          'What is the "virtual scroller" pattern and when to choose react-virtualized vs @tanstack/react-virtual?',
+        solution:
+          "Virtual scrolling renders only visible items in large datasets, maintaining scroll position illusion through calculated heights and transforms. react-virtualized: Feature-rich with AutoSizer, MultiGrid, InfiniteLoader but larger bundle (45KB), more complex API, and some legacy patterns. @tanstack/react-virtual: Modern, lightweight (8KB), headless design with better TypeScript support, works with any UI library, and simpler API. Choose react-virtualized for: complex grids, built-in infinite scrolling, existing React apps needing full-featured solution. Choose @tanstack/react-virtual for: new projects, custom UI requirements, smaller bundle sizes, non-React frameworks, or when you need more control over rendering logic. Both handle dynamic heights, but @tanstack has better performance for variable-height items.",
+      },
+      {
+        question:
+          "How do you optimize images on the fly with Next.js Image component?",
+        solution:
+          "Next.js Image component provides automatic optimization via built-in loader or custom providers. Configure next.config.js with image domains, formats (WebP, AVIF), quality settings, and size breakpoints. The component generates responsive images with srcset, implements lazy loading with IntersectionObserver, and serves optimal formats based on browser support. For custom optimization: implement custom loader function, integrate with Cloudinary/ImageKit APIs, or use edge functions for real-time processing. Key optimizations: automatic format selection (WebP > JPEG), responsive sizing with sizes prop, priority loading for above-fold images, and blur placeholder generation. Monitor Core Web Vitals impact, especially LCP. Use fill prop for flexible containers, onLoadingComplete for loading analytics, and combine with CDN for global delivery.",
+      },
+      {
+        question:
+          "Describe the impact of third-party scripts on INP and how to defer them.",
+        solution:
+          "Third-party scripts block main thread, increase INP by delaying interaction responses. Heavy scripts like analytics, ads, or chat widgets can add 100-500ms to interaction latency. Deferment strategies: Use async/defer attributes, load scripts after page interaction, implement on-demand loading triggered by user action (scroll, click). For React: Use dynamic imports in useEffect, implement lazy loading hooks, or use libraries like react-loadable-visibility. Measure impact with Chrome DevTools Performance tab, identify long tasks >50ms. Use requestIdleCallback for non-critical scripts, implement script scheduling with priorities. Web Workers can handle heavy computations off main thread. Monitor INP with Core Web Vitals API, set performance budgets, and consider script removal if business value doesn't justify performance cost.",
+      },
+      {
+        question:
+          "How do you measure interaction latency using the Event Timing API?",
+        solution:
+          "Event Timing API provides detailed metrics for user interactions through PerformanceObserver. Measure INP by observing 'event' entries, capturing processingStart, processingEnd, and duration properties. Implementation: Create PerformanceObserver for event entries, filter by event types (click, keydown, pointerdown), calculate latency as processingEnd - startTime. Track 98th percentile of interaction latencies over page lifetime. Use buffered: true to capture events that occurred before observer setup. Combine with Long Tasks API to identify blocking scripts. Send data to analytics with proper sampling to avoid performance impact. Modern approach: Use web-vitals library which handles complexities like grouping related events and filtering out programmatic interactions. Monitor trends over time and set alerts for INP regressions.",
+      },
+      {
+        question:
+          "When would you use a Web Worker for React state computation?",
+        solution:
+          "Use Web Workers for CPU-intensive state computations that block main thread: large dataset processing, complex calculations, image/audio processing, or heavy JSON parsing. Ideal scenarios: processing 10,000+ items, mathematical computations >50ms, real-time data transformations, or maintaining 60fps during heavy operations. Implementation: Create worker with postMessage communication, use libraries like comlink for easier async/await pattern, or react-worker-components for React integration. State management: Send data to worker, receive results via message events, update React state with computed values. Consider overhead: message serialization cost, data transfer time, and worker initialization. Not suitable for DOM manipulation, small computations, or real-time interactions requiring immediate feedback. Use for background processing while maintaining responsive UI.",
+      },
+      {
+        question: "Explain the cost of prop-drilling vs context selectors.",
+        solution:
+          "Prop-drilling creates unnecessary re-renders in intermediate components even when they don't use the props, but has zero runtime overhead and better tree-shaking. Context causes all consumers to re-render when context value changes, even if they only use part of the value. Solutions: Context splitting (separate contexts for different data), context selectors with libraries like use-context-selector or React 18's useSyncExternalStore, or state management libraries with fine-grained subscriptions. Performance impact: Prop-drilling scales linearly with component depth but affects all intermediate components; context re-renders scale with consumer count. Modern patterns: Context for stable data, prop-drilling for frequently changing data, or hybrid approach using React.memo and careful context design. Measure with React DevTools Profiler to identify actual bottlenecks.",
+      },
+      {
+        question: "How do you implement a custom scheduler for micro-tasks?",
+        solution:
+          "Implement task scheduling using MessageChannel for frame-based batching or setTimeout for time-based slicing. Create task queue with priorities, yield control to browser using requestIdleCallback or manual yielding with MessageChannel. Implementation: TaskQueue class managing priority queues, scheduler loop processing tasks in time slices (5ms chunks), yielding between chunks to maintain 60fps. Use isInputPending() API to interrupt for user interactions. Handle task dependencies and cancellation. React's Scheduler package provides reference implementation. Key concepts: time-slicing prevents main thread blocking, priority scheduling ensures important work happens first, yielding maintains responsiveness. Monitor task execution time, implement task expiration, and provide cancellation mechanisms. Useful for large state updates, background processing, or custom rendering engines.",
+      },
+      {
+        question: "Describe how useDeferredValue reduces dropped frames.",
+        solution:
+          "useDeferredValue postpones updates to expensive components until browser has idle time, preventing frame drops during high-priority interactions. It creates two versions of state: current (immediate) and deferred (delayed), allowing urgent updates to render while expensive updates wait. Implementation: Wrap expensive computations with useDeferredValue, combine with React.memo to prevent unnecessary re-renders, use Suspense for loading states during deferrals. The hook automatically yields to browser when main thread is busy with interactions. Benefits: Input responsiveness maintained during heavy operations, automatic prioritization without manual scheduling, seamless integration with concurrent features. Use cases: Search results during typing, complex visualizations, large list filtering. Works best with React 18's concurrent rendering, time-slicing, and startTransition for marking non-urgent updates.",
+      },
+      {
+        question:
+          "How do you throttle network requests with AbortController in React?",
+        solution:
+          "Use AbortController to cancel in-flight requests and implement throttling with debouncing or request queuing. Create AbortController per request, pass signal to fetch, cleanup in useEffect return function. Implementation: Store controller ref, abort previous requests before making new ones, implement request queue with maximum concurrency limit. Throttling patterns: debounce user input before API calls, batch requests using Promise.all, implement exponential backoff for retries. Advanced: Use SWR or React Query for built-in request deduplication, implement custom hook for request management, add loading states and error boundaries. Handle race conditions by checking if component is still mounted. Consider network-aware throttling using Navigator.connection API, implement offline queuing with service workers, and monitor request performance with Resource Timing API.",
+      },
+      {
+        question: 'What is the "idle until urgent" pattern?',
+        solution:
+          "Idle until urgent defers non-critical work until browser idle time or urgent work requires it. Uses requestIdleCallback to schedule low-priority tasks during idle periods, but executes immediately when marked urgent. Implementation: Task scheduler with priority queues, idle callback registration, urgent interruption mechanism. React's Concurrent Mode implements this pattern - deferred updates run during idle time but are flushed immediately for user interactions. Key concepts: Work prioritization (user interactions > animations > background tasks), yielding to browser for responsiveness, graceful degradation when idle time unavailable. Use cases: Background data fetching, analytics processing, precomputing expensive operations, cleanup tasks. Libraries like React's Scheduler provide production-ready implementation. Monitor idle time availability, implement fallbacks for busy periods, and ensure urgent work isn't unnecessarily deferred.",
+      },
+      {
+        question: "How do you measure CLS in SPAs with client-side navigation?",
+        solution:
+          "CLS measurement in SPAs requires custom implementation since default API only tracks initial page load. Use ResizeObserver and MutationObserver to track layout shifts during route changes. Implementation: Observer for DOM changes, calculate layout shifts using element position changes, accumulate shift scores per route transition. Key challenges: Distinguishing expected shifts (route changes) from unexpected ones, handling dynamic content loading, maintaining running totals across navigation. Solutions: Reset CLS measurement on route changes, implement viewport-based calculation, track per-route metrics separately. Use Intersection Observer for viewport tracking, Web Vitals library with custom navigation handling, or analytics platforms with SPA support. Monitor loading states, skeleton screens effectiveness, and font loading impact. Consider route-specific budgets and implement automated alerts for CLS regressions.",
+      },
+      {
+        question:
+          "How do you prevent layout thrash when reading DOM in useLayoutEffect?",
+        solution:
+          "Prevent layout thrash by batching DOM reads and writes, avoiding synchronous style calculations that trigger reflow. Use useLayoutEffect for DOM measurements but batch operations to minimize reflows. Implementation: Batch DOM reads before writes, use DocumentFragment for multiple DOM changes, cache computed styles to avoid repeated calculations. Techniques: Read all measurements first, then apply all changes; use CSS transforms instead of changing layout properties; implement virtual measurements where possible. Advanced: Use ResizeObserver for element size changes, implement custom hooks for common measurement patterns, leverage browser's frame timing with requestAnimationFrame. Libraries like react-use-measure provide optimized measurement hooks. Monitor performance with DevTools, identify forced synchronous layouts, and consider CSS-only solutions for simple animations to avoid JavaScript layout manipulation entirely.",
+      },
+      {
+        question:
+          "Compare Redux Toolkit vs Zustand vs Recoil vs Jotai for a 200-route app.",
+        solution:
+          "Redux Toolkit: Best for large apps with complex async logic, excellent DevTools, standardized patterns, but verbose setup and learning curve. Bundle size ~50KB. Zustand: Minimal boilerplate, TypeScript-friendly, good performance, but less ecosystem support. Bundle size ~8KB. Recoil: Excellent for component-level state, atomic approach, experimental concurrent mode support, but experimental status and Facebook-specific patterns. Bundle size ~75KB. Jotai: Bottom-up atomic approach, excellent TypeScript support, minimal boilerplate, but smaller ecosystem and newer paradigm. Bundle size ~12KB. For 200-route app: Redux Toolkit for complex business logic and established teams; Zustand for simpler state needs and smaller bundles; Jotai for component-focused architecture; avoid Recoil due to experimental status. Consider hybrid approach: Zustand for global state, local useState for component state, React Query for server state management.",
+      },
+      {
+        question: "How do you normalize nested API data in Redux?",
+        solution:
+          "Use normalization to flatten nested data into entities with IDs, reducing data duplication and enabling efficient updates. Implementation with Redux Toolkit: Define normalized slice schemas, use createEntityAdapter for CRUD operations, normalize data in extraReducers. Pattern: Convert nested objects to { entities: { users: {}, posts: {} }, ids: [] } structure. Libraries: normalizr for schema-based normalization, RTK Query with built-in normalization via transformResponse. Benefits: Easy updates to nested data, efficient selectors, consistent data shape, reduced memory usage. Handle relationships through ID references, implement denormalization selectors for UI consumption, use memoized selectors with Reselect for performance. Consider GraphQL normalization with Apollo Client's cache for complex relationship management. Implement optimistic updates with normalized state for better UX.",
+      },
+      {
+        question: "Explain the role of RTK Query vs React Query.",
+        solution:
+          "RTK Query: Redux ecosystem integration, built on Redux Toolkit, excellent DevTools support, automatic cache management, pessimistic updates by default. Best for existing Redux apps, complex state interactions, standardized caching strategies. React Query: Framework agnostic, more flexible caching strategies, better bundle size (lighter), optimistic updates built-in, simpler learning curve. Better stale-while-revalidate patterns, background refetching, offline support. Key differences: RTK Query normalizes data automatically, React Query requires manual cache keys but offers more granular control. Performance: Both offer similar caching benefits. Choose RTK Query when already using Redux, need normalized state, or want integrated DevTools. Choose React Query for new projects, smaller bundles, better TypeScript experience, or framework flexibility. Consider SWR as lightweight alternative for simple use cases.",
+      },
+      {
+        question: "How do you implement optimistic updates with rollback?",
+        solution:
+          "Implement optimistic updates by immediately updating UI state, then handling success/failure of background request with rollback mechanism. Pattern: Store previous state, apply optimistic changes, execute async operation, rollback on failure or confirm on success. Redux implementation: Use pending/fulfilled/rejected actions, store rollback data in meta, implement rollback reducer logic. React Query approach: Use optimistic updates with onMutate/onError/onSettled callbacks, automatic rollback on network failures. Key considerations: Handle concurrent updates, provide user feedback during rollback, maintain data consistency across components. Advanced patterns: Implement conflict resolution for simultaneous updates, use version numbers or timestamps for optimistic update ordering, provide manual retry mechanisms. Monitor rollback frequency to identify UX issues, implement proper error boundaries, and ensure rollback doesn't cause state inconsistencies.",
+      },
+      {
+        question:
+          "Describe how to migrate a Redux store to Zustand incrementally.",
+        solution:
+          "Incremental migration strategy: Start with leaf components and work up the component tree, maintaining both stores during transition. Phase 1: Install Zustand, create equivalent store slices, implement bridge selectors accessing Redux state from Zustand. Phase 2: Migrate individual feature slices, update connected components, maintain API compatibility with adapter patterns. Phase 3: Remove Redux dependencies, cleanup bridge code, optimize Zustand store structure. Implementation: Use zustand/middleware/redux for temporary Redux DevTools support, implement custom middleware for action logging, create migration utilities for state shape transformation. Handle async operations by replacing thunks with Zustand async actions, maintain existing selector patterns with custom hooks, ensure TypeScript compatibility throughout migration. Test thoroughly with both stores active, monitor bundle size changes, and plan rollback strategy for critical features.",
+      },
+      {
+        question: "How do you handle circular dependencies in selectors?",
+        solution:
+          "Circular dependencies in selectors cause infinite loops and memory leaks. Prevention strategies: Restructure selector logic to remove circular references, use memoization with careful dependency tracking, implement lazy evaluation patterns. Solutions: Break circular chains by introducing intermediate computed values, use React.useMemo with explicit dependencies, implement selector composition without circular references. Advanced patterns: Implement topological sorting for selector execution order, use proxy objects for lazy selector evaluation, create selector graphs with cycle detection. Tools: ESLint rules for detecting circular dependencies, webpack bundle analyzer for module cycles, custom hooks for selector debugging. Best practices: Design normalized state shapes that reduce selector complexity, use entity-based patterns that minimize cross-slice dependencies, implement clear data flow patterns that prevent circular relationships. Consider state machine patterns for complex interdependent logic.",
+      },
+      {
+        question: 'Explain the "state hydration" pattern for SSR with Redux.',
+        solution:
+          "State hydration transfers server-rendered state to client Redux store, ensuring consistent state across server/client boundary. Implementation: Serialize server state to JSON script tag, deserialize on client and preload Redux store, handle data sanitization and security concerns. Challenges: Handle sensitive data exposure, manage client-server state differences, prevent hydration mismatches. Process: Server renders with populated store, serializes state to __PRELOADED_STATE__, client creates store with preloadedState, React hydrates with consistent state. Security: Sanitize sensitive data before serialization, use allowlist for exposed state keys, implement CSRF protection. Handle async data: Load critical data server-side, defer non-critical data to client, implement progressive hydration for large datasets. Libraries: Next.js redux-wrapper, Redux Toolkit with SSR utilities, custom hydration middleware for complex scenarios. Monitor hydration performance and implement loading states for post-hydration data fetching.",
+      },
+      {
+        question: "How do you split reducers by route in code-split apps?",
+        solution:
+          "Implement dynamic reducer loading using Redux's replaceReducer for route-based code splitting. Pattern: Define base reducers for shared state, dynamically load route-specific reducers, combine and replace root reducer on route change. Implementation: Use dynamic imports for reducer modules, maintain reducer registry for hot replacement, handle reducer cleanup on route unmount. Redux Toolkit approach: Use configureStore with dynamically added slices, implement reducer injection utilities, handle slice dependencies and cleanup. Advanced patterns: Implement reducer lazy loading with caching, handle shared state between routes, manage reducer versioning for cache invalidation. Tools: Custom webpack loaders for reducer splitting, React Router integration for automatic loading, Redux DevTools compatibility with dynamic reducers. Considerations: Handle state persistence during reducer changes, implement error boundaries for reducer loading failures, optimize bundle splitting strategy for common vs route-specific logic.",
+      },
+      {
+        question: 'What is the "ducks" pattern and when is it overkill?',
+        solution:
+          "Ducks pattern co-locates actions, action creators, and reducers in single file per feature, promoting modularity and reducing boilerplate. Structure: Export action types, action creators, and reducer from single module, follow naming conventions, maintain clear boundaries between features. Benefits: Easier to maintain related code, reduces file switching, better encapsulation, clearer feature boundaries. Overkill scenarios: Simple apps with few actions, highly coupled features that share significant state, teams unfamiliar with pattern conventions, legacy codebases with established patterns. When beneficial: Large applications with distinct features, teams with clear feature ownership, complex async logic requiring co-located thunks, microservices-style frontend architecture. Modern alternative: Redux Toolkit's createSlice provides similar benefits with less boilerplate, better TypeScript support, and standardized patterns. Consider feature-based folder structure over ducks for very large applications where features span multiple files.",
+      },
+      {
+        question:
+          "How do you type Redux actions with discriminated unions in TypeScript?",
+        solution:
+          "Use discriminated unions to create type-safe Redux actions with proper type narrowing in reducers. Define action types as string literals, create action interfaces with 'type' discriminator, use union types for all possible actions. Implementation: type Actions = LoginAction | LogoutAction | SetUserAction; each action interface has unique 'type' property enabling TypeScript to narrow types in switch statements. Redux Toolkit approach: Use createSlice with PayloadAction<T> for automatic action typing, leverage createAsyncThunk for async action typing, use TypeScript's ReturnType utility for inferred action types. Advanced patterns: Use template literal types for action naming patterns, implement action payload validation with branded types, create utility types for common action patterns. Benefits: Compile-time safety for action creators and reducers, IntelliSense support for action payloads, runtime type checking prevention of action misuse. Tools: Use Redux DevTools with TypeScript for better debugging, implement custom middleware for action type validation in development.",
+      },
+      {
+        question:
+          "Describe the suspense boundary streaming protocol in Next.js 14.",
+        solution:
+          "Next.js 14 implements selective hydration through the Suspense boundary streaming protocol. When a page renders, the server immediately sends the static shell while Suspense boundaries act as streaming checkpoints. Each boundary generates a unique ID and placeholder in the HTML. The server streams React elements as they resolve, sending script tags containing serialized component data that replaces placeholders via document.getElementById(). The protocol uses Transfer-Encoding: chunked with boundaries marked by special comments like <!--$?-->. React's concurrent features allow partial hydration - components outside Suspense boundaries hydrate immediately while suspended components wait for their data. This enables progressive loading where critical above-the-fold content renders first, improving perceived performance. The streaming continues until all Suspense boundaries resolve, with fallbacks replaced by actual content as data becomes available.",
+      },
+      {
+        question: "How does partial prerendering (PPR) work in Next.js 15?",
+        solution:
+          "Partial Prerendering (PPR) in Next.js 15 combines static and dynamic rendering at the component level within a single route. PPR analyzes your page during build time and identifies which parts can be statically generated (using static data or no data dependencies) versus which parts require dynamic rendering (using dynamic functions like cookies(), headers(), or dynamic data fetching). The static parts are prerendered at build time and served from CDN, while dynamic parts are rendered on-demand via Suspense boundaries. When a request comes in, Next.js immediately serves the prerendered static shell, then streams the dynamic parts as they resolve. This is implemented through React's concurrent features and Next.js's streaming SSR. PPR requires wrapping dynamic components in Suspense and enables dramatic performance improvements by serving static content instantly while dynamic content loads progressively. Configuration is done via the experimental.ppr flag and individual page segments can opt-in using export const experimental_ppr = true.",
+      },
+      {
+        question: "What is the headers() and cookies() API in App Router?",
+        solution:
+          "The headers() and cookies() APIs in Next.js App Router are server-only functions that provide access to incoming request data. headers() returns a ReadonlyHeaders object (Web Headers API) containing request headers like user-agent, authorization, etc. cookies() returns a ReadonlyRequestCookies object with methods like get(), has(), getAll(). These APIs automatically opt routes into dynamic rendering since they depend on request-time data. They can only be used in Server Components, Server Actions, and Route Handlers - calling them in Client Components throws an error. Key features include: type-safe access via headers().get('authorization'), cookie parsing with cookies().get('session')?.value, and automatic serialization. These APIs make components dynamic, preventing static optimization. For performance, minimize their usage and consider moving header/cookie logic to middleware when possible. They integrate with React's concurrent features, allowing streaming while maintaining access to request context throughout the component tree.",
+      },
+      {
+        question: "How do you implement per-page caching headers in Next.js?",
+        solution:
+          "Per-page caching headers in Next.js can be implemented through multiple approaches. In App Router, use Route Handlers with NextResponse to set headers: export async function GET() { return NextResponse.json(data, { headers: { 'Cache-Control': 'public, s-maxage=3600, stale-while-revalidate=86400' } }); }. For pages, use next.config.js headers() function to match specific routes: headers: () => [{ source: '/api/:path*', headers: [{ key: 'Cache-Control', value: 'public, max-age=3600' }] }]. In Server Components, you can't directly set response headers, but middleware can intercept and modify responses. For ISR pages, use revalidate export or revalidateTag() for on-demand revalidation. Advanced patterns include: conditional caching based on user authentication, edge-side caching with Vercel's Edge Network, and custom cache headers for different content types. Consider CDN behavior - use s-maxage for CDN caching, max-age for browser caching, and stale-while-revalidate for background revalidation. Monitor cache hit rates and adjust TTL values based on content update frequency.",
+      },
+      {
+        question: "How would you debug a memory leak during SSR?",
+        solution:
+          "Debugging SSR memory leaks requires systematic analysis across server-side rendering lifecycle. Start with Node.js heap snapshots using --inspect flag and Chrome DevTools Memory tab to identify retained objects between requests. Common culprits include: event listeners not cleaned up in useEffect, global variables accumulating data, circular references in server-side code, and improper React context usage. Use process.memoryUsage() to monitor heap growth over time. Tools like clinic.js or 0x can profile memory allocation patterns. For Next.js specifically: check for memory leaks in getServerSideProps/Server Components by logging memory usage before/after rendering, ensure Server Actions properly clean up resources, and verify middleware doesn't retain references. Debug techniques include: isolating components by temporarily removing them, using WeakMap instead of Map for component caches, implementing proper cleanup in useEffect return functions, and avoiding closures that capture large objects. Monitor production with tools like DataDog or New Relic APM. Set up alerts for memory usage thresholds and implement graceful restart strategies when memory consumption exceeds limits.",
+      },
+      {
+        question:
+          "Explain the use client vs use server directives in React Server Components.",
+        solution:
+          "React Server Components introduce a clear boundary between server and client execution through 'use client' and 'use server' directives. 'use client' marks the entry point where the component tree transitions from server to client execution - everything below this directive runs in the browser and has access to browser APIs, state, and effects. Server Components (default) run on the server, can directly access databases/APIs, have zero JavaScript bundle impact, and cannot use state/effects. 'use server' is used for Server Actions - functions that run on the server but can be called from client components, enabling form submissions and mutations without API routes. Key rules: Server Components can import and render Client Components, but not vice versa (without prop passing). Client Components create a 'boundary' - child components are also client-side unless they're passed as children prop from a Server Component. This enables powerful patterns like passing server-fetched data to client components while keeping the data fetching logic server-side. The bundler automatically splits code at these boundaries, ensuring server code never reaches the client bundle.",
+      },
+      {
+        question: "How do you progressively enhance a server action?",
+        solution:
+          "Progressive enhancement for Server Actions ensures forms work without JavaScript while providing enhanced UX when available. Start with a standard HTML form that submits to a Server Action: <form action={serverAction}>. The form works with basic HTTP POST submission. Add progressive enhancement using useFormStatus() and useTransition() hooks: const { pending } = useFormStatus() shows loading states, while useTransition() provides pending state for navigation. Implement optimistic updates using useOptimistic() to immediately update UI while action executes. Layer on validation with server-side validation in the action plus client-side validation using HTML5 attributes and JavaScript enhancement. Error handling involves returning validation errors from Server Actions and displaying them using useFormState(). Advanced patterns include: debouncing form submissions, implementing retry logic for failed actions, adding keyboard shortcuts and accessibility enhancements, and caching form data in sessionStorage for recovery. Use hidden fields for CSRF tokens and implement rate limiting on the server. The key is ensuring the basic form functionality works first, then layering on JavaScript enhancements that degrade gracefully when unavailable.",
+      },
+      {
+        question: "Describe the security model for server actions.",
+        solution:
+          "Server Actions implement a multi-layered security model to prevent common web vulnerabilities. Authentication: Actions run in server context with access to headers() and cookies() for session validation. Authorization: Implement role-based access control within actions before executing mutations. CSRF Protection: Next.js automatically generates and validates CSRF tokens for form submissions, with tokens embedded as hidden fields or headers. Input Validation: Always validate and sanitize inputs server-side using libraries like Zod or Joi - never trust client data. Rate Limiting: Implement per-user or per-IP rate limiting to prevent abuse. Data Access Control: Use session data to scope database queries to authorized resources only. SQL Injection Prevention: Use parameterized queries and ORMs that sanitize inputs. XSS Prevention: Sanitize any user content before storage/display. Content Security Policy: Configure CSP headers to restrict script execution. Audit Logging: Log all mutations with user context for security monitoring. Encryption: Use HTTPS for all action endpoints and encrypt sensitive data at rest. Error Handling: Avoid exposing internal errors/stack traces - return generic error messages to clients. Additional measures include implementing request size limits, validating file uploads, and using secure session management with httpOnly cookies.",
+      },
+      {
+        question: "How does Remix handle data mutations via forms?",
+        solution:
+          "Remix treats forms as first-class citizens for data mutations through its action function paradigm. When a form submits to a route, Remix calls the route's action function server-side with the FormData. Actions run before loaders, enabling the mutation-then-revalidation pattern: export async function action({ request }) { const formData = await request.formData(); await updateDatabase(formData); return redirect('/success'); }. After the action completes, Remix automatically revalidates all active loaders, ensuring UI stays in sync. The framework provides progressive enhancement - forms work without JavaScript but enhance with client-side navigation when available. Key features include: automatic form validation through action return values, optimistic UI updates using useFetcher() and useNavigation(), and nested route actions that can handle mutations at any level. Error boundaries automatically catch action errors, and useActionData() provides access to action results in components. Remix's approach eliminates the need for separate API routes, reduces client-server roundtrips, and provides automatic loading/error states. Advanced patterns include using multiple forms per page, implementing optimistic updates with useSubmit(), and handling file uploads through multipart form data processing.",
+      },
+      {
+        question: "Compare Remix's loader vs Next.js getServerSideProps.",
+        solution:
+          "Remix loaders and Next.js getServerSideProps both enable server-side data fetching but differ significantly in execution model and capabilities. Remix loaders run on every request and support nested loading - each route segment can have its own loader that runs in parallel, enabling waterfall elimination. Data is automatically serialized and available via useLoaderData(). Loaders support streaming and can return partial data while other loaders resolve. Next.js getServerSideProps runs once per page request, blocking until all data resolves before rendering begins. Key differences: Remix enables route-level code splitting with automatic prefetching of loader data when hovering over links; Next.js requires page-level data fetching. Error handling: Remix loaders can throw responses that trigger error boundaries; Next.js returns props or redirects. Caching: Remix relies on HTTP caching headers and CDN caching; Next.js provides built-in ISR for static generation with revalidation. Performance: Remix's parallel loading often performs better for complex pages with multiple data dependencies, while Next.js provides better caching strategies for content that doesn't change frequently. Remix loaders also integrate better with forms and mutations through automatic revalidation after actions execute.",
+      },
+      {
+        question:
+          "How do you handle authentication in SSR without exposing tokens?",
+        solution:
+          "Secure SSR authentication requires careful token management to prevent exposure to client-side JavaScript. Use httpOnly, secure, sameSite cookies to store refresh tokens - these are automatically sent with requests but inaccessible to JavaScript. Store short-lived JWT access tokens in server-side session storage or memory cache, not in cookies or localStorage. Implement token rotation: refresh access tokens server-side before each request using the httpOnly refresh token. In Next.js middleware, validate tokens and refresh if needed before allowing route access. For API calls from Server Components, use the server-side access token directly. For Client Components needing authenticated API access, implement a proxy pattern: Client Component calls Next.js API route → API route validates server-side token → makes authenticated external API call. Use CSRF tokens for form submissions. Implement secure logout by clearing all cookies and invalidating server-side sessions. For additional security: encrypt tokens at rest, implement token binding to prevent replay attacks, use short token lifespans (15-30 minutes), and log all authentication events. Consider using OAuth 2.0 PKCE flow for client-side authentication or implement a Backend-for-Frontend (BFF) pattern for complex authentication scenarios.",
+      },
+      {
+        question: "Explain how to stream HTML fragments with edge workers.",
+        solution:
+          "Streaming HTML fragments with edge workers enables progressive page loading and improved perceived performance. Use Cloudflare Workers or Vercel Edge Functions to implement streaming responses with TransformStream API. Create a stream that processes HTML chunks: const stream = new TransformStream({ transform(chunk, controller) { controller.enqueue(processChunk(chunk)); } }). For React SSR streaming, use renderToPipeableStream() or renderToReadableStream() with edge runtime. Key patterns include: streaming static shell first, then dynamic content as it resolves; implementing fragment replacement using placeholder divs with unique IDs; and using Server-Sent Events for real-time updates. Edge workers can fetch data from multiple sources in parallel and stream responses as each resolves. Implement caching at the fragment level - cache static fragments at edge locations while streaming dynamic content from origin. Use compression (gzip/brotli) for better performance. Handle errors gracefully by streaming error boundaries. Advanced techniques include: implementing A/B testing at the fragment level, personalizing fragments based on geo-location or user segments, and using edge-side includes (ESI) for content composition. Monitor streaming performance with TTFB and Time to Interactive metrics.",
+      },
+      {
+        question:
+          "What is hydration diffing and how to suppress expected mismatches?",
+        solution:
+          "Hydration diffing occurs when React compares server-rendered HTML with client-rendered content during hydration. Mismatches cause React to discard server HTML and re-render client-side, negating SSR benefits. Common causes include: Date.now(), Math.random(), user-specific content, and browser-only APIs. Suppress expected mismatches using suppressHydrationWarning={true} on elements that intentionally differ between server and client. For user-specific content, use two-pass rendering: render generic content server-side, then update with user-specific data after hydration using useEffect. Implement the 'shell' pattern: render static shell server-side, load dynamic content client-side within Suspense boundaries. For time-sensitive data, pass server timestamp to client and calculate relative times consistently. Use conditional rendering based on hydration state: const [isClient, setIsClient] = useState(false); useEffect(() => setIsClient(true), []). Libraries like 'use-isomorphic-layout-effect' help manage server/client differences. Debug mismatches by comparing server HTML (view source) with client DOM. Tools like React DevTools show hydration warnings. Best practices include: avoiding random IDs server-side, using CSS-in-JS libraries with SSR support, and ensuring consistent data formatting between server and client environments.",
+      },
+      {
+        question: "How do you code-split server bundles in Next.js?",
+        solution:
+          "Next.js automatically code-splits client bundles but server bundle splitting requires manual configuration for optimization. Use dynamic imports with server-side conditions: const ServerOnlyComponent = dynamic(() => import('./ServerComponent'), { ssr: false }). Configure webpack in next.config.js to create multiple server bundles: webpack: (config, { isServer }) => { if (isServer) { config.optimization.splitChunks = { chunks: 'all', cacheGroups: { vendor: { test: /node_modules/, name: 'vendors', chunks: 'all' } } }; } return config; }. Implement route-based server bundle splitting by organizing server-only code into route-specific directories. Use serverComponentsExternalPackages to exclude large dependencies from server bundle. Create shared server utilities that can be imported across routes without duplication. For large applications, implement micro-frontend architecture with separate server bundles per domain. Use webpack-bundle-analyzer to visualize server bundle sizes. Optimize by: lazy-loading server-only dependencies, implementing conditional imports based on environment variables, and using tree-shaking for server-side libraries. Monitor server bundle sizes and startup times in production. Consider using Edge Runtime for smaller, faster-starting bundles when full Node.js APIs aren't required.",
+      },
+      {
+        question: "Describe how serverComponentsExternalPackages works.",
+        solution:
+          "serverComponentsExternalPackages in Next.js configures which npm packages should be treated as external dependencies in the server bundle rather than being bundled. By default, Next.js bundles all dependencies for Server Components to ensure consistent execution. External packages are loaded at runtime from node_modules rather than being compiled into the server bundle. Configure in next.config.js: experimental: { serverComponentsExternalPackages: ['prisma', '@aws-sdk/client-s3'] }. This is essential for packages that: contain native binaries or C++ addons, use dynamic require() statements, expect to be loaded from node_modules, or are very large and increase bundle size significantly. Common examples include database clients (Prisma, MongoDB), AWS SDKs, image processing libraries, and authentication libraries. External packages must be compatible with the server runtime environment and cannot use browser-specific APIs. Benefits include: reduced server bundle size, faster cold starts, and compatibility with packages that don't support bundling. Drawbacks include: runtime dependency on node_modules availability and potential version conflicts. Use judiciously - only externalize packages that require it. Monitor the impact on server startup time and memory usage. Some packages may need additional runtime configuration when externalized.",
+      },
+      {
+        question:
+          "How does React 19's prerender API differ from renderToString?",
+        solution:
+          "React 19's prerender API represents a fundamental shift from renderToString's synchronous, blocking rendering to an asynchronous, streaming approach. renderToString blocks the entire process until all components render, requiring all data to be available upfront. React 19's prerender API works with Suspense boundaries and concurrent features to enable partial rendering and streaming. The prerender API returns a Promise that resolves with prerendered content while allowing components to suspend and stream later. Key differences: prerender supports streaming responses with Transfer-Encoding: chunked, handles Suspense boundaries by rendering fallbacks initially then streaming real content, integrates with React Server Components and Server Actions, and enables partial prerendering where static parts prerender while dynamic parts render on-demand. Performance implications: prerender reduces Time to First Byte (TTFB) by sending content immediately, improves perceived performance through progressive loading, and enables better cache utilization. The API also provides better error handling with error boundaries and supports concurrent rendering features like useTransition and useDeferredValue. Migration from renderToString requires adopting Suspense patterns and restructuring server-side rendering logic to work with streaming and partial rendering.",
+      },
+      {
+        question: "When would you choose ISR over SSR for SEO-critical pages?",
+        solution:
+          "Choose ISR over SSR for SEO-critical pages when content changes infrequently but performance and scale are paramount. ISR provides the SEO benefits of SSR (fully rendered HTML for crawlers) while offering superior performance through CDN caching. Ideal scenarios include: e-commerce product pages with occasional inventory updates, blog posts with periodic comment updates, news articles with view count updates, and marketing landing pages with A/B testing. ISR serves pre-generated HTML immediately (better Core Web Vitals) while regenerating stale pages in background. Configure revalidate intervals based on content update frequency - hourly for dynamic content, daily for semi-static content. Use on-demand ISR with revalidateTag() for immediate updates when content changes. For global sites, ISR pages cache at edge locations reducing latency. SEO advantages include: consistent meta tags and structured data, immediate HTML for faster crawler indexing, and stable URLs. However, choose SSR when: content must always be current (financial data, live scores), personalization is required per request, or real-time user data is displayed. Monitor ISR effectiveness through cache hit rates, regeneration frequency, and Core Web Vitals. Implement fallback strategies for ISR generation failures to maintain SEO performance.",
+      },
+      {
+        question: "How do you measure TTFB vs FCP for SSR pages?",
+        solution:
+          "Measuring TTFB (Time to First Byte) and FCP (First Contentful Paint) for SSR pages requires different approaches and tools since they occur at different stages of page loading. TTFB measures server response time - use browser DevTools Network tab to see the 'Waiting (TTFB)' metric, or implement server-side timing: const start = Date.now(); /* SSR logic */ res.setHeader('Server-Timing', `ssr;dur=${Date.now() - start}`). For production monitoring, use Real User Monitoring (RUM) tools like Web Vitals library: import {getTTFB} from 'web-vitals'; getTTFB(console.log). FCP measures when first content appears - use Lighthouse, PageSpeed Insights, or Web Vitals library: import {getFCP} from 'web-vitals'; getFCP(console.log). For SSR optimization: monitor server rendering time within your SSR function, track database query performance, measure external API call times, and implement distributed tracing with tools like Jaeger or DataDog APM. Key SSR-specific metrics include: HTML generation time, hydration time, and Time to Interactive (TTI). Use synthetic monitoring with Lighthouse CI for consistent measurement across deployments. Establish performance budgets: TTFB < 200ms for fast servers, FCP < 1.8s for good user experience. Optimize TTFB through server-side caching, CDN usage, and database query optimization. Improve FCP by optimizing critical rendering path and reducing JavaScript bundle sizes.",
+      },
+      {
+        question: "Explain the impact of HTTP/3 on SSR performance.",
+        solution:
+          "HTTP/3 significantly improves SSR performance through its QUIC transport protocol and enhanced multiplexing capabilities. Unlike HTTP/2's head-of-line blocking at TCP level, HTTP/3 eliminates this bottleneck by using QUIC streams that operate independently - if one stream encounters packet loss, others continue unaffected. For SSR, this means: faster initial page loads as HTML can stream while CSS/JS downloads in parallel, reduced connection establishment time through QUIC's 0-RTT handshake for repeat visits, and improved performance on unstable networks (mobile connections). HTTP/3's connection migration allows seamless network switching without re-establishing connections, crucial for mobile SSR experiences. Enhanced multiplexing benefits SSR applications that make multiple API calls during rendering - requests can execute truly in parallel without protocol-level blocking. Stream prioritization ensures critical resources (HTML, above-the-fold CSS) load before less important assets. For server-side streaming, HTTP/3's improved flow control and congestion management provide smoother chunk delivery. Implementation considerations: enable HTTP/3 at CDN level (Cloudflare, AWS CloudFront), ensure server supports QUIC protocol, and configure proper resource prioritization. Monitor performance improvements through reduced TTFB, improved Core Web Vitals scores, and decreased page load variance across different network conditions. Browser support is still evolving, so maintain HTTP/2 fallback compatibility.",
+      },
+      {
+        question: "How do you implement on-demand ISR with webhooks?",
+        solution:
+          "On-demand ISR with webhooks enables immediate page regeneration when content changes, combining ISR's performance benefits with real-time updates. Create API routes that handle webhook payloads and trigger revalidation: export async function POST(request) { const { slug, type } = await request.json(); if (type === 'product.updated') { await revalidatePath(`/products/${slug}`); await revalidateTag('products'); } return Response.json({ revalidated: true }); }. For tag-based revalidation, add tags to pages using generateMetadata or in fetch options: fetch(url, { next: { tags: ['product', `product-${id}`] } }). Configure webhooks in your CMS/database to trigger on content changes - include authentication tokens and relevant identifiers in payloads. Implement webhook signature verification for security: const signature = headers.get('x-webhook-signature'); const isValid = verifyWebhookSignature(body, signature, secret). Handle webhook failures with retry logic and dead letter queues. For complex scenarios, implement selective revalidation: revalidate specific pages based on content relationships, batch revalidations to avoid overwhelming the server, and use queue systems (Redis, SQS) for high-volume webhooks. Monitor revalidation success rates and response times. Implement fallback mechanisms when webhooks fail - consider polling critical content sources. Scale considerations include: rate limiting webhook endpoints, implementing idempotency keys, and using edge functions for global webhook processing.",
+      },
+      {
+        question: "How do you find the 'long task' culprit in React Profiler?",
+        solution:
+          "Finding long task culprits in React Profiler requires systematic analysis of component render times and commit phases. Start by recording a profile during user interaction - enable 'Record why each component rendered' option. In the Profiler, look for components with high render durations (highlighted in red/orange). Sort components by render time to identify the worst performers. Key indicators include: components with >16ms render times (causing frame drops), frequent re-renders with stable props (unnecessary work), and deep component trees with cascading updates. Use the Flamegraph view to visualize the call stack - wide bars indicate expensive operations. The Ranked view shows components sorted by total render time across all renders. For each suspicious component, examine: why it rendered (props change, state change, parent render), how long it took, and what work it performed. Common culprits include: expensive calculations in render functions, inefficient loops or array operations, synchronous API calls, and large object/array comparisons. Use the Interactions tab to trace user actions to specific performance impacts. Debug strategies: add console.time/timeEnd around expensive operations, use React DevTools to inspect prop changes, implement useMemo for expensive calculations, and add React.memo for pure components. Create minimal reproductions of slow components in isolation to validate optimizations.",
+      },
+      {
+        question:
+          "Explain why React.memo may still re-render when props are stable.",
+        solution:
+          "React.memo can still trigger re-renders despite stable props due to several subtle but important factors. Reference equality checks fail when: parent components create new objects/functions inline (onClick={() => {}} creates new function each render), array/object props are recreated even with same content ([...items] creates new array), and Date objects or other complex objects are instantiated in render. React.memo uses Object.is comparison by default - it only prevents re-renders if all props pass shallow equality. Common pitfalls include: passing style objects created inline ({ color: 'red' }), using array methods that return new arrays (items.filter(...)), and context value changes that cause memo'd components to re-render if they consume context. Custom comparison functions may have bugs or expensive logic that defeats optimization. Additionally, React may choose to re-render memo'd components during concurrent rendering for consistency, even with stable props. Debug techniques: log props in custom comparison function, use React DevTools Profiler to see 'why component rendered', and implement deep equality checks only when necessary (performance cost). Solutions include: move object/function creation outside render or use useMemo/useCallback, implement proper custom comparison functions, split context to minimize re-renders, and ensure parent components are properly optimized to prevent cascading re-renders.",
+      },
+      {
+        question: "When is useCallback an anti-pattern?",
+        solution:
+          "useCallback becomes an anti-pattern when its overhead exceeds its benefits, creating unnecessary complexity without performance gains. Avoid useCallback for: functions passed to DOM elements (onClick handlers on buttons) since DOM elements don't re-render based on prop equality, functions that change frequently due to dependencies - the memoization cache is constantly invalidated, simple functions with expensive dependency arrays where the memoization logic costs more than function recreation, and functions used only once per render cycle. Over-memoization can hurt performance by: consuming additional memory for memoized values, adding comparison overhead on every render, creating complex dependency management, and making code harder to read/maintain. Anti-pattern examples: useCallback(() => setValue(value + 1), [value]) where the dependency changes frequently, wrapping every function in useCallback 'just in case', and using useCallback without measuring actual performance impact. Better alternatives include: moving functions outside components when they don't need props/state, using useRef for mutable function references, implementing proper component architecture to minimize prop drilling, and using state reducers instead of multiple callback props. Measure performance before/after memoization using React DevTools Profiler. Remember: premature optimization is the root of all evil - profile first, optimize bottlenecks, and prefer readable code over speculative performance improvements.",
+      },
+      {
+        question:
+          "How do you memoize expensive calculations with useMemo without hurting GC?",
+        solution:
+          "Efficient useMemo usage requires balancing memoization benefits against garbage collection pressure and memory overhead. Key strategies include: keep memoized values as small as possible by memoizing only the final computed result, not intermediate large objects; use primitive dependencies when possible instead of complex objects to reduce comparison overhead; implement proper cleanup for memoized values that hold references to large objects; and avoid memoizing values that change frequently as this creates GC pressure from discarded memoized results. Memory-conscious patterns: const processedData = useMemo(() => largeDataset.filter(item => item.active).map(item => ({ id: item.id, name: item.name })), [largeDataset.length, filterCriteria]); - note using dataset.length instead of the full dataset as dependency. For expensive computations with large results, consider: lazy evaluation patterns where computation is split across multiple renders, web workers for CPU-intensive calculations, and caching strategies external to React (localStorage, IndexedDB). Monitor GC impact using browser DevTools Performance tab - look for frequent major GC events and memory allocation patterns. Optimize by: implementing manual cleanup in useEffect when memoized values become stale, using WeakMap for caches with automatic garbage collection, and profiling memory usage patterns. Balance memoization granularity - too fine creates overhead, too coarse prevents optimization.",
+      },
+      {
+        question:
+          "Describe the interaction between useTransition and memoization.",
+        solution:
+          "useTransition and memoization interact in complex ways due to React's concurrent rendering model and priority-based updates. useTransition marks updates as non-urgent, allowing React to interrupt them for higher-priority updates, which can affect memoization behavior. During transition updates, React may re-render components multiple times as it works through priority queues, potentially invalidating memoized values repeatedly. Key interactions include: memoized components may still re-render during transitions if dependencies change, but renders are interruptible; useMemo calculations may be computed multiple times during a single transition if interrupted; and React.memo comparisons occur each time a component is considered for re-rendering during transition processing. Best practices: avoid expensive memoization dependencies that frequently change during transitions, implement startTransition around state updates that affect many memoized components, and use useDeferredValue for values that should lag behind urgent updates. Performance considerations: transitions can make memoization less predictable - profile carefully to ensure optimizations are effective, consider using lower-priority updates for expensive recalculations, and implement proper loading states that don't depend on memoized values. Advanced patterns include: combining useTransition with Suspense for progressive data loading, implementing optimistic updates that work with memoized components, and using concurrent features to batch expensive memoization work during idle time.",
+      },
+      {
+        question:
+          "What is the cost of context re-renders and how to split contexts?",
+        solution:
+          "Context re-renders can be expensive because every consumer re-renders when context value changes, regardless of which part of the value they actually use. The cost includes: CPU time for re-rendering all consumers, memory pressure from creating new render trees, and cascading re-renders down component hierarchies. Measure impact using React DevTools Profiler - look for components re-rendering due to context changes they don't actually depend on. Context splitting strategies include: separate contexts by concern (UserContext, ThemeContext, AppStateContext), split by update frequency (frequently changing data vs static configuration), and create granular contexts for different parts of large state objects. Implementation patterns: const AuthContext = createContext(); const PreferencesContext = createContext(); instead of single AppContext. For complex state, implement context composition: function AppProvider({ children }) { return ( <AuthProvider> <ThemeProvider> <DataProvider> {children} </DataProvider> </ThemeProvider> </AuthProvider> ); }. Advanced optimization techniques include: using context selectors (though not built-in, can be implemented with subscription patterns), memoizing context values to prevent unnecessary re-renders: const value = useMemo(() => ({ user, preferences }), [user, preferences]), implementing compound components that isolate context usage, and using jotai or zustand for fine-grained state management when context becomes too expensive. Monitor re-render frequency and optimize hot paths first.",
+      },
+      {
+        question: "How does react-window reduce memory pressure?",
+        solution:
+          "react-window reduces memory pressure through viewport-based rendering - it only renders DOM elements that are currently visible plus a small buffer. Instead of creating 10,000 DOM nodes for a large list, it maintains ~10-20 nodes and reuses them by updating their content and position as the user scrolls. This keeps memory usage constant O(viewport_size) instead of O(total_items). The library calculates item positions virtually using mathematical formulas (start_index * item_height) rather than measuring actual DOM, eliminating the need to render everything upfront. It also implements recycling pools where DOM elements are reused rather than destroyed/recreated, reducing GC pressure.",
+      },
+      {
+        question:
+          "What is the 'virtual scroller' pattern and when to choose react-virtualized vs @tanstack/react-virtual?",
+        solution:
+          "Virtual scrolling renders only visible items in large datasets, calculating positions mathematically. Choose react-virtualized for complex scenarios: variable heights, nested scrolling, grids, tables with frozen columns, and when you need battle-tested stability (used by Facebook). Choose @tanstack/react-virtual for modern applications: better TypeScript support, smaller bundle size, simpler API, better performance with fixed heights, and when you want framework-agnostic solution. @tanstack/react-virtual is 10x smaller (3kb vs 30kb), has better tree-shaking, and supports horizontal scrolling out-of-the-box. Use react-virtualized for legacy codebases or when you need WindowedList's advanced features like CellMeasurer.",
+      },
+      {
+        question:
+          "How do you optimize images on the fly with Next.js Image component?",
+        solution:
+          "Next.js Image optimizes through automatic format selection (WebP/AVIF for modern browsers), responsive sizing with srcSet generation, lazy loading with intersection observer, and on-demand optimization. Configure with: `<Image priority={above_fold} placeholder='blur' blurDataURL='data:image/jpeg;base64...' sizes='(max-width: 768px) 100vw, 50vw' />`. Use `next/image` config: `{formats: ['image/avif', 'image/webp'], minimumCacheTTL: 31536000, dangerouslyAllowSVG: false}`. For dynamic optimization: implement custom loader with Cloudinary/ImageKit, use `loader` prop for CDN integration, set `unoptimized={false}` for external images. Images are served from `/_next/image?url=...&w=640&q=75` with automatic caching headers.",
+      },
+      {
+        question:
+          "Describe the impact of third-party scripts on INP and how to defer them.",
+        solution:
+          "Third-party scripts block main thread, delay interaction responses, and increase INP (Interaction to Next Paint). They cause parser blocking, execute synchronously, and compete with user interactions for CPU time. Defer strategies: 1) Use `<script defer>` or `<script async>` - defer waits for DOM, async executes immediately when loaded. 2) Load after user interaction: `addEventListener('click', () => import('./analytics.js'))`. 3) Use Intersection Observer to load when element is visible. 4) Implement request idle callback: `requestIdleCallback(() => loadScript())`. 5) For Next.js: use `next/script` with `strategy='afterInteractive'` or `strategy='lazyOnload'`. 6) Self-host critical scripts to avoid DNS lookup. Measure impact with Performance Observer API monitoring INP metrics.",
+      },
+      {
+        question:
+          "How do you measure interaction latency using the Event Timing API?",
+        solution:
+          "Event Timing API captures user interaction metrics through PerformanceObserver. Implementation: `const observer = new PerformanceObserver(list => { list.getEntries().forEach(entry => { if (entry.name === 'click' && entry.duration > 40) { console.log('Slow interaction:', entry.duration, entry.target); } }); }); observer.observe({type: 'event', buffered: true});`. The API provides `startTime` (when event fired), `processingStart` (when handler started), `processingEnd` (when handler finished), and `duration` (total latency). For comprehensive INP measurement, track longest interaction per page load, exclude non-interacting events (scroll, hover), and use `interactionId` to group related events. Implement percentile tracking for P75 INP scores and correlate with user session data.",
+      },
+      {
+        question:
+          "When would you use a Web Worker for React state computation?",
+        solution:
+          "Use Web Workers for CPU-intensive state computations that risk blocking the UI thread (>16ms tasks). Scenarios: complex data transformations (sorting 50k+ records), heavy calculations (statistical analysis, image processing), large JSON parsing/serialization, and cryptographic operations. Implementation: create worker for heavy Redux reducers, move complex selectors to workers, and pass results back via postMessage. Example: `const worker = new Worker('./dataProcessor.js'); worker.postMessage({type: 'SORT_LARGE_DATASET', data}); worker.onmessage = ({data}) => dispatch(setSortedData(data));`. Don't use for simple state updates, DOM manipulation (workers can't access DOM), or when data transfer cost exceeds computation cost. Consider using Comlink library to simplify worker communication and handle promises elegantly.",
+      },
+      {
+        question: "Explain the cost of prop-drilling vs context selectors.",
+        solution:
+          "Prop-drilling causes unnecessary re-renders throughout component tree - if parent updates, all children re-render even if they don't use the prop. With 10-level deep drilling, updating root causes 10 component re-renders. Context without selectors is worse - any context change triggers ALL consumers to re-render. Solution: implement context selectors with `useMemo` and subscription pattern. Create multiple contexts for different concerns, use state slicing (`const name = useContext(UserContext).name`), or implement custom hooks with equality checks. Libraries like use-context-selector or Zustand provide built-in selectors. Prop-drilling is often better for small apps (<5 levels) as it's more explicit and easier to debug. Context shines for deeply nested state (theme, auth) but needs careful optimization to prevent render cascades.",
+      },
+      {
+        question: "How do you implement a custom scheduler for micro-tasks?",
+        solution:
+          "Create a priority-based task scheduler using MessageChannel for immediate execution and setTimeout for delayed tasks. Implementation: `class TaskScheduler { constructor() { this.tasks = []; this.channel = new MessageChannel(); this.channel.port2.onmessage = this.flushWork.bind(this); } schedule(callback, priority = 'normal') { this.tasks.push({callback, priority, id: Date.now()}); this.channel.port1.postMessage(null); } flushWork() { const task = this.tasks.shift(); if (task) task.callback(); } }`. Use `queueMicrotask()` for high-priority updates, `requestIdleCallback()` for low-priority work, and `scheduler.postTask()` (when available) for native scheduling. Implement time-slicing by checking `performance.now()` and yielding control after 5ms chunks. This prevents long tasks from blocking user interactions while maintaining smooth updates.",
+      },
+      {
+        question: "Describe how useDeferredValue reduces dropped frames.",
+        solution:
+          "useDeferredValue delays non-urgent updates during user interactions, preventing frame drops by prioritizing immediate UI responses. When user types, React defers expensive list filtering until after keystrokes complete. Implementation: `const deferredQuery = useDeferredValue(searchQuery); const expensiveResults = useMemo(() => filterLargeDataset(deferredQuery), [deferredQuery]);`. During rapid typing, `searchQuery` updates immediately (for input value) while `deferredQuery` stays stale until React has spare time. This prevents dropped frames by not blocking the main thread during interaction bursts. The deferred value 'catches up' during idle periods. Combine with `useTransition` for loading states: `const [isPending, startTransition] = useTransition(); startTransition(() => setQuery(newQuery));`. This pattern is essential for keeping 60fps during expensive computations.",
+      },
+      {
+        question:
+          "How do you throttle network requests with AbortController in React?",
+        solution:
+          "Combine AbortController with throttling to cancel outdated requests and limit request frequency. Implementation: `const useThrottledFetch = (url, delay = 300) => { const [data, setData] = useState(null); const controllerRef = useRef(); const throttledFetch = useCallback(throttle(async (fetchUrl) => { controllerRef.current?.abort(); controllerRef.current = new AbortController(); try { const response = await fetch(fetchUrl, {signal: controllerRef.current.signal}); setData(await response.json()); } catch (error) { if (error.name !== 'AbortError') throw error; } }, delay), [delay]); return {data, fetch: throttledFetch}; }`. This cancels in-flight requests when new ones are triggered, preventing race conditions and reducing server load. For search inputs, combine with debouncing to wait for user to stop typing before making requests.",
+      },
+      {
+        question: "What is the 'idle until urgent' pattern?",
+        solution:
+          "'Idle until urgent' defers non-critical work until browser has spare time, but executes immediately when needed. Use `requestIdleCallback()` for background tasks and interrupt with urgent updates. Implementation: `const useIdleUntilUrgent = (task, deps) => { const [result, setResult] = useState(null); const urgentRef = useRef(false); useEffect(() => { if (urgentRef.current) { setResult(task()); return; } const id = requestIdleCallback((deadline) => { if (deadline.timeRemaining() > 10 || deadline.didTimeout) { setResult(task()); } }); return () => cancelIdleCallback(id); }, deps); const executeUrgently = () => { urgentRef.current = true; setResult(task()); }; return [result, executeUrgently]; }`. Perfect for data processing, analytics, prefetching, and background sync. Helps maintain 60fps while still completing necessary work during idle periods.",
+      },
+      {
+        question: "How do you measure CLS in SPAs with client-side navigation?",
+        solution:
+          "Measure CLS (Cumulative Layout Shift) in SPAs by resetting metrics on route changes and tracking layout shifts per page. Implementation: `let cls = 0; const observer = new PerformanceObserver(list => { for (const entry of list.getEntries()) { if (!entry.hadRecentInput) { cls += entry.value; } } }); observer.observe({type: 'layout-shift', buffered: true});`. Reset CLS on navigation: `router.events.on('routeChangeComplete', () => { sendCLS(cls); cls = 0; });`. For React Router: use `useEffect` in route components to track page-specific CLS. Implement session-based tracking to get per-page CLS scores rather than cumulative. Use `largest-contentful-paint` observer to mark LCP and measure CLS from that point. Send metrics to analytics with page context to identify problematic routes and optimize accordingly.",
+      },
+      {
+        question:
+          "How do you prevent layout thrash when reading DOM in useLayoutEffect?",
+        solution:
+          "Prevent layout thrash by batching DOM reads, avoiding read-write cycles, and using RAF for measurements. Bad pattern: `useLayoutEffect(() => { element.scrollTop = 100; // write const height = element.offsetHeight; // read - triggers layout element.style.height = height + 'px'; // write - another layout });`. Good pattern: batch reads together, use `getBoundingClientRect()` once, and apply all writes in sequence. Implementation: `useLayoutEffect(() => { const measurements = elements.map(el => el.getBoundingClientRect()); // batch reads requestAnimationFrame(() => { elements.forEach((el, i) => el.style.top = measurements[i].bottom + 'px'); // batch writes }); });`. Use ResizeObserver for reactive measurements, implement measurement caching with WeakMap, and consider CSS containment (`contain: layout style paint`) to limit reflow scope.",
+      },
+      {
+        question:
+          "Compare Redux Toolkit vs Zustand vs Recoil vs Jotai for a 200-route app.",
+        solution:
+          "For 200-route apps: **Redux Toolkit**: Best for complex business logic, time-travel debugging, strict patterns. Pros: mature ecosystem, DevTools, predictable updates. Cons: boilerplate, learning curve. **Zustand**: Ideal for modern apps wanting simplicity. Pros: tiny (2kb), no providers, easy async. Cons: less tooling, potential prop-drilling. **Recoil**: Great for Facebook-style apps with complex state graphs. Pros: atomic updates, suspense integration, async selectors. Cons: still experimental, Facebook-specific patterns. **Jotai**: Perfect for bottom-up atomic state. Pros: fine-grained reactivity, no global state, excellent TypeScript. Cons: newer ecosystem, different mental model. Recommendation: Use Redux Toolkit for enterprise apps with complex workflows, Zustand for most modern React apps, Jotai for component-focused architecture with lots of derived state, Recoil only if already using other Meta tools.",
+      },
+      {
+        question: "How do you normalize nested API data in Redux?",
+        solution:
+          "Normalize nested data using entities pattern with RTK's `createEntityAdapter`. Implementation: `const usersAdapter = createEntityAdapter(); const postsAdapter = createEntityAdapter(); const postsSlice = createSlice({ name: 'posts', initialState: postsAdapter.getInitialState(), reducers: { setPosts: (state, action) => { const normalized = normalize(action.payload, { posts: [postSchema], users: [userSchema] }); postsAdapter.setAll(state, normalized.entities.posts); } } });`. Define schemas: `const userSchema = new schema.Entity('users'); const postSchema = new schema.Entity('posts', { author: userSchema, comments: [commentSchema] });`. Use `normalizr` library to flatten nested API responses into lookup tables. Create selectors that denormalize data: `const getPostWithAuthor = createSelector([getPosts, getUsers], (posts, users) => posts.map(post => ({...post, author: users[post.authorId]})));`. This eliminates data duplication and makes updates efficient.",
+      },
+      {
+        question: "Explain the role of RTK Query vs React Query.",
+        solution:
+          "**RTK Query**: Redux-first data fetching with normalized caching, built-in optimistic updates, and tight Redux integration. Best for apps already using Redux, needing complex state interactions, or requiring DevTools integration. Provides automated cache invalidation tags, built-in mutations, and standardized error handling. **React Query**: Framework-agnostic with powerful stale-while-revalidate caching, background refetching, and optimistic updates. Better for component-focused apps, simpler learning curve, and more flexible caching strategies. Excels at server state synchronization with features like infinite queries and parallel queries. **Choose RTK Query** when: using Redux, need normalized data, want consistent patterns. **Choose React Query** when: primarily fetching data, want framework flexibility, need advanced caching (stale time, background sync). Both handle loading states, error boundaries, and request deduplication well.",
+      },
+      {
+        question: "How do you implement optimistic updates with rollback?",
+        solution:
+          "Implement optimistic updates by immediately updating UI, then rollback on failure. Redux pattern: `const updatePost = createAsyncThunk('posts/update', async ({id, updates}, {dispatch, rejectWithValue}) => { const originalPost = getState().posts.entities[id]; dispatch(postsSlice.actions.updatePostOptimistic({id, updates})); try { const result = await api.updatePost(id, updates); return result; } catch (error) { dispatch(postsSlice.actions.rollbackPost({id, originalPost})); return rejectWithValue(error); } });`. React Query approach: `const mutation = useMutation(updatePost, { onMutate: async (updates) => { await queryClient.cancelQueries(['post', id]); const previousPost = queryClient.getQueryData(['post', id]); queryClient.setQueryData(['post', id], updates); return {previousPost}; }, onError: (err, updates, context) => { queryClient.setQueryData(['post', id], context.previousPost); } });`. Store rollback data, handle network failures gracefully, and show loading states during server confirmation.",
+      },
+      {
+        question:
+          "Describe how to migrate a Redux store to Zustand incrementally.",
+        solution:
+          "Migrate Redux to Zustand incrementally by domain/feature. Start with leaf components: 1) Create Zustand store for one domain: `const useUserStore = create(set => ({ users: [], addUser: (user) => set(state => ({users: [...state.users, user]})) }));`. 2) Replace Redux connect/useSelector in components: `const users = useUserStore(state => state.users);`. 3) Maintain Redux for connected domains until migration complete. 4) Use middleware to sync between stores during transition: `const syncMiddleware = store => next => action => { if (action.type.startsWith('user/')) { useUserStore.getState().syncFromRedux(action.payload); } return next(action); };`. 5) Extract shared logic into custom hooks: `const useUser = () => useUserStore(state => state.user)`. 6) Remove Redux domain once all components migrated. This approach allows testing each migration independently while maintaining app stability.",
+      },
+      {
+        question: "How do you handle circular dependencies in selectors?",
+        solution:
+          "Handle circular selector dependencies by breaking cycles with memoization and dependency injection. Common issue: `const selectA = state => selectB(state) + 1; const selectB = state => selectA(state) + 1;` causes infinite recursion. Solutions: 1) **Refactor dependencies**: Extract shared computation into separate selector. 2) **Use dependency injection**: `const selectA = (state, selectBImpl = selectB) => selectBImpl(state) + 1;`. 3) **Lazy evaluation**: `const selectA = createSelector([state => state.raw], raw => { const b = selectB.isInitialized ? selectB(state) : defaultB; return b + 1; });`. 4) **Break with caching**: Use weak references or conditional memoization. 5) **Restructure state**: Often indicates poor state design - consider normalizing or flattening state shape. Use `reselect` with explicit dependencies and avoid cross-domain selector calls that create tight coupling.",
+      },
+      {
+        question: "Explain the 'state hydration' pattern for SSR with Redux.",
+        solution:
+          "State hydration transfers server-rendered state to client Redux store without triggering re-renders. Server-side: `const store = configureStore({preloadedState: {user: serverUser, posts: serverPosts}}); const html = renderToString(<Provider store={store}><App /></Provider>); const finalState = store.getState(); res.send(template.replace('{{STATE}}', JSON.stringify(finalState)));`. Client-side: `const preloadedState = window.__PRELOADED_STATE__; delete window.__PRELOADED_STATE__; const store = configureStore({preloadedState}); hydrateRoot(document.getElementById('root'), <Provider store={store}><App /></Provider>);`. Handle hydration mismatches with `suppressHydrationWarning`, serialize dates/functions properly with replacer/reviver functions, and sanitize state to prevent XSS. Use Redux DevTools' time-travel to debug hydration issues and implement loading states for client-only data.",
+      },
+      {
+        question: "How do you split reducers by route in code-split apps?",
+        solution:
+          "Split reducers by route using dynamic imports with `combineReducers` and hot-swapping. Implementation: `const createDynamicReducer = () => { const staticReducers = {auth: authReducer, ui: uiReducer}; const dynamicReducers = {}; return { getReducer: () => combineReducers({...staticReducers, ...dynamicReducers}), injectReducer: (key, reducer) => { dynamicReducers[key] = reducer; store.replaceReducer(getReducer()); } }; };`. Load route reducers: `const DashboardPage = lazy(() => import('./Dashboard').then(module => { dynamicReducer.injectReducer('dashboard', module.dashboardReducer); return module; }));`. Use RTK's `configureStore` with dynamic middleware injection. Clean up reducers on route exit to prevent memory leaks: `useEffect(() => () => dynamicReducer.removeReducer('dashboard'), []);`. This pattern reduces initial bundle size and loads domain-specific state management only when needed.",
+      },
+      {
+        question: "What is the 'ducks' pattern and when is it overkill?",
+        solution:
+          "Ducks pattern colocates actions, action creators, and reducers in single files, organized by feature rather than type. Structure: `// userDuck.js const LOAD_USER = 'app/user/LOAD_USER'; const CLEAR_USER = 'app/user/CLEAR_USER'; export const loadUser = payload => ({type: LOAD_USER, payload}); export const clearUser = () => ({type: CLEAR_USER}); export default function reducer(state = initialState, action) { switch(action.type) { case LOAD_USER: return {...state, ...action.payload}; default: return state; } }`. **Benefits**: logical grouping, easier imports, feature-focused development. **Overkill when**: simple CRUD operations, small apps (<10 actions), using RTK (which handles much of this), or when actions are shared across many domains. Modern RTK slices essentially implement ducks pattern automatically. Use ducks for medium-sized apps but consider RTK for better developer experience and less boilerplate.",
+      },
+      {
+        question:
+          "How do you type Redux actions with discriminated unions in TypeScript?",
+        solution:
+          "Create discriminated unions using literal action types for exhaustive type checking. Implementation: `type UserAction = {type: 'user/load', payload: User} | {type: 'user/clear'} | {type: 'user/error', payload: string}; const userReducer = (state: UserState = initialState, action: UserAction): UserState => { switch(action.type) { case 'user/load': return {...state, user: action.payload}; // payload is typed as User case 'user/clear': return {...state, user: null}; // no payload property case 'user/error': return {...state, error: action.payload}; // payload is typed as string default: return state; } };`. Use RTK for automatic typing: `const userSlice = createSlice({ name: 'user', initialState, reducers: { setUser: (state, action: PayloadAction<User>) => { state.user = action.payload; } } });`. Export action types: `export type UserActions = ReturnType<typeof userSlice.actions[keyof typeof userSlice.actions]>;` for comprehensive type safety across the app.",
+      },
+      {
+        question: "Describe how Recoil handles async selectors.",
+        solution:
+          "Recoil async selectors use Suspense for loading states and error boundaries for error handling. Implementation: `const userQuery = selector({ key: 'userQuery', get: async ({get}) => { const userId = get(userIdState); if (!userId) return null; const response = await fetch(\\`/api/users/${userId}\\`); return response.json(); } });`. Components suspend during async resolution: `const UserProfile = () => { const user = useRecoilValue(userQuery); // suspends until resolved return <div>{user.name}</div>; };`. Handle with Suspense boundary: `<Suspense fallback={<Loading />}><UserProfile /></Suspense>`. Async selectors are cached and automatically recompute when dependencies change. Use `selectorFamily` for parameterized queries: `const userQuery = selectorFamily({ key: 'userQuery', get: (userId) => async () => { const response = await fetch(\\`/api/users/${userId}\\`); return response.json(); } });`. Combine with error boundaries for comprehensive error handling and implement refresh strategies with atom updates.",
+      },
+      {
+        question:
+          "How do you implement a custom persistence layer for Zustand?",
+        solution:
+          "Create custom Zustand persistence using middleware pattern with async storage support. Implementation: `const createPersistentStore = (name, storage = localStorage) => create(persist(set => ({ count: 0, increment: () => set(state => ({count: state.count + 1})), }), { name, storage: { getItem: async (name) => { const value = await storage.getItem(name); return value ? JSON.parse(value) : null; }, setItem: async (name, value) => { await storage.setItem(name, JSON.stringify(value)); }, removeItem: async (name) => { await storage.removeItem(name); } }, partialize: state => ({count: state.count}), // only persist specific fields version: 1, migrate: (persistedState, version) => { if (version === 0) return {...persistedState, newField: 'default'}; return persistedState; } }));`. Support multiple storage backends (localStorage, IndexedDB, AsyncStorage), implement selective persistence with `partialize`, handle migration between versions, and add encryption for sensitive data.",
+      },
+      {
+        question: "What is the cost of context providers at scale?",
+        solution:
+          "Context providers cause performance issues at scale through unnecessary re-renders and provider tree complexity. **Problems**: Every context change triggers ALL consumers to re-render, regardless of which part they use. With 20+ providers, component tree becomes deeply nested, impacting reconciliation performance. **Costs**: Large context values cause expensive diff operations, frequent updates trigger render cascades, and deep provider nesting slows React's work loop. **Solutions**: Split contexts by concern (`<UserContext>`, `<ThemeContext>`), use selectors with `useMemo`: `const userName = useMemo(() => user.name, [user.name])`, implement context subscription pattern, or use state management libraries (Zustand, Jotai) that provide built-in selectors. **Benchmark**: 100 components consuming context with frequent updates can cause 2-3x slower renders compared to direct prop passing or atomic state management.",
+      },
+      {
+        question: "How do you share state between micro-frontends?",
+        solution:
+          "Share state between micro-frontends using event-driven communication, shared storage, or orchestration patterns. **Methods**: 1) **Custom Events**: `window.dispatchEvent(new CustomEvent('user-updated', {detail: userData})); window.addEventListener('user-updated', handleUserUpdate);`. 2) **Shared State Bus**: Create singleton store accessible across MFEs: `window.SharedStore = {subscribe, publish, getState}`. 3) **Storage-based**: Use localStorage/sessionStorage with storage events for reactive updates. 4) **Module Federation**: Share state libraries directly between webpack modules. 5) **Message Broker**: Implement pub/sub with libraries like postal.js. **Best Practices**: Define clear contracts, namespace events to prevent conflicts (`mfe1:user-updated`), implement versioning for shared interfaces, handle communication failures gracefully, and prefer loose coupling over tight integration. Use TypeScript interfaces to define shared state contracts across teams.",
+      },
+      {
+        question: "How do you mock IntersectionObserver for lazy-load tests?",
+        solution:
+          "Create a mock implementation using jest.fn() that simulates intersection changes. Set up window.IntersectionObserver = jest.fn(() => ({ observe: jest.fn(), unobserve: jest.fn(), disconnect: jest.fn() })); then manually trigger callbacks with mock entries containing isIntersecting: true/false. Use act() wrapper for React state updates. Alternative: use intersection-observer polyfill in test environment or create custom hook wrapper for easier mocking.",
+      },
+      {
+        question: "Describe how to test error boundaries.",
+        solution:
+          "Create test components that throw errors on command using useState/useEffect. Wrap with error boundary and assert error UI renders. Test: 1) Error caught and fallback UI shown, 2) componentDidCatch logs error properly, 3) Error boundary resets on retry, 4) Nested boundaries catch appropriate errors, 5) Production vs development error messages. Use console.error spies to verify error reporting. Test both sync and async errors (Promise rejections, event handlers).",
+      },
+      {
+        question: "How do you test SSR pages with Playwright?",
+        solution:
+          "Use page.goto() with waitUntil: 'domcontentloaded' to test initial server render. Verify critical content exists before JS hydration using page.locator().isVisible(). Test hydration by checking interactive elements work post-hydration. Use network interception to block JS and verify SSR-only functionality. Test meta tags, structured data, and SEO elements. Verify no hydration mismatches by checking console errors. Use lighthouse integration for performance metrics on SSR content.",
+      },
+      {
+        question: "Explain visual regression testing with Percy.",
+        solution:
+          "Integrate Percy SDK with test framework (Jest/Cypress/Playwright). Take snapshots using percy.snapshot() at key UI states. Configure responsive breakpoints and cross-browser testing in percy.config.js. Set up CI pipeline to automatically compare against baseline images. Use Percy's DOM snapshot mode for faster, more stable comparisons than full screenshots. Handle dynamic content with ignore regions or data attributes. Establish approval workflow for legitimate visual changes. Monitor bundle size impact and test flakiness metrics.",
+      },
+      {
+        question: "How do you measure test coverage per route?",
+        solution:
+          "Use Istanbul/nyc with route-based reporting. Configure coverage collection with source maps enabled. Create custom reporter that maps test files to route components using static analysis or runtime tracking. Use React DevTools Profiler API to track component usage per route during tests. Set up coverage thresholds per route in jest.config.js. Generate route-specific coverage reports using coverage badges. Track uncovered lines per route component and shared utilities separately.",
+      },
+      {
+        question: "How do you mock WebSocket connections?",
+        solution:
+          "Create WebSocket mock class that extends EventTarget for event handling. Mock new WebSocket() constructor to return controlled instance. Implement send(), close(), readyState properties. Use message queues to simulate async behavior with setTimeout. Create helper methods to trigger onopen, onmessage, onerror, onclose events. For integration tests, use actual WebSocket server with ws library. Consider using Mock Service Worker (MSW) for more realistic WebSocket mocking with network-level interception.",
+      },
+      {
+        question: "Describe how to test drag-and-drop with Testing Library.",
+        solution:
+          "Use fireEvent or userEvent to simulate drag sequence: dragStart -> dragEnter -> dragOver -> drop. Create mock DataTransfer object with setData/getData methods. Test keyboard navigation alternative (arrow keys + space/enter). Verify ARIA live regions announce state changes. Use custom render with DndProvider wrapper for react-dnd. Test edge cases: invalid drop targets, multiple items, interrupted drags. Mock getBoundingClientRect() for position calculations. Verify focus management during drag operations.",
+      },
+      {
+        question: "How do you test focus management for keyboard navigation?",
+        solution:
+          "Use document.activeElement to assert focus position. Test tab order with Tab/Shift+Tab simulation using userEvent.tab(). Verify focus trapping in modals using custom queries for tabbable elements. Test arrow key navigation in custom components. Assert ARIA attributes (aria-expanded, aria-selected) change correctly. Use axe-core for automated accessibility testing. Test focus restoration after modal close. Verify skip links functionality and focus visible indicators. Mock window.matchMedia for prefers-reduced-motion testing.",
+      },
+      {
+        question: "How do you run tests in parallel in CI?",
+        solution:
+          "Configure Jest with maxWorkers based on CPU cores (--maxWorkers=50%). Use test sharding with --shard=1/4 flag for multiple CI runners. Set up matrix strategy in GitHub Actions with different test suites. Use --testPathPattern to split tests by directory/feature. Configure different timeouts for unit vs integration tests. Use --coverage=false for faster parallel runs. Cache node_modules and Jest transform cache. Consider using jest-runner-groups for custom parallelization strategies. Monitor memory usage to prevent OOM errors.",
+      },
+      {
+        question: "How do you test code-split chunks load correctly?",
+        solution:
+          "Use dynamic import() in tests to verify chunks exist. Mock import() failures to test error boundaries and retry logic. Use bundler analysis tools (webpack-bundle-analyzer) in CI to verify chunk sizes. Test lazy component loading with Suspense boundaries. Verify preload hints are generated correctly. Use Playwright to test network throttling scenarios. Assert chunk names match expected patterns. Test chunk caching headers and immutable assets. Monitor chunk duplication and shared dependencies in production builds.",
+      },
+      {
+        question: "Describe how to test i18n language switching.",
+        solution:
+          "Mock i18n provider with controlled locale state. Test translation key resolution and fallbacks. Verify date/number formatting changes per locale. Test RTL layout changes for Arabic/Hebrew. Assert font loading for non-Latin scripts. Test pluralization rules for different languages. Verify currency and timezone formatting. Use screenshot testing for layout changes. Test keyboard shortcuts for language switching. Mock translation loading failures and test error states. Verify URL structure changes (/en/page vs /fr/page).",
+      },
+      {
+        question: "How do you test analytics events without polluting logs?",
+        solution:
+          "Mock analytics SDK completely in test environment. Create analytics test helper that captures events in memory array. Use environment variables to disable real tracking in tests. Implement analytics abstraction layer with test implementation. Use MSW to intercept analytics requests and verify payloads. Create analytics event assertions (toHaveTrackedEvent matcher). Test event timing, user properties, and custom dimensions. Verify GDPR consent integration. Use session replay tools in staging for E2E validation without affecting production metrics.",
+      },
+      {
+        question: "How do you test component performance with React Profiler?",
+        solution:
+          "Wrap components in Profiler with onRender callback collecting timing data. Create performance test utilities measuring render count, commit time, and re-render frequency. Use act() for synchronous performance measurements. Test memo() effectiveness by asserting render counts remain constant. Measure effect cleanup timing and memory leaks. Use React DevTools Profiler API programmatically. Create performance regression tests with thresholds. Test suspense timing and concurrent feature impact. Profile different device conditions using Chrome DevTools integration.",
+      },
+      {
+        question: "Explain how Module Federation shares React at runtime.",
+        solution:
+          "Configure shared dependencies in webpack.config.js with singleton: true for React. Use requiredVersion ranges for compatibility. Implement fallback loading strategy for version mismatches. Set up shared scope resolution at runtime using __webpack_share_scopes__. Handle React version conflicts with compatibility layers. Use eager shared modules for critical dependencies. Implement runtime version checking in shell application. Monitor shared bundle loading performance. Create development setup with hot reloading across federated modules. Handle SSR shared dependencies with Node.js compatibility.",
+      },
+      {
+        question: "How do you avoid duplicate React instances?",
+        solution:
+          "Use Module Federation shared configuration with singleton: true and strictVersion: false for flexibility. Implement React version detection at runtime using React.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentDispatcher. Use webpack externals to prevent bundling React in child apps. Set up peer dependencies correctly in package.json. Create shared dependency audit tools for CI. Use npm/yarn resolutions to force single React version. Implement runtime checks for multiple React roots. Monitor bundle analysis for duplicate detection.",
+      },
+      {
+        question: "Describe the shell-app pattern vs self-hosted MFEs.",
+        solution:
+          "Shell-app: Central host loads federated modules at runtime, provides shared routing/navigation, handles authentication state, manages shared dependencies. Benefits: centralized control, consistent UX, easier governance. Self-hosted: Each MFE deployed independently with own domain/routing, communicates via events/APIs, handles own authentication. Benefits: true independence, technology diversity, isolated deployments. Hybrid: Shell provides framework while MFEs handle their domains. Choose based on team autonomy needs, shared dependency complexity, and deployment independence requirements.",
+      },
+      {
+        question: "How do you version shared libraries safely?",
+        solution:
+          "Use semantic versioning with strict major version boundaries. Implement runtime compatibility checks for breaking changes. Create shared library compatibility matrix. Use feature flags for gradual rollouts of new library versions. Implement graceful degradation for missing features. Set up automated testing across all consuming MFEs. Use webpack externals with version ranges. Create migration guides and deprecated feature warnings. Implement canary releases with progressive rollout. Monitor runtime errors from version mismatches and establish rollback procedures.",
+      },
+      {
+        question: "Explain CSS scoping strategies for micro-frontends.",
+        solution:
+          "Use CSS-in-JS (styled-components, emotion) for automatic scoping. Implement CSS Modules with unique class names per MFE. Use PostCSS plugins for automatic prefixing with MFE namespace. Shadow DOM for complete style isolation but with limited browser support. BEM methodology with MFE-specific prefixes. CSS Custom Properties for shared design tokens. Runtime CSS injection with scoped selectors. Use postcss-prefixwrap for build-time scoping. Implement style reset/normalization per MFE. Consider CSS Houdini for advanced scoping techniques.",
+      },
+      {
+        question: "How do you route between MFEs without refresh?",
+        solution:
+          "Implement single-spa or similar orchestration framework. Use browser History API for navigation state management. Create shared routing library with event-based communication. Use Module Federation with dynamic imports for route-based loading. Implement client-side routing with path-based MFE resolution. Use custom routing events for cross-MFE navigation. Handle deep linking and browser back/forward correctly. Implement loading states during MFE transitions. Use service workers for route prefetching. Consider iframe communication for legacy MFE integration.",
+      },
+      {
+        question: "How do you handle authentication state across MFEs?",
+        solution:
+          "Use shared authentication service with event-driven state synchronization. Implement JWT tokens in httpOnly cookies for security. Use BroadcastChannel API for cross-tab auth state sync. Create authentication proxy/gateway handling token refresh. Use shared authentication context via Module Federation. Implement SSO with OIDC/SAML for enterprise scenarios. Use localStorage/sessionStorage with event listeners (storage event). Handle token expiration gracefully across all MFEs. Implement logout propagation via custom events. Consider authentication microservice with GraphQL subscriptions.",
+      },
+      {
+        question: "Describe build-time vs runtime integration trade-offs.",
+        solution:
+          "Build-time: Benefits - faster loading, bundle optimization, compile-time error checking, simpler deployment. Drawbacks - tight coupling, longer build times, coordinated releases required. Runtime: Benefits - independent deployments, technology diversity, dynamic loading, better fault isolation. Drawbacks - network latency, version conflicts, complex error handling, harder optimization. Hybrid approaches: critical paths build-time integrated, non-critical features runtime loaded. Consider team size, deployment frequency, and performance requirements when choosing strategy.",
+      },
+      {
+        question: "How do you implement a deployment pipeline for 10 MFEs?",
+        solution:
+          "Use monorepo with selective deployment based on changed packages. Implement dependency graph analysis for deployment ordering. Create shared CI/CD pipeline with parallel builds and staged deployments. Use feature branch deployments with dynamic subdomain routing. Implement canary deployments with traffic splitting. Create deployment orchestration service managing rollout sequences. Use container orchestration (Kubernetes) with service mesh. Implement health checks and automated rollbacks. Use deployment gates for cross-MFE integration testing. Monitor deployment success rates and establish SLAs.",
+      },
+      {
+        question: "How do you monitor bundle duplication in production?",
+        solution:
+          "Use webpack-bundle-analyzer in CI to track shared dependencies. Implement runtime monitoring with performance.getEntriesByType('resource') to detect duplicate loading. Create custom metrics tracking shared module loading patterns. Use Real User Monitoring (RUM) to measure bundle loading impact. Set up alerts for bundle size increases above thresholds. Implement dependency audit tools scanning for version conflicts. Use Chrome DevTools Coverage API for unused code detection. Create dashboard showing bundle overlap across MFEs. Monitor Core Web Vitals impact from duplicate loading.",
+      },
+      {
+        question: "Explain the impact on Core Web Vitals with MFE waterfalls.",
+        solution:
+          "MFE waterfalls increase LCP by delaying critical content loading. Multiple round trips affect FID during JavaScript parsing. CLS increases from layout shifts during progressive MFE loading. Mitigation: preload critical MFEs, use resource hints (dns-prefetch, preconnect), implement progressive enhancement with SSR, use service workers for MFE caching, optimize shared dependency loading, implement skeleton screens during loading, measure and budget performance per MFE, use streaming SSR for faster initial paint.",
+      },
+      {
+        question: "How do you test cross-MFE integration in CI?",
+        solution:
+          "Use contract testing with Pact for API agreements between MFEs. Implement integration test suite that loads multiple MFEs in test environment. Use Playwright with multiple page contexts simulating different MFEs. Create shared test utilities for cross-MFE scenarios. Mock external MFEs during unit testing of integration points. Use Docker Compose for full-stack integration testing. Implement smoke tests verifying critical user journeys across MFEs. Use feature flags for gradual integration testing. Set up staging environment mirroring production MFE configuration.",
+      },
+      {
+        question: "Describe rollback strategies when an MFE breaks.",
+        solution:
+          "Implement blue-green deployment at MFE level with instant DNS switchover. Use feature flags for immediate MFE disabling without redeployment. Create circuit breaker pattern detecting MFE failures and falling back to cached version. Implement graceful degradation showing reduced functionality instead of errors. Use CDN-level routing for quick MFE version switching. Create automated rollback triggers based on error rate thresholds. Implement MFE health monitoring with automatic failover to previous version. Use service mesh for traffic shifting during incidents.",
+      },
+      {
+        question: "How do you share design tokens across federated builds?",
+        solution:
+          "Create shared design tokens package as federated module. Use CSS Custom Properties exposed globally for runtime sharing. Implement design token compilation into multiple formats (JS, CSS, Sass). Use Module Federation to share design system components. Create token synchronization via build-time scripts. Use design token management platforms (Style Dictionary) with API-driven distribution. Implement token versioning with backward compatibility. Use PostCSS plugins for automatic token injection. Create design token validation in CI ensuring consistency across MFEs.",
+      },
+      {
+        question: "How do you implement feature flags per MFE?",
+        solution:
+          "Use shared feature flag service (LaunchDarkly, Split.io) with MFE-specific contexts. Implement feature flag provider as shared dependency accessible to all MFEs. Create feature flag wrapper hooks for React integration. Use build-time flag evaluation for bundle optimization. Implement progressive rollout targeting specific MFE versions. Create flag dependency management preventing conflicts between MFEs. Use flag analytics tracking usage across federated applications. Implement flag cleanup automation removing obsolete flags. Handle flag synchronization in offline scenarios.",
+      },
+      {
+        question: "How do you prevent XSS in dangerouslySetInnerHTML?",
+        solution:
+          "Use DOMPurify library to sanitize HTML content before setting innerHTML. Implement allowlist-based sanitization with specific allowed tags/attributes. Use Content Security Policy with nonce-based script execution. Create wrapper component that automatically sanitizes props. Implement server-side sanitization as defense in depth. Use template engines with auto-escaping (like React's JSX). Validate and sanitize user input at multiple layers. Use HTTPS-only cookies and secure headers. Implement input validation with allow-lists rather than deny-lists. Regular security audits of third-party content sources.",
+      },
+      {
+        question: "Explain CSP nonce integration with Next.js.",
+        solution:
+          "Generate unique nonce per request in _document.js using crypto.randomBytes(). Set CSP header with nonce in next.config.js or middleware. Pass nonce to Script components via nonce prop. Use getServerSideProps/getStaticProps for runtime nonce generation. Implement CSP reporting endpoint for violation monitoring. Handle inline styles with style-src nonce integration. Use strict-dynamic for third-party script loading. Implement nonce refresh on client-side navigation. Configure development vs production CSP policies. Use CSP violation reporting for security monitoring and policy refinement.",
+      },
+      {
+        question: "How do you measure bundle size regressions in CI?",
+        solution:
+          "Implement bundlemon or bundle-analyzer in CI pipeline; generate webpack-bundle-analyzer reports on each PR; compare against baseline using size-limit with thresholds; store artifacts in CI cache; use GitHub Actions to comment size diffs; track critical chunks separately; set up alerts for >5% increases; integrate with performance budgets in webpack.config.js using performance.maxAssetSize and performance.maxEntrypointSize.",
+      },
+      {
+        question: "Explain tree-shaking limitations with barrel exports.",
+        solution:
+          "Barrel exports (index.js re-exports) break tree-shaking because bundlers can't statically analyze which exports are used when importing from the barrel. Solution: use direct imports (import { Button } from './components/Button') instead of barrel imports (import { Button } from './components'); configure sideEffects: false in package.json; use webpack's usedExports + sideEffects optimization; implement babel-plugin-import for automatic path rewriting; or use tools like babel-plugin-direct-import to transform barrel imports at build time.",
+      },
+      {
+        question: "How do you analyze webpack stats after each PR?",
+        solution:
+          "Generate webpack stats.json using --json flag; use webpack-bundle-analyzer programmatically in CI; compare stats between commits using bundle-stats or webpack-stats-diff; track module count, asset sizes, and dependency changes; automate reports with actions like bundle-watch; identify new dependencies, removed modules, and size changes; set up Lighthouse CI for performance metrics; store historical data in artifacts for trend analysis.",
+      },
+      {
+        question:
+          "Describe the trade-offs of dynamic import() vs static import.",
+        solution:
+          "Dynamic import(): creates separate chunks, enables code-splitting, lazy loading, conditional loading, runtime module resolution; drawbacks include loss of tree-shaking, runtime overhead, promise-based async loading, potential loading states. Static import: better tree-shaking, compile-time optimization, synchronous loading, static analysis benefits; drawbacks include larger initial bundles, no conditional loading. Use dynamic for route-based splitting, feature flags, or large optional features; use static for critical path dependencies.",
+      },
+      {
+        question:
+          'How do you preload critical chunks with link rel="modulepreload"?',
+        solution:
+          'Generate modulepreload hints during build with webpack\'s PreloadPlugin or manually in HTML head; target critical chunks like main vendor bundles; use <link rel="modulepreload" href="/chunk.js" as="script" crossorigin>; implement in React with Helmet or Next.js Head; automate with webpack-preload-plugin; consider priority hints (high/low); monitor with Resource Timing API; balance preloading vs bandwidth; use with HTTP/2 Server Push for optimal loading waterfalls.',
+      },
+      {
+        question: "Explain the memory impact of closures in large lists.",
+        solution:
+          "Closures in list items retain references to parent scope variables, preventing garbage collection; each list item creates separate function instances. Impact: O(n) memory growth, retained parent component state, potential memory leaks. Solutions: useCallback with dependencies array; move handlers outside component; use event delegation with data attributes; implement virtual scrolling for large lists; use React.memo to prevent re-renders; extract handlers to custom hooks; profile with Chrome DevTools Memory tab to identify closure retention patterns.",
+      },
+      {
+        question: "How do you avoid prop-drilling with context selectors?",
+        solution:
+          "Implement context selectors using useContextSelector from use-context-selector library; split contexts by concern (UserContext, ThemeContext); create custom hooks like useUser(), useTheme(); use React.memo with shallow comparison; implement context slicing with createContext per data slice; use Zustand or Valtio for selective subscriptions; create Higher-Order Components for context injection; consider Redux RTK Query for server state to eliminate prop-drilling of loading/error states.",
+      },
+      {
+        question:
+          "Describe the pub/sub pattern for global state without libraries.",
+        solution:
+          "Create EventEmitter-like system: const subscribers = new Map(); function subscribe(key, callback) { if (!subscribers.has(key)) subscribers.set(key, new Set()); subscribers.get(key).add(callback); }; function publish(key, data) { subscribers.get(key)?.forEach(cb => cb(data)); }; function unsubscribe(key, callback) { subscribers.get(key)?.delete(callback); }. Wrap in React hook: useGlobalState(key) that subscribes on mount, triggers re-render on updates, unsubscribes on unmount. Add persistence layer and batch updates for performance.",
+      },
+      {
+        question: "How do you debug selector recomputations?",
+        solution:
+          "Use reselect's development tools: import { createSelectorCreator, lruMemoize } from 'reselect'; const createDebugSelector = createSelectorCreator(lruMemoize, { maxSize: 1, equalityCheck: (a, b) => { console.log('Selector input changed:', a, b); return a === b; } }); Track selector calls with performance.mark/measure; use Redux DevTools trace feature; implement custom memoization with logging; use React Profiler to identify component re-renders; add selector result logging in development; profile with why-did-you-update library.",
+      },
+      {
+        question:
+          "Explain how to use middleware for WebSocket events in Redux.",
+        solution:
+          "Create WebSocket middleware: const wsMiddleware = store => next => action => { if (action.type === 'WS_CONNECT') { const ws = new WebSocket(action.payload.url); ws.onmessage = event => store.dispatch({ type: 'WS_MESSAGE', payload: JSON.parse(event.data) }); ws.onclose = () => store.dispatch({ type: 'WS_DISCONNECT' }); } return next(action); }; Handle connection state, message routing, automatic reconnection; use action creators for WebSocket commands; implement message queuing for offline scenarios; add ping/pong heartbeat; handle authentication and error states.",
+      },
+      {
+        question: "How do you test async thunks with MSW?",
+        solution:
+          "Setup MSW handlers: const server = setupServer(rest.get('/api/users', (req, res, ctx) => res(ctx.json({ users: [] })))); Mock async thunks in tests: const store = configureStore({ reducer: { users: usersSlice.reducer } }); await store.dispatch(fetchUsers()); expect(store.getState().users.loading).toBe(false); Use MSW's req.params, req.body for dynamic responses; test error scenarios with res(ctx.status(500)); verify action sequences with store.getActions(); mock network delays with ctx.delay(); test concurrent requests and race conditions.",
+      },
+      {
+        question: "Compare immer vs structural sharing in RTK.",
+        solution:
+          "RTK uses Immer by default: enables mutable-style updates (state.items.push(item)), automatic structural sharing, simplified reducer logic; overhead of Proxy objects, slight performance cost for simple updates. Manual structural sharing: return { ...state, items: [...state.items, item] }, better performance for shallow updates, more complex for nested data, explicit control over references. Use Immer for complex nested updates, large objects; use manual sharing for performance-critical paths, simple state shapes. RTK Query eliminates much manual state management entirely.",
+      },
+      {
+        question: "How do you implement feature flags as derived state?",
+        solution:
+          "Create feature flag selectors: const selectFeatureEnabled = (state, featureName) => state.features[featureName]?.enabled && state.user.role === 'beta'; Use reselect for complex flag logic: const selectAdvancedUI = createSelector([selectUser, selectFeatures], (user, features) => features.advancedUI && user.tier === 'premium'); Implement flag hierarchy, user targeting, gradual rollouts; sync with external services (LaunchDarkly, Split); cache flag evaluations; provide fallback values; track flag usage analytics; support real-time flag updates via WebSocket.",
+      },
+      {
+        question:
+          'Describe "state machines" with XState vs "state charts" with Redux.',
+        solution:
+          "XState provides hierarchical state machines with guards, actions, activities; explicit state transitions, parallel states, history states; type-safe state management, visual state charts, testing utilities. Redux with state charts: manual state machine implementation using switch/case, explicit state field in store, action creators for transitions; requires discipline for valid state transitions. XState excels for complex workflows, form wizards, animation sequences; Redux better for simple state, existing Redux apps, smaller bundle size. Consider Zustand + state machines for lighter alternative.",
+      },
+      {
+        question: "How do you handle offline mutations and queueing?",
+        solution:
+          "Implement mutation queue: store offline actions in IndexedDB/localStorage; retry with exponential backoff; handle conflicts with timestamps or version vectors; use optimistic updates with rollback capability. Structure: { id, action, timestamp, retryCount, status }; Process queue on reconnection; implement sync strategies (last-write-wins, operational transforms); use background sync API; handle partial sync failures; provide offline indicators; consider eventual consistency; implement conflict resolution UI for user decisions.",
+      },
+      {
+        question:
+          "Explain how to sync URL state with global store (e.g., TanStack Router).",
+        solution:
+          "Use TanStack Router's loaders and search params: const route = new Route({ path: '/users', validateSearch: (search) => ({ page: Number(search.page) || 1 }), loader: ({ search }) => queryClient.ensureQueryData(usersQuery(search)) }); Sync with store via middleware that listens to router changes; implement bidirectional sync with history.pushState; use URL as single source of truth for navigation state; debounce URL updates for rapid state changes; handle deep linking, browser back/forward; serialize complex state with query-string library.",
+      },
+      {
+        question:
+          "How do you measure store size and GC pressure in production?",
+        solution:
+          "Use performance.measureUserAgentSpecificMemory() (origin trial); track store size with JSON.stringify(store.getState()).length; monitor with performance.memory (Chrome); implement custom memory profiling hooks; use FinalizationRegistry for GC tracking; add telemetry for store actions frequency; measure render frequency vs state changes; use React Profiler API for component update costs; implement memory leak detection with WeakRef; set up alerts for memory growth trends; use heap snapshots in development.",
+      },
+      {
+        question: "How do you type forwardRef with generic components?",
+        solution:
+          "Use function declarations with generics: function MyComponent<T extends string>(props: { items: T[]; onSelect: (item: T) => void }, ref: ForwardedRef<HTMLDivElement>) { return <div ref={ref}>...</div>; } const ForwardedComponent = forwardRef(MyComponent) as <T extends string>(props: { items: T[]; onSelect: (item: T) => void } & RefAttributes<HTMLDivElement>) => ReactElement; Alternative: create wrapper type GenericForwardRef<T, P> = ForwardRefRenderFunction<T, P> and cast appropriately.",
+      },
+      {
+        question: "Explain how to infer prop types from a styled-component.",
+        solution:
+          "Use ComponentProps utility type: const StyledButton = styled.button<{ variant: 'primary' | 'secondary' }>``; type ButtonProps = ComponentProps<typeof StyledButton>; For custom props: type InferredProps = StyledButton extends React.ComponentType<infer P> ? P : never; Extract styled-component props: type StyledProps<T> = T extends StyledComponent<any, any, infer P> ? P : never; Use with transient props ($prop) to avoid DOM attribute warnings; combine with Omit/Pick for prop manipulation.",
+      },
+      {
+        question: "How do you type polymorphic components (as prop) safely.",
+        solution:
+          "Create polymorphic type: type PolymorphicRef<C extends React.ElementType> = ComponentPropsWithRef<C>['ref']; type PolymorphicComponentProp<C extends React.ElementType, Props = {}> = { as?: C; } & Props & Omit<ComponentPropsWithoutRef<C>, keyof Props | 'as'>; Use with forwardRef: const Component = forwardRef(<C extends React.ElementType = 'div', Props extends PolymorphicComponentProp<C>>(props, ref: PolymorphicRef<C>) => { const { as: Element = 'div' as C, ...otherProps } = props; return <Element ref={ref} {...otherProps} />; });",
+      },
+      {
+        question: "Describe discriminated unions for component variants.",
+        solution:
+          "Define variant types: type ButtonProps = { children: React.ReactNode } & ({ variant: 'primary'; color?: never; } | { variant: 'custom'; color: string; }); This ensures type safety: primary buttons can't have color, custom buttons require color. Use with exhaustive checking: function getButtonClass(props: ButtonProps) { switch (props.variant) { case 'primary': return 'btn-primary'; case 'custom': return `btn-custom ${props.color}`; default: return never; // TypeScript error if case missed } }. Enables IntelliSense and prevents invalid prop combinations.",
+      },
+      {
+        question:
+          "How do you type Redux slices with createSlice and PayloadAction.",
+        solution:
+          "Define slice state interface: interface UserState { users: User[]; loading: boolean; error: string | null; } Use PayloadAction<T> for typed actions: const userSlice = createSlice({ name: 'users', initialState, reducers: { setUsers: (state, action: PayloadAction<User[]>) => { state.users = action.payload; }, setError: (state, action: PayloadAction<string>) => { state.error = action.payload; }, }); Extract action types: type UserActions = ReturnType<typeof userSlice.actions[keyof typeof userSlice.actions]>; Use with RootState for selectors.",
+      },
+      {
+        question: "Explain template literal types for design-token props.",
+        solution:
+          "Create design token types: type Spacing = '0' | '1' | '2' | '4' | '8' | '16'; type SpacingProp = `space-${Spacing}` | `space-x-${Spacing}` | `space-y-${Spacing}`; type ColorScale = '50' | '100' | '200' | '500' | '900'; type ColorProp = `${string}-${ColorScale}`; Combine in component props: interface BoxProps { className?: SpacingProp | ColorProp; } Use mapped types for systematic generation: type SpacingMap = { [K in Spacing]: `space-${K}` }; Enables autocomplete and prevents invalid token combinations.",
+      },
+      {
+        question: "How do you avoid React.FC pitfalls (implicit children).",
+        solution:
+          "Don't use React.FC due to implicit children prop and generic limitations. Instead use explicit function syntax: interface Props { title: string; children?: React.ReactNode; } function Component(props: Props) { return <div>{props.title}</div>; } This provides: explicit children control, better generic support, no defaultProps conflict, clearer prop requirements. For arrow functions: const Component = (props: Props) => <div>{props.title}</div>; Use React.PropsWithChildren<Props> only when children are required.",
+      },
+      {
+        question: "How do you type custom hooks that return tuples?",
+        solution:
+          "Use const assertion for tuple types: function useCounter() { const [count, setCount] = useState(0); const increment = () => setCount(c => c + 1); return [count, increment] as const; } This returns readonly [number, () => void] instead of (number | (() => void))[]. Alternative explicit typing: function useCounter(): [number, () => void] { ... } For complex tuples with named access: function useApi() { const result = { data, loading, error, refetch }; return [result.data, result.loading, result.error, result.refetch] as const; }",
+      },
+      {
+        question: "Describe how to augment the global JSX.IntrinsicElements.",
+        solution:
+          "Create declaration file (e.g., types/jsx.d.ts): declare global { namespace JSX { interface IntrinsicElements { 'custom-element': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement> & { customProp?: string }, HTMLElement>; } } } Use module augmentation for existing elements: declare module 'react' { namespace JSX { interface IntrinsicElements { div: React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement> & { 'data-custom'?: string }, HTMLDivElement>; } } } Enables TypeScript support for custom elements and additional props.",
+      },
+      {
+        question: "How do you type event handlers conditionally?",
+        solution:
+          "Use conditional types with generic constraints: type ConditionalHandler<T, K extends keyof T> = T[K] extends Function ? T[K] : never; interface Props<T extends 'button' | 'div'> { as: T; onClick?: T extends 'button' ? MouseEventHandler<HTMLButtonElement> : T extends 'div' ? MouseEventHandler<HTMLDivElement> : never; } Alternative with mapped types: type ElementMap = { button: HTMLButtonElement; div: HTMLDivElement; }; type HandlerProps<T extends keyof ElementMap> = { onClick?: MouseEventHandler<ElementMap[T]> }; Ensures type safety based on element type.",
+      },
     ],
   },
 ];
