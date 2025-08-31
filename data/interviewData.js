@@ -1,5 +1,3 @@
-//https://github.com/sudheerj/javascript-interview-questions
-//https://www.turing.com/interview-questions/javascript
 export const interviewData = [
   {
     id: 1,
@@ -1386,6 +1384,232 @@ class Component {
         solution:
           "The prototype is an object from which another inherits properties/methods, forming the prototype chain for lookup.\n\nDetails:\n- Every object has a prototype (except null-proto).\n- Access: obj.proto (non-standard), Object.getPrototypeOf(obj).\n- Set: Object.setPrototypeOf(obj, proto) - performance cost.\n- Chain ends at Object.prototype (null proto).\n\nExample:\nfunction Person() {}\nPerson.prototype.greet = function() { console.log('Hello'); };\nconst alice = new Person();\nalice.greet(); // 'Hello' (from prototype)\nconsole.log(Object.getPrototypeOf(alice) === Person.prototype); // true\n\nPrototypes enable shared methods, saving memory. Lookup: own first, then chain. Covers inheritance mechanism wholly, key to JS OOP.",
       },
+      {
+        question: "What does Object.getPrototypeOf() return?",
+        solution:
+          "Object.getPrototypeOf() returns the prototype (i.e., the value of the internal [[Prototype]] property) of the specified object. It's the preferred way to access an object's prototype instead of using the deprecated __proto__ property. For example:\n\nconst obj = {};\nconst proto = Object.getPrototypeOf(obj); // Returns Object.prototype\n\nfunction Person(name) { this.name = name; }\nconst john = new Person('John');\nObject.getPrototypeOf(john) === Person.prototype; // true\n\nIf the object has no prototype (like Object.create(null)), it returns null. This method is essential for understanding JavaScript's prototype-based inheritance and is commonly used in polyfills and library code.",
+      },
+      {
+        question: "What is method shorthand in objects?",
+        solution:
+          "Method shorthand is an ES6 feature that allows you to define methods in objects more concisely by omitting the 'function' keyword and colon. Instead of writing 'methodName: function() {}', you can write 'methodName() {}'.\n\n// Traditional syntax\nconst obj1 = {\n  sayHello: function() {\n    return 'Hello!';\n  }\n};\n\n// Method shorthand (ES6)\nconst obj2 = {\n  sayHello() {\n    return 'Hello!';\n  }\n};\n\nBoth are functionally equivalent. Method shorthand makes code cleaner and more readable, especially when dealing with objects that have multiple methods. It works with regular methods, getters, setters, and generator functions. This syntax is widely adopted in modern JavaScript development.",
+      },
+      {
+        question: "What are computed property names?",
+        solution:
+          "Computed property names allow you to use expressions as property names in object literals by wrapping them in square brackets []. This ES6 feature enables dynamic property creation at object definition time.\n\nconst prefix = 'user';\nconst id = 123;\n\nconst user = {\n  [prefix + 'Id']: id, // 'userId': 123\n  [prefix + 'Name']: 'John', // 'userName': 'John'\n  ['get' + prefix.charAt(0).toUpperCase() + prefix.slice(1)]() {\n    return this.userId;\n  } // 'getUser': function\n};\n\n// Can use any expression\nconst key = 'dynamic';\nconst obj = {\n  [key]: 'value',\n  [Math.random()]: 'random property',\n  [Symbol.iterator]: function* () { yield 1; }\n};\n\nThis is particularly useful for creating objects with dynamic keys, working with Symbols, or building objects programmatically.",
+      },
+      {
+        question: "What does Object.is() do?",
+        solution:
+          "Object.is() determines whether two values are the same value, providing a more precise equality comparison than == or ===. It behaves like === in most cases but handles two special cases differently:\n\n1. NaN is equal to NaN:\nObject.is(NaN, NaN); // true\nNaN === NaN; // false\n\n2. +0 is not equal to -0:\nObject.is(+0, -0); // false\n+0 === -0; // true\n\n// Other comparisons work like ===\nObject.is(42, 42); // true\nObject.is('hello', 'hello'); // true\nObject.is(true, true); // true\nObject.is(null, null); // true\nObject.is(undefined, undefined); // true\n\n// Objects are compared by reference\nconst obj = {};\nObject.is(obj, obj); // true\nObject.is({}, {}); // false\n\nObject.is() is useful in scenarios where you need more precise equality semantics, such as implementing polyfills or working with special numeric values.",
+      },
+      {
+        question: "What are arrow functions and their characteristics?",
+        solution:
+          "Arrow functions are a concise way to write functions introduced in ES6, using the '=>' syntax. They have several key characteristics:\n\n1. Shorter syntax:\nconst add = (a, b) => a + b; // Instead of function(a, b) { return a + b; }\n\n2. Lexical 'this' binding - they inherit 'this' from enclosing scope:\nclass Counter {\n  constructor() {\n    this.count = 0;\n  }\n  start() {\n    setInterval(() => {\n      this.count++; // 'this' refers to Counter instance\n    }, 1000);\n  }\n}\n\n3. No 'arguments' object:\nconst func = () => console.log(arguments); // ReferenceError\n\n4. Cannot be used as constructors:\nconst Func = () => {};\nnew Func(); // TypeError\n\n5. No prototype property:\nconst func = () => {};\nconsole.log(func.prototype); // undefined\n\n6. Implicit return for single expressions:\nconst double = x => x * 2; // Returns x * 2\nconst getObj = () => ({ name: 'John' }); // Returns object\n\nArrow functions are ideal for callbacks, array methods, and when you want to preserve lexical scope.",
+      },
+      {
+        question: "What are template literals?",
+        solution:
+          "Template literals are string literals that allow embedded expressions and multi-line strings, using backticks (`) instead of quotes. They provide a more powerful and readable way to work with strings.\n\nKey features:\n\n1. String interpolation with ${}:\nconst name = 'John';\nconst age = 30;\nconst message = `Hello, my name is ${name} and I'm ${age} years old.`;\n\n2. Multi-line strings:\nconst html = `\n  <div>\n    <h1>Title</h1>\n    <p>Content</p>\n  </div>\n`;\n\n3. Expression evaluation:\nconst a = 5, b = 10;\nconst result = `The sum of ${a} and ${b} is ${a + b}.`; // 'The sum of 5 and 10 is 15.'\n\n4. Function calls:\nconst formatCurrency = (amount) => `$${amount.toFixed(2)}`;\nconst price = `Price: ${formatCurrency(29.99)}`; // 'Price: $29.99'\n\n5. Tagged template literals (advanced):\nfunction highlight(strings, ...values) {\n  return strings.reduce((result, string, i) => \n    result + string + (values[i] ? `<mark>${values[i]}</mark>` : ''), '');\n}\nconst term = 'JavaScript';\nconst text = highlight`Learn ${term} programming`; // 'Learn <mark>JavaScript</mark> programming'\n\nTemplate literals are essential for modern JavaScript string manipulation and are widely used in frameworks like React.",
+      },
+      {
+        question: "What is destructuring assignment?",
+        solution:
+          "Destructuring assignment is an ES6 syntax that allows extracting values from arrays or properties from objects into distinct variables using a pattern that mirrors the structure of arrays and objects.\n\nArray destructuring:\nconst [first, second, third] = [1, 2, 3];\nconsole.log(first); // 1\n\n// Skip elements\nconst [a, , c] = [1, 2, 3]; // a=1, c=3\n\n// Rest elements\nconst [head, ...tail] = [1, 2, 3, 4]; // head=1, tail=[2,3,4]\n\n// Default values\nconst [x = 10, y = 20] = [5]; // x=5, y=20\n\nObject destructuring:\nconst {name, age} = {name: 'John', age: 30, city: 'NYC'};\n\n// Rename variables\nconst {name: userName, age: userAge} = user;\n\n// Nested destructuring\nconst {address: {street, city}} = user;\n\n// Default values\nconst {name = 'Anonymous', age = 0} = {};\n\nFunction parameters:\nfunction greet({name, age = 25}) {\n  return `Hello ${name}, you are ${age} years old`;\n}\n\nDestructuring makes code more readable and is commonly used for extracting data from APIs, function returns, and module imports.",
+      },
+      {
+        question: "What are default parameters?",
+        solution:
+          "Default parameters allow you to specify default values for function parameters when no argument is provided or when undefined is passed. This ES6 feature eliminates the need for manual checks inside functions.\n\nBasic syntax:\nfunction greet(name = 'World') {\n  return `Hello, ${name}!`;\n}\ngreet(); // 'Hello, World!'\ngreet('John'); // 'Hello, John!'\ngreet(undefined); // 'Hello, World!' (undefined triggers default)\ngreet(null); // 'Hello, null!' (null doesn't trigger default)\n\nMultiple defaults:\nfunction createUser(name = 'Anonymous', age = 18, active = true) {\n  return { name, age, active };\n}\n\nExpression as defaults (evaluated at call time):\nfunction log(message, timestamp = new Date()) {\n  console.log(`${timestamp}: ${message}`);\n}\n\nUsing previous parameters:\nfunction makeUrl(protocol = 'https', domain, path = '/') {\n  return `${protocol}://${domain}${path}`;\n}\n\nWith destructuring:\nfunction processUser({name = 'Anonymous', age = 18} = {}) {\n  return `${name} is ${age} years old`;\n}\n\nDefault parameters improve function robustness and reduce boilerplate code for handling missing arguments.",
+      },
+      {
+        question: "What is the spread operator?",
+        solution:
+          "The spread operator (...) expands elements of an iterable (arrays, strings, objects) into individual elements. It's one of the most versatile ES6+ features with multiple use cases.\n\nArray spreading:\nconst arr1 = [1, 2, 3];\nconst arr2 = [4, 5, 6];\nconst combined = [...arr1, ...arr2]; // [1, 2, 3, 4, 5, 6]\n\n// Function arguments\nconst numbers = [1, 5, 3, 9, 2];\nMath.max(...numbers); // 9 (instead of Math.max.apply(null, numbers))\n\n// Array cloning\nconst original = [1, 2, 3];\nconst copy = [...original]; // Shallow copy\n\nObject spreading (ES2018):\nconst obj1 = {a: 1, b: 2};\nconst obj2 = {c: 3, d: 4};\nconst merged = {...obj1, ...obj2}; // {a: 1, b: 2, c: 3, d: 4}\n\n// Overriding properties\nconst user = {name: 'John', age: 30};\nconst updatedUser = {...user, age: 31}; // {name: 'John', age: 31}\n\nString spreading:\nconst str = 'hello';\nconst chars = [...str]; // ['h', 'e', 'l', 'l', 'o']\n\nThe spread operator provides clean syntax for copying, merging, and expanding data structures, making it essential for functional programming patterns and immutable updates.",
+      },
+      {
+        question: "What is the rest parameter?",
+        solution:
+          "The rest parameter (...) collects remaining arguments into an array. It's the opposite of the spread operator and allows functions to accept an indefinite number of arguments as an array.\n\nBasic syntax:\nfunction sum(...numbers) {\n  return numbers.reduce((total, num) => total + num, 0);\n}\nsum(1, 2, 3, 4); // 10\nsum(5, 10); // 15\n\nMixed parameters (rest must be last):\nfunction introduce(greeting, ...names) {\n  return `${greeting} ${names.join(', ')}!`;\n}\nintroduce('Hello', 'John', 'Jane', 'Bob'); // 'Hello John, Jane, Bob!'\n\nArray destructuring with rest:\nconst [first, second, ...others] = [1, 2, 3, 4, 5];\n// first=1, second=2, others=[3, 4, 5]\n\nObject destructuring with rest:\nconst {name, age, ...details} = {\n  name: 'John',\n  age: 30,\n  city: 'NYC',\n  country: 'USA'\n};\n// name='John', age=30, details={city: 'NYC', country: 'USA'}\n\nReplaces arguments object:\n// Old way\nfunction oldSum() {\n  return Array.from(arguments).reduce((a, b) => a + b);\n}\n\n// New way\nfunction newSum(...args) {\n  return args.reduce((a, b) => a + b);\n}\n\nRest parameters provide a clean way to handle variable arguments and are essential for flexible function APIs.",
+      },
+      {
+        question: "What are let and const vs var?",
+        solution:
+          "let, const, and var are variable declaration keywords with different scoping rules, hoisting behavior, and mutability characteristics.\n\nScoping differences:\n// var: function-scoped\nfunction example() {\n  if (true) {\n    var x = 1;\n  }\n  console.log(x); // 1 (accessible outside block)\n}\n\n// let/const: block-scoped\nfunction example2() {\n  if (true) {\n    let y = 1;\n    const z = 2;\n  }\n  console.log(y); // ReferenceError\n}\n\nHoisting behavior:\nconsole.log(a); // undefined (hoisted but uninitialized)\nvar a = 5;\n\nconsole.log(b); // ReferenceError (temporal dead zone)\nlet b = 10;\n\nconst rules:\n// Must be initialized\nconst name = 'John'; // ✓\nconst age; // SyntaxError\n\n// Cannot be reassigned\nconst user = {name: 'John'};\nuser = {}; // TypeError\nuser.name = 'Jane'; // ✓ (object mutation allowed)\n\nTemporal Dead Zone:\nfunction example() {\n  console.log(x); // ReferenceError\n  let x = 1; // x is in TDZ until this line\n}\n\nBest practices:\n- Use const by default for values that won't be reassigned\n- Use let when you need to reassign the variable\n- Avoid var in modern JavaScript due to confusing scoping rules\n\nThis prevents common bugs related to variable hoisting and scope confusion.",
+      },
+      {
+        question: "What are classes in ES6?",
+        solution:
+          "ES6 classes provide a cleaner, more intuitive syntax for creating objects and implementing inheritance, built on top of JavaScript's existing prototype system.\n\nBasic class syntax:\nclass Person {\n  constructor(name, age) {\n    this.name = name;\n    this.age = age;\n  }\n  \n  greet() {\n    return `Hello, I'm ${this.name}`;\n  }\n  \n  // Getter\n  get info() {\n    return `${this.name} (${this.age})`;\n  }\n  \n  // Setter\n  set age(value) {\n    if (value < 0) throw new Error('Age must be positive');\n    this._age = value;\n  }\n  \n  // Static method\n  static species() {\n    return 'Homo sapiens';\n  }\n}\n\nInheritance with extends:\nclass Student extends Person {\n  constructor(name, age, grade) {\n    super(name, age); // Call parent constructor\n    this.grade = grade;\n  }\n  \n  greet() {\n    return `${super.greet()}, I'm in grade ${this.grade}`;\n  }\n}\n\nUsage:\nconst john = new Person('John', 25);\nconsole.log(john.greet()); // 'Hello, I'm John'\nconsole.log(Person.species()); // 'Homo sapiens'\n\nClasses provide syntactic sugar over prototypal inheritance, making object-oriented programming more familiar to developers from other languages while maintaining JavaScript's flexibility.",
+      },
+      {
+        question: "What are modules in ES6?",
+        solution:
+          "ES6 modules provide a standardized way to organize and share code between files using import and export statements. They create their own scope and enable better code organization and dependency management.\n\nExporting:\n// Named exports\nexport const PI = 3.14159;\nexport function calculate(x) { return x * 2; }\nexport class Calculator {\n  add(a, b) { return a + b; }\n}\n\n// Export list\nconst name = 'John';\nconst age = 30;\nexport { name, age };\n\n// Default export (one per module)\nexport default class User {\n  constructor(name) { this.name = name; }\n}\n\nImporting:\n// Named imports\nimport { PI, calculate } from './math.js';\nimport { name as userName, age } from './user.js';\n\n// Default import\nimport User from './User.js';\n\n// Import all\nimport * as math from './math.js';\n\n// Mixed imports\nimport User, { PI, calculate } from './utilities.js';\n\n// Side-effect only\nimport './polyfills.js';\n\nKey benefits:\n- Static analysis and tree shaking\n- Compile-time error detection\n- Better tooling support\n- Circular dependency handling\n- Explicit dependency declaration\n\nModules are loaded asynchronously and cached, promoting better application architecture and performance optimization.",
+      },
+      {
+        question: "What are Symbols?",
+        solution:
+          "Symbols are a primitive data type introduced in ES6 that represents unique identifiers. Each Symbol is guaranteed to be unique, even if created with the same description.\n\nCreating Symbols:\nconst sym1 = Symbol();\nconst sym2 = Symbol('description');\nconst sym3 = Symbol('description');\nconsole.log(sym2 === sym3); // false (always unique)\n\nUse cases:\n\n1. Unique object properties:\nconst id = Symbol('id');\nconst user = {\n  name: 'John',\n  [id]: 12345 // Won't conflict with other 'id' properties\n};\n\n2. Avoiding property name collisions:\nconst lib1 = Symbol('config');\nconst lib2 = Symbol('config');\nconst obj = {\n  [lib1]: 'library 1 config',\n  [lib2]: 'library 2 config'\n};\n\n3. Global Symbol registry:\nconst globalSym = Symbol.for('app.id');\nconst sameSym = Symbol.for('app.id');\nconsole.log(globalSym === sameSym); // true\n\n4. Well-known Symbols:\nclass MyArray {\n  [Symbol.iterator]() {\n    // Custom iterator implementation\n  }\n}\n\nSymbol properties are not enumerable in for...in loops or Object.keys(), providing a way to add 'hidden' properties. They're useful for creating unique constants, implementing protocols, and avoiding naming conflicts in libraries.",
+      },
+      {
+        question: "What are iterators and iterables?",
+        solution:
+          "Iterators and iterables are protocols that define how to traverse data structures in JavaScript. An iterable is an object that implements the Symbol.iterator method, while an iterator is an object with a next() method.\n\nIterator protocol:\nconst iterator = {\n  current: 0,\n  last: 3,\n  next() {\n    if (this.current <= this.last) {\n      return { value: this.current++, done: false };\n    }\n    return { value: undefined, done: true };\n  }\n};\n\nIterable protocol:\nconst iterable = {\n  [Symbol.iterator]() {\n    return {\n      current: 0,\n      last: 3,\n      next() {\n        if (this.current <= this.last) {\n          return { value: this.current++, done: false };\n        }\n        return { done: true };\n      }\n    };\n  }\n};\n\nUsing iterables:\nfor (const value of iterable) {\n  console.log(value); // 0, 1, 2, 3\n}\n\nBuilt-in iterables:\n- Arrays: [...[1,2,3]]\n- Strings: [...'hello'] // ['h','e','l','l','o']\n- Maps, Sets, NodeLists\n\nCustom iterable class:\nclass Range {\n  constructor(start, end) {\n    this.start = start;\n    this.end = end;\n  }\n  \n  [Symbol.iterator]() {\n    let current = this.start;\n    const last = this.end;\n    return {\n      next() {\n        if (current <= last) {\n          return { value: current++, done: false };\n        }\n        return { done: true };\n      }\n    };\n  }\n}\n\nconst range = new Range(1, 5);\nfor (const num of range) {\n  console.log(num); // 1, 2, 3, 4, 5\n}\n\nIterators enable for...of loops, destructuring, Array.from(), and spread operator functionality.",
+      },
+      {
+        question: "What are generators?",
+        solution:
+          "Generators are special functions that can pause and resume execution, yielding multiple values over time. They're defined with function* syntax and use the yield keyword to produce values.\n\nBasic generator:\nfunction* numberGenerator() {\n  yield 1;\n  yield 2;\n  yield 3;\n}\n\nconst gen = numberGenerator();\nconsole.log(gen.next()); // {value: 1, done: false}\nconsole.log(gen.next()); // {value: 2, done: false}\nconsole.log(gen.next()); // {value: 3, done: false}\nconsole.log(gen.next()); // {value: undefined, done: true}\n\nInfinite sequences:\nfunction* fibonacci() {\n  let a = 0, b = 1;\n  while (true) {\n    yield a;\n    [a, b] = [b, a + b];\n  }\n}\n\nconst fib = fibonacci();\nfor (let i = 0; i < 10; i++) {\n  console.log(fib.next().value); // 0, 1, 1, 2, 3, 5, 8, 13, 21, 34\n}\n\nTwo-way communication:\nfunction* dialogue() {\n  const name = yield 'What is your name?';\n  const age = yield `Hello ${name}, what is your age?`;\n  return `Nice to meet you ${name}, age ${age}!`;\n}\n\nconst chat = dialogue();\nconsole.log(chat.next().value); // 'What is your name?'\nconsole.log(chat.next('John').value); // 'Hello John, what is your age?'\nconsole.log(chat.next('25').value); // 'Nice to meet you John, age 25!'\n\nDelegating generators:\nfunction* gen1() { yield 1; yield 2; }\nfunction* gen2() { yield* gen1(); yield 3; }\n\nGenerators are excellent for creating iterators, handling asynchronous operations, implementing state machines, and creating lazy evaluation patterns.",
+      },
+      {
+        question: "What are Sets?",
+        solution:
+          "Set is an ES6 collection that stores unique values of any type. Unlike arrays, Sets automatically prevent duplicate values and provide efficient methods for checking membership.\n\nCreating and using Sets:\nconst set = new Set();\nset.add(1);\nset.add(2);\nset.add(2); // Duplicate ignored\nconsole.log(set.size); // 2\n\n// Initialize with iterable\nconst numbers = new Set([1, 2, 3, 2, 1]); // Set {1, 2, 3}\n\nCommon methods:\nconst fruits = new Set(['apple', 'banana', 'orange']);\n\nfruits.add('grape'); // Add element\nfruits.has('apple'); // true (check existence)\nfruits.delete('banana'); // Remove element\nfruits.clear(); // Remove all elements\n\nIteration:\nconst colors = new Set(['red', 'green', 'blue']);\n\n// for...of\nfor (const color of colors) {\n  console.log(color);\n}\n\n// forEach\ncolors.forEach(color => console.log(color));\n\n// Convert to array\nconst colorArray = [...colors];\n\nPractical uses:\n// Remove duplicates from array\nconst uniqueNumbers = [...new Set([1, 2, 2, 3, 3, 4])];\n\n// Check if arrays have common elements\nconst arr1 = [1, 2, 3];\nconst arr2 = [3, 4, 5];\nconst set1 = new Set(arr1);\nconst hasCommon = arr2.some(x => set1.has(x)); // true\n\nSets provide O(1) average-case performance for add, delete, and has operations, making them ideal for membership testing and maintaining unique collections.",
+      },
+      {
+        question: "What are Maps?",
+        solution:
+          "Map is an ES6 collection that holds key-value pairs where keys can be any type (objects, primitives, functions). Unlike regular objects, Maps maintain insertion order and provide better performance for frequent additions/deletions.\n\nCreating and using Maps:\nconst map = new Map();\nmap.set('name', 'John');\nmap.set(42, 'the answer');\nmap.set(true, 'boolean key');\n\n// Initialize with iterable\nconst userMap = new Map([\n  ['name', 'John'],\n  ['age', 30],\n  ['city', 'NYC']\n]);\n\nKey advantages over objects:\n// Any type as keys\nconst objKey = {};\nconst funcKey = function() {};\nconst map = new Map();\nmap.set(objKey, 'object value');\nmap.set(funcKey, 'function value');\n\nCommon methods:\nconst scores = new Map();\nscores.set('Alice', 95);\nscores.set('Bob', 87);\n\nscores.get('Alice'); // 95\nscores.has('Bob'); // true\nscores.delete('Bob'); // Remove entry\nscores.size; // 1\nscores.clear(); // Remove all\n\nIteration:\nconst map = new Map([['a', 1], ['b', 2], ['c', 3]]);\n\n// for...of with destructuring\nfor (const [key, value] of map) {\n  console.log(`${key}: ${value}`);\n}\n\n// Iterate keys/values separately\nfor (const key of map.keys()) { console.log(key); }\nfor (const value of map.values()) { console.log(value); }\n\n// forEach\nmap.forEach((value, key) => console.log(`${key}: ${value}`));\n\nConversion:\n// Map to Array\nconst array = [...map]; // [['a', 1], ['b', 2], ['c', 3]]\n\n// Object to Map\nconst obj = {x: 1, y: 2};\nconst objMap = new Map(Object.entries(obj));\n\nMaps are ideal when you need non-string keys, frequent additions/deletions, or when key order matters.",
+      },
+      {
+        question: "What are WeakSet and WeakMap?",
+        solution:
+          "WeakSet and WeakMap are 'weak' collections where references to objects are held weakly, meaning they don't prevent garbage collection of their contents.\n\nWeakSet characteristics:\n- Only stores objects (not primitives)\n- Objects can be garbage collected even if in WeakSet\n- Not enumerable (no size property, no iteration)\n- Main use: tracking object existence\n\nconst weakSet = new WeakSet();\nconst obj1 = {};\nconst obj2 = {};\n\nweakSet.add(obj1);\nweakSet.add(obj2);\nweakSet.has(obj1); // true\nweakSet.delete(obj1);\n\n// Use case: tracking visited objects\nconst visited = new WeakSet();\nfunction process(obj) {\n  if (visited.has(obj)) return 'Already processed';\n  visited.add(obj);\n  // Process object...\n}\n\nWeakMap characteristics:\n- Keys must be objects\n- Key-value pairs can be garbage collected\n- Not enumerable\n- Main use: associating data with objects\n\nconst weakMap = new WeakMap();\nconst element = document.getElementById('myDiv');\n\n// Associate private data with DOM element\nweakMap.set(element, { clickCount: 0, lastClicked: Date.now() });\n\n// Use case: private data storage\nconst privateData = new WeakMap();\nclass User {\n  constructor(name) {\n    privateData.set(this, { name, secret: 'hidden' });\n  }\n  \n  getName() {\n    return privateData.get(this).name;\n  }\n}\n\nBenefits:\n- Prevent memory leaks in long-running applications\n- Enable private data patterns\n- Automatic cleanup when objects are no longer referenced\n\nWeakSet and WeakMap are specialized tools for scenarios where automatic garbage collection is important.",
+      },
+      {
+        question: "What is async/await?",
+        solution:
+          "Async/await is syntactic sugar built on top of Promises that allows writing asynchronous code in a more synchronous-looking manner. The 'async' keyword declares a function as asynchronous and automatically wraps the return value in a Promise. The 'await' keyword pauses execution until the Promise resolves. Example: async function fetchData() { try { const response = await fetch('/api/data'); const data = await response.json(); return data; } catch (error) { console.error('Error:', error); } }. This makes error handling cleaner with try/catch blocks and eliminates callback hell and complex Promise chains.",
+      },
+      {
+        question: "What is the difference between Map and Object?",
+        solution:
+          "Map and Object are both key-value storage mechanisms but differ significantly: 1) Keys: Objects only accept strings/Symbols as keys, while Maps accept any data type (objects, primitives, functions). 2) Size: Maps have a size property, Objects require Object.keys(obj).length. 3) Iteration: Maps are directly iterable and maintain insertion order, Objects need Object.keys() or for...in. 4) Performance: Maps are optimized for frequent additions/deletions, Objects may be slower. 5) Prototype: Objects have default keys from prototype, Maps are clean by default. Example: const map = new Map(); map.set(1, 'number key'); map.set('1', 'string key'); map.size; // 2. const obj = {1: 'becomes string', '1': 'overwrites'}; Object.keys(obj).length; // 1",
+      },
+      {
+        question: "What is array destructuring with default values?",
+        solution:
+          "Array destructuring with default values allows extracting array elements into variables while providing fallback values when elements are undefined. Syntax: [var1 = default1, var2 = default2] = array. Examples: const [a = 1, b = 2, c = 3] = [10]; // a=10, b=2, c=3. const [first = 'unknown', , third = 'missing'] = ['John', 'Doe']; // first='John', third='missing' (skipped second). Default values are only used when the array element is undefined, not for null, 0, false, or empty string. You can use expressions as defaults: const [x = Math.random()] = []; Advanced usage includes rest parameters: const [head = 'empty', ...tail] = arr;",
+      },
+      {
+        question: "What is object destructuring with renaming?",
+        solution:
+          "Object destructuring with renaming allows extracting object properties into variables with different names using the syntax {property: newName}. Example: const user = {name: 'John', age: 30}; const {name: userName, age: userAge} = user; // userName='John', userAge=30. You can combine renaming with default values: const {name: fullName = 'Anonymous', email: userEmail = 'no-email'} = user; // fullName='John', userEmail='no-email'. Nested destructuring with renaming: const {address: {street: userStreet}} = {address: {street: '123 Main St'}}; // userStreet='123 Main St'. This is useful when property names conflict with existing variables or when you want more descriptive variable names.",
+      },
+      {
+        question: "What are tagged template literals?",
+        solution:
+          "Tagged template literals are a way to call functions using template literal syntax, where the function (tag) processes the template. The tag function receives an array of string parts and the interpolated values as separate arguments. Example: function highlight(strings, ...values) { return strings.reduce((result, string, i) => result + string + (values[i] ? `<mark>${values[i]}</mark>` : ''), ''); } const name = 'John'; const age = 30; const result = highlight`Hello ${name}, you are ${age} years old`; // 'Hello <mark>John</mark>, you are <mark>30</mark> years old'. Common uses include styled-components, i18n, SQL query builders, and HTML sanitization. The first argument contains raw strings accessible via strings.raw property.",
+      },
+      {
+        question: "What is the difference between Symbol() and Symbol.for()?",
+        solution:
+          "Symbol() creates a unique symbol every time it's called, even with the same description. Symbol.for() uses a global symbol registry - if a symbol with the given key exists, it returns that symbol; otherwise, it creates a new one. Examples: Symbol('key') === Symbol('key'); // false (always unique). Symbol.for('key') === Symbol.for('key'); // true (same registry entry). Symbol.keyFor() retrieves the key from registry: Symbol.keyFor(Symbol.for('myKey')) === 'myKey'; // true. Symbol.keyFor(Symbol('myKey')) === undefined; // true (not in registry). Use Symbol() for truly private properties, Symbol.for() when you need to share symbols across different parts of your application or with third-party libraries.",
+      },
+      {
+        question: "What are the different types of loops in JavaScript?",
+        solution:
+          "JavaScript has several loop types: 1) for loop: for(init; condition; increment) - traditional counter-based loop. 2) while loop: while(condition) - executes while condition is true. 3) do...while: do { } while(condition) - executes at least once. 4) for...in: for(key in object) - iterates over enumerable properties. 5) for...of: for(value of iterable) - iterates over iterable objects. 6) Array methods: forEach(), map(), filter(), reduce() - functional programming approaches. 7) for await...of: for async iteration over async iterables. Each serves different purposes: for loops for counters, while for unknown iterations, for...in for object properties, for...of for array/iterable values.",
+      },
+      {
+        question: "What's the difference between for...in and for...of?",
+        solution:
+          "for...in iterates over enumerable property names (keys) of an object, including inherited properties. for...of iterates over values of iterable objects (arrays, strings, Maps, Sets). Examples: const arr = ['a', 'b', 'c']; for(let key in arr) console.log(key); // '0', '1', '2' (indices). for(let value of arr) console.log(value); // 'a', 'b', 'c' (values). For objects: const obj = {x: 1, y: 2}; for(let key in obj) console.log(key, obj[key]); // 'x' 1, 'y' 2. for...of doesn't work on plain objects (not iterable). for...in can include prototype properties, use hasOwnProperty() to filter. for...of works with iterables: arrays, strings, Maps, Sets, arguments object, NodeLists.",
+      },
+      {
+        question: "What is the difference between while and do...while?",
+        solution:
+          "The key difference is when the condition is checked: while checks the condition before executing the loop body, so it might never execute if the condition is initially false. do...while checks the condition after executing the loop body, guaranteeing at least one execution. Examples: let i = 5; while(i < 3) { console.log(i); i++; } // Never executes. do { console.log(i); i++; } while(i < 3); // Executes once, prints 5. Use cases: while for typical conditional loops, do...while for input validation, menu systems, or when you need to ensure the loop body runs at least once regardless of the initial condition.",
+      },
+      {
+        question: "What does break statement do?",
+        solution:
+          "The break statement immediately terminates the current loop or switch statement and transfers control to the statement following the terminated construct. In loops: for(let i = 0; i < 10; i++) { if(i === 5) break; console.log(i); } // Prints 0,1,2,3,4. In nested loops, break only exits the innermost loop. In switch statements, break prevents fall-through to subsequent cases. You can use labeled break to exit outer loops: outer: for(let i = 0; i < 3; i++) { for(let j = 0; j < 3; j++) { if(i === 1 && j === 1) break outer; } }. break cannot be used outside loops or switch statements - it will cause a SyntaxError.",
+      },
+      {
+        question: "What does continue statement do?",
+        solution:
+          "The continue statement skips the rest of the current loop iteration and jumps to the next iteration. It only affects the current iteration, not the entire loop. Examples: for(let i = 0; i < 5; i++) { if(i === 2) continue; console.log(i); } // Prints 0,1,3,4 (skips 2). In while loops: let i = 0; while(i < 5) { i++; if(i === 3) continue; console.log(i); } // Prints 1,2,4,5. Like break, continue works with labels for nested loops: outer: for(let i = 0; i < 3; i++) { for(let j = 0; j < 3; j++) { if(j === 1) continue outer; } }. continue is useful for filtering conditions without deep nesting.",
+      },
+      {
+        question: "What is the switch statement?",
+        solution:
+          "The switch statement evaluates an expression and executes code blocks based on matching case values using strict equality (===). Syntax: switch(expression) { case value1: // code; break; case value2: // code; break; default: // code; }. Example: switch(day) { case 'Monday': case 'Tuesday': console.log('Weekday'); break; case 'Saturday': case 'Sunday': console.log('Weekend'); break; default: console.log('Invalid day'); }. Benefits: cleaner than multiple if/else for discrete values, supports fall-through behavior, more readable for multiple conditions. The default case is optional and executes when no cases match. Cases can be grouped for shared behavior.",
+      },
+      {
+        question: "What happens if you don't use break in switch cases?",
+        solution:
+          "Without break statements, execution 'falls through' to subsequent cases, executing all code until a break is encountered or the switch ends. Example: let grade = 'B'; switch(grade) { case 'A': console.log('Excellent'); case 'B': console.log('Good'); case 'C': console.log('Average'); default: console.log('Grade processed'); } // Outputs: 'Good', 'Average', 'Grade processed'. This fall-through behavior can be intentional for grouping cases or accidental leading to bugs. Intentional use: case 'small': case 'medium': console.log('Available'); break; case 'large': console.log('Out of stock'); break; Always use break unless you specifically need fall-through behavior.",
+      },
+      {
+        question: "What are conditional (ternary) operators?",
+        solution:
+          "The ternary operator (? :) is a concise way to write if-else statements in a single expression. Syntax: condition ? valueIfTrue : valueIfFalse. Examples: const age = 18; const status = age >= 18 ? 'adult' : 'minor'; const message = isLoggedIn ? `Welcome ${user}` : 'Please login'; // Nested ternary: const grade = score > 90 ? 'A' : score > 80 ? 'B' : score > 70 ? 'C' : 'F'; // In JSX: {isLoading ? <Spinner /> : <Content />}. Benefits: concise, can be used in expressions where statements aren't allowed, useful for default values. Drawbacks: can become unreadable when nested deeply, harder to debug than if-else blocks.",
+      },
+      {
+        question: "What is short-circuit evaluation in logical operators?",
+        solution:
+          "Short-circuit evaluation means logical operators (&& and ||) don't evaluate the right operand if the result can be determined from the left operand. && (AND): if left is falsy, returns left without evaluating right. || (OR): if left is truthy, returns left without evaluating right. Examples: false && expensiveFunction(); // expensiveFunction never called. true || expensiveFunction(); // expensiveFunction never called. Practical uses: const user = isLoggedIn && getUserData(); // Only fetch if logged in. const name = user.name || 'Guest'; // Default value. const element = document.getElementById('btn') && document.getElementById('btn').click(); // Safe method call. This prevents errors and improves performance by avoiding unnecessary computations.",
+      },
+      {
+        question: "What's the difference between if and switch?",
+        solution:
+          "if/else and switch statements serve different purposes: if statements evaluate boolean expressions and handle ranges/complex conditions: if(age >= 18 && age < 65). switch statements compare discrete values using strict equality and are optimized for multiple specific values: switch(status) { case 'active': case 'pending': }. Performance: switch can be more efficient for many discrete values due to jump tables. Readability: switch is cleaner for multiple exact matches, if/else better for complex logic. Flexibility: if can handle any boolean expression, objects, function calls; switch only handles simple values. Fall-through: switch supports fall-through behavior, if doesn't. Use switch for enums/discrete values, if/else for ranges and complex conditions.",
+      },
+      {
+        question: "Can you use variables in switch cases?",
+        solution:
+          "Yes, you can use variables in switch cases, but they're evaluated at runtime, not compile time. The case values are evaluated when encountered, allowing dynamic matching. Example: const target = 5; let x = 3, y = 5; switch(target) { case x + 2: console.log('Match x+2'); break; case y: console.log('Match y'); break; case Math.max(1, 4): console.log('Match max'); break; } // Outputs 'Match y'. However, be cautious: each case expression is evaluated every time the switch runs, which can impact performance. Constants and literals are preferred for performance. Variables in cases must be in scope when the switch executes. This feature is useful for computed values but should be used judiciously.",
+      },
+      {
+        question: "What is label statement in JavaScript?",
+        solution:
+          "Labels are identifiers followed by a colon that mark statements for reference by break and continue statements. Syntax: labelName: statement. Most commonly used with nested loops: outer: for(let i = 0; i < 3; i++) { inner: for(let j = 0; j < 3; j++) { if(i === 1 && j === 1) break outer; // Exits both loops console.log(i, j); } } console.log('Done'); // This runs after break outer. Labels work with any statement: block: { console.log('start'); if(condition) break block; console.log('this might be skipped'); } console.log('end'); While powerful, labels can make code harder to follow. Modern alternatives include functions, array methods, or restructuring logic. Labels are rarely used in modern JavaScript.",
+      },
+      {
+        question: "What happens when you nest loops and use break?",
+        solution:
+          "Without labels, break only exits the innermost loop, not outer loops. Example: for(let i = 0; i < 3; i++) { console.log('Outer:', i); for(let j = 0; j < 3; j++) { if(j === 1) break; // Only exits inner loop console.log('Inner:', j); } console.log('After inner loop'); } // Output: Outer 0, Inner 0, After inner loop, Outer 1, Inner 0, After inner loop, etc. To break outer loops, use labels: outer: for(let i = 0; i < 3; i++) { for(let j = 0; j < 3; j++) { if(i === 1 && j === 1) break outer; } } Alternative solutions: use functions with return, boolean flags, or array methods like some() that can stop iteration early.",
+      },
+      {
+        question: "What is the comma operator in for loops?",
+        solution:
+          "The comma operator (,) evaluates multiple expressions left-to-right and returns the value of the rightmost expression. In for loops, it allows multiple initializations and increments. Examples: for(let i = 0, j = 10; i < j; i++, j--) { console.log(i, j); } // Multiple variables. for(let i = 0, len = arr.length; i < len; i++) { } // Cache length. Complex operations: for(let i = 0, sum = 0; i < 10; sum += i, i++) { } // Increment sum and i. The comma operator has the lowest precedence, so: let x = (1, 2, 3); // x = 3. let y = 1, 2, 3; // SyntaxError. While useful for compact code, excessive use can harm readability. Common in C-style loops but less idiomatic in modern JavaScript with for...of and array methods.",
+      },
+      {
+        question: "What's the difference between == and === in conditions?",
+        solution:
+          "== (loose equality) performs type coercion before comparison, === (strict equality) compares both value and type without coercion. Examples: '5' == 5; // true (string coerced to number). '5' === 5; // false (different types). null == undefined; // true (special case). null === undefined; // false. 0 == false; // true (both coerced). 0 === false; // false. [] == 0; // true (array coerced). [] === 0; // false. Type coercion rules are complex and can lead to unexpected behavior: '0' == false; // true. ' \\t\\n' == 0; // true. Best practice: always use === and !== unless you specifically need type coercion. This prevents bugs and makes code more predictable. The only common exception is checking for null/undefined: value == null checks for both.",
+      },
+      {
+        question: "What is nullish coalescing operator (??)?",
+        solution:
+          "The nullish coalescing operator (??) returns the right operand when the left is null or undefined, and the left operand otherwise. It differs from || which treats all falsy values (0, '', false, NaN) as triggers for the default. Examples: const name = user.name ?? 'Anonymous'; // Only null/undefined trigger default. const age = user.age ?? 0; // 0 is a valid age, won't be replaced. const count = items.length ?? -1; // 0 length won't trigger default. Comparison with ||: const port = config.port || 3000; // 0 would trigger default (wrong). const port = config.port ?? 3000; // Only null/undefined trigger default (correct). Useful for configuration objects, optional parameters, and when 0, false, or empty string are valid values. Can be chained: value ?? backup ?? defaultValue ?? 'fallback';",
+      },
+      {
+        question: "What is optional chaining (?.)?",
+        solution:
+          "Optional chaining (?.) safely accesses nested object properties without throwing errors if intermediate values are null/undefined. It short-circuits and returns undefined instead of throwing TypeError. Examples: const street = user?.address?.street; // Safe property access. const phone = user?.contacts?.[0]?.phone; // Array access. const result = api?.getData?.(); // Method calls. const dynamic = obj?.[computedKey]; // Dynamic property access. Without optional chaining: const street = user && user.address && user.address.street; With arrays: const first = items?.[0]?.name; // Safe array access. Method chaining: api?.user?.getData?.()?.then?.(callback); Optional chaining works with bracket notation, function calls, and can be combined with nullish coalescing: const value = obj?.prop?.nested ?? 'default';",
+      },
+      {
+        question: "What is logical assignment operators?",
+        solution:
+          "Logical assignment operators combine logical operators with assignment, providing shorthand for conditional assignments. Three operators: ||=, &&=, ??=. Examples: // ||= assigns if left is falsy: name ||= 'Anonymous'; // Equivalent to: name = name || 'Anonymous'; // &&= assigns if left is truthy: isLoggedIn &&= hasValidSession; // Equivalent to: isLoggedIn = isLoggedIn && hasValidSession; // ??= assigns if left is nullish: config.timeout ??= 5000; // Equivalent to: config.timeout = config.timeout ?? 5000; Practical uses: function setDefaults(options = {}) { options.theme ??= 'light'; options.timeout ??= 1000; options.debug &&= isDevelopment; } // Accumulating values: total ||= 0; total += value; These operators are more concise and can be more performant as they avoid duplicate property access.",
+      },
+      {
+        question: "What happens when you return from inside a loop?",
+        solution:
+          "Using return inside a loop immediately exits the entire function, not just the loop. The loop stops executing and the function returns the specified value. Examples: function findFirst(arr, condition) { for(let item of arr) { if(condition(item)) return item; // Exits function } return null; // Only reached if no item found } function processItems(items) { for(let i = 0; i < items.length; i++) { if(items[i].error) return false; // Exits entire function process(items[i]); } return true; // All processed successfully } This differs from break (exits loop, continues function) and continue (skips iteration, continues loop). return is useful for early termination with a result, search operations, and validation functions. In nested loops, return exits all loops and the function. Array methods like find(), some(), every() use callbacks with return for similar behavior.",
+      },
+      {
+        question:
+          "What is the difference between if (condition) and if (condition == true)?",
+        solution:
+          "if (condition) uses truthiness evaluation - any truthy value executes the block. if (condition == true) uses loose equality with type coercion - only values that equal true after coercion execute. Examples: const value = 'hello'; if (value) { } // Executes (non-empty string is truthy). if (value == true) { } // Doesn't execute ('hello' != true after coercion). const num = 1; if (num) { } // Executes (1 is truthy). if (num == true) { } // Executes (1 == true after coercion). Truthy values: all except false, 0, '', null, undefined, NaN. Type coercion with == true: 1 == true (true), '1' == true (true), 2 == true (false!), 'hello' == true (false!). Best practice: use if (condition) for natural boolean logic, if (condition === true) only when you need strict boolean type checking. The first form is more idiomatic and avoids coercion complexities.",
+      },
     ],
   },
   {
@@ -1407,6 +1631,4603 @@ class Component {
     prepareLink: "", // Our own links :Preparation
     externallinks: [],
     questions: [
+      {
+        question: "What is object method shorthand?",
+        solution:
+          "Object method shorthand is an ES6 feature that allows you to define methods in object literals without the 'function' keyword. Instead of writing `methodName: function() {}`, you can write `methodName() {}`. This provides cleaner, more readable syntax for object methods. Example: `const obj = { getName() { return this.name; }, setName(name) { this.name = name; } }`. The shorthand is equivalent to the traditional function property syntax but more concise. It works with regular methods, getters (`get propName() {}`), setters (`set propName(value) {}`), and generator functions (`*methodName() {}`).",
+      },
+      {
+        question: "What are computed property names?",
+        solution:
+          "Computed property names allow you to use expressions as object property names by wrapping them in square brackets. This ES6 feature enables dynamic property creation at object literal definition time. Example: `const key = 'dynamicKey'; const obj = { [key]: 'value', [key + '2']: 'value2', ['computed' + Math.random()]: 'random' }`. You can use any expression inside brackets: variables, function calls, template literals, or calculations. This is particularly useful when property names come from variables, API responses, or need to be computed based on runtime conditions. It also works with methods: `{ [methodName]() { return 'dynamic method'; } }`.",
+      },
+      {
+        question: "What is for...of loop?",
+        solution:
+          "The for...of loop is an ES6 iteration statement that loops over iterable objects (arrays, strings, Maps, Sets, NodeLists, etc.) and accesses their values directly. Syntax: `for (const value of iterable) { }`. Unlike for...in which iterates over enumerable properties, for...of iterates over values. It works with any object that implements the Symbol.iterator method. Examples: `for (const item of [1,2,3])` gets values 1,2,3; `for (const char of 'hello')` gets characters h,e,l,l,o; `for (const [key, value] of map)` destructures Map entries. You can use break/continue statements, and it doesn't iterate over inherited properties like for...in does. It's the preferred way to iterate over array values in modern JavaScript.",
+      },
+      {
+        question: "What are Promises?",
+        solution:
+          "Promises are objects representing the eventual completion or failure of an asynchronous operation. They provide a cleaner alternative to callbacks for handling async code. A Promise has three states: pending (initial), fulfilled (completed successfully), or rejected (failed). Promises are created with `new Promise((resolve, reject) => { })` where resolve/reject are functions to change the state. They're consumed using `.then()` for success, `.catch()` for errors, and `.finally()` for cleanup. Promises are chainable, allowing sequential async operations: `promise.then(result => doSomething(result)).then(newResult => doMore(newResult)).catch(handleError)`. Key benefits include avoiding callback hell, better error handling through the catch chain, and composability with Promise.all(), Promise.race(), and Promise.allSettled().",
+      },
+      {
+        question: "What is the difference between let, const, and var?",
+        solution:
+          "var, let, and const differ in scope, hoisting behavior, and reassignment rules. var has function scope or global scope, is hoisted and initialized with undefined, and can be redeclared. let and const have block scope, are hoisted but not initialized (temporal dead zone), and cannot be redeclared in the same scope. const requires initialization at declaration and cannot be reassigned (though objects/arrays can be mutated). Examples: `var x = 1; var x = 2; // OK` vs `let y = 1; let y = 2; // SyntaxError`. var creates properties on the global object when declared globally, while let/const don't. In loops, var creates one binding shared across iterations, while let/const create new bindings per iteration, solving common closure issues in setTimeout/addEventListener scenarios.",
+      },
+      {
+        question: "Explain hoisting with examples.",
+        solution:
+          "Hoisting is JavaScript's behavior of moving variable and function declarations to the top of their containing scope during compilation. var declarations are hoisted and initialized with undefined: `console.log(x); var x = 5;` logs undefined, not an error. Function declarations are fully hoisted: `foo(); function foo() { console.log('works'); }` executes successfully. let/const are hoisted but not initialized, creating a temporal dead zone: `console.log(y); let y = 5;` throws ReferenceError. Function expressions and arrow functions follow their variable declaration rules: `console.log(bar); var bar = function() {};` logs undefined, while `console.log(baz); let baz = () => {};` throws ReferenceError. Class declarations behave like let/const. Understanding hoisting explains why function declarations can be called before their definition and why var can be accessed (as undefined) before declaration.",
+      },
+      {
+        question: "What are the temporal dead-zone and its implications?",
+        solution:
+          "The Temporal Dead Zone (TDZ) is the period between entering a scope where a let/const variable is declared and the actual declaration statement. During TDZ, accessing the variable throws a ReferenceError. Example: `console.log(x); let x = 5;` throws an error because x is in TDZ. TDZ exists to catch programming errors and make const behavior consistent. It starts when the scope is entered and ends when the variable declaration is reached. This affects: typeof checks (`typeof x` throws if x is in TDZ), function parameters and default values, and class declarations. TDZ makes code more predictable by preventing access to uninitialized variables, encourages better coding practices by forcing declaration before use, and ensures const variables are properly initialized. It's scope-based, so inner scopes can shadow outer variables even during TDZ.",
+      },
+      {
+        question: "Describe the primitive data types in JavaScript.",
+        solution:
+          "JavaScript has seven primitive data types: number (integers and floats, including Infinity, -Infinity, and NaN), string (text data in UTF-16), boolean (true/false), undefined (declared but unassigned variables), null (intentional absence of value), symbol (unique identifiers, ES6+), and bigint (arbitrary precision integers, ES2020+). Primitives are immutable and passed by value. number uses IEEE 754 double precision, causing precision issues like 0.1 + 0.2 !== 0.3. string operations create new strings rather than modifying existing ones. undefined is the default value for uninitialized variables, while null represents intentional emptiness. symbol creates unique identifiers: `Symbol('desc') !== Symbol('desc')`. bigint handles integers beyond Number.MAX_SAFE_INTEGER: `123n` or `BigInt(123)`. typeof operator identifies primitives except `typeof null === 'object'` (historical bug). Primitive wrapper objects (String, Number, Boolean) provide methods but shouldn't be used with new.",
+      },
+      {
+        question: "How does type coercion work in JavaScript?",
+        solution:
+          "Type coercion is JavaScript's automatic conversion between different data types during operations. There are two types: implicit (automatic) and explicit (manual using constructors). Implicit coercion follows specific rules: strings concatenate with + (`'5' + 3 = '53'`), other operators convert to numbers (`'5' - 3 = 2`), boolean contexts convert to true/false, and object-to-primitive conversion uses valueOf() then toString(). ToNumber conversion: undefined→NaN, null→0, boolean→0/1, string→parsed number or NaN, objects→valueOf() or toString() then convert. ToString conversion: undefined→'undefined', null→'null', boolean→'true'/'false', number→string representation, objects→toString() or valueOf(). ToBoolean: false, 0, -0, NaN, '', null, undefined are falsy; everything else is truthy. Understanding coercion helps avoid bugs like `[] + [] = ''`, `[] + {} = '[object Object]'`, and `{} + [] = 0` in some contexts.",
+      },
+      {
+        question: "What is the difference between == and ===?",
+        solution:
+          "== (loose equality) performs type coercion before comparison, while === (strict equality) compares both value and type without coercion. Examples: `'5' == 5` is true (string coerced to number), but `'5' === 5` is false (different types). == follows complex coercion rules: if types differ, JavaScript converts them using ToNumber, ToString, or ToBoolean operations. Common gotchas: `0 == false` (true), `'' == false` (true), `null == undefined` (true), `[] == ''` (true). === is generally preferred because it's predictable and avoids unexpected behavior. The only exception is checking for null/undefined: `value == null` checks for both null and undefined, equivalent to `value === null || value === undefined`. For objects, both operators check reference equality, not structural equality. NaN is special: `NaN === NaN` is false, use Number.isNaN() or Object.is() for NaN checks.",
+      },
+      {
+        question: "Explain the concept of 'truthy' and 'falsy' values.",
+        solution:
+          "In JavaScript, every value has an inherent boolean nature when used in boolean contexts (if statements, logical operators, etc.). Falsy values are: false, 0, -0, 0n (bigint zero), '', null, undefined, and NaN. Everything else is truthy, including: '0', 'false', [], {}, function(){}, and all other non-empty strings, non-zero numbers, and objects. This affects conditional logic: `if ('') // false`, `if ('0') // true`, `if ([]) // true`. Logical operators use truthiness: `'' || 'default'` returns 'default', `'value' && doSomething()` executes doSomething. The Boolean() constructor explicitly converts to boolean: `Boolean('')` returns false. Common pitfalls include empty arrays/objects being truthy (`if ([]) // true`), and string '0' being truthy while number 0 is falsy. Understanding truthiness is crucial for conditional logic, default value assignment, and logical operator behavior in JavaScript applications.",
+      },
+      {
+        question: "How do arrow functions differ from regular functions?",
+        solution:
+          "Arrow functions differ from regular functions in several key ways: 1) Syntax: `const fn = (param) => result` vs `function fn(param) { return result; }`. 2) this binding: Arrow functions inherit this from enclosing scope (lexical this), while regular functions have dynamic this based on how they're called. 3) No arguments object: Arrow functions don't have their own arguments, use rest parameters instead. 4) Cannot be constructors: Arrow functions can't be called with new, have no prototype property. 5) No hoisting: Arrow function expressions aren't hoisted like function declarations. 6) Implicit return: Single expressions return automatically without return keyword. Example: `const obj = { name: 'test', getName: () => this.name, getNameRegular: function() { return this.name; } }` - getName() returns undefined (this from global), getNameRegular() returns 'test'. Arrow functions are ideal for callbacks, array methods, and when you want to preserve outer this context.",
+      },
+      {
+        question:
+          "What is the this keyword and how does it behave in different contexts?",
+        solution:
+          "The this keyword refers to the object that is currently executing the function, but its value depends on how the function is called, not where it's defined. In global context, this refers to the global object (window in browsers, global in Node.js) or undefined in strict mode. In object methods, this refers to the object owning the method: `obj.method()` sets this to obj. In constructors with new, this refers to the newly created instance. In event handlers, this refers to the element that triggered the event. call/apply/bind can explicitly set this: `fn.call(obj)` sets this to obj. Arrow functions don't have their own this - they inherit from enclosing scope. In strict mode, this remains undefined if not explicitly set. Common gotcha: `const fn = obj.method; fn();` loses this binding (this becomes global/undefined). Solution: use bind, arrow functions, or store reference: `const fn = obj.method.bind(obj)`.",
+      },
+      {
+        question: "How do call, apply, and bind differ?",
+        solution:
+          "call, apply, and bind are methods for explicitly setting the this context in functions, but they work differently. call() immediately invokes the function with specified this and individual arguments: `fn.call(thisArg, arg1, arg2)`. apply() immediately invokes with specified this and arguments as an array: `fn.apply(thisArg, [arg1, arg2])`. bind() returns a new function with permanently bound this and optionally pre-filled arguments: `const boundFn = fn.bind(thisArg, arg1)`. Key differences: call/apply execute immediately while bind returns a function; call takes individual arguments while apply takes an array; bind enables partial application (currying). Use cases: call for immediate execution with known arguments, apply for dynamic argument arrays (like spreading before ES6), bind for event handlers, callbacks, or creating reusable functions with fixed context. Example: `Math.max.apply(null, [1,2,3])` finds max of array; `setTimeout(obj.method.bind(obj), 1000)` preserves this in async callbacks.",
+      },
+      {
+        question: "What are template literals and their benefits?",
+        solution:
+          "Template literals are string literals using backticks (`) that support multi-line strings and expression interpolation. Benefits include: 1) Expression interpolation with ${expression} syntax: `const greeting = `Hello, ${name}!`;`. 2) Multi-line strings without escape characters: spans multiple lines naturally. 3) Tagged templates: custom processing with tag functions like `styled.div`template``. 4) Better readability for complex strings with variables. 5) Nested template literals for conditional content. Expression interpolation can contain any JavaScript expression: function calls, calculations, ternary operators, etc. Example: `const html = `<div class='${isActive ? 'active' : 'inactive'}'>${user.name.toUpperCase()}</div>`;`. Tagged templates enable custom string processing: `function highlight(strings, ...values) { return strings.reduce((result, string, i) => result + string + (values[i] ? `<mark>${values[i]}</mark>` : ''), ''); }`. Template literals improve code maintainability and reduce concatenation errors compared to traditional string building.",
+      },
+      {
+        question: "Describe destructuring assignment.",
+        solution:
+          "Destructuring assignment extracts values from arrays or properties from objects into distinct variables using matching patterns. Array destructuring: `const [a, b, c] = [1, 2, 3]` assigns a=1, b=2, c=3. Skip elements with commas: `const [first, , third] = array`. Use rest operator: `const [head, ...tail] = array`. Object destructuring: `const {name, age} = user` extracts properties. Rename variables: `const {name: fullName, age: years} = user`. Nested destructuring: `const {address: {street, city}} = user`. Default values prevent undefined: `const {name = 'Anonymous'} = user`. Function parameters: `function greet({name, age = 0}) { }`. Destructuring works in variable declarations, assignments, function parameters, and for...of loops. Mixed destructuring: `const {users: [firstUser]} = response`. Swapping variables: `[a, b] = [b, a]`. This feature reduces code verbosity and improves readability when working with complex data structures.",
+      },
+      {
+        question: "How do rest and spread operators work?",
+        solution:
+          "Rest and spread operators both use three dots (...) but serve opposite purposes. Rest operator collects multiple elements into an array: in function parameters `function sum(...numbers)` collects all arguments into numbers array; in destructuring `const [first, ...others] = array` collects remaining elements. Rest must be the last parameter. Spread operator expands iterables into individual elements: `Math.max(...array)` spreads array elements as arguments; `const newArray = [...array1, ...array2]` combines arrays; `const newObj = {...obj1, ...obj2}` combines objects (shallow merge). Object spread creates shallow copies and can override properties: `const updated = {...user, age: user.age + 1}`. Array spread enables easy copying, concatenation, and converting NodeLists to arrays. Function calls: `fn(...args)` spreads array as individual arguments. Both operators work with any iterable (arrays, strings, Sets, Maps). They're essential for immutable updates, function composition, and modern JavaScript patterns like Redux reducers.",
+      },
+      {
+        question: "What are default parameters?",
+        solution:
+          "Default parameters allow function parameters to have default values when no argument is passed or undefined is passed. Syntax: `function greet(name = 'World') { return `Hello, ${name}!`; }`. Default values are evaluated at call time, not definition time, enabling dynamic defaults: `function log(message, timestamp = Date.now()) { }`. They can reference earlier parameters: `function createUser(name, id = generateId(name)) { }`. Only undefined triggers defaults; null, false, 0, and '' don't: `greet(null)` returns 'Hello, null!'. Default parameters work with destructuring: `function configure({timeout = 5000, retries = 3} = {}) { }`. They interact with the arguments object and function.length property (length only counts parameters before first default). Complex expressions are allowed: `function process(data, formatter = JSON.stringify) { }`. Default parameters replaced the need for `param = param || defaultValue` pattern, providing cleaner syntax and handling edge cases like falsy values that should be preserved.",
+      },
+      {
+        question: "Explain ES6 modules (import/export).",
+        solution:
+          "ES6 modules provide a standardized way to organize and share code between files using import and export statements. Export types: named exports `export const fn = () => {}` or `export {fn, variable}`, default exports `export default class MyClass {}` (one per module). Import types: named imports `import {fn, variable} from './module'`, default imports `import MyClass from './module'`, namespace imports `import * as utils from './module'`. Features include: static analysis (imports/exports resolved at compile time), live bindings (imported values reflect changes in original module), circular dependency support, and tree-shaking optimization. Modules have their own scope (no global pollution), strict mode by default, and deferred execution. Dynamic imports enable code splitting: `const module = await import('./dynamic-module.js')`. Re-exports enable barrel exports: `export {default as Component} from './Component'`. Modules vs CommonJS: ES6 modules are statically analyzable, have live bindings, and support tree-shaking, while CommonJS is dynamic and copies values.",
+      },
+      {
+        question: "What is a Promise and what states can it be in?",
+        solution:
+          "A Promise is an object representing the eventual result of an asynchronous operation. It has three possible states: 1) Pending: initial state, neither fulfilled nor rejected - the operation is still in progress. 2) Fulfilled (resolved): operation completed successfully with a value. 3) Rejected: operation failed with a reason (error). Promises are immutable once settled (fulfilled or rejected). State transitions: pending → fulfilled OR pending → rejected. No transitions from fulfilled/rejected to other states. Internal structure includes [[PromiseState]] and [[PromiseResult]] internal slots. Creating promises: `new Promise((resolve, reject) => { /* async work */ })`. The executor function receives resolve/reject callbacks to control state transitions. Settled promises (fulfilled/rejected) can be handled with .then() for values, .catch() for errors, and .finally() for cleanup code that runs regardless of outcome. Promise chains pass results through, and errors bubble up until caught. Static methods like Promise.resolve() create immediately fulfilled promises.",
+      },
+      {
+        question: "How do async/await improve over raw Promises?",
+        solution:
+          "async/await provides syntactic sugar over Promises, making asynchronous code look and behave more like synchronous code. Benefits: 1) Readability: `const result = await fetchData()` vs `fetchData().then(result => {})`. 2) Error handling: try/catch blocks work naturally vs .catch() chains. 3) Debugging: better stack traces and breakpoint support. 4) Conditional async operations: easier to write complex control flow. 5) Multiple async operations: `const [a, b] = await Promise.all([fetch1(), fetch2()])`. async functions always return Promises, automatically wrapping non-Promise values. await pauses function execution until Promise settles, then returns the resolved value or throws if rejected. Error propagation: uncaught errors in async functions create rejected Promises. Sequential vs parallel: `await a; await b` is sequential, `await Promise.all([a, b])` is parallel. Top-level await (ES2022) allows await outside functions in modules. async/await doesn't replace Promises but provides a more intuitive syntax for consuming them, especially in complex scenarios with loops and conditions.",
+      },
+      {
+        question: "What is the difference between micro-tasks and macro-tasks?",
+        solution:
+          "JavaScript's event loop processes tasks in two queues with different priorities: micro-tasks (higher priority) and macro-tasks (lower priority). Macro-tasks include: setTimeout, setInterval, setImmediate, I/O operations, UI rendering, and script execution. Micro-tasks include: Promise.then/catch/finally, queueMicrotask(), MutationObserver, and process.nextTick (Node.js). Execution order: 1) Execute current macro-task completely. 2) Process ALL micro-tasks in queue. 3) Render if needed. 4) Pick next macro-task. This means micro-tasks can starve macro-tasks if continuously added. Example: `setTimeout(() => console.log('macro'), 0); Promise.resolve().then(() => console.log('micro'));` logs 'micro' then 'macro'. Micro-tasks run between macro-tasks and rendering, ensuring Promise callbacks execute before UI updates. This behavior enables consistent state updates, prevents UI inconsistencies, and explains why Promise.resolve() executes before setTimeout(0). Understanding this helps debug timing issues and optimize performance by batching operations appropriately.",
+      },
+      {
+        question: "Explain the event loop in the browser.",
+        solution:
+          "The event loop is the mechanism that handles asynchronous operations in JavaScript's single-threaded environment. It continuously monitors the call stack and task queues, executing code in a specific order. Components: 1) Call stack: where synchronous code executes (LIFO). 2) Web APIs: browser-provided async APIs (setTimeout, DOM events, fetch). 3) Macro-task queue: completed async operations (timers, I/O). 4) Micro-task queue: Promise callbacks, queueMicrotask. 5) Render queue: DOM updates, animations. Process: Execute all synchronous code first, then while call stack is empty: process all micro-tasks, render if needed, take one macro-task and repeat. This prevents blocking: long-running operations are moved to Web APIs, allowing other code to run. setTimeout(0) doesn't execute immediately but after current execution context finishes. The event loop enables non-blocking I/O, responsive UIs, and concurrent-like behavior in single-threaded JavaScript. Understanding it helps debug async timing, optimize performance, and avoid blocking the main thread.",
+      },
+      {
+        question:
+          "What is the difference between setTimeout(0) and Promise.resolve()?",
+        solution:
+          "setTimeout(0) and Promise.resolve() both schedule asynchronous execution but use different task queues with different priorities. setTimeout(0) adds a macro-task to the macro-task queue, while Promise.resolve().then() adds a micro-task to the micro-task queue. Micro-tasks have higher priority and execute before macro-tasks. Example: `setTimeout(() => console.log('timeout'), 0); Promise.resolve().then(() => console.log('promise'));` always logs 'promise' first, then 'timeout'. setTimeout has a minimum delay (usually 4ms after 5 nested calls) due to browser implementation, while Promise.resolve() executes in the next micro-task checkpoint. Timing differences: Promise.resolve() runs before any rendering or other macro-tasks, setTimeout(0) runs after micro-tasks and potentially after rendering. Use cases: Promise.resolve() for immediate async execution maintaining promise chain context; setTimeout(0) for yielding to browser (allowing renders/user interactions). In performance-critical code, excessive micro-tasks can block rendering, while setTimeout allows rendering between tasks.",
+      },
+      {
+        question: "How does garbage collection work in V8?",
+        solution:
+          "V8 uses a generational garbage collector with multiple strategies. Memory is divided into: Young Generation (new objects, ~8MB) and Old Generation (long-lived objects, larger space). Young Generation uses Scavenge algorithm (copying collector): objects start in 'From' space, live objects copy to 'To' space during GC, spaces swap roles. Objects surviving 2 collections promote to Old Generation. Old Generation uses Mark-Sweep-Compact: Mark phase identifies reachable objects through reference tracing, Sweep phase frees unreachable objects, Compact phase defragments memory. Incremental marking reduces pause times by spreading work across multiple VM turns. Concurrent marking allows marking while JavaScript executes. Weak references (WeakMap, WeakSet) don't prevent GC. Memory management: avoid global variables, clear event listeners, nullify large object references, use object pooling for frequent allocations. V8 optimizations include write barriers for tracking cross-generational references and parallel/concurrent collection phases. Understanding GC helps optimize memory usage and avoid leaks in long-running applications.",
+      },
+      {
+        question: "What are the common causes of memory leaks in JavaScript?",
+        solution:
+          "JavaScript memory leaks occur when objects remain referenced and can't be garbage collected despite being no longer needed. Common causes: 1) Global variables: accidentally created globals persist forever (`function leak() { leaked = 'global'; }`). 2) Event listeners: not removed when elements are destroyed (`element.addEventListener('click', handler)` without removeEventListener). 3) Timers: setInterval/setTimeout not cleared (`setInterval(fn, 1000)` without clearInterval). 4) Closures: inner functions keeping outer scope alive unnecessarily. 5) DOM references: JavaScript holding references to removed DOM elements. 6) Circular references: though modern GC handles these, they can occur with event handlers. Prevention: use const/let instead of var, remove event listeners in cleanup, clear timers, avoid unnecessary closures, use WeakMap/WeakSet for loose references, nullify large object references, implement proper component cleanup. Detection tools: browser DevTools Memory tab, performance profiling, heap snapshots. Modern frameworks handle many leaks automatically, but understanding patterns helps in debugging performance issues and writing efficient code.",
+      },
+      {
+        question: "Describe the prototype chain.",
+        solution:
+          "The prototype chain is JavaScript's inheritance mechanism where objects can inherit properties and methods from other objects through the [[Prototype]] internal property. Every object has a prototype (except Object.prototype), creating a chain. When accessing a property, JavaScript searches: 1) Object's own properties first. 2) Object's prototype. 3) Prototype's prototype, continuing up the chain. 4) Stops at Object.prototype (root) or null. Example: `const arr = [1,2,3]` - arr inherits from Array.prototype (push, pop methods), which inherits from Object.prototype (toString, hasOwnProperty). Creating prototype relationships: Constructor functions automatically set prototype (`function Person() {}; Person.prototype.greet = function() {}`), Object.create() explicitly sets prototype (`const obj = Object.create(parent)`), ES6 classes provide syntactic sugar over prototypes. Key concepts: [[Prototype]] vs prototype property (functions have prototype property for instances), hasOwnProperty() checks own properties vs inherited, Object.getPrototypeOf() accesses [[Prototype]]. The chain enables code reuse, method sharing, and JavaScript's flexible inheritance model.",
+      },
+      {
+        question: "What is the difference between **proto** and prototype?",
+        solution:
+          "__proto__ is the actual object used in the lookup chain to resolve methods, while prototype is the object that is used to build __proto__ when you create an object with new. __proto__ is a property of every object instance that points to its prototype object. prototype is a property of constructor functions that defines the prototype for instances created by that constructor. When you access a property on an object, JavaScript first looks on the object itself, then follows the __proto__ chain. Example: function Person(name) { this.name = name; } Person.prototype.greet = function() { return 'Hello'; }; const john = new Person('John'); // john.__proto__ === Person.prototype (true). The prototype property is used during object construction, while __proto__ is used during property lookup.",
+      },
+      {
+        question: "How do you create an object without a prototype?",
+        solution:
+          "Use Object.create(null) to create an object with no prototype chain. This creates a truly empty object with no inherited properties from Object.prototype. Example: const obj = Object.create(null); obj.name = 'test'; console.log(obj.toString); // undefined (no inherited methods). You can also use Object.setPrototypeOf(obj, null) to remove the prototype from an existing object. This is useful for creating hash maps or dictionaries where you don't want prototype pollution, or when you need objects that won't have conflicts with property names like 'constructor', 'toString', etc. These objects are often called 'null prototype objects' and are commonly used in libraries and frameworks.",
+      },
+      {
+        question: "Explain the class syntax in ES6.",
+        solution:
+          "ES6 classes provide syntactic sugar over JavaScript's prototype-based inheritance. Classes are declared with the 'class' keyword and can include constructor methods, instance methods, static methods, and getters/setters. Example: class Person { constructor(name, age) { this.name = name; this.age = age; } greet() { return `Hello, I'm ${this.name}`; } static species() { return 'Homo sapiens'; } get info() { return `${this.name} is ${this.age} years old`; } } const john = new Person('John', 30). Classes support inheritance with 'extends' and 'super' keywords. They're hoisted but not initialized (temporal dead zone). Methods are automatically added to the prototype, static methods belong to the class itself. Classes are always in strict mode.",
+      },
+      {
+        question:
+          "What is inheritance in JavaScript and how is it implemented?",
+        solution:
+          "JavaScript inheritance is primarily prototypal - objects can inherit directly from other objects. Implementation methods: 1) Prototypal inheritance: Object.create(parent) creates child with parent as prototype. 2) Constructor inheritance: Child.prototype = Object.create(Parent.prototype); Child.prototype.constructor = Child. 3) ES6 classes: class Child extends Parent with super() calls. 4) Functional inheritance: Factory functions returning objects with shared methods. Example: function Animal(name) { this.name = name; } Animal.prototype.speak = function() { return 'Some sound'; }; function Dog(name, breed) { Animal.call(this, name); this.breed = breed; } Dog.prototype = Object.create(Animal.prototype); Dog.prototype.constructor = Dog; Dog.prototype.speak = function() { return 'Woof!'; }. JavaScript uses prototype chain lookup for property resolution, enabling multiple inheritance patterns.",
+      },
+      {
+        question: "What are mixins and how do you use them?",
+        solution:
+          "Mixins are a way to share functionality between objects without using classical inheritance. They allow composition over inheritance by copying properties/methods from one object to another. Implementation: const Mixin = { fly() { return `${this.name} is flying`; }, swim() { return `${this.name} is swimming`; } }; function Bird(name) { this.name = name; } Object.assign(Bird.prototype, Mixin); const duck = new Bird('Duck'); duck.fly(); duck.swim(). Advanced mixin pattern: function mixinFactory(Base, ...mixins) { return mixins.reduce((acc, mixin) => Object.assign(acc.prototype, mixin) && acc, Base); }. Mixins solve the diamond problem and enable multiple inheritance-like behavior. They're useful for cross-cutting concerns like logging, validation, or adding capabilities to multiple unrelated classes.",
+      },
+      {
+        question: "Explain the module pattern.",
+        solution:
+          "The module pattern encapsulates functionality and provides controlled access through closures. Classical module pattern uses IIFE: const Module = (function() { let privateVar = 0; function privateMethod() { return 'private'; } return { publicMethod() { return privateVar++; }, get count() { return privateVar; } }; })(). ES6 modules use import/export: export const publicVar = 'value'; export function publicFunction() { return 'public'; } const privateVar = 'hidden'; export default class MyClass {}. Module patterns provide: 1) Encapsulation of private state, 2) Controlled public API, 3) Namespace management, 4) Prevention of global pollution. Variations include revealing module pattern, namespace pattern, and AMD/CommonJS for different environments.",
+      },
+      {
+        question: "What are higher-order functions?",
+        solution:
+          "Higher-order functions are functions that either take other functions as arguments, return functions, or both. They enable functional programming patterns and abstraction. Examples: 1) Taking functions as arguments: function operate(a, b, fn) { return fn(a, b); } operate(3, 4, (x, y) => x + y). 2) Returning functions: function multiplier(factor) { return function(x) { return x * factor; }; } const double = multiplier(2). 3) Both: function withLogging(fn) { return function(...args) { console.log('Calling function'); return fn.apply(this, args); }; }. Higher-order functions enable: composition, currying, partial application, event handling, middleware patterns, decorators, and functional pipeline creation. They're fundamental to functional programming and enable writing more declarative, reusable code.",
+      },
+      {
+        question: "Give examples of built-in higher-order array methods.",
+        solution:
+          "JavaScript arrays have many built-in higher-order methods: 1) map(): transforms elements - [1,2,3].map(x => x * 2) → [2,4,6]. 2) filter(): selects elements - [1,2,3,4].filter(x => x % 2 === 0) → [2,4]. 3) reduce(): accumulates values - [1,2,3].reduce((sum, x) => sum + x, 0) → 6. 4) forEach(): executes for each - arr.forEach(x => console.log(x)). 5) find(): finds first match - arr.find(x => x > 10). 6) some()/every(): test conditions - arr.some(x => x > 5). 7) sort(): custom sorting - arr.sort((a, b) => a - b). These methods enable functional programming style, are chainable, don't mutate original arrays (except sort), and provide declarative ways to transform data without explicit loops.",
+      },
+      {
+        question: "What is a closure?",
+        solution:
+          "A closure is a function that has access to variables from its outer (enclosing) lexical scope even after the outer function has returned. Closures are created every time a function is created. Example: function outerFunction(x) { return function innerFunction(y) { return x + y; }; } const addFive = outerFunction(5); addFive(3); // returns 8. The inner function 'closes over' the variable x, maintaining access to it. Key characteristics: 1) Inner function retains access to outer scope variables, 2) Variables remain in memory as long as closure exists, 3) Each closure instance has its own copy of outer variables, 4) Closures have access to outer function parameters and variables defined after closure creation. Closures enable data privacy, function factories, callbacks, and event handlers with persistent state.",
+      },
+      {
+        question: "Describe practical use cases of closures.",
+        solution:
+          "Closures have numerous practical applications: 1) Data privacy/encapsulation: function Counter() { let count = 0; return { increment: () => ++count, decrement: () => --count, value: () => count }; }. 2) Function factories: function validator(pattern) { return function(input) { return pattern.test(input); }; } const emailValidator = validator(/\\S+@\\S+\\.\\S+/). 3) Event handlers with state: function setupButton(name) { return function() { console.log(`${name} clicked`); }; } button.onclick = setupButton('Save'). 4) Callbacks with context: setTimeout(() => { console.log(userInput); }, 1000). 5) Module pattern: const calculator = (() => { let result = 0; return { add: n => result += n }; })(). 6) Currying and partial application. 7) Memoization for caching function results. Closures provide elegant solutions for maintaining state without global variables.",
+      },
+      {
+        question: "What is currying? Implement a simple curry helper.",
+        solution:
+          "Currying transforms a function with multiple arguments into a sequence of functions, each taking a single argument. Implementation: function curry(fn) { return function curried(...args) { if (args.length >= fn.length) { return fn.apply(this, args); } return function(...newArgs) { return curried.apply(this, args.concat(newArgs)); }; }; }. Usage: const add = (a, b, c) => a + b + c; const curriedAdd = curry(add); curriedAdd(1)(2)(3); // 6, curriedAdd(1, 2)(3); // 6. Advanced curry with placeholder support: function curry(fn, ...args) { return (..._args) => { const allArgs = [...args, ..._args]; return allArgs.length >= fn.length ? fn(...allArgs) : curry(fn, ...allArgs); }; }. Benefits include: partial application, function composition, reusability, and creating specialized functions from generic ones.",
+      },
+      {
+        question: "Explain partial application.",
+        solution:
+          "Partial application creates a new function by fixing some arguments of an existing function, leaving the rest to be provided later. Unlike currying, it doesn't necessarily return single-argument functions. Implementation: function partial(fn, ...args1) { return function(...args2) { return fn.apply(this, args1.concat(args2)); }; }. Example: const multiply = (a, b, c) => a * b * c; const double = partial(multiply, 2); double(3, 4); // 24. Advanced with placeholder support: const _ = {}; function partial(fn, ...partialArgs) { return function(...laterArgs) { let args = [], laterIndex = 0; for (let i = 0; i < partialArgs.length; i++) { args[i] = partialArgs[i] === _ ? laterArgs[laterIndex++] : partialArgs[i]; } return fn.apply(this, args.concat(laterArgs.slice(laterIndex))); }; }. Use cases: event handlers, API calls with fixed parameters, configuration functions.",
+      },
+      {
+        question: "What are pure functions and why are they important?",
+        solution:
+          "Pure functions are functions that: 1) Always return the same output for the same input (deterministic), 2) Have no side effects (don't modify external state). Examples: Pure: const add = (a, b) => a + b; const multiply = (x) => x * 2. Impure: let counter = 0; const increment = () => ++counter; // modifies external state. Benefits: 1) Predictable and testable, 2) Cacheable (memoization), 3) Parallelizable, 4) Easier debugging and reasoning, 5) Enable functional programming patterns, 6) Immutable by nature. Pure functions facilitate: referential transparency, function composition, easier testing without mocks, better performance optimizations, and reduced complexity. They form the foundation of functional programming paradigms and help create more maintainable, reliable code by eliminating unexpected behavior and making code behavior explicit.",
+      },
+      {
+        question: "Describe referential transparency.",
+        solution:
+          "Referential transparency means that a function call can be replaced with its return value without changing the program's behavior. This property requires functions to be pure (no side effects, deterministic). Example: const square = x => x * x; const result = square(5) + square(3); // Can be replaced with: const result = 25 + 9; This replacement doesn't change program behavior. Non-referentially transparent: let log = []; const addToLog = (item) => { log.push(item); return item; }; // Can't replace addToLog(5) with 5 because it has side effects. Benefits: 1) Enables aggressive compiler optimizations, 2) Makes reasoning about code easier, 3) Supports memoization, 4) Allows safe parallel execution, 5) Facilitates mathematical reasoning about programs. Referential transparency is crucial for functional programming, enabling equational reasoning where you can substitute equals for equals, making programs more predictable and maintainable.",
+      },
+      {
+        question: "What are side effects and how do you minimize them?",
+        solution:
+          "Side effects are observable changes beyond returning a value: modifying variables, I/O operations, DOM manipulation, network requests, throwing exceptions, logging. Examples of side effects: function impure(arr) { arr.push(1); return arr; } // modifies input, console.log('hello'); // I/O operation. Minimization strategies: 1) Use pure functions when possible: const pure = (arr) => [...arr, 1]. 2) Isolate side effects in specific functions/modules. 3) Use immutable data structures. 4) Functional programming patterns: map, filter, reduce. 5) Dependency injection for testability. 6) Effect systems (monads in advanced FP). 7) Separate business logic from side effects. Example pattern: const processData = (data) => data.map(transform).filter(isValid); const saveResults = (results) => database.save(results); // side effect isolated. Benefits: easier testing, better debugging, improved cacheability, enhanced parallelization, and more predictable behavior.",
+      },
+      {
+        question: "Explain function composition.",
+        solution:
+          "Function composition combines simple functions to create more complex ones, where output of one function becomes input of another. Mathematical notation: (f ∘ g)(x) = f(g(x)). Implementation: const compose = (...fns) => (value) => fns.reduceRight((acc, fn) => fn(acc), value); const pipe = (...fns) => (value) => fns.reduce((acc, fn) => fn(acc), value). Example: const add1 = x => x + 1; const multiply2 = x => x * 2; const square = x => x * x; const composed = compose(square, multiply2, add1); composed(3); // square(multiply2(add1(3))) = square(8) = 64. Pipe version (left-to-right): const piped = pipe(add1, multiply2, square); piped(3); // 64. Benefits: 1) Modularity and reusability, 2) Declarative programming style, 3) Easy testing of individual functions, 4) Mathematical reasoning, 5) Building complex operations from simple parts. Used extensively in functional programming libraries like Ramda and Lodash.",
+      },
+      {
+        question: "What is an IIFE and when would you use it?",
+        solution:
+          "IIFE (Immediately Invoked Function Expression) is a function that runs as soon as it's defined. Syntax: (function() { // code })(); or (() => { // code })(). Classic pattern: (function(global) { let privateVar = 'hidden'; global.myModule = { publicMethod() { return 'exposed'; } }; })(window). Use cases: 1) Creating private scope to avoid global pollution, 2) Module pattern implementation, 3) Avoiding variable hoisting issues, 4) One-time initialization code, 5) Protecting variables in loops: for (let i = 0; i < 3; i++) { (function(index) { setTimeout(() => console.log(index), 100); })(i); }. 6) Creating closures with preserved values. Modern alternatives include ES6 modules and block scoping with let/const, but IIFEs remain useful for backward compatibility, library development, and specific scoping needs. They provide immediate execution with encapsulation.",
+      },
+      {
+        question: "Describe the differences between deep and shallow copy.",
+        solution:
+          "Shallow copy creates a new object but nested objects are still referenced. Deep copy creates completely independent copies of all nested structures. Shallow copy methods: 1) Object.assign({}, obj), 2) {...obj} spread operator, 3) Array.from(arr), 4) [...arr] for arrays. Example: const original = { a: 1, nested: { b: 2 } }; const shallow = {...original}; shallow.a = 10; // doesn't affect original, shallow.nested.b = 20; // affects original.nested.b! Deep copy methods: 1) JSON.parse(JSON.stringify(obj)) - limited (no functions, dates, undefined), 2) Custom recursive function, 3) Libraries like Lodash cloneDeep. Custom deep copy: function deepCopy(obj) { if (obj === null || typeof obj !== 'object') return obj; if (obj instanceof Date) return new Date(obj); if (Array.isArray(obj)) return obj.map(deepCopy); return Object.keys(obj).reduce((acc, key) => { acc[key] = deepCopy(obj[key]); return acc; }, {}); }. Consider performance implications and circular references.",
+      },
+      {
+        question: "How do you deep-clone an object in JavaScript?",
+        solution:
+          "Multiple approaches exist for deep cloning: 1) JSON method (limited): const clone = JSON.parse(JSON.stringify(obj)); // Issues: loses functions, undefined, Symbol properties, Dates become strings, circular references cause errors. 2) Recursive approach: function deepClone(obj) { if (obj === null || typeof obj !== 'object') return obj; if (obj instanceof Date) return new Date(obj.getTime()); if (obj instanceof Array) return obj.map(item => deepClone(item)); if (obj instanceof Object) { const cloned = {}; Object.keys(obj).forEach(key => { cloned[key] = deepClone(obj[key]); }); return cloned; } }. 3) Library solutions: Lodash _.cloneDeep(obj), Ramda R.clone(obj). 4) structuredClone() (modern browsers): const clone = structuredClone(obj); // Handles most data types, circular references, but not functions. 5) Custom with WeakMap for circular references: function deepClone(obj, seen = new WeakMap()) { if (seen.has(obj)) return seen.get(obj); const cloned = Array.isArray(obj) ? [] : {}; seen.set(obj, cloned); // Handle each property... }",
+      },
+      {
+        question: "What are Symbols and their use cases?",
+        solution:
+          "Symbols are primitive data types that create unique identifiers. Each Symbol() call creates a unique symbol. Syntax: const sym = Symbol('description'); const sym2 = Symbol('description'); sym !== sym2 // true. Features: 1) Unique: no two symbols are equal, 2) Immutable, 3) Can be used as object keys, 4) Not enumerable in for-in loops. Use cases: 1) Private object properties: const _private = Symbol('private'); obj[_private] = 'hidden'. 2) Avoiding name collisions: const MY_SYMBOL = Symbol('myLib.method'). 3) Built-in symbols (well-known symbols): Symbol.iterator for iteration protocol, Symbol.toStringTag for custom toString, Symbol.hasInstance for instanceof behavior. 4) Enum-like constants: const Colors = { RED: Symbol('red'), BLUE: Symbol('blue') }. 5) Meta-programming: defining custom object behavior. Global symbol registry: Symbol.for('key') creates/retrieves global symbols. Symbols provide a way to add properties to objects without risking name conflicts, especially useful in libraries and frameworks.",
+      },
+      {
+        question: "How do you use WeakMap and WeakSet?",
+        solution:
+          "WeakMap and WeakSet hold weak references to objects, allowing garbage collection when no other references exist. WeakMap: Maps objects to values, automatically removes entries when key objects are garbage collected. const wm = new WeakMap(); const obj = {}; wm.set(obj, 'value'); wm.get(obj); // 'value', wm.has(obj); // true, wm.delete(obj). Use cases: 1) Private data storage: const privateData = new WeakMap(); class MyClass { constructor() { privateData.set(this, { secret: 'value' }); } getSecret() { return privateData.get(this).secret; } }. 2) DOM node metadata without memory leaks. 3) Caching expensive computations. WeakSet: Set of objects with weak references. const ws = new WeakSet(); ws.add(obj); ws.has(obj); ws.delete(obj). Use cases: 1) Tracking object state, 2) Marking objects as processed, 3) Access control. Key differences from Map/Set: only objects as keys, no iteration methods, no size property, automatic cleanup prevents memory leaks.",
+      },
+      {
+        question: "Explain generators and their use cases.",
+        solution:
+          "Generators are functions that can pause and resume execution, yielding values on demand. Defined with function* syntax. function* numberGen() { let i = 0; while (true) { yield i++; } } const gen = numberGen(); gen.next().value; // 0, gen.next().value; // 1. Key features: 1) yield keyword pauses execution, 2) next() method resumes and returns {value, done}, 3) Lazy evaluation - values computed on demand, 4) Can receive values via yield, 5) return statement ends generation. Advanced example: function* fibonacci() { let [a, b] = [0, 1]; while (true) { yield a; [a, b] = [b, a + b]; } }. Use cases: 1) Infinite sequences without memory issues, 2) Async iteration (async generators), 3) State machines, 4) Implementing custom iterators, 5) Stream processing, 6) Cooperative multitasking, 7) Building custom control flow. Generator delegation: yield* otherGenerator(). Generators enable powerful patterns like async/await implementation, custom iteration protocols, and memory-efficient data processing pipelines.",
+      },
+      {
+        question:
+          "Implement Array.prototype.flat that flattens an array to any depth, handling nested arrays and maintaining original order.",
+        solution: `
+Array.prototype.customFlat = function(depth = 1) {
+  const flatten = (arr, currentDepth) => {
+    const result = [];
+    for (let i = 0; i < arr.length; i++) {
+      if (Array.isArray(arr[i]) && currentDepth > 0) {
+        result.push(...flatten(arr[i], currentDepth - 1));
+      } else {
+        result.push(arr[i]);
+      }
+    }
+    return result;
+  };
+  
+  return flatten(this, depth === Infinity ? Number.MAX_SAFE_INTEGER : depth);
+};
+
+// Usage: [1, [2, [3, [4]]]].customFlat(2) → [1, 2, 3, [4]]
+// Handles infinite depth, sparse arrays, and maintains type coercion behavior
+      `,
+      },
+      {
+        question:
+          "Implement a debounce function that delays execution until after wait time has elapsed since the last invocation, with immediate execution option.",
+        solution: `
+function debounce(func, wait, immediate = false) {
+  let timeout;
+  let result;
+  
+  const debounced = function(...args) {
+    const callNow = immediate && !timeout;
+    
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      timeout = null;
+      if (!immediate) result = func.apply(this, args);
+    }, wait);
+    
+    if (callNow) result = func.apply(this, args);
+    return result;
+  };
+  
+  debounced.cancel = function() {
+    clearTimeout(timeout);
+    timeout = null;
+  };
+  
+  debounced.flush = function() {
+    if (timeout) {
+      clearTimeout(timeout);
+      result = func.apply(this, arguments);
+      timeout = null;
+    }
+    return result;
+  };
+  
+  return debounced;
+}
+
+// Usage: const debouncedSave = debounce(saveData, 300);
+// Includes cancel/flush methods and preserves 'this' context
+      `,
+      },
+      {
+        question:
+          "Implement a throttle function that ensures a function is called at most once per specified time period, with leading and trailing edge options.",
+        solution: `
+function throttle(func, limit, options = {}) {
+  let inThrottle;
+  let lastFunc;
+  let lastRan;
+  let result;
+  
+  const { leading = true, trailing = true } = options;
+  
+  return function(...args) {
+    if (!inThrottle) {
+      if (leading) result = func.apply(this, args);
+      lastRan = Date.now();
+      inThrottle = true;
+    } else {
+      clearTimeout(lastFunc);
+      if (trailing) {
+        lastFunc = setTimeout(() => {
+          if (Date.now() - lastRan >= limit) {
+            result = func.apply(this, args);
+            lastRan = Date.now();
+          }
+        }, limit - (Date.now() - lastRan));
+      }
+    }
+    
+    setTimeout(() => inThrottle = false, limit);
+    return result;
+  };
+}
+
+// Usage: const throttledScroll = throttle(handleScroll, 100, { trailing: false });
+// Configurable leading/trailing execution, maintains context and return values
+      `,
+      },
+      {
+        question:
+          "Implement a deep-clone function that handles circular references, all JavaScript types, and maintains prototype chains.",
+        solution: `
+function deepClone(obj, visited = new WeakMap()) {
+  // Handle primitives and null
+  if (obj === null || typeof obj !== 'object') return obj;
+  
+  // Handle circular references
+  if (visited.has(obj)) return visited.get(obj);
+  
+  // Handle Date
+  if (obj instanceof Date) return new Date(obj.getTime());
+  
+  // Handle RegExp
+  if (obj instanceof RegExp) return new RegExp(obj.source, obj.flags);
+  
+  // Handle Arrays
+  if (Array.isArray(obj)) {
+    const cloned = [];
+    visited.set(obj, cloned);
+    for (let i = 0; i < obj.length; i++) {
+      cloned[i] = deepClone(obj[i], visited);
+    }
+    return cloned;
+  }
+  
+  // Handle Maps
+  if (obj instanceof Map) {
+    const cloned = new Map();
+    visited.set(obj, cloned);
+    for (let [key, value] of obj) {
+      cloned.set(deepClone(key, visited), deepClone(value, visited));
+    }
+    return cloned;
+  }
+  
+  // Handle Sets
+  if (obj instanceof Set) {
+    const cloned = new Set();
+    visited.set(obj, cloned);
+    for (let value of obj) {
+      cloned.add(deepClone(value, visited));
+    }
+    return cloned;
+  }
+  
+  // Handle Objects (including custom constructors)
+  const cloned = Object.create(Object.getPrototypeOf(obj));
+  visited.set(obj, cloned);
+  
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      cloned[key] = deepClone(obj[key], visited);
+    }
+  }
+  
+  return cloned;
+}
+
+// Handles circular refs, Date, RegExp, Map, Set, custom prototypes, maintains inheritance
+      `,
+      },
+      {
+        question:
+          "Write a polyfill for Array.prototype.map that mimics native behavior including sparse arrays and proper 'this' binding.",
+        solution: `
+if (!Array.prototype.customMap) {
+  Array.prototype.customMap = function(callback, thisArg) {
+    if (this == null) {
+      throw new TypeError('Array.prototype.map called on null or undefined');
+    }
+    
+    if (typeof callback !== 'function') {
+      throw new TypeError(callback + ' is not a function');
+    }
+    
+    const O = Object(this);
+    const len = parseInt(O.length) || 0;
+    const A = new Array(len);
+    
+    for (let k = 0; k < len; k++) {
+      if (k in O) {
+        A[k] = callback.call(thisArg, O[k], k, O);
+      }
+      // Sparse arrays: don't set A[k] if k not in O
+    }
+    
+    return A;
+  };
+}
+
+// Usage: [1, , 3].customMap(x => x * 2) → [2, <empty>, 6]
+// Properly handles sparse arrays, maintains holes, validates inputs
+      `,
+      },
+      {
+        question:
+          "Write a polyfill for Array.prototype.filter that handles sparse arrays and maintains original array behavior.",
+        solution: `
+if (!Array.prototype.customFilter) {
+  Array.prototype.customFilter = function(callback, thisArg) {
+    if (this == null) {
+      throw new TypeError('Array.prototype.filter called on null or undefined');
+    }
+    
+    if (typeof callback !== 'function') {
+      throw new TypeError(callback + ' is not a function');
+    }
+    
+    const O = Object(this);
+    const len = parseInt(O.length) || 0;
+    const A = [];
+    let to = 0;
+    
+    for (let k = 0; k < len; k++) {
+      if (k in O) {
+        const kValue = O[k];
+        if (callback.call(thisArg, kValue, k, O)) {
+          A[to++] = kValue;
+        }
+      }
+    }
+    
+    return A;
+  };
+}
+
+// Usage: [1, , 3, 4].customFilter(x => x > 2) → [3, 4]
+// Skips holes in sparse arrays, compact result without gaps
+      `,
+      },
+      {
+        question:
+          "Write a polyfill for Array.prototype.reduce that handles empty arrays, initial values, and sparse arrays correctly.",
+        solution: `
+if (!Array.prototype.customReduce) {
+  Array.prototype.customReduce = function(callback, initialValue) {
+    if (this == null) {
+      throw new TypeError('Array.prototype.reduce called on null or undefined');
+    }
+    
+    if (typeof callback !== 'function') {
+      throw new TypeError(callback + ' is not a function');
+    }
+    
+    const O = Object(this);
+    const len = parseInt(O.length) || 0;
+    let k = 0;
+    let accumulator;
+    
+    if (arguments.length >= 2) {
+      accumulator = initialValue;
+    } else {
+      let kPresent = false;
+      while (k < len && !kPresent) {
+        if (k in O) {
+          accumulator = O[k++];
+          kPresent = true;
+        } else {
+          k++;
+        }
+      }
+      
+      if (!kPresent) {
+        throw new TypeError('Reduce of empty array with no initial value');
+      }
+    }
+    
+    while (k < len) {
+      if (k in O) {
+        accumulator = callback(accumulator, O[k], k, O);
+      }
+      k++;
+    }
+    
+    return accumulator;
+  };
+}
+
+// Handles empty arrays, finds first non-hole value, proper error handling
+      `,
+      },
+      {
+        question:
+          "Write a polyfill for Function.prototype.bind that creates bound functions with proper prototype handling and argument pre-filling.",
+        solution: `
+if (!Function.prototype.customBind) {
+  Function.prototype.customBind = function(thisArg, ...args) {
+    if (typeof this !== 'function') {
+      throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+    }
+    
+    const fToBind = this;
+    const fNOP = function() {};
+    
+    const fBound = function(...newArgs) {
+      // If called with 'new', use original constructor
+      const isNewCall = this instanceof fBound;
+      const context = isNewCall ? this : thisArg;
+      
+      return fToBind.apply(context, args.concat(newArgs));
+    };
+    
+    if (this.prototype) {
+      fNOP.prototype = this.prototype;
+    }
+    fBound.prototype = new fNOP();
+    
+    return fBound;
+  };
+}
+
+// Usage: const boundFn = myFunc.customBind(obj, 1, 2);
+// Handles 'new' operator, prototype chain, partial application
+      `,
+      },
+      {
+        question:
+          "Implement Promise.all from scratch that resolves when all promises resolve or rejects when any promise rejects, maintaining order.",
+        solution: `
+function promiseAll(promises) {
+  return new Promise((resolve, reject) => {
+    if (!Array.isArray(promises)) {
+      return reject(new TypeError('Promise.all accepts an array'));
+    }
+    
+    if (promises.length === 0) {
+      return resolve([]);
+    }
+    
+    const results = new Array(promises.length);
+    let completedCount = 0;
+    
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then(value => {
+          results[index] = value;
+          completedCount++;
+          
+          if (completedCount === promises.length) {
+            resolve(results);
+          }
+        })
+        .catch(reject);
+    });
+  });
+}
+
+// Usage: promiseAll([fetch('/api1'), fetch('/api2')]).then(results => ...)
+// Maintains order, handles non-promise values, fails fast on rejection
+      `,
+      },
+      {
+        question:
+          "Implement Promise.race from scratch that resolves or rejects with the first settled promise value or reason.",
+        solution: `
+function promiseRace(promises) {
+  return new Promise((resolve, reject) => {
+    if (!Array.isArray(promises)) {
+      return reject(new TypeError('Promise.race accepts an array'));
+    }
+    
+    if (promises.length === 0) {
+      return; // Promise remains pending forever
+    }
+    
+    promises.forEach(promise => {
+      Promise.resolve(promise)
+        .then(resolve)
+        .catch(reject);
+    });
+  });
+}
+
+// Usage: promiseRace([slowPromise, fastPromise]).then(firstResult => ...)
+// First to settle wins, handles non-promise values via Promise.resolve
+      `,
+      },
+      {
+        question:
+          "Implement Promise.allSettled from scratch that waits for all promises to settle and returns their status and value/reason.",
+        solution: `
+function promiseAllSettled(promises) {
+  return new Promise((resolve) => {
+    if (!Array.isArray(promises)) {
+      return resolve([]);
+    }
+    
+    if (promises.length === 0) {
+      return resolve([]);
+    }
+    
+    const results = new Array(promises.length);
+    let settledCount = 0;
+    
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then(value => {
+          results[index] = { status: 'fulfilled', value };
+        })
+        .catch(reason => {
+          results[index] = { status: 'rejected', reason };
+        })
+        .finally(() => {
+          settledCount++;
+          if (settledCount === promises.length) {
+            resolve(results);
+          }
+        });
+    });
+  });
+}
+
+// Returns: [{status: 'fulfilled', value: 1}, {status: 'rejected', reason: Error}]
+// Never rejects, waits for all to settle, provides detailed status info
+      `,
+      },
+      {
+        question:
+          "Implement Promise.any from scratch that resolves with the first fulfilled promise or rejects with AggregateError if all fail.",
+        solution: `
+function promiseAny(promises) {
+  return new Promise((resolve, reject) => {
+    if (!Array.isArray(promises)) {
+      return reject(new TypeError('Promise.any accepts an array'));
+    }
+    
+    if (promises.length === 0) {
+      return reject(new AggregateError([], 'All promises were rejected'));
+    }
+    
+    const errors = new Array(promises.length);
+    let rejectedCount = 0;
+    
+    promises.forEach((promise, index) => {
+      Promise.resolve(promise)
+        .then(resolve) // Resolve with first fulfilled value
+        .catch(reason => {
+          errors[index] = reason;
+          rejectedCount++;
+          
+          if (rejectedCount === promises.length) {
+            reject(new AggregateError(errors, 'All promises were rejected'));
+          }
+        });
+    });
+  });
+}
+
+// Usage: promiseAny([failPromise1, successPromise]).then(firstSuccess => ...)
+// First fulfillment wins, collects all errors for AggregateError
+      `,
+      },
+      {
+        question:
+          "Write a function to detect if an object is a plain object (created by {} or new Object()), not an instance of a custom class.",
+        solution: `
+function isPlainObject(obj) {
+  // Must be an object
+  if (typeof obj !== 'object' || obj === null) {
+    return false;
+  }
+  
+  // Objects created by Object.create(null) have no prototype
+  if (Object.getPrototypeOf(obj) === null) {
+    return true;
+  }
+  
+  // Check if prototype chain leads directly to Object.prototype
+  let proto = obj;
+  while (Object.getPrototypeOf(proto) !== null) {
+    proto = Object.getPrototypeOf(proto);
+  }
+  
+  return Object.getPrototypeOf(obj) === Object.prototype ||
+         Object.getPrototypeOf(obj) === proto;
+}
+
+// Alternative implementation:
+function isPlainObjectAlt(obj) {
+  return obj !== null &&
+         typeof obj === 'object' &&
+         obj.constructor === Object &&
+         Object.prototype.toString.call(obj) === '[object Object]';
+}
+
+// Returns true for {}, new Object(), Object.create(null)
+// Returns false for [], new Date(), custom instances
+      `,
+      },
+      {
+        question:
+          "Write a robust function to detect if a value is an array, handling edge cases and cross-frame scenarios.",
+        solution: `
+function isArray(value) {
+  // Modern approach - most reliable
+  if (Array.isArray) {
+    return Array.isArray(value);
+  }
+  
+  // Fallback for older environments
+  return Object.prototype.toString.call(value) === '[object Array]';
+}
+
+// Enhanced version with additional checks
+function isArrayRobust(value) {
+  // Handle null/undefined
+  if (value == null) return false;
+  
+  // Primary check
+  if (Array.isArray) {
+    return Array.isArray(value);
+  }
+  
+  // Cross-frame compatible fallback
+  const objectToString = Object.prototype.toString.call(value);
+  if (objectToString === '[object Array]') return true;
+  
+  // Additional duck-typing check for array-like behavior
+  return typeof value === 'object' &&
+         typeof value.length === 'number' &&
+         value.length >= 0 &&
+         value.length % 1 === 0 &&
+         value.length < Math.pow(2, 32);
+}
+
+// Handles cross-frame arrays, typed arrays detection, array-like objects
+      `,
+      },
+      {
+        question:
+          "Implement Array.prototype.unique that removes duplicates using both reference equality and deep equality options.",
+        solution: `
+Array.prototype.unique = function(compareFunction) {
+  if (!compareFunction) {
+    // Simple reference/primitive equality
+    return this.filter((value, index, array) => array.indexOf(value) === index);
+  }
+  
+  const result = [];
+  
+  for (let i = 0; i < this.length; i++) {
+    const current = this[i];
+    let isDuplicate = false;
+    
+    for (let j = 0; j < result.length; j++) {
+      if (compareFunction(current, result[j])) {
+        isDuplicate = true;
+        break;
+      }
+    }
+    
+    if (!isDuplicate) {
+      result.push(current);
+    }
+  }
+  
+  return result;
+};
+
+// Deep equality helper for objects
+const deepEqual = (a, b) => {
+  if (a === b) return true;
+  if (a == null || b == null) return false;
+  if (typeof a !== 'object' || typeof b !== 'object') return false;
+  
+  const keysA = Object.keys(a);
+  const keysB = Object.keys(b);
+  
+  if (keysA.length !== keysB.length) return false;
+  
+  return keysA.every(key => keysB.includes(key) && deepEqual(a[key], b[key]));
+};
+
+// Usage: [1,2,2,3].unique() → [1,2,3]
+// Usage: objects.unique(deepEqual) for object deduplication
+      `,
+      },
+      {
+        question:
+          "Implement a basic event emitter with on, emit, off, once methods and proper memory management to prevent leaks.",
+        solution: `
+class EventEmitter {
+  constructor() {
+    this.events = new Map();
+  }
+  
+  on(eventName, listener) {
+    if (typeof listener !== 'function') {
+      throw new TypeError('Listener must be a function');
+    }
+    
+    if (!this.events.has(eventName)) {
+      this.events.set(eventName, []);
+    }
+    
+    this.events.get(eventName).push(listener);
+    return this; // For chaining
+  }
+  
+  once(eventName, listener) {
+    const onceWrapper = (...args) => {
+      this.off(eventName, onceWrapper);
+      listener.apply(this, args);
+    };
+    
+    // Store reference to original for removal
+    onceWrapper.listener = listener;
+    return this.on(eventName, onceWrapper);
+  }
+  
+  emit(eventName, ...args) {
+    const listeners = this.events.get(eventName);
+    if (!listeners) return false;
+    
+    // Clone array to handle removals during emission
+    [...listeners].forEach(listener => {
+      try {
+        listener.apply(this, args);
+      } catch (error) {
+        console.error('EventEmitter error:', error);
+      }
+    });
+    
+    return true;
+  }
+  
+  off(eventName, listenerToRemove) {
+    const listeners = this.events.get(eventName);
+    if (!listeners) return this;
+    
+    const index = listeners.findIndex(listener => 
+      listener === listenerToRemove || listener.listener === listenerToRemove
+    );
+    
+    if (index !== -1) {
+      listeners.splice(index, 1);
+      if (listeners.length === 0) {
+        this.events.delete(eventName);
+      }
+    }
+    
+    return this;
+  }
+  
+  removeAllListeners(eventName) {
+    if (eventName) {
+      this.events.delete(eventName);
+    } else {
+      this.events.clear();
+    }
+    return this;
+  }
+  
+  listenerCount(eventName) {
+    const listeners = this.events.get(eventName);
+    return listeners ? listeners.length : 0;
+  }
+}
+
+// Usage: emitter.on('data', handler).once('error', errorHandler);
+// Prevents memory leaks, handles errors, supports method chaining
+      `,
+      },
+      {
+        question:
+          "Implement a simple templating engine that replaces {{variable}} with values, supports nested objects and array iteration.",
+        solution: `
+class SimpleTemplate {
+  constructor(template) {
+    this.template = template;
+  }
+  
+  render(data = {}) {
+    let result = this.template;
+    
+    // Handle nested object access (e.g., {{user.name}})
+    result = result.replace(/{{\\s*([^}]+)\\s*}}/g, (match, path) => {
+      const value = this.getNestedValue(data, path.trim());
+      return value !== undefined ? String(value) : '';
+    });
+    
+    // Handle simple loops {{#each items}}...{{/each}}
+    result = result.replace(
+      /{{#each\\s+([^}]+)}}([\\s\\S]*?){{\/each}}/g,
+      (match, arrayPath, template) => {
+        const array = this.getNestedValue(data, arrayPath.trim());
+        if (!Array.isArray(array)) return '';
+        
+        return array.map((item, index) => {
+          let itemTemplate = template;
+          // Replace {{this}} with current item
+          itemTemplate = itemTemplate.replace(/{{this}}/g, String(item));
+          // Replace {{@index}} with current index
+          itemTemplate = itemTemplate.replace(/{{@index}}/g, String(index));
+          // Handle object properties in loop
+          if (typeof item === 'object' && item !== null) {
+            Object.keys(item).forEach(key => {
+              const regex = new RegExp(\`{{\\\\s*\${key}\\\\s*}}\`, 'g');
+              itemTemplate = itemTemplate.replace(regex, String(item[key]));
+            });
+          }
+          return itemTemplate;
+        }).join('');
+      }
+    );
+    
+    return result;
+  }
+  
+  getNestedValue(obj, path) {
+    return path.split('.').reduce((current, key) => {
+      return current && current[key] !== undefined ? current[key] : undefined;
+    }, obj);
+  }
+}
+
+// Usage:
+// const template = new SimpleTemplate('Hello {{name}}! {{#each items}}{{this}} {{/each}}');
+// template.render({ name: 'John', items: ['a', 'b', 'c'] });
+// Supports nested access, loops, safe property access
+      `,
+      },
+      {
+        question:
+          "Write a memoization function that caches results with configurable cache size, TTL, and custom key generation.",
+        solution: `
+function memoize(fn, options = {}) {
+  const {
+    maxSize = 100,
+    ttl = Infinity,
+    keyGenerator = (...args) => JSON.stringify(args),
+    onEvict = () => {}
+  } = options;
+  
+  const cache = new Map();
+  const timers = new Map();
+  
+  function evictOldest() {
+    const firstKey = cache.keys().next().value;
+    if (firstKey !== undefined) {
+      cache.delete(firstKey);
+      if (timers.has(firstKey)) {
+        clearTimeout(timers.get(firstKey));
+        timers.delete(firstKey);
+      }
+      onEvict(firstKey);
+    }
+  }
+  
+  function setTTL(key) {
+    if (ttl !== Infinity) {
+      const timer = setTimeout(() => {
+        cache.delete(key);
+        timers.delete(key);
+        onEvict(key);
+      }, ttl);
+      timers.set(key, timer);
+    }
+  }
+  
+  const memoized = function(...args) {
+    const key = keyGenerator(...args);
+    
+    if (cache.has(key)) {
+      // Move to end (LRU)
+      const value = cache.get(key);
+      cache.delete(key);
+      cache.set(key, value);
+      return value.result;
+    }
+    
+    // Execute function
+    const result = fn.apply(this, args);
+    
+    // Evict if at capacity
+    if (cache.size >= maxSize) {
+      evictOldest();
+    }
+    
+    // Store result
+    cache.set(key, { result, timestamp: Date.now() });
+    setTTL(key);
+    
+    return result;
+  };
+  
+  memoized.clear = () => {
+    cache.clear();
+    timers.forEach(timer => clearTimeout(timer));
+    timers.clear();
+  };
+  
+  memoized.delete = (key) => {
+    cache.delete(key);
+    if (timers.has(key)) {
+      clearTimeout(timers.get(key));
+      timers.delete(key);
+    }
+  };
+  
+  memoized.size = () => cache.size;
+  
+  return memoized;
+}
+
+// Usage: const fastFib = memoize(fibonacci, { maxSize: 50, ttl: 5000 });
+// LRU eviction, TTL support, custom key generation, cache introspection
+      `,
+      },
+      {
+        question:
+          "Implement an LRU (Least Recently Used) cache with get, put, delete operations and automatic eviction when capacity is exceeded.",
+        solution: `
+class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();
+  }
+  
+  get(key) {
+    if (this.cache.has(key)) {
+      // Move to end (most recently used)
+      const value = this.cache.get(key);
+      this.cache.delete(key);
+      this.cache.set(key, value);
+      return value;
+    }
+    return -1; // or undefined
+  }
+  
+  put(key, value) {
+    if (this.cache.has(key)) {
+      // Update existing
+      this.cache.delete(key);
+    } else if (this.cache.size >= this.capacity) {
+      // Evict least recently used (first in Map)
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    
+    this.cache.set(key, value);
+  }
+  
+  delete(key) {
+    return this.cache.delete(key);
+  }
+  
+  clear() {
+    this.cache.clear();
+  }
+  
+  size() {
+    return this.cache.size;
+  }
+  
+  keys() {
+    return Array.from(this.cache.keys()).reverse(); // Most recent first
+  }
+  
+  // Additional utility methods
+  peek(key) {
+    // Get without updating order
+    return this.cache.get(key);
+  }
+  
+  has(key) {
+    return this.cache.has(key);
+  }
+  
+  eldest() {
+    return this.cache.keys().next().value;
+  }
+  
+  newest() {
+    const keys = Array.from(this.cache.keys());
+    return keys[keys.length - 1];
+  }
+}
+
+// Usage: const cache = new LRUCache(3);
+// O(1) operations, automatic eviction, maintains access order
+      `,
+      },
+      {
+        question:
+          "Write a function that chunks an array into smaller arrays of specified size, handling edge cases and different chunk strategies.",
+        solution: `
+function chunk(array, size, strategy = 'fixed') {
+  if (!Array.isArray(array)) {
+    throw new TypeError('First argument must be an array');
+  }
+  
+  if (typeof size !== 'number' || size < 1) {
+    throw new Error('Size must be a positive number');
+  }
+  
+  if (array.length === 0) return [];
+  
+  const chunks = [];
+  
+  switch (strategy) {
+    case 'fixed':
+      // Fixed size chunks, last chunk may be smaller
+      for (let i = 0; i < array.length; i += size) {
+        chunks.push(array.slice(i, i + size));
+      }
+      break;
+      
+    case 'balanced':
+      // Distribute items as evenly as possible
+      const chunkCount = Math.ceil(array.length / size);
+      const itemsPerChunk = Math.ceil(array.length / chunkCount);
+      
+      for (let i = 0; i < array.length; i += itemsPerChunk) {
+        chunks.push(array.slice(i, i + itemsPerChunk));
+      }
+      break;
+      
+    case 'fill':
+      // Fill incomplete chunks with undefined
+      for (let i = 0; i < array.length; i += size) {
+        const chunk = array.slice(i, i + size);
+        while (chunk.length < size && i + chunk.length < array.length + size - 1) {
+          chunk.push(undefined);
+        }
+        chunks.push(chunk);
+      }
+      break;
+      
+    default:
+      throw new Error('Invalid strategy. Use: fixed, balanced, or fill');
+  }
+  
+  return chunks;
+}
+
+// Alternative functional approach
+const chunkFunctional = (array, size) => 
+  array.reduce((chunks, item, index) => {
+    const chunkIndex = Math.floor(index / size);
+    if (!chunks[chunkIndex]) chunks[chunkIndex] = [];
+    chunks[chunkIndex].push(item);
+    return chunks;
+  }, []);
+
+// Usage: chunk([1,2,3,4,5], 2) → [[1,2], [3,4], [5]]
+// Multiple strategies, error handling, functional alternative
+      `,
+      },
+      {
+        question:
+          "Implement a deep-equal comparison function that handles nested objects, arrays, dates, and primitive types.",
+        solution: `function deepEqual(a, b) {
+  // Handle strict equality (primitives, same reference)
+  if (a === b) return true;
+  
+  // Handle null/undefined cases
+  if (a == null || b == null) return a === b;
+  
+  // Handle different types
+  if (typeof a !== typeof b) return false;
+  
+  // Handle Date objects
+  if (a instanceof Date && b instanceof Date) {
+    return a.getTime() === b.getTime();
+  }
+  
+  // Handle arrays
+  if (Array.isArray(a) && Array.isArray(b)) {
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (!deepEqual(a[i], b[i])) return false;
+    }
+    return true;
+  }
+  
+  // Handle objects
+  if (typeof a === 'object' && typeof b === 'object') {
+    const keysA = Object.keys(a);
+    const keysB = Object.keys(b);
+    
+    if (keysA.length !== keysB.length) return false;
+    
+    for (let key of keysA) {
+      if (!keysB.includes(key)) return false;
+      if (!deepEqual(a[key], b[key])) return false;
+    }
+    return true;
+  }
+  
+  return false;
+}`,
+      },
+      {
+        question:
+          "Write a function to serialize and deserialize a JSON object safely with error handling and type validation.",
+        solution: `function safeJSONSerialize(obj, replacer = null, space = 0) {
+  try {
+    // Handle circular references
+    const seen = new WeakSet();
+    const serializer = replacer || function(key, value) {
+      if (typeof value === 'object' && value !== null) {
+        if (seen.has(value)) {
+          return '[Circular Reference]';
+        }
+        seen.add(value);
+      }
+      return value;
+    };
+    
+    return {
+      success: true,
+      data: JSON.stringify(obj, serializer, space),
+      error: null
+    };
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: error.message
+    };
+  }
+}
+
+function safeJSONDeserialize(jsonString, reviver = null) {
+  try {
+    if (typeof jsonString !== 'string') {
+      throw new Error('Input must be a string');
+    }
+    
+    const parsed = JSON.parse(jsonString, reviver);
+    
+    return {
+      success: true,
+      data: parsed,
+      error: null
+    };
+  } catch (error) {
+    return {
+      success: false,
+      data: null,
+      error: error.message
+    };
+  }
+}
+
+// Usage with validation
+function validateAndDeserialize(jsonString, schema = null) {
+  const result = safeJSONDeserialize(jsonString);
+  
+  if (!result.success) return result;
+  
+  if (schema && typeof schema === 'function') {
+    try {
+      schema(result.data);
+    } catch (validationError) {
+      return {
+        success: false,
+        data: null,
+        error: \`Validation failed: \${validationError.message}\`
+      };
+    }
+  }
+  
+  return result;
+}`,
+      },
+      {
+        question:
+          "Implement a simple pub-sub pattern with event namespacing, wildcard support, and unsubscribe functionality.",
+        solution: `class PubSub {
+  constructor() {
+    this.events = new Map();
+    this.eventId = 0;
+  }
+  
+  subscribe(eventName, callback, options = {}) {
+    const { once = false, priority = 0 } = options;
+    const id = ++this.eventId;
+    
+    if (!this.events.has(eventName)) {
+      this.events.set(eventName, []);
+    }
+    
+    const subscription = {
+      id,
+      callback,
+      once,
+      priority
+    };
+    
+    const subscribers = this.events.get(eventName);
+    subscribers.push(subscription);
+    
+    // Sort by priority (higher priority first)
+    subscribers.sort((a, b) => b.priority - a.priority);
+    
+    // Return unsubscribe function
+    return () => this.unsubscribe(eventName, id);
+  }
+  
+  unsubscribe(eventName, subscriptionId) {
+    if (!this.events.has(eventName)) return false;
+    
+    const subscribers = this.events.get(eventName);
+    const index = subscribers.findIndex(sub => sub.id === subscriptionId);
+    
+    if (index !== -1) {
+      subscribers.splice(index, 1);
+      if (subscribers.length === 0) {
+        this.events.delete(eventName);
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  publish(eventName, data = null) {
+    // Handle exact match
+    this._publishToSubscribers(eventName, data);
+    
+    // Handle wildcard patterns (e.g., "user.*" matches "user.login")
+    for (const [pattern] of this.events) {
+      if (this._matchesWildcard(pattern, eventName)) {
+        this._publishToSubscribers(pattern, data);
+      }
+    }
+  }
+  
+  _publishToSubscribers(eventName, data) {
+    if (!this.events.has(eventName)) return;
+    
+    const subscribers = this.events.get(eventName).slice(); // Clone to avoid mutation during iteration
+    
+    for (const subscription of subscribers) {
+      try {
+        subscription.callback(data, eventName);
+        
+        if (subscription.once) {
+          this.unsubscribe(eventName, subscription.id);
+        }
+      } catch (error) {
+        console.error(\`Error in event handler for \${eventName}:\`, error);
+      }
+    }
+  }
+  
+  _matchesWildcard(pattern, eventName) {
+    if (!pattern.includes('*')) return false;
+    
+    const regex = new RegExp(
+      '^' + pattern.replace(/\*/g, '.*') + '$'
+    );
+    return regex.test(eventName);
+  }
+  
+  clear(eventName = null) {
+    if (eventName) {
+      this.events.delete(eventName);
+    } else {
+      this.events.clear();
+    }
+  }
+  
+  getSubscriberCount(eventName) {
+    return this.events.has(eventName) ? this.events.get(eventName).length : 0;
+  }
+}
+
+// Usage example:
+const pubsub = new PubSub();
+
+// Subscribe with priority
+const unsubscribe = pubsub.subscribe('user.login', (data) => {
+  console.log('User logged in:', data);
+}, { priority: 10 });
+
+// Wildcard subscription
+pubsub.subscribe('user.*', (data, eventName) => {
+  console.log(\`User event \${eventName}:\`, data);
+});
+
+// One-time subscription
+pubsub.subscribe('app.init', () => {
+  console.log('App initialized');
+}, { once: true });`,
+      },
+      {
+        question:
+          "Write a function to format a number with thousand separators, decimal places, and locale support.",
+        solution: `function formatNumber(number, options = {}) {
+  const {
+    locale = 'en-US',
+    minimumFractionDigits = 0,
+    maximumFractionDigits = 2,
+    useGrouping = true,
+    currency = null,
+    notation = 'standard', // 'standard', 'scientific', 'engineering', 'compact'
+    signDisplay = 'auto' // 'auto', 'always', 'never', 'exceptZero'
+  } = options;
+  
+  // Input validation
+  if (typeof number !== 'number' || isNaN(number)) {
+    throw new Error('Input must be a valid number');
+  }
+  
+  // Use Intl.NumberFormat for robust formatting
+  const formatOptions = {
+    minimumFractionDigits,
+    maximumFractionDigits,
+    useGrouping,
+    notation,
+    signDisplay
+  };
+  
+  if (currency) {
+    formatOptions.style = 'currency';
+    formatOptions.currency = currency;
+  }
+  
+  try {
+    const formatter = new Intl.NumberFormat(locale, formatOptions);
+    return formatter.format(number);
+  } catch (error) {
+    // Fallback for unsupported locales
+    return fallbackFormat(number, options);
+  }
+}
+
+// Fallback implementation for older browsers
+function fallbackFormat(number, options = {}) {
+  const {
+    minimumFractionDigits = 0,
+    maximumFractionDigits = 2,
+    useGrouping = true,
+    currency = null
+  } = options;
+  
+  // Handle decimal places
+  let formatted = number.toFixed(maximumFractionDigits);
+  
+  // Remove trailing zeros if below minimum fraction digits
+  if (minimumFractionDigits < maximumFractionDigits) {
+    formatted = parseFloat(formatted).toFixed(minimumFractionDigits);
+  }
+  
+  // Add thousand separators
+  if (useGrouping) {
+    const parts = formatted.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    formatted = parts.join('.');
+  }
+  
+  // Add currency symbol
+  if (currency) {
+    formatted = \`\${currency} \${formatted}\`;
+  }
+  
+  return formatted;
+}
+
+// Advanced formatting with custom patterns
+function formatNumberCustom(number, pattern) {
+  // Pattern examples: "#,##0.00", "0.0%", "$#,##0"
+  const isPercentage = pattern.includes('%');
+  const hasCurrency = pattern.includes('$');
+  const decimalPlaces = (pattern.split('.')[1] || '').length;
+  
+  let value = isPercentage ? number * 100 : number;
+  
+  let formatted = value.toFixed(decimalPlaces);
+  
+  // Add thousand separators
+  if (pattern.includes(',')) {
+    const parts = formatted.split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    formatted = parts.join('.');
+  }
+  
+  // Add symbols
+  if (hasCurrency) formatted = '$' + formatted;
+  if (isPercentage) formatted = formatted + '%';
+  
+  return formatted;
+}`,
+      },
+      {
+        question:
+          "Implement a simple URL parser that extracts protocol, host, port, path, query params, and hash.",
+        solution: `function parseURL(url) {
+  // Input validation
+  if (typeof url !== 'string' || !url.trim()) {
+    throw new Error('URL must be a non-empty string');
+  }
+  
+  try {
+    // Use built-in URL constructor for robust parsing
+    const parsed = new URL(url);
+    
+    return {
+      href: parsed.href,
+      protocol: parsed.protocol.slice(0, -1), // Remove trailing ':'
+      host: parsed.host,
+      hostname: parsed.hostname,
+      port: parsed.port || getDefaultPort(parsed.protocol),
+      pathname: parsed.pathname,
+      search: parsed.search,
+      searchParams: Object.fromEntries(parsed.searchParams),
+      hash: parsed.hash.slice(1), // Remove leading '#'
+      origin: parsed.origin,
+      username: parsed.username,
+      password: parsed.password
+    };
+  } catch (error) {
+    // Fallback manual parsing for edge cases
+    return manualParseURL(url);
+  }
+}
+
+function getDefaultPort(protocol) {
+  const defaultPorts = {
+    'http:': '80',
+    'https:': '443',
+    'ftp:': '21',
+    'ftps:': '990',
+    'ssh:': '22'
+  };
+  return defaultPorts[protocol] || '';
+}
+
+// Manual parsing fallback
+function manualParseURL(url) {
+  const result = {
+    href: url,
+    protocol: '',
+    host: '',
+    hostname: '',
+    port: '',
+    pathname: '',
+    search: '',
+    searchParams: {},
+    hash: '',
+    origin: '',
+    username: '',
+    password: ''
+  };
+  
+  let remaining = url;
+  
+  // Extract protocol
+  const protocolMatch = remaining.match(/^([a-z][a-z0-9+.-]*?):/i);
+  if (protocolMatch) {
+    result.protocol = protocolMatch[1].toLowerCase();
+    remaining = remaining.slice(protocolMatch[0].length);
+  }
+  
+  // Extract authority (//username:password@host:port)
+  if (remaining.startsWith('//')) {
+    remaining = remaining.slice(2);
+    
+    // Find end of authority
+    const authorityEnd = remaining.search(/[/?#]/);
+    const authority = authorityEnd === -1 
+      ? remaining 
+      : remaining.slice(0, authorityEnd);
+    
+    remaining = authorityEnd === -1 ? '' : remaining.slice(authorityEnd);
+    
+    // Parse authority
+    const atIndex = authority.lastIndexOf('@');
+    let hostPart = authority;
+    
+    if (atIndex !== -1) {
+      const userInfo = authority.slice(0, atIndex);
+      hostPart = authority.slice(atIndex + 1);
+      
+      const colonIndex = userInfo.indexOf(':');
+      if (colonIndex !== -1) {
+        result.username = userInfo.slice(0, colonIndex);
+        result.password = userInfo.slice(colonIndex + 1);
+      } else {
+        result.username = userInfo;
+      }
+    }
+    
+    // Parse host and port
+    const colonIndex = hostPart.lastIndexOf(':');
+    if (colonIndex !== -1 && /^\d+$/.test(hostPart.slice(colonIndex + 1))) {
+      result.hostname = hostPart.slice(0, colonIndex);
+      result.port = hostPart.slice(colonIndex + 1);
+    } else {
+      result.hostname = hostPart;
+      result.port = getDefaultPort(result.protocol + ':');
+    }
+    
+    result.host = result.port ? \`\${result.hostname}:\${result.port}\` : result.hostname;
+    result.origin = \`\${result.protocol}://\${result.host}\`;
+  }
+  
+  // Extract hash first (rightmost #)
+  const hashIndex = remaining.lastIndexOf('#');
+  if (hashIndex !== -1) {
+    result.hash = remaining.slice(hashIndex + 1);
+    remaining = remaining.slice(0, hashIndex);
+  }
+  
+  // Extract search params (rightmost ?)
+  const queryIndex = remaining.indexOf('?');
+  if (queryIndex !== -1) {
+    result.search = remaining.slice(queryIndex);
+    result.searchParams = parseQueryParams(result.search.slice(1));
+    remaining = remaining.slice(0, queryIndex);
+  }
+  
+  // Remaining is pathname
+  result.pathname = remaining || '/';
+  
+  return result;
+}
+
+function parseQueryParams(queryString) {
+  const params = {};
+  if (!queryString) return params;
+  
+  const pairs = queryString.split('&');
+  for (const pair of pairs) {
+    const [key, value = ''] = pair.split('=').map(decodeURIComponent);
+    if (key) {
+      // Handle multiple values for same key
+      if (params[key]) {
+        params[key] = Array.isArray(params[key]) 
+          ? [...params[key], value]
+          : [params[key], value];
+      } else {
+        params[key] = value;
+      }
+    }
+  }
+  return params;
+}`,
+      },
+      {
+        question:
+          "Implement a string reverse function without using built-in reverse method, optimized for Unicode characters.",
+        solution: `function reverseString(str) {
+  if (typeof str !== 'string') {
+    throw new Error('Input must be a string');
+  }
+  
+  // Handle empty string
+  if (str.length === 0) return str;
+  
+  // Method 1: Two-pointer approach (fastest for ASCII)
+  function reverseASCII(s) {
+    const chars = s.split('');
+    let left = 0;
+    let right = chars.length - 1;
+    
+    while (left < right) {
+      [chars[left], chars[right]] = [chars[right], chars[left]];
+      left++;
+      right--;
+    }
+    
+    return chars.join('');
+  }
+  
+  // Method 2: Unicode-aware reversal using Array.from
+  function reverseUnicode(s) {
+    return Array.from(s).reverse().join('');
+  }
+  
+  // Method 3: Manual iteration (educational)
+  function reverseManual(s) {
+    let result = '';
+    for (let i = s.length - 1; i >= 0; i--) {
+      result += s[i];
+    }
+    return result;
+  }
+  
+  // Method 4: Recursive approach
+  function reverseRecursive(s) {
+    if (s.length <= 1) return s;
+    return s[s.length - 1] + reverseRecursive(s.slice(0, -1));
+  }
+  
+  // Method 5: Unicode grapheme-aware (handles emojis, combining characters)
+  function reverseGraphemes(s) {
+    // Use Intl.Segmenter if available (modern browsers)
+    if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+      const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+      const segments = Array.from(segmenter.segment(s), seg => seg.segment);
+      return segments.reverse().join('');
+    }
+    
+    // Fallback: simple character reversal
+    return Array.from(s).reverse().join('');
+  }
+  
+  // Auto-detect if string contains complex Unicode
+  const hasComplexUnicode = /[\u0300-\u036f\u1ab0-\u1aff\u1dc0-\u1dff\u20d0-\u20ff\ufe20-\ufe2f]/.test(str) || 
+                            /[\ud800-\udbff][\udc00-\udfff]/.test(str);
+  
+  return hasComplexUnicode ? reverseGraphemes(str) : reverseASCII(str);
+}
+
+// Performance comparison utility
+function benchmarkReverse(testString, iterations = 10000) {
+  const methods = {
+    twoPointer: (s) => {
+      const chars = s.split('');
+      let left = 0, right = chars.length - 1;
+      while (left < right) {
+        [chars[left], chars[right]] = [chars[right], chars[left]];
+        left++; right--;
+      }
+      return chars.join('');
+    },
+    arrayFrom: (s) => Array.from(s).reverse().join(''),
+    manual: (s) => {
+      let result = '';
+      for (let i = s.length - 1; i >= 0; i--) result += s[i];
+      return result;
+    }
+  };
+  
+  const results = {};
+  
+  for (const [name, method] of Object.entries(methods)) {
+    const start = performance.now();
+    for (let i = 0; i < iterations; i++) {
+      method(testString);
+    }
+    const end = performance.now();
+    results[name] = end - start;
+  }
+  
+  return results;
+}`,
+      },
+      {
+        question:
+          "Write a function to check if two arrays contain the same values regardless of order, handling duplicates correctly.",
+        solution: `function arraysEqual(arr1, arr2, options = {}) {
+  const { 
+    compareFunction = null,
+    ignoreOrder = true,
+    strict = true // strict type checking
+  } = options;
+  
+  // Input validation
+  if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+    throw new Error('Both inputs must be arrays');
+  }
+  
+  // Quick length check
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
+  
+  // Handle empty arrays
+  if (arr1.length === 0) return true;
+  
+  if (!ignoreOrder) {
+    // Order matters - simple comparison
+    return arr1.every((val, index) => 
+      compareFunction 
+        ? compareFunction(val, arr2[index]) === 0
+        : strict ? val === arr2[index] : val == arr2[index]
+    );
+  }
+  
+  // Order doesn't matter - use frequency counting
+  return compareArraysByFrequency(arr1, arr2, compareFunction, strict);
+}
+
+function compareArraysByFrequency(arr1, arr2, compareFunction, strict) {
+  // Create frequency maps
+  const freq1 = createFrequencyMap(arr1, compareFunction, strict);
+  const freq2 = createFrequencyMap(arr2, compareFunction, strict);
+  
+  // Compare frequencies
+  if (freq1.size !== freq2.size) return false;
+  
+  for (const [key, count] of freq1) {
+    if (freq2.get(key) !== count) return false;
+  }
+  
+  return true;
+}
+
+function createFrequencyMap(arr, compareFunction, strict) {
+  const map = new Map();
+  
+  for (const item of arr) {
+    let key;
+    
+    if (compareFunction) {
+      // Find existing key that matches according to compareFunction
+      key = Array.from(map.keys()).find(k => compareFunction(k, item) === 0);
+      if (!key) key = item;
+    } else {
+      // Use value as key, handling object references
+      key = typeof item === 'object' && item !== null 
+        ? JSON.stringify(item) 
+        : item;
+    }
+    
+    map.set(key, (map.get(key) || 0) + 1);
+  }
+  
+  return map;
+}
+
+// Specialized versions for common use cases
+function arraysSameValues(arr1, arr2) {
+  return arraysEqual(arr1, arr2, { ignoreOrder: true, strict: true });
+}
+
+function arraysSameValuesLoose(arr1, arr2) {
+  return arraysEqual(arr1, arr2, { ignoreOrder: true, strict: false });
+}
+
+function arraysDeepEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  
+  // Deep comparison for nested arrays/objects
+  const deepCompare = (a, b) => {
+    if (a === b) return 0;
+    if (typeof a !== typeof b) return 1;
+    if (Array.isArray(a) && Array.isArray(b)) {
+      return arraysDeepEqual(a, b) ? 0 : 1;
+    }
+    if (typeof a === 'object' && a !== null && b !== null) {
+      return JSON.stringify(a) === JSON.stringify(b) ? 0 : 1;
+    }
+    return 1;
+  };
+  
+  return arraysEqual(arr1, arr2, { 
+    compareFunction: deepCompare, 
+    ignoreOrder: true 
+  });
+}
+
+// Performance optimized version for primitive types
+function primitiveArraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  if (arr1.length === 0) return true;
+  
+  // Use Set for O(n) performance when all elements are unique
+  const set1 = new Set(arr1);
+  const set2 = new Set(arr2);
+  
+  if (set1.size === arr1.length && set2.size === arr2.length) {
+    // No duplicates - can use Set comparison
+    if (set1.size !== set2.size) return false;
+    for (const item of set1) {
+      if (!set2.has(item)) return false;
+    }
+    return true;
+  }
+  
+  // Has duplicates - use frequency counting
+  return compareArraysByFrequency(arr1, arr2, null, true);
+}`,
+      },
+      {
+        question:
+          "Implement factorial function both iteratively and recursively with optimization techniques and error handling.",
+        solution: `// Recursive implementation with memoization
+function factorialRecursive(n, memo = new Map()) {
+  // Input validation
+  if (!Number.isInteger(n) || n < 0) {
+    throw new Error('Factorial is only defined for non-negative integers');
+  }
+  
+  // Handle large numbers
+  if (n > 170) {
+    throw new Error('Result would exceed JavaScript number precision (max: 170!)');
+  }
+  
+  // Base cases
+  if (n === 0 || n === 1) return 1;
+  
+  // Check memoization
+  if (memo.has(n)) return memo.get(n);
+  
+  // Recursive calculation with memoization
+  const result = n * factorialRecursive(n - 1, memo);
+  memo.set(n, result);
+  
+  return result;
+}
+
+// Iterative implementation (more memory efficient)
+function factorialIterative(n) {
+  // Input validation
+  if (!Number.isInteger(n) || n < 0) {
+    throw new Error('Factorial is only defined for non-negative integers');
+  }
+  
+  if (n > 170) {
+    throw new Error('Result would exceed JavaScript number precision (max: 170!)');
+  }
+  
+  if (n === 0 || n === 1) return 1;
+  
+  let result = 1;
+  for (let i = 2; i <= n; i++) {
+    result *= i;
+  }
+  
+  return result;
+}
+
+// Tail-recursive implementation (optimized for engines that support TCO)
+function factorialTailRecursive(n, accumulator = 1) {
+  if (!Number.isInteger(n) || n < 0) {
+    throw new Error('Factorial is only defined for non-negative integers');
+  }
+  
+  if (n > 170) {
+    throw new Error('Result would exceed JavaScript number precision (max: 170!)');
+  }
+  
+  if (n === 0 || n === 1) return accumulator;
+  
+  return factorialTailRecursive(n - 1, n * accumulator);
+}
+
+// BigInt implementation for large numbers
+function factorialBigInt(n) {
+  if (!Number.isInteger(n) || n < 0) {
+    throw new Error('Factorial is only defined for non-negative integers');
+  }
+  
+  if (n === 0 || n === 1) return BigInt(1);
+  
+  let result = BigInt(1);
+  for (let i = BigInt(2); i <= BigInt(n); i++) {
+    result *= i;
+  }
+  
+  return result;
+}
+
+// Cached implementation with precomputed values
+class FactorialCalculator {
+  constructor() {
+    this.cache = new Map();
+    this.precompute(20); // Precompute first 20 factorials
+  }
+  
+  precompute(max) {
+    this.cache.set(0, 1);
+    this.cache.set(1, 1);
+    
+    for (let i = 2; i <= max; i++) {
+      this.cache.set(i, i * this.cache.get(i - 1));
+    }
+  }
+  
+  calculate(n) {
+    if (!Number.isInteger(n) || n < 0) {
+      throw new Error('Factorial is only defined for non-negative integers');
+    }
+    
+    if (this.cache.has(n)) return this.cache.get(n);
+    
+    // Calculate from highest cached value
+    let start = Math.max(...this.cache.keys());
+    let result = this.cache.get(start);
+    
+    for (let i = start + 1; i <= n; i++) {
+      result *= i;
+      this.cache.set(i, result);
+      
+      if (i > 170) {
+        throw new Error('Result would exceed JavaScript number precision');
+      }
+    }
+    
+    return result;
+  }
+  
+  clearCache() {
+    this.cache.clear();
+    this.precompute(20);
+  }
+}
+
+// Approximation using Stirling's formula for very large numbers
+function factorialApproximation(n) {
+  if (n < 0) throw new Error('Factorial is only defined for non-negative integers');
+  if (n === 0 || n === 1) return 1;
+  
+  // Stirling's approximation: n! ≈ √(2πn) * (n/e)^n
+  const e = Math.E;
+  const pi = Math.PI;
+  
+  return Math.sqrt(2 * pi * n) * Math.pow(n / e, n);
+}
+
+// Usage examples and performance testing
+const factorialCalc = new FactorialCalculator();
+
+function benchmarkFactorial(n, iterations = 1000) {
+  const methods = {
+    recursive: () => factorialRecursive(n),
+    iterative: () => factorialIterative(n),
+    tailRecursive: () => factorialTailRecursive(n),
+    cached: () => factorialCalc.calculate(n)
+  };
+  
+  const results = {};
+  
+  for (const [name, method] of Object.entries(methods)) {
+    const start = performance.now();
+    for (let i = 0; i < iterations; i++) {
+      method();
+    }
+    const end = performance.now();
+    results[name] = end - start;
+  }
+  
+  return results;
+}`,
+      },
+      {
+        question:
+          "Implement a simple priority queue that supports enqueue with priority, dequeue, and peek operations with O(log n) complexity.",
+        solution: `class PriorityQueue {
+  constructor(compareFn = (a, b) => a.priority - b.priority) {
+    this.heap = [];
+    this.compare = compareFn;
+  }
+
+  enqueue(item, priority) {
+    const node = { item, priority };
+    this.heap.push(node);
+    this._heapifyUp(this.heap.length - 1);
+  }
+
+  dequeue() {
+    if (this.isEmpty()) return null;
+    if (this.heap.length === 1) return this.heap.pop().item;
+    
+    const root = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this._heapifyDown(0);
+    return root.item;
+  }
+
+  peek() {
+    return this.isEmpty() ? null : this.heap[0].item;
+  }
+
+  isEmpty() {
+    return this.heap.length === 0;
+  }
+
+  _heapifyUp(index) {
+    while (index > 0) {
+      const parentIndex = Math.floor((index - 1) / 2);
+      if (this.compare(this.heap[index], this.heap[parentIndex]) >= 0) break;
+      [this.heap[index], this.heap[parentIndex]] = [this.heap[parentIndex], this.heap[index]];
+      index = parentIndex;
+    }
+  }
+
+  _heapifyDown(index) {
+    while (true) {
+      let minIndex = index;
+      const leftChild = 2 * index + 1;
+      const rightChild = 2 * index + 2;
+
+      if (leftChild < this.heap.length && 
+          this.compare(this.heap[leftChild], this.heap[minIndex]) < 0) {
+        minIndex = leftChild;
+      }
+
+      if (rightChild < this.heap.length && 
+          this.compare(this.heap[rightChild], this.heap[minIndex]) < 0) {
+        minIndex = rightChild;
+      }
+
+      if (minIndex === index) break;
+      [this.heap[index], this.heap[minIndex]] = [this.heap[minIndex], this.heap[index]];
+      index = minIndex;
+    }
+  }
+}
+
+// Usage: const pq = new PriorityQueue(); pq.enqueue('task1', 1); pq.enqueue('urgent', 0);`,
+      },
+      {
+        question:
+          "Write a function to flatten nested promises and execute them serially (one after another) rather than in parallel.",
+        solution: `async function flattenPromisesSerial(promises) {
+  const results = [];
+  
+  async function processItem(item) {
+    if (Array.isArray(item)) {
+      const nestedResults = [];
+      for (const nestedItem of item) {
+        nestedResults.push(await processItem(nestedItem));
+      }
+      return nestedResults;
+    } else if (typeof item === 'function') {
+      return await item();
+    } else if (item && typeof item.then === 'function') {
+      return await item;
+    } else {
+      return item;
+    }
+  }
+
+  for (const promise of promises) {
+    results.push(await processItem(promise));
+  }
+  
+  return results;
+}
+
+// Alternative implementation with reduce
+async function flattenPromisesSerialReduce(promises) {
+  return promises.reduce(async (acc, current) => {
+    const results = await acc;
+    
+    if (Array.isArray(current)) {
+      results.push(await flattenPromisesSerialReduce(current));
+    } else if (typeof current === 'function') {
+      results.push(await current());
+    } else if (current && typeof current.then === 'function') {
+      results.push(await current);
+    } else {
+      results.push(current);
+    }
+    
+    return results;
+  }, Promise.resolve([]));
+}
+
+// Usage: await flattenPromisesSerial([Promise.resolve(1), [() => Promise.resolve(2), Promise.resolve(3)]]);`,
+      },
+      {
+        question:
+          "Implement a safe get function to access deeply nested object properties without throwing errors (get(obj, 'a.b.c.d')).",
+        solution: `function get(obj, path, defaultValue = undefined) {
+  if (!obj || typeof obj !== 'object') return defaultValue;
+  
+  // Handle array notation like 'users[0].name'
+  const normalizedPath = path
+    .replace(/\\[([^\\]]+)\\]/g, '.$1')
+    .replace(/^\\.|\\.$/, '');
+  
+  const keys = normalizedPath.split('.');
+  let current = obj;
+  
+  for (const key of keys) {
+    if (current == null || typeof current !== 'object') {
+      return defaultValue;
+    }
+    
+    // Handle numeric indices for arrays
+    const numericKey = !isNaN(key) ? parseInt(key, 10) : key;
+    current = current[numericKey];
+  }
+  
+  return current === undefined ? defaultValue : current;
+}
+
+// Enhanced version with support for functions and special syntax
+function safeGet(obj, path, defaultValue = undefined) {
+  if (!obj || typeof obj !== 'object') return defaultValue;
+  
+  try {
+    const result = path.split('.').reduce((current, key) => {
+      // Handle array bracket notation
+      if (key.includes('[') && key.includes(']')) {
+        const [objKey, indexPart] = key.split('[');
+        const index = parseInt(indexPart.replace(']', ''), 10);
+        return current?.[objKey]?.[index];
+      }
+      
+      return current?.[key];
+    }, obj);
+    
+    return result === undefined ? defaultValue : result;
+  } catch (error) {
+    return defaultValue;
+  }
+}
+
+// Usage: get(user, 'profile.address.street', 'No address'); get(users, 'data[0].name');`,
+      },
+      {
+        question:
+          "Write a function to group an array of objects by a specified key with support for nested keys and custom grouping functions.",
+        solution: `function groupBy(array, key, options = {}) {
+  const { 
+    keyExtractor = typeof key === 'string' ? obj => get(obj, key) : key,
+    valueTransformer = item => item,
+    createEmpty = () => []
+  } = options;
+  
+  const groups = {};
+  
+  for (const item of array) {
+    const groupKey = keyExtractor(item);
+    const groupKeyStr = String(groupKey);
+    
+    if (!groups[groupKeyStr]) {
+      groups[groupKeyStr] = createEmpty();
+    }
+    
+    groups[groupKeyStr].push(valueTransformer(item));
+  }
+  
+  return groups;
+}
+
+// Multi-level grouping function
+function groupByMultiple(array, keys) {
+  if (keys.length === 0) return array;
+  
+  const [firstKey, ...restKeys] = keys;
+  const groups = groupBy(array, firstKey);
+  
+  if (restKeys.length > 0) {
+    for (const key in groups) {
+      groups[key] = groupByMultiple(groups[key], restKeys);
+    }
+  }
+  
+  return groups;
+}
+
+// Advanced grouping with aggregation
+function groupByWithAggregation(array, groupKey, aggregations = {}) {
+  const groups = {};
+  
+  for (const item of array) {
+    const key = typeof groupKey === 'string' ? get(item, groupKey) : groupKey(item);
+    const keyStr = String(key);
+    
+    if (!groups[keyStr]) {
+      groups[keyStr] = { items: [], ...Object.keys(aggregations).reduce((acc, aggKey) => {
+        acc[aggKey] = aggregations[aggKey].initial || 0;
+        return acc;
+      }, {}) };
+    }
+    
+    groups[keyStr].items.push(item);
+    
+    // Apply aggregations
+    for (const [aggKey, aggConfig] of Object.entries(aggregations)) {
+      const value = typeof aggConfig.field === 'string' ? 
+        get(item, aggConfig.field) : aggConfig.field(item);
+      groups[keyStr][aggKey] = aggConfig.reducer(groups[keyStr][aggKey], value, item);
+    }
+  }
+  
+  return groups;
+}
+
+// Helper function for nested property access (from previous question)
+function get(obj, path, defaultValue = undefined) {
+  if (!obj || typeof obj !== 'object') return defaultValue;
+  const keys = path.replace(/\\[([^\\]]+)\\]/g, '.$1').split('.');
+  let current = obj;
+  for (const key of keys) {
+    if (current == null) return defaultValue;
+    current = current[key];
+  }
+  return current === undefined ? defaultValue : current;
+}
+
+// Usage: 
+// groupBy(users, 'department')
+// groupBy(users, user => user.age > 30 ? 'senior' : 'junior')
+// groupByWithAggregation(sales, 'region', { total: { field: 'amount', reducer: (acc, val) => acc + val } })`,
+      },
+      {
+        question:
+          "Implement a robust async retry utility with exponential backoff, jitter, and configurable retry conditions.",
+        solution: `async function retry(
+  asyncFn, 
+  options = {}
+) {
+  const {
+    maxAttempts = 3,
+    baseDelay = 1000,
+    maxDelay = 30000,
+    exponentialBase = 2,
+    jitter = true,
+    retryCondition = (error) => true,
+    onRetry = () => {},
+    signal // AbortSignal for cancellation
+  } = options;
+
+  let lastError;
+  
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      if (signal?.aborted) {
+        throw new Error('Operation aborted');
+      }
+      
+      const result = await asyncFn(attempt);
+      return result;
+    } catch (error) {
+      lastError = error;
+      
+      // Don't retry on last attempt or if retry condition fails
+      if (attempt === maxAttempts || !retryCondition(error, attempt)) {
+        throw error;
+      }
+      
+      // Calculate delay with exponential backoff and jitter
+      const exponentialDelay = baseDelay * Math.pow(exponentialBase, attempt - 1);
+      const clampedDelay = Math.min(exponentialDelay, maxDelay);
+      const finalDelay = jitter ? 
+        clampedDelay * (0.5 + Math.random() * 0.5) : 
+        clampedDelay;
+      
+      onRetry(error, attempt, finalDelay);
+      
+      // Wait before retry, respecting abort signal
+      await new Promise((resolve, reject) => {
+        const timeoutId = setTimeout(resolve, finalDelay);
+        signal?.addEventListener('abort', () => {
+          clearTimeout(timeoutId);
+          reject(new Error('Operation aborted'));
+        });
+      });
+    }
+  }
+  
+  throw lastError;
+}
+
+// Specialized retry for HTTP requests
+async function retryWithBackoff(asyncFn, options = {}) {
+  const defaultRetryCondition = (error, attempt) => {
+    // Retry on network errors and 5xx status codes
+    if (error.name === 'NetworkError' || error.code === 'NETWORK_ERROR') return true;
+    if (error.status >= 500 && error.status < 600) return true;
+    if (error.status === 429) return true; // Rate limiting
+    return false;
+  };
+
+  return retry(asyncFn, {
+    retryCondition: defaultRetryCondition,
+    ...options
+  });
+}
+
+// Circuit breaker pattern with retry
+class CircuitBreakerRetry {
+  constructor(options = {}) {
+    this.failureThreshold = options.failureThreshold || 5;
+    this.resetTimeout = options.resetTimeout || 60000;
+    this.state = 'CLOSED'; // CLOSED, OPEN, HALF_OPEN
+    this.failureCount = 0;
+    this.lastFailureTime = null;
+  }
+
+  async execute(asyncFn, retryOptions = {}) {
+    if (this.state === 'OPEN') {
+      if (Date.now() - this.lastFailureTime >= this.resetTimeout) {
+        this.state = 'HALF_OPEN';
+      } else {
+        throw new Error('Circuit breaker is OPEN');
+      }
+    }
+
+    try {
+      const result = await retry(asyncFn, retryOptions);
+      this._onSuccess();
+      return result;
+    } catch (error) {
+      this._onFailure();
+      throw error;
+    }
+  }
+
+  _onSuccess() {
+    this.failureCount = 0;
+    this.state = 'CLOSED';
+  }
+
+  _onFailure() {
+    this.failureCount++;
+    this.lastFailureTime = Date.now();
+    
+    if (this.failureCount >= this.failureThreshold) {
+      this.state = 'OPEN';
+    }
+  }
+}
+
+// Usage:
+// await retry(() => fetch('/api/data'), { maxAttempts: 5, baseDelay: 500 });
+// const breaker = new CircuitBreakerRetry(); await breaker.execute(() => apiCall());`,
+      },
+      {
+        question:
+          "Write a function to calculate the time remaining until a given date with support for different time zones and formatting options.",
+        solution: `function timeUntil(targetDate, options = {}) {
+  const {
+    timezone = 'UTC',
+    format = 'object',
+    includeSeconds = true,
+    includeMilliseconds = false,
+    locale = 'en-US'
+  } = options;
+
+  // Parse target date with timezone support
+  const target = new Date(targetDate);
+  const now = new Date();
+  
+  // Apply timezone offset if specified
+  let targetTime = target.getTime();
+  let currentTime = now.getTime();
+  
+  if (timezone !== 'UTC') {
+    try {
+      const targetInTimezone = new Intl.DateTimeFormat('en-CA', {
+        timeZone: timezone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).formatToParts(target);
+      
+      const nowInTimezone = new Intl.DateTimeFormat('en-CA', {
+        timeZone: timezone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false
+      }).formatToParts(now);
+      
+      // Calculate timezone-adjusted timestamps
+      targetTime = Date.parse(targetInTimezone.map(p => p.value).join(''));
+      currentTime = Date.parse(nowInTimezone.map(p => p.value).join(''));
+    } catch (error) {
+      console.warn('Invalid timezone, falling back to UTC');
+    }
+  }
+
+  const diff = targetTime - currentTime;
+  const isPast = diff < 0;
+  const absoluteDiff = Math.abs(diff);
+
+  // Calculate time components
+  const milliseconds = absoluteDiff % 1000;
+  const totalSeconds = Math.floor(absoluteDiff / 1000);
+  const seconds = totalSeconds % 60;
+  const totalMinutes = Math.floor(totalSeconds / 60);
+  const minutes = totalMinutes % 60;
+  const totalHours = Math.floor(totalMinutes / 60);
+  const hours = totalHours % 24;
+  const days = Math.floor(totalHours / 24);
+  const weeks = Math.floor(days / 7);
+  const months = Math.floor(days / 30.44); // Average month length
+  const years = Math.floor(days / 365.25); // Account for leap years
+
+  const timeComponents = {
+    years,
+    months: months % 12,
+    weeks: weeks % 4,
+    days: days % 7,
+    hours,
+    minutes,
+    seconds: includeSeconds ? seconds : 0,
+    milliseconds: includeMilliseconds ? milliseconds : 0,
+    totalDays: days,
+    totalHours,
+    totalMinutes,
+    totalSeconds,
+    totalMilliseconds: absoluteDiff,
+    isPast,
+    isValid: !isNaN(targetTime)
+  };
+
+  // Format based on requested format
+  switch (format) {
+    case 'object':
+      return timeComponents;
+      
+    case 'string':
+      return formatTimeString(timeComponents, includeSeconds, includeMilliseconds, isPast);
+      
+    case 'humanized':
+      return humanizeTime(timeComponents, locale, isPast);
+      
+    case 'iso':
+      return {
+        ...timeComponents,
+        duration: isPast ? -PT$ {Math.abs(diff)}MS : PT$ {diff}MS
+      };
+      
+    default:
+      return timeComponents;
+  }
+}
+
+function formatTimeString(components, includeSeconds, includeMilliseconds, isPast) {
+  const parts = [];
+  
+  if (components.years > 0) parts.push(\`\${components.years}y\`);
+  if (components.months > 0) parts.push(\`\${components.months}mo\`);
+  if (components.weeks > 0) parts.push(\`\${components.weeks}w\`);
+  if (components.days > 0) parts.push(\`\${components.days}d\`);
+  if (components.hours > 0) parts.push(\`\${components.hours}h\`);
+  if (components.minutes > 0) parts.push(\`\${components.minutes}m\`);
+  if (includeSeconds && components.seconds > 0) parts.push(\`\${components.seconds}s\`);
+  if (includeMilliseconds && components.milliseconds > 0) parts.push(\`\${components.milliseconds}ms\`);
+  
+  if (parts.length === 0) return isPast ? 'just passed' : 'now';
+  
+  const timeStr = parts.join(' ');
+  return isPast ? \`\${timeStr} ago\` : \`in \${timeStr}\`;
+}
+
+function humanizeTime(components, locale, isPast) {
+  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
+  
+  if (components.years > 0) return rtf.format(isPast ? -components.years : components.years, 'year');
+  if (components.months > 0) return rtf.format(isPast ? -components.months : components.months, 'month');
+  if (components.totalDays > 0) return rtf.format(isPast ? -components.totalDays : components.totalDays, 'day');
+  if (components.hours > 0) return rtf.format(isPast ? -components.hours : components.hours, 'hour');
+  if (components.minutes > 0) return rtf.format(isPast ? -components.minutes : components.minutes, 'minute');
+  
+  return rtf.format(isPast ? -components.seconds : components.seconds, 'second');
+}
+
+// Countdown timer class
+class CountdownTimer {
+  constructor(targetDate, callback, options = {}) {
+    this.targetDate = new Date(targetDate);
+    this.callback = callback;
+    this.options = options;
+    this.intervalId = null;
+    this.isRunning = false;
+  }
+
+  start() {
+    if (this.isRunning) return;
+    
+    this.isRunning = true;
+    this.intervalId = setInterval(() => {
+      const timeRemaining = timeUntil(this.targetDate, this.options);
+      this.callback(timeRemaining);
+      
+      if (timeRemaining.isPast && this.options.stopWhenPast) {
+        this.stop();
+      }
+    }, this.options.interval || 1000);
+  }
+
+  stop() {
+    if (this.intervalId) {
+      clearInterval(this.intervalId);
+      this.intervalId = null;
+      this.isRunning = false;
+    }
+  }
+}
+
+// Usage: 
+// timeUntil('2024-12-31T23:59:59', { format: 'humanized', timezone: 'America/New_York' })
+// const timer = new CountdownTimer('2024-12-31', (time) => console.log(time.totalDays + ' days left'));`,
+      },
+      {
+        question:
+          "Create a comprehensive deep-diff utility that can compare objects, arrays, and primitive values with detailed change tracking.",
+        solution: `function deepDiff(obj1, obj2, options = {}) {
+  const {
+    ignoreArrayOrder = false,
+    ignoreFunctions = true,
+    customComparators = {},
+    maxDepth = 50,
+    currentDepth = 0
+  } = options;
+
+  if (currentDepth > maxDepth) {
+    throw new Error('Maximum depth exceeded - possible circular reference');
+  }
+
+  // Handle identical references
+  if (obj1 === obj2) return null;
+
+  // Handle null/undefined cases
+  if (obj1 == null || obj2 == null) {
+    return obj1 !== obj2 ? { 
+      type: 'change', 
+      from: obj1, 
+      to: obj2, 
+      path: [] 
+    } : null;
+  }
+
+  // Check for custom comparators
+  for (const [type, comparator] of Object.entries(customComparators)) {
+    if (obj1.constructor?.name === type || obj2.constructor?.name === type) {
+      const result = comparator(obj1, obj2);
+      if (result !== undefined) {
+        return result ? null : { type: 'change', from: obj1, to: obj2, path: [] };
+      }
+    }
+  }
+
+  // Handle different types
+  if (typeof obj1 !== typeof obj2) {
+    return { type: 'change', from: obj1, to: obj2, path: [] };
+  }
+
+  // Handle functions
+  if (typeof obj1 === 'function') {
+    if (ignoreFunctions) return null;
+    return obj1.toString() !== obj2.toString() ? 
+      { type: 'change', from: obj1, to: obj2, path: [] } : null;
+  }
+
+  // Handle primitives
+  if (typeof obj1 !== 'object') {
+    return obj1 !== obj2 ? { type: 'change', from: obj1, to: obj2, path: [] } : null;
+  }
+
+  // Handle Dates
+  if (obj1 instanceof Date && obj2 instanceof Date) {
+    return obj1.getTime() !== obj2.getTime() ? 
+      { type: 'change', from: obj1, to: obj2, path: [] } : null;
+  }
+
+  // Handle RegExp
+  if (obj1 instanceof RegExp && obj2 instanceof RegExp) {
+    return obj1.toString() !== obj2.toString() ? 
+      { type: 'change', from: obj1, to: obj2, path: [] } : null;
+  }
+
+  // Handle Arrays
+  if (Array.isArray(obj1) && Array.isArray(obj2)) {
+    return diffArrays(obj1, obj2, options, currentDepth);
+  }
+
+  // Handle Objects
+  if (Array.isArray(obj1) || Array.isArray(obj2)) {
+    return { type: 'change', from: obj1, to: obj2, path: [] };
+  }
+
+  return diffObjects(obj1, obj2, options, currentDepth);
+}
+
+function diffArrays(arr1, arr2, options, currentDepth) {
+  const changes = {};
+  const maxLength = Math.max(arr1.length, arr2.length);
+
+  if (options.ignoreArrayOrder) {
+    // Compare arrays ignoring order (expensive for large arrays)
+    const used = new Set();
+    const unmatched1 = [];
+    const unmatched2 = [];
+
+    for (let i = 0; i < arr1.length; i++) {
+      let found = false;
+      for (let j = 0; j < arr2.length; j++) {
+        if (used.has(j)) continue;
+        if (deepDiff(arr1[i], arr2[j], { ...options, currentDepth: currentDepth + 1 }) === null) {
+          used.add(j);
+          found = true;
+          break;
+        }
+      }
+      if (!found) unmatched1.push({ index: i, value: arr1[i] });
+    }
+
+    for (let j = 0; j < arr2.length; j++) {
+      if (!used.has(j)) {
+        unmatched2.push({ index: j, value: arr2[j] });
+      }
+    }
+
+    if (unmatched1.length > 0 || unmatched2.length > 0) {
+      changes._arrayChanges = { removed: unmatched1, added: unmatched2 };
+    }
+  } else {
+    // Compare arrays preserving order
+    for (let i = 0; i < maxLength; i++) {
+      const diff = deepDiff(
+        arr1[i], 
+        arr2[i], 
+        { ...options, currentDepth: currentDepth + 1 }
+      );
+      
+      if (diff !== null) {
+        if (i >= arr1.length) {
+          changes[i] = { type: 'add', value: arr2[i], path: [i] };
+        } else if (i >= arr2.length) {
+          changes[i] = { type: 'remove', value: arr1[i], path: [i] };
+        } else {
+          changes[i] = { ...diff, path: [i, ...diff.path] };
+        }
+      }
+    }
+  }
+
+  return Object.keys(changes).length > 0 ? changes : null;
+}
+
+function diffObjects(obj1, obj2, options, currentDepth) {
+  const changes = {};
+  const allKeys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
+
+  for (const key of allKeys) {
+    const hasKey1 = Object.prototype.hasOwnProperty.call(obj1, key);
+    const hasKey2 = Object.prototype.hasOwnProperty.call(obj2, key);
+
+    if (!hasKey1 && hasKey2) {
+      changes[key] = { type: 'add', value: obj2[key], path: [key] };
+    } else if (hasKey1 && !hasKey2) {
+      changes[key] = { type: 'remove', value: obj1[key], path: [key] };
+    } else if (hasKey1 && hasKey2) {
+      const diff = deepDiff(
+        obj1[key], 
+        obj2[key], 
+        { ...options, currentDepth: currentDepth + 1 }
+      );
+      
+      if (diff !== null) {
+        changes[key] = { ...diff, path: [key, ...diff.path] };
+      }
+    }
+  }
+
+  return Object.keys(changes).length > 0 ? changes : null;
+}
+
+// Utility to apply changes
+function applyDiff(original, diff) {
+  if (!diff) return original;
+  
+  const result = JSON.parse(JSON.stringify(original)); // Deep clone
+  
+  function applyChange(obj, change, path) {
+    if (path.length === 1) {
+      const key = path[0];
+      switch (change.type) {
+        case 'add':
+        case 'change':
+          obj[key] = change.value || change.to;
+          break;
+        case 'remove':
+          delete obj[key];
+          break;
+      }
+    } else {
+      const [key, ...restPath] = path;
+      if (obj[key] && typeof obj[key] === 'object') {
+        applyChange(obj[key], change, restPath);
+      }
+    }
+  }
+
+  for (const [key, change] of Object.entries(diff)) {
+    if (key === '_arrayChanges') continue; // Handle separately
+    applyChange(result, change, change.path || [key]);
+  }
+
+  return result;
+}
+
+// Pretty print diff
+function formatDiff(diff, indent = 0) {
+  if (!diff) return 'No changes';
+  
+  const spaces = '  '.repeat(indent);
+  let output = '';
+  
+  for (const [key, change] of Object.entries(diff)) {
+    const path = change.path ? change.path.join('.') : key;
+    
+    switch (change.type) {
+      case 'add':
+        output += \`\${spaces}+ \${path}: \${JSON.stringify(change.value)}\\n\`;
+        break;
+      case 'remove':
+        output += \`\${spaces}- \${path}: \${JSON.stringify(change.value)}\\n\`;
+        break;
+      case 'change':
+        output += \`\${spaces}~ \${path}: \${JSON.stringify(change.from)} → \${JSON.stringify(change.to)}\\n\`;
+        break;
+      default:
+        if (typeof change === 'object' && change !== null) {
+          output += \`\${spaces}\${key}:\\n\${formatDiff(change, indent + 1)}\`;
+        }
+    }
+  }
+  
+  return output;
+}
+
+// Usage:
+// const diff = deepDiff(oldObj, newObj, { ignoreArrayOrder: true });
+// console.log(formatDiff(diff)); const updated = applyDiff(oldObj, diff);`,
+      },
+      {
+        question:
+          "Implement a binary search on a sorted array with O(log n) time complexity.",
+        solution: `function binarySearch(arr, target) {
+  let left = 0;
+  let right = arr.length - 1;
+  
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+    
+    if (arr[mid] === target) {
+      return mid; // Found target, return index
+    }
+    
+    if (arr[mid] < target) {
+      left = mid + 1; // Search right half
+    } else {
+      right = mid - 1; // Search left half
+    }
+  }
+  
+  return -1; // Target not found
+}
+
+// Usage: binarySearch([1, 3, 5, 7, 9, 11], 7) returns 3
+// Time: O(log n), Space: O(1). Works only on sorted arrays by repeatedly dividing search space in half.`,
+      },
+      {
+        question:
+          "Implement a basic throttle for API calls that limits function execution to once per specified interval.",
+        solution: `function throttle(func, delay) {
+  let timeoutId;
+  let lastExecTime = 0;
+  
+  return function (...args) {
+    const currentTime = Date.now();
+    
+    if (currentTime - lastExecTime > delay) {
+      // Execute immediately if enough time has passed
+      func.apply(this, args);
+      lastExecTime = currentTime;
+    } else {
+      // Clear existing timeout and set new one
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        func.apply(this, args);
+        lastExecTime = Date.now();
+      }, delay - (currentTime - lastExecTime));
+    }
+  };
+}
+
+// Usage: const throttledApiCall = throttle(fetchData, 1000);
+// Ensures fetchData runs at most once per second, useful for scroll/resize events.`,
+      },
+      {
+        question:
+          "Write a Fibonacci generator using closures that maintains internal state.",
+        solution: `function createFibonacci() {
+  let a = 0, b = 1;
+  
+  return function() {
+    const current = a;
+    [a, b] = [b, a + b]; // Destructuring swap
+    return current;
+  };
+}
+
+// Alternative: Generator function approach
+function* fibonacciGenerator() {
+  let a = 0, b = 1;
+  while (true) {
+    yield a;
+    [a, b] = [b, a + b];
+  }
+}
+
+// Usage: 
+const fib = createFibonacci();
+console.log(fib(), fib(), fib()); // 0, 1, 1
+
+const fibGen = fibonacciGenerator();
+console.log(fibGen.next().value); // 0
+// Closure maintains private state; generator provides iterator protocol for infinite sequences.`,
+      },
+      {
+        question:
+          "Implement a simple curry function with placeholder (_) support for partial application.",
+        solution: `const _ = Symbol('placeholder');
+
+function curry(fn, arity = fn.length) {
+  return function curried(...args) {
+    // Filter out placeholders to count real arguments
+    const validArgs = args.filter(arg => arg !== _);
+    
+    if (validArgs.length >= arity) {
+      // Replace placeholders with actual arguments
+      const finalArgs = [];
+      let validIndex = 0;
+      
+      for (let i = 0; i < args.length; i++) {
+        if (args[i] === _) {
+          finalArgs.push(arguments[validIndex] || _);
+        } else {
+          finalArgs.push(args[i]);
+        }
+      }
+      
+      return fn.apply(this, finalArgs.slice(0, arity));
+    }
+    
+    // Return new curried function for partial application
+    return function(...nextArgs) {
+      const newArgs = args.map(arg => arg === _ && nextArgs.length > 0 ? nextArgs.shift() : arg);
+      return curried(...newArgs, ...nextArgs);
+    };
+  };
+}
+
+// Usage: 
+const add = (a, b, c) => a + b + c;
+const curriedAdd = curry(add);
+curriedAdd(1, _, 3)(2); // 6
+// Enables functional composition and partial application with placeholder support.`,
+      },
+      {
+        question:
+          "Write a function that converts a NodeList to an array with multiple approaches.",
+        solution: `// Modern approach using Array.from()
+function nodeListToArray(nodeList) {
+  return Array.from(nodeList);
+}
+
+// Spread operator (ES6+)
+function nodeListToArraySpread(nodeList) {
+  return [...nodeList];
+}
+
+// Classic approach using slice
+function nodeListToArraySlice(nodeList) {
+  return Array.prototype.slice.call(nodeList);
+}
+
+// For loop approach (most compatible)
+function nodeListToArrayLoop(nodeList) {
+  const arr = [];
+  for (let i = 0; i < nodeList.length; i++) {
+    arr[i] = nodeList[i];
+  }
+  return arr;
+}
+
+// Usage: nodeListToArray(document.querySelectorAll('div'))
+// NodeList is array-like but lacks array methods. Conversion enables map, filter, reduce operations.`,
+      },
+      {
+        question:
+          "Implement a simple compose function for right-to-left function composition.",
+        solution: `function compose(...functions) {
+  if (functions.length === 0) {
+    return arg => arg; // Identity function
+  }
+  
+  if (functions.length === 1) {
+    return functions[0];
+  }
+  
+  return functions.reduce((f, g) => 
+    (...args) => f(g(...args))
+  );
+}
+
+// Alternative recursive implementation
+function composeRecursive(...fns) {
+  if (fns.length === 0) return x => x;
+  if (fns.length === 1) return fns[0];
+  
+  return (...args) => {
+    const [last, ...rest] = fns.reverse();
+    return rest.reduce((acc, fn) => fn(acc), last(...args));
+  };
+}
+
+// Usage:
+const addOne = x => x + 1;
+const double = x => x * 2;
+const square = x => x * x;
+
+const composed = compose(square, double, addOne);
+composed(3); // square(double(addOne(3))) = square(double(4)) = square(8) = 64
+// Right-to-left execution enables mathematical function composition patterns.`,
+      },
+      {
+        question:
+          "Implement a pipe function for left-to-right function composition.",
+        solution: `function pipe(...functions) {
+  if (functions.length === 0) {
+    return arg => arg; // Identity function
+  }
+  
+  if (functions.length === 1) {
+    return functions[0];
+  }
+  
+  return functions.reduce((f, g) => 
+    (...args) => g(f(...args))
+  );
+}
+
+// Alternative implementation using reduceRight for clarity
+function pipeAlt(...fns) {
+  return (value) => fns.reduce((acc, fn) => fn(acc), value);
+}
+
+// Async pipe for promise-based functions
+function pipeAsync(...fns) {
+  return (value) => fns.reduce(
+    (acc, fn) => acc.then(fn), 
+    Promise.resolve(value)
+  );
+}
+
+// Usage:
+const addOne = x => x + 1;
+const double = x => x * 2;
+const square = x => x * x;
+
+const piped = pipe(addOne, double, square);
+piped(3); // square(double(addOne(3))) = square(double(4)) = square(8) = 64
+// Left-to-right execution follows natural reading order, opposite of compose.`,
+      },
+      {
+        question:
+          "Write a function to deep-freeze an object preventing all mutations recursively.",
+        solution: `function deepFreeze(obj) {
+  // Primitive values are already immutable
+  if (obj === null || typeof obj !== 'object') {
+    return obj;
+  }
+  
+  // Handle arrays and objects
+  if (typeof obj === 'object' && !Object.isFrozen(obj)) {
+    // Freeze the object first
+    Object.freeze(obj);
+    
+    // Recursively freeze all properties
+    Object.getOwnPropertyNames(obj).forEach(prop => {
+      const value = obj[prop];
+      if (value && typeof value === 'object') {
+        deepFreeze(value);
+      }
+    });
+    
+    // Handle symbol properties
+    Object.getOwnPropertySymbols(obj).forEach(prop => {
+      const value = obj[prop];
+      if (value && typeof value === 'object') {
+        deepFreeze(value);
+      }
+    });
+  }
+  
+  return obj;
+}
+
+// Enhanced version with circular reference detection
+function deepFreezeWithCircularCheck(obj, seen = new WeakSet()) {
+  if (obj === null || typeof obj !== 'object') return obj;
+  if (seen.has(obj)) return obj; // Circular reference
+  
+  seen.add(obj);
+  Object.freeze(obj);
+  
+  Object.getOwnPropertyNames(obj).concat(Object.getOwnPropertySymbols(obj))
+    .forEach(prop => {
+      const value = obj[prop];
+      if (value && typeof value === 'object') {
+        deepFreezeWithCircularCheck(value, seen);
+      }
+    });
+  
+  return obj;
+}
+
+// Usage: deepFreeze({a: {b: {c: 1}}}) makes entire structure immutable
+// Prevents accidental mutations in functional programming patterns.`,
+      },
+      {
+        question:
+          "Implement a minimal Redux-like store with subscribe/dispatch/getState functionality.",
+        solution: `function createStore(reducer, initialState) {
+  let state = initialState;
+  let listeners = [];
+  
+  function getState() {
+    return state;
+  }
+  
+  function dispatch(action) {
+    // Validate action has type property
+    if (!action || typeof action.type !== 'string') {
+      throw new Error('Actions must have a type property');
+    }
+    
+    // Create new state using reducer
+    const newState = reducer(state, action);
+    
+    // Only update if state actually changed
+    if (newState !== state) {
+      state = newState;
+      
+      // Notify all subscribers
+      listeners.forEach(listener => {
+        try {
+          listener();
+        } catch (error) {
+          console.error('Listener error:', error);
+        }
+      });
+    }
+    
+    return action;
+  }
+  
+  function subscribe(listener) {
+    if (typeof listener !== 'function') {
+      throw new Error('Listener must be a function');
+    }
+    
+    listeners.push(listener);
+    
+    // Return unsubscribe function
+    return function unsubscribe() {
+      const index = listeners.indexOf(listener);
+      if (index > -1) {
+        listeners.splice(index, 1);
+      }
+    };
+  }
+  
+  // Initialize store with dummy action
+  dispatch({ type: '@@INIT' });
+  
+  return { getState, dispatch, subscribe };
+}
+
+// Usage:
+const counterReducer = (state = 0, action) => {
+  switch (action.type) {
+    case 'INCREMENT': return state + 1;
+    case 'DECREMENT': return state - 1;
+    default: return state;
+  }
+};
+
+const store = createStore(counterReducer, 0);
+store.subscribe(() => console.log(store.getState()));
+store.dispatch({ type: 'INCREMENT' }); // Logs: 1
+// Implements core Redux pattern: single source of truth with predictable state updates.`,
+      },
+      {
+        question:
+          "Create a simple debounce hook concept that delays function execution until after specified delay.",
+        solution: `function debounce(func, delay, immediate = false) {
+  let timeoutId;
+  let lastCallTime;
+  
+  return function debounced(...args) {
+    const callNow = immediate && !timeoutId;
+    lastCallTime = Date.now();
+    
+    clearTimeout(timeoutId);
+    
+    timeoutId = setTimeout(() => {
+      timeoutId = null;
+      if (!immediate) {
+        func.apply(this, args);
+      }
+    }, delay);
+    
+    if (callNow) {
+      func.apply(this, args);
+    }
+  };
+}
+
+// React-like hook concept (conceptual implementation)
+function useDebounce(callback, delay, deps = []) {
+  const timeoutRef = { current: null };
+  const callbackRef = { current: callback };
+  
+  // Update callback ref when dependencies change
+  callbackRef.current = callback;
+  
+  const debouncedCallback = (...args) => {
+    clearTimeout(timeoutRef.current);
+    
+    timeoutRef.current = setTimeout(() => {
+      callbackRef.current(...args);
+    }, delay);
+  };
+  
+  // Cleanup function
+  const cancel = () => {
+    clearTimeout(timeoutRef.current);
+  };
+  
+  return [debouncedCallback, cancel];
+}
+
+// Usage: 
+const debouncedSearch = debounce((query) => searchAPI(query), 300);
+// Prevents excessive API calls during rapid user input (search, resize, scroll).
+// React hook pattern enables automatic cleanup and dependency tracking.`,
+      },
+      {
+        question:
+          "Write a function to detect if the current tab is visible using Page Visibility API.",
+        solution: `function createVisibilityDetector() {
+  let isVisible = !document.hidden;
+  const listeners = {
+    visible: [],
+    hidden: []
+  };
+  
+  // Handle vendor prefixes
+  const getVisibilityProps = () => {
+    if (typeof document.hidden !== 'undefined') {
+      return { hidden: 'hidden', visibilityChange: 'visibilitychange' };
+    } else if (typeof document.msHidden !== 'undefined') {
+      return { hidden: 'msHidden', visibilityChange: 'msvisibilitychange' };
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      return { hidden: 'webkitHidden', visibilityChange: 'webkitvisibilitychange' };
+    }
+    return null;
+  };
+  
+  const props = getVisibilityProps();
+  
+  const handleVisibilityChange = () => {
+    const wasVisible = isVisible;
+    isVisible = !document[props.hidden];
+    
+    if (wasVisible !== isVisible) {
+      const eventType = isVisible ? 'visible' : 'hidden';
+      listeners[eventType].forEach(callback => {
+        try {
+          callback(isVisible);
+        } catch (error) {
+          console.error('Visibility listener error:', error);
+        }
+      });
+    }
+  };
+  
+  // Set up event listener if API is supported
+  if (props) {
+    document.addEventListener(props.visibilityChange, handleVisibilityChange);
+  }
+  
+  return {
+    isVisible: () => isVisible,
+    
+    onVisible(callback) {
+      listeners.visible.push(callback);
+      return () => {
+        const index = listeners.visible.indexOf(callback);
+        if (index > -1) listeners.visible.splice(index, 1);
+      };
+    },
+    
+    onHidden(callback) {
+      listeners.hidden.push(callback);
+      return () => {
+        const index = listeners.hidden.indexOf(callback);
+        if (index > -1) listeners.hidden.splice(index, 1);
+      };
+    },
+    
+    destroy() {
+      if (props) {
+        document.removeEventListener(props.visibilityChange, handleVisibilityChange);
+      }
+      listeners.visible.length = 0;
+      listeners.hidden.length = 0;
+    }
+  };
+}
+
+// Usage:
+const visibility = createVisibilityDetector();
+const unsubscribe = visibility.onHidden(() => pauseVideo());
+visibility.onVisible(() => resumeVideo());
+// Enables performance optimizations by pausing expensive operations when tab is hidden.`,
+      },
+      {
+        question:
+          "Implement a basic rate limiter that restricts function calls to specified limit per time window.",
+        solution: `class RateLimiter {
+  constructor(maxCalls, windowMs) {
+    this.maxCalls = maxCalls;
+    this.windowMs = windowMs;
+    this.calls = [];
+  }
+  
+  isAllowed() {
+    const now = Date.now();
+    const windowStart = now - this.windowMs;
+    
+    // Remove calls outside current window
+    this.calls = this.calls.filter(callTime => callTime > windowStart);
+    
+    // Check if we can make another call
+    if (this.calls.length < this.maxCalls) {
+      this.calls.push(now);
+      return true;
+    }
+    
+    return false;
+  }
+  
+  getNextAllowedTime() {
+    if (this.calls.length < this.maxCalls) {
+      return 0; // Can call immediately
+    }
+    
+    const oldestCall = Math.min(...this.calls);
+    return oldestCall + this.windowMs - Date.now();
+  }
+  
+  reset() {
+    this.calls = [];
+  }
+}
+
+// Token bucket implementation (more memory efficient)
+class TokenBucketLimiter {
+  constructor(capacity, refillRate, refillPeriod = 1000) {
+    this.capacity = capacity;
+    this.tokens = capacity;
+    this.refillRate = refillRate;
+    this.refillPeriod = refillPeriod;
+    this.lastRefill = Date.now();
+  }
+  
+  isAllowed(tokens = 1) {
+    this.refill();
+    
+    if (this.tokens >= tokens) {
+      this.tokens -= tokens;
+      return true;
+    }
+    
+    return false;
+  }
+  
+  refill() {
+    const now = Date.now();
+    const timePassed = now - this.lastRefill;
+    const tokensToAdd = Math.floor(timePassed / this.refillPeriod) * this.refillRate;
+    
+    if (tokensToAdd > 0) {
+      this.tokens = Math.min(this.capacity, this.tokens + tokensToAdd);
+      this.lastRefill = now;
+    }
+  }
+}
+
+// Usage:
+const limiter = new RateLimiter(5, 60000); // 5 calls per minute
+if (limiter.isAllowed()) {
+  makeAPICall();
+} else {
+  console.log('Rate limited, try again in', limiter.getNextAllowedTime(), 'ms');
+}
+// Prevents API abuse and manages resource consumption in distributed systems.`,
+      },
+      {
+        question:
+          "Write a function to shuffle an array using Fisher-Yates algorithm for unbiased randomization.",
+        solution: `function shuffleArray(array) {
+  // Create a copy to avoid mutating original
+  const shuffled = [...array];
+  
+  // Fisher-Yates shuffle algorithm
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    // Generate random index between 0 and i (inclusive)
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    
+    // Swap elements at i and randomIndex
+    [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+  }
+  
+  return shuffled;
+}
+
+// In-place shuffle (mutates original array)
+function shuffleInPlace(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [array[i], array[randomIndex]] = [array[randomIndex], array[i]];
+  }
+  return array;
+}
+
+// Seeded shuffle for reproducible results
+function shuffleWithSeed(array, seed) {
+  // Simple seeded random number generator (LCG)
+  let rng = seed;
+  const random = () => {
+    rng = (rng * 1664525 + 1013904223) % 2**32;
+    return rng / 2**32;
+  };
+  
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(random() * (i + 1));
+    [shuffled[i], shuffled[randomIndex]] = [shuffled[randomIndex], shuffled[i]];
+  }
+  
+  return shuffled;
+}
+
+// Performance comparison helper
+function benchmarkShuffle(array, iterations = 1000) {
+  const start = performance.now();
+  for (let i = 0; i < iterations; i++) {
+    shuffleArray([...array]);
+  }
+  const end = performance.now();
+  return end - start;
+}
+
+// Usage: shuffleArray([1, 2, 3, 4, 5]) returns randomly ordered array
+// Fisher-Yates ensures each permutation has equal probability (1/n!).
+// Time: O(n), Space: O(1) for in-place, O(n) for copy version.`,
+      },
+      {
+        question: "Implement a basic tree traversal (DFS and BFS).",
+        solution: `class TreeNode {
+  constructor(val, children = []) {
+    this.val = val;
+    this.children = children;
+  }
+}
+
+// Depth-First Search (DFS) - Recursive
+function dfsRecursive(node, visit = console.log) {
+  if (!node) return;
+  
+  visit(node.val);
+  node.children.forEach(child => dfsRecursive(child, visit));
+}
+
+// Depth-First Search (DFS) - Iterative
+function dfsIterative(root, visit = console.log) {
+  if (!root) return;
+  
+  const stack = [root];
+  
+  while (stack.length > 0) {
+    const node = stack.pop();
+    visit(node.val);
+    
+    // Add children in reverse order for left-to-right traversal
+    for (let i = node.children.length - 1; i >= 0; i--) {
+      stack.push(node.children[i]);
+    }
+  }
+}
+
+// Breadth-First Search (BFS)
+function bfs(root, visit = console.log) {
+  if (!root) return;
+  
+  const queue = [root];
+  
+  while (queue.length > 0) {
+    const node = queue.shift();
+    visit(node.val);
+    
+    node.children.forEach(child => queue.push(child));
+  }
+}
+
+// Usage with different traversal orders
+function dfsPreOrder(node, visit = console.log) {
+  if (!node) return;
+  visit(node.val);
+  node.children.forEach(child => dfsPreOrder(child, visit));
+}
+
+function dfsPostOrder(node, visit = console.log) {
+  if (!node) return;
+  node.children.forEach(child => dfsPostOrder(child, visit));
+  visit(node.val);
+}
+
+// Example usage:
+const tree = new TreeNode(1, [
+  new TreeNode(2, [new TreeNode(4), new TreeNode(5)]),
+  new TreeNode(3, [new TreeNode(6)])
+]);
+
+// DFS outputs: 1, 2, 4, 5, 3, 6
+// BFS outputs: 1, 2, 3, 4, 5, 6`,
+      },
+      {
+        question:
+          "Write a function to convert a callback style API to Promises.",
+        solution: `// Generic promisify function
+function promisify(fn) {
+  return function(...args) {
+    return new Promise((resolve, reject) => {
+      fn.call(this, ...args, (err, result) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result);
+        }
+      });
+    });
+  };
+}
+
+// Advanced promisify with custom callback handling
+function promisifyAdvanced(fn, options = {}) {
+  const { multiArgs = false, errorFirst = true } = options;
+  
+  return function(...args) {
+    return new Promise((resolve, reject) => {
+      const callback = errorFirst
+        ? (err, ...results) => {
+            if (err) return reject(err);
+            resolve(multiArgs ? results : results[0]);
+          }
+        : (...results) => {
+            resolve(multiArgs ? results : results[0]);
+          };
+      
+      fn.call(this, ...args, callback);
+    });
+  };
+}
+
+// Promisify entire object
+function promisifyAll(obj, suffix = 'Async') {
+  const promisified = {};
+  
+  for (const key in obj) {
+    if (typeof obj[key] === 'function') {
+      promisified[key + suffix] = promisify(obj[key].bind(obj));
+      promisified[key] = obj[key].bind(obj); // Keep original
+    } else {
+      promisified[key] = obj[key];
+    }
+  }
+  
+  return promisified;
+}
+
+// Example usage with fs module
+const fs = require('fs');
+const readFileAsync = promisify(fs.readFile);
+
+// Usage
+readFileAsync('file.txt', 'utf8')
+  .then(data => console.log(data))
+  .catch(err => console.error(err));
+
+// With custom options
+const multiResultCallback = (cb) => cb(null, 'result1', 'result2');
+const promisifiedMulti = promisifyAdvanced(multiResultCallback, { multiArgs: true });
+promisifiedMulti().then(results => console.log(results)); // ['result1', 'result2']`,
+      },
+      {
+        question: "Implement a simple Array.prototype.zip.",
+        solution: `// Basic zip implementation
+Array.prototype.zip = function(...arrays) {
+  const length = Math.min(this.length, ...arrays.map(arr => arr.length));
+  const result = [];
+  
+  for (let i = 0; i < length; i++) {
+    result.push([this[i], ...arrays.map(arr => arr[i])]);
+  }
+  
+  return result;
+};
+
+// Functional approach without prototype modification
+function zip(arr1, ...arrays) {
+  const length = Math.min(arr1.length, ...arrays.map(arr => arr.length));
+  return Array.from({ length }, (_, i) => 
+    [arr1[i], ...arrays.map(arr => arr[i])]
+  );
+}
+
+// Advanced zip with options
+function zipAdvanced(arr1, ...arrays, options = {}) {
+  const { 
+    fillValue = undefined, 
+    strict = false, 
+    longest = false 
+  } = typeof options === 'object' ? options : {};
+  
+  if (strict) {
+    const lengths = [arr1.length, ...arrays.map(arr => arr.length)];
+    if (!lengths.every(len => len === lengths[0])) {
+      throw new Error('Arrays must have equal length in strict mode');
+    }
+  }
+  
+  const length = longest 
+    ? Math.max(arr1.length, ...arrays.map(arr => arr.length))
+    : Math.min(arr1.length, ...arrays.map(arr => arr.length));
+  
+  return Array.from({ length }, (_, i) => [
+    i < arr1.length ? arr1[i] : fillValue,
+    ...arrays.map(arr => i < arr.length ? arr[i] : fillValue)
+  ]);
+}
+
+// Lazy zip with generators
+function* zipGenerator(...arrays) {
+  const length = Math.min(...arrays.map(arr => arr.length));
+  for (let i = 0; i < length; i++) {
+    yield arrays.map(arr => arr[i]);
+  }
+}
+
+// Usage examples:
+const a = [1, 2, 3];
+const b = ['a', 'b', 'c'];
+const c = [true, false, true];
+
+console.log(a.zip(b, c)); // [[1, 'a', true], [2, 'b', false], [3, 'c', true]]
+console.log(zip(a, b, c)); // Same result
+console.log([...zipGenerator(a, b, c)]); // Same result with generator`,
+      },
+      {
+        question: "Write a function to generate random alphanumeric strings.",
+        solution: `// Basic random string generator
+function randomString(length = 8) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  
+  for (let i = 0; i < length; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  
+  return result;
+}
+
+// Cryptographically secure version
+function randomStringSecure(length = 8) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const bytes = new Uint8Array(length);
+  
+  if (typeof window !== 'undefined' && window.crypto) {
+    window.crypto.getRandomValues(bytes);
+  } else if (typeof require !== 'undefined') {
+    const crypto = require('crypto');
+    crypto.randomFillSync(bytes);
+  }
+  
+  return Array.from(bytes, byte => chars[byte % chars.length]).join('');
+}
+
+// Advanced generator with custom character sets
+function randomStringAdvanced(options = {}) {
+  const {
+    length = 8,
+    uppercase = true,
+    lowercase = true,
+    numbers = true,
+    symbols = false,
+    excludeSimilar = false,
+    customChars = ''
+  } = options;
+  
+  let chars = customChars;
+  
+  if (!customChars) {
+    if (uppercase) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    if (lowercase) chars += 'abcdefghijklmnopqrstuvwxyz';
+    if (numbers) chars += '0123456789';
+    if (symbols) chars += '!@#$%^&*()_+-=[]{}|;:,.<>?';
+  }
+  
+  if (excludeSimilar) {
+    chars = chars.replace(/[0O1Il]/g, '');
+  }
+  
+  if (!chars) throw new Error('No character set specified');
+  
+  return Array.from(
+    { length }, 
+    () => chars.charAt(Math.floor(Math.random() * chars.length))
+  ).join('');
+}
+
+// UUID v4 generator
+function generateUUID() {
+  if (typeof window !== 'undefined' && window.crypto && window.crypto.randomUUID) {
+    return window.crypto.randomUUID();
+  }
+  
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+// Base62 encoding (good for URLs)
+function randomStringBase62(length = 8) {
+  const chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  return Array.from({ length }, () => 
+    chars.charAt(Math.floor(Math.random() * chars.length))
+  ).join('');
+}
+
+// Usage examples:
+console.log(randomString(12)); // "aB3xY9mN2kL5"
+console.log(randomStringSecure(16)); // Cryptographically secure
+console.log(randomStringAdvanced({ length: 10, symbols: true, excludeSimilar: true }));
+console.log(generateUUID()); // "123e4567-e89b-12d3-a456-426614174000"`,
+      },
+      {
+        question: "Implement a basic semaphore for concurrency control.",
+        solution: `class Semaphore {
+  constructor(count = 1) {
+    this.count = count;
+    this.waiting = [];
+  }
+  
+  async acquire() {
+    return new Promise((resolve) => {
+      if (this.count > 0) {
+        this.count--;
+        resolve();
+      } else {
+        this.waiting.push(resolve);
+      }
+    });
+  }
+  
+  release() {
+    if (this.waiting.length > 0) {
+      const resolve = this.waiting.shift();
+      resolve();
+    } else {
+      this.count++;
+    }
+  }
+  
+  get available() {
+    return this.count;
+  }
+  
+  get waitingCount() {
+    return this.waiting.length;
+  }
+}
+
+// Advanced semaphore with timeout and priority
+class SemaphoreAdvanced {
+  constructor(count = 1) {
+    this.count = count;
+    this.maxCount = count;
+    this.waiting = [];
+  }
+  
+  async acquire(timeout = null, priority = 0) {
+    return new Promise((resolve, reject) => {
+      const request = { resolve, reject, priority, timestamp: Date.now() };
+      
+      if (this.count > 0) {
+        this.count--;
+        resolve();
+        return;
+      }
+      
+      // Insert in priority order (higher priority first, then FIFO)
+      const insertIndex = this.waiting.findIndex(
+        w => w.priority < priority || 
+        (w.priority === priority && w.timestamp > request.timestamp)
+      );
+      
+      if (insertIndex === -1) {
+        this.waiting.push(request);
+      } else {
+        this.waiting.splice(insertIndex, 0, request);
+      }
+      
+      // Set timeout if specified
+      if (timeout !== null) {
+        setTimeout(() => {
+          const index = this.waiting.findIndex(w => w === request);
+          if (index !== -1) {
+            this.waiting.splice(index, 1);
+            reject(new Error('Semaphore acquire timeout'));
+          }
+        }, timeout);
+      }
+    });
+  }
+  
+  release(count = 1) {
+    for (let i = 0; i < count && this.waiting.length > 0; i++) {
+      const { resolve } = this.waiting.shift();
+      resolve();
+    }
+    
+    this.count += count;
+    this.count = Math.min(this.count, this.maxCount);
+  }
+  
+  async withLock(fn, timeout = null, priority = 0) {
+    await this.acquire(timeout, priority);
+    try {
+      return await fn();
+    } finally {
+      this.release();
+    }
+  }
+  
+  drain() {
+    return new Promise((resolve) => {
+      if (this.count === this.maxCount && this.waiting.length === 0) {
+        resolve();
+        return;
+      }
+      
+      const checkDrained = () => {
+        if (this.count === this.maxCount && this.waiting.length === 0) {
+          resolve();
+        } else {
+          setImmediate(checkDrained);
+        }
+      };
+      checkDrained();
+    });
+  }
+}
+
+// Usage examples:
+async function example() {
+  const semaphore = new Semaphore(2); // Allow 2 concurrent operations
+  
+  const worker = async (id) => {
+    console.log(\`Worker \${id} waiting...\`);
+    await semaphore.acquire();
+    console.log(\`Worker \${id} acquired lock\`);
+    
+    // Simulate work
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
+    console.log(\`Worker \${id} releasing lock\`);
+    semaphore.release();
+  };
+  
+  // Start 5 workers, but only 2 can run concurrently
+  const workers = Array.from({ length: 5 }, (_, i) => worker(i));
+  await Promise.all(workers);
+}
+
+// Rate limiting example
+class RateLimiter {
+  constructor(maxRequests, windowMs) {
+    this.semaphore = new Semaphore(maxRequests);
+    this.windowMs = windowMs;
+  }
+  
+  async execute(fn) {
+    await this.semaphore.acquire();
+    
+    // Release the semaphore after the time window
+    setTimeout(() => this.semaphore.release(), this.windowMs);
+    
+    return fn();
+  }
+}
+
+// Database connection pool example
+class ConnectionPool {
+  constructor(connections) {
+    this.connections = connections;
+    this.semaphore = new Semaphore(connections.length);
+    this.available = [...connections];
+    this.inUse = new Map();
+  }
+  
+  async acquire() {
+    await this.semaphore.acquire();
+    const connection = this.available.pop();
+    this.inUse.set(connection, Date.now());
+    return connection;
+  }
+  
+  release(connection) {
+    if (this.inUse.has(connection)) {
+      this.inUse.delete(connection);
+      this.available.push(connection);
+      this.semaphore.release();
+    }
+  }
+}`,
+      },
+      {
+        question: "Write a function to parse and stringify query strings.",
+        solution: `// Basic query string parser
+function parseQueryString(queryString) {
+  const params = {};
+  const pairs = (queryString.startsWith('?') ? queryString.slice(1) : queryString).split('&');
+  
+  for (const pair of pairs) {
+    if (!pair) continue;
+    
+    const [key, value] = pair.split('=').map(decodeURIComponent);
+    
+    if (key in params) {
+      // Handle multiple values for same key
+      if (Array.isArray(params[key])) {
+        params[key].push(value);
+      } else {
+        params[key] = [params[key], value];
+      }
+    } else {
+      params[key] = value;
+    }
+  }
+  
+  return params;
+}
+
+// Advanced parser with nested object support
+function parseQueryStringAdvanced(queryString, options = {}) {
+  const { 
+    arrayFormat = 'bracket', // 'bracket', 'index', 'comma', 'repeat'
+    parseNumbers = false,
+    parseBooleans = false,
+    nested = true
+  } = options;
+  
+  const params = {};
+  const pairs = (queryString.startsWith('?') ? queryString.slice(1) : queryString).split('&');
+  
+  for (const pair of pairs) {
+    if (!pair) continue;
+    
+    let [key, value = ''] = pair.split('=').map(decodeURIComponent);
+    
+    // Parse value types
+    if (parseNumbers && /^\\d+(\\.\\d+)?$/.test(value)) {
+      value = Number(value);
+    } else if (parseBooleans && (value === 'true' || value === 'false')) {
+      value = value === 'true';
+    }
+    
+    // Handle nested objects
+    if (nested && key.includes('[')) {
+      setNestedValue(params, key, value);
+    } else {
+      // Handle arrays
+      if (key.endsWith('[]') && arrayFormat === 'bracket') {
+        key = key.slice(0, -2);
+        params[key] = params[key] || [];
+        params[key].push(value);
+      } else if (key in params) {
+        if (Array.isArray(params[key])) {
+          params[key].push(value);
+        } else {
+          params[key] = [params[key], value];
+        }
+      } else {
+        params[key] = value;
+      }
+    }
+  }
+  
+  return params;
+}
+
+// Helper function for nested object parsing
+function setNestedValue(obj, key, value) {
+  const keys = key.split(/\\[|\\]/).filter(k => k);
+  let current = obj;
+  
+  for (let i = 0; i < keys.length - 1; i++) {
+    const k = keys[i];
+    const nextKey = keys[i + 1];
+    
+    if (!(k in current)) {
+      current[k] = /^\\d+$/.test(nextKey) ? [] : {};
+    }
+    current = current[k];
+  }
+  
+  const lastKey = keys[keys.length - 1];
+  if (Array.isArray(current) && !isNaN(lastKey)) {
+    current[parseInt(lastKey)] = value;
+  } else {
+    current[lastKey] = value;
+  }
+}
+
+// Basic query string stringifier
+function stringifyQueryString(params) {
+  const pairs = [];
+  
+  for (const [key, value] of Object.entries(params)) {
+    if (Array.isArray(value)) {
+      value.forEach(v => {
+        pairs.push(\`\${encodeURIComponent(key)}=\${encodeURIComponent(v)}\`);
+      });
+    } else if (value !== undefined && value !== null) {
+      pairs.push(\`\${encodeURIComponent(key)}=\${encodeURIComponent(value)}\`);
+    }
+  }
+  
+  return pairs.join('&');
+}
+
+// Advanced stringifier with options
+function stringifyQueryStringAdvanced(params, options = {}) {
+  const { 
+    arrayFormat = 'repeat', // 'bracket', 'index', 'comma', 'repeat'
+    encode = true,
+    skipNull = true,
+    skipEmptyString = false,
+    sort = false
+  } = options;
+  
+  const pairs = [];
+  
+  function addPair(key, value, index = null) {
+    if (skipNull && (value === null || value === undefined)) return;
+    if (skipEmptyString && value === '') return;
+    
+    const encodedKey = encode ? encodeURIComponent(key) : key;
+    const encodedValue = encode ? encodeURIComponent(value) : value;
+    
+    pairs.push(\`\${encodedKey}=\${encodedValue}\`);
+  }
+  
+  function processValue(key, value) {
+    if (Array.isArray(value)) {
+      switch (arrayFormat) {
+        case 'bracket':
+          value.forEach(v => addPair(\`\${key}[]\`, v));
+          break;
+        case 'index':
+          value.forEach((v, i) => addPair(\`\${key}[\${i}]\`, v));
+          break;
+        case 'comma':
+          addPair(key, value.join(','));
+          break;
+        case 'repeat':
+        default:
+          value.forEach(v => addPair(key, v));
+      }
+    } else if (typeof value === 'object' && value !== null) {
+      Object.entries(value).forEach(([nestedKey, nestedValue]) => {
+        processValue(\`\${key}[\${nestedKey}]\`, nestedValue);
+      });
+    } else {
+      addPair(key, value);
+    }
+  }
+  
+  const entries = sort ? 
+    Object.entries(params).sort(([a], [b]) => a.localeCompare(b)) :
+    Object.entries(params);
+  
+  entries.forEach(([key, value]) => processValue(key, value));
+  
+  return pairs.join('&');
+}
+
+// URL class wrapper for modern environments
+class URLSearchParamsHelper {
+  static parse(queryString) {
+    const params = new URLSearchParams(queryString);
+    const result = {};
+    
+    for (const [key, value] of params) {
+      if (key in result) {
+        if (Array.isArray(result[key])) {
+          result[key].push(value);
+        } else {
+          result[key] = [result[key], value];
+        }
+      } else {
+        result[key] = value;
+      }
+    }
+    
+    return result;
+  }
+  
+  static stringify(params) {
+    const searchParams = new URLSearchParams();
+    
+    for (const [key, value] of Object.entries(params)) {
+      if (Array.isArray(value)) {
+        value.forEach(v => searchParams.append(key, v));
+      } else if (value !== undefined && value !== null) {
+        searchParams.set(key, value);
+      }
+    }
+    
+    return searchParams.toString();
+  }
+}
+
+// Usage examples:
+const queryString = 'name=John&age=25&city=NYC&hobbies[]=reading&hobbies[]=gaming';
+console.log(parseQueryString(queryString));
+// { name: 'John', age: '25', city: 'NYC', 'hobbies[]': ['reading', 'gaming'] }
+
+console.log(parseQueryStringAdvanced(queryString, { parseNumbers: true }));
+// { name: 'John', age: 25, city: 'NYC', hobbies: ['reading', 'gaming'] }
+
+const params = { name: 'John', age: 25, hobbies: ['reading', 'gaming'] };
+console.log(stringifyQueryString(params));
+// 'name=John&age=25&hobbies=reading&hobbies=gaming'`,
+      },
+      {
+        question: "Explain the phases of the execution context.",
+        solution: `// Execution Context Phases in JavaScript
+
+/*
+JavaScript execution context goes through two main phases:
+
+1. CREATION PHASE (Memory Creation Phase):
+   - Variable Environment is set up
+   - Lexical Environment is created
+   - 'this' binding is determined
+   - Hoisting occurs (variables and functions are allocated memory)
+
+2. EXECUTION PHASE (Code Execution Phase):
+   - Code is executed line by line
+   - Variables are assigned actual values
+   - Functions are invoked
+*/
+
+// Example demonstrating the phases:
+
+// CREATION PHASE:
+// - Variables 'a', 'b' are allocated memory (undefined)
+// - Function 'myFunction' is fully stored in memory
+// - 'this' is set to global object (or undefined in strict mode)
+
+console.log(a); // undefined (not error due to hoisting)
+console.log(myFunction); // [Function: myFunction]
+
+var a = 10;
+let b = 20;
+const c = 30;
+
+function myFunction() {
+  return 'Hello World';
+}
+
+// EXECUTION PHASE:
+// Now variables get their actual values
+console.log(a); // 10
+console.log(b); // 20
+console.log(c); // 30
+
+// Detailed breakdown of Creation Phase:
+
+// 1. Variable Environment Creation:
+var globalVar; // undefined
+function hoistedFunction() {} // fully defined
+
+// 2. Lexical Environment Creation:
+let lexicalVar; // temporal dead zone
+const constVar; // temporal dead zone
+
+// 3. This Binding:
+// In global context: window (browser) or global (Node.js)
+// In function: depends on how function is called
+// In arrow function: inherited from enclosing scope
+
+// Example of different execution contexts:
+
+function demonstrateExecutionContext() {
+  // New execution context created
+  
+  // CREATION PHASE for this function:
+  console.log(innerVar); // undefined
+  console.log(innerFunction); // [Function: innerFunction]
+  
+  var innerVar = 'inner value';
+  
+  function innerFunction() {
+    // Another execution context will be created when called
+    console.log('Inner function executed');
+  }
+  
+  // EXECUTION PHASE:
+  console.log(innerVar); // 'inner value'
+  innerFunction(); // Creates new execution context
+}
+
+demonstrateExecutionContext();
+
+// Execution Context Stack (Call Stack):
+function first() {
+  console.log('First function');
+  second();
+  console.log('First function end');
+}
+
+function second() {
+  console.log('Second function');
+  third();
+  console.log('Second function end');
+}
+
+function third() {
+  console.log('Third function');
+}
+
+// Call stack progression:
+// 1. Global Execution Context
+// 2. first() execution context
+// 3. second() execution context  
+// 4. third() execution context
+// Then unwinding in reverse order
+
+first();
+
+// Temporal Dead Zone example:
+function temporalDeadZoneExample() {
+  console.log(varVariable); // undefined
+  // console.log(letVariable); // ReferenceError
+  // console.log(constVariable); // ReferenceError
+  
+  var varVariable = 'var value';
+  let letVariable = 'let value';
+  const constVariable = 'const value';
+}
+
+// Function vs Variable Hoisting:
+console.log(hoistedFunc()); // "I'm hoisted!" - works
+
+function hoistedFunc() {
+  return "I'm hoisted!";
+}
+
+// vs
+
+// console.log(notHoisted()); // TypeError: notHoisted is not a function
+var notHoisted = function() {
+  return "I'm not hoisted!";
+};`,
+      },
+      {
+        question: "Describe the difference between lexical and dynamic scope.",
+        solution:
+          "Lexical scope (static scope) determines variable binding at compile time based on where variables are declared in the code structure. JavaScript uses lexical scope where inner functions have access to variables in their outer scope chain, determined by the physical location of the code. Dynamic scope would determine variable binding at runtime based on the call stack. In lexical scope, 'this' binding can vary, but variable scope is fixed. Example: function outer() { let x = 1; function inner() { console.log(x); } return inner; } - inner() will always access outer's 'x' regardless of where it's called. This enables closures and predictable variable resolution, making code more maintainable and allowing for optimizations like variable hoisting resolution at compile time.",
+      },
+      {
+        question: "What is inline caching in V8?",
+        solution:
+          "Inline caching (IC) is a V8 optimization technique that speeds up property access by caching the location of object properties and method lookups. When accessing object properties, V8 initially performs a slow dictionary lookup. IC observes these access patterns and creates optimized code paths. There are several IC states: Uninitialized (first access), Monomorphic (single object shape), Polymorphic (2-4 different shapes), and Megamorphic (many shapes, falls back to dictionary lookup). For example, accessing obj.prop multiple times on objects with the same 'hidden class' allows V8 to generate machine code that directly accesses the property at a fixed offset. This dramatically improves performance from O(n) dictionary lookup to O(1) direct memory access. IC also applies to method calls, storing both the method location and performing speculative inlining of frequently called functions.",
+      },
+      {
+        question: "Explain hidden classes in V8.",
+        solution:
+          "Hidden classes (also called Maps or Shapes) are V8's internal mechanism for optimizing object property access by creating a blueprint that describes object layout. When objects are created, V8 assigns them a hidden class that tracks property names, types, and memory offsets. Objects sharing the same structure share the same hidden class. When properties are added, deleted, or modified, V8 may transition to a new hidden class. This enables fast property access via direct memory offsets instead of hash table lookups. For optimal performance: add properties in the same order, avoid deleting properties (use undefined instead), don't add properties after object creation, and initialize all properties in constructors. Example: two objects created as {a: 1, b: 2} will share a hidden class, but {b: 2, a: 1} will have a different one. Hidden classes enable inline caching, reduce memory overhead through sharing, and allow V8's optimizing compiler to generate efficient machine code for property access.",
+      },
+      {
+        question:
+          "How does the garbage collector handle generational hypotheses?",
+        solution:
+          "V8's garbage collector implements generational collection based on the generational hypothesis: most objects die young, and objects that survive become long-lived. V8 divides the heap into generations: Young Generation (Scavenger GC) and Old Generation (Mark-Sweep-Compact GC). Young generation uses a semi-space copying collector that frequently runs (1-10ms) on newly allocated objects in nursery space. Objects surviving multiple collections are promoted to old generation. Old generation uses mark-sweep-compact, running less frequently but taking longer (10-100ms+). The write barrier tracks old-to-young references to ensure young objects referenced by old objects aren't prematurely collected. This approach is efficient because: young objects are collected frequently with low cost (most are garbage), old objects are collected infrequently (most survive), and the working set for young GC is small. Modern V8 uses Orinoco concurrent marking and Scavenger parallel collection to reduce pause times while maintaining generational efficiency.",
+      },
+      {
+        question: "What is the purpose of requestIdleCallback?",
+        solution:
+          "requestIdleCallback allows scheduling low-priority work during the browser's idle periods when the main thread isn't busy with critical rendering tasks. It provides a way to perform background tasks without blocking user interactions or animations. The callback receives an IdleDeadline object with timeRemaining() method indicating available time and didTimeout boolean. Use cases include: analytics processing, data prefetching, DOM cleanup, background computations, and progressive enhancement. Best practices: keep work chunks small (<5ms), check timeRemaining() frequently, use timeout parameter for critical tasks, and fall back to setTimeout if unsupported. Example: requestIdleCallback((deadline) => { while (deadline.timeRemaining() > 0 && tasks.length) { processTask(tasks.shift()); } if (tasks.length) requestIdleCallback(callback); }, {timeout: 1000}). This enables responsive UIs by ensuring high-priority tasks (rendering, user input) take precedence while still allowing background work to progress during idle time.",
+      },
+      {
+        question:
+          "Describe the difference between requestAnimationFrame and setTimeout.",
+        solution:
+          "requestAnimationFrame (RAF) synchronizes callbacks with the browser's repaint cycle (~60fps), while setTimeout schedules callbacks after a minimum delay regardless of rendering. RAF automatically pauses in inactive tabs, provides high-resolution timestamps, and guarantees execution before the next repaint, making it ideal for smooth animations. setTimeout has no rendering synchronization and continues running in background tabs, consuming unnecessary CPU. RAF callbacks receive a DOMHighResTimeStamp parameter for precise timing calculations. Performance differences: RAF prevents unnecessary frames, reduces battery usage in mobile devices, eliminates visual artifacts from misaligned updates, and provides better frame pacing. RAF queues one callback per frame, while setTimeout can queue multiple callbacks. Use RAF for: visual animations, canvas/WebGL rendering, DOM manipulation animations, and any frame-synchronized updates. Use setTimeout for: delayed execution, non-visual timers, polling operations, and debouncing user input. RAF also handles monitor refresh rate variations automatically, providing optimal smoothness across different displays.",
+      },
+      {
+        question: "How do you measure memory usage in a Node.js process?",
+        solution:
+          "Node.js provides process.memoryUsage() returning an object with: rss (Resident Set Size - total physical memory), heapTotal (V8 heap allocated), heapUsed (V8 heap actually used), external (C++ objects bound to JS objects), and arrayBuffers (allocated for ArrayBuffers and SharedArrayBuffers). For detailed analysis: v8.getHeapStatistics() provides heap space breakdown, v8.getHeapSnapshot() creates heap snapshots for leak detection, and process.resourceUsage() shows system resource usage. Monitoring techniques include: periodic sampling with setInterval, heap difference analysis using v8.writeHeapSnapshot(), and memory pressure detection via process.memoryUsage().heapUsed growth trends. Tools: Chrome DevTools for heap analysis, clinic.js for production monitoring, and heapdump module for programmatic snapshots. Memory leak detection: compare heap snapshots over time, monitor RSS growth patterns, track object retention with WeakRefs, and use --inspect flag for debugging. Production monitoring should track heap utilization ratios, RSS growth trends, and GC frequency to identify memory issues before they cause crashes.",
+      },
+      {
+        question: "Explain the concept of tail-call optimization.",
+        solution:
+          "Tail-call optimization (TCO) is a compiler optimization where function calls in tail position (last operation before return) reuse the current stack frame instead of creating a new one, preventing stack overflow in recursive functions. A tail call occurs when the function call is the final action and its return value is immediately returned without modification. JavaScript ES6 specified TCO in strict mode, but most engines haven't fully implemented it due to debugging complexity. Benefits include: constant stack space usage, enabling deep recursion, and improved performance for functional programming patterns. Example of tail call: function factorial(n, acc = 1) { if (n <= 1) return acc; return factorial(n - 1, n * acc); } - the recursive call is in tail position. Non-tail call: return 1 + factorial(n - 1) - addition occurs after the call. Without TCO, deep recursion causes stack overflow. Alternative approaches: use iteration, trampoline functions, or convert to iterative with explicit stack. Some functional languages guarantee TCO, making recursive solutions practical for large inputs. Modern JavaScript engines may perform TCO in specific cases, but it's not reliable across all environments.",
+      },
+      {
+        question: "What are WeakRefs and FinalizationRegistry?",
+        solution:
+          "WeakRef creates a weak reference to an object that doesn't prevent garbage collection, while FinalizationRegistry allows cleanup callbacks when objects are garbage collected. WeakRef.prototype.deref() returns the target object if still alive, or undefined if collected. Use cases include: caches that don't prevent GC, observer patterns with automatic cleanup, and resource management for expensive objects. FinalizationRegistry registers cleanup callbacks executed after objects are GC'd, useful for cleaning up external resources, closing file handles, or releasing native memory. Example: const registry = new FinalizationRegistry((heldValue) => { console.log('Object collected:', heldValue); }); registry.register(obj, 'cleanup data', obj); WeakRef example: const ref = new WeakRef(expensiveObject); later: const obj = ref.deref(); if (obj) { useObject(obj); }. Important caveats: timing of finalization is unpredictable, callbacks may not run immediately or at all, avoid using for critical cleanup, and don't rely on finalization for program correctness. These APIs enable more sophisticated memory management patterns while maintaining JavaScript's automatic garbage collection.",
+      },
+      {
+        question: "Describe the Proxy API and its traps.",
+        solution:
+          "The Proxy API creates a wrapper around objects that intercepts and customizes operations through handler functions called 'traps'. Syntax: new Proxy(target, handler) where handler contains trap methods. Common traps include: get(target, prop, receiver) - intercepts property access, set(target, prop, value, receiver) - intercepts property assignment, has(target, prop) - intercepts 'in' operator, deleteProperty(target, prop) - intercepts delete operations, and apply(target, thisArg, args) - intercepts function calls. Advanced traps: construct() for new operator, ownKeys() for Object.keys(), defineProperty()/getOwnPropertyDescriptor() for property descriptors. Use cases: data validation, property transformation, logging/debugging, virtual objects, and API wrappers. Example: const validator = new Proxy({}, { set(target, prop, value) { if (typeof value !== 'number') throw TypeError('Expected number'); target[prop] = value; return true; } }). Proxy is transparent - typeof, instanceof work normally. Performance considerations: proxies add overhead to every operation, may prevent optimizations, and should be used judiciously. Proxies enable metaprogramming, creating DSLs, and implementing advanced patterns like transparent lazy loading and automatic data binding.",
+      },
+      {
+        question: "How do you intercept property access with Proxies?",
+        solution:
+          "Proxies intercept operations on objects using handler traps. Create a Proxy with new Proxy(target, handler) where handler defines trap methods like get, set, has, deleteProperty. The get trap intercepts property reads: get(target, prop, receiver) - return custom values or transform access. The set trap intercepts writes: set(target, prop, value, receiver) - validate, transform, or log changes. Other traps include has() for 'in' operator, deleteProperty() for delete operator, ownKeys() for Object.keys(), and apply() for function calls. Use Reflect API inside traps to maintain default behavior while adding custom logic. Proxies enable meta-programming patterns like property validation, logging, virtual properties, and transparent API wrappers.",
+      },
+      {
+        question:
+          "Explain the difference between Object.freeze and Object.seal.",
+        solution:
+          "Object.freeze() makes an object completely immutable - prevents adding, removing, or modifying properties and their descriptors. Existing properties become non-writable and non-configurable. Object.seal() allows modification of existing property values but prevents adding/removing properties and changing property descriptors. Sealed objects have configurable set to false for all properties but writable remains unchanged. Object.freeze() is stricter than Object.seal(). Both are shallow operations - nested objects remain mutable unless explicitly frozen/sealed. Use Object.isFrozen() and Object.isSealed() to check state. For deep immutability, recursively freeze nested objects or use libraries like Immutable.js or Immer.",
+      },
+      {
+        question:
+          "What are descriptors and how do you use Object.defineProperty?",
+        solution:
+          "Property descriptors define how properties behave on objects. Two types exist: data descriptors (value, writable, enumerable, configurable) and accessor descriptors (get, set, enumerable, configurable). Object.defineProperty(obj, prop, descriptor) creates or modifies a property with specific characteristics. Data descriptor: {value: 'data', writable: true, enumerable: true, configurable: true}. Accessor descriptor: {get() { return this._value; }, set(val) { this._value = val; }, enumerable: true, configurable: true}. writable controls if value can be changed, enumerable affects for-in loops and Object.keys(), configurable allows descriptor changes and property deletion. Use Object.getOwnPropertyDescriptor() to read descriptors. Common patterns include creating non-enumerable properties, read-only properties, and computed properties with getters/setters.",
+      },
+      {
+        question:
+          "Explain how prototypal inheritance differs from classical inheritance.",
+        solution:
+          "Prototypal inheritance uses objects as prototypes directly - objects inherit from other objects via [[Prototype]] chain. No classes required; use Object.create(proto) or obj.__proto__ = proto. Classical inheritance uses classes as blueprints to create instances with shared methods and properties. JavaScript's class syntax is syntactic sugar over prototypal inheritance. Key differences: Prototypal is dynamic (can modify prototype at runtime affecting all instances), flexible (multiple inheritance patterns possible), and direct object-to-object relationships. Classical inheritance is static, hierarchical, and based on class-instance relationships. Prototypal allows behavior delegation where objects delegate method calls up the prototype chain. JavaScript combines both: classes provide familiar syntax while prototype chain handles actual inheritance mechanics. Use Object.getPrototypeOf() and Object.setPrototypeOf() to manipulate prototype relationships.",
+      },
+      {
+        question:
+          "Describe the differences between mixins and multiple inheritance.",
+        solution:
+          "Mixins are a composition pattern where objects or classes acquire properties/methods from multiple sources without formal inheritance relationships. JavaScript implements mixins through Object.assign(), spreading properties, or factory functions that extend prototypes. Multiple inheritance allows a class to inherit from multiple parent classes simultaneously - not natively supported in JavaScript. Mixins provide behavior sharing without inheritance hierarchy; they're copied into target objects. Multiple inheritance creates complex parent-child relationships with potential diamond problem (ambiguous method resolution). Mixins are more flexible - can selectively include features, avoid naming conflicts through explicit property copying, and compose behaviors dynamically. Implementation: const Mixin = {method() {}}; Object.assign(MyClass.prototype, Mixin). Modern approach uses class mixins: const Mixin = (Base) => class extends Base { method() {} }. Mixins solve code reuse without inheritance complexity, making them preferred for cross-cutting concerns like logging, validation, or event handling.",
+      },
+      {
+        question: "How do you implement private fields in ES2022?",
+        solution:
+          "ES2022 introduces native private fields using # prefix syntax. Private fields are truly private - not accessible outside the class, even through reflection. Declare with #fieldName in class body; access with this.#fieldName inside class methods. Private methods use same syntax: #methodName() {}. Static private fields: static #staticField. Private fields must be declared before use; cannot be created dynamically. They're not inherited but can be accessed in subclasses if declared there. Key benefits: genuine encapsulation (no external access), no naming conflicts, performance optimized by engines. Example: class Counter { #count = 0; increment() { this.#count++; } getCount() { return this.#count; }}. Use private fields for internal state, sensitive data, or implementation details. Combine with public methods for controlled access. Browser support requires modern engines; transpile for older environments using Babel.",
+      },
+      {
+        question: "What are decorators (stage-3 proposal)?",
+        solution:
+          "Decorators are a stage-3 proposal for meta-programming in JavaScript, allowing modification of classes, methods, and properties declaratively. Syntax uses @ symbol before declaration: @decorator. Decorators are functions that receive descriptor objects and can modify behavior, add metadata, or wrap functionality. Class decorators: @decorator class MyClass {} - receive class constructor and can return modified constructor. Method decorators: @decorator method() {} - receive method descriptor and can wrap, modify, or replace methods. Property decorators work similarly for class fields. Decorators execute at declaration time, not instantiation. Common use cases: logging (@log), validation (@validate), caching (@cache), dependency injection (@inject), and framework annotations (@Component). Implementation requires transpilation (Babel) or TypeScript. Decorators enable clean separation of concerns, reduce boilerplate, and provide declarative programming patterns. They're inspired by similar features in Python, Java, and C#.",
+      },
+      {
+        question:
+          "Explain the difference between synchronous and asynchronous iterators.",
+        solution:
+          "Synchronous iterators implement Symbol.iterator protocol, returning {value, done} objects immediately. Each next() call returns the next value synchronously. Used with for-of loops and spread operator. Asynchronous iterators implement Symbol.asyncIterator protocol, returning Promises that resolve to {value, done} objects. Each next() call returns a Promise, allowing for async data fetching between iterations. Used with for-await-of loops. Synchronous: const iter = obj[Symbol.iterator](); const {value, done} = iter.next(). Asynchronous: const iter = obj[Symbol.asyncIterator](); const {value, done} = await iter.next(). Async iterators handle streams, network requests, file reading, or any scenario where values arrive over time. They enable processing infinite or slow data sources without blocking. Generator functions support both: function* sync() {} for synchronous, async function* async() {} for asynchronous generators. Async iterators compose well with async/await and enable elegant handling of temporal data sequences.",
+      },
+      {
+        question: "Describe how for-await-of works.",
+        solution:
+          "for-await-of loops iterate over async iterables, automatically awaiting each Promise returned by the async iterator's next() method. Syntax: for await (const item of asyncIterable) {}. Works with objects implementing Symbol.asyncIterator or async generator functions. Each iteration waits for the Promise to resolve before proceeding to next iteration. If Promise rejects, the loop throws the error (handle with try-catch). Can iterate streams, fetch requests, database cursors, or any async data source. Example: async function* fetchData() { for(let i = 0; i < 5; i++) { yield await fetch(`/api/data/${i}`); }}. The loop processes items sequentially, not concurrently - each await completes before next iteration starts. For concurrent processing, collect Promises first then use Promise.all(). for-await-of also works with regular iterables containing Promises, automatically awaiting each Promise value. This enables clean async data processing without complex Promise chains or manual iterator management.",
+      },
+      {
+        question: "How do you detect memory leaks in the browser?",
+        solution:
+          "Use Browser DevTools Memory tab for heap snapshots and allocation timelines. Take heap snapshots before/after operations to identify retained objects. Look for growing object counts, especially DOM nodes, event listeners, and closures. Use allocation timeline to track memory allocation patterns over time. Performance tab shows memory usage graphs - look for sawtooth patterns (good) vs steadily increasing memory (leak). Console.memory API provides programmatic heap size monitoring. Common leak sources: detached DOM nodes, uncleaned event listeners, global variables, circular references, timers/intervals not cleared, unclosed connections (WebSocket, SSE). Tools: Chrome DevTools Memory profiler, Firefox Memory tool, Lighthouse performance audits. Programmatic detection: monitor performance.memory.usedJSHeapSize, set up intervals to track growth. WeakMap/WeakSet for references that shouldn't prevent garbage collection. Use AbortController for cleanup patterns. Profile production apps with memory monitoring services or custom telemetry tracking heap growth trends.",
+      },
+      {
+        question:
+          "What is the difference between the call stack and the task queue?",
+        solution:
+          "Call stack stores execution contexts (function calls) in LIFO order - functions pushed when called, popped when completed. Synchronous execution happens here; each function must complete before the next can execute. Stack overflow occurs when too many functions accumulate (recursion without base case). Task queue (macro-task queue) holds callbacks from async operations like setTimeout, setInterval, DOM events, and network requests. Tasks execute only when call stack is empty, processed by event loop in FIFO order. Event loop continuously checks: if call stack empty, move first task from queue to stack. This enables non-blocking async behavior - long-running operations don't freeze UI. Call stack is immediate execution; task queue is deferred execution. Multiple task sources exist: timer queue, network queue, user interaction queue. Browser manages task scheduling priorities. Understanding this explains why setTimeout(fn, 0) doesn't execute immediately - it waits for call stack to clear. This mechanism enables JavaScript's concurrency model despite being single-threaded.",
+      },
+      {
+        question: "Describe micro-task queue priority.",
+        solution:
+          "Micro-task queue has higher priority than macro-task queue (regular task queue). Event loop processes all available micro-tasks before moving to next macro-task. Micro-tasks include Promise callbacks (.then, .catch, .finally), queueMicrotask(), MutationObserver callbacks, and async function continuations. Processing order: 1) Execute current macro-task completely 2) Process ALL micro-tasks until queue empty 3) Perform rendering if needed 4) Move to next macro-task. This creates potential starvation - infinite micro-task creation can block macro-tasks indefinitely. Micro-tasks run between macro-tasks and before rendering, enabling Promise chains to complete atomically. Example: setTimeout adds macro-task, Promise.resolve().then() adds micro-task - Promise callback executes first regardless of timing. Use queueMicrotask(callback) to schedule custom micro-tasks. Understanding priority explains Promise execution timing and why Promise chains complete before timers. This mechanism ensures Promise-based APIs feel synchronous while maintaining non-blocking behavior.",
+      },
+      {
+        question: "Explain how queueMicrotask works.",
+        solution:
+          "queueMicrotask(callback) schedules a callback to run in the micro-task queue, executing after current execution stack completes but before next macro-task. It provides direct access to micro-task scheduling without Promises. The callback receives no arguments and executes in global scope. Micro-tasks queued this way have same priority as Promise callbacks - processed before macro-tasks, DOM rendering, and other async operations. Use cases: batching DOM updates, ensuring consistent execution order, implementing Promise-like behavior without Promises, deferring work until stack clears while maintaining high priority. Example: queueMicrotask(() => console.log('micro-task')); setTimeout(() => console.log('macro-task'), 0); // micro-task logs first. Differs from setTimeout(fn, 0) which uses macro-task queue. Multiple queueMicrotask calls execute in order before any macro-tasks. Useful for library authors needing predictable callback timing. Modern alternative to Promise.resolve().then() for simple micro-task scheduling without Promise overhead.",
+      },
+      {
+        question: "Describe the difference between a shim and a polyfill.",
+        solution:
+          "Polyfills implement missing native API functionality using same interface and behavior as the native implementation. They're transparent replacements - code written for native API works unchanged. Polyfills detect feature availability and only activate when native support missing. Example: Array.prototype.includes polyfill provides exact native behavior. Shims provide alternative implementations or APIs that may differ from native versions. They can modify existing implementations, provide different interfaces, or add functionality that doesn't exist natively. Shims might change behavior permanently regardless of native support. Key differences: Polyfills are conformant replacements; shims are alternative implementations. Polyfills preserve native behavior; shims may enhance or modify it. Polyfills are conditional; shims may always execute. Example scenarios: Polyfill for fetch() API in older browsers vs shim that adds jQuery-style methods to native DOM. Use polyfills for standards compliance and progressive enhancement. Use shims for consistent behavior across environments or when adding non-standard functionality.",
+      },
+      {
+        question: "How do you write a polyfill for Object.create?",
+        solution:
+          "Object.create polyfill must handle prototype setting and property descriptors. Basic implementation: if (!Object.create) { Object.create = function(proto, props) { if (proto !== null && typeof proto !== 'object' && typeof proto !== 'function') throw TypeError('Object prototype may only be an Object or null'); function F() {} F.prototype = proto; const obj = new F(); if (props !== undefined) Object.defineProperties(obj, props); return obj; }; }. Key aspects: Validate prototype parameter (must be object, function, or null). Use constructor function with prototype assignment to establish [[Prototype]] link. Handle property descriptors parameter by delegating to Object.defineProperties(). Throw appropriate TypeErrors for invalid inputs. The polyfill creates temporary constructor F, sets its prototype to desired prototype, instantiates new object inheriting from prototype, then applies property descriptors if provided. This replicates native Object.create behavior using pre-ES5 mechanisms. Consider edge cases: null prototype creates object with no prototype chain.",
+      },
+      {
+        question: "How do you make any object iterable?",
+        solution:
+          "Implement Symbol.iterator method that returns an iterator object with next() method. The iterator's next() returns {value, done} where done indicates completion. Basic pattern: obj[Symbol.iterator] = function* () { yield value1; yield value2; }; or obj[Symbol.iterator] = function() { let index = 0; const data = this.data; return { next() { if (index < data.length) return {value: data[index++], done: false}; return {done: true}; }}; }. Generator functions simplify implementation - yield produces values, return ends iteration. Custom iterables work with for-of loops, spread operator, Array.from(), and destructuring. For infinite sequences, never set done: true. For async iteration, implement Symbol.asyncIterator returning async iterator with next() returning Promise<{value, done}>. Example making object iterable over properties: obj[Symbol.iterator] = function* () { for (const key in this) { yield [key, this[key]]; }}. This enables object to work with all iterable-consuming APIs.",
+      },
+      {
+        question:
+          "Describe the difference between transferable objects and structured cloning.",
+        solution:
+          "Structured cloning creates deep copies of objects for cross-context communication (Web Workers, postMessage) while preserving object types and circular references. Uses structured clone algorithm supporting primitives, Arrays, Objects, Dates, RegExp, Maps, Sets, ArrayBuffers, and more. Cannot clone functions, DOM nodes, symbols, or objects with custom prototypes. Creates independent copies - changes don't affect original. Transferable objects use ownership transfer instead of copying for performance with large data like ArrayBuffers, MessagePorts, ImageBitmaps. Original object becomes neutered/detached after transfer - cannot be used in sender context. Transfer is zero-copy operation, much faster for large binary data. Use transferable with postMessage: worker.postMessage(arrayBuffer, [arrayBuffer]). Structured cloning happens automatically in postMessage, structuredClone() API, IndexedDB storage. Choose transferable for large binary data you won't need in sender; choose cloning for data needed in multiple contexts. Transferable objects enable high-performance worker communication without serialization overhead.",
+      },
+      {
+        question: "How do you use Atomics and SharedArrayBuffer?",
+        solution:
+          "SharedArrayBuffer creates shared memory between main thread and workers - same memory accessible from multiple contexts. Atomics provide thread-safe operations on shared memory, preventing race conditions. Create shared buffer: const sab = new SharedArrayBuffer(1024); const view = new Int32Array(sab). Share with worker: worker.postMessage({sab}). Atomic operations include: Atomics.load(view, index) for safe reads, Atomics.store(view, index, value) for safe writes, Atomics.add/sub/and/or/xor for arithmetic/bitwise operations, Atomics.compareExchange(view, index, expected, replacement) for conditional updates. Synchronization primitives: Atomics.wait(view, index, value, timeout) blocks until memory location changes, Atomics.notify(view, index, count) wakes waiting threads. Use cases: high-performance computing, real-time data processing, worker coordination. Security: Requires COOP/COEP headers due to Spectre vulnerabilities. Example worker communication: main thread writes commands via Atomics.store, worker polls with Atomics.load, uses Atomics.wait for efficient blocking. Enables true parallel processing in JavaScript with proper synchronization.",
+      },
+      {
+        question: "Explain the concept of realms in JavaScript.",
+        solution:
+          "A realm is an execution environment containing global objects, built-in constructors, and intrinsic objects. Each realm has its own global object (window in browsers, global in Node.js) and separate copies of built-in objects like Array, Object, Function. Different realms exist in: iframes (each has separate realm), Web Workers, VM contexts in Node.js. Objects from different realms don't share prototypes - Array.isArray() from one realm won't recognize arrays from another. Use cases include sandboxing code execution, testing environments, and security isolation. In browsers, document.domain changes can affect realm boundaries.",
+      },
+      {
+        question: "Describe how the eval function works and its dangers.",
+        solution:
+          "eval() executes JavaScript code represented as a string in the current execution context. It has access to local variables and can modify them. Dangers include: Code injection attacks if user input is eval'd, performance issues (prevents optimization), debugging difficulties, scope pollution, and security vulnerabilities. Direct eval (eval()) executes in local scope; indirect eval (var e = eval; e()) executes in global scope. Alternatives: Function constructor for dynamic code, JSON.parse() for data, setTimeout/setInterval for delayed execution. Modern alternatives include dynamic imports, Web Workers for sandboxing, and proper parsing libraries for data transformation.",
+      },
+      {
+        question: "What is the difference between strict and sloppy mode?",
+        solution:
+          "Strict mode ('use strict';) enforces stricter parsing and error handling. Key differences: Variables must be declared (no implicit globals), assignment to non-writable properties throws errors, deleting variables/functions/arguments is forbidden, duplicate parameter names not allowed, 'this' in functions is undefined (not global object), octal literals forbidden, reserved words can't be used as identifiers. Strict mode prevents accidental globals, makes debugging easier, eliminates silent errors, and improves performance by enabling optimizations. Applied per-function or per-file. ES6 modules and classes automatically use strict mode. Legacy code might break when switching to strict mode.",
+      },
+      {
+        question: "Explain how to use dynamic import().",
+        solution:
+          "Dynamic import() loads ES modules asynchronously at runtime, returning a Promise. Syntax: import('./module.js').then(module => {}). Supports conditional loading, lazy loading, code splitting. Can import JSON with assert {type: 'json'}. Use cases: route-based code splitting, feature flags, loading polyfills. Supports dynamic module specifiers with template literals. Error handling via .catch() or try/catch with await. Enables tree-shaking at module level. Works in browsers and Node.js. Can be used in non-module scripts. Webpack and other bundlers create separate chunks for dynamically imported modules.",
+      },
+      {
+        question: "Describe the top-level await proposal.",
+        solution:
+          "Top-level await allows using await outside async functions in ES modules. Enables module initialization to be asynchronous - await fetch(), await import(), await database connections at module top level. Module evaluation becomes asynchronous, affecting dependent modules. Import graphs become async, with execution order preserved through dependency resolution. Use cases: configuration loading, feature detection, resource initialization. Performance considerations: blocking module initialization can delay application startup. Debugging complexity increases with async module graphs. Supported in modern browsers and Node.js 14.8+. Requires ES modules (type: 'module').",
+      },
+      {
+        question: "How do you implement a worker thread pool in Node.js?",
+        solution:
+          "Use Worker Threads with cluster module or custom pool. Create WorkerPool class managing array of Worker instances. Implement task queuing with Promise-based interface. Each worker runs separate V8 isolate with shared memory via SharedArrayBuffer or MessageChannel communication. Pool manages worker lifecycle: spawn workers on init, distribute tasks round-robin or least-busy, handle worker deaths/respawns. Use worker_threads module: new Worker(__filename), parentPort.postMessage(), worker.on('message'). Implement graceful shutdown, error handling, and resource cleanup. Consider CPU core count for pool size. Use cases: CPU-intensive tasks, parallel processing, avoiding main thread blocking.",
+      },
+      {
+        question:
+          "Explain the difference between setImmediate and process.nextTick.",
+        solution:
+          "process.nextTick() executes callback before any I/O events in the current phase of event loop. setImmediate() executes in check phase after I/O events. Execution order: nextTick queue → Promise microtasks → I/O callbacks → setImmediate. nextTick has higher priority and can starve I/O if used recursively. Use nextTick for API consistency (making async functions truly async), error handling, allowing object construction completion. Use setImmediate for breaking up CPU-intensive operations, ensuring I/O events process first. setTimeout(fn, 0) is similar to setImmediate but varies by system. Overusing nextTick can degrade performance by blocking I/O operations.",
+      },
+      {
+        question:
+          "Describe how to profile JavaScript performance in Chrome DevTools.",
+        solution:
+          "Use Performance tab for runtime profiling. Record performance during user interactions or page load. Analyze flame chart showing function call stack over time, identify bottlenecks via CPU usage, memory timeline. Memory tab for heap snapshots, allocation timeline, detecting memory leaks. Coverage tab shows unused JavaScript/CSS. Lighthouse for comprehensive audits. JavaScript Profiler API for programmatic profiling. Key metrics: First Contentful Paint, Time to Interactive, Main thread blocking time. Use performance.mark()/performance.measure() for custom metrics. Profile with CPU throttling to simulate slower devices. Network throttling for realistic conditions.",
+      },
+      {
+        question: "What are source maps and why are they important?",
+        solution:
+          "Source maps link minified/transpiled code back to original source for debugging. JSON files mapping generated positions to original positions, variable names, and source files. Enable debugging transpiled TypeScript, Babel output, minified code in original format. Generated via //# sourceMappingURL comment or SourceMap HTTP header. DevTools use source maps to show original code, set breakpoints, view variable names. Types: inline (embedded in file), external files (.map), eval source maps for webpack dev builds. Privacy concerns: expose original source code structure. Performance impact: large source maps slow debugging. Essential for production debugging without exposing unminified code.",
+      },
+      {
+        question: "Explain the concept of hot module replacement.",
+        solution:
+          "HMR updates JavaScript modules without full page refresh, preserving application state. Webpack HMR API: module.hot.accept() for self-accepting modules, module.hot.dispose() for cleanup. Development server injects HMR runtime that polls for changes via WebSocket. When modules change, HMR runtime fetches updated modules, executes them, updates module cache, calls accept handlers. Benefits: faster development iteration, preserved application state, improved developer experience. Challenges: state management complexity, circular dependencies, CSS updates easier than JavaScript. Framework integration: React Fast Refresh, Vue HMR. Requires proper module boundaries and state externalization for reliable updates.",
+      },
+      {
+        question: "Describe how tree-shaking works.",
+        solution:
+          "Tree-shaking eliminates unused JavaScript code via static analysis of ES module imports/exports. Bundlers analyze import/export statements to build dependency graph, mark used code, eliminate unused exports. Requires ES modules (static imports), side-effect-free modules. Package.json 'sideEffects: false' enables aggressive shaking. Dead code elimination at statement/function level. Challenges: dynamic imports, commonjs modules, polyfills, CSS imports. Webpack production mode enables tree-shaking. Rollup pioneered technique. Tools like PurgeCSS for unused CSS. Best practices: use named imports, avoid namespace imports, mark pure functions, configure babel to preserve ES modules.",
+      },
+      {
+        question: "Explain event bubbling vs capturing.",
+        solution:
+          "Event propagation has three phases: capturing (top-down from document to target), target phase, bubbling (bottom-up from target to document). addEventListener(event, handler, useCapture) - useCapture=true for capturing phase, false (default) for bubbling. Bubbling: event starts at target, travels up DOM tree. Capturing: event starts at document root, travels down to target. stopPropagation() halts propagation in current phase. stopImmediatePropagation() prevents other handlers on same element. Use cases: capturing for early event interception, bubbling for event delegation. Focus/blur events don't bubble (use focusin/focusout). Custom events can configure bubbling behavior.",
+      },
+      {
+        question: "What is event delegation and why is it useful?",
+        solution:
+          "Event delegation attaches event listeners to parent elements instead of individual child elements, leveraging event bubbling. Single listener handles events for multiple child elements using event.target to identify actual clicked element. Benefits: memory efficiency (fewer listeners), handles dynamically added elements automatically, simpler event management. Implementation: check event.target.matches(selector) or event.target.closest(selector). Use cases: table row clicks, dynamic lists, menu items. Performance: reduces memory usage, faster initial page load. Considerations: event.target vs event.currentTarget, ensure proper event types bubble, may need polyfills for older browsers.",
+      },
+      {
+        question:
+          "Describe the difference between preventDefault and stopPropagation.",
+        solution:
+          "preventDefault() cancels default browser behavior for events (form submission, link navigation, right-click menu) but allows propagation to continue. stopPropagation() halts event propagation through DOM tree but allows default behavior. stopImmediatePropagation() prevents other handlers on same element AND stops propagation. Use preventDefault() for custom form handling, keyboard shortcuts, drag-drop operations. Use stopPropagation() when child events shouldn't trigger parent handlers. Can use both together. passive: true listeners cannot call preventDefault(). returnValue = false in older IE. Consider accessibility when preventing defaults.",
+      },
+      {
+        question:
+          "What is the difference between DOMContentLoaded and load events?",
+        solution:
+          "DOMContentLoaded fires when HTML parsing completes and DOM tree is built, before images/stylesheets/subframes finish loading. 'load' event fires when entire page including all resources (images, CSS, scripts) completes loading. DOMContentLoaded: access DOM elements safely, attach event listeners, initialize JavaScript. Load event: access image dimensions, ensure all resources ready, final page setup. DOMContentLoaded fires first, then load. Script tags with defer attribute wait for DOMContentLoaded. Async scripts may execute before or after DOMContentLoaded. jQuery ready() equivalent to DOMContentLoaded. Use DOMContentLoaded for better performance, load only when truly needing all resources loaded.",
+      },
+      {
+        question:
+          "Describe the rendering pipeline (DOM, CSSOM, Render Tree, Layout, Paint, Composite).",
+        solution:
+          "1. DOM: Parse HTML into Document Object Model tree. 2. CSSOM: Parse CSS into CSS Object Model. 3. Render Tree: Combine DOM + CSSOM, exclude non-visual elements (head, display:none). 4. Layout (Reflow): Calculate position/size of elements, box model computation. 5. Paint: Fill in pixels for visual elements, text, colors, borders, shadows. 6. Composite: Combine painted layers respecting z-index, opacity, transforms. GPU acceleration for transforms, opacity. Layout triggers paint triggers composite. Optimization: minimize layout/paint, use transform/opacity for animations, layer promotion with will-change, avoid layout-inducing properties during animations.",
+      },
+      {
+        question: "What triggers reflow vs repaint?",
+        solution:
+          "Reflow (Layout): triggered by geometry changes - width/height, padding/margin, position, display, font-size, adding/removing DOM elements, scrolling, window resize. Forces recalculation of element positions/sizes, affects subsequent elements. Repaint (Paint): triggered by visual changes without geometry impact - color, background, visibility, outline, box-shadow. Reflow always triggers repaint, but repaint doesn't trigger reflow. Performance impact: reflow > repaint. Reading layout properties (offsetWidth, scrollTop) can force synchronous reflow. Modern browsers batch DOM changes to minimize reflows. Critical rendering path optimization focuses on minimizing both.",
+      },
+      {
+        question: "How do you minimize reflow and repaint?",
+        solution:
+          "Batch DOM changes: use DocumentFragment, modify elements offline, change className instead of individual styles. Use transform/opacity for animations (compositor-only properties). Read layout properties once, cache values. Use requestAnimationFrame for smooth animations. CSS containment (contain: layout/paint) isolates reflow scope. will-change property promotes elements to GPU layers. Avoid complex CSS selectors. Use CSS transforms for movement instead of changing position properties. Minimize DOM depth. Use absolute positioning to remove elements from normal flow. Virtual scrolling for large lists. CSS Grid/Flexbox over table layouts.",
+      },
+      {
+        question: "Explain CORS and how to handle pre-flight requests.",
+        solution:
+          "CORS (Cross-Origin Resource Sharing) allows controlled access to resources from different origins. Simple requests (GET, POST with simple headers) sent directly. Non-simple requests trigger preflight OPTIONS request checking Access-Control-Allow-Origin, Access-Control-Allow-Methods, Access-Control-Allow-Headers. Server responds with allowed origins, methods, headers. Browser caches preflight response per Access-Control-Max-Age. Credentials require Access-Control-Allow-Credentials: true + withCredentials: true. Handle preflight: respond to OPTIONS with appropriate headers, implement CORS middleware, configure server (Express cors(), nginx headers). Common issues: wildcard (*) not allowed with credentials, case-sensitive headers.",
+      },
+      {
+        question:
+          "Describe the difference between cookies, localStorage, and sessionStorage.",
+        solution:
+          "Cookies: sent with HTTP requests, 4KB limit, expiration dates, domain/path scope, secure/httpOnly flags, vulnerable to CSRF. localStorage: persistent client-side storage, ~5-10MB limit, origin-scoped, survives browser restart, synchronous API. sessionStorage: tab-scoped storage, cleared on tab close, same origin restriction, ~5-10MB limit. Use cookies for authentication tokens (httpOnly), localStorage for user preferences/cached data, sessionStorage for temporary tab state. Security: localStorage vulnerable to XSS, cookies can be httpOnly. APIs: document.cookie (cookies), localStorage.setItem/getItem, sessionStorage similar to localStorage. Storage events for cross-tab communication with localStorage.",
+      },
+      {
+        question:
+          "How do you detect if localStorage is available and writable?",
+        solution:
+          "Check availability: typeof Storage !== 'undefined' && 'localStorage' in window. Test writability by attempting write/read operation in try-catch block. Private browsing modes may throw on write attempts. Storage quota can be exceeded. Implementation: try { localStorage.setItem('test', '1'); localStorage.removeItem('test'); return true; } catch(e) { return false; }. Consider: quota exceeded errors, disabled storage, corrupt storage. Fallback strategies: use sessionStorage, in-memory storage object, cookies as last resort. Check storage events support for cross-tab sync. Modern browsers support StorageManager.estimate() for quota information.",
+      },
+      {
+        question: "Explain Content Security Policy (CSP).",
+        solution:
+          "CSP prevents XSS attacks by controlling resource loading sources via HTTP headers or meta tags. Directives: script-src (JavaScript sources), style-src (CSS), img-src (images), connect-src (AJAX/WebSocket). Values: 'self' (same origin), 'none', specific domains, 'unsafe-inline'/'unsafe-eval' (discouraged). Implementation: Content-Security-Policy header, Content-Security-Policy-Report-Only for testing. Nonce-based CSP for inline scripts. Hash-based CSP for static content. CSP reports violations to specified endpoint. Level 2 adds script-nonce, style-nonce. Level 3 adds strict-dynamic, worker-src. Challenges: third-party widgets, inline event handlers, eval() usage. Modern approach: strict CSP with nonces.",
+      },
       {
         question:
           "Can you provide an illustration of how ES6 has altered the approach to working with 'this' in JavaScript?",
@@ -2480,6 +7301,278 @@ export function myFunction() {
         solution: "",
         tags: [{ name: "array methods", link: "" }],
       },
+      {
+        question:
+          "Describe the difference between <script>, <script async>, and <script defer>.",
+        solution:
+          "Regular <script> tags block HTML parsing until the script downloads and executes. <script async> downloads scripts in parallel with HTML parsing but executes immediately when ready, potentially interrupting parsing. <script defer> downloads in parallel but waits to execute until HTML parsing is complete, maintaining script order. Use defer for scripts that depend on DOM or other scripts, async for independent analytics/tracking scripts, and regular scripts only when immediate execution is required.",
+      },
+      {
+        question: "How does the browser handle same-origin policy?",
+        solution:
+          "Same-origin policy restricts how documents/scripts from one origin can access resources from another origin. Origins match when protocol, domain, and port are identical. The policy blocks cross-origin requests for XMLHttpRequest/fetch, accessing iframe content, reading cookies/localStorage from other origins, and manipulating DOM of cross-origin windows. Exceptions include image/CSS/script tags (but not reading content), CORS-enabled requests, and postMessage API. Implement CORS headers (Access-Control-Allow-Origin) on server, use JSONP for legacy support, or proxy requests through same-origin endpoints.",
+      },
+      {
+        question: "Describe how to use window.postMessage securely.",
+        solution:
+          "Use postMessage to communicate between windows/iframes from different origins. Always specify target origin: `window.postMessage(data, 'https://trusted-domain.com')`, never use '*' wildcard. In receiver, validate message origin: `if (event.origin !== 'https://expected-domain.com') return;`. Validate message structure and sanitize data before use. Use structured data (JSON) and implement message type validation. Add nonce/timestamp to prevent replay attacks. Example: `parent.postMessage({type: 'AUTH_TOKEN', token: jwt, nonce: randomId}, 'https://parent.com')`. Always removeEventListener when component unmounts to prevent memory leaks.",
+      },
+      {
+        question:
+          "Explain the difference between target, currentTarget, and relatedTarget.",
+        solution:
+          "In event handling: `target` is the element that originally triggered the event (the actual clicked/focused element). `currentTarget` is the element the event listener is attached to (where event is currently being handled during bubbling/capturing). `relatedTarget` is used in focus/mouse events to reference the secondary element involved (e.g., element losing focus in focusout, element mouse came from in mouseenter). Example: clicking a span inside a div with listener on div - target=span, currentTarget=div. Use event.stopPropagation() to prevent bubbling, event.preventDefault() to cancel default behavior.",
+      },
+      {
+        question: "How do you implement a custom element in the browser?",
+        solution:
+          "Create custom elements by extending HTMLElement class and registering with customElements.define(). Define class with constructor, connectedCallback (when added to DOM), disconnectedCallback (when removed), attributeChangedCallback (when attributes change), and static observedAttributes getter. Example: `class MyButton extends HTMLElement { constructor() { super(); this.innerHTML = '<button>Custom</button>'; } connectedCallback() { this.addEventListener('click', this.handleClick); } } customElements.define('my-button', MyButton);`. Use shadow DOM for encapsulation, define CSS with :host selector, and implement proper attribute reflection for accessibility.",
+      },
+      {
+        question: "Describe the Shadow DOM.",
+        solution:
+          "Shadow DOM provides encapsulated DOM trees attached to elements, isolating styles and markup from the main document. Create with `element.attachShadow({mode: 'open'})` (accessible via shadowRoot) or 'closed' (private). Shadow tree has its own CSS scope - external styles don't leak in, internal styles don't leak out. Use :host pseudo-class to style the host element, ::slotted() for slotted content, and <slot> elements for content projection. Benefits include style isolation, component encapsulation, and avoiding global CSS conflicts. Native browser feature used by <video>, <input type='range'>, and web components.",
+      },
+      {
+        question: "Explain how to use Intersection Observer.",
+        solution:
+          "Intersection Observer asynchronously monitors when elements enter/exit viewport or intersect with ancestor elements. Create observer with callback and options: `new IntersectionObserver(callback, {root: null, rootMargin: '0px', threshold: [0, 0.5, 1]})`. Callback receives entries array with intersection data (isIntersecting, intersectionRatio, boundingClientRect). Use for lazy loading images, infinite scroll, animations on scroll, and tracking element visibility. Example: `observer.observe(targetElement)` to start monitoring, `observer.unobserve(element)` to stop. More performant than scroll event listeners as it runs asynchronously and batches DOM reads.",
+      },
+      {
+        question:
+          "How can you detect when an element enters or leaves the viewport?",
+        solution:
+          "Use Intersection Observer API for optimal performance: `const observer = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { console.log('Element entered viewport'); } else { console.log('Element left viewport'); } }); }); observer.observe(element);`. For legacy support, use getBoundingClientRect() with scroll events (throttled): `const rect = element.getBoundingClientRect(); const inViewport = rect.top >= 0 && rect.bottom <= window.innerHeight`. Consider rootMargin for triggering before element fully enters viewport. Modern approach uses Intersection Observer for better performance and battery life.",
+      },
+      {
+        question: "Describe the Resize Observer API.",
+        solution:
+          "Resize Observer monitors size changes of elements, providing a performant alternative to window resize events. Create observer: `new ResizeObserver((entries) => { entries.forEach(entry => { const {width, height} = entry.contentRect; console.log('Element resized:', width, height); }); })`. Observe elements with `observer.observe(element)`. Provides contentRect (content area), borderBoxSize, and contentBoxSize measurements. Fires when element's size changes due to CSS, content changes, or viewport changes. Use for responsive components, charts that need redrawing, and element-based responsive design. More efficient than polling with setInterval or relying on window.resize.",
+      },
+      {
+        question: "Explain how to use Web Components.",
+        solution:
+          "Web Components combine Custom Elements, Shadow DOM, and HTML Templates for reusable UI components. Create custom element class extending HTMLElement, use Shadow DOM for encapsulation, and HTML templates for markup. Example: `class UserCard extends HTMLElement { constructor() { super(); const shadow = this.attachShadow({mode: 'open'}); const template = document.getElementById('user-card-template'); shadow.appendChild(template.content.cloneNode(true)); } } customElements.define('user-card', UserCard);`. Use slots for content projection, CSS custom properties for theming, and lifecycle callbacks for initialization/cleanup. Provides framework-agnostic, reusable components with true encapsulation.",
+      },
+      {
+        question:
+          "What is the difference between visibilitychange and pagehide events?",
+        solution:
+          "visibilitychange fires when page visibility state changes (tab switching, minimizing, etc.) but page remains loaded. Check document.visibilityState ('visible'/'hidden'). pagehide fires when navigating away from page or closing tab - page is being unloaded. pagehide has persisted property indicating if page goes to back/forward cache. visibilitychange is useful for pausing videos/animations, stopping API polling when tab inactive. pagehide is for cleanup, saving data, sending analytics beacons. Use beforeunload for user confirmation before leaving. Modern approach: combine visibilitychange for state management and pagehide with Beacon API for reliable data transmission.",
+      },
+      {
+        question: "How do you handle focus trapping in modals?",
+        solution:
+          "Focus trapping keeps keyboard navigation within modal boundaries. Get all focusable elements: `modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex=\"-1\"])')`. Set initial focus to first element or modal itself. Listen for Tab/Shift+Tab keydown events: if on last element and Tab pressed, focus first element; if on first element and Shift+Tab pressed, focus last element. Restore focus to trigger element when modal closes. Use aria-hidden='true' on background content, aria-modal='true' on modal, and proper ARIA labeling. Consider focus-trap library for complex cases or implement custom solution with event delegation.",
+      },
+      {
+        question:
+          "Describe how to implement accessibility (ARIA) with JavaScript.",
+        solution:
+          "Use ARIA attributes to provide semantic meaning for assistive technologies. Key patterns: set aria-label/aria-labelledby for accessible names, aria-describedby for descriptions, role attributes for semantic meaning, aria-expanded for collapsible content, aria-selected for selections, aria-hidden to hide decorative elements. Manage focus programmatically with element.focus(), implement roving tabindex for complex widgets, announce dynamic changes with aria-live regions ('polite'/'assertive'). Example: `button.setAttribute('aria-expanded', isOpen.toString()); liveRegion.textContent = 'Menu opened';`. Test with screen readers, ensure keyboard navigation works, maintain logical tab order, and provide skip links for navigation.",
+      },
+      {
+        question: "Explain how to use the Beacon API.",
+        solution:
+          "Beacon API sends small amounts of data reliably to servers, especially useful during page unload when other requests might be cancelled. Use `navigator.sendBeacon(url, data)` which returns boolean indicating if request was queued. Data can be ArrayBuffer, Blob, DOMString, or FormData. Browsers automatically send beacon requests even after page unloads. Example: `window.addEventListener('pagehide', () => { navigator.sendBeacon('/analytics', JSON.stringify({event: 'page_exit', timestamp: Date.now()})); });`. Advantages: reliable delivery, doesn't block page unload, small performance impact. Limitations: no response handling, size limits (~64KB), GET/POST only.",
+      },
+      {
+        question: "Describe how to throttle scroll events.",
+        solution:
+          "Throttling limits function execution frequency to improve performance. Implement throttle function that ensures callback executes at most once per specified interval: `function throttle(func, delay) { let timeoutId; let lastExecTime = 0; return function(...args) { const currentTime = Date.now(); if (currentTime - lastExecTime > delay) { func.apply(this, args); lastExecTime = currentTime; } else { clearTimeout(timeoutId); timeoutId = setTimeout(() => { func.apply(this, args); lastExecTime = Date.now(); }, delay - (currentTime - lastExecTime)); } }; }`. Use with scroll: `window.addEventListener('scroll', throttle(handleScroll, 100))`. Consider requestAnimationFrame for smooth animations or passive event listeners for better performance.",
+      },
+      {
+        question: "Explain how to lazy-load images natively.",
+        solution:
+          "Use native lazy loading with `loading='lazy'` attribute: `<img src='image.jpg' loading='lazy' alt='description'>`. Browser automatically defers loading until image approaches viewport. For better control, combine with Intersection Observer: observe image elements, replace data-src with src when intersecting. Provide placeholder (low-quality image placeholder or CSS background) for better UX. Example: `<img data-src='full-image.jpg' src='placeholder.jpg' loading='lazy' onload='this.classList.add(\"loaded\")'>`. Support progressive enhancement: use loading='lazy' as baseline, enhance with JavaScript for older browsers. Consider aspect ratio boxes to prevent layout shift during loading.",
+      },
+      {
+        question: "Describe the difference between fetch and XMLHttpRequest.",
+        solution:
+          "fetch is modern Promise-based API with cleaner syntax and better error handling. XMLHttpRequest is older, callback-based API with more complex setup. fetch automatically handles JSON parsing with response.json(), supports async/await, and has better integration with modern JavaScript. XMLHttpRequest provides more granular control: upload progress events, synchronous requests (deprecated), broader browser support. fetch doesn't reject on HTTP error status (404, 500) - check response.ok. XMLHttpRequest requires manual JSON parsing and has verbose event handling. fetch supports Request/Response objects, streaming, and AbortController for cancellation. Use fetch for new projects, XMLHttpRequest only for legacy compatibility or specific requirements like upload progress tracking.",
+      },
+      {
+        question: "How do you cancel a fetch request?",
+        solution:
+          "Use AbortController to cancel fetch requests. Create controller: `const controller = new AbortController()`. Pass signal to fetch: `fetch(url, {signal: controller.signal})`. Cancel with `controller.abort()`. Handle cancellation: `fetch(url, {signal}).catch(err => { if (err.name === 'AbortError') { console.log('Request cancelled'); } })`. Useful for: cancelling previous requests in search-as-you-type, cleanup on component unmount, timeout implementation. Example: `const timeoutId = setTimeout(() => controller.abort(), 5000);`. Can abort multiple requests with same controller. Signal can be passed to multiple fetch calls for batch cancellation.",
+      },
+      {
+        question: "Explain how to use AbortController.",
+        solution:
+          "AbortController provides cancellation mechanism for asynchronous operations. Create instance: `const controller = new AbortController()`. Get signal: `controller.signal`. Pass signal to APIs supporting cancellation (fetch, addEventListener with {signal}). Cancel with `controller.abort(reason)`. Listen for cancellation: `signal.addEventListener('abort', () => console.log('Cancelled:', signal.reason))`. Check if cancelled: `signal.aborted`. Use cases: cancel fetch requests, remove event listeners automatically, timeout long operations, cleanup on component unmount. Example: `addEventListener('click', handler, {signal}); controller.abort(); // auto-removes listener`. Can create dependent signals with `AbortSignal.any([signal1, signal2])` for complex cancellation logic.",
+      },
+      {
+        question:
+          "What is functional programming and how does it differ from object-oriented programming?",
+        solution:
+          "Functional programming is a declarative paradigm that treats computation as evaluation of mathematical functions, avoiding state mutation and side effects. Key principles: immutability, pure functions, higher-order functions, and function composition. Differs from OOP by focusing on 'what to do' rather than 'how to do it' - data and functions are separate, state is immutable, and behavior is achieved through function composition rather than object methods. Benefits include easier testing, debugging, parallelization, and reasoning about code flow.",
+      },
+      {
+        question:
+          "Describe immutability and its benefits in JavaScript applications.",
+        solution:
+          "Immutability means data cannot be changed after creation; instead, operations return new data structures. In JS, use Object.freeze(), spread operators, or libraries like Immer/ImmutableJS. Benefits: predictable state changes, easier debugging (no hidden mutations), better performance with reference equality checks (React's shouldComponentUpdate), safe concurrent operations, time-travel debugging, simplified testing. Patterns: const data = {...oldData, newProp: value}, array.map() instead of array.push(), Object.assign() for updates.",
+      },
+      {
+        question:
+          "Explain the difference between imperative and declarative programming paradigms.",
+        solution:
+          "Imperative programming specifies HOW to do something step-by-step (procedural instructions), while declarative programming specifies WHAT you want to achieve (desired outcome). Imperative: for loops, manual DOM manipulation, explicit state management. Declarative: Array.map/filter/reduce, React JSX, SQL queries, CSS. Example: Imperative - 'for(i=0; i<arr.length; i++) if(arr[i]>5) result.push(arr[i])'. Declarative - 'arr.filter(x => x > 5)'. Declarative code is more readable, maintainable, and expressive of intent.",
+      },
+      {
+        question: "What is currying and when should you use it in JavaScript?",
+        solution:
+          "Currying transforms a function with multiple parameters into a sequence of functions each taking a single parameter. Implementation: const curry = f => a => b => f(a,b). Use cases: partial application for reusable functions, function composition pipelines, event handlers with preset parameters, configuration functions. Example: const add = a => b => a + b; const add5 = add(5); add5(3) = 8. Benefits: code reusability, better function composition, cleaner event handling, and creating specialized functions from general ones.",
+      },
+      {
+        question:
+          "Describe the concept of monads and their practical applications in JavaScript.",
+        solution:
+          "Monads are design patterns that wrap values and provide methods for chaining operations while handling context (errors, null values, async operations). Must implement 'of' (constructor) and 'flatMap/chain' (bind operation). JavaScript examples: Promise (async monad), Maybe monad for null handling, Either monad for error handling. Practical use: const result = Maybe(user).map(u => u.profile).map(p => p.email).getOrElse('No email'). Benefits: eliminates nested if-checks, provides clean error handling, enables functional composition with context.",
+      },
+      {
+        question:
+          "Explain reactive programming and Observables in modern JavaScript applications.",
+        solution:
+          "Reactive programming handles asynchronous data streams declaratively using Observables. Observable represents a stream of values over time, supporting operators like map, filter, merge, debounce. Key concepts: push-based (data flows to observers), composable operators, automatic cleanup. RxJS implementation: Observable.fromEvent(button, 'click').debounceTime(300).map(e => e.target.value). Benefits: handles complex async flows, manages subscriptions automatically, provides rich operator library, simplifies event handling and data transformation in reactive UIs.",
+      },
+      {
+        question:
+          "Describe the difference between hot and cold Observables and their use cases.",
+        solution:
+          "Cold Observables: unicast, start producing values when subscribed, each subscription gets independent execution. Examples: HTTP requests, file reads. Hot Observables: multicast, produce values regardless of subscriptions, all subscribers share the same execution. Examples: mouse events, WebSocket connections. Cold example: http.get() - each subscribe triggers new request. Hot example: fromEvent(document, 'click') - events happen regardless of subscribers. Use cold for data fetching, hot for shared events. Convert using share(), shareReplay(), or Subject.",
+      },
+      {
+        question:
+          "What is back-pressure in reactive streams and how do you handle it?",
+        solution:
+          "Back-pressure occurs when data producers emit faster than consumers can process, causing memory issues. Handling strategies: buffering (buffer operator with size limits), sampling (sample, throttle, debounce), dropping (throttleLatest, switchMap), pausing producers (pausable observables). RxJS solutions: buffer(100), throttleTime(1000), switchMap (cancels previous), exhaustMap (ignores new while processing). For real-time data: use sliding windows, prioritize recent values, implement circuit breakers, monitor queue sizes, and provide user feedback about data lag.",
+      },
+      {
+        question:
+          "Explain transducers and their advantages over traditional data processing chains.",
+        solution:
+          "Transducers are composable algorithmic transformations independent of input/output types. They separate transformation logic from data structure iteration. Implementation: const mapTransducer = f => reducer => (acc, x) => reducer(acc, f(x)). Advantages: single-pass processing (no intermediate collections), reusable across different data types (arrays, streams, channels), better performance for large datasets, composable transformations. Example: compose(map(x => x * 2), filter(x => x > 10), take(5)) can work on arrays, observables, or async iterators without creating intermediate arrays.",
+      },
+      {
+        question:
+          "Describe how to implement undo/redo functionality with immutable data structures.",
+        solution:
+          "Maintain a history stack of immutable states with current position pointer. Structure: {past: [...states], present: currentState, future: [...states]}. Undo: move present to future, pop from past. Redo: move present to past, pop from future. Implementation using Immer: const reducer = produce((draft, action) => { switch(action.type) { case 'UPDATE': draft.data = action.payload; break; }}). Optimize with structural sharing, limit history size, compress old states, and implement branching for complex scenarios. Libraries: Redux-undo, Immer with patches for efficient state tracking.",
+      },
+      {
+        question:
+          "Explain the difference between eager and lazy evaluation with JavaScript examples.",
+        solution:
+          "Eager evaluation computes expressions immediately when defined. Lazy evaluation defers computation until the value is actually needed. JavaScript is mostly eager, but supports lazy patterns. Eager: const result = expensiveCalculation(); // runs immediately. Lazy: const result = () => expensiveCalculation(); // runs when called. Lazy benefits: performance optimization, infinite data structures, conditional execution. Patterns: getter functions, generator functions (function* infinite() { let i = 0; while(true) yield i++; }), memoization, and proxy objects for computed properties.",
+      },
+      {
+        question:
+          "Describe how to use lenses for immutable updates in complex nested objects.",
+        solution:
+          "Lenses provide functional way to focus on and update nested data immutably. Composed of getter and setter functions. Implementation: const lens = (getter, setter) => ({get: getter, set: setter}). Example: const nameLens = lens(obj => obj.user.name, (obj, value) => ({...obj, user: {...obj.user, name: value}})). Libraries like Ramda provide lens utilities: R.lensPath(['user', 'profile', 'email']), R.view, R.set, R.over. Benefits: reusable update patterns, type-safe nested updates, composable transformations, clean separation of data access logic.",
+      },
+      {
+        question:
+          "Explain algebraic data types (ADT) in JavaScript and their practical applications.",
+        solution:
+          "ADTs define data types by combinations of other types. Sum types (union): Either = Left | Right. Product types: tuple/record combinations. JavaScript implementation using tagged unions: const Left = value => ({tag: 'Left', value}); const Right = value => ({tag: 'Right', value}). Pattern matching with switch statements or visitor pattern. Practical uses: error handling without exceptions, state machines, API response modeling, form validation. Libraries: folktale, sanctuary provide ADT implementations. Benefits: exhaustive case handling, type safety, expressive domain modeling.",
+      },
+      {
+        question:
+          "Describe the concept of higher-kinded types and their role in functional programming.",
+        solution:
+          "Higher-kinded types are types that take other types as parameters (type constructors). Examples: Array<T>, Promise<T>, Option<T>. Enable generic programming over type constructors. In TypeScript: interface Functor<F> { map<A, B>(fa: F<A>, f: (a: A) => B): F<B> }. Applications: implementing common patterns (Functor, Monad, Applicative) across different container types, creating reusable abstractions, type-safe generic functions. JavaScript simulation through conventions and libraries like fp-ts. Benefits: code reuse across similar patterns, abstract mathematical concepts, type-safe generic operations.",
+      },
+      {
+        question:
+          "Explain the difference between declarative and imperative DOM updates in modern frameworks.",
+        solution:
+          "Imperative DOM: direct manipulation using createElement, appendChild, setAttribute - you specify each step. Declarative DOM: describe desired UI state, framework handles updates - you specify the outcome. Imperative: document.getElementById('list').appendChild(newItem). Declarative: <ul>{items.map(item => <li key={item.id}>{item.name}</li>)}</ul>. Declarative benefits: Virtual DOM diffing, predictable updates, easier debugging, better performance through batching. Frameworks like React, Vue use declarative syntax but optimize with imperative DOM operations under the hood via reconciliation algorithms.",
+      },
+      {
+        question:
+          "How do micro-frontends communicate across different JavaScript frameworks?",
+        solution:
+          "Communication strategies: 1) Custom Events - window.dispatchEvent(new CustomEvent('data', {detail: payload})); 2) Shared state management - Redux store, MobX, or Zustand across frameworks; 3) Module Federation - Webpack 5 sharing dependencies and components; 4) Pub/Sub messaging - EventEmitter or libraries like mitt; 5) Props drilling through framework wrappers; 6) Browser APIs - localStorage, sessionStorage, BroadcastChannel; 7) URL-based communication - query params, hash routing. Best practices: define clear contracts, version APIs, handle framework lifecycle differences, implement error boundaries.",
+      },
+      {
+        question:
+          "Describe comprehensive strategies to reduce JavaScript bundle size in production applications.",
+        solution:
+          "Bundle optimization strategies: 1) Tree shaking - eliminate dead code using ES modules and tools like webpack/rollup; 2) Code splitting - dynamic imports, route-based splitting, vendor chunk separation; 3) Minification - Terser for JS, cssnano for CSS; 4) Compression - gzip/brotli at server level; 5) Library optimization - use lightweight alternatives (date-fns vs moment), import specific functions; 6) Asset optimization - image compression, SVG optimization, font subsetting; 7) Bundle analysis - webpack-bundle-analyzer, source-map-explorer; 8) Polyfill optimization - differential serving, dynamic polyfill loading; 9) Module federation for shared dependencies.",
+      },
+      {
+        question:
+          "Explain code-splitting strategies and their impact on application performance.",
+        solution:
+          "Code-splitting divides bundles into smaller chunks loaded on-demand. Strategies: 1) Route-based splitting - React.lazy(() => import('./Component')); 2) Component-based splitting - lazy load heavy components; 3) Vendor splitting - separate third-party libraries; 4) Feature-based splitting - group related functionality. Performance impacts: reduced initial bundle size, faster First Contentful Paint, improved Time to Interactive, better caching (unchanged chunks remain cached). Implementation: dynamic imports with loading states, preloading critical routes, prefetching likely-needed chunks, proper error boundaries for failed chunk loads.",
+      },
+      {
+        question:
+          "How do you handle async concurrency in large-scale single-page applications?",
+        solution:
+          "Concurrency management approaches: 1) Promise coordination - Promise.all(), Promise.allSettled(), Promise.race() for parallel operations; 2) Async/await with proper error handling and cancellation; 3) Request deduplication - cache identical requests, implement request queue; 4) Throttling/debouncing - limit API calls, batch operations; 5) Worker threads - Web Workers for CPU-intensive tasks; 6) State management - Redux-Saga, Redux-Thunk for complex async flows; 7) Cancellation tokens - AbortController for request cancellation; 8) Circuit breakers - handle service failures gracefully; 9) Optimistic updates with rollback mechanisms; 10) Connection pooling and retry strategies with exponential backoff.",
+      },
+      {
+        question:
+          "Describe how to implement an event-driven architecture in the browser.",
+        solution:
+          "Implement using EventTarget API or custom event emitter. Create a central event bus using EventTarget for global communication: `const eventBus = new EventTarget()`. Use `addEventListener()` for subscriptions and `dispatchEvent()` for publishing. For component communication, implement publisher-subscriber pattern with namespaced events. Use custom events with `new CustomEvent('user:login', {detail: userData})`. Implement event delegation for DOM events to reduce memory usage. Add middleware pattern for event processing, logging, and validation. Use WeakMap for private event handlers to prevent memory leaks. Consider using libraries like EventEmitter3 for Node.js compatibility or implement reactive streams with RxJS for complex event flows.",
+      },
+      {
+        question: "Explain how to scale WebSocket connections in Node.js.",
+        solution:
+          "Scale using cluster module with sticky sessions via socket.io-redis adapter. Implement horizontal scaling with Redis pub/sub for cross-server communication: `io.adapter(redisAdapter({host: 'redis-server', port: 6379}))`. Use PM2 cluster mode with sticky sessions enabled. Implement connection pooling and rate limiting per client. Use WebSocket heartbeat/ping-pong to detect dead connections. Implement graceful shutdown with connection draining. Use load balancer with consistent hashing based on session ID. Monitor connection count per process and auto-scale based on thresholds. Implement message queuing for offline users. Use Redis Streams for persistent message delivery. Consider using specialized WebSocket servers like Socket.IO with multiple transport fallbacks.",
+      },
+      {
+        question:
+          "Describe how to implement server-side rendering (SSR) and hydration.",
+        solution:
+          "Implement SSR using frameworks like Next.js or custom setup with React/Vue renderToString. Server renders initial HTML: `ReactDOMServer.renderToString(<App />)`. Send pre-rendered HTML with embedded initial state in script tag. Client-side hydration matches server-rendered DOM: `ReactDOM.hydrate(<App />, document.getElementById('root'))`. Ensure component state consistency between server and client. Use `useEffect` for client-only code. Implement data fetching strategies: getServerSideProps, getStaticProps, or custom async data loading. Handle hydration mismatches with suppressHydrationWarning. Use streaming SSR for better TTFB: `renderToPipeableStream`. Implement progressive hydration for large applications. Use service workers for SSR caching. Consider static site generation (SSG) for better performance.",
+      },
+      {
+        question:
+          "Explain how to measure and improve Time-to-Interactive (TTI).",
+        solution:
+          "Measure TTI using Performance Observer API: `new PerformanceObserver((list) => {...}).observe({entryTypes: ['navigation', 'paint', 'largest-contentful-paint']})`. Use Lighthouse programmatically or Web Vitals library: `import {getTTI} from 'web-vitals'`. TTI occurs when main thread is quiet for 5s after First Contentful Paint. Improve by code splitting with dynamic imports: `const Component = lazy(() => import('./Component'))`. Implement resource prioritization with `<link rel=preload>`. Reduce JavaScript bundle size using tree shaking and dead code elimination. Use Web Workers for heavy computations. Implement progressive loading with Intersection Observer. Optimize critical rendering path by inlining critical CSS. Use service workers for caching strategies. Implement lazy loading for images and components. Monitor TTI in production with RUM tools.",
+      },
+      {
+        question: "Describe how to implement feature flags in JavaScript.",
+        solution:
+          "Create feature flag service with configuration management: `class FeatureFlags { constructor(config) { this.flags = config; } isEnabled(flag, userId) { return this.evaluate(flag, userId); } }`. Implement evaluation logic with user targeting, percentage rollouts, and A/B testing. Use localStorage for client-side caching with TTL. Implement real-time flag updates using WebSockets or polling. Create React hook: `const useFeatureFlag = (flag) => { const [enabled, setEnabled] = useState(false); /* logic */ return enabled; }`. Support different flag types: boolean, string, number, JSON. Implement flag inheritance and dependencies. Use environment-based configuration. Add flag analytics and usage tracking. Implement gradual rollout with percentage-based targeting. Consider using services like LaunchDarkly or implement custom solution with Redis for flag storage.",
+      },
+      {
+        question: "Explain how to safely perform A/B testing in JavaScript.",
+        solution:
+          "Implement deterministic user assignment using hash-based bucketing: `function getBucket(userId, testId) { return hash(userId + testId) % 100; }`. Ensure statistical significance with proper sample sizes and duration. Use stable user identification (user ID, session ID, or fingerprinting). Implement test configuration with start/end dates, traffic allocation, and success metrics. Create isolation between tests to prevent interactions. Track conversion events: `analytics.track('conversion', {testId, variant, userId})`. Implement server-side validation for critical tests. Use progressive rollout starting with small percentages. Store test data in separate namespace to avoid data pollution. Implement real-time monitoring for performance regressions. Use statistical analysis libraries for result interpretation. Ensure GDPR compliance with consent management. Consider using platforms like Optimizely or Google Optimize.",
+      },
+      {
+        question: "How do you detect dark-mode preference?",
+        solution:
+          "Use CSS media query: `const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches`. Listen for changes: `window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => { setDarkMode(e.matches); })`. Implement user override with localStorage: `const userPreference = localStorage.getItem('theme'); const systemPreference = window.matchMedia('(prefers-color-scheme: dark)').matches; const darkMode = userPreference === 'dark' || (userPreference === null && systemPreference)`. Create theme context in React: `const ThemeContext = createContext()`. Apply theme classes dynamically: `document.documentElement.classList.toggle('dark', isDarkMode)`. Use CSS custom properties for theme variables. Implement smooth transitions between themes. Consider system theme changes during user session. Provide manual theme toggle with three states: light, dark, system.",
+      },
+      {
+        question:
+          "Explain the difference between globalThis, window, and global.",
+        solution:
+          "globalThis is the standardized cross-platform global object available in all JavaScript environments (browsers, Node.js, Web Workers). window exists only in browser main thread, referencing the browser window object with DOM APIs. global exists only in Node.js as the global namespace. Use globalThis for universal code: `const globalObject = globalThis`. In browsers: `globalThis === window === self` (in main thread). In Node.js: `globalThis === global`. In Web Workers: `globalThis === self`. For polyfill compatibility: `const globalObj = (() => { if (typeof globalThis !== 'undefined') return globalThis; if (typeof window !== 'undefined') return window; if (typeof global !== 'undefined') return global; if (typeof self !== 'undefined') return self; })()`. Use globalThis for isomorphic libraries and universal JavaScript code.",
+      },
+      {
+        question: "Describe how to use Intl for internationalization.",
+        solution:
+          "Use Intl.DateTimeFormat for dates: `new Intl.DateTimeFormat('en-US', {year: 'numeric', month: 'long', day: 'numeric'}).format(date)`. Format numbers: `new Intl.NumberFormat('de-DE', {style: 'currency', currency: 'EUR'}).format(1234.56)`. Use Intl.Collator for string comparison: `new Intl.Collator('en', {numeric: true}).compare('item2', 'item10')`. Implement relative time: `new Intl.RelativeTimeFormat('en', {numeric: 'auto'}).format(-1, 'day')`. Use Intl.ListFormat: `new Intl.ListFormat('en', {style: 'long', type: 'conjunction'}).format(['Apple', 'Orange', 'Banana'])`. Handle pluralization: `new Intl.PluralRules('en-US').select(count)`. Use Intl.Locale for locale manipulation: `new Intl.Locale('en-US-u-ca-buddhist')`. Implement message formatting with ICU syntax. Cache formatters for performance: `const dateFormatter = new Intl.DateTimeFormat(locale, options)`. Detect user locale: `navigator.language || navigator.languages[0]`.",
+      },
+      {
+        question: "Explain how to use structuredClone.",
+        solution:
+          "structuredClone() creates deep copies of JavaScript values including complex objects, arrays, and supported built-in types: `const cloned = structuredClone(original)`. Supports Date, RegExp, Map, Set, ArrayBuffer, and typed arrays. Handles circular references automatically: `const obj = {a: 1}; obj.self = obj; const clone = structuredClone(obj)`. Transfer ownership of transferable objects: `structuredClone(value, {transfer: [arrayBuffer]})`. Throws errors for non-cloneable values like functions, DOM nodes, or symbols. Use for deep copying complex state: `const newState = structuredClone(currentState)`. More reliable than JSON.parse(JSON.stringify()) which loses functions, undefined, symbols, and Date objects. Polyfill for older browsers using libraries or custom implementation. Performance consideration: slower than shallow copying but handles complex nested structures safely. Ideal for Redux state updates, message passing between workers, and data serialization.",
+      },
+      {
+        question: "Describe how to use import.meta.",
+        solution:
+          "import.meta provides module metadata in ES modules. Access current module URL: `import.meta.url` returns file:// or http:// URL. In Vite: `import.meta.env.VITE_API_URL` accesses environment variables. Dynamic imports with relative paths: `import.meta.resolve('./module.js')` resolves module path. In Node.js: `import.meta.dirname` and `import.meta.filename` (Node 20.11+). Create URLs relative to module: `new URL('./asset.png', import.meta.url)`. In bundlers, access build-time information: `import.meta.glob('./components/*.vue')` for dynamic imports. Hot Module Replacement: `if (import.meta.hot) { import.meta.hot.accept() }`. Access webpack chunk information: `import.meta.webpackChunkName`. Only available in ES modules, not CommonJS. Use for module-relative asset loading, environment configuration, and build-time optimizations. Browser support requires ES2020+ or module bundler transpilation.",
+      },
     ],
   },
   {
@@ -2494,6 +7587,2223 @@ export function myFunction() {
     prepareLink: "", // Our own links :Preparation
     externallinks: [],
     questions: [
+      {
+        question:
+          "Draw the exact phases of the Node.js event loop and explain where setTimeout, setImmediate, I/O callbacks, and close callbacks are executed.",
+        solution:
+          "Node.js event loop has 6 phases in order: 1) Timer phase - executes setTimeout/setInterval callbacks whose threshold has elapsed. 2) Pending callbacks - executes I/O callbacks deferred from previous iteration. 3) Idle/prepare - internal Node.js use only. 4) Poll phase - fetches new I/O events, executes I/O callbacks (except close, timers, setImmediate). If no timers and poll queue empty, waits for new connections/requests. 5) Check phase - executes setImmediate callbacks. 6) Close callbacks - executes close event callbacks (socket.on('close')). Between each phase, process.nextTick queue and Promise microtasks are drained completely before moving to next phase. This ensures microtasks have higher priority than any phase callbacks.",
+      },
+      {
+        question: "Why can a resolved Promise starve the I/O queue?",
+        solution:
+          "Resolved Promises execute in the microtask queue, which has higher priority than the macrotask queue containing I/O callbacks. After each macrotask (I/O callback), the entire microtask queue must be drained before processing the next macrotask. If Promises continuously add new microtasks (e.g., Promise.resolve().then(() => Promise.resolve().then(...))), the microtask queue never empties, preventing I/O callbacks from executing. This creates starvation where network requests, file operations, and timers are blocked indefinitely. The event loop cannot proceed to the next iteration until all microtasks complete.",
+      },
+      {
+        question:
+          "Describe micro-task starvation mitigation strategies used in Chromium.",
+        solution:
+          "Chromium implements several mitigation strategies: 1) Microtask checkpoint limits - limits consecutive microtasks processed before yielding to other tasks. 2) Time-slicing - if microtask processing exceeds a time threshold (typically 5ms), yields to macrotasks. 3) Task interleaving - after processing a certain number of microtasks, allows one macrotask to execute. 4) Priority aging - gradually increases priority of starved macrotasks. 5) Render-blocking prevention - ensures rendering tasks can interrupt long microtask sequences to maintain 60fps. 6) User input prioritization - input events can preempt microtask processing to maintain responsiveness. These mechanisms ensure critical browser functions (rendering, input handling) aren't blocked by runaway microtasks.",
+      },
+      {
+        question: "Explain how process.nextTick is implemented in libuv.",
+        solution:
+          "process.nextTick is actually implemented in Node.js JavaScript layer, not directly in libuv. Node.js maintains a nextTickQueue array that's processed before the microtask queue. When process.nextTick(callback) is called, the callback is pushed to this array. At the start of each event loop iteration and between each phase, Node.js checks and drains the nextTickQueue completely before processing microtasks. The implementation uses a while loop that continues until the queue is empty. process.nextTick has higher priority than Promise microtasks. If nextTick callbacks recursively add more nextTick callbacks, it can starve the entire event loop. Node.js includes a warning system when too many nextTick callbacks are queued.",
+      },
+      {
+        question:
+          "How does the browser's rendering step integrate with the event-loop?",
+        solution:
+          "Browser rendering is integrated as a high-priority task in the event loop with specific timing constraints: 1) After processing all available macrotasks and microtasks, the browser checks if rendering is needed (typically 60fps = 16.67ms intervals). 2) Rendering pipeline includes: style calculation, layout, paint, composite layers. 3) requestAnimationFrame callbacks execute before rendering but after microtasks. 4) Rendering can be skipped if frame budget exceeded or tab not visible. 5) IntersectionObserver and ResizeObserver callbacks fire during rendering phase. 6) Browser prioritizes rendering over lower-priority tasks to maintain 60fps. 7) Long tasks are interrupted to allow rendering, implementing cooperative scheduling. The rendering step has higher priority than most macrotasks but lower than user input events.",
+      },
+      {
+        question:
+          "Why does a long-running async function not block the loop, yet an infinite while(true) does?",
+        solution:
+          "The key difference is yielding control: 1) Async functions yield control at await points. When encountering await, the function pauses, returns a Promise, and yields control back to the event loop. The event loop can then process other tasks. When the awaited Promise resolves, the async function resumes from where it left off. 2) An infinite while(true) loop runs synchronously without any yield points. It continuously executes on the same call stack frame, never returning control to the event loop. No other tasks can be processed until the loop completes (which never happens). 3) Even a long-running async function with many await calls allows interleaving of other tasks between await points. 4) To make a CPU-intensive while loop non-blocking, you need to manually yield using setTimeout(..., 0) or setImmediate() periodically.",
+      },
+      {
+        question:
+          "Describe how Node.js uses a thread-pool for file-system operations while keeping JS single-threaded.",
+        solution:
+          "Node.js uses libuv's thread pool for I/O operations while maintaining JavaScript single-threading: 1) When fs.readFile() is called, Node.js delegates the actual file reading to a worker thread from libuv's thread pool (default size: 4 threads, configurable via UV_THREADPOOL_SIZE). 2) The JavaScript thread continues executing other code without blocking. 3) Worker thread performs the blocking file operation. 4) Once complete, the worker thread places the result and callback into a completion queue. 5) During the Poll phase of the event loop, Node.js checks the completion queue and executes callbacks on the main JavaScript thread. 6) This pattern applies to all file system operations, DNS lookups, and some crypto operations. 7) Network I/O uses OS-level async mechanisms (epoll, kqueue) and doesn't need thread pool. JavaScript remains single-threaded while I/O operations run in parallel on background threads.",
+      },
+      {
+        question: "Explain priority inversion risks with micro-tasks.",
+        solution:
+          "Priority inversion occurs when high-priority tasks are delayed by lower-priority microtasks: 1) User input events (high priority) can be blocked by Promise chains or process.nextTick callbacks (lower priority conceptually but higher in event loop priority). 2) Critical rendering tasks may be delayed by extensive microtask processing, causing frame drops. 3) Timer callbacks can be significantly delayed if microtasks continuously spawn more microtasks. 4) Real-world example: A user click handler might be delayed by hundreds of milliseconds due to a runaway Promise chain from an analytics library. 5) Mitigation strategies include: limiting microtask queue size, time-slicing microtask processing, using MessageChannel for lower-priority work, implementing task scheduling APIs with explicit priorities. 6) Node.js warns when nextTick queue grows too large. 7) Proper async patterns should yield control regularly using setTimeout or setImmediate for CPU-intensive work.",
+      },
+      {
+        question:
+          "How do MessagePort and MessageChannel bypass the event-loop?",
+        solution:
+          "MessagePort and MessageChannel don't truly bypass the event loop but provide a different task scheduling mechanism: 1) MessageChannel creates two linked MessagePorts that can communicate. 2) Messages sent via port.postMessage() are queued as macrotasks, not microtasks. 3) This provides a way to schedule lower-priority work that won't starve I/O or rendering. 4) Unlike Promise microtasks, MessagePort messages are processed one per event loop iteration, allowing other tasks to interleave. 5) Used internally by browsers for scheduling work that should yield to higher-priority tasks. 6) React's Scheduler uses MessageChannel for time-slicing and yielding to browser rendering. 7) MessagePort can transfer data between different contexts (workers, iframes) while maintaining proper task scheduling. 8) In Node.js, MessagePort provides communication between main thread and worker threads, with messages processed as regular tasks in the event loop.",
+      },
+      {
+        question:
+          "Describe what happens when a micro-task adds another micro-task ad infinitum.",
+        solution:
+          "When microtasks recursively add more microtasks infinitely, it creates a microtask starvation scenario: 1) The microtask queue never empties because each processed microtask adds a new one. 2) The event loop cannot proceed to the next macrotask or rendering phase until all microtasks are processed. 3) This blocks: timer callbacks, I/O operations, user input handling, rendering updates. 4) In browsers: UI becomes unresponsive, animations freeze, pages become uninteractable. Memory usage increases as microtask queue grows. 5) In Node.js: HTTP servers stop responding, file operations are delayed, process appears hung. 6) Modern engines implement safeguards: maximum microtask queue length warnings, time-based interruption of microtask processing, emergency yielding mechanisms. 7) Detection pattern: const runInfinite = () => Promise.resolve().then(runInfinite); 8) Prevention: limit recursive async operations, use setTimeout for yielding, implement proper error handling and termination conditions.",
+      },
+      {
+        question:
+          "Explain the difference between a task and a micro-task in the HTML spec.",
+        solution:
+          "The HTML spec defines tasks and microtasks with distinct characteristics: TASKS (Macrotasks): 1) Queued in task queues, processed one per event loop iteration. 2) Include: setTimeout/setInterval callbacks, I/O events, user input events, rendering tasks. 3) Allow yielding between tasks for rendering and other high-priority work. 4) Have multiple task queues with different priorities. MICROTASKS: 1) Processed in a single microtask queue with FIFO ordering. 2) All microtasks must be processed before the next task. 3) Include: Promise.then/catch/finally callbacks, queueMicrotask(), MutationObserver callbacks. 4) Cannot be interrupted - entire queue must drain. EVENT LOOP INTEGRATION: After processing one task, drain all microtasks, then optionally render, then process next task. This ensures Promises resolve before other asynchronous operations but can cause starvation if microtasks continuously add more microtasks.",
+      },
+      {
+        question:
+          "Describe how requestIdleCallback integrates with the browser event-loop.",
+        solution:
+          "requestIdleCallback schedules work during browser idle periods: 1) Executes during idle time after completing tasks, microtasks, and rendering within a 16.67ms frame. 2) Provides IdleDeadline object with timeRemaining() method indicating available idle time. 3) Can specify timeout for maximum delay before forced execution. 4) Automatically yields if frame budget exceeded or higher-priority work arrives. 5) Integration points: After rendering phase, before next task processing, during frame idle periods. 6) Use cases: non-critical analytics, prefetching resources, background computations, cleanup operations. 7) Limitations: Not available in all browsers, can be cancelled by higher-priority work, limited to main thread only. 8) Best practices: Keep callbacks short (<5ms), check timeRemaining() frequently, use timeout for important work, avoid DOM modifications that trigger layout. 9) Alternative: scheduler.postTask() with 'background' priority provides similar functionality with better control.",
+      },
+      {
+        question: "How is the call-stack reconstructed after an await?",
+        solution:
+          "Call stack reconstruction after await involves complex state management: 1) BEFORE AWAIT: JavaScript engine captures the current execution context, including local variables, scope chain, and program counter position. 2) STATE PRESERVATION: The async function's state is stored in a Promise's internal slot, including variable values and the exact line where await occurred. 3) STACK UNWINDING: The call stack unwinds completely after await, allowing other code to execute. The async function is no longer on the call stack. 4) PROMISE RESOLUTION: When the awaited Promise resolves, a microtask is queued containing the continuation. 5) STACK RECONSTRUCTION: The microtask callback restores the saved execution context, recreating local variables and resuming execution from the exact point after await. 6) OPTIMIZATIONS: Modern engines use hidden classes and inline caching to efficiently restore state. Some engines keep 'async frames' for better debugging. 7) This mechanism enables millions of concurrent async operations without consuming stack space for each suspended function.",
+      },
+      {
+        question: "Explain time-slicing in React's concurrent renderer.",
+        solution:
+          "React's time-slicing implements cooperative scheduling to maintain responsiveness: 1) WORK UNITS: React breaks rendering work into small units that can be paused and resumed. 2) YIELDING MECHANISM: Uses MessageChannel to schedule work as macrotasks, allowing browser rendering and user input between units. 3) TIME BUDGETS: Allocates ~5ms time slices for React work, yielding control if exceeded. 4) PRIORITY LEVELS: Implements 5 priority levels (Immediate, UserBlocking, Normal, Low, Idle) with different urgency. 5) INTERRUPTION: Higher-priority updates can interrupt lower-priority work, discarding and restarting if necessary. 6) RESUMPTION: Paused work resumes from where it left off using React's fiber architecture. 7) BENEFITS: Prevents blocking the main thread, maintains 60fps animations, keeps input responsive during heavy renders. 8) IMPLEMENTATION: scheduler.postTask() or MessageChannel for yielding, performance.now() for time tracking, priority queues for work management. 9) Trade-offs: Increased complexity, slightly slower total render time, but much better perceived performance.",
+      },
+      {
+        question: "Describe libuv's dynamic thread-pool sizing.",
+        solution:
+          "Libuv uses a fixed-size thread pool, not dynamic sizing by default: 1) DEFAULT SIZE: 4 threads (configurable via UV_THREADPOOL_SIZE environment variable). 2) FIXED ALLOCATION: All threads are created at startup and persist for the process lifetime. 3) WORK DISTRIBUTION: Uses a work queue where idle threads pick up tasks FIFO. 4) BLOCKING BEHAVIOR: If all threads are busy, new I/O operations queue until a thread becomes available. 5) SIZING CONSIDERATIONS: Too few threads = I/O operations block each other. Too many threads = excessive context switching overhead. 6) OPTIMAL SIZE: Generally CPU core count for CPU-bound tasks, higher (10-20) for I/O-bound tasks. 7) CUSTOM POOLS: Some operations (like fs.readdir with many files) can create temporary additional threads. 8) MONITORING: Use process.env.UV_THREADPOOL_SIZE and async_hooks to monitor thread pool utilization. 9) Unlike some systems, libuv prioritizes predictable performance over dynamic adaptation. This design ensures consistent latency characteristics.",
+      },
+      {
+        question:
+          "How does Node.js handle uncaught promise rejections inside the event-loop?",
+        solution:
+          "Node.js has evolved its handling of uncaught Promise rejections: 1) DETECTION: Tracks Promises that reject without .catch() handlers or try/catch in async functions. 2) WARNING MODE (current default): Emits 'unhandledRejection' event and prints warning to stderr, but continues execution. 3) STRICT MODE (future default): Will terminate process with exit code 1, similar to uncaught exceptions. 4) EVENT HANDLING: process.on('unhandledRejection', handler) allows custom handling. 5) TIMING: Rejections are checked at the end of each event loop iteration using process.nextTick. 6) GRACE PERIOD: If a .catch() is added in the same event loop tick, the rejection is considered handled. 7) FLAGS: --unhandled-rejections=strict/warn/none controls behavior. 8) BEST PRACTICES: Always handle Promise rejections, use process event handlers for logging, implement proper error boundaries. 9) DEBUGGING: Use --trace-warnings and --trace-uncaught flags for debugging rejection sources. 10) The shift toward strict mode encourages better error handling practices.",
+      },
+      {
+        question: "Explain how async_hooks track asynchronous context.",
+        solution:
+          "async_hooks provides detailed tracking of asynchronous resource lifecycle: 1) ASYNC RESOURCES: Each async operation creates a resource with unique asyncId and triggerAsyncId linking it to its parent. 2) LIFECYCLE HOOKS: init() - called when resource created, before() - called before callback execution, after() - called after callback execution, destroy() - called when resource garbage collected. 3) CONTEXT PROPAGATION: triggerAsyncId creates a chain showing how async operations spawn from each other. 4) EXECUTION CONTEXT: executionAsyncId() returns current async context ID during callback execution. 5) RESOURCE TYPES: Tracks Promises, Timeouts, file operations, HTTP requests, TCP connections, etc. 6) PERFORMANCE OVERHEAD: Significant performance impact when enabled (5-10x slower), only use for debugging. 7) USE CASES: APM tools for request tracing, debugging async flow, implementing async local storage. 8) ASYNC LOCAL STORAGE: Built on async_hooks, provides context-aware storage across async operations. 9) Implementation detail: Uses V8's continuation context to maintain async chains even through Promise transformations.",
+      },
+      {
+        question: "Describe UV_THREADPOOL_SIZE trade-offs.",
+        solution:
+          "UV_THREADPOOL_SIZE involves careful trade-offs between performance and resource usage: 1) LOW VALUES (1-4): Advantages: Lower memory usage, reduced context switching overhead, simpler debugging. Disadvantages: I/O operations block each other, poor utilization of multi-core systems, potential bottleneck for concurrent file operations. 2) HIGH VALUES (10-128): Advantages: Better I/O concurrency, improved throughput for I/O-heavy applications, better utilization of available cores. Disadvantages: Higher memory overhead (~8MB per thread), increased context switching costs, potential thread exhaustion on busy systems. 3) OPTIMAL SIZING: CPU-bound I/O: 1-2x CPU cores. I/O-bound operations: 4-8x CPU cores. Mixed workloads: Start with 4, monitor and adjust. 4) MONITORING: Track thread pool queue depth, I/O latency, CPU utilization. 5) WORKLOAD DEPENDENCY: File operations benefit from higher values, crypto operations may not. 6) SYSTEM LIMITS: Consider OS thread limits, available memory, other applications. Modern recommendation: 4-16 threads for most applications, with monitoring to optimize for specific workloads.",
+      },
+      {
+        question: "Why does setTimeout(..., 0) still yield to I/O?",
+        solution:
+          "setTimeout(..., 0) yields to I/O due to Node.js event loop phase ordering and minimum timer delays: 1) PHASE ORDER: Timers phase comes before Poll phase where I/O callbacks execute. However, if I/O is already pending when timer phase runs, those I/O callbacks execute first. 2) MINIMUM DELAY: setTimeout has minimum 1ms delay (not truly 0), so pending I/O operations that are ready immediately can execute first. 3) POLL PHASE BLOCKING: If no timers are ready and I/O callbacks are available, the Poll phase processes them before checking timers again. 4) IMPLEMENTATION DETAIL: libuv checks for ready I/O before processing expired timers within the same loop iteration. 5) YIELDING MECHANISM: setImmediate() is designed to yield to I/O more predictably by executing in the Check phase after Poll. 6) PRACTICAL EFFECT: setTimeout(..., 0) may execute after pending I/O callbacks even though timers come first in phase order. This ensures I/O operations aren't starved by recursive timers. 7) For guaranteed yielding to I/O, use setImmediate() instead.",
+      },
+      {
+        question: "How does Chrome prioritize input events vs. timer events?",
+        solution:
+          "Chrome implements sophisticated task prioritization to ensure input responsiveness: 1) PRIORITY LEVELS: Immediate (user input), High (rendering), Normal (most tasks), Low (background work), Idle (lowest priority). 2) INPUT PRIORITIZATION: User input events (click, scroll, keyboard) get Immediate priority and can interrupt lower-priority tasks. 3) TIMER CLASSIFICATION: setTimeout/setInterval are Normal priority, can be delayed by higher-priority work. 4) DEADLINE-BASED SCHEDULING: Input events have tight deadlines (4-8ms) to maintain responsiveness. 5) TASK INTERRUPTION: Long-running timer callbacks can be interrupted by input events using cooperative scheduling. 6) BATCHING: Multiple timer callbacks may be batched together but interrupted by input. 7) STARVATION PREVENTION: Aging mechanism gradually increases priority of delayed tasks. 8) PERFORMANCE ISOLATION: Each tab/frame has separate task queues to prevent interference. 9) ADAPTIVE SCHEDULING: Priority adjustments based on user interaction patterns and system performance. 10) This ensures smooth 60fps interactions even during heavy JavaScript execution from timers or other background tasks.",
+      },
+      {
+        question: "Explain how the idle phase in Node.js is calculated.",
+        solution:
+          "Node.js doesn't have a distinct 'idle phase' like browsers, but calculates idle time during the Poll phase: 1) POLL PHASE WAITING: When no I/O callbacks are ready and no timers are expired, the event loop blocks in epoll/kqueue waiting for new events. 2) TIMEOUT CALCULATION: Poll phase timeout is calculated as: min(next timer deadline - current time, default max timeout). 3) IMMEDIATE CHECK: If setImmediate callbacks are queued, poll timeout is 0 (no blocking). 4) TIMER PROXIMITY: If timers are scheduled soon (<1ms), minimal poll blocking occurs. 5) DEFAULT BEHAVIOR: Without timers or setImmediate, poll phase can block indefinitely until I/O events arrive. 6) IDLE DETECTION: Application can be considered 'idle' when poll phase is blocking for I/O. 7) MONITORING: Can be tracked using async_hooks or process.hrtime() measurements around event loop iterations. 8) BACKGROUND WORK: Unlike browser requestIdleCallback, Node.js doesn't provide explicit idle scheduling - use setImmediate for lower-priority work. 9) CPU USAGE: True idle state results in near-zero CPU usage as the process blocks on system calls.",
+      },
+      {
+        question: "Describe back-pressure handling in the event-loop.",
+        solution:
+          "Back-pressure handling prevents event loop overload through various mechanisms: 1) STREAM BACK-PRESSURE: Readable/Writable streams implement highWaterMark limits. When internal buffers fill up, write() returns false, signaling the source to pause. 2) EVENT LOOP LAG: Monitor event loop delay using performance.now() measurements. High lag indicates back-pressure from too many queued operations. 3) MICRO-TASK LIMITS: Some engines limit consecutive microtask processing to prevent starvation. Node.js warns when nextTick queue grows too large. 4) MEMORY PRESSURE: V8 garbage collection can pause the event loop when memory usage is high, creating natural back-pressure. 5) I/O QUEUING: File system operations queue in libuv's thread pool, creating back-pressure when all threads are busy. 6) NETWORK BUFFERS: TCP socket buffers provide back-pressure when the receiver can't keep up with sender. 7) APPLICATION PATTERNS: Use streams, implement proper error handling, monitor queue sizes, use circuit breakers. 8) METRICS: Track event loop utilization, memory usage, queue depths to detect back-pressure conditions early.",
+      },
+      {
+        question:
+          "Explain how AbortController signals propagate across micro-tasks.",
+        solution:
+          "AbortController signal propagation across microtasks involves careful event scheduling: 1) SIGNAL CREATION: AbortController creates an AbortSignal that can be shared across multiple async operations. 2) ABORT TRIGGERING: When controller.abort() is called, it immediately sets signal.aborted = true and queues abort event as a microtask. 3) MICROTASK SCHEDULING: Each abort listener is scheduled as a separate microtask, not executed synchronously. 4) PROPAGATION ORDER: Abort event microtasks execute in registration order within the current microtask processing cycle. 5) ASYNC OPERATION HANDLING: Operations check signal.aborted before starting and listen for abort events during execution. 6) PROMISE REJECTION: Aborted operations typically reject their Promises with AbortError, which becomes a microtask. 7) CHAIN REACTION: Abort signals can cascade through Promise chains, with each rejection creating new microtasks. 8) TIMING CONSIDERATIONS: Abort handling happens in the same event loop iteration if triggered during microtask processing. 9) ERROR HANDLING: Proper abort handling prevents resource leaks and ensures cleanup code executes. 10) FETCH API INTEGRATION: Network requests can be cancelled mid-flight using AbortSignal integration.",
+      },
+      {
+        question: "How does the new Prioritized Task Scheduling API work?",
+        solution:
+          "The Prioritized Task Scheduling API (scheduler.postTask) provides explicit priority control over task execution: 1) PRIORITY LEVELS: 'user-blocking' (highest), 'user-visible' (default), 'background' (lowest) with numerical priorities. 2) SCHEDULER INTERFACE: scheduler.postTask(callback, {priority, delay, signal}) returns a Promise resolving to the callback's return value. 3) PRIORITY QUEUES: Browser maintains separate task queues for each priority level, processing higher priority tasks first. 4) YIELDING MECHANISM: Tasks can be interrupted by higher priority work, implementing preemptive scheduling. 5) DELAY OPTION: Minimum delay before task execution, similar to setTimeout but with priority awareness. 6) ABORT INTEGRATION: Tasks can be cancelled using AbortSignal, preventing unnecessary work. 7) PRIORITY INHERITANCE: Tasks spawned from higher-priority contexts inherit parent priority by default. 8) TIME SLICING: Long-running tasks are automatically split across multiple frames to maintain responsiveness. 9) FALLBACK: Polyfills use MessageChannel or setTimeout with priority simulation. 10) USE CASES: Replace setTimeout for better control, implement cooperative multitasking, prioritize critical vs. background work. This provides React-style scheduling primitives as a web standard.",
+      },
+      {
+        question: "Describe how Node.js inspector pauses the event-loop.",
+        solution:
+          "Node.js inspector integration with the event loop involves careful coordination for debugging: 1) BREAKPOINT MECHANISM: When debugger hits a breakpoint, V8 pauses JavaScript execution but the event loop continues running in the background. 2) I/O CONTINUATION: libuv continues processing I/O events, timers, and other native operations while JS is paused. 3) CALLBACK QUEUING: Completed I/O operations queue their callbacks but cannot execute them until debugging resumes. 4) INSPECTOR PROTOCOL: Chrome DevTools communicates via WebSocket using Chrome DevTools Protocol, running on separate thread. 5) HEAP SNAPSHOTS: Taking heap snapshots pauses the event loop completely to ensure consistent memory state. 6) PROFILER INTEGRATION: CPU profiler samples execution during normal event loop operation without pausing. 7) ASYNC STACK TRACES: Inspector maintains async operation chains for better debugging experience. 8) MEMORY IMPACT: Debug mode increases memory usage due to maintaining debug metadata and inspector communication. 9) PERFORMANCE DEGRADATION: Debugging can slow execution 10-100x due to additional instrumentation and communication overhead. 10) The inspector provides debugging capabilities while trying to minimize impact on event loop timing and behavior.",
+      },
+      {
+        question: "Explain Ignition, TurboFan, and Sparkplug in V8.",
+        solution:
+          "V8 uses a multi-tier compilation pipeline: Ignition is the bytecode interpreter that executes JavaScript after initial parsing, providing fast startup with lower memory overhead. Sparkplug is the baseline compiler (introduced in V8 9.1) that compiles frequently executed bytecode to native machine code without advanced optimizations, bridging the gap between interpretation and full optimization. TurboFan is the optimizing compiler that generates highly optimized machine code for hot functions using type feedback, inlining, and advanced optimizations like escape analysis. The pipeline flows: JS → Parser → Ignition → Sparkplug → TurboFan, with deoptimization back to Ignition when assumptions break.",
+      },
+      {
+        question: "What are hidden classes and how do they affect performance?",
+        solution:
+          "Hidden classes (or Maps in V8 internals) are V8's mechanism to optimize property access by creating internal class-like structures for objects with similar property layouts. When objects share the same property names, types, and addition order, they share the same hidden class, enabling fast property access via fixed offsets. Performance impact: objects with same hidden class use optimized inline caching and direct memory access; objects with different hidden classes cause polymorphic access, leading to slower dictionary lookups. Best practices: initialize all properties in constructor, avoid delete operations, maintain consistent property addition order across similar objects.",
+      },
+      {
+        question:
+          "Describe inline caching (IC) and how it monomorphizes property access.",
+        solution:
+          "Inline Caching stores type information at property access sites to optimize repeated operations. When a property is accessed, V8 caches the object's hidden class and property offset. Monomorphization occurs when the same property access site consistently sees objects with the same hidden class - V8 generates specialized code that directly accesses the property at a fixed offset, eliminating hash lookups. States: uninitialized → monomorphic (1 type) → polymorphic (2-4 types) → megamorphic (5+ types). Monomorphic sites are fastest with direct memory access, while megamorphic sites fall back to expensive dictionary lookups.",
+      },
+      {
+        question:
+          "Why does adding a property after object creation de-optimize the code?",
+        solution:
+          "Adding properties post-creation breaks hidden class stability and invalidates optimizations. When V8 optimizes code, it assumes objects maintain their hidden class structure. Post-creation property addition creates hidden class transitions, causing: (1) Existing optimized code becomes invalid as property offsets change, (2) Inline caches miss because they expect specific hidden classes, (3) Objects may transition to dictionary mode for dynamic properties, (4) Deoptimization triggers, falling back to interpreter/baseline compiler. This forces recompilation with less aggressive optimizations. Solution: define all properties in constructors or use object literals with all expected properties initialized (even to undefined).",
+      },
+      {
+        question: "Explain de-optimization and bailout reasons.",
+        solution:
+          "Deoptimization occurs when TurboFan's optimization assumptions are violated, forcing fallback to Ignition interpreter. Common bailout reasons: (1) Type assumptions violated (number becomes string), (2) Hidden class transitions (property addition/deletion), (3) Prototype chain changes, (4) Function redefinition, (5) Array elements kind transitions (SMI to double), (6) Overflow in arithmetic operations, (7) Unexpected receiver types in calls. Process: V8 preserves interpreter state (frame info, variable values), transfers execution back to Ignition at the bailout point, marks the function for re-optimization with updated type feedback. Multiple deoptimizations can lead to optimization being permanently disabled for a function.",
+      },
+      {
+        question: "How does V8 determine hot functions for optimization?",
+        solution:
+          "V8 uses tiered compilation with execution counters and heuristics. Ignition bytecode has invocation counters that increment on function calls and loop iterations (interrupt budget). Thresholds: Sparkplug baseline compilation triggers around 1000-2000 invocations; TurboFan optimization triggers around 10,000+ invocations or tight loops. Factors influencing promotion: function size (smaller functions optimize sooner), type stability (consistent types promote faster), call frequency, loop iteration counts, and exception handling presence (try/catch delays optimization). V8 also considers 'hotness' based on time spent in function relative to total execution time. OSR (On-Stack Replacement) can optimize long-running loops mid-execution.",
+      },
+      {
+        question: "Describe escape analysis and scalar replacement.",
+        solution:
+          "Escape analysis determines if objects allocated in a function escape beyond its scope. If objects don't escape (not returned, not stored in globals, not passed to unknown functions), TurboFan can apply scalar replacement - replacing object allocation with individual variables for each property stored on registers/stack instead of heap. Benefits: eliminates allocation overhead, reduces GC pressure, enables better register allocation, allows property accesses to be optimized to simple variable reads. Requirements: object constructor and all property accesses must be visible to optimizer, no dynamic property access, object doesn't escape scope. Most effective for temporary objects in tight loops, mathematical computations with coordinate objects, and function-local data structures.",
+      },
+      {
+        question: "Explain allocation pre-fetching in V8.",
+        solution:
+          "Allocation pre-fetching optimizes memory allocation by predicting and preparing allocation sites before they're needed. V8's allocator maintains bump-pointer allocation in young generation spaces and can prefetch memory regions when allocation patterns are predictable. Techniques: (1) Sequential allocation prefetching - when allocating arrays or similar objects, prefetch next cache lines, (2) Type-based prefetching - objects of same hidden class often allocated together, (3) Generational hints - young generation allocation sites get prioritized prefetch. Implementation uses allocation profiling to identify hot allocation sites, hardware prefetch instructions (like PREFETCH), and maintains allocation buffers per thread. Most effective for: large array allocations, repeated object creation in loops, and constructor-heavy code paths.",
+      },
+      {
+        question:
+          "How do elements kinds (PACKED_SMI, HOLEY_DOUBLE, etc.) impact array performance?",
+        solution:
+          "V8 tracks array element types through elements kinds hierarchy: PACKED_SMI (32-bit integers, densely packed) → PACKED_DOUBLE (doubles, packed) → PACKED_ELEMENTS (any type, packed) → HOLEY_SMI → HOLEY_DOUBLE → HOLEY_ELEMENTS (sparse arrays). Transitions are one-way and permanent. Performance impact: PACKED_SMI is fastest with specialized assembly code; HOLEY arrays require hole checks on every access; PACKED_ELEMENTS need type checks. Dictionary elements (for very sparse arrays) are slowest. Optimization: initialize arrays with correct types, avoid creating holes (delete array[i]), use consistent numeric types, prefer Array.from() over new Array(length) for initialization. Elements kind downgrades trigger deoptimization of dependent optimized code.",
+      },
+      {
+        question: "Describe pointer compression in V8.",
+        solution:
+          "Pointer compression reduces memory usage by storing 32-bit compressed pointers instead of 64-bit pointers on 64-bit platforms. V8 maintains a 4GB 'pointer compression cage' where all V8 heap objects reside. Compressed pointers store offsets from cage base, decompressed by adding base address during access. Benefits: ~50% heap memory reduction, better cache utilization, more objects fit in cache lines. Implementation: cage allocated at process start, objects allocated within cage boundaries, pointer arithmetic adjusted for compression/decompression, some pointers (external references) remain uncompressed. Trade-offs: slight CPU overhead for compression/decompression operations, 4GB heap limit per isolate (multiple isolates possible), complexity in debugging tools.",
+      },
+      {
+        question: "Explain concurrent marking in the Orinoco GC.",
+        solution:
+          "Orinoco's concurrent marking allows garbage collection marking phase to run parallel with JavaScript execution using dedicated marker threads. Process: (1) Initial marking identifies root objects (stack, globals) while pausing JS briefly, (2) Concurrent marking traverses object graph using work-stealing queues across multiple threads, (3) Write barriers track mutations during concurrent phase, (4) Final marking pause processes write barrier remembered set. Synchronization uses atomic operations and memory barriers to ensure consistency. Benefits: significantly reduced GC pause times (marking is 60-70% of GC work), better throughput on multi-core systems. Challenges: write barrier overhead during mutations, memory consistency requirements, coordination between marker and mutator threads.",
+      },
+      {
+        question: "How does incremental marking reduce pause times?",
+        solution:
+          "Incremental marking splits the marking phase across multiple small steps interleaved with JavaScript execution, preventing long GC pauses. V8 allocates a 'marking budget' based on allocation rate and available time, performing incremental marking steps when: (1) Allocation reaches threshold, (2) Idle time is available, (3) Write barriers detect mutations. Each step marks a portion of the object graph, maintaining marking state in work lists. Write barriers ensure consistency by recording modified objects during incremental pauses. Tri-color marking algorithm: white (unmarked), gray (marked but children unprocessed), black (fully processed). Target: keep pause times under 16ms for 60fps, with total marking work distributed across program execution.",
+      },
+      {
+        question: "Describe young generation vs old generation GC heuristics.",
+        solution:
+          "V8 uses generational hypothesis: most objects die young. Young generation (Scavenger GC): uses semi-space copying collection, triggers frequently (~1-8MB allocation threshold), promotes surviving objects to old generation after 2-3 collections or if they're >25% of space. Old generation (Mark-Compact): triggers based on live object ratio (~45% live objects), heap growth rate, and incremental marking completion. Heuristics: young generation optimized for speed with parallel scavenging; old generation focuses on thoroughness with concurrent/incremental collection. Promotion criteria: object survival across multiple young GC cycles, large objects (>1KB) promote immediately. Adaptive sizing adjusts generation sizes based on allocation patterns and survival rates.",
+      },
+      {
+        question: "Explain write barriers and remembered sets.",
+        solution:
+          "Write barriers are code injected at pointer write operations to maintain GC invariants during concurrent/incremental collection. When old generation objects reference young generation objects, write barriers record these cross-generational pointers in remembered sets to avoid scanning entire old generation during young GC. Types: (1) Generational barriers for cross-generation references, (2) Incremental barriers for concurrent marking consistency. Implementation: compiler inserts barrier code after stores, checks if store crosses generation boundary, adds entry to remembered set if needed. Remembered sets stored as card tables (512-byte cards) or precise pointer lists. Overhead: ~1-5% performance cost but enables much faster young generation collection by creating precise root sets.",
+      },
+      {
+        question: "What is GC idle time scheduling?",
+        solution:
+          "GC idle time scheduling performs garbage collection work during JavaScript idle periods to minimize impact on responsiveness. V8 integrates with event loop to detect idle time between tasks, animation frames, and user interactions. Idle work includes: incremental marking steps, sweeping, compaction, and young generation collection. Scheduling algorithm considers: remaining idle time budget, GC work queue size, allocation pressure, and responsiveness requirements. For web applications, targets 16ms frame budget, performing GC work in 1-5ms chunks during idle periods. In Node.js, uses setImmediate-like scheduling. Benefits: amortizes GC cost across program execution, maintains low latency for user interactions, reduces visible pause times. Challenges: predicting idle time duration, ensuring forward progress under high allocation pressure.",
+      },
+      {
+        question: "Describe lazy deserialization of bytecode.",
+        solution:
+          "Lazy deserialization delays loading and parsing of function bytecode until first execution, reducing initial script load time and memory usage. Process: (1) Initial parse creates function metadata without bytecode, (2) Store serialized bytecode/source positions separately, (3) On first function call, deserialize bytecode and create interpreter frame, (4) Cache deserialized bytecode for subsequent calls. Benefits: faster startup for large applications, lower initial memory footprint, pay-as-you-go parsing cost. Implementation tracks: function source boundaries, serialized data location, lazy/eager compilation state. Works with: top-level functions, nested functions, async/generator functions. Challenges: first-call latency, complexity in debugging tools, memory management of serialized data. Most effective for large applications where only subset of functions execute immediately.",
+      },
+      {
+        question: "Explain function context specialization.",
+        solution:
+          "Function context specialization optimizes closures by analyzing captured variable usage and creating specialized versions for different contexts. TurboFan examines: which outer variables are accessed, whether variables are read-only or mutable, the types of captured values, and calling contexts. Optimizations: (1) Constant context values get inlined directly, (2) Read-only captures become immediate values, (3) Type-stable captures enable specialized code paths, (4) Unused captures get eliminated. Context allocation strategies: on-stack for simple captures, heap allocation for escaping contexts, context sharing for multiple closures with same captures. Most beneficial for: event handlers with captured state, higher-order functions with partial application, functional programming patterns. Deoptimization occurs when context assumptions break (captured variables change type/mutability).",
+      },
+      {
+        question: "How does loop peeling improve performance?",
+        solution:
+          "Loop peeling extracts first/last iterations from loops to enable better optimizations on the remaining loop body. TurboFan identifies loops with: known iteration counts, type-unstable first iterations, or boundary condition overhead. Process: (1) Analyze loop structure and iteration patterns, (2) Extract problematic iterations (usually first 1-2), (3) Optimize peeled iterations separately, (4) Optimize remaining loop with stronger assumptions. Benefits: eliminates type guards in loop body after type stabilization in peeled iterations, enables better register allocation, reduces branch misprediction, allows loop-invariant code motion. Example: array processing where first iteration handles type feedback, remaining iterations use monomorphic optimizations. Combines with other optimizations: loop unrolling, strength reduction, bounds check elimination.",
+      },
+      {
+        question: "Describe type feedback and type narrowing.",
+        solution:
+          "Type feedback collects runtime type information at operation sites (property access, arithmetic, calls) to guide optimizations. Inline caches and type feedback vectors store: observed types, frequency counts, operation outcomes, and stability metrics. Type narrowing uses this feedback to specialize code: (1) Monomorphic sites get direct code paths, (2) Number operations specialize for integers vs doubles, (3) Property access uses direct offsets for stable types, (4) Function calls inline based on receiver types. Feedback collection: starts during bytecode execution, updated on type changes, influences optimization decisions. Quality metrics: type stability, frequency distribution, polymorphism degree. Higher quality feedback leads to more aggressive optimizations. Feedback pollution (inconsistent types) degrades optimization potential.",
+      },
+      {
+        question: "Explain inlining heuristics and bytecode size limits.",
+        solution:
+          "TurboFan's inlining decisions balance performance gains against code size growth using multi-factor heuristics. Size limits: functions >600 bytecode instructions rarely inline, call sites with >4 targets avoid inlining, total inlined code per function capped at ~5KB. Decision factors: (1) Call frequency and hotness, (2) Function size and complexity, (3) Type feedback quality (monomorphic preferred), (4) Nesting depth (limit ~10 levels), (5) Escape analysis results. Special cases: small functions (<50 bytes) always inline, constructors with simple property assignments preferred, getter/setter functions prioritized. Cost model considers: code size increase, register pressure, compilation time, potential for further optimizations in inlined code. Polymorphic call sites may inline multiple targets with type guards.",
+      },
+      {
+        question: "What is dead-code elimination at the TurboFan level?",
+        solution:
+          "TurboFan's dead-code elimination removes unreachable or unused code during optimization using graph-based analysis. Process: (1) Build control flow graph and data dependency graph, (2) Mark reachable code from entry points and side-effect operations, (3) Eliminate unmarked nodes and their dependencies, (4) Propagate elimination effects through optimization pipeline. Eliminates: unreachable branches after type guards, unused variables and computations, redundant type checks, unreferenced function parameters, dead phi nodes in SSA form. Effectiveness depends on: type feedback quality (enables aggressive branch elimination), escape analysis (identifies unused allocations), constant folding (creates unreachable branches). Interacts with other passes: common subexpression elimination, loop-invariant code motion, strength reduction to create more elimination opportunities.",
+      },
+      {
+        question: "Describe branch elimination via type guards.",
+        solution:
+          "TurboFan uses type information to eliminate conditional branches by proving certain paths are unreachable. Type guards are checks inserted based on type feedback that validate assumptions and enable branch elimination. Process: (1) Insert type guards based on inline cache feedback, (2) Analyze control flow to identify provably unreachable branches, (3) Eliminate dead branches and their dependencies, (4) Simplify remaining control flow. Examples: typeof checks eliminated when type is known, array bounds checks removed with proven indices, null/undefined checks eliminated with type guards. Guard placement: at function entry for parameters, after property access for type refinement, around arithmetic operations for number types. Failure handling: guards that fail cause deoptimization. Most effective with stable type feedback and monomorphic call sites.",
+      },
+      {
+        question: "Explain constant folding and strength reduction.",
+        solution:
+          "Constant folding evaluates compile-time known expressions, while strength reduction replaces expensive operations with cheaper equivalents. Constant folding: arithmetic with literals (2+3→5), string concatenation with known values, property access on known objects, typeof with type-stable variables. Strength reduction examples: multiplication by powers of 2 becomes bit shifts (x*8→x<<3), division by constants uses multiplication + shift, modulo with powers of 2 becomes bitwise AND (x%8→x&7), array.length in loops gets hoisted. TurboFan performs these during: instruction selection, load elimination, and machine-level optimization passes. Effectiveness requires: good type feedback, escape analysis results, inlining to expose constants. Combines with: loop-invariant code motion, algebraic simplification, range analysis for overflow elimination.",
+      },
+      {
+        question: "How does V8 handle megamorphic vs polymorphic sites?",
+        solution:
+          "V8 optimizes call sites differently based on type diversity. Polymorphic sites (2-4 types): TurboFan generates specialized code paths with type guards for each observed type, uses dispatch table for efficient type checking, inlines small functions for each type, maintains type feedback for each branch. Megamorphic sites (5+ types): fall back to generic handling, use hash table lookups for property access, call through generic stubs without inlining, reduced optimization potential. Transition thresholds: sites become megamorphic after seeing 4+ different types/hidden classes. Mitigation strategies: type-based code splitting, avoid mixing unrelated types, use type-stable patterns. Megamorphic penalties: slower property access, reduced inlining, less specialized arithmetic, higher memory overhead for generic paths.",
+      },
+      {
+        question: "Describe WebAssembly tier-up pipeline in V8.",
+        solution:
+          "V8's WebAssembly compilation uses multi-tier strategy for optimal performance across different scenarios. Pipeline: (1) Liftoff - fast baseline compiler generating unoptimized native code for quick startup, (2) TurboFan - optimizing compiler for hot WebAssembly functions with advanced optimizations. Tier-up triggers: function call counters reaching thresholds (~1000-5000 calls), loop iteration counts, execution time heuristics. Liftoff benefits: fast compilation (~100x faster than TurboFan), low memory overhead, good debugging support. TurboFan optimizations: register allocation, instruction scheduling, loop optimizations, inlining of small functions. Background compilation: TurboFan compilation occurs on background threads while Liftoff code continues executing. OSR (On-Stack Replacement) handles long-running functions. Streaming compilation overlaps download and compilation for large modules.",
+      },
+      {
+        question: "List GC root types in V8.",
+        solution:
+          "V8 garbage collector identifies several root types that prevent objects from collection: Global objects (window, global scope variables), Active function contexts (call stack frames), VM internal references (built-in objects, native bindings), Event handlers attached to DOM elements, and Module scope variables. Additional roots include: Debugger references during breakpoints, Worker contexts and their globals, WeakMap/WeakSet internal structures, and Microtask queue references. These roots form the starting points for mark-and-sweep collection, ensuring reachable objects remain in memory while unreachable ones are collected during GC cycles.",
+      },
+      {
+        question: "How do Detached DOM trees cause leaks?",
+        solution:
+          "Detached DOM trees occur when DOM nodes are removed from the document but JavaScript still holds references to them, preventing garbage collection. Common scenarios include: Storing DOM references in variables after removeChild(), Event listeners on removed elements that capture the node in closures, Parent nodes referencing removed children through properties like parentNode/childNodes. These trees consume memory proportional to their size and can grow significantly. To prevent: Use WeakMap for DOM associations, Remove event listeners before DOM removal, Set DOM references to null after removal, Use MutationObserver to detect when elements become detached, and regularly audit code for lingering DOM references.",
+      },
+      {
+        question: "Explain closure leaks in event listeners.",
+        solution:
+          "Closure leaks in event listeners occur when the listener function captures variables from outer scopes, keeping those variables alive indefinitely. The leak happens because: Event listeners maintain strong references to their callback functions, Closures capture the entire scope chain where they're defined, Even unused variables in the closure scope remain in memory. Common patterns causing leaks: Adding listeners in loops without cleanup, Capturing large objects in event handler closures, Anonymous functions that can't be removed later. Mitigation strategies: Use named functions for removeable listeners, Avoid capturing unnecessary variables, Implement cleanup in component unmounting, Use WeakMap for event data associations, and Consider passive listeners where appropriate.",
+      },
+      {
+        question: "Describe the Retaining Path view in Chrome DevTools.",
+        solution:
+          "The Retaining Path view in Chrome DevTools shows the chain of references preventing an object from garbage collection. Located in Memory tab heap snapshots, it displays: The selected object at the bottom, Parent references moving upward toward GC roots, Reference types (property names, array indices, closure variables), Distance numbers indicating steps from root. Color coding helps identify: Yellow for direct object references, Red for native/DOM bindings, Gray for weak references. The path reveals why objects remain in memory, helping identify: Unexpected global references, Closure captures, Event listener chains, DOM element retention. Use this view to trace memory leaks by following the path from leaked objects back to their root causes.",
+      },
+      {
+        question: "How do you identify undisposed observers?",
+        solution:
+          "Undisposed observers cause memory leaks by maintaining active subscriptions after components are destroyed. Detection methods include: Heap snapshots showing growing observer counts between actions, Memory timeline revealing objects that never decrease, Console logging observer creation/disposal for audit trails. Common observer patterns to monitor: MutationObserver, IntersectionObserver, ResizeObserver, Event listeners, RxJS subscriptions. Identification strategies: Search heap snapshots for observer class names, Track subscription counts in application state, Use performance.measureUserAgentSpecificMemory() for trends, Implement subscription registries for tracking. Prevention: Store observer references for explicit disposal, Use AbortController for cancellable subscriptions, Implement cleanup in component lifecycle hooks, and leverage automatic cleanup patterns like useEffect dependencies.",
+      },
+      {
+        question: "Explain circular references with WeakMap mitigation.",
+        solution:
+          "Circular references create memory leaks when objects reference each other in cycles that GC cannot break automatically. Traditional circular references: Parent-child DOM relationships, Observer pattern implementations, Cache systems with bidirectional lookups. WeakMap mitigation works because: WeakMap keys are held weakly and don't prevent GC, When the key object becomes unreachable, the WeakMap entry is automatically removed, Breaking circular reference chains. Implementation patterns: Use WeakMap for parent-child associations (parent.set(child, metadata)), Store private object data (privateData.set(instance, data)), Cache computed relationships (cache.set(objA, relatedObjB)). Benefits include automatic cleanup, no manual reference management, and GC-friendly object associations while maintaining object relationships without preventing collection.",
+      },
+      {
+        question: "Describe heap snapshots vs allocation timelines.",
+        solution:
+          "Heap snapshots and allocation timelines serve different memory debugging purposes. Heap snapshots provide point-in-time memory state showing: Object counts and sizes by constructor, Retaining paths to GC roots, Object property details and references, Memory distribution across categories. Best for: Comparing before/after states, Analyzing specific object retention, Finding unexpected object accumulation. Allocation timelines show memory allocation patterns over time: Real-time allocation tracking, Call stack information for allocations, Temporal correlation with user actions, Allocation rate analysis. Best for: Identifying allocation hotspots, Correlating memory usage with application behavior, Finding allocation spikes during specific operations. Use snapshots for static analysis and timelines for dynamic behavior understanding. Combine both for comprehensive leak investigation.",
+      },
+      {
+        question: "How do unbounded caches leak memory?",
+        solution:
+          "Unbounded caches leak memory by continuously growing without eviction policies, eventually consuming all available heap space. Common cache leak patterns: Storing user session data indefinitely, Caching API responses without size limits, Memoizing function results without cleanup, Accumulating computed values over time. Memory impact includes linear growth with usage, eventual out-of-memory crashes, and degraded performance as cache size increases. Mitigation strategies: Implement LRU (Least Recently Used) eviction with fixed size limits, Use WeakMap for automatic cleanup when keys become unreachable, Set TTL (Time To Live) with periodic cleanup intervals, Monitor cache hit ratios to optimize size limits. Advanced techniques: Implement cache partitioning for different data types, Use memory pressure APIs to trigger cleanup, and implement cache warming strategies to balance performance and memory usage.",
+      },
+      {
+        question: "Explain retainer size vs shallow size.",
+        solution:
+          "Retainer size and shallow size represent different memory measurements in heap analysis. Shallow size measures the memory directly occupied by an object itself: Primitive values, object headers, direct property storage, but excludes referenced objects. Useful for understanding object overhead and identifying fat objects. Retainer size (retained size) measures total memory that would be freed if the object were collected: Shallow size of the object plus shallow sizes of all objects exclusively retained by it. Represents the object's true memory impact. Key differences: Shallow size is always smaller and shows direct usage, Retainer size can be much larger and shows transitive impact. Shared objects contribute shallow size to one retainer only. Use shallow size to optimize object structure and retainer size to prioritize leak fixes by impact.",
+      },
+      {
+        question: "Describe DOMTokenList leaks in older browsers.",
+        solution:
+          "DOMTokenList leaks in older browsers (particularly IE and early Chrome versions) occurred due to improper reference handling in className and classList implementations. The leak mechanism involved: DOMTokenList objects maintaining strong references to their associated DOM elements, Circular references between elements and their token lists, Inadequate cleanup when elements were removed from DOM. Specific leak scenarios: Adding/removing CSS classes frequently, Storing DOMTokenList references in JavaScript variables, Dynamic element creation with className manipulation. The issue was particularly problematic because DOMTokenList objects weren't properly weak-referenced to their elements. Mitigation in affected browsers: Cache class name strings instead of DOMTokenList objects, Use string manipulation for className changes, Manually null tokenlist references, Avoid storing classList references long-term. Modern browsers resolved this through proper weak reference implementation and improved GC handling of DOM-JavaScript boundaries.",
+      },
+      {
+        question: "How does Node.js --inspect help find leaks?",
+        solution:
+          "Node.js --inspect flag enables debugging capabilities that help identify memory leaks through Chrome DevTools integration. Key features: Remote debugging protocol access, Heap snapshot collection during runtime, CPU and memory profiling capabilities, Live memory monitoring. Usage patterns: Start with 'node --inspect app.js' or 'node --inspect-brk app.js' for immediate breakpoint, Connect Chrome DevTools to ws://127.0.0.1:9229, Access Memory tab for heap analysis. Leak detection workflow: Take baseline heap snapshots, Perform leak-triggering operations, Compare subsequent snapshots for growing object counts, Analyze retaining paths for unexpected references. Advanced debugging: Use 'node --inspect --max-old-space-size=4096' for larger heap limits, Enable 'node --trace-gc' for garbage collection logging, Combine with process.memoryUsage() for runtime monitoring. The integration provides full browser debugging capabilities for server-side JavaScript memory analysis.",
+      },
+      {
+        question: "Explain heap-used vs heap-total metrics.",
+        solution:
+          "Heap-used and heap-total metrics provide different perspectives on V8 memory consumption. Heap-used represents actively allocated memory: Objects currently in use by the application, Includes all reachable objects from GC roots, Excludes freed memory awaiting collection, Reflects actual application memory footprint. Heap-total represents total heap space allocated by V8: Includes heap-used plus free space, Represents memory reserved from the operating system, May be larger due to fragmentation and pre-allocation. Key relationships: heap-total >= heap-used always, Large differences indicate fragmentation or over-allocation, Rapid heap-total growth suggests allocation pressure. Monitoring strategies: Track heap-used for actual memory consumption trends, Monitor heap-total for OS memory pressure, Alert on sustained high heap-used/heap-total ratios, Use heap-growth-rate for leak detection. These metrics help distinguish between normal allocation patterns and problematic memory usage.",
+      },
+      {
+        question: "Describe object resurrection via finalizers.",
+        solution:
+          "Object resurrection via finalizers occurs when finalizer callbacks create new strong references to objects that were marked for garbage collection. The process: Objects become unreachable and eligible for collection, Finalizers (cleanup callbacks) execute before actual deallocation, Finalizer code creates new references to the 'dead' object, Object becomes reachable again, preventing collection. This creates persistent memory leaks because: Objects are never truly collected despite appearing unreachable, Finalizer execution is delayed and unpredictable, Resurrected objects may carry outdated state. Common in: Custom cleanup code that stores object references, Error handling that captures objects globally, Logging systems that retain object references. Prevention strategies: Avoid storing references in finalizer callbacks, Use WeakRef for resurrection-safe cleanup, Implement proper disposal patterns before finalization, Design cleanup code that doesn't reference the original object. Modern alternatives like FinalizationRegistry provide safer cleanup mechanisms.",
+      },
+      {
+        question: "How do you detect leaks in Web Workers?",
+        solution:
+          "Detecting memory leaks in Web Workers requires specialized approaches since they run in isolated contexts. Detection methods: Use performance.memory API within workers to monitor heap growth, Implement periodic memory reporting via postMessage, Monitor worker creation/termination patterns for accumulation, Use Chrome DevTools to inspect individual worker heaps. Worker-specific leak sources: Uncleared intervals/timeouts that maintain closures, Unbounded message queues between main thread and worker, Cached data that grows without bounds, Event listeners on worker global scope. Debugging techniques: Add memory monitoring to worker scripts (setInterval reporting), Use worker.terminate() and check if memory is reclaimed, Implement worker pooling to detect per-worker leaks, Profile main thread for worker reference retention. Best practices: Explicit worker cleanup protocols, Message-based memory reporting, Worker lifecycle management, and avoiding shared mutable state between contexts.",
+      },
+      {
+        question: "Explain memory fragmentation mitigation.",
+        solution:
+          "Memory fragmentation occurs when available memory becomes scattered in small, non-contiguous blocks, reducing allocation efficiency. In JavaScript engines: Fragmentation happens in both young and old generation heaps, Small object allocation creates gaps between larger objects, Frequent allocation/deallocation cycles worsen fragmentation. V8 mitigation strategies: Generational garbage collection separates short/long-lived objects, Compacting GC moves surviving objects to eliminate gaps, Space switching between semi-spaces in young generation, Mark-compact algorithm for old generation cleanup. Application-level mitigation: Object pooling to reduce allocation frequency, Batch operations to minimize allocation spikes, Use TypedArrays for numeric data to reduce object overhead, Prefer primitive values over object wrappers. Monitoring fragmentation: Track heap-total vs heap-used ratios, Monitor GC frequency and duration, Use allocation profiling to identify fragmentation sources, Implement memory pressure detection for proactive cleanup.",
+      },
+      {
+        question: "Describe out-of-memory crash analysis.",
+        solution:
+          "Out-of-memory (OOM) crash analysis involves investigating heap exhaustion events to identify root causes. Analysis approach: Examine heap dumps before crashes, Review allocation patterns leading to OOM, Identify objects consuming excessive memory, Trace allocation call stacks. V8 provides heap limit information through: --max-old-space-size flag for heap size limits, process.memoryUsage() for current usage, heap snapshots for pre-crash state analysis. Common OOM patterns: Exponential object growth, Large array/string allocations, Memory leak accumulation over time, Recursive function stack overflow. Investigation tools: Enable heap profiling before suspected OOM conditions, Use --trace-gc for garbage collection insights, Implement memory monitoring with alerts, Capture heap snapshots at memory thresholds. Recovery strategies: Implement graceful degradation when memory is low, Use streaming for large data processing, Add memory circuit breakers, and implement automatic restart policies for critical applications.",
+      },
+      {
+        question:
+          "How does FinalizationRegistry help manage external resources?",
+        solution:
+          "FinalizationRegistry provides a mechanism to perform cleanup when objects are garbage collected, particularly useful for managing external resources like file handles, native memory, or network connections. Implementation pattern: Create registry with cleanup callback, Register objects with associated cleanup data, Callback executes when object is collected (but not immediately). Key benefits: Automatic resource cleanup without manual disposal, No strong references to managed objects, Cleanup data separate from managed object. Usage example: Managing native addon resources, WebGL context cleanup, File descriptor management, Database connection cleanup. Important limitations: Cleanup timing is unpredictable, No guarantee cleanup will run, Cannot access the collected object in cleanup, May not run during process termination. Best practices: Don't rely solely on finalization for critical resources, Implement explicit disposal patterns as primary cleanup, Use finalization as safety net only, Keep cleanup data minimal to avoid retention issues.",
+      },
+      {
+        question: "Explain shared memory leaks with SharedArrayBuffer.",
+        solution:
+          "SharedArrayBuffer memory leaks occur when shared memory segments remain allocated despite no longer being needed by any worker or main thread. Leak mechanisms: SharedArrayBuffer persists until all references across all contexts are released, Workers holding references prevent deallocation even after termination, Circular references between workers through shared memory. Common leak patterns: Storing SharedArrayBuffer references in global variables, Passing buffers between workers without cleanup protocols, Using shared memory for temporary communication without disposal. Detection challenges: Memory appears in multiple worker heaps, Standard heap profiling may not show full impact, Requires cross-context analysis. Prevention strategies: Implement explicit buffer lifecycle management, Use message passing for cleanup coordination, Employ buffer pooling with reference counting, Set up worker termination cleanup protocols. Debugging approaches: Monitor buffer creation/disposal ratios, Use Worker.terminate() to test cleanup, Implement buffer registries for tracking, and profile memory across all worker contexts.",
+      },
+      {
+        question: "Describe cross-context leaks in iframes.",
+        solution:
+          "Cross-context leaks in iframes occur when objects from different execution contexts maintain references to each other, preventing proper garbage collection. Leak scenarios: Parent window holding iframe element references after removal, iframe accessing parent objects through window.parent, Event listeners crossing context boundaries, Shared object references between contexts. The problem is amplified because: Each iframe has its own heap and GC cycle, Cross-context references are treated as external/global references, GC cannot collect objects with cross-context dependencies. Common leak sources: PostMessage handlers storing message origins, Iframe content accessing parent DOM elements, Parent scripts caching iframe window references, Shared JavaScript libraries with global state. Prevention techniques: Use WeakRef for cross-context object references, Implement explicit cleanup protocols before iframe removal, Avoid storing cross-context references in global variables, Use message passing instead of direct object access, and establish clear context lifecycle management.",
+      },
+      {
+        question: "How do global variables in ES modules stay alive?",
+        solution:
+          "Global variables in ES modules stay alive throughout the application lifecycle due to module singleton behavior and persistent module scope. Module loading characteristics: Modules are loaded once and cached permanently, Module scope variables act as application-wide globals, Import/export creates persistent references to module objects. Memory implications: Module-level variables never become eligible for GC, Large objects stored in module scope persist indefinitely, Accumulating state in modules creates memory leaks. Common leak patterns: Caching API responses in module-level Maps, Storing event handlers in module scope arrays, Accumulating metrics or logs in module variables, Maintaining connection pools without cleanup. Mitigation strategies: Use module factories instead of global state, Implement explicit cleanup functions, Employ WeakMap for temporary associations, Design modules as stateless with dependency injection. Best practices include treating modules as pure factories, avoiding module-level caches, implementing application shutdown cleanup, and using explicit state management patterns.",
+      },
+      {
+        question: "Explain reflected, stored, and DOM-based XSS.",
+        solution:
+          "XSS (Cross-Site Scripting) has three main types based on payload storage and execution context. Reflected XSS: Malicious script in URL parameters immediately reflected in response, Not stored server-side, Requires victim to click malicious link, Example: search?q=<script>alert('xss')</script> reflected in results page. Stored XSS: Malicious script stored in database/server, Executes when other users view the content, Most dangerous due to persistent nature, Example: comment field storing <script> tags that execute for all viewers. DOM-based XSS: Payload manipulates DOM directly through client-side JavaScript, Never sent to server, Exploits unsafe DOM manipulation, Example: location.hash used in innerHTML without sanitization. Prevention strategies: Input validation and output encoding, Content Security Policy headers, Use textContent instead of innerHTML, Sanitize HTML with trusted libraries like DOMPurify, Validate and encode all user inputs, and implement proper context-aware output encoding.",
+      },
+      {
+        question:
+          "Describe a Content Security Policy (CSP) that prevents inline scripts.",
+        solution:
+          "Content Security Policy preventing inline scripts uses directives to restrict script execution sources. Basic CSP header: 'Content-Security-Policy: script-src 'self' https://trusted-cdn.com; object-src 'none'; base-uri 'self''. Key directives: script-src controls JavaScript sources ('self' allows same-origin, specific domains for external scripts), object-src 'none' prevents plugin content, base-uri 'self' restricts base tag manipulation. Inline script prevention: Omit 'unsafe-inline' from script-src, Use nonce-based approach: script-src 'nonce-abc123' with <script nonce='abc123'>, Implement hash-based CSP: script-src 'sha256-hash' for specific inline scripts. Additional security: style-src for CSS restrictions, img-src for image sources, connect-src for AJAX/WebSocket sources. Implementation considerations: Generate unique nonces per request, Use report-uri for violation monitoring, Test thoroughly before enforcement, and provide fallbacks for legacy browsers.",
+      },
+      {
+        question: "How does trusted-types mitigate DOM-XSS?",
+        solution:
+          "Trusted Types API mitigates DOM-based XSS by requiring explicit type conversion for dangerous DOM operations. Core concept: Browser blocks direct string assignment to risky DOM properties, Requires TrustedHTML, TrustedScript, or TrustedScriptURL types, Forces explicit security review at string-to-trusted-type boundaries. Protected DOM sinks: innerHTML, outerHTML, document.write(), script.src, eval(), and other script execution vectors. Implementation: Create TrustedTypePolicy with createHTML/createScript methods, Policies contain sanitization logic, Only policy-created types can be assigned to DOM sinks. CSP integration: 'require-trusted-types-for script' directive enforces usage, 'trusted-types policyName' restricts allowed policies. Benefits: Prevents accidental XSS through type system, Centralizes sanitization logic in policies, Provides clear security boundaries in code. Example policy: trustedTypes.createPolicy('default', { createHTML: (input) => DOMPurify.sanitize(input) }). This approach moves security from runtime checks to compile-time type safety.",
+      },
+      {
+        question: "Explain CSRF token double-submit pattern.",
+        solution:
+          "CSRF token double-submit pattern defends against Cross-Site Request Forgery by requiring matching tokens in both cookie and request parameter. Implementation mechanism: Server generates random CSRF token, Token stored in both secure cookie and provided to client, Client includes token in form data or custom header, Server validates cookie token matches request token. Security properties: Attacker cannot read cookie value due to same-origin policy, Attacker cannot set cookie value for target domain, Both token values must match for request acceptance. Advantages over traditional CSRF tokens: No server-side token storage required, Stateless validation possible, Scales well in distributed systems. Implementation details: Use secure, httpOnly cookies for token storage, Include token in meta tags for JavaScript access, Validate tokens on all state-changing requests, Regenerate tokens periodically for enhanced security. Additional protections: Combine with SameSite cookie attributes, Implement request origin validation, Use custom headers which require CORS preflight, and ensure HTTPS-only token transmission.",
+      },
+      {
+        question: "Describe SameSite cookie attribute values.",
+        solution:
+          "SameSite cookie attribute controls when cookies are sent with cross-site requests, providing CSRF protection. Three attribute values: 'Strict' prevents cookie transmission on all cross-site requests (including navigation links), 'Lax' allows cookies on top-level navigation but blocks embedded requests, 'None' permits cross-site transmission but requires Secure flag. Strict behavior: Cookies only sent for same-site requests, User clicking external links won't receive cookies, Most secure but can break legitimate workflows. Lax behavior: Cookies sent on navigation (GET requests changing top-level context), Blocked on embedded resources (images, AJAX, forms), Default in modern browsers, balances security and usability. None behavior: Allows all cross-site requests with cookies, Requires HTTPS and Secure flag, Necessary for legitimate cross-site functionality. Use cases: Strict for highly sensitive authentication, Lax for general session management, None for embedded widgets/APIs. Implementation: Set-Cookie: sessionid=abc123; SameSite=Lax; Secure; HttpOnly. Consider user experience impact when choosing SameSite values.",
+      },
+      {
+        question: "How does X-Frame-Options prevent click-jacking?",
+        solution:
+          "X-Frame-Options is an HTTP response header that prevents click-jacking attacks by controlling whether a page can be embedded in frames/iframes. It has three directives: DENY (completely blocks framing), SAMEORIGIN (allows framing only from same origin), and ALLOW-FROM uri (allows specific origins). When a browser receives this header, it checks the frame's origin against the policy. If violated, the browser blocks rendering the page in the frame. Modern alternative is Content Security Policy's frame-ancestors directive which provides more granular control. Implementation: res.setHeader('X-Frame-Options', 'SAMEORIGIN'). This prevents malicious sites from invisibly overlaying your page to trick users into clicking hidden elements.",
+      },
+      {
+        question: "Explain Subresource Integrity (SRI).",
+        solution:
+          "SRI is a security feature that allows browsers to verify that resources fetched from CDNs haven't been tampered with. It uses cryptographic hashes (SHA-256, SHA-384, SHA-512) embedded in HTML attributes. When loading external scripts/stylesheets, the browser computes the resource's hash and compares it with the integrity attribute. If they don't match, the resource is blocked. Example: <script src='cdn.js' integrity='sha384-hash' crossorigin='anonymous'></script>. The crossorigin attribute is required for SRI to work with external resources. SRI protects against: compromised CDNs, man-in-the-middle attacks, and malicious resource modifications. Generate hashes using: openssl dgst -sha384 -binary file.js | openssl base64 -A. Modern bundlers can automatically generate SRI hashes.",
+      },
+      {
+        question: "Describe HTTP Strict Transport Security (HSTS).",
+        solution:
+          "HSTS is a security policy mechanism that forces browsers to use HTTPS connections exclusively for a domain. The server sends the Strict-Transport-Security header with directives: max-age (seconds to remember policy), includeSubDomains (applies to all subdomains), and preload (eligible for browser preload lists). Example: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload. Once received, browsers automatically upgrade HTTP requests to HTTPS and reject invalid certificates. HSTS prevents: protocol downgrade attacks, SSL stripping, and cookie hijacking. For new domains, use HSTS preload list submission. Implementation considerations: ensure all resources are HTTPS-ready, set appropriate max-age (start with shorter periods), and monitor for mixed content issues.",
+      },
+      {
+        question:
+          "How does X-Content-Type-Options: nosniff stop MIME sniffing?",
+        solution:
+          "X-Content-Type-Options: nosniff prevents browsers from performing MIME type sniffing, forcing them to respect the Content-Type header exactly. Without this header, browsers might execute files based on content analysis rather than declared type, enabling attacks where malicious code is uploaded as images but executed as JavaScript. The nosniff directive ensures strict type checking - if Content-Type says text/plain, the browser won't interpret it as text/html even if it contains HTML. This prevents: XSS via file upload vulnerabilities, polyglot file attacks, and content type confusion attacks. Critical for file upload endpoints and user-generated content. Implementation: res.setHeader('X-Content-Type-Options', 'nosniff'). Must be combined with proper Content-Type headers and file validation on the server side.",
+      },
+      {
+        question: "Explain Trusted Types enforcement.",
+        solution:
+          "Trusted Types is a browser API that prevents DOM-based XSS by requiring special objects for dangerous sink operations. It creates a security boundary where potentially dangerous APIs (innerHTML, eval, script.src) only accept TrustedHTML, TrustedScript, or TrustedScriptURL objects instead of strings. Enable via CSP: Content-Security-Policy: trusted-types myPolicy; require-trusted-types-for 'script'. Create policies: const policy = trustedTypes.createPolicy('myPolicy', { createHTML: (input) => DOMPurify.sanitize(input) }). Use trusted objects: element.innerHTML = policy.createHTML(userInput). Enforcement blocks: element.innerHTML = userInput (throws TypeError). Benefits: eliminates entire classes of DOM XSS, forces explicit sanitization, provides audit trail. Supports violation reporting and gradual deployment through report-only mode.",
+      },
+      {
+        question: "Describe JSONP security pitfalls.",
+        solution:
+          "JSONP (JSON with Padding) bypasses same-origin policy by dynamically creating script tags, but introduces severe security risks. Vulnerabilities include: callback manipulation (attacker controls callback function name), code injection (malicious JSON can execute arbitrary JavaScript), no request headers control, impossible to handle errors properly, and CSRF attacks (requests always include cookies). Example vulnerability: callback=alert('XSS') becomes alert('XSS')({data}). JSONP responses are executed in caller's context with full privileges. Modern alternatives: CORS for cross-origin requests, postMessage for iframe communication, or server-side proxy patterns. If JSONP is unavoidable: validate callback names with whitelist, use nonce-based callbacks, implement strict input validation, and consider CSP restrictions. Better approach: implement proper CORS headers and use fetch() or XMLHttpRequest.",
+      },
+      {
+        question: "How do you sanitize user-supplied HTML safely?",
+        solution:
+          "Safe HTML sanitization requires parsing HTML into DOM tree, applying whitelist-based filtering, and reconstructing safe HTML. Key principles: use established libraries (DOMPurify, bleach), never regex-based cleaning, whitelist approach (not blacklist), context-aware sanitization. DOMPurify example: const clean = DOMPurify.sanitize(dirty, {ALLOWED_TAGS: ['b', 'i', 'em'], ALLOWED_ATTR: ['href']}). Custom implementation needs: HTML parser, tag/attribute whitelists, URL validation for href/src, event handler removal, and proper encoding. Advanced considerations: SVG sanitization, MathML support, CSS property filtering, and relative URL resolution. Always sanitize on output, not input. For rich text editors, consider: content security policy, iframe sandboxing, or markdown with controlled HTML subset. Server-side sanitization is mandatory even with client-side cleaning.",
+      },
+      {
+        question: "Explain DOM clobbering prevention.",
+        solution:
+          "DOM clobbering occurs when HTML injection creates named elements that shadow global JavaScript variables or object properties. Example: <img name='isAdmin' src=x> makes window.isAdmin reference the image element instead of intended boolean. Prevention strategies: use document.getElementById() instead of direct property access, avoid global variables for security decisions, validate element types before use (instanceof checks), use strict property access (hasOwnProperty), and implement CSP to restrict HTML injection. Safer patterns: const admin = document.getElementById('isAdmin')?.dataset?.value === 'true'; instead of if(window.isAdmin). HTML sanitization should remove/rename problematic attributes (name, id on form controls). Modern frameworks help by managing DOM access, but custom JavaScript remains vulnerable. Use TypeScript for compile-time property checking and eslint rules to detect dangerous global access patterns.",
+      },
+      {
+        question: "Describe eval-based XSS vectors.",
+        solution:
+          "Eval-based XSS exploits dynamic code execution through eval(), Function constructor, setTimeout/setInterval with strings, and template literals. Common vectors: eval(userInput), new Function(userInput)(), setTimeout(userInput, 100), and template literals with user-controlled expressions. Indirect eval: window['ev'+'al'](code), bracket notation access, and JSON.parse with reviver functions. Prevention: never use eval() with user data, use JSON.parse for data parsing, validate all dynamic code generation, implement strict CSP with 'unsafe-eval' restriction. Safe alternatives: JSON.parse() for data, structured data formats, configuration objects instead of code strings. For template engines: use auto-escaping, contextual encoding, and sandboxed execution environments. CSP directive: script-src 'self' (blocks eval). Modern bundlers can detect and warn about eval usage during build process.",
+      },
+      {
+        question: "How does template injection differ from XSS?",
+        solution:
+          "Template injection occurs server-side in template engines (Jinja2, Handlebars, Mustache) while XSS is client-side HTML injection. Template injection can lead to: server-side code execution, file system access, database queries, and complete server compromise. XSS is limited to client-side JavaScript execution. Template injection example: {{7*7}} renders as 49, indicating server-side evaluation. In Jinja2: {{config.items()}} exposes application configuration. Prevention differs: template injection requires server-side input validation, sandboxed template environments, and restricted template context. XSS prevention focuses on output encoding and CSP. Template injection detection: look for template syntax in user input, test with mathematical expressions, and check for server-side evaluation. Mitigation: use logic-less templates, implement strict input validation, sandbox template execution, and never allow user control over template selection or rendering context.",
+      },
+      {
+        question: "Explain OAuth PKCE flow.",
+        solution:
+          "PKCE (Proof Key for Code Exchange) secures OAuth authorization code flow for public clients by preventing code interception attacks. Flow: 1) Client generates code_verifier (random string) and code_challenge (SHA256 hash of verifier), 2) Authorization request includes code_challenge and method, 3) Authorization server stores challenge with code, 4) Token exchange includes original code_verifier, 5) Server verifies SHA256(code_verifier) equals stored code_challenge. Implementation: const verifier = base64url(randomBytes(32)); const challenge = base64url(sha256(verifier)). Authorization URL: /authorize?code_challenge=xyz&code_challenge_method=S256. Token request: POST /token with code_verifier parameter. PKCE prevents: authorization code interception on mobile apps, malicious app attacks, and network-based code theft. Essential for SPAs and mobile apps where client secrets cannot be stored securely.",
+      },
+      {
+        question: "Describe JWT security best practices.",
+        solution:
+          "JWT security requires: strong signing algorithms (RS256 preferred over HS256), proper secret management, token expiration (short-lived access tokens), secure storage (httpOnly cookies for web, secure storage for mobile), signature verification on every request, and algorithm validation to prevent 'none' algorithm attacks. Implementation: verify issuer and audience claims, validate expiration and not-before times, use refresh token rotation, implement token revocation lists for critical operations. Avoid: storing sensitive data in payload (it's base64, not encrypted), using JWTs for session storage, long-lived tokens without refresh mechanism. Structure validation: check header.payload.signature format, validate JSON structure, sanitize claims before use. For sensitive applications: encrypt JWTs using JWE, implement token binding, use short expiration times (15 minutes), and maintain server-side session state for revocation capabilities.",
+      },
+      {
+        question: "How do Referrer-Policy headers protect privacy?",
+        solution:
+          "Referrer-Policy controls how much referrer information browsers send with requests, protecting user privacy and preventing information leakage. Policies include: 'no-referrer' (never send), 'same-origin' (only to same origin), 'strict-origin' (only origin, HTTPS→HTTP never), 'strict-origin-when-cross-origin' (full URL for same-origin, origin only for cross-origin HTTPS, nothing for HTTPS→HTTP). Implementation: Referrer-Policy: strict-origin-when-cross-origin or <meta name='referrer' content='strict-origin'>. Per-element control: <a href='...' referrerpolicy='no-referrer'>. Privacy benefits: prevents sensitive URL parameters leakage, protects internal application structure, reduces tracking capabilities. Security considerations: some applications rely on referrer for CSRF protection (use CSRF tokens instead), analytics may need referrer data (implement first-party analytics), and certain integrations expect referrer information.",
+      },
+      {
+        question: "Explain permissions-policy for sensitive APIs.",
+        solution:
+          "Permissions Policy (formerly Feature Policy) controls browser feature access for documents and embedded content. Syntax: Permissions-Policy: camera=(), geolocation=(self), microphone=(self 'https://trusted.com'). Directives control: camera, microphone, geolocation, payment, fullscreen, autoplay, and many others. Values: * (all origins), 'self' (same origin), 'none' or () (nobody), specific origins. Implementation in HTML: <iframe allow='camera; microphone' src='...'> or HTTP header. Benefits: prevents malicious iframe abuse, reduces attack surface, explicit permission model, and protects user privacy. Security considerations: blocks unexpected API access, prevents clickjacking for permissions, and provides defense in depth. Default policies vary by feature - camera/microphone default to 'self', some features like payment require explicit allowlist. Modern alternative to document.domain manipulation for cross-origin iframe communication control.",
+      },
+      {
+        question: "Describe server-side request forgery (SSRF) in Node.js.",
+        solution:
+          "SSRF occurs when server makes HTTP requests to attacker-controlled URLs, potentially accessing internal services or performing unauthorized actions. In Node.js, common vectors: http.request(), fetch(), axios requests with user-provided URLs. Vulnerabilities: accessing internal services (localhost:6379 for Redis), cloud metadata endpoints (169.254.169.254), file:// protocol for local file access, and DNS rebinding attacks. Prevention: validate and whitelist allowed domains/IPs, block private IP ranges (10.0.0.0/8, 192.168.0.0/16, 127.0.0.0/8), disable URL redirects or validate redirect targets, use network segmentation, implement request timeouts. Example mitigation: const url = new URL(userInput); if (isPrivateIP(url.hostname)) throw new Error('Invalid URL'). Advanced protection: use HTTP proxies with filtering, implement DNS filtering, validate response content types, and monitor outbound requests. Consider using libraries like 'ssrf-req-filter' for comprehensive SSRF protection.",
+      },
+      {
+        question: "Implement the Observer pattern with AbortSignal.",
+        solution:
+          "The Observer pattern with AbortSignal enables cancellable event subscriptions and automatic cleanup. Implementation: class ObservableSignal extends EventTarget { constructor() { super(); this.observers = new Set(); } subscribe(callback, signal) { const handler = (event) => callback(event.detail); this.addEventListener('update', handler, { signal }); signal?.addEventListener('abort', () => this.observers.delete(callback)); this.observers.add(callback); return () => { this.removeEventListener('update', handler); this.observers.delete(callback); }; } notify(data) { this.dispatchEvent(new CustomEvent('update', { detail: data })); } }. Usage: const observable = new ObservableSignal(); const controller = new AbortController(); const unsubscribe = observable.subscribe(data => console.log(data), controller.signal); controller.abort(); // Automatically cleans up subscription. Benefits: automatic memory leak prevention, composable cancellation, and integration with fetch() and other AbortSignal-aware APIs.",
+      },
+      {
+        question: "Describe MVC vs MVVM in vanilla JS.",
+        solution:
+          "MVC (Model-View-Controller): Model holds data and business logic, View renders UI, Controller handles user input and coordinates between Model and View. In vanilla JS: const model = { data: [], getData() {...} }; const view = { render(data) { document.getElementById('app').innerHTML = template(data); } }; const controller = { init() { view.render(model.getData()); document.addEventListener('click', this.handleClick.bind(this)); } }. MVVM (Model-View-ViewModel): ViewModel acts as binding layer between View and Model, handling presentation logic and data transformation. Implementation uses data binding: const viewModel = { data: observable(model.data), computed: { filteredData() { return this.data.filter(item => item.active); } }, methods: { addItem(item) { this.data.push(item); this.notifyChange(); } } }. Key difference: MVC has explicit controller managing flow, MVVM uses declarative data binding with ViewModel automatically updating View when Model changes.",
+      },
+      {
+        question: "Explain Module patterns (revealing, AMD, UMD, ES).",
+        solution:
+          "Revealing Module: Exposes only selected functions through returned object. const MyModule = (function() { let privateVar = 0; function privateFunction() {...} function publicFunction() {...} return { public: publicFunction, increment: () => privateVar++ }; })();. AMD (Asynchronous Module Definition): For browser async loading. define(['dependency1', 'dependency2'], function(dep1, dep2) { return { method: () => {...} }; });. UMD (Universal Module Definition): Works in browser, Node.js, and AMD. (function(root, factory) { if (typeof define === 'function' && define.amd) define([], factory); else if (typeof module === 'object') module.exports = factory(); else root.MyModule = factory(); })(this, function() { return { api: () => {...} }; });. ES Modules: Native JavaScript modules. export const myFunction = () => {...}; export default class MyClass {...}; import { myFunction } from './module.js'. ES modules provide static analysis, tree shaking, and are the modern standard with top-level await and dynamic imports.",
+      },
+      {
+        question: "Implement Singleton with Symbol.for.",
+        solution:
+          "Symbol.for creates global symbol registry enabling true singleton across realms and module boundaries. Implementation: class DatabaseConnection { constructor() { const instanceKey = Symbol.for('DatabaseConnection.instance'); if (DatabaseConnection[instanceKey]) { return DatabaseConnection[instanceKey]; } this.connection = null; this.isConnected = false; DatabaseConnection[instanceKey] = this; return this; } static getInstance() { return new DatabaseConnection(); } connect() { if (!this.isConnected) { this.connection = createConnection(); this.isConnected = true; } return this.connection; } }. Usage: const db1 = new DatabaseConnection(); const db2 = DatabaseConnection.getInstance(); console.log(db1 === db2); // true. Benefits over traditional singleton: works across different execution contexts, prevents multiple instances even with different constructors, and maintains reference integrity. Symbol.for ensures same symbol across realms unlike Symbol() which creates unique symbols.",
+      },
+      {
+        question: "Describe Strategy pattern for validation rules.",
+        solution:
+          "Strategy pattern encapsulates validation algorithms in interchangeable objects. Implementation: const validationStrategies = { email: { validate: (value) => /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(value), message: 'Invalid email format' }, required: { validate: (value) => value != null && value !== '', message: 'Field is required' }, minLength: (min) => ({ validate: (value) => value.length >= min, message: `Minimum ${min} characters required` }) }. Validator class: class FieldValidator { constructor() { this.strategies = []; } addStrategy(strategy) { this.strategies.push(strategy); return this; } validate(value) { for (let strategy of this.strategies) { if (!strategy.validate(value)) { return { valid: false, message: strategy.message }; } } return { valid: true }; } }. Usage: const emailValidator = new FieldValidator().addStrategy(validationStrategies.required).addStrategy(validationStrategies.email); const result = emailValidator.validate(userInput). Benefits: runtime strategy switching, composable validation rules, easy testing, and extensible validation logic.",
+      },
+      {
+        question: "Explain the Proxy pattern for API versioning.",
+        solution:
+          "Proxy pattern provides interface to control access to API versions while maintaining backward compatibility. Implementation: class APIProxy { constructor() { this.versions = new Map(); this.defaultVersion = 'v1'; } registerVersion(version, implementation) { this.versions.set(version, implementation); } createHandler(version = this.defaultVersion) { const api = this.versions.get(version); if (!api) throw new Error(`API version ${version} not found`); return new Proxy(api, { get(target, prop) { if (typeof target[prop] === 'function') { return function(...args) { console.log(`API ${version}: ${prop} called`); if (target.deprecated?.includes(prop)) { console.warn(`${prop} is deprecated in ${version}`); } return target[prop].apply(target, args); }; } return target[prop]; } }); } }. Usage: const proxy = new APIProxy(); proxy.registerVersion('v1', { getUser: (id) => fetchUserV1(id) }); proxy.registerVersion('v2', { getUser: (id, fields) => fetchUserV2(id, fields) }); const api = proxy.createHandler('v2'). Benefits: transparent version switching, deprecation warnings, request logging, and gradual migration support.",
+      },
+      {
+        question: "Describe Command pattern for undo/redo.",
+        solution:
+          "The Command pattern encapsulates requests as objects, enabling parameterization, queuing, and undo operations. For undo/redo, create a command interface with execute() and undo() methods. Each command stores its previous state and implements reversal logic. Use a command history stack to track executed commands. Example: TextEditor with InsertTextCommand, DeleteTextCommand. Each command stores the text position, content, and previous state. The invoker maintains executeStack and undoStack arrays. When executing, push to executeStack and call execute(). For undo, pop from executeStack, call undo(), and push to undoStack. This pattern decouples the invoker from receiver, enables macro commands (composite pattern), and supports complex undo scenarios like branching history trees.",
+      },
+      {
+        question: "Implement Factory with dynamic import().",
+        solution:
+          "Dynamic factory uses ES6 dynamic imports for lazy loading and code splitting. Create a factory that maps product types to module paths and uses import() to load implementations on demand. Example: `class ComponentFactory { static async create(type, props) { const modulePath = this.typeMap[type]; if (!modulePath) throw new Error('Unknown type'); const module = await import(modulePath); return new module.default(props); } }`. Benefits include reduced bundle size, faster initial load, and runtime extensibility. Use with module federation for micro-frontend architectures. Implement caching to avoid repeated imports: `if (this.cache[type]) return new this.cache[type](props)`. Handle loading states and errors gracefully. Combine with service workers for offline capability and preloading strategies based on user behavior patterns.",
+      },
+      {
+        question: "Explain Flyweight for DOM node pooling.",
+        solution:
+          "Flyweight pattern minimizes memory usage by sharing common data between similar objects. For DOM node pooling, create a pool of reusable DOM elements to avoid constant creation/destruction. Intrinsic state (shared): element type, event handlers, CSS classes. Extrinsic state (unique): position, content, specific attributes. Implementation: `class DOMPool { constructor(tagName, poolSize) { this.pool = []; this.tagName = tagName; for(let i = 0; i < poolSize; i++) this.pool.push(document.createElement(tagName)); } acquire(content, x, y) { const element = this.pool.pop() || document.createElement(this.tagName); element.textContent = content; element.style.left = x + 'px'; element.style.top = y + 'px'; return element; } release(element) { element.textContent = ''; this.pool.push(element); } }`. Use for virtual scrolling, particle systems, and large data tables. Monitor pool hit rates and resize dynamically based on usage patterns.",
+      },
+      {
+        question: "Describe Mediator vs Observer.",
+        solution:
+          "Both patterns handle communication between objects but differ in structure and coupling. Observer pattern: One-to-many dependency where subjects notify multiple observers of state changes. Direct relationship between subject and observers. Observers subscribe/unsubscribe independently. Example: EventEmitter, DOM events. Mediator pattern: Many-to-many communication through a central mediator object. Objects don't reference each other directly, only the mediator. Mediator encapsulates complex interaction logic. Example: Chat room where users don't know about each other, only the room. Observer promotes loose coupling but can create complex dependency graphs. Mediator centralizes control but can become a bottleneck. Use Observer for simple notifications (model-view updates). Use Mediator for complex workflows (form validation, multi-step wizards, component orchestration). Mediator often implements Observer internally to notify participants of state changes.",
+      },
+      {
+        question: "Explain Decorator pattern with higher-order functions.",
+        solution:
+          "Decorator pattern adds new functionality to objects without altering their structure. In JavaScript, higher-order functions naturally implement this pattern. A decorator function takes a function as input and returns an enhanced version. Example: `const withLogging = (fn) => (...args) => { console.log('Calling', fn.name, 'with', args); const result = fn(...args); console.log('Result:', result); return result; }`. Decorators can be composed: `const enhancedFn = withRetry(withLogging(withValidation(originalFn)))`. Use cases include authentication, caching, rate limiting, performance monitoring. For classes, use method decorators: `const memoize = (target, key, descriptor) => { const cache = new Map(); const original = descriptor.value; descriptor.value = function(...args) { const cacheKey = JSON.stringify(args); if (cache.has(cacheKey)) return cache.get(cacheKey); const result = original.apply(this, args); cache.set(cacheKey, result); return result; }; }`. Benefits: single responsibility, open/closed principle, runtime composition.",
+      },
+      {
+        question: "Describe Chain of Responsibility for middleware.",
+        solution:
+          "Chain of Responsibility passes requests through a chain of handlers until one processes it or the chain ends. Perfect for middleware systems like Express.js. Each handler decides whether to process the request, pass it along, or terminate the chain. Implementation: `class Middleware { constructor() { this.middlewares = []; } use(fn) { this.middlewares.push(fn); return this; } async execute(context) { let index = 0; const next = async () => { if (index >= this.middlewares.length) return; const middleware = this.middlewares[index++]; await middleware(context, next); }; await next(); } }`. Each middleware receives context and next function. Call next() to continue chain or skip to terminate. Use for authentication, logging, validation, error handling, request transformation. Benefits: dynamic handler composition, loose coupling, easy to add/remove handlers. Advanced: conditional chaining based on request types, parallel processing for independent middlewares, circuit breakers for fault tolerance.",
+      },
+      {
+        question: "Implement State pattern for finite-state machines.",
+        solution:
+          "State pattern allows objects to alter behavior when internal state changes. Implement as finite-state machine with explicit state objects. Create abstract State class with methods for each action. Concrete states implement specific behaviors and transition logic. Context maintains current state reference. Example: `class StateMachine { constructor(initialState) { this.state = initialState; this.state.enter(this); } transition(newState) { this.state.exit(this); this.state = newState; this.state.enter(this); } handle(action, ...args) { return this.state.handle(action, this, ...args); } }`. State objects: `class IdleState { handle(action, context) { if (action === 'start') context.transition(new RunningState()); } }`. Benefits: eliminates complex conditionals, makes state transitions explicit, easy to add new states. Use for game AI, UI components (loading/error/success), workflow engines, protocol implementations. Add state history for undo capability and state validation to prevent illegal transitions.",
+      },
+      {
+        question: "Explain Visitor pattern for AST traversal.",
+        solution:
+          "Visitor pattern separates algorithms from object structures, allowing new operations without modifying existing classes. For AST traversal, define visitor interface with visit methods for each node type. Nodes accept visitors and call appropriate visit methods. Example: `class ASTVisitor { visitBinaryExpression(node) {} visitLiteral(node) {} visitIdentifier(node) {} } class BinaryExpression { accept(visitor) { visitor.visitBinaryExpression(this); this.left.accept(visitor); this.right.accept(visitor); } }`. Implement specific visitors: CodeGeneratorVisitor, OptimizationVisitor, TypeCheckerVisitor. Benefits: add new operations easily, group related operations, work with heterogeneous object collections. For complex ASTs, use double dispatch to resolve correct visitor method based on both visitor and node types. Implement traversal strategies (pre-order, post-order, breadth-first) as separate concerns. Use for compilers, linters, code transformers, syntax highlighters. Handle circular references and maintain traversal context for scope-aware operations.",
+      },
+      {
+        question: "Describe Builder pattern for complex objects.",
+        solution:
+          "Builder pattern constructs complex objects step by step, separating construction from representation. Useful for objects with many optional parameters or complex initialization logic. Implementation: `class QueryBuilder { constructor() { this.query = {}; } select(fields) { this.query.select = fields; return this; } where(conditions) { this.query.where = conditions; return this; } orderBy(field, direction = 'ASC') { this.query.orderBy = { field, direction }; return this; } build() { return new Query(this.query); } }`. Usage: `const query = new QueryBuilder().select(['name', 'email']).where({ active: true }).orderBy('name').build()`. Benefits: fluent interface, parameter validation during construction, immutable final objects, multiple representations from same builder. For complex scenarios, use Director class to orchestrate building process. Implement builder inheritance for specialized builders. Use for configuration objects, HTTP requests, complex UI components, database queries. Consider using factory methods that return pre-configured builders for common use cases.",
+      },
+      {
+        question: "Explain Adapter for legacy APIs.",
+        solution:
+          "Adapter pattern allows incompatible interfaces to work together by wrapping existing classes with new interfaces. For legacy APIs, create adapters that translate between old and new interfaces without modifying original code. Example: Legacy API returns XML, new code expects JSON. `class LegacyApiAdapter { constructor(legacyApi) { this.legacyApi = legacyApi; } async getUserData(userId) { const xmlResponse = await this.legacyApi.getUser(userId); return this.xmlToJson(xmlResponse); } xmlToJson(xml) { // Convert XML to JSON } }`. Object adapter wraps instances, class adapter extends legacy classes. Benefits: integrates legacy code without modification, gradual migration strategy, maintains existing functionality. Use for third-party library integration, API versioning, database layer abstraction. Implement caching layer in adapter for performance. Handle differences in error formats, authentication methods, and data formats. Create adapter factories for multiple legacy systems. Consider using facade pattern alongside adapter for simplified interfaces.",
+      },
+      {
+        question: "Describe Composite for tree structures.",
+        solution:
+          "Composite pattern composes objects into tree structures to represent part-whole hierarchies. Clients treat individual objects and compositions uniformly. Define component interface with common operations. Leaf nodes implement operations directly, composite nodes delegate to children. Example: File system where files and directories share common interface. `class FileSystemComponent { getName() {} getSize() {} } class File extends FileSystemComponent { constructor(name, size) { super(); this.name = name; this.size = size; } getSize() { return this.size; } } class Directory extends FileSystemComponent { constructor(name) { super(); this.name = name; this.children = []; } add(component) { this.children.push(component); } getSize() { return this.children.reduce((sum, child) => sum + child.getSize(), 0); } }`. Benefits: uniform treatment of primitives and composites, easy to add new component types, recursive operations. Use for DOM manipulation, menu systems, organization charts, mathematical expressions. Implement visitor pattern for complex operations. Handle circular references and parent references for navigation.",
+      },
+      {
+        question: "Explain Facade for hiding micro-frontends.",
+        solution:
+          "Facade pattern provides simplified interface to complex subsystems. For micro-frontends, create facade that abstracts communication, loading, and lifecycle management of multiple frontend applications. Implementation: `class MicrofrontendFacade { constructor() { this.apps = new Map(); this.eventBus = new EventEmitter(); } async loadApp(name, config) { const app = await this.dynamicImport(config.entry); await app.mount(config.container); this.apps.set(name, app); this.setupCommunication(name, app); } setupCommunication(name, app) { app.subscribe = (event, handler) => this.eventBus.on(event, handler); app.emit = (event, data) => this.eventBus.emit(event, data); } routeTo(appName, path) { const app = this.apps.get(appName); app && app.navigate(path); } }`. Facade handles cross-app communication, shared state management, routing coordination, and error boundaries. Benefits: simplified API for complex operations, centralized configuration, easier testing and maintenance. Implement lazy loading, preloading strategies, shared dependencies management, and graceful degradation for failed micro-frontends.",
+      },
+      {
+        question: "Describe Bridge for platform-specific code.",
+        solution:
+          "Bridge pattern separates abstraction from implementation, allowing both to vary independently. For platform-specific code, create bridge that allows same API to work across different platforms (web, mobile, desktop). Define abstraction interface and implementation interface. Abstraction contains reference to implementation. Example: `class StorageAbstraction { constructor(implementation) { this.impl = implementation; } async save(key, data) { return this.impl.save(key, data); } async load(key) { return this.impl.load(key); } } class WebStorageImplementation { save(key, data) { localStorage.setItem(key, JSON.stringify(data)); } load(key) { return JSON.parse(localStorage.getItem(key)); } } class NodeStorageImplementation { save(key, data) { fs.writeFileSync(`${key}.json`, JSON.stringify(data)); } load(key) { return JSON.parse(fs.readFileSync(`${key}.json`)); } }`. Benefits: platform independence, runtime implementation switching, separate evolution of abstraction and implementation. Use for cross-platform libraries, database drivers, rendering engines, network protocols. Implement factory pattern to create appropriate implementations based on runtime environment.",
+      },
+      {
+        question: "Explain Prototype pattern vs class cloning.",
+        solution:
+          "Prototype pattern creates objects by cloning existing instances rather than instantiating classes. JavaScript natively supports prototypal inheritance. Class cloning creates copies of class instances, while prototype pattern focuses on object creation mechanism. Prototype pattern: `const userPrototype = { name: '', email: '', clone() { return Object.assign(Object.create(Object.getPrototypeOf(this)), this); } }; const user1 = Object.create(userPrototype); user1.name = 'John';`. Class cloning: `class User { clone() { return Object.assign(Object.create(this.constructor.prototype), this); } }`. Differences: Prototype avoids class hierarchies, supports runtime object composition, more flexible for dynamic object creation. Class cloning maintains type relationships, supports instanceof checks, clearer inheritance chains. Use prototype for configuration objects, default values, complex object initialization. Use class cloning for maintaining type safety, polymorphic behavior, structured inheritance. Implement deep cloning for complex nested objects using structuredClone() or custom recursive logic.",
+      },
+      {
+        question: "Describe code-splitting strategies with Webpack.",
+        solution:
+          "Code-splitting reduces initial bundle size by splitting code into multiple chunks loaded on demand. Webpack offers three approaches: Entry point splitting, dynamic imports, and SplitChunksPlugin. Entry splitting: Multiple entry points create separate bundles. `module.exports = { entry: { app: './src/app.js', admin: './src/admin.js' } }`. Dynamic imports: Use import() for lazy loading. `const LazyComponent = React.lazy(() => import('./LazyComponent'))`. SplitChunksPlugin: Automatically splits vendor code, common modules, and async chunks. Configuration: `optimization: { splitChunks: { chunks: 'all', cacheGroups: { vendor: { test: /[\\/]node_modules[\\/]/, name: 'vendors', chunks: 'all' }, common: { minChunks: 2, chunks: 'all' } } } }`. Route-based splitting for SPAs, component-based splitting for large components, vendor splitting for third-party libraries. Use webpack-bundle-analyzer to visualize bundle composition. Implement preloading for critical chunks and prefetching for likely-needed chunks.",
+      },
+      {
+        question: "Explain lazy loading with import().",
+        solution:
+          "Dynamic import() enables lazy loading by returning promises that resolve to modules. Unlike static imports, dynamic imports are evaluated at runtime and support code-splitting. Syntax: `import(modulePath)` returns Promise<Module>. Usage: `const module = await import('./heavy-module.js'); module.default.initialize();`. For React: `const LazyComponent = React.lazy(() => import('./Component')); <Suspense fallback={<Loading />}><LazyComponent /></Suspense>`. Benefits: reduced initial bundle size, faster first contentful paint, on-demand loading. Strategies: route-based (load route components when navigating), interaction-based (load on user action), viewport-based (load when element enters viewport), conditional loading based on feature flags or user permissions. Implementation patterns: Create loading wrapper functions, implement retry logic for failed imports, use intersection observer for viewport-based loading, preload critical modules during idle time. Handle loading states, error boundaries, and progressive enhancement for users with disabled JavaScript.",
+      },
+      {
+        question: "How does tree-shaking eliminate dead code?",
+        solution:
+          'Tree-shaking eliminates unused code through static analysis of ES6 module imports/exports. Webpack analyzes dependency graph and marks unused exports as dead code, which minifiers remove. Works by: 1) Static analysis of import/export statements, 2) Building dependency graph, 3) Marking used/unused code, 4) Dead code elimination during minification. Requirements: ES6 modules (not CommonJS), static imports/exports (not dynamic), no side effects in unused modules. Configure: `module.exports = { mode: \'production\', optimization: { usedExports: true, sideEffects: false } }`. Mark files with side effects: `"sideEffects": ["*.css", "./src/polyfills.js"]` in package.json. Limitations: dynamic imports, CommonJS modules, reflection/eval usage, complex object destructuring. Best practices: use named imports, avoid namespace imports, mark pure functions with /*#__PURE__*/, structure code for better tree-shaking, use babel-plugin-transform-imports for library optimization. Analyze bundle with webpack-bundle-analyzer to verify tree-shaking effectiveness.',
+      },
+      {
+        question: "Describe long-task monitoring via PerformanceObserver.",
+        solution:
+          "PerformanceObserver monitors long tasks that block main thread for >50ms, affecting user experience. Long tasks prevent interaction and smooth animations. Implementation: `const observer = new PerformanceObserver((list) => { list.getEntries().forEach((entry) => { console.log('Long task detected:', { duration: entry.duration, startTime: entry.startTime, name: entry.name }); // Track performance metrics sendToAnalytics({ type: 'long-task', duration: entry.duration, url: entry.name }); }); }); observer.observe({ entryTypes: ['longtask'] });`. Long tasks indicate: inefficient JavaScript execution, large DOM manipulation, synchronous network requests, complex calculations. Mitigation strategies: break work into smaller chunks using setTimeout/requestIdleCallback, use web workers for CPU-intensive tasks, implement virtual scrolling for large lists, debounce/throttle event handlers. Advanced monitoring: track task attribution to identify problematic scripts, measure Total Blocking Time (TBT), implement user timing marks around critical operations, correlate long tasks with user interactions and business metrics.",
+      },
+      {
+        question: "Explain resource hints (preload, prefetch, preconnect).",
+        solution:
+          'Resource hints optimize loading by informing browsers about resource priority and future needs. Preload: `<link rel="preload" href="font.woff2" as="font" crossorigin>` - high priority loading for current page resources. Use for critical CSS, fonts, hero images, essential JavaScript. Prefetch: `<link rel="prefetch" href="next-page.css">` - low priority loading for future navigation. Use for next page resources, likely user actions. Preconnect: `<link rel="preconnect" href="https://fonts.googleapis.com">` - establishes early connection (DNS, TCP, TLS). Use for third-party domains, CDNs, API endpoints. DNS-prefetch: `<link rel="dns-prefetch" href="//analytics.com">` - resolves DNS only. Use for domains without immediate resource loading. ModulePreload: `<link rel="modulepreload" href="app.js">` - preloads ES modules. Implementation strategies: programmatically add hints based on user behavior, remove hints after loading, prioritize critical resources, avoid over-preloading to prevent bandwidth waste. Monitor effectiveness using Resource Timing API and Core Web Vitals metrics.',
+      },
+      {
+        question: "Describe compression (gzip, brotli) trade-offs.",
+        solution:
+          "HTTP compression reduces transfer size at the cost of CPU processing. Gzip: Universal browser support, moderate compression ratio (~70% reduction), fast compression/decompression, good for text-based resources. Configuration: `gzip on; gzip_types text/plain text/css application/json;`. Brotli: Better compression (~20% smaller than gzip), slower compression, faster decompression, limited older browser support. Configuration: `brotli on; brotli_types text/plain text/css application/json;`. Trade-offs: Compression CPU cost vs bandwidth savings, compression time vs transfer time, server resources vs user experience. Strategies: pre-compress static assets during build, use compression levels based on resource importance (level 6 for gzip, level 6 for brotli), implement dynamic compression for user-generated content, fall back from brotli to gzip for older browsers. Advanced: use compression streams for large responses, implement compression caching, monitor compression ratios and server CPU usage, consider zstd for future adoption. Content-Encoding negotiation automatically selects best supported compression.",
+      },
+      {
+        question: "Explain HTTP/2 server push work?",
+        solution:
+          "HTTP/2 server push proactively sends resources to client before they're requested, reducing round trips. Server pushes critical resources (CSS, JavaScript, fonts) alongside HTML response. Implementation: `app.get('/', (req, res) => { res.push('/styles.css', { response: { 'content-type': 'text/css' } }); res.push('/app.js', { response: { 'content-type': 'application/javascript' } }); res.sendFile('index.html'); });`. Benefits: eliminates request latency for critical resources, improves perceived performance, works automatically without client changes. Limitations: increases server complexity, can waste bandwidth if resources cached/unnecessary, difficult to implement correctly, browser support varies. Best practices: push only critical resources, check if resources already cached using Cookie or local storage indicators, limit push to 5-10 resources, monitor push effectiveness using Server-Timing headers. Modern alternative: Early Hints (HTTP 103) provides similar benefits with better cache awareness. Most CDNs and browsers now de-prioritize server push in favor of preload hints and better caching strategies.",
+      },
+      {
+        question: "Describe CDN cache-busting strategies.",
+        solution:
+          "Cache-busting ensures users receive updated assets by changing URLs when content changes. Strategies: 1) Versioning: `app.v1.2.3.js` - simple but requires manual management. 2) Content hashing: `app.abc123.js` - automatic based on file content, only updates when changed. 3) Query parameters: `app.js?v=123` - easy but less reliable (some proxies ignore). 4) Timestamp: `app.js?t=1609459200` - updates on deploy but invalidates all files. Best practice: content hashing with build tools. Webpack: `output: { filename: '[name].[contenthash].js' }`. Implementation: generate manifest mapping original to hashed names, update HTML references automatically, use long cache headers (1 year+) for hashed assets, shorter headers for HTML entry points. Advanced strategies: implement cache hierarchy (CDN edge, browser, service worker), use immutable cache headers for hashed assets, implement graceful fallbacks for asset loading failures, monitor cache hit rates and asset loading performance. Consider cache warming for critical assets and geographic distribution of cache invalidation.",
+      },
+      {
+        question: "Describe critical CSS extraction.",
+        solution:
+          "Critical CSS extraction identifies and inlines CSS needed for above-the-fold content, improving First Contentful Paint. Process: 1) Analyze page HTML and viewport dimensions, 2) Determine which CSS rules affect visible content, 3) Extract and inline critical CSS, 4) Defer non-critical CSS loading. Tools: Critical (Node.js), Penthouse, Puppeteer-based solutions. Implementation: `const critical = require('critical'); critical.generate({ inline: true, base: 'dist/', src: 'index.html', dest: 'index.html', width: 1300, height: 900 });`. Strategies: automated extraction during build process, route-specific critical CSS for SPAs, device-specific extraction (mobile vs desktop), component-based critical CSS for micro-frontends. Challenges: dynamic content, user-specific styles, responsive breakpoints. Solutions: extract for multiple viewports, use CSS containment for component isolation, implement runtime critical CSS detection for dynamic content. Monitor impact using Core Web Vitals, particularly First Contentful Paint and Largest Contentful Paint metrics.",
+      },
+      {
+        question: "Explain image optimization pipelines.",
+        solution:
+          "Image optimization reduces file sizes while maintaining visual quality through format selection, compression, and delivery strategies. Pipeline stages: 1) Format conversion (WebP, AVIF for modern browsers, JPEG/PNG fallbacks), 2) Compression (lossy/lossless based on content), 3) Responsive sizing (multiple resolutions), 4) Lazy loading implementation. Tools: Sharp (Node.js), ImageMagick, Squoosh, CDN services (Cloudinary, ImageKit). Implementation: `const sharp = require('sharp'); sharp('input.jpg').resize(800, 600).webp({ quality: 80 }).toFile('output.webp');`. Advanced techniques: progressive JPEG for perceived performance, art direction with <picture> element, client hints for automatic optimization, blur-up technique for smooth loading. Delivery strategies: serve appropriate format based on Accept header, implement responsive images with srcset/sizes, use intersection observer for lazy loading, preload critical images. Performance monitoring: track image loading times, Core Web Vitals impact, and bandwidth usage. Modern formats like AVIF provide 50%+ size reduction over JPEG with better quality.",
+      },
+      {
+        question: "How do you scale WebSocket connections horizontally?",
+        solution:
+          "Scaling WebSocket connections horizontally requires handling persistent connections across multiple server instances. Challenges: connection affinity, shared state, message broadcasting. Solutions: 1) Sticky sessions using load balancer (simple but limits scalability), 2) Message broker pattern with Redis/RabbitMQ for inter-server communication, 3) Dedicated WebSocket gateway with connection pooling. Implementation with Redis: `const io = require('socket.io')(server, { adapter: require('socket.io-redis')({ host: 'localhost', port: 6379 }) });`. Architecture: load balancer distributes connections, each server maintains local connections, Redis pub/sub enables cross-server messaging, shared session store for user state. Advanced patterns: connection pooling to backend services, health checks and failover, rate limiting per connection, message queuing for offline users. Monitoring: track connection count per server, message latency, memory usage, Redis performance. Consider alternatives: Server-Sent Events for one-way communication, WebRTC for peer-to-peer scenarios, GraphQL subscriptions for structured real-time data. Use horizontal pod autoscaling with metrics like active connections and CPU usage.",
+      },
+      {
+        question:
+          "Describe sticky-session alternatives for stateful applications in load-balanced environments.",
+        solution:
+          "Replace sticky sessions with: 1) External session stores (Redis Cluster with consistent hashing, DynamoDB with session replication), 2) JWT tokens with stateless design (embed user state in signed tokens, refresh token rotation), 3) Database-backed sessions with connection pooling, 4) Distributed caches (Hazelcast, Apache Ignite) with automatic failover, 5) Server-side session replication using cluster messaging. For real-time apps, use WebSocket connection multiplexing with session affinity at application layer rather than load balancer.",
+      },
+      {
+        question:
+          "Explain the difference between Node.js cluster module and worker_threads for scaling applications.",
+        solution:
+          "Cluster module: Creates separate Node.js processes sharing the same port via IPC, ideal for CPU-intensive tasks without blocking main thread, shares memory only through explicit IPC messaging, automatic load balancing across cores. Worker_threads: Creates threads within same process sharing heap memory, uses SharedArrayBuffer/Atomics for true parallel processing, lower overhead for I/O intensive tasks, shared memory requires careful synchronization. Use cluster for process isolation and fault tolerance; use worker_threads for computational parallelism with shared state.",
+      },
+      {
+        question:
+          "Describe rate-limiting algorithms: token bucket vs sliding window implementations.",
+        solution:
+          "Token Bucket: Fixed capacity bucket refilled at constant rate, allows burst traffic up to bucket size, tokens consumed per request. Implementation uses setInterval for refill + token counter. Sliding Window: Tracks requests in time windows, two variants - fixed window (resets at intervals) and sliding log (maintains request timestamps). Sliding window provides smoother rate limiting but higher memory usage. Hybrid approach: sliding window counter with multiple sub-windows for memory efficiency. Redis-based distributed rate limiting uses sorted sets for sliding window or hash with TTL for token bucket.",
+      },
+      {
+        question:
+          "Explain the circuit-breaker pattern for fault tolerance in microservices.",
+        solution:
+          "Circuit breaker monitors downstream service failures and prevents cascading failures through three states: CLOSED (normal operation, tracks failures), OPEN (fast-fail mode, returns cached/default responses), HALF-OPEN (test recovery with limited requests). Implementation tracks failure rate, timeout thresholds, and success criteria. Advanced features include bulkhead pattern for resource isolation, fallback mechanisms with cached responses, metrics collection for observability, and exponential backoff for recovery attempts. Libraries like Netflix Hystrix or node-circuit-breaker provide production-ready implementations.",
+      },
+      {
+        question:
+          "Describe back-pressure handling in Node.js stream processing pipelines.",
+        solution:
+          "Back-pressure occurs when producer writes faster than consumer processes. Node.js streams handle this via: 1) Internal buffering with highWaterMark limits, 2) write() returns false when buffer full, triggering 'drain' event, 3) Transform streams pause upstream when downstream buffers fill. Implement custom back-pressure using: stream.cork()/uncork() for batching, pipeline() for automatic error handling and cleanup, async iterators for pull-based processing, and custom flow control with semaphores. Monitor memory usage and implement circuit breakers for extreme cases.",
+      },
+      {
+        question:
+          "How do you shard Server-Sent Events (SSE) connections across multiple servers?",
+        solution:
+          "Shard SSE connections using: 1) Consistent hashing based on user ID/session to route clients to specific servers, 2) Redis pub/sub for cross-server message broadcasting with channel routing, 3) Sticky load balancing with health checks and failover, 4) WebSocket upgrade for bidirectional communication when needed, 5) Message queues (RabbitMQ/Kafka) for reliable message delivery across shards. Implement connection registry in Redis, heartbeat mechanism for dead connection cleanup, and graceful failover with reconnection logic on client side.",
+      },
+      {
+        question:
+          "Describe service worker caching strategies for optimal web performance.",
+        solution:
+          "Service worker caching strategies: 1) Cache First - serve from cache, fallback to network (static assets), 2) Network First - try network, fallback to cache (API data), 3) Stale While Revalidate - serve cache immediately, update in background (frequent updates), 4) Network Only - always fetch fresh (sensitive data), 5) Cache Only - serve only cached content (offline-first). Implement using Workbox with custom strategies, cache versioning for updates, selective caching with URL patterns, and background sync for failed requests.",
+      },
+      {
+        question:
+          "Describe islands architecture pattern for modern web applications.",
+        solution:
+          "Islands architecture renders pages as static HTML with isolated interactive components ('islands') that hydrate independently. Benefits: reduced JavaScript bundle size, improved Core Web Vitals, selective hydration based on user interaction, better SEO with server-side rendering. Implementation involves: component-level code splitting, lazy loading with intersection observers, partial hydration strategies, and framework integration (Astro, Fresh, Qwik). Use for content-heavy sites with sparse interactivity, e-commerce product pages, and documentation sites where performance is critical.",
+      },
+      {
+        question:
+          "Explain edge-side includes (ESI) for dynamic content personalization at CDN level.",
+        solution:
+          "ESI enables CDN-level content assembly by embedding XML tags in cached responses for dynamic fragment inclusion. ESI tags: <esi:include src='/user-data'>, <esi:choose> for conditional content, <esi:vars> for variable substitution. Implementation requires ESI-capable CDN (Fastly, CloudFlare Workers), cache invalidation strategies for fragments, fallback handling for failed includes, and TTL management per fragment. Benefits: reduced origin load, faster personalization, better cache hit rates. Use for user-specific content blocks, A/B testing, and geo-targeted content within cached pages.",
+      },
+      {
+        question:
+          "Implement a lock-free LIFO stack using JavaScript Atomics for concurrent access.",
+        solution: `class LockFreeStack {
+  constructor(maxSize = 1000) {
+    this.buffer = new SharedArrayBuffer(maxSize * 4 + 4);
+    this.data = new Int32Array(this.buffer, 4);
+    this.head = new Int32Array(this.buffer, 0, 1);
+    Atomics.store(this.head, 0, -1);
+  }
+
+  push(value) {
+    let currentHead, newHead;
+    do {
+      currentHead = Atomics.load(this.head, 0);
+      newHead = currentHead + 1;
+      this.data[newHead] = value;
+    } while (Atomics.compareExchange(this.head, 0, currentHead, newHead) !== currentHead);
+    return true;
+  }
+
+  pop() {
+    let currentHead, newHead;
+    do {
+      currentHead = Atomics.load(this.head, 0);
+      if (currentHead === -1) return null; // Empty stack
+      newHead = currentHead - 1;
+    } while (Atomics.compareExchange(this.head, 0, currentHead, newHead) !== currentHead);
+    return this.data[currentHead];
+  }
+}`,
+      },
+      {
+        question:
+          "Write a ring buffer implementation using SharedArrayBuffer for multi-worker communication.",
+        solution: `class RingBuffer {
+  constructor(size) {
+    const bufferSize = size * 4 + 12; // data + head + tail + count
+    this.sharedBuffer = new SharedArrayBuffer(bufferSize);
+    this.data = new Int32Array(this.sharedBuffer, 12);
+    this.head = new Int32Array(this.sharedBuffer, 0, 1);
+    this.tail = new Int32Array(this.sharedBuffer, 4, 1);
+    this.count = new Int32Array(this.sharedBuffer, 8, 1);
+    this.size = size;
+  }
+
+  push(value) {
+    let currentCount = Atomics.load(this.count, 0);
+    if (currentCount >= this.size) return false; // Buffer full
+    
+    let currentTail = Atomics.load(this.tail, 0);
+    this.data[currentTail] = value;
+    Atomics.store(this.tail, 0, (currentTail + 1) % this.size);
+    Atomics.add(this.count, 0, 1);
+    Atomics.notify(this.count, 0); // Wake waiting consumers
+    return true;
+  }
+
+  pop(timeout = 0) {
+    let currentCount = Atomics.load(this.count, 0);
+    if (currentCount === 0) {
+      if (timeout > 0) {
+        Atomics.wait(this.count, 0, 0, timeout);
+        currentCount = Atomics.load(this.count, 0);
+        if (currentCount === 0) return null;
+      } else {
+        return null;
+      }
+    }
+
+    let currentHead = Atomics.load(this.head, 0);
+    const value = this.data[currentHead];
+    Atomics.store(this.head, 0, (currentHead + 1) % this.size);
+    Atomics.sub(this.count, 0, 1);
+    return value;
+  }
+}`,
+      },
+      {
+        question:
+          "Implement Promise.allLimit with concurrency control to prevent overwhelming APIs.",
+        solution: `async function promiseAllLimit(promises, limit) {
+  const results = new Array(promises.length);
+  const executing = new Set();
+  let index = 0;
+
+  const executeNext = async () => {
+    if (index >= promises.length) return;
+    
+    const currentIndex = index++;
+    const promise = Promise.resolve(promises[currentIndex]).then(
+      result => {
+        results[currentIndex] = { status: 'fulfilled', value: result };
+      },
+      error => {
+        results[currentIndex] = { status: 'rejected', reason: error };
+      }
+    ).finally(() => {
+      executing.delete(promise);
+    });
+
+    executing.add(promise);
+    
+    if (executing.size >= limit) {
+      await Promise.race(executing);
+    }
+    
+    return executeNext();
+  };
+
+  // Start initial batch
+  const initialPromises = Array(Math.min(limit, promises.length))
+    .fill(null)
+    .map(() => executeNext());
+  
+  await Promise.all(initialPromises);
+  await Promise.all(executing); // Wait for remaining
+  
+  return results;
+}`,
+      },
+      {
+        question:
+          "Create a least-recently-used (LRU) cache with O(1) operations for get/set/delete.",
+        solution: `class LRUCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.cache = new Map();
+    // Doubly linked list for O(1) moves
+    this.head = { key: null, value: null, prev: null, next: null };
+    this.tail = { key: null, value: null, prev: null, next: null };
+    this.head.next = this.tail;
+    this.tail.prev = this.head;
+  }
+
+  get(key) {
+    const node = this.cache.get(key);
+    if (!node) return -1;
+    
+    this.moveToHead(node);
+    return node.value;
+  }
+
+  set(key, value) {
+    const existing = this.cache.get(key);
+    
+    if (existing) {
+      existing.value = value;
+      this.moveToHead(existing);
+      return;
+    }
+
+    const newNode = { key, value, prev: null, next: null };
+    
+    if (this.cache.size >= this.capacity) {
+      const tail = this.removeTail();
+      this.cache.delete(tail.key);
+    }
+    
+    this.cache.set(key, newNode);
+    this.addToHead(newNode);
+  }
+
+  moveToHead(node) {
+    this.removeNode(node);
+    this.addToHead(node);
+  }
+
+  removeNode(node) {
+    node.prev.next = node.next;
+    node.next.prev = node.prev;
+  }
+
+  addToHead(node) {
+    node.prev = this.head;
+    node.next = this.head.next;
+    this.head.next.prev = node;
+    this.head.next = node;
+  }
+
+  removeTail() {
+    const last = this.tail.prev;
+    this.removeNode(last);
+    return last;
+  }
+}`,
+      },
+      {
+        question:
+          "Implement request deduplication layer to prevent duplicate API calls in high-traffic scenarios.",
+        solution: `class RequestDeduplicator {
+  constructor(ttl = 5000) {
+    this.pending = new Map();
+    this.cache = new Map();
+    this.ttl = ttl;
+  }
+
+  async dedupe(key, requestFn, cacheTime = this.ttl) {
+    // Return cached result if available and fresh
+    const cached = this.cache.get(key);
+    if (cached && Date.now() - cached.timestamp < cacheTime) {
+      return cached.data;
+    }
+
+    // Return pending promise if request in flight
+    if (this.pending.has(key)) {
+      return this.pending.get(key);
+    }
+
+    // Create new request with cleanup
+    const promise = this.executeRequest(key, requestFn, cacheTime);
+    this.pending.set(key, promise);
+    
+    return promise;
+  }
+
+  async executeRequest(key, requestFn, cacheTime) {
+    try {
+      const result = await requestFn();
+      
+      // Cache successful results
+      this.cache.set(key, {
+        data: result,
+        timestamp: Date.now()
+      });
+      
+      // Schedule cache cleanup
+      setTimeout(() => this.cache.delete(key), cacheTime);
+      
+      return result;
+    } catch (error) {
+      // Don't cache errors, but could implement error caching if needed
+      throw error;
+    } finally {
+      this.pending.delete(key);
+    }
+  }
+
+  invalidate(pattern) {
+    const keys = [...this.cache.keys()].filter(key => 
+      pattern instanceof RegExp ? pattern.test(key) : key.includes(pattern)
+    );
+    keys.forEach(key => {
+      this.cache.delete(key);
+      this.pending.delete(key);
+    });
+  }
+
+  // Usage: const deduper = new RequestDeduplicator();
+  // const result = await deduper.dedupe('user:123', () => fetch('/api/user/123'));
+}`,
+      },
+      {
+        question:
+          "Write a virtual DOM diff algorithm that efficiently updates real DOM elements.",
+        solution: `function diff(oldVNode, newVNode, patches = []) {
+  // Different node types - replace entirely
+  if (!oldVNode) {
+    patches.push({ type: 'CREATE', vNode: newVNode });
+  } else if (!newVNode) {
+    patches.push({ type: 'REMOVE' });
+  } else if (oldVNode.type !== newVNode.type) {
+    patches.push({ type: 'REPLACE', vNode: newVNode });
+  } else {
+    // Same type - diff properties and children
+    const propPatches = diffProps(oldVNode.props, newVNode.props);
+    if (propPatches.length) {
+      patches.push({ type: 'PROPS', patches: propPatches });
+    }
+
+    // Diff children with key-based reconciliation
+    const childPatches = diffChildren(oldVNode.children, newVNode.children);
+    if (childPatches.length) {
+      patches.push({ type: 'CHILDREN', patches: childPatches });
+    }
+  }
+  return patches;
+}
+
+function diffChildren(oldChildren, newChildren) {
+  const patches = [];
+  const oldKeyMap = createKeyMap(oldChildren);
+  const newKeyMap = createKeyMap(newChildren);
+  
+  let oldIndex = 0, newIndex = 0;
+  
+  while (oldIndex < oldChildren.length || newIndex < newChildren.length) {
+    const oldChild = oldChildren[oldIndex];
+    const newChild = newChildren[newIndex];
+    
+    if (!oldChild) {
+      patches.push({ index: newIndex, type: 'INSERT', vNode: newChild });
+      newIndex++;
+    } else if (!newChild) {
+      patches.push({ index: oldIndex, type: 'REMOVE' });
+      oldIndex++;
+    } else if (oldChild.key === newChild.key) {
+      const childPatches = diff(oldChild, newChild);
+      if (childPatches.length) {
+        patches.push({ index: oldIndex, type: 'PATCH', patches: childPatches });
+      }
+      oldIndex++;
+      newIndex++;
+    } else {
+      // Handle key mismatches - move, insert, or remove
+      if (newKeyMap.has(oldChild.key)) {
+        patches.push({ index: newIndex, type: 'INSERT', vNode: newChild });
+        newIndex++;
+      } else {
+        patches.push({ index: oldIndex, type: 'REMOVE' });
+        oldIndex++;
+      }
+    }
+  }
+  
+  return patches;
+}`,
+      },
+      {
+        question:
+          "Implement persistent data structure (immutable map) with structural sharing for memory efficiency.",
+        solution: `class PersistentMap {
+  constructor(data = null, size = 0) {
+    this.root = data;
+    this.size = size;
+  }
+
+  set(key, value) {
+    const newRoot = this.setNode(this.root, key, value, 0);
+    return new PersistentMap(newRoot, this.size + (this.has(key) ? 0 : 1));
+  }
+
+  get(key) {
+    return this.getNode(this.root, key, 0);
+  }
+
+  has(key) {
+    return this.get(key) !== undefined;
+  }
+
+  setNode(node, key, value, level) {
+    const hash = this.hash(key);
+    const index = (hash >>> (level * 5)) & 0x1f; // 5-bit chunks
+    
+    if (!node) {
+      const newNode = new Array(32);
+      newNode[index] = level >= 6 ? 
+        { key, value } : 
+        this.setNode(null, key, value, level + 1);
+      return newNode;
+    }
+
+    const newNode = [...node]; // Structural sharing
+    
+    if (level >= 6) {
+      // Leaf level - collision handling
+      newNode[index] = { key, value };
+    } else {
+      newNode[index] = this.setNode(node[index], key, value, level + 1);
+    }
+    
+    return newNode;
+  }
+
+  getNode(node, key, level) {
+    if (!node) return undefined;
+    
+    const hash = this.hash(key);
+    const index = (hash >>> (level * 5)) & 0x1f;
+    const child = node[index];
+    
+    if (!child) return undefined;
+    
+    if (level >= 6) {
+      return child.key === key ? child.value : undefined;
+    }
+    
+    return this.getNode(child, key, level + 1);
+  }
+
+  hash(key) {
+    // Simple hash function
+    let hash = 0;
+    const str = String(key);
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) - hash + str.charCodeAt(i)) & 0xffffffff;
+    }
+    return hash >>> 0;
+  }
+}`,
+      },
+      {
+        question:
+          "Create a rate-limiter middleware using token bucket algorithm with Redis backing for distributed systems.",
+        solution: `const redis = require('redis');
+
+class TokenBucketRateLimiter {
+  constructor(redisClient, options = {}) {
+    this.redis = redisClient;
+    this.capacity = options.capacity || 10;
+    this.refillRate = options.refillRate || 1; // tokens per second
+    this.keyPrefix = options.keyPrefix || 'rate_limit:';
+  }
+
+  middleware() {
+    return async (req, res, next) => {
+      const identifier = this.getIdentifier(req);
+      const allowed = await this.consume(identifier, 1);
+      
+      if (!allowed) {
+        return res.status(429).json({
+          error: 'Rate limit exceeded',
+          retryAfter: Math.ceil(1 / this.refillRate)
+        });
+      }
+      
+      next();
+    };
+  }
+
+  async consume(identifier, tokens = 1) {
+    const key = this.keyPrefix + identifier;
+    const now = Date.now();
+    
+    const script = \`
+      local key = KEYS[1]
+      local capacity = tonumber(ARGV[1])
+      local tokens = tonumber(ARGV[2])
+      local refillRate = tonumber(ARGV[3])
+      local now = tonumber(ARGV[4])
+      
+      local bucket = redis.call('HMGET', key, 'tokens', 'lastRefill')
+      local currentTokens = tonumber(bucket[1]) or capacity
+      local lastRefill = tonumber(bucket[2]) or now
+      
+      -- Calculate refill
+      local elapsed = (now - lastRefill) / 1000
+      local newTokens = math.min(capacity, currentTokens + elapsed * refillRate)
+      
+      if newTokens >= tokens then
+        newTokens = newTokens - tokens
+        redis.call('HMSET', key, 'tokens', newTokens, 'lastRefill', now)
+        redis.call('EXPIRE', key, 3600)
+        return 1
+      else
+        redis.call('HMSET', key, 'tokens', newTokens, 'lastRefill', now)
+        redis.call('EXPIRE', key, 3600)
+        return 0
+      end
+    \`;
+    
+    const result = await this.redis.eval(script, 1, key, 
+      this.capacity, tokens, this.refillRate, now);
+    
+    return result === 1;
+  }
+
+  getIdentifier(req) {
+    return req.ip || req.connection.remoteAddress;
+  }
+}`,
+      },
+      {
+        question:
+          "Implement WebSocket reconnect with exponential backoff and jitter for resilient real-time connections.",
+        solution: `class ResilientWebSocket {
+  constructor(url, options = {}) {
+    this.url = url;
+    this.maxRetries = options.maxRetries || Infinity;
+    this.baseDelay = options.baseDelay || 1000;
+    this.maxDelay = options.maxDelay || 30000;
+    this.jitterFactor = options.jitterFactor || 0.1;
+    
+    this.retryCount = 0;
+    this.isReconnecting = false;
+    this.messageQueue = [];
+    this.eventHandlers = new Map();
+    
+    this.connect();
+  }
+
+  connect() {
+    try {
+      this.ws = new WebSocket(this.url);
+      this.setupEventHandlers();
+    } catch (error) {
+      this.handleConnectionError(error);
+    }
+  }
+
+  setupEventHandlers() {
+    this.ws.onopen = () => {
+      this.retryCount = 0;
+      this.isReconnecting = false;
+      this.flushMessageQueue();
+      this.emit('open');
+    };
+
+    this.ws.onmessage = (event) => {
+      this.emit('message', event.data);
+    };
+
+    this.ws.onclose = (event) => {
+      if (!event.wasClean && !this.isReconnecting) {
+        this.handleConnectionError(new Error('Connection closed unexpectedly'));
+      }
+      this.emit('close', event);
+    };
+
+    this.ws.onerror = (error) => {
+      this.handleConnectionError(error);
+    };
+  }
+
+  handleConnectionError(error) {
+    if (this.retryCount >= this.maxRetries) {
+      this.emit('maxRetriesReached', error);
+      return;
+    }
+
+    this.isReconnecting = true;
+    const delay = this.calculateBackoffDelay();
+    
+    this.emit('reconnecting', { attempt: this.retryCount + 1, delay });
+    
+    setTimeout(() => {
+      this.retryCount++;
+      this.connect();
+    }, delay);
+  }
+
+  calculateBackoffDelay() {
+    const exponentialDelay = Math.min(
+      this.baseDelay * Math.pow(2, this.retryCount),
+      this.maxDelay
+    );
+    
+    // Add jitter to prevent thundering herd
+    const jitter = exponentialDelay * this.jitterFactor * Math.random();
+    return exponentialDelay + jitter;
+  }
+
+  send(data) {
+    if (this.ws?.readyState === WebSocket.OPEN) {
+      this.ws.send(data);
+    } else {
+      this.messageQueue.push(data);
+    }
+  }
+
+  flushMessageQueue() {
+    while (this.messageQueue.length > 0) {
+      this.ws.send(this.messageQueue.shift());
+    }
+  }
+
+  on(event, handler) {
+    if (!this.eventHandlers.has(event)) {
+      this.eventHandlers.set(event, []);
+    }
+    this.eventHandlers.get(event).push(handler);
+  }
+
+  emit(event, data) {
+    const handlers = this.eventHandlers.get(event) || [];
+    handlers.forEach(handler => handler(data));
+  }
+
+  close() {
+    this.isReconnecting = false;
+    this.retryCount = this.maxRetries;
+    if (this.ws) {
+      this.ws.close();
+    }
+  }
+}`,
+      },
+      {
+        question:
+          "Write a dependency graph resolver using topological sort for module loading and build systems.",
+        solution: `class DependencyResolver {
+  constructor() {
+    this.dependencies = new Map(); // node -> Set of dependencies
+    this.dependents = new Map();   // node -> Set of dependents
+  }
+
+  addDependency(node, dependency) {
+    if (!this.dependencies.has(node)) {
+      this.dependencies.set(node, new Set());
+    }
+    if (!this.dependents.has(dependency)) {
+      this.dependents.set(dependency, new Set());
+    }
+    
+    this.dependencies.get(node).add(dependency);
+    this.dependents.get(dependency).add(node);
+  }
+
+  resolve() {
+    const resolved = [];
+    const inDegree = new Map();
+    const queue = [];
+
+    // Calculate in-degrees
+    for (const [node, deps] of this.dependencies) {
+      inDegree.set(node, deps.size);
+    }
+
+    // Find nodes with no dependencies
+    for (const node of this.getAllNodes()) {
+      if (!inDegree.has(node) || inDegree.get(node) === 0) {
+        queue.push(node);
+      }
+    }
+
+    // Kahn's algorithm for topological sort
+    while (queue.length > 0) {
+      const current = queue.shift();
+      resolved.push(current);
+
+      const dependents = this.dependents.get(current) || new Set();
+      for (const dependent of dependents) {
+        const newInDegree = inDegree.get(dependent) - 1;
+        inDegree.set(dependent, newInDegree);
+        
+        if (newInDegree === 0) {
+          queue.push(dependent);
+        }
+      }
+    }
+
+    // Check for circular dependencies
+    if (resolved.length !== this.getAllNodes().size) {
+      const remaining = [...this.getAllNodes()].filter(node => !resolved.includes(node));
+      throw new Error(\`Circular dependency detected involving: \${remaining.join(', ')}\`);
+    }
+
+    return resolved;
+  }
+
+  getAllNodes() {
+    const nodes = new Set();
+    for (const node of this.dependencies.keys()) nodes.add(node);
+    for (const node of this.dependents.keys()) nodes.add(node);
+    return nodes;
+  }
+
+  // Parallel resolution with concurrency control
+  async resolveParallel(loaderFn, concurrency = 4) {
+    const resolved = this.resolve();
+    const loaded = new Map();
+    const loading = new Set();
+    
+    async function loadNode(node) {
+      if (loaded.has(node) || loading.has(node)) return;
+      
+      loading.add(node);
+      const result = await loaderFn(node);
+      loaded.set(node, result);
+      loading.delete(node);
+      return result;
+    }
+
+    const results = [];
+    for (let i = 0; i < resolved.length; i += concurrency) {
+      const batch = resolved.slice(i, i + concurrency);
+      const batchResults = await Promise.all(batch.map(loadNode));
+      results.push(...batchResults);
+    }
+    
+    return results;
+  }
+}`,
+      },
+      {
+        question:
+          "Implement AOP (aspect-oriented) helper that intercepts method calls with before/after/around advice.",
+        solution: `class AspectWeaver {
+  static weave(target, aspects = {}) {
+    const { before = [], after = [], around = [] } = aspects;
+    
+    return new Proxy(target, {
+      get(obj, prop) {
+        if (typeof obj[prop] === 'function') {
+          return function(...args) {
+            // Before advice
+            before.forEach(advice => advice.call(this, prop, args));
+            
+            // Around advice or original method
+            let result;
+            if (around.length > 0) {
+              const proceed = () => obj[prop].apply(this, args);
+              result = around.reduce((next, advice) => 
+                () => advice.call(this, prop, args, next), proceed)();
+            } else {
+              result = obj[prop].apply(this, args);
+            }
+            
+            // After advice
+            after.forEach(advice => advice.call(this, prop, args, result));
+            
+            return result;
+          };
+        }
+        return obj[prop];
+      }
+    });
+  }
+}
+
+// Usage: AspectWeaver.weave(service, { before: [logAdvice], after: [metricsAdvice] })`,
+      },
+      {
+        question:
+          "Create a streaming JSON parser that handles large JSON files without loading entire content into memory.",
+        solution: `class StreamingJSONParser {
+  constructor() {
+    this.stack = [];
+    this.buffer = '';
+    this.state = 'value';
+    this.callbacks = new Map();
+  }
+  
+  on(path, callback) {
+    this.callbacks.set(path, callback);
+  }
+  
+  parse(chunk) {
+    this.buffer += chunk;
+    let i = 0;
+    
+    while (i < this.buffer.length) {
+      const char = this.buffer[i];
+      
+      switch (this.state) {
+        case 'value':
+          if (char === '{') {
+            this.stack.push({ type: 'object', path: this.getCurrentPath() });
+            this.state = 'object-key';
+          } else if (char === '[') {
+            this.stack.push({ type: 'array', path: this.getCurrentPath(), index: 0 });
+            this.state = 'array-value';
+          } else if (char === '"') {
+            this.parseString(i);
+          }
+          break;
+          
+        case 'object-key':
+          if (char === '"') {
+            const { value, endIndex } = this.parseString(i);
+            this.stack[this.stack.length - 1].key = value;
+            i = endIndex;
+            this.state = 'object-colon';
+          }
+          break;
+          
+        case 'array-value':
+          this.parseValue(i);
+          break;
+      }
+      i++;
+    }
+  }
+  
+  getCurrentPath() {
+    return this.stack.map(frame => 
+      frame.type === 'object' ? frame.key : frame.index
+    ).filter(Boolean).join('.');
+  }
+  
+  parseString(startIndex) {
+    let i = startIndex + 1;
+    let value = '';
+    
+    while (i < this.buffer.length && this.buffer[i] !== '"') {
+      if (this.buffer[i] === '\\') i++; // Skip escaped chars
+      value += this.buffer[i++];
+    }
+    
+    return { value, endIndex: i };
+  }
+  
+  emit(path, value) {
+    const callback = this.callbacks.get(path);
+    if (callback) callback(value);
+  }
+}`,
+      },
+      {
+        question:
+          "Implement Bloom filter in JS with configurable false positive rate and optimal hash function count.",
+        solution: `class BloomFilter {
+  constructor(expectedItems, falsePositiveRate = 0.01) {
+    this.expectedItems = expectedItems;
+    this.falsePositiveRate = falsePositiveRate;
+    
+    // Calculate optimal bit array size
+    this.bitArraySize = Math.ceil(
+      -(expectedItems * Math.log(falsePositiveRate)) / (Math.log(2) ** 2)
+    );
+    
+    // Calculate optimal number of hash functions
+    this.hashFunctions = Math.ceil(
+      (this.bitArraySize / expectedItems) * Math.log(2)
+    );
+    
+    this.bitArray = new Uint8Array(Math.ceil(this.bitArraySize / 8));
+  }
+  
+  hash(item, seed = 0) {
+    const str = typeof item === 'string' ? item : JSON.stringify(item);
+    let hash = seed;
+    
+    for (let i = 0; i < str.length; i++) {
+      hash = ((hash << 5) + hash + str.charCodeAt(i)) & 0xffffffff;
+    }
+    
+    return Math.abs(hash) % this.bitArraySize;
+  }
+  
+  add(item) {
+    for (let i = 0; i < this.hashFunctions; i++) {
+      const bitIndex = this.hash(item, i);
+      const byteIndex = Math.floor(bitIndex / 8);
+      const bitOffset = bitIndex % 8;
+      
+      this.bitArray[byteIndex] |= (1 << bitOffset);
+    }
+  }
+  
+  contains(item) {
+    for (let i = 0; i < this.hashFunctions; i++) {
+      const bitIndex = this.hash(item, i);
+      const byteIndex = Math.floor(bitIndex / 8);
+      const bitOffset = bitIndex % 8;
+      
+      if (!(this.bitArray[byteIndex] & (1 << bitOffset))) {
+        return false;
+      }
+    }
+    return true; // Possibly in set
+  }
+  
+  estimateCount() {
+    const bitsSet = this.bitArray.reduce((count, byte) => 
+      count + this.popCount(byte), 0);
+    
+    return Math.round(
+      -(this.bitArraySize * Math.log(1 - bitsSet / this.bitArraySize)) 
+      / this.hashFunctions
+    );
+  }
+  
+  popCount(byte) {
+    let count = 0;
+    while (byte) {
+      count += byte & 1;
+      byte >>= 1;
+    }
+    return count;
+  }
+}`,
+      },
+      {
+        question:
+          "Write a binary protocol encoder/decoder with support for variable-length integers and type tagging.",
+        solution: `class BinaryProtocol {
+  static encode(data) {
+    const buffer = new ArrayBuffer(1024);
+    const view = new DataView(buffer);
+    let offset = 0;
+    
+    function writeVarint(value) {
+      while (value >= 0x80) {
+        view.setUint8(offset++, (value & 0xFF) | 0x80);
+        value >>>= 7;
+      }
+      view.setUint8(offset++, value & 0xFF);
+    }
+    
+    function writeType(type, value) {
+      view.setUint8(offset++, type);
+      
+      switch (type) {
+        case 0x01: // String
+          const bytes = new TextEncoder().encode(value);
+          writeVarint(bytes.length);
+          bytes.forEach(b => view.setUint8(offset++, b));
+          break;
+          
+        case 0x02: // Number
+          view.setFloat64(offset, value);
+          offset += 8;
+          break;
+          
+        case 0x03: // Boolean
+          view.setUint8(offset++, value ? 1 : 0);
+          break;
+          
+        case 0x04: // Array
+          writeVarint(value.length);
+          value.forEach(item => writeType(this.getType(item), item));
+          break;
+          
+        case 0x05: // Object
+          const entries = Object.entries(value);
+          writeVarint(entries.length);
+          entries.forEach(([key, val]) => {
+            writeType(0x01, key);
+            writeType(this.getType(val), val);
+          });
+          break;
+      }
+    }
+    
+    writeType(this.getType(data), data);
+    return buffer.slice(0, offset);
+  }
+  
+  static decode(buffer) {
+    const view = new DataView(buffer);
+    let offset = 0;
+    
+    function readVarint() {
+      let value = 0;
+      let shift = 0;
+      let byte;
+      
+      do {
+        byte = view.getUint8(offset++);
+        value |= (byte & 0x7F) << shift;
+        shift += 7;
+      } while (byte & 0x80);
+      
+      return value;
+    }
+    
+    function readType() {
+      const type = view.getUint8(offset++);
+      
+      switch (type) {
+        case 0x01: // String
+          const length = readVarint();
+          const bytes = new Uint8Array(buffer, offset, length);
+          offset += length;
+          return new TextDecoder().decode(bytes);
+          
+        case 0x02: // Number
+          const num = view.getFloat64(offset);
+          offset += 8;
+          return num;
+          
+        case 0x03: // Boolean
+          return view.getUint8(offset++) === 1;
+          
+        case 0x04: // Array
+          const arrayLength = readVarint();
+          return Array.from({ length: arrayLength }, () => readType());
+          
+        case 0x05: // Object
+          const objLength = readVarint();
+          const obj = {};
+          for (let i = 0; i < objLength; i++) {
+            const key = readType();
+            const value = readType();
+            obj[key] = value;
+          }
+          return obj;
+          
+        default:
+          throw new Error(\`Unknown type: \${type}\`);
+      }
+    }
+    
+    return readType();
+  }
+  
+  static getType(value) {
+    if (typeof value === 'string') return 0x01;
+    if (typeof value === 'number') return 0x02;
+    if (typeof value === 'boolean') return 0x03;
+    if (Array.isArray(value)) return 0x04;
+    if (typeof value === 'object') return 0x05;
+    throw new Error('Unsupported type');
+  }
+}`,
+      },
+      {
+        question:
+          "Implement finite-state machine with async transitions, guards, and side effects.",
+        solution: `class AsyncStateMachine {
+  constructor(config) {
+    this.states = config.states;
+    this.currentState = config.initial;
+    this.context = config.context || {};
+    this.listeners = new Map();
+  }
+  
+  async transition(event, payload = {}) {
+    const currentStateConfig = this.states[this.currentState];
+    const transition = currentStateConfig.on?.[event];
+    
+    if (!transition) {
+      throw new Error(\`No transition for event '\${event}' in state '\${this.currentState}'\`);
+    }
+    
+    const transitionConfig = typeof transition === 'string' 
+      ? { target: transition } 
+      : transition;
+    
+    // Check guards
+    if (transitionConfig.guard) {
+      const guardResult = await this.executeGuard(
+        transitionConfig.guard, 
+        payload
+      );
+      if (!guardResult) {
+        this.emit('guardFailed', { event, currentState: this.currentState });
+        return false;
+      }
+    }
+    
+    // Execute exit actions
+    if (currentStateConfig.exit) {
+      await this.executeActions(currentStateConfig.exit, payload);
+    }
+    
+    // Execute transition actions
+    if (transitionConfig.actions) {
+      await this.executeActions(transitionConfig.actions, payload);
+    }
+    
+    const previousState = this.currentState;
+    this.currentState = transitionConfig.target;
+    
+    // Execute entry actions
+    const newStateConfig = this.states[this.currentState];
+    if (newStateConfig.entry) {
+      await this.executeActions(newStateConfig.entry, payload);
+    }
+    
+    this.emit('transition', {
+      from: previousState,
+      to: this.currentState,
+      event,
+      payload
+    });
+    
+    return true;
+  }
+  
+  async executeGuard(guard, payload) {
+    if (typeof guard === 'function') {
+      return await guard(this.context, payload);
+    }
+    
+    if (typeof guard === 'string') {
+      // Named guard lookup
+      const guardFn = this.guards?.[guard];
+      if (!guardFn) throw new Error(\`Guard '\${guard}' not found\`);
+      return await guardFn(this.context, payload);
+    }
+    
+    return true;
+  }
+  
+  async executeActions(actions, payload) {
+    const actionList = Array.isArray(actions) ? actions : [actions];
+    
+    for (const action of actionList) {
+      if (typeof action === 'function') {
+        await action(this.context, payload);
+      } else if (typeof action === 'string') {
+        const actionFn = this.actions?.[action];
+        if (actionFn) {
+          await actionFn(this.context, payload);
+        }
+      }
+    }
+  }
+  
+  on(event, listener) {
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, []);
+    }
+    this.listeners.get(event).push(listener);
+  }
+  
+  emit(event, data) {
+    const listeners = this.listeners.get(event) || [];
+    listeners.forEach(listener => listener(data));
+  }
+  
+  can(event) {
+    return !!(this.states[this.currentState]?.on?.[event]);
+  }
+  
+  getState() {
+    return {
+      value: this.currentState,
+      context: { ...this.context },
+      can: (event) => this.can(event)
+    };
+  }
+}
+
+// Usage example:
+const orderMachine = new AsyncStateMachine({
+  initial: 'pending',
+  context: { orderId: null, amount: 0 },
+  states: {
+    pending: {
+      entry: 'logPending',
+      on: {
+        SUBMIT: {
+          target: 'processing',
+          guard: 'hasValidAmount',
+          actions: ['validateOrder', 'logSubmission']
+        }
+      }
+    },
+    processing: {
+      entry: 'startProcessing',
+      on: {
+        SUCCESS: 'completed',
+        FAILURE: 'failed'
+      },
+      exit: 'stopProcessing'
+    },
+    completed: { on: { RESET: 'pending' } },
+    failed: { on: { RETRY: 'pending' } }
+  }
+});`,
+      },
+      {
+        question:
+          "Create a priority job queue with concurrent execution, retries, and backpressure control.",
+        solution: `class PriorityJobQueue {
+  constructor(options = {}) {
+    this.concurrency = options.concurrency || 1;
+    this.maxRetries = options.maxRetries || 3;
+    this.retryDelay = options.retryDelay || 1000;
+    this.maxQueueSize = options.maxQueueSize || 1000;
+    
+    this.queue = [];
+    this.running = new Set();
+    this.paused = false;
+    this.stats = { completed: 0, failed: 0, retried: 0 };
+  }
+  
+  async add(job, priority = 0) {
+    if (this.queue.length >= this.maxQueueSize) {
+      throw new Error('Queue is full - backpressure activated');
+    }
+    
+    const jobWrapper = {
+      id: Date.now() + Math.random(),
+      job,
+      priority,
+      retries: 0,
+      createdAt: Date.now()
+    };
+    
+    // Insert based on priority (higher priority first)
+    const insertIndex = this.queue.findIndex(item => item.priority < priority);
+    if (insertIndex === -1) {
+      this.queue.push(jobWrapper);
+    } else {
+      this.queue.splice(insertIndex, 0, jobWrapper);
+    }
+    
+    this.process();
+    return jobWrapper.id;
+  }
+  
+  async process() {
+    if (this.paused || this.running.size >= this.concurrency) {
+      return;
+    }
+    
+    const jobWrapper = this.queue.shift();
+    if (!jobWrapper) return;
+    
+    this.running.add(jobWrapper.id);
+    
+    try {
+      const result = await this.executeJob(jobWrapper);
+      this.stats.completed++;
+      this.emit('completed', { id: jobWrapper.id, result });
+    } catch (error) {
+      await this.handleJobFailure(jobWrapper, error);
+    } finally {
+      this.running.delete(jobWrapper.id);
+      // Process next job
+      setImmediate(() => this.process());
+    }
+  }
+  
+  async executeJob(jobWrapper) {
+    const timeout = new Promise((_, reject) => 
+      setTimeout(() => reject(new Error('Job timeout')), 30000)
+    );
+    
+    return Promise.race([
+      jobWrapper.job(),
+      timeout
+    ]);
+  }
+  
+  async handleJobFailure(jobWrapper, error) {
+    if (jobWrapper.retries < this.maxRetries) {
+      jobWrapper.retries++;
+      this.stats.retried++;
+      
+      // Exponential backoff
+      const delay = this.retryDelay * Math.pow(2, jobWrapper.retries - 1);
+      
+      setTimeout(() => {
+        this.queue.unshift(jobWrapper); // High priority retry
+        this.process();
+      }, delay);
+      
+      this.emit('retry', { 
+        id: jobWrapper.id, 
+        attempt: jobWrapper.retries, 
+        error 
+      });
+    } else {
+      this.stats.failed++;
+      this.emit('failed', { id: jobWrapper.id, error });
+    }
+  }
+  
+  pause() {
+    this.paused = true;
+  }
+  
+  resume() {
+    this.paused = false;
+    for (let i = 0; i < this.concurrency; i++) {
+      this.process();
+    }
+  }
+  
+  clear() {
+    this.queue.length = 0;
+  }
+  
+  getStats() {
+    return {
+      ...this.stats,
+      queued: this.queue.length,
+      running: this.running.size,
+      queueUtilization: this.queue.length / this.maxQueueSize
+    };
+  }
+  
+  on(event, listener) {
+    this.listeners = this.listeners || new Map();
+    if (!this.listeners.has(event)) {
+      this.listeners.set(event, []);
+    }
+    this.listeners.get(event).push(listener);
+  }
+  
+  emit(event, data) {
+    const listeners = this.listeners?.get(event) || [];
+    listeners.forEach(listener => listener(data));
+  }
+}`,
+      },
+      {
+        question:
+          "Implement memoized selector (reselect pattern) with dependency tracking and cache invalidation.",
+        solution: `class MemoizedSelector {
+  constructor(dependencies, selector, options = {}) {
+    this.dependencies = dependencies;
+    this.selector = selector;
+    this.maxCacheSize = options.maxCacheSize || 100;
+    this.equalityCheck = options.equalityCheck || this.shallowEqual;
+    
+    this.cache = new Map();
+    this.lastDependencyValues = null;
+    this.lastResult = null;
+  }
+  
+  compute(state) {
+    // Extract dependency values
+    const dependencyValues = this.dependencies.map(dep => 
+      typeof dep === 'function' ? dep(state) : state[dep]
+    );
+    
+    // Check if dependencies changed
+    if (this.lastDependencyValues && 
+        this.dependenciesEqual(dependencyValues, this.lastDependencyValues)) {
+      return this.lastResult;
+    }
+    
+    // Check cache
+    const cacheKey = this.createCacheKey(dependencyValues);
+    if (this.cache.has(cacheKey)) {
+      const cached = this.cache.get(cacheKey);
+      this.lastResult = cached.result;
+      this.lastDependencyValues = dependencyValues;
+      
+      // Move to end (LRU)
+      this.cache.delete(cacheKey);
+      this.cache.set(cacheKey, cached);
+      
+      return cached.result;
+    }
+    
+    // Compute new result
+    const result = this.selector(...dependencyValues);
+    
+    // Store in cache
+    this.cache.set(cacheKey, {
+      dependencies: dependencyValues,
+      result,
+      timestamp: Date.now()
+    });
+    
+    // Evict oldest if cache is full
+    if (this.cache.size > this.maxCacheSize) {
+      const firstKey = this.cache.keys().next().value;
+      this.cache.delete(firstKey);
+    }
+    
+    this.lastDependencyValues = dependencyValues;
+    this.lastResult = result;
+    
+    return result;
+  }
+  
+  dependenciesEqual(a, b) {
+    return a.length === b.length && 
+           a.every((val, index) => this.equalityCheck(val, b[index]));
+  }
+  
+  shallowEqual(a, b) {
+    if (a === b) return true;
+    if (typeof a !== 'object' || typeof b !== 'object') return false;
+    if (a === null || b === null) return false;
+    
+    const keysA = Object.keys(a);
+    const keysB = Object.keys(b);
+    
+    return keysA.length === keysB.length &&
+           keysA.every(key => a[key] === b[key]);
+  }
+  
+  createCacheKey(values) {
+    return JSON.stringify(values);
+  }
+  
+  clearCache() {
+    this.cache.clear();
+    this.lastDependencyValues = null;
+    this.lastResult = null;
+  }
+  
+  getCacheStats() {
+    return {
+      size: this.cache.size,
+      maxSize: this.maxCacheSize,
+      hitRate: this.cache.size > 0 ? 
+        Array.from(this.cache.values()).reduce(
+          (acc, entry) => acc + (entry.hits || 0), 0
+        ) / this.cache.size : 0
+    };
+  }
+}
+
+// Factory function for creating selectors
+function createSelector(...args) {
+  const selector = args.pop();
+  const dependencies = args;
+  
+  return new MemoizedSelector(dependencies, selector);
+}
+
+// Usage:
+const getVisibleTodos = createSelector(
+  state => state.todos,
+  state => state.filter,
+  (todos, filter) => todos.filter(todo => 
+    filter === 'all' || 
+    (filter === 'completed' && todo.completed) ||
+    (filter === 'active' && !todo.completed)
+  )
+);`,
+      },
+      {
+        question:
+          "Write a debounce with immediate option, cancel capability, and execution tracking.",
+        solution: `function createDebounce(func, delay, options = {}) {
+  const { immediate = false, maxWait = null, tracking = false } = options;
+  
+  let timeoutId = null;
+  let maxTimeoutId = null;
+  let lastCallTime = null;
+  let lastExecTime = null;
+  let callCount = 0;
+  let execCount = 0;
+  let cancelled = false;
+  
+  const debounced = function(...args) {
+    const currentTime = Date.now();
+    callCount++;
+    lastCallTime = currentTime;
+    
+    const shouldCallNow = immediate && !timeoutId;
+    
+    // Clear existing timeout
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+    
+    // Set up new timeout
+    timeoutId = setTimeout(() => {
+      timeoutId = null;
+      if (maxTimeoutId) {
+        clearTimeout(maxTimeoutId);
+        maxTimeoutId = null;
+      }
+      
+      if (!immediate && !cancelled) {
+        executeFunction(args, currentTime);
+      }
+    }, delay);
+    
+    // Handle maxWait
+    if (maxWait && !maxTimeoutId) {
+      maxTimeoutId = setTimeout(() => {
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+          timeoutId = null;
+        }
+        maxTimeoutId = null;
+        
+        if (!cancelled) {
+          executeFunction(args, currentTime);
+        }
+      }, maxWait);
+    }
+    
+    // Execute immediately if needed
+    if (shouldCallNow && !cancelled) {
+      executeFunction(args, currentTime);
+    }
+    
+    return debounced;
+  };
+  
+  function executeFunction(args, callTime) {
+    execCount++;
+    lastExecTime = Date.now();
+    
+    if (tracking) {
+      debounced.emit('execute', {
+        args,
+        callTime,
+        execTime: lastExecTime,
+        delay: lastExecTime - callTime
+      });
+    }
+    
+    return func.apply(this, args);
+  }
+  
+  debounced.cancel = function() {
+    cancelled = true;
+    
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+    }
+    
+    if (maxTimeoutId) {
+      clearTimeout(maxTimeoutId);
+      maxTimeoutId = null;
+    }
+    
+    if (tracking) {
+      debounced.emit('cancel', { 
+        callCount, 
+        execCount, 
+        lastCallTime 
+      });
+    }
+  };
+  
+  debounced.flush = function() {
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      timeoutId = null;
+      
+      if (maxTimeoutId) {
+        clearTimeout(maxTimeoutId);
+        maxTimeoutId = null;
+      }
+      
+      executeFunction([], Date.now());
+    }
+  };
+  
+  debounced.pending = function() {
+    return timeoutId !== null;
+  };
+  
+  debounced.stats = function() {
+    return {
+      callCount,
+      execCount,
+      lastCallTime,
+      lastExecTime,
+      efficiency: callCount > 0 ? execCount / callCount : 0,
+      cancelled
+    };
+  };
+  
+  // Event emitter for tracking
+  if (tracking) {
+    debounced.listeners = new Map();
+    
+    debounced.on = function(event, listener) {
+      if (!this.listeners.has(event)) {
+        this.listeners.set(event, []);
+      }
+      this.listeners.get(event).push(listener);
+    };
+    
+    debounced.emit = function(event, data) {
+      const listeners = this.listeners.get(event) || [];
+      listeners.forEach(listener => listener(data));
+    };
+  }
+  
+  return debounced;
+}`,
+      },
       {
         question:
           "Enumerate the benefits and drawbacks of immutability and explain how you can achieve it in your code.",
