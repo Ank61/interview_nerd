@@ -20,6 +20,7 @@ import {
   X,
   MonitorCog,
   DatabaseZap,
+  Database,
   Workflow,
   CheckCircle,
   Target,
@@ -97,11 +98,28 @@ export default function Home() {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => session ? router.push('/playground') : router.push('/auth/login')}
+                onClick={() =>
+                  session
+                    ? router.push("/playground")
+                    : router.push("/auth/login")
+                }
                 className="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
               >
                 <Code className="w-4 h-4" />
                 Playground
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  session
+                    ? router.push("/sql-practice")
+                    : router.push("/auth/login")
+                }
+                className="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1"
+              >
+                <DatabaseZap className="w-4 h-4" />
+                SQL Practice
               </Button>
               <a
                 href="#testimonials"
@@ -177,13 +195,29 @@ export default function Home() {
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    session ? router.push('/playground') : router.push('/auth/login');
+                    session
+                      ? router.push("/playground")
+                      : router.push("/auth/login");
                     setIsMobileMenuOpen(false);
                   }}
                   className="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1 justify-start w-full py-2"
                 >
                   <Code className="w-4 h-4" />
                   Playground
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    session
+                      ? router.push("/sql-practice")
+                      : router.push("/auth/login");
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1 justify-start w-full py-2"
+                >
+                  <DatabaseZap className="w-4 h-4" />
+                  SQL Practice
                 </Button>
                 <a
                   href="#testimonials"
@@ -274,12 +308,20 @@ export default function Home() {
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-gray-900 leading-tight mb-6">
               Master Tech Interviews with
-              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"> Confidence</span>
+              <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                {" "}
+                Confidence
+              </span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto mb-8">
-              Your comprehensive platform for acing technical interviews. Practice with
-              <span className="font-semibold text-gray-800"> 500+ curated questions</span>,
-              real-world scenarios, and expert solutions across all major tech stacks.
+              Your comprehensive platform for acing technical interviews.
+              Practice with
+              <span className="font-semibold text-gray-800">
+                {" "}
+                500+ curated questions
+              </span>
+              , real-world scenarios, and expert solutions across all major tech
+              stacks.
             </p>
             <div className="flex flex-wrap justify-center gap-6 text-sm text-gray-600 mb-8">
               <div className="flex items-center gap-2">
@@ -309,86 +351,28 @@ export default function Home() {
           >
             <Button
               size="lg"
-              onClick={() => session ? router.push('/category/Javascript') : router.push('/auth/login')}
+              onClick={() =>
+                session
+                  ? router.push("/category/Javascript")
+                  : router.push("/auth/login")
+              }
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
-              {session ? 'Continue Learning' : 'Start Free Trial'} <ArrowRight className="ml-2 w-5 h-5" />
+              {session ? "Continue Learning" : "Start Free Trial"}{" "}
+              <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button
               variant="outline"
               size="lg"
               onClick={() => {
-                const categoriesSection = document.getElementById('categories');
-                categoriesSection?.scrollIntoView({ behavior: 'smooth' });
+                const categoriesSection = document.getElementById("categories");
+                categoriesSection?.scrollIntoView({ behavior: "smooth" });
               }}
               className="border-2 border-gray-300 text-gray-700 font-semibold px-8 py-4 rounded-lg hover:bg-gray-50 hover:border-gray-400 transition-all duration-300"
             >
               Explore Topics
             </Button>
           </motion.div>
-        </div>
-      </section>
-
-      {/* Statistics Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-purple-600 py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="text-center mb-12"
-            >
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Trusted by Developers Worldwide
-              </h2>
-              <p className="text-lg text-blue-100 max-w-2xl mx-auto">
-                Join thousands of successful candidates who landed their dream jobs
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">500+</div>
-                <div className="text-blue-100 font-medium">Interview Questions</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">10K+</div>
-                <div className="text-blue-100 font-medium">Active Users</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">95%</div>
-                <div className="text-blue-100 font-medium">Success Rate</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, delay: 0.4 }}
-                className="text-center"
-              >
-                <div className="text-4xl md:text-5xl font-bold text-white mb-2">50+</div>
-                <div className="text-blue-100 font-medium">Top Companies</div>
-              </motion.div>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -407,13 +391,107 @@ export default function Home() {
                 New Feature: AI-Powered Learning
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Code Playground
+                Interactive Learning Platform
               </h2>
               <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
-                Practice coding with our interactive playground featuring adaptive difficulty, 
-                real-time feedback, and AI-powered recommendations across JavaScript, TypeScript, and Python.
+                Practice coding with our interactive playground and SQL practice
+                module featuring adaptive difficulty, real-time feedback, and
+                comprehensive datasets across multiple programming languages.
               </p>
             </motion.div>
+
+            <div className="grid md:grid-cols-2 gap-8 mb-12">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <Code className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Code Playground
+                  </h3>
+                  <p className="text-blue-100 text-sm mb-4">
+                    Practice in JavaScript, TypeScript, and Python with
+                    real-time code execution and AI-powered recommendations
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      session
+                        ? router.push("/playground")
+                        : router.push("/auth/login")
+                    }
+                    className="bg-white text-purple-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <Play className="mr-2 w-4 h-4" />
+                    Start Coding
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <DatabaseZap className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    SQL Practice
+                  </h3>
+                  <p className="text-blue-100 text-sm mb-4">
+                    Master SQL with interactive queries, real datasets, and
+                    comprehensive practice questions from beginner to advanced
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      session
+                        ? router.push("/sql-practice")
+                        : router.push("/auth/login")
+                    }
+                    className="bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <DatabaseZap className="mr-2 w-4 h-4" />
+                    Practice SQL
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <Database className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    MongoDB Practice
+                  </h3>
+                  <p className="text-blue-100 text-sm mb-4">
+                    Learn MongoDB queries and aggregation pipelines with
+                    hands-on practice using realistic datasets and complex
+                    operations
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      session
+                        ? router.push("/mongodb-practice")
+                        : router.push("/auth/login")
+                    }
+                    className="bg-white text-green-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <Database className="mr-2 w-4 h-4" />
+                    Practice MongoDB
+                  </Button>
+                </div>
+              </motion.div>
+            </div>
 
             <div className="grid md:grid-cols-3 gap-8 mb-12">
               <motion.div
@@ -424,9 +502,12 @@ export default function Home() {
               >
                 <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
                   <Brain className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Adaptive AI</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Adaptive AI
+                  </h3>
                   <p className="text-blue-100 text-sm">
-                    Smart algorithm adjusts difficulty based on your performance and learning patterns
+                    Smart algorithm adjusts difficulty based on your performance
+                    and learning patterns
                   </p>
                 </div>
               </motion.div>
@@ -438,10 +519,13 @@ export default function Home() {
                 className="text-center"
               >
                 <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <Code className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Multi-Language</h3>
+                  <Database className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Real Datasets
+                  </h3>
                   <p className="text-blue-100 text-sm">
-                    Practice in JavaScript, TypeScript, and Python with real-time code execution
+                    Practice with realistic data scenarios including e-commerce,
+                    HR, and library systems
                   </p>
                 </div>
               </motion.div>
@@ -454,32 +538,16 @@ export default function Home() {
               >
                 <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
                   <TrendingUp className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">Progress Tracking</h3>
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Progress Tracking
+                  </h3>
                   <p className="text-blue-100 text-sm">
-                    Track your coding skills, success rates, and improvement over time
+                    Track your coding skills, success rates, and improvement
+                    over time
                   </p>
                 </div>
               </motion.div>
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-center"
-            >
-              <Button
-                size="lg"
-                onClick={() => session ? router.push('/playground') : router.push('/auth/login')}
-                className="bg-white text-purple-600 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
-              >
-                <Play className="mr-2 w-5 h-5" />
-                {session ? 'Start Coding Now' : 'Try Code Playground'}
-              </Button>
-              <p className="text-blue-100 text-sm mt-4">
-                🚀 Powered by adaptive AI • 🎯 Personalized learning • 🏆 Gamified experience
-              </p>
-            </motion.div>
           </div>
         </div>
       </section>
@@ -733,7 +801,7 @@ export default function Home() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m0 0h6.75m-6.75 0a1.5 1.5 0 0 0-1.5 1.5v3.75m6.75-7.5H12m0 0v3.75m0-3.75h3.75m-3.75 0V9a1.5 1.5 0 0 1 1.5-1.5h3.75"
+                          d="M8.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
                         />
                       </svg>
                     </div>
@@ -810,7 +878,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
               Advanced Topics
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto px-4">
@@ -1008,7 +1076,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
-              onClick={() => session ? router.push('/playground') : router.push('/auth/login')}
+              onClick={() =>
+                session
+                  ? router.push("/playground")
+                  : router.push("/auth/login")
+              }
             >
               <div className="p-3 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg mb-4">
                 <Code className="w-8 h-8 text-white" />
@@ -1017,7 +1089,8 @@ export default function Home() {
                 Code Playground
               </h3>
               <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Interactive coding environment with AI-powered adaptive difficulty and real-time feedback.
+                Interactive coding environment with AI-powered adaptive
+                difficulty and real-time feedback.
               </p>
               <Badge className="mt-2 bg-purple-100 text-purple-800 text-xs">
                 🆕 New Feature
@@ -1240,34 +1313,34 @@ export default function Home() {
                 <span className="font-bold text-xl">Interview Nerd</span>
               </div>
               <p className="text-gray-300 mb-6 max-w-md">
-                Your comprehensive platform for mastering technical interviews. 
+                Your comprehensive platform for mastering technical interviews.
                 Practice with curated questions and land your dream job.
               </p>
               <div className="flex space-x-4">
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
                   aria-label="Twitter"
                 >
                   <Twitter className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
                   aria-label="LinkedIn"
                 >
                   <Linkedin className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
                   aria-label="GitHub"
                 >
                   <Github className="w-5 h-5" />
                 </a>
                 <a
                   href="#"
-                  className="text-gray-400 hover:text-white transition-colors"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
                   aria-label="Email"
                 >
                   <Mail className="w-5 h-5" />
