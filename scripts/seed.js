@@ -3,6 +3,7 @@ import InterviewQuestion from "../models/InterviewQuestion.js";
 import PrepareData from "../models/PrepareData.js";
 import { interviewData } from "../data/interviewData.js";
 import { prepareData } from "../data/prepareData.js";
+
 async function seedDatabase() {
   try {
     console.log("Connecting to MongoDB...");
