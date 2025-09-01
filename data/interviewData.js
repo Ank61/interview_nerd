@@ -10261,6 +10261,190 @@ greet name = "Hello, " ++ name ++ "!"
 - Maintain good type definitions`,
         tags: [{ name: "compiling to JavaScript", link: "" }],
       },
+      {
+        question:
+          "Explain orchestrator vs shell patterns in micro-frontend architecture.",
+        solution:
+          "Orchestrator pattern uses a central runtime that dynamically loads and manages micro-frontends, handling routing, state sharing, and lifecycle management. The orchestrator acts as a mediator, typically implemented with Module Federation or single-spa. Shell pattern (Application Shell) provides a persistent container that hosts micro-frontends as content areas. The shell handles navigation, shared UI components, and authentication, while micro-frontends render within designated zones. Orchestrator offers more dynamic control but adds complexity; Shell is simpler but less flexible. Choose orchestrator for complex integration needs, shell for simpler bounded contexts.",
+      },
+      {
+        question: "How do you version shared component libraries effectively?",
+        solution:
+          "Use semantic versioning (semver) with strict breaking change policies. Implement automated versioning via conventional commits and tools like semantic-release. Maintain multiple major versions simultaneously with LTS support. Use peer dependencies to avoid version conflicts. Implement visual regression testing with tools like Chromatic or Percy. Create component deprecation strategies with migration guides. Use monorepo tools like Nx or Lerna for coordinated releases. Publish to private npm registry with scoped packages (@company/components). Document breaking changes clearly and provide codemods for automated migrations. Consider micro-versioning for individual components in large libraries.",
+      },
+      {
+        question:
+          "Describe blue/green deployment strategy for Single Page Applications.",
+        solution:
+          "Blue/green deployment maintains two identical production environments. Blue serves current traffic while green hosts the new version. For SPAs, deploy new build to green environment with separate CDN distribution or S3 bucket. Test green thoroughly with synthetic monitoring. Switch traffic instantly via DNS change, load balancer routing, or CDN origin swap. If issues arise, immediately rollback by switching traffic back to blue. Challenges include cache invalidation, API version compatibility, and user session handling. Use feature flags to control rollout granularity. Monitor key metrics like error rates and page load times during switch. Automate the process with CI/CD tools like AWS CodeDeploy or custom scripts.",
+      },
+      {
+        question: "Explain canary releases with feature flags implementation.",
+        solution:
+          "Canary releases gradually expose new features to subsets of users. Implement feature flags using libraries like LaunchDarkly, Unleash, or custom solutions. Deploy code with features disabled by default. Use targeting rules based on user attributes, geography, or random percentage. Monitor key metrics (conversion rates, error rates, performance) for canary users vs control groups. Implement kill switches for immediate rollback. Use A/B testing frameworks to measure impact statistically. Store flag configurations in external systems for runtime updates without deployments. Implement flag cleanup processes to remove technical debt. Use progressive rollout: 1% → 5% → 25% → 50% → 100%. Monitor business and technical metrics throughout each phase.",
+      },
+      {
+        question:
+          "Describe edge-side micro-frontends architecture and benefits.",
+        solution:
+          "Edge-side micro-frontends execute at CDN edge locations using Edge Side Includes (ESI), Cloudflare Workers, or AWS Lambda@Edge. Each micro-frontend renders independently at geographically distributed edge nodes. Benefits include reduced latency (sub-50ms response times), improved SEO through server-side rendering, and better performance for global users. Implement using streaming SSR where each team's service renders fragments that are composed at the edge. Handle failures gracefully with fallback content and circuit breakers. Use edge caching for static fragments while keeping dynamic content fresh. Challenges include debugging complexity, cold start latency, and vendor lock-in. Best for content-heavy applications with global audiences requiring fast initial page loads.",
+      },
+      {
+        question:
+          "Explain service mesh implementation for JavaScript microservices.",
+        solution:
+          "Service mesh provides communication infrastructure for microservices via sidecar proxies. For JS services, deploy Istio or Linkerd with Envoy proxies alongside Node.js containers. The mesh handles service discovery, load balancing, circuit breaking, and encryption automatically. Implement distributed tracing with OpenTelemetry to track requests across services. Use mTLS for service-to-service authentication without changing application code. Configure traffic policies for canary deployments and A/B testing. Monitor with Prometheus and Grafana for observability. Benefits include zero-code security, traffic management, and observability. Challenges include operational complexity, latency overhead (~1-2ms), and learning curve. Essential for large microservice deployments (20+ services) requiring advanced networking features.",
+      },
+      {
+        question:
+          "Design a Content Security Policy for a third-party widget integration.",
+        solution:
+          "Implement strict CSP with nonce-based approach for third-party widgets. Use 'script-src self nonce-{random}' for inline scripts and 'frame-src' for widget origins. Create separate CSP for widget iframe using 'sandbox' attribute with minimal permissions. Implement 'connect-src' whitelist for widget API endpoints. Use 'img-src data: https:' for widget images and 'style-src unsafe-inline' only if necessary. Implement CSP reporting with 'report-uri' to monitor violations. For dynamic widgets, use 'strict-dynamic' with nonces. Example: 'Content-Security-Policy: default-src self; script-src self nonce-abc123 strict-dynamic; frame-src widget.example.com; connect-src api.widget.com; report-uri /csp-report'. Test thoroughly in report-only mode before enforcement.",
+      },
+      {
+        question:
+          "Explain Subresource Integrity implementation in dynamic imports.",
+        solution:
+          "Subresource Integrity (SRI) ensures loaded resources haven't been tampered with using cryptographic hashes. For dynamic imports, generate SHA-384 hashes during build process and store them in a manifest. Implement custom import() wrapper that adds integrity attribute: `const module = await import(url, { integrity: 'sha384-xyz' })`. Since native dynamic imports don't support integrity directly, use techniques like: 1) Fetch with integrity check first, then create blob URL for import. 2) Use webpack's import() with magic comments for static analysis. 3) Implement service worker to intercept requests and verify hashes. Example: `fetch(url, { integrity: hash }).then(r => r.blob()).then(b => import(URL.createObjectURL(b)))`. Store hashes in secure location and update atomically with deployments.",
+      },
+      {
+        question:
+          "Describe HTTP Signed Exchanges (SXG) benefits and implementation.",
+        solution:
+          "HTTP Signed Exchanges allow content to be served from third-party domains while maintaining origin attribution and security. SXG packages HTTP response with cryptographic signature from origin server. Benefits include: faster loading via CDN prefetching, improved privacy (users see original URL), and better SEO. Implement by generating SXG files during build process using tools like sxg-rs or gen-signedexchange. Configure web server to serve .sxg files with 'application/signed-exchange' MIME type. Set up certificate chain for signing. Google Search can prefetch SXG files, improving Core Web Vitals. Example workflow: Build → Sign with origin certificate → Upload to CDN → Serve with proper headers. Limitations include certificate requirements, browser support (Chromium-based), and complexity in dynamic content scenarios.",
+      },
+      {
+        question:
+          "How do you implement secret rotation in CI/CD pipelines for JavaScript applications?",
+        solution:
+          "Implement automated secret rotation using vault systems like AWS Secrets Manager, HashiCorp Vault, or Azure Key Vault. Use short-lived tokens with automatic renewal. In CI/CD, retrieve secrets dynamically rather than storing them in environment variables. Implement zero-downtime rotation by supporting both old and new secrets temporarily during transition. Use tools like SOPS or sealed-secrets for GitOps workflows. For database passwords, implement connection pool recycling. For API keys, use key versioning with graceful degradation. Example pipeline: 1) Trigger rotation via scheduled job 2) Generate new secret 3) Update vault 4) Deploy application with new secret retrieval 5) Test connectivity 6) Deactivate old secret after grace period. Monitor rotation events and alert on failures. Implement emergency break-glass procedures for manual intervention.",
+      },
+      {
+        question:
+          "Explain zero-trust architecture implementation for Node.js microservices.",
+        solution:
+          "Zero-trust assumes no implicit trust and verifies every request. For Node.js microservices, implement mutual TLS (mTLS) for service-to-service communication using certificates from internal CA. Use JWT tokens with short expiration (15 minutes) and implement refresh token rotation. Deploy service mesh like Istio for automatic mTLS and policy enforcement. Implement request-level authorization using RBAC with fine-grained permissions. Use middleware to validate caller identity and permissions for each endpoint. Deploy security scanning in CI/CD with tools like Snyk or OWASP ZAP. Implement network segmentation with service-specific VPCs or namespaces. Use least-privilege principles with minimal container permissions. Monitor with tools like Falco for runtime security. Example middleware: authenticate JWT → validate service identity → check endpoint permissions → log security events → proceed with request.",
+      },
+      {
+        question: "Implement subscription memory management.",
+        solution:
+          "Create a subscription manager using WeakRef and FinalizationRegistry for automatic cleanup. Track subscriptions with Map<id, WeakRef<subscription>>, implement dispose pattern with AbortController, use cleanup registry to detect GC'd subscribers, batch unsubscribe operations, implement reference counting for shared resources, and provide memory leak detection hooks for development.",
+      },
+      {
+        question: "Write async retry with exponential backoff.",
+        solution:
+          "Implement retry decorator with configurable backoff: exponential base (2^attempt), jitter (±25% randomization), max delay cap (30s), circuit breaker integration, retry on specific error types only, timeout per attempt, total timeout limit, custom backoff strategies (linear, polynomial), dead letter handling, and comprehensive logging with attempt metadata.",
+      },
+      {
+        question: "Implement CRDT for collaborative text.",
+        solution:
+          "Build Logoot-based CRDT with position identifiers using site ID + clock + fractional indexing. Implement character insertion/deletion with position between existing chars, tombstone deletion markers, vector clocks for causality, operation transformation for concurrent edits, compact representation with run-length encoding, and synchronization protocol with delta-state updates.",
+      },
+      {
+        question: "Create offline queue with IndexedDB.",
+        solution:
+          "Design persistent queue using IndexedDB with auto-incrementing keys for ordering, implement FIFO/LIFO operations with cursor iteration, add priority queue support via composite indexes, handle transaction failures with retry logic, implement background sync when online, queue size limits with LRU eviction, encryption for sensitive data, and atomic batch operations.",
+      },
+      {
+        question: "Implement streaming CSV parser.",
+        solution:
+          "Build stream-based parser using ReadableStream with backpressure control, implement state machine for quote handling, escape sequences, and multi-line fields, support custom delimiters/encoders, handle large files via chunked processing, validate schema on-the-fly, provide error recovery with line numbers, memory-efficient processing with configurable buffer sizes, and TypeScript type inference.",
+      },
+      {
+        question: "Write OAuth2 PKCE flow from scratch.",
+        solution:
+          "Implement PKCE flow: generate cryptographically secure code verifier (43-128 chars), create SHA256 code challenge, build authorization URL with state parameter, handle authorization response with code exchange, verify state/CSRF protection, exchange code for tokens with verifier, implement token refresh logic, secure token storage, and proper error handling with user-friendly messages.",
+      },
+      {
+        question: "Implement JWT refresh token rotation.",
+        solution:
+          "Build secure rotation system: store refresh tokens in httpOnly cookies, implement rotation on each use (new access + refresh tokens), maintain token families to detect theft, add grace period for concurrent requests, implement blacklist/revocation, automatic cleanup of expired tokens, sliding session extension, and introspection endpoint for token validation.",
+      },
+      {
+        question: "Create content-hash based caching.",
+        solution:
+          "Implement deterministic content hashing using SHA-256, cache with Map<hash, {data, metadata, lastAccessed}>, implement LRU eviction with doubly-linked list, support cache invalidation via dependency tracking, add compression for large objects, implement cache warming strategies, provide cache hit/miss analytics, and handle cache coherency in distributed scenarios.",
+      },
+      {
+        question: "Implement request coalescing.",
+        solution:
+          "Build request deduplication using Map<requestKey, Promise> to merge identical requests, implement key generation from URL+headers+body, add timeout handling for hanging requests, support request cancellation with AbortController, implement request batching for similar operations, add cache integration, provide request analytics, and handle partial failures in batched requests.",
+      },
+      {
+        question: "Write event sourcing event store.",
+        solution:
+          "Design append-only event store with stream-per-aggregate pattern, implement optimistic concurrency with version checking, add event serialization/deserialization with schema evolution, create snapshot mechanism for performance, implement event replay for projections, add event filtering/querying capabilities, handle stream archival, and provide event store administration tools.",
+      },
+      {
+        question: "Implement CQRS read-model builder.",
+        solution:
+          "Build projection engine that subscribes to event store, implement event handlers that update read models, add checkpoint management for resume capability, handle out-of-order events with reordering buffer, implement projection rebuilding from scratch, support multiple read model formats (SQL, NoSQL, search), add projection monitoring/health checks, and handle projection errors with retry/dead letter.",
+      },
+      {
+        question: "Create real-time analytics pipeline.",
+        solution:
+          "Implement streaming analytics with sliding window aggregations, use time-based and count-based windows, implement watermarking for late data, add complex event processing for pattern detection, create real-time dashboards with WebSocket updates, implement data sampling for high-volume streams, add alerting based on thresholds, and handle backpressure with adaptive sampling.",
+      },
+      {
+        question: "Implement distributed tracing (OpenTelemetry).",
+        solution:
+          "Integrate OpenTelemetry SDK with automatic instrumentation for HTTP/DB calls, implement custom span creation for business logic, add trace context propagation across service boundaries, implement sampling strategies (probabilistic, rate-limiting), add custom attributes/events, implement trace correlation across async operations, integrate with collectors (Jaeger/Zipkin), and handle trace export failures.",
+      },
+      {
+        question: "Write schema validation compiler.",
+        solution:
+          "Build JSON Schema compiler that generates optimized validation functions, implement schema composition (allOf, oneOf, anyOf), add custom error formatting with JSON paths, support schema references/$ref resolution, implement format validators (email, date, etc.), add conditional schemas (if/then/else), generate TypeScript types from schemas, and optimize performance with code generation vs interpretation.",
+      },
+      {
+        question: "Implement async local storage context propagation.",
+        solution:
+          "Use AsyncLocalStorage for context propagation across async operations, implement context inheritance in Promise chains, handle context in setTimeout/setInterval, add context isolation between requests, implement context cleanup for memory leaks, support context nesting/scoping, add debugging tools for context tracking, and handle edge cases with external libraries.",
+      },
+      {
+        question: "Describe module federation limitations.",
+        solution:
+          "Key limitations: shared dependency version conflicts requiring careful coordination, runtime loading failures need fallback strategies, increased bundle size from federation overhead, complex debugging across federated modules, TypeScript type sharing challenges, circular dependency risks between remotes, deployment coordination complexity, and performance overhead from runtime module resolution.",
+      },
+      {
+        question: "Explain shared dependency versioning strategies.",
+        solution:
+          "Implement semantic versioning with peer dependencies, use singleton pattern for shared libs (React, lodash), implement version compatibility matrix, add runtime version checking, use semver ranges for flexibility, implement graceful degradation for version mismatches, maintain dependency lock files across teams, and establish governance for shared dependency updates.",
+      },
+      {
+        question: "How do you achieve runtime integration of micro-frontends?",
+        solution:
+          "Use Module Federation for dynamic imports, implement container orchestration with routing, add runtime service discovery, implement feature flags for gradual rollouts, use event-driven communication between microfrontends, implement shared state management (Redux, Zustand), add error boundaries for isolation, implement progressive loading strategies, and handle authentication/authorization across boundaries.",
+      },
+      {
+        question: "Describe sidecar deployment for JS.",
+        solution:
+          "Deploy auxiliary services alongside main application: implement reverse proxy sidecar for load balancing/SSL, add monitoring sidecar for metrics collection, implement caching sidecar (Redis proxy), add security sidecar for authentication, implement logging sidecar for centralized logs, use service mesh integration (Envoy proxy), handle inter-service communication, and manage sidecar lifecycle with main application.",
+      },
+      {
+        question: "Explain import-map vs module-federation.",
+        solution:
+          "Import maps provide static dependency mapping at build time with simpler configuration but limited runtime flexibility. Module Federation enables dynamic runtime loading with version negotiation and sharing but adds complexity. Import maps better for CDN-based sharing, Module Federation better for team autonomy. Consider hybrid approach: import maps for stable dependencies, Module Federation for business logic.",
+      },
+      {
+        question: "How do you bundle split by user role?",
+        solution:
+          "Implement role-based code splitting using dynamic imports with role checks, create separate chunks for role-specific features, implement lazy loading with permission validation, use webpack's SplitChunksPlugin with custom conditions, add role detection at application bootstrap, implement progressive enhancement for premium features, handle role changes with dynamic module loading, and optimize bundle sizes per role.",
+      },
+      {
+        question: "Describe federated types with TypeScript.",
+        solution:
+          "Share TypeScript definitions across federated modules using @module-federation/typescript plugin, implement type generation from runtime schemas, use declaration merging for extended types, implement type versioning with namespaces, add runtime type validation with libraries like io-ts, maintain type registry for shared contracts, handle type evolution with backward compatibility, and implement type testing across federation boundaries.",
+      },
+      {
+        question: "Explain micro-frontend isolation (CSS, JS, DOM).",
+        solution:
+          "CSS isolation: use Shadow DOM, CSS-in-JS, or CSS modules with prefixed selectors. JS isolation: implement namespace patterns, avoid global variables, use module federation or iframe sandboxing. DOM isolation: use custom elements, implement virtual DOM boundaries, add event delegation patterns, handle z-index conflicts with stacking contexts, and implement cleanup for unmounted components.",
+      },
+      {
+        question: "Describe cross-micro-frontend state sharing.",
+        solution:
+          "Implement shared state using custom events for loose coupling, use shared service layer with dependency injection, implement pub-sub pattern with message bus, use browser storage (localStorage/sessionStorage) for persistence, implement state synchronization with operational transforms, add state versioning for schema evolution, handle state conflicts with last-writer-wins or CRDT approaches, and provide state debugging tools.",
+      },
     ],
   },
   {
@@ -17032,6 +17216,1864 @@ greet name = "Hello, " ++ name ++ "!"
     id: 19,
     topic: "OOP",
     categories: "Junior",
+    tags: [
+      {
+        name: "encapsulation",
+        link: "",
+      },
+      {
+        name: "inheritance",
+        link: "",
+      },
+      {
+        name: "polymorphism",
+        link: "",
+      },
+      {
+        name: "abstraction",
+        link: "",
+      },
+      {
+        name: "classes",
+        link: "",
+      },
+      {
+        name: "objects",
+        link: "",
+      },
+    ],
+    prepareLink: "",
+    externallinks: [],
+    questions: [
+      {
+        question: "What is Object-Oriented Programming?",
+        solution:
+          "Object-Oriented Programming (OOP) is a programming paradigm that organizes code around objects rather than functions and logic. It models real-world entities as objects that contain both data (attributes) and methods (functions) that operate on that data. OOP helps create modular, reusable, and maintainable code by encapsulating related functionality together.\n\n**JavaScript Example:**\n```javascript\n// OOP approach - modeling a real-world entity\nclass Car {\n  constructor(brand, model, year) {\n    this.brand = brand;\n    this.model = model;\n    this.year = year;\n    this.speed = 0;\n  }\n  \n  accelerate(increment) {\n    this.speed += increment;\n    console.log(`${this.brand} is now going ${this.speed} mph`);\n  }\n  \n  brake() {\n    this.speed = 0;\n    console.log(`${this.brand} has stopped`);\n  }\n}\n\nconst myCar = new Car('Toyota', 'Camry', 2023);\nmyCar.accelerate(30); // Toyota is now going 30 mph\n```\n\n**Python Example:**\n```python\nclass Car:\n    def __init__(self, brand, model, year):\n        self.brand = brand\n        self.model = model\n        self.year = year\n        self.speed = 0\n    \n    def accelerate(self, increment):\n        self.speed += increment\n        print(f\"{self.brand} is now going {self.speed} mph\")\n    \n    def brake(self):\n        self.speed = 0\n        print(f\"{self.brand} has stopped\")\n\nmy_car = Car('Toyota', 'Camry', 2023)\nmy_car.accelerate(30)  # Toyota is now going 30 mph\n```",
+      },
+      {
+        question: "What are the four main principles of OOP?",
+        solution:
+          "The four main principles of Object-Oriented Programming are:\n\n1. **Encapsulation**: Bundling data and methods together and controlling access to them\n2. **Inheritance**: Creating new classes based on existing classes to reuse code\n3. **Polymorphism**: Using a single interface to represent different types\n4. **Abstraction**: Hiding complex implementation details and showing only essential features\n\n**JavaScript Example:**\n```javascript\n// 1. Encapsulation - private fields and methods\nclass BankAccount {\n  #balance = 0; // private field\n  \n  deposit(amount) {\n    if (amount > 0) {\n      this.#balance += amount;\n    }\n  }\n  \n  getBalance() {\n    return this.#balance;\n  }\n}\n\n// 2. Inheritance\nclass SavingsAccount extends BankAccount {\n  constructor(interestRate) {\n    super();\n    this.interestRate = interestRate;\n  }\n}\n\n// 3. Polymorphism\nclass Animal {\n  makeSound() {\n    console.log('Some sound');\n  }\n}\n\nclass Dog extends Animal {\n  makeSound() {\n    console.log('Woof!');\n  }\n}\n\nclass Cat extends Animal {\n  makeSound() {\n    console.log('Meow!');\n  }\n}\n\n// 4. Abstraction\nclass DatabaseConnection {\n  connect() {\n    // Complex connection logic hidden\n    this.#establishConnection();\n    this.#authenticate();\n    console.log('Connected to database');\n  }\n  \n  #establishConnection() { /* complex logic */ }\n  #authenticate() { /* complex logic */ }\n}\n```\n\n**Python Example:**\n```python\n# 1. Encapsulation\nclass BankAccount:\n    def __init__(self):\n        self.__balance = 0  # private attribute\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.__balance += amount\n    \n    def get_balance(self):\n        return self.__balance\n\n# 2. Inheritance\nclass SavingsAccount(BankAccount):\n    def __init__(self, interest_rate):\n        super().__init__()\n        self.interest_rate = interest_rate\n\n# 3. Polymorphism\nclass Animal:\n    def make_sound(self):\n        print('Some sound')\n\nclass Dog(Animal):\n    def make_sound(self):\n        print('Woof!')\n\nclass Cat(Animal):\n    def make_sound(self):\n        print('Meow!')\n\n# 4. Abstraction\nfrom abc import ABC, abstractmethod\n\nclass DatabaseConnection(ABC):\n    @abstractmethod\n    def connect(self):\n        pass\n    \n    def _establish_connection(self):\n        # Complex logic hidden\n        pass\n```",
+      },
+      {
+        question: "What is a class?",
+        solution:
+          "A class is a blueprint or template that defines the structure and behavior of objects. It specifies what attributes (data) and methods (functions) objects of that type will have. Think of a class as a cookie cutter - it defines the shape, but doesn't create the actual cookies (objects) until you use it.\n\n**Key Components of a Class:**\n- **Attributes/Properties**: Variables that store data\n- **Methods**: Functions that define behavior\n- **Constructor**: Special method that initializes new objects\n\n**JavaScript Example:**\n```javascript\nclass Person {\n  // Constructor - runs when creating new objects\n  constructor(name, age, email) {\n    this.name = name;     // attribute\n    this.age = age;       // attribute\n    this.email = email;   // attribute\n  }\n  \n  // Methods - define behavior\n  introduce() {\n    return `Hi, I'm ${this.name} and I'm ${this.age} years old`;\n  }\n  \n  celebrateBirthday() {\n    this.age++;\n    console.log(`Happy birthday! Now ${this.age} years old`);\n  }\n  \n  // Static method - belongs to class, not instances\n  static getSpecies() {\n    return 'Homo sapiens';\n  }\n}\n\n// The class itself doesn't create objects, it's just the template\nconsole.log(typeof Person); // 'function'\nconsole.log(Person.getSpecies()); // 'Homo sapiens'\n```\n\n**Python Example:**\n```python\nclass Person:\n    # Class attribute - shared by all instances\n    species = 'Homo sapiens'\n    \n    # Constructor\n    def __init__(self, name, age, email):\n        self.name = name      # instance attribute\n        self.age = age        # instance attribute\n        self.email = email    # instance attribute\n    \n    # Instance methods\n    def introduce(self):\n        return f\"Hi, I'm {self.name} and I'm {self.age} years old\"\n    \n    def celebrate_birthday(self):\n        self.age += 1\n        print(f\"Happy birthday! Now {self.age} years old\")\n    \n    # Static method\n    @staticmethod\n    def get_species():\n        return 'Homo sapiens'\n    \n    # Class method\n    @classmethod\n    def from_string(cls, person_str):\n        name, age, email = person_str.split('-')\n        return cls(name, int(age), email)\n\n# The class is a type\nprint(type(Person))  # <class 'type'>\nprint(Person.species)  # 'Homo sapiens'\n```",
+      },
+      {
+        question: "What is an object?",
+        solution:
+          "An object is an instance of a class it's the actual entity created from the class blueprint. While a class defines the structure, an object is a concrete realization with specific values for its attributes. Objects have their own memory space and can maintain their own state.\n\n**Key Characteristics of Objects:**\n- **Identity**: Each object has a unique identity in memory\n- **State**: Current values of all attributes\n- **Behavior**: Methods that can be called on the object\n\n**JavaScript Example:**\n```javascript\nclass Book {\n  constructor(title, author, pages) {\n    this.title = title;\n    this.author = author;\n    this.pages = pages;\n    this.currentPage = 1;\n  }\n  \n  read(pagesToRead) {\n    this.currentPage += pagesToRead;\n    if (this.currentPage > this.pages) {\n      this.currentPage = this.pages;\n      console.log('Finished reading the book!');\n    } else {\n      console.log(`Now on page ${this.currentPage}`);\n    }\n  }\n  \n  getProgress() {\n    return `${((this.currentPage / this.pages) * 100).toFixed(1)}% complete`;\n  }\n}\n\n// Creating objects (instances) from the class\nconst book1 = new Book('1984', 'George Orwell', 328);\nconst book2 = new Book('To Kill a Mockingbird', 'Harper Lee', 281);\n\n// Each object has its own state\nbook1.read(50);  // Now on page 51\nbook2.read(100); // Now on page 101\n\nconsole.log(book1.getProgress()); // 15.5% complete\nconsole.log(book2.getProgress()); // 35.6% complete\n\n// Objects have unique identities\nconsole.log(book1 === book2); // false\nconsole.log(book1.title !== book2.title); // true\n```\n\n**Python Example:**\n```python\nclass Book:\n    def __init__(self, title, author, pages):\n        self.title = title\n        self.author = author\n        self.pages = pages\n        self.current_page = 1\n    \n    def read(self, pages_to_read):\n        self.current_page += pages_to_read\n        if self.current_page > self.pages:\n            self.current_page = self.pages\n            print('Finished reading the book!')\n        else:\n            print(f'Now on page {self.current_page}')\n    \n    def get_progress(self):\n        return f\"{(self.current_page / self.pages * 100):.1f}% complete\"\n    \n    def __str__(self):\n        return f\"'{self.title}' by {self.author}\"\n\n# Creating objects\nbook1 = Book('1984', 'George Orwell', 328)\nbook2 = Book('To Kill a Mockingbird', 'Harper Lee', 281)\n\n# Each object maintains its own state\nbook1.read(50)   # Now on page 51\nbook2.read(100)  # Now on page 101\n\nprint(book1.get_progress())  # 15.5% complete\nprint(book2.get_progress())  # 35.6% complete\n\n# Object identity\nprint(id(book1))  # Memory address\nprint(id(book2))  # Different memory address\nprint(book1 is book2)  # False\nprint(str(book1))  # '1984' by George Orwell\n```",
+      },
+      {
+        question: "What is the difference between a class and an object?",
+        solution:
+          "The relationship between a class and an object is like the relationship between a blueprint and a house, or a recipe and a cake. Here are the key differences:\n\n**Class:**\n- Template/Blueprint that defines structure\n- Exists only in code, not in memory during runtime\n- Defines what attributes and methods objects will have\n- Can't store actual data values\n- One class can create many objects\n\n**Object:**\n- Instance created from a class blueprint\n- Exists in memory during runtime\n- Has actual values for attributes\n- Can perform actions through methods\n- Each object is unique with its own memory space\n\n**JavaScript Example:**\n```javascript\n// CLASS - This is the blueprint\nclass Student {\n  constructor(name, grade) {\n    this.name = name;\n    this.grade = grade;\n    this.assignments = [];\n  }\n  \n  addAssignment(assignment, score) {\n    this.assignments.push({ assignment, score });\n  }\n  \n  getAverageScore() {\n    if (this.assignments.length === 0) return 0;\n    const total = this.assignments.reduce((sum, a) => sum + a.score, 0);\n    return total / this.assignments.length;\n  }\n}\n\n// The class itself doesn't hold any student data\nconsole.log(typeof Student); // 'function'\nconsole.log(Student.name); // 'Student'\n\n// OBJECTS - These are actual instances with real data\nconst student1 = new Student('Alice', 10);\nconst student2 = new Student('Bob', 10);\nconst student3 = new Student('Charlie', 11);\n\n// Each object has its own data and state\nstudent1.addAssignment('Math Test', 85);\nstudent1.addAssignment('Science Quiz', 92);\n\nstudent2.addAssignment('Math Test', 78);\nstudent2.addAssignment('Science Quiz', 88);\n\n// Objects behave independently\nconsole.log(student1.getAverageScore()); // 88.5\nconsole.log(student2.getAverageScore()); // 83\nconsole.log(student3.getAverageScore()); // 0 (no assignments yet)\n\n// Each object is unique\nconsole.log(student1 === student2); // false\nconsole.log(student1.name); // 'Alice'\nconsole.log(student2.name); // 'Bob'\n```\n\n**Python Example:**\n```python\n# CLASS - Blueprint definition\nclass Student:\n    # Class variable - shared by all instances\n    school_name = 'ABC High School'\n    total_students = 0\n    \n    def __init__(self, name, grade):\n        self.name = name           # Instance variable\n        self.grade = grade         # Instance variable\n        self.assignments = []      # Instance variable\n        Student.total_students += 1  # Modify class variable\n    \n    def add_assignment(self, assignment, score):\n        self.assignments.append({'assignment': assignment, 'score': score})\n    \n    def get_average_score(self):\n        if not self.assignments:\n            return 0\n        total = sum(a['score'] for a in self.assignments)\n        return total / len(self.assignments)\n\n# Class properties (before creating any objects)\nprint(f\"Class name: {Student.__name__}\")  # Student\nprint(f\"School: {Student.school_name}\")   # ABC High School\nprint(f\"Total students: {Student.total_students}\")  # 0\n\n# OBJECTS - Actual instances with real data\nstudent1 = Student('Alice', 10)\nstudent2 = Student('Bob', 10)\nstudent3 = Student('Charlie', 11)\n\n# Now we have objects in memory\nprint(f\"Total students: {Student.total_students}\")  # 3\n\n# Each object maintains its own state\nstudent1.add_assignment('Math Test', 85)\nstudent1.add_assignment('Science Quiz', 92)\n\nstudent2.add_assignment('Math Test', 78)\nstudent2.add_assignment('Science Quiz', 88)\n\n# Objects have different data\nprint(f\"{student1.name}: {student1.get_average_score()}\")  # Alice: 88.5\nprint(f\"{student2.name}: {student2.get_average_score()}\")  # Bob: 83.0\nprint(f\"{student3.name}: {student3.get_average_score()}\")  # Charlie: 0\n\n# Different memory locations\nprint(f\"Student1 ID: {id(student1)}\")\nprint(f\"Student2 ID: {id(student2)}\")\nprint(f\"Are they the same object? {student1 is student2}\")  # False\n```\n\n**Summary Table:**\n| Aspect | Class | Object |\n|--------|-------|--------|\n| Nature | Template/Blueprint | Instance/Realization |\n| Memory | Design-time concept | Runtime entity |\n| Data | Cannot store values | Stores actual values |\n| Quantity | One definition | Many instances possible |\n| Purpose | Defines structure | Performs actual work |",
+      },
+      {
+        question: "What is encapsulation?",
+        solution:
+          "Encapsulation is the OOP principle of bundling data (attributes) and methods that operate on that data together within a single unit (class), while controlling access to the internal components. It's like putting related items in a capsule and deciding what can be accessed from the outside.\n\n**Key Benefits:**\n- **Data Protection**: Prevents unauthorized access and modification\n- **Modularity**: Keeps related functionality together\n- **Maintainability**: Changes to internal implementation don't affect external code\n- **Abstraction**: Hides complex internal details\n\n**Access Levels:**\n- **Public**: Accessible from anywhere\n- **Private**: Only accessible within the same class\n- **Protected**: Accessible within the class and its subclasses\n\n**JavaScript Example:**\n```javascript\nclass BankAccount {\n  // Private fields (ES2022 syntax)\n  #balance = 0;\n  #accountNumber;\n  #pin;\n  \n  constructor(accountNumber, initialPin) {\n    this.#accountNumber = accountNumber;\n    this.#pin = initialPin;\n    this.holderName = ''; // Public field\n  }\n  \n  // Private method\n  #validatePin(enteredPin) {\n    return this.#pin === enteredPin;\n  }\n  \n  // Public methods - controlled access to private data\n  deposit(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount <= 0) {\n      throw new Error('Amount must be positive');\n    }\n    this.#balance += amount;\n    return `Deposited $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  withdraw(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount > this.#balance) {\n      throw new Error('Insufficient funds');\n    }\n    this.#balance -= amount;\n    return `Withdrew $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  // Getter method - controlled read access\n  getBalance(pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    return this.#balance;\n  }\n  \n  // Public method to change PIN\n  changePin(oldPin, newPin) {\n    if (!this.#validatePin(oldPin)) {\n      throw new Error('Invalid current PIN');\n    }\n    this.#pin = newPin;\n    return 'PIN changed successfully';\n  }\n}\n\n// Usage example\nconst account = new BankAccount('ACC123', '1234');\naccount.holderName = 'John Doe'; // Public field - accessible\n\n// These work through controlled public methods\nconsole.log(account.deposit(1000, '1234')); // Deposited $1000...\nconsole.log(account.withdraw(200, '1234'));  // Withdrew $200...\nconsole.log(account.getBalance('1234'));     // 800\n\n// These are protected - cannot access directly\n// console.log(account.#balance);     // SyntaxError\n// console.log(account.#pin);         // SyntaxError\n// account.#validatePin('1234');      // SyntaxError\n\n// Wrong PIN\ntry {\n  account.withdraw(100, '0000'); // Error: Invalid PIN\n} catch (error) {\n  console.log(error.message);\n}\n```\n\n**Python Example:**\n```python\nclass BankAccount:\n    def __init__(self, account_number, initial_pin):\n        # Private attributes (by convention with double underscore)\n        self.__balance = 0\n        self.__account_number = account_number\n        self.__pin = initial_pin\n        # Public attribute\n        self.holder_name = ''\n    \n    # Private method\n    def __validate_pin(self, entered_pin):\n        return self.__pin == entered_pin\n    \n    # Public methods - controlled access\n    def deposit(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount <= 0:\n            raise ValueError('Amount must be positive')\n        self.__balance += amount\n        return f'Deposited ${amount}. New balance: ${self.__balance}'\n    \n    def withdraw(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount > self.__balance:\n            raise ValueError('Insufficient funds')\n        self.__balance -= amount\n        return f'Withdrew ${amount}. New balance: ${self.__balance}'\n    \n    # Property for controlled access (Python's getter/setter)\n    def get_balance(self, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        return self.__balance\n    \n    def change_pin(self, old_pin, new_pin):\n        if not self.__validate_pin(old_pin):\n            raise ValueError('Invalid current PIN')\n        self.__pin = new_pin\n        return 'PIN changed successfully'\n    \n    # Protected method (single underscore - convention only)\n    def _get_account_info(self):\n        return f'Account: {self.__account_number}'\n\n# Usage example\naccount = BankAccount('ACC123', '1234')\naccount.holder_name = 'John Doe'  # Public attribute\n\n# Controlled access through public methods\nprint(account.deposit(1000, '1234'))  # Deposited $1000...\nprint(account.withdraw(200, '1234'))   # Withdrew $200...\nprint(account.get_balance('1234'))     # 800\n\n# Private attributes are name-mangled in Python\n# These don't work as expected:\nprint(hasattr(account, '__balance'))    # False\nprint(hasattr(account, '_BankAccount__balance'))  # True (name mangling)\n\n# This is the proper way - through public interface\ntry:\n    account.withdraw(100, '0000')  # ValueError: Invalid PIN\nexcept ValueError as e:\n    print(e)\n\n# Demonstrating encapsulation benefits\nclass SecureBankAccount(BankAccount):\n    def __init__(self, account_number, initial_pin):\n        super().__init__(account_number, initial_pin)\n        self.__transaction_history = []\n    \n    def deposit(self, amount, pin):\n        result = super().deposit(amount, pin)\n        self.__transaction_history.append(f'DEPOSIT: ${amount}')\n        return result\n    \n    def get_transaction_history(self, pin):\n        if not self._BankAccount__validate_pin(pin):  # Accessing parent's private method\n            raise ValueError('Invalid PIN')\n        return self.__transaction_history.copy()\n\nsecure_account = SecureBankAccount('SEC456', '5678')\nsecure_account.deposit(500, '5678')\nprint(secure_account.get_transaction_history('5678'))  # ['DEPOSIT: $500']\n```\n\n**Real-world analogy**: Think of encapsulation like a car. You interact with the car through its public interface (steering wheel, pedals, gear shift), but you don't directly manipulate the engine pistons or transmission gears. The complex internal mechanisms are hidden and protected, while safe, controlled access is provided through the interface.",
+      },
+      {
+        question: "What is composition?",
+        solution: `Composition is a strong "has-a" relationship where the child object cannot exist without the parent object. It represents a part-whole relationship with strong ownership. When the parent is destroyed, all child objects are also destroyed.
+
+**Key Characteristics:**
+- Strong ownership relationship
+- Child objects have no independent existence
+- Lifetime dependency between parent and child
+- "Part-of" relationship
+
+**JavaScript Example:**
+\`\`\`javascript
+class Engine {
+  constructor(type) {
+    this.type = type;
+    this.horsepower = 200;
+  }
+  
+  start() {
+    console.log(\`\${this.type} engine starting...\`);
+  }
+}
+
+class Car {
+  constructor(model) {
+    this.model = model;
+    // Composition: Engine is created inside Car and belongs to it
+    this.engine = new Engine("V6");
+    this.wheels = [
+      new Wheel("front-left"),
+      new Wheel("front-right"),
+      new Wheel("rear-left"),
+      new Wheel("rear-right")
+    ];
+  }
+  
+  start() {
+    this.engine.start();
+    console.log(\`\${this.model} is ready to drive\`);
+  }
+}
+
+class Wheel {
+  constructor(position) {
+    this.position = position;
+    this.size = "17 inch";
+  }
+}
+
+// When car is destroyed, engine and wheels are also destroyed
+let myCar = new Car("Toyota");
+myCar.start();
+myCar = null; // Engine and wheels are also gone
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Engine:
+    def __init__(self, engine_type):
+        self.type = engine_type
+        self.horsepower = 200
+    
+    def start(self):
+        print(f"{self.type} engine starting...")
+
+class Wheel:
+    def __init__(self, position):
+        self.position = position
+        self.size = "17 inch"
+
+class Car:
+    def __init__(self, model):
+        self.model = model
+        # Composition: Engine is created inside Car
+        self.engine = Engine("V6")
+        self.wheels = [
+            Wheel("front-left"),
+            Wheel("front-right"), 
+            Wheel("rear-left"),
+            Wheel("rear-right")
+        ]
+    
+    def start(self):
+        self.engine.start()
+        print(f"{self.model} is ready to drive")
+
+# Usage
+my_car = Car("Toyota")
+my_car.start()
+# When my_car is deleted, engine and wheels are also destroyed
+del my_car
+\`\`\`
+
+**Real-world Examples:**
+- House and Rooms (rooms can't exist without house)
+- Computer and CPU (CPU is part of computer)
+- Book and Pages (pages belong to specific book)`,
+      },
+      {
+        question: "What is aggregation?",
+        solution: `Aggregation is a weak "has-a" relationship where child objects can exist independently of the parent object. It represents a collection or grouping relationship where objects maintain their own lifecycle.
+
+**Key Characteristics:**
+- Weak ownership relationship
+- Child objects can exist independently
+- "Uses-a" or "contains-a" relationship
+- Parent destruction doesn't affect children
+
+**JavaScript Example:**
+\`\`\`javascript
+class Student {
+  constructor(name, id) {
+    this.name = name;
+    this.id = id;
+  }
+  
+  study() {
+    console.log(\`\${this.name} is studying\`);
+  }
+}
+
+class Teacher {
+  constructor(name, subject) {
+    this.name = name;
+    this.subject = subject;
+  }
+  
+  teach() {
+    console.log(\`\${this.name} is teaching \${this.subject}\`);
+  }
+}
+
+class Department {
+  constructor(name) {
+    this.name = name;
+    this.students = []; // Aggregation: students exist independently
+    this.teachers = []; // Aggregation: teachers exist independently
+  }
+  
+  addStudent(student) {
+    this.students.push(student);
+  }
+  
+  addTeacher(teacher) {
+    this.teachers.push(teacher);
+  }
+  
+  removeStudent(studentId) {
+    this.students = this.students.filter(s => s.id !== studentId);
+    // Student still exists, just removed from department
+  }
+}
+
+// Students and teachers exist independently
+const john = new Student("John", 1);
+const mary = new Student("Mary", 2);
+const profSmith = new Teacher("Prof Smith", "Math");
+
+const mathDept = new Department("Mathematics");
+mathDept.addStudent(john);
+mathDept.addStudent(mary);
+mathDept.addTeacher(profSmith);
+
+// If department is destroyed, students and teachers continue to exist
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Student:
+    def __init__(self, name, student_id):
+        self.name = name
+        self.id = student_id
+    
+    def study(self):
+        print(f"{self.name} is studying")
+
+class Teacher:
+    def __init__(self, name, subject):
+        self.name = name
+        self.subject = subject
+    
+    def teach(self):
+        print(f"{self.name} is teaching {self.subject}")
+
+class Department:
+    def __init__(self, name):
+        self.name = name
+        self.students = []  # Aggregation
+        self.teachers = []  # Aggregation
+    
+    def add_student(self, student):
+        self.students.append(student)
+    
+    def add_teacher(self, teacher):
+        self.teachers.append(teacher)
+    
+    def remove_student(self, student_id):
+        self.students = [s for s in self.students if s.id != student_id]
+    
+    def get_info(self):
+        print(f"Department: {self.name}")
+        print(f"Students: {len(self.students)}")
+        print(f"Teachers: {len(self.teachers)}")
+
+# Objects exist independently
+john = Student("John", 1)
+mary = Student("Mary", 2)
+prof_smith = Teacher("Prof Smith", "Math")
+
+# Aggregation: Department uses existing objects
+math_dept = Department("Mathematics")
+math_dept.add_student(john)
+math_dept.add_student(mary)
+math_dept.add_teacher(prof_smith)
+
+# Students and teachers exist even if department is deleted
+del math_dept
+john.study()  # John still exists and can study
+\`\`\`
+
+**Real-world Examples:**
+- Library and Books (books can exist without library)
+- Team and Players (players can join different teams)
+- Playlist and Songs (songs exist independently)`,
+      },
+      {
+        question: "What is association?",
+        solution: `Association represents a basic relationship between two classes where objects of one class are connected to objects of another class. It's the most general form of relationship and can be one-to-one, one-to-many, or many-to-many.
+
+**Key Characteristics:**
+- Loosest form of relationship
+- Objects maintain independent lifecycle
+- Can be bidirectional or unidirectional
+- Represents "uses-a" or "knows-about" relationship
+
+**Types of Association:**
+1. **Unidirectional**: One class knows about another
+2. **Bidirectional**: Both classes know about each other
+
+**JavaScript Example:**
+\`\`\`javascript
+class Customer {
+  constructor(name, customerId) {
+    this.name = name;
+    this.customerId = customerId;
+    this.orders = []; // Association with Order
+  }
+  
+  placeOrder(order) {
+    this.orders.push(order);
+    order.customer = this; // Bidirectional association
+  }
+  
+  getOrderHistory() {
+    return this.orders;
+  }
+}
+
+class Order {
+  constructor(orderId, amount) {
+    this.orderId = orderId;
+    this.amount = amount;
+    this.customer = null; // Association with Customer
+    this.products = []; // Association with Product
+  }
+  
+  addProduct(product) {
+    this.products.push(product);
+  }
+  
+  getTotal() {
+    return this.products.reduce((total, product) => 
+      total + product.price, 0);
+  }
+}
+
+class Product {
+  constructor(name, price, productId) {
+    this.name = name;
+    this.price = price;
+    this.productId = productId;
+  }
+}
+
+// Usage example
+const customer1 = new Customer("Alice", "C001");
+const customer2 = new Customer("Bob", "C002");
+
+const product1 = new Product("Laptop", 999, "P001");
+const product2 = new Product("Mouse", 25, "P002");
+
+const order1 = new Order("O001", 0);
+order1.addProduct(product1);
+order1.addProduct(product2);
+
+// Association: Customer places order
+customer1.placeOrder(order1);
+
+console.log(\`Customer \${customer1.name} has \${customer1.orders.length} orders\`);
+console.log(\`Order \${order1.orderId} belongs to \${order1.customer.name}\`);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Customer:
+    def __init__(self, name, customer_id):
+        self.name = name
+        self.customer_id = customer_id
+        self.orders = []  # Association with Order
+    
+    def place_order(self, order):
+        self.orders.append(order)
+        order.customer = self  # Bidirectional association
+    
+    def get_order_history(self):
+        return self.orders
+
+class Order:
+    def __init__(self, order_id):
+        self.order_id = order_id
+        self.customer = None  # Association with Customer
+        self.products = []    # Association with Product
+    
+    def add_product(self, product):
+        self.products.append(product)
+    
+    def get_total(self):
+        return sum(product.price for product in self.products)
+
+class Product:
+    def __init__(self, name, price, product_id):
+        self.name = name
+        self.price = price
+        self.product_id = product_id
+
+# Usage example
+customer1 = Customer("Alice", "C001")
+customer2 = Customer("Bob", "C002")
+
+product1 = Product("Laptop", 999, "P001")
+product2 = Product("Mouse", 25, "P002")
+
+order1 = Order("O001")
+order1.add_product(product1)
+order1.add_product(product2)
+
+# Association: Customer places order
+customer1.place_order(order1)
+
+print(f"Customer {customer1.name} has {len(customer1.orders)} orders")
+print(f"Order {order1.order_id} belongs to {order1.customer.name}")
+print(f"Order total: $ {order1.get_total()}")
+
+# Many-to-many association example
+class Author:
+    def __init__(self, name):
+        self.name = name
+        self.books = []
+    
+    def write_book(self, book):
+        self.books.append(book)
+        book.authors.append(self)
+
+class Book:
+    def __init__(self, title):
+        self.title = title
+        self.authors = []
+
+# Many-to-many association
+author1 = Author("John Doe")
+author2 = Author("Jane Smith")
+book1 = Book("Programming Guide")
+
+author1.write_book(book1)
+author2.write_book(book1)  # Multiple authors for one book
+\`\`\`
+
+**Association Multiplicity:**
+- **One-to-One**: Person has one Passport
+- **One-to-Many**: Customer has many Orders
+- **Many-to-Many**: Students enroll in many Courses, Courses have many Students`,
+      },
+      {
+        question: "What is the difference between composition and aggregation?",
+        solution: `Composition and Aggregation are both types of association, but they differ in the strength of ownership and lifecycle dependency between objects.
+
+**Key Differences:**
+
+| Aspect | Composition | Aggregation |
+|--------|-------------|-------------|
+| **Relationship Type** | Strong "has-a" (Part-of) | Weak "has-a" (Uses-a) |
+| **Ownership** | Strong ownership | Weak ownership |
+| **Lifecycle** | Child dies with parent | Independent lifecycles |
+| **Dependency** | High coupling | Low coupling |
+| **Example** | Car-Engine | Department-Employee |
+
+**Detailed Comparison:**
+
+**JavaScript Example:**
+\`\`\`javascript
+// COMPOSITION EXAMPLE
+class Brain {
+  constructor() {
+    this.neurons = 86000000000;
+  }
+  
+  think() {
+    console.log("Processing thoughts...");
+  }
+}
+
+class Heart {
+  constructor() {
+    this.bpm = 72;
+  }
+  
+  beat() {
+    console.log("Lub-dub, lub-dub...");
+  }
+}
+
+class Person {
+  constructor(name) {
+    this.name = name;
+    // COMPOSITION: Brain and Heart are created with Person
+    // They cannot exist without Person
+    this.brain = new Brain();
+    this.heart = new Heart();
+  }
+  
+  live() {
+    this.heart.beat();
+    this.brain.think();
+  }
+}
+
+// AGGREGATION EXAMPLE
+class Employee {
+  constructor(name, id) {
+    this.name = name;
+    this.id = id;
+  }
+  
+  work() {
+    console.log(\`\${this.name} is working\`);
+  }
+}
+
+class Company {
+  constructor(name) {
+    this.name = name;
+    this.employees = []; // AGGREGATION: Employees exist independently
+  }
+  
+  hireEmployee(employee) {
+    this.employees.push(employee);
+  }
+  
+  fireEmployee(employeeId) {
+    this.employees = this.employees.filter(emp => emp.id !== employeeId);
+    // Employee still exists, just not part of company
+  }
+}
+
+// Composition usage
+const person = new Person("John");
+person.live();
+// If person is destroyed, brain and heart are also destroyed
+person = null; // Brain and heart no longer exist
+
+// Aggregation usage
+const emp1 = new Employee("Alice", 1);
+const emp2 = new Employee("Bob", 2);
+const company = new Company("TechCorp");
+
+company.hireEmployee(emp1);
+company.hireEmployee(emp2);
+
+// Employees exist independently
+company.fireEmployee(1); // Alice is fired but still exists
+emp1.work(); // Alice can still work elsewhere
+
+company = null; // Company destroyed, but employees still exist
+emp2.work(); // Bob still exists and can work
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# COMPOSITION EXAMPLE
+class Room:
+    def __init__(self, name, area):
+        self.name = name
+        self.area = area
+    
+    def describe(self):
+        return f"{self.name}: {self.area} sq ft"
+
+class House:
+    def __init__(self, address):
+        self.address = address
+        # COMPOSITION: Rooms are part of house
+        self.rooms = [
+            Room("Living Room", 300),
+            Room("Bedroom", 200),
+            Room("Kitchen", 150),
+            Room("Bathroom", 100)
+        ]
+    
+    def get_total_area(self):
+        return sum(room.area for room in self.rooms)
+    
+    def describe_house(self):
+        print(f"House at {self.address}")
+        for room in self.rooms:
+            print(f"  - {room.describe()}")
+
+# AGGREGATION EXAMPLE  
+class Player:
+    def __init__(self, name, position):
+        self.name = name
+        self.position = position
+    
+    def play(self):
+        print(f"{self.name} is playing {self.position}")
+
+class Team:
+    def __init__(self, name):
+        self.name = name
+        self.players = []  # AGGREGATION: Players exist independently
+    
+    def add_player(self, player):
+        self.players.append(player)
+    
+    def remove_player(self, player_name):
+        self.players = [p for p in self.players if p.name != player_name]
+    
+    def list_players(self):
+        print(f"Team {self.name}:")
+        for player in self.players:
+            print(f"  - {player.name} ({player.position})")
+
+# Composition demonstration
+house = House("123 Main St")
+house.describe_house()
+print(f"Total area: {house.get_total_area()} sq ft")
+
+# When house is destroyed, rooms are also destroyed
+del house  # Rooms no longer exist
+
+# Aggregation demonstration
+player1 = Player("John", "Forward")
+player2 = Player("Mike", "Guard")
+player3 = Player("Steve", "Center")
+
+team_a = Team("Lakers")
+team_b = Team("Warriors")
+
+# Players exist independently and can join different teams
+team_a.add_player(player1)
+team_a.add_player(player2)
+team_b.add_player(player3)
+
+team_a.list_players()
+
+# Player can be transferred between teams
+team_a.remove_player("John")
+team_b.add_player(player1)  # John joins Warriors
+
+# Even if team is destroyed, players still exist
+del team_a
+player2.play()  # Mike still exists and can play
+\`\`\`
+
+**Memory Perspective:**
+- **Composition**: Parent object contains child objects in memory
+- **Aggregation**: Parent object contains references to child objects
+
+**When to Use Which:**
+- **Use Composition** when child cannot exist without parent (Car-Engine, House-Room)
+- **Use Aggregation** when child can exist independently (Team-Player, Library-Book)
+
+**Real-world Analogies:**
+- **Composition**: Human body and organs, Car and engine parts
+- **Aggregation**: School and students, Playlist and songs`,
+      },
+      {
+        question: "What is inheritance hierarchy?",
+        solution: `Inheritance hierarchy is the structure that shows the relationships between parent classes (superclasses) and child classes (subclasses) in an object-oriented system. It represents how classes inherit properties and methods from their ancestors, forming a tree-like structure.
+
+**Key Concepts:**
+- **Base/Parent/Super Class**: The class being inherited from
+- **Derived/Child/Sub Class**: The class that inherits
+- **Root Class**: The topmost class in hierarchy
+- **Leaf Classes**: Classes with no children
+- **Depth**: Number of levels in inheritance chain
+
+**JavaScript Example:**
+\`\`\`javascript
+// Root class - Animal (Base class)
+class Animal {
+  constructor(name, species) {
+    this.name = name;
+    this.species = species;
+  }
+  
+  eat() {
+    console.log(\`\${this.name} is eating\`);
+  }
+  
+  sleep() {
+    console.log(\`\${this.name} is sleeping\`);
+  }
+  
+  makeSound() {
+    console.log("Some generic animal sound");
+  }
+}
+
+// First level inheritance
+class Mammal extends Animal {
+  constructor(name, species, furColor) {
+    super(name, species);
+    this.furColor = furColor;
+    this.warmBlooded = true;
+  }
+  
+  giveBirth() {
+    console.log(\`\${this.name} is giving birth to live offspring\`);
+  }
+  
+  regulateTemperature() {
+    console.log(\`\${this.name} maintains constant body temperature\`);
+  }
+}
+
+class Bird extends Animal {
+  constructor(name, species, wingspan) {
+    super(name, species);
+    this.wingspan = wingspan;
+    this.canFly = true;
+  }
+  
+  fly() {
+    if (this.canFly) {
+      console.log(\`\${this.name} is flying with wingspan of \${this.wingspan}cm\`);
+    }
+  }
+  
+  layEggs() {
+    console.log(\`\${this.name} is laying eggs\`);
+  }
+}
+
+// Second level inheritance
+class Dog extends Mammal {
+  constructor(name, breed, furColor) {
+    super(name, "Canis lupus", furColor);
+    this.breed = breed;
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} barks: Woof! Woof!\`);
+  }
+  
+  wagTail() {
+    console.log(\`\${this.name} is wagging tail happily\`);
+  }
+  
+  fetch() {
+    console.log(\`\${this.name} is fetching the ball\`);
+  }
+}
+
+class Cat extends Mammal {
+  constructor(name, breed, furColor) {
+    super(name, "Felis catus", furColor);
+    this.breed = breed;
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} meows: Meow! Meow!\`);
+  }
+  
+  purr() {
+    console.log(\`\${this.name} is purring contentedly\`);
+  }
+  
+  hunt() {
+    console.log(\`\${this.name} is hunting mice\`);
+  }
+}
+
+class Eagle extends Bird {
+  constructor(name, wingspan) {
+    super(name, "Aquila chrysaetos", wingspan);
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} screeches: Screech!\`);
+  }
+  
+  hunt() {
+    console.log(\`\${this.name} is hunting for prey from above\`);
+  }
+}
+
+class Penguin extends Bird {
+  constructor(name, height) {
+    super(name, "Spheniscidae", 0);
+    this.height = height;
+    this.canFly = false; // Override inherited property
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} makes penguin sounds: Honk!\`);
+  }
+  
+  swim() {
+    console.log(\`\${this.name} is swimming expertly\`);
+  }
+  
+  slide() {
+    console.log(\`\${this.name} is sliding on ice\`);
+  }
+}
+
+// Usage demonstrating hierarchy
+const myDog = new Dog("Buddy", "Golden Retriever", "Golden");
+const myCat = new Cat("Whiskers", "Persian", "White");
+const eagle = new Eagle("Majestic", 220);
+const penguin = new Penguin("Pingu", 45);
+
+// All can use Animal methods
+myDog.eat();        // From Animal
+myDog.giveBirth();  // From Mammal
+myDog.wagTail();    // From Dog
+myDog.makeSound();  // Overridden in Dog
+
+eagle.eat();        // From Animal
+eagle.fly();        // From Bird
+eagle.hunt();       // From Eagle
+
+penguin.eat();      // From Animal
+penguin.layEggs();  // From Bird
+penguin.swim();     // From Penguin
+// penguin.fly();   // Won't fly (canFly = false)
+
+// Hierarchy visualization:
+console.log("Inheritance Hierarchy:");
+console.log("Animal (Root)");
+console.log("├── Mammal");
+console.log("│   ├── Dog");
+console.log("│   └── Cat");
+console.log("└── Bird");
+console.log("    ├── Eagle");
+console.log("    └── Penguin");
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Root class - Vehicle
+class Vehicle:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self.is_running = False
+    
+    def start(self):
+        self.is_running = True
+        print(f"{self.year} {self.make} {self.model} is starting")
+    
+    def stop(self):
+        self.is_running = False
+        print(f"{self.year} {self.make} {self.model} has stopped")
+    
+    def get_info(self):
+        return f"{self.year} {self.make} {self.model}"
+
+# First level inheritance
+class LandVehicle(Vehicle):
+    def __init__(self, make, model, year, wheels):
+        super().__init__(make, model, year)
+        self.wheels = wheels
+    
+    def drive(self):
+        if self.is_running:
+            print(f"{self.get_info()} is driving on {self.wheels} wheels")
+        else:
+            print("Please start the vehicle first")
+
+class WaterVehicle(Vehicle):
+    def __init__(self, make, model, year, displacement):
+        super().__init__(make, model, year)
+        self.displacement = displacement
+    
+    def sail(self):
+        if self.is_running:
+            print(f"{self.get_info()} is sailing on water")
+        else:
+            print("Please start the engine first")
+
+class AirVehicle(Vehicle):
+    def __init__(self, make, model, year, max_altitude):
+        super().__init__(make, model, year)
+        self.max_altitude = max_altitude
+    
+    def fly(self):
+        if self.is_running:
+            print(f"{self.get_info()} is flying at altitude")
+        else:
+            print("Please start the engines first")
+
+# Second level inheritance
+class Car(LandVehicle):
+    def __init__(self, make, model, year, doors):
+        super().__init__(make, model, year, 4)
+        self.doors = doors
+        self.fuel_type = "gasoline"
+    
+    def honk(self):
+        print(f"{self.get_info()} goes Beep! Beep!")
+    
+    def park(self):
+        print(f"{self.get_info()} is parking")
+
+class Motorcycle(LandVehicle):
+    def __init__(self, make, model, year):
+        super().__init__(make, model, year, 2)
+        self.has_sidecar = False
+    
+    def wheelie(self):
+        print(f"{self.get_info()} is doing a wheelie!")
+
+class Boat(WaterVehicle):
+    def __init__(self, make, model, year, displacement, boat_type):
+        super().__init__(make, model, year, displacement)
+        self.boat_type = boat_type
+    
+    def anchor(self):
+        print(f"{self.get_info()} is dropping anchor")
+
+class Airplane(AirVehicle):
+    def __init__(self, make, model, year, max_altitude, passenger_capacity):
+        super().__init__(make, model, year, max_altitude)
+        self.passenger_capacity = passenger_capacity
+    
+    def takeoff(self):
+        self.start()
+        print(f"{self.get_info()} is taking off")
+    
+    def land(self):
+        print(f"{self.get_info()} is landing")
+
+# Third level inheritance (deeper hierarchy)
+class ElectricCar(Car):
+    def __init__(self, make, model, year, doors, battery_capacity):
+        super().__init__(make, model, year, doors)
+        self.battery_capacity = battery_capacity
+        self.fuel_type = "electric"
+    
+    def charge(self):
+        print(f"{self.get_info()} is charging battery")
+    
+    def regenerative_brake(self):
+        print(f"{self.get_info()} is using regenerative braking")
+
+class SportsCar(Car):
+    def __init__(self, make, model, year, doors, top_speed):
+        super().__init__(make, model, year, doors)
+        self.top_speed = top_speed
+    
+    def turbo_boost(self):
+        print(f"{self.get_info()} activates turbo boost!")
+    
+    def race_mode(self):
+        print(f"{self.get_info()} switches to race mode")
+
+# Usage demonstrating hierarchy
+tesla = ElectricCar("Tesla", "Model S", 2023, 4, "100kWh")
+ferrari = SportsCar("Ferrari", "F8", 2022, 2, 340)
+harley = Motorcycle("Harley-Davidson", "Street 750", 2021)
+yacht = Boat("Sunseeker", "Predator 74", 2020, 74, "Motor Yacht")
+boeing = Airplane("Boeing", "737", 2019, 41000, 189)
+
+# Demonstrate method inheritance and polymorphism
+vehicles = [tesla, ferrari, harley, yacht, boeing]
+
+print("=== Vehicle Hierarchy Demonstration ===")
+for vehicle in vehicles:
+    print(f"\\n--- {vehicle.get_info()} ---")
+    vehicle.start()  # All inherit from Vehicle
+    
+    # Type-specific methods
+    if isinstance(vehicle, ElectricCar):
+        vehicle.charge()
+        vehicle.drive()
+        vehicle.honk()
+        vehicle.regenerative_brake()
+    elif isinstance(vehicle, SportsCar):
+        vehicle.drive()
+        vehicle.turbo_boost()
+        vehicle.race_mode()
+    elif isinstance(vehicle, Motorcycle):
+        vehicle.drive()
+        vehicle.wheelie()
+    elif isinstance(vehicle, Boat):
+        vehicle.sail()
+        vehicle.anchor()
+    elif isinstance(vehicle, Airplane):
+        vehicle.takeoff()
+        vehicle.fly()
+        vehicle.land()
+
+# Hierarchy visualization
+print("\\n=== Inheritance Hierarchy ===")
+print("Vehicle (Root)")
+print("├── LandVehicle")
+print("│   ├── Car")
+print("│   │   ├── ElectricCar")
+print("│   │   └── SportsCar")
+print("│   └── Motorcycle")
+print("├── WaterVehicle")
+print("│   └── Boat")
+print("└── AirVehicle")
+print("    └── Airplane")
+
+# Method Resolution Order (MRO) in Python
+print("\\nMethod Resolution Order for ElectricCar:")
+print([cls.__name__ for cls in ElectricCar.__mro__])
+\`\`\`
+
+**Benefits of Inheritance Hierarchy:**
+1. **Code Reusability**: Common functionality in parent classes
+2. **Maintainability**: Changes in parent affect all children
+3. **Polymorphism**: Objects can be treated uniformly
+4. **Logical Organization**: Natural categorization of classes
+
+**Best Practices:**
+- Keep hierarchy depth reasonable (3-5 levels max)
+- Use composition when inheritance becomes complex
+- Follow Liskov Substitution Principle
+- Design for extensibility at each level`,
+      },
+      {
+        question: "What is an interface?",
+        solution: `
+**Definition:**
+An interface is a contract that defines a set of method signatures that a class must implement. It specifies what methods a class should have without providing the implementation details.
+
+**Key Characteristics:**
+- Contains only method declarations (no implementation)
+- All methods are implicitly public and abstract
+- Cannot be instantiated directly
+- Supports multiple inheritance
+- Provides a way to achieve abstraction and multiple inheritance
+
+**JavaScript Example:**
+\`\`\`javascript
+// JavaScript doesn't have native interfaces, but we can simulate them
+class Flyable {
+  fly() {
+    throw new Error("fly() method must be implemented");
+  }
+}
+
+class Swimmable {
+  swim() {
+    throw new Error("swim() method must be implemented");
+  }
+}
+
+class Bird extends Flyable {
+  fly() {
+    console.log("Bird is flying");
+  }
+}
+
+class Duck extends Bird {
+  constructor() {
+    super();
+    // Duck implements both flying and swimming
+    Object.assign(this, new Swimmable());
+  }
+  
+  swim() {
+    console.log("Duck is swimming");
+  }
+}
+
+const duck = new Duck();
+duck.fly();  // Bird is flying
+duck.swim(); // Duck is swimming
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+
+class Flyable(ABC):
+    @abstractmethod
+    def fly(self):
+        pass
+
+class Swimmable(ABC):
+    @abstractmethod
+    def swim(self):
+        pass
+
+class Duck(Flyable, Swimmable):
+    def fly(self):
+        print("Duck is flying")
+    
+    def swim(self):
+        print("Duck is swimming")
+
+# Usage
+duck = Duck()
+duck.fly()   # Duck is flying
+duck.swim()  # Duck is swimming
+
+# Cannot instantiate interface directly
+# flyable = Flyable()  # TypeError: Can't instantiate abstract class
+\`\`\`
+
+**Benefits:**
+- Enforces contract compliance
+- Enables multiple inheritance
+- Promotes loose coupling
+- Facilitates polymorphism
+- Improves code maintainability
+`,
+      },
+      {
+        question: "What is an abstract class?",
+        solution: `
+**Definition:**
+An abstract class is a class that cannot be instantiated directly and typically contains one or more abstract methods that must be implemented by its subclasses. It serves as a base class providing common functionality and enforcing certain method implementations.
+
+**Key Characteristics:**
+- Cannot be instantiated directly
+- Can contain both abstract and concrete methods
+- Can have constructors, instance variables, and regular methods
+- Subclasses must implement all abstract methods
+- Supports single inheritance (in most languages)
+
+**JavaScript Example:**
+\`\`\`javascript
+class Animal {
+  constructor(name, species) {
+    if (this.constructor === Animal) {
+      throw new Error("Abstract class cannot be instantiated directly");
+    }
+    this.name = name;
+    this.species = species;
+  }
+  
+  // Concrete method
+  sleep() {
+    console.log(\`\${this.name} is sleeping\`);
+  }
+  
+  // Abstract method
+  makeSound() {
+    throw new Error("makeSound() method must be implemented by subclass");
+  }
+  
+  // Abstract method
+  move() {
+    throw new Error("move() method must be implemented by subclass");
+  }
+}
+
+class Dog extends Animal {
+  constructor(name) {
+    super(name, "Canine");
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} barks: Woof! Woof!\`);
+  }
+  
+  move() {
+    console.log(\`\${this.name} runs on four legs\`);
+  }
+}
+
+class Bird extends Animal {
+  constructor(name) {
+    super(name, "Avian");
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} chirps: Tweet! Tweet!\`);
+  }
+  
+  move() {
+    console.log(\`\${this.name} flies with wings\`);
+  }
+}
+
+// Usage
+const dog = new Dog("Buddy");
+dog.makeSound(); // Buddy barks: Woof! Woof!
+dog.move();      // Buddy runs on four legs
+dog.sleep();     // Buddy is sleeping
+
+// const animal = new Animal("Generic", "Unknown"); // Error: Abstract class cannot be instantiated
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+
+class Animal(ABC):
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+    
+    # Concrete method
+    def sleep(self):
+        print(f"{self.name} is sleeping")
+    
+    # Abstract methods
+    @abstractmethod
+    def make_sound(self):
+        pass
+    
+    @abstractmethod
+    def move(self):
+        pass
+
+class Dog(Animal):
+    def __init__(self, name):
+        super().__init__(name, "Canine")
+    
+    def make_sound(self):
+        print(f"{self.name} barks: Woof! Woof!")
+    
+    def move(self):
+        print(f"{self.name} runs on four legs")
+
+class Bird(Animal):
+    def __init__(self, name):
+        super().__init__(name, "Avian")
+    
+    def make_sound(self):
+        print(f"{self.name} chirps: Tweet! Tweet!")
+    
+    def move(self):
+        print(f"{self.name} flies with wings")
+
+# Usage
+dog = Dog("Buddy")
+dog.make_sound()  # Buddy barks: Woof! Woof!
+dog.move()        # Buddy runs on four legs
+dog.sleep()       # Buddy is sleeping
+
+# animal = Animal("Generic", "Unknown")  # TypeError: Can't instantiate abstract class
+\`\`\`
+
+**Benefits:**
+- Provides common base functionality
+- Enforces method implementation in subclasses
+- Enables code reuse and consistency
+- Supports template method pattern
+- Provides partial implementation
+`,
+      },
+      {
+        question:
+          "What is the difference between abstract class and interface?",
+        solution: `
+**Key Differences:**
+
+**1. Implementation:**
+- **Abstract Class:** Can contain both abstract and concrete methods with implementations
+- **Interface:** Contains only method signatures (declarations) without implementations
+
+**2. Inheritance:**
+- **Abstract Class:** Supports single inheritance only
+- **Interface:** Supports multiple inheritance
+
+**3. Access Modifiers:**
+- **Abstract Class:** Can have various access modifiers (public, private, protected)
+- **Interface:** All methods are implicitly public
+
+**4. Variables:**
+- **Abstract Class:** Can have instance variables, static variables, and constants
+- **Interface:** Can only have public, static, final constants
+
+**5. Constructor:**
+- **Abstract Class:** Can have constructors
+- **Interface:** Cannot have constructors
+
+**JavaScript Comparison Example:**
+\`\`\`javascript
+// Abstract Class Example
+class Vehicle {
+  constructor(brand, model) {
+    if (this.constructor === Vehicle) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+    this.brand = brand;
+    this.model = model;
+  }
+  
+  // Concrete method
+  displayInfo() {
+    console.log(\`\${this.brand} \${this.model}\`);
+  }
+  
+  // Abstract method
+  startEngine() {
+    throw new Error("startEngine() must be implemented");
+  }
+}
+
+// Interface-like implementation
+class Flyable {
+  fly() {
+    throw new Error("fly() method must be implemented");
+  }
+}
+
+class Drivable {
+  drive() {
+    throw new Error("drive() method must be implemented");
+  }
+}
+
+// Class implementing multiple "interfaces"
+class FlyingCar extends Vehicle {
+  constructor(brand, model) {
+    super(brand, model);
+    // Implementing multiple interfaces
+    Object.assign(this, new Flyable(), new Drivable());
+  }
+  
+  startEngine() {
+    console.log("Flying car engine started");
+  }
+  
+  fly() {
+    console.log("Flying car is airborne");
+  }
+  
+  drive() {
+    console.log("Flying car is driving on road");
+  }
+}
+
+const flyingCar = new FlyingCar("Tesla", "Model F");
+flyingCar.displayInfo(); // Tesla Model F
+flyingCar.startEngine(); // Flying car engine started
+flyingCar.fly();         // Flying car is airborne
+flyingCar.drive();       // Flying car is driving on road
+\`\`\`
+
+**Python Comparison Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+
+# Abstract Class
+class Vehicle(ABC):
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+    
+    # Concrete method
+    def display_info(self):
+        print(f"{self.brand} {self.model}")
+    
+    # Abstract method
+    @abstractmethod
+    def start_engine(self):
+        pass
+
+# Interfaces
+class Flyable(ABC):
+    @abstractmethod
+    def fly(self):
+        pass
+
+class Drivable(ABC):
+    @abstractmethod
+    def drive(self):
+        pass
+
+# Class inheriting from abstract class and implementing multiple interfaces
+class FlyingCar(Vehicle, Flyable, Drivable):
+    def __init__(self, brand, model):
+        super().__init__(brand, model)
+    
+    def start_engine(self):
+        print("Flying car engine started")
+    
+    def fly(self):
+        print("Flying car is airborne")
+    
+    def drive(self):
+        print("Flying car is driving on road")
+
+# Usage
+flying_car = FlyingCar("Tesla", "Model F")
+flying_car.display_info()  # Tesla Model F
+flying_car.start_engine()  # Flying car engine started
+flying_car.fly()           # Flying car is airborne
+flying_car.drive()         # Flying car is driving on road
+\`\`\`
+
+**When to Use:**
+- **Abstract Class:** When you need to provide common functionality and enforce certain methods
+- **Interface:** When you need to define a contract and support multiple inheritance
+
+**Summary Table:**
+| Feature | Abstract Class | Interface |
+|---------|----------------|-----------|
+| Methods | Abstract + Concrete | Only Abstract |
+| Inheritance | Single | Multiple |
+| Variables | All types | Constants only |
+| Constructor | Yes | No |
+| Access Modifiers | All | Public only |
+`,
+      },
+      {
+        question: "What is multiple inheritance?",
+        solution: `
+**Definition:**
+Multiple inheritance is a feature where a class can inherit properties and methods from more than one parent class simultaneously. This allows a derived class to combine functionality from multiple base classes.
+
+**Key Characteristics:**
+- One child class inherits from multiple parent classes
+- Combines features from all parent classes
+- Can lead to diamond problem (ambiguity when same method exists in multiple parents)
+- Not supported in all languages (Java doesn't support it, Python does)
+
+**JavaScript Example:**
+\`\`\`javascript
+// JavaScript doesn't have native multiple inheritance, but we can simulate it using mixins
+class Swimmer {
+  swim() {
+    console.log("Swimming in water");
+  }
+  
+  diveUnderwater() {
+    console.log("Diving underwater");
+  }
+}
+
+class Flyer {
+  fly() {
+    console.log("Flying in the sky");
+  }
+  
+  soarHigh() {
+    console.log("Soaring at high altitude");
+  }
+}
+
+class Walker {
+  walk() {
+    console.log("Walking on land");
+  }
+  
+  run() {
+    console.log("Running fast");
+  }
+}
+
+// Multiple inheritance using mixins
+class Duck {
+  constructor(name) {
+    this.name = name;
+    // Inherit from multiple classes
+    Object.assign(this, new Swimmer(), new Flyer(), new Walker());
+  }
+  
+  introduce() {
+    console.log(\`I am \${this.name}, a duck!\`);
+  }
+}
+
+// Usage
+const duck = new Duck("Donald");
+duck.introduce();      // I am Donald, a duck!
+duck.swim();          // Swimming in water
+duck.fly();           // Flying in the sky
+duck.walk();          // Walking on land
+duck.diveUnderwater(); // Diving underwater
+duck.soarHigh();      // Soaring at high altitude
+duck.run();           // Running fast
+
+// Alternative approach using class composition
+function multipleInheritance(...classes) {
+  return class extends classes[0] {
+    constructor(...args) {
+      super(...args);
+      classes.slice(1).forEach(cls => {
+        Object.assign(this, new cls());
+      });
+    }
+  };
+}
+
+class Penguin extends multipleInheritance(Swimmer, Walker) {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+  
+  slide() {
+    console.log(\`\${this.name} is sliding on ice\`);
+  }
+}
+
+const penguin = new Penguin("Pingu");
+penguin.swim();  // Swimming in water
+penguin.walk();  // Walking on land
+penguin.slide(); // Pingu is sliding on ice
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Python natively supports multiple inheritance
+class Swimmer:
+    def swim(self):
+        print("Swimming in water")
+    
+    def dive_underwater(self):
+        print("Diving underwater")
+
+class Flyer:
+    def fly(self):
+        print("Flying in the sky")
+    
+    def soar_high(self):
+        print("Soaring at high altitude")
+
+class Walker:
+    def walk(self):
+        print("Walking on land")
+    
+    def run(self):
+        print("Running fast")
+
+# Multiple inheritance
+class Duck(Swimmer, Flyer, Walker):
+    def __init__(self, name):
+        self.name = name
+    
+    def introduce(self):
+        print(f"I am {self.name}, a duck!")
+
+# Usage
+duck = Duck("Donald")
+duck.introduce()        # I am Donald, a duck!
+duck.swim()            # Swimming in water
+duck.fly()             # Flying in the sky
+duck.walk()            # Walking on land
+duck.dive_underwater() # Diving underwater
+duck.soar_high()       # Soaring at high altitude
+duck.run()             # Running fast
+
+# Method Resolution Order (MRO)
+print(Duck.__mro__)
+# (<class '__main__.Duck'>, <class '__main__.Swimmer'>, <class '__main__.Flyer'>, <class '__main__.Walker'>, <class 'object'>)
+
+# Example with method name conflicts (Diamond Problem)
+class Animal:
+    def make_sound(self):
+        print("Some generic animal sound")
+
+class Dog(Animal):
+    def make_sound(self):
+        print("Woof!")
+
+class Cat(Animal):
+    def make_sound(self):
+        print("Meow!")
+
+class Hybrid(Dog, Cat):  # Inherits from both Dog and Cat
+    pass
+
+# Python resolves conflicts using MRO (Method Resolution Order)
+hybrid = Hybrid()
+hybrid.make_sound()  # Woof! (Dog's method is called first due to MRO)
+print(Hybrid.__mro__)
+# (<class '__main__.Hybrid'>, <class '__main__.Dog'>, <class '__main__.Cat'>, <class '__main__.Animal'>, <class 'object'>)
+\`\`\`
+
+**Advantages:**
+- Code reusability from multiple sources
+- More flexible class design
+- Can model complex real-world relationships
+
+**Disadvantages:**
+- Diamond Problem (method ambiguity)
+- Increased complexity
+- Difficult to maintain and debug
+- Can lead to tight coupling
+
+**Diamond Problem Example:**
+\`\`\`python
+class A:
+    def method(self):
+        print("Method from A")
+
+class B(A):
+    def method(self):
+        print("Method from B")
+
+class C(A):
+    def method(self):
+        print("Method from C")
+
+class D(B, C):  # Diamond inheritance
+    pass
+
+# Python resolves using MRO
+d = D()
+d.method()  # Method from B (follows MRO: D -> B -> C -> A)
+\`\`\`
+
+**Best Practices:**
+- Use composition over multiple inheritance when possible
+- Be aware of Method Resolution Order (MRO)
+- Document inheritance relationships clearly
+- Consider using interfaces/mixins instead
+- Keep inheritance hierarchies simple
+`,
+      },
+      {
+        question: "What is multilevel inheritance?",
+        solution: `
+**Definition:**
+Multilevel inheritance is a type of inheritance where a class is derived from another derived class, creating a chain of inheritance. It forms a hierarchy where each class inherits from its immediate parent and indirectly from all ancestors in the chain.
+
+**Key Characteristics:**
+- Forms a chain: A → B → C (A is parent of B, B is parent of C)
+- Each level can add new functionality or override parent methods
+- Child class inherits from all levels in the hierarchy
+- Creates a hierarchical relationship
+- Supports the "is-a" relationship at multiple levels
+
+**JavaScript Example:**
+\`\`\`javascript
+// Level 1 - Base class
+class Animal {
+  constructor(name, species) {
+    this.name = name;
+    this.species = species;
+  }
+  
+  eat() {
+    console.log(\`\${this.name} is eating\`);
+  }
+  
+  sleep() {
+    console.log(\`\${this.name} is sleeping\`);
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} makes a sound\`);
+  }
+}
+
+// Level 2 - Derived from Animal
+class Mammal extends Animal {
+  constructor(name, species, furColor) {
+    super(name, species);
+    this.furColor = furColor;
+    this.isWarmBlooded = true;
+  }
+  
+  giveBirth() {
+    console.log(\`\${this.name} gives birth to live babies\`);
+  }
+  
+  produceMilk() {
+    console.log(\`\${this.name} produces milk\`);
+  }
+  
+  // Override parent method
+  makeSound() {
+    console.log(\`\${this.name} makes mammalian sounds\`);
+  }
+}
+
+// Level 3 - Derived from Mammal
+class Dog extends Mammal {
+  constructor(name, breed) {
+    super(name, "Canine", "varies");
+    this.breed = breed;
+  }
+  
+  bark() {
+    console.log(\`\${this.name} barks: Woof! Woof!\`);
+  }
+  
+  wagTail() {
+    console.log(\`\${this.name} wags tail happily\`);
+  }
+  
+  fetchStick() {
+    console.log(\`\${this.name} fetches the stick\`);
+  }
+  
+  // Override parent method
+  makeSound() {
+    this.bark();
+  }
+}
+
+// Level 4 - Derived from Dog (extending the chain further)
+class PoliceDog extends Dog {
+  constructor(name, breed, badgeNumber) {
+    super(name, breed);
+    this.badgeNumber = badgeNumber;
+    this.isOnDuty = false;
+  }
+  
+  patrol() {
+    console.log(\`Officer \${this.name} (Badge #\${this.badgeNumber}) is patrolling\`);
+  }
+  
+  sniffForDrugs() {
+    console.log(\`\${this.name} is sniffing for drugs\`);
+  }
+  
+  apprehendSuspect() {
+    console.log(\`\${this.name} apprehends the suspect\`);
+  }
+  
+  goOnDuty() {
+    this.isOnDuty = true;
+    console.log(\`\${this.name} is now on duty\`);
+  }
+}
+
+// Usage demonstrating multilevel inheritance
+const rex = new PoliceDog("Rex", "German Shepherd", "K9-001");
+
+// Methods from all levels of inheritance
+rex.eat();              // From Animal (Level 1)
+rex.sleep();            // From Animal (Level 1)
+rex.giveBirth();        // From Mammal (Level 2)
+rex.produceMilk();      // From Mammal (Level 2)
+rex.bark();             // From Dog (Level 3)
+rex.wagTail();          // From Dog (Level 3)
+rex.fetchStick();       // From Dog (Level 3)
+rex.patrol();           // From PoliceDog (Level 4)
+rex.sniffForDrugs();    // From PoliceDog (Level 4)
+rex.goOnDuty();         // From PoliceDog (Level 4)
+
+console.log(\`Name: \${rex.name}\`);
+console.log(\`Species: \${rex.species}\`);
+console.log(\`Breed: \${rex.breed}\`);
+console.log(\`Badge: \${rex.badgeNumber}\`);
+console.log(\`Warm Blooded: \${rex.isWarmBlooded}\`);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Level 1 - Base class
+class Animal:
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+    
+    def eat(self):
+        print(f"{self.name} is eating")
+    
+    def sleep(self):
+        print(f"{self.name} is sleeping")
+    
+    def make_sound(self):
+        print(f"{self.name} makes a sound")
+
+# Level 2 - Derived from Animal
+class Mammal(Animal):
+    def __init__(self, name, species, fur_color):
+        super().__init__(name, species)
+        self.fur_color = fur_color
+        self.is_warm_blooded = True
+    
+    def give_birth(self):
+        print(f"{self.name} gives birth to live babies")
+    
+    def produce_milk(self):
+        print(f"{self.name} produces milk")
+    
+    # Override parent method
+    def make_sound(self):
+        print(f"{self.name} makes mammalian sounds")
+
+# Level 3 - Derived from Mammal
+class Dog(Mammal):
+    def __init__(self, name, breed):
+        super().__init__(name, "Canine", "varies")
+        self.breed = breed
+    
+    def bark(self):
+        print(f"{self.name} barks: Woof! Woof!")
+    
+    def wag_tail(self):
+        print(f"{self.name} wags tail happily")
+    
+    def fetch_stick(self):
+        print(f"{self.name} fetches the stick")
+    
+    # Override parent method
+    def make_sound(self):
+        self.bark()
+
+# Level 4 - Derived from Dog
+class PoliceDog(Dog):
+    def __init__(self, name, breed, badge_number):
+        super().__init__(name, breed)
+        self.badge_number = badge_number
+        self.is_on_duty = False
+    
+    def patrol(self):
+        print(f"Officer {self.name} (Badge #{self.badge_number}) is patrolling")
+    
+    def sniff_for_drugs(self):
+        print(f"{self.name} is sniffing for drugs")
+    
+    def apprehend_suspect(self):
+        print(f"{self.name} apprehends the suspect")
+    
+    def go_on_duty(self):
+        self.is_on_duty = True
+        print(f"{self.name} is now on duty")
+
+# Usage demonstrating multilevel inheritance
+rex = PoliceDog("Rex", "German Shepherd", "K9-001")
+
+# Methods from all levels of inheritance
+rex.eat()                # From Animal (Level 1)
+rex.sleep()              # From Animal (Level 1)
+rex.give_birth()         # From Mammal (Level 2)
+rex.produce_milk()       # From Mammal (Level 2)
+rex.bark()               # From Dog (Level 3)
+rex.wag_tail()           # From Dog (Level 3)
+rex.fetch_stick()        # From Dog (Level 3)
+rex.patrol()             # From PoliceDog (Level 4)
+rex.sniff_for_drugs()    # From PoliceDog (Level 4)
+rex.go_on_duty()         # From PoliceDog (Level 4)
+
+print(f"Name: {rex.name}")
+print(f"Species: {rex.species}")
+print(f"Breed: {rex.breed}")
+print(f"Badge: {rex.badge_number}")
+print(f"Warm Blooded: {rex.is_warm_blooded}")
+
+# Check inheritance chain
+print(f"Is PoliceDog instance of Dog? {isinstance(rex, Dog)}")         # True
+print(f"Is PoliceDog instance of Mammal? {isinstance(rex, Mammal)}")   # True
+print(f"Is PoliceDog instance of Animal? {isinstance(rex, Animal)}")   # True
+
+# Method Resolution Order
+print(f"MRO: {PoliceDog.__mro__}")
+\`\`\`
+
+**Advantages:**
+- Natural representation of hierarchical relationships
+- Code reusability at multiple levels
+- Logical organization of related classes
+- Easy to extend functionality at each level
+- Supports incremental development
+
+**Disadvantages:**
+- Can become complex with many levels
+- Tight coupling between classes
+- Changes in upper levels affect all derived classes
+- Can lead to fragile base class problem
+- Method resolution can be confusing
+
+**Real-world Examples:**
+- Animal → Mammal → Carnivore → Cat
+- Vehicle → MotorVehicle → Car → SportsCar
+- Shape → 2DShape → Rectangle → Square
+- Employee → Manager → SeniorManager → Director
+
+**Best Practices:**
+- Keep inheritance hierarchies shallow (prefer composition)
+- Use meaningful class names that reflect the hierarchy
+- Document the inheritance chain clearly
+- Be careful with method overriding at multiple levels
+- Consider using interfaces when appropriate
+`,
+      },
+    ],
+  },
+  {
+    id: 19,
+    topic: "OOP",
+    categories: "Mid",
     tags: [
       {
         name: "encapsulation",
