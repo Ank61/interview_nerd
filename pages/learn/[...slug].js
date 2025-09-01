@@ -7,6 +7,8 @@ import { BookCheck, ArrowRight } from "lucide-react";
 import Header from "@/components/header";
 import { useRouter } from "next/router";
 import { prepareData } from "@/data/prepareData";
+import TopicSidebar from "@/components/learn/TopicSidebar";
+import { motion } from "framer-motion";
 
 export default function Learn({
   topic,
@@ -17,7 +19,7 @@ export default function Learn({
 }) {
   const router = useRouter();
   const [hydrated, setHydrated] = React.useState(false);
-  console.log("topppicsna'oc", topic, category);
+
   React.useEffect(() => {
     setHydrated(true);
   }, []);
@@ -30,62 +32,99 @@ export default function Learn({
         console.error("Highlight.js error:", error);
       }
     }
-  }, [hydrated]);
+  }, [hydrated, explanation]);
 
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      </div>
+    );
   }
 
   return (
-    // <Box className="w-full md:w-6/12 mx-auto">
-    <Box className="w-full sm:w-8/12 md:w-10/12 lg:w-8/12 mx-auto px-4">
+    <div className="min-h-screen bg-gray-50">
       <Header topic={category || topic} />
-      <Box 
-        sx={{ width: "auto" }} 
-        padding={3}
-        className="rounded-lg"
-      >
-        <h3
-          style={{ color: theme.textColor }}
-          className="scroll-m-20 text-2xl font-semibold tracking-tight"
-        >
-          {topic}
-        </h3>
 
-        {hydrated && explanation ? (
-          <div
-            className="w-full"
-            dangerouslySetInnerHTML={{ __html: explanation }}
-          />
-        ) : (
-          <p>Loading content...</p>
-        )}
-      </Box>
+      <div className="flex">
+        {/* Sidebar - Now handled by TopicSidebar component */}
+        <TopicSidebar currentTopic={topic} category={category} theme={theme} />
 
-      <Box className="flex justify-between gap-4 mt-10 mb-6 ml-3 mr-3">
-        <Button
-          onClick={() => router.push(`/test/${topic}`)}
-          style={{
-            backgroundColor: theme?.themeBgColor,
-            color: theme?.textColor,
-          }}
-          className="text-md w-full"
-        >
-          Questions <BookCheck size={"20px"} className="ml-3" />
-        </Button>
-        <Button
-          onClick={() => router.push(`/learn/${category}/${nextTopic}`)}
-          style={{
-            backgroundColor: theme?.themeBgColor,
-            color: theme?.textColor,
-          }}
-          className=" text-md w-full"
-        >
-          Next Topic
-          <ArrowRight size={"20px"} className="ml-3" />
-        </Button>
-      </Box>
-    </Box>
+        {/* Main Content */}
+        <div className="flex-1">
+          <div className="max-w-4xl mx-auto px-4 lg:px-8 py-8">
+            <motion.article
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white rounded-xl shadow-sm border border-gray-200/50 overflow-hidden"
+            >
+              <div className="p-6 sm:p-8">
+                <h1
+                  className="text-2xl md:text-3xl font-bold tracking-tight mb-6"
+                  style={{ color: theme.textColor }}
+                >
+                  {topic}
+                </h1>
+
+                {hydrated && explanation ? (
+                  <div
+                    className="prose prose-lg max-w-none"
+                    dangerouslySetInnerHTML={{ __html: explanation }}
+                  />
+                ) : (
+                  <div className="flex items-center justify-center py-16">
+                    <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+                    <p className="ml-3 text-gray-600">Loading content...</p>
+                  </div>
+                )}
+              </div>
+
+              {/* Action Buttons */}
+              <div className="px-6 pb-6 sm:px-8">
+                <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100">
+                  <Button
+                    onClick={() => router.push(`/test/${topic}`)}
+                    style={{
+                      backgroundColor: theme?.themeBgColor,
+                      color: theme?.textColor,
+                    }}
+                    className="text-md w-full sm:w-auto py-3 px-6 hover:shadow-md transition-all duration-200"
+                  >
+                    Practice Questions <BookCheck size={20} className="ml-2" />
+                  </Button>
+
+                  {nextTopic && (
+                    <Button
+                      onClick={() =>
+                        router.push(`/learn/${category}/${nextTopic}`)
+                      }
+                      variant="outline"
+                      className="text-md w-full sm:w-auto py-3 px-6 border-gray-300 hover:bg-gray-50 transition-colors duration-200"
+                    >
+                      Next Topic
+                      <ArrowRight size={20} className="ml-2" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </motion.article>
+
+            {/* Breadcrumb Navigation */}
+            <div className="mt-8 text-sm text-gray-600">
+              <button
+                onClick={() =>
+                  router.push(`/category/${category.toLowerCase()}`)
+                }
+                className="hover:text-gray-900 transition-colors duration-200"
+              >
+                ← Back to {category} Topics
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
 
@@ -161,126 +200,3 @@ export async function getStaticProps({ params }) {
     },
   };
 }
-
-// export async function getStaticPaths() {
-//   // await connectDB();
-//   // const allData = await PrepareData.find({}).lean();
-
-//   // Get paths from database
-//   const dbPaths = prepareData.reduce((acc, item) => {
-//     return [
-//       ...acc,
-//       ...item.type.flatMap((typeItem) =>
-//         typeItem.concepts.map((conceptItem) => ({
-//           params: { slug: [item.category, conceptItem.topic] },
-//         }))
-//       ),
-//     ];
-//   }, []);
-
-//   // Get paths from static data (for topics not in database like AWS S3)
-//   const staticPaths = prepareData.reduce((acc, item) => {
-//     return [
-//       ...acc,
-//       ...item.type.flatMap((typeItem) =>
-//         typeItem.concepts.map((conceptItem) => ({
-//           params: { slug: [item.category, conceptItem.topic] },
-//         }))
-//       ),
-//     ];
-//   }, []);
-
-//   // Combine and deduplicate paths
-//   const allPaths = [...dbPaths, ...staticPaths];
-//   const uniquePaths = allPaths.filter(
-//     (path, index, self) =>
-//       index ===
-//       self.findIndex(
-//         (p) =>
-//           p.params.slug[0] === path.params.slug[0] &&
-//           p.params.slug[1] === path.params.slug[1]
-//       )
-//   );
-
-//   return {
-//     paths: uniquePaths,
-//     fallback: "blocking",
-//   };
-// }
-
-// export async function getStaticProps({ params }) {
-//   // await connectDB();
-//   const slug = params.slug;
-//   const selected = slug[slug.length - 1];
-//   console.log("selected");
-//   let themeColor = {};
-//   let nextTopic = null;
-//   let explanation = "";
-//   let category = "";
-
-//   // First try to find data in database
-//   // const allData = await PrepareData.find({}).lean();
-//   // let foundInDb = false;
-
-//   // allData.forEach((item) => {
-//   //   if (item.type) {
-//   //     item.type.forEach((typeItem) => {
-//   //       typeItem.concepts.forEach((conceptItem, index) => {
-//   //         if (conceptItem.topic === selected) {
-//   //           foundInDb = true;
-//   //           category = item?.category || selected;
-//   //           themeColor = {
-//   //             category: item.category,
-//   //             themeBgColor: item.themeBgColor,
-//   //             textColor: item.textColor,
-//   //             topicColor: item.topicColor,
-//   //             lightColor: item.lightColor || item.themeBgColor,
-//   //           };
-//   //           explanation = conceptItem.explanation || "";
-//   //           const next = typeItem.concepts[index + 1];
-//   //           if (next) {
-//   //             nextTopic = next.topic;
-//   //           }
-//   //         }
-//   //       });
-//   //     });
-//   //   }
-//   // });
-
-//   // If not found in database, try static data
-//   // if (!foundInDb) {
-//   prepareData.forEach((item) => {
-//     if (item.type) {
-//       item.type.forEach((typeItem) => {
-//         typeItem.concepts.forEach((conceptItem, index) => {
-//           if (conceptItem.topic === selected) {
-//             category = item?.category || selected;
-//             themeColor = {
-//               category: item.category,
-//               themeBgColor: item.themeBgColor,
-//               textColor: item.textColor,
-//               topicColor: item.topicColor,
-//               lightColor: item.lightColor || item.themeBgColor,
-//             };
-//             explanation = conceptItem.explanation || "";
-//             const next = typeItem.concepts[index + 1];
-//             if (next) {
-//               nextTopic = next.topic;
-//             }
-//           }
-//         });
-//       });
-//     }
-//   });
-//   // }
-
-//   return {
-//     props: {
-//       topic: selected,
-//       explanation: explanation || "<p>No explanation available.</p>",
-//       nextTopic: nextTopic || "",
-//       theme: themeColor,
-//       category: category,
-//     },
-//   };
-// }

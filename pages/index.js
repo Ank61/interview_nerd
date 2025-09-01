@@ -33,6 +33,8 @@ import {
   Code,
   Play,
   Brain,
+  ChevronDown,
+  Settings,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
@@ -41,6 +43,8 @@ export default function Home() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobileToolsOpen, setIsMobileToolsOpen] = useState(false);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -48,14 +52,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200">
-        <nav className="w-full bg-white z-50">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+      <header className="bg-white border-b border-gray-200 sticky top-0 z-40 backdrop-blur-sm bg-white/95">
+        <nav className="w-full bg-white/95 backdrop-blur-sm z-50">
+          <div className="container mx-auto px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-lg bg-blue-50">
+              <div className="p-2 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
                 <svg
-                  width="24"
-                  height="24"
+                  width="28"
+                  height="28"
                   fill="none"
                   viewBox="0 0 48 48"
                   className="text-blue-600"
@@ -65,7 +69,7 @@ export default function Home() {
                     cy="24"
                     r="24"
                     fill="#2563eb"
-                    fillOpacity="0.08"
+                    fillOpacity="0.1"
                   />
                   <path
                     d="M24 14v12l8 4"
@@ -76,54 +80,106 @@ export default function Home() {
                   />
                 </svg>
               </div>
-              <span className="font-bold text-xl text-gray-900">
+              <span className="font-bold text-xl text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                 Interview Nerd
               </span>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-6 text-sm font-medium">
+            <div className="hidden md:flex items-center gap-8 text-sm font-medium">
               <a
                 href="#features"
-                className="text-gray-600 hover:text-blue-600 transition-colors"
+                className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
               >
                 Features
               </a>
               <a
                 href="#categories"
-                className="text-gray-600 hover:text-blue-600 transition-colors"
+                className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
               >
                 Categories
               </a>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() =>
-                  session
-                    ? router.push("/playground")
-                    : router.push("/auth/login")
-                }
-                className="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1"
+
+              {/* Tools Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setIsToolsDropdownOpen(true)}
+                onMouseLeave={() => setIsToolsDropdownOpen(false)}
               >
-                <Code className="w-4 h-4" />
-                Playground
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() =>
-                  session
-                    ? router.push("/sql-practice")
-                    : router.push("/auth/login")
-                }
-                className="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1"
-              >
-                <DatabaseZap className="w-4 h-4" />
-                SQL Practice
-              </Button>
+                <button className="text-gray-600 hover:text-blue-600 transition-all duration-200 flex items-center gap-2 font-medium px-3 py-2 rounded-lg hover:bg-blue-50">
+                  <Settings className="w-4 h-4" />
+                  Tools
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform duration-200 ${
+                      isToolsDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+                {isToolsDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden">
+                    <div className="py-3">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          session
+                            ? router.push("/sql-practice")
+                            : router.push("/auth/login")
+                        }
+                        className="w-full justify-start text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                      >
+                        <DatabaseZap className="w-5 h-5" />
+                        <div className="text-left">
+                          <div className="font-medium">SQL Practice</div>
+                          <div className="text-xs text-gray-500">
+                            Interactive SQL queries
+                          </div>
+                        </div>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          session
+                            ? router.push("/mongodb-practice")
+                            : router.push("/auth/login")
+                        }
+                        className="w-full justify-start text-green-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                      >
+                        <Database className="w-5 h-5" />
+                        <div className="text-left">
+                          <div className="font-medium">MongoDB Practice</div>
+                          <div className="text-xs text-gray-500">
+                            NoSQL database queries
+                          </div>
+                        </div>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          session
+                            ? router.push("/playground")
+                            : router.push("/auth/login")
+                        }
+                        className="w-full justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                      >
+                        <Code className="w-5 h-5" />
+                        <div className="text-left">
+                          <div className="font-medium">Code Playground</div>
+                          <div className="text-xs text-gray-500">
+                            Live coding environment
+                          </div>
+                        </div>
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+
               <a
                 href="#testimonials"
-                className="text-gray-600 hover:text-blue-600 transition-colors"
+                className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
               >
                 Testimonials
               </a>
@@ -131,7 +187,7 @@ export default function Home() {
                 <>
                   <Link
                     href="/dashboard"
-                    className="text-gray-600 hover:text-blue-600 transition-colors font-medium"
+                    className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105 font-medium"
                   >
                     Dashboard
                   </Link>
@@ -150,7 +206,7 @@ export default function Home() {
                   </Link>
                   {/* <Link
                     href="/auth/signup"
-                    className="text-gray-600 hover:text-blue-600 transition-colors"
+                    className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
                   >
                     Signup
                   </Link> */}
@@ -162,7 +218,7 @@ export default function Home() {
             <div className="md:hidden">
               <button
                 onClick={toggleMobileMenu}
-                className="text-gray-600 hover:text-blue-600 transition-colors p-2"
+                className="text-gray-600 hover:text-blue-600 transition-all duration-200 p-2"
               >
                 {isMobileMenuOpen ? (
                   <X className="w-6 h-6" />
@@ -179,49 +235,83 @@ export default function Home() {
               <div className="container mx-auto px-4 py-4 space-y-4">
                 <a
                   href="#features"
-                  className="block text-gray-600 hover:text-blue-600 transition-colors py-2"
+                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Features
                 </a>
                 <a
                   href="#categories"
-                  className="block text-gray-600 hover:text-blue-600 transition-colors py-2"
+                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Categories
                 </a>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    session
-                      ? router.push("/playground")
-                      : router.push("/auth/login");
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="text-purple-600 hover:text-purple-700 font-medium flex items-center gap-1 justify-start w-full py-2"
-                >
-                  <Code className="w-4 h-4" />
-                  Playground
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={() => {
-                    session
-                      ? router.push("/sql-practice")
-                      : router.push("/auth/login");
-                    setIsMobileMenuOpen(false);
-                  }}
-                  className="text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1 justify-start w-full py-2"
-                >
-                  <DatabaseZap className="w-4 h-4" />
-                  SQL Practice
-                </Button>
+                <div className="border-t border-gray-200 pt-4">
+                  <button
+                    onClick={() => setIsMobileToolsOpen(!isMobileToolsOpen)}
+                    className="w-full text-left text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 font-medium flex items-center justify-between"
+                  >
+                    <span className="flex items-center gap-2">
+                      <Settings className="w-4 h-4" />
+                      Tools
+                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        isMobileToolsOpen ? "rotate-180" : ""
+                      }`}
+                    />
+                  </button>
+                  {isMobileToolsOpen && (
+                    <div className="pl-6 space-y-2 mt-2">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          session
+                            ? router.push("/sql-practice")
+                            : router.push("/auth/login");
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full justify-start text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2 py-2"
+                      >
+                        <DatabaseZap className="w-4 h-4" />
+                        SQL Practice
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          session
+                            ? router.push("/mongodb-practice")
+                            : router.push("/auth/login");
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
+                      >
+                        <Database className="w-4 h-4" />
+                        MongoDB Practice
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          session
+                            ? router.push("/playground")
+                            : router.push("/auth/login");
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full justify-start text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 py-2"
+                      >
+                        <Code className="w-4 h-4" />
+                        Code Playground
+                      </Button>
+                    </div>
+                  )}
+                </div>
                 <a
                   href="#testimonials"
-                  className="block text-gray-600 hover:text-blue-600 transition-colors py-2"
+                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Testimonials
@@ -231,7 +321,7 @@ export default function Home() {
                     <div className="space-y-2">
                       <Link
                         href="/dashboard"
-                        className="block text-gray-600 hover:text-blue-600 transition-colors py-2 text-center font-medium"
+                        className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center font-medium"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Dashboard
@@ -251,14 +341,14 @@ export default function Home() {
                     <div className="space-y-2">
                       <Link
                         href="/auth/login"
-                        className="block text-gray-600 hover:text-blue-600 transition-colors py-2 text-center"
+                        className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Login
                       </Link>
                       <Link
                         href="/auth/signup"
-                        className="block text-gray-600 hover:text-blue-600 transition-colors py-2 text-center"
+                        className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2 text-center"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Signup
@@ -801,7 +891,7 @@ export default function Home() {
                         <path
                           strokeLinecap="round"
                           strokeLinejoin="round"
-                          d="M8.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                          d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
                         />
                       </svg>
                     </div>
