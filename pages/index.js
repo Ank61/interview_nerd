@@ -126,14 +126,11 @@ export default function Home() {
                             ? router.push("/sql-practice")
                             : router.push("/auth/login")
                         }
-                        className="w-full justify-start text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                        className="w-full justify-start text-gray-600 hover:text-indigo-700 hover:bg-indigo-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
-                        <DatabaseZap className="w-5 h-5" />
+                        <DatabaseZap className="w-5 h-5 text-indigo-700" />
                         <div className="text-left">
-                          <div className="font-medium">SQL Practice</div>
-                          <div className="text-xs text-gray-500">
-                            Interactive SQL queries
-                          </div>
+                          <div className="font-medium">SQL Query Practice</div>
                         </div>
                       </Button>
                       <Button
@@ -144,13 +141,12 @@ export default function Home() {
                             ? router.push("/mongodb-practice")
                             : router.push("/auth/login")
                         }
-                        className="w-full justify-start text-green-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                        className="w-full justify-start text-gray-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
-                        <Database className="w-5 h-5" />
+                        <Database className="w-5 h-5 text-green-700" />
                         <div className="text-left">
-                          <div className="font-medium">MongoDB Practice</div>
-                          <div className="text-xs text-gray-500">
-                            NoSQL database queries
+                          <div className="font-medium">
+                            MongoDB Query Practice
                           </div>
                         </div>
                       </Button>
@@ -162,14 +158,11 @@ export default function Home() {
                             ? router.push("/playground")
                             : router.push("/auth/login")
                         }
-                        className="w-full justify-start text-purple-600 hover:text-purple-700 hover:bg-purple-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                        className="w-full justify-start text-gray-600 hover:text-purple-700 hover:bg-purple-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
-                        <Code className="w-5 h-5" />
+                        <Code className="w-5 h-5 text-purple-700" />
                         <div className="text-left">
                           <div className="font-medium">Code Playground</div>
-                          <div className="text-xs text-gray-500">
-                            Live coding environment
-                          </div>
                         </div>
                       </Button>
                     </div>

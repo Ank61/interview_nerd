@@ -17273,7 +17273,7 @@ greet name = "Hello, " ++ name ++ "!"
       {
         question: "What is encapsulation?",
         solution:
-          "Encapsulation is the OOP principle of bundling data (attributes) and methods that operate on that data together within a single unit (class), while controlling access to the internal components. It's like putting related items in a capsule and deciding what can be accessed from the outside.\n\n**Key Benefits:**\n- **Data Protection**: Prevents unauthorized access and modification\n- **Modularity**: Keeps related functionality together\n- **Maintainability**: Changes to internal implementation don't affect external code\n- **Abstraction**: Hides complex internal details\n\n**Access Levels:**\n- **Public**: Accessible from anywhere\n- **Private**: Only accessible within the same class\n- **Protected**: Accessible within the class and its subclasses\n\n**JavaScript Example:**\n```javascript\nclass BankAccount {\n  // Private fields (ES2022 syntax)\n  #balance = 0;\n  #accountNumber;\n  #pin;\n  \n  constructor(accountNumber, initialPin) {\n    this.#accountNumber = accountNumber;\n    this.#pin = initialPin;\n    this.holderName = ''; // Public field\n  }\n  \n  // Private method\n  #validatePin(enteredPin) {\n    return this.#pin === enteredPin;\n  }\n  \n  // Public methods - controlled access to private data\n  deposit(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount <= 0) {\n      throw new Error('Amount must be positive');\n    }\n    this.#balance += amount;\n    return `Deposited $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  withdraw(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount > this.#balance) {\n      throw new Error('Insufficient funds');\n    }\n    this.#balance -= amount;\n    return `Withdrew $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  // Getter method - controlled read access\n  getBalance(pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    return this.#balance;\n  }\n  \n  // Public method to change PIN\n  changePin(oldPin, newPin) {\n    if (!this.#validatePin(oldPin)) {\n      throw new Error('Invalid current PIN');\n    }\n    this.#pin = newPin;\n    return 'PIN changed successfully';\n  }\n}\n\n// Usage example\nconst account = new BankAccount('ACC123', '1234');\naccount.holderName = 'John Doe'; // Public field - accessible\n\n// These work through controlled public methods\nconsole.log(account.deposit(1000, '1234')); // Deposited $1000...\nconsole.log(account.withdraw(200, '1234'));  // Withdrew $200...\nconsole.log(account.getBalance('1234'));     // 800\n\n// These are protected - cannot access directly\n// console.log(account.#balance);     // SyntaxError\n// console.log(account.#pin);         // SyntaxError\n// account.#validatePin('1234');      // SyntaxError\n\n// Wrong PIN\ntry {\n  account.withdraw(100, '0000'); // Error: Invalid PIN\n} catch (error) {\n  console.log(error.message);\n}\n```\n\n**Python Example:**\n```python\nclass BankAccount:\n    def __init__(self, account_number, initial_pin):\n        # Private attributes (by convention with double underscore)\n        self.__balance = 0\n        self.__account_number = account_number\n        self.__pin = initial_pin\n        # Public attribute\n        self.holder_name = ''\n    \n    # Private method\n    def __validate_pin(self, entered_pin):\n        return self.__pin == entered_pin\n    \n    # Public methods - controlled access\n    def deposit(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount <= 0:\n            raise ValueError('Amount must be positive')\n        self.__balance += amount\n        return f'Deposited ${amount}. New balance: ${self.__balance}'\n    \n    def withdraw(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount > self.__balance:\n            raise ValueError('Insufficient funds')\n        self.__balance -= amount\n        return f'Withdrew ${amount}. New balance: ${self.__balance}'\n    \n    # Property for controlled access (Python's getter/setter)\n    def get_balance(self, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        return self.__balance\n    \n    def change_pin(self, old_pin, new_pin):\n        if not self.__validate_pin(old_pin):\n            raise ValueError('Invalid current PIN')\n        self.__pin = new_pin\n        return 'PIN changed successfully'\n    \n    # Protected method (single underscore - convention only)\n    def _get_account_info(self):\n        return f'Account: {self.__account_number}'\n\n# Usage example\naccount = BankAccount('ACC123', '1234')\naccount.holder_name = 'John Doe'  # Public attribute\n\n# Controlled access through public methods\nprint(account.deposit(1000, '1234'))  # Deposited $1000...\nprint(account.withdraw(200, '1234'))   # Withdrew $200...\nprint(account.get_balance('1234'))     # 800\n\n# Private attributes are name-mangled in Python\n# These don't work as expected:\nprint(hasattr(account, '__balance'))    # False\nprint(hasattr(account, '_BankAccount__balance'))  # True (name mangling)\n\n# This is the proper way - through public interface\ntry:\n    account.withdraw(100, '0000')  # ValueError: Invalid PIN\nexcept ValueError as e:\n    print(e)\n\n# Demonstrating encapsulation benefits\nclass SecureBankAccount(BankAccount):\n    def __init__(self, account_number, initial_pin):\n        super().__init__(account_number, initial_pin)\n        self.__transaction_history = []\n    \n    def deposit(self, amount, pin):\n        result = super().deposit(amount, pin)\n        self.__transaction_history.append(f'DEPOSIT: ${amount}')\n        return result\n    \n    def get_transaction_history(self, pin):\n        if not self._BankAccount__validate_pin(pin):  # Accessing parent's private method\n            raise ValueError('Invalid PIN')\n        return self.__transaction_history.copy()\n\nsecure_account = SecureBankAccount('SEC456', '5678')\nsecure_account.deposit(500, '5678')\nprint(secure_account.get_transaction_history('5678'))  # ['DEPOSIT: $500']\n```\n\n**Real-world analogy**: Think of encapsulation like a car. You interact with the car through its public interface (steering wheel, pedals, gear shift), but you don't directly manipulate the engine pistons or transmission gears. The complex internal mechanisms are hidden and protected, while safe, controlled access is provided through the interface.",
+          "Encapsulation is the OOP principle of bundling data (attributes) and methods that operate on that data together within a single unit (class), while controlling access to the internal components. It's like putting related items in a capsule and deciding what can be accessed from the outside.\n\n**Key Benefits:**\n- **Data Protection**: Prevents unauthorized access and modification\n- **Modularity**: Keeps related functionality together\n- **Maintainability**: Changes to internal implementation don't affect external code\n- **Abstraction**: Hides complex internal details\n\n**Access Levels:**\n- **Public**: Accessible from anywhere\n- **Private**: Only accessible within the same class\n- **Protected**: Accessible within the class and its subclasses\n\n**JavaScript Example:**\n```javascript\nclass BankAccount {\n  // Private fields (ES2022 syntax)\n  #balance = 0;\n  #accountNumber;\n  #pin;\n  \n  constructor(accountNumber, initialPin) {\n    this.#accountNumber = accountNumber;\n    this.#pin = initialPin;\n    this.holderName = ''; // Public field\n  }\n  \n  // Private method\n  #validatePin(enteredPin) {\n    return this.#pin === enteredPin;\n  }\n  \n  // Public methods - controlled access to private data\n  deposit(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount <= 0) {\n      throw new Error('Amount must be positive');\n    }\n    this.#balance += amount;\n    return `Deposited $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  withdraw(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount > this.#balance) {\n      throw new Error('Insufficient funds');\n    }\n    this.#balance -= amount;\n    return `Withdrew $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  // Getter method - controlled read access\n  getBalance(pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    return this.#balance;\n  }\n  \n  // Public method to change PIN\n  changePin(oldPin, newPin) {\n    if (!this.#validatePin(oldPin)) {\n      throw new Error('Invalid current PIN');\n    }\n    this.#pin = newPin;\n    return 'PIN changed successfully';\n  }\n}\n\n// Usage example\nconst account = new BankAccount('ACC123', '1234');\naccount.holderName = 'John Doe'; // Public field - accessible\n\n// These work through controlled public methods\nconsole.log(account.deposit(1000, '1234')); // Deposited $1000...\nconsole.log(account.withdraw(200, '1234'));  // Withdrew $200...\nconsole.log(account.getBalance('1234'));     // 800\n\n// These are protected - cannot access directly\n// console.log(account.#balance);     // SyntaxError\n// console.log(account.#pin);         // SyntaxError\n// account.#validatePin('1234');      // SyntaxError\n\n// Wrong PIN\ntry {\n  account.withdraw(100, '0000'); // Error: Invalid PIN\n} catch (error) {\n  console.log(error.message);\n}\n```\n\n**Python Example:**\n```python\nclass BankAccount:\n    def __init__(self, account_number, initial_pin):\n        # Private attributes (by convention with double underscore)\n        self.__balance = 0\n        self.__account_number = account_number\n        self.__pin = initial_pin\n        # Public attribute\n        self.holder_name = ''\n    \n    # Private method\n    def __validate_pin(self, entered_pin):\n        return self.__pin == entered_pin\n    \n    # Public methods - controlled access\n    def deposit(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount <= 0:\n            raise ValueError('Amount must be positive')\n        self.__balance += amount\n        return f'Deposited ${amount}. New balance: $ {self.__balance}'\n    \n    def withdraw(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount > self.__balance:\n            raise ValueError('Insufficient funds')\n        self.__balance -= amount\n        return f'Withdrew ${amount}. New balance: $ {self.__balance}'\n    \n    # Property for controlled access (Python's getter/setter)\n    def get_balance(self, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        return self.__balance\n    \n    def change_pin(self, old_pin, new_pin):\n        if not self.__validate_pin(old_pin):\n            raise ValueError('Invalid current PIN')\n        self.__pin = new_pin\n        return 'PIN changed successfully'\n    \n    # Protected method (single underscore - convention only)\n    def _get_account_info(self):\n        return f'Account: {self.__account_number}'\n\n# Usage example\naccount = BankAccount('ACC123', '1234')\naccount.holder_name = 'John Doe'  # Public attribute\n\n# Controlled access through public methods\nprint(account.deposit(1000, '1234'))  # Deposited $1000...\nprint(account.withdraw(200, '1234'))   # Withdrew $200...\nprint(account.get_balance('1234'))     # 800\n\n# Private attributes are name-mangled in Python\n# These don't work as expected:\nprint(hasattr(account, '__balance'))    # False\nprint(hasattr(account, '_BankAccount__balance'))  # True (name mangling)\n\n# This is the proper way - through public interface\ntry:\n    account.withdraw(100, '0000')  # ValueError: Invalid PIN\nexcept ValueError as e:\n    print(e)\n\n# Demonstrating encapsulation benefits\nclass SecureBankAccount(BankAccount):\n    def __init__(self, account_number, initial_pin):\n        super().__init__(account_number, initial_pin)\n        self.__transaction_history = []\n    \n    def deposit(self, amount, pin):\n        result = super().deposit(amount, pin)\n        self.__transaction_history.append(f'DEPOSIT: ${amount}')\n        return result\n    \n    def get_transaction_history(self, pin):\n        if not self._BankAccount__validate_pin(pin):  # Accessing parent's private method\n            raise ValueError('Invalid PIN')\n        return self.__transaction_history.copy()\n\nsecure_account = SecureBankAccount('SEC456', '5678')\nsecure_account.deposit(500, '5678')\nprint(secure_account.get_transaction_history('5678'))  # ['DEPOSIT: $500']\n```\n\n**Real-world analogy**: Think of encapsulation like a car. You interact with the car through its public interface (steering wheel, pedals, gear shift), but you don't directly manipulate the engine pistons or transmission gears. The complex internal mechanisms are hidden and protected, while safe, controlled access is provided through the interface.",
       },
       {
         question: "What is composition?",
@@ -19067,6 +19067,4956 @@ print(f"MRO: {PoliceDog.__mro__}")
 - Be careful with method overriding at multiple levels
 - Consider using interfaces when appropriate
 `,
+      },
+      {
+        question: "What is hierarchical inheritance?",
+        solution: `**Hierarchical Inheritance** is a type of inheritance where multiple child classes inherit from a single parent class. It forms a tree-like structure where one base class serves as the parent for multiple derived classes.
+
+**Key Features:**
+- One parent class, multiple child classes
+- Each child class inherits all public and protected members of the parent
+- Child classes can have their own additional members and methods
+- Creates a hierarchy resembling a family tree
+
+**JavaScript Example:**
+\`\`\`javascript
+// Base class (Parent)
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  eat() {
+    console.log(\`\${this.name} is eating\`);
+  }
+  
+  sleep() {
+    console.log(\`\${this.name} is sleeping\`);
+  }
+}
+
+// Child classes inheriting from Animal
+class Dog extends Animal {
+  bark() {
+    console.log(\`\${this.name} is barking\`);
+  }
+}
+
+class Cat extends Animal {
+  meow() {
+    console.log(\`\${this.name} is meowing\`);
+  }
+}
+
+class Bird extends Animal {
+  fly() {
+    console.log(\`\${this.name} is flying\`);
+  }
+}
+
+// Usage
+const dog = new Dog("Buddy");
+const cat = new Cat("Whiskers");
+const bird = new Bird("Tweety");
+
+dog.eat(); // Inherited method
+dog.bark(); // Own method
+
+cat.eat(); // Inherited method
+cat.meow(); // Own method
+
+bird.eat(); // Inherited method
+bird.fly(); // Own method
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Base class (Parent)
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def eat(self):
+        print(f"{self.name} is eating")
+    
+    def sleep(self):
+        print(f"{self.name} is sleeping")
+
+# Child classes inheriting from Animal
+class Dog(Animal):
+    def bark(self):
+        print(f"{self.name} is barking")
+
+class Cat(Animal):
+    def meow(self):
+        print(f"{self.name} is meowing")
+
+class Bird(Animal):
+    def fly(self):
+        print(f"{self.name} is flying")
+
+# Usage
+dog = Dog("Buddy")
+cat = Cat("Whiskers")
+bird = Bird("Tweety")
+
+dog.eat()  # Inherited method
+dog.bark()  # Own method
+
+cat.eat()  # Inherited method
+cat.meow()  # Own method
+
+bird.eat()  # Inherited method
+bird.fly()  # Own method
+\`\`\`
+
+**Benefits:**
+- Code reusability: Common functionality is defined once in the parent class
+- Easy maintenance: Changes to common behavior only need to be made in the parent class
+- Logical organization: Related classes are grouped under a common parent`,
+      },
+      {
+        question: "What is hybrid inheritance?",
+        solution: `**Hybrid Inheritance** is a combination of multiple types of inheritance patterns in a single program. It typically combines hierarchical and multiple inheritance, creating complex inheritance relationships.
+
+**Key Features:**
+- Combines two or more inheritance types
+- Most commonly mixes hierarchical and multiple inheritance
+- Can lead to the "Diamond Problem" in languages that support multiple inheritance
+- Creates complex class hierarchies
+
+**Note:** JavaScript doesn't support true multiple inheritance, so we'll demonstrate the concept using mixins and composition patterns.
+
+**JavaScript Example (Using Mixins):**
+\`\`\`javascript
+// Base classes
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  eat() {
+    console.log(\`\${this.name} is eating\`);
+  }
+}
+
+// Mixin for flying capability
+const Flyable = {
+  fly() {
+    console.log(\`\${this.name} is flying\`);
+  }
+};
+
+// Mixin for swimming capability
+const Swimmable = {
+  swim() {
+    console.log(\`\${this.name} is swimming\`);
+  }
+};
+
+// Hierarchical inheritance
+class Bird extends Animal {
+  chirp() {
+    console.log(\`\${this.name} is chirping\`);
+  }
+}
+
+class Fish extends Animal {
+  breatheUnderwater() {
+    console.log(\`\${this.name} is breathing underwater\`);
+  }
+}
+
+// Hybrid inheritance - combining hierarchical with mixins
+class Duck extends Bird {
+  constructor(name) {
+    super(name);
+    // Apply mixins
+    Object.assign(this, Flyable, Swimmable);
+  }
+  
+  quack() {
+    console.log(\`\${this.name} is quacking\`);
+  }
+}
+
+// Usage
+const duck = new Duck("Donald");
+duck.eat();    // From Animal (via Bird)
+duck.chirp();  // From Bird
+duck.fly();    // From Flyable mixin
+duck.swim();   // From Swimmable mixin
+duck.quack();  // Own method
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Base classes
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def eat(self):
+        print(f"{self.name} is eating")
+
+class Flyable:
+    def fly(self):
+        print(f"{self.name} is flying")
+
+class Swimmable:
+    def swim(self):
+        print(f"{self.name} is swimming")
+
+# Hierarchical inheritance
+class Bird(Animal):
+    def chirp(self):
+        print(f"{self.name} is chirping")
+
+class Fish(Animal):
+    def breathe_underwater(self):
+        print(f"{self.name} is breathing underwater")
+
+# Hybrid inheritance - multiple inheritance
+class Duck(Bird, Flyable, Swimmable):
+    def quack(self):
+        print(f"{self.name} is quacking")
+
+class FlyingFish(Fish, Flyable):
+    def glide(self):
+        print(f"{self.name} is gliding")
+
+# Usage
+duck = Duck("Donald")
+duck.eat()     # From Animal (via Bird)
+duck.chirp()   # From Bird
+duck.fly()     # From Flyable
+duck.swim()    # From Swimmable
+duck.quack()   # Own method
+
+flying_fish = FlyingFish("Nemo")
+flying_fish.eat()                # From Animal (via Fish)
+flying_fish.breathe_underwater() # From Fish
+flying_fish.fly()                # From Flyable
+flying_fish.glide()              # Own method
+\`\`\`
+
+**Diamond Problem Example (Python):**
+\`\`\`python
+class A:
+    def method(self):
+        print("Method from A")
+
+class B(A):
+    def method(self):
+        print("Method from B")
+
+class C(A):
+    def method(self):
+        print("Method from C")
+
+# Diamond problem: D inherits from both B and C
+class D(B, C):
+    pass
+
+# Python resolves this using Method Resolution Order (MRO)
+d = D()
+d.method()  # Prints "Method from B" due to MRO
+print(D.mro())  # Shows the method resolution order
+\`\`\`
+
+**Challenges:**
+- Diamond Problem: Ambiguity when multiple parent classes have the same method
+- Complexity: Difficult to understand and maintain
+- Design complexity: Requires careful planning to avoid conflicts`,
+      },
+      {
+        question: "What is single inheritance?",
+        solution: `**Single Inheritance** is the simplest form of inheritance where a child class inherits from only one parent class. It creates a linear inheritance chain where each class has at most one direct parent.
+
+**Key Features:**
+- One child class inherits from one parent class
+- Creates a linear chain of inheritance
+- No ambiguity in method resolution
+- Simplest and most common form of inheritance
+
+**JavaScript Example:**
+\`\`\`javascript
+// Base class (Parent)
+class Vehicle {
+  constructor(brand, model) {
+    this.brand = brand;
+    this.model = model;
+    this.isRunning = false;
+  }
+  
+  start() {
+    this.isRunning = true;
+    console.log(\`\${this.brand} \${this.model} is starting\`);
+  }
+  
+  stop() {
+    this.isRunning = false;
+    console.log(\`\${this.brand} \${this.model} has stopped\`);
+  }
+  
+  getInfo() {
+    return \`\${this.brand} \${this.model}\`;
+  }
+}
+
+// Child class inheriting from Vehicle
+class Car extends Vehicle {
+  constructor(brand, model, doors) {
+    super(brand, model); // Call parent constructor
+    this.doors = doors;
+  }
+  
+  // Override parent method
+  start() {
+    super.start(); // Call parent method
+    console.log("Car engine is now running");
+  }
+  
+  // New method specific to Car
+  honk() {
+    console.log(\`\${this.getInfo()} is honking!\`);
+  }
+  
+  // New method
+  openDoors() {
+    console.log(\`Opening \${this.doors} doors\`);
+  }
+}
+
+// Another level of single inheritance
+class ElectricCar extends Car {
+  constructor(brand, model, doors, batteryCapacity) {
+    super(brand, model, doors);
+    this.batteryCapacity = batteryCapacity;
+    this.batteryLevel = 100;
+  }
+  
+  start() {
+    if (this.batteryLevel > 0) {
+      console.log(\`\${this.getInfo()} electric motor starting silently\`);
+      this.isRunning = true;
+    } else {
+      console.log("Battery is empty, cannot start");
+    }
+  }
+  
+  charge() {
+    this.batteryLevel = 100;
+    console.log(\`\${this.getInfo()} is fully charged\`);
+  }
+  
+  getBatteryInfo() {
+    return \`Battery: \${this.batteryLevel}% (\${this.batteryCapacity}kWh)\`;
+  }
+}
+
+// Usage
+const vehicle = new Vehicle("Generic", "Vehicle");
+const car = new Car("Toyota", "Camry", 4);
+const electricCar = new ElectricCar("Tesla", "Model 3", 4, 75);
+
+// Vehicle methods
+vehicle.start();
+vehicle.getInfo();
+
+// Car methods (inherits from Vehicle + own methods)
+car.start();  // Overridden method
+car.honk();   // Own method
+car.openDoors(); // Own method
+
+// Electric car methods (inherits from Car + own methods)
+electricCar.start(); // Overridden method
+electricCar.charge(); // Own method
+electricCar.honk();  // Inherited from Car
+console.log(electricCar.getBatteryInfo());
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Base class (Parent)
+class Vehicle:
+    def __init__(self, brand, model):
+        self.brand = brand
+        self.model = model
+        self.is_running = False
+    
+    def start(self):
+        self.is_running = True
+        print(f"{self.brand} {self.model} is starting")
+    
+    def stop(self):
+        self.is_running = False
+        print(f"{self.brand} {self.model} has stopped")
+    
+    def get_info(self):
+        return f"{self.brand} {self.model}"
+
+# Child class inheriting from Vehicle
+class Car(Vehicle):
+    def __init__(self, brand, model, doors):
+        super().__init__(brand, model)  # Call parent constructor
+        self.doors = doors
+    
+    # Override parent method
+    def start(self):
+        super().start()  # Call parent method
+        print("Car engine is now running")
+    
+    # New method specific to Car
+    def honk(self):
+        print(f"{self.get_info()} is honking!")
+    
+    # New method
+    def open_doors(self):
+        print(f"Opening {self.doors} doors")
+
+# Another level of single inheritance
+class ElectricCar(Car):
+    def __init__(self, brand, model, doors, battery_capacity):
+        super().__init__(brand, model, doors)
+        self.battery_capacity = battery_capacity
+        self.battery_level = 100
+    
+    def start(self):
+        if self.battery_level > 0:
+            print(f"{self.get_info()} electric motor starting silently")
+            self.is_running = True
+        else:
+            print("Battery is empty, cannot start")
+    
+    def charge(self):
+        self.battery_level = 100
+        print(f"{self.get_info()} is fully charged")
+    
+    def get_battery_info(self):
+        return f"Battery: {self.battery_level}% ({self.battery_capacity}kWh)"
+
+# Usage
+vehicle = Vehicle("Generic", "Vehicle")
+car = Car("Toyota", "Camry", 4)
+electric_car = ElectricCar("Tesla", "Model 3", 4, 75)
+
+# Vehicle methods
+vehicle.start()
+print(vehicle.get_info())
+
+# Car methods (inherits from Vehicle + own methods)
+car.start()      # Overridden method
+car.honk()       # Own method
+car.open_doors() # Own method
+
+# Electric car methods (inherits from Car + own methods)
+electric_car.start()  # Overridden method
+electric_car.charge() # Own method
+electric_car.honk()   # Inherited from Car
+print(electric_car.get_battery_info())
+\`\`\`
+
+**Inheritance Chain:**
+\`\`\`
+Vehicle (Base class)
+    ↓
+   Car (Inherits from Vehicle)
+    ↓
+ElectricCar (Inherits from Car)
+\`\`\`
+
+**Benefits:**
+- **Simplicity:** Easy to understand and implement
+- **No ambiguity:** Clear method resolution path
+- **Code reuse:** Child classes inherit parent functionality
+- **Extensibility:** Easy to add new functionality in child classes
+
+**Common Use Cases:**
+- Creating specialized versions of general classes
+- Building class hierarchies with clear relationships
+- Extending existing functionality without modifying original classes`,
+      },
+      {
+        question: "What is a virtual function?",
+        solution: `**Virtual Function** is a function in a base class that can be overridden in derived classes to provide different implementations. It enables runtime polymorphism, allowing the correct function to be called based on the actual object type rather than the reference type.
+
+**Key Features:**
+- Enables polymorphism and dynamic dispatch
+- Declared with 'virtual' keyword in C++ (concept applies to other OOP languages)
+- Function to be called is determined at runtime
+- Base class defines the interface, derived classes provide implementation
+
+**Note:** JavaScript and Python implement this concept differently than C++, but the principle remains the same.
+
+**JavaScript Example:**
+\`\`\`javascript
+// Base class with "virtual" methods (methods that can be overridden)
+class Shape {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  // Virtual method - meant to be overridden
+  calculateArea() {
+    throw new Error("calculateArea() must be implemented by subclass");
+  }
+  
+  // Virtual method - meant to be overridden
+  draw() {
+    console.log(\`Drawing a \${this.name}\`);
+  }
+  
+  // Non-virtual method - common implementation
+  getInfo() {
+    return \`Shape: \${this.name}, Area: \${this.calculateArea()}\`;
+  }
+}
+
+class Circle extends Shape {
+  constructor(radius) {
+    super("Circle");
+    this.radius = radius;
+  }
+  
+  // Override virtual method
+  calculateArea() {
+    return Math.PI * this.radius * this.radius;
+  }
+  
+  // Override virtual method
+  draw() {
+    console.log(\`Drawing a circle with radius \${this.radius}\`);
+  }
+}
+
+class Rectangle extends Shape {
+  constructor(width, height) {
+    super("Rectangle");
+    this.width = width;
+    this.height = height;
+  }
+  
+  // Override virtual method
+  calculateArea() {
+    return this.width * this.height;
+  }
+  
+  // Override virtual method
+  draw() {
+    console.log(\`Drawing a rectangle \${this.width}x\${this.height}\`);
+  }
+}
+
+class Triangle extends Shape {
+  constructor(base, height) {
+    super("Triangle");
+    this.base = base;
+    this.height = height;
+  }
+  
+  // Override virtual method
+  calculateArea() {
+    return 0.5 * this.base * this.height;
+  }
+  
+  // Override virtual method
+  draw() {
+    console.log(\`Drawing a triangle with base \${this.base} and height \${this.height}\`);
+  }
+}
+
+// Polymorphic function that works with any Shape
+function processShape(shape) {
+  console.log(\`Processing: \${shape.getInfo()}\`);
+  shape.draw(); // Calls the appropriate overridden method
+}
+
+// Usage demonstrating virtual function behavior
+const shapes = [
+  new Circle(5),
+  new Rectangle(4, 6),
+  new Triangle(3, 8)
+];
+
+shapes.forEach(shape => {
+  processShape(shape); // Each shape's overridden methods are called
+});
+
+// Runtime polymorphism example
+function createShapeBasedOnInput(type, ...params) {
+  switch(type) {
+    case 'circle':
+      return new Circle(params[0]);
+    case 'rectangle':
+      return new Rectangle(params[0], params[1]);
+    case 'triangle':
+      return new Triangle(params[0], params[1]);
+    default:
+      throw new Error("Unknown shape type");
+  }
+}
+
+const dynamicShape = createShapeBasedOnInput('circle', 3);
+console.log(dynamicShape.getInfo()); // Calls Circle's calculateArea method
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+import math
+
+# Base class with virtual methods
+class Shape(ABC):
+    def __init__(self, name):
+        self.name = name
+    
+    # Pure virtual method (abstract method)
+    @abstractmethod
+    def calculate_area(self):
+        pass
+    
+    # Virtual method - can be overridden
+    def draw(self):
+        print(f"Drawing a {self.name}")
+    
+    # Non-virtual method - common implementation
+    def get_info(self):
+        return f"Shape: {self.name}, Area: {self.calculate_area():.2f}"
+
+class Circle(Shape):
+    def __init__(self, radius):
+        super().__init__("Circle")
+        self.radius = radius
+    
+    # Override abstract method
+    def calculate_area(self):
+        return math.pi * self.radius ** 2
+    
+    # Override virtual method
+    def draw(self):
+        print(f"Drawing a circle with radius {self.radius}")
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        super().__init__("Rectangle")
+        self.width = width
+        self.height = height
+    
+    # Override abstract method
+    def calculate_area(self):
+        return self.width * self.height
+    
+    # Override virtual method
+    def draw(self):
+        print(f"Drawing a rectangle {self.width}x{self.height}")
+
+class Triangle(Shape):
+    def __init__(self, base, height):
+        super().__init__("Triangle")
+        self.base = base
+        self.height = height
+    
+    # Override abstract method
+    def calculate_area(self):
+        return 0.5 * self.base * self.height
+    
+    # Override virtual method
+    def draw(self):
+        print(f"Drawing a triangle with base {self.base} and height {self.height}")
+
+# Polymorphic function that works with any Shape
+def process_shape(shape):
+    print(f"Processing: {shape.get_info()}")
+    shape.draw()  # Calls the appropriate overridden method
+
+# Usage demonstrating virtual function behavior
+shapes = [
+    Circle(5),
+    Rectangle(4, 6),
+    Triangle(3, 8)
+]
+
+for shape in shapes:
+    process_shape(shape)  # Each shape's overridden methods are called
+    print()
+
+# Runtime polymorphism example
+def create_shape_based_on_input(shape_type, *params):
+    if shape_type == 'circle':
+        return Circle(params[0])
+    elif shape_type == 'rectangle':
+        return Rectangle(params[0], params[1])
+    elif shape_type == 'triangle':
+        return Triangle(params[0], params[1])
+    else:
+        raise ValueError("Unknown shape type")
+
+# Dynamic shape creation and method calling
+dynamic_shape = create_shape_based_on_input('circle', 3)
+print(dynamic_shape.get_info())  # Calls Circle's calculate_area method
+\`\`\`
+
+**Key Concepts:**
+
+1. **Runtime Polymorphism:** The correct method is chosen at runtime based on the actual object type
+2. **Method Overriding:** Derived classes provide their own implementation of virtual methods
+3. **Interface Consistency:** All derived classes implement the same interface defined in the base class
+4. **Late Binding:** Method calls are resolved at runtime, not compile time
+
+**Benefits:**
+- **Flexibility:** Same interface can have different behaviors
+- **Extensibility:** New types can be added without changing existing code
+- **Code Reusability:** Common interface allows polymorphic operations
+- **Maintainability:** Changes to implementations don't affect client code`,
+      },
+      {
+        question: "What is dynamic binding?",
+        solution: `**Dynamic Binding** (also called Late Binding) is a mechanism where the method to be called is determined at runtime based on the actual type of the object, rather than at compile time. This is the foundation of polymorphism in object-oriented programming.
+
+**Key Features:**
+- Method resolution happens at runtime
+- Enables polymorphism and virtual function calls
+- The actual method called depends on the object's runtime type
+- Opposite of static binding (early binding)
+
+**JavaScript Example:**
+\`\`\`javascript
+// Base class
+class Employee {
+  constructor(name, id) {
+    this.name = name;
+    this.id = id;
+  }
+  
+  // Virtual method - will be overridden
+  calculateSalary() {
+    return 0; // Base implementation
+  }
+  
+  // Virtual method - will be overridden
+  getJobDescription() {
+    return "General Employee";
+  }
+  
+  // Method using dynamic binding
+  getEmployeeDetails() {
+    // These method calls will be resolved at runtime
+    return \`Employee: \${this.name} (\${this.id})
+Job: \${this.getJobDescription()}
+Salary: $\${this.calculateSalary()}\`;
+  }
+}
+
+class Developer extends Employee {
+  constructor(name, id, hourlyRate, hoursWorked) {
+    super(name, id);
+    this.hourlyRate = hourlyRate;
+    this.hoursWorked = hoursWorked;
+  }
+  
+  calculateSalary() {
+    return this.hourlyRate * this.hoursWorked;
+  }
+  
+  getJobDescription() {
+    return "Software Developer";
+  }
+}
+
+class Manager extends Employee {
+  constructor(name, id, baseSalary, bonus) {
+    super(name, id);
+    this.baseSalary = baseSalary;
+    this.bonus = bonus;
+  }
+  
+  calculateSalary() {
+    return this.baseSalary + this.bonus;
+  }
+  
+  getJobDescription() {
+    return "Project Manager";
+  }
+}
+
+class Intern extends Employee {
+  constructor(name, id, stipend) {
+    super(name, id);
+    this.stipend = stipend;
+  }
+  
+  calculateSalary() {
+    return this.stipend;
+  }
+  
+  getJobDescription() {
+    return "Intern";
+  }
+}
+
+// Dynamic binding demonstration
+function processEmployees(employees) {
+  employees.forEach(employee => {
+    // The methods called here are resolved at runtime
+    // based on the actual object type
+    console.log(employee.getEmployeeDetails());
+    console.log(\`Calculated salary: $\${employee.calculateSalary()}\`);
+    console.log("---");
+  });
+}
+
+// Runtime method resolution example
+function createEmployee(type, name, id, ...params) {
+  switch(type) {
+    case 'developer':
+      return new Developer(name, id, params[0], params[1]);
+    case 'manager':
+      return new Manager(name, id, params[0], params[1]);
+    case 'intern':
+      return new Intern(name, id, params[0]);
+    default:
+      return new Employee(name, id);
+  }
+}
+
+// Usage
+const employees = [
+  new Developer("Alice", "DEV001", 50, 160),
+  new Manager("Bob", "MGR001", 5000, 1000),
+  new Intern("Charlie", "INT001", 800),
+  createEmployee('developer', "Diana", "DEV002", 60, 150) // Runtime creation
+];
+
+processEmployees(employees);
+
+// Dynamic binding with array of different types
+const employeeReferences = employees; // All stored as Employee references
+
+// But each call resolves to the correct overridden method at runtime
+employeeReferences.forEach(emp => {
+  console.log(\`\${emp.name}: \${emp.getJobDescription()}\`);
+});
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+
+# Base class
+class Employee:
+    def __init__(self, name, employee_id):
+        self.name = name
+        self.employee_id = employee_id
+    
+    # Virtual method - will be overridden
+    def calculate_salary(self):
+        return 0  # Base implementation
+    
+    # Virtual method - will be overridden
+    def get_job_description(self):
+        return "General Employee"
+    
+    # Method using dynamic binding
+    def get_employee_details(self):
+        # These method calls will be resolved at runtime
+        return f"""Employee: {self.name} ({self.employee_id})
+Job: {self.get_job_description()}
+Salary: $ {self.calculate_salary()}"""
+
+class Developer(Employee):
+    def __init__(self, name, employee_id, hourly_rate, hours_worked):
+        super().__init__(name, employee_id)
+        self.hourly_rate = hourly_rate
+        self.hours_worked = hours_worked
+    
+    def calculate_salary(self):
+        return self.hourly_rate * self.hours_worked
+    
+    def get_job_description(self):
+        return "Software Developer"
+
+class Manager(Employee):
+    def __init__(self, name, employee_id, base_salary, bonus):
+        super().__init__(name, employee_id)
+        self.base_salary = base_salary
+        self.bonus = bonus
+    
+    def calculate_salary(self):
+        return self.base_salary + self.bonus
+    
+    def get_job_description(self):
+        return "Project Manager"
+
+class Intern(Employee):
+    def __init__(self, name, employee_id, stipend):
+        super().__init__(name, employee_id)
+        self.stipend = stipend
+    
+    def calculate_salary(self):
+        return self.stipend
+    
+    def get_job_description(self):
+        return "Intern"
+
+# Dynamic binding demonstration
+def process_employees(employees):
+    for employee in employees:
+        # The methods called here are resolved at runtime
+        # based on the actual object type
+        print(employee.get_employee_details())
+        print(f"Calculated salary: $ {employee.calculate_salary()}")
+        print("---")
+
+# Runtime method resolution example
+def create_employee(emp_type, name, emp_id, *params):
+    if emp_type == 'developer':
+        return Developer(name, emp_id, params[0], params[1])
+    elif emp_type == 'manager':
+        return Manager(name, emp_id, params[0], params[1])
+    elif emp_type == 'intern':
+        return Intern(name, emp_id, params[0])
+    else:
+        return Employee(name, emp_id)
+
+# Usage
+employees = [
+    Developer("Alice", "DEV001", 50, 160),
+    Manager("Bob", "MGR001", 5000, 1000),
+    Intern("Charlie", "INT001", 800),
+    create_employee('developer', "Diana", "DEV002", 60, 150)  # Runtime creation
+]
+
+process_employees(employees)
+
+# Dynamic binding with list of different types
+employee_references = employees  # All stored as Employee references
+
+# But each call resolves to the correct overridden method at runtime
+for emp in employee_references:
+    print(f"{emp.name}: {emp.get_job_description()}")
+
+# Demonstrating method resolution order
+class SeniorDeveloper(Developer):
+    def __init__(self, name, employee_id, hourly_rate, hours_worked, experience):
+        super().__init__(name, employee_id, hourly_rate, hours_worked)
+        self.experience = experience
+    
+    def calculate_salary(self):
+        base_salary = super().calculate_salary()
+        experience_bonus = self.experience * 100
+        return base_salary + experience_bonus
+    
+    def get_job_description(self):
+        return f"Senior Software Developer ({self.experience} years)"
+
+# Adding senior developer to demonstrate deeper inheritance
+senior_dev = SeniorDeveloper("Eve", "SDEV001", 70, 160, 5)
+print("\\nSenior Developer (Multiple inheritance levels):")
+print(senior_dev.get_employee_details())
+\`\`\`
+
+**How Dynamic Binding Works:**
+
+1. **Method Table (V-Table):** Each object maintains a table of method pointers
+2. **Runtime Lookup:** When a method is called, the system looks up the actual implementation
+3. **Type Resolution:** The method called depends on the object's actual type, not the reference type
+
+**Example of Method Resolution:**
+\`\`\`
+Employee reference -> Points to Manager object
+                   -> Method call: calculateSalary()
+                   -> Runtime lookup: Manager.calculateSalary()
+                   -> Executes Manager's implementation
+\`\`\`
+
+**Benefits:**
+- **True Polymorphism:** Same interface, different behaviors
+- **Extensibility:** New types can be added without changing existing code
+- **Flexibility:** Behavior can be determined at runtime
+- **Code Reusability:** Write code once, works with multiple types
+
+**Use Cases:**
+- Plugin systems where behavior is loaded at runtime
+- GUI frameworks with different widget implementations
+- Game engines with various entity types
+- Framework design where users provide implementations`,
+      },
+      {
+        question: "What is static binding?",
+        solution: `**Static Binding** (also called Early Binding) is a mechanism where the method to be called is determined at compile time based on the reference type, not the actual object type. The compiler resolves method calls during compilation.
+
+**Key Features:**
+- Method resolution happens at compile time
+- Based on the reference/pointer type, not object type
+- Faster execution as no runtime lookup is needed
+- Default behavior for non-virtual methods
+- Opposite of dynamic binding (late binding)
+
+**JavaScript Example:**
+\`\`\`javascript
+// Note: JavaScript is dynamically typed, so true static binding
+// doesn't exist like in C++. However, we can demonstrate the concept
+// through method calls that are resolved based on reference type
+
+// Base class
+class Vehicle {
+  constructor(brand) {
+    this.brand = brand;
+  }
+  
+  // Non-virtual method (would be statically bound in C++)
+  startEngine() {
+    console.log($ {this.brand} engine starting...);
+  }
+  
+  // Method that calls other methods
+  startVehicle() {
+    console.log("Vehicle startup sequence:");
+    this.startEngine(); // This would be statically bound to Vehicle.startEngine in C++
+    this.performStartupChecks(); // This would be dynamically bound
+  }
+  
+  performStartupChecks() {
+    console.log("Basic vehicle checks completed");
+  }
+}
+
+class Car extends Vehicle {
+  constructor(brand, model) {
+    super(brand);
+    this.model = model;
+  }
+  
+  // This would override in dynamic binding, but not affect static binding
+  startEngine() {
+    console.log($ {this.brand} $ {this.model} car engine starting with ignition...);
+  }
+  
+  performStartupChecks() {
+    console.log("Car-specific checks: lights, signals, seatbelts");
+  }
+}
+
+class Motorcycle extends Vehicle {
+  constructor(brand, cc) {
+    super(brand);
+    this.cc = cc;
+  }
+  
+  startEngine() {
+    console.log($ {this.brand} $ {this.cc}cc motorcycle engine starting with kick/button...);
+  }
+  
+  performStartupChecks() {
+    console.log("Motorcycle checks: helmet, kickstand, mirrors");
+  }
+}
+
+// Simulating static vs dynamic binding behavior
+class StaticBindingDemo {
+  // Method that would use static binding for direct method calls
+  static demonstrateStaticBinding() {
+    const vehicle = new Vehicle("Generic");
+    const car = new Car("Toyota", "Camry");
+    
+    // Direct method calls - in C++, these would be statically bound
+    // based on the declared type, not the actual object
+    console.log("=== Static Binding Simulation ===");
+    vehicle.startEngine(); // Always calls Vehicle.startEngine
+    car.startEngine();     // Always calls Car.startEngine
+    
+    // If we had static binding like C++:
+    const vehicleRef = car; // Reference of type Vehicle pointing to Car object
+    // vehicleRef.startEngine() would call Vehicle.startEngine (static binding)
+    // But in JavaScript, it calls Car.startEngine (dynamic binding)
+    
+    console.log("\\n=== In JavaScript (Dynamic Binding) ===");
+    vehicleRef.startEngine(); // Calls Car.startEngine
+    
+    console.log("\\n=== Simulated Static Binding ===");
+    // To simulate static binding, we explicitly call the parent method
+    Vehicle.prototype.startEngine.call(vehicleRef); // Simulates static binding
+  }
+  
+  // Method demonstrating compile-time method resolution
+  static processVehicleStatically(vehicle) {
+    // In static binding, the method called would be determined
+    // by the parameter type (Vehicle), not the actual object type
+    console.log("Processing vehicle with static binding:");
+    
+    // These calls would be resolved at compile time in C++
+    Vehicle.prototype.startEngine.call(vehicle);
+    Vehicle.prototype.performStartupChecks.call(vehicle);
+  }
+}
+
+// Usage
+const car = new Car("Honda", "Civic");
+const motorcycle = new Motorcycle("Yamaha", 600);
+
+StaticBindingDemo.demonstrateStaticBinding();
+
+console.log("\\n=== Static vs Dynamic Binding Comparison ===");
+console.log("With Static Binding (simulated):");
+StaticBindingDemo.processVehicleStatically(car);
+
+console.log("\\nWith Dynamic Binding (JavaScript default):");
+car.startVehicle(); // Uses dynamic binding for performStartupChecks
+
+// Example of where static binding would be different
+class BindingComparison {
+  static showDifference() {
+    const vehicles = [
+      new Car("BMW", "X5"),
+      new Motorcycle("Harley", 1200)
+    ];
+    
+    vehicles.forEach(vehicle => {
+      console.log(\\n--- Processing $ {vehicle.constructor.name} ---);
+      
+      // Dynamic binding (JavaScript default)
+      console.log("Dynamic binding:");
+      vehicle.startEngine(); // Calls overridden method
+      
+      // Simulated static binding
+      console.log("Static binding (simulated):");
+      Vehicle.prototype.startEngine.call(vehicle); // Calls base method
+    });
+  }
+}
+
+BindingComparison.showDifference();
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Python uses dynamic binding by default, but we can simulate static binding
+
+class Vehicle:
+    def __init__(self, brand):
+        self.brand = brand
+    
+    # Non-virtual method (would be statically bound in C++)
+    def start_engine(self):
+        print(f"{self.brand} engine starting...")
+    
+    # Method that calls other methods
+    def start_vehicle(self):
+        print("Vehicle startup sequence:")
+        self.start_engine()  # In C++, this could be statically bound
+        self.perform_startup_checks()  # This would be dynamically bound
+    
+    def perform_startup_checks(self):
+        print("Basic vehicle checks completed")
+
+class Car(Vehicle):
+    def __init__(self, brand, model):
+        super().__init__(brand)
+        self.model = model
+    
+    def start_engine(self):
+        print(f"{self.brand} {self.model} car engine starting with ignition...")
+    
+    def perform_startup_checks(self):
+        print("Car-specific checks: lights, signals, seatbelts")
+
+class Motorcycle(Vehicle):
+    def __init__(self, brand, cc):
+        super().__init__(brand)
+        self.cc = cc
+    
+    def start_engine(self):
+        print(f"{self.brand} {self.cc}cc motorcycle engine starting with kick/button...")
+    
+    def perform_startup_checks(self):
+        print("Motorcycle checks: helmet, kickstand, mirrors")
+
+# Demonstrating static vs dynamic binding
+class BindingDemo:
+    @staticmethod
+    def demonstrate_static_binding():
+        vehicle = Vehicle("Generic")
+        car = Car("Toyota", "Camry")
+        
+        print("=== Static Binding Simulation ===")
+        # Direct method calls - in C++, these would be statically bound
+        vehicle.start_engine()  # Always calls Vehicle.start_engine
+        car.start_engine()      # Always calls Car.start_engine
+        
+        # Simulating static binding behavior
+        vehicle_ref = car  # Reference pointing to Car object
+        print("\\n=== In Python (Dynamic Binding) ===")
+        vehicle_ref.start_engine()  # Calls Car.start_engine
+        
+        print("\\n=== Simulated Static Binding ===")
+        # To simulate static binding, explicitly call parent method
+        Vehicle.start_engine(vehicle_ref)  # Simulates static binding
+    
+    @staticmethod
+    def process_vehicle_statically(vehicle):
+        """Simulates static binding by calling methods through the base class"""
+        print("Processing vehicle with static binding:")
+        
+        # These calls simulate compile-time method resolution
+        Vehicle.start_engine(vehicle)
+        Vehicle.perform_startup_checks(vehicle)
+    
+    @staticmethod
+    def show_binding_difference():
+        vehicles = [
+            Car("BMW", "X5"),
+            Motorcycle("Harley", 1200)
+        ]
+        
+        for vehicle in vehicles:
+            print(f"\\n--- Processing {vehicle.__class__.__name__} ---")
+            
+            # Dynamic binding (Python default)
+            print("Dynamic binding:")
+            vehicle.start_engine()  # Calls overridden method
+            
+            # Simulated static binding
+            print("Static binding (simulated):")
+            Vehicle.start_engine(vehicle)  # Calls base method
+
+# Usage examples
+car = Car("Honda", "Civic")
+motorcycle = Motorcycle("Yamaha", 600)
+
+BindingDemo.demonstrate_static_binding()
+print("\\n" + "="*50)
+BindingDemo.show_binding_difference()
+
+# Example with method resolution timing
+class TimingExample:
+    def __init__(self):
+        self.method_to_call = "default"
+    
+    def call_method_statically(self):
+        # In static binding, this method call would be resolved at compile time
+        self.default_method()  # Compiler determines which method to call
+    
+    def default_method(self):
+        print("Base class method called")
+
+class ExtendedTiming(TimingExample):
+    def default_method(self):
+        print("Extended class method called")
+    
+    def demonstrate_timing(self):
+        print("=== Method Call Resolution Timing ===")
+        print("Static binding (simulated - calls parent directly):")
+        TimingExample.default_method(self)
+        
+        print("Dynamic binding (Python default):")
+        self.default_method()
+
+# Timing demonstration
+timing_obj = ExtendedTiming()
+timing_obj.demonstrate_timing()
+\`\`\`
+
+**Static Binding Characteristics:**
+
+**Advantages:**
+- **Performance:** Faster execution (no runtime lookup)
+- **Predictability:** Method calls are resolved at compile time
+- **Memory Efficiency:** No need for virtual function tables
+- **Compile-time Optimization:** Compiler can inline methods
+
+**Disadvantages:**
+- **Less Flexibility:** Cannot achieve runtime polymorphism
+- **Limited Extensibility:** Behavior is fixed at compile time
+- **No Dynamic Dispatch:** Same method always called regardless of object type
+
+**When Static Binding Occurs:**
+1. **Non-virtual functions** in C++ (default behavior)
+2. **Private methods** (cannot be overridden)
+3. **Static methods** (belong to class, not instance)
+4. **Constructor calls** (resolved at compile time)
+5. **Direct method calls** without inheritance involved
+
+**Comparison with Dynamic Binding:**
+
+| Aspect | Static Binding | Dynamic Binding |
+|--------|----------------|-----------------|
+| Resolution Time | Compile Time | Runtime |
+| Performance | Faster | Slower (lookup overhead) |
+| Flexibility | Limited | High |
+| Polymorphism | No | Yes |
+| Memory Usage | Less | More (v-table) |
+| Method Called | Based on reference type | Based on object type |
+
+**Real-world Example:**
+\`\`\`
+// In C++ (conceptual)
+Vehicle* vehicle = new Car();
+
+// Static binding
+vehicle->startEngine();     // Calls Vehicle::startEngine
+
+// Dynamic binding (virtual function)
+vehicle->performChecks();   // Calls Car::performChecks
+\`\`\`
+
+This demonstrates how static binding provides predictable, efficient method calls but sacrifices the flexibility of polymorphism that dynamic binding offers.`,
+      },
+      {
+        question: "What is early binding?",
+        solution: `**Early Binding** is synonymous with Static Binding - it's the process where method calls are resolved at compile time rather than runtime. The term "early" refers to the fact that binding occurs early in the program lifecycle (during compilation).
+
+**Key Features:**
+- Method resolution occurs during compilation
+- Binding happens "early" in the program lifecycle
+- Based on declared/reference type, not actual object type
+- Results in faster execution due to no runtime lookup
+- Same concept as static binding, just different terminology
+
+**JavaScript Example:**
+\`\`\`javascript
+// JavaScript doesn't have true early binding like compiled languages,
+// but we can demonstrate the concept and contrast it with late binding
+
+class MediaPlayer {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  // Method that would be early-bound in compiled languages
+  play() {
+    console.log(\`\${this.name}: Playing media...\`);
+  }
+  
+  // Method demonstrating early binding concept
+  startPlayback() {
+    console.log("Initializing playback...");
+    // In early binding, this method call would be resolved at compile time
+    this.play(); // Compiler would determine which play() method to call
+    this.showControls();
+  }
+  
+  showControls() {
+    console.log("Showing basic media controls");
+  }
+  
+  // Static method - always early bound
+  static getSupportedFormats() {
+    return ["MP3", "WAV"];
+  }
+}
+
+class VideoPlayer extends MediaPlayer {
+  constructor(name, resolution) {
+    super(name);
+    this.resolution = resolution;
+  }
+  
+  // Override parent method
+  play() {
+    console.log(\`\${this.name}: Playing video at \${this.resolution}...\`);
+  }
+  
+  showControls() {
+    console.log("Showing video controls: play, pause, fullscreen, volume");
+  }
+  
+  static getSupportedFormats() {
+    return ["MP4", "AVI", "MOV"];
+  }
+}
+
+class AudioPlayer extends MediaPlayer {
+  constructor(name, bitrate) {
+    super(name);
+    this.bitrate = bitrate;
+  }
+  
+  play() {
+    console.log(\`\${this.name}: Playing audio at \${this.bitrate}kbps...\`);
+  }
+  
+  showControls() {
+    console.log("Showing audio controls: play, pause, volume, equalizer");
+  }
+  
+  static getSupportedFormats() {
+    return ["MP3", "FLAC", "AAC"];
+  }
+}
+
+// Early binding demonstration
+class EarlyBindingDemo {
+  static demonstrateEarlyBinding() {
+    console.log("=== Early Binding Concept Demo ===");
+    
+    // These method calls would be resolved at compile time in C++
+    const mediaPlayer = new MediaPlayer("Basic Player");
+    const videoPlayer = new VideoPlayer("HD Player", "1080p");
+    
+    // Direct calls - early binding resolves these at compile time
+    mediaPlayer.play(); // Always calls MediaPlayer.play
+    videoPlayer.play(); // Always calls VideoPlayer.play
+    
+    console.log("\\n=== Static Method Calls (Always Early Bound) ===");
+    console.log("MediaPlayer formats:", MediaPlayer.getSupportedFormats());
+    console.log("VideoPlayer formats:", VideoPlayer.getSupportedFormats());
+    
+    // Simulating early vs late binding difference
+    console.log("\\n=== Simulated Early Binding vs JavaScript's Late Binding ===");
+    
+    const playerRef = videoPlayer; // Reference to VideoPlayer object
+    
+    // In JavaScript (late binding)
+    console.log("JavaScript (late binding):");
+    playerRef.play(); // Calls VideoPlayer.play
+    
+    // Simulated early binding (calling method based on reference type)
+    console.log("Simulated early binding:");
+    MediaPlayer.prototype.play.call(playerRef); // Calls MediaPlayer.play
+  }
+  
+  // Method that would use early binding for performance
+  static processPlayersWithEarlyBinding(players) {
+    console.log("\\n=== Processing with Early Binding (Simulated) ===");
+    
+    players.forEach((player, index) => {
+      console.log(\`\\nPlayer \${index + 1}:\`);
+      
+      // Early binding - method resolved at compile time
+      console.log("Early bound call:");
+      MediaPlayer.prototype.play.call(player);
+      
+      // Late binding - method resolved at runtime  
+      console.log("Late bound call (JavaScript default):");
+      player.play();
+    });
+  }
+}
+
+// Usage
+const players = [
+  new MediaPlayer("Basic"),
+  new VideoPlayer("4K Player", "4K"),
+  new AudioPlayer("HiFi Player", "320")
+];
+
+EarlyBindingDemo.demonstrateEarlyBinding();
+EarlyBindingDemo.processPlayersWithEarlyBinding(players);
+
+// Performance comparison demonstration
+class PerformanceDemo {
+  static compareBindingPerformance() {
+    console.log("\\n=== Performance Characteristics ===");
+    
+    const iterations = 1000000;
+    const player = new VideoPlayer("Test Player", "HD");
+    
+    // Simulating early binding performance
+    console.log("Early Binding Benefits:");
+    console.log("- No runtime method lookup");
+    console.log("- Faster execution");
+    console.log("- Compile-time optimization possible");
+    console.log("- Smaller memory footprint");
+    
+    console.log("\\nLate Binding Benefits:");
+    console.log("- Runtime polymorphism");
+    console.log("- Flexible method resolution");
+    console.log("- Support for dynamic behavior");
+    console.log("- Enables true object-oriented design");
+  }
+}
+
+PerformanceDemo.compareBindingPerformance();
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+from typing import List
+
+class MediaPlayer:
+    def __init__(self, name: str):
+        self.name = name
+    
+    # Method that would be early-bound in compiled languages
+    def play(self):
+        print(f"{self.name}: Playing media...")
+    
+    # Method demonstrating early binding concept
+    def start_playback(self):
+        print("Initializing playback...")
+        # In early binding, this method call would be resolved at compile time
+        self.play()  # Compiler would determine which play() method to call
+        self.show_controls()
+    
+    def show_controls(self):
+        print("Showing basic media controls")
+    
+    # Class method - early bound to the class
+    @classmethod
+    def get_player_type(cls):
+        return "Generic Media Player"
+    
+    # Static method - always early bound
+    @staticmethod
+    def get_supported_formats():
+        return ["MP3", "WAV"]
+
+class VideoPlayer(MediaPlayer):
+    def __init__(self, name: str, resolution: str):
+        super().__init__(name)
+        self.resolution = resolution
+    
+    def play(self):
+        print(f"{self.name}: Playing video at {self.resolution}...")
+    
+    def show_controls(self):
+        print("Showing video controls: play, pause, fullscreen, volume")
+    
+    @classmethod
+    def get_player_type(cls):
+        return "Video Player"
+    
+    @staticmethod
+    def get_supported_formats():
+        return ["MP4", "AVI", "MOV"]
+
+class AudioPlayer(MediaPlayer):
+    def __init__(self, name: str, bitrate: int):
+        super().__init__(name)
+        self.bitrate = bitrate
+    
+    def play(self):
+        print(f"{self.name}: Playing audio at {self.bitrate}kbps...")
+    
+    def show_controls(self):
+        print("Showing audio controls: play, pause, volume, equalizer")
+    
+    @classmethod
+    def get_player_type(cls):
+        return "Audio Player"
+    
+    @staticmethod
+    def get_supported_formats():
+        return ["MP3", "FLAC", "AAC"]
+
+# Early binding demonstration
+class EarlyBindingDemo:
+    @staticmethod
+    def demonstrate_early_binding():
+        print("=== Early Binding Concept Demo ===")
+        
+        # These method calls would be resolved at compile time in C++
+        media_player = MediaPlayer("Basic Player")
+        video_player = VideoPlayer("HD Player", "1080p")
+        
+        # Direct calls - early binding resolves these at compile time
+        media_player.play()  # Always calls MediaPlayer.play
+        video_player.play()  # Always calls VideoPlayer.play
+        
+        print("\\n=== Class/Static Method Calls (Always Early Bound) ===")
+        print("MediaPlayer type:", MediaPlayer.get_player_type())
+        print("VideoPlayer type:", VideoPlayer.get_player_type())
+        print("MediaPlayer formats:", MediaPlayer.get_supported_formats())
+        print("VideoPlayer formats:", VideoPlayer.get_supported_formats())
+        
+        # Simulating early vs late binding difference
+        print("\\n=== Simulated Early Binding vs Python's Late Binding ===")
+        
+        player_ref = video_player  # Reference to VideoPlayer object
+        
+        # In Python (late binding)
+        print("Python (late binding):")
+        player_ref.play()  # Calls VideoPlayer.play
+        
+        # Simulated early binding (calling method based on declared type)
+        print("Simulated early binding:")
+        MediaPlayer.play(player_ref)  # Calls MediaPlayer.play explicitly
+    
+    @staticmethod
+    def process_players_with_early_binding(players: List[MediaPlayer]):
+        print("\\n=== Processing with Early Binding (Simulated) ===")
+        
+        for i, player in enumerate(players):
+            print(f"\\nPlayer {i + 1}:")
+            
+            # Early binding - method resolved at compile time (simulated)
+            print("Early bound call:")
+            MediaPlayer.play(player)  # Explicitly call parent method
+            
+            # Late binding - method resolved at runtime
+            print("Late bound call (Python default):")
+            player.play()  # Calls overridden method
+
+# Usage
+players = [
+    MediaPlayer("Basic"),
+    VideoPlayer("4K Player", "4K"),
+    AudioPlayer("HiFi Player", 320)
+]
+
+EarlyBindingDemo.demonstrate_early_binding()
+EarlyBindingDemo.process_players_with_early_binding(players)
+
+# Performance and binding time demonstration
+class BindingTimeDemo:
+    @staticmethod
+    def demonstrate_binding_times():
+        print("\\n=== When Binding Occurs ===")
+        
+        # Early binding examples
+        print("Early Binding (Compile Time):")
+        print("1. Static method calls")
+        print("2. Non-virtual function calls in C++")
+        print("3. Private method calls")
+        print("4. Constructor calls")
+        print("5. Template instantiation")
+        
+        print("\\nLate Binding (Runtime):")
+        print("1. Virtual function calls")
+        print("2. Interface method calls")
+        print("3. Dynamic method dispatch")
+        print("4. Reflection-based calls")
+        
+        # Demonstrate compile-time vs runtime resolution
+        player = VideoPlayer("Demo Player", "HD")
+        
+        print("\\n=== Method Resolution Timeline ===")
+        print("Compile Time Decisions (Early Binding):")
+        print("- Which class definition to use")
+        print("- Static method calls")
+        print("- Type checking")
+        
+        print("\\nRuntime Decisions (Late Binding):")
+        print("- Which overridden method to call")
+        print("- Virtual function table lookup")
+        print("- Dynamic dispatch")
+        
+        # Show the difference in practice
+        print("\\n=== Practical Example ===")
+        
+        # Early binding - resolved at "compile time" (when code is written)
+        print("Early bound (explicit parent call):")
+        MediaPlayer.show_controls(player)
+        
+        # Late binding - resolved at runtime
+        print("Late bound (dynamic dispatch):")
+        player.show_controls()
+
+BindingTimeDemo.demonstrate_binding_times()
+
+# Memory and performance implications
+class PerformanceAnalysis:
+    @staticmethod
+    def analyze_performance():
+        print("\\n=== Performance Analysis ===")
+        
+        print("Early Binding Advantages:")
+        print("- Faster method calls (no lookup)")
+        print("- Less memory usage (no v-tables)")
+        print("- Better compiler optimization")
+        print("- Predictable performance")
+        
+        print("\\nEarly Binding Disadvantages:")
+        print("- No polymorphism")
+        print("- Less flexible code")
+        print("- Harder to extend")
+        print("- Fixed behavior at compile time")
+        
+        print("\\nLate Binding Advantages:")
+        print("- True polymorphism")
+        print("- Flexible and extensible")
+        print("- Support for dynamic behavior")
+        print("- Better OOP design")
+        
+        print("\\nLate Binding Disadvantages:")
+        print("- Slower method calls")
+        print("- More memory usage")
+        print("- Runtime overhead")
+        print("- Less predictable performance")
+
+PerformanceAnalysis.analyze_performance()
+\`\`\`
+
+**Key Concepts:**
+
+**Early Binding Process:**
+1. **Compile Time:** Compiler analyzes method calls
+2. **Type Analysis:** Determines method based on declared type
+3. **Address Resolution:** Method addresses are resolved before runtime
+4. **Optimization:** Compiler can optimize method calls (inlining, etc.)
+
+**Comparison Timeline:**
+\`\`\`
+Early Binding:  [Compile Time] --> [Runtime (Fast Call)]
+Late Binding:   [Compile Time] --> [Runtime (Lookup + Call)]
+\`\`\`
+
+**When Early Binding Occurs:**
+- **Static methods:** Always early bound
+- **Private methods:** Cannot be overridden
+- **Final/sealed methods:** Cannot be overridden
+- **Non-virtual functions:** In C++
+- **Value type methods:** In some languages
+
+**Benefits of Early Binding:**
+- **Performance:** No runtime method lookup overhead
+- **Predictability:** Always know which method will be called
+- **Optimization:** Compiler can inline methods and optimize
+- **Memory Efficiency:** No virtual function table needed
+
+**Trade-offs:**
+- **Flexibility vs Performance:** Early binding is faster but less flexible
+- **Polymorphism vs Speed:** Late binding enables polymorphism at cost of speed
+- **Design vs Efficiency:** Late binding supports better OOP design patterns
+
+Early binding is ideal when performance is critical and polymorphic behavior is not needed, while late binding is preferred for flexible, extensible object-oriented designs.`,
+      },
+      {
+        question: "What is package visibility in Java?",
+        solution: `Package visibility (default access) in Java means a member is accessible within the same package but not outside it. No access modifier keyword is used.
+
+**Java Example:**
+\`\`\`java
+package com.example;
+class PackageClass {
+    int packageVar = 10;  // package-private
+    void packageMethod() { } // package-private
+}
+
+// Another class in same package
+class SamePackage {
+    void test() {
+        PackageClass obj = new PackageClass();
+        obj.packageVar = 20; // ✓ Accessible
+        obj.packageMethod(); // ✓ Accessible
+    }
+}
+\`\`\`
+
+**JavaScript Equivalent (Module-level visibility):**
+\`\`\`javascript
+// moduleA.js - package-like visibility using modules
+let packageVar = 10; // private to module
+function packageMethod() { } // private to module
+
+export function publicAccess() {
+    return packageVar; // accessible within module
+}
+\`\`\`
+
+**Python Equivalent (Module-level visibility):**
+\`\`\`python
+# moduleA.py - package-like visibility
+_package_var = 10  # convention: single underscore for "internal use"
+
+def _package_method():  # internal function
+    pass
+
+def public_access():
+    return _package_var  # accessible within module
+\`\`\`
+
+Package visibility provides controlled access within logical groupings of related classes while maintaining encapsulation boundaries.`,
+      },
+      {
+        question: "What is the default access modifier in C++?",
+        solution: `In C++, the default access modifier depends on how the class is declared:
+- **class**: default is **private**
+- **struct**: default is **public**
+
+**C++ Example:**
+\`\`\`cpp
+class MyClass {
+    int x;        // private by default
+    void func();  // private by default
+public:
+    int y;        // explicitly public
+};
+
+struct MyStruct {
+    int x;        // public by default
+    void func();  // public by default
+private:
+    int z;        // explicitly private
+};
+\`\`\`
+
+**JavaScript Equivalent (using private fields):**
+\`\`\`javascript
+class MyClass {
+    #x; // private field (ES2022+)
+    
+    constructor() {
+        this.#x = 10; // private by default
+        this.y = 20;  // public by default
+    }
+    
+    #privateMethod() { } // private method
+    publicMethod() { }   // public method
+}
+\`\`\`
+
+**Python Equivalent:**
+\`\`\`python
+class MyClass:
+    def __init__(self):
+        self.__x = 10    # private (name mangling)
+        self._internal = 20  # protected convention
+        self.public = 30     # public by default
+    
+    def __private_method(self):  # private
+        pass
+    
+    def public_method(self):     # public by default
+        pass
+\`\`\`
+
+This distinction exists because C++ struct maintains C compatibility where all members are public.`,
+      },
+      {
+        question: "What is the default access modifier in Java?",
+        solution: `Java's default access modifier is **package-private** (no keyword used). Members are accessible within the same package but not from other packages.
+
+**Java Example:**
+\`\`\`java
+package com.example;
+class DefaultAccess {
+    int value;           // package-private (default)
+    void method() { }    // package-private (default)
+    
+    public int publicVar;     // explicitly public
+    private int privateVar;   // explicitly private
+    protected int protectedVar; // explicitly protected
+}
+\`\`\`
+
+**Access Summary:**
+- **No modifier**: Package-private (default)
+- **public**: Accessible everywhere
+- **private**: Only within same class
+- **protected**: Same package + subclasses
+
+**JavaScript Equivalent:**
+\`\`\`javascript
+// Modern JavaScript with private fields
+class DefaultAccess {
+    value = 0;        // public by default
+    #privateValue;    // private field
+    
+    constructor() {
+        this.#privateValue = 10;
+    }
+    
+    method() { }      // public by default
+    #privateMethod() { } // private method
+}
+\`\`\`
+
+**Python Equivalent:**
+\`\`\`python
+class DefaultAccess:
+    def __init__(self):
+        self.value = 0           # public by default
+        self._package_like = 10  # convention: internal use
+        self.__private = 20      # private (name mangling)
+    
+    def method(self):            # public by default
+        pass
+    
+    def _internal_method(self):  # convention: internal
+        pass
+\`\`\`
+
+Java's default promotes package cohesion while maintaining encapsulation across package boundaries.`,
+      },
+      {
+        question: "Can you change the access level in method overriding?",
+        solution: `**Rule**: You can make access **more permissive** but **NOT more restrictive** when overriding methods.
+
+**Allowed Transitions:**
+- private → protected/public
+- protected → public
+- package → protected/public
+- (Cannot go: public → private/protected)
+
+**Java Example:**
+\`\`\`java
+class Parent {
+    protected void method1() { }
+    public void method2() { }
+}
+
+class Child extends Parent {
+    @Override
+    public void method1() { }    // ✓ More permissive (protected → public)
+    
+    @Override
+    // private void method2() { } // ✗ Compile error (public → private)
+    public void method2() { }    // ✓ Same level allowed
+}
+\`\`\`
+
+**JavaScript Equivalent:**
+\`\`\`javascript
+class Parent {
+    method1() { }  // public by default
+    #privateMethod() { } // truly private, cannot be overridden
+}
+
+class Child extends Parent {
+    method1() {    // ✓ Can override public methods
+        super.method1();
+    }
+    
+    // Cannot override #privateMethod - not accessible
+}
+\`\`\`
+
+**Python Equivalent:**
+\`\`\`python
+class Parent:
+    def _protected_method(self):  # convention: protected
+        pass
+    
+    def public_method(self):      # public
+        pass
+    
+    def __private_method(self):   # private (name mangled)
+        pass
+
+class Child(Parent):
+    def _protected_method(self):  # ✓ Can override
+        super()._protected_method()
+    
+    def public_method(self):      # ✓ Can override
+        super().public_method()
+    
+    # Cannot directly override __private_method due to name mangling
+\`\`\`
+
+This rule ensures **Liskov Substitution Principle** - child objects can be used wherever parent objects are expected.`,
+      },
+      {
+        question:
+          "What is data encapsulation and how do access modifiers help?",
+        solution: `**Data Encapsulation** is the OOP principle of bundling data (variables) with methods that operate on that data, while restricting direct access to some components. Access modifiers are the mechanism that enforces encapsulation.
+
+**Benefits of Encapsulation:**
+1. **Data Protection**: Prevent invalid state
+2. **Controlled Access**: Validate inputs/outputs
+3. **Implementation Hiding**: Change internals without breaking clients
+4. **Maintainability**: Reduce coupling between classes
+
+**Java Example:**
+\`\`\`java
+public class BankAccount {
+    private double balance;        // Hidden implementation
+    private String accountNumber;  // Protected data
+    
+    public BankAccount(String accountNumber) {
+        this.accountNumber = accountNumber;
+        this.balance = 0.0;
+    }
+    
+    // Controlled access with validation
+    public boolean deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            return true;
+        }
+        return false; // Invalid input rejected
+    }
+    
+    public boolean withdraw(double amount) {
+        if (amount > 0 && amount <= balance) {
+            balance -= amount;
+            return true;
+        }
+        return false; // Insufficient funds or invalid amount
+    }
+    
+    public double getBalance() {  // Read-only access
+        return balance;
+    }
+}
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class BankAccount {
+    #balance = 0;        // Private field
+    #accountNumber;      // Private field
+    
+    constructor(accountNumber) {
+        this.#accountNumber = accountNumber;
+    }
+    
+    deposit(amount) {
+        if (amount > 0) {
+            this.#balance += amount;
+            return true;
+        }
+        throw new Error("Invalid deposit amount");
+    }
+    
+    withdraw(amount) {
+        if (amount > 0 && amount <= this.#balance) {
+            this.#balance -= amount;
+            return true;
+        }
+        throw new Error("Insufficient funds or invalid amount");
+    }
+    
+    get balance() {      // Read-only property
+        return this.#balance;
+    }
+}
+
+// Usage
+const account = new BankAccount("123456");
+account.deposit(100);
+// account.#balance = -1000;  // ✗ SyntaxError: Private field '#balance' must be declared in an enclosing class
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class BankAccount:
+    def __init__(self, account_number):
+        self.__balance = 0.0           # Private (name mangling)
+        self.__account_number = account_number  # Private
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+            return True
+        raise ValueError("Invalid deposit amount")
+    
+    def withdraw(self, amount):
+        if amount > 0 and amount <= self.__balance:
+            self.__balance -= amount
+            return True
+        raise ValueError("Insufficient funds or invalid amount")
+    
+    @property
+    def balance(self):             # Read-only property
+        return self.__balance
+    
+    def __validate_amount(self, amount):  # Private helper method
+        return amount > 0
+
+# Usage
+account = BankAccount("123456")
+account.deposit(100)
+print(account.balance)  # ✓ Controlled access
+# account.__balance = -1000  # ✗ AttributeError (due to name mangling)
+\`\`\`
+
+Access modifiers enable encapsulation by creating clear boundaries between what's internal to a class and what's part of its public contract.`,
+      },
+      {
+        question: "Can constructors be private?",
+        solution: `**Yes**, constructors can be private. This is commonly used for:
+1. **Singleton Pattern**: Ensure only one instance
+2. **Factory Pattern**: Control object creation
+3. **Utility Classes**: Prevent instantiation
+4. **Builder Pattern**: Force use of builder
+
+**Java Example - Singleton Pattern:**
+\`\`\`java
+public class Singleton {
+    private static Singleton instance;
+    
+    private Singleton() {  // Private constructor
+        // Initialize
+    }
+    
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+    }
+}
+
+// Usage
+// Singleton obj = new Singleton(); // ✗ Compile error
+Singleton obj = Singleton.getInstance(); // ✓ Correct way
+\`\`\`
+
+**Java Example - Utility Class:**
+\`\`\`java
+public class MathUtils {
+    private MathUtils() {  // Private constructor prevents instantiation
+        throw new AssertionError("Utility class cannot be instantiated");
+    }
+    
+    public static int add(int a, int b) {
+        return a + b;
+    }
+}
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class Singleton {
+    static #instance;
+    
+    // Private constructor simulation
+    constructor() {
+        if (Singleton.#instance) {
+            throw new Error("Use Singleton.getInstance()");
+        }
+        Singleton.#instance = this;
+    }
+    
+    static getInstance() {
+        if (!Singleton.#instance) {
+            Singleton.#instance = new Singleton();
+        }
+        return Singleton.#instance;
+    }
+}
+
+// Better approach using module pattern
+const createSingleton = () => {
+    let instance;
+    
+    return {
+        getInstance() {
+            if (!instance) {
+                instance = {
+                    data: "singleton data",
+                    method() { return "singleton method"; }
+                };
+            }
+            return instance;
+        }
+    };
+};
+
+const Singleton2 = createSingleton();
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Singleton:
+    _instance = None
+    
+    def __new__(cls):  # Control instance creation
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+    
+    def __init__(self):
+        if hasattr(self, 'initialized'):
+            return
+        self.initialized = True
+        # Initialize once
+
+# Alternative: Using __new__ to prevent direct instantiation
+class PrivateConstructor:
+    def __new__(cls, *args, **kwargs):
+        # Only allow creation through factory method
+        if not hasattr(cls, '_allow_creation'):
+            raise TypeError("Use create_instance() method")
+        return super().__new__(cls)
+    
+    @classmethod
+    def create_instance(cls):
+        cls._allow_creation = True
+        instance = cls()
+        del cls._allow_creation
+        return instance
+
+# Usage
+# obj = PrivateConstructor()  # ✗ TypeError
+obj = PrivateConstructor.create_instance()  # ✓ Correct
+\`\`\`
+
+Private constructors provide fine-grained control over object instantiation and are essential for many design patterns.`,
+      },
+      {
+        question: "Can destructors be private?",
+        solution: `**Yes**, destructors can be private in C++, but this has significant implications for object lifecycle management. Private destructors are used for specialized memory management scenarios.
+
+**Use Cases:**
+1. **Reference Counting**: Objects manage their own destruction
+2. **Memory Pools**: Custom memory management
+3. **Prevent Stack Allocation**: Force heap allocation only
+
+**C++ Example:**
+\`\`\`cpp
+class ManagedObject {
+private:
+    int refCount;
+    ~ManagedObject() {  // Private destructor
+        std::cout << "Object destroyed\\n";
+    }
+    
+public:
+    ManagedObject() : refCount(1) {}
+    
+    void addRef() { refCount++; }
+    
+    void release() {
+        refCount--;
+        if (refCount == 0) {
+            delete this;  // Self-destruction
+        }
+    }
+    
+    // Factory method
+    static ManagedObject* create() {
+        return new ManagedObject();
+    }
+};
+
+// Usage
+int main() {
+    // ManagedObject obj; // ✗ Compile error - can't create on stack
+    
+    ManagedObject* obj = ManagedObject::create(); // ✓ Heap allocation
+    obj->addRef();
+    obj->release();
+    obj->release(); // Automatically destroys when refCount reaches 0
+    return 0;
+}
+\`\`\`
+
+**JavaScript Equivalent (Resource Management):**
+\`\`\`javascript
+class ManagedObject {
+    #refCount = 1;
+    #isDestroyed = false;
+    
+    constructor() {
+        // Private constructor simulation could be added
+    }
+    
+    addRef() {
+        if (this.#isDestroyed) {
+            throw new Error("Object already destroyed");
+        }
+        this.#refCount++;
+        return this;
+    }
+    
+    release() {
+        if (this.#isDestroyed) return;
+        
+        this.#refCount--;
+        if (this.#refCount === 0) {
+            this.#destroy(); // Private destruction
+        }
+    }
+    
+    #destroy() {  // Private "destructor"
+        this.#isDestroyed = true;
+        console.log("Object destroyed");
+        // Clean up resources
+    }
+    
+    static create() {
+        return new ManagedObject();
+    }
+}
+
+// Usage with try-finally for automatic cleanup
+function useResource() {
+    const obj = ManagedObject.create();
+    try {
+        obj.addRef();
+        // Use object
+    } finally {
+        obj.release(); // Ensure cleanup
+    }
+}
+\`\`\`
+
+**Python Example (Context Manager):**
+\`\`\`python
+class ManagedObject:
+    def __init__(self):
+        self._ref_count = 1
+        self._destroyed = False
+    
+    def add_ref(self):
+        if self._destroyed:
+            raise RuntimeError("Object already destroyed")
+        self._ref_count += 1
+        return self
+    
+    def release(self):
+        if self._destroyed:
+            return
+        
+        self._ref_count -= 1
+        if self._ref_count == 0:
+            self.__destroy()  # Private destruction
+    
+    def __destroy(self):  # Private "destructor"
+        self._destroyed = True
+        print("Object destroyed")
+        # Clean up resources
+    
+    @classmethod
+    def create(cls):
+        return cls()
+    
+    # Context manager support
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.release()
+
+# Usage
+with ManagedObject.create() as obj:
+    obj.add_ref()
+    # Automatic cleanup when leaving context
+\`\`\`
+
+**Important Considerations:**
+- **Memory Leaks**: Objects with private destructors must be carefully managed
+- **Stack Allocation**: Prevented when destructor is private
+- **Inheritance**: Derived classes cannot be destroyed normally
+
+Private destructors require sophisticated resource management but provide precise control over object lifecycles.`,
+      },
+      {
+        question: "What happens when you make a constructor private?",
+        solution: `When a constructor is made private, several important things happen:
+
+**1. Direct Instantiation Blocked**
+**2. Inheritance Prevented (for that constructor)**
+**3. Factory Pattern Enforcement**
+**4. Singleton Pattern Implementation**
+**5. Utility Class Prevention**
+
+**Java Example - Comprehensive Effects:**
+\`\`\`java
+public class PrivateConstructorDemo {
+    private static PrivateConstructorDemo instance;
+    private int value;
+    
+    // Private constructor
+    private PrivateConstructorDemo(int value) {
+        this.value = value;
+        System.out.println("Private constructor called");
+    }
+    
+    // Public factory method
+    public static PrivateConstructorDemo createInstance(int value) {
+        if (value > 0) {
+            return new PrivateConstructorDemo(value);
+        }
+        throw new IllegalArgumentException("Value must be positive");
+    }
+    
+    // Singleton getInstance
+    public static PrivateConstructorDemo getInstance() {
+        if (instance == null) {
+            instance = new PrivateConstructorDemo(100);
+        }
+        return instance;
+    }
+    
+    public int getValue() { return value; }
+}
+
+// Attempting inheritance
+class ChildClass extends PrivateConstructorDemo {
+    public ChildClass() {
+        // super(); // ✗ Compile error - cannot access private constructor
+        super(10);  // ✗ Still compile error
+    }
+}
+
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        // PrivateConstructorDemo obj = new PrivateConstructorDemo(5); // ✗ Compile error
+        
+        PrivateConstructorDemo obj1 = PrivateConstructorDemo.createInstance(5); // ✓ Factory
+        PrivateConstructorDemo obj2 = PrivateConstructorDemo.getInstance();     // ✓ Singleton
+    }
+}
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class PrivateConstructorDemo {
+    static #allowCreation = false;
+    #value;
+    
+    constructor(value) {
+        // Simulate private constructor
+        if (!PrivateConstructorDemo.#allowCreation) {
+            throw new Error("Use factory methods to create instances");
+        }
+        this.#value = value;
+    }
+    
+    // Factory method
+    static createInstance(value) {
+        if (value <= 0) {
+            throw new Error("Value must be positive");
+        }
+        
+        PrivateConstructorDemo.#allowCreation = true;
+        const instance = new PrivateConstructorDemo(value);
+        PrivateConstructorDemo.#allowCreation = false;
+        
+        return instance;
+    }
+    
+    // Singleton pattern
+    static #instance;
+    static getInstance() {
+        if (!PrivateConstructorDemo.#instance) {
+            PrivateConstructorDemo.#allowCreation = true;
+            PrivateConstructorDemo.#instance = new PrivateConstructorDemo(100);
+            PrivateConstructorDemo.#allowCreation = false;
+        }
+        return PrivateConstructorDemo.#instance;
+    }
+    
+    getValue() { return this.#value; }
+}
+
+// Usage
+try {
+    // const obj = new PrivateConstructorDemo(5); // ✗ Error
+    
+    const obj1 = PrivateConstructorDemo.createInstance(5); // ✓ Factory
+    const obj2 = PrivateConstructorDemo.getInstance();     // ✓ Singleton
+} catch (error) {
+    console.error(error.message);
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class PrivateConstructorDemo:
+    _instance = None
+    
+    def __new__(cls, *args, **kwargs):
+        # Prevent direct instantiation
+        if not hasattr(cls, '_allow_creation'):
+            raise TypeError("Use factory methods to create instances")
+        return super().__new__(cls)
+    
+    def __init__(self, value):
+        self.value = value
+    
+    @classmethod
+    def create_instance(cls, value):
+        if value <= 0:
+            raise ValueError("Value must be positive")
+        
+        cls._allow_creation = True
+        try:
+            instance = cls(value)
+        finally:
+            del cls._allow_creation
+        
+        return instance
+    
+    @classmethod
+    def get_instance(cls):
+        if cls._instance is None:
+            cls._allow_creation = True
+            try:
+                cls._instance = cls(100)
+            finally:
+                del cls._allow_creation
+        return cls._instance
+
+# Inheritance attempt
+class ChildClass(PrivateConstructorDemo):
+    def __init__(self):
+        # This will fail because parent's __new__ prevents instantiation
+        super().__init__(10)
+
+# Usage
+try:
+    # obj = PrivateConstructorDemo(5)  # ✗ TypeError
+    
+    obj1 = PrivateConstructorDemo.create_instance(5)  # ✓ Factory
+    obj2 = PrivateConstructorDemo.get_instance()      # ✓ Singleton
+    
+    print(f"obj1 value: {obj1.value}")
+    print(f"obj2 value: {obj2.value}")
+    
+except (TypeError, ValueError) as e:
+    print(f"Error: {e}")
+\`\`\`
+
+**Key Consequences:**
+1. **No Direct Creation**: \`new ClassName()\` fails
+2. **Controlled Instantiation**: Only through designated methods
+3. **Validation Opportunities**: Factory methods can validate inputs
+4. **Design Pattern Implementation**: Enables Singleton, Factory, Builder
+5. **Inheritance Restriction**: Subclasses cannot call private constructor
+6. **Compile-time Safety**: Prevents misuse at compile time
+
+Private constructors are powerful tools for implementing sophisticated object creation patterns and ensuring proper object lifecycle management.`,
+      },
+      {
+        question: "Can you have protected constructors?",
+        solution: `**Yes**, protected constructors are allowed and useful for specific scenarios:
+
+**Use Cases:**
+1. **Abstract Base Classes**: Prevent direct instantiation but allow inheritance
+2. **Controlled Inheritance**: Only derived classes can create instances
+3. **Template Method Pattern**: Base class manages construction flow
+4. **Package-level Factory Pattern**: Limited visibility for construction
+
+**Java Example:**
+\`\`\`java
+// Abstract base class with protected constructor
+abstract class Shape {
+    protected String color;
+    protected double area;
+    
+    // Protected constructor - only subclasses can call
+    protected Shape(String color) {
+        this.color = color;
+        System.out.println("Shape created with color: " + color);
+    }
+    
+    // Factory method in base class
+    protected final void calculateArea() {
+        area = computeArea(); // Template method pattern
+        System.out.println("Area calculated: " + area);
+    }
+    
+    protected abstract double computeArea();
+    
+    public String getColor() { return color; }
+    public double getArea() { return area; }
+}
+
+// Concrete implementation
+class Circle extends Shape {
+    private double radius;
+    
+    public Circle(String color, double radius) {
+        super(color); // ✓ Can call protected constructor
+        this.radius = radius;
+        calculateArea(); // Use inherited protected method
+    }
+    
+    @Override
+    protected double computeArea() {
+        return Math.PI * radius * radius;
+    }
+}
+
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        // Shape shape = new Shape("red"); // ✗ Cannot instantiate abstract class
+        Circle circle = new Circle("red", 5.0); // ✓ Derived class can create
+        
+        System.out.println("Color: " + circle.getColor());
+        System.out.println("Area: " + circle.getArea());
+    }
+}
+\`\`\`
+
+**JavaScript Example (Simulating Protected Constructor):**
+\`\`\`javascript
+class Shape {
+    constructor(color) {
+        // Simulate protected constructor - only allow if called from subclass
+        if (new.target === Shape) {
+            throw new Error("Cannot instantiate abstract Shape class directly");
+        }
+        
+        this.color = color;
+        console.log(\`Shape created with color: \${color}\`);
+    }
+    
+    // Protected method simulation
+    _calculateArea() {
+        this.area = this._computeArea();
+        console.log(\`Area calculated: \${this.area}\`);
+    }
+    
+    // Abstract method (must be overridden)
+    _computeArea() {
+        throw new Error("computeArea must be implemented by subclass");
+    }
+    
+    getColor() { return this.color; }
+    getArea() { return this.area; }
+}
+
+class Circle extends Shape {
+    constructor(color, radius) {
+        super(color); // ✓ Can call "protected" constructor
+        this.radius = radius;
+        this._calculateArea(); // Use inherited protected method
+    }
+    
+    _computeArea() {
+        return Math.PI * this.radius * this.radius;
+    }
+}
+
+// Usage
+try {
+    // const shape = new Shape("red"); // ✗ Error: Cannot instantiate abstract class
+    const circle = new Circle("red", 5.0); // ✓ Derived class can create
+    
+    console.log("Color:", circle.getColor());
+    console.log("Area:", circle.getArea());
+} catch (error) {
+    console.error(error.message);
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+import math
+
+class Shape(ABC):
+    def __init__(self, color):
+        # Simulate protected constructor behavior
+        if type(self) is Shape:
+            raise TypeError("Cannot instantiate abstract Shape class directly")
+        
+        self._color = color  # Protected attribute
+        print(f"Shape created with color: {color}")
+    
+    # Protected method
+    def _calculate_area(self):
+        self._area = self._compute_area()
+        print(f"Area calculated: {self._area}")
+    
+    @abstractmethod
+    def _compute_area(self):  # Protected abstract method
+        pass
+    
+    # Public getters
+    def get_color(self):
+        return self._color
+    
+    def get_area(self):
+        return getattr(self, '_area', 0)
+
+class Circle(Shape):
+    def __init__(self, color, radius):
+        super().__init__(color)  # ✓ Can call "protected" constructor
+        self._radius = radius    # Protected attribute
+        self._calculate_area()   # Use inherited protected method
+    
+    def _compute_area(self):     # Implement abstract method
+        return math.pi * self._radius * self._radius
+
+# Alternative: Using __new__ for stricter control
+class StrictShape:
+    def __new__(cls, *args, **kwargs):
+        # Only allow instantiation from subclasses
+        if cls is StrictShape:
+            raise TypeError("Cannot instantiate StrictShape directly")
+        return super().__new__(cls)
+    
+    def __init__(self, color):
+        self._color = color
+
+class StrictCircle(StrictShape):
+    def __init__(self, color, radius):
+        super().__init__(color)
+        self._radius = radius
+
+# Usage
+try:
+    # shape = Shape("red")  # ✗ TypeError: Cannot instantiate abstract class
+    circle = Circle("red", 5.0)  # ✓ Derived class can create
+    
+    print("Color:", circle.get_color())
+    print("Area:", circle.get_area())
+    
+    # strict_shape = StrictShape("blue")  # ✗ TypeError
+    strict_circle = StrictCircle("blue", 3.0)  # ✓ Works
+    
+except TypeError as e:
+    print(f"Error: {e}")
+\`\`\`
+
+**Benefits of Protected Constructors:**
+1. **Controlled Inheritance**: Only subclasses can instantiate
+2. **Abstract Class Implementation**: Prevent direct instantiation of base class
+3. **Template Method Pattern**: Base class controls construction workflow
+4. **Code Reuse**: Common initialization logic in base constructor
+5. **Design Flexibility**: Balance between private (too restrictive) and public (too open)
+
+**Access Rules:**
+- ✓ **Same class**: Can access
+- ✓ **Subclasses**: Can access (even in different packages in Java)
+- ✓ **Same package**: Can access (in Java)
+- ✗ **Different package, non-subclass**: Cannot access
+
+Protected constructors are essential for building robust inheritance hierarchies where you want to control how objects are created while still enabling proper subclassing.`,
+      },
+      {
+        question: "What is the visibility of members in a struct vs class?",
+        solution: `In C++, the **only difference** between \`struct\` and \`class\` is the **default access level**:
+
+- **struct**: Members are **public by default**
+- **class**: Members are **private by default**
+
+Both can have constructors, destructors, methods, inheritance, and all access modifiers.
+
+**C++ Example:**
+\`\`\`cpp
+// STRUCT - public by default
+struct MyStruct {
+    int publicVar;        // public by default
+    void publicMethod();  // public by default
+    
+private:
+    int privateVar;       // explicitly private
+    
+public:
+    int explicitPublic;   // explicitly public
+    
+protected:
+    int protectedVar;     // explicitly protected
+};
+
+// CLASS - private by default
+class MyClass {
+    int privateVar;       // private by default
+    void privateMethod(); // private by default
+    
+public:
+    int publicVar;        // explicitly public
+    void publicMethod();  // explicitly public
+    
+protected:
+    int protectedVar;     // explicitly protected
+};
+
+// Both support inheritance and polymorphism
+struct BaseStruct {
+    virtual void virtualMethod() = 0;  // Pure virtual method
+    virtual ~BaseStruct() = default;   // Virtual destructor
+};
+
+class DerivedClass : public BaseStruct {
+public:
+    void virtualMethod() override {
+        std::cout << "Implemented in derived class\\n";
+    }
+};
+\`\`\`
+
+**Comparison Table:**
+| Feature | struct | class |
+|---------|--------|-------|
+| Default Access | public | private |
+| Constructors | ✓ | ✓ |
+| Destructors | ✓ | ✓ |
+| Inheritance | ✓ | ✓ |
+| Virtual Functions | ✓ | ✓ |
+| Access Modifiers | ✓ | ✓ |
+
+**JavaScript Equivalent (No struct/class distinction):**
+\`\`\`javascript
+// JavaScript classes - all members public by default (except private fields)
+class MyClass {
+    publicField = "public";    // public by default
+    #privateField = "private"; // explicitly private (ES2022+)
+    
+    constructor() {
+        this.anotherPublic = "also public";
+    }
+    
+    publicMethod() {           // public by default
+        return this.#privateField;
+    }
+    
+    #privateMethod() {         // explicitly private
+        return "private method";
+    }
+}
+
+// Object literal (similar to struct concept)
+const MyStruct = {
+    publicVar: 10,             // all properties public
+    publicMethod() {
+        return this.publicVar;
+    }
+};
+
+// Factory function for "struct-like" behavior
+function createStruct(data) {
+    return {
+        ...data,               // all properties public
+        method() {
+            return "struct method";
+        }
+    };
+}
+
+const structInstance = createStruct({ x: 1, y: 2 });
+console.log(structInstance.x); // ✓ All properties accessible
+\`\`\`
+
+**Python Equivalent (No struct, only class):**
+\`\`\`python
+from dataclasses import dataclass
+from typing import NamedTuple
+
+# Regular class - all public by default
+class MyClass:
+    def __init__(self):
+        self.public_var = "public"      # public by default
+        self._protected_var = "protected"  # convention: protected
+        self.__private_var = "private"     # name mangling: private
+    
+    def public_method(self):            # public by default
+        return self.public_var
+    
+    def _protected_method(self):        # convention: protected
+        return self._protected_var
+    
+    def __private_method(self):         # private (name mangling)
+        return self.__private_var
+
+# Dataclass (closest to C++ struct concept)
+@dataclass
+class MyStruct:
+    x: int
+    y: int
+    name: str = "default"
+    
+    def calculate_distance(self):       # method in "struct"
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+
+# NamedTuple (immutable struct-like)
+class Point(NamedTuple):
+    x: int
+    y: int
+    
+    def distance_from_origin(self):
+        return (self.x ** 2 + self.y ** 2) ** 0.5
+
+# Usage
+obj = MyClass()
+print(obj.public_var)           # ✓ accessible
+print(obj._protected_var)       # ✓ accessible (but conventionally internal)
+# print(obj.__private_var)      # ✗ AttributeError (name mangled)
+
+struct_obj = MyStruct(10, 20)
+print(struct_obj.x)             # ✓ all fields public
+print(struct_obj.calculate_distance())  # ✓ methods available
+
+point = Point(3, 4)
+print(point.x)                  # ✓ all fields public
+print(point.distance_from_origin())  # ✓ methods available
+\`\`\`
+
+**Historical Context & Best Practices:**
+
+**C++ Convention:**
+- **struct**: Use for simple data holders (POD - Plain Old Data)
+- **class**: Use for complex objects with behavior and encapsulation
+
+**Modern C++ Example:**
+\`\`\`cpp
+// Struct for simple data
+struct Point3D {
+    double x, y, z;           // public by default
+    
+    Point3D(double x = 0, double y = 0, double z = 0) 
+        : x(x), y(y), z(z) {}
+    
+    double magnitude() const {
+        return sqrt(x*x + y*y + z*z);
+    }
+};
+
+// Class for complex behavior
+class BankAccount {
+    double balance;           // private by default
+    std::string accountNumber; // private by default
+    
+public:
+    BankAccount(const std::string& accNum) 
+        : accountNumber(accNum), balance(0.0) {}
+    
+    bool deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            return true;
+        }
+        return false;
+    }
+    
+    double getBalance() const { return balance; }
+};
+\`\`\`
+
+**Key Takeaways:**
+1. **Technical Difference**: Only default access level differs
+2. **Semantic Difference**: Convention suggests usage patterns
+3. **Interchangeability**: Can use struct/class keywords interchangeably
+4. **Modern Practice**: Choice often reflects intent rather than technical requirement
+5. **Language Evolution**: Other languages simplified this distinction
+
+The struct vs class distinction in C++ is primarily about communicating intent to other developers rather than fundamental behavioral differences.`,
+      },
+      {
+        question: "Can static methods access private variables?",
+        solution: `**Yes**, static methods **can** access private variables, but only **private static variables** of the **same class**. They **cannot** access private instance variables directly because static methods don't have access to \`this\` reference.
+
+**Access Rules for Static Methods:**
+- ✓ **Private static variables**: Yes
+- ✓ **Private static methods**: Yes  
+- ✗ **Private instance variables**: No (no \`this\` context)
+- ✗ **Private instance methods**: No (no \`this\` context)
+
+**Java Example:**
+\`\`\`java
+public class StaticAccessDemo {
+    // Private static variables
+    private static int staticCounter = 0;
+    private static String staticName = "StaticDemo";
+    
+    // Private instance variables
+    private int instanceValue = 10;
+    private String instanceName = "Instance";
+    
+    // Private methods
+    private static void privateStaticMethod() {
+        System.out.println("Private static method called");
+    }
+    
+    private void privateInstanceMethod() {
+        System.out.println("Private instance method called");
+    }
+    
+    // Static method accessing private members
+    public static void staticMethodDemo() {
+        // ✓ Can access private static variables
+        staticCounter++;
+        System.out.println("Static counter: " + staticCounter);
+        System.out.println("Static name: " + staticName);
+        
+        // ✓ Can call private static methods
+        privateStaticMethod();
+        
+        // ✗ Cannot access private instance variables directly
+        // System.out.println(instanceValue); // Compile error
+        // System.out.println(instanceName);  // Compile error
+        
+        // ✗ Cannot call private instance methods directly
+        // privateInstanceMethod(); // Compile error
+        
+        // ✓ But can access through object reference
+        StaticAccessDemo obj = new StaticAccessDemo();
+        System.out.println("Instance value via object: " + obj.instanceValue);
+        obj.privateInstanceMethod(); // Can call through object
+    }
+    
+    // Static method with object parameter
+    public static void processObject(StaticAccessDemo obj) {
+        // ✓ Can access private instance variables through object reference
+        obj.instanceValue = 20;
+        obj.instanceName = "Modified";
+        obj.privateInstanceMethod();
+    }
+}
+
+// Usage
+public class Main {
+    public static void main(String[] args) {
+        StaticAccessDemo.staticMethodDemo();
+        
+        StaticAccessDemo obj = new StaticAccessDemo();
+        StaticAccessDemo.processObject(obj);
+    }
+}
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class StaticAccessDemo {
+    // Private static fields (ES2022+)
+    static #staticCounter = 0;
+    static #staticName = "StaticDemo";
+    
+    // Private instance fields
+    #instanceValue = 10;
+    #instanceName = "Instance";
+    
+    // Private static method
+    static #privateStaticMethod() {
+        console.log("Private static method called");
+    }
+    
+    // Private instance method
+    #privateInstanceMethod() {
+        console.log("Private instance method called");
+    }
+    
+    // Static method accessing private members
+    static staticMethodDemo() {
+        // ✓ Can access private static fields
+        StaticAccessDemo.#staticCounter++;
+        console.log("Static counter:", StaticAccessDemo.#staticCounter);
+        console.log("Static name:", StaticAccessDemo.#staticName);
+        
+        // ✓ Can call private static methods
+        StaticAccessDemo.#privateStaticMethod();
+        
+        // ✗ Cannot access private instance fields directly
+        // console.log(this.#instanceValue); // SyntaxError: Private field '#instanceValue' must be declared in an enclosing class
+        
+        // ✓ But can access through object reference
+        const obj = new StaticAccessDemo();
+        console.log("Instance value via object:", obj.#instanceValue); // ✓ Same class access
+        obj.#privateInstanceMethod(); // ✓ Can call through object
+    }
+    
+    // Static method with object parameter
+    static processObject(obj) {
+        // ✓ Can access private instance fields through object reference (same class)
+        obj.#instanceValue = 20;
+        obj.#instanceName = "Modified";
+        obj.#privateInstanceMethod();
+        
+        return {
+            value: obj.#instanceValue,
+            name: obj.#instanceName
+        };
+    }
+    
+    // Getter for demonstration
+    getInstanceData() {
+        return {
+            value: this.#instanceValue,
+            name: this.#instanceName
+        };
+    }
+}
+
+// Usage
+StaticAccessDemo.staticMethodDemo();
+
+const obj = new StaticAccessDemo();
+const result = StaticAccessDemo.processObject(obj);
+console.log("Processed object:", result);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class StaticAccessDemo:
+    # Private static variables (class variables)
+    __static_counter = 0
+    __static_name = "StaticDemo"
+    
+    def __init__(self):
+        # Private instance variables
+        self.__instance_value = 10
+        self.__instance_name = "Instance"
+    
+    # Private static method
+    @staticmethod
+    def __private_static_method():
+        print("Private static method called")
+    
+    # Private instance method
+    def __private_instance_method(self):
+        print("Private instance method called")
+    
+    # Static method accessing private members
+    @staticmethod
+    def static_method_demo():
+        # ✓ Can access private static variables
+        StaticAccessDemo.__static_counter += 1
+        print(f"Static counter: {StaticAccessDemo.__static_counter}")
+        print(f"Static name: {StaticAccessDemo.__static_name}")
+        
+        # ✓ Can call private static methods
+        StaticAccessDemo.__private_static_method()
+        
+        # ✗ Cannot access private instance variables directly
+        # print(self.__instance_value)  # NameError: name 'self' is not defined
+        
+        # ✓ But can access through object reference
+        obj = StaticAccessDemo()
+        # Note: Python name mangling makes this: _StaticAccessDemo__instance_value
+        print(f"Instance value via object: {obj._StaticAccessDemo__instance_value}")
+        obj._StaticAccessDemo__private_instance_method()
+    
+    # Static method with object parameter
+    @staticmethod
+    def process_object(obj):
+        # ✓ Can access private instance variables through object reference
+        obj._StaticAccessDemo__instance_value = 20
+        obj._StaticAccessDemo__instance_name = "Modified"
+        obj._StaticAccessDemo__private_instance_method()
+        
+        return {
+            'value': obj._StaticAccessDemo__instance_value,
+            'name': obj._StaticAccessDemo__instance_name
+        }
+    
+    # Class method alternative (has access to class)
+    @classmethod
+    def class_method_demo(cls):
+        # ✓ Can access private static variables through cls
+        cls.__static_counter += 1
+        print(f"Class method - Static counter: {cls.__static_counter}")
+        cls.__private_static_method()
+
+# Usage
+StaticAccessDemo.static_method_demo()
+
+obj = StaticAccessDemo()
+result = StaticAccessDemo.process_object(obj)
+print("Processed object:", result)
+
+StaticAccessDemo.class_method_demo()
+\`\`\`
+
+**Key Principles:**
+
+**1. Static Context Limitations:**
+- No \`this\`/\`self\` reference available
+- Cannot directly access instance members
+- Must work through object references
+
+**2. Same-Class Access Rights:**
+- Static methods can access **all private static members**
+- Static methods can access **private instance members through object references**
+- Access is granted because they're in the **same class**
+
+**3. Practical Use Cases:**
+\`\`\`java
+public class Counter {
+    private static int globalCount = 0;
+    private int instanceCount = 0;
+    
+    // Static factory method accessing private constructor
+    private Counter() { 
+        instanceCount = ++globalCount;
+    }
+    
+    public static Counter createCounter() {
+        return new Counter(); // ✓ Can call private constructor
+    }
+    
+    public static int getGlobalCount() {
+        return globalCount; // ✓ Access private static variable
+    }
+    
+    public static void resetAllCounters(Counter[] counters) {
+        globalCount = 0; // ✓ Reset static variable
+        for (Counter c : counters) {
+            c.instanceCount = 0; // ✓ Access private instance variable through reference
+        }
+    }
+}
+\`\`\`
+
+**Summary:**
+Static methods bridge the gap between static and instance contexts by leveraging same-class access privileges while respecting the fundamental rule that static methods cannot directly access instance members without an object reference.`,
+      },
+      {
+        question: "What is the scope of private members?",
+        solution: `**Private members have CLASS-LEVEL scope**, meaning they are accessible only within the **same class** where they are declared. The scope is **not limited to object instances** but extends to **all instances of the same class**.
+
+**Key Scope Rules:**
+1. **Same Class**: All methods can access private members
+2. **Same Class, Different Objects**: Can access private members of other instances
+3. **Subclasses**: Cannot access private members (inheritance doesn't grant access)
+4. **Different Classes**: Cannot access private members
+5. **Same Package/Namespace**: Still cannot access (private overrides package visibility)
+
+**Java Example - Comprehensive Scope Demo:**
+\`\`\`java
+public class BankAccount {
+    private String accountNumber;    // Private instance variable
+    private double balance;         // Private instance variable
+    private static int totalAccounts = 0; // Private static variable
+    
+    public BankAccount(String accountNumber, double initialBalance) {
+        this.accountNumber = accountNumber;
+        this.balance = initialBalance;
+        totalAccounts++; // ✓ Same class access
+    }
+    
+    // Private method
+    private boolean validateTransaction(double amount) {
+        return amount > 0 && amount <= balance;
+    }
+    
+    // Method accessing private members of OTHER objects of same class
+    public boolean transferTo(BankAccount targetAccount, double amount) {
+        if (this.validateTransaction(amount)) {
+            // ✓ Can access private members of this object
+            this.balance -= amount;
+            
+            // ✓ Can access private members of OTHER object of SAME class
+            targetAccount.balance += amount; // Direct private access!
+            
+            // ✓ Can call private method on other object
+            System.out.println("Transfer from " + this.accountNumber + 
+                             " to " + targetAccount.accountNumber);
+            return true;
+        }
+        return false;
+    }
+    
+    // Static method accessing private static members
+    public static int getTotalAccounts() {
+        return totalAccounts; // ✓ Same class access
+    }
+    
+    // Method to compare private data with another object
+    public boolean hasSameBalance(BankAccount other) {
+        // ✓ Can compare private fields of different objects
+        return this.balance == other.balance;
+    }
+}
+
+// Subclass - CANNOT access private members
+class SavingsAccount extends BankAccount {
+    public SavingsAccount(String accountNumber, double initialBalance) {
+        super(accountNumber, initialBalance);
+    }
+    
+    public void printAccountInfo() {
+        // ✗ Cannot access private members of parent class
+        // System.out.println(accountNumber); // Compile error
+        // System.out.println(balance);       // Compile error
+        
+        // Must use public methods
+        System.out.println("Account details available through public methods only");
+    }
+}
+
+// Different class - CANNOT access private members
+class AccountManager {
+    public void processAccount(BankAccount account) {
+        // ✗ Cannot access private members
+        // account.balance = 1000;        // Compile error
+        // account.accountNumber = "123"; // Compile error
+        
+        // Must use public methods
+        // account.getBalance(); // Would need public getter
+    }
+}
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class BankAccount {
+    // Private fields (ES2022+)
+    #accountNumber;
+    #balance;
+    static #totalAccounts = 0;
+    
+    constructor(accountNumber, initialBalance) {
+        this.#accountNumber = accountNumber;
+        this.#balance = initialBalance;
+        BankAccount.#totalAccounts++; // ✓ Same class access
+    }
+    
+    // Private method
+    #validateTransaction(amount) {
+        return amount > 0 && amount <= this.#balance;
+    }
+    
+    // Method accessing private members of OTHER objects of same class
+    transferTo(targetAccount, amount) {
+        if (this.#validateTransaction(amount)) {
+            // ✓ Can access private members of this object
+            this.#balance -= amount;
+            
+            // ✓ Can access private members of OTHER object of SAME class
+            targetAccount.#balance += amount; // Direct private access!
+            
+            console.log(\`Transfer from \${this.#accountNumber} to \${targetAccount.#accountNumber}\`);
+            return true;
+        }
+        return false;
+    }
+    
+    // Static method accessing private static members
+    static getTotalAccounts() {
+        return BankAccount.#totalAccounts; // ✓ Same class access
+    }
+    
+    // Method to compare private data with another object
+    hasSameBalance(other) {
+        // ✓ Can compare private fields of different objects of same class
+        return this.#balance === other.#balance;
+    }
+    
+    // Debugging method showing scope
+    debugPrivateAccess(otherAccount) {
+        console.log("My private data:", {
+            account: this.#accountNumber,
+            balance: this.#balance
+        });
+        
+        // ✓ Can access other object's private data (same class)
+        console.log("Other account private data:", {
+            account: otherAccount.#accountNumber,
+            balance: otherAccount.#balance
+        });
+    }
+}
+
+// Subclass - CANNOT access private members
+class SavingsAccount extends BankAccount {
+    constructor(accountNumber, initialBalance) {
+        super(accountNumber, initialBalance);
+    }
+    
+    printAccountInfo() {
+        // ✗ Cannot access private members of parent class
+        // console.log(this.#accountNumber); // SyntaxError
+        // console.log(this.#balance);       // SyntaxError
+        
+        console.log("Account details available through public methods only");
+    }
+}
+
+// Usage demonstrating scope
+const account1 = new BankAccount("ACC001", 1000);
+const account2 = new BankAccount("ACC002", 500);
+
+// ✓ Same class methods can access private members of other instances
+account1.transferTo(account2, 200); // Works - accesses private members of both objects
+account1.debugPrivateAccess(account2); // Shows private data of both accounts
+
+console.log("Same balance?", account1.hasSameBalance(account2));
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class BankAccount:
+    __total_accounts = 0  # Private static variable
+    
+    def __init__(self, account_number, initial_balance):
+        self.__account_number = account_number  # Private instance variable
+        self.__balance = initial_balance        # Private instance variable
+        BankAccount.__total_accounts += 1       # ✓ Same class access
+    
+    # Private method
+    def __validate_transaction(self, amount):
+        return amount > 0 and amount <= self.__balance
+    
+    # Method accessing private members of OTHER objects of same class
+    def transfer_to(self, target_account, amount):
+        if self.__validate_transaction(amount):
+            # ✓ Can access private members of this object
+            self.__balance -= amount
+            
+            # ✓ Can access private members of OTHER object of SAME class
+            # Note: Python name mangling makes this _BankAccount__balance
+            target_account._BankAccount__balance += amount  # Direct private access!
+            
+            print(f"Transfer from {self.__account_number} to {target_account._BankAccount__account_number}")
+            return True
+        return False
+    
+    # Alternative: More pythonic approach using property
+    def transfer_to_pythonic(self, target_account, amount):
+        if self.__validate_transaction(amount):
+            self.__balance -= amount
+            target_account.__balance += amount  # This works within same class!
+            return True
+        return False
+    
+    # Static method accessing private static members
+    @staticmethod
+    def get_total_accounts():
+        return BankAccount.__total_accounts  # ✓ Same class access
+    
+    # Method to compare private data with another object
+    def has_same_balance(self, other):
+        # ✓ Can compare private fields of different objects of same class
+        return self.__balance == other.__balance
+    
+    # Debugging method showing scope
+    def debug_private_access(self, other_account):
+        print("My private data:", {
+            'account': self.__account_number,
+            'balance': self.__balance
+        })
+        
+        # ✓ Can access other object's private data (same class)
+        print("Other account private data:", {
+            'account': other_account.__account_number,  # Works in same class!
+            'balance': other_account.__balance
+        })
+
+# Subclass - CANNOT access private members normally
+class SavingsAccount(BankAccount):
+    def __init__(self, account_number, initial_balance):
+        super().__init__(account_number, initial_balance)
+    
+    def print_account_info(self):
+        # ✗ Cannot access private members of parent class directly
+        # print(self.__account_number)  # AttributeError
+        # print(self.__balance)         # AttributeError
+        
+        # But can access via name mangling (not recommended)
+        # print(self._BankAccount__account_number)  # Works but breaks encapsulation
+        
+        print("Account details available through public methods only")
+
+# Different class - CANNOT access private members
+class AccountManager:
+    def process_account(self, account):
+        # ✗ Cannot access private members
+        # account.__balance = 1000        # Won't work as expected
+        # print(account.__account_number) # AttributeError
+        
+        # Must use public methods or properties
+        pass
+
+# Usage demonstrating scope
+account1 = BankAccount("ACC001", 1000)
+account2 = BankAccount("ACC002", 500)
+
+# ✓ Same class methods can access private members of other instances
+account1.transfer_to_pythonic(account2, 200)  # Works - accesses private members
+account1.debug_private_access(account2)       # Shows private data of both
+
+print("Same balance?", account1.has_same_balance(account2))
+print("Total accounts:", BankAccount.get_total_accounts())
+\`\`\`
+
+**Scope Visualization:**
+
+\`\`\`
+┌─────────────────────────────────┐
+│           Class Boundary        │
+│                                 │
+│  ┌─────────────┐ ┌─────────────┐│
+│  │  Object A   │ │  Object B   ││  ← Private members accessible
+│  │             │ │             ││    between objects of same class
+│  │ private var │ │ private var ││
+│  │ private()   │ │ private()   ││
+│  └─────────────┘ └─────────────┘│
+│                                 │
+│  static private var             │  ← Static private members
+│  static private()               │    accessible to all
+└─────────────────────────────────┘
+
+✗ Subclasses cannot access parent's private members
+✗ Other classes cannot access private members
+✗ External code cannot access private members
+\`\`\`
+
+**Key Takeaways:**
+1. **Class-Level Scope**: Private members belong to the class, not individual objects
+2. **Cross-Object Access**: Objects of the same class can access each other's private members
+3. **Inheritance Boundary**: Subclasses cannot access parent's private members
+4. **Encapsulation Boundary**: Private creates the strongest encapsulation boundary
+5. **Design Implication**: Use private when you want complete internal control
+
+Private scope enables robust encapsulation while allowing flexibility within the class implementation.`,
+      },
+      {
+        question: "What is late binding?",
+        solution: `Late binding (also called dynamic binding) is a mechanism where the function call is resolved at runtime rather than compile time. This is primarily achieved through virtual functions and polymorphism.
+
+**Key Concepts:**
+- Function calls are resolved during program execution
+- Enables polymorphism and runtime decision making
+- Uses virtual function table (vtable) for implementation
+- Opposite of early binding (compile-time resolution)
+
+**C++ Example:**
+\`\`\`cpp
+class Animal {
+public:
+    virtual void makeSound() {  // Virtual function enables late binding
+        cout << "Some generic animal sound" << endl;
+    }
+};
+
+class Dog : public Animal {
+public:
+    void makeSound() override {
+        cout << "Woof!" << endl;
+    }
+};
+
+class Cat : public Animal {
+public:
+    void makeSound() override {
+        cout << "Meow!" << endl;
+    }
+};
+
+void demonstrateLateBiding() {
+    Animal* animals[] = {new Dog(), new Cat()};
+    
+    for(int i = 0; i < 2; i++) {
+        animals[i]->makeSound();  // Resolved at runtime based on actual object type
+    }
+}
+\`\`\`
+
+**JavaScript Equivalent:**
+\`\`\`javascript
+class Animal {
+    makeSound() {
+        console.log("Some generic animal sound");
+    }
+}
+
+class Dog extends Animal {
+    makeSound() {
+        console.log("Woof!");
+    }
+}
+
+class Cat extends Animal {
+    makeSound() {
+        console.log("Meow!");
+    }
+}
+
+function demonstrateLateBiding() {
+    const animals = [new Dog(), new Cat()];
+    
+    animals.forEach(animal => {
+        animal.makeSound(); // JavaScript naturally uses late binding
+    });
+}
+\`\`\`
+
+**Python Equivalent:**
+\`\`\`python
+class Animal:
+    def make_sound(self):
+        print("Some generic animal sound")
+
+class Dog(Animal):
+    def make_sound(self):
+        print("Woof!")
+
+class Cat(Animal):
+    def make_sound(self):
+        print("Meow!")
+
+def demonstrate_late_binding():
+    animals = [Dog(), Cat()]
+    
+    for animal in animals:
+        animal.make_sound()  # Python uses late binding by default
+\`\`\`
+
+**Benefits:**
+- Enables true polymorphism
+- More flexible and extensible code
+- Supports the Open/Closed Principle
+
+**Performance Note:**
+Late binding has slight runtime overhead due to vtable lookup, but provides significant design flexibility.`,
+      },
+      {
+        question: "What is a pure virtual function?",
+        solution: `A pure virtual function is a virtual function that has no implementation in the base class and must be implemented by derived classes. It's declared by assigning 0 to the function declaration.
+
+**Key Characteristics:**
+- Declared with = 0 syntax
+- Cannot be instantiated in base class
+- Makes the class abstract
+- Must be overridden in derived classes
+- Defines interface contracts
+
+**C++ Example:**
+\`\`\`cpp
+class Shape {  // Abstract class due to pure virtual function
+public:
+    virtual double calculateArea() = 0;  // Pure virtual function
+    virtual void display() = 0;         // Another pure virtual function
+    
+    // Can have regular methods too
+    void printInfo() {
+        cout << "This is a shape with area: " << calculateArea() << endl;
+    }
+};
+
+class Circle : public Shape {
+private:
+    double radius;
+    
+public:
+    Circle(double r) : radius(r) {}
+    
+    double calculateArea() override {  // Must implement
+        return 3.14159 * radius * radius;
+    }
+    
+    void display() override {  // Must implement
+        cout << "Circle with radius: " << radius << endl;
+    }
+};
+
+class Rectangle : public Shape {
+private:
+    double width, height;
+    
+public:
+    Rectangle(double w, double h) : width(w), height(h) {}
+    
+    double calculateArea() override {  // Must implement
+        return width * height;
+    }
+    
+    void display() override {  // Must implement
+        cout << "Rectangle " << width << "x" << height << endl;
+    }
+};
+
+void demonstratePureVirtual() {
+    // Shape s;  // ERROR! Cannot instantiate abstract class
+    
+    Shape* shapes[] = {
+        new Circle(5.0),
+        new Rectangle(4.0, 6.0)
+    };
+    
+    for(int i = 0; i < 2; i++) {
+        shapes[i]->display();
+        shapes[i]->printInfo();
+    }
+}
+\`\`\`
+
+**JavaScript Equivalent (Abstract Pattern):**
+\`\`\`javascript
+class Shape {
+    calculateArea() {
+        throw new Error("Pure virtual method must be implemented");
+    }
+    
+    display() {
+        throw new Error("Pure virtual method must be implemented");
+    }
+    
+    printInfo() {
+        console.log(\`This is a shape with area: \${this.calculateArea()}\`);
+    }
+}
+
+class Circle extends Shape {
+    constructor(radius) {
+        super();
+        this.radius = radius;
+    }
+    
+    calculateArea() {
+        return Math.PI * this.radius * this.radius;
+    }
+    
+    display() {
+        console.log(\`Circle with radius: \${this.radius}\`);
+    }
+}
+
+class Rectangle extends Shape {
+    constructor(width, height) {
+        super();
+        this.width = width;
+        this.height = height;
+    }
+    
+    calculateArea() {
+        return this.width * this.height;
+    }
+    
+    display() {
+        console.log(\`Rectangle \${this.width}x\${this.height}\`);
+    }
+}
+\`\`\`
+
+**Python Equivalent:**
+\`\`\`python
+from abc import ABC, abstractmethod
+
+class Shape(ABC):  # Abstract Base Class
+    @abstractmethod
+    def calculate_area(self):
+        pass
+    
+    @abstractmethod
+    def display(self):
+        pass
+    
+    def print_info(self):  # Concrete method
+        print(f"This is a shape with area: {self.calculate_area()}")
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def calculate_area(self):
+        return 3.14159 * self.radius * self.radius
+    
+    def display(self):
+        print(f"Circle with radius: {self.radius}")
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def calculate_area(self):
+        return self.width * self.height
+    
+    def display(self):
+        print(f"Rectangle {self.width}x{self.height}")
+
+def demonstrate_pure_virtual():
+    # shape = Shape()  # TypeError! Cannot instantiate abstract class
+    
+    shapes = [Circle(5.0), Rectangle(4.0, 6.0)]
+    
+    for shape in shapes:
+        shape.display()
+        shape.print_info()
+\`\`\`
+
+**Use Cases:**
+- Defining interfaces and contracts
+- Ensuring derived classes implement specific methods
+- Creating abstract base classes
+- Template method pattern implementation`,
+      },
+      {
+        question: "What is function overloading?",
+        solution: `Function overloading allows multiple functions with the same name but different parameters (different signature) to coexist in the same scope. The compiler determines which function to call based on the arguments provided.
+
+**Key Rules:**
+- Same function name, different parameters
+- Parameters can differ in: number, type, or order
+- Return type alone cannot distinguish overloaded functions
+- Resolved at compile time (early binding)
+
+**C++ Example:**
+\`\`\`cpp
+class Calculator {
+public:
+    // Overloaded functions with different number of parameters
+    int add(int a, int b) {
+        cout << "Adding two integers: ";
+        return a + b;
+    }
+    
+    int add(int a, int b, int c) {
+        cout << "Adding three integers: ";
+        return a + b + c;
+    }
+    
+    // Overloaded functions with different parameter types
+    double add(double a, double b) {
+        cout << "Adding two doubles: ";
+        return a + b;
+    }
+    
+    string add(string a, string b) {
+        cout << "Concatenating strings: ";
+        return a + b;
+    }
+    
+    // Different parameter order
+    void display(int num, string text) {
+        cout << "Number: " << num << ", Text: " << text << endl;
+    }
+    
+    void display(string text, int num) {
+        cout << "Text: " << text << ", Number: " << num << endl;
+    }
+};
+
+void demonstrateFunctionOverloading() {
+    Calculator calc;
+    
+    cout << calc.add(5, 3) << endl;           // Calls int add(int, int)
+    cout << calc.add(1, 2, 3) << endl;       // Calls int add(int, int, int)
+    cout << calc.add(2.5, 3.7) << endl;      // Calls double add(double, double)
+    cout << calc.add("Hello", "World") << endl; // Calls string add(string, string)
+    
+    calc.display(42, "test");                // Calls display(int, string)
+    calc.display("test", 42);                // Calls display(string, int)
+}
+\`\`\`
+
+**JavaScript Equivalent (Manual Implementation):**
+JavaScript doesn't have native function overloading, but we can simulate it:
+
+\`\`\`javascript
+class Calculator {
+    add(...args) {
+        // Simulate overloading by checking arguments
+        if (args.length === 2) {
+            if (typeof args[0] === 'number' && typeof args[1] === 'number') {
+                console.log("Adding two numbers:");
+                return args[0] + args[1];
+            } else if (typeof args[0] === 'string' && typeof args[1] === 'string') {
+                console.log("Concatenating strings:");
+                return args[0] + args[1];
+            }
+        } else if (args.length === 3 && args.every(arg => typeof arg === 'number')) {
+            console.log("Adding three numbers:");
+            return args[0] + args[1] + args[2];
+        }
+        
+        throw new Error("No matching overload found");
+    }
+    
+    display(...args) {
+        if (args.length === 2) {
+            if (typeof args[0] === 'number' && typeof args[1] === 'string') {
+                console.log(\`Number: \${args[0]}, Text: \${args[1]}\`);
+            } else if (typeof args[0] === 'string' && typeof args[1] === 'number') {
+                console.log(\`Text: \${args[0]}, Number: \${args[1]}\`);
+            }
+        }
+    }
+}
+
+function demonstrateFunctionOverloading() {
+    const calc = new Calculator();
+    
+    console.log(calc.add(5, 3));           // Two numbers
+    console.log(calc.add(1, 2, 3));        // Three numbers
+    console.log(calc.add("Hello", "World")); // Two strings
+    
+    calc.display(42, "test");              // Number, string
+    calc.display("test", 42);              // String, number
+}
+\`\`\`
+
+**Python Equivalent (Using functools.singledispatch):**
+\`\`\`python
+from functools import singledispatch, singledispatchmethod
+
+class Calculator:
+    @singledispatchmethod
+    def add(self, arg1, arg2=None, arg3=None):
+        raise NotImplementedError("Unsupported type")
+    
+    @add.register
+    def _(self, arg1: int, arg2: int, arg3: int = None):
+        if arg3 is not None:
+            print("Adding three integers:")
+            return arg1 + arg2 + arg3
+        else:
+            print("Adding two integers:")
+            return arg1 + arg2
+    
+    @add.register
+    def _(self, arg1: float, arg2: float, arg3=None):
+        print("Adding two floats:")
+        return arg1 + arg2
+    
+    @add.register
+    def _(self, arg1: str, arg2: str, arg3=None):
+        print("Concatenating strings:")
+        return arg1 + arg2
+    
+    # Alternative approach using manual checking
+    def display(self, *args):
+        if len(args) == 2:
+            if isinstance(args[0], int) and isinstance(args[1], str):
+                print(f"Number: {args[0]}, Text: {args[1]}")
+            elif isinstance(args[0], str) and isinstance(args[1], int):
+                print(f"Text: {args[0]}, Number: {args[1]}")
+
+def demonstrate_function_overloading():
+    calc = Calculator()
+    
+    print(calc.add(5, 3))           # Two integers
+    print(calc.add(1, 2, 3))        # Three integers
+    print(calc.add(2.5, 3.7))       # Two floats
+    print(calc.add("Hello", "World")) # Two strings
+    
+    calc.display(42, "test")        # Number, string
+    calc.display("test", 42)        # String, number
+\`\`\`
+
+**Benefits:**
+- Code reusability and readability
+- Same interface for related operations
+- Type safety with different parameter types
+- Intuitive API design
+
+**Important Notes:**
+- C++ resolves overloading at compile time
+- Ambiguous calls result in compilation errors
+- Default parameters can create ambiguity with overloaded functions`,
+      },
+      {
+        question: "What is operator overloading?",
+        solution: `Operator overloading allows you to redefine the behavior of operators (like +, -, *, ==, etc.) for user-defined classes. This enables objects to work with operators in a natural and intuitive way.
+
+**Key Concepts:**
+- Provides custom behavior for operators with user-defined types
+- Makes code more readable and intuitive
+- Can be implemented as member functions or friend functions
+- Some operators cannot be overloaded (::, ., .*, ?:, sizeof)
+
+**C++ Example:**
+\`\`\`cpp
+class Complex {
+private:
+    double real, imaginary;
+    
+public:
+    Complex(double r = 0, double i = 0) : real(r), imaginary(i) {}
+    
+    // Overload + operator (member function)
+    Complex operator+(const Complex& other) const {
+        return Complex(real + other.real, imaginary + other.imaginary);
+    }
+    
+    // Overload - operator
+    Complex operator-(const Complex& other) const {
+        return Complex(real - other.real, imaginary - other.imaginary);
+    }
+    
+    // Overload * operator
+    Complex operator*(const Complex& other) const {
+        return Complex(
+            real * other.real - imaginary * other.imaginary,
+            real * other.imaginary + imaginary * other.real
+        );
+    }
+    
+    // Overload == operator
+    bool operator==(const Complex& other) const {
+        return (real == other.real) && (imaginary == other.imaginary);
+    }
+    
+    // Overload != operator
+    bool operator!=(const Complex& other) const {
+        return !(*this == other);
+    }
+    
+    // Overload assignment operator
+    Complex& operator=(const Complex& other) {
+        if (this != &other) {
+            real = other.real;
+            imaginary = other.imaginary;
+        }
+        return *this;
+    }
+    
+    // Overload << operator as friend function
+    friend ostream& operator<<(ostream& os, const Complex& c) {
+        os << c.real;
+        if (c.imaginary >= 0) os << " + " << c.imaginary << "i";
+        else os << " - " << (-c.imaginary) << "i";
+        return os;
+    }
+    
+    // Overload >> operator as friend function
+    friend istream& operator>>(istream& is, Complex& c) {
+        cout << "Enter real part: ";
+        is >> c.real;
+        cout << "Enter imaginary part: ";
+        is >> c.imaginary;
+        return is;
+    }
+    
+    // Overload [] operator for accessing parts
+    double& operator[](int index) {
+        return (index == 0) ? real : imaginary;
+    }
+    
+    // Overload ++ operator (prefix)
+    Complex& operator++() {
+        ++real;
+        ++imaginary;
+        return *this;
+    }
+    
+    // Overload ++ operator (postfix)
+    Complex operator++(int) {
+        Complex temp(*this);
+        ++real;
+        ++imaginary;
+        return temp;
+    }
+};
+
+void demonstrateOperatorOverloading() {
+    Complex c1(3, 4);
+    Complex c2(1, 2);
+    
+    cout << "c1: " << c1 << endl;
+    cout << "c2: " << c2 << endl;
+    
+    Complex c3 = c1 + c2;  // Uses overloaded + operator
+    cout << "c1 + c2 = " << c3 << endl;
+    
+    Complex c4 = c1 * c2;  // Uses overloaded * operator
+    cout << "c1 * c2 = " << c4 << endl;
+    
+    if (c1 == c2) {        // Uses overloaded == operator
+        cout << "c1 and c2 are equal" << endl;
+    } else {
+        cout << "c1 and c2 are not equal" << endl;
+    }
+    
+    cout << "Real part of c1: " << c1[0] << endl;  // Uses overloaded []
+    cout << "Imaginary part of c1: " << c1[1] << endl;
+    
+    ++c1;  // Uses overloaded prefix ++
+    cout << "After ++c1: " << c1 << endl;
+}
+\`\`\`
+
+**JavaScript Equivalent:**
+JavaScript has limited operator overloading, but we can implement similar functionality:
+
+\`\`\`javascript
+class Complex {
+    constructor(real = 0, imaginary = 0) {
+        this.real = real;
+        this.imaginary = imaginary;
+    }
+    
+    // Add method (since + operator can't be overloaded)
+    add(other) {
+        return new Complex(this.real + other.real, this.imaginary + other.imaginary);
+    }
+    
+    // Subtract method
+    subtract(other) {
+        return new Complex(this.real - other.real, this.imaginary - other.imaginary);
+    }
+    
+    // Multiply method
+    multiply(other) {
+        return new Complex(
+            this.real * other.real - this.imaginary * other.imaginary,
+            this.real * other.imaginary + this.imaginary * other.real
+        );
+    }
+    
+    // Equals method
+    equals(other) {
+        return this.real === other.real && this.imaginary === other.imaginary;
+    }
+    
+    // Custom toString (equivalent to << overload)
+    toString() {
+        if (this.imaginary >= 0) {
+            return \`\${this.real} + \${this.imaginary}i\`;
+        } else {
+            return \`\${this.real} - \${Math.abs(this.imaginary)}i\`;
+        }
+    }
+    
+    // Using Symbol.toPrimitive for some automatic conversions
+    [Symbol.toPrimitive](hint) {
+        if (hint === 'string') {
+            return this.toString();
+        }
+        return this.real; // Return real part for numeric conversion
+    }
+    
+    // Getter for array-like access
+    get(index) {
+        return index === 0 ? this.real : this.imaginary;
+    }
+    
+    // Setter for array-like access
+    set(index, value) {
+        if (index === 0) this.real = value;
+        else this.imaginary = value;
+    }
+}
+
+function demonstrateOperatorOverloading() {
+    const c1 = new Complex(3, 4);
+    const c2 = new Complex(1, 2);
+    
+    console.log(\`c1: \${c1}\`);
+    console.log(\`c2: \${c2}\`);
+    
+    const c3 = c1.add(c2);
+    console.log(\`c1 + c2 = \${c3}\`);
+    
+    const c4 = c1.multiply(c2);
+    console.log(\`c1 * c2 = \${c4}\`);
+    
+    if (c1.equals(c2)) {
+        console.log("c1 and c2 are equal");
+    } else {
+        console.log("c1 and c2 are not equal");
+    }
+    
+    console.log(\`Real part of c1: \${c1.get(0)}\`);
+    console.log(\`Imaginary part of c1: \${c1.get(1)}\`);
+}
+\`\`\`
+
+**Python Equivalent:**
+\`\`\`python
+class Complex:
+    def __init__(self, real=0, imaginary=0):
+        self.real = real
+        self.imaginary = imaginary
+    
+    # Overload + operator
+    def __add__(self, other):
+        return Complex(self.real + other.real, self.imaginary + other.imaginary)
+    
+    # Overload - operator
+    def __sub__(self, other):
+        return Complex(self.real - other.real, self.imaginary - other.imaginary)
+    
+    # Overload * operator
+    def __mul__(self, other):
+        return Complex(
+            self.real * other.real - self.imaginary * other.imaginary,
+            self.real * other.imaginary + self.imaginary * other.real
+        )
+    
+    # Overload == operator
+    def __eq__(self, other):
+        return self.real == other.real and self.imaginary == other.imaginary
+    
+    # Overload != operator
+    def __ne__(self, other):
+        return not self.__eq__(other)
+    
+    # Overload str() function
+    def __str__(self):
+        if self.imaginary >= 0:
+            return f"{self.real} + {self.imaginary}i"
+        else:
+            return f"{self.real} - {abs(self.imaginary)}i"
+    
+    # Overload repr() function
+    def __repr__(self):
+        return f"Complex({self.real}, {self.imaginary})"
+    
+    # Overload [] operator
+    def __getitem__(self, index):
+        return self.real if index == 0 else self.imaginary
+    
+    def __setitem__(self, index, value):
+        if index == 0:
+            self.real = value
+        else:
+            self.imaginary = value
+
+def demonstrate_operator_overloading():
+    c1 = Complex(3, 4)
+    c2 = Complex(1, 2)
+    
+    print(f"c1: {c1}")
+    print(f"c2: {c2}")
+    
+    c3 = c1 + c2  # Uses __add__
+    print(f"c1 + c2 = {c3}")
+    
+    c4 = c1 * c2  # Uses __mul__
+    print(f"c1 * c2 = {c4}")
+    
+    if c1 == c2:  # Uses __eq__
+        print("c1 and c2 are equal")
+    else:
+        print("c1 and c2 are not equal")
+    
+    print(f"Real part of c1: {c1[0]}")      # Uses __getitem__
+    print(f"Imaginary part of c1: {c1[1]}")
+\`\`\`
+
+**Common Operators to Overload:**
+- Arithmetic: +, -, *, /, %, ++, --
+- Comparison: ==, !=, <, >, <=, >=
+- Assignment: =, +=, -=, *=, /=
+- Stream: <<, >> (C++ only)
+- Subscript: []
+- Function call: ()
+
+**Best Practices:**
+- Keep operator behavior intuitive and consistent
+- Maintain mathematical relationships (if a == b, then b == a)
+- Return appropriate types (comparison operators return bool)
+- Consider implementing related operators together`,
+      },
+      {
+        question: "What is a default constructor?",
+        solution: `A default constructor is a constructor that can be called with no arguments. It either has no parameters or all parameters have default values. If no constructor is explicitly defined, the compiler provides a default constructor automatically.
+
+**C++ Example:**
+\`\`\`cpp
+class Student {
+private:
+    string name;
+    int age;
+public:
+    // Default constructor
+    Student() {
+        name = "Unknown";
+        age = 0;
+    }
+    
+    // Default constructor with default parameters
+    Student(string n = "Default", int a = 18) {
+        name = n;
+        age = a;
+    }
+};
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class Student {
+    constructor(name = "Unknown", age = 0) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+const student1 = new Student(); // Uses default values
+const student2 = new Student("John", 20);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Student:
+    def __init__(self, name="Unknown", age=0):
+        self.name = name
+        self.age = age
+
+student1 = Student()  # Uses default values
+student2 = Student("John", 20)
+\`\`\``,
+      },
+      {
+        question: "What is a parameterized constructor?",
+        solution: `A parameterized constructor is a constructor that takes one or more parameters to initialize object members with specific values provided during object creation. It allows customized initialization of objects.
+
+**C++ Example:**
+\`\`\`cpp
+class Rectangle {
+private:
+    double length, width;
+public:
+    // Parameterized constructor
+    Rectangle(double l, double w) {
+        length = l;
+        width = w;
+    }
+    
+    // Multiple parameterized constructors (overloading)
+    Rectangle(double side) {
+        length = width = side; // Square
+    }
+    
+    double getArea() {
+        return length * width;
+    }
+};
+
+Rectangle rect1(10.5, 8.3);  // Rectangle
+Rectangle rect2(5.0);        // Square
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class Rectangle {
+    constructor(length, width = null) {
+        if (width === null) {
+            // Square case
+            this.length = length;
+            this.width = length;
+        } else {
+            this.length = length;
+            this.width = width;
+        }
+    }
+    
+    getArea() {
+        return this.length * this.width;
+    }
+}
+
+const rect1 = new Rectangle(10.5, 8.3); // Rectangle
+const rect2 = new Rectangle(5.0);       // Square
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Rectangle:
+    def __init__(self, length, width=None):
+        if width is None:
+            # Square case
+            self.length = length
+            self.width = length
+        else:
+            self.length = length
+            self.width = width
+    
+    def get_area(self):
+        return self.length * self.width
+
+rect1 = Rectangle(10.5, 8.3)  # Rectangle
+rect2 = Rectangle(5.0)        # Square
+\`\`\``,
+      },
+      {
+        question: "What is a copy constructor?",
+        solution: `A copy constructor is a special constructor that creates a new object by copying another object of the same class. It takes a reference to an object of the same class as its parameter and creates a new object with the same values.
+
+**C++ Example:**
+\`\`\`cpp
+class Book {
+private:
+    string title;
+    string author;
+    int pages;
+public:
+    // Default constructor
+    Book(string t = "", string a = "", int p = 0) {
+        title = t;
+        author = a;
+        pages = p;
+    }
+    
+    // Copy constructor
+    Book(const Book& other) {
+        title = other.title;
+        author = other.author;
+        pages = other.pages;
+        cout << "Copy constructor called" << endl;
+    }
+    
+    void display() {
+        cout << title << " by " << author << " (" << pages << " pages)" << endl;
+    }
+};
+
+Book book1("1984", "George Orwell", 328);
+Book book2(book1);  // Copy constructor called
+Book book3 = book1; // Copy constructor called (not assignment)
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class Book {
+    constructor(titleOrBook, author = "", pages = 0) {
+        if (typeof titleOrBook === 'object' && titleOrBook instanceof Book) {
+            // Copy constructor behavior
+            this.title = titleOrBook.title;
+            this.author = titleOrBook.author;
+            this.pages = titleOrBook.pages;
+            console.log("Copy constructor called");
+        } else {
+            this.title = titleOrBook;
+            this.author = author;
+            this.pages = pages;
+        }
+    }
+    
+    // Static method for explicit copying
+    static copy(book) {
+        return new Book(book);
+    }
+    
+    display() {
+        console.log(\`\${this.title} by \${this.author} (\${this.pages} pages)\`);
+    }
+}
+
+const book1 = new Book("1984", "George Orwell", 328);
+const book2 = new Book(book1);  // Copy constructor
+const book3 = Book.copy(book1); // Explicit copy
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import copy
+
+class Book:
+    def __init__(self, title_or_book="", author="", pages=0):
+        if isinstance(title_or_book, Book):
+            # Copy constructor behavior
+            self.title = title_or_book.title
+            self.author = title_or_book.author
+            self.pages = title_or_book.pages
+            print("Copy constructor called")
+        else:
+            self.title = title_or_book
+            self.author = author
+            self.pages = pages
+    
+    def __copy__(self):
+        # Support for copy.copy()
+        return Book(self)
+    
+    def __deepcopy__(self, memo):
+        # Support for copy.deepcopy()
+        return Book(self.title, self.author, self.pages)
+    
+    def display(self):
+        print(f"{self.title} by {self.author} ({self.pages} pages)")
+
+book1 = Book("1984", "George Orwell", 328)
+book2 = Book(book1)         # Copy constructor
+book3 = copy.copy(book1)    # Shallow copy
+book4 = copy.deepcopy(book1) # Deep copy
+\`\`\``,
+      },
+      {
+        question: "When is a copy constructor called?",
+        solution: `A copy constructor is called in several scenarios where a new object needs to be created as a copy of an existing object:
+
+**1. Object initialization with another object**
+**2. Pass by value to functions**
+**3. Return by value from functions**
+**4. Temporary object creation**
+
+**C++ Example:**
+\`\`\`cpp
+class MyClass {
+public:
+    int value;
+    MyClass(int v = 0) : value(v) {}
+    
+    // Copy constructor
+    MyClass(const MyClass& other) {
+        value = other.value;
+        cout << "Copy constructor called for value: " << value << endl;
+    }
+};
+
+void functionByValue(MyClass obj) {
+    cout << "Inside function: " << obj.value << endl;
+}
+
+MyClass functionReturnByValue() {
+    MyClass temp(100);
+    return temp; // Copy constructor may be called (or optimized away)
+}
+
+int main() {
+    MyClass obj1(42);
+    
+    // 1. Object initialization
+    MyClass obj2(obj1);    // Copy constructor called
+    MyClass obj3 = obj1;   // Copy constructor called (not assignment!)
+    
+    // 2. Pass by value
+    functionByValue(obj1); // Copy constructor called
+    
+    // 3. Return by value
+    MyClass obj4 = functionReturnByValue(); // Copy constructor may be called
+    
+    // 4. Temporary objects in expressions
+    MyClass obj5 = MyClass(obj1); // Copy constructor called
+}
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class MyClass {
+    constructor(valueOrObject = 0) {
+        if (typeof valueOrObject === 'object') {
+            this.value = valueOrObject.value;
+            console.log(\`Copy constructor called for value: \${this.value}\`);
+        } else {
+            this.value = valueOrObject;
+        }
+    }
+    
+    // Method that simulates pass by value
+    static processByValue(obj) {
+        const copy = new MyClass(obj); // Explicit copy
+        console.log(\`Inside function: \${copy.value}\`);
+        return copy;
+    }
+}
+
+const obj1 = new MyClass(42);
+
+// Object initialization (copy)
+const obj2 = new MyClass(obj1);
+
+// Simulated pass by value
+const obj3 = MyClass.processByValue(obj1);
+
+// Using spread operator for shallow copy
+const obj4 = { ...obj1 }; // Shallow copy of properties
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import copy
+
+class MyClass:
+    def __init__(self, value_or_object=0):
+        if isinstance(value_or_object, MyClass):
+            self.value = value_or_object.value
+            print(f"Copy constructor called for value: {self.value}")
+        else:
+            self.value = value_or_object
+    
+    def __copy__(self):
+        print(f"__copy__ called for value: {self.value}")
+        return MyClass(self.value)
+    
+    def __deepcopy__(self, memo):
+        print(f"__deepcopy__ called for value: {self.value}")
+        return MyClass(self.value)
+
+def function_by_value(obj):
+    # Python passes by reference, but we can simulate pass by value
+    local_copy = copy.copy(obj)
+    print(f"Inside function: {local_copy.value}")
+    return local_copy
+
+obj1 = MyClass(42)
+
+# 1. Object initialization (copy)
+obj2 = MyClass(obj1)
+
+# 2. Explicit copying
+obj3 = copy.copy(obj1)     # Shallow copy
+obj4 = copy.deepcopy(obj1) # Deep copy
+
+# 3. Function with copy
+obj5 = function_by_value(obj1)
+
+# Note: Python doesn't have true pass-by-value for objects,
+# but the copy module provides similar functionality
+\`\`\``,
+      },
+      {
+        question: "What is constructor chaining?",
+        solution: `Constructor chaining is the process of calling one constructor from another constructor within the same class or from a derived class to a base class. It helps avoid code duplication and ensures proper initialization sequence.
+
+**C++ Example:**
+\`\`\`cpp
+class Vehicle {
+protected:
+    string brand;
+    int year;
+public:
+    // Base constructor
+    Vehicle(string b, int y) : brand(b), year(y) {
+        cout << "Vehicle constructor called" << endl;
+    }
+};
+
+class Car : public Vehicle {
+private:
+    int doors;
+    string model;
+public:
+    // Constructor chaining to base class
+    Car(string b, int y, string m, int d) : Vehicle(b, y) {
+        model = m;
+        doors = d;
+        cout << "Car constructor called" << endl;
+    }
+    
+    // Delegating constructor (C++11)
+    Car(string b, string m) : Car(b, 2023, m, 4) {
+        cout << "Delegating constructor called" << endl;
+    }
+};
+
+class Person {
+private:
+    string name;
+    int age;
+    string email;
+public:
+    // Primary constructor
+    Person(string n, int a, string e) : name(n), age(a), email(e) {
+        cout << "Full constructor called" << endl;
+    }
+    
+    // Delegating constructors
+    Person(string n, int a) : Person(n, a, "") {
+        cout << "Two-parameter constructor called" << endl;
+    }
+    
+    Person(string n) : Person(n, 0, "") {
+        cout << "One-parameter constructor called" << endl;
+    }
+};
+
+Car car1("Toyota", 2022, "Camry", 4);  // Calls Vehicle -> Car
+Car car2("Honda", "Civic");            // Calls Car(full) -> Car(simple)
+Person person1("John");                 // Calls Person(full) -> Person(two) -> Person(one)
+\`\`\`
+
+**JavaScript Example:**
+\`\`\`javascript
+class Vehicle {
+    constructor(brand, year) {
+        this.brand = brand;
+        this.year = year;
+        console.log("Vehicle constructor called");
+    }
+}
+
+class Car extends Vehicle {
+    constructor(brand, year, model = "Unknown", doors = 4) {
+        // Call parent constructor
+        super(brand, year);
+        this.model = model;
+        this.doors = doors;
+        console.log("Car constructor called");
+    }
+}
+
+class Person {
+    constructor(name, age = 0, email = "") {
+        // JavaScript doesn't have constructor chaining like C++,
+        // but we can simulate it with default parameters and helper methods
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        console.log("Person constructor called");
+    }
+    
+    // Static factory methods for constructor-like behavior
+    static createWithNameOnly(name) {
+        console.log("Creating person with name only");
+        return new Person(name);
+    }
+    
+    static createWithNameAndAge(name, age) {
+        console.log("Creating person with name and age");
+        return new Person(name, age);
+    }
+}
+
+// Usage
+const car1 = new Car("Toyota", 2022, "Camry", 4);
+const car2 = new Car("Honda", 2023); // Uses defaults
+
+const person1 = new Person("John");
+const person2 = Person.createWithNameAndAge("Jane", 25);
+const person3 = Person.createWithNameOnly("Bob");
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Vehicle:
+    def __init__(self, brand, year):
+        self.brand = brand
+        self.year = year
+        print("Vehicle constructor called")
+
+class Car(Vehicle):
+    def __init__(self, brand, year, model="Unknown", doors=4):
+        # Call parent constructor
+        super().__init__(brand, year)
+        self.model = model
+        self.doors = doors
+        print("Car constructor called")
+
+class Person:
+    def __init__(self, name, age=0, email=""):
+        self.name = name
+        self.age = age
+        self.email = email
+        print(f"Person constructor called: {name}, {age}, {email}")
+    
+    @classmethod
+    def create_with_name_only(cls, name):
+        print("Creating person with name only")
+        return cls(name)
+    
+    @classmethod
+    def create_with_name_and_age(cls, name, age):
+        print("Creating person with name and age")
+        return cls(name, age)
+    
+    @classmethod
+    def from_dict(cls, data):
+        print("Creating person from dictionary")
+        return cls(
+            data.get('name', 'Unknown'),
+            data.get('age', 0),
+            data.get('email', '')
+        )
+
+# Usage
+car1 = Car("Toyota", 2022, "Camry", 4)
+car2 = Car("Honda", 2023)  # Uses defaults
+
+person1 = Person("John")
+person2 = Person.create_with_name_and_age("Jane", 25)
+person3 = Person.from_dict({"name": "Bob", "age": 30, "email": "bob@email.com"})
+
+# Python also supports __new__ for more advanced constructor chaining
+class AdvancedPerson:
+    def __new__(cls, *args, **kwargs):
+        print(f"__new__ called with args: {args}")
+        instance = super().__new__(cls)
+        return instance
+    
+    def __init__(self, name, age=0):
+        print(f"__init__ called with name: {name}, age: {age}")
+        self.name = name
+        self.age = age
+
+person4 = AdvancedPerson("Alice", 28)
+\`\`\``,
+      },
+      {
+        question: "Can constructors be virtual?",
+        solution: `No, constructors cannot be virtual in C++. This is because virtual functions require an object to exist with a vtable (virtual function table), but during constructor execution, the object is still being created and the vtable is not yet fully established.
+
+**Why constructors cannot be virtual:**
+1. **Object doesn't exist yet**: Virtual functions need an existing object with a vtable
+2. **No polymorphism needed**: Constructor determines the exact type being created
+3. **Static binding required**: Constructor calls must be resolved at compile time
+
+**C++ Example - Why virtual constructors don't work:**
+\`\`\`cpp
+class Base {
+public:
+    Base() {
+        cout << "Base constructor" << endl;
+    }
+    
+    // This would be illegal - constructors cannot be virtual
+    // virtual Base() {} // ERROR!
+    
+    virtual void display() {
+        cout << "Base display" << endl;
+    }
+    
+    virtual ~Base() {} // Virtual destructor is allowed and important
+};
+
+class Derived : public Base {
+public:
+    Derived() {
+        cout << "Derived constructor" << endl;
+    }
+    
+    void display() override {
+        cout << "Derived display" << endl;
+    }
+};
+
+// Alternative: Virtual Constructor Pattern (Factory Method)
+class ShapeFactory {
+public:
+    enum ShapeType { CIRCLE, RECTANGLE };
+    
+    // Static factory method acts like a "virtual constructor"
+    static unique_ptr<Shape> createShape(ShapeType type);
+};
+
+class Shape {
+public:
+    virtual ~Shape() = default;
+    virtual void draw() = 0;
+    
+    // Virtual copy constructor pattern
+    virtual unique_ptr<Shape> clone() const = 0;
+};
+
+class Circle : public Shape {
+public:
+    void draw() override {
+        cout << "Drawing Circle" << endl;
+    }
+    
+    unique_ptr<Shape> clone() const override {
+        return make_unique<Circle>(*this);
+    }
+};
+
+// Factory method implementation
+unique_ptr<Shape> ShapeFactory::createShape(ShapeType type) {
+    switch(type) {
+        case CIRCLE: return make_unique<Circle>();
+        case RECTANGLE: return make_unique<Rectangle>();
+        default: return nullptr;
+    }
+}
+\`\`\`
+
+**JavaScript - Constructors and "Virtual" Behavior:**
+\`\`\`javascript
+// JavaScript doesn't have true virtual functions, but has dynamic dispatch
+class Base {
+    constructor() {
+        console.log("Base constructor");
+        // Call virtual-like method during construction
+        this.initialize();
+    }
+    
+    initialize() {
+        console.log("Base initialize");
+    }
+}
+
+class Derived extends Base {
+    constructor() {
+        super(); // Must call parent constructor
+        console.log("Derived constructor");
+    }
+    
+    initialize() {
+        console.log("Derived initialize");
+    }
+}
+
+// Factory pattern for "virtual constructor" behavior
+class ShapeFactory {
+    static createShape(type, ...args) {
+        const shapes = {
+            'circle': Circle,
+            'rectangle': Rectangle
+        };
+        
+        const ShapeClass = shapes[type];
+        if (ShapeClass) {
+            return new ShapeClass(...args);
+        }
+        throw new Error(\`Unknown shape type: \${type}\`);
+    }
+}
+
+class Shape {
+    draw() {
+        throw new Error("draw() must be implemented");
+    }
+    
+    // Clone pattern (virtual copy constructor)
+    clone() {
+        throw new Error("clone() must be implemented");
+    }
+}
+
+class Circle extends Shape {
+    constructor(radius = 1) {
+        super();
+        this.radius = radius;
+    }
+    
+    draw() {
+        console.log(\`Drawing circle with radius \${this.radius}\`);
+    }
+    
+    clone() {
+        return new Circle(this.radius);
+    }
+}
+
+// Usage
+const shape1 = ShapeFactory.createShape('circle', 5);
+const shape2 = shape1.clone();
+
+const derived = new Derived(); // Shows virtual-like behavior during construction
+\`\`\`
+
+**Python - Constructor Behavior:**
+\`\`\`python
+class Base:
+    def __init__(self):
+        print("Base constructor")
+        # Python allows calling overridden methods during construction
+        # This can lead to issues if derived class isn't fully initialized
+        self.initialize()
+    
+    def initialize(self):
+        print("Base initialize")
+
+class Derived(Base):
+    def __init__(self):
+        super().__init__()  # Call parent constructor
+        print("Derived constructor")
+        self.value = 42
+    
+    def initialize(self):
+        print("Derived initialize")
+        # Careful! self.value might not exist yet if called from Base.__init__
+        # print(f"Value: {self.value}")  # This could cause AttributeError
+
+# Factory pattern for "virtual constructor" behavior
+class ShapeFactory:
+    @staticmethod
+    def create_shape(shape_type, **kwargs):
+        shapes = {
+            'circle': Circle,
+            'rectangle': Rectangle
+        }
+        
+        if shape_type in shapes:
+            return shapes[shape_type](**kwargs)
+        raise ValueError(f"Unknown shape type: {shape_type}")
+
+class Shape:
+    def draw(self):
+        raise NotImplementedError("draw() must be implemented")
+    
+    def clone(self):
+        raise NotImplementedError("clone() must be implemented")
+
+class Circle(Shape):
+    def __init__(self, radius=1):
+        super().__init__()
+        self.radius = radius
+    
+    def draw(self):
+        print(f"Drawing circle with radius {self.radius}")
+    
+    def clone(self):
+        return Circle(self.radius)
+
+# Usage
+shape1 = ShapeFactory.create_shape('circle', radius=5)
+shape2 = shape1.clone()
+
+derived = Derived()  # Shows method override during construction
+
+# Python's __new__ method provides some virtual-like constructor behavior
+class VirtualConstructor:
+    def __new__(cls, type_name, *args, **kwargs):
+        if type_name == 'special':
+            # Return instance of different class
+            return SpecialClass(*args, **kwargs)
+        return super().__new__(cls)
+    
+    def __init__(self, type_name, value):
+        if type_name != 'special':
+            self.value = value
+
+class SpecialClass:
+    def __init__(self, value):
+        self.value = value * 2
+
+obj1 = VirtualConstructor('normal', 10)    # VirtualConstructor instance
+obj2 = VirtualConstructor('special', 10)   # SpecialClass instance
+\`\`\``,
       },
     ],
   },

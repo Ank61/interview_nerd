@@ -56852,7 +56852,7 @@ console.log(laptop.applyDiscount(10)); // Discount applied! New price:  1080.00`
             ],
           },
           {
-            topic: "Fields (Attributes/Properties) & Methods (Behaviors)",
+            topic: "Fields and Methods",
             tags: [
               "Attributes",
               "Properties",
