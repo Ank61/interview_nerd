@@ -55524,10 +55524,10 @@ StateMachine:
   {
     id: 9,
     category: "RabbitMQ",
-    themeBgColor: "#FFF8E1",
-    textColor: "#E65100",
-    topicColor: "#E65100",
-    lightColor: "#FFF8E1",
+    themeBgColor: "#FFF2E4",
+    textColor: "#652300",
+    topicColor: "#652300",
+    lightColor: "#FFF2E4",
     type: [
       {
         id: 1,
@@ -55927,10 +55927,11 @@ helm install rabbit bitnami/rabbitmq --set auth.password=StrongPass
   {
     id: 10,
     category: "OOP",
-    themeBgColor: "#E8F5E8",
-    textColor: "#2D5016",
-    topicColor: "#2D5016",
-    lightColor: "#F0FFF0",
+    themeBgColor: "#FFF7FC",
+    textColor: "#300053",
+    topicColor: "#300053",
+    // lightColor: "#F0FFF0",
+    lightColor: "#FFF7FC",
     type: [
       {
         id: 1,

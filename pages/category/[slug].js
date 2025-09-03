@@ -175,10 +175,7 @@ function PaginationComponent({
           }`}
           style={{
             color: currentPage === 1 ? "#9CA3AF" : themeColors.text,
-            backgroundColor: currentPage === 1 ? "transparent" : "white",
-            border: `1px solid ${
-              currentPage === 1 ? "#E5E7EB" : themeColors.border
-            }`,
+            backgroundColor: currentPage === 1 ? "transparent" : themeColors.bg,
           }}
         >
           <ChevronLeft className="w-4 h-4 mr-1.5" />
@@ -209,18 +206,25 @@ function PaginationComponent({
                 style={{
                   backgroundColor:
                     currentPage === page ? themeColors.bg : "transparent",
-                  color: currentPage === page ? "white" : themeColors.text,
+                  color:
+                    currentPage === page ? themeColors.topic : themeColors.text,
                   boxShadow:
                     currentPage === page
                       ? `0 4px 12px ${themeColors.bg}40, 0 2px 4px ${themeColors.bg}20`
                       : "none",
+                  border: `1px solid ${
+                    currentPage === page ? themeColors.border : "white"
+                  }`,
                 }}
               >
                 {currentPage === page && (
                   <motion.div
                     layoutId="activePage"
                     className="absolute inset-0 rounded-lg"
-                    style={{ backgroundColor: themeColors.bg }}
+                    style={{
+                      backgroundColor: themeColors.bg,
+                      // color: themeColors.topic,
+                    }}
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
@@ -244,21 +248,14 @@ function PaginationComponent({
           style={{
             color: currentPage === totalPages ? "#9CA3AF" : themeColors.text,
             backgroundColor:
-              currentPage === totalPages ? "transparent" : "white",
-            border: `1px solid ${
-              currentPage === totalPages ? "#E5E7EB" : themeColors.border
-            }`,
+              currentPage === totalPages ? "transparent" : themeColors.bg,
+            // border: `1px solid ${currentPage === totalPages ? "#E5E7EB" : themeColors.border}`,
           }}
         >
           <span className="hidden sm:inline">Next</span>
           <ChevronRight className="w-4 h-4 ml-1.5" />
         </motion.button>
       </div>
-
-      {/* Page Info */}
-      {/* <div className="ml-4 text-sm text-gray-500 font-medium hidden md:block">
-        Page {currentPage} of {totalPages}
-      </div> */}
     </motion.div>
   );
 }
@@ -835,21 +832,9 @@ export default function BasicTabs({
                       boxShadow: "none",
                     }}
                   />
-                  <SearchIcon
-                    className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-300"
-                    // style={{ color: themeColors.bg }}
-                  />
+                  <SearchIcon className="absolute left-2.5 top-2.5 w-5 h-5 text-gray-300" />
                 </div>
                 <Tabs defaultValue="Beginner" value={level} className="w-auto">
-                  {/* <div className="mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                      <BookOpen
-                        className="w-5 h-5"
-                        style={{ color: themeColors.topic }}
-                      />
-                      Learning Path
-                    </h3>
-                  </div> */}
                   <TabsList className="grid w-full grid-cols-2 bg-white border">
                     <TabsTrigger
                       value="Beginner"
@@ -919,7 +904,7 @@ export default function BasicTabs({
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{
                                       duration: 0.8,
-                                      delay: 0.2 * index, // same stagger effect as text
+                                      delay: 0.2 * index,
                                       ease: [0, 0.71, 0.2, 1.01],
                                     }}
                                   >
@@ -945,8 +930,13 @@ export default function BasicTabs({
                                 </TableCell>
                               )}
                               <TableCell
-                                className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
+                                className="text-left cursor-pointer font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
                                 style={{ color: themeColors.text }}
+                                onClick={() =>
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  )
+                                }
                               >
                                 {index <= 8 ? (
                                   <motion.div
@@ -964,7 +954,14 @@ export default function BasicTabs({
                                   <div>{concept.topic}</div>
                                 )}
                               </TableCell>
-                              <TableCell className="text-right md:flex">
+                              <TableCell
+                                className="text-right cursor-pointer md:flex"
+                                onClick={() =>
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  )
+                                }
+                              >
                                 {index <= 8 ? (
                                   <motion.div
                                     initial={{ opacity: 0, scale: 0.5 }}
@@ -1029,11 +1026,12 @@ export default function BasicTabs({
                                 )}
                                 {index <= 8 ? (
                                   <motion.div
-                                    onClick={() =>
+                                    onClick={(e) => {
+                                      e.stopPropagation();
                                       router.push(
                                         `/test/${topic}/${concept.topic}`
-                                      )
-                                    }
+                                      );
+                                    }}
                                     initial={{ opacity: 0, scale: 0.5 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{
@@ -1063,11 +1061,12 @@ export default function BasicTabs({
                                   </motion.div>
                                 ) : (
                                   <div
-                                    onClick={() =>
+                                    onClick={() => {
+                                      e.stopPropagation();
                                       router.push(
                                         `/test/${topic}/${concept.topic}`
-                                      )
-                                    }
+                                      );
+                                    }}
                                     className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
                                     style={{
                                       backgroundColor: themeColors.light,
@@ -1123,47 +1122,6 @@ export default function BasicTabs({
                   </TabsContent>
                   <TabsContent value="Advance" className="mt-4">
                     <Table>
-                      {/* <TableHeader>
-                  <TableRow>
-                    <TableHead
-                      className={`px-0  ${
-                        topic === "Javascript"
-                          ? "text-Javascript-text "
-                          : topic === "React"
-                          ? "text-React-text"
-                          : topic === "Typescript"
-                          ? "text-Typescript-text"
-                          : topic === "AWS S3"
-                          ? "text-AWS-text"
-                          : ""
-                      } text-left md:text-center`}
-                    >
-                      Topic
-                    </TableHead>
-                    <TableHead
-                      className={`text-center ${
-                        topic === "Javascript"
-                          ? "text-Javascript-text "
-                          : topic === "React"
-                          ? "text-React-text"
-                          : topic === "Typescript"
-                          ? "text-Typescript-text"
-                          : topic === "AWS S3"
-                          ? "text-AWS-text"
-                          : ""
-                      }`}
-                    >
-                      Action
-                    </TableHead>
-                    {/* <TableHead
-                      className={`text-center ${
-                        topic === "Javascript" ? "text-Javascript-text " : ""
-                      }`}
-                    >
-                      Status
-                    </TableHead> */}
-                      {/* </TableRow>
-                </TableHeader>  */}
                       <TableBody>
                         {paginatedAdvanceData.length > 0 ? (
                           paginatedAdvanceData.map((concept, index) => (
@@ -1201,8 +1159,13 @@ export default function BasicTabs({
                                 </TableCell>
                               )}
                               <TableCell
-                                className="text-left font-medium text-[15px] p-[0px] text-gray-900 md:pl-4"
+                                className="text-left font-medium cursor-pointer text-[15px] p-[0px] text-gray-900 md:pl-4"
                                 style={{ color: themeColors.text }}
+                                onClick={() => {
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  );
+                                }}
                               >
                                 {index <= 8 ? (
                                   <motion.div
@@ -1221,7 +1184,14 @@ export default function BasicTabs({
                                   <div className="w-full">{concept.topic}</div>
                                 )}
                               </TableCell>
-                              <TableCell className="text-right md:flex">
+                              <TableCell
+                                className="text-right cursor-pointer md:flex"
+                                onClick={() =>
+                                  router.push(
+                                    `/learn/${topic}/${concept.topic}`
+                                  )
+                                }
+                              >
                                 {index <= 8 ? (
                                   <motion.div
                                     initial={{ opacity: 0, scale: 0.5 }}
@@ -1289,11 +1259,12 @@ export default function BasicTabs({
                                 )}
                                 {index <= 8 ? (
                                   <motion.div
-                                    onClick={() =>
+                                    onClick={(e) => {
+                                      e.stopPropagation();
                                       router.push(
                                         `/test/${topic}/${concept.topic}`
-                                      )
-                                    }
+                                      );
+                                    }}
                                     initial={{ opacity: 0, scale: 0.5 }}
                                     animate={{ opacity: 1, scale: 1 }}
                                     transition={{
@@ -1323,11 +1294,12 @@ export default function BasicTabs({
                                   </motion.div>
                                 ) : (
                                   <div
-                                    onClick={() =>
+                                    onClick={(e) => {
+                                      e.stopPropagation();
                                       router.push(
                                         `/test/${topic}/${concept.topic}`
-                                      )
-                                    }
+                                      );
+                                    }}
                                     className="flex font-medium cursor-pointer border border-gray-200 pt-1.5 pb-1.5 pl-2.5 pr-2.5 rounded-md"
                                     style={{
                                       backgroundColor: themeColors.light,

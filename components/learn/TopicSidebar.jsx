@@ -1,36 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { ChevronLeft, ChevronRight, Menu, X, BookOpen, Star } from 'lucide-react';
-import { prepareData } from '@/data/prepareData';
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Menu,
+  X,
+  BookOpen,
+  Star,
+} from "lucide-react";
+import { prepareData } from "@/data/prepareData";
 
 const TopicSidebar = ({ currentTopic, category, theme }) => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [allTopics, setAllTopics] = useState([]);
-  const topicsPerPage = 8;
+  // const topicsPerPage = 11;
+  const [topicsPerPage, setTopicsPerPage] = useState(11);
+
+  const [maxVisible, setMaxVisible] = useState(5);
 
   useEffect(() => {
-    // Find all topics for the current category
-    const categoryData = prepareData.find(item => 
-      item.category.toLowerCase() === category?.toLowerCase()
+    const updateMaxVisible = () => {
+      if (window.innerWidth < 640) {
+        // mobile
+        setMaxVisible(3);
+        setTopicsPerPage(7);
+      } else if (window.innerWidth < 1024) {
+        // tablet
+        setMaxVisible(5);
+        setTopicsPerPage(10);
+      } else {
+        //desktop
+        setMaxVisible(7);
+        setTopicsPerPage(5);
+      }
+    };
+
+    updateMaxVisible();
+    window.addEventListener("resize", updateMaxVisible);
+    return () => window.removeEventListener("resize", updateMaxVisible);
+  }, []);
+  useEffect(() => {
+    const categoryData = prepareData.find(
+      (item) => item.category.toLowerCase() === category?.toLowerCase()
     );
-    
+
     if (categoryData) {
       const topics = [];
-      categoryData.type.forEach(typeItem => {
-        typeItem.concepts.forEach(concept => {
+      categoryData.type.forEach((typeItem) => {
+        typeItem.concepts.forEach((concept) => {
           topics.push({
             topic: concept.topic,
             label: typeItem.label,
-            tags: concept.tags || []
+            tags: concept.tags || [],
           });
         });
       });
       setAllTopics(topics);
-      
-      // Find current topic page
-      const currentIndex = topics.findIndex(t => t.topic === currentTopic);
+      const currentIndex = topics.findIndex((t) => t.topic === currentTopic);
       if (currentIndex !== -1) {
         setCurrentPage(Math.floor(currentIndex / topicsPerPage));
       }
@@ -45,17 +73,29 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
     router.push(`/learn/${category}/${topic}`);
     setIsOpen(false);
   };
+  const renderPageNumbers = () => {
+    const pages = [];
 
-  const nextPage = () => {
-    if (currentPage < totalPages - 1) {
-      setCurrentPage(currentPage + 1);
-    }
-  };
+    if (totalPages <= maxVisible) {
+      for (let i = 0; i < totalPages; i++) {
+        pages.push(i);
+      }
+    } else {
+      pages.push(0);
 
-  const prevPage = () => {
-    if (currentPage > 0) {
-      setCurrentPage(currentPage - 1);
+      let half = Math.floor((maxVisible - 2) / 2); // middle chunk
+      let start = Math.max(currentPage - half, 1);
+      let end = Math.min(currentPage + half, totalPages - 2);
+
+      if (start > 1) pages.push("...");
+      for (let i = start; i <= end; i++) {
+        pages.push(i);
+      }
+      if (end < totalPages - 2) pages.push("...");
+      pages.push(totalPages - 1);
     }
+
+    return pages;
   };
 
   return (
@@ -63,10 +103,12 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
       {/* Mobile Toggle Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed top-20 left-4 z-50 p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110"
-        style={{ 
-          backgroundColor: theme?.themeBgColor || '#f3f4f6',
-          color: theme?.textColor || '#374151'
+        className={`lg:hidden fixed ${
+          isOpen ? "top-6 left-64 " : "left-4 top-16"
+        } z-50 p-3 rounded-full shadow-md transition-all duration-300 hover:scale-110`}
+        style={{
+          backgroundColor: theme?.themeBgColor || "#f3f4f6",
+          color: theme?.textColor || "#374151",
         }}
       >
         {isOpen ? <X size={20} /> : <Menu size={20} />}
@@ -74,37 +116,39 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
 
       {/* Overlay for mobile */}
       {isOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
           onClick={() => setIsOpen(false)}
         />
       )}
 
       {/* Sidebar */}
-      <div className={`
-        fixed lg:sticky top-0 left-0 h-screen lg:h-auto
-        w-80 lg:w-72 xl:w-80
+      <div
+        className={`
+        fixed lg:sticky top-0 left-0 h-screen lg:h-[calc(100vh-64px)] lg:top-16
+        w-80 lg:w-72 xl:w-80 
         transform transition-transform duration-300 ease-in-out z-40
-        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         bg-white border-r border-gray-200 shadow-lg lg:shadow-none
         overflow-y-auto
-      `}>
+      `}
+      >
         <div className="p-6">
           {/* Header */}
           <div className="flex items-center gap-3 mb-6">
-            <div 
+            <div
               className="p-2 rounded-lg"
-              style={{ backgroundColor: theme?.lightColor || '#f3f4f6' }}
+              style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
             >
-              <BookOpen 
-                size={20} 
-                style={{ color: theme?.textColor || '#374151' }}
+              <BookOpen
+                size={20}
+                style={{ color: theme?.textColor || "#374151" }}
               />
             </div>
             <div>
-              <h3 
+              <h3
                 className="font-semibold text-lg"
-                style={{ color: theme?.textColor || '#374151' }}
+                style={{ color: theme?.textColor || "#374151" }}
               >
                 {category} Topics
               </h3>
@@ -125,54 +169,50 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                   className={`
                     p-3 rounded-lg cursor-pointer transition-all duration-200
                     hover:scale-[1.02] hover:shadow-md
-                    ${isActive 
-                      ? 'shadow-md ring-2' 
-                      : 'hover:shadow-sm'
-                    }
+                    ${isActive ? "shadow-md ring-2" : "hover:shadow-sm"}
                   `}
                   style={{
-                    backgroundColor: isActive 
-                      ? theme?.lightColor || '#f3f4f6'
-                      : '#f9fafb',
-                    borderColor: isActive 
-                      ? theme?.themeBgColor || '#e5e7eb'
-                      : 'transparent',
-                    ringColor: isActive 
-                      ? theme?.themeBgColor || '#e5e7eb'
-                      : 'transparent'
+                    backgroundColor: isActive
+                      ? theme?.lightColor || "#f3f4f6"
+                      : "#f9fafb",
+                    borderColor: isActive
+                      ? theme?.themeBgColor || "#e5e7eb"
+                      : "transparent",
+                    ringColor: isActive
+                      ? theme?.themeBgColor || "#e5e7eb"
+                      : "transparent",
                   }}
                 >
                   <div className="flex items-start gap-3">
                     {isActive && (
-                      <Star 
-                        size={16} 
+                      <Star
+                        size={16}
                         className="mt-0.5 flex-shrink-0"
-                        style={{ color: theme?.textColor || '#374151' }}
+                        style={{ color: theme?.textColor || "#374151" }}
                         fill="currentColor"
                       />
                     )}
                     <div className="flex-1 min-w-0">
-                      <h4 
+                      <h4
                         className={`text-sm font-medium leading-5 ${
-                          isActive ? 'font-semibold' : ''
+                          isActive ? "font-semibold" : ""
                         }`}
-                        style={{ 
-                          color: isActive 
-                            ? theme?.textColor || '#374151'
-                            : '#4b5563'
+                        style={{
+                          color: isActive
+                            ? theme?.textColor || "#374151"
+                            : "#4b5563",
                         }}
                       >
-                        {topicItem.topic.length > 50 
+                        {topicItem.topic.length > 50
                           ? `${topicItem.topic.substring(0, 50)}...`
-                          : topicItem.topic
-                        }
+                          : topicItem.topic}
                       </h4>
                       <div className="flex items-center gap-2 mt-1">
-                        <span 
+                        <span
                           className="text-xs px-2 py-1 rounded-full"
                           style={{
-                            backgroundColor: theme?.themeBgColor || '#e5e7eb',
-                            color: theme?.textColor || '#374151'
+                            backgroundColor: theme?.themeBgColor || "#e5e7eb",
+                            color: theme?.textColor || "#374151",
                           }}
                         >
                           {topicItem.label}
@@ -186,7 +226,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
           </div>
 
           {/* Pagination */}
-          {totalPages > 1 && (
+          {/* {totalPages > 1 && (
             <div className="flex items-center justify-between pt-4 border-t border-gray-200">
               <button
                 onClick={prevPage}
@@ -197,8 +237,8 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                   hover:scale-105 disabled:hover:scale-100
                 `}
                 style={{
-                  backgroundColor: theme?.lightColor || '#f3f4f6',
-                  color: theme?.textColor || '#374151'
+                  backgroundColor: theme?.lightColor || "#f3f4f6",
+                  color: theme?.textColor || "#374151",
                 }}
               >
                 <ChevronLeft size={16} />
@@ -213,19 +253,22 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                     className={`
                       w-8 h-8 rounded-full text-sm font-medium transition-all duration-200
                       hover:scale-110
-                      ${currentPage === i 
-                        ? 'shadow-md ring-2' 
-                        : 'hover:shadow-sm'
+                      ${
+                        currentPage === i
+                          ? "shadow-md ring-2"
+                          : "hover:shadow-sm"
                       }
                     `}
                     style={{
-                      backgroundColor: currentPage === i 
-                        ? theme?.themeBgColor || '#e5e7eb'
-                        : theme?.lightColor || '#f3f4f6',
-                      color: theme?.textColor || '#374151',
-                      ringColor: currentPage === i 
-                        ? theme?.themeBgColor || '#e5e7eb'
-                        : 'transparent'
+                      backgroundColor:
+                        currentPage === i
+                          ? theme?.themeBgColor || "#e5e7eb"
+                          : theme?.lightColor || "#f3f4f6",
+                      color: theme?.textColor || "#374151",
+                      ringColor:
+                        currentPage === i
+                          ? theme?.themeBgColor || "#e5e7eb"
+                          : "transparent",
                     }}
                   >
                     {i + 1}
@@ -242,28 +285,61 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                   hover:scale-105 disabled:hover:scale-100
                 `}
                 style={{
-                  backgroundColor: theme?.lightColor || '#f3f4f6',
-                  color: theme?.textColor || '#374151'
+                  backgroundColor: theme?.lightColor || "#f3f4f6",
+                  color: theme?.textColor || "#374151",
                 }}
               >
                 Next
                 <ChevronRight size={16} />
               </button>
             </div>
-          )}
+          )} */}
+
+          <div className="flex items-center gap-2">
+            {renderPageNumbers().map((p, idx) =>
+              p === "..." ? (
+                <span key={idx} className="px-2 text-gray-500">
+                  ...
+                </span>
+              ) : (
+                <button
+                  key={p}
+                  onClick={() => setCurrentPage(p)}
+                  className={`
+          w-8 h-8 rounded-full text-sm font-medium transition-all duration-200
+          hover:scale-110
+          ${currentPage === p ? "shadow-md ring-2" : "hover:shadow-sm"}
+        `}
+                  style={{
+                    backgroundColor:
+                      currentPage === p
+                        ? theme?.themeBgColor || "#e5e7eb"
+                        : theme?.lightColor || "#f3f4f6",
+                    color: theme?.textColor || "#374151",
+                  }}
+                >
+                  {p + 1}
+                </button>
+              )
+            )}
+          </div>
 
           {/* Progress Indicator */}
           <div className="mt-4 pt-4 border-t border-gray-200">
             <div className="flex justify-between text-xs text-gray-500 mb-2">
               <span>Progress</span>
-              <span>{startIndex + 1}-{Math.min(startIndex + topicsPerPage, allTopics.length)} of {allTopics.length}</span>
+              <span>
+                {startIndex + 1}-
+                {Math.min(startIndex + topicsPerPage, allTopics.length)} of{" "}
+                {allTopics.length}
+              </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div
                 className="h-2 rounded-full transition-all duration-300"
                 style={{
-                  backgroundColor: theme?.themeBgColor || '#e5e7eb',
-                  width: `${((currentPage + 1) / totalPages) * 100}%`
+                  backgroundColor: theme?.themeBgColor || "#e5e7eb",
+                  width: `${((currentPage + 1) / totalPages) * 100}%`,
                 }}
               />
             </div>

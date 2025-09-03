@@ -24018,6 +24018,4427 @@ obj1 = VirtualConstructor('normal', 10)    # VirtualConstructor instance
 obj2 = VirtualConstructor('special', 10)   # SpecialClass instance
 \`\`\``,
       },
+      {
+        question: "How do access modifiers work with inheritance?",
+        solution: `Access modifiers control the visibility of class members during inheritance:
+
+**Public Inheritance:**
+- Public members remain public in derived class
+- Protected members remain protected in derived class  
+- Private members are not accessible in derived class
+
+**Protected Inheritance:**
+- Public and protected members become protected in derived class
+- Private members are not accessible
+
+**Private Inheritance:**
+- Public and protected members become private in derived class
+- Private members are not accessible
+
+**JavaScript Example:**
+\`\`\`javascript
+class BaseClass {
+  constructor() {
+    this.publicField = "Public"; // Public by convention
+    this._protectedField = "Protected"; // Protected by convention (underscore)
+    this.#privateField = "Private"; // True private field (ES2022)
+  }
+  
+  publicMethod() { return "Public method"; }
+  _protectedMethod() { return "Protected method"; }
+  #privateMethod() { return "Private method"; }
+}
+
+class DerivedClass extends BaseClass {
+  constructor() {
+    super();
+    console.log(this.publicField); // ✓ Accessible
+    console.log(this._protectedField); // ✓ Accessible (by convention)
+    // console.log(this.#privateField); // ✗ Error - private fields not inherited
+  }
+  
+  accessMethods() {
+    this.publicMethod(); // ✓ Works
+    this._protectedMethod(); // ✓ Works (by convention)
+    // this.#privateMethod(); // ✗ Error - private method not accessible
+  }
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class BaseClass:
+    def __init__(self):
+        self.public_field = "Public"  # Public
+        self._protected_field = "Protected"  # Protected (convention)
+        self.__private_field = "Private"  # Name mangled (pseudo-private)
+    
+    def public_method(self):
+        return "Public method"
+    
+    def _protected_method(self):
+        return "Protected method"
+    
+    def __private_method(self):
+        return "Private method"
+
+class DerivedClass(BaseClass):
+    def __init__(self):
+        super().__init__()
+        print(self.public_field)  # ✓ Accessible
+        print(self._protected_field)  # ✓ Accessible
+        # print(self.__private_field)  # ✗ AttributeError
+    
+    def access_methods(self):
+        self.public_method()  # ✓ Works
+        self._protected_method()  # ✓ Works  
+        # self.__private_method()  # ✗ AttributeError
+        # But can access via name mangling: self._BaseClass__private_method()
+\`\`\`
+
+**Note:** JavaScript and Python don't have true access modifiers like C++/Java. They use conventions and language features to simulate them.`,
+      },
+      {
+        question: "Can constructors be overloaded?",
+        solution: `Constructor overloading allows multiple constructors with different parameter lists. Support varies by language:
+
+**JavaScript:**
+JavaScript doesn't support true constructor overloading, but you can simulate it:
+
+\`\`\`javascript
+class Person {
+  constructor(name, age, email) {
+    // Simulate overloading with parameter checking
+    if (arguments.length === 1) {
+      this.name = name;
+      this.age = 0;
+      this.email = "";
+    } else if (arguments.length === 2) {
+      this.name = name;
+      this.age = age;
+      this.email = "";
+    } else {
+      this.name = name;
+      this.age = age;
+      this.email = email;
+    }
+  }
+  
+  // Alternative: Static factory methods
+  static createWithName(name) {
+    return new Person(name, 0, "");
+  }
+  
+  static createWithNameAndAge(name, age) {
+    return new Person(name, age, "");
+  }
+}
+
+// Usage
+const person1 = new Person("John");
+const person2 = new Person("Jane", 25);
+const person3 = new Person("Bob", 30, "bob@email.com");
+const person4 = Person.createWithName("Alice");
+\`\`\`
+
+**Python:**
+Python doesn't support constructor overloading but offers alternatives:
+
+\`\`\`python
+class Person:
+    def __init__(self, name, age=0, email=""):
+        """Default parameters simulate overloading"""
+        self.name = name
+        self.age = age
+        self.email = email
+    
+    @classmethod
+    def from_name_only(cls, name):
+        """Alternative constructor using class method"""
+        return cls(name)
+    
+    @classmethod
+    def from_dict(cls, data):
+        """Create from dictionary"""
+        return cls(data.get('name', ''), data.get('age', 0), data.get('email', ''))
+
+# Usage
+person1 = Person("John")  # Uses defaults
+person2 = Person("Jane", 25)
+person3 = Person("Bob", 30, "bob@email.com")
+person4 = Person.from_name_only("Alice")
+person5 = Person.from_dict({"name": "Charlie", "age": 35})
+\`\`\`
+
+**Key Points:**
+- True overloading exists in C++, Java, C#
+- JavaScript and Python use workarounds (default parameters, factory methods)
+- Factory methods are often cleaner than parameter checking
+- Default parameters provide similar functionality to overloading`,
+      },
+      {
+        question: "What happens if you don't define a constructor?",
+        solution: `When no constructor is explicitly defined, the language provides default behavior:
+
+**JavaScript:**
+\`\`\`javascript
+class EmptyClass {
+  // No explicit constructor
+}
+
+// JavaScript provides implicit default constructor
+// Equivalent to:
+class EmptyClassExplicit {
+  constructor() {
+    // Empty constructor body
+  }
+}
+
+class ChildClass extends EmptyClass {
+  // If no constructor defined, implicit constructor calls super()
+}
+
+// Equivalent to:
+class ChildClassExplicit extends EmptyClass {
+  constructor(...args) {
+    super(...args);
+  }
+}
+
+// Usage
+const obj1 = new EmptyClass(); // ✓ Works - uses default constructor
+const obj2 = new ChildClass(); // ✓ Works - calls parent's default constructor
+\`\`\`
+
+**Python:**
+\`\`\`python
+class EmptyClass:
+    pass  # No explicit __init__
+
+# Python provides implicit default constructor
+# Equivalent to:
+class EmptyClassExplicit:
+    def __init__(self):
+        pass
+
+class ChildClass(EmptyClass):
+    pass  # No explicit __init__
+
+# If parent has __init__ with parameters, child must handle it:
+class ParentWithParams:
+    def __init__(self, value):
+        self.value = value
+
+class ChildOfParent(ParentWithParams):
+    # Must define __init__ to handle parent's required parameter
+    def __init__(self, value, extra=None):
+        super().__init__(value)
+        self.extra = extra
+
+# Usage
+obj1 = EmptyClass()  # ✓ Works
+obj2 = ChildClass()  # ✓ Works
+# obj3 = ChildOfParent()  # ✗ Error - missing required parameter
+obj4 = ChildOfParent("test")  # ✓ Works
+\`\`\`
+
+**What Happens:**
+1. **Default Constructor Provided:** Language creates a parameterless constructor
+2. **Member Initialization:** 
+   - JavaScript: Properties undefined until explicitly set
+   - Python: No automatic property initialization
+3. **Inheritance Chain:** Default constructors call parent's default constructor
+4. **Memory Allocation:** Object memory is allocated normally
+5. **No Initialization Logic:** No custom setup code runs
+
+**Important Notes:**
+- If parent class has parameterized constructor, child must explicitly handle it
+- Default constructors perform minimal initialization
+- Good practice to define explicit constructors for clarity
+- Some languages (C++) provide more complex default constructor rules`,
+      },
+      {
+        question: "What is the order of constructor execution in inheritance?",
+        solution: `Constructor execution follows a top-down hierarchy pattern: base class constructors execute before derived class constructors.
+
+**Execution Order:**
+1. **Most Base Class** constructor executes first
+2. **Intermediate Classes** constructors execute in inheritance order
+3. **Most Derived Class** constructor executes last
+
+**JavaScript Example:**
+\`\`\`javascript
+class GrandParent {
+  constructor(name) {
+    console.log("1. GrandParent constructor executing");
+    this.name = name;
+    this.level = "GrandParent";
+  }
+}
+
+class Parent extends GrandParent {
+  constructor(name, age) {
+    console.log("2. Parent constructor starting");
+    super(name); // Must call super() first
+    console.log("3. Parent constructor continuing");
+    this.age = age;
+    this.level = "Parent";
+  }
+}
+
+class Child extends Parent {
+  constructor(name, age, school) {
+    console.log("4. Child constructor starting");
+    super(name, age); // Calls Parent constructor
+    console.log("5. Child constructor continuing");
+    this.school = school;
+    this.level = "Child";
+  }
+}
+
+// Creating instance
+const child = new Child("Alice", 10, "Elementary");
+
+// Output:
+// 4. Child constructor starting
+// 2. Parent constructor starting  
+// 1. GrandParent constructor executing
+// 3. Parent constructor continuing
+// 5. Child constructor continuing
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class GrandParent:
+    def __init__(self, name):
+        print("1. GrandParent constructor executing")
+        self.name = name
+        self.level = "GrandParent"
+
+class Parent(GrandParent):
+    def __init__(self, name, age):
+        print("2. Parent constructor starting")
+        super().__init__(name)  # Calls GrandParent.__init__
+        print("3. Parent constructor continuing")
+        self.age = age
+        self.level = "Parent"
+
+class Child(Parent):
+    def __init__(self, name, age, school):
+        print("4. Child constructor starting")
+        super().__init__(name, age)  # Calls Parent.__init__
+        print("5. Child constructor continuing")
+        self.school = school
+        self.level = "Child"
+
+# Creating instance
+child = Child("Alice", 10, "Elementary")
+
+# Output:
+# 4. Child constructor starting
+# 2. Parent constructor starting
+# 1. GrandParent constructor executing  
+# 3. Parent constructor continuing
+# 5. Child constructor continuing
+\`\`\`
+
+**Key Points:**
+- **Base-to-Derived**: Base class fully initializes before derived class continues
+- **Super() Call Required**: Derived constructors must call parent constructor
+- **Initialization Safety**: Ensures base class is ready before derived class uses it
+- **Memory Layout**: Base class data is initialized before derived class data
+- **Exception Safety**: If base constructor fails, derived constructor won't execute`,
+      },
+      {
+        question: "What is a destructor and when is it called?",
+        solution: `A destructor is a special method that handles cleanup when an object is destroyed or goes out of scope. It's automatically called to release resources.
+
+**When Destructors Are Called:**
+1. **Object goes out of scope** (automatic variables)
+2. **delete operator** is used (dynamic allocation)
+3. **Program termination**
+4. **Exception unwinding**
+5. **Garbage collection** (in managed languages)
+
+**JavaScript:**
+JavaScript doesn't have traditional destructors, but uses garbage collection and cleanup patterns:
+
+\`\`\`javascript
+class ResourceManager {
+  constructor(resourceName) {
+    this.resourceName = resourceName;
+    this.isActive = true;
+    console.log(\`Resource \${resourceName} acquired\`);
+  }
+  
+  // Manual cleanup method (not automatic destructor)
+  dispose() {
+    if (this.isActive) {
+      console.log(\`Resource \${this.resourceName} released\`);
+      this.isActive = false;
+    }
+  }
+  
+  // Using FinalizationRegistry for cleanup notifications
+  static {
+    this.registry = new FinalizationRegistry((resourceName) => {
+      console.log(\`Garbage collected: \${resourceName}\`);
+    });
+  }
+}
+
+// Usage patterns
+function demonstrateCleanup() {
+  const resource1 = new ResourceManager("Database Connection");
+  
+  // Manual cleanup (recommended)
+  resource1.dispose();
+  
+  // Automatic cleanup with try-finally
+  const resource2 = new ResourceManager("File Handle");
+  try {
+    // Use resource2
+  } finally {
+    resource2.dispose(); // Ensures cleanup
+  }
+}
+
+// Using-like pattern with generators
+function* useResource(name) {
+  const resource = new ResourceManager(name);
+  try {
+    yield resource;
+  } finally {
+    resource.dispose();
+  }
+}
+
+// Usage
+for (const resource of useResource("Temp Resource")) {
+  // Use resource, automatically cleaned up when done
+}
+\`\`\`
+
+**Python:**
+Python has \`__del__\` method and context managers for cleanup:
+
+\`\`\`python
+import weakref
+
+class ResourceManager:
+    def __init__(self, resource_name):
+        self.resource_name = resource_name
+        self.is_active = True
+        print(f"Resource {resource_name} acquired")
+    
+    def __del__(self):
+        """Destructor - called during garbage collection"""
+        if self.is_active:
+            print(f"Destructor: Resource {self.resource_name} released")
+            self.cleanup()
+    
+    def cleanup(self):
+        """Manual cleanup method"""
+        if self.is_active:
+            print(f"Manual cleanup: Resource {self.resource_name} released")
+            self.is_active = False
+    
+    # Context manager protocol (recommended approach)
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cleanup()
+        return False
+
+# Usage examples
+def demonstrate_cleanup():
+    # Automatic destructor (unreliable timing)
+    resource1 = ResourceManager("Database")
+    del resource1  # May trigger __del__ immediately
+    
+    # Manual cleanup (recommended)
+    resource2 = ResourceManager("File Handle")
+    resource2.cleanup()
+    
+    # Context manager (best practice)
+    with ResourceManager("Network Connection") as resource3:
+        # Use resource3
+        pass  # Automatically cleaned up when exiting with block
+
+# Weakref callback for cleanup notifications
+def cleanup_callback(resource_name):
+    print(f"Weakref callback: {resource_name} was garbage collected")
+
+resource4 = ResourceManager("Monitored Resource")
+weakref.finalize(resource4, cleanup_callback, resource4.resource_name)
+\`\`\`
+
+**When Destructors Are Called:**
+- **Scope End**: When variable goes out of scope
+- **Explicit Deletion**: When \`delete\` (C++) or \`del\` (Python) is used
+- **Program Exit**: All objects destroyed during program termination
+- **Exception Handling**: Stack unwinding destroys local objects
+- **Garbage Collection**: In managed languages (timing not guaranteed)
+
+**Best Practices:**
+- **Don't rely on destructor timing** in garbage-collected languages
+- **Use RAII pattern** (Resource Acquisition Is Initialization)
+- **Implement explicit cleanup methods** for critical resources
+- **Use context managers/using statements** for deterministic cleanup
+- **Handle exceptions** in destructors gracefully`,
+      },
+      {
+        question: "Can destructors be overloaded?",
+        solution: `No, destructors cannot be overloaded. Each class can have only one destructor because:
+
+1. **No Parameters**: Destructors cannot take parameters
+2. **Single Purpose**: One cleanup method per class
+3. **Automatic Invocation**: System calls destructor automatically
+4. **Name Uniqueness**: Only one destructor name per class
+
+**JavaScript:**
+JavaScript doesn't have traditional destructors, but the principle applies to cleanup methods:
+
+\`\`\`javascript
+class ResourceManager {
+  constructor(type) {
+    this.type = type;
+    this.resources = [];
+  }
+  
+  // Cannot overload dispose/cleanup methods with same name
+  dispose() {
+    console.log(\`Disposing \${this.type} resources\`);
+    this.resources.forEach(resource => resource.cleanup());
+    this.resources = [];
+  }
+  
+  // Must use different method names for different cleanup strategies
+  disposeSync() {
+    console.log("Synchronous disposal");
+    this.dispose();
+  }
+  
+  async disposeAsync() {
+    console.log("Asynchronous disposal");
+    await Promise.all(this.resources.map(r => r.asyncCleanup()));
+    this.resources = [];
+  }
+  
+  // Alternative: Parameter-based cleanup strategy
+  dispose(strategy = 'default') {
+    switch(strategy) {
+      case 'immediate':
+        this.disposeSync();
+        break;
+      case 'deferred':
+        setTimeout(() => this.disposeSync(), 0);
+        break;
+      default:
+        this.disposeSync();
+    }
+  }
+}
+
+// Usage
+const manager = new ResourceManager("Database");
+manager.dispose(); // Default cleanup
+manager.dispose('immediate'); // Immediate cleanup
+manager.disposeAsync(); // Async cleanup
+\`\`\`
+
+**Python:**
+\`\`\`python
+class ResourceManager:
+    def __init__(self, resource_type):
+        self.resource_type = resource_type
+        self.resources = []
+    
+    def __del__(self):
+        """Only one destructor allowed - cannot be overloaded"""
+        print(f"Destructor: Cleaning up {self.resource_type}")
+        self.cleanup()
+    
+    # Cannot define multiple __del__ methods:
+    # def __del__(self, strategy):  # ✗ Invalid - destructors can't have parameters
+    #     pass
+    
+    # Alternative: Different cleanup methods with different names
+    def cleanup(self):
+        """Default cleanup"""
+        print("Standard cleanup")
+        self.resources.clear()
+    
+    def force_cleanup(self):
+        """Immediate cleanup"""
+        print("Forced cleanup")
+        self.cleanup()
+    
+    def cleanup_with_logging(self, log_level="INFO"):
+        """Cleanup with logging"""
+        print(f"[{log_level}] Cleanup with logging")
+        self.cleanup()
+    
+    # Context manager approach for different cleanup strategies
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if exc_type:
+            print("Exception occurred - emergency cleanup")
+        else:
+            print("Normal exit - standard cleanup")
+        self.cleanup()
+
+# Usage
+manager = ResourceManager("File")
+manager.cleanup()  # Manual cleanup
+manager.force_cleanup()  # Alternative cleanup method
+manager.cleanup_with_logging("DEBUG")  # Parameterized cleanup
+
+# Context manager for automatic cleanup
+with ResourceManager("Network") as net_manager:
+    # Use net_manager
+    pass  # Automatic cleanup on exit
+\`\`\`
+
+**Why No Overloading:**
+- **Automatic Invocation**: System decides when to call destructor
+- **No Parameter Context**: No way to pass parameters during automatic destruction  
+- **Single Responsibility**: One cleanup strategy per object lifetime
+- **Simplicity**: Avoids ambiguity about which destructor to call
+
+**Alternatives to Destructor Overloading:**
+- **Multiple cleanup methods** with different names
+- **Parameter-based cleanup strategies** in single method
+- **Strategy pattern** for different cleanup behaviors
+- **Context managers** for scoped resource management`,
+      },
+      {
+        question: "Can destructors have parameters?",
+        solution: `No, destructors cannot have parameters. This is a fundamental rule across all languages that support destructors.
+
+**Why No Parameters:**
+
+1. **Automatic Invocation**: Destructors are called automatically by the runtime
+2. **No Context for Parameters**: System doesn't know what parameters to pass
+3. **Cleanup Simplicity**: Destructors should handle cleanup without external input
+4. **Language Design**: Maintains consistency and predictability
+
+**JavaScript:**
+Since JavaScript doesn't have traditional destructors, this applies to cleanup methods:
+
+\`\`\`javascript
+class DatabaseConnection {
+  constructor(connectionString) {
+    this.connectionString = connectionString;
+    this.isConnected = true;
+  }
+  
+  // ✗ Cannot create parameterized "destructor-like" automatic cleanup
+  // When object is garbage collected, no parameters can be passed
+  
+  // ✓ Manual cleanup methods can have parameters
+  disconnect(saveChanges = true) {
+    if (this.isConnected) {
+      if (saveChanges) {
+        console.log("Saving changes before disconnect");
+      }
+      console.log("Disconnecting from database");
+      this.isConnected = false;
+    }
+  }
+  
+  // ✓ Different cleanup strategies via separate methods
+  forceDisconnect() {
+    console.log("Force disconnecting - no save");
+    this.isConnected = false;
+  }
+  
+  gracefulDisconnect() {
+    console.log("Graceful disconnect with cleanup");
+    this.disconnect(true);
+  }
+}
+
+// FinalizationRegistry cannot pass parameters to cleanup
+const cleanup = new FinalizationRegistry((connectionInfo) => {
+  // This callback cannot receive additional parameters
+  console.log(\`Cleanup: \${connectionInfo} was garbage collected\`);
+});
+
+const connection = new DatabaseConnection("localhost:5432");
+cleanup.register(connection, connection.connectionString);
+
+// Manual cleanup with parameters
+connection.disconnect(false); // Don't save changes
+\`\`\`
+
+**Python:**
+\`\`\`python
+class FileManager:
+    def __init__(self, filename):
+        self.filename = filename
+        self.is_open = True
+        print(f"File {filename} opened")
+    
+    def __del__(self):
+        """Destructor - NO PARAMETERS ALLOWED"""
+        if self.is_open:
+            print(f"Destructor: Closing {self.filename}")
+            self._internal_cleanup()
+    
+    # ✗ This would be invalid:
+    # def __del__(self, save_backup=True):  # SyntaxError!
+    #     pass
+    
+    def _internal_cleanup(self):
+        """Internal cleanup without parameters"""
+        self.is_open = False
+    
+    # ✓ Manual cleanup methods can have parameters
+    def close(self, create_backup=False):
+        """Parameterized cleanup method"""
+        if self.is_open:
+            if create_backup:
+                print(f"Creating backup of {self.filename}")
+            print(f"Manually closing {self.filename}")
+            self._internal_cleanup()
+    
+    def force_close(self):
+        """Alternative cleanup without parameters"""
+        print(f"Force closing {self.filename}")
+        self._internal_cleanup()
+
+# Context manager for parameterized cleanup
+class ParameterizedFileManager:
+    def __init__(self, filename):
+        self.filename = filename
+        self.is_open = True
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        # Can implement different cleanup based on exception type
+        if exc_type:
+            print("Exception occurred - emergency close")
+            self.force_close()
+        else:
+            print("Normal exit - graceful close")
+            self.close(create_backup=True)
+    
+    def close(self, create_backup=False):
+        if self.is_open:
+            if create_backup:
+                print(f"Backing up {self.filename}")
+            self.is_open = False
+
+# Usage
+file1 = FileManager("data.txt")
+file1.close(create_backup=True)  # Manual with parameters
+
+# Context manager approach
+with ParameterizedFileManager("config.txt") as file2:
+    # Use file2
+    pass  # Automatic cleanup based on exit context
+\`\`\`
+
+**Workarounds for Parameterized Cleanup:**
+
+1. **Manual Cleanup Methods**: Create named methods that accept parameters
+2. **Strategy Pattern**: Set cleanup strategy before destruction
+3. **Context Managers**: Use with statements for parameterized cleanup
+4. **State-Based Cleanup**: Store cleanup parameters as object state
+
+\`\`\`python
+class ConfigurableCleanup:
+    def __init__(self, name):
+        self.name = name
+        self.cleanup_strategy = "default"
+        self.backup_enabled = False
+    
+    def set_cleanup_strategy(self, strategy, backup=False):
+        """Configure cleanup before destruction"""
+        self.cleanup_strategy = strategy
+        self.backup_enabled = backup
+    
+    def __del__(self):
+        """Uses pre-configured cleanup strategy"""
+        if self.cleanup_strategy == "aggressive":
+            print(f"Aggressive cleanup of {self.name}")
+        elif self.backup_enabled:
+            print(f"Cleanup with backup: {self.name}")
+        else:
+            print(f"Standard cleanup: {self.name}")
+
+# Usage
+obj = ConfigurableCleanup("TempFile")
+obj.set_cleanup_strategy("aggressive", backup=True)
+# When obj is destroyed, it uses the configured strategy
+\`\`\`
+
+**Summary**: Destructors cannot have parameters, but you can achieve parameterized cleanup through manual methods, configuration, or context managers.`,
+      },
+      {
+        question: "What is a friend function?",
+        solution: `A friend function is a special function that has access to private and protected members of a class, even though it's not a member of that class. It's declared using the 'friend' keyword inside the class definition.
+
+Key characteristics:
+- Not a member function of the class
+- Can access private and protected members
+- Declared with 'friend' keyword inside class
+- Called like a normal function (not with object.function())
+- Breaks encapsulation in a controlled way
+
+JavaScript Equivalent (Conceptual):
+// JavaScript doesn't have friend functions, but we can simulate access control
+class BankAccount {
+  #balance = 0; // Private field
+  
+  constructor(initialBalance) {
+    this.#balance = initialBalance;
+  }
+  
+  // Simulate friend function through closure
+  static createFriendFunction(account) {
+    return function auditBalance() {
+      // This function can access private balance
+      return account.#balance;
+    };
+  }
+  
+  deposit(amount) {
+    this.#balance += amount;
+  }
+}
+
+const account = new BankAccount(1000);
+const auditFn = BankAccount.createFriendFunction(account);
+console.log(auditFn()); // Can access private balance: 1000
+
+Python Equivalent:
+class BankAccount:
+    def __init__(self, initial_balance):
+        self.__balance = initial_balance  # Private attribute
+    
+    def deposit(self, amount):
+        self.__balance += amount
+    
+    def get_balance(self):
+        return self.__balance
+
+# Python doesn't have friend functions, but we can access private members
+# through name mangling workaround (not recommended in production)
+def audit_balance(account):
+    # Accessing private member (friend-like behavior)
+    return account._BankAccount__balance
+
+account = BankAccount(1000)
+print(audit_balance(account))  # 1000
+
+Use cases: Operator overloading, accessing private data for testing, utility functions that need access to internal state.`,
+      },
+      {
+        question: "What is a friend class?",
+        solution: `A friend class is a class that has access to private and protected members of another class. When class A declares class B as a friend, all member functions of class B can access private and protected members of class A.
+
+Key characteristics:
+- Entire class has access to private/protected members
+- Declared using 'friend class ClassName;'
+- Friendship is not mutual (A friends B doesn't mean B friends A)
+- Friendship is not inherited
+- Used for closely related classes that need intimate access
+
+JavaScript Equivalent (Conceptual):
+class DatabaseConnection {
+  #connectionString = "secret_connection";
+  #isConnected = false;
+  
+  constructor() {
+    // Grant access to specific classes through symbols
+    this._grantAccess = (requesterClass) => {
+      if (requesterClass === QueryBuilder) {
+        return {
+          getConnection: () => this.#connectionString,
+          setConnected: (status) => this.#isConnected = status
+        };
+      }
+      throw new Error("Access denied");
+    };
+  }
+}
+
+class QueryBuilder {
+  constructor(dbConnection) {
+    // Act as friend class
+    this.dbAccess = dbConnection._grantAccess(QueryBuilder);
+  }
+  
+  buildQuery() {
+    const connection = this.dbAccess.getConnection();
+    this.dbAccess.setConnected(true);
+    return \`Query using: \${connection}\`;
+  }
+}
+
+const db = new DatabaseConnection();
+const qb = new QueryBuilder(db);
+console.log(qb.buildQuery()); // Can access private connection
+
+Python Equivalent:
+class DatabaseConnection:
+    def __init__(self):
+        self.__connection_string = "secret_connection"
+        self.__is_connected = False
+    
+    def _grant_friend_access(self, friend_class):
+        # Simulate friend class access
+        if friend_class.__name__ == 'QueryBuilder':
+            return {
+                'connection_string': self.__connection_string,
+                'set_connected': lambda status: setattr(self, '_DatabaseConnection__is_connected', status)
+            }
+        raise Exception("Access denied")
+
+class QueryBuilder:
+    def __init__(self, db_connection):
+        # Get friend access
+        self.db_access = db_connection._grant_friend_access(QueryBuilder)
+    
+    def build_query(self):
+        connection = self.db_access['connection_string']
+        self.db_access['set_connected'](True)
+        return f"Query using: {connection}"
+
+db = DatabaseConnection()
+qb = QueryBuilder(db)
+print(qb.build_query())  # Can access private connection
+
+Use cases: Tightly coupled classes, iterator classes, classes that work together as a unit.`,
+      },
+      {
+        question: "What is the this pointer/keyword?",
+        solution: `The 'this' pointer is an implicit pointer available in every non-static member function that points to the object for which the member function is called. It holds the address of the current object.
+
+Key characteristics:
+- Implicit parameter to all non-static member functions
+- Points to the calling object
+- Used to resolve naming conflicts
+- Used for method chaining
+- Not available in static functions
+
+JavaScript Equivalent:
+class Calculator {
+  constructor(value = 0) {
+    this.value = value;
+  }
+  
+  add(num) {
+    // 'this' refers to the current Calculator instance
+    this.value += num;
+    return this; // Return this for chaining
+  }
+  
+  multiply(num) {
+    this.value *= num;
+    return this; // Method chaining
+  }
+  
+  setValue(value) {
+    // Resolve naming conflict
+    this.value = value; // this.value refers to instance property
+    return this;
+  }
+  
+  getValue() {
+    return this.value;
+  }
+  
+  // Arrow functions don't have their own 'this'
+  getValueArrow = () => {
+    return this.value; // 'this' from enclosing scope
+  }
+}
+
+const calc = new Calculator(10);
+console.log(
+  calc.add(5)
+      .multiply(2)
+      .setValue(100)
+      .getValue()
+); // Method chaining: 100
+
+// Demonstrating 'this' context
+const getValue = calc.getValue;
+console.log(getValue()); // undefined (lost 'this' context)
+
+const boundGetValue = calc.getValue.bind(calc);
+console.log(boundGetValue()); // 100 (bound 'this' context)
+
+Python Equivalent:
+class Calculator:
+    def __init__(self, value=0):
+        self.value = value  # 'self' is like 'this' in C++
+    
+    def add(self, num):
+        # 'self' refers to the current Calculator instance
+        self.value += num
+        return self  # Return self for chaining
+    
+    def multiply(self, num):
+        self.value *= num
+        return self  # Method chaining
+    
+    def set_value(self, value):
+        # Resolve naming conflict
+        self.value = value  # self.value refers to instance attribute
+        return self
+    
+    def get_value(self):
+        return self.value
+
+calc = Calculator(10)
+result = (calc.add(5)
+              .multiply(2)
+              .set_value(100)
+              .get_value())
+print(result)  # Method chaining: 100
+
+# In Python, 'self' must be explicitly declared in method definitions
+# but is automatically passed when calling methods
+
+Use cases: Resolving name conflicts, method chaining, returning reference to current object, accessing object members when parameter names match.`,
+      },
+      {
+        question: "What are access modifiers?",
+        solution: `Access modifiers (access specifiers) are keywords that define the visibility and accessibility of class members (data members and member functions). They control how and where class members can be accessed.
+
+Three main access modifiers in C++:
+1. public - Accessible from anywhere
+2. private - Accessible only within the same class
+3. protected - Accessible within the class and derived classes
+
+Key characteristics:
+- Control encapsulation and data hiding
+- Applied to sections of class, not individual members
+- Affect inheritance behavior
+- Fundamental to object-oriented design
+
+JavaScript Equivalent (ES2022+):
+class BankAccount {
+  // Public field (default)
+  accountNumber = "ACC123";
+  
+  // Private field (# prefix)
+  #balance = 0;
+  #pin = "1234";
+  
+  // Protected-like (convention with _)
+  _internalId = "INTERNAL_001";
+  
+  constructor(initialBalance) {
+    this.#balance = initialBalance;
+  }
+  
+  // Public method
+  deposit(amount) {
+    if (this.#validateAmount(amount)) {
+      this.#balance += amount;
+      return true;
+    }
+    return false;
+  }
+  
+  // Private method
+  #validateAmount(amount) {
+    return amount > 0 && amount < 10000;
+  }
+  
+  // Public getter for private data
+  getBalance(enteredPin) {
+    if (enteredPin === this.#pin) {
+      return this.#balance;
+    }
+    throw new Error("Invalid PIN");
+  }
+  
+  // Protected-like method (convention)
+  _getInternalId() {
+    return this._internalId;
+  }
+}
+
+class SavingsAccount extends BankAccount {
+  constructor(initialBalance, interestRate) {
+    super(initialBalance);
+    this.interestRate = interestRate;
+  }
+  
+  calculateInterest() {
+    // Can access protected-like member
+    console.log(\`Account \${this._getInternalId()} calculating interest\`);
+    
+    // Cannot access private members directly
+    // console.log(this.#balance); // SyntaxError
+    
+    // Must use public interface
+    try {
+      const balance = this.getBalance("1234");
+      return balance * this.interestRate / 100;
+    } catch (error) {
+      return 0;
+    }
+  }
+}
+
+const account = new BankAccount(1000);
+console.log(account.accountNumber); // Public: accessible
+// console.log(account.#balance); // Private: SyntaxError
+console.log(account._internalId); // Protected-like: accessible but not recommended
+
+Python Equivalent:
+class BankAccount:
+    def __init__(self, initial_balance):
+        # Public attribute
+        self.account_number = "ACC123"
+        
+        # Protected attribute (single underscore convention)
+        self._internal_id = "INTERNAL_001"
+        
+        # Private attribute (double underscore - name mangling)
+        self.__balance = initial_balance
+        self.__pin = "1234"
+    
+    # Public method
+    def deposit(self, amount):
+        if self._validate_amount(amount):
+            self.__balance += amount
+            return True
+        return False
+    
+    # Protected method (single underscore convention)
+    def _validate_amount(self, amount):
+        return 0 < amount < 10000
+    
+    # Private method (double underscore)
+    def __check_pin(self, entered_pin):
+        return entered_pin == self.__pin
+    
+    # Public getter for private data
+    def get_balance(self, entered_pin):
+        if self.__check_pin(entered_pin):
+            return self.__balance
+        raise ValueError("Invalid PIN")
+
+class SavingsAccount(BankAccount):
+    def __init__(self, initial_balance, interest_rate):
+        super().__init__(initial_balance)
+        self.interest_rate = interest_rate
+    
+    def calculate_interest(self):
+        # Can access protected members
+        print(f"Account {self._internal_id} calculating interest")
+        
+        # Cannot directly access private members
+        # print(self.__balance)  # AttributeError
+        
+        # Must use public interface
+        try:
+            balance = self.get_balance("1234")
+            return balance * self.interest_rate / 100
+        except ValueError:
+            return 0
+
+account = BankAccount(1000)
+print(account.account_number)  # Public: accessible
+print(account._internal_id)    # Protected: accessible but discouraged
+# print(account.__balance)     # Private: AttributeError (name mangling)
+
+# Access private through name mangling (not recommended)
+print(account._BankAccount__balance)  # 1000
+
+Use cases: Data encapsulation, controlled access to sensitive data, inheritance design, API design, maintaining class invariants.`,
+      },
+      {
+        question:
+          "What is the difference between private, protected, and public?",
+        solution: `The three access modifiers control the visibility and accessibility of class members:
+
+PUBLIC:
+- Accessible from anywhere in the program
+- No access restrictions
+- Forms the public interface of the class
+
+PRIVATE:
+- Accessible only within the same class
+- Not accessible in derived classes
+- Highest level of encapsulation
+
+PROTECTED:
+- Accessible within the class and its derived classes
+- Not accessible from outside the class hierarchy
+- Balances encapsulation with inheritance needs
+
+JavaScript Comparison:
+class Vehicle {
+  // Public - accessible everywhere
+  brand = "Generic";
+  
+  // Private - only within this class
+  #engineSerial = "ENG123456";
+  
+  // Protected-like (convention) - accessible in inheritance
+  _chassisNumber = "CHS789012";
+  
+  constructor(brand) {
+    this.brand = brand;
+  }
+  
+  // Public method
+  start() {
+    console.log(\`Starting \${this.brand}\`);
+    return this.#checkEngine(); // Can access private
+  }
+  
+  // Private method
+  #checkEngine() {
+    console.log(\`Checking engine: \${this.#engineSerial}\`);
+    return true;
+  }
+  
+  // Protected-like method
+  _getChassisNumber() {
+    return this._chassisNumber;
+  }
+}
+
+class Car extends Vehicle {
+  constructor(brand, model) {
+    super(brand);
+    this.model = model;
+  }
+  
+  getInfo() {
+    // ✅ Can access public
+    console.log(\`Brand: \${this.brand}\`);
+    
+    // ✅ Can access protected-like
+    console.log(\`Chassis: \${this._getChassisNumber()}\`);
+    
+    // ❌ Cannot access private
+    // console.log(this.#engineSerial); // SyntaxError
+    // this.#checkEngine(); // SyntaxError
+  }
+}
+
+const car = new Car("Toyota", "Camry");
+
+// Public access from outside
+console.log(car.brand); // ✅ "Toyota"
+car.start(); // ✅ Works
+
+// Protected access (discouraged but possible)
+console.log(car._chassisNumber); // ✅ Works but not recommended
+
+// Private access (impossible)
+// console.log(car.#engineSerial); // ❌ SyntaxError
+
+Python Comparison:
+class Vehicle:
+    def __init__(self, brand):
+        # Public - accessible everywhere
+        self.brand = brand
+        
+        # Protected (single underscore) - convention only
+        self._chassis_number = "CHS789012"
+        
+        # Private (double underscore) - name mangling
+        self.__engine_serial = "ENG123456"
+    
+    # Public method
+    def start(self):
+        print(f"Starting {self.brand}")
+        return self.__check_engine()  # Can access private
+    
+    # Private method
+    def __check_engine(self):
+        print(f"Checking engine: {self.__engine_serial}")
+        return True
+    
+    # Protected method
+    def _get_chassis_number(self):
+        return self._chassis_number
+
+class Car(Vehicle):
+    def __init__(self, brand, model):
+        super().__init__(brand)
+        self.model = model
+    
+    def get_info(self):
+        # ✅ Can access public
+        print(f"Brand: {self.brand}")
+        
+        # ✅ Can access protected
+        print(f"Chassis: {self._get_chassis_number()}")
+        
+        # ❌ Cannot access private directly
+        # print(self.__engine_serial)  # AttributeError
+        # self.__check_engine()  # AttributeError
+
+car = Car("Toyota", "Camry")
+
+# Public access
+print(car.brand)  # ✅ "Toyota"
+car.start()  # ✅ Works
+
+# Protected access (possible but discouraged)
+print(car._chassis_number)  # ✅ Works
+
+# Private access (through name mangling - not recommended)
+print(car._Vehicle__engine_serial)  # ✅ "ENG123456" (name mangled)
+
+# Direct private access (fails)
+# print(car.__engine_serial)  # ❌ AttributeError
+
+Access Summary:
+┌──────────────┬────────────┬─────────────┬─────────────────┐
+│ Access Type  │ Same Class │ Derived     │ Outside Class   │
+├──────────────┼────────────┼─────────────┼─────────────────┤
+│ public       │ ✅ Yes     │ ✅ Yes      │ ✅ Yes          │
+│ protected    │ ✅ Yes     │ ✅ Yes      │ ❌ No           │
+│ private      │ ✅ Yes     │ ❌ No       │ ❌ No           │
+└──────────────┴────────────┴─────────────┴─────────────────┘
+
+Use cases:
+- public: API methods, properties that need external access
+- protected: Shared functionality between base and derived classes
+- private: Internal implementation details, sensitive data`,
+      },
+      {
+        question: "What happens if you don't specify an access modifier?",
+        solution: `When no access modifier is specified in C++, the default access level depends on whether you're defining a class or struct:
+
+For CLASS:
+- Default access modifier is PRIVATE
+- All members are private unless explicitly specified otherwise
+
+For STRUCT:
+- Default access modifier is PUBLIC  
+- All members are public unless explicitly specified otherwise
+
+This difference exists for C compatibility - structs in C are always public.
+
+JavaScript Equivalent (Conceptual):
+// JavaScript doesn't have explicit access modifiers by default
+// All members are public unless using private fields (#)
+
+class MyClass {
+  // These are all public by default
+  name = "John";
+  age = 30;
+  
+  constructor() {
+    // Public by default
+    this.email = "john@email.com";
+  }
+  
+  // Public method by default
+  getName() {
+    return this.name;
+  }
+}
+
+// To simulate C++ class behavior (default private):
+class PrivateByDefault {
+  // Simulate private-by-default behavior
+  #name = "John";     // Private
+  #age = 30;          // Private
+  #email = "";        // Private
+  
+  constructor() {
+    this.#email = "john@email.com";
+  }
+  
+  // Public method (explicitly made public)
+  getName() {
+    return this.#name;
+  }
+  
+  // Public method to access private data
+  getAge() {
+    return this.#age;
+  }
+}
+
+// To simulate C++ struct behavior (default public):
+class PublicByDefault {
+  // All public by default (normal JS class behavior)
+  name = "John";
+  age = 30;
+  email = "john@email.com";
+  
+  getName() {
+    return this.name;
+  }
+}
+
+const obj1 = new MyClass();
+console.log(obj1.name); // ✅ "John" - public by default
+
+const obj2 = new PrivateByDefault();
+console.log(obj2.getName()); // ✅ "John" - through public method
+// console.log(obj2.#name); // ❌ SyntaxError - private
+
+const obj3 = new PublicByDefault();
+console.log(obj3.name); // ✅ "John" - public by default
+
+Python Equivalent:
+# Python doesn't have true access modifiers
+# All attributes are public by default (like JavaScript)
+
+class MyClass:
+    def __init__(self):
+        # Public by default
+        self.name = "John"
+        self.age = 30
+        self.email = "john@email.com"
+    
+    # Public method by default
+    def get_name(self):
+        return self.name
+
+# To simulate C++ class behavior (private by default):
+class PrivateByDefault:
+    def __init__(self):
+        # Use double underscore for "private" (name mangling)
+        self.__name = "John"
+        self.__age = 30
+        self.__email = "john@email.com"
+    
+    # Public method to access private data
+    def get_name(self):
+        return self.__name
+    
+    def get_age(self):
+        return self.__age
+
+# To simulate C++ struct behavior (public by default):
+class PublicByDefault:
+    def __init__(self):
+        # All public (normal Python behavior)
+        self.name = "John"
+        self.age = 30
+        self.email = "john@email.com"
+    
+    def get_name(self):
+        return self.name
+
+obj1 = MyClass()
+print(obj1.name)  # ✅ "John" - public by default
+
+obj2 = PrivateByDefault()
+print(obj2.get_name())  # ✅ "John" - through public method
+# print(obj2.__name)    # ❌ AttributeError - private
+
+obj3 = PublicByDefault()
+print(obj3.name)  # ✅ "John" - public by default
+
+Key Implications:
+
+1. CLASS vs STRUCT Default Behavior:
+   - class: Members are private by default
+   - struct: Members are public by default
+
+2. Best Practices:
+   - Always explicitly specify access modifiers for clarity
+   - Don't rely on defaults in professional code
+   - Use struct for simple data containers
+   - Use class for objects with behavior and encapsulation
+
+3. Historical Reason:
+   - struct maintains C compatibility (C structs are always public)
+   - class provides object-oriented encapsulation by default
+
+Example of explicit vs implicit:
+// Implicit (not recommended)
+class BadExample {
+    int data;        // private by default
+    void method();   // private by default
+};
+
+// Explicit (recommended)
+class GoodExample {
+public:
+    void publicMethod();
+private:
+    int privateData;
+    void privateMethod();
+};
+
+Impact on code maintenance and readability: Always specify access modifiers explicitly to avoid confusion and make intentions clear.`,
+      },
+      {
+        question: "Can private members be accessed outside the class?",
+        solution: `No, private members cannot be directly accessed outside the class. This is the fundamental principle of encapsulation in object-oriented programming. However, there are several ways to provide controlled access to private members.
+
+Direct access: ❌ Not allowed
+Indirect access: ✅ Through public/protected methods
+
+Ways to access private data (properly):
+1. Public getter/setter methods
+2. Friend functions/classes
+3. Public methods that use private data
+
+JavaScript Equivalent:
+class BankAccount {
+  // Private fields (ES2022+)
+  #balance = 0;
+  #accountNumber = "";
+  #pin = "";
+  
+  constructor(accountNumber, pin, initialBalance = 0) {
+    this.#accountNumber = accountNumber;
+    this.#pin = pin;
+    this.#balance = initialBalance;
+  }
+  
+  // ❌ Cannot access private members directly from outside
+  // account.#balance = 5000; // SyntaxError
+  
+  // ✅ Controlled access through public methods
+  deposit(amount) {
+    if (amount > 0) {
+      this.#balance += amount;
+      return true;
+    }
+    return false;
+  }
+  
+  // ✅ Public getter with validation
+  getBalance(enteredPin) {
+    if (this.#validatePin(enteredPin)) {
+      return this.#balance;
+    }
+    throw new Error("Invalid PIN - Access Denied");
+  }
+  
+  // ✅ Public setter with validation
+  changePin(oldPin, newPin) {
+    if (this.#validatePin(oldPin)) {
+      this.#pin = newPin;
+      return true;
+    }
+    return false;
+  }
+  
+  // Private helper method
+  #validatePin(enteredPin) {
+    return enteredPin === this.#pin;
+  }
+  
+  // ✅ Public method that uses private data
+  withdraw(amount, enteredPin) {
+    if (this.#validatePin(enteredPin) && this.#balance >= amount) {
+      this.#balance -= amount;
+      return amount;
+    }
+    return 0;
+  }
+}
+
+// Usage examples:
+const account = new BankAccount("ACC123", "1234", 1000);
+
+// ❌ Direct access to private members - NOT ALLOWED
+try {
+  console.log(account.#balance); // SyntaxError: Private field '#balance' must be declared in an enclosing class
+} catch (error) {
+  console.log("Cannot access private member directly");
+}
+
+// ✅ Proper access through public interface
+console.log(account.getBalance("1234")); // 1000 - works with correct PIN
+account.deposit(500);
+console.log(account.getBalance("1234")); // 1500
+
+try {
+  console.log(account.getBalance("wrong")); // Error - wrong PIN
+} catch (error) {
+  console.log(error.message); // "Invalid PIN - Access Denied"
+}
+
+Python Equivalent:
+class BankAccount:
+    def __init__(self, account_number, pin, initial_balance=0):
+        # Private attributes (name mangling with double underscore)
+        self.__balance = initial_balance
+        self.__account_number = account_number
+        self.__pin = pin
+    
+    # ✅ Controlled access through public methods
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+            return True
+        return False
+    
+    # ✅ Public getter with validation
+    def get_balance(self, entered_pin):
+        if self.__validate_pin(entered_pin):
+            return self.__balance
+        raise ValueError("Invalid PIN - Access Denied")
+    
+    # ✅ Public setter with validation
+    def change_pin(self, old_pin, new_pin):
+        if self.__validate_pin(old_pin):
+            self.__pin = new_pin
+            return True
+        return False
+    
+    # Private helper method
+    def __validate_pin(self, entered_pin):
+        return entered_pin == self.__pin
+    
+    # ✅ Public method that uses private data
+    def withdraw(self, amount, entered_pin):
+        if self.__validate_pin(entered_pin) and self.__balance >= amount:
+            self.__balance -= amount
+            return amount
+        return 0
+
+# Usage examples:
+account = BankAccount("ACC123", "1234", 1000)
+
+# ❌ Direct access to private members - NOT RECOMMENDED
+try:
+    print(account.__balance)  # AttributeError: 'BankAccount' object has no attribute '__balance'
+except AttributeError as e:
+    print("Cannot access private member directly")
+
+# ❌ Access through name mangling - POSSIBLE BUT BAD PRACTICE
+print(account._BankAccount__balance)  # 1000 - works but breaks encapsulation
+
+# ✅ Proper access through public interface
+print(account.get_balance("1234"))  # 1000 - works with correct PIN
+account.deposit(500)
+print(account.get_balance("1234"))  # 1500
+
+try:
+    print(account.get_balance("wrong"))  # Error - wrong PIN
+except ValueError as e:
+    print(e)  # "Invalid PIN - Access Denied"
+
+Why Private Members Cannot Be Accessed Directly:
+
+1. **Encapsulation**: Protects internal implementation details
+2. **Data Integrity**: Prevents unauthorized modifications
+3. **Security**: Restricts access to sensitive information
+4. **Maintainability**: Allows internal changes without affecting client code
+5. **Interface Design**: Forces use of well-defined public interface
+
+Controlled Access Patterns:
+
+1. **Getters/Setters**: Provide controlled read/write access
+   - Validation before setting values
+   - Computed properties
+   - Logging access attempts
+
+2. **Factory Methods**: Control object creation
+3. **Friend Functions**: Trusted external access (C++ specific)
+4. **Public Methods**: Operations that safely use private data
+
+Benefits of Private Access Control:
+- Prevents accidental corruption of object state
+- Enables validation and business logic enforcement
+- Allows for future implementation changes
+- Provides clear separation between interface and implementation
+- Enables debugging and logging of access attempts
+
+The key principle: Private members should only be accessible through carefully designed public interfaces that maintain object integrity and enforce business rules.`,
+      },
+      {
+        question: "What is the purpose of protected access modifier?",
+        solution: `The protected access modifier serves as a middle ground between private and public access, specifically designed for inheritance scenarios.
+
+**Purpose:**
+- Allows access to members within the same class and its derived classes
+- Maintains encapsulation while enabling inheritance-based access
+- Prevents external access from unrelated classes
+- Supports the "is-a" relationship in inheritance hierarchies
+
+**JavaScript Example:**
+\`\`\`javascript
+class Vehicle {
+  constructor(brand) {
+    this.brand = brand; // public
+    this._engine = "V6"; // protected (convention with _)
+    this.__serialNumber = "12345"; // private (convention with __)
+  }
+  
+  // Protected method
+  _startEngine() {
+    console.log("Engine starting...");
+  }
+}
+
+class Car extends Vehicle {
+  constructor(brand, model) {
+    super(brand);
+    this.model = model;
+  }
+  
+  start() {
+    // Can access protected members from parent
+    console.log(\`Starting \${this._engine} engine\`);
+    this._startEngine(); // Accessible
+    // this.__serialNumber would be undefined (private)
+  }
+}
+
+const car = new Car("Toyota", "Camry");
+car.start(); // Works
+// car._startEngine(); // Works but violates convention
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Vehicle:
+    def __init__(self, brand):
+        self.brand = brand          # public
+        self._engine = "V6"         # protected (single underscore)
+        self.__serial_number = "12345"  # private (double underscore)
+    
+    def _start_engine(self):  # protected method
+        print("Engine starting...")
+    
+    def __get_serial(self):   # private method
+        return self.__serial_number
+
+class Car(Vehicle):
+    def __init__(self, brand, model):
+        super().__init__(brand)
+        self.model = model
+    
+    def start(self):
+        # Can access protected members
+        print(f"Starting {self._engine} engine")
+        self._start_engine()  # Accessible
+        # print(self.__serial_number)  # Would cause AttributeError
+
+car = Car("Toyota", "Camry")
+car.start()  # Works
+print(car._engine)  # Accessible but not recommended
+# print(car.__serial_number)  # AttributeError
+\`\`\`
+
+**Key Benefits:**
+- Controlled access for inheritance hierarchies
+- Better encapsulation than public members
+- Enables proper object-oriented design patterns
+- Supports template method and factory patterns`,
+      },
+      {
+        question: "Can you access private members through inheritance?",
+        solution: `No, private members cannot be accessed through inheritance. They are strictly limited to the class where they are defined.
+
+**Key Points:**
+- Private members are not inherited by derived classes
+- They remain encapsulated within the parent class
+- Only the parent class methods can access private members
+- This maintains strict encapsulation principles
+
+**JavaScript Example:**
+\`\`\`javascript
+class BankAccount {
+  constructor(balance) {
+    this.accountNumber = "123456"; // public
+    this._accountType = "savings"; // protected
+    this.__balance = balance;      // private (convention)
+  }
+  
+  // Private method (using closure for true privacy)
+  #validateTransaction(amount) {
+    return amount > 0 && amount <= this.__balance;
+  }
+  
+  getBalance() {
+    return this.__balance; // Only accessible within this class
+  }
+  
+  withdraw(amount) {
+    if (this.#validateTransaction && this.#validateTransaction(amount)) {
+      this.__balance -= amount;
+      return true;
+    }
+    return false;
+  }
+}
+
+class SavingsAccount extends BankAccount {
+  constructor(balance, interestRate) {
+    super(balance);
+    this.interestRate = interestRate;
+  }
+  
+  calculateInterest() {
+    // Cannot access private members directly
+    // console.log(this.__balance); // undefined
+    // this.#validateTransaction(100); // SyntaxError
+    
+    // Must use public methods to access private data
+    const balance = this.getBalance();
+    return balance * this.interestRate;
+  }
+  
+  getAccountInfo() {
+    return {
+      number: this.accountNumber,    // public - accessible
+      type: this._accountType,       // protected - accessible
+      // balance: this.__balance     // private - undefined
+    };
+  }
+}
+
+const savings = new SavingsAccount(1000, 0.05);
+console.log(savings.calculateInterest()); // Works using public method
+console.log(savings.getAccountInfo()); // Shows public and protected only
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class BankAccount:
+    def __init__(self, balance):
+        self.account_number = "123456"    # public
+        self._account_type = "savings"    # protected
+        self.__balance = balance          # private (name mangling)
+    
+    def __validate_transaction(self, amount):  # private method
+        return amount > 0 and amount <= self.__balance
+    
+    def get_balance(self):
+        return self.__balance
+    
+    def withdraw(self, amount):
+        if self.__validate_transaction(amount):
+            self.__balance -= amount
+            return True
+        return False
+
+class SavingsAccount(BankAccount):
+    def __init__(self, balance, interest_rate):
+        super().__init__(balance)
+        self.interest_rate = interest_rate
+    
+    def calculate_interest(self):
+        # Cannot access private members directly
+        # print(self.__balance)  # AttributeError
+        # self.__validate_transaction(100)  # AttributeError
+        
+        # Must use public methods
+        balance = self.get_balance()
+        return balance * self.interest_rate
+    
+    def get_account_info(self):
+        return {
+            'number': self.account_number,     # public - accessible
+            'type': self._account_type,        # protected - accessible
+            # 'balance': self.__balance        # private - AttributeError
+        }
+
+savings = SavingsAccount(1000, 0.05)
+print(savings.calculate_interest())  # Works using public method
+print(savings.get_account_info())    # Shows public and protected only
+
+# Private members are name-mangled in Python
+# print(savings._BankAccount__balance)  # This would work but violates encapsulation
+\`\`\`
+
+**Why This Design?**
+- Maintains strict encapsulation
+- Prevents accidental modification of critical data
+- Forces proper interface usage
+- Enables safe refactoring of internal implementation`,
+      },
+      {
+        question: "Can friend functions access private members?",
+        solution: `Friend functions are a C++ concept that doesn't exist in JavaScript or Python in the same way. However, we can demonstrate similar patterns and explain the concept.
+
+**Friend Function Concept:**
+- Allows external functions to access private/protected members
+- Grants special access permissions to specific functions
+- Breaks encapsulation in a controlled manner
+- Not available in JavaScript or Python natively
+
+**JavaScript Alternatives:**
+\`\`\`javascript
+// Using closures to create friend-like functionality
+function createBankAccountWithFriends() {
+  let privateBalance = 0;
+  let privateTransactions = [];
+  
+  class BankAccount {
+    constructor(initialBalance) {
+      privateBalance = initialBalance;
+    }
+    
+    // Public method
+    getPublicBalance() {
+      return "Balance: $****";
+    }
+    
+    // Method that grants friend access
+    grantAccess(friendFunction) {
+      return friendFunction.call(this, {
+        balance: privateBalance,
+        transactions: privateTransactions,
+        setBalance: (amount) => privateBalance = amount
+      });
+    }
+  }
+  
+  // Friend-like function
+  function auditFunction(privateData) {
+    console.log(\`Audit: Real balance is \${privateData.balance}\`);
+    console.log(\`Transactions: \${privateData.transactions.length}\`);
+    return privateData.balance;
+  }
+  
+  // Friend-like function for banking operations
+  function bankOperatorFunction(privateData) {
+    console.log("Bank operator accessing private data");
+    privateData.setBalance(privateData.balance + 100);
+    privateData.transactions.push("Operator adjustment: +$100");
+  }
+  
+  return { BankAccount, auditFunction, bankOperatorFunction };
+}
+
+// Usage
+const { BankAccount, auditFunction, bankOperatorFunction } = createBankAccountWithFriends();
+const account = new BankAccount(1000);
+
+console.log(account.getPublicBalance()); // "Balance: $****"
+account.grantAccess(auditFunction); // Can access private data
+account.grantAccess(bankOperatorFunction); // Can modify private data
+\`\`\`
+
+**Python Alternatives:**
+\`\`\`python
+# Using descriptors and metaclasses for friend-like functionality
+class FriendAccess:
+    def __init__(self):
+        self._friends = set()
+        self._private_data = {}
+    
+    def add_friend(self, friend_func):
+        self._friends.add(friend_func.__name__)
+        return friend_func
+    
+    def access_private(self, caller_name, obj, data_key):
+        if caller_name in self._friends:
+            return getattr(obj, f"_{obj.__class__.__name__}__{data_key}")
+        raise AttributeError(f"'{caller_name}' is not a friend of this class")
+
+class BankAccount:
+    def __init__(self, balance):
+        self.account_number = "123456"
+        self.__balance = balance  # private
+        self._friend_system = FriendAccess()
+    
+    def get_public_balance(self):
+        return "Balance: $****"
+    
+    def grant_friend_access(self, friend_func):
+        return self._friend_system.add_friend(friend_func)
+
+# Friend functions
+def audit_account(account):
+    """Friend function that can access private members"""
+    try:
+        # Access private balance through friend system
+        balance = account._BankAccount__balance  # Direct access (not recommended)
+        print(f"Audit: Real balance is $ {balance}")
+        return balance
+    except AttributeError as e:
+        print(f"Access denied: {e}")
+
+def bank_operator_access(account):
+    """Another friend function"""
+    try:
+        current_balance = account._BankAccount__balance
+        account._BankAccount__balance = current_balance + 100
+        print(f"Bank operator adjusted balance by $100")
+    except AttributeError as e:
+        print(f"Access denied: {e}")
+
+# More Pythonic approach using context managers
+class PrivateAccessContext:
+    def __init__(self, obj, authorized_functions=None):
+        self.obj = obj
+        self.authorized_functions = authorized_functions or []
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        pass
+    
+    def access_private(self, attr_name, caller_func_name):
+        if caller_func_name in self.authorized_functions:
+            return getattr(self.obj, f"_{self.obj.__class__.__name__}__{attr_name}")
+        raise PermissionError(f"Function '{caller_func_name}' not authorized")
+
+class SecureBankAccount:
+    def __init__(self, balance):
+        self.__balance = balance
+        self._authorized_friends = ['audit_function', 'admin_function']
+    
+    def create_friend_context(self):
+        return PrivateAccessContext(self, self._authorized_friends)
+
+def audit_function(account):
+    with account.create_friend_context() as ctx:
+        try:
+            balance = ctx.access_private('balance', 'audit_function')
+            print(f"Authorized audit: Balance is $ {balance}")
+        except PermissionError as e:
+            print(e)
+
+# Usage examples
+account = BankAccount(1000)
+print(account.get_public_balance())  # Public access
+
+audit_account(account)  # Friend access
+bank_operator_access(account)
+
+# Secure version
+secure_account = SecureBankAccount(2000)
+audit_function(secure_account)
+\`\`\`
+
+**Key Points:**
+- JavaScript and Python don't have true friend functions
+- Closures and context managers can simulate friend behavior
+- These patterns should be used sparingly as they break encapsulation
+- Modern languages prefer composition and interfaces over friend functions
+- Friend-like patterns are useful for testing and debugging scenarios`,
+      },
+      {
+        question: "What are the advantages of inheritance?",
+        solution: `Inheritance provides several key benefits in object-oriented programming, promoting code reusability, maintainability, and logical organization.
+
+**Main Advantages:**
+
+**1. Code Reusability**
+- Eliminates duplicate code by sharing common functionality
+- Child classes inherit parent methods and properties
+- Reduces development time and effort
+
+**2. Hierarchical Organization**
+- Creates logical class relationships
+- Models real-world relationships effectively
+- Easier to understand and maintain code structure
+
+**3. Extensibility**
+- Easy to add new features by creating derived classes
+- Existing code remains unchanged
+- Supports the Open/Closed Principle
+
+**4. Polymorphism Support**
+- Enables method overriding
+- Supports dynamic method resolution
+- Allows treating objects of different classes uniformly
+
+**JavaScript Example:**
+\`\`\`javascript
+// Base class with common functionality
+class Vehicle {
+  constructor(make, model, year) {
+    this.make = make;
+    this.model = model;
+    this.year = year;
+    this._isRunning = false;
+  }
+  
+  // Common methods that all vehicles share
+  start() {
+    this._isRunning = true;
+    return \`\${this.make} \${this.model} started\`;
+  }
+  
+  stop() {
+    this._isRunning = false;
+    return \`\${this.make} \${this.model} stopped\`;
+  }
+  
+  getInfo() {
+    return \`\${this.year} \${this.make} \${this.model}\`;
+  }
+  
+  // Method to be overridden
+  getType() {
+    return "Generic Vehicle";
+  }
+}
+
+// Derived classes inherit and extend functionality
+class Car extends Vehicle {
+  constructor(make, model, year, doors) {
+    super(make, model, year); // Reusing parent constructor
+    this.doors = doors;
+  }
+  
+  // Override parent method
+  getType() {
+    return "Car";
+  }
+  
+  // Add specific functionality
+  openTrunk() {
+    return "Trunk opened";
+  }
+}
+
+class Motorcycle extends Vehicle {
+  constructor(make, model, year, engineSize) {
+    super(make, model, year);
+    this.engineSize = engineSize;
+  }
+  
+  // Override parent method
+  getType() {
+    return "Motorcycle";
+  }
+  
+  // Add specific functionality
+  wheelie() {
+    if (this._isRunning) {
+      return "Performing wheelie!";
+    }
+    return "Start the motorcycle first!";
+  }
+}
+
+// Demonstrating advantages
+const car = new Car("Toyota", "Camry", 2023, 4);
+const bike = new Motorcycle("Honda", "CBR", 2023, "600cc");
+
+// Code reusability - inherited methods
+console.log(car.start());    // Inherited from Vehicle
+console.log(bike.start());   // Inherited from Vehicle
+console.log(car.getInfo());  // Inherited from Vehicle
+console.log(bike.getInfo()); // Inherited from Vehicle
+
+// Polymorphism - same method, different behavior
+console.log(car.getType());  // "Car"
+console.log(bike.getType()); // "Motorcycle"
+
+// Extensibility - specific functionality
+console.log(car.openTrunk()); // Car-specific method
+console.log(bike.wheelie());  // Motorcycle-specific method
+
+// Polymorphic array - treat different objects uniformly
+const vehicles = [car, bike];
+vehicles.forEach(vehicle => {
+  console.log(\`\${vehicle.getInfo()} is a \${vehicle.getType()}\`);
+});
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+
+# Base class with common functionality
+class Vehicle:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+        self._is_running = False
+    
+    # Common methods that all vehicles share
+    def start(self):
+        self._is_running = True
+        return f"{self.make} {self.model} started"
+    
+    def stop(self):
+        self._is_running = False
+        return f"{self.make} {self.model} stopped"
+    
+    def get_info(self):
+        return f"{self.year} {self.make} {self.model}"
+    
+    # Method to be overridden
+    def get_type(self):
+        return "Generic Vehicle"
+    
+    def get_fuel_efficiency(self):
+        return "Unknown"
+
+# Derived classes inherit and extend functionality
+class Car(Vehicle):
+    def __init__(self, make, model, year, doors):
+        super().__init__(make, model, year)  # Reusing parent constructor
+        self.doors = doors
+    
+    # Override parent method
+    def get_type(self):
+        return "Car"
+    
+    def get_fuel_efficiency(self):
+        return "25-35 MPG"
+    
+    # Add specific functionality
+    def open_trunk(self):
+        return "Trunk opened"
+    
+    def air_conditioning(self):
+        return "AC turned on" if self._is_running else "Start car first"
+
+class Motorcycle(Vehicle):
+    def __init__(self, make, model, year, engine_size):
+        super().__init__(make, model, year)
+        self.engine_size = engine_size
+    
+    # Override parent method
+    def get_type(self):
+        return "Motorcycle"
+    
+    def get_fuel_efficiency(self):
+        return "45-60 MPG"
+    
+    # Add specific functionality
+    def wheelie(self):
+        if self._is_running:
+            return "Performing wheelie!"
+        return "Start the motorcycle first!"
+
+class ElectricCar(Car):
+    def __init__(self, make, model, year, doors, battery_capacity):
+        super().__init__(make, model, year, doors)
+        self.battery_capacity = battery_capacity
+    
+    def get_fuel_efficiency(self):
+        return f"{self.battery_capacity} kWh battery"
+    
+    def charge(self):
+        return "Charging battery..."
+
+# Demonstrating advantages
+def demonstrate_inheritance_advantages():
+    # Create instances
+    car = Car("Toyota", "Camry", 2023, 4)
+    bike = Motorcycle("Honda", "CBR", 2023, "600cc")
+    electric = ElectricCar("Tesla", "Model 3", 2023, 4, 75)
+    
+    print("=== Code Reusability ===")
+    # All classes inherit start() and get_info() methods
+    vehicles = [car, bike, electric]
+    for vehicle in vehicles:
+        print(vehicle.start())
+        print(vehicle.get_info())
+    
+    print("\\n=== Polymorphism ===")
+    # Same method call, different behavior
+    for vehicle in vehicles:
+        print(f"{vehicle.get_info()} is a {vehicle.get_type()}")
+        print(f"Fuel efficiency: {vehicle.get_fuel_efficiency()}")
+    
+    print("\\n=== Extensibility ===")
+    # Each class can have its own specific methods
+    print(car.open_trunk())
+    print(car.air_conditioning())
+    print(bike.wheelie())
+    print(electric.charge())
+    
+    print("\\n=== Hierarchical Organization ===")
+    # Clear inheritance hierarchy
+    print("Inheritance chain for ElectricCar:")
+    for cls in ElectricCar.__mro__:
+        print(f"  -> {cls.__name__}")
+
+# Run demonstration
+demonstrate_inheritance_advantages()
+
+# Advanced example: Using inheritance for framework-like structure
+class DatabaseModel:
+    def __init__(self, table_name):
+        self.table_name = table_name
+        self.fields = {}
+    
+    def save(self):
+        return f"Saving to {self.table_name} table"
+    
+    def delete(self):
+        return f"Deleting from {self.table_name} table"
+    
+    def find(self, id):
+        return f"Finding record {id} in {self.table_name}"
+
+class User(DatabaseModel):
+    def __init__(self, username, email):
+        super().__init__("users")
+        self.username = username
+        self.email = email
+    
+    def authenticate(self, password):
+        return f"Authenticating user {self.username}"
+    
+    def send_email(self):
+        return f"Sending email to {self.email}"
+
+class Product(DatabaseModel):
+    def __init__(self, name, price):
+        super().__init__("products")
+        self.name = name
+        self.price = price
+    
+    def apply_discount(self, percentage):
+        discounted_price = self.price * (1 - percentage / 100)
+        return f"Applied {percentage}% discount. New price: $ {discounted_price:.2f}"
+
+# Both classes inherit database operations automatically
+user = User("john_doe", "john@example.com")
+product = Product("Laptop", 999.99)
+
+print(user.save())      # Inherited method
+print(product.save())   # Inherited method
+print(user.send_email()) # User-specific method
+print(product.apply_discount(10)) # Product-specific method
+\`\`\`
+
+**Summary of Advantages:**
+- **Reduced Code Duplication**: Common functionality written once
+- **Easier Maintenance**: Changes to parent class affect all children
+- **Logical Structure**: Models real-world relationships
+- **Extensibility**: New classes can be added without modifying existing code
+- **Polymorphism**: Uniform interface for different object types
+- **Framework Development**: Base classes provide common infrastructure`,
+      },
+      {
+        question: "What are the disadvantages of inheritance?",
+        solution: `While inheritance is powerful, it comes with several disadvantages that can lead to design problems if not used carefully.
+
+**Main Disadvantages:**
+
+**1. Tight Coupling**
+- Child classes become dependent on parent implementation
+- Changes to parent class can break child classes
+- Difficult to modify base classes without affecting derived classes
+
+**2. Inflexibility**
+- Hard to change inheritance hierarchy later
+- Cannot inherit from multiple classes in many languages
+- May inherit unwanted methods and properties
+
+**3. Deep Inheritance Hierarchies**
+- Creates complex, hard-to-understand code
+- Performance overhead from method lookups
+- Difficult debugging and maintenance
+
+**4. Fragile Base Class Problem**
+- Minor changes in base class can have unexpected effects
+- Hard to predict all consequences of base class modifications
+
+**JavaScript Example (Showing Problems):**
+\`\`\`javascript
+// Problem 1: Tight Coupling
+class Bird {
+  constructor(name) {
+    this.name = name;
+    this.canFly = true; // Assumption that causes problems
+  }
+  
+  fly() {
+    if (this.canFly) {
+      return \`\${this.name} is flying\`;
+    }
+    return \`\${this.name} cannot fly\`;
+  }
+  
+  eat() {
+    return \`\${this.name} is eating\`;
+  }
+  
+  // Later addition that breaks existing code
+  migrate() {
+    return this.fly() + " to warmer climate";
+  }
+}
+
+// Child class inherits problematic assumption
+class Penguin extends Bird {
+  constructor(name) {
+    super(name);
+    this.canFly = false; // Overrides parent assumption
+  }
+  
+  swim() {
+    return \`\${this.name} is swimming\`;
+  }
+}
+
+// Problem 2: Inheriting unwanted behavior
+class Ostrich extends Bird {
+  constructor(name) {
+    super(name);
+    this.canFly = false;
+  }
+  
+  run() {
+    return \`\${this.name} is running fast\`;
+  }
+}
+
+// Problems arise:
+const penguin = new Penguin("Pingu");
+const ostrich = new Ostrich("Oscar");
+
+console.log(penguin.fly()); // "Pingu cannot fly" - OK
+console.log(penguin.migrate()); // "Pingu cannot fly to warmer climate" - Weird!
+console.log(ostrich.migrate()); // Same problem
+
+// Problem 3: Deep Inheritance Hierarchy
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  breathe() {
+    return \`\${this.name} is breathing\`;
+  }
+}
+
+class Mammal extends Animal {
+  constructor(name, furColor) {
+    super(name);
+    this.furColor = furColor;
+  }
+  
+  produceMilk() {
+    return \`\${this.name} is producing milk\`;
+  }
+}
+
+class Carnivore extends Mammal {
+  constructor(name, furColor, huntingStyle) {
+    super(name, furColor);
+    this.huntingStyle = huntingStyle;
+  }
+  
+  hunt() {
+    return \`\${this.name} hunts using \${this.huntingStyle}\`;
+  }
+}
+
+class Feline extends Carnivore {
+  constructor(name, furColor, huntingStyle, clawType) {
+    super(name, furColor, huntingStyle);
+    this.clawType = clawType;
+  }
+  
+  retractClaws() {
+    return \`\${this.name} retracts \${this.clawType} claws\`;
+  }
+}
+
+class Lion extends Feline {
+  constructor(name, maneSize) {
+    super(name, "golden", "pack hunting", "sharp");
+    this.maneSize = maneSize;
+  }
+  
+  roar() {
+    return \`\${this.name} roars loudly\`;
+  }
+}
+
+// Too deep hierarchy - hard to understand and maintain
+const lion = new Lion("Simba", "large");
+console.log(lion.breathe());     // From Animal (4 levels up)
+console.log(lion.produceMilk()); // From Mammal (3 levels up)
+console.log(lion.hunt());        // From Carnivore (2 levels up)
+console.log(lion.retractClaws()); // From Feline (1 level up)
+console.log(lion.roar());        // From Lion
+
+// Better solution using composition:
+class FlyingAbility {
+  constructor(canFly = true) {
+    this.canFly = canFly;
+  }
+  
+  fly(creature) {
+    return this.canFly ? 
+      \`\${creature.name} is flying\` : 
+      \`\${creature.name} cannot fly\`;
+  }
+}
+
+class SwimmingAbility {
+  swim(creature) {
+    return \`\${creature.name} is swimming\`;
+  }
+}
+
+class ComposedBird {
+  constructor(name, abilities = {}) {
+    this.name = name;
+    this.flyingAbility = abilities.flying || new FlyingAbility(true);
+    this.swimmingAbility = abilities.swimming;
+  }
+  
+  fly() {
+    return this.flyingAbility.fly(this);
+  }
+  
+  swim() {
+    return this.swimmingAbility ? 
+      this.swimmingAbility.swim(this) : 
+      \`\${this.name} cannot swim\`;
+  }
+}
+
+// More flexible composition-based approach
+const eagle = new ComposedBird("Eagle", {
+  flying: new FlyingAbility(true)
+});
+
+const composedPenguin = new ComposedBird("Pingu", {
+  flying: new FlyingAbility(false),
+  swimming: new SwimmingAbility()
+});
+
+console.log(eagle.fly());         // "Eagle is flying"
+console.log(composedPenguin.fly()); // "Pingu cannot fly"
+console.log(composedPenguin.swim()); // "Pingu is swimming"
+\`\`\`
+
+**Python Example (Showing Problems):**
+\`\`\`python
+import time
+from abc import ABC, abstractmethod
+
+# Problem 1: Fragile Base Class
+class DatabaseConnection:
+    def __init__(self, host, port):
+        self.host = host
+        self.port = port
+        self._connection = None
+        self.last_query_time = None
+    
+    def connect(self):
+        print(f"Connecting to {self.host}:{self.port}")
+        self._connection = f"connection_to_{self.host}"
+        return self._connection
+    
+    def execute_query(self, query):
+        if not self._connection:
+            self.connect()
+        
+        # Later addition that breaks existing functionality
+        self._log_query_time()
+        return f"Executed: {query}"
+    
+    def _log_query_time(self):
+        self.last_query_time = time.time()
+        # This might cause issues if child classes override this
+
+class MySQLConnection(DatabaseConnection):
+    def __init__(self, host, port, database):
+        super().__init__(host, port)
+        self.database = database
+    
+    def execute_query(self, query):
+        # Child class expects certain behavior from parent
+        result = super().execute_query(query)
+        return f"MySQL {self.database}: {result}"
+
+class PostgreSQLConnection(DatabaseConnection):
+    def __init__(self, host, port, schema):
+        super().__init__(host, port)
+        self.schema = schema
+    
+    # Overriding parent method - fragile if parent changes
+    def _log_query_time(self):
+        # Different implementation might break parent's assumptions
+        print(f"PostgreSQL query logged at {time.time()}")
+        super()._log_query_time()
+
+# Problem 2: Diamond Problem (Multiple Inheritance)
+class Flyable:
+    def move(self):
+        return "Flying through air"
+
+class Swimmable:
+    def move(self):
+        return "Swimming through water"
+
+class Duck(Flyable, Swimmable):
+    def __init__(self, name):
+        self.name = name
+    
+    # Which move() method gets called? Python's MRO decides
+    # This can be confusing and error-prone
+
+# Problem 3: Liskov Substitution Principle Violation
+
+class Rectangle:
+    def __init__(self, width, height):
+        self._width = width
+        self._height = height
+    
+    @property
+    def width(self):
+        return self._width
+    
+    @width.setter
+    def width(self, value):
+        self._width = value
+    
+    @property
+    def height(self):
+        return self._height
+    
+    @height.setter
+    def height(self, value):
+        self._height = value
+    
+    def area(self):
+        return self._width * self._height
+
+
+class Square(Rectangle):
+    def __init__(self, side):
+        super().__init__(side, side)
+    
+    @Rectangle.width.setter
+    def width(self, value):
+        # Violates parent class contract
+        self._width = value
+        self._height = value   # Forces height to match width
+    
+    @Rectangle.height.setter
+    def height(self, value):
+        # Violates parent class contract
+        self._height = value
+        self._width = value    # Forces width to match height
+
+
+# Client code expecting Rectangle behavior
+def print_area(rect: Rectangle):
+    rect.width = 5
+    rect.height = 10
+    print(f"Expected Area = 50, Got Area = {rect.area()}")
+
+
+# Test with Rectangle
+r = Rectangle(5, 10)
+print_area(r)   # ✅ Works as expected (50)
+
+# Test with Square
+s = Square(5)
+print_area(s)   # ❌ LSP violation (will print 100 instead of 50)`,
+      },
+      {
+        question: "What is the IS-A relationship?",
+        solution: `The IS-A relationship represents inheritance in object-oriented programming, where a derived class "is a" type of its base class. It establishes a parent-child relationship where the child class inherits properties and methods from the parent class.
+
+**Key Characteristics:**
+- Represents inheritance hierarchy
+- Child class is a specialized version of parent class
+- Enables polymorphism and code reuse
+- Creates "is-a-kind-of" relationship
+
+**JavaScript Example:**
+\`\`\`javascript
+// Base class
+class Animal {
+  constructor(name, species) {
+    this.name = name;
+    this.species = species;
+  }
+  
+  makeSound() {
+    console.log("Some generic animal sound");
+  }
+  
+  move() {
+    console.log(\`\${this.name} is moving\`);
+  }
+}
+
+// Derived class - Dog IS-A Animal
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name, "Canine");
+    this.breed = breed;
+  }
+  
+  makeSound() {
+    console.log("Woof! Woof!");
+  }
+  
+  wagTail() {
+    console.log(\`\${this.name} is wagging tail\`);
+  }
+}
+
+// Usage
+const myDog = new Dog("Buddy", "Golden Retriever");
+console.log(myDog instanceof Dog);    // true
+console.log(myDog instanceof Animal); // true - IS-A relationship
+myDog.makeSound(); // "Woof! Woof!"
+myDog.move();      // "Buddy is moving" (inherited)
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Base class
+class Animal:
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
+    
+    def make_sound(self):
+        print("Some generic animal sound")
+    
+    def move(self):
+        print(f"{self.name} is moving")
+
+# Derived class - Dog IS-A Animal
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name, "Canine")
+        self.breed = breed
+    
+    def make_sound(self):
+        print("Woof! Woof!")
+    
+    def wag_tail(self):
+        print(f"{self.name} is wagging tail")
+
+# Usage
+my_dog = Dog("Buddy", "Golden Retriever")
+print(isinstance(my_dog, Dog))    # True
+print(isinstance(my_dog, Animal)) # True - IS-A relationship
+my_dog.make_sound() # "Woof! Woof!"
+my_dog.move()       # "Buddy is moving" (inherited)
+\`\`\``,
+      },
+      {
+        question: "What is the HAS-A relationship?",
+        solution: `The HAS-A relationship represents composition in object-oriented programming, where one class contains an instance of another class as a member. It establishes ownership or containment rather than inheritance.
+
+**Key Characteristics:**
+- Represents composition/aggregation
+- One object contains or uses another object
+- Creates "has-a" or "contains-a" relationship
+- Provides flexibility and loose coupling
+- Enables code reuse through delegation
+
+**JavaScript Example:**
+\`\`\`javascript
+// Component classes
+class Engine {
+  constructor(type, horsepower) {
+    this.type = type;
+    this.horsepower = horsepower;
+    this.isRunning = false;
+  }
+  
+  start() {
+    this.isRunning = true;
+    console.log(\`\${this.type} engine started\`);
+  }
+  
+  stop() {
+    this.isRunning = false;
+    console.log(\`\${this.type} engine stopped\`);
+  }
+}
+
+class Wheel {
+  constructor(size, brand) {
+    this.size = size;
+    this.brand = brand;
+  }
+  
+  rotate() {
+    console.log(\`\${this.size}" \${this.brand} wheel rotating\`);
+  }
+}
+
+// Car HAS-A Engine and HAS-A Wheels
+class Car {
+  constructor(make, model, engineType, engineHP) {
+    this.make = make;
+    this.model = model;
+    // HAS-A relationship with Engine
+    this.engine = new Engine(engineType, engineHP);
+    // HAS-A relationship with Wheels (composition)
+    this.wheels = [
+      new Wheel(18, "Michelin"),
+      new Wheel(18, "Michelin"),
+      new Wheel(18, "Michelin"),
+      new Wheel(18, "Michelin")
+    ];
+  }
+  
+  startCar() {
+    console.log(\`Starting \${this.make} \${this.model}\`);
+    this.engine.start(); // Delegating to contained object
+  }
+  
+  drive() {
+    if (this.engine.isRunning) {
+      console.log("Car is driving");
+      this.wheels.forEach((wheel, index) => {
+        console.log(\`Wheel \${index + 1}:);
+        wheel.rotate();
+      });
+    } else {
+      console.log("Start the engine first!");
+    }
+  }
+}
+
+// Usage
+const myCar = new Car("Toyota", "Camry", "V6", 300);
+myCar.startCar();
+myCar.drive();
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Component classes
+class Engine:
+    def __init__(self, engine_type, horsepower):
+        self.type = engine_type
+        self.horsepower = horsepower
+        self.is_running = False
+    
+    def start(self):
+        self.is_running = True
+        print(f"{self.type} engine started")
+    
+    def stop(self):
+        self.is_running = False
+        print(f"{self.type} engine stopped")
+
+class Wheel:
+    def __init__(self, size, brand):
+        self.size = size
+        self.brand = brand
+    
+    def rotate(self):
+        print(f'{self.size}" {self.brand} wheel rotating')
+
+# Car HAS-A Engine and HAS-A Wheels
+class Car:
+    def __init__(self, make, model, engine_type, engine_hp):
+        self.make = make
+        self.model = model
+        # HAS-A relationship with Engine
+        self.engine = Engine(engine_type, engine_hp)
+        # HAS-A relationship with Wheels
+        self.wheels = [
+            Wheel(18, "Michelin"),
+            Wheel(18, "Michelin"),
+            Wheel(18, "Michelin"),
+            Wheel(18, "Michelin")
+        ]
+    
+    def start_car(self):
+        print(f"Starting {self.make} {self.model}")
+        self.engine.start()  # Delegating to contained object
+    
+    def drive(self):
+        if self.engine.is_running:
+            print("Car is driving")
+            for i, wheel in enumerate(self.wheels):
+                print(f"Wheel {i + 1}:")
+                wheel.rotate()
+        else:
+            print("Start the engine first!")
+
+# Usage
+my_car = Car("Toyota", "Camry", "V6", 300)
+my_car.start_car()
+my_car.drive()
+\`\`\``,
+      },
+      {
+        question: "What is method resolution order?",
+        solution: `Method Resolution Order (MRO) defines the order in which methods are searched for in a class hierarchy, especially important in multiple inheritance scenarios. It determines which method gets called when there are multiple classes with the same method name.
+
+**Key Characteristics:**
+- Determines method lookup sequence
+- Prevents ambiguity in multiple inheritance
+- Uses specific algorithms (C3 linearization in Python)
+- Ensures consistent method resolution
+- Important for super() calls
+
+**JavaScript Example:**
+\`\`\`javascript
+// JavaScript uses prototype chain for method resolution
+// Single inheritance chain
+class A {
+  method() {
+    console.log("Method from class A");
+  }
+  
+  commonMethod() {
+    console.log("A's common method");
+  }
+}
+
+class B extends A {
+  method() {
+    console.log("Method from class B");
+  }
+  
+  commonMethod() {
+    console.log("B's common method");
+    super.commonMethod(); // Calls parent method
+  }
+}
+
+class C extends B {
+  method() {
+    console.log("Method from class C");
+    super.method(); // Calls B's method
+  }
+}
+
+// Method resolution: C -> B -> A -> Object.prototype
+const obj = new C();
+obj.method();       // "Method from class C", then "Method from class B"
+obj.commonMethod(); // "B's common method", then "A's common method"
+
+// Mixin pattern for multiple inheritance-like behavior
+const Flyable = {
+  fly() {
+    console.log("Flying...");
+  }
+};
+
+const Swimmable = {
+  swim() {
+    console.log("Swimming...");
+  }
+};
+
+class Duck extends A {
+  constructor() {
+    super();
+    // Compose behaviors
+    Object.assign(this, Flyable, Swimmable);
+  }
+  
+  method() {
+    console.log("Duck's method");
+    super.method();
+  }
+}
+
+const duck = new Duck();
+duck.fly();    // "Flying..."
+duck.swim();   // "Swimming..."
+duck.method(); // "Duck's method", then "Method from class A"
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Python uses C3 linearization algorithm for MRO
+class A:
+    def method(self):
+        print("Method from class A")
+    
+    def common_method(self):
+        print("A's common method")
+
+class B:
+    def method(self):
+        print("Method from class B")
+    
+    def common_method(self):
+        print("B's common method")
+
+class C:
+    def method(self):
+        print("Method from class C")
+
+# Multiple inheritance
+class D(A, B):
+    def method(self):
+        print("Method from class D")
+        super().method()  # Calls based on MRO
+
+class E(C, D):
+    def method(self):
+        print("Method from class E")
+        super().method()  # Calls based on MRO
+    
+    def show_mro(self):
+        print("Method Resolution Order:")
+        for i, cls in enumerate(self.__class__.__mro__):
+            print(f"{i + 1}. {cls.__name__}")
+
+# Usage
+obj = E()
+obj.method()
+print()
+obj.show_mro()
+print()
+print("MRO tuple:", E.__mro__)
+
+# Diamond problem example
+class Animal:
+    def speak(self):
+        print("Animal speaks")
+
+class Mammal(Animal):
+    def speak(self):
+        print("Mammal sounds")
+        super().speak()
+
+class Bird(Animal):
+    def speak(self):
+        print("Bird chirps")
+        super().speak()
+
+class Bat(Mammal, Bird):  # Multiple inheritance
+    def speak(self):
+        print("Bat screeches")
+        super().speak()
+
+print("\\nDiamond inheritance example:")
+bat = Bat()
+bat.speak()
+print("Bat MRO:", [cls.__name__ for cls in Bat.__mro__])
+\`\`\``,
+      },
+      {
+        question:
+          "What happens when base and derived classes have same method names?",
+        solution: `When base and derived classes have methods with the same name, method overriding occurs. The derived class method "shadows" or "overrides" the base class method, and the derived class version is called by default. This is a fundamental concept in polymorphism.
+
+**Key Characteristics:**
+- Derived class method takes precedence
+- Base class method is hidden/overridden
+- Can still access base class method using super()
+- Enables polymorphic behavior
+- Runtime method binding (dynamic dispatch)
+
+**JavaScript Example:**
+\`\`\`javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  makeSound() {
+    console.log(\`\${this.name} makes a generic sound\`);
+  }
+  
+  move() {
+    console.log(\`\${this.name} moves\`);
+  }
+  
+  info() {
+    console.log(\`This is \${this.name}, an animal\`);
+  }
+}
+
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+  }
+  
+  // Method overriding - same name as parent
+  makeSound() {
+    console.log(\`\${this.name} barks: Woof! Woof!\`);
+  }
+  
+  // Method overriding with super() call
+  move() {
+    console.log(\`\${this.name} runs on four legs\`);
+    super.move(); // Call parent method
+  }
+  
+  // Method overriding with complete replacement
+  info() {
+    console.log(\`This is \${this.name}, a \${this.breed} dog\`);
+  }
+}
+
+class Cat extends Animal {
+  // Method overriding
+  makeSound() {
+    console.log(\`\${this.name} meows: Meow! Meow!\`);
+  }
+  
+  // Inherited move() method not overridden
+}
+
+// Demonstration
+const animals = [
+  new Animal("Generic Animal"),
+  new Dog("Buddy", "Golden Retriever"),
+  new Cat("Whiskers")
+];
+
+console.log("=== Method Overriding Demo ===");
+animals.forEach(animal => {
+  console.log(\`\\n--- \${animal.constructor.name} ---\`);
+  animal.makeSound(); // Calls overridden method
+  animal.move();      // May call overridden or inherited
+  animal.info();      // Calls appropriate version
+});
+
+// Polymorphism in action
+console.log("\\n=== Polymorphism ===");
+function animalConcert(animals) {
+  animals.forEach(animal => {
+    animal.makeSound(); // Different behavior based on actual type
+  });
+}
+
+animalConcert([
+  new Dog("Rex", "German Shepherd"),
+  new Cat("Mittens"),
+  new Animal("Mystery Animal")
+]);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def make_sound(self):
+        print(f"{self.name} makes a generic sound")
+    
+    def move(self):
+        print(f"{self.name} moves")
+    
+    def info(self):
+        print(f"This is {self.name}, an animal")
+
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
+    
+    # Method overriding - same name as parent
+    def make_sound(self):
+        print(f"{self.name} barks: Woof! Woof!")
+    
+    # Method overriding with super() call
+    def move(self):
+        print(f"{self.name} runs on four legs")
+        super().move()  # Call parent method
+    
+    # Method overriding with complete replacement
+    def info(self):
+        print(f"This is {self.name}, a {self.breed} dog")
+
+class Cat(Animal):
+    # Method overriding
+    def make_sound(self):
+        print(f"{self.name} meows: Meow! Meow!")
+    
+    # Inherited move() method not overridden
+
+# Demonstration
+animals = [
+    Animal("Generic Animal"),
+    Dog("Buddy", "Golden Retriever"),
+    Cat("Whiskers")
+]
+
+print("=== Method Overriding Demo ===")
+for animal in animals:
+    print(f"\\n--- {animal.__class__.__name__} ---")
+    animal.make_sound()  # Calls overridden method
+    animal.move()        # May call overridden or inherited
+    animal.info()        # Calls appropriate version
+
+# Polymorphism in action
+print("\\n=== Polymorphism ===")
+def animal_concert(animals):
+    for animal in animals:
+        animal.make_sound()  # Different behavior based on actual type
+
+animal_concert([
+    Dog("Rex", "German Shepherd"),
+    Cat("Mittens"),
+    Animal("Mystery Animal")
+])
+
+# Method Resolution Order demonstration
+class Bird(Animal):
+    def make_sound(self):
+        print(f"{self.name} chirps")
+
+class Parrot(Bird):
+    def make_sound(self):
+        print(f"{self.name} talks: Hello!")
+        super().make_sound()  # Calls Bird's method
+        # super().super().make_sound()  # This would be invalid
+
+parrot = Parrot("Polly")
+parrot.make_sound()
+\`\`\``,
+      },
+      {
+        question: "How do you call parent class methods from child class?",
+        solution: `You can call parent class methods from child class using the super() function/keyword. This allows you to access and invoke parent class methods, especially useful when overriding methods but still wanting to use parent functionality.
+
+**Key Characteristics:**
+- super() provides access to parent class methods
+- Commonly used in method overriding scenarios
+- Essential for constructor chaining
+- Maintains inheritance hierarchy
+- Enables extending rather than replacing parent behavior
+
+**JavaScript Example:**
+\`\`\`javascript
+class Vehicle {
+  constructor(brand, year) {
+    this.brand = brand;
+    this.year = year;
+    this.mileage = 0;
+  }
+  
+  start() {
+    console.log(\`\${this.brand} vehicle started\`);
+    return true;
+  }
+  
+  drive(miles) {
+    this.mileage += miles;
+    console.log(\`Drove \${miles} miles. Total: \${this.mileage} miles\`);
+  }
+  
+  getInfo() {
+    return \`\${this.year} \${this.brand}\`;
+  }
+  
+  maintenance() {
+    console.log("Basic vehicle maintenance");
+  }
+}
+
+class Car extends Vehicle {
+  constructor(brand, year, model, doors) {
+    // Call parent constructor
+    super(brand, year);
+    this.model = model;
+    this.doors = doors;
+    this.fuelLevel = 100;
+  }
+  
+  // Override with parent method call
+  start() {
+    console.log("Checking fuel level...");
+    if (this.fuelLevel > 0) {
+      // Call parent method
+      const started = super.start();
+      console.log("Car engine running");
+      return started;
+    } else {
+      console.log("Out of fuel!");
+      return false;
+    }
+  }
+  
+  // Extend parent method
+  drive(miles) {
+    if (this.start()) {
+      // Call parent method
+      super.drive(miles);
+      this.fuelLevel -= miles * 0.1;
+      console.log(\`Fuel remaining: \${this.fuelLevel.toFixed(1)}%\`);
+    }
+  }
+  
+  // Override with parent method integration
+  getInfo() {
+    // Call parent method and extend
+    const baseInfo = super.getInfo();
+    return \`\${baseInfo} \${this.model} (\${this.doors} doors)\`;
+  }
+  
+  // Add parent method call in new method
+  fullMaintenance() {
+    console.log("Car-specific maintenance:");
+    console.log("- Oil change");
+    console.log("- Tire rotation");
+    
+    // Call parent maintenance
+    console.log("\\nGeneral maintenance:");
+    super.maintenance();
+    
+    console.log("- Car wash");
+  }
+}
+
+class ElectricCar extends Car {
+  constructor(brand, year, model, doors, batteryCapacity) {
+    // Chain constructor calls
+    super(brand, year, model, doors);
+    this.batteryCapacity = batteryCapacity;
+    this.batteryLevel = 100;
+  }
+  
+  // Override with multiple super calls
+  start() {
+    console.log("Electric car startup sequence:");
+    
+    // Call grandparent method directly
+    Vehicle.prototype.start.call(this);
+    
+    console.log("Battery systems online");
+    return true;
+  }
+  
+  // Complex method chaining
+  drive(miles) {
+    console.log("Electric driving mode activated");
+    
+    // Call parent's drive which calls grandparent's drive
+    super.drive(miles);
+    
+    this.batteryLevel -= miles * 0.2;
+    console.log(\`Battery: \${this.batteryLevel.toFixed(1)}%\`);
+  }
+  
+  getInfo() {
+    // Chain multiple parent calls
+    const carInfo = super.getInfo();
+    return \`\${carInfo} - Electric (\${this.batteryCapacity}kWh)\`;
+  }
+}
+
+// Usage demonstration
+console.log("=== Parent Method Calls Demo ===");
+
+const car = new Car("Toyota", 2023, "Camry", 4);
+console.log(car.getInfo());
+car.drive(50);
+car.fullMaintenance();
+
+console.log("\\n--- Electric Car ---");
+const tesla = new ElectricCar("Tesla", 2023, "Model 3", 4, 75);
+console.log(tesla.getInfo());
+tesla.drive(30);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Vehicle:
+    def __init__(self, brand, year):
+        self.brand = brand
+        self.year = year
+        self.mileage = 0
+    
+    def start(self):
+        print(f"{self.brand} vehicle started")
+        return True
+    
+    def drive(self, miles):
+        self.mileage += miles
+        print(f"Drove {miles} miles. Total: {self.mileage} miles")
+    
+    def get_info(self):
+        return f"{self.year} {self.brand}"
+    
+    def maintenance(self):
+        print("Basic vehicle maintenance")
+
+class Car(Vehicle):
+    def __init__(self, brand, year, model, doors):
+        # Call parent constructor
+        super().__init__(brand, year)
+        self.model = model
+        self.doors = doors
+        self.fuel_level = 100
+    
+    # Override with parent method call
+    def start(self):
+        print("Checking fuel level...")
+        if self.fuel_level > 0:
+            # Call parent method
+            started = super().start()
+            print("Car engine running")
+            return started
+        else:
+            print("Out of fuel!")
+            return False
+    
+    # Extend parent method
+    def drive(self, miles):
+        if self.start():
+            # Call parent method
+            super().drive(miles)
+            self.fuel_level -= miles * 0.1
+            print(f"Fuel remaining: {self.fuel_level:.1f}%")
+    
+    # Override with parent method integration
+    def get_info(self):
+        # Call parent method and extend
+        base_info = super().get_info()
+        return f"{base_info} {self.model} ({self.doors} doors)"
+    
+    # Add parent method call in new method
+    def full_maintenance(self):
+        print("Car-specific maintenance:")
+        print("- Oil change")
+        print("- Tire rotation")
+        
+        # Call parent maintenance
+        print("\\nGeneral maintenance:")
+        super().maintenance()
+        
+        print("- Car wash")
+
+class ElectricCar(Car):
+    def __init__(self, brand, year, model, doors, battery_capacity):
+        # Chain constructor calls
+        super().__init__(brand, year, model, doors)
+        self.battery_capacity = battery_capacity
+        self.battery_level = 100
+    
+    # Override with multiple super calls
+    def start(self):
+        print("Electric car startup sequence:")
+        
+        # Call grandparent method using super()
+        Vehicle.start(self)  # Alternative to super().super()
+        
+        print("Battery systems online")
+        return True
+    
+    # Complex method chaining
+    def drive(self, miles):
+        print("Electric driving mode activated")
+        
+        # Call parent's drive which calls grandparent's drive
+        super().drive(miles)
+        
+        self.battery_level -= miles * 0.2
+        print(f"Battery: {self.battery_level:.1f}%")
+    
+    def get_info(self):
+        # Chain multiple parent calls
+        car_info = super().get_info()
+        return f"{car_info} - Electric ({self.battery_capacity}kWh)"
+    
+    # Demonstrate cooperative inheritance
+    def maintenance(self):
+        print("Electric car maintenance:")
+        print("- Battery check")
+        super().maintenance()  # Calls Car's maintenance
+        print("- Software update")
+
+# Usage demonstration
+print("=== Parent Method Calls Demo ===")
+
+car = Car("Toyota", 2023, "Camry", 4)
+print(car.get_info())
+car.drive(50)
+car.full_maintenance()
+
+print("\\n--- Electric Car ---")
+tesla = ElectricCar("Tesla", 2023, "Model 3", 4, 75)
+print(tesla.get_info())
+tesla.drive(30)
+tesla.maintenance()
+
+# Multiple inheritance super() example
+print("\\n=== Multiple Inheritance Super() ===")
+
+class A:
+    def method(self):
+        print("A method")
+
+class B(A):
+    def method(self):
+        print("B method")
+        super().method()
+
+class C(A):
+    def method(self):
+        print("C method")
+        super().method()
+
+class D(B, C):
+    def method(self):
+        print("D method")
+        super().method()  # Follows MRO: D -> B -> C -> A
+
+d = D()
+d.method()
+print("MRO:", [cls.__name__ for cls in D.__mro__])
+\`\`\``,
+      },
+      {
+        question: "What is a virtual destructor?",
+        solution: `A virtual destructor is a destructor declared with the 'virtual' keyword in a base class, ensuring proper cleanup when deleting objects through base class pointers in polymorphic hierarchies.
+
+**Key Points:**
+- Declared using 'virtual ~ClassName()' syntax
+- Ensures derived class destructors are called when deleting through base pointer
+- Essential for proper memory management in inheritance hierarchies
+- Once declared virtual in base class, all derived destructors become virtual automatically
+
+**JavaScript Equivalent (Cleanup Pattern):**
+\`\`\`javascript
+class BaseResource {
+  constructor() {
+    this.resources = [];
+  }
+  
+  // Virtual destructor equivalent - cleanup method
+  cleanup() {
+    console.log('Base cleanup');
+    this.resources.forEach(resource => resource.dispose());
+    this.resources = [];
+  }
+}
+
+class DerivedResource extends BaseResource {
+  constructor() {
+    super();
+    this.fileHandle = new FileHandle();
+  }
+  
+  cleanup() {
+    console.log('Derived cleanup');
+    this.fileHandle.close(); // Derived-specific cleanup
+    super.cleanup(); // Call parent cleanup
+  }
+}
+
+// Usage
+const resource = new DerivedResource();
+resource.cleanup(); // Ensures both derived and base cleanup
+\`\`\`
+
+**Python Equivalent (__del__ method):**
+\`\`\`python
+class BaseResource:
+    def __init__(self):
+        self.resources = []
+    
+    def __del__(self):
+        print("Base destructor")
+        self.cleanup()
+    
+    def cleanup(self):
+        for resource in self.resources:
+            resource.dispose()
+        self.resources.clear()
+
+class DerivedResource(BaseResource):
+    def __init__(self):
+        super().__init__()
+        self.file_handle = open('temp.txt', 'w')
+    
+    def __del__(self):
+        print("Derived destructor")
+        if hasattr(self, 'file_handle'):
+            self.file_handle.close()
+        super().__del__()
+
+# Usage
+resource = DerivedResource()
+del resource  # Triggers destructor chain
+\`\`\`
+
+**Note:** JavaScript uses garbage collection and doesn't have destructors. Python's __del__ is not guaranteed to be called immediately and should be used with caution. Both languages prefer explicit cleanup methods or context managers (Python's 'with' statement).`,
+      },
+      {
+        question: "Why do we need virtual destructors?",
+        solution: `Virtual destructors are essential to prevent memory leaks and ensure proper cleanup when dealing with polymorphic objects through base class pointers.
+
+**Problems Without Virtual Destructors:**
+1. **Memory Leaks:** Only base destructor called, derived resources not cleaned
+2. **Resource Leaks:** File handles, network connections remain open
+3. **Undefined Behavior:** Partial object destruction
+4. **Logic Errors:** Derived cleanup code never executed
+
+**JavaScript Pattern (Explicit Cleanup):**
+\`\`\`javascript
+// Problem scenario
+class DatabaseConnection {
+  constructor() {
+    this.connection = createConnection();
+    console.log('Database connected');
+  }
+  
+  cleanup() {
+    if (this.connection) {
+      this.connection.close();
+      console.log('Database disconnected');
+    }
+  }
+}
+
+class CachedConnection extends DatabaseConnection {
+  constructor() {
+    super();
+    this.cache = new Map();
+    console.log('Cache initialized');
+  }
+  
+  cleanup() {
+    console.log('Clearing cache');
+    this.cache.clear();
+    super.cleanup(); // Must call parent cleanup explicitly
+  }
+}
+
+// Resource management pattern
+class ResourceManager {
+  constructor() {
+    this.resources = [];
+  }
+  
+  register(resource) {
+    this.resources.push(resource);
+  }
+  
+  cleanupAll() {
+    // Cleanup in reverse order (like destructors)
+    for (let i = this.resources.length - 1; i >= 0; i--) {
+      this.resources[i].cleanup();
+    }
+    this.resources = [];
+  }
+}
+
+// Usage
+const manager = new ResourceManager();
+const conn = new CachedConnection();
+manager.register(conn);
+manager.cleanupAll(); // Ensures proper cleanup order
+\`\`\`
+
+**Python Context Manager Pattern:**
+\`\`\`python
+from contextlib import contextmanager
+import weakref
+
+class DatabaseConnection:
+    def __init__(self):
+        self.connection = self._create_connection()
+        print("Database connected")
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cleanup()
+    
+    def cleanup(self):
+        if hasattr(self, 'connection') and self.connection:
+            self.connection.close()
+            print("Database disconnected")
+
+class CachedConnection(DatabaseConnection):
+    def __init__(self):
+        super().__init__()
+        self.cache = {}
+        print("Cache initialized")
+    
+    def cleanup(self):
+        print("Clearing cache")
+        self.cache.clear()
+        super().cleanup()
+
+# Proper resource management
+class ResourceRegistry:
+    def __init__(self):
+        self._resources = []
+    
+    def register(self, resource):
+        # Use weak references to avoid circular references
+        self._resources.append(weakref.ref(resource))
+    
+    def cleanup_all(self):
+        # Cleanup in reverse order
+        for resource_ref in reversed(self._resources):
+            resource = resource_ref()
+            if resource and hasattr(resource, 'cleanup'):
+                resource.cleanup()
+
+# Usage with context manager
+with CachedConnection() as conn:
+    # Use connection
+    pass
+# Automatic cleanup guaranteed
+\`\`\`
+
+**Why Virtual Destructors Matter:**
+- Ensures complete object destruction in inheritance hierarchies
+- Prevents resource leaks in polymorphic designs
+- Maintains RAII (Resource Acquisition Is Initialization) principle
+- Enables safe polymorphic destruction patterns`,
+      },
+      {
+        question: "What is the order of destructor execution in inheritance?",
+        solution: `Destructors execute in reverse order of constructor execution: derived class destructor first, then base class destructors up the inheritance chain.
+
+**Execution Order:**
+1. **Most Derived Class** destructor executes first
+2. **Base Classes** destructors execute in reverse inheritance order
+3. **Member Objects** destroyed in reverse declaration order
+4. **Memory Deallocation** happens last
+
+**JavaScript Cleanup Simulation:**
+\`\`\`javascript
+class GrandParent {
+  constructor(name) {
+    this.name = name;
+    this.resources = [];
+    console.log(\`GrandParent \${name} constructed\`);
+  }
+  
+  cleanup() {
+    console.log(\`GrandParent \${this.name} cleanup\`);
+    this.resources.forEach(r => r.dispose && r.dispose());
+  }
+}
+
+class Parent extends GrandParent {
+  constructor(name) {
+    super(name);
+    this.parentData = new Array(100);
+    console.log(\`Parent \${name} constructed\`);
+  }
+  
+  cleanup() {
+    console.log(\`Parent \${this.name} cleanup\`);
+    this.parentData = null;
+    super.cleanup(); // Call parent cleanup after derived
+  }
+}
+
+class Child extends Parent {
+  constructor(name) {
+    super(name);
+    this.fileHandle = { name: 'temp.txt', close: () => console.log('File closed') };
+    this.networkSocket = { close: () => console.log('Socket closed') };
+    console.log(\`Child \${name} constructed\`);
+  }
+  
+  cleanup() {
+    console.log(\`Child \${this.name} cleanup - start\`);
+    
+    // Members destroyed in reverse declaration order
+    if (this.networkSocket) {
+      this.networkSocket.close();
+      this.networkSocket = null;
+    }
+    
+    if (this.fileHandle) {
+      this.fileHandle.close();
+      this.fileHandle = null;
+    }
+    
+    console.log(\`Child \${this.name} cleanup - end\`);
+    super.cleanup(); // Parent cleanup called last
+  }
+}
+
+// Demo execution order
+console.log('=== Construction ===');
+const obj = new Child('TestObject');
+
+console.log('\\n=== Destruction ===');
+obj.cleanup();
+
+// Output:
+// === Construction ===
+// GrandParent TestObject constructed
+// Parent TestObject constructed  
+// Child TestObject constructed
+//
+// === Destruction ===
+// Child TestObject cleanup - start
+// Socket closed
+// File closed
+// Child TestObject cleanup - end
+// Parent TestObject cleanup
+// GrandParent TestObject cleanup
+\`\`\`
+
+**Python Destructor Order:**
+\`\`\`python
+import weakref
+
+class GrandParent:
+    def __init__(self, name):
+        self.name = name
+        self.resources = []
+        print(f"GrandParent {name} constructed")
+    
+    def __del__(self):
+        print(f"GrandParent {self.name} destructor")
+        # Python handles member cleanup automatically
+        
+    def explicit_cleanup(self):
+        print(f"GrandParent {self.name} explicit cleanup")
+
+class Parent(GrandParent):
+    def __init__(self, name):
+        super().__init__(name)
+        self.parent_data = list(range(100))
+        print(f"Parent {name} constructed")
+    
+    def __del__(self):
+        print(f"Parent {self.name} destructor")
+        # Python automatically calls parent __del__
+        
+    def explicit_cleanup(self):
+        print(f"Parent {self.name} explicit cleanup")
+        super().explicit_cleanup()
+
+class Child(Parent):
+    def __init__(self, name):
+        super().__init__(name)
+        # Members created in declaration order
+        self.file_handle = open('temp.txt', 'w') if False else None  # Simulated
+        self.network_socket = type('Socket', (), {'close': lambda: print('Socket closed')})()
+        print(f"Child {name} constructed")
+    
+    def __del__(self):
+        print(f"Child {self.name} destructor - start")
+        # Explicit cleanup of resources
+        if hasattr(self, 'network_socket'):
+            self.network_socket.close()
+        if hasattr(self, 'file_handle') and self.file_handle:
+            self.file_handle.close()
+        print(f"Child {self.name} destructor - end")
+        # Parent destructors called automatically
+        
+    def explicit_cleanup(self):
+        print(f"Child {self.name} explicit cleanup - start")
+        # Clean members in reverse order
+        if hasattr(self, 'network_socket'):
+            self.network_socket.close()
+        if hasattr(self, 'file_handle') and self.file_handle:
+            self.file_handle.close()
+        print(f"Child {self.name} explicit cleanup - end")
+        super().explicit_cleanup()
+
+# Demo
+print("=== Construction ===")
+obj = Child("TestObject")
+
+print("\\n=== Explicit Cleanup ===")
+obj.explicit_cleanup()
+
+print("\\n=== Deletion ===")
+del obj
+
+# Output similar to JavaScript but with automatic parent destructor calls
+\`\`\`
+
+**Key Principles:**
+- **Constructor Order:** GrandParent → Parent → Child
+- **Destructor Order:** Child → Parent → GrandParent
+- **Member Destruction:** Reverse of declaration order within each class
+- **Automatic Chain:** Each destructor should call parent destructor (explicitly in JS, automatically in Python)`,
+      },
+      {
+        question: "What happens if you don't define a destructor?",
+        solution: `If no destructor is defined, the compiler/runtime provides a default destructor that performs basic cleanup, but this may not be sufficient for resource management.
+
+**Default Destructor Behavior:**
+1. **Automatic Member Cleanup:** Built-in types and objects with destructors
+2. **No Custom Logic:** No special resource cleanup
+3. **Inheritance Chain:** Still calls parent destructors
+4. **Potential Issues:** Memory leaks, resource leaks, incomplete cleanup
+
+**JavaScript - No Explicit Cleanup:**
+\`\`\`javascript
+// Without proper cleanup
+class ResourceUser {
+  constructor() {
+    this.timer = setInterval(() => {
+      console.log('Timer tick');
+    }, 1000);
+    
+    this.fileStream = {
+      data: new Array(1000000).fill('data'),
+      isOpen: true
+    };
+    
+    this.eventListener = () => console.log('Event fired');
+    document.addEventListener('click', this.eventListener);
+  }
+  
+  // NO cleanup method defined
+  // Resources will leak!
+}
+
+// Problem demonstration
+function demonstrateLeak() {
+  const obj = new ResourceUser();
+  // obj goes out of scope but:
+  // - Timer keeps running
+  // - Event listener remains attached
+  // - Large array stays in memory
+  
+  return; // obj becomes unreachable but resources leak
+}
+
+demonstrateLeak();
+// Timer still running, event listener still attached!
+
+// Solution: Explicit cleanup
+class ProperResourceUser {
+  constructor() {
+    this.timer = setInterval(() => {
+      console.log('Timer tick');
+    }, 1000);
+    
+    this.fileStream = {
+      data: new Array(1000000).fill('data'),
+      isOpen: true
+    };
+    
+    this.eventListener = () => console.log('Event fired');
+    document.addEventListener('click', this.eventListener);
+  }
+  
+  cleanup() {
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    
+    if (this.fileStream && this.fileStream.isOpen) {
+      this.fileStream.data = null;
+      this.fileStream.isOpen = false;
+    }
+    
+    if (this.eventListener) {
+      document.removeEventListener('click', this.eventListener);
+      this.eventListener = null;
+    }
+  }
+}
+
+// Proper usage with cleanup
+const properObj = new ProperResourceUser();
+// ... use object ...
+properObj.cleanup(); // Explicit cleanup required
+\`\`\`
+
+**Python - Default __del__ Behavior:**
+\`\`\`python
+import threading
+import time
+import weakref
+
+# Without explicit __del__ - relies on garbage collection
+class ResourceUser:
+    def __init__(self):
+        # These might not be cleaned up properly
+        self.timer = threading.Timer(1.0, self._timer_callback)
+        self.timer.start()
+        
+        self.large_data = list(range(1000000))
+        self.file_handle = None  # Would be a real file in practice
+        
+        print("ResourceUser created")
+    
+    def _timer_callback(self):
+        print("Timer callback executed")
+        # Timer could keep object alive!
+    
+    # No __del__ defined - default behavior only
+    # May not clean up timer properly!
+
+# Problem demonstration
+def demonstrate_default_behavior():
+    obj = ResourceUser()
+    # Relying on garbage collector
+    # Timer might keep running even after obj is deleted
+    
+    obj = None  # Remove reference
+    # Object may not be immediately destroyed
+    # Timer might continue running!
+
+# Solution: Explicit destructor
+class ProperResourceUser:
+    def __init__(self):
+        self.timer = threading.Timer(1.0, self._timer_callback)
+        self.timer.start()
+        self.large_data = list(range(1000000))
+        self._cleaned_up = False
+        print("ProperResourceUser created")
+    
+    def _timer_callback(self):
+        if not self._cleaned_up:
+            print("Timer callback executed")
+    
+    def __del__(self):
+        print("ProperResourceUser destructor called")
+        self.cleanup()
+    
+    def cleanup(self):
+        if not self._cleaned_up:
+            print("Cleaning up resources")
+            if hasattr(self, 'timer'):
+                self.timer.cancel()
+            self.large_data = None
+            self._cleaned_up = True
+
+# Context manager approach (recommended)
+class ManagedResourceUser:
+    def __init__(self):
+        self.timer = None
+        self.large_data = list(range(1000000))
+        print("ManagedResourceUser created")
+    
+    def __enter__(self):
+        self.timer = threading.Timer(1.0, lambda: print("Timer tick"))
+        self.timer.start()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print("Context manager cleanup")
+        if self.timer:
+            self.timer.cancel()
+        self.large_data = None
+
+# Usage examples
+print("=== Default Behavior ===")
+demonstrate_default_behavior()
+time.sleep(2)  # Timer might still be running
+
+print("\\n=== Explicit Destructor ===")
+obj2 = ProperResourceUser()
+del obj2  # Explicit cleanup
+
+print("\\n=== Context Manager ===")
+with ManagedResourceUser() as obj3:
+    time.sleep(1)
+# Automatic cleanup guaranteed
+\`\`\`
+
+**Problems Without Custom Destructors:**
+1. **Memory Leaks:** Dynamic allocations not freed
+2. **Resource Leaks:** Files, sockets, handles remain open
+3. **Timer/Callback Leaks:** Background tasks continue running
+4. **Event Listener Leaks:** Handlers remain attached
+5. **Circular References:** Objects keep each other alive
+
+**Best Practices:**
+- Always provide cleanup methods for resources
+- Use RAII patterns where possible
+- Implement context managers (Python) or explicit cleanup (JavaScript)
+- Document cleanup requirements for library users
+- Use weak references to prevent circular dependencies`,
+      },
+      {
+        question: "Can you call a destructor explicitly?",
+        solution: `Yes, you can call destructors explicitly, but it's generally not recommended and can lead to issues. In most cases, destructors should be called automatically by the runtime.
+
+**Explicit Destructor Calls:**
+- **Possible but Dangerous:** Object remains in invalid state after explicit call
+- **Double Destruction:** Risk of calling destructor twice
+- **Memory Management:** Object memory not automatically freed
+- **Best Practice:** Use explicit cleanup methods instead
+
+**JavaScript - Explicit Cleanup Methods:**
+\`\`\`javascript
+class Resource {
+  constructor(name) {
+    this.name = name;
+    this.isValid = true;
+    this.fileHandle = { close: () => console.log(\`File \${name} closed\`) };
+    this.timer = setInterval(() => {
+      if (this.isValid) console.log(\`\${name} timer tick\`);
+    }, 1000);
+    
+    console.log(\`Resource \${name} created\`);
+  }
+  
+  // Explicit cleanup method (recommended)
+  destroy() {
+    if (!this.isValid) {
+      console.warn(\`Resource \${this.name} already destroyed!\`);
+      return;
+    }
+    
+    console.log(\`Destroying resource \${this.name}\`);
+    
+    // Cleanup in reverse order of creation
+    if (this.timer) {
+      clearInterval(this.timer);
+      this.timer = null;
+    }
+    
+    if (this.fileHandle) {
+      this.fileHandle.close();
+      this.fileHandle = null;
+    }
+    
+    this.isValid = false;
+    console.log(\`Resource \${this.name} destroyed\`);
+  }
+  
+  // Method to check if object is still valid
+  use() {
+    if (!this.isValid) {
+      throw new Error(\`Cannot use destroyed resource \${this.name}\`);
+    }
+    console.log(\`Using resource \${this.name}\`);
+  }
+}
+
+// Demonstration
+const resource = new Resource("TestResource");
+
+// Normal usage
+resource.use(); // Works fine
+
+// Explicit destruction
+resource.destroy(); // Cleanup called explicitly
+
+// Trying to use after destruction
+try {
+  resource.use(); // Throws error - object invalid
+} catch (error) {
+  console.error(error.message);
+}
+
+// Double destruction attempt
+resource.destroy(); // Warning: already destroyed
+
+// Auto-cleanup pattern with finalization
+class AutoCleanupResource {
+  constructor(name) {
+    this.name = name;
+    this.isValid = true;
+    this._cleanupCallbacks = [];
+    
+    // Register cleanup callback
+    this._registerCleanup();
+    
+    this.fileHandle = { close: () => this._addCleanup(() => 
+      console.log(\`File \${name} closed\`)) };
+    this._addCleanup(() => {
+      if (this.fileHandle) this.fileHandle.close();
+    });
+  }
+  
+  _addCleanup(callback) {
+    this._cleanupCallbacks.push(callback);
+  }
+  
+  _registerCleanup() {
+    // Use WeakRef and FinalizationRegistry for automatic cleanup
+    if (typeof FinalizationRegistry !== 'undefined') {
+      const registry = new FinalizationRegistry((heldValue) => {
+        console.log(\`Auto-cleanup for \${heldValue}\`);
+      });
+      registry.register(this, this.name);
+    }
+  }
+  
+  destroy() {
+    if (!this.isValid) return;
+    
+    console.log(\`Auto-cleanup destroying \${this.name}\`);
+    
+    // Execute cleanup callbacks in reverse order
+    while (this._cleanupCallbacks.length > 0) {
+      const cleanup = this._cleanupCallbacks.pop();
+      try {
+        cleanup();
+      } catch (error) {
+        console.error(\`Cleanup error: \${error.message}\`);
+      }
+    }
+    
+    this.isValid = false;
+  }
+}
+\`\`\`
+
+**Python - Explicit __del__ Calls:**
+\`\`\`python
+import weakref
+import threading
+import atexit
+
+class Resource:
+    def __init__(self, name):
+        self.name = name
+        self._destroyed = False
+        self.file_handle = type('FileHandle', (), {
+            'close': lambda: print(f"File {name} closed")
+        })()
+        
+        self.timer = threading.Timer(2.0, lambda: 
+            print(f"{name} timer expired") if not self._destroyed else None)
+        self.timer.start()
+        
+        print(f"Resource {name} created")
+    
+    def __del__(self):
+        if not self._destroyed:
+            print(f"Destructor called for {self.name}")
+            self._cleanup()
+    
+    def _cleanup(self):
+        """Internal cleanup method"""
+        if self._destroyed:
+            return
+            
+        print(f"Cleaning up {self.name}")
+        
+        if hasattr(self, 'timer') and self.timer:
+            self.timer.cancel()
+        
+        if hasattr(self, 'file_handle') and self.file_handle:
+            self.file_handle.close()
+        
+        self._destroyed = True
+    
+    def destroy(self):
+        """Explicit cleanup method (recommended)"""
+        if self._destroyed:
+            print(f"Warning: {self.name} already destroyed!")
+            return
+        
+        print(f"Explicitly destroying {self.name}")
+        self._cleanup()
+    
+    def use(self):
+        if self._destroyed:
+            raise RuntimeError(f"Cannot use destroyed resource {self.name}")
+        print(f"Using resource {self.name}")
+
+# Demonstration of explicit calls
+resource = Resource("TestResource")
+
+# Normal usage
+resource.use()  # Works fine
+
+# Explicit destruction
+resource.destroy()  # Cleanup called
+
+# Trying to use after destruction
+try:
+    resource.use()  # Raises exception
+except RuntimeError as e:
+    print(f"Error: {e}")
+
+# Explicit destructor call (NOT RECOMMENDED)
+resource.__del__()  # Warning: already destroyed
+
+# Context manager pattern (RECOMMENDED)
+class ManagedResource:
+    def __init__(self, name):
+        self.name = name
+        self._destroyed = False
+        self.resources = []
+    
+    def __enter__(self):
+        print(f"Acquiring {self.name}")
+        self.file_handle = type('FileHandle', (), {
+            'close': lambda: print(f"File {self.name} closed")
+        })()
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print(f"Releasing {self.name}")
+        if hasattr(self, 'file_handle'):
+            self.file_handle.close()
+        self._destroyed = True
+        
+        # Handle exceptions during cleanup
+        if exc_type is not None:
+            print(f"Exception during cleanup: {exc_type.__name__}")
+        return False  # Don't suppress exceptions
+    
+    def __del__(self):
+        if not self._destroyed:
+            print(f"Warning: {self.name} not properly cleaned up!")
+
+# Safe usage with context manager
+print("\\n=== Context Manager Usage ===")
+with ManagedResource("SafeResource") as safe_resource:
+    print("Using safe resource")
+    # Automatic cleanup guaranteed
+
+# Demonstrating finalizers (Python 3.4+)
+class FinalizerResource:
+    def __init__(self, name):
+        self.name = name
+        self._destroyed = False
+        
+        # Register finalizer for automatic cleanup
+        self._finalizer = weakref.finalize(self, self._cleanup_static, name)
+    
+    @staticmethod
+    def _cleanup_static(name):
+        print(f"Finalizer cleaning up {name}")
+    
+    def destroy(self):
+        if not self._destroyed:
+            print(f"Explicitly destroying {self.name}")
+            self._finalizer()  # Call finalizer
+            self._destroyed = True
+
+# Usage
+finalizer_resource = FinalizerResource("FinalizerTest")
+finalizer_resource.destroy()  # Explicit cleanup
+\`\`\`
+
+**Key Takeaways:**
+1. **Explicit Calls Possible:** But dangerous and not recommended
+2. **Use Cleanup Methods:** Provide explicit cleanup() or destroy() methods
+3. **Context Managers:** Best practice for guaranteed cleanup
+4. **Finalizers/WeakRef:** Automatic cleanup patterns
+5. **State Tracking:** Always check if already destroyed
+6. **Exception Safety:** Handle errors during cleanup gracefully
+
+**Best Practices:**
+- Provide explicit cleanup methods instead of relying on destructor calls
+- Use context managers (with statements) for guaranteed cleanup
+- Implement proper state tracking to prevent double cleanup
+- Handle exceptions during cleanup to prevent cascading failures
+- Document cleanup requirements clearly for API users`,
+      },
+      {
+        question: "What is the difference between constructor and destructor?",
+        solution:
+          "**Constructor vs Destructor:**\n\n**Constructor:**\n- Special method called automatically when an object is created\n- Used to initialize object properties and allocate resources\n- Same name as the class\n- Can have parameters (parameterized constructors)\n- Can be overloaded (multiple constructors with different parameters)\n- Cannot have return types\n\n**Destructor:**\n- Special method called automatically when an object is destroyed/goes out of scope\n- Used to clean up resources and perform cleanup operations\n- Preceded by ~ symbol (in languages like C++), or handled by garbage collection\n- Cannot have parameters\n- Cannot be overloaded\n- Cannot have return types\n\n**JavaScript Example:**\n```javascript\nclass Person {\n    constructor(name, age) {  // Constructor\n        this.name = name;\n        this.age = age;\n        console.log(`Person ${name} created`);\n    }\n    \n    // JavaScript doesn't have explicit destructors\n    // Cleanup is handled by garbage collection\n    // But we can simulate cleanup\n    destroy() {\n        console.log(`Person ${this.name} destroyed`);\n        this.name = null;\n        this.age = null;\n    }\n}\n\nconst person = new Person('John', 25);\n// Constructor called automatically\nperson.destroy(); // Manual cleanup\n```\n\n**Python Example:**\n```python\nclass Person:\n    def __init__(self, name, age):  # Constructor\n        self.name = name\n        self.age = age\n        print(f'Person {name} created')\n    \n    def __del__(self):  # Destructor\n        print(f'Person {self.name} destroyed')\n        # Cleanup operations here\n\n# Usage\nperson = Person('John', 25)  # Constructor called\ndel person  # Destructor called\n# Or destructor called automatically when object goes out of scope\n```",
+      },
+      {
+        question: "Can constructors throw exceptions?",
+        solution:
+          "**Yes, constructors can throw exceptions.** This is a common practice for validating input parameters and handling initialization errors.\n\n**When constructors throw exceptions:**\n- Object creation fails\n- Memory allocated for the object is deallocated\n- Exception propagates to the calling code\n- Partially constructed objects are cleaned up properly\n\n**JavaScript Example:**\n```javascript\nclass BankAccount {\n    constructor(accountNumber, initialBalance) {\n        if (!accountNumber || accountNumber.length < 10) {\n            throw new Error('Account number must be at least 10 characters');\n        }\n        \n        if (initialBalance < 0) {\n            throw new Error('Initial balance cannot be negative');\n        }\n        \n        this.accountNumber = accountNumber;\n        this.balance = initialBalance;\n        console.log('Account created successfully');\n    }\n}\n\n// Usage with exception handling\ntry {\n    const account1 = new BankAccount('12345', 100); // Throws error - short account number\n} catch (error) {\n    console.log('Error:', error.message);\n}\n\ntry {\n    const account2 = new BankAccount('1234567890', -50); // Throws error - negative balance\n} catch (error) {\n    console.log('Error:', error.message);\n}\n\nconst validAccount = new BankAccount('1234567890', 100); // Success\n```\n\n**Python Example:**\n```python\nclass BankAccount:\n    def __init__(self, account_number, initial_balance):\n        if not account_number or len(account_number) < 10:\n            raise ValueError('Account number must be at least 10 characters')\n        \n        if initial_balance < 0:\n            raise ValueError('Initial balance cannot be negative')\n        \n        self.account_number = account_number\n        self.balance = initial_balance\n        print('Account created successfully')\n\n# Usage with exception handling\ntry:\n    account1 = BankAccount('12345', 100)  # Raises ValueError\nexcept ValueError as e:\n    print(f'Error: {e}')\n\ntry:\n    account2 = BankAccount('1234567890', -50)  # Raises ValueError\nexcept ValueError as e:\n    print(f'Error: {e}')\n\nvalid_account = BankAccount('1234567890', 100)  # Success\n```\n\n**Best Practices:**\n- Validate all constructor parameters\n- Throw meaningful exceptions with descriptive messages\n- Use appropriate exception types\n- Handle partial construction scenarios properly",
+      },
+      {
+        question: "What is constructor delegation?",
+        solution:
+          '**Constructor delegation** is a technique where one constructor calls another constructor within the same class. This helps avoid code duplication and ensures consistent initialization logic.\n\n**Benefits:**\n- Reduces code duplication\n- Centralizes initialization logic\n- Makes maintenance easier\n- Ensures consistent object state\n\n**JavaScript Example:**\n```javascript\nclass Rectangle {\n    constructor(width, height = null) {\n        if (height === null) {\n            // Delegate to the square constructor logic\n            this.width = width;\n            this.height = width; // Square case\n        } else {\n            this.width = width;\n            this.height = height;\n        }\n        \n        this.area = this.calculateArea();\n        console.log(`Rectangle created: ${this.width}x${this.height}`);\n    }\n    \n    calculateArea() {\n        return this.width * this.height;\n    }\n}\n\n// Alternative approach using static factory methods\nclass Person {\n    constructor(name, age, email = null) {\n        this.name = name;\n        this.age = age;\n        this.email = email || `${name.toLowerCase()}@example.com`;\n        this.id = Math.random().toString(36).substr(2, 9);\n    }\n    \n    // Factory methods for different construction scenarios\n    static createMinor(name, age) {\n        if (age >= 18) {\n            throw new Error(\'Person is not a minor\');\n        }\n        return new Person(name, age, null);\n    }\n    \n    static createWithEmail(name, age, email) {\n        return new Person(name, age, email);\n    }\n}\n\n// Usage\nconst rect1 = new Rectangle(5);      // Square: 5x5\nconst rect2 = new Rectangle(4, 6);   // Rectangle: 4x6\n\nconst person1 = Person.createMinor(\'John\', 16);\nconst person2 = Person.createWithEmail(\'Jane\', 25, \'jane@custom.com\');\n```\n\n**Python Example:**\n```python\nclass Rectangle:\n    def __init__(self, width, height=None):\n        if height is None:\n            # Square case - delegate logic\n            self._init_square(width)\n        else:\n            # Rectangle case\n            self._init_rectangle(width, height)\n    \n    def _init_square(self, side):\n        """Helper method for square initialization"""\n        self.width = side\n        self.height = side\n        self.shape_type = \'square\'\n        self._finalize_init()\n    \n    def _init_rectangle(self, width, height):\n        """Helper method for rectangle initialization"""\n        self.width = width\n        self.height = height\n        self.shape_type = \'rectangle\'\n        self._finalize_init()\n    \n    def _finalize_init(self):\n        """Common initialization logic"""\n        self.area = self.width * self.height\n        print(f\'{self.shape_type.capitalize()} created: {self.width}x{self.height}\')\n\n# More Pythonic approach using class methods\nclass Person:\n    def __init__(self, name, age, email=None):\n        self.name = name\n        self.age = age\n        self.email = email or f\'{name.lower()}@example.com\'\n        self.id = self._generate_id()\n    \n    def _generate_id(self):\n        import random\n        import string\n        return \'\'.join(random.choices(string.ascii_lowercase + string.digits, k=9))\n    \n    @classmethod\n    def create_minor(cls, name, age):\n        """Constructor delegation through class method"""\n        if age >= 18:\n            raise ValueError(\'Person is not a minor\')\n        return cls(name, age)  # Delegates to __init__\n    \n    @classmethod\n    def create_with_email(cls, name, age, email):\n        """Constructor delegation through class method"""\n        return cls(name, age, email)  # Delegates to __init__\n    \n    @classmethod\n    def from_string(cls, person_string):\n        """Parse and create from string format \'Name,Age,Email\'"""\n        parts = person_string.split(\',\')\n        name = parts[0].strip()\n        age = int(parts[1].strip())\n        email = parts[2].strip() if len(parts) > 2 else None\n        return cls(name, age, email)  # Delegates to __init__\n\n# Usage\nrect1 = Rectangle(5)          # Square: 5x5\nrect2 = Rectangle(4, 6)       # Rectangle: 4x6\n\nperson1 = Person.create_minor(\'John\', 16)\nperson2 = Person.create_with_email(\'Jane\', 25, \'jane@custom.com\')\nperson3 = Person.from_string(\'Bob,30,bob@example.com\')\n```\n\n**Key Points:**\n- Constructor delegation promotes DRY (Don\'t Repeat Yourself) principle\n- Use helper methods or class methods for different initialization scenarios\n- Ensures all objects go through consistent initialization logic\n- Makes code more maintainable and less error-prone',
+      },
+      {
+        question: "What is the super keyword?",
+        solution:
+          "The **super** keyword is used to access and call methods, constructors, and properties of the parent class from within a child class. It's essential for inheritance and method overriding.\n\n**Uses of super:**\n- Call parent class constructor\n- Access parent class methods\n- Access parent class properties\n- Implement method overriding properly\n\n**JavaScript Example:**\n```javascript\nclass Animal {\n    constructor(name, species) {\n        this.name = name;\n        this.species = species;\n        console.log(`Animal ${name} created`);\n    }\n    \n    makeSound() {\n        console.log(`${this.name} makes a sound`);\n    }\n    \n    getInfo() {\n        return `${this.name} is a ${this.species}`;\n    }\n    \n    sleep() {\n        console.log(`${this.name} is sleeping`);\n    }\n}\n\nclass Dog extends Animal {\n    constructor(name, breed) {\n        // Call parent constructor using super()\n        super(name, 'Dog');  // Must be first statement\n        this.breed = breed;\n        console.log(`Dog ${name} of breed ${breed} created`);\n    }\n    \n    makeSound() {\n        // Call parent method first\n        super.makeSound();\n        // Then add specific behavior\n        console.log(`${this.name} barks: Woof! Woof!`);\n    }\n    \n    getInfo() {\n        // Extend parent method\n        const parentInfo = super.getInfo();\n        return `${parentInfo} and is a ${this.breed} breed`;\n    }\n    \n    fetch() {\n        console.log(`${this.name} is fetching the ball`);\n    }\n}\n\nclass Cat extends Animal {\n    constructor(name, isIndoor = true) {\n        super(name, 'Cat');\n        this.isIndoor = isIndoor;\n    }\n    \n    makeSound() {\n        super.makeSound();  // Call parent method\n        console.log(`${this.name} meows: Meow! Meow!`);\n    }\n    \n    climb() {\n        console.log(`${this.name} is climbing`);\n    }\n}\n\n// Usage\nconst dog = new Dog('Buddy', 'Golden Retriever');\ndog.makeSound();  // Calls both parent and child methods\nconsole.log(dog.getInfo());\ndog.sleep();      // Inherited method\ndog.fetch();      // Dog-specific method\n\nconst cat = new Cat('Whiskers');\ncat.makeSound();\ncat.climb();\n```\n\n**Python Example:**\n```python\nclass Animal:\n    def __init__(self, name, species):\n        self.name = name\n        self.species = species\n        print(f'Animal {name} created')\n    \n    def make_sound(self):\n        print(f'{self.name} makes a sound')\n    \n    def get_info(self):\n        return f'{self.name} is a {self.species}'\n    \n    def sleep(self):\n        print(f'{self.name} is sleeping')\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        # Call parent constructor using super()\n        super().__init__(name, 'Dog')\n        self.breed = breed\n        print(f'Dog {name} of breed {breed} created')\n    \n    def make_sound(self):\n        # Call parent method first\n        super().make_sound()\n        # Then add specific behavior\n        print(f'{self.name} barks: Woof! Woof!')\n    \n    def get_info(self):\n        # Extend parent method\n        parent_info = super().get_info()\n        return f'{parent_info} and is a {self.breed} breed'\n    \n    def fetch(self):\n        print(f'{self.name} is fetching the ball')\n\nclass Cat(Animal):\n    def __init__(self, name, is_indoor=True):\n        super().__init__(name, 'Cat')\n        self.is_indoor = is_indoor\n    \n    def make_sound(self):\n        super().make_sound()  # Call parent method\n        print(f'{self.name} meows: Meow! Meow!')\n    \n    def climb(self):\n        print(f'{self.name} is climbing')\n\n# Multiple inheritance example\nclass Flyable:\n    def __init__(self):\n        print('Flyable mixin initialized')\n    \n    def fly(self):\n        print('Flying through the air')\n\nclass Bird(Animal, Flyable):\n    def __init__(self, name, wing_span):\n        # Call both parent constructors\n        Animal.__init__(self, name, 'Bird')  # Explicit call\n        Flyable.__init__(self)  # Explicit call\n        # Or use super() for the first parent only\n        # super().__init__(name, 'Bird')\n        self.wing_span = wing_span\n    \n    def make_sound(self):\n        super().make_sound()\n        print(f'{self.name} chirps: Tweet! Tweet!')\n\n# Usage\ndog = Dog('Buddy', 'Golden Retriever')\ndog.make_sound()  # Calls both parent and child methods\nprint(dog.get_info())\ndog.sleep()       # Inherited method\ndog.fetch()       # Dog-specific method\n\nprint('\\n' + '-'*40 + '\\n')\n\ncat = Cat('Whiskers')\ncat.make_sound()\ncat.climb()\n\nprint('\\n' + '-'*40 + '\\n')\n\nbird = Bird('Tweety', 15)\nbird.make_sound()\nbird.fly()\n```\n\n**Advanced super() usage in Python:**\n```python\nclass A:\n    def __init__(self):\n        print('A.__init__')\n    \n    def method(self):\n        print('A.method')\n\nclass B(A):\n    def __init__(self):\n        print('B.__init__ start')\n        super().__init__()\n        print('B.__init__ end')\n    \n    def method(self):\n        print('B.method start')\n        super().method()\n        print('B.method end')\n\nclass C(B):\n    def __init__(self):\n        print('C.__init__ start')\n        super().__init__()\n        print('C.__init__ end')\n    \n    def method(self):\n        print('C.method start')\n        super().method()\n        print('C.method end')\n\n# Demonstrates Method Resolution Order (MRO)\nobj = C()\nobj.method()\nprint('MRO:', C.__mro__)\n```\n\n**Key Points:**\n- In JavaScript: `super()` must be called before using `this` in constructor\n- In Python: `super().__init__()` or `super().method_name()`\n- super() respects Method Resolution Order (MRO) in multiple inheritance\n- Used for proper inheritance and method overriding\n- Enables code reuse while extending functionality",
+      },
+      {
+        question: "Can private members be inherited?",
+        solution:
+          "**Private members cannot be directly inherited or accessed by child classes.** However, the behavior varies between languages and their interpretation of 'private'.\n\n**General Rules:**\n- **Private members**: Not accessible from child classes\n- **Protected members**: Accessible from child classes but not from outside\n- **Public members**: Accessible from everywhere\n\n**JavaScript Example:**\n```javascript\nclass Parent {\n    constructor() {\n        // Public property\n        this.publicProperty = 'I am public';\n        \n        // Private field (ES2022+) - truly private\n        #privateField = 'I am private';\n        \n        // Convention-based private (not truly private)\n        this._protectedProperty = 'I am protected by convention';\n    }\n    \n    // Public method\n    publicMethod() {\n        console.log('Public method called');\n        return this.#privateField; // Can access private field\n    }\n    \n    // Private method (ES2022+)\n    #privateMethod() {\n        console.log('Private method called');\n        return 'Private method result';\n    }\n    \n    // Protected method (by convention)\n    _protectedMethod() {\n        console.log('Protected method called');\n        return this.#privateMethod(); // Can call private method\n    }\n    \n    // Getter for private field (controlled access)\n    getPrivateField() {\n        return this.#privateField;\n    }\n    \n    setPrivateField(value) {\n        this.#privateField = value;\n    }\n}\n\nclass Child extends Parent {\n    constructor() {\n        super();\n        \n        // Can access public property\n        console.log(this.publicProperty); // ✅ Works\n        \n        // Can access protected property (by convention)\n        console.log(this._protectedProperty); // ✅ Works\n        \n        // Cannot access private field directly\n        // console.log(this.#privateField); // ❌ SyntaxError\n    }\n    \n    childMethod() {\n        // Can call public methods\n        console.log(this.publicMethod()); // ✅ Works\n        \n        // Can call protected methods (by convention)\n        this._protectedMethod(); // ✅ Works\n        \n        // Cannot call private methods directly\n        // this.#privateMethod(); // ❌ SyntaxError\n        \n        // Must use public interface to access private data\n        console.log('Private field via getter:', this.getPrivateField());\n    }\n    \n    // Child can have its own private members\n    #childPrivateField = 'Child private data';\n    \n    getChildPrivate() {\n        return this.#childPrivateField;\n    }\n}\n\n// Usage\nconst child = new Child();\nchild.childMethod();\n\n// Demonstrate access levels\nconsole.log('Public access:', child.publicProperty); // ✅ Works\nconsole.log('Protected access:', child._protectedProperty); // ✅ Works (but shouldn't be used)\n// console.log(child.#privateField); // ❌ SyntaxError\nconsole.log('Private via public method:', child.getPrivateField()); // ✅ Works\n```\n\n**Python Example:**\n```python\nclass Parent:\n    def __init__(self):\n        # Public attribute\n        self.public_attribute = 'I am public'\n        \n        # Protected attribute (convention: single underscore)\n        self._protected_attribute = 'I am protected'\n        \n        # Private attribute (name mangling: double underscore)\n        self.__private_attribute = 'I am private'\n    \n    def public_method(self):\n        \"\"\"Public method - accessible everywhere\"\"\"\n        print('Public method called')\n        return self.__private_attribute  # Can access private\n    \n    def _protected_method(self):\n        \"\"\"Protected method - should only be used by subclasses\"\"\"\n        print('Protected method called')\n        return self.__private_method()  # Can call private\n    \n    def __private_method(self):\n        \"\"\"Private method - name mangled\"\"\"\n        print('Private method called')\n        return 'Private method result'\n    \n    # Getter/setter for controlled access to private data\n    def get_private_attribute(self):\n        return self.__private_attribute\n    \n    def set_private_attribute(self, value):\n        self.__private_attribute = value\n\nclass Child(Parent):\n    def __init__(self):\n        super().__init__()\n        \n        # Can access public attribute\n        print('Public:', self.public_attribute)  # ✅ Works\n        \n        # Can access protected attribute\n        print('Protected:', self._protected_attribute)  # ✅ Works\n        \n        # Cannot directly access private attribute\n        # print(self.__private_attribute)  # ❌ AttributeError\n        \n        # But can access via name mangling (not recommended)\n        print('Private via mangling:', self._Parent__private_attribute)  # ✅ Works but bad practice\n    \n    def child_method(self):\n        # Can call public methods\n        result = self.public_method()  # ✅ Works\n        print('Public method result:', result)\n        \n        # Can call protected methods\n        self._protected_method()  # ✅ Works\n        \n        # Cannot call private methods directly\n        # self.__private_method()  # ❌ AttributeError\n        \n        # But can call via name mangling (not recommended)\n        result = self._Parent__private_method()  # ✅ Works but bad practice\n        print('Private method via mangling:', result)\n    \n    def demonstrate_access(self):\n        print('\\n--- Demonstrating Access Levels ---')\n        \n        # Public access - always works\n        print(f'Public attribute: {self.public_attribute}')\n        \n        # Protected access - works but should be used carefully\n        print(f'Protected attribute: {self._protected_attribute}')\n        \n        # Private access - use public interface\n        print(f'Private attribute via getter: {self.get_private_attribute()}')\n        \n        # Show that private attributes are name-mangled\n        print(f'Available attributes: {[attr for attr in dir(self) if \"private\" in attr.lower()]}')\n\n# Usage demonstration\nprint('=== Creating Child Instance ===')\nchild = Child()\n\nprint('\\n=== Calling Child Methods ===')\nchild.child_method()\nchild.demonstrate_access()\n\n# External access demonstration\nprint('\\n=== External Access Demo ===')\nprint('Public attribute:', child.public_attribute)  # ✅ Works\nprint('Protected attribute:', child._protected_attribute)  # ✅ Works (but shouldn't)\n# print(child.__private_attribute)  # ❌ AttributeError\nprint('Private via getter:', child.get_private_attribute())  # ✅ Proper way\n\n# Property-based approach for better encapsulation\nclass BetterParent:\n    def __init__(self):\n        self._value = 0  # Protected\n    \n    @property\n    def value(self):\n        \"\"\"Read-only access to private data\"\"\"\n        return self._value\n    \n    @value.setter\n    def value(self, new_value):\n        \"\"\"Controlled write access\"\"\"\n        if new_value < 0:\n            raise ValueError('Value cannot be negative')\n        self._value = new_value\n\nclass BetterChild(BetterParent):\n    def __init__(self):\n        super().__init__()\n    \n    def modify_value(self, increment):\n        # Access through property interface\n        self.value = self.value + increment\n\n# Better encapsulation example\nprint('\\n=== Better Encapsulation Example ===')\nbetter_child = BetterChild()\nprint('Initial value:', better_child.value)\nbetter_child.modify_value(10)\nprint('After increment:', better_child.value)\n\ntry:\n    better_child.value = -5  # This will raise an error\nexcept ValueError as e:\n    print('Error caught:', e)\n```\n\n**Key Points:**\n\n1. **True Privacy**: Private members are not inherited and cannot be directly accessed by child classes\n\n2. **Access Levels**:\n   - **Public**: Accessible everywhere\n   - **Protected**: Accessible in child classes (by convention)\n   - **Private**: Not accessible in child classes\n\n3. **Language Differences**:\n   - **JavaScript**: `#private` fields are truly private (ES2022+)\n   - **Python**: `__private` attributes are name-mangled but still accessible\n\n4. **Best Practices**:\n   - Use public interfaces (getters/setters) to access private data\n   - Follow naming conventions for protected members\n   - Design clear APIs for child classes\n   - Use properties for controlled access in Python\n\n5. **Inheritance Alternative**: If child classes need access to parent data, consider making it protected rather than private, or provide controlled access through public methods.",
+      },
+      {
+        question: "What is the diamond problem in multiple inheritance?",
+        solution:
+          "The diamond problem occurs in multiple inheritance when a class inherits from two classes that both inherit from the same base class, creating an ambiguous inheritance path that forms a diamond-shaped hierarchy. This leads to ambiguity about which version of inherited methods or attributes should be used.\n\n**Python Example:**\n```python\nclass Animal:\n    def speak(self):\n        print('Animal speaks')\n\nclass Mammal(Animal):\n    def speak(self):\n        print('Mammal speaks')\n\nclass Bird(Animal):\n    def speak(self):\n        print('Bird speaks')\n\n# Diamond problem - which speak() method should Bat inherit?\nclass Bat(Mammal, Bird):\n    pass\n\nbat = Bat()\nbat.speak()  # Output: 'Mammal speaks' (Python uses MRO)\n```\n\n**JavaScript Example:**\n```javascript\nclass Animal {\n    speak() {\n        console.log('Animal speaks');\n    }\n}\n\nclass Mammal extends Animal {\n    speak() {\n        console.log('Mammal speaks');\n    }\n}\n\nclass Bird extends Animal {\n    speak() {\n        console.log('Bird speaks');\n    }\n}\n\n// JavaScript doesn't support multiple inheritance directly\n// But we can simulate the problem with mixins\nfunction createBat() {\n    const bat = Object.create(Mammal.prototype);\n    Object.assign(bat, Bird.prototype);\n    return bat;\n}\n\nconst bat = createBat();\nbat.speak(); // Ambiguous - depends on assignment order\n```",
+      },
+      {
+        question: "How is the diamond problem resolved?",
+        solution:
+          "The diamond problem is resolved through different mechanisms depending on the language:\n\n**1. Method Resolution Order (MRO) - Python:**\nPython uses C3 linearization algorithm to determine method resolution order.\n\n```python\nclass A:\n    def method(self):\n        print('A')\n\nclass B(A):\n    def method(self):\n        print('B')\n        super().method()\n\nclass C(A):\n    def method(self):\n        print('C')\n        super().method()\n\nclass D(B, C):\n    def method(self):\n        print('D')\n        super().method()\n\n# Check MRO\nprint(D.__mro__)  # (<class 'D'>, <class 'B'>, <class 'C'>, <class 'A'>, <class 'object'>)\n\nd = D()\nd.method()\n# Output:\n# D\n# B\n# C\n# A\n```\n\n**2. Interface-based approach - JavaScript:**\n```javascript\n// Use composition over inheritance\nclass Animal {\n    speak() {\n        console.log('Animal speaks');\n    }\n}\n\nclass FlyingBehavior {\n    fly() {\n        console.log('Flying');\n    }\n}\n\nclass SwimmingBehavior {\n    swim() {\n        console.log('Swimming');\n    }\n}\n\nclass Duck {\n    constructor() {\n        this.flyingBehavior = new FlyingBehavior();\n        this.swimmingBehavior = new SwimmingBehavior();\n    }\n    \n    speak() {\n        console.log('Duck quacks');\n    }\n    \n    fly() {\n        this.flyingBehavior.fly();\n    }\n    \n    swim() {\n        this.swimmingBehavior.swim();\n    }\n}\n```\n\n**3. Explicit resolution:**\n```python\nclass Bat(Mammal, Bird):\n    def speak(self):\n        # Explicitly choose which parent method to call\n        Mammal.speak(self)  # or Bird.speak(self)\n        # Or combine both\n        print('Bat speaks uniquely')\n```",
+      },
+      {
+        question: "What is virtual inheritance?",
+        solution:
+          "Virtual inheritance is a technique used in languages like C++ to solve the diamond problem by ensuring that only one copy of the virtual base class exists in the inheritance hierarchy. Since JavaScript and Python handle multiple inheritance differently, I'll explain the concept and show equivalent patterns.\n\n**Concept Explanation:**\nVirtual inheritance ensures that when multiple inheritance paths lead to the same base class, only one instance of that base class is created in memory.\n\n**Python Equivalent (MRO handles this automatically):**\n```python\nclass Base:\n    def __init__(self):\n        self.value = 'Base'\n        print(f'Base constructor called: {id(self)}')\n\nclass Left(Base):\n    def __init__(self):\n        super().__init__()\n        print(f'Left constructor called: {id(self)}')\n\nclass Right(Base):\n    def __init__(self):\n        super().__init__()\n        print(f'Right constructor called: {id(self)}')\n\nclass Derived(Left, Right):\n    def __init__(self):\n        super().__init__()\n        print(f'Derived constructor called: {id(self)}')\n\n# Python's MRO ensures Base is initialized only once\nd = Derived()\n# Output shows Base constructor called only once\nprint(f'MRO: {Derived.__mro__}')\n```\n\n**JavaScript Pattern (Using Mixins):**\n```javascript\n// Base class\nclass Base {\n    constructor() {\n        if (Base.instance) {\n            return Base.instance;\n        }\n        this.value = 'Base';\n        Base.instance = this;\n        console.log('Base constructor called');\n    }\n}\n\n// Mixin pattern to simulate virtual inheritance\nfunction createVirtualInheritance(...classes) {\n    return class {\n        constructor() {\n            const baseInstance = new Base();\n            \n            // Apply all class prototypes\n            classes.forEach(cls => {\n                Object.getOwnPropertyNames(cls.prototype)\n                    .filter(name => name !== 'constructor')\n                    .forEach(name => {\n                        if (typeof cls.prototype[name] === 'function') {\n                            this[name] = cls.prototype[name].bind(this);\n                        }\n                    });\n            });\n            \n            // Copy base properties\n            Object.assign(this, baseInstance);\n        }\n    };\n}\n\nclass Left extends Base {\n    leftMethod() {\n        console.log('Left method');\n    }\n}\n\nclass Right extends Base {\n    rightMethod() {\n        console.log('Right method');\n    }\n}\n\nconst Derived = createVirtualInheritance(Left, Right);\nconst d = new Derived();\nconsole.log(d.value); // 'Base'\nd.leftMethod(); // 'Left method'\nd.rightMethod(); // 'Right method'\n```",
+      },
+      {
+        question: "What happens to static members in inheritance?",
+        solution:
+          "Static members belong to the class itself rather than instances, and their inheritance behavior varies between languages:\n\n**Python - Static Methods and Class Variables:**\n```python\nclass Parent:\n    class_var = 'Parent class variable'\n    \n    @staticmethod\n    def static_method():\n        return 'Parent static method'\n    \n    @classmethod\n    def class_method(cls):\n        return f'Parent class method from {cls.__name__}'\n\nclass Child(Parent):\n    # Child inherits parent's static members\n    pass\n\nclass GrandChild(Child):\n    class_var = 'GrandChild class variable'  # Override parent's class variable\n    \n    @staticmethod\n    def static_method():\n        return 'GrandChild static method'\n\n# Accessing static members\nprint(Parent.class_var)      # 'Parent class variable'\nprint(Child.class_var)       # 'Parent class variable' (inherited)\nprint(GrandChild.class_var)  # 'GrandChild class variable' (overridden)\n\nprint(Parent.static_method())    # 'Parent static method'\nprint(Child.static_method())     # 'Parent static method' (inherited)\nprint(GrandChild.static_method()) # 'GrandChild static method' (overridden)\n\nprint(Parent.class_method())     # 'Parent class method from Parent'\nprint(Child.class_method())      # 'Parent class method from Child'\nprint(GrandChild.class_method()) # 'Parent class method from GrandChild'\n```\n\n**JavaScript - Static Methods and Properties:**\n```javascript\nclass Parent {\n    static classProperty = 'Parent class property';\n    \n    static staticMethod() {\n        return 'Parent static method';\n    }\n    \n    static get className() {\n        return this.name;\n    }\n}\n\nclass Child extends Parent {\n    // Child inherits parent's static members\n}\n\nclass GrandChild extends Child {\n    static classProperty = 'GrandChild class property'; // Override\n    \n    static staticMethod() {\n        // Call parent static method\n        const parentResult = super.staticMethod();\n        return `GrandChild static method (${parentResult})`;\n    }\n}\n\n// Accessing static members\nconsole.log(Parent.classProperty);    // 'Parent class property'\nconsole.log(Child.classProperty);     // 'Parent class property' (inherited)\nconsole.log(GrandChild.classProperty); // 'GrandChild class property' (overridden)\n\nconsole.log(Parent.staticMethod());    // 'Parent static method'\nconsole.log(Child.staticMethod());     // 'Parent static method' (inherited)\nconsole.log(GrandChild.staticMethod()); // 'GrandChild static method (Parent static method)'\n\nconsole.log(Parent.className);     // 'Parent'\nconsole.log(Child.className);      // 'Child'\nconsole.log(GrandChild.className); // 'GrandChild'\n```\n\n**Key Points:**\n- Static members are inherited by child classes\n- Child classes can override static members\n- Static methods can call parent static methods using super()\n- Each class maintains its own copy of static members\n- Static members are accessed through the class name, not instances",
+      },
+      {
+        question: "Can you prevent a class from being inherited?",
+        solution:
+          "Yes, both Python and JavaScript provide mechanisms to prevent class inheritance:\n\n**Python - Using __init_subclass__:**\n```python\nclass FinalClass:\n    def __init_subclass__(cls, **kwargs):\n        super().__init_subclass__(**kwargs)\n        raise TypeError(f'Cannot inherit from {cls.__bases__[0].__name__}')\n    \n    def method(self):\n        return 'Final class method'\n\n# Alternative approach using metaclass\nclass FinalMeta(type):\n    def __new__(cls, name, bases, namespace, **kwargs):\n        for base in bases:\n            if getattr(base, '_final', False):\n                raise TypeError(f'Cannot inherit from final class {base.__name__}')\n        return super().__new__(cls, name, bases, namespace, **kwargs)\n\nclass AnotherFinalClass(metaclass=FinalMeta):\n    _final = True\n    \n    def method(self):\n        return 'Another final class method'\n\n# Usage examples\ntry:\n    class ChildClass(FinalClass):  # This will raise TypeError\n        pass\nexcept TypeError as e:\n    print(f'Error: {e}')\n\ntry:\n    class AnotherChild(AnotherFinalClass):  # This will also raise TypeError\n        pass\nexcept TypeError as e:\n    print(f'Error: {e}')\n\n# Working with final class\nfinal_obj = FinalClass()\nprint(final_obj.method())  # 'Final class method'\n```\n\n**JavaScript - Using Various Techniques:**\n```javascript\n// Method 1: Using Object.seal() or Object.freeze()\nclass FinalClass {\n    constructor() {\n        // Prevent modification of the instance\n        Object.seal(this);\n    }\n    \n    method() {\n        return 'Final class method';\n    }\n}\n\n// Prevent extension of the class itself\nObject.seal(FinalClass);\nObject.seal(FinalClass.prototype);\n\n// Method 2: Using Proxy to intercept inheritance\nfunction createFinalClass() {\n    class InternalFinalClass {\n        constructor() {\n            this.value = 'final';\n        }\n        \n        method() {\n            return 'Final class method';\n        }\n    }\n    \n    return new Proxy(InternalFinalClass, {\n        construct(target, args) {\n            return new target(...args);\n        },\n        get(target, prop) {\n            if (prop === 'prototype' || prop === 'constructor') {\n                throw new Error('Cannot inherit from final class');\n            }\n            return target[prop];\n        }\n    });\n}\n\nconst FinalClassProxy = createFinalClass();\n\n// Method 3: Runtime check in constructor\nclass RuntimeFinalClass {\n    constructor() {\n        if (new.target !== RuntimeFinalClass) {\n            throw new Error(`Cannot inherit from final class ${RuntimeFinalClass.name}`);\n        }\n        this.value = 'runtime final';\n    }\n    \n    method() {\n        return 'Runtime final class method';\n    }\n}\n\n// Usage examples\ntry {\n    class ChildClass extends RuntimeFinalClass {  // This will throw error\n        constructor() {\n            super();\n        }\n    }\n    new ChildClass();\n} catch (error) {\n    console.log(`Error: ${error.message}`);\n}\n\n// Working with final class\nconst finalObj = new RuntimeFinalClass();\nconsole.log(finalObj.method()); // 'Runtime final class method'\n\n// Method 4: Using Symbol for private final marker\nconst FINAL_MARKER = Symbol('final');\n\nclass SymbolFinalClass {\n    constructor() {\n        this[FINAL_MARKER] = true;\n    }\n    \n    static [Symbol.hasInstance](instance) {\n        return instance && instance[FINAL_MARKER] === true;\n    }\n    \n    method() {\n        return 'Symbol final class method';\n    }\n}\n```\n\n**Key Points:**\n- Python uses `__init_subclass__` or metaclasses to prevent inheritance\n- JavaScript requires creative solutions since it doesn't have built-in final classes\n- Runtime checks in constructors are the most reliable JavaScript approach\n- These patterns help enforce design constraints and prevent unintended inheritance",
+      },
+      {
+        question: "What is the final keyword in Java?",
+        solution:
+          "The `final` keyword in Java has multiple uses and serves as a modifier that prevents modification. Since this question asks about Java but we're focusing on JavaScript and Python, I'll explain the concept and show equivalent patterns:\n\n**Java Final Keyword Concept:**\nIn Java, `final` can be applied to:\n1. Variables - makes them constants\n2. Methods - prevents method overriding\n3. Classes - prevents class inheritance\n\n**Python Equivalents:**\n```python\n# 1. Final variables (constants)\nfrom typing import Final\n\nclass Constants:\n    # Convention: ALL_CAPS for constants\n    MAX_SIZE: Final = 100\n    PI: Final = 3.14159\n    \n    def __init__(self):\n        # Final instance variable\n        self._final_value: Final = 'cannot change'\n\n# 2. Final methods (using decorator)\ndef final_method(func):\n    \"\"\"Decorator to mark a method as final\"\"\"\n    func._is_final = True\n    return func\n\nclass BaseMeta(type):\n    def __new__(cls, name, bases, namespace):\n        # Check for final method overrides\n        for base in bases:\n            for attr_name, attr_value in base.__dict__.items():\n                if (hasattr(attr_value, '_is_final') and \n                    attr_name in namespace and \n                    callable(namespace[attr_name])):\n                    raise TypeError(f'Cannot override final method {attr_name}')\n        return super().__new__(cls, name, bases, namespace)\n\nclass BaseClass(metaclass=BaseMeta):\n    @final_method\n    def final_method_example(self):\n        return 'This cannot be overridden'\n    \n    def regular_method(self):\n        return 'This can be overridden'\n\n# 3. Final classes\nclass FinalClass:\n    def __init_subclass__(cls, **kwargs):\n        super().__init_subclass__(**kwargs)\n        raise TypeError(f'Cannot inherit from final class {FinalClass.__name__}')\n\n# Usage examples\nconstants = Constants()\nprint(constants.MAX_SIZE)  # 100\n\nbase = BaseClass()\nprint(base.final_method_example())  # 'This cannot be overridden'\n\ntry:\n    class ChildClass(BaseClass):\n        def final_method_example(self):  # This will raise TypeError\n            return 'Trying to override'\nexcept TypeError as e:\n    print(f'Error: {e}')\n```\n\n**JavaScript Equivalents:**\n```javascript\n// 1. Final variables (constants)\nclass Constants {\n    constructor() {\n        // Using Object.defineProperty for true constants\n        Object.defineProperty(this, 'MAX_SIZE', {\n            value: 100,\n            writable: false,\n            enumerable: true,\n            configurable: false\n        });\n        \n        Object.defineProperty(this, 'PI', {\n            value: 3.14159,\n            writable: false,\n            enumerable: true,\n            configurable: false\n        });\n        \n        // Prevent adding new properties\n        Object.seal(this);\n    }\n    \n    // Static constants\n    static get DEFAULT_NAME() {\n        return 'Default';\n    }\n}\n\n// 2. Final methods\nclass BaseClass {\n    constructor() {\n        // Mark final methods\n        this.finalMethod._isFinal = true;\n    }\n    \n    finalMethod() {\n        return 'This should not be overridden';\n    }\n    \n    regularMethod() {\n        return 'This can be overridden';\n    }\n}\n\n// Helper function to check final method overrides\nfunction createClassWithFinalCheck(baseClass, overrides) {\n    const instance = new baseClass();\n    \n    // Check for final method overrides\n    Object.keys(overrides).forEach(methodName => {\n        if (instance[methodName] && instance[methodName]._isFinal) {\n            throw new Error(`Cannot override final method: ${methodName}`);\n        }\n    });\n    \n    // Apply overrides\n    return Object.assign(instance, overrides);\n}\n\n// 3. Final classes (preventing inheritance)\nclass FinalClass {\n    constructor() {\n        // Check if being inherited\n        if (new.target !== FinalClass) {\n            throw new Error(`Cannot inherit from final class: ${FinalClass.name}`);\n        }\n        this.value = 'final class value';\n    }\n    \n    method() {\n        return 'Final class method';\n    }\n}\n\n// Alternative final class using closure\nfunction createFinalClass() {\n    return class {\n        constructor() {\n            if (new.target !== arguments.callee) {\n                throw new Error('Cannot inherit from final class');\n            }\n            this.value = 'final class value';\n        }\n        \n        method() {\n            return 'Final class method';\n        }\n    };\n}\n\n// Usage examples\nconst constants = new Constants();\nconsole.log(constants.MAX_SIZE); // 100\nconsole.log(Constants.DEFAULT_NAME); // 'Default'\n\ntry {\n    constants.MAX_SIZE = 200; // Won't change the value\n    console.log(constants.MAX_SIZE); // Still 100\n} catch (error) {\n    console.log('Cannot modify final variable');\n}\n\n// Final method example\ntry {\n    const obj = createClassWithFinalCheck(BaseClass, {\n        finalMethod: () => 'Overridden final method'\n    });\n} catch (error) {\n    console.log(`Error: ${error.message}`);\n}\n\n// Final class example\ntry {\n    class ChildClass extends FinalClass {\n        constructor() {\n            super(); // This will throw an error\n        }\n    }\n    new ChildClass();\n} catch (error) {\n    console.log(`Error: ${error.message}`);\n}\n\n// Working with final class\nconst finalObj = new FinalClass();\nconsole.log(finalObj.method()); // 'Final class method'\n```\n\n**Key Differences from Java:**\n- Java's `final` is a language keyword with compile-time enforcement\n- Python and JavaScript require runtime patterns and conventions\n- Python's `typing.Final` is mainly for type checkers, not runtime enforcement\n- JavaScript requires creative use of Object.defineProperty and proxies\n- Both languages rely more on developer discipline and tooling",
+      },
+      {
+        question: "Can abstract classes be inherited?",
+        solution:
+          "Yes, abstract classes can be inherited by concrete classes or other abstract classes. Abstract classes are designed to be extended and cannot be instantiated directly. When a concrete class inherits from an abstract class, it must implement all abstract methods defined in the parent class.\n\nJavaScript Example:\n```javascript\n// Abstract class simulation (JavaScript doesn't have true abstract classes)\nclass Animal {\n  constructor(name) {\n    if (this.constructor === Animal) {\n      throw new Error('Cannot instantiate abstract class');\n    }\n    this.name = name;\n  }\n  \n  // Abstract method\n  makeSound() {\n    throw new Error('Abstract method must be implemented');\n  }\n  \n  // Concrete method\n  getName() {\n    return this.name;\n  }\n}\n\nclass Dog extends Animal {\n  constructor(name) {\n    super(name);\n  }\n  \n  makeSound() {\n    return 'Woof!';\n  }\n}\n\nconst dog = new Dog('Buddy');\nconsole.log(dog.getName()); // 'Buddy'\nconsole.log(dog.makeSound()); // 'Woof!'\n```\n\nPython Example:\n```python\nfrom abc import ABC, abstractmethod\n\nclass Animal(ABC):\n    def __init__(self, name):\n        self.name = name\n    \n    @abstractmethod\n    def make_sound(self):\n        pass\n    \n    def get_name(self):\n        return self.name\n\nclass Dog(Animal):\n    def __init__(self, name):\n        super().__init__(name)\n    \n    def make_sound(self):\n        return 'Woof!'\n\n# Usage\ndog = Dog('Buddy')\nprint(dog.get_name())  # 'Buddy'\nprint(dog.make_sound())  # 'Woof!'\n```\n\nKey Points:\n- Abstract classes serve as templates for other classes\n- They can contain both abstract and concrete methods\n- Concrete subclasses must implement all abstract methods\n- Abstract classes promote code reusability and enforce method contracts",
+      },
+      {
+        question: "What happens when you inherit from multiple interfaces?",
+        solution:
+          "When a class implements multiple interfaces, it must provide implementations for all methods declared in all interfaces. This allows a class to inherit behavior contracts from multiple sources, achieving multiple inheritance of type. If interfaces have methods with the same signature, the implementing class provides one implementation that satisfies both contracts.\n\nJavaScript Example:\n```javascript\n// Interface simulation using mixins\nconst Flyable = {\n  fly() {\n    throw new Error('fly() method must be implemented');\n  }\n};\n\nconst Swimmable = {\n  swim() {\n    throw new Error('swim() method must be implemented');\n  }\n};\n\nclass Duck {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  fly() {\n    return `${this.name} is flying`;\n  }\n  \n  swim() {\n    return `${this.name} is swimming`;\n  }\n  \n  quack() {\n    return `${this.name} says quack!`;\n  }\n}\n\n// Mixin multiple interfaces\nObject.assign(Duck.prototype, Flyable, Swimmable);\n\nconst duck = new Duck('Donald');\nconsole.log(duck.fly());   // 'Donald is flying'\nconsole.log(duck.swim());  // 'Donald is swimming'\nconsole.log(duck.quack()); // 'Donald says quack!'\n```\n\nPython Example:\n```python\nfrom abc import ABC, abstractmethod\n\nclass Flyable(ABC):\n    @abstractmethod\n    def fly(self):\n        pass\n\nclass Swimmable(ABC):\n    @abstractmethod\n    def swim(self):\n        pass\n\nclass Duck(Flyable, Swimmable):\n    def __init__(self, name):\n        self.name = name\n    \n    def fly(self):\n        return f\"{self.name} is flying\"\n    \n    def swim(self):\n        return f\"{self.name} is swimming\"\n    \n    def quack(self):\n        return f\"{self.name} says quack!\"\n\n# Usage\nduck = Duck('Donald')\nprint(duck.fly())   # 'Donald is flying'\nprint(duck.swim())  # 'Donald is swimming'\nprint(duck.quack()) # 'Donald says quack!'\n```\n\nBenefits:\n- Enables multiple inheritance of contracts\n- Provides flexibility in class design\n- Allows classes to fulfill multiple roles\n- Promotes composition over inheritance",
+      },
+      {
+        question: "Can interfaces extend other interfaces?",
+        solution:
+          "Yes, interfaces can extend other interfaces, creating interface inheritance hierarchies. This allows for building complex contract structures where child interfaces inherit all method declarations from parent interfaces and can add additional methods. A class implementing the child interface must implement all methods from both parent and child interfaces.\n\nJavaScript Example:\n```javascript\n// Interface inheritance simulation\nclass Vehicle {\n  start() {\n    throw new Error('start() method must be implemented');\n  }\n  \n  stop() {\n    throw new Error('stop() method must be implemented');\n  }\n}\n\nclass LandVehicle extends Vehicle {\n  drive() {\n    throw new Error('drive() method must be implemented');\n  }\n}\n\nclass WaterVehicle extends Vehicle {\n  sail() {\n    throw new Error('sail() method must be implemented');\n  }\n}\n\n// Amphibious vehicle implements both land and water interfaces\nclass AmphibiousVehicle extends Vehicle {\n  start() {\n    return 'Engine started';\n  }\n  \n  stop() {\n    return 'Engine stopped';\n  }\n  \n  drive() {\n    return 'Driving on land';\n  }\n  \n  sail() {\n    return 'Sailing on water';\n  }\n}\n\nconst amphibious = new AmphibiousVehicle();\nconsole.log(amphibious.start()); // 'Engine started'\nconsole.log(amphibious.drive()); // 'Driving on land'\nconsole.log(amphibious.sail());  // 'Sailing on water'\n```\n\nPython Example:\n```python\nfrom abc import ABC, abstractmethod\n\nclass Vehicle(ABC):\n    @abstractmethod\n    def start(self):\n        pass\n    \n    @abstractmethod\n    def stop(self):\n        pass\n\nclass LandVehicle(Vehicle):\n    @abstractmethod\n    def drive(self):\n        pass\n\nclass WaterVehicle(Vehicle):\n    @abstractmethod\n    def sail(self):\n        pass\n\nclass AmphibiousVehicle(LandVehicle, WaterVehicle):\n    def start(self):\n        return 'Engine started'\n    \n    def stop(self):\n        return 'Engine stopped'\n    \n    def drive(self):\n        return 'Driving on land'\n    \n    def sail(self):\n        return 'Sailing on water'\n\n# Usage\namphibious = AmphibiousVehicle()\nprint(amphibious.start()) # 'Engine started'\nprint(amphibious.drive()) # 'Driving on land'\nprint(amphibious.sail())  # 'Sailing on water'\n```\n\nAdvantages:\n- Creates logical hierarchies of contracts\n- Enables code reuse at the interface level\n- Allows for specialized interfaces while maintaining common base contracts\n- Supports polymorphic behavior across interface hierarchies",
+      },
+      {
+        question: "What is interface segregation principle?",
+        solution:
+          "The Interface Segregation Principle (ISP) states that clients should not be forced to depend on interfaces they don't use. Instead of having one large interface, it's better to have multiple smaller, focused interfaces. This prevents classes from implementing methods they don't need and makes the system more flexible and maintainable.\n\nJavaScript Example (Violating ISP):\n```javascript\n// BAD: Fat interface violating ISP\nclass AllInOneWorker {\n  work() { throw new Error('Must implement work()'); }\n  eat() { throw new Error('Must implement eat()'); }\n  sleep() { throw new Error('Must implement sleep()'); }\n  code() { throw new Error('Must implement code()'); }\n  design() { throw new Error('Must implement design()'); }\n}\n\n// Robot doesn't need eat() and sleep() but is forced to implement them\nclass Robot extends AllInOneWorker {\n  work() { return 'Robot working'; }\n  eat() { throw new Error('Robots don\\'t eat'); }  // Forced implementation\n  sleep() { throw new Error('Robots don\\'t sleep'); }  // Forced implementation\n  code() { return 'Robot coding'; }\n  design() { return 'Robot designing'; }\n}\n```\n\nJavaScript Example (Following ISP):\n```javascript\n// GOOD: Segregated interfaces following ISP\nclass Workable {\n  work() { throw new Error('Must implement work()'); }\n}\n\nclass Eatable {\n  eat() { throw new Error('Must implement eat()'); }\n}\n\nclass Sleepable {\n  sleep() { throw new Error('Must implement sleep()'); }\n}\n\nclass Codeable {\n  code() { throw new Error('Must implement code()'); }\n}\n\n// Human implements all interfaces\nclass Human extends Workable {\n  work() { return 'Human working'; }\n  eat() { return 'Human eating'; }\n  sleep() { return 'Human sleeping'; }\n  code() { return 'Human coding'; }\n}\n\n// Robot only implements relevant interfaces\nclass Robot extends Workable {\n  work() { return 'Robot working'; }\n  code() { return 'Robot coding'; }\n}\n\nObject.assign(Human.prototype, Eatable.prototype, Sleepable.prototype, Codeable.prototype);\nObject.assign(Robot.prototype, Codeable.prototype);\n```\n\nPython Example (Following ISP):\n```python\nfrom abc import ABC, abstractmethod\n\n# Segregated interfaces\nclass Workable(ABC):\n    @abstractmethod\n    def work(self):\n        pass\n\nclass Eatable(ABC):\n    @abstractmethod\n    def eat(self):\n        pass\n\nclass Sleepable(ABC):\n    @abstractmethod\n    def sleep(self):\n        pass\n\nclass Codeable(ABC):\n    @abstractmethod\n    def code(self):\n        pass\n\n# Human implements all relevant interfaces\nclass Human(Workable, Eatable, Sleepable, Codeable):\n    def work(self):\n        return 'Human working'\n    \n    def eat(self):\n        return 'Human eating'\n    \n    def sleep(self):\n        return 'Human sleeping'\n    \n    def code(self):\n        return 'Human coding'\n\n# Robot only implements what it can do\nclass Robot(Workable, Codeable):\n    def work(self):\n        return 'Robot working'\n    \n    def code(self):\n        return 'Robot coding'\n\n# Usage\nhuman = Human()\nrobot = Robot()\n\nprint(human.eat())  # Works fine\n# print(robot.eat())  # This would cause an error, which is good!\n```\n\nBenefits of ISP:\n- Reduces coupling between classes\n- Makes code more maintainable and flexible\n- Prevents unnecessary method implementations\n- Follows the principle of least knowledge\n- Makes testing easier with focused interfaces",
+      },
+      {
+        question: "How do you achieve multiple inheritance in Java?",
+        solution:
+          "Java doesn't support multiple inheritance of classes to avoid the diamond problem, but it achieves multiple inheritance through interfaces. A class can implement multiple interfaces, and interfaces can provide default methods (Java 8+). This allows inheriting behavior from multiple sources while avoiding ambiguity issues.\n\nJavaScript Example (Multiple Interface Implementation):\n```javascript\n// Simulate multiple inheritance through mixins\nconst Flyable = {\n  fly() {\n    return `${this.name} is flying at ${this.altitude} feet`;\n  },\n  \n  setAltitude(altitude) {\n    this.altitude = altitude;\n  }\n};\n\nconst Swimmable = {\n  swim() {\n    return `${this.name} is swimming at ${this.depth} meters depth`;\n  },\n  \n  setDepth(depth) {\n    this.depth = depth;\n  }\n};\n\nconst Walkable = {\n  walk() {\n    return `${this.name} is walking at ${this.speed} mph`;\n  },\n  \n  setSpeed(speed) {\n    this.speed = speed;\n  }\n};\n\n// Class implementing multiple behaviors\nclass Duck {\n  constructor(name) {\n    this.name = name;\n    this.altitude = 0;\n    this.depth = 0;\n    this.speed = 0;\n  }\n  \n  getInfo() {\n    return `Duck named ${this.name}`;\n  }\n}\n\n// Mixin multiple interfaces\nObject.assign(Duck.prototype, Flyable, Swimmable, Walkable);\n\n// Usage\nconst duck = new Duck('Donald');\nduck.setAltitude(100);\nduck.setDepth(5);\nduck.setSpeed(3);\n\nconsole.log(duck.fly());   // 'Donald is flying at 100 feet'\nconsole.log(duck.swim());  // 'Donald is swimming at 5 meters depth'\nconsole.log(duck.walk());  // 'Donald is walking at 3 mph'\n```\n\nPython Example (Multiple Inheritance):\n```python\nfrom abc import ABC, abstractmethod\n\n# Multiple interfaces\nclass Flyable(ABC):\n    def __init__(self):\n        self.altitude = 0\n    \n    @abstractmethod\n    def fly(self):\n        pass\n    \n    def set_altitude(self, altitude):\n        self.altitude = altitude\n\nclass Swimmable(ABC):\n    def __init__(self):\n        self.depth = 0\n    \n    @abstractmethod\n    def swim(self):\n        pass\n    \n    def set_depth(self, depth):\n        self.depth = depth\n\nclass Walkable(ABC):\n    def __init__(self):\n        self.speed = 0\n    \n    @abstractmethod\n    def walk(self):\n        pass\n    \n    def set_speed(self, speed):\n        self.speed = speed\n\n# Multiple inheritance implementation\nclass Duck(Flyable, Swimmable, Walkable):\n    def __init__(self, name):\n        self.name = name\n        Flyable.__init__(self)\n        Swimmable.__init__(self)\n        Walkable.__init__(self)\n    \n    def fly(self):\n        return f\"{self.name} is flying at {self.altitude} feet\"\n    \n    def swim(self):\n        return f\"{self.name} is swimming at {self.depth} meters depth\"\n    \n    def walk(self):\n        return f\"{self.name} is walking at {self.speed} mph\"\n    \n    def get_info(self):\n        return f\"Duck named {self.name}\"\n\n# Usage\nduck = Duck('Donald')\nduck.set_altitude(100)\nduck.set_depth(5)\nduck.set_speed(3)\n\nprint(duck.fly())   # 'Donald is flying at 100 feet'\nprint(duck.swim())  # 'Donald is swimming at 5 meters depth'\nprint(duck.walk())  # 'Donald is walking at 3 mph'\n```\n\nKey Approaches:\n1. **Interface Implementation**: Implement multiple interfaces in a single class\n2. **Composition**: Use composition with multiple objects\n3. **Mixins/Traits**: Use mixin patterns for behavior sharing\n4. **Default Methods**: Use interface default methods (Java 8+) for shared implementations",
+      },
+      {
+        question: "What is the difference between extends and implements?",
+        solution:
+          "The 'extends' keyword is used for class inheritance (IS-A relationship), while 'implements' is used for interface implementation (CAN-DO relationship). 'extends' creates a parent-child relationship with inheritance of both structure and behavior, while 'implements' creates a contract that the class must fulfill by providing implementations for all interface methods.\n\nJavaScript Example:\n```javascript\n// Inheritance using 'extends' equivalent\nclass Animal {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  makeSound() {\n    return 'Some generic animal sound';\n  }\n  \n  getName() {\n    return this.name;\n  }\n}\n\n// Class inheritance (extends equivalent)\nclass Dog extends Animal {\n  constructor(name, breed) {\n    super(name);  // Call parent constructor\n    this.breed = breed;\n  }\n  \n  makeSound() {  // Override parent method\n    return 'Woof!';\n  }\n  \n  getBreed() {\n    return this.breed;\n  }\n}\n\n// Interface implementation simulation\nconst Trainable = {\n  train(command) {\n    throw new Error('train() method must be implemented');\n  },\n  \n  obey() {\n    throw new Error('obey() method must be implemented');\n  }\n};\n\n// Implementing interface (implements equivalent)\nclass ServiceDog extends Dog {\n  constructor(name, breed) {\n    super(name, breed);\n    this.commands = [];\n  }\n  \n  train(command) {\n    this.commands.push(command);\n    return `${this.name} learned: ${command}`;\n  }\n  \n  obey() {\n    return this.commands.length > 0 ? \n           `${this.name} follows commands: ${this.commands.join(', ')}` :\n           `${this.name} needs training`;\n  }\n}\n\n// Add interface methods to prototype\nObject.assign(ServiceDog.prototype, Trainable);\n\n// Usage\nconst serviceDog = new ServiceDog('Buddy', 'Golden Retriever');\nconsole.log(serviceDog.getName());     // Inherited from Animal\nconsole.log(serviceDog.makeSound());   // Overridden in Dog\nconsole.log(serviceDog.getBreed());    // From Dog class\nconsole.log(serviceDog.train('sit'));  // Interface implementation\nconsole.log(serviceDog.obey());        // Interface implementation\n```\n\nPython Example:\n```python\nfrom abc import ABC, abstractmethod\n\n# Base class for inheritance\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def make_sound(self):\n        return 'Some generic animal sound'\n    \n    def get_name(self):\n        return self.name\n\n# Class inheritance (extends equivalent)\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(name)  # Call parent constructor\n        self.breed = breed\n    \n    def make_sound(self):  # Override parent method\n        return 'Woof!'\n    \n    def get_breed(self):\n        return self.breed\n\n# Interface for implementation\nclass Trainable(ABC):\n    @abstractmethod\n    def train(self, command):\n        pass\n    \n    @abstractmethod\n    def obey(self):\n        pass\n\n# Class implementing interface (implements equivalent)\nclass ServiceDog(Dog, Trainable):\n    def __init__(self, name, breed):\n        super().__init__(name, breed)\n        self.commands = []\n    \n    def train(self, command):\n        self.commands.append(command)\n        return f\"{self.name} learned: {command}\"\n    \n    def obey(self):\n        if self.commands:\n            return f\"{self.name} follows commands: {', '.join(self.commands)}\"\n        return f\"{self.name} needs training\"\n\n# Usage\nservice_dog = ServiceDog('Buddy', 'Golden Retriever')\nprint(service_dog.get_name())      # Inherited from Animal\nprint(service_dog.make_sound())    # Overridden in Dog\nprint(service_dog.get_breed())     # From Dog class\nprint(service_dog.train('sit'))    # Interface implementation\nprint(service_dog.obey())          # Interface implementation\n```\n\nKey Differences:\n\n| Aspect | extends | implements |\n|--------|---------|------------|\n| **Purpose** | Inherit from a class | Fulfill a contract |\n| **Relationship** | IS-A relationship | CAN-DO relationship |\n| **Inheritance** | Inherits implementation | Must provide implementation |\n| **Multiple** | Single inheritance | Multiple interfaces |\n| **Override** | Can override methods | Must implement all methods |\n| **Access** | Can access parent methods/fields | No inherited implementation |",
+      },
+      {
+        question: "What are the types of polymorphism?",
+        solution:
+          "Polymorphism allows objects of different types to be treated as instances of the same type through a common interface. There are several types: **Compile-time Polymorphism** (method overloading, operator overloading) and **Runtime Polymorphism** (method overriding, interface implementation). Each type provides different mechanisms for achieving flexible and reusable code.\n\nJavaScript Example (Runtime Polymorphism):\n```javascript\n// Base class\nclass Shape {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  // Method to be overridden\n  calculateArea() {\n    throw new Error('calculateArea() must be implemented by subclass');\n  }\n  \n  getInfo() {\n    return `${this.name} - Area: ${this.calculateArea()}`;\n  }\n}\n\n// Derived classes\nclass Circle extends Shape {\n  constructor(radius) {\n    super('Circle');\n    this.radius = radius;\n  }\n  \n  calculateArea() {\n    return Math.PI * this.radius * this.radius;\n  }\n}\n\nclass Rectangle extends Shape {\n  constructor(width, height) {\n    super('Rectangle');\n    this.width = width;\n    this.height = height;\n  }\n  \n  calculateArea() {\n    return this.width * this.height;\n  }\n}\n\nclass Triangle extends Shape {\n  constructor(base, height) {\n    super('Triangle');\n    this.base = base;\n    this.height = height;\n  }\n  \n  calculateArea() {\n    return 0.5 * this.base * this.height;\n  }\n}\n\n// Polymorphic behavior\nfunction processShapes(shapes) {\n  shapes.forEach(shape => {\n    console.log(shape.getInfo());\n    // Same method call, different implementations\n    console.log(`Area calculation: ${shape.calculateArea()}`);\n  });\n}\n\n// Usage - Runtime polymorphism\nconst shapes = [\n  new Circle(5),\n  new Rectangle(4, 6),\n  new Triangle(3, 8)\n];\n\nprocessShapes(shapes);\n// Output:\n// Circle - Area: 78.54\n// Rectangle - Area: 24\n// Triangle - Area: 12\n\n// Compile-time polymorphism simulation (method overloading)\nclass Calculator {\n  add(...args) {\n    if (args.length === 2 && typeof args[0] === 'number') {\n      return args[0] + args[1];\n    } else if (args.length === 3) {\n      return args[0] + args[1] + args[2];\n    } else if (args.length === 1 && Array.isArray(args[0])) {\n      return args[0].reduce((sum, num) => sum + num, 0);\n    }\n    throw new Error('Invalid arguments');\n  }\n}\n\nconst calc = new Calculator();\nconsole.log(calc.add(5, 3));        // 8 (two numbers)\nconsole.log(calc.add(1, 2, 3));     // 6 (three numbers)\nconsole.log(calc.add([1, 2, 3, 4])); // 10 (array)\n```\n\nPython Example (Multiple Polymorphism Types):\n```python\nfrom abc import ABC, abstractmethod\nimport math\n\n# Runtime Polymorphism\nclass Shape(ABC):\n    def __init__(self, name):\n        self.name = name\n    \n    @abstractmethod\n    def calculate_area(self):\n        pass\n    \n    def get_info(self):\n        return f\"{self.name} - Area: {self.calculate_area():.2f}\"\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        super().__init__('Circle')\n        self.radius = radius\n    \n    def calculate_area(self):\n        return math.pi * self.radius ** 2\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        super().__init__('Rectangle')\n        self.width = width\n        self.height = height\n    \n    def calculate_area(self):\n        return self.width * self.height\n\nclass Triangle(Shape):\n    def __init__(self, base, height):\n        super().__init__('Triangle')\n        self.base = base\n        self.height = height\n    \n    def calculate_area(self):\n        return 0.5 * self.base * self.height\n\n# Polymorphic function\ndef process_shapes(shapes):\n    for shape in shapes:\n        print(shape.get_info())\n        # Same method call, different implementations\n        print(f\"Area: {shape.calculate_area():.2f}\")\n        print(\"-\" * 30)\n\n# Usage - Runtime polymorphism\nshapes = [\n    Circle(5),\n    Rectangle(4, 6),\n    Triangle(3, 8)\n]\n\nprocess_shapes(shapes)\n\n# Method Overloading Simulation (Python doesn't have true overloading)\nclass Calculator:\n    def add(self, *args):\n        if len(args) == 2 and all(isinstance(x, (int, float)) for x in args):\n            return args[0] + args[1]\n        elif len(args) == 3 and all(isinstance(x, (int, float)) for x in args):\n            return sum(args)\n        elif len(args) == 1 and isinstance(args[0], list):\n            return sum(args[0])\n        else:\n            raise ValueError(\"Invalid arguments\")\n    \n    # Python supports operator overloading\n    def __call__(self, operation, *args):\n        if operation == 'multiply':\n            result = 1\n            for arg in args:\n                result *= arg\n            return result\n        return self.add(*args)\n\n# Usage\ncalc = Calculator()\nprint(calc.add(5, 3))        # 8\nprint(calc.add(1, 2, 3))     # 6\nprint(calc.add([1, 2, 3, 4])) # 10\nprint(calc('multiply', 2, 3, 4)) # 24\n```\n\n**Types of Polymorphism:**\n\n1. **Compile-time Polymorphism (Static)**:\n   - Method Overloading: Multiple methods with same name but different parameters\n   - Operator Overloading: Same operator performs different operations on different types\n   - Resolved at compile time\n\n2. **Runtime Polymorphism (Dynamic)**:\n   - Method Overriding: Child class provides specific implementation of parent method\n   - Interface Implementation: Different classes implement same interface methods\n   - Resolved at runtime through virtual method calls\n\n3. **Parametric Polymorphism**:\n   - Generics/Templates: Code works with different types while maintaining type safety\n   - Function/method can operate on different data types\n\n4. **Ad-hoc Polymorphism**:\n   - Function overloading based on parameter types\n   - Type-specific implementations for same operation\n\nBenefits:\n- Code reusability and flexibility\n- Easier maintenance and extension\n- Cleaner, more readable code\n- Support for the Open/Closed Principle",
+      },
+      {
+        question: "What is method hiding?",
+        solution:
+          "Method hiding occurs when a subclass defines a static method with the same signature as a static method in its parent class. Unlike method overriding, method hiding doesn't involve polymorphism - the method called is determined at compile time based on the reference type, not the object type.\n\nKey Characteristics:\n- Only applies to static methods\n- Method called is determined by reference type (compile-time binding)\n- No polymorphic behavior\n- Subclass method 'hides' the parent class method\n\nJavaScript Example:\njavascript\nclass Parent {\n  static displayInfo() {\n    console.log('Parent static method');\n  }\n}\n\nclass Child extends Parent {\n  static displayInfo() {\n    console.log('Child static method');\n  }\n}\n\n// Method hiding in action\nParent.displayInfo(); // Output: Parent static method\nChild.displayInfo();  // Output: Child static method\n\n// With reference types\nlet parentRef = Parent;\nlet childRef = Child;\nparentRef.displayInfo(); // Output: Parent static method\nchildRef.displayInfo();  // Output: Child static method\n\n\nPython Example:\npython\nclass Parent:\n    @staticmethod\n    def display_info():\n        print('Parent static method')\n\nclass Child(Parent):\n    @staticmethod\n    def display_info():\n        print('Child static method')\n\n# Method hiding in action\nParent.display_info()  # Output: Parent static method\nChild.display_info()   # Output: Child static method\n\n# Python doesn't have reference types like Java, but behavior is similar\nparent_class = Parent\nchild_class = Child\nparent_class.display_info()  # Output: Parent static method\nchild_class.display_info()   # Output: Child static method\n",
+      },
+      {
+        question:
+          "What is the difference between method hiding and overriding?",
+        solution:
+          "Method hiding and method overriding are two different concepts in object-oriented programming that handle method resolution differently.\n\nMethod Overriding:\n- Applies to instance (non-static) methods\n- Uses runtime polymorphism (late binding)\n- Method called depends on actual object type\n- Enables dynamic method dispatch\n- Supports IS-A relationship and substitutability\n\nMethod Hiding:\n- Applies to static methods\n- Uses compile-time binding (early binding)\n- Method called depends on reference type\n- No polymorphic behavior\n- Simply replaces parent method in subclass\n\nJavaScript Example:\njavascript\nclass Animal {\n  // Instance method - can be overridden\n  makeSound() {\n    console.log('Animal makes sound');\n  }\n  \n  // Static method - will be hidden\n  static getCategory() {\n    console.log('General Animal');\n  }\n}\n\nclass Dog extends Animal {\n  // Method overriding\n  makeSound() {\n    console.log('Dog barks');\n  }\n  \n  // Method hiding\n  static getCategory() {\n    console.log('Domestic Animal');\n  }\n}\n\n// Demonstrating the difference\nlet animal = new Animal();\nlet dog = new Dog();\nlet animalRef = dog; // Dog object with Animal reference\n\n// Method overriding - runtime polymorphism\nanimal.makeSound();    // Output: Animal makes sound\ndog.makeSound();       // Output: Dog barks\nanimalRef.makeSound(); // Output: Dog barks (polymorphic call)\n\n// Method hiding - compile-time binding\nAnimal.getCategory();  // Output: General Animal\nDog.getCategory();     // Output: Domestic Animal\n\n\nPython Example:\npython\nclass Animal:\n    # Instance method - can be overridden\n    def make_sound(self):\n        print('Animal makes sound')\n    \n    # Static method - will be hidden\n    @staticmethod\n    def get_category():\n        print('General Animal')\n\nclass Dog(Animal):\n    # Method overriding\n    def make_sound(self):\n        print('Dog barks')\n    \n    # Method hiding\n    @staticmethod\n    def get_category():\n        print('Domestic Animal')\n\n# Demonstrating the difference\nanimal = Animal()\ndog = Dog()\nanimal_ref = dog  # Dog object with Animal reference\n\n# Method overriding - runtime polymorphism\nanimal.make_sound()     # Output: Animal makes sound\ndog.make_sound()        # Output: Dog barks\nanimal_ref.make_sound() # Output: Dog barks (polymorphic call)\n\n# Method hiding - compile-time binding\nAnimal.get_category()   # Output: General Animal\nDog.get_category()      # Output: Domestic Animal\n",
+      },
+      {
+        question: "Can static methods be overridden?",
+        solution:
+          "No, static methods cannot be overridden in the traditional sense. They can only be hidden. This is because method overriding requires runtime polymorphism, which doesn't apply to static methods since they belong to the class itself, not to any specific instance.\n\nWhy Static Methods Cannot Be Overridden:\n1. No Runtime Polymorphism: Static methods are resolved at compile time\n2. Class-Level Binding: They belong to the class, not instances\n3. No Dynamic Dispatch: The method called is determined by the reference type\n4. Memory Allocation: Static methods are loaded when the class is loaded\n\nWhat Happens Instead:\n- Static methods are hidden, not overridden\n- The subclass method shadows the parent class method\n- No polymorphic behavior occurs\n- Method resolution is based on compile-time type\n\nJavaScript Example:\njavascript\nclass Vehicle {\n  static getType() {\n    return 'Generic Vehicle';\n  }\n  \n  // Instance method for comparison\n  getInstanceType() {\n    return 'Generic Vehicle Instance';\n  }\n}\n\nclass Car extends Vehicle {\n  // This HIDES the parent static method (not overrides)\n  static getType() {\n    return 'Car Vehicle';\n  }\n  \n  // This OVERRIDES the parent instance method\n  getInstanceType() {\n    return 'Car Vehicle Instance';\n  }\n}\n\n// Static method behavior (hiding)\nVehicle.getType(); // Output: Generic Vehicle\nCar.getType();     // Output: Car Vehicle\n\n// Instance method behavior (overriding)\nlet vehicle = new Vehicle();\nlet car = new Car();\nlet vehicleRef = car; // Car object, Vehicle reference\n\nvehicle.getInstanceType();    // Output: Generic Vehicle Instance\ncar.getInstanceType();        // Output: Car Vehicle Instance\nvehicleRef.getInstanceType(); // Output: Car Vehicle Instance (polymorphic!)\n\n// Demonstrating that static methods are not polymorphic\nconsole.log('Static method called on different references:');\nlet CarClass = Car;\nlet VehicleClass = Vehicle;\nCarClass.getType();     // Output: Car Vehicle\nVehicleClass.getType(); // Output: Generic Vehicle\n\n\nPython Example:\npython\nclass Vehicle:\n    @staticmethod\n    def get_type():\n        return 'Generic Vehicle'\n    \n    # Instance method for comparison\n    def get_instance_type(self):\n        return 'Generic Vehicle Instance'\n\nclass Car(Vehicle):\n    # This HIDES the parent static method (not overrides)\n    @staticmethod\n    def get_type():\n        return 'Car Vehicle'\n    \n    # This OVERRIDES the parent instance method\n    def get_instance_type(self):\n        return 'Car Vehicle Instance'\n\n# Static method behavior (hiding)\nprint(Vehicle.get_type())  # Output: Generic Vehicle\nprint(Car.get_type())      # Output: Car Vehicle\n\n# Instance method behavior (overriding)\nvehicle = Vehicle()\ncar = Car()\nvehicle_ref = car  # Car object, Vehicle reference\n\nprint(vehicle.get_instance_type())     # Output: Generic Vehicle Instance\nprint(car.get_instance_type())         # Output: Car Vehicle Instance\nprint(vehicle_ref.get_instance_type()) # Output: Car Vehicle Instance (polymorphic!)\n\n# Demonstrating that static methods are not polymorphic\nprint('Static method called on different references:')\ncar_class = Car\nvehicle_class = Vehicle\nprint(car_class.get_type())     # Output: Car Vehicle\nprint(vehicle_class.get_type()) # Output: Generic Vehicle\n\n\nKey Takeaway: Static methods are resolved at compile time based on the class that calls them, not the actual object type, which is why they cannot exhibit polymorphic behavior and thus cannot be truly overridden.",
+      },
+      {
+        question: "What is covariant return type?",
+        solution:
+          "Covariant return type is a feature that allows a method in a subclass to return a more specific (derived) type than the return type declared in the parent class method. The returned type must be a subtype of the original return type, maintaining the IS-A relationship.\n\nKey Characteristics:\n1. Subtype Relationship: Return type must be a subtype of parent's return type\n2. Method Signature: Method name and parameters remain the same\n3. Type Safety: Maintains type safety while providing more specific return types\n4. Polymorphism: Works seamlessly with method overriding\n\nBenefits:\n- Eliminates need for explicit casting\n- Provides more specific type information\n- Improves code readability and type safety\n- Supports method chaining with specific types\n\nJavaScript Example:\njavascript\nclass Animal {\n  reproduce() {\n    console.log('Animal reproduces');\n    return new Animal();\n  }\n  \n  getInfo() {\n    return { type: 'Animal', species: 'Generic' };\n  }\n}\n\nclass Dog extends Animal {\n  // Covariant return type - returning more specific Dog instead of Animal\n  reproduce() {\n    console.log('Dog reproduces');\n    return new Dog(); // More specific return type\n  }\n  \n  // Another example with object types\n  getInfo() {\n    return {\n      type: 'Animal',\n      species: 'Canine',\n      breed: 'Unknown', // Additional property\n      bark: () => console.log('Woof!')\n    };\n  }\n  \n  bark() {\n    console.log('Dog barks: Woof!');\n    return this; // Method chaining with specific type\n  }\n}\n\nclass GoldenRetriever extends Dog {\n  // Further covariant return type\n  reproduce() {\n    console.log('Golden Retriever reproduces');\n    return new GoldenRetriever(); // Even more specific\n  }\n  \n  getInfo() {\n    return {\n      type: 'Animal',\n      species: 'Canine',\n      breed: 'Golden Retriever',\n      bark: () => console.log('Golden Woof!'),\n      fetch: () => console.log('Fetching ball!')\n    };\n  }\n}\n\n// Demonstrating covariant return types\nlet animal = new Animal();\nlet dog = new Dog();\nlet golden = new GoldenRetriever();\n\n// Each reproduce() returns the appropriate specific type\nlet newAnimal = animal.reproduce();     // Returns Animal\nlet newDog = dog.reproduce();           // Returns Dog\nlet newGolden = golden.reproduce();     // Returns GoldenRetriever\n\n// Type-specific method calls (no casting needed)\nnewDog.bark();    // Works because reproduce() returned a Dog\nnewGolden.getInfo().fetch(); // Works because we get GoldenRetriever info\n\n// Polymorphic behavior with covariant returns\nlet animals = [animal, dog, golden];\nanimals.forEach(a => {\n  let offspring = a.reproduce(); // Each returns appropriate type\n  console.log(offspring.constructor.name);\n});\n\n\nPython Example:\npython\nfrom typing import TypeVar, Generic\n\n# Using type hints to demonstrate covariant return types\nclass Animal:\n    def reproduce(self) -> 'Animal':\n        print('Animal reproduces')\n        return Animal()\n    \n    def get_info(self) -> dict:\n        return {'type': 'Animal', 'species': 'Generic'}\n\nclass Dog(Animal):\n    # Covariant return type - returning more specific Dog\n    def reproduce(self) -> 'Dog':\n        print('Dog reproduces')\n        return Dog()  # More specific return type\n    \n    def get_info(self) -> dict:\n        return {\n            'type': 'Animal',\n            'species': 'Canine',\n            'breed': 'Unknown'\n        }\n    \n    def bark(self) -> 'Dog':\n        print('Dog barks: Woof!')\n        return self  # Method chaining with specific type\n\nclass GoldenRetriever(Dog):\n    # Further covariant return type\n    def reproduce(self) -> 'GoldenRetriever':\n        print('Golden Retriever reproduces')\n        return GoldenRetriever()  # Even more specific\n    \n    def get_info(self) -> dict:\n        return {\n            'type': 'Animal',\n            'species': 'Canine',\n            'breed': 'Golden Retriever',\n            'temperament': 'Friendly'\n        }\n    \n    def fetch(self) -> 'GoldenRetriever':\n        print('Fetching ball!')\n        return self\n\n# Demonstrating covariant return types\nanimal = Animal()\ndog = Dog()\ngolden = GoldenRetriever()\n\n# Each reproduce() returns the appropriate specific type\nnew_animal = animal.reproduce()    # Returns Animal\nnew_dog = dog.reproduce()          # Returns Dog\nnew_golden = golden.reproduce()    # Returns GoldenRetriever\n\n# Type-specific method calls (no casting needed)\nnew_dog.bark()    # Works because reproduce() returned a Dog\nnew_golden.fetch()  # Works because reproduce() returned GoldenRetriever\n\n# Method chaining with covariant returns\ngolden.bark().fetch()  # Chaining works with specific type\n\n# Polymorphic behavior with covariant returns\nanimals = [animal, dog, golden]\nfor a in animals:\n    offspring = a.reproduce()  # Each returns appropriate type\n    print(f'Created: {type(offspring).__name__}')\n    print(f'Info: {offspring.get_info()}')\n\n\nImportant Notes:\n- Covariant return types maintain the Liskov Substitution Principle\n- They provide better type safety and eliminate casting\n- Modern languages and type systems increasingly support this feature\n- They're particularly useful in factory patterns and builder patterns",
+      },
+      {
+        question: "Can you override private methods?",
+        solution:
+          "No, private methods cannot be overridden because they are not inherited by subclasses. Private methods are only accessible within the class where they are defined, making them invisible to subclasses. What might appear as 'overriding' a private method is actually creating a new method with the same name in the subclass.\n\nWhy Private Methods Cannot Be Overridden:\n1. No Inheritance: Private methods are not inherited by subclasses\n2. No Visibility: Subclasses cannot access parent's private methods\n3. No Polymorphism: Private methods don't participate in dynamic method dispatch\n4. Encapsulation: Private methods are implementation details, not part of public interface\n\nWhat Actually Happens:\n- Subclass creates a new method with the same name (not overriding)\n- Both methods coexist independently\n- No polymorphic relationship exists between them\n- Each class uses its own version\n\nJavaScript Example:\njavascript\nclass Parent {\n  // Private method (using # syntax for true privacy)\n  #privateMethod() {\n    console.log('Parent private method');\n  }\n  \n  // Private field\n  #privateField = 'Parent private field';\n  \n  // Public method that calls private method\n  callPrivateMethod() {\n    console.log('Parent calling private method:');\n    this.#privateMethod();\n  }\n  \n  // Method with conventional private naming (just convention, not truly private)\n  _conventionalPrivate() {\n    console.log('Parent conventional private');\n  }\n  \n  callConventionalPrivate() {\n    this._conventionalPrivate();\n  }\n}\n\nclass Child extends Parent {\n  // This creates a NEW private method, doesn't override parent's\n  #privateMethod() {\n    console.log('Child private method');\n  }\n  \n  // This appears to \"override\" but it's just a new method\n  _conventionalPrivate() {\n    console.log('Child conventional private');\n  }\n  \n  // Child's own public method calling its private method\n  callChildPrivate() {\n    console.log('Child calling its private method:');\n    this.#privateMethod();\n  }\n  \n  // Attempting to call parent's private method (will fail)\n  tryToCallParentPrivate() {\n    try {\n      // This will cause an error - cannot access parent's private method\n      // this.#privateMethod(); // This refers to Child's private method\n      console.log('Cannot directly access parent private method');\n    } catch (error) {\n      console.log('Error accessing parent private method:', error.message);\n    }\n  }\n}\n\n// Demonstrating private method behavior\nconst parent = new Parent();\nconst child = new Child();\n\nconsole.log('=== Testing Private Methods ===');\n\n// Parent's private method called through public method\nparent.callPrivateMethod();  // Output: Parent private method\n\n// Child inherits public method, but it calls parent's private method\nchild.callPrivateMethod();   // Output: Parent private method (not child's!)\n\n// Child's own private method\nchild.callChildPrivate();    // Output: Child private method\n\n// Conventional private methods (can be \"overridden\")\nparent.callConventionalPrivate(); // Output: Parent conventional private\nchild.callConventionalPrivate();  // Output: Child conventional private\n\nconsole.log('=== Demonstrating No Override ===');\nchild.tryToCallParentPrivate();\n\n\nPython Example:\npython\nclass Parent:\n    def __init__(self):\n        self.__private_field = 'Parent private field'\n    \n    # Private method (name mangling with __)\n    def __private_method(self):\n        print('Parent private method')\n    \n    # Public method that calls private method\n    def call_private_method(self):\n        print('Parent calling private method:')\n        self.__private_method()\n    \n    # Protected method (convention with single _)\n    def _protected_method(self):\n        print('Parent protected method')\n    \n    def call_protected_method(self):\n        self._protected_method()\n\nclass Child(Parent):\n    def __init__(self):\n        super().__init__()\n        self.__private_field = 'Child private field'\n    \n    # This creates a NEW private method (due to name mangling)\n    def __private_method(self):\n        print('Child private method')\n    \n    # This actually overrides the protected method\n    def _protected_method(self):\n        print('Child protected method')\n    \n    # Child's method to call its own private method\n    def call_child_private(self):\n        print('Child calling its private method:')\n        self.__private_method()\n    \n    # Method to demonstrate access to both private methods\n    def demonstrate_private_access(self):\n        print('Child accessing its own private method:')\n        self.__private_method()\n        \n        print('Child trying to access parent private method:')\n        try:\n            # This will work because of Python's name mangling\n            # Parent's private method becomes _Parent__private_method\n            self._Parent__private_method()\n        except AttributeError as e:\n            print(f'Cannot access: {e}')\n    \n    def show_private_fields(self):\n        print(f'Child private field: {self.__private_field}')\n        # Access parent's private field using name mangling\n        try:\n            print(f'Parent private field: {self._Parent__private_field}')\n        except AttributeError:\n            print('Cannot access parent private field')\n\n# Demonstrating private method behavior\nparent = Parent()\nchild = Child()\n\nprint('=== Testing Private Methods ===')\n\n# Parent's private method\nparent.call_private_method()  # Output: Parent private method\n\n# Child inherits public method, calls parent's private method\nchild.call_private_method()   # Output: Parent private method\n\n# Child's own private method\nchild.call_child_private()    # Output: Child private method\n\nprint('\\n=== Testing Protected Methods (Can be overridden) ===')\nparent.call_protected_method()  # Output: Parent protected method\nchild.call_protected_method()   # Output: Child protected method (overridden!)\n\nprint('\\n=== Demonstrating Name Mangling ===')\nchild.demonstrate_private_access()\nchild.show_private_fields()\n\nprint('\\n=== Showing Actual Method Names ===')\nprint('Parent methods:', [method for method in dir(parent) if 'private' in method.lower()])\nprint('Child methods:', [method for method in dir(child) if 'private' in method.lower()])\n\n\nKey Points:\n1. True Private Methods: Cannot be overridden because they're not inherited\n2. Name Mangling: In Python, __method becomes _ClassName__method\n3. Convention vs Enforcement: Single underscore _method is convention, can be overridden\n4. Encapsulation Purpose: Private methods hide implementation details\n5. Design Implication: If you need overridable behavior, use protected methods instead",
+      },
     ],
   },
   {

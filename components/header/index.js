@@ -25,7 +25,13 @@ export default function Header({ topic, indexSelected }) {
               ? "text-AWS-text"
               : "text-slate-800"
           }`}
-          onClick={() => window.history.back()}
+          onClick={() =>
+            router.pathname.startsWith("/learn/")
+              ? router.push(`/category/${topic}`)
+              : router.pathname.startsWith("/category/")
+              ? router.push("/")
+              : window.history.back()
+          }
         />
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>

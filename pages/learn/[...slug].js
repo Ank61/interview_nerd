@@ -45,12 +45,8 @@ export default function Learn({
   return (
     <div className="min-h-screen bg-gray-50">
       <Header topic={category || topic} />
-
       <div className="flex">
-        {/* Sidebar - Now handled by TopicSidebar component */}
         <TopicSidebar currentTopic={topic} category={category} theme={theme} />
-
-        {/* Main Content */}
         <div className="flex-1">
           <div className="max-w-4xl mx-auto px-4 lg:px-8 py-8">
             <motion.article
@@ -89,7 +85,7 @@ export default function Learn({
                       backgroundColor: theme?.themeBgColor,
                       color: theme?.textColor,
                     }}
-                    className="text-md w-full sm:w-auto py-3 px-6 hover:shadow-md transition-all duration-200"
+                    className="text-md w-full  py-3 px-6 hover:shadow-md transition-all duration-200"
                   >
                     Practice Questions <BookCheck size={20} className="ml-2" />
                   </Button>
@@ -100,7 +96,7 @@ export default function Learn({
                         router.push(`/learn/${category}/${nextTopic}`)
                       }
                       variant="outline"
-                      className="text-md w-full sm:w-auto py-3 px-6 border-gray-300 hover:bg-gray-50 transition-colors duration-200"
+                      className="text-md w-full  py-3 px-6 border-gray-300 hover:bg-gray-50 transition-colors duration-200"
                     >
                       Next Topic
                       <ArrowRight size={20} className="ml-2" />
@@ -111,7 +107,7 @@ export default function Learn({
             </motion.article>
 
             {/* Breadcrumb Navigation */}
-            <div className="mt-8 text-sm text-gray-600">
+            {/* <div className="mt-8 text-sm text-gray-600">
               <button
                 onClick={() =>
                   router.push(`/category/${category.toLowerCase()}`)
@@ -120,7 +116,7 @@ export default function Learn({
               >
                 ← Back to {category} Topics
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
