@@ -1412,7 +1412,7 @@ class Component {
       {
         question: "What are template literals?",
         solution:
-          "Template literals are string literals that allow embedded expressions and multi-line strings, using backticks (`) instead of quotes. They provide a more powerful and readable way to work with strings.\n\nKey features:\n\n1. String interpolation with ${}:\nconst name = 'John';\nconst age = 30;\nconst message = `Hello, my name is ${name} and I'm ${age} years old.`;\n\n2. Multi-line strings:\nconst html = `\n  <div>\n    <h1>Title</h1>\n    <p>Content</p>\n  </div>\n`;\n\n3. Expression evaluation:\nconst a = 5, b = 10;\nconst result = `The sum of ${a} and ${b} is ${a + b}.`; // 'The sum of 5 and 10 is 15.'\n\n4. Function calls:\nconst formatCurrency = (amount) => `$${amount.toFixed(2)}`;\nconst price = `Price: ${formatCurrency(29.99)}`; // 'Price: $29.99'\n\n5. Tagged template literals (advanced):\nfunction highlight(strings, ...values) {\n  return strings.reduce((result, string, i) => \n    result + string + (values[i] ? `<mark>${values[i]}</mark>` : ''), '');\n}\nconst term = 'JavaScript';\nconst text = highlight`Learn ${term} programming`; // 'Learn <mark>JavaScript</mark> programming'\n\nTemplate literals are essential for modern JavaScript string manipulation and are widely used in frameworks like React.",
+          "Template literals are string literals that allow embedded expressions and multi-line strings, using backticks (`) instead of quotes. They provide a more powerful and readable way to work with strings.\n\nKey features:\n\n1. String interpolation with ${}:\nconst name = 'John';\nconst age = 30;\nconst message = `Hello, my name is ${name} and I'm ${age} years old.`;\n\n2. Multi-line strings:\nconst html = `\n  <div>\n    <h1>Title</h1>\n    <p>Content</p>\n  </div>\n`;\n\n3. Expression evaluation:\nconst a = 5, b = 10;\nconst result = `The sum of ${a} and ${b} is ${a + b}.`; // 'The sum of 5 and 10 is 15.'\n\n4. Function calls:\nconst formatCurrency = (amount) => `$$ {amount.toFixed(2)}`;\nconst price = `Price: ${formatCurrency(29.99)}`; // 'Price: $29.99'\n\n5. Tagged template literals (advanced):\nfunction highlight(strings, ...values) {\n  return strings.reduce((result, string, i) => \n    result + string + (values[i] ? `<mark>${values[i]}</mark>` : ''), '');\n}\nconst term = 'JavaScript';\nconst text = highlight`Learn ${term} programming`; // 'Learn <mark>JavaScript</mark> programming'\n\nTemplate literals are essential for modern JavaScript string manipulation and are widely used in frameworks like React.",
       },
       {
         question: "What is destructuring assignment?",
@@ -17273,7 +17273,7 @@ greet name = "Hello, " ++ name ++ "!"
       {
         question: "What is encapsulation?",
         solution:
-          "Encapsulation is the OOP principle of bundling data (attributes) and methods that operate on that data together within a single unit (class), while controlling access to the internal components. It's like putting related items in a capsule and deciding what can be accessed from the outside.\n\n**Key Benefits:**\n- **Data Protection**: Prevents unauthorized access and modification\n- **Modularity**: Keeps related functionality together\n- **Maintainability**: Changes to internal implementation don't affect external code\n- **Abstraction**: Hides complex internal details\n\n**Access Levels:**\n- **Public**: Accessible from anywhere\n- **Private**: Only accessible within the same class\n- **Protected**: Accessible within the class and its subclasses\n\n**JavaScript Example:**\n```javascript\nclass BankAccount {\n  // Private fields (ES2022 syntax)\n  #balance = 0;\n  #accountNumber;\n  #pin;\n  \n  constructor(accountNumber, initialPin) {\n    this.#accountNumber = accountNumber;\n    this.#pin = initialPin;\n    this.holderName = ''; // Public field\n  }\n  \n  // Private method\n  #validatePin(enteredPin) {\n    return this.#pin === enteredPin;\n  }\n  \n  // Public methods - controlled access to private data\n  deposit(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount <= 0) {\n      throw new Error('Amount must be positive');\n    }\n    this.#balance += amount;\n    return `Deposited $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  withdraw(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount > this.#balance) {\n      throw new Error('Insufficient funds');\n    }\n    this.#balance -= amount;\n    return `Withdrew $${amount}. New balance: $${this.#balance}`;\n  }\n  \n  // Getter method - controlled read access\n  getBalance(pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    return this.#balance;\n  }\n  \n  // Public method to change PIN\n  changePin(oldPin, newPin) {\n    if (!this.#validatePin(oldPin)) {\n      throw new Error('Invalid current PIN');\n    }\n    this.#pin = newPin;\n    return 'PIN changed successfully';\n  }\n}\n\n// Usage example\nconst account = new BankAccount('ACC123', '1234');\naccount.holderName = 'John Doe'; // Public field - accessible\n\n// These work through controlled public methods\nconsole.log(account.deposit(1000, '1234')); // Deposited $1000...\nconsole.log(account.withdraw(200, '1234'));  // Withdrew $200...\nconsole.log(account.getBalance('1234'));     // 800\n\n// These are protected - cannot access directly\n// console.log(account.#balance);     // SyntaxError\n// console.log(account.#pin);         // SyntaxError\n// account.#validatePin('1234');      // SyntaxError\n\n// Wrong PIN\ntry {\n  account.withdraw(100, '0000'); // Error: Invalid PIN\n} catch (error) {\n  console.log(error.message);\n}\n```\n\n**Python Example:**\n```python\nclass BankAccount:\n    def __init__(self, account_number, initial_pin):\n        # Private attributes (by convention with double underscore)\n        self.__balance = 0\n        self.__account_number = account_number\n        self.__pin = initial_pin\n        # Public attribute\n        self.holder_name = ''\n    \n    # Private method\n    def __validate_pin(self, entered_pin):\n        return self.__pin == entered_pin\n    \n    # Public methods - controlled access\n    def deposit(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount <= 0:\n            raise ValueError('Amount must be positive')\n        self.__balance += amount\n        return f'Deposited ${amount}. New balance: $ {self.__balance}'\n    \n    def withdraw(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount > self.__balance:\n            raise ValueError('Insufficient funds')\n        self.__balance -= amount\n        return f'Withdrew ${amount}. New balance: $ {self.__balance}'\n    \n    # Property for controlled access (Python's getter/setter)\n    def get_balance(self, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        return self.__balance\n    \n    def change_pin(self, old_pin, new_pin):\n        if not self.__validate_pin(old_pin):\n            raise ValueError('Invalid current PIN')\n        self.__pin = new_pin\n        return 'PIN changed successfully'\n    \n    # Protected method (single underscore - convention only)\n    def _get_account_info(self):\n        return f'Account: {self.__account_number}'\n\n# Usage example\naccount = BankAccount('ACC123', '1234')\naccount.holder_name = 'John Doe'  # Public attribute\n\n# Controlled access through public methods\nprint(account.deposit(1000, '1234'))  # Deposited $1000...\nprint(account.withdraw(200, '1234'))   # Withdrew $200...\nprint(account.get_balance('1234'))     # 800\n\n# Private attributes are name-mangled in Python\n# These don't work as expected:\nprint(hasattr(account, '__balance'))    # False\nprint(hasattr(account, '_BankAccount__balance'))  # True (name mangling)\n\n# This is the proper way - through public interface\ntry:\n    account.withdraw(100, '0000')  # ValueError: Invalid PIN\nexcept ValueError as e:\n    print(e)\n\n# Demonstrating encapsulation benefits\nclass SecureBankAccount(BankAccount):\n    def __init__(self, account_number, initial_pin):\n        super().__init__(account_number, initial_pin)\n        self.__transaction_history = []\n    \n    def deposit(self, amount, pin):\n        result = super().deposit(amount, pin)\n        self.__transaction_history.append(f'DEPOSIT: ${amount}')\n        return result\n    \n    def get_transaction_history(self, pin):\n        if not self._BankAccount__validate_pin(pin):  # Accessing parent's private method\n            raise ValueError('Invalid PIN')\n        return self.__transaction_history.copy()\n\nsecure_account = SecureBankAccount('SEC456', '5678')\nsecure_account.deposit(500, '5678')\nprint(secure_account.get_transaction_history('5678'))  # ['DEPOSIT: $500']\n```\n\n**Real-world analogy**: Think of encapsulation like a car. You interact with the car through its public interface (steering wheel, pedals, gear shift), but you don't directly manipulate the engine pistons or transmission gears. The complex internal mechanisms are hidden and protected, while safe, controlled access is provided through the interface.",
+          "Encapsulation is the OOP principle of bundling data (attributes) and methods that operate on that data together within a single unit (class), while controlling access to the internal components. It's like putting related items in a capsule and deciding what can be accessed from the outside.\n\n**Key Benefits:**\n- **Data Protection**: Prevents unauthorized access and modification\n- **Modularity**: Keeps related functionality together\n- **Maintainability**: Changes to internal implementation don't affect external code\n- **Abstraction**: Hides complex internal details\n\n**Access Levels:**\n- **Public**: Accessible from anywhere\n- **Private**: Only accessible within the same class\n- **Protected**: Accessible within the class and its subclasses\n\n**JavaScript Example:**\n```javascript\nclass BankAccount {\n  // Private fields (ES2022 syntax)\n  #balance = 0;\n  #accountNumber;\n  #pin;\n  \n  constructor(accountNumber, initialPin) {\n    this.#accountNumber = accountNumber;\n    this.#pin = initialPin;\n    this.holderName = ''; // Public field\n  }\n  \n  // Private method\n  #validatePin(enteredPin) {\n    return this.#pin === enteredPin;\n  }\n  \n  // Public methods - controlled access to private data\n  deposit(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount <= 0) {\n      throw new Error('Amount must be positive');\n    }\n    this.#balance += amount;\n    return `Deposited $$ {amount}. New balance: $${this.#balance}`;\n  }\n  \n  withdraw(amount, pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    if (amount > this.#balance) {\n      throw new Error('Insufficient funds');\n    }\n    this.#balance -= amount;\n    return `Withdrew $$ {amount}. New balance: $${this.#balance}`;\n  }\n  \n  // Getter method - controlled read access\n  getBalance(pin) {\n    if (!this.#validatePin(pin)) {\n      throw new Error('Invalid PIN');\n    }\n    return this.#balance;\n  }\n  \n  // Public method to change PIN\n  changePin(oldPin, newPin) {\n    if (!this.#validatePin(oldPin)) {\n      throw new Error('Invalid current PIN');\n    }\n    this.#pin = newPin;\n    return 'PIN changed successfully';\n  }\n}\n\n// Usage example\nconst account = new BankAccount('ACC123', '1234');\naccount.holderName = 'John Doe'; // Public field - accessible\n\n// These work through controlled public methods\nconsole.log(account.deposit(1000, '1234')); // Deposited $1000...\nconsole.log(account.withdraw(200, '1234'));  // Withdrew $200...\nconsole.log(account.getBalance('1234'));     // 800\n\n// These are protected - cannot access directly\n// console.log(account.#balance);     // SyntaxError\n// console.log(account.#pin);         // SyntaxError\n// account.#validatePin('1234');      // SyntaxError\n\n// Wrong PIN\ntry {\n  account.withdraw(100, '0000'); // Error: Invalid PIN\n} catch (error) {\n  console.log(error.message);\n}\n```\n\n**Python Example:**\n```python\nclass BankAccount:\n    def __init__(self, account_number, initial_pin):\n        # Private attributes (by convention with double underscore)\n        self.__balance = 0\n        self.__account_number = account_number\n        self.__pin = initial_pin\n        # Public attribute\n        self.holder_name = ''\n    \n    # Private method\n    def __validate_pin(self, entered_pin):\n        return self.__pin == entered_pin\n    \n    # Public methods - controlled access\n    def deposit(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount <= 0:\n            raise ValueError('Amount must be positive')\n        self.__balance += amount\n        return f'Deposited $ {amount}. New balance: $ {self.__balance}'\n    \n    def withdraw(self, amount, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        if amount > self.__balance:\n            raise ValueError('Insufficient funds')\n        self.__balance -= amount\n        return f'Withdrew $ {amount}. New balance: $ {self.__balance}'\n    \n    # Property for controlled access (Python's getter/setter)\n    def get_balance(self, pin):\n        if not self.__validate_pin(pin):\n            raise ValueError('Invalid PIN')\n        return self.__balance\n    \n    def change_pin(self, old_pin, new_pin):\n        if not self.__validate_pin(old_pin):\n            raise ValueError('Invalid current PIN')\n        self.__pin = new_pin\n        return 'PIN changed successfully'\n    \n    # Protected method (single underscore - convention only)\n    def _get_account_info(self):\n        return f'Account: {self.__account_number}'\n\n# Usage example\naccount = BankAccount('ACC123', '1234')\naccount.holder_name = 'John Doe'  # Public attribute\n\n# Controlled access through public methods\nprint(account.deposit(1000, '1234'))  # Deposited $1000...\nprint(account.withdraw(200, '1234'))   # Withdrew $200...\nprint(account.get_balance('1234'))     # 800\n\n# Private attributes are name-mangled in Python\n# These don't work as expected:\nprint(hasattr(account, '__balance'))    # False\nprint(hasattr(account, '_BankAccount__balance'))  # True (name mangling)\n\n# This is the proper way - through public interface\ntry:\n    account.withdraw(100, '0000')  # ValueError: Invalid PIN\nexcept ValueError as e:\n    print(e)\n\n# Demonstrating encapsulation benefits\nclass SecureBankAccount(BankAccount):\n    def __init__(self, account_number, initial_pin):\n        super().__init__(account_number, initial_pin)\n        self.__transaction_history = []\n    \n    def deposit(self, amount, pin):\n        result = super().deposit(amount, pin)\n        self.__transaction_history.append(f'DEPOSIT: $ {amount}')\n        return result\n    \n    def get_transaction_history(self, pin):\n        if not self._BankAccount__validate_pin(pin):  # Accessing parent's private method\n            raise ValueError('Invalid PIN')\n        return self.__transaction_history.copy()\n\nsecure_account = SecureBankAccount('SEC456', '5678')\nsecure_account.deposit(500, '5678')\nprint(secure_account.get_transaction_history('5678'))  # ['DEPOSIT: $500']\n```\n\n**Real-world analogy**: Think of encapsulation like a car. You interact with the car through its public interface (steering wheel, pedals, gear shift), but you don't directly manipulate the engine pistons or transmission gears. The complex internal mechanisms are hidden and protected, while safe, controlled access is provided through the interface.",
       },
       {
         question: "What is composition?",
@@ -28439,6 +28439,1849 @@ finalizer_resource.destroy()  # Explicit cleanup
         solution:
           "No, private methods cannot be overridden because they are not inherited by subclasses. Private methods are only accessible within the class where they are defined, making them invisible to subclasses. What might appear as 'overriding' a private method is actually creating a new method with the same name in the subclass.\n\nWhy Private Methods Cannot Be Overridden:\n1. No Inheritance: Private methods are not inherited by subclasses\n2. No Visibility: Subclasses cannot access parent's private methods\n3. No Polymorphism: Private methods don't participate in dynamic method dispatch\n4. Encapsulation: Private methods are implementation details, not part of public interface\n\nWhat Actually Happens:\n- Subclass creates a new method with the same name (not overriding)\n- Both methods coexist independently\n- No polymorphic relationship exists between them\n- Each class uses its own version\n\nJavaScript Example:\njavascript\nclass Parent {\n  // Private method (using # syntax for true privacy)\n  #privateMethod() {\n    console.log('Parent private method');\n  }\n  \n  // Private field\n  #privateField = 'Parent private field';\n  \n  // Public method that calls private method\n  callPrivateMethod() {\n    console.log('Parent calling private method:');\n    this.#privateMethod();\n  }\n  \n  // Method with conventional private naming (just convention, not truly private)\n  _conventionalPrivate() {\n    console.log('Parent conventional private');\n  }\n  \n  callConventionalPrivate() {\n    this._conventionalPrivate();\n  }\n}\n\nclass Child extends Parent {\n  // This creates a NEW private method, doesn't override parent's\n  #privateMethod() {\n    console.log('Child private method');\n  }\n  \n  // This appears to \"override\" but it's just a new method\n  _conventionalPrivate() {\n    console.log('Child conventional private');\n  }\n  \n  // Child's own public method calling its private method\n  callChildPrivate() {\n    console.log('Child calling its private method:');\n    this.#privateMethod();\n  }\n  \n  // Attempting to call parent's private method (will fail)\n  tryToCallParentPrivate() {\n    try {\n      // This will cause an error - cannot access parent's private method\n      // this.#privateMethod(); // This refers to Child's private method\n      console.log('Cannot directly access parent private method');\n    } catch (error) {\n      console.log('Error accessing parent private method:', error.message);\n    }\n  }\n}\n\n// Demonstrating private method behavior\nconst parent = new Parent();\nconst child = new Child();\n\nconsole.log('=== Testing Private Methods ===');\n\n// Parent's private method called through public method\nparent.callPrivateMethod();  // Output: Parent private method\n\n// Child inherits public method, but it calls parent's private method\nchild.callPrivateMethod();   // Output: Parent private method (not child's!)\n\n// Child's own private method\nchild.callChildPrivate();    // Output: Child private method\n\n// Conventional private methods (can be \"overridden\")\nparent.callConventionalPrivate(); // Output: Parent conventional private\nchild.callConventionalPrivate();  // Output: Child conventional private\n\nconsole.log('=== Demonstrating No Override ===');\nchild.tryToCallParentPrivate();\n\n\nPython Example:\npython\nclass Parent:\n    def __init__(self):\n        self.__private_field = 'Parent private field'\n    \n    # Private method (name mangling with __)\n    def __private_method(self):\n        print('Parent private method')\n    \n    # Public method that calls private method\n    def call_private_method(self):\n        print('Parent calling private method:')\n        self.__private_method()\n    \n    # Protected method (convention with single _)\n    def _protected_method(self):\n        print('Parent protected method')\n    \n    def call_protected_method(self):\n        self._protected_method()\n\nclass Child(Parent):\n    def __init__(self):\n        super().__init__()\n        self.__private_field = 'Child private field'\n    \n    # This creates a NEW private method (due to name mangling)\n    def __private_method(self):\n        print('Child private method')\n    \n    # This actually overrides the protected method\n    def _protected_method(self):\n        print('Child protected method')\n    \n    # Child's method to call its own private method\n    def call_child_private(self):\n        print('Child calling its private method:')\n        self.__private_method()\n    \n    # Method to demonstrate access to both private methods\n    def demonstrate_private_access(self):\n        print('Child accessing its own private method:')\n        self.__private_method()\n        \n        print('Child trying to access parent private method:')\n        try:\n            # This will work because of Python's name mangling\n            # Parent's private method becomes _Parent__private_method\n            self._Parent__private_method()\n        except AttributeError as e:\n            print(f'Cannot access: {e}')\n    \n    def show_private_fields(self):\n        print(f'Child private field: {self.__private_field}')\n        # Access parent's private field using name mangling\n        try:\n            print(f'Parent private field: {self._Parent__private_field}')\n        except AttributeError:\n            print('Cannot access parent private field')\n\n# Demonstrating private method behavior\nparent = Parent()\nchild = Child()\n\nprint('=== Testing Private Methods ===')\n\n# Parent's private method\nparent.call_private_method()  # Output: Parent private method\n\n# Child inherits public method, calls parent's private method\nchild.call_private_method()   # Output: Parent private method\n\n# Child's own private method\nchild.call_child_private()    # Output: Child private method\n\nprint('\\n=== Testing Protected Methods (Can be overridden) ===')\nparent.call_protected_method()  # Output: Parent protected method\nchild.call_protected_method()   # Output: Child protected method (overridden!)\n\nprint('\\n=== Demonstrating Name Mangling ===')\nchild.demonstrate_private_access()\nchild.show_private_fields()\n\nprint('\\n=== Showing Actual Method Names ===')\nprint('Parent methods:', [method for method in dir(parent) if 'private' in method.lower()])\nprint('Child methods:', [method for method in dir(child) if 'private' in method.lower()])\n\n\nKey Points:\n1. True Private Methods: Cannot be overridden because they're not inherited\n2. Name Mangling: In Python, __method becomes _ClassName__method\n3. Convention vs Enforcement: Single underscore _method is convention, can be overridden\n4. Encapsulation Purpose: Private methods hide implementation details\n5. Design Implication: If you need overridable behavior, use protected methods instead",
       },
+      {
+        question: "What is the Liskov Substitution Principle?",
+        solution:
+          "Definition\nThe Liskov Substitution Principle (LSP), introduced by Barbara Liskov in 1987, is the third of the five SOLID principles. In plain language: “If a program is using a pointer or reference to a base class, it must remain completely unaware whether that object is an instance of the base class or any of its derived classes.”\n\nFormal statement\nLet Φ(x) be a property provable about objects x of type T. Then Φ(y) should also be true for objects y of type S, where S is a subtype of T.\n\nRules distilled\n1. Method signatures\n   • Parameter types: contravariant (same or broader).  \n   • Return types: covariant (same or narrower).  \n2. Preconditions cannot be strengthened in the subtype.  \n3. Postconditions cannot be weakened in the subtype.  \n4. Invariants of the base type must be preserved.  \n5. History rule: the subtype must not allow states that the base type disallows (e.g., mutating read-only fields).  \n6. Exceptions: only subtypes of declared exceptions (or none) may be raised.\n\nCommon pitfalls\n• Square/Rectangle problem: forcing width and height to stay equal in Square breaks Rectangle invariants.  \n• Mutable collections returned as immutable interfaces (clients expect immutability).  \n• Empty “NotImplemented” overrides that throw exceptions.\n\nPython walk-through\nWe will first violate LSP and then fix it.\n\nViolation\n```python\nclass Rectangle:\n    def __init__(self, width: float, height: float):\n        self._width  = width\n        self._height = height\n    @property\n    def width(self): return self._width\n    @width.setter\n    def width(self, value): self._width = value\n    @property\n    def height(self): return self._height\n    @height.setter\n    def height(self, value): self._height = value\n    def area(self) -> float:\n        return self._width * self._height\n\nclass Square(Rectangle):\n    def __init__(self, side: float):\n        super().__init__(side, side)\n    @Rectangle.width.setter\n    def width(self, value):\n        self._width = self._height = value   # breaks LSP\n    @Rectangle.height.setter\n    def height(self, value):\n        self._width = self._height = value   # breaks LSP\n\ndef double_width(rect: Rectangle):\n    expected = rect.area() * 2\n    rect.width *= 2\n    assert rect.area() == expected          # fails for Square\n\ndouble_width(Square(5))  # raises AssertionError\n```\n\nFix by composition (preferred) or interface segregation\n```python\nfrom abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self) -> float: ...\n\nclass Rectangle(Shape):\n    def __init__(self, w, h):\n        self.w, self.h = w, h\n    def area(self): return self.w * self.h\n\nclass Square(Shape):\n    def __init__(self, side):\n        self.side = side\n    def area(self): return self.side ** 2\n\ndef double_area(shape: Shape):\n    return shape.area() * 2   # safe for both\n```\n\nJavaScript walk-through\nViolation\n```javascript\nclass Bird {\n  fly() { return 'I can fly'; }\n}\n\nclass Ostrich extends Bird {\n  fly() { throw new Error('Ostrich cannot fly'); } // LSP violation\n}\n\nfunction travel(bird) {\n  console.log(bird.fly()); // crashes on Ostrich\n}\ntravel(new Ostrich());\n```\n\nFix by interface segregation\n```javascript\nclass FlyingBird {\n  fly() { return 'I can fly'; }\n}\n\nclass NonFlyingBird {}  // no fly method\n\nclass Ostrich extends NonFlyingBird {}\n\nfunction travel(bird) {\n  if (bird instanceof FlyingBird) {\n    console.log(bird.fly());\n  } else {\n    console.log('Walks instead');\n  }\n}\n```\n\nTake-away\nWhen you find yourself overriding just to throw or add unrelated behavior, step back and check whether the inheritance hierarchy is correctly modeled.",
+      },
+      {
+        question: "How does inheritance affect memory allocation?",
+        solution:
+          "High-level view\nMemory for an object is split into:\n1. Header (class pointer, GC flags, lock word, etc.).  \n2. Instance data (all fields, including inherited ones).  \n3. Possible padding for alignment.\n\nInheritance simply concatenates the ancestor fields to the derived fields, so the object grows. Each additional parent level adds its own fields. In languages with virtual dispatch, there is also a hidden pointer to the virtual method table (v-ptr).\n\nPython deep dive\nCPython objects consist of:\n• PyObject_HEAD (refcnt + type pointer)  \n• Optional dict or slots for attributes  \n• Inherited attributes are stored in the exact same dict/slot structure, not duplicated per class.\n\nExample\n```python\nimport sys, gc, ctypes\n\nclass Base:\n    def __init__(self):\n        self.a = 1\n        self.b = 2\n\nclass Derived(Base):\n    def __init__(self):\n        super().__init__()\n        self.c = 3\n        self.d = 4\n\nb = Base()\nd = Derived()\nprint('Base  size:', sys.getsizeof(b))        # object + dict + attrs\nprint('Derived size:', sys.getsizeof(d))\nprint('Base  dict:', sys.getsizeof(b.__dict__))\nprint('Derived dict:', sys.getsizeof(d.__dict__))\n```\nTypical output on 64-bit CPython 3.11:\nBase  size: 56\nDerived size: 56   # same object header\nBase  dict: 104    # 4 key/value pairs (2 + overhead)\nDerived dict: 136  # 6 key/value pairs (4 + overhead)\n\nThe object header stays constant; the dict inside grows by the number of attributes. Multiple inheritance adds an extra pointer per base class to the MRO cache, but this is per-class, not per-instance.\n\nJavaScript deep dive (V8)\nObjects start as “hidden classes” (maps). Each time you add a new property, a new map is created that transitions from the old map. Inherited properties live in the prototype chain, not in the instance itself, so they do not increase instance size.\n\nExample\n```javascript\nclass Base {\n  constructor() { this.a = 1; this.b = 2; }\n}\nclass Derived extends Base {\n  constructor() { super(); this.c = 3; this.d = 4; }\n}\n\nconst b = new Base();\nconst d = new Derived();\n\nconsole.log(%HaveSameMap(b, d)); // false in d8\nconsole.log(%DebugPrint(b));      // see instance size\nconsole.log(%DebugPrint(d));      // see instance size\n```\nIn V8’s heap snapshot you will see:\n• Base object: 4 properties → 32 bytes (on 64-bit)  \n• Derived object: 6 properties → 48 bytes (header + inline properties)\n\nPrototype properties such as methods are not duplicated per instance; they sit in the prototype object that is shared.\n\nMemory layout sketch (64-bit)\nBase instance:\n[ hidden-class ptr ][ properties array ptr ][ in-object a ][ in-object b ]\nDerived instance:\n[ hidden-class ptr ][ properties array ptr ][ a ][ b ][ c ][ d ]\n\nImpact of depth\nEvery level of inheritance adds its own fields to the object. Shallow inheritance keeps objects smaller. Deep hierarchies can also slow down property access because of longer prototype chains or MRO lookups.\n\nGarbage collection\nBoth Python and JavaScript use tracing GC. Larger objects mean more bytes walked by the GC, but the per-instance overhead is dominated by the attribute store, not inheritance metadata.\n\nBest practices\n• Prefer composition over deep inheritance to keep object size minimal.  \n• Use __slots__ in Python when the set of attributes is fixed to avoid per-instance dicts.  \n• In JavaScript, place shared data on the prototype to avoid duplication.\n\nTake-away\nInheritance increases the size of each instance by the sum of all ancestor fields. Language runtimes optimize method storage, but not data storage, so every additional field in the hierarchy is paid for by every object.",
+      },
+      {
+        question: "What is the base class constructor call in derived class?",
+        solution:
+          "Why it exists\nA derived object is a single contiguous block of memory that embeds both the base part and the derived part. The runtime must guarantee that the base part is fully initialized before the derived constructor body starts touching the object. This is done by an automatic or explicit call to the base constructor.\n\nPython rules\n1. `super()` returns a proxy object that delegates attribute lookup through the Method Resolution Order (MRO).  \n2. `super().__init__()` is **not** inserted automatically; you must call it explicitly.  \n3. If you forget, the base part remains uninitialized, leading to `AttributeError` when accessing inherited attributes.\n\nStep-by-step example\n```python\nclass Engine:\n    def __init__(self, cylinders: int, hp: int):n        self.cylinders = cylinders\n        self.hp = hp\n\nclass Car(Engine):\n    def __init__(self, cylinders: int, hp: int, brand: str):n        super().__init__(cylinders, hp)  # base constructor\n        self.brand = brand\n\nc = Car(4, 150, 'Tesla')\nprint(c.cylinders, c.hp, c.brand)  # 4 150 Tesla\n```\n\nMultiple inheritance\nWith multiple bases, the same `super()` call continues the MRO chain. Python ensures each base constructor is run exactly once.\n```python\nclass A:\n    def __init__(self): print('A'); super().__init__()\nclass B:\n    def __init__(self): print('B'); super().__init__()\nclass C(A, B):\n    def __init__(self): print('C'); super().__init__()\nC()  # prints C A B\n```\n\nJavaScript rules (ES6 classes)\n1. `super()` must be called before any access to `this`.  \n2. It invokes the base constructor and returns the initialized object (which becomes `this`).  \n3. Omitting `super()` in a derived constructor throws `ReferenceError`.\n\nStep-by-step example\n```javascript\nclass Engine {\n  constructor(cylinders, hp) {\n    this.cylinders = cylinders;\n    this.hp = hp;\n  }\n}\n\nclass Car extends Engine {\n  constructor(cylinders, hp, brand) {\n    super(cylinders, hp); // must be first\n    this.brand = brand;\n  }\n}\n\nconst c = new Car(4, 150, 'Tesla');\nconsole.log(c.cylinders, c.hp, c.brand); // 4 150 Tesla\n```\n\nAdvanced: Passing arguments\nYou can forward arbitrary arguments with spread:\n```python\nclass Base:\n    def __init__(self, *args, **kw):\n        self.x, self.y = args\n        self.opts = kw\n\nclass Derived(Base):\n    def __init__(self, *args, z, **kw):\n        super().__init__(*args, **kw)\n        self.z = z\n```\n\nJavaScript equivalent\n```javascript\nclass Base {\n  constructor(...args) { [this.x, this.y] = args; }\n}\nclass Derived extends Base {\n  constructor(...args) { super(...args); this.z = args[2]; }\n}\n```\n\nCommon mistakes\n• Calling `super()` twice (allowed but wasteful).  \n• Accessing `this` before `super()` in JavaScript (ReferenceError).  \n• Forgetting `super().__init__()` in Python leads to partially initialized objects.\n\nTake-away\nThe base class constructor call is the mechanism that ensures the parent portion of an object is initialized. In Python you must do it explicitly with `super()`, while in JavaScript the call is mandatory and must precede any use of `this`.",
+      },
+      {
+        question: "Can static methods be polymorphic?",
+        solution:
+          "No, static methods cannot be truly polymorphic because they belong to the class itself, not to instances. Static methods are resolved at compile-time (static binding) rather than runtime (dynamic binding), which is essential for polymorphism.\n\n**JavaScript Example:**\n```javascript\nclass Animal {\n  static makeSound() {\n    return 'Some generic animal sound';\n  }\n  \n  instanceSound() {\n    return 'Instance animal sound';\n  }\n}\n\nclass Dog extends Animal {\n  static makeSound() {\n    return 'Woof!';\n  }\n  \n  instanceSound() {\n    return 'Woof from instance!';\n  }\n}\n\n// Static method - no polymorphism\nconsole.log(Animal.makeSound()); // 'Some generic animal sound'\nconsole.log(Dog.makeSound()); // 'Woof!'\n\n// Instance method - polymorphism works\nconst animals = [new Animal(), new Dog()];\nanimals.forEach(animal => {\n  console.log(animal.instanceSound()); // Polymorphic behavior\n});\n```\n\n**Python Example:**\n```python\nclass Animal:\n    @staticmethod\n    def make_sound():\n        return \"Some generic animal sound\"\n    \n    def instance_sound(self):\n        return \"Instance animal sound\"\n\nclass Dog(Animal):\n    @staticmethod\n    def make_sound():\n        return \"Woof!\"\n    \n    def instance_sound(self):\n        return \"Woof from instance!\"\n\n# Static method - no polymorphism\nprint(Animal.make_sound())  # 'Some generic animal sound'\nprint(Dog.make_sound())     # 'Woof!'\n\n# Instance method - polymorphism works\nanimals = [Animal(), Dog()]\nfor animal in animals:\n    print(animal.instance_sound())  # Polymorphic behavior\n```\n\n**Key Points:**\n- Static methods are called on the class, not instances\n- They don't participate in inheritance hierarchy for runtime binding\n- Method hiding occurs instead of overriding\n- True polymorphism requires instance methods and dynamic dispatch",
+      },
+      {
+        question: "What is parametric polymorphism?",
+        solution:
+          'Parametric polymorphism allows functions, methods, or data structures to work with different types while maintaining type safety. It\'s achieved through generics/templates, enabling code to be written once and work with multiple types without sacrificing type checking.\n\n**JavaScript Example (using TypeScript for better demonstration):**\n```javascript\n// Generic function in TypeScript\nfunction identity<T>(arg: T): T {\n  return arg;\n}\n\n// Works with different types\nconst stringResult = identity<string>(\'hello\');\nconst numberResult = identity<number>(42);\nconst boolResult = identity<boolean>(true);\n\n// Generic class\nclass Container<T> {\n  private value: T;\n  \n  constructor(value: T) {\n    this.value = value;\n  }\n  \n  getValue(): T {\n    return this.value;\n  }\n  \n  setValue(value: T): void {\n    this.value = value;\n  }\n}\n\nconst stringContainer = new Container<string>(\'Hello\');\nconst numberContainer = new Container<number>(123);\n```\n\n**Python Example:**\n```python\nfrom typing import TypeVar, Generic, List\n\n# Type variable for parametric polymorphism\nT = TypeVar(\'T\')\n\ndef identity(arg: T) -> T:\n    """Generic identity function"""\n    return arg\n\n# Works with different types\nstring_result = identity("hello")\nnumber_result = identity(42)\nbool_result = identity(True)\n\n# Generic class\nclass Container(Generic[T]):\n    def __init__(self, value: T) -> None:\n        self._value = value\n    \n    def get_value(self) -> T:\n        return self._value\n    \n    def set_value(self, value: T) -> None:\n        self._value = value\n\n# Usage with different types\nstring_container = Container[str]("Hello")\nnumber_container = Container[int](123)\n\n# Generic function with constraints\nfrom typing import Protocol\n\nclass Comparable(Protocol):\n    def __lt__(self, other) -> bool: ...\n\ndef find_max(items: List[T]) -> T:\n    """Find maximum item in a list"""\n    if not items:\n        raise ValueError("Empty list")\n    \n    max_item = items[0]\n    for item in items[1:]:\n        if item > max_item:\n            max_item = item\n    return max_item\n\nprint(find_max([1, 5, 3, 9, 2]))      # Works with integers\nprint(find_max([\'apple\', \'zebra\', \'banana\']))  # Works with strings\n```\n\n**Key Benefits:**\n- **Code Reusability**: Write once, use with multiple types\n- **Type Safety**: Compile-time type checking\n- **Performance**: No runtime type checking overhead\n- **Abstraction**: Focus on algorithm, not specific types',
+      },
+      {
+        question: "What is ad-hoc polymorphism?",
+        solution:
+          'Ad-hoc polymorphism allows the same function name to behave differently based on the types of its arguments. It\'s implemented through method/operator overloading and provides different implementations for different type combinations. Unlike parametric polymorphism, each type combination has its own specific implementation.\n\n**JavaScript Example:**\n```javascript\n// Method overloading simulation in JavaScript\nclass Calculator {\n  add(...args) {\n    // Different behavior based on argument types and count\n    if (args.length === 2) {\n      if (typeof args[0] === \'number\' && typeof args[1] === \'number\') {\n        return args[0] + args[1];\n      }\n      if (typeof args[0] === \'string\' && typeof args[1] === \'string\') {\n        return args[0] + \' \' + args[1];\n      }\n      if (Array.isArray(args[0]) && Array.isArray(args[1])) {\n        return [...args[0], ...args[1]];\n      }\n    }\n    if (args.length === 3 && args.every(arg => typeof arg === \'number\')) {\n      return args[0] + args[1] + args[2];\n    }\n    throw new Error(\'Unsupported argument types or count\');\n  }\n}\n\nconst calc = new Calculator();\nconsole.log(calc.add(5, 3));           // 8 (number addition)\nconsole.log(calc.add(\'Hello\', \'World\')); // \'Hello World\' (string concatenation)\nconsole.log(calc.add([1, 2], [3, 4])); // [1, 2, 3, 4] (array concatenation)\nconsole.log(calc.add(1, 2, 3));        // 6 (three number addition)\n\n// Operator overloading through valueOf/toString\nclass Money {\n  constructor(amount, currency = \'USD\') {\n    this.amount = amount;\n    this.currency = currency;\n  }\n  \n  valueOf() {\n    return this.amount;\n  }\n  \n  toString() {\n    return `${this.amount} ${this.currency}`;\n  }\n}\n\nconst price1 = new Money(10);\nconst price2 = new Money(5);\nconsole.log(price1 + price2); // 15 (uses valueOf)\nconsole.log(String(price1));  // \'10 USD\' (uses toString)\n```\n\n**Python Example:**\n```python\nfrom functools import singledispatch\nfrom typing import Union\n\n# Single dispatch for ad-hoc polymorphism\n@singledispatch\ndef process(arg):\n    """Default implementation"""\n    print(f"Processing unknown type: {type(arg)}")\n\n@process.register\ndef _(arg: int):\n    """Handle integers"""\n    return arg * 2\n\n@process.register\ndef _(arg: str):\n    """Handle strings"""\n    return arg.upper()\n\n@process.register\ndef _(arg: list):\n    """Handle lists"""\n    return sorted(arg)\n\n@process.register\ndef _(arg: dict):\n    """Handle dictionaries"""\n    return {k: v for k, v in sorted(arg.items())}\n\n# Usage\nprint(process(5))                    # 10\nprint(process("hello"))             # "HELLO"\nprint(process([3, 1, 4, 1, 5]))     # [1, 1, 3, 4, 5]\nprint(process({\'c\': 3, \'a\': 1, \'b\': 2}))  # {\'a\': 1, \'b\': 2, \'c\': 3}\n\n# Method overloading using multiple dispatch\nclass Calculator:\n    def add(self, a, b):\n        """Dispatch based on types"""\n        if isinstance(a, (int, float)) and isinstance(b, (int, float)):\n            return self._add_numbers(a, b)\n        elif isinstance(a, str) and isinstance(b, str):\n            return self._add_strings(a, b)\n        elif isinstance(a, list) and isinstance(b, list):\n            return self._add_lists(a, b)\n        else:\n            raise TypeError(f"Unsupported types: {type(a)}, {type(b)}")\n    \n    def _add_numbers(self, a, b):\n        return a + b\n    \n    def _add_strings(self, a, b):\n        return f"{a} {b}"\n    \n    def _add_lists(self, a, b):\n        return a + b\n\n# Operator overloading\nclass Vector:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def __add__(self, other):\n        """Overload + operator"""\n        if isinstance(other, Vector):\n            return Vector(self.x + other.x, self.y + other.y)\n        elif isinstance(other, (int, float)):\n            return Vector(self.x + other, self.y + other)\n        else:\n            return NotImplemented\n    \n    def __mul__(self, other):\n        """Overload * operator"""\n        if isinstance(other, (int, float)):\n            return Vector(self.x * other, self.y * other)\n        elif isinstance(other, Vector):\n            return self.x * other.x + self.y * other.y  # dot product\n        else:\n            return NotImplemented\n    \n    def __repr__(self):\n        return f"Vector({self.x}, {self.y})"\n\n# Usage\nv1 = Vector(2, 3)\nv2 = Vector(1, 4)\nprint(v1 + v2)    # Vector(3, 7) - vector addition\nprint(v1 + 5)     # Vector(7, 8) - scalar addition\nprint(v1 * 2)     # Vector(4, 6) - scalar multiplication\nprint(v1 * v2)    # 14 - dot product\n\ncalc = Calculator()\nprint(calc.add(5, 3))           # 8\nprint(calc.add("Hello", "World")) # "Hello World"\nprint(calc.add([1, 2], [3, 4])) # [1, 2, 3, 4]\n```\n\n**Key Characteristics:**\n- **Type-specific implementations**: Different code paths for different types\n- **Compile-time resolution**: Type checking determines which implementation to use\n- **Operator overloading**: Customize behavior of built-in operators\n- **Method overloading**: Same method name, different parameter types\n- **Runtime dispatch**: In some cases, type checking happens at runtime',
+      },
+      {
+        question: "What is subtype polymorphism?",
+        solution:
+          'Subtype polymorphism (also called inclusion polymorphism) allows objects of different types to be treated as instances of a common base type. It\'s the most common form of polymorphism in object-oriented programming, achieved through inheritance and method overriding. Objects can be substituted for their supertypes while maintaining correctness (Liskov Substitution Principle).\n\n**JavaScript Example:**\n```javascript\n// Base class\nclass Animal {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  makeSound() {\n    return `${this.name} makes a sound`;\n  }\n  \n  move() {\n    return `${this.name} moves around`;\n  }\n  \n  getInfo() {\n    return `${this.name} is an animal`;\n  }\n}\n\n// Derived classes\nclass Dog extends Animal {\n  makeSound() {\n    return `${this.name} barks: Woof!`;\n  }\n  \n  move() {\n    return `${this.name} runs on four legs`;\n  }\n  \n  fetch() {\n    return `${this.name} fetches the ball`;\n  }\n}\n\nclass Cat extends Animal {\n  makeSound() {\n    return `${this.name} meows: Meow!`;\n  }\n  \n  move() {\n    return `${this.name} prowls silently`;\n  }\n  \n  climb() {\n    return `${this.name} climbs trees`;\n  }\n}\n\nclass Bird extends Animal {\n  makeSound() {\n    return `${this.name} chirps: Tweet!`;\n  }\n  \n  move() {\n    return `${this.name} flies through the air`;\n  }\n  \n  fly() {\n    return `${this.name} soars high`;\n  }\n}\n\n// Polymorphic behavior\nconst animals = [\n  new Dog(\'Buddy\'),\n  new Cat(\'Whiskers\'),\n  new Bird(\'Tweety\'),\n  new Animal(\'Generic\')\n];\n\n// All objects treated as Animal type\nanimals.forEach(animal => {\n  console.log(animal.makeSound()); // Calls overridden method\n  console.log(animal.move());      // Calls overridden method\n  console.log(animal.getInfo());   // Calls inherited method\n  console.log(\'---\');\n});\n\n// Function that accepts any Animal subtype\nfunction animalConcert(animalList) {\n  const sounds = animalList.map(animal => animal.makeSound());\n  return `Concert: ${sounds.join(\', \')}`;\n}\n\nconsole.log(animalConcert(animals));\n\n// Polymorphic array processing\nfunction moveAllAnimals(animalArray) {\n  return animalArray.map(animal => {\n    // Runtime type checking for specific behaviors\n    let result = animal.move();\n    \n    if (animal instanceof Dog && animal.fetch) {\n      result += ` - ${animal.fetch()}`;\n    } else if (animal instanceof Cat && animal.climb) {\n      result += ` - ${animal.climb()}`;\n    } else if (animal instanceof Bird && animal.fly) {\n      result += ` - ${animal.fly()}`;\n    }\n    \n    return result;\n  });\n}\n\nconsole.log(moveAllAnimals(animals));\n```\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\nfrom typing import List\n\n# Abstract base class\nclass Animal(ABC):\n    def __init__(self, name: str):\n        self.name = name\n    \n    @abstractmethod\n    def make_sound(self) -> str:\n        """Abstract method - must be implemented by subclasses"""\n        pass\n    \n    @abstractmethod\n    def move(self) -> str:\n        """Abstract method - must be implemented by subclasses"""\n        pass\n    \n    def get_info(self) -> str:\n        """Concrete method - can be inherited or overridden"""\n        return f"{self.name} is an animal"\n    \n    def sleep(self) -> str:\n        """Common behavior for all animals"""\n        return f"{self.name} is sleeping"\n\n# Concrete implementations\nclass Dog(Animal):\n    def make_sound(self) -> str:\n        return f"{self.name} barks: Woof!"\n    \n    def move(self) -> str:\n        return f"{self.name} runs on four legs"\n    \n    def fetch(self) -> str:\n        return f"{self.name} fetches the ball"\n    \n    def get_info(self) -> str:\n        return f"{self.name} is a loyal dog"\n\nclass Cat(Animal):\n    def make_sound(self) -> str:\n        return f"{self.name} meows: Meow!"\n    \n    def move(self) -> str:\n        return f"{self.name} prowls silently"\n    \n    def climb(self) -> str:\n        return f"{self.name} climbs trees"\n    \n    def get_info(self) -> str:\n        return f"{self.name} is an independent cat"\n\nclass Bird(Animal):\n    def make_sound(self) -> str:\n        return f"{self.name} chirps: Tweet!"\n    \n    def move(self) -> str:\n        return f"{self.name} flies through the air"\n    \n    def fly(self) -> str:\n        return f"{self.name} soars high in the sky"\n\nclass Fish(Animal):\n    def make_sound(self) -> str:\n        return f"{self.name} makes bubbles"\n    \n    def move(self) -> str:\n        return f"{self.name} swims gracefully"\n    \n    def swim_deep(self) -> str:\n        return f"{self.name} dives deep underwater"\n\n# Polymorphic usage\nanimals: List[Animal] = [\n    Dog(\'Buddy\'),\n    Cat(\'Whiskers\'),\n    Bird(\'Tweety\'),\n    Fish(\'Nemo\')\n]\n\n# All objects treated uniformly as Animal type\nprint("=== Polymorphic Method Calls ===")\nfor animal in animals:\n    print(f"Sound: {animal.make_sound()}")  # Calls overridden method\n    print(f"Movement: {animal.move()}")     # Calls overridden method\n    print(f"Info: {animal.get_info()}")     # May be overridden or inherited\n    print(f"Sleep: {animal.sleep()}")       # Inherited method\n    print("-" * 40)\n\n# Polymorphic functions\ndef animal_concert(animal_list: List[Animal]) -> str:\n    """Function accepting any Animal subtype"""\n    sounds = [animal.make_sound() for animal in animal_list]\n    return f"Concert: {\' | \'.join(sounds)}"\n\ndef animal_race(animal_list: List[Animal]) -> List[str]:\n    """Polymorphic processing with type-specific additions"""\n    results = []\n    for animal in animal_list:\n        movement = animal.move()\n        \n        # Runtime type checking for specific behaviors\n        if isinstance(animal, Dog):\n            movement += f" - {animal.fetch()}"\n        elif isinstance(animal, Cat):\n            movement += f" - {animal.climb()}"\n        elif isinstance(animal, Bird):\n            movement += f" - {animal.fly()}"\n        elif isinstance(animal, Fish):\n            movement += f" - {animal.swim_deep()}"\n        \n        results.append(movement)\n    \n    return results\n\n# Demonstrate polymorphism\nprint("\\n=== Polymorphic Functions ===")\nprint(animal_concert(animals))\n\nprint("\\n=== Animal Race Results ===")\nrace_results = animal_race(animals)\nfor i, result in enumerate(race_results, 1):\n    print(f"{i}. {result}")\n\n# Factory pattern using polymorphism\nclass AnimalFactory:\n    @staticmethod\n    def create_animal(animal_type: str, name: str) -> Animal:\n        """Factory method returning Animal subtype"""\n        animal_types = {\n            \'dog\': Dog,\n            \'cat\': Cat,\n            \'bird\': Bird,\n            \'fish\': Fish\n        }\n        \n        if animal_type.lower() in animal_types:\n            return animal_types[animal_type.lower()](name)\n        else:\n            raise ValueError(f"Unknown animal type: {animal_type}")\n\n# Using factory with polymorphism\nprint("\\n=== Factory Pattern with Polymorphism ===")\nanimal_specs = [\n    (\'dog\', \'Rex\'),\n    (\'cat\', \'Fluffy\'),\n    (\'bird\', \'Polly\'),\n    (\'fish\', \'Goldie\')\n]\n\nfactory_animals = [AnimalFactory.create_animal(atype, name) \n                  for atype, name in animal_specs]\n\nfor animal in factory_animals:\n    print(f"{type(animal).__name__}: {animal.make_sound()}")\n```\n\n**Key Benefits of Subtype Polymorphism:**\n- **Code Reusability**: Write code once, works with all subtypes\n- **Extensibility**: Add new types without modifying existing code\n- **Maintainability**: Changes in subtypes don\'t affect client code\n- **Abstraction**: Work with interfaces rather than concrete implementations\n- **Liskov Substitution**: Subtypes can replace supertypes safely\n\n**Runtime vs Compile-time Binding:**\n- **Dynamic Dispatch**: Method calls resolved at runtime based on actual object type\n- **Virtual Method Table**: Efficient implementation of method resolution\n- **Late Binding**: Flexibility to determine behavior at runtime',
+      },
+      {
+        question: "How does polymorphism work with interfaces?",
+        solution:
+          'Polymorphism with interfaces allows objects of different classes to be treated uniformly if they implement the same interface contract. This enables loose coupling and high flexibility, as code depends on abstractions (interfaces) rather than concrete implementations. Interface-based polymorphism is crucial for dependency injection, plugin architectures, and designing extensible systems.\n\n**JavaScript Example:**\n```javascript\n// JavaScript doesn\'t have native interfaces, but we can simulate them\n// Using duck typing and documentation conventions\n\n/**\n * Drawable interface contract:\n * - draw(): string - renders the shape\n * - getArea(): number - calculates area\n * - getPerimeter(): number - calculates perimeter\n */\n\nclass Rectangle {\n  constructor(width, height) {\n    this.width = width;\n    this.height = height;\n  }\n  \n  draw() {\n    return `Drawing Rectangle: ${this.width}x${this.height}`;\n  }\n  \n  getArea() {\n    return this.width * this.height;\n  }\n  \n  getPerimeter() {\n    return 2 * (this.width + this.height);\n  }\n}\n\nclass Circle {\n  constructor(radius) {\n    this.radius = radius;\n  }\n  \n  draw() {\n    return `Drawing Circle: radius ${this.radius}`;\n  }\n  \n  getArea() {\n    return Math.PI * this.radius * this.radius;\n  }\n  \n  getPerimeter() {\n    return 2 * Math.PI * this.radius;\n  }\n}\n\nclass Triangle {\n  constructor(a, b, c) {\n    this.a = a;\n    this.b = b;\n    this.c = c;\n  }\n  \n  draw() {\n    return `Drawing Triangle: sides ${this.a}, ${this.b}, ${this.c}`;\n  }\n  \n  getArea() {\n    // Using Heron\'s formula\n    const s = (this.a + this.b + this.c) / 2;\n    return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));\n  }\n  \n  getPerimeter() {\n    return this.a + this.b + this.c;\n  }\n}\n\n// Interface validation function\nfunction validateDrawable(obj) {\n  const requiredMethods = [\'draw\', \'getArea\', \'getPerimeter\'];\n  return requiredMethods.every(method => \n    typeof obj[method] === \'function\'\n  );\n}\n\n// Polymorphic usage through interface contract\nclass DrawingCanvas {\n  constructor() {\n    this.shapes = [];\n  }\n  \n  addShape(shape) {\n    if (!validateDrawable(shape)) {\n      throw new Error(\'Object must implement Drawable interface\');\n    }\n    this.shapes.push(shape);\n  }\n  \n  renderAll() {\n    return this.shapes.map(shape => shape.draw());\n  }\n  \n  getTotalArea() {\n    return this.shapes.reduce((total, shape) => \n      total + shape.getArea(), 0\n    );\n  }\n  \n  getTotalPerimeter() {\n    return this.shapes.reduce((total, shape) => \n      total + shape.getPerimeter(), 0\n    );\n  }\n  \n  getShapeStats() {\n    return this.shapes.map(shape => ({\n      type: shape.constructor.name,\n      area: shape.getArea().toFixed(2),\n      perimeter: shape.getPerimeter().toFixed(2)\n    }));\n  }\n}\n\n// Usage\nconst canvas = new DrawingCanvas();\n\n// All objects implement the same interface\ncanvas.addShape(new Rectangle(5, 3));\ncanvas.addShape(new Circle(4));\ncanvas.addShape(new Triangle(3, 4, 5));\n\nconsole.log(\'=== Rendering All Shapes ===\');\ncanvas.renderAll().forEach(drawing => console.log(drawing));\n\nconsole.log(\'\\n=== Shape Statistics ===\');\nconsole.log(\'Total Area:\', canvas.getTotalArea().toFixed(2));\nconsole.log(\'Total Perimeter:\', canvas.getTotalPerimeter().toFixed(2));\n\nconsole.log(\'\\n=== Individual Stats ===\');\nconsole.table(canvas.getShapeStats());\n\n// Strategy pattern using interface polymorphism\nclass ShapeProcessor {\n  static processShapes(shapes, processor) {\n    return shapes\n      .filter(shape => validateDrawable(shape))\n      .map(shape => processor(shape));\n  }\n}\n\nconst shapes = [new Rectangle(2, 3), new Circle(2), new Triangle(2, 3, 4)];\n\n// Different processing strategies\nconst areaProcessor = shape => ({\n  shape: shape.constructor.name,\n  area: shape.getArea()\n});\n\nconst perimeterProcessor = shape => ({\n  shape: shape.constructor.name,\n  perimeter: shape.getPerimeter()\n});\n\nconsole.log(\'\\n=== Area Processing ===\');\nconsole.table(ShapeProcessor.processShapes(shapes, areaProcessor));\n\nconsole.log(\'\\n=== Perimeter Processing ===\');\nconsole.table(ShapeProcessor.processShapes(shapes, perimeterProcessor));\n```\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\nfrom typing import List, Protocol\nimport math\n\n# Method 1: Abstract Base Class (ABC)\nclass Drawable(ABC):\n    """Abstract interface for drawable objects"""\n    \n    @abstractmethod\n    def draw(self) -> str:\n        """Render the shape"""\n        pass\n    \n    @abstractmethod\n    def get_area(self) -> float:\n        """Calculate the area"""\n        pass\n    \n    @abstractmethod\n    def get_perimeter(self) -> float:\n        """Calculate the perimeter"""\n        pass\n\n# Method 2: Protocol (Structural typing - Python 3.8+)\nclass DrawableProtocol(Protocol):\n    """Protocol for drawable objects (duck typing)"""\n    \n    def draw(self) -> str: ...\n    def get_area(self) -> float: ...\n    def get_perimeter(self) -> float: ...\n\n# Implementations using ABC\nclass Rectangle(Drawable):\n    def __init__(self, width: float, height: float):\n        self.width = width\n        self.height = height\n    \n    def draw(self) -> str:\n        return f"Drawing Rectangle: {self.width}x{self.height}"\n    \n    def get_area(self) -> float:\n        return self.width * self.height\n    \n    def get_perimeter(self) -> float:\n        return 2 * (self.width + self.height)\n\nclass Circle(Drawable):\n    def __init__(self, radius: float):\n        self.radius = radius\n    \n    def draw(self) -> str:\n        return f"Drawing Circle: radius {self.radius}"\n    \n    def get_area(self) -> float:\n        return math.pi * self.radius ** 2\n    \n    def get_perimeter(self) -> float:\n        return 2 * math.pi * self.radius\n\nclass Triangle(Drawable):\n    def __init__(self, a: float',
+      },
+      {
+        question: "What is runtime polymorphism?",
+        solution:
+          'Runtime polymorphism (also called dynamic polymorphism) is the ability of an object to take multiple forms during program execution. The actual method to be called is determined at runtime based on the object\'s actual type, not the reference type. This is achieved through method overriding and virtual method calls.\n\n**Key Characteristics:**\n- Method resolution happens at runtime\n- Uses method overriding\n- Enables late binding/dynamic binding\n- Supports the Open/Closed Principle\n\n**Python Example:**\n```python\nclass Animal:\n    def make_sound(self):\n        pass\n\nclass Dog(Animal):\n    def make_sound(self):\n        return "Woof!"\n\nclass Cat(Animal):\n    def make_sound(self):\n        return "Meow!"\n\n# Runtime polymorphism in action\ndef animal_sound(animal):\n    return animal.make_sound()  # Method resolved at runtime\n\n# Usage\nanimals = [Dog(), Cat(), Dog()]\nfor animal in animals:\n    print(animal_sound(animal))  # Different methods called based on actual object type\n```\n\n**JavaScript Example:**\n```javascript\nclass Animal {\n    makeSound() {\n        throw new Error("makeSound method must be implemented");\n    }\n}\n\nclass Dog extends Animal {\n    makeSound() {\n        return "Woof!";\n    }\n}\n\nclass Cat extends Animal {\n    makeSound() {\n        return "Meow!";\n    }\n}\n\n// Runtime polymorphism\nfunction animalSound(animal) {\n    return animal.makeSound();  // Method resolved at runtime\n}\n\n// Usage\nconst animals = [new Dog(), new Cat(), new Dog()];\nanimals.forEach(animal => {\n    console.log(animalSound(animal));  // Different methods called\n});\n```',
+      },
+      {
+        question: "What is compile-time polymorphism?",
+        solution:
+          'Compile-time polymorphism (also called static polymorphism) is resolved during compilation. The compiler determines which method to call based on the method signature, number of parameters, and parameter types. This is primarily achieved through method overloading and operator overloading.\n\n**Key Characteristics:**\n- Method resolution happens at compile time\n- Uses method overloading\n- Enables early binding/static binding\n- Better performance as no runtime overhead\n- Type checking at compile time\n\n**Python Example:**\n```python\nclass Calculator:\n    def add(self, a, b):\n        return a + b\n    \n    def add(self, a, b, c):  # Method overloading (limited in Python)\n        return a + b + c\n    \n    # Python alternative using default parameters\n    def multiply(self, a, b, c=1):\n        return a * b * c\n    \n    # Using *args for variable arguments\n    def sum_all(self, *args):\n        return sum(args)\n\n# Usage\ncalc = Calculator()\nprint(calc.multiply(2, 3))      # Uses default c=1\nprint(calc.multiply(2, 3, 4))   # Uses provided c=4\nprint(calc.sum_all(1, 2, 3, 4)) # Variable number of arguments\n```\n\n**JavaScript Example:**\n```javascript\nclass Calculator {\n    // JavaScript doesn\'t have true method overloading\n    // We simulate it by checking arguments\n    add(...args) {\n        if (args.length === 2) {\n            return args[0] + args[1];\n        } else if (args.length === 3) {\n            return args[0] + args[1] + args[2];\n        }\n        throw new Error("Invalid number of arguments");\n    }\n    \n    // Alternative approach using default parameters\n    multiply(a, b, c = 1) {\n        return a * b * c;\n    }\n    \n    // Using rest parameters\n    sumAll(...numbers) {\n        return numbers.reduce((sum, num) => sum + num, 0);\n    }\n}\n\n// Usage\nconst calc = new Calculator();\nconsole.log(calc.add(2, 3));        // 5\nconsole.log(calc.add(2, 3, 4));     // 9\nconsole.log(calc.multiply(2, 3));   // 6\nconsole.log(calc.multiply(2, 3, 4)); // 24\nconsole.log(calc.sumAll(1, 2, 3, 4)); // 10\n```',
+      },
+      {
+        question: "What is dynamic polymorphism?",
+        solution:
+          'Dynamic polymorphism is another term for runtime polymorphism. It refers to the ability of a program to determine which method implementation to execute at runtime rather than compile time. This is achieved through inheritance, method overriding, and virtual method calls.\n\n**Key Features:**\n- Late binding (method binding occurs at runtime)\n- Method calls are resolved using the actual object type\n- Enables flexibility and extensibility\n- Supports the Liskov Substitution Principle\n- Uses virtual method dispatch\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def area(self):\n        pass\n    \n    @abstractmethod\n    def perimeter(self):\n        pass\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def area(self):\n        return self.width * self.height\n    \n    def perimeter(self):\n        return 2 * (self.width + self.height)\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n    \n    def area(self):\n        return 3.14159 * self.radius ** 2\n    \n    def perimeter(self):\n        return 2 * 3.14159 * self.radius\n\n# Dynamic polymorphism in action\ndef calculate_shape_properties(shape):\n    print(f"Area: {shape.area()}")         # Method determined at runtime\n    print(f"Perimeter: {shape.perimeter()}") # Method determined at runtime\n\n# Usage\nshapes = [Rectangle(5, 4), Circle(3), Rectangle(2, 8)]\nfor shape in shapes:\n    calculate_shape_properties(shape)  # Different implementations called\n    print("-" * 20)\n```\n\n**JavaScript Example:**\n```javascript\nclass Shape {\n    area() {\n        throw new Error("area method must be implemented");\n    }\n    \n    perimeter() {\n        throw new Error("perimeter method must be implemented");\n    }\n}\n\nclass Rectangle extends Shape {\n    constructor(width, height) {\n        super();\n        this.width = width;\n        this.height = height;\n    }\n    \n    area() {\n        return this.width * this.height;\n    }\n    \n    perimeter() {\n        return 2 * (this.width + this.height);\n    }\n}\n\nclass Circle extends Shape {\n    constructor(radius) {\n        super();\n        this.radius = radius;\n    }\n    \n    area() {\n        return Math.PI * this.radius ** 2;\n    }\n    \n    perimeter() {\n        return 2 * Math.PI * this.radius;\n    }\n}\n\n// Dynamic polymorphism\nfunction calculateShapeProperties(shape) {\n    console.log(`Area: ${shape.area()}`);\n    console.log(`Perimeter: ${shape.perimeter()}`);\n}\n\n// Usage\nconst shapes = [new Rectangle(5, 4), new Circle(3), new Rectangle(2, 8)];\nshapes.forEach(shape => {\n    calculateShapeProperties(shape);  // Different implementations called\n    console.log("-".repeat(20));\n});\n```',
+      },
+      {
+        question: "What is static polymorphism?",
+        solution:
+          'Static polymorphism is another term for compile-time polymorphism. It\'s resolved during compilation based on the method signature, parameters, and types. The compiler determines which method to call before the program runs, making it faster but less flexible than dynamic polymorphism.\n\n**Key Characteristics:**\n- Early binding (resolved at compile time)\n- Method overloading and operator overloading\n- Better performance (no runtime overhead)\n- Type safety at compile time\n- Less flexible than dynamic polymorphism\n\n**Python Example:**\n```python\nclass MathOperations:\n    # Python doesn\'t have true method overloading, but we can simulate it\n    def process(self, data):\n        if isinstance(data, int):\n            return self._process_int(data)\n        elif isinstance(data, float):\n            return self._process_float(data)\n        elif isinstance(data, str):\n            return self._process_string(data)\n        elif isinstance(data, list):\n            return self._process_list(data)\n        else:\n            raise TypeError("Unsupported data type")\n    \n    def _process_int(self, num):\n        return num * 2\n    \n    def _process_float(self, num):\n        return round(num * 1.5, 2)\n    \n    def _process_string(self, text):\n        return text.upper()\n    \n    def _process_list(self, items):\n        return [item * 2 for item in items]\n\n# Alternative using functools.singledispatch (more Pythonic)\nfrom functools import singledispatch\n\nclass StaticProcessor:\n    @singledispatch\n    @staticmethod\n    def process(arg):\n        raise TypeError("Unsupported type")\n    \n    @process.register(int)\n    @staticmethod\n    def _(arg):\n        return arg * 2\n    \n    @process.register(float)\n    @staticmethod\n    def _(arg):\n        return round(arg * 1.5, 2)\n    \n    @process.register(str)\n    @staticmethod\n    def _(arg):\n        return arg.upper()\n    \n    @process.register(list)\n    @staticmethod\n    def _(arg):\n        return [item * 2 for item in arg]\n\n# Usage\nmath_ops = MathOperations()\nprint(math_ops.process(5))           # 10\nprint(math_ops.process(3.5))         # 5.25\nprint(math_ops.process("hello"))     # HELLO\nprint(math_ops.process([1, 2, 3]))   # [2, 4, 6]\n\nprocessor = StaticProcessor()\nprint(processor.process(5))          # 10\nprint(processor.process(3.5))        # 5.25\n```\n\n**JavaScript Example:**\n```javascript\nclass StaticProcessor {\n    // JavaScript doesn\'t have compile-time method overloading\n    // We simulate static polymorphism using parameter inspection\n    process(...args) {\n        // Determine method based on argument count and types\n        if (args.length === 1) {\n            return this.processSingle(args[0]);\n        } else if (args.length === 2) {\n            return this.processDouble(args[0], args[1]);\n        } else if (args.length === 3) {\n            return this.processTriple(args[0], args[1], args[2]);\n        }\n        throw new Error("Invalid number of arguments");\n    }\n    \n    processSingle(arg) {\n        if (typeof arg === \'number\') {\n            return arg * 2;\n        } else if (typeof arg === \'string\') {\n            return arg.toUpperCase();\n        } else if (Array.isArray(arg)) {\n            return arg.map(item => item * 2);\n        }\n        throw new TypeError("Unsupported type");\n    }\n    \n    processDouble(a, b) {\n        if (typeof a === \'number\' && typeof b === \'number\') {\n            return a + b;\n        } else if (typeof a === \'string\' && typeof b === \'string\') {\n            return a + " " + b;\n        }\n        throw new TypeError("Unsupported types");\n    }\n    \n    processTriple(a, b, c) {\n        if (typeof a === \'number\' && typeof b === \'number\' && typeof c === \'number\') {\n            return (a + b + c) / 3;\n        }\n        throw new TypeError("Unsupported types");\n    }\n}\n\n// Usage\nconst processor = new StaticProcessor();\nconsole.log(processor.process(5));           // 10\nconsole.log(processor.process("hello"));     // HELLO\nconsole.log(processor.process([1, 2, 3]));   // [2, 4, 6]\nconsole.log(processor.process(2, 3));        // 5\nconsole.log(processor.process("hello", "world")); // hello world\nconsole.log(processor.process(1, 2, 3));     // 2\n```',
+      },
+      {
+        question: "How is polymorphism achieved in OOP?",
+        solution:
+          'Polymorphism in OOP is achieved through several mechanisms that allow objects of different types to be treated uniformly while exhibiting different behaviors. Here are the main approaches:\n\n**1. Inheritance and Method Overriding (Runtime Polymorphism)**\n**2. Method Overloading (Compile-time Polymorphism)**\n**3. Interface Implementation**\n**4. Abstract Classes**\n**5. Duck Typing (in dynamically typed languages)**\n\n**Python Example - Multiple Approaches:**\n```python\nfrom abc import ABC, abstractmethod\n\n# 1. Abstract Base Class\nclass Vehicle(ABC):\n    @abstractmethod\n    def start_engine(self):\n        pass\n    \n    @abstractmethod\n    def stop_engine(self):\n        pass\n    \n    def honk(self):  # Common method\n        return "Beep beep!"\n\n# 2. Inheritance and Method Overriding\nclass Car(Vehicle):\n    def start_engine(self):\n        return "Car engine started with key"\n    \n    def stop_engine(self):\n        return "Car engine stopped"\n\nclass Motorcycle(Vehicle):\n    def start_engine(self):\n        return "Motorcycle engine started with kick"\n    \n    def stop_engine(self):\n        return "Motorcycle engine stopped"\n\nclass ElectricCar(Vehicle):\n    def start_engine(self):\n        return "Electric motor activated silently"\n    \n    def stop_engine(self):\n        return "Electric motor deactivated"\n\n# 3. Protocol/Interface-like approach\nclass Flyable:\n    def fly(self):\n        raise NotImplementedError\n\nclass Plane(Vehicle, Flyable):\n    def start_engine(self):\n        return "Plane engines started"\n    \n    def stop_engine(self):\n        return "Plane engines stopped"\n    \n    def fly(self):\n        return "Plane is flying"\n\n# 4. Method Overloading Simulation\nclass ServiceStation:\n    def service(self, vehicle, service_type="basic"):\n        if service_type == "basic":\n            return f"Basic service for {type(vehicle).__name__}"\n        elif service_type == "premium":\n            return f"Premium service for {type(vehicle).__name__}"\n        else:\n            return f"Custom service for {type(vehicle).__name__}"\n\n# Polymorphic functions\ndef operate_vehicle(vehicle):\n    print(vehicle.start_engine())\n    print(vehicle.honk())\n    if isinstance(vehicle, Flyable):\n        print(vehicle.fly())\n    print(vehicle.stop_engine())\n    print("-" * 30)\n\n# Usage demonstrating polymorphism\nvehicles = [\n    Car(),\n    Motorcycle(),\n    ElectricCar(),\n    Plane()\n]\n\nservice_station = ServiceStation()\n\nfor vehicle in vehicles:\n    operate_vehicle(vehicle)  # Same interface, different behaviors\n    print(service_station.service(vehicle, "premium"))\n    print("=" * 40)\n```\n\n**JavaScript Example - Multiple Approaches:**\n```javascript\n// 1. Base Class with Abstract-like Methods\nclass Vehicle {\n    startEngine() {\n        throw new Error("startEngine must be implemented");\n    }\n    \n    stopEngine() {\n        throw new Error("stopEngine must be implemented");\n    }\n    \n    honk() {\n        return "Beep beep!";\n    }\n}\n\n// 2. Inheritance and Method Overriding\nclass Car extends Vehicle {\n    startEngine() {\n        return "Car engine started with key";\n    }\n    \n    stopEngine() {\n        return "Car engine stopped";\n    }\n}\n\nclass Motorcycle extends Vehicle {\n    startEngine() {\n        return "Motorcycle engine started with kick";\n    }\n    \n    stopEngine() {\n        return "Motorcycle engine stopped";\n    }\n}\n\nclass ElectricCar extends Vehicle {\n    startEngine() {\n        return "Electric motor activated silently";\n    }\n    \n    stopEngine() {\n        return "Electric motor deactivated";\n    }\n}\n\n// 3. Mixin/Interface-like approach\nconst Flyable = {\n    fly() {\n        return "Flying through the air";\n    }\n};\n\nclass Plane extends Vehicle {\n    constructor() {\n        super();\n        // Add flyable behavior\n        Object.assign(this, Flyable);\n    }\n    \n    startEngine() {\n        return "Plane engines started";\n    }\n    \n    stopEngine() {\n        return "Plane engines stopped";\n    }\n    \n    fly() {\n        return "Plane is flying";\n    }\n}\n\n// 4. Method Overloading Simulation\nclass ServiceStation {\n    service(vehicle, serviceType = "basic", ...additionalServices) {\n        const vehicleType = vehicle.constructor.name;\n        \n        if (additionalServices.length > 0) {\n            return `${serviceType} service for ${vehicleType} with extras: ${additionalServices.join(", ")}`;\n        }\n        \n        switch (serviceType) {\n            case "basic":\n                return `Basic service for ${vehicleType}`;\n            case "premium":\n                return `Premium service for ${vehicleType}`;\n            default:\n                return `Custom service for ${vehicleType}`;\n        }\n    }\n}\n\n// Polymorphic functions\nfunction operateVehicle(vehicle) {\n    console.log(vehicle.startEngine());\n    console.log(vehicle.honk());\n    \n    // Check if vehicle can fly (duck typing)\n    if (typeof vehicle.fly === \'function\') {\n        console.log(vehicle.fly());\n    }\n    \n    console.log(vehicle.stopEngine());\n    console.log("-".repeat(30));\n}\n\n// Usage demonstrating polymorphism\nconst vehicles = [\n    new Car(),\n    new Motorcycle(),\n    new ElectricCar(),\n    new Plane()\n];\n\nconst serviceStation = new ServiceStation();\n\nvehicles.forEach(vehicle => {\n    operateVehicle(vehicle);  // Same interface, different behaviors\n    console.log(serviceStation.service(vehicle, "premium", "wash", "wax"));\n    console.log("=".repeat(40));\n});\n```',
+      },
+      {
+        question: "What is method dispatch?",
+        solution:
+          'Method dispatch is the mechanism by which a programming language determines which specific method implementation to execute when a method is called. It\'s the process of selecting the appropriate method based on the runtime type of the object (dynamic dispatch) or compile-time information (static dispatch).\n\n**Types of Method Dispatch:**\n1. **Static Dispatch (Early Binding)** - Resolved at compile time\n2. **Dynamic Dispatch (Late Binding)** - Resolved at runtime\n3. **Single Dispatch** - Based on one object\'s type\n4. **Multiple Dispatch** - Based on multiple objects\' types\n\n**Python Example - Dynamic Method Dispatch:**\n```python\nclass Animal:\n    def speak(self):\n        return "Some generic animal sound"\n    \n    def move(self):\n        return "Animal is moving"\n\nclass Dog(Animal):\n    def speak(self):\n        return "Woof!"\n    \n    def move(self):\n        return "Dog is running"\n    \n    def fetch(self):\n        return "Dog is fetching the ball"\n\nclass Bird(Animal):\n    def speak(self):\n        return "Tweet!"\n    \n    def move(self):\n        return "Bird is flying"\n    \n    def fly_high(self):\n        return "Bird is soaring high"\n\n# Demonstrating method dispatch\ndef demonstrate_dispatch(animal):\n    print(f"Type: {type(animal).__name__}")\n    print(f"Speak: {animal.speak()}")    # Dynamic dispatch\n    print(f"Move: {animal.move()}")      # Dynamic dispatch\n    \n    # Method resolution at runtime\n    if hasattr(animal, \'fetch\'):\n        print(f"Fetch: {animal.fetch()}")\n    if hasattr(animal, \'fly_high\'):\n        print(f"Fly: {animal.fly_high()}")\n    print("-" * 30)\n\n# Method dispatch in action\nanimals = [Animal(), Dog(), Bird()]\n\nfor animal in animals:\n    demonstrate_dispatch(animal)\n\n# Example of method resolution order (MRO)\nprint("Method Resolution Order for Dog:")\nprint(Dog.__mro__)\n\n# Python\'s single dispatch example\nfrom functools import singledispatch\n\n@singledispatch\ndef process_data(arg):\n    print(f"Processing generic data: {arg}")\n\n@process_data.register(int)\ndef _(arg):\n    print(f"Processing integer: {arg * 2}")\n\n@process_data.register(str)\ndef _(arg):\n    print(f"Processing string: {arg.upper()}")\n\n@process_data.register(list)\ndef _(arg):\n    print(f"Processing list: {[x * 2 for x in arg]}")\n\n# Single dispatch demonstration\nprint("\\nSingle Dispatch Examples:")\nprocess_data(42)        # Dispatches to int version\nprocess_data("hello")   # Dispatches to str version\nprocess_data([1, 2, 3]) # Dispatches to list version\nprocess_data(3.14)      # Dispatches to generic version\n```\n\n**JavaScript Example - Method Dispatch:**\n```javascript\nclass Animal {\n    speak() {\n        return "Some generic animal sound";\n    }\n    \n    move() {\n        return "Animal is moving";\n    }\n}\n\nclass Dog extends Animal {\n    speak() {\n        return "Woof!";\n    }\n    \n    move() {\n        return "Dog is running";\n    }\n    \n    fetch() {\n        return "Dog is fetching the ball";\n    }\n}\n\nclass Bird extends Animal {\n    speak() {\n        return "Tweet!";\n    }\n    \n    move() {\n        return "Bird is flying";\n    }\n    \n    flyHigh() {\n        return "Bird is soaring high";\n    }\n}\n\n// Demonstrating method dispatch\nfunction demonstrateDispatch(animal) {\n    console.log(`Type: ${animal.constructor.name}`);\n    console.log(`Speak: ${animal.speak()}`);  // Dynamic dispatch\n    console.log(`Move: ${animal.move()}`);    // Dynamic dispatch\n    \n    // Method resolution at runtime\n    if (typeof animal.fetch === \'function\') {\n        console.log(`Fetch: ${animal.fetch()}`);\n    }\n    if (typeof animal.flyHigh === \'function\') {\n        console.log(`Fly: ${animal.flyHigh()}`);\n    }\n    console.log("-".repeat(30));\n}\n\n// Method dispatch in action\nconst animals = [new Animal(), new Dog(), new Bird()];\n\nanimals.forEach(animal => {\n    demonstrateDispatch(animal);\n});\n\n// Simulating multiple dispatch in JavaScript\nclass DispatchManager {\n    constructor() {\n        this.methods = new Map();\n    }\n    \n    register(types, method) {\n        const key = types.map(type => type.name).join(\',\');\n        this.methods.set(key, method);\n    }\n    \n    dispatch(...args) {\n        const key = args.map(arg => arg.constructor.name).join(\',\');\n        const method = this.methods.get(key);\n        \n        if (method) {\n            return method(...args);\n        }\n        \n        // Fallback to single dispatch or default\n        const singleKey = args[0].constructor.name;\n        const singleMethod = this.methods.get(singleKey);\n        \n        if (singleMethod) {\n            return singleMethod(...args);\n        }\n        \n        throw new Error(`No method found for types: ${key}`);\n    }\n}\n\n// Multiple dispatch example\nconst combatSystem = new DispatchManager();\n\nclass Warrior {\n    constructor(name) {\n        this.name = name;\n    }\n}\n\nclass Mage {\n    constructor(name) {\n        this.name = name;\n    }\n}\n\nclass Dragon {\n    constructor(name) {\n        this.name = name;\n    }\n}\n\n// Register different combat combinations\ncombatSystem.register([Warrior, Dragon], (warrior, dragon) => {\n    return `${warrior.name} swings sword at ${dragon.name} - Physical damage!`;\n});\n\ncombatSystem.register([Mage, Dragon], (mage, dragon) => {\n    return `${mage.name} casts fireball at ${dragon.name} - Magical damage!`;\n});\n\ncombatSystem.register([Warrior, Mage], (warrior, mage) => {\n    return `${warrior.name} protects ${mage.name} - Defensive stance!`;\n});\n\n// Multiple dispatch demonstration\nconsole.log("\\nMultiple Dispatch Examples:");\nconst warrior = new Warrior("Conan");\nconst mage = new Mage("Gandalf");\nconst dragon = new Dragon("Smaug");\n\ntry {\n    console.log(combatSystem.dispatch(warrior, dragon));\n    console.log(combatSystem.dispatch(mage, dragon));\n    console.log(combatSystem.dispatch(warrior, mage));\n} catch (error) {\n    console.error(error.message);\n}\n```',
+      },
+      {
+        question: "How does casting work with polymorphism?",
+        solution:
+          'Casting in polymorphism allows you to convert objects between related types in the inheritance hierarchy. It works by treating an object of one type as another compatible type.\n\n**Types of Casting:**\n- **Implicit Casting (Upcasting)**: Automatic conversion from subclass to superclass\n- **Explicit Casting (Downcasting)**: Manual conversion from superclass to subclass\n\n**JavaScript Example:**\n```javascript\nclass Animal {\n  speak() {\n    return "Some sound";\n  }\n}\n\nclass Dog extends Animal {\n  speak() {\n    return "Woof!";\n  }\n  \n  fetch() {\n    return "Fetching ball!";\n  }\n}\n\nclass Cat extends Animal {\n  speak() {\n    return "Meow!";\n  }\n}\n\n// Implicit upcasting - Dog treated as Animal\nlet animals = [new Dog(), new Cat()];\nanimals.forEach(animal => {\n  console.log(animal.speak()); // Polymorphic behavior\n});\n\n// Explicit downcasting check\nanimals.forEach(animal => {\n  if (animal instanceof Dog) {\n    console.log(animal.fetch()); // Access Dog-specific method\n  }\n});\n```\n\n**Python Example:**\n```python\nclass Animal:\n    def speak(self):\n        return "Some sound"\n\nclass Dog(Animal):\n    def speak(self):\n        return "Woof!"\n    \n    def fetch(self):\n        return "Fetching ball!"\n\nclass Cat(Animal):\n    def speak(self):\n        return "Meow!"\n\n# Implicit upcasting - Dog/Cat treated as Animal\nanimals = [Dog(), Cat()]\nfor animal in animals:\n    print(animal.speak())  # Polymorphic behavior\n\n# Explicit downcasting check\nfor animal in animals:\n    if isinstance(animal, Dog):\n        print(animal.fetch())  # Access Dog-specific method\n```\n\n**Key Points:**\n- Casting enables polymorphic behavior by allowing different object types to be treated uniformly\n- Always check types before downcasting to avoid runtime errors\n- The actual method called depends on the object\'s real type (dynamic dispatch)',
+      },
+      {
+        question: "What is upcasting and downcasting?",
+        solution:
+          '**Upcasting** and **Downcasting** are two fundamental casting operations in object-oriented programming that work within inheritance hierarchies.\n\n**Upcasting (Implicit Casting):**\n- Converting from a subclass to a superclass\n- Always safe and automatic\n- Loses access to subclass-specific methods\n- Enables polymorphism\n\n**Downcasting (Explicit Casting):**\n- Converting from a superclass to a subclass\n- Requires explicit type checking\n- Can fail at runtime if object isn\'t actually of target type\n- Gains access to subclass-specific methods\n\n**JavaScript Example:**\n```javascript\nclass Vehicle {\n  start() {\n    return "Vehicle starting...";\n  }\n}\n\nclass Car extends Vehicle {\n  start() {\n    return "Car engine starting...";\n  }\n  \n  openTrunk() {\n    return "Trunk opened";\n  }\n}\n\nclass Motorcycle extends Vehicle {\n  start() {\n    return "Motorcycle engine roaring...";\n  }\n  \n  wheelie() {\n    return "Doing a wheelie!";\n  }\n}\n\n// UPCASTING (Implicit)\nlet car = new Car();\nlet vehicle = car; // Car automatically treated as Vehicle\nconsole.log(vehicle.start()); // "Car engine starting..." - polymorphism works\n// vehicle.openTrunk(); // Error! Vehicle doesn\'t have openTrunk method\n\n// DOWNCASTING (Explicit with type checking)\nfunction processVehicle(vehicle) {\n  console.log(vehicle.start());\n  \n  // Safe downcasting\n  if (vehicle instanceof Car) {\n    console.log(vehicle.openTrunk()); // Access Car-specific method\n  } else if (vehicle instanceof Motorcycle) {\n    console.log(vehicle.wheelie()); // Access Motorcycle-specific method\n  }\n}\n\nprocessVehicle(new Car());\nprocessVehicle(new Motorcycle());\n```\n\n**Python Example:**\n```python\nclass Vehicle:\n    def start(self):\n        return "Vehicle starting..."\n\nclass Car(Vehicle):\n    def start(self):\n        return "Car engine starting..."\n    \n    def open_trunk(self):\n        return "Trunk opened"\n\nclass Motorcycle(Vehicle):\n    def start(self):\n        return "Motorcycle engine roaring..."\n    \n    def wheelie(self):\n        return "Doing a wheelie!"\n\n# UPCASTING (Implicit)\ncar = Car()\nvehicle = car  # Car automatically treated as Vehicle\nprint(vehicle.start())  # "Car engine starting..." - polymorphism works\n# print(vehicle.open_trunk())  # AttributeError! Vehicle doesn\'t have open_trunk\n\n# DOWNCASTING (Explicit with type checking)\ndef process_vehicle(vehicle):\n    print(vehicle.start())\n    \n    # Safe downcasting\n    if isinstance(vehicle, Car):\n        print(vehicle.open_trunk())  # Access Car-specific method\n    elif isinstance(vehicle, Motorcycle):\n        print(vehicle.wheelie())  # Access Motorcycle-specific method\n\nprocess_vehicle(Car())\nprocess_vehicle(Motorcycle())\n```\n\n**Key Differences:**\n- **Safety**: Upcasting is always safe; downcasting can fail\n- **Direction**: Upcasting goes up the hierarchy; downcasting goes down\n- **Access**: Upcasting limits access; downcasting can expand access\n- **Performance**: Upcasting is free; downcasting requires type checks',
+      },
+      {
+        question: "What are the benefits of polymorphism?",
+        solution:
+          'Polymorphism provides several key benefits that make code more flexible, maintainable, and extensible.\n\n**Key Benefits:**\n\n**1. Code Reusability**\n- Write once, use with multiple types\n- Reduces code duplication\n- Common interfaces for different implementations\n\n**2. Flexibility & Extensibility**\n- Easy to add new types without changing existing code\n- Open/Closed principle - open for extension, closed for modification\n- Supports plugin architectures\n\n**3. Maintainability**\n- Changes to specific implementations don\'t affect client code\n- Cleaner, more organized code structure\n- Easier to debug and test\n\n**4. Runtime Behavior Selection**\n- Method calls resolved at runtime based on actual object type\n- Dynamic behavior without conditional statements\n\n**JavaScript Example:**\n```javascript\n// Shape hierarchy demonstrating polymorphism benefits\nclass Shape {\n  calculateArea() {\n    throw new Error("Method must be implemented");\n  }\n  \n  draw() {\n    console.log("Drawing a shape");\n  }\n}\n\nclass Circle extends Shape {\n  constructor(radius) {\n    super();\n    this.radius = radius;\n  }\n  \n  calculateArea() {\n    return Math.PI * this.radius * this.radius;\n  }\n  \n  draw() {\n    console.log(`Drawing a circle with radius ${this.radius}`);\n  }\n}\n\nclass Rectangle extends Shape {\n  constructor(width, height) {\n    super();\n    this.width = width;\n    this.height = height;\n  }\n  \n  calculateArea() {\n    return this.width * this.height;\n  }\n  \n  draw() {\n    console.log(`Drawing a rectangle ${this.width}x${this.height}`);\n  }\n}\n\nclass Triangle extends Shape {\n  constructor(base, height) {\n    super();\n    this.base = base;\n    this.height = height;\n  }\n  \n  calculateArea() {\n    return 0.5 * this.base * this.height;\n  }\n  \n  draw() {\n    console.log(`Drawing a triangle with base ${this.base} and height ${this.height}`);\n  }\n}\n\n// BENEFIT 1: Code Reusability - Single function works with all shapes\nfunction calculateTotalArea(shapes) {\n  return shapes.reduce((total, shape) => total + shape.calculateArea(), 0);\n}\n\n// BENEFIT 2: Flexibility - Easy to add new shapes without changing existing code\nfunction drawAllShapes(shapes) {\n  shapes.forEach(shape => shape.draw());\n}\n\n// Usage demonstrating benefits\nconst shapes = [\n  new Circle(5),\n  new Rectangle(4, 6),\n  new Triangle(3, 8)\n];\n\nconsole.log(`Total area: ${calculateTotalArea(shapes)}`);\ndrawAllShapes(shapes);\n\n// BENEFIT 3: Extensibility - Adding new shape doesn\'t break existing code\nclass Pentagon extends Shape {\n  constructor(side) {\n    super();\n    this.side = side;\n  }\n  \n  calculateArea() {\n    return 1.72 * this.side * this.side; // Approximate formula\n  }\n  \n  draw() {\n    console.log(`Drawing a pentagon with side ${this.side}`);\n  }\n}\n\n// Same functions work with new shape!\nshapes.push(new Pentagon(4));\nconsole.log(`New total area: ${calculateTotalArea(shapes)}`);\n```\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\nimport math\n\n# Shape hierarchy demonstrating polymorphism benefits\nclass Shape(ABC):\n    @abstractmethod\n    def calculate_area(self):\n        pass\n    \n    def draw(self):\n        print("Drawing a shape")\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n    \n    def calculate_area(self):\n        return math.pi * self.radius ** 2\n    \n    def draw(self):\n        print(f"Drawing a circle with radius {self.radius}")\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def calculate_area(self):\n        return self.width * self.height\n    \n    def draw(self):\n        print(f"Drawing a rectangle {self.width}x{self.height}")\n\nclass Triangle(Shape):\n    def __init__(self, base, height):\n        self.base = base\n        self.height = height\n    \n    def calculate_area(self):\n        return 0.5 * self.base * self.height\n    \n    def draw(self):\n        print(f"Drawing a triangle with base {self.base} and height {self.height}")\n\n# BENEFIT 1: Code Reusability - Single function works with all shapes\ndef calculate_total_area(shapes):\n    return sum(shape.calculate_area() for shape in shapes)\n\n# BENEFIT 2: Flexibility - Easy to add new shapes without changing existing code\ndef draw_all_shapes(shapes):\n    for shape in shapes:\n        shape.draw()\n\n# Usage demonstrating benefits\nshapes = [\n    Circle(5),\n    Rectangle(4, 6),\n    Triangle(3, 8)\n]\n\nprint(f"Total area: {calculate_total_area(shapes)}")\ndraw_all_shapes(shapes)\n\n# BENEFIT 3: Extensibility - Adding new shape doesn\'t break existing code\nclass Pentagon(Shape):\n    def __init__(self, side):\n        self.side = side\n    \n    def calculate_area(self):\n        return 1.72 * self.side ** 2  # Approximate formula\n    \n    def draw(self):\n        print(f"Drawing a pentagon with side {self.side}")\n\n# Same functions work with new shape!\nshapes.append(Pentagon(4))\nprint(f"New total area: {calculate_total_area(shapes)}")\n```\n\n**Summary of Benefits:**\n- **Reduces coupling** between components\n- **Increases code reuse** through common interfaces\n- **Simplifies maintenance** by localizing changes\n- **Enables runtime flexibility** with dynamic method dispatch\n- **Supports design patterns** like Strategy, Factory, and Observer\n- **Makes testing easier** through mock objects and dependency injection',
+      },
+      {
+        question: "What are the drawbacks of polymorphism?",
+        solution:
+          'While polymorphism offers many benefits, it also introduces several potential drawbacks that developers should consider.\n\n**Key Drawbacks:**\n\n**1. Performance Overhead**\n- Dynamic method dispatch is slower than direct calls\n- Runtime type checking adds computational cost\n- Virtual function table lookups in some languages\n\n**2. Complexity & Debugging Difficulty**\n- Harder to trace which method will actually be called\n- Stack traces can be confusing\n- Code flow is less predictable\n\n**3. Memory Overhead**\n- Extra memory for storing type information\n- Virtual function tables consume memory\n- Object headers may be larger\n\n**4. Design Complexity**\n- Can lead to over-engineered solutions\n- Deep inheritance hierarchies become hard to manage\n- Abstract interfaces may become too generic\n\n**5. Runtime Errors**\n- Type casting errors only discovered at runtime\n- Interface changes can break implementations\n- Null reference exceptions in polymorphic calls\n\n**JavaScript Example Demonstrating Drawbacks:**\n```javascript\n// DRAWBACK 1: Performance Overhead\nclass Animal {\n  makeSound() {\n    return "Some sound";\n  }\n}\n\nclass Dog extends Animal {\n  makeSound() {\n    return "Woof!";\n  }\n}\n\nclass Cat extends Animal {\n  makeSound() {\n    return "Meow!";\n  }\n}\n\n// Performance comparison\nfunction directCall() {\n  const dog = new Dog();\n  let result;\n  console.time(\'Direct Call\');\n  for (let i = 0; i < 1000000; i++) {\n    result = dog.makeSound(); // Direct method call\n  }\n  console.timeEnd(\'Direct Call\');\n}\n\nfunction polymorphicCall() {\n  const animals = [new Dog(), new Cat()];\n  let result;\n  console.time(\'Polymorphic Call\');\n  for (let i = 0; i < 500000; i++) {\n    // Polymorphic call - runtime method resolution\n    result = animals[i % 2].makeSound();\n  }\n  console.timeEnd(\'Polymorphic Call\');\n}\n\n// DRAWBACK 2: Debugging Complexity\nclass PaymentProcessor {\n  process(amount) {\n    throw new Error("Must implement process method");\n  }\n}\n\nclass CreditCardProcessor extends PaymentProcessor {\n  process(amount) {\n    console.log(`Processing $$ {amount} via credit card`);\n    // Bug: forgot to return success status\n  }\n}\n\nclass PayPalProcessor extends PaymentProcessor {\n  process(amount) {\n    console.log(`Processing $$ {amount} via PayPal`);\n    return { success: true };\n  }\n}\n\n// Hard to debug - which processor is causing issues?\nfunction processPayments(processors, amount) {\n  processors.forEach(processor => {\n    const result = processor.process(amount);\n    // This will fail for CreditCardProcessor but it\'s hard to trace\n    if (result.success) {\n      console.log("Payment successful");\n    }\n  });\n}\n\n// DRAWBACK 3: Runtime Type Errors\nfunction handleAnimal(animal) {\n  console.log(animal.makeSound()); // What if animal is null?\n  \n  // Unsafe downcasting\n  if (animal instanceof Dog) {\n    console.log(animal.wagTail()); // What if Dog doesn\'t have wagTail?\n  }\n}\n\n// DRAWBACK 4: Over-engineering Example\n// Too many abstraction layers\nclass AbstractVehicleFactory {\n  createVehicle() {\n    throw new Error("Must implement");\n  }\n}\n\nclass AbstractVehicle {\n  start() {\n    throw new Error("Must implement");\n  }\n  \n  stop() {\n    throw new Error("Must implement");\n  }\n}\n\n// This might be overkill for simple use cases\n```\n\n**Python Example Demonstrating Drawbacks:**\n```python\nfrom abc import ABC, abstractmethod\nimport time\n\n# DRAWBACK 1: Performance Overhead\nclass Animal(ABC):\n    @abstractmethod\n    def make_sound(self):\n        pass\n\nclass Dog(Animal):\n    def make_sound(self):\n        return "Woof!"\n\nclass Cat(Animal):\n    def make_sound(self):\n        return "Meow!"\n\n# Performance comparison\ndef direct_call():\n    dog = Dog()\n    start_time = time.time()\n    for _ in range(1000000):\n        result = dog.make_sound()  # Direct method call\n    print(f"Direct call time: {time.time() - start_time:.4f}s")\n\ndef polymorphic_call():\n    animals = [Dog(), Cat()]\n    start_time = time.time()\n    for i in range(500000):\n        # Polymorphic call - runtime method resolution\n        result = animals[i % 2].make_sound()\n    print(f"Polymorphic call time: {time.time() - start_time:.4f}s")\n\n# DRAWBACK 2: Debugging Complexity\nclass PaymentProcessor(ABC):\n    @abstractmethod\n    def process(self, amount):\n        pass\n\nclass CreditCardProcessor(PaymentProcessor):\n    def process(self, amount):\n        print(f"Processing $ {amount} via credit card")\n        # Bug: forgot to return success status\n        # return {"success": True}\n\nclass PayPalProcessor(PaymentProcessor):\n    def process(self, amount):\n        print(f"Processing $ {amount} via PayPal")\n        return {"success": True}\n\n# Hard to debug - which processor is causing issues?\ndef process_payments(processors, amount):\n    for processor in processors:\n        result = processor.process(amount)\n        # This will fail for CreditCardProcessor but it\'s hard to trace\n        try:\n            if result["success"]:\n                print("Payment successful")\n        except (TypeError, KeyError) as e:\n            print(f"Payment processing error: {e}")\n\n# DRAWBACK 3: Runtime Type Errors\ndef handle_animal(animal):\n    if animal is None:\n        raise ValueError("Animal cannot be None")\n    \n    print(animal.make_sound())\n    \n    # Unsafe attribute access\n    if isinstance(animal, Dog):\n        # What if Dog doesn\'t have wag_tail method?\n        try:\n            print(animal.wag_tail())\n        except AttributeError:\n            print("Dog doesn\'t have wag_tail method")\n\n# DRAWBACK 4: Memory Overhead Example\nclass ComplexShape(ABC):\n    def __init__(self):\n        self.metadata = {}  # Extra memory for polymorphic behavior\n        self.type_info = self.__class__.__name__\n        self.method_cache = {}  # Caching for performance\n    \n    @abstractmethod\n    def calculate_area(self):\n        pass\n\n# Usage examples showing drawbacks\nif __name__ == "__main__":\n    # Performance testing\n    direct_call()\n    polymorphic_call()\n    \n    # Debugging difficulty example\n    processors = [CreditCardProcessor(), PayPalProcessor()]\n    process_payments(processors, 100)\n    \n    # Runtime error example\n    try:\n        handle_animal(None)  # Runtime error\n    except ValueError as e:\n        print(f"Runtime error caught: {e}")\n```\n\n**Mitigation Strategies:**\n\n**1. Performance Issues:**\n- Use polymorphism judiciously\n- Consider composition over inheritance\n- Profile code to identify bottlenecks\n\n**2. Debugging Issues:**\n- Use good logging and error handling\n- Implement strong type checking\n- Write comprehensive unit tests\n\n**3. Design Issues:**\n- Follow SOLID principles\n- Keep inheritance hierarchies shallow\n- Prefer interfaces over abstract classes when possible\n\n**4. Runtime Safety:**\n- Use type hints/annotations\n- Implement defensive programming\n- Validate inputs at boundaries\n\n**When to Avoid Polymorphism:**\n- Simple, performance-critical applications\n- When behavior rarely changes\n- Small, single-purpose classes\n- When debugging complexity outweighs benefits',
+      },
+      {
+        question: "What is virtual method table (vtable)?",
+        solution:
+          'A virtual method table (vtable) is a mechanism used by programming languages to support dynamic method dispatch in polymorphism. It\'s a lookup table of function pointers that determines which method implementation to call at runtime.\n\nHow vtable works:\n- Each class with virtual methods has its own vtable\n- The vtable contains pointers to the actual method implementations\n- Objects contain a pointer to their class\'s vtable\n- When a virtual method is called, the system looks up the correct implementation in the vtable\n\nPython Example:\npython\nclass Animal:\n    def make_sound(self):\n        return "Some generic sound"\n\nclass Dog(Animal):\n    def make_sound(self):\n        return "Woof!"\n\nclass Cat(Animal):\n    def make_sound(self):\n        return "Meow!"\n\n# Python handles vtable internally\nanimals = [Dog(), Cat(), Animal()]\nfor animal in animals:\n    print(animal.make_sound())  # Correct method called based on object type\n\n\nJavaScript Example:\njavascript\nclass Animal {\n    makeSound() {\n        return "Some generic sound";\n    }\n}\n\nclass Dog extends Animal {\n    makeSound() {\n        return "Woof!";\n    }\n}\n\nclass Cat extends Animal {\n    makeSound() {\n        return "Meow!";\n    }\n}\n\n// JavaScript uses prototype chain (similar concept to vtable)\nconst animals = [new Dog(), new Cat(), new Animal()];\nanimals.forEach(animal => {\n    console.log(animal.makeSound()); // Dynamic dispatch occurs\n});\n\n\nKey Benefits:\n- Enables runtime polymorphism\n- Efficient method lookup\n- Supports method overriding\n- Foundation for dynamic binding',
+      },
+      {
+        question: "What is duck typing?",
+        solution:
+          'Duck typing is a concept in programming where an object\'s suitability is determined by the presence of certain methods and properties, rather than the object\'s actual type. The name comes from the phrase: \'If it walks like a duck and quacks like a duck, then it\'s a duck.\'\n\nKey Characteristics:\n- Type checking happens at runtime\n- Focus on object behavior rather than inheritance\n- Common in dynamically typed languages\n- Promotes code flexibility and reusability\n\nPython Example:\npython\nclass Duck:\n    def quack(self):\n        return "Quack!"\n    \n    def fly(self):\n        return "Flying like a duck"\n\nclass Person:\n    def quack(self):\n        return "I\'m quacking like a duck!"\n    \n    def fly(self):\n        return "I\'m flapping my arms"\n\nclass Robot:\n    def quack(self):\n        return "Mechanical quack"\n    \n    def fly(self):\n        return "Jet propulsion activated"\n\ndef make_it_quack_and_fly(duck_like_object):\n    # Duck typing - we don\'t care about the actual type\n    print(duck_like_object.quack())\n    print(duck_like_object.fly())\n\n# All these work because they have the required methods\nmake_it_quack_and_fly(Duck())\nmake_it_quack_and_fly(Person())\nmake_it_quack_and_fly(Robot())\n\n\nJavaScript Example:\njavascript\nclass Duck {\n    quack() {\n        return "Quack!";\n    }\n    \n    fly() {\n        return "Flying like a duck";\n    }\n}\n\nclass Person {\n    quack() {\n        return "I\'m quacking like a duck!";\n    }\n    \n    fly() {\n        return "I\'m flapping my arms";\n    }\n}\n\nclass Robot {\n    quack() {\n        return "Mechanical quack";\n    }\n    \n    fly() {\n        return "Jet propulsion activated";\n    }\n}\n\nfunction makeItQuackAndFly(duckLikeObject) {\n    // Duck typing - checking for method existence\n    if (typeof duckLikeObject.quack === \'function\' && \n        typeof duckLikeObject.fly === \'function\') {\n        console.log(duckLikeObject.quack());\n        console.log(duckLikeObject.fly());\n    } else {\n        console.log("This object doesn\'t behave like a duck!");\n    }\n}\n\nmakeItQuackAndFly(new Duck());\nmakeItQuackAndFly(new Person());\nmakeItQuackAndFly(new Robot());\n\n\nAdvantages:\n- More flexible than static typing\n- Reduces coupling between components\n- Easier to mock objects for testing\n- Promotes composition over inheritance',
+      },
+      {
+        question: "Can constructors be polymorphic?",
+        solution:
+          'Constructors themselves cannot be truly polymorphic in the traditional sense because they are not inherited or overridden. However, there are several patterns that achieve polymorphic-like behavior with object creation.\n\nWhy constructors aren\'t polymorphic:\n- Constructors create objects of a specific type\n- They are not inherited in the same way as regular methods\n- Each class has its own constructor\n- Cannot be overridden (though they can be overloaded)\n\nPatterns for Polymorphic Object Creation:\n\nPython Example - Factory Pattern:\npython\nfrom abc import ABC, abstractmethod\n\nclass Animal(ABC):\n    @abstractmethod\n    def make_sound(self):\n        pass\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        self.name = name\n        self.breed = breed\n    \n    def make_sound(self):\n        return f"{self.name} says Woof!"\n\nclass Cat(Animal):\n    def __init__(self, name, color):\n        self.name = name\n        self.color = color\n    \n    def make_sound(self):\n        return f"{self.name} says Meow!"\n\nclass AnimalFactory:\n    @staticmethod\n    def create_animal(animal_type, **kwargs):\n        """Polymorphic object creation"""\n        if animal_type == "dog":\n            return Dog(kwargs[\'name\'], kwargs[\'breed\'])\n        elif animal_type == "cat":\n            return Cat(kwargs[\'name\'], kwargs[\'color\'])\n        else:\n            raise ValueError(f"Unknown animal type: {animal_type}")\n\n# Usage\nanimals = [\n    AnimalFactory.create_animal("dog", name="Buddy", breed="Golden Retriever"),\n    AnimalFactory.create_animal("cat", name="Whiskers", color="Orange")\n]\n\nfor animal in animals:\n    print(animal.make_sound())\n\n\nJavaScript Example - Factory Pattern:\njavascript\nclass Animal {\n    makeSound() {\n        throw new Error("makeSound method must be implemented");\n    }\n}\n\nclass Dog extends Animal {\n    constructor(name, breed) {\n        super();\n        this.name = name;\n        this.breed = breed;\n    }\n    \n    makeSound() {\n        return `${this.name} says Woof!`;\n    }\n}\n\nclass Cat extends Animal {\n    constructor(name, color) {\n        super();\n        this.name = name;\n        this.color = color;\n    }\n    \n    makeSound() {\n        return `${this.name} says Meow!`;\n    }\n}\n\nclass AnimalFactory {\n    static createAnimal(animalType, options) {\n        switch(animalType) {\n            case \'dog\':\n                return new Dog(options.name, options.breed);\n            case \'cat\':\n                return new Cat(options.name, options.color);\n            default:\n                throw new Error(`Unknown animal type: ${animalType}`);\n        }\n    }\n}\n\n// Usage\nconst animals = [\n    AnimalFactory.createAnimal(\'dog\', {name: \'Buddy\', breed: \'Golden Retriever\'}),\n    AnimalFactory.createAnimal(\'cat\', {name: \'Whiskers\', color: \'Orange\'})\n];\n\nanimals.forEach(animal => console.log(animal.makeSound()));\n\n\nAlternative Patterns:\n- Builder Pattern: For complex object construction\n- Abstract Factory: For families of related objects\n- Prototype Pattern: For cloning objects\n- Registry Pattern: For registering and creating objects dynamically',
+      },
+      {
+        question: "What is the performance impact of polymorphism?",
+        solution:
+          'Polymorphism introduces runtime overhead due to dynamic method dispatch, but modern optimizations significantly reduce this impact. The performance implications vary by language and implementation.\n\nPerformance Costs:\n\n1. Dynamic Method Lookup: Extra indirection through vtables\n2. Runtime Type Checking: Determining object types at runtime\n3. Memory Overhead: Additional pointers and metadata\n4. Optimization Limitations: Harder for compilers to optimize\n\nDetailed Analysis:\n\nPython Example - Performance Comparison:\npython\nimport time\n\nclass DirectClass:\n    def method(self):\n        return "direct call"\n\nclass BaseClass:\n    def method(self):\n        return "base method"\n\nclass DerivedClass(BaseClass):\n    def method(self):\n        return "derived method"\n\ndef benchmark_direct_calls(iterations):\n    obj = DirectClass()\n    start = time.time()\n    for _ in range(iterations):\n        obj.method()\n    return time.time() - start\n\ndef benchmark_polymorphic_calls(iterations):\n    objects = [BaseClass(), DerivedClass()] * (iterations // 2)\n    start = time.time()\n    for obj in objects:\n        obj.method()  # Polymorphic call\n    return time.time() - start\n\ndef benchmark_function_calls(iterations):\n    def direct_function():\n        return "direct function"\n    \n    start = time.time()\n    for _ in range(iterations):\n        direct_function()\n    return time.time() - start\n\n# Benchmark comparison\niterations = 1000000\n\ndirect_time = benchmark_direct_calls(iterations)\npolymorphic_time = benchmark_polymorphic_calls(iterations)\nfunction_time = benchmark_function_calls(iterations)\n\nprint(f"Direct method calls: {direct_time:.4f}s")\nprint(f"Polymorphic calls: {polymorphic_time:.4f}s")\nprint(f"Function calls: {function_time:.4f}s")\nprint(f"Polymorphic overhead: {(polymorphic_time/direct_time - 1)*100:.2f}%")\n\n\nJavaScript Example - Performance Analysis:\njavascript\nclass DirectClass {\n    method() {\n        return "direct call";\n    }\n}\n\nclass BaseClass {\n    method() {\n        return "base method";\n    }\n}\n\nclass DerivedClass extends BaseClass {\n    method() {\n        return "derived method";\n    }\n}\n\nfunction benchmarkDirectCalls(iterations) {\n    const obj = new DirectClass();\n    const start = performance.now();\n    for (let i = 0; i < iterations; i++) {\n        obj.method();\n    }\n    return performance.now() - start;\n}\n\nfunction benchmarkPolymorphicCalls(iterations) {\n    const objects = [];\n    for (let i = 0; i < iterations; i++) {\n        objects.push(i % 2 === 0 ? new BaseClass() : new DerivedClass());\n    }\n    \n    const start = performance.now();\n    for (const obj of objects) {\n        obj.method(); // Polymorphic call\n    }\n    return performance.now() - start;\n}\n\nfunction benchmarkFunctionCalls(iterations) {\n    function directFunction() {\n        return "direct function";\n    }\n    \n    const start = performance.now();\n    for (let i = 0; i < iterations; i++) {\n        directFunction();\n    }\n    return performance.now() - start;\n}\n\n// Benchmark comparison\nconst iterations = 1000000;\n\nconst directTime = benchmarkDirectCalls(iterations);\nconst polymorphicTime = benchmarkPolymorphicCalls(iterations);\nconst functionTime = benchmarkFunctionCalls(iterations);\n\nconsole.log(`Direct method calls: ${directTime.toFixed(4)}ms`);\nconsole.log(`Polymorphic calls: ${polymorphicTime.toFixed(4)}ms`);\nconsole.log(`Function calls: ${functionTime.toFixed(4)}ms`);\nconsole.log(`Polymorphic overhead: ${((polymorphicTime/directTime - 1)*100).toFixed(2)}%`);\n\n\nPerformance Optimization Techniques:\n\n1. Inline Caching: Store method lookups for frequently used types\n2. Profile-Guided Optimization: Optimize based on runtime patterns\n3. Monomorphic Sites: When only one type is used, optimize to direct call\n4. Method Inlining: Inline small polymorphic methods when possible\n\nReal-world Impact:\n- Micro-benchmarks: 10-50% overhead typically\n- Real applications: Usually <5% due to other bottlenecks\n- Modern JITs: Can eliminate overhead entirely through optimization\n- Critical paths: May require careful consideration\n\nBest Practices:\n- Use polymorphism for design clarity, not performance\n- Profile before optimizing\n- Consider alternatives for performance-critical code\n- Modern languages handle most optimization automatically',
+      },
+      {
+        question: "What is function pointer and polymorphism?",
+        solution:
+          "Function pointers are variables that store the memory address of functions, enabling dynamic function calls at runtime. They provide a way to implement polymorphism without traditional inheritance, offering flexibility in function selection and execution.\n\nCore Concepts:\n- Function pointers hold addresses to function implementations\n- Enable runtime function selection\n- Provide a form of behavioral polymorphism\n- Allow functions to be passed as parameters\n- Support callback mechanisms and event handling\n\nPython Example - Function Pointers and Polymorphism:\npython\n# Functions as first-class objects in Python\ndef dog_sound():\n    return \"Woof!\"\n\ndef cat_sound():\n    return \"Meow!\"\n\ndef bird_sound():\n    return \"Tweet!\"\n\nclass AnimalSoundManager:\n    def __init__(self):\n        # Dictionary of function pointers\n        self.sound_functions = {\n            'dog': dog_sound,\n            'cat': cat_sound,\n            'bird': bird_sound\n        }\n        \n        # List of function pointers for iteration\n        self.all_sounds = [dog_sound, cat_sound, bird_sound]\n    \n    def make_sound(self, animal_type):\n        # Polymorphic behavior through function pointers\n        sound_func = self.sound_functions.get(animal_type)\n        if sound_func:\n            return sound_func()\n        return \"Unknown animal\"\n    \n    def make_all_sounds(self):\n        # Iterate through function pointers\n        return [func() for func in self.all_sounds]\n\n# Strategy pattern using function pointers\nclass Calculator:\n    def __init__(self):\n        self.operations = {\n            'add': lambda x, y: x + y,\n            'subtract': lambda x, y: x - y,\n            'multiply': lambda x, y: x * y,\n            'divide': lambda x, y: x / y if y != 0 else \"Error: Division by zero\"\n        }\n    \n    def calculate(self, operation, x, y):\n        func = self.operations.get(operation)\n        if func:\n            return func(x, y)\n        return \"Unknown operation\"\n\n# Usage examples\nsound_manager = AnimalSoundManager()\nprint(sound_manager.make_sound('dog'))  # Woof!\nprint(sound_manager.make_all_sounds())  # ['Woof!', 'Meow!', 'Tweet!']\n\ncalc = Calculator()\nprint(calc.calculate('add', 5, 3))      # 8\nprint(calc.calculate('multiply', 4, 6)) # 24\n\n# Callback example\ndef process_data(data, callback):\n    processed = [x * 2 for x in data]\n    return callback(processed)\n\ndef sum_callback(data):\n    return sum(data)\n\ndef max_callback(data):\n    return max(data)\n\nresult1 = process_data([1, 2, 3, 4], sum_callback)  # 20\nresult2 = process_data([1, 2, 3, 4], max_callback)  # 8\n\n\nJavaScript Example - Function Pointers and Polymorphism:\njavascript\n// Functions as first-class citizens\nfunction dogSound() {\n    return \"Woof!\";\n}\n\nfunction catSound() {\n    return \"Meow!\";\n}\n\nfunction birdSound() {\n    return \"Tweet!\";\n}\n\nclass AnimalSoundManager {\n    constructor() {\n        // Object containing function pointers\n        this.soundFunctions = {\n            dog: dogSound,\n            cat: catSound,\n            bird: birdSound\n        };\n        \n        // Array of function pointers\n        this.allSounds = [dogSound, catSound, birdSound];\n    }\n    \n    makeSound(animalType) {\n        const soundFunc = this.soundFunctions[animalType];\n        return soundFunc ? soundFunc() : \"Unknown animal\";\n    }\n    \n    makeAllSounds() {\n        return this.allSounds.map(func => func());\n    }\n}\n\n// Strategy pattern with function pointers\nclass Calculator {\n    constructor() {\n        this.operations = {\n            add: (x, y) => x + y,\n            subtract: (x, y) => x - y,\n            multiply: (x, y) => x * y,\n            divide: (x, y) => y !== 0 ? x / y : \"Error: Division by zero\"\n        };\n    }\n    \n    calculate(operation, x, y) {\n        const func = this.operations[operation];\n        return func ? func(x, y) : \"Unknown operation\";\n    }\n    \n    // Dynamic operation addition\n    addOperation(name, func) {\n        this.operations[name] = func;\n    }\n}\n\n// Event handling with function pointers\nclass EventManager {\n    constructor() {\n        this.eventHandlers = {};\n    }\n    \n    addEventListener(event, handler) {\n        if (!this.eventHandlers[event]) {\n            this.eventHandlers[event] = [];\n        }\n        this.eventHandlers[event].push(handler);\n    }\n    \n    triggerEvent(event, data) {\n        const handlers = this.eventHandlers[event] || [];\n        handlers.forEach(handler => handler(data));\n    }\n}\n\n// Usage examples\nconst soundManager = new AnimalSoundManager();\nconsole.log(soundManager.makeSound('dog')); // Woof!\nconsole.log(soundManager.makeAllSounds());  // ['Woof!', 'Meow!', 'Tweet!']\n\nconst calc = new Calculator();\nconsole.log(calc.calculate('add', 5, 3));      // 8\nconsole.log(calc.calculate('multiply', 4, 6)); // 24\n\n// Add new operation dynamically\ncalc.addOperation('power', (x, y) => Math.pow(x, y));\nconsole.log(calc.calculate('power', 2, 3));    // 8\n\n// Callback example\nfunction processData(data, callback) {\n    const processed = data.map(x => x * 2);\n    return callback(processed);\n}\n\nconst sumCallback = data => data.reduce((a, b) => a + b, 0);\nconst maxCallback = data => Math.max(...data);\n\nconst result1 = processData([1, 2, 3, 4], sumCallback); // 20\nconst result2 = processData([1, 2, 3, 4], maxCallback); // 8\n\n// Event handling example\nconst eventManager = new EventManager();\n\neventManager.addEventListener('userLogin', (user) => {\n    console.log(`Welcome, ${user.name}!`);\n});\n\neventManager.addEventListener('userLogin', (user) => {\n    console.log(`Logging activity for ${user.id}`);\n});\n\neventManager.triggerEvent('userLogin', {name: 'Alice', id: '123'});\n\n\nKey Benefits:\n- Runtime Flexibility: Change behavior without modifying code structure\n- Loose Coupling: Decouples function callers from implementations\n- Strategy Pattern: Easy implementation of different algorithms\n- Callback Mechanisms: Enable asynchronous programming patterns\n- Plugin Architecture: Allow extending functionality dynamically\n\nCommon Use Cases:\n- Event handling systems\n- Strategy pattern implementation\n- Callback-based APIs\n- Plugin architectures\n- State machines\n- Command pattern implementation",
+      },
+      {
+        question: "Can abstract classes have constructors?",
+        solution:
+          "**Yes, abstract classes can have constructors.** Abstract class constructors are called when a concrete subclass is instantiated. They're used to initialize common properties and perform setup logic that all subclasses need.\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\nclass Animal(ABC):\n    def __init__(self, name, species):\n        self.name = name\n        self.species = species\n        print(f\"Animal constructor called for {name}\")\n    \n    @abstractmethod\n    def make_sound(self):\n        pass\n\nclass Dog(Animal):\n    def __init__(self, name, breed):\n        super().__init__(name, \"Canine\")  # Calls abstract class constructor\n        self.breed = breed\n    \n    def make_sound(self):\n        return \"Woof!\"\n\n# Usage\ndog = Dog(\"Buddy\", \"Golden Retriever\")\n# Output: Animal constructor called for Buddy\n```\n\n**JavaScript Example:**\n```javascript\nclass Animal {\n    constructor(name, species) {\n        if (this.constructor === Animal) {\n            throw new Error('Cannot instantiate abstract class Animal');\n        }\n        this.name = name;\n        this.species = species;\n        console.log(`Animal constructor called for ${name}`);\n    }\n    \n    makeSound() {\n        throw new Error('Abstract method makeSound must be implemented');\n    }\n}\n\nclass Dog extends Animal {\n    constructor(name, breed) {\n        super(name, 'Canine'); // Calls abstract class constructor\n        this.breed = breed;\n    }\n    \n    makeSound() {\n        return 'Woof!';\n    }\n}\n\n// Usage\nconst dog = new Dog('Buddy', 'Golden Retriever');\n// Output: Animal constructor called for Buddy\n```",
+      },
+      {
+        question: "Can interfaces have constructors?",
+        solution:
+          "**No, interfaces cannot have constructors.** Interfaces define contracts (method signatures) that implementing classes must follow, but they don't contain implementation details like constructors. Constructors are implementation-specific and belong to concrete classes.\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\n# This is actually an abstract class, not a pure interface\n# Python doesn't have true interfaces, but uses ABC for similar functionality\nclass Flyable(ABC):\n    # No constructor allowed in pure interface design\n    # def __init__(self):  # This would make it an abstract class, not interface\n    #     pass\n    \n    @abstractmethod\n    def fly(self):\n        pass\n    \n    @abstractmethod\n    def land(self):\n        pass\n\nclass Bird(Flyable):\n    def __init__(self, wingspan):  # Constructor in implementing class\n        self.wingspan = wingspan\n    \n    def fly(self):\n        return f\"Flying with {self.wingspan}cm wingspan\"\n    \n    def land(self):\n        return \"Landing gracefully\"\n\n# Usage\nbird = Bird(50)\nprint(bird.fly())  # Output: Flying with 50cm wingspan\n```\n\n**JavaScript Example:**\n```javascript\n// JavaScript doesn't have true interfaces, but we can simulate them\n// Using a class that throws errors for unimplemented methods\nclass Flyable {\n    // No constructor should be defined in interface-like classes\n    // constructor() {  // Don't do this in interface simulation\n    //     throw new Error('Interfaces cannot be instantiated');\n    // }\n    \n    fly() {\n        throw new Error('Method fly must be implemented');\n    }\n    \n    land() {\n        throw new Error('Method land must be implemented');\n    }\n}\n\nclass Bird extends Flyable {\n    constructor(wingspan) {  // Constructor in implementing class\n        super();\n        this.wingspan = wingspan;\n    }\n    \n    fly() {\n        return `Flying with ${this.wingspan}cm wingspan`;\n    }\n    \n    land() {\n        return 'Landing gracefully';\n    }\n}\n\n// Usage\nconst bird = new Bird(50);\nconsole.log(bird.fly());  // Output: Flying with 50cm wingspan\n```",
+      },
+      {
+        question: "Can abstract classes have static methods?",
+        solution:
+          "**Yes, abstract classes can have static methods.** Static methods belong to the class itself rather than instances, so they can be defined in abstract classes and called directly on the abstract class or inherited by subclasses.\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @staticmethod\n    def get_shape_count():\n        return \"This is a static method in abstract class\"\n    \n    @staticmethod\n    def validate_dimensions(width, height):\n        return width > 0 and height > 0\n    \n    @abstractmethod\n    def calculate_area(self):\n        pass\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        if not Shape.validate_dimensions(width, height):\n            raise ValueError(\"Invalid dimensions\")\n        self.width = width\n        self.height = height\n    \n    def calculate_area(self):\n        return self.width * self.height\n\n# Usage\nprint(Shape.get_shape_count())  # Can call static method on abstract class\nprint(Rectangle.get_shape_count())  # Inherited by subclass\n\nrect = Rectangle(5, 3)\nprint(f\"Area: {rect.calculate_area()}\")  # Output: Area: 15\n```\n\n**JavaScript Example:**\n```javascript\nclass Shape {\n    constructor() {\n        if (this.constructor === Shape) {\n            throw new Error('Cannot instantiate abstract class Shape');\n        }\n    }\n    \n    static getShapeCount() {\n        return 'This is a static method in abstract class';\n    }\n    \n    static validateDimensions(width, height) {\n        return width > 0 && height > 0;\n    }\n    \n    calculateArea() {\n        throw new Error('Abstract method calculateArea must be implemented');\n    }\n}\n\nclass Rectangle extends Shape {\n    constructor(width, height) {\n        if (!Shape.validateDimensions(width, height)) {\n            throw new Error('Invalid dimensions');\n        }\n        super();\n        this.width = width;\n        this.height = height;\n    }\n    \n    calculateArea() {\n        return this.width * this.height;\n    }\n}\n\n// Usage\nconsole.log(Shape.getShapeCount());      // Can call static method on abstract class\nconsole.log(Rectangle.getShapeCount());  // Inherited by subclass\n\nconst rect = new Rectangle(5, 3);\nconsole.log(`Area: ${rect.calculateArea()}`);  // Output: Area: 15\n```",
+      },
+      {
+        question: "Can interfaces have static methods?",
+        solution:
+          "**It depends on the language.** In languages like Java 8+, interfaces can have static methods. However, in languages that simulate interfaces (like Python and JavaScript), the concept varies.\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\n# Python uses ABC to simulate interfaces\n# Static methods are allowed in ABC classes\nclass Calculable(ABC):\n    @staticmethod\n    def get_pi():\n        return 3.14159\n    \n    @staticmethod\n    def validate_number(num):\n        return isinstance(num, (int, float)) and num >= 0\n    \n    @abstractmethod\n    def calculate(self, value):\n        pass\n\nclass Circle(Calculable):\n    def __init__(self, radius):\n        if not Calculable.validate_number(radius):\n            raise ValueError(\"Invalid radius\")\n        self.radius = radius\n    \n    def calculate(self, value=None):\n        # Calculate area using static method from interface\n        return Calculable.get_pi() * self.radius ** 2\n\n# Usage\nprint(f\"PI value: {Calculable.get_pi()}\")  # Output: PI value: 3.14159\ncircle = Circle(5)\nprint(f\"Circle area: {circle.calculate()}\")  # Output: Circle area: 78.53975\n```\n\n**JavaScript Example:**\n```javascript\n// JavaScript interface simulation with static methods\nclass Calculable {\n    static getPi() {\n        return 3.14159;\n    }\n    \n    static validateNumber(num) {\n        return typeof num === 'number' && num >= 0;\n    }\n    \n    calculate(value) {\n        throw new Error('Method calculate must be implemented');\n    }\n}\n\nclass Circle extends Calculable {\n    constructor(radius) {\n        if (!Calculable.validateNumber(radius)) {\n            throw new Error('Invalid radius');\n        }\n        super();\n        this.radius = radius;\n    }\n    \n    calculate() {\n        // Calculate area using static method from interface\n        return Calculable.getPi() * this.radius ** 2;\n    }\n}\n\n// Usage\nconsole.log(`PI value: ${Calculable.getPi()}`);  // Output: PI value: 3.14159\nconst circle = new Circle(5);\nconsole.log(`Circle area: ${circle.calculate()}`);  // Output: Circle area: 78.53975\n```\n\n**Key Points:**\n- Static methods in interfaces provide utility functions related to the interface's domain\n- They can be called without implementing the interface\n- Implementing classes inherit these static methods\n- Static methods cannot access instance variables or abstract methods",
+      },
+      {
+        question: "Can you instantiate an abstract class?",
+        solution:
+          "**No, you cannot directly instantiate an abstract class.** Abstract classes are incomplete by design - they contain abstract methods that have no implementation. They serve as blueprints for concrete classes that must implement all abstract methods.\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\nclass Vehicle(ABC):\n    def __init__(self, brand):\n        self.brand = brand\n    \n    @abstractmethod\n    def start_engine(self):\n        pass\n    \n    @abstractmethod\n    def stop_engine(self):\n        pass\n    \n    def honk(self):  # Concrete method\n        return \"Beep beep!\"\n\n# Attempting to instantiate abstract class\ntry:\n    vehicle = Vehicle(\"Toyota\")  # This will raise TypeError\nexcept TypeError as e:\n    print(f\"Error: {e}\")  # Output: Error: Can't instantiate abstract class Vehicle with abstract methods start_engine, stop_engine\n\n# Correct way: Create concrete subclass\nclass Car(Vehicle):\n    def start_engine(self):\n        return f\"{self.brand} engine started\"\n    \n    def stop_engine(self):\n        return f\"{self.brand} engine stopped\"\n\n# This works - instantiating concrete class\ncar = Car(\"Toyota\")\nprint(car.start_engine())  # Output: Toyota engine started\nprint(car.honk())         # Output: Beep beep!\n```\n\n**JavaScript Example:**\n```javascript\nclass Vehicle {\n    constructor(brand) {\n        // Prevent instantiation of abstract class\n        if (this.constructor === Vehicle) {\n            throw new Error('Cannot instantiate abstract class Vehicle');\n        }\n        this.brand = brand;\n    }\n    \n    startEngine() {\n        throw new Error('Abstract method startEngine must be implemented');\n    }\n    \n    stopEngine() {\n        throw new Error('Abstract method stopEngine must be implemented');\n    }\n    \n    honk() {  // Concrete method\n        return 'Beep beep!';\n    }\n}\n\n// Attempting to instantiate abstract class\ntry {\n    const vehicle = new Vehicle('Toyota');  // This will throw an error\n} catch (error) {\n    console.log(`Error: ${error.message}`);\n    // Output: Error: Cannot instantiate abstract class Vehicle\n}\n\n// Correct way: Create concrete subclass\nclass Car extends Vehicle {\n    startEngine() {\n        return `${this.brand} engine started`;\n    }\n    \n    stopEngine() {\n        return `${this.brand} engine stopped`;\n    }\n}\n\n// This works - instantiating concrete class\nconst car = new Car('Toyota');\nconsole.log(car.startEngine());  // Output: Toyota engine started\nconsole.log(car.honk());         // Output: Beep beep!\n```\n\n**Why Abstract Classes Cannot Be Instantiated:**\n- They contain abstract methods without implementation\n- Creating an instance would result in incomplete objects\n- They serve as templates for concrete classes\n- All abstract methods must be implemented in subclasses before instantiation is allowed",
+      },
+      {
+        question: "Can you instantiate an interface?",
+        solution:
+          "**No, you cannot instantiate an interface.** Interfaces are pure contracts that define what methods a class must implement, but they contain no implementation themselves. They exist solely to define structure and ensure consistency across implementing classes.\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\n# Python uses ABC to simulate interfaces\nclass Drawable(ABC):\n    @abstractmethod\n    def draw(self):\n        pass\n    \n    @abstractmethod\n    def get_color(self):\n        pass\n\n# Attempting to instantiate interface (ABC)\ntry:\n    drawable = Drawable()  # This will raise TypeError\nexcept TypeError as e:\n    print(f\"Error: {e}\")  # Output: Error: Can't instantiate abstract class Drawable with abstract methods draw, get_color\n\n# Correct approach: Implement the interface\nclass Circle(Drawable):\n    def __init__(self, radius, color):\n        self.radius = radius\n        self.color = color\n    \n    def draw(self):\n        return f\"Drawing a {self.color} circle with radius {self.radius}\"\n    \n    def get_color(self):\n        return self.color\n\nclass Square(Drawable):\n    def __init__(self, side, color):\n        self.side = side\n        self.color = color\n    \n    def draw(self):\n        return f\"Drawing a {self.color} square with side {self.side}\"\n    \n    def get_color(self):\n        return self.color\n\n# This works - instantiating implementing classes\ncircle = Circle(5, \"red\")\nsquare = Square(4, \"blue\")\n\nprint(circle.draw())       # Output: Drawing a red circle with radius 5\nprint(square.get_color())  # Output: blue\n\n# Polymorphism with interface\nshapes = [circle, square]\nfor shape in shapes:\n    print(shape.draw())\n```\n\n**JavaScript Example:**\n```javascript\n// JavaScript interface simulation\nclass Drawable {\n    constructor() {\n        // Prevent instantiation of interface\n        if (this.constructor === Drawable) {\n            throw new Error('Cannot instantiate interface Drawable');\n        }\n    }\n    \n    draw() {\n        throw new Error('Method draw must be implemented');\n    }\n    \n    getColor() {\n        throw new Error('Method getColor must be implemented');\n    }\n}\n\n// Attempting to instantiate interface\ntry {\n    const drawable = new Drawable();  // This will throw an error\n} catch (error) {\n    console.log(`Error: ${error.message}`);\n    // Output: Error: Cannot instantiate interface Drawable\n}\n\n// Correct approach: Implement the interface\nclass Circle extends Drawable {\n    constructor(radius, color) {\n        super();\n        this.radius = radius;\n        this.color = color;\n    }\n    \n    draw() {\n        return `Drawing a ${this.color} circle with radius ${this.radius}`;\n    }\n    \n    getColor() {\n        return this.color;\n    }\n}\n\nclass Square extends Drawable {\n    constructor(side, color) {\n        super();\n        this.side = side;\n        this.color = color;\n    }\n    \n    draw() {\n        return `Drawing a ${this.color} square with side ${this.side}`;\n    }\n    \n    getColor() {\n        return this.color;\n    }\n}\n\n// This works - instantiating implementing classes\nconst circle = new Circle(5, 'red');\nconst square = new Square(4, 'blue');\n\nconsole.log(circle.draw());       // Output: Drawing a red circle with radius 5\nconsole.log(square.getColor());   // Output: blue\n\n// Polymorphism with interface\nconst shapes = [circle, square];\nshapes.forEach(shape => {\n    console.log(shape.draw());\n});\n```\n\n**Why Interfaces Cannot Be Instantiated:**\n- They contain no implementation, only method signatures\n- They define contracts, not concrete behavior\n- They ensure consistency across different implementations\n- Multiple classes can implement the same interface differently\n- They enable polymorphism and loose coupling in design",
+      },
+      {
+        question: "What is the purpose of abstract methods?",
+        solution:
+          '**Abstract methods serve as contracts that force subclasses to provide specific implementations.** They define what methods must exist without specifying how they work, ensuring consistent interfaces across different implementations while allowing flexibility in implementation details.\n\n**Key Purposes:**\n1. **Enforce Implementation:** Guarantee that subclasses implement required methods\n2. **Define Contracts:** Specify method signatures that all subclasses must follow\n3. **Enable Polymorphism:** Allow different objects to be treated uniformly\n4. **Provide Structure:** Create a common interface for related classes\n5. **Prevent Instantiation:** Ensure incomplete classes cannot be instantiated\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\nclass PaymentProcessor(ABC):\n    def __init__(self, merchant_id):\n        self.merchant_id = merchant_id\n    \n    # Abstract method - must be implemented by subclasses\n    @abstractmethod\n    def process_payment(self, amount, payment_data):\n        """Process payment - implementation varies by provider"""\n        pass\n    \n    @abstractmethod\n    def refund_payment(self, transaction_id, amount):\n        """Refund payment - implementation varies by provider"""\n        pass\n    \n    # Concrete method - shared functionality\n    def validate_amount(self, amount):\n        return amount > 0 and amount <= 10000\n\n# PayPal implementation\nclass PayPalProcessor(PaymentProcessor):\n    def process_payment(self, amount, payment_data):\n        if not self.validate_amount(amount):\n            return {"status": "failed", "error": "Invalid amount"}\n        # PayPal-specific logic\n        return {\n            "status": "success",\n            "transaction_id": f"PP_{self.merchant_id}_{amount}",\n            "provider": "PayPal"\n        }\n    \n    def refund_payment(self, transaction_id, amount):\n        return {\n            "status": "refunded",\n            "refund_id": f"RF_{transaction_id}",\n            "provider": "PayPal"\n        }\n\n# Stripe implementation\nclass StripeProcessor(PaymentProcessor):\n    def process_payment(self, amount, payment_data):\n        if not self.validate_amount(amount):\n            return {"status": "failed", "error": "Invalid amount"}\n        # Stripe-specific logic\n        return {\n            "status": "success",\n            "transaction_id": f"ST_{self.merchant_id}_{amount}",\n            "provider": "Stripe"\n        }\n    \n    def refund_payment(self, transaction_id, amount):\n        return {\n            "status": "refunded",\n            "refund_id": f"RF_{transaction_id}",\n            "provider": "Stripe"\n        }\n\n# Polymorphic usage\ndef handle_payment(processor: PaymentProcessor, amount: float):\n    """This function works with any PaymentProcessor implementation"""\n    result = processor.process_payment(amount, {})\n    if result["status"] == "success":\n        print(f"Payment processed via {result[\'provider\']}: {result[\'transaction_id\']}")\n    else:\n        print(f"Payment failed: {result[\'error\']}")\n\n# Usage\npaypal = PayPalProcessor("MERCHANT_123")\nstripe = StripeProcessor("MERCHANT_123")\n\n# Both work with the same interface\nhandle_payment(paypal, 100.0)  # Output: Payment processed via PayPal: PP_MERCHANT_123_100.0\nhandle_payment(stripe, 150.0)  # Output: Payment processed via Stripe: ST_MERCHANT_123_150.0\n```\n\n**JavaScript Example:**\n```javascript\nclass PaymentProcessor {\n    constructor(merchantId) {\n        if (this.constructor === PaymentProcessor) {\n            throw new Error(\'Cannot instantiate abstract PaymentProcessor\');\n        }\n        this.merchantId = merchantId;\n    }\n    \n    // Abstract methods - must be implemented by subclasses\n    processPayment(amount, paymentData) {\n        throw new Error(\'Abstract method processPayment must be implemented\');\n    }\n    \n    refundPayment(transactionId, amount) {\n        throw new Error(\'Abstract method refundPayment must be implemented\');\n    }\n    \n    // Concrete method - shared functionality\n    validateAmount(amount) {\n        return amount > 0 && amount <= 10000;\n    }\n}\n\n// PayPal implementation\nclass PayPalProcessor extends PaymentProcessor {\n    processPayment(amount, paymentData) {\n        if (!this.validateAmount(amount)) {\n            return { status: \'failed\', error: \'Invalid amount\' };\n        }\n        // PayPal-specific logic\n        return {\n            status: \'success\',\n            transactionId: `PP_${this.merchantId}_$ {amount}`,\n            provider: \'PayPal\'\n        };\n    }\n    \n    refundPayment(transactionId, amount) {\n        return {\n            status: \'refunded\',\n            refundId: `RF_${transactionId}`,\n            provider: \'PayPal\'\n        };\n    }\n}\n\n// Stripe implementation\nclass StripeProcessor extends PaymentProcessor {\n    processPayment(amount, paymentData) {\n        if (!this.validateAmount(amount)) {\n            return { status: \'failed\', error: \'Invalid amount\' };\n        }\n        // Stripe-specific logic\n        return {\n            status: \'success\',\n            transactionId: `ST_${this.merchantId}_$ {amount}`,\n            provider: \'Stripe\'\n        };\n    }\n    \n    refundPayment(transactionId, amount) {\n        return {\n            status: \'refunded\',\n            refundId: `RF_${transactionId}`,\n            provider: \'Stripe\'\n        };\n    }\n}\n\n// Polymorphic usage\nfunction handlePayment(processor, amount) {\n    const result = processor.processPayment(amount, {});\n    if (result.status === \'success\') {\n        console.log(`Payment processed via ${result.provider}: ${result.transactionId}`);\n    } else {\n        console.log(`Payment failed: ${result.error}`);\n    }\n}\n\n// Usage\nconst paypal = new PayPalProcessor(\'MERCHANT_123\');\nconst stripe = new StripeProcessor(\'MERCHANT_123\');\n\n// Both work with the same interface\nhandlePayment(paypal, 100.0);  // Output: Payment processed via PayPal: PP_MERCHANT_123_100\nhandlePayment(stripe, 150.0);  // Output: Payment processed via Stripe: ST_MERCHANT_123_150\n```\n\n**Benefits of Abstract Methods:**\n- **Consistency:** All implementations follow the same interface\n- **Flexibility:** Each subclass can implement methods differently\n- **Maintainability:** Changes to the abstract class affect all subclasses\n- **Documentation:** Abstract methods serve as living documentation\n- **Polymorphism:** Different implementations can be used interchangeably\n- **Error Prevention:** Compile-time/runtime checks ensure methods are implemented',
+      },
+      {
+        question: "How does polymorphism work in generic programming?",
+        solution: `Polymorphism in generic programming allows a single interface to represent different underlying data types or implementations. It enables code to work with objects of different types through a common interface, providing flexibility and code reuse.
+
+**Types of Polymorphism:**
+1. **Compile-time polymorphism** (static) - method overloading, generics
+2. **Runtime polymorphism** (dynamic) - method overriding, virtual methods
+
+**JavaScript Example:**
+\`\`\`javascript
+// Generic function using polymorphism
+class Shape {
+  area() {
+    throw new Error("Method must be implemented");
+  }
+}
+
+class Circle extends Shape {
+  constructor(radius) {
+    super();
+    this.radius = radius;
+  }
+  
+  area() {
+    return Math.PI * this.radius * this.radius;
+  }
+}
+
+class Rectangle extends Shape {
+  constructor(width, height) {
+    super();
+    this.width = width;
+    this.height = height;
+  }
+  
+  area() {
+    return this.width * this.height;
+  }
+}
+
+// Generic function that works with any Shape
+function calculateTotalArea(shapes) {
+  return shapes.reduce((total, shape) => total + shape.area(), 0);
+}
+
+// Usage - polymorphism in action
+const shapes = [
+  new Circle(5),
+  new Rectangle(4, 6),
+  new Circle(3)
+];
+
+console.log(calculateTotalArea(shapes)); // Works with different shape types
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+from typing import List, TypeVar, Generic
+
+# Generic type variable
+T = TypeVar('T')
+
+# Abstract base class defining the interface
+class Shape(ABC):
+    @abstractmethod
+    def area(self) -> float:
+        pass
+    
+    @abstractmethod
+    def perimeter(self) -> float:
+        pass
+
+class Circle(Shape):
+    def __init__(self, radius: float):
+        self.radius = radius
+    
+    def area(self) -> float:
+        return 3.14159 * self.radius ** 2
+    
+    def perimeter(self) -> float:
+        return 2 * 3.14159 * self.radius
+
+class Rectangle(Shape):
+    def __init__(self, width: float, height: float):
+        self.width = width
+        self.height = height
+    
+    def area(self) -> float:
+        return self.width * self.height
+    
+    def perimeter(self) -> float:
+        return 2 * (self.width + self.height)
+
+# Generic container class
+class ShapeContainer(Generic[T]):
+    def __init__(self):
+        self.shapes: List[T] = []
+    
+    def add_shape(self, shape: T):
+        self.shapes.append(shape)
+    
+    def total_area(self) -> float:
+        return sum(shape.area() for shape in self.shapes)
+
+# Usage demonstrating polymorphism
+container = ShapeContainer[Shape]()
+container.add_shape(Circle(5))
+container.add_shape(Rectangle(4, 6))
+
+print(f"Total area: {container.total_area()}")  # Works with different types
+\`\`\`
+
+**Key Benefits:**
+- Code reusability across different types
+- Flexibility to add new implementations without changing existing code
+- Type safety with generics
+- Cleaner, more maintainable code`,
+      },
+      {
+        question: "What is bounded polymorphism?",
+        solution: `Bounded polymorphism (also called constrained polymorphism) restricts generic types to specific bounds or constraints. Instead of accepting any type, it limits the types to those that implement certain interfaces or extend specific classes.
+
+**JavaScript Example (using TypeScript concepts):**
+\`\`\`javascript
+// Simulating bounded polymorphism in JavaScript
+class Comparable {
+  compareTo(other) {
+    throw new Error("Must implement compareTo method");
+  }
+}
+
+class Number extends Comparable {
+  constructor(value) {
+    super();
+    this.value = value;
+  }
+  
+  compareTo(other) {
+    return this.value - other.value;
+  }
+  
+  toString() {
+    return this.value.toString();
+  }
+}
+
+class StringWrapper extends Comparable {
+  constructor(value) {
+    super();
+    this.value = value;
+  }
+  
+  compareTo(other) {
+    return this.value.localeCompare(other.value);
+  }
+  
+  toString() {
+    return this.value;
+  }
+}
+
+// Generic function bounded to Comparable types
+class BoundedContainer {
+  constructor() {
+    this.items = [];
+  }
+  
+  // This method expects items that extend Comparable
+  add(item) {
+    if (!(item instanceof Comparable)) {
+      throw new Error("Item must extend Comparable");
+    }
+    this.items.push(item);
+  }
+  
+  sort() {
+    return this.items.sort((a, b) => a.compareTo(b));
+  }
+  
+  max() {
+    if (this.items.length === 0) return null;
+    return this.items.reduce((max, current) => 
+      current.compareTo(max) > 0 ? current : max
+    );
+  }
+}
+
+// Usage
+const container = new BoundedContainer();
+container.add(new Number(5));
+container.add(new Number(2));
+container.add(new Number(8));
+
+console.log("Sorted:", container.sort().map(n => n.toString()));
+console.log("Max:", container.max().toString());
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+from typing import TypeVar, Generic, Protocol, List
+from functools import total_ordering
+
+# Define a protocol (interface) for comparable types
+class Comparable(Protocol):
+    def __lt__(self, other: 'Comparable') -> bool: ...
+    def __eq__(self, other: 'Comparable') -> bool: ...
+
+# Create a bounded type variable
+T = TypeVar('T', bound=Comparable)
+
+@total_ordering
+class NumberWrapper:
+    def __init__(self, value: float):
+        self.value = value
+    
+    def __lt__(self, other: 'NumberWrapper') -> bool:
+        return self.value < other.value
+    
+    def __eq__(self, other: 'NumberWrapper') -> bool:
+        return self.value == other.value
+    
+    def __str__(self) -> str:
+        return str(self.value)
+
+@total_ordering  
+class StringWrapper:
+    def __init__(self, value: str):
+        self.value = value
+    
+    def __lt__(self, other: 'StringWrapper') -> bool:
+        return self.value < other.value
+    
+    def __eq__(self, other: 'StringWrapper') -> bool:
+        return self.value == other.value
+    
+    def __str__(self) -> str:
+        return self.value
+
+# Generic class with bounded polymorphism
+class SortedContainer(Generic[T]):
+    def __init__(self):
+        self.items: List[T] = []
+    
+    def add(self, item: T) -> None:
+        self.items.append(item)
+        self.items.sort()  # Keep items sorted
+    
+    def get_max(self) -> T:
+        if not self.items:
+            raise ValueError("Container is empty")
+        return max(self.items)
+    
+    def get_min(self) -> T:
+        if not self.items:
+            raise ValueError("Container is empty")
+        return min(self.items)
+
+# Usage with different bounded types
+number_container = SortedContainer[NumberWrapper]()
+number_container.add(NumberWrapper(5.5))
+number_container.add(NumberWrapper(2.1))
+number_container.add(NumberWrapper(8.9))
+
+print(f"Max number: {number_container.get_max()}")
+print(f"Min number: {number_container.get_min()}")
+
+string_container = SortedContainer[StringWrapper]()
+string_container.add(StringWrapper("apple"))
+string_container.add(StringWrapper("banana"))
+string_container.add(StringWrapper("cherry"))
+
+print(f"Max string: {string_container.get_max()}")
+print(f"Min string: {string_container.get_min()}")
+\`\`\`
+
+**Key Advantages:**
+- Type safety while maintaining flexibility
+- Ensures specific capabilities are available (like comparison)
+- Better compile-time error detection
+- More expressive type constraints`,
+      },
+      {
+        question:
+          "What is the difference between overloading and polymorphism?",
+        solution: `Method overloading and polymorphism are related but distinct concepts. Overloading is a form of compile-time polymorphism, while traditional polymorphism usually refers to runtime polymorphism.
+
+**Key Differences:**
+
+| Aspect | Method Overloading | Runtime Polymorphism |
+|--------|-------------------|----------------------|
+| **Binding Time** | Compile-time (static) | Runtime (dynamic) |
+| **Method Selection** | Based on method signature | Based on object type |
+| **Inheritance** | Not required | Requires inheritance |
+| **Performance** | Faster (resolved at compile) | Slower (resolved at runtime) |
+
+**JavaScript Example:**
+\`\`\`javascript
+// Method Overloading (simulated in JavaScript)
+class Calculator {
+  // JavaScript doesn't have true method overloading, so we simulate it
+  add(...args) {
+    if (args.length === 2 && typeof args[0] === 'number' && typeof args[1] === 'number') {
+      return args[0] + args[1];
+    } else if (args.length === 3 && args.every(arg => typeof arg === 'number')) {
+      return args[0] + args[1] + args[2];
+    } else if (args.length === 2 && typeof args[0] === 'string' && typeof args[1] === 'string') {
+      return args[0] + args[1];
+    } else {
+      throw new Error("Invalid arguments for add method");
+    }
+  }
+}
+
+// Runtime Polymorphism
+class Animal {
+  makeSound() {
+    return "Some generic animal sound";
+  }
+  
+  move() {
+    return "Animal moves";
+  }
+}
+
+class Dog extends Animal {
+  makeSound() {  // Method overriding
+    return "Woof! Woof!";
+  }
+  
+  move() {
+    return "Dog runs on four legs";
+  }
+}
+
+class Cat extends Animal {
+  makeSound() {  // Method overriding
+    return "Meow! Meow!";
+  }
+  
+  move() {
+    return "Cat stalks silently";
+  }
+}
+
+class Bird extends Animal {
+  makeSound() {
+    return "Tweet! Tweet!";
+  }
+  
+  move() {
+    return "Bird flies in the sky";
+  }
+}
+
+// Usage examples
+const calc = new Calculator();
+
+// Method overloading in action
+console.log(calc.add(5, 3));           // 8 (two numbers)
+console.log(calc.add(1, 2, 3));        // 6 (three numbers)
+console.log(calc.add("Hello", "World")); // "HelloWorld" (two strings)
+
+// Runtime polymorphism in action
+const animals = [new Dog(), new Cat(), new Bird()];
+
+animals.forEach(animal => {
+  // Same method call, different behavior based on actual object type
+  console.log(\`\${animal.constructor.name}: \${animal.makeSound()} - \${animal.move()}\`);
+});
+
+// Polymorphic function
+function performAnimalActions(animals) {
+  return animals.map(animal => ({
+    type: animal.constructor.name,
+    sound: animal.makeSound(),  // Resolved at runtime
+    movement: animal.move()     // Resolved at runtime
+  }));
+}
+
+console.log(performAnimalActions(animals));
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from functools import singledispatch
+from typing import Union
+
+# Method Overloading using singledispatch
+class Calculator:
+    @singledispatch
+    @staticmethod
+    def add(x, y):
+        raise NotImplementedError("Unsupported type")
+    
+    @add.register
+    @staticmethod
+    def _(x: int, y: int) -> int:
+        print("Adding two integers")
+        return x + y
+    
+    @add.register  
+    @staticmethod
+    def _(x: float, y: float) -> float:
+        print("Adding two floats")
+        return x + y
+    
+    @add.register
+    @staticmethod
+    def _(x: str, y: str) -> str:
+        print("Concatenating two strings")
+        return x + y
+    
+    # Alternative approach - manual overloading
+    def multiply(self, *args):
+        if len(args) == 2:
+            if all(isinstance(arg, (int, float)) for arg in args):
+                return args[0] * args[1]
+        elif len(args) == 3:
+            if all(isinstance(arg, (int, float)) for arg in args):
+                return args[0] * args[1] * args[2]
+        raise ValueError("Invalid arguments for multiply")
+
+# Runtime Polymorphism
+class Animal:
+    def make_sound(self) -> str:
+        return "Some generic animal sound"
+    
+    def move(self) -> str:
+        return "Animal moves"
+    
+    def get_info(self) -> str:
+        return f"{self.__class__.__name__}: {self.make_sound()} - {self.move()}"
+
+class Dog(Animal):
+    def make_sound(self) -> str:  # Method overriding
+        return "Woof! Woof!"
+    
+    def move(self) -> str:
+        return "Dog runs on four legs"
+
+class Cat(Animal):
+    def make_sound(self) -> str:  # Method overriding
+        return "Meow! Meow!"
+    
+    def move(self) -> str:
+        return "Cat stalks silently"
+
+class Bird(Animal):
+    def make_sound(self) -> str:
+        return "Tweet! Tweet!"
+    
+    def move(self) -> str:
+        return "Bird flies in the sky"
+
+# Usage examples
+calc = Calculator()
+
+# Method overloading examples
+print(calc.add(5, 3))           # Adding two integers: 8
+print(calc.add(5.5, 3.2))       # Adding two floats: 8.7
+print(calc.add("Hello", "World")) # Concatenating two strings: HelloWorld
+
+print(calc.multiply(4, 5))       # 20
+print(calc.multiply(2, 3, 4))    # 24
+
+# Runtime polymorphism examples
+animals = [Dog(), Cat(), Bird()]
+
+# Same method calls, different behaviors
+for animal in animals:
+    print(animal.get_info())
+
+# Polymorphic function
+def animal_concert(animal_list):
+    """Demonstrates runtime polymorphism"""
+    concert = []
+    for animal in animal_list:
+        # Method resolution happens at runtime based on actual object type
+        concert.append({
+            'performer': animal.__class__.__name__,
+            'performance': animal.make_sound(),
+            'style': animal.move()
+        })
+    return concert
+
+concert_data = animal_concert(animals)
+for performance in concert_data:
+    print(f"{performance['performer']}: {performance['performance']} while doing {performance['style']}")
+\`\`\`
+
+**Summary:**
+- **Overloading**: Multiple methods with same name but different parameters (compile-time)
+- **Polymorphism**: Same interface, different implementations based on object type (runtime)
+- **Overloading** provides different ways to call the same logical operation
+- **Polymorphism** provides different behaviors for the same method call`,
+      },
+      {
+        question: "Can final methods be polymorphic?",
+        solution: `The answer depends on how you define "final" and the programming language context. In languages with explicit 'final' keywords, final methods cannot be overridden, which limits their polymorphic behavior. However, they can still participate in polymorphism through inheritance and interfaces.
+
+**JavaScript Example (using conventions):**
+\`\`\`javascript
+// JavaScript doesn't have 'final' keyword, but we can simulate it
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  
+  // "Final" method (by convention, not language enforcement)
+  getId() {
+    return \`ID_\${this.name}_\${Date.now()}\`;
+  }
+  
+  // Non-final method that can be overridden
+  makeSound() {
+    return "Generic animal sound";
+  }
+  
+  // Another "final" method
+  getCreationTime() {
+    return new Date().toISOString();
+  }
+}
+
+// Using Object.freeze to make methods truly "final"
+class Vehicle {
+  constructor(brand) {
+    this.brand = brand;
+    
+    // Make specific methods non-writable (final)
+    Object.defineProperty(this, 'getVIN', {
+      value: function() {
+        return \`VIN_\${this.brand}_\${Math.random().toString(36).substring(7)}\`;
+      },
+      writable: false,
+      configurable: false
+    });
+  }
+  
+  start() {
+    return "Vehicle starting...";
+  }
+}
+
+class Dog extends Animal {
+  makeSound() {  // Can override non-final methods
+    return "Woof!";
+  }
+  
+  // Cannot meaningfully override getId() as it's considered "final"
+  // But can still call it polymorphically
+}
+
+class Car extends Vehicle {
+  constructor(brand, model) {
+    super(brand);
+    this.model = model;
+  }
+  
+  start() {  // Can override non-final methods
+    return \`\${this.brand} \${this.model} engine started!\`;
+  }
+  
+  // Cannot override getVIN() - it's truly final
+}
+
+// Polymorphic usage with final methods
+function processAnimals(animals) {
+  return animals.map(animal => ({
+    id: animal.getId(),        // Final method - same implementation for all
+    sound: animal.makeSound(), // Polymorphic method - different implementations
+    created: animal.getCreationTime() // Final method - same for all
+  }));
+}
+
+function processVehicles(vehicles) {
+  return vehicles.map(vehicle => ({
+    vin: vehicle.getVIN(),     // Final method - same implementation
+    startup: vehicle.start()   // Polymorphic method - can be overridden
+  }));
+}
+
+// Usage
+const animals = [new Animal("Generic"), new Dog("Buddy")];
+const vehicles = [new Vehicle("Generic"), new Car("Toyota", "Camry")];
+
+console.log("Animals:", processAnimals(animals));
+console.log("Vehicles:", processVehicles(vehicles));
+
+// Trying to override final method won't work
+const car = new Car("Honda", "Civic");
+try {
+  car.getVIN = () => "HACKED"; // This won't work due to property descriptor
+  console.log(car.getVIN());
+} catch (error) {
+  console.log("Cannot override final method");
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from abc import ABC, abstractmethod
+from typing import List, Union
+
+class FinalMethodError(Exception):
+    """Exception raised when trying to override a final method"""
+    pass
+
+def final(method):
+    """Decorator to mark methods as final"""
+    method._is_final = True
+    return method
+
+class FinalMeta(type):
+    """Metaclass to enforce final methods"""
+    def __new__(cls, name, bases, dct):
+        for base in bases:
+            for attr_name, attr_value in base.__dict__.items():
+                if hasattr(attr_value, '_is_final') and attr_name in dct:
+                    raise FinalMethodError(f"Cannot override final method '{attr_name}' in class '{name}'")
+        return super().__new__(cls, name, bases, dct)
+
+class Animal(metaclass=FinalMeta):
+    def __init__(self, name: str):
+        self.name = name
+        self._id = f"ID_{name}_{id(self)}"
+    
+    @final
+    def get_id(self) -> str:
+        """Final method - cannot be overridden"""
+        return self._id
+    
+    @final
+    def get_species_info(self) -> str:
+        """Another final method"""
+        return f"Species: {self.__class__.__name__}, ID: {self.get_id()}"
+    
+    def make_sound(self) -> str:
+        """Non-final method - can be overridden"""
+        return "Generic animal sound"
+    
+    def move(self) -> str:
+        """Non-final method - can be overridden"""
+        return "Animal moves"
+
+class Dog(Animal):
+    def make_sound(self) -> str:  # Can override
+        return "Woof! Woof!"
+    
+    def move(self) -> str:  # Can override
+        return "Dog runs"
+    
+    # get_id() and get_species_info() are inherited and final
+    # Trying to override them would raise FinalMethodError
+
+class Cat(Animal):
+    def make_sound(self) -> str:  # Can override
+        return "Meow!"
+    
+    def move(self) -> str:  # Can override  
+        return "Cat stalks"
+
+# Example of polymorphism with final methods
+def animal_report(animals: List[Animal]) -> List[dict]:
+    """Demonstrates polymorphism where final methods behave consistently"""
+    report = []
+    for animal in animals:
+        report.append({
+            'id': animal.get_id(),           # Final method - same behavior
+            'species': animal.get_species_info(), # Final method - same behavior  
+            'sound': animal.make_sound(),     # Polymorphic - different behavior
+            'movement': animal.move()         # Polymorphic - different behavior
+        })
+    return report
+
+# Usage
+animals = [
+    Animal("Generic"),
+    Dog("Buddy"), 
+    Cat("Whiskers")
+]
+
+# All animals can call final methods polymorphically
+# (same interface, but final methods have same implementation)
+for animal in animals:
+    print(f"Type: {type(animal).__name__}")
+    print(f"ID: {animal.get_id()}")           # Final method
+    print(f"Species Info: {animal.get_species_info()}") # Final method
+    print(f"Sound: {animal.make_sound()}")     # Polymorphic method
+    print(f"Movement: {animal.move()}")        # Polymorphic method
+    print("-" * 40)
+
+# Generate report showing polymorphism with final methods
+report = animal_report(animals)
+for entry in report:
+    print(f"Animal Report: {entry}")
+
+# Attempting to override final method would fail at class definition
+# Uncomment the following to see the error:
+# 
+# class BadDog(Animal):
+#     def get_id(self):  # This would raise FinalMethodError
+#         return "Bad override"
+
+print("\nKey Points about Final Methods and Polymorphism:")
+print("1. Final methods cannot be overridden")
+print("2. But they can still be called polymorphically through inheritance")
+print("3. The same final method implementation is shared across the hierarchy") 
+print("4. Final methods provide consistent behavior while allowing other methods to be polymorphic")
+\`\`\`
+
+**Key Points:**
+
+1. **Final methods cannot be overridden** - This is their defining characteristic
+2. **They can still participate in polymorphism** through:
+   - Interface implementation
+   - Inheritance hierarchies
+   - Method delegation
+
+3. **Polymorphic behavior** means:
+   - Same method can be called on different object types
+   - Final methods provide consistent behavior across the hierarchy
+   - Non-final methods can have different implementations
+
+4. **Use cases for final methods:**
+   - Core functionality that shouldn't change
+   - Security-sensitive operations
+   - Template methods with fixed algorithms
+   - Utility methods with standard behavior
+
+**Answer: Yes, final methods can be polymorphic in the sense that they can be called through a common interface on different object types, but they will always execute the same implementation since they cannot be overridden.**`,
+      },
+      {
+        question: "What is functional interface?",
+        solution:
+          'A functional interface is an interface that contains exactly one abstract method. It can have multiple default and static methods, but only one abstract method. Functional interfaces are the foundation of lambda expressions in Java 8+.\n\n**Key Characteristics:**\n- Exactly one abstract method (SAM - Single Abstract Method)\n- Can have multiple default methods\n- Can have multiple static methods\n- Can be annotated with @FunctionalInterface (optional but recommended)\n- Can be used with lambda expressions and method references\n\n**Java Example:**\n```java\n@FunctionalInterface\npublic interface Calculator {\n    int calculate(int a, int b); // Single abstract method\n    \n    // Default methods are allowed\n    default void printResult(int result) {\n        System.out.println("Result: " + result);\n    }\n    \n    // Static methods are allowed\n    static void info() {\n        System.out.println("Calculator interface");\n    }\n}\n\n// Usage with lambda\nCalculator add = (a, b) -> a + b;\nCalculator multiply = (a, b) -> a * b;\n\nint sum = add.calculate(5, 3); // 8\nint product = multiply.calculate(5, 3); // 15\n```\n\n**JavaScript Equivalent (using function types):**\n```javascript\n// JavaScript doesn\'t have interfaces, but we can simulate with function types\nconst calculator = {\n    add: (a, b) => a + b,\n    multiply: (a, b) => a * b,\n    printResult: function(result) {\n        console.log(`Result: ${result}`);\n    }\n};\n\n// Using arrow functions (similar to lambda)\nconst add = (a, b) => a + b;\nconst multiply = (a, b) => a * b;\n\nconst sum = add(5, 3); // 8\nconst product = multiply(5, 3); // 15\n```\n\n**Python Equivalent (using Protocol/Callable):**\n```python\nfrom typing import Protocol, Callable\nfrom abc import ABC, abstractmethod\n\n# Using Protocol (Python 3.8+)\nclass Calculator(Protocol):\n    def calculate(self, a: int, b: int) -> int:\n        ...\n\n# Or using Callable type hint\nCalculatorFunc = Callable[[int, int], int]\n\n# Implementation with lambda (similar to functional interface)\nadd: CalculatorFunc = lambda a, b: a + b\nmultiply: CalculatorFunc = lambda a, b: a * b\n\nsum_result = add(5, 3)  # 8\nproduct_result = multiply(5, 3)  # 15\n\n# Class-based approach\nclass CalculatorImpl:\n    def calculate(self, a: int, b: int) -> int:\n        return a + b\n```',
+      },
+      {
+        question: "Can interfaces have variables?",
+        solution:
+          'Yes, interfaces can have variables, but with strict limitations. All variables in interfaces are implicitly public, static, and final - essentially making them constants.\n\n**Key Points:**\n- All interface variables are implicitly public, static, and final\n- They must be initialized when declared\n- They act as constants for the interface\n- Cannot be reassigned after initialization\n- Can be accessed using the interface name\n\n**Java Example:**\n```java\npublic interface Constants {\n    // All these modifiers are implicit: public static final\n    int MAX_SIZE = 100;\n    String DEFAULT_NAME = "Unknown";\n    double PI = 3.14159;\n    \n    // This is equivalent to:\n    // public static final int MAX_SIZE = 100;\n    // public static final String DEFAULT_NAME = "Unknown";\n    // public static final double PI = 3.14159;\n    \n    void processData(); // abstract method\n}\n\nclass Implementation implements Constants {\n    public void processData() {\n        System.out.println("Max size: " + MAX_SIZE);\n        System.out.println("Default name: " + DEFAULT_NAME);\n        // MAX_SIZE = 200; // Compilation error - cannot reassign\n    }\n}\n\n// Usage\nSystem.out.println(Constants.MAX_SIZE); // 100\n```\n\n**JavaScript Equivalent:**\n```javascript\n// JavaScript doesn\'t have interfaces, but we can simulate with objects\nconst Constants = Object.freeze({\n    MAX_SIZE: 100,\n    DEFAULT_NAME: "Unknown",\n    PI: 3.14159\n});\n\n// Or using class with static properties\nclass Constants {\n    static MAX_SIZE = 100;\n    static DEFAULT_NAME = "Unknown";\n    static PI = 3.14159;\n}\n\n// Make properties read-only\nObject.defineProperty(Constants, \'MAX_SIZE\', {\n    writable: false,\n    configurable: false\n});\n\nconsole.log(Constants.MAX_SIZE); // 100\n// Constants.MAX_SIZE = 200; // Won\'t change the value in strict mode\n```\n\n**Python Equivalent:**\n```python\nfrom typing import Protocol, Final\nfrom abc import ABC, abstractmethod\n\nclass Constants(ABC):\n    # Class constants (similar to interface variables)\n    MAX_SIZE: Final[int] = 100\n    DEFAULT_NAME: Final[str] = "Unknown"\n    PI: Final[float] = 3.14159\n    \n    @abstractmethod\n    def process_data(self) -> None:\n        pass\n\nclass Implementation(Constants):\n    def process_data(self) -> None:\n        print(f"Max size: {self.MAX_SIZE}")\n        print(f"Default name: {self.DEFAULT_NAME}")\n        # self.MAX_SIZE = 200  # Type checker will warn, but not enforced at runtime\n\n# Usage\nprint(Constants.MAX_SIZE)  # 100\n\n# Alternative using Protocol\nclass ConstantsProtocol(Protocol):\n    MAX_SIZE: int\n    DEFAULT_NAME: str\n    PI: float\n    \n    def process_data(self) -> None: ...\n```',
+      },
+      {
+        question: "Are interface variables static and final by default?",
+        solution:
+          'Yes, all variables declared in interfaces are implicitly public, static, and final by default. You don\'t need to explicitly specify these modifiers - they are automatically applied by the Java compiler.\n\n**Implicit Modifiers:**\n- **public**: Accessible from anywhere\n- **static**: Belongs to the interface itself, not instances\n- **final**: Cannot be reassigned after initialization\n\n**Java Example:**\n```java\npublic interface DatabaseConfig {\n    // These declarations are identical:\n    int CONNECTION_TIMEOUT = 30;\n    public static final int MAX_CONNECTIONS = 100;\n    static final String DATABASE_URL = "jdbc:mysql://localhost";\n    final boolean ENABLE_LOGGING = true;\n    \n    // All are equivalent to:\n    // public static final int CONNECTION_TIMEOUT = 30;\n    // public static final int MAX_CONNECTIONS = 100;\n    // public static final String DATABASE_URL = "jdbc:mysql://localhost";\n    // public static final boolean ENABLE_LOGGING = true;\n}\n\nclass DatabaseService implements DatabaseConfig {\n    public void connect() {\n        System.out.println("Timeout: " + CONNECTION_TIMEOUT);\n        System.out.println("Max connections: " + MAX_CONNECTIONS);\n        \n        // This would cause compilation error:\n        // CONNECTION_TIMEOUT = 60; // Cannot assign to final variable\n    }\n}\n\n// Static access without implementing interface\nSystem.out.println(DatabaseConfig.CONNECTION_TIMEOUT); // 30\nSystem.out.println(DatabaseConfig.DATABASE_URL);\n```\n\n**Verification Example:**\n```java\nimport java.lang.reflect.Field;\nimport java.lang.reflect.Modifier;\n\npublic class InterfaceVariableTest {\n    public static void main(String[] args) {\n        Field[] fields = DatabaseConfig.class.getDeclaredFields();\n        \n        for (Field field : fields) {\n            int modifiers = field.getModifiers();\n            System.out.println(field.getName() + " modifiers:");\n            System.out.println("  Public: " + Modifier.isPublic(modifiers));\n            System.out.println("  Static: " + Modifier.isStatic(modifiers));\n            System.out.println("  Final: " + Modifier.isFinal(modifiers));\n        }\n    }\n}\n```\n\n**JavaScript Equivalent:**\n```javascript\n// Simulating static final behavior in JavaScript\nclass DatabaseConfig {\n    static get CONNECTION_TIMEOUT() { return 30; }\n    static get MAX_CONNECTIONS() { return 100; }\n    static get DATABASE_URL() { return "jdbc:mysql://localhost"; }\n    static get ENABLE_LOGGING() { return true; }\n}\n\n// Or using Object.freeze for immutability\nconst DatabaseConfigConstants = Object.freeze({\n    CONNECTION_TIMEOUT: 30,\n    MAX_CONNECTIONS: 100,\n    DATABASE_URL: "jdbc:mysql://localhost",\n    ENABLE_LOGGING: true\n});\n\n// Usage\nconsole.log(DatabaseConfig.CONNECTION_TIMEOUT); // 30\nconsole.log(DatabaseConfigConstants.MAX_CONNECTIONS); // 100\n\n// These won\'t work (attempting to modify)\n// DatabaseConfig.CONNECTION_TIMEOUT = 60; // No effect\n// DatabaseConfigConstants.MAX_CONNECTIONS = 200; // Throws error in strict mode\n```\n\n**Python Equivalent:**\n```python\nfrom typing import Protocol, Final\nfrom abc import ABC\n\nclass DatabaseConfig(ABC):\n    # Using Final to indicate these shouldn\'t be reassigned\n    CONNECTION_TIMEOUT: Final[int] = 30\n    MAX_CONNECTIONS: Final[int] = 100\n    DATABASE_URL: Final[str] = "jdbc:mysql://localhost"\n    ENABLE_LOGGING: Final[bool] = True\n\n# Alternative using class with properties\nclass DatabaseConfigConstants:\n    _CONNECTION_TIMEOUT = 30\n    _MAX_CONNECTIONS = 100\n    _DATABASE_URL = "jdbc:mysql://localhost"\n    _ENABLE_LOGGING = True\n    \n    @property\n    @classmethod\n    def CONNECTION_TIMEOUT(cls):\n        return cls._CONNECTION_TIMEOUT\n    \n    @property\n    @classmethod\n    def MAX_CONNECTIONS(cls):\n        return cls._MAX_CONNECTIONS\n\n# Usage\nprint(DatabaseConfig.CONNECTION_TIMEOUT)  # 30\nprint(DatabaseConfig.MAX_CONNECTIONS)     # 100\n\n# Type checker will warn about reassignment\n# DatabaseConfig.CONNECTION_TIMEOUT = 60  # Warning from type checker\n```',
+      },
+      {
+        question: "Can you have private methods in interfaces?",
+        solution:
+          'Yes, starting from Java 9, interfaces can have private methods. Private methods in interfaces are used to share code between default methods and other private methods within the same interface.\n\n**Key Points about Private Methods in Interfaces:**\n- Introduced in Java 9\n- Can be both private instance methods and private static methods\n- Used to avoid code duplication between default methods\n- Cannot be overridden by implementing classes\n- Can only be called within the same interface\n\n**Java Example:**\n```java\npublic interface PaymentProcessor {\n    \n    // Public abstract method\n    void processPayment(double amount);\n    \n    // Default methods using private helper methods\n    default void processCreditCard(double amount) {\n        if (validateAmount(amount)) {\n            logTransaction("Credit Card", amount);\n            processPayment(amount);\n        }\n    }\n    \n    default void processDebitCard(double amount) {\n        if (validateAmount(amount)) {\n            logTransaction("Debit Card", amount);\n            processPayment(amount);\n        }\n    }\n    \n    default void processPayPal(double amount) {\n        if (validateAmount(amount)) {\n            logTransaction("PayPal", amount);\n            processPayment(amount);\n        }\n    }\n    \n    // Private instance method - can access instance context\n    private boolean validateAmount(double amount) {\n        return amount > 0 && amount <= getMaxLimit();\n    }\n    \n    // Private instance method\n    private void logTransaction(String paymentType, double amount) {\n        System.out.println(formatLogMessage(paymentType, amount));\n    }\n    \n    // Private static method - utility method\n    private static String formatLogMessage(String paymentType, double amount) {\n        return String.format("[%s] Processing payment of $%.2f at %s", \n                           paymentType, amount, java.time.LocalDateTime.now());\n    }\n    \n    // Default method to get max limit\n    default double getMaxLimit() {\n        return 10000.0;\n    }\n}\n\nclass CreditCardProcessor implements PaymentProcessor {\n    @Override\n    public void processPayment(double amount) {\n        System.out.println("Processing credit card payment: $" + amount);\n    }\n    \n    // Cannot access private methods from implementing class\n    // validateAmount(100); // Compilation error\n}\n```\n\n**Before Java 9 (without private methods):**\n```java\n// Without private methods, code duplication was common\npublic interface PaymentProcessorOld {\n    void processPayment(double amount);\n    \n    default void processCreditCard(double amount) {\n        // Duplicated validation logic\n        if (amount > 0 && amount <= 10000) {\n            System.out.println("[Credit Card] Processing: $" + amount);\n            processPayment(amount);\n        }\n    }\n    \n    default void processDebitCard(double amount) {\n        // Duplicated validation logic\n        if (amount > 0 && amount <= 10000) {\n            System.out.println("[Debit Card] Processing: $" + amount);\n            processPayment(amount);\n        }\n    }\n}\n```\n\n**JavaScript Equivalent:**\n```javascript\n// JavaScript doesn\'t have interfaces, but we can simulate private methods\nclass PaymentProcessor {\n    // Private methods using # (ES2022)\n    #validateAmount(amount) {\n        return amount > 0 && amount <= this.#getMaxLimit();\n    }\n    \n    #logTransaction(paymentType, amount) {\n        console.log(PaymentProcessor.#formatLogMessage(paymentType, amount));\n    }\n    \n    static #formatLogMessage(paymentType, amount) {\n        return `[${paymentType}] Processing payment of $$ {amount.toFixed(2)} at ${new Date()}`;\n    }\n    \n    #getMaxLimit() {\n        return 10000.0;\n    }\n    \n    // Public methods\n    processCreditCard(amount) {\n        if (this.#validateAmount(amount)) {\n            this.#logTransaction("Credit Card", amount);\n            this.processPayment(amount);\n        }\n    }\n    \n    processDebitCard(amount) {\n        if (this.#validateAmount(amount)) {\n            this.#logTransaction("Debit Card", amount);\n            this.processPayment(amount);\n        }\n    }\n    \n    processPayment(amount) {\n        // Abstract-like method to be overridden\n        throw new Error("Must implement processPayment method");\n    }\n}\n\nclass CreditCardProcessor extends PaymentProcessor {\n    processPayment(amount) {\n        console.log(`Processing credit card payment: $$ {amount}`);\n    }\n}\n```\n\n**Python Equivalent:**\n```python\nfrom abc import ABC, abstractmethod\nfrom datetime import datetime\nfrom typing import Protocol\n\nclass PaymentProcessor(ABC):\n    \n    @abstractmethod\n    def process_payment(self, amount: float) -> None:\n        pass\n    \n    # Public methods using private helpers\n    def process_credit_card(self, amount: float) -> None:\n        if self._validate_amount(amount):\n            self._log_transaction("Credit Card", amount)\n            self.process_payment(amount)\n    \n    def process_debit_card(self, amount: float) -> None:\n        if self._validate_amount(amount):\n            self._log_transaction("Debit Card", amount)\n            self.process_payment(amount)\n    \n    def process_paypal(self, amount: float) -> None:\n        if self._validate_amount(amount):\n            self._log_transaction("PayPal", amount)\n            self.process_payment(amount)\n    \n    # Private methods (convention with underscore)\n    def _validate_amount(self, amount: float) -> bool:\n        return amount > 0 and amount <= self._get_max_limit()\n    \n    def _log_transaction(self, payment_type: str, amount: float) -> None:\n        print(self._format_log_message(payment_type, amount))\n    \n    @staticmethod\n    def _format_log_message(payment_type: str, amount: float) -> str:\n        return f"[{payment_type}] Processing payment of $ {amount:.2f} at {datetime.now()}"\n    \n    def _get_max_limit(self) -> float:\n        return 10000.0\n\nclass CreditCardProcessor(PaymentProcessor):\n    def process_payment(self, amount: float) -> None:\n        print(f"Processing credit card payment: $ {amount}")\n```',
+      },
+      {
+        question:
+          "What is the difference between abstract class and concrete class?",
+        solution:
+          'Abstract classes and concrete classes serve different purposes in object-oriented programming. An abstract class cannot be instantiated and may contain abstract methods, while a concrete class can be instantiated and must provide implementations for all its methods.\n\n**Key Differences:**\n\n| Aspect | Abstract Class | Concrete Class |\n|--------|----------------|----------------|\n| Instantiation | Cannot be instantiated directly | Can be instantiated |\n| Abstract Methods | Can have abstract methods | Cannot have abstract methods |\n| Implementation | May have partial implementation | Must have complete implementation |\n| Purpose | Template/base for other classes | Fully functional class |\n| Inheritance | Must be extended to be used | Can be used directly or extended |\n\n**Java Example:**\n```java\n// Abstract Class\nabstract class Animal {\n    protected String name;\n    protected int age;\n    \n    // Constructor in abstract class\n    public Animal(String name, int age) {\n        this.name = name;\n        this.age = age;\n    }\n    \n    // Concrete method (has implementation)\n    public void sleep() {\n        System.out.println(name + " is sleeping");\n    }\n    \n    public void eat() {\n        System.out.println(name + " is eating");\n    }\n    \n    // Abstract methods (no implementation)\n    public abstract void makeSound();\n    public abstract void move();\n    \n    // Can have static methods\n    public static void info() {\n        System.out.println("This is an animal class");\n    }\n}\n\n// Concrete Class extending abstract class\nclass Dog extends Animal {\n    private String breed;\n    \n    public Dog(String name, int age, String breed) {\n        super(name, age);\n        this.breed = breed;\n    }\n    \n    // Must implement all abstract methods\n    @Override\n    public void makeSound() {\n        System.out.println(name + " barks: Woof! Woof!");\n    }\n    \n    @Override\n    public void move() {\n        System.out.println(name + " runs on four legs");\n    }\n    \n    // Additional concrete method\n    public void wagTail() {\n        System.out.println(name + " is wagging tail");\n    }\n}\n\n// Another concrete class\nclass Cat extends Animal {\n    public Cat(String name, int age) {\n        super(name, age);\n    }\n    \n    @Override\n    public void makeSound() {\n        System.out.println(name + " meows: Meow! Meow!");\n    }\n    \n    @Override\n    public void move() {\n        System.out.println(name + " walks gracefully");\n    }\n    \n    public void purr() {\n        System.out.println(name + " is purring");\n    }\n}\n\n// Standalone concrete class (not extending anything)\nclass Vehicle {\n    private String make;\n    private String model;\n    private int year;\n    \n    public Vehicle(String make, String model, int year) {\n        this.make = make;\n        this.model = model;\n        this.year = year;\n    }\n    \n    public void start() {\n        System.out.println(make + " " + model + " is starting");\n    }\n    \n    public void stop() {\n        System.out.println(make + " " + model + " has stopped");\n    }\n}\n\n// Usage\npublic class Example {\n    public static void main(String[] args) {\n        // Animal animal = new Animal("Generic", 5); // Compilation error!\n        \n        Dog dog = new Dog("Buddy", 3, "Golden Retriever");\n        Cat cat = new Cat("Whiskers", 2);\n        Vehicle car = new Vehicle("Toyota", "Camry", 2023);\n        \n        dog.makeSound(); // Buddy barks: Woof! Woof!\n        dog.move();      // Buddy runs on four legs\n        dog.sleep();     // Buddy is sleeping (inherited)\n        dog.wagTail();   // Buddy is wagging tail\n        \n        cat.makeSound(); // Whiskers meows: Meow! Meow!\n        cat.purr();      // Whiskers is purring\n        \n        car.start();     // Toyota Camry is starting\n        car.stop();      // Toyota Camry has stopped\n    }\n}\n```\n\n**JavaScript Equivalent:**\n```javascript\n// Abstract class simulation (no direct support in JavaScript)\nclass Animal {\n    constructor(name, age) {\n        if (this.constructor === Animal) {\n            throw new Error("Cannot instantiate abstract class Animal");\n        }\n        this.name = name;\n        this.age = age;\n    }\n    \n    // Concrete methods\n    sleep() {\n        console.log(`${this.name} is sleeping`);\n    }\n    \n    eat() {\n        console.log(`${this.name} is eating`);\n    }\n    \n    // Abstract methods (throw error if not overridden)\n    makeSound() {\n        throw new Error("makeSound method must be implemented");\n    }\n    \n    move() {\n        throw new Error("move method must be implemented");\n    }\n    \n    static info() {\n        console.log("This is an animal class");\n    }\n}\n\n// Concrete class extending abstract-like class\nclass Dog extends Animal {\n    constructor(name, age, breed) {\n        super(name, age);\n        this.breed = breed;\n    }\n    \n    makeSound() {\n        console.log(`${this.name} barks: Woof! Woof!`);\n    }\n    \n    move() {\n        console.log(`${this.name} runs on four legs`);\n    }\n    \n    wagTail() {\n        console.log(`${this.name} is wagging tail`);\n    }\n}\n\n// Concrete class\nclass Vehicle {\n    constructor(make, model, year) {\n        this.make = make;\n        this.model = model;\n        this.year = year;\n    }\n    \n    start() {\n        console.log(`${this.make} ${this.model} is starting`);\n    }\n    \n    stop() {\n        console.log(`${this.make} ${this.model} has stopped`);\n    }\n}\n\n// Usage\nconst dog = new Dog("Buddy", 3, "Golden Retriever");\nconst car = new Vehicle("Toyota", "Camry", 2023);\n\ndog.makeSound(); // Buddy barks: Woof! Woof!\ncar.start();     // Toyota Camry is starting\n```\n\n**Python Equivalent:**\n```python\nfrom abc import ABC, abstractmethod\n\n# Abstract Class\nclass Animal(ABC):\n    def __init__(self, name: str, age: int):\n        self.name = name\n        self.age = age\n    \n    # Concrete methods\n    def sleep(self) -> None:\n        print(f"{self.name} is sleeping")\n    \n    def eat(self) -> None:\n        print(f"{self.name} is eating")\n    \n    # Abstract methods\n    @abstractmethod\n    def make_sound(self) -> None:\n        pass\n    \n    @abstractmethod\n    def move(self) -> None:\n        pass\n    \n    @staticmethod\n    def info() -> None:\n        print("This is an animal class")\n\n# Concrete class extending abstract class\nclass Dog(Animal):\n    def __init__(self, name: str, age: int, breed: str):\n        super().__init__(name, age)\n        self.breed = breed\n    \n    def make_sound(self) -> None:\n        print(f"{self.name} barks: Woof! Woof!")\n    \n    def move(self) -> None:\n        print(f"{self.name} runs on four legs")\n    \n    def wag_tail(self) -> None:\n        print(f"{self.name} is wagging tail")\n\n# Standalone concrete class\nclass Vehicle:\n    def __init__(self, make: str, model: str, year: int):\n        self.make = make\n        self.model = model\n        self.year = year\n    \n    def start(self) -> None:\n        print(f"{self.make} {self.model} is starting")\n    \n    def stop(self) -> None:\n        print(f"{self.make} {self.model} has stopped")\n\n# Usage\nif __name__ == "__main__":\n    # animal = Animal("Generic", 5)  # TypeError!\n    \n    dog = Dog("Buddy", 3, "Golden Retriever")\n    car = Vehicle("Toyota", "Camry", 2023)\n    \n    dog.make_sound()  # Buddy barks: Woof! Woof!\n    dog.sleep()       # Buddy is sleeping\n    car.start()       # Toyota Camry is starting\n```',
+      },
+      {
+        question: "Can you have protected methods in interfaces?",
+        solution:
+          "**No, interfaces cannot have protected methods in most programming languages.** Interfaces are contracts that define what methods a class must implement, and they are meant to be publicly accessible.\n\n**JavaScript:** JavaScript doesn't have true interfaces or access modifiers, but by convention, interfaces should only expose public methods.\n\n```javascript\n// Interface-like structure (using documentation or TypeScript)\nclass PaymentProcessor {\n  // All methods in interfaces should be public\n  processPayment(amount) {\n    throw new Error('Method must be implemented');\n  }\n  \n  validatePayment(data) {\n    throw new Error('Method must be implemented');\n  }\n}\n\nclass CreditCardProcessor extends PaymentProcessor {\n  processPayment(amount) {\n    return this._validateCard() && this._chargeCard(amount);\n  }\n  \n  validatePayment(data) {\n    return data.cardNumber && data.cvv;\n  }\n  \n  // Protected-like method (convention: prefix with _)\n  _validateCard() {\n    return true;\n  }\n  \n  _chargeCard(amount) {\n    console.log(`Charging $$ {amount}`);\n    return true;\n  }\n}\n```\n\n**Python:** Python uses ABC (Abstract Base Classes) for interface-like behavior. Abstract methods are implicitly public.\n\n```python\nfrom abc import ABC, abstractmethod\n\nclass PaymentProcessor(ABC):\n    # Interface methods must be public\n    @abstractmethod\n    def process_payment(self, amount):\n        pass\n    \n    @abstractmethod\n    def validate_payment(self, data):\n        pass\n\nclass CreditCardProcessor(PaymentProcessor):\n    def process_payment(self, amount):\n        return self._validate_card() and self._charge_card(amount)\n    \n    def validate_payment(self, data):\n        return 'card_number' in data and 'cvv' in data\n    \n    # Protected method (convention: prefix with _)\n    def _validate_card(self):\n        return True\n    \n    def _charge_card(self, amount):\n        print(f\"Charging $ {amount}\")\n        return True\n```\n\n**Key Points:**\n- Interfaces define public contracts\n- Protected methods belong to implementation classes, not interfaces\n- Use composition or abstract base classes for shared protected functionality",
+      },
+      {
+        question: "What is multiple interface implementation?",
+        solution:
+          "**Multiple interface implementation allows a class to implement multiple interfaces simultaneously,** inheriting the contracts from all interfaces. This enables a class to fulfill multiple roles and provides flexibility in design.\n\n**JavaScript Example:**\n\n```javascript\n// Define multiple interfaces\nclass Flyable {\n  fly() {\n    throw new Error('fly() method must be implemented');\n  }\n  \n  land() {\n    throw new Error('land() method must be implemented');\n  }\n}\n\nclass Swimmable {\n  swim() {\n    throw new Error('swim() method must be implemented');\n  }\n  \n  dive() {\n    throw new Error('dive() method must be implemented');\n  }\n}\n\nclass Walkable {\n  walk() {\n    throw new Error('walk() method must be implemented');\n  }\n  \n  run() {\n    throw new Error('run() method must be implemented');\n  }\n}\n\n// Duck implements multiple interfaces\nclass Duck extends Flyable {\n  constructor(name) {\n    super();\n    this.name = name;\n  }\n  \n  // Implement Flyable interface\n  fly() {\n    console.log(`${this.name} is flying`);\n  }\n  \n  land() {\n    console.log(`${this.name} has landed`);\n  }\n}\n\n// Mixin pattern for multiple interface implementation\nfunction implementInterfaces(baseClass, ...interfaces) {\n  interfaces.forEach(interface => {\n    Object.getOwnPropertyNames(interface.prototype)\n      .filter(name => name !== 'constructor')\n      .forEach(name => {\n        if (!baseClass.prototype[name]) {\n          baseClass.prototype[name] = interface.prototype[name];\n        }\n      });\n  });\n  return baseClass;\n}\n\n// Duck with multiple capabilities\nclass SuperDuck {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  fly() {\n    console.log(`${this.name} is flying`);\n  }\n  \n  land() {\n    console.log(`${this.name} has landed`);\n  }\n  \n  swim() {\n    console.log(`${this.name} is swimming`);\n  }\n  \n  dive() {\n    console.log(`${this.name} is diving`);\n  }\n  \n  walk() {\n    console.log(`${this.name} is walking`);\n  }\n  \n  run() {\n    console.log(`${this.name} is running`);\n  }\n}\n\nconst duck = new SuperDuck('Donald');\nduck.fly(); // Donald is flying\nduck.swim(); // Donald is swimming\nduck.walk(); // Donald is walking\n```\n\n**Python Example:**\n\n```python\nfrom abc import ABC, abstractmethod\n\n# Define multiple interfaces\nclass Flyable(ABC):\n    @abstractmethod\n    def fly(self):\n        pass\n    \n    @abstractmethod\n    def land(self):\n        pass\n\nclass Swimmable(ABC):\n    @abstractmethod\n    def swim(self):\n        pass\n    \n    @abstractmethod\n    def dive(self):\n        pass\n\nclass Walkable(ABC):\n    @abstractmethod\n    def walk(self):\n        pass\n    \n    @abstractmethod\n    def run(self):\n        pass\n\n# Multiple interface implementation\nclass Duck(Flyable, Swimmable, Walkable):\n    def __init__(self, name):\n        self.name = name\n    \n    # Implement Flyable interface\n    def fly(self):\n        print(f\"{self.name} is flying\")\n    \n    def land(self):\n        print(f\"{self.name} has landed\")\n    \n    # Implement Swimmable interface\n    def swim(self):\n        print(f\"{self.name} is swimming\")\n    \n    def dive(self):\n        print(f\"{self.name} is diving\")\n    \n    # Implement Walkable interface\n    def walk(self):\n        print(f\"{self.name} is walking\")\n    \n    def run(self):\n        print(f\"{self.name} is running\")\n\n# Usage\nduck = Duck('Donald')\nduck.fly()   # Donald is flying\nduck.swim()  # Donald is swimming\nduck.walk()  # Donald is walking\n\n# Verify interface implementation\nprint(isinstance(duck, Flyable))   # True\nprint(isinstance(duck, Swimmable)) # True\nprint(isinstance(duck, Walkable))  # True\n```\n\n**Benefits:**\n- **Flexibility:** Classes can fulfill multiple contracts\n- **Code Reusability:** Interfaces can be shared across different class hierarchies\n- **Polymorphism:** Objects can be treated as instances of any implemented interface\n- **Separation of Concerns:** Each interface represents a specific capability",
+      },
+      {
+        question: "How do you resolve method conflicts in multiple interfaces?",
+        solution:
+          '**Method conflicts occur when multiple interfaces define methods with the same signature.** Resolution strategies vary by language, but generally involve explicit implementation or method delegation.\n\n**JavaScript Resolution Strategies:**\n\n```javascript\n// Scenario: Method name conflicts\nclass Printer {\n  print() {\n    throw new Error(\'print() must be implemented\');\n  }\n}\n\nclass Display {\n  print() {\n    throw new Error(\'print() must be implemented\');\n  }\n}\n\nclass Logger {\n  print() {\n    throw new Error(\'print() must be implemented\');\n  }\n}\n\n// Strategy 1: Single implementation for all interfaces\nclass MultiFunctionDevice {\n  // One implementation satisfies all interfaces\n  print(content, target = \'default\') {\n    switch (target) {\n      case \'printer\':\n        console.log(`Printing to paper: ${content}`);\n        break;\n      case \'display\':\n        console.log(`Displaying on screen: ${content}`);\n        break;\n      case \'log\':\n        console.log(`Logging: ${new Date().toISOString()} - ${content}`);\n        break;\n      default:\n        console.log(`Output: ${content}`);\n    }\n  }\n}\n\n// Strategy 2: Explicit method delegation\nclass SmartDevice {\n  constructor() {\n    this.printer = {\n      print: (content) => console.log(`Printing: ${content}`)\n    };\n    this.display = {\n      print: (content) => console.log(`Displaying: ${content}`)\n    };\n    this.logger = {\n      print: (content) => console.log(`Logging: ${content}`)\n    };\n  }\n  \n  // Delegate to specific implementations\n  printToPrinter(content) {\n    this.printer.print(content);\n  }\n  \n  printToDisplay(content) {\n    this.display.print(content);\n  }\n  \n  printToLog(content) {\n    this.logger.print(content);\n  }\n  \n  // Default implementation\n  print(content) {\n    this.printToDisplay(content); // Default behavior\n  }\n}\n\n// Strategy 3: Composition with explicit interface methods\nclass AdvancedDevice {\n  constructor() {\n    this.capabilities = new Map();\n  }\n  \n  addCapability(name, implementation) {\n    this.capabilities.set(name, implementation);\n  }\n  \n  executeCapability(capabilityName, method, ...args) {\n    const capability = this.capabilities.get(capabilityName);\n    if (capability && typeof capability[method] === \'function\') {\n      return capability[method](...args);\n    }\n    throw new Error(`Capability ${capabilityName}.${method} not found`);\n  }\n  \n  // Explicit interface methods\n  printerPrint(content) {\n    return this.executeCapability(\'printer\', \'print\', content);\n  }\n  \n  displayPrint(content) {\n    return this.executeCapability(\'display\', \'print\', content);\n  }\n  \n  loggerPrint(content) {\n    return this.executeCapability(\'logger\', \'print\', content);\n  }\n}\n\n// Usage examples\nconst mfd = new MultiFunctionDevice();\nmfd.print(\'Hello World\', \'printer\');\nmfd.print(\'Hello World\', \'display\');\n\nconst smart = new SmartDevice();\nsmart.printToPrinter(\'Document\');\nsmart.printToDisplay(\'Message\');\n\nconst advanced = new AdvancedDevice();\nadvanced.addCapability(\'printer\', { print: (c) => console.log(`📄 ${c}`) });\nadvanced.addCapability(\'display\', { print: (c) => console.log(`🖥️ ${c}`) });\nadvanced.printerPrint(\'Report\');\nadvanced.displayPrint(\'Notification\');\n```\n\n**Python Resolution Strategies:**\n\n```python\nfrom abc import ABC, abstractmethod\n\n# Define conflicting interfaces\nclass Printer(ABC):\n    @abstractmethod\n    def print(self, content):\n        pass\n\nclass Display(ABC):\n    @abstractmethod\n    def print(self, content):\n        pass\n\nclass Logger(ABC):\n    @abstractmethod\n    def print(self, content):\n        pass\n\n# Strategy 1: Method Resolution Order (MRO)\nclass MultiFunctionDevice(Printer, Display, Logger):\n    def print(self, content, target=\'default\'):\n        """Single implementation for all interfaces"""\n        if target == \'printer\':\n            self._print_to_printer(content)\n        elif target == \'display\':\n            self._print_to_display(content)\n        elif target == \'logger\':\n            self._print_to_log(content)\n        else:\n            print(f"Output: {content}")\n    \n    def _print_to_printer(self, content):\n        print(f"Printing to paper: {content}")\n    \n    def _print_to_display(self, content):\n        print(f"Displaying on screen: {content}")\n    \n    def _print_to_log(self, content):\n        print(f"Logging: {content}")\n\n# Strategy 2: Explicit interface methods\nclass SmartDevice(Printer, Display, Logger):\n    def print(self, content):\n        """Default implementation"""\n        self.display_print(content)\n    \n    def printer_print(self, content):\n        """Explicit printer interface method"""\n        print(f"📄 Printing: {content}")\n    \n    def display_print(self, content):\n        """Explicit display interface method"""\n        print(f"🖥️ Displaying: {content}")\n    \n    def logger_print(self, content):\n        """Explicit logger interface method"""\n        from datetime import datetime\n        print(f"📝 Log [{datetime.now()}]: {content}")\n\n# Strategy 3: Composition and delegation\nclass AdvancedDevice(Printer, Display, Logger):\n    def __init__(self):\n        self._printer = self.PrinterImpl()\n        self._display = self.DisplayImpl()\n        self._logger = self.LoggerImpl()\n    \n    class PrinterImpl:\n        def print(self, content):\n            print(f"🖨️ Printer: {content}")\n    \n    class DisplayImpl:\n        def print(self, content):\n            print(f"💻 Display: {content}")\n    \n    class LoggerImpl:\n        def print(self, content):\n            import datetime\n            print(f"📋 Log [{datetime.datetime.now()}]: {content}")\n    \n    def print(self, content):\n        """Default behavior - delegate to display"""\n        self._display.print(content)\n    \n    def print_via_printer(self, content):\n        self._printer.print(content)\n    \n    def print_via_display(self, content):\n        self._display.print(content)\n    \n    def print_via_logger(self, content):\n        self._logger.print(content)\n\n# Strategy 4: Using multiple inheritance with super()\nclass ResolvedDevice(Printer, Display, Logger):\n    def print(self, content, interface_type=None):\n        if interface_type == \'printer\':\n            self._printer_print(content)\n        elif interface_type == \'display\':\n            self._display_print(content)\n        elif interface_type == \'logger\':\n            self._logger_print(content)\n        else:\n            # Default: call all implementations\n            self._printer_print(content)\n            self._display_print(content)\n            self._logger_print(content)\n    \n    def _printer_print(self, content):\n        print(f"[PRINTER] {content}")\n    \n    def _display_print(self, content):\n        print(f"[DISPLAY] {content}")\n    \n    def _logger_print(self, content):\n        print(f"[LOGGER] {content}")\n\n# Usage examples\nprint("=== MultiFunctionDevice ===")\nmfd = MultiFunctionDevice()\nmfd.print("Hello", "printer")\nmfd.print("Hello", "display")\n\nprint("\\n=== SmartDevice ===")\nsmart = SmartDevice()\nsmart.printer_print("Document")\nsmart.display_print("Message")\nsmart.logger_print("Event")\n\nprint("\\n=== AdvancedDevice ===")\nadvanced = AdvancedDevice()\nadvanced.print_via_printer("Report")\nadvanced.print_via_display("Notification")\nadvanced.print_via_logger("Error occurred")\n\nprint("\\n=== ResolvedDevice ===")\nresolved = ResolvedDevice()\nresolved.print("Test message", "printer")\nresolved.print("Broadcast")  # Calls all implementations\n```\n\n**Resolution Strategies Summary:**\n1. **Single Implementation:** One method satisfies all interfaces\n2. **Explicit Methods:** Create specific methods for each interface\n3. **Composition:** Delegate to separate objects\n4. **Parameter-based:** Use parameters to determine behavior\n5. **Default + Overrides:** Provide default with specific overrides\n\n**Best Practices:**\n- Document which interfaces are satisfied by each method\n- Use clear naming conventions for explicit implementations\n- Consider composition over complex inheritance hierarchies\n- Test all interface contracts are properly fulfilled',
+      },
+      {
+        question: "What is runtime type identification?",
+        solution:
+          'Runtime Type Identification (RTTI) is a feature that allows programs to determine the type of an object at runtime rather than compile time. It enables dynamic type checking and casting, which is essential for polymorphism and generic programming.\n\n**JavaScript Example:**\n```javascript\nclass Animal {\n  constructor(name) {\n    this.name = name;\n  }\n  speak() {\n    console.log(`${this.name} makes a sound`);\n  }\n}\n\nclass Dog extends Animal {\n  speak() {\n    console.log(`${this.name} barks`);\n  }\n}\n\nclass Cat extends Animal {\n  speak() {\n    console.log(`${this.name} meows`);\n  }\n}\n\n// Runtime type identification\nfunction identifyAnimal(animal) {\n  console.log(`Type: ${typeof animal}`);\n  console.log(`Constructor: ${animal.constructor.name}`);\n  console.log(`Is Animal: ${animal instanceof Animal}`);\n  console.log(`Is Dog: ${animal instanceof Dog}`);\n  console.log(`Is Cat: ${animal instanceof Cat}`);\n}\n\nconst myDog = new Dog(\'Rex\');\nconst myCat = new Cat(\'Whiskers\');\n\nidentifyAnimal(myDog);\n// Output: Type: object, Constructor: Dog, Is Animal: true, Is Dog: true, Is Cat: false\n```\n\n**Python Example:**\n```python\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def speak(self):\n        print(f"{self.name} makes a sound")\n\nclass Dog(Animal):\n    def speak(self):\n        print(f"{self.name} barks")\n\nclass Cat(Animal):\n    def speak(self):\n        print(f"{self.name} meows")\n\n# Runtime type identification\ndef identify_animal(animal):\n    print(f"Type: {type(animal)}")\n    print(f"Class name: {animal.__class__.__name__}")\n    print(f"Is Animal: {isinstance(animal, Animal)}")\n    print(f"Is Dog: {isinstance(animal, Dog)}")\n    print(f"Is Cat: {isinstance(animal, Cat)}")\n    print(f"Has attribute \'name\': {hasattr(animal, \'name\')}")\n\nmy_dog = Dog(\'Rex\')\nmy_cat = Cat(\'Whiskers\')\n\nidentify_animal(my_dog)\n# Output: Type: <class \'__main__.Dog\'>, Class name: Dog, Is Animal: True, Is Dog: True, Is Cat: False\n```\n\n**Key Benefits:**\n- Enables dynamic method dispatch\n- Supports safe type casting\n- Allows generic algorithms to work with different types\n- Essential for serialization/deserialization',
+      },
+      {
+        question: "When should you use an abstract class?",
+        solution:
+          "Use abstract classes when you want to provide a common base with shared implementation while enforcing certain methods to be implemented by subclasses. Abstract classes are ideal when you have related classes that share common behavior but need specific implementations for certain operations.\n\n**JavaScript Example (using convention, as JS doesn't have built-in abstract classes):**\n```javascript\nclass AbstractShape {\n  constructor(color) {\n    if (this.constructor === AbstractShape) {\n      throw new Error('Abstract class cannot be instantiated');\n    }\n    this.color = color;\n  }\n\n  // Concrete method - shared implementation\n  getColor() {\n    return this.color;\n  }\n\n  // Abstract method - must be implemented by subclasses\n  getArea() {\n    throw new Error('Abstract method must be implemented');\n  }\n\n  // Abstract method\n  draw() {\n    throw new Error('Abstract method must be implemented');\n  }\n\n  // Concrete method using abstract method\n  displayInfo() {\n    console.log(`Color: ${this.color}, Area: ${this.getArea()}`);\n  }\n}\n\nclass Circle extends AbstractShape {\n  constructor(color, radius) {\n    super(color);\n    this.radius = radius;\n  }\n\n  getArea() {\n    return Math.PI * this.radius * this.radius;\n  }\n\n  draw() {\n    console.log(`Drawing a ${this.color} circle`);\n  }\n}\n\nclass Rectangle extends AbstractShape {\n  constructor(color, width, height) {\n    super(color);\n    this.width = width;\n    this.height = height;\n  }\n\n  getArea() {\n    return this.width * this.height;\n  }\n\n  draw() {\n    console.log(`Drawing a ${this.color} rectangle`);\n  }\n}\n\n// Usage\nconst circle = new Circle('red', 5);\ncircle.displayInfo(); // Color: red, Area: 78.54\ncircle.draw(); // Drawing a red circle\n```\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\nclass AbstractShape(ABC):\n    def __init__(self, color):\n        self.color = color\n    \n    # Concrete method - shared implementation\n    def get_color(self):\n        return self.color\n    \n    # Abstract method - must be implemented by subclasses\n    @abstractmethod\n    def get_area(self):\n        pass\n    \n    @abstractmethod\n    def draw(self):\n        pass\n    \n    # Concrete method using abstract method\n    def display_info(self):\n        print(f\"Color: {self.color}, Area: {self.get_area()}\")\n\nclass Circle(AbstractShape):\n    def __init__(self, color, radius):\n        super().__init__(color)\n        self.radius = radius\n    \n    def get_area(self):\n        return 3.14159 * self.radius * self.radius\n    \n    def draw(self):\n        print(f\"Drawing a {self.color} circle\")\n\nclass Rectangle(AbstractShape):\n    def __init__(self, color, width, height):\n        super().__init__(color)\n        self.width = width\n        self.height = height\n    \n    def get_area(self):\n        return self.width * self.height\n    \n    def draw(self):\n        print(f\"Drawing a {self.color} rectangle\")\n\n# Usage\ncircle = Circle('red', 5)\ncircle.display_info()  # Color: red, Area: 78.54\ncircle.draw()  # Drawing a red circle\n\n# This would raise TypeError: Can't instantiate abstract class\n# shape = AbstractShape('blue')\n```\n\n**When to use Abstract Classes:**\n- When you have a group of related classes\n- When you want to share code among several closely related classes\n- When you want to force certain methods to be implemented\n- When you need to provide default implementations for some methods\n- When you want to define non-public members",
+      },
+      {
+        question: "When should you use an interface?",
+        solution:
+          "Use interfaces when you want to define a contract that multiple unrelated classes can implement. Interfaces specify what methods a class must have without providing implementation details, enabling multiple inheritance of type.\n\n**JavaScript Example (using convention, as JS doesn't have built-in interfaces):**\n```javascript\n// Interface convention in JavaScript\nclass IDrawable {\n  draw() {\n    throw new Error('Method must be implemented');\n  }\n}\n\nclass IMovable {\n  move(x, y) {\n    throw new Error('Method must be implemented');\n  }\n}\n\nclass IResizable {\n  resize(factor) {\n    throw new Error('Method must be implemented');\n  }\n}\n\n// Multiple interface implementation\nclass GameObject {\n  constructor(x, y) {\n    this.x = x;\n    this.y = y;\n  }\n\n  // Implementing IDrawable\n  draw() {\n    console.log(`Drawing object at (${this.x}, ${this.y})`);\n  }\n\n  // Implementing IMovable\n  move(deltaX, deltaY) {\n    this.x += deltaX;\n    this.y += deltaY;\n    console.log(`Moved to (${this.x}, ${this.y})`);\n  }\n\n  // Implementing IResizable\n  resize(factor) {\n    console.log(`Resizing by factor ${factor}`);\n  }\n}\n\nclass Robot {\n  constructor(name) {\n    this.name = name;\n    this.x = 0;\n    this.y = 0;\n  }\n\n  // Implementing IMovable\n  move(deltaX, deltaY) {\n    this.x += deltaX;\n    this.y += deltaY;\n    console.log(`${this.name} robot moved to (${this.x}, ${this.y})`);\n  }\n}\n\nclass TextEditor {\n  constructor(content) {\n    this.content = content;\n  }\n\n  // Implementing IDrawable\n  draw() {\n    console.log(`Displaying: ${this.content}`);\n  }\n}\n\n// Function that works with any drawable object\nfunction renderObjects(drawableObjects) {\n  drawableObjects.forEach(obj => {\n    if (typeof obj.draw === 'function') {\n      obj.draw();\n    }\n  });\n}\n\n// Usage\nconst gameObj = new GameObject(10, 20);\nconst robot = new Robot('R2D2');\nconst editor = new TextEditor('Hello World');\n\nrenderObjects([gameObj, editor]);\n```\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\n# Interface definitions\nclass IDrawable(ABC):\n    @abstractmethod\n    def draw(self):\n        pass\n\nclass IMovable(ABC):\n    @abstractmethod\n    def move(self, delta_x, delta_y):\n        pass\n\nclass IResizable(ABC):\n    @abstractmethod\n    def resize(self, factor):\n        pass\n\n# Multiple interface implementation\nclass GameObject(IDrawable, IMovable, IResizable):\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def draw(self):\n        print(f\"Drawing object at ({self.x}, {self.y})\")\n    \n    def move(self, delta_x, delta_y):\n        self.x += delta_x\n        self.y += delta_y\n        print(f\"Moved to ({self.x}, {self.y})\")\n    \n    def resize(self, factor):\n        print(f\"Resizing by factor {factor}\")\n\nclass Robot(IMovable):\n    def __init__(self, name):\n        self.name = name\n        self.x = 0\n        self.y = 0\n    \n    def move(self, delta_x, delta_y):\n        self.x += delta_x\n        self.y += delta_y\n        print(f\"{self.name} robot moved to ({self.x}, {self.y})\")\n\nclass TextEditor(IDrawable):\n    def __init__(self, content):\n        self.content = content\n    \n    def draw(self):\n        print(f\"Displaying: {self.content}\")\n\n# Function that works with any drawable object\ndef render_objects(drawable_objects):\n    for obj in drawable_objects:\n        if isinstance(obj, IDrawable):\n            obj.draw()\n\n# Usage\ngame_obj = GameObject(10, 20)\nrobot = Robot('R2D2')\neditor = TextEditor('Hello World')\n\nrender_objects([game_obj, editor])\n```\n\n**When to use Interfaces:**\n- When you want to specify a contract for unrelated classes\n- When you need multiple inheritance of type\n- When you want to achieve loose coupling\n- When different classes need to provide the same functionality\n- When you want to enable polymorphism across unrelated classes\n- When building plugin architectures or frameworks",
+      },
+      {
+        question: "Can abstract classes have concrete methods?",
+        solution:
+          "Yes, abstract classes can have concrete methods. In fact, this is one of their key features - they can provide both abstract methods (that must be implemented by subclasses) and concrete methods (with actual implementation that can be inherited and optionally overridden).\n\n**JavaScript Example:**\n```javascript\nclass AbstractAnimal {\n  constructor(name, species) {\n    if (this.constructor === AbstractAnimal) {\n      throw new Error('Cannot instantiate abstract class');\n    }\n    this.name = name;\n    this.species = species;\n    this.energy = 100;\n  }\n\n  // Concrete method - provides implementation\n  eat(food) {\n    console.log(`${this.name} is eating ${food}`);\n    this.energy += 10;\n    return this.energy;\n  }\n\n  // Concrete method\n  sleep() {\n    console.log(`${this.name} is sleeping`);\n    this.energy = 100;\n  }\n\n  // Concrete method that uses abstract method\n  introduceAndSpeak() {\n    console.log(`Hi, I'm ${this.name}, a ${this.species}`);\n    this.makeSound(); // Calls abstract method\n  }\n\n  // Abstract method - must be implemented\n  makeSound() {\n    throw new Error('makeSound must be implemented by subclass');\n  }\n\n  // Abstract method\n  move() {\n    throw new Error('move must be implemented by subclass');\n  }\n\n  // Concrete method using abstract method\n  performAction() {\n    this.move();\n    this.makeSound();\n    console.log(`${this.name} performed an action`);\n  }\n}\n\nclass Dog extends AbstractAnimal {\n  constructor(name, breed) {\n    super(name, 'Dog');\n    this.breed = breed;\n  }\n\n  // Implementing abstract method\n  makeSound() {\n    console.log(`${this.name} barks: Woof! Woof!`);\n  }\n\n  // Implementing abstract method\n  move() {\n    console.log(`${this.name} runs on four legs`);\n  }\n\n  // Can override concrete method\n  eat(food) {\n    console.log(`${this.name} the ${this.breed} eagerly devours ${food}`);\n    return super.eat(food); // Call parent's concrete method\n  }\n}\n\nclass Bird extends AbstractAnimal {\n  constructor(name, canFly = true) {\n    super(name, 'Bird');\n    this.canFly = canFly;\n  }\n\n  makeSound() {\n    console.log(`${this.name} chirps: Tweet! Tweet!`);\n  }\n\n  move() {\n    if (this.canFly) {\n      console.log(`${this.name} flies through the air`);\n    } else {\n      console.log(`${this.name} walks on the ground`);\n    }\n  }\n}\n\n// Usage\nconst myDog = new Dog('Buddy', 'Golden Retriever');\nconst myBird = new Bird('Tweety');\n\n// Using inherited concrete methods\nmyDog.eat('kibble'); // Uses overridden method\nmyDog.sleep(); // Uses inherited concrete method\n\n// Using concrete method that calls abstract method\nmyDog.introduceAndSpeak();\nmyBird.introduceAndSpeak();\n\n// Using concrete method that orchestrates abstract methods\nmyDog.performAction();\nmyBird.performAction();\n```\n\n**Python Example:**\n```python\nfrom abc import ABC, abstractmethod\n\nclass AbstractAnimal(ABC):\n    def __init__(self, name, species):\n        self.name = name\n        self.species = species\n        self.energy = 100\n    \n    # Concrete method - provides implementation\n    def eat(self, food):\n        print(f\"{self.name} is eating {food}\")\n        self.energy += 10\n        return self.energy\n    \n    # Concrete method\n    def sleep(self):\n        print(f\"{self.name} is sleeping\")\n        self.energy = 100\n    \n    # Concrete method that uses abstract method\n    def introduce_and_speak(self):\n        print(f\"Hi, I'm {self.name}, a {self.species}\")\n        self.make_sound()  # Calls abstract method\n    \n    # Abstract method - must be implemented\n    @abstractmethod\n    def make_sound(self):\n        pass\n    \n    # Abstract method\n    @abstractmethod\n    def move(self):\n        pass\n    \n    # Concrete method using abstract methods\n    def perform_action(self):\n        self.move()\n        self.make_sound()\n        print(f\"{self.name} performed an action\")\n    \n    # Concrete method with default behavior\n    def get_info(self):\n        return f\"{self.name} is a {self.species} with {self.energy} energy\"\n\nclass Dog(AbstractAnimal):\n    def __init__(self, name, breed):\n        super().__init__(name, 'Dog')\n        self.breed = breed\n    \n    # Implementing abstract method\n    def make_sound(self):\n        print(f\"{self.name} barks: Woof! Woof!\")\n    \n    # Implementing abstract method\n    def move(self):\n        print(f\"{self.name} runs on four legs\")\n    \n    # Can override concrete method\n    def eat(self, food):\n        print(f\"{self.name} the {self.breed} eagerly devours {food}\")\n        return super().eat(food)  # Call parent's concrete method\n    \n    # Additional concrete method\n    def fetch(self):\n        print(f\"{self.name} fetches the ball\")\n        self.energy -= 5\n\nclass Bird(AbstractAnimal):\n    def __init__(self, name, can_fly=True):\n        super().__init__(name, 'Bird')\n        self.can_fly = can_fly\n    \n    def make_sound(self):\n        print(f\"{self.name} chirps: Tweet! Tweet!\")\n    \n    def move(self):\n        if self.can_fly:\n            print(f\"{self.name} flies through the air\")\n        else:\n            print(f\"{self.name} walks on the ground\")\n\n# Usage\nmy_dog = Dog('Buddy', 'Golden Retriever')\nmy_bird = Bird('Tweety')\n\n# Using inherited concrete methods\nprint(my_dog.get_info())  # Uses inherited concrete method\nmy_dog.eat('kibble')  # Uses overridden method\nmy_dog.sleep()  # Uses inherited concrete method\n\n# Using concrete method that calls abstract method\nmy_dog.introduce_and_speak()\nmy_bird.introduce_and_speak()\n\n# Using concrete method that orchestrates abstract methods\nmy_dog.perform_action()\nmy_bird.perform_action()\n```\n\n**Key Benefits of Concrete Methods in Abstract Classes:**\n- **Code Reuse**: Common functionality can be implemented once in the abstract class\n- **Template Method Pattern**: Concrete methods can orchestrate calls to abstract methods\n- **Default Behavior**: Provide sensible defaults that can be optionally overridden\n- **Partial Implementation**: Some methods can be fully implemented while others remain abstract\n- **Consistency**: Ensure consistent behavior across all subclasses for certain operations",
+      },
+      {
+        question: "Can interfaces have concrete methods (default methods)?",
+        solution:
+          'The ability for interfaces to have concrete methods depends on the language. Python\'s ABC module allows concrete methods in interfaces, while JavaScript doesn\'t have built-in interfaces but can simulate default implementations through mixins or class inheritance patterns.\n\n**JavaScript Example (Simulating default methods through mixins):**\n```javascript\n// Mixin pattern to simulate interface with default methods\nconst ILogger = {\n  // Default/concrete method implementation\n  log(message) {\n    console.log(`[LOG]: ${message}`);\n  },\n  \n  // Default method that calls abstract method\n  logWithTimestamp(message) {\n    const timestamp = new Date().toISOString();\n    this.log(`${timestamp} - ${message}`);\n  },\n  \n  // Abstract method (will throw if not implemented)\n  getLogLevel() {\n    throw new Error(\'getLogLevel must be implemented\');\n  },\n  \n  // Default method using abstract method\n  conditionalLog(message) {\n    const level = this.getLogLevel();\n    if (level >= 1) {\n      this.log(`[${level}] ${message}`);\n    }\n  }\n};\n\n// Mixin for drawable interface\nconst IDrawable = {\n  // Abstract method\n  draw() {\n    throw new Error(\'draw must be implemented\');\n  },\n  \n  // Default method\n  show() {\n    console.log(\'Preparing to show...\');\n    this.draw();\n    console.log(\'Shown successfully!\');\n  },\n  \n  // Default method with default implementation\n  hide() {\n    console.log(\'Object hidden\');\n  }\n};\n\n// Function to apply mixin (interface) to a class\nfunction applyMixin(targetClass, mixin) {\n  Object.getOwnPropertyNames(mixin).forEach(name => {\n    if (name !== \'constructor\') {\n      targetClass.prototype[name] = mixin[name];\n    }\n  });\n}\n\nclass FileManager {\n  constructor(filename) {\n    this.filename = filename;\n  }\n  \n  // Must implement abstract method from ILogger\n  getLogLevel() {\n    return 2; // High level logging\n  }\n  \n  // Can override default method\n  log(message) {\n    console.log(`[FILE-${this.filename}]: ${message}`);\n  }\n  \n  saveFile() {\n    this.conditionalLog(\'Saving file...\');\n    // File saving logic\n    this.logWithTimestamp(\'File saved successfully\');\n  }\n}\n\nclass Shape {\n  constructor(type) {\n    this.type = type;\n  }\n  \n  // Must implement abstract method from IDrawable\n  draw() {\n    console.log(`Drawing a ${this.type}`);\n  }\n  \n  // Uses default hide method from interface\n}\n\n// Apply mixins (interfaces) to classes\napplyMixin(FileManager, ILogger);\napplyMixin(Shape, IDrawable);\n\n// Usage\nconst fileManager = new FileManager(\'config.json\');\nfileManager.log(\'Starting application\'); // Uses overridden method\nfileManager.logWithTimestamp(\'App initialized\'); // Uses default method\nfileManager.saveFile();\n\nconst circle = new Shape(\'circle\');\ncircle.show(); // Uses default method that calls implemented draw()\ncircle.hide(); // Uses default method\n```\n\n**Python Example (ABC with concrete methods):**\n```python\nfrom abc import ABC, abstractmethod\nimport datetime\n\nclass ILogger(ABC):\n    # Concrete/default method\n    def log(self, message):\n        print(f"[LOG]: {message}")\n    \n    # Default method that calls abstract method\n    def log_with_timestamp(self, message):\n        timestamp = datetime.datetime.now().isoformat()\n        self.log(f"{timestamp} - {message}")\n    \n    # Abstract method - must be implemented\n    @abstractmethod\n    def get_log_level(self):\n        pass\n    \n    # Default method using abstract method\n    def conditional_log(self, message):\n        level = self.get_log_level()\n        if level >= 1:\n            self.log(f"[{level}] {message}")\n\nclass IDrawable(ABC):\n    # Abstract method\n    @abstractmethod\n    def draw(self):\n        pass\n    \n    # Default/concrete method\n    def show(self):\n        print("Preparing to show...")\n        self.draw()  # Calls abstract method\n        print("Shown successfully!")\n    \n    # Default method with implementation\n    def hide(self):\n        print("Object hidden")\n    \n    # Default method with default behavior\n    def is_visible(self):\n        return True\n\nclass IResizable(ABC):\n    # Abstract method\n    @abstractmethod\n    def resize(self, factor):\n        pass\n    \n    # Default method\n    def scale_up(self, factor=1.5):\n        print(f"Scaling up by factor {factor}")\n        self.resize(factor)\n    \n    # Default method\n    def scale_down(self, factor=0.75):\n        print(f"Scaling down by factor {factor}")\n        self.resize(factor)\n\n# Multiple interface inheritance with default methods\nclass FileManager(ILogger):\n    def __init__(self, filename):\n        self.filename = filename\n    \n    # Must implement abstract method\n    def get_log_level(self):\n        return 2\n    \n    # Can override default method\n    def log(self, message):\n        print(f"[FILE-{self.filename}]: {message}")\n    \n    def save_file(self):\n        self.conditional_log("Saving file...")  # Uses default method\n        # File saving logic\n        self.log_with_timestamp("File saved successfully")  # Uses default method\n\nclass Shape(IDrawable, IResizable):\n    def __init__(self, shape_type):\n        self.shape_type = shape_type\n        self.size = 1.0\n    \n    # Must implement abstract method from IDrawable\n    def draw(self):\n        print(f"Drawing a {self.shape_type} (size: {self.size})")\n    \n    # Must implement abstract method from IResizable\n    def resize(self, factor):\n        self.size *= factor\n        print(f"Resized {self.shape_type} to size {self.size}")\n    \n    # Can override default method\n    def hide(self):\n        print(f"Hiding {self.shape_type}")\n\nclass DatabaseLogger(ILogger):\n    def __init__(self, db_name):\n        self.db_name = db_name\n    \n    def get_log_level(self):\n        return 1\n    \n    # Uses all default methods from ILogger\n    def connect(self):\n        self.log("Connecting to database")\n        self.log_with_timestamp("Connection established")\n\n# Usage\nfile_manager = FileManager(\'config.json\')\nfile_manager.log(\'Starting application\')  # Uses overridden method\nfile_manager.log_with_timestamp(\'App initialized\')  # Uses default method\nfile_manager.save_file()\n\nprint("\\n" + "="*50 + "\\n")\n\ncircle = Shape(\'circle\')\ncircle.show()  # Uses default method that calls implemented draw()\ncircle.scale_up(2.0)  # Uses default method\ncircle.scale_down()  # Uses default method\ncircle.hide()  # Uses overridden method\n\nprint("\\n" + "="*50 + "\\n")\n\ndb_logger = DatabaseLogger(\'users.db\')\ndb_logger.connect()  # Uses default methods\ndb_logger.conditional_log(\'Querying data\')  # Uses default method\n```\n\n**Key Benefits of Default Methods in Interfaces:**\n- **Backward Compatibility**: Add new methods to interfaces without breaking existing implementations\n- **Code Reuse**: Provide common implementations that can be inherited\n- **Template Methods**: Create methods that orchestrate calls to abstract methods\n- **Convenience Methods**: Provide helpful utilities built on top of abstract methods\n- **Evolution**: Interfaces can evolve over time while maintaining compatibility\n\n**Important Notes:**\n- JavaScript doesn\'t have native interfaces, but mixins and composition patterns achieve similar results\n- Python\'s ABC module fully supports concrete methods in abstract classes/interfaces\n- Default methods should be designed carefully to avoid the diamond problem in multiple inheritance\n- Concrete methods in interfaces should generally build upon abstract methods rather than introduce new state',
+      },
+      {
+        question: "Can abstract classes be generic?",
+        solution:
+          "Yes, abstract classes can be generic in most OOP languages like Java, C#, and TypeScript. Generic abstract classes allow you to define type parameters that can be specified by concrete subclasses.",
+      },
+      {
+        question: "Can interfaces be generic?",
+        solution:
+          "Yes, interfaces can be generic. Generic interfaces define contracts with type parameters that implementing classes must satisfy with specific types.",
+      },
+      {
+        question: "What is the template method pattern?",
+        solution:
+          "The Template Method pattern defines the skeleton of an algorithm in a base class, letting subclasses override specific steps without changing the algorithm's structure.",
+      },
+      {
+        question: "What is the strategy pattern with interfaces?",
+        solution:
+          "The Strategy pattern uses interfaces to define a family of algorithms, encapsulate each one, and make them interchangeable at runtime without altering the client code.",
+      },
+      {
+        question: "Can you override abstract methods as final?",
+        solution:
+          "No, you cannot override abstract methods as final because final methods cannot be overridden, which contradicts the purpose of abstract methods that must be implemented by subclasses.",
+      },
+      {
+        question: "Can interfaces have concrete methods (default methods)?",
+        solution: `**Answer: Yes, but it depends on the programming language.**
+
+**JavaScript:**
+In JavaScript, interfaces don't exist natively, but you can simulate them using classes or objects. However, you can create "default implementations":
+
+\`\`\`javascript
+// Using classes to simulate interfaces with default methods
+class PaymentInterface {
+  // Abstract method (must be implemented)
+  processPayment(amount) {
+    throw new Error("processPayment method must be implemented");
+  }
+  
+  // Default/concrete method
+  validateAmount(amount) {
+    return amount > 0 && typeof amount === 'number';
+  }
+  
+  // Another default method
+  logTransaction(amount, status) {
+    console.log(\`Transaction: $\$ {amount} - Status: \${status}\`);
+  }
+}
+
+class CreditCardPayment extends PaymentInterface {
+  processPayment(amount) {
+    if (this.validateAmount(amount)) {
+      // Process credit card payment
+      this.logTransaction(amount, 'Success');
+      return \`Processed $\$ {amount} via Credit Card\`;
+    }
+    return 'Invalid amount';
+  }
+}
+
+const payment = new CreditCardPayment();
+console.log(payment.processPayment(100)); // Uses inherited default methods
+\`\`\`
+
+**Python:**
+Python supports default methods in abstract base classes using the \`abc\` module:
+
+\`\`\`python
+from abc import ABC, abstractmethod
+
+class PaymentInterface(ABC):
+    # Abstract method (must be implemented)
+    @abstractmethod
+    def process_payment(self, amount):
+        pass
+    
+    # Concrete/default method
+    def validate_amount(self, amount):
+        return isinstance(amount, (int, float)) and amount > 0
+    
+    # Another concrete method
+    def log_transaction(self, amount, status):
+        print(f"Transaction: $ {amount} - Status: {status}")
+
+class CreditCardPayment(PaymentInterface):
+    def process_payment(self, amount):
+        if self.validate_amount(amount):
+            self.log_transaction(amount, 'Success')
+            return f"Processed $ {amount} via Credit Card"
+        return 'Invalid amount'
+
+# Usage
+payment = CreditCardPayment()
+print(payment.process_payment(100))  # Uses inherited default methods
+\`\`\`
+
+**Key Points:**
+- Default methods provide common functionality that all implementing classes can use
+- They reduce code duplication across implementations
+- Subclasses can override default methods if needed
+- This pattern is common in modern interface design`,
+      },
+      {
+        question: "What happens if you don't implement abstract methods?",
+        solution: `**Answer: You get runtime or compile-time errors, depending on the language.**
+
+**JavaScript:**
+Since JavaScript doesn't have native abstract classes, we simulate them. Not implementing required methods results in runtime errors:
+
+\`\`\`javascript
+class AbstractShape {
+  constructor() {
+    if (this.constructor === AbstractShape) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+  }
+  
+  // Abstract methods
+  calculateArea() {
+    throw new Error("calculateArea method must be implemented");
+  }
+  
+  draw() {
+    throw new Error("draw method must be implemented");
+  }
+  
+  // Concrete method
+  getInfo() {
+    return \`Area: \${this.calculateArea()}\`;
+  }
+}
+
+// Incomplete implementation
+class IncompleteCircle extends AbstractShape {
+  constructor(radius) {
+    super();
+    this.radius = radius;
+  }
+  
+  // Only implementing one abstract method
+  calculateArea() {
+    return Math.PI * this.radius * this.radius;
+  }
+  
+  // Missing draw() method implementation
+}
+
+// This will work for calculateArea
+const circle = new IncompleteCircle(5);
+console.log(circle.getInfo()); // Works: "Area: 78.54"
+
+// But this will throw an error
+try {
+  circle.draw(); // Error: draw method must be implemented
+} catch (error) {
+  console.log(error.message);
+}
+\`\`\`
+
+**Python:**
+Python's ABC module prevents instantiation of classes with unimplemented abstract methods:
+
+\`\`\`python
+from abc import ABC, abstractmethod
+
+class AbstractShape(ABC):
+    @abstractmethod
+    def calculate_area(self):
+        pass
+    
+    @abstractmethod
+    def draw(self):
+        pass
+    
+    # Concrete method
+    def get_info(self):
+        return f"Area: {self.calculate_area()}"
+
+# Incomplete implementation
+class IncompleteCircle(AbstractShape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    # Only implementing one abstract method
+    def calculate_area(self):
+        return 3.14159 * self.radius * self.radius
+    
+    # Missing draw() method implementation
+
+# This will raise TypeError at instantiation
+try:
+    circle = IncompleteCircle(5)  # TypeError!
+except TypeError as e:
+    print(f"Error: {e}")
+    # Output: Can't instantiate abstract class IncompleteCircle with abstract method draw
+
+# Complete implementation
+class CompleteCircle(AbstractShape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def calculate_area(self):
+        return 3.14159 * self.radius * self.radius
+    
+    def draw(self):
+        print(f"Drawing circle with radius {self.radius}")
+
+# This works fine
+circle = CompleteCircle(5)
+print(circle.get_info())
+circle.draw()
+\`\`\`
+
+**Key Points:**
+- Abstract methods enforce a contract that must be fulfilled
+- Python prevents instantiation at object creation time
+- JavaScript requires manual checking and throws runtime errors
+- All abstract methods must be implemented to create concrete instances`,
+      },
+      {
+        question: "Can abstract classes implement interfaces?",
+        solution: `**Answer: Yes, abstract classes can implement interfaces and provide partial implementations.**
+
+**JavaScript:**
+Abstract classes can implement interface-like structures and provide some implementations while leaving others abstract:
+
+\`\`\`javascript
+// Interface simulation
+class Drawable {
+  draw() {
+    throw new Error("draw method must be implemented");
+  }
+  
+  setColor(color) {
+    throw new Error("setColor method must be implemented");
+  }
+}
+
+class Movable {
+  move(x, y) {
+    throw new Error("move method must be implemented");
+  }
+}
+
+// Abstract class implementing multiple interfaces
+class AbstractGameObject {
+  constructor() {
+    if (this.constructor === AbstractGameObject) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+    this.x = 0;
+    this.y = 0;
+    this.color = 'white';
+  }
+  
+  // Implementing Drawable interface partially
+  setColor(color) {
+    this.color = color;
+    console.log(\`Color set to \${color}\`);
+  }
+  
+  // Abstract method from Drawable
+  draw() {
+    throw new Error("draw method must be implemented in subclass");
+  }
+  
+  // Implementing Movable interface
+  move(x, y) {
+    this.x = x;
+    this.y = y;
+    console.log(\`Moved to (\${x}, \${y})\`);
+  }
+  
+  // Additional abstract method
+  update() {
+    throw new Error("update method must be implemented in subclass");
+  }
+  
+  // Concrete helper method
+  getPosition() {
+    return { x: this.x, y: this.y };
+  }
+}
+
+// Concrete implementation
+class Player extends AbstractGameObject {
+  constructor(name) {
+    super();
+    this.name = name;
+    this.health = 100;
+  }
+  
+  draw() {
+    console.log(\`Drawing player \${this.name} at (\${this.x}, \${this.y}) in \${this.color}\`);
+  }
+  
+  update() {
+    console.log(\`Updating player \${this.name}\`);
+  }
+}
+
+// Usage
+const player = new Player("Hero");
+player.setColor("blue");  // From interface implementation
+player.move(10, 20);      // From interface implementation
+player.draw();            // Must be implemented by subclass
+player.update();          // Must be implemented by subclass
+\`\`\`
+
+**Python:**
+Python supports multiple inheritance, so abstract classes can inherit from multiple abstract base classes:
+
+\`\`\`python
+from abc import ABC, abstractmethod
+
+# Interface definitions
+class Drawable(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+    
+    @abstractmethod
+    def set_color(self, color):
+        pass
+
+class Movable(ABC):
+    @abstractmethod
+    def move(self, x, y):
+        pass
+
+class Updatable(ABC):
+    @abstractmethod
+    def update(self):
+        pass
+
+# Abstract class implementing multiple interfaces
+class AbstractGameObject(Drawable, Movable, Updatable):
+    def __init__(self):
+        self.x = 0
+        self.y = 0
+        self.color = 'white'
+    
+    # Implementing Drawable interface partially
+    def set_color(self, color):
+        self.color = color
+        print(f"Color set to {color}")
+    
+    # draw() remains abstract (must be implemented by subclasses)
+    
+    # Implementing Movable interface completely
+    def move(self, x, y):
+        self.x = x
+        self.y = y
+        print(f"Moved to ({x}, {y})")
+    
+    # update() remains abstract
+    
+    # Additional concrete method
+    def get_position(self):
+        return {'x': self.x, 'y': self.y}
+
+# Concrete implementation
+class Player(AbstractGameObject):
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+        self.health = 100
+    
+    def draw(self):
+        print(f"Drawing player {self.name} at ({self.x}, {self.y}) in {self.color}")
+    
+    def update(self):
+        print(f"Updating player {self.name}")
+
+# Usage
+player = Player("Hero")
+player.set_color("blue")  # From interface implementation
+player.move(10, 20)       # From interface implementation  
+player.draw()             # Must be implemented by subclass
+player.update()           # Must be implemented by subclass
+print(player.get_position())
+\`\`\`
+
+**Key Points:**
+- Abstract classes provide a middle ground between interfaces and concrete classes
+- They can provide default implementations for some interface methods
+- Subclasses only need to implement the remaining abstract methods
+- This reduces code duplication while maintaining the contract enforcement`,
+      },
+      {
+        question: "Can interfaces extend abstract classes?",
+        solution: `**Answer: No, interfaces cannot extend abstract classes. This violates the fundamental design principles of both constructs.**
+
+**Why This Is Not Allowed:**
+
+**Conceptual Reasons:**
+- **Interfaces** define contracts (what must be implemented)
+- **Abstract classes** provide partial implementations (what is already implemented)
+- Interfaces should not inherit concrete implementations
+
+**JavaScript Example (Showing Why This Doesn't Work):**
+
+\`\`\`javascript
+// Abstract class with concrete implementation
+class AbstractLogger {
+  constructor() {
+    if (this.constructor === AbstractLogger) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+    this.timestamp = new Date();
+  }
+  
+  // Concrete method
+  formatMessage(message) {
+    return \`[\${this.timestamp.toISOString()}] \${message}\`;
+  }
+  
+  // Abstract method
+  log(message) {
+    throw new Error("log method must be implemented");
+  }
+}
+
+// This concept doesn't work - interfaces can't extend abstract classes
+// If we tried to make an "interface" extend AbstractLogger:
+class LoggerInterface extends AbstractLogger {
+  // Problem: We now have concrete implementation (formatMessage)
+  // in what should be a pure contract definition
+  
+  // We'd have to override to make it abstract again
+  formatMessage(message) {
+    throw new Error("formatMessage method must be implemented");
+  }
+  
+  log(message) {
+    throw new Error("log method must be implemented");  
+  }
+}
+
+// The correct approach: Interfaces should be separate
+class ILogger {
+  log(message) {
+    throw new Error("log method must be implemented");
+  }
+  
+  formatMessage(message) {
+    throw new Error("formatMessage method must be implemented");
+  }
+}
+
+// Abstract class can implement the interface
+class AbstractFileLogger {
+  constructor() {
+    if (this.constructor === AbstractFileLogger) {
+      throw new Error("Cannot instantiate abstract class");
+    }
+    this.timestamp = new Date();
+  }
+  
+  // Implementing part of the interface
+  formatMessage(message) {
+    return \`[\${this.timestamp.toISOString()}] \${message}\`;
+  }
+  
+  // Leaving this abstract
+  log(message) {
+    throw new Error("log method must be implemented");
+  }
+}
+
+// Concrete implementation
+class FileLogger extends AbstractFileLogger {
+  log(message) {
+    const formatted = this.formatMessage(message);
+    console.log(\`Writing to file: \${formatted}\`);
+  }
+}
+\`\`\`
+
+**Python Example (Showing the Correct Approach):**
+
+\`\`\`python
+from abc import ABC, abstractmethod
+
+# This is conceptually wrong and not recommended
+class AbstractBase(ABC):
+    def __init__(self):
+        self.created_at = "2024-01-01"
+    
+    def get_info(self):
+        return f"Created at: {self.created_at}"
+    
+    @abstractmethod
+    def process(self):
+        pass
+
+# Don't do this - interface inheriting from abstract class
+class WrongInterface(AbstractBase):
+    # Now we have concrete methods in an "interface"
+    # This violates the interface principle
+    pass
+
+# Correct approach: Keep interfaces pure
+class ProcessorInterface(ABC):
+    @abstractmethod
+    def process(self):
+        pass
+    
+    @abstractmethod
+    def get_status(self):
+        pass
+
+# Abstract class implements the interface
+class AbstractProcessor(ProcessorInterface):
+    def __init__(self):
+        self.created_at = "2024-01-01"
+        self.status = "initialized"
+    
+    # Implementing part of the interface
+    def get_status(self):
+        return self.status
+    
+    # Common functionality
+    def log_operation(self, operation):
+        print(f"[{self.created_at}] {operation}")
+    
+    # Still abstract
+    @abstractmethod
+    def process(self):
+        pass
+
+# Concrete implementation
+class DataProcessor(AbstractProcessor):
+    def process(self):
+        self.log_operation("Processing data")
+        self.status = "completed"
+        return "Data processed successfully"
+
+# Usage
+processor = DataProcessor()
+print(processor.process())
+print(processor.get_status())
+\`\`\`
+
+**Best Practices:**
+
+1. **Interfaces should remain pure contracts**
+2. **Abstract classes can implement interfaces**
+3. **Use composition over inheritance when you need both interface contracts and shared implementation**
+
+\`\`\`python
+# Better design pattern
+class Logger(ABC):
+    @abstractmethod
+    def log(self, message):
+        pass
+
+class Formatter:
+    def format_message(self, message):
+        return f"[{datetime.now()}] {message}"
+
+class FileLogger(Logger):
+    def __init__(self):
+        self.formatter = Formatter()  # Composition
+    
+    def log(self, message):
+        formatted = self.formatter.format_message(message)
+        print(f"Writing to file: {formatted}")
+\`\`\`
+
+**Key Points:**
+- Interfaces define "what" must be implemented
+- Abstract classes define "what" is implemented and "what" still needs implementation  
+- Keep interfaces pure - they shouldn't have concrete implementations
+- Use abstract classes to implement interfaces and provide shared functionality`,
+      },
+      {
+        question: "What is marker interface?",
+        solution: `**Answer: A marker interface is an empty interface that contains no methods or fields, used to mark or tag classes with specific characteristics.**
+
+**JavaScript Implementation:**
+
+\`\`\`javascript
+// Marker interfaces (empty interfaces for tagging)
+class Serializable {
+  // Empty interface - just marks classes as serializable
+}
+
+class Cloneable {
+  // Empty interface - marks classes as cloneable
+}
+
+class Cacheable {
+  // Empty interface - marks classes as cacheable  
+}
+
+// Utility functions that check for marker interfaces
+class SerializationUtil {
+  static serialize(obj) {
+    if (!(obj instanceof Serializable)) {
+      throw new Error("Object must implement Serializable interface");
+    }
+    
+    return JSON.stringify({
+      className: obj.constructor.name,
+      data: obj
+    });
+  }
+  
+  static isSerializable(obj) {
+    return obj instanceof Serializable;
+  }
+}
+
+class CacheUtil {
+  static cache = new Map();
+  
+  static store(key, obj) {
+    if (!(obj instanceof Cacheable)) {
+      throw new Error("Object must implement Cacheable interface");
+    }
+    
+    this.cache.set(key, obj);
+    console.log(\`Cached object: \${key}\`);
+  }
+  
+  static isCacheable(obj) {
+    return obj instanceof Cacheable;
+  }
+}
+
+// Classes implementing marker interfaces
+class User extends Serializable {
+  constructor(name, email) {
+    super();
+    this.name = name;
+    this.email = email;
+  }
+}
+
+class Product extends Cacheable {
+  constructor(id, name, price) {
+    super();
+    this.id = id;
+    this.name = name;
+    this.price = price;
+  }
+}
+
+class Document extends Serializable {
+  constructor(title, content) {
+    super();
+    this.title = title;
+    this.content = content;
+  }
+}
+
+class SessionData extends Serializable {
+  constructor() {
+    super();
+    // Implementing multiple markers using mixins
+    Object.setPrototypeOf(this, new Cacheable());
+    Object.setPrototypeOf(Object.getPrototypeOf(this), Cacheable.prototype);
+    
+    this.sessionId = Math.random().toString(36);
+    this.loginTime = new Date();
+  }
+}
+
+// Usage examples
+const user = new User("John Doe", "john@example.com");
+const product = new Product(1, "Laptop", 999.99);
+const document = new Document("Report", "Annual report content");
+
+// Check if objects implement marker interfaces
+console.log("Serialization checks:");
+console.log(\`User is serializable: \${SerializationUtil.isSerializable(user)}\`);
+console.log(\`Product is serializable: \${SerializationUtil.isSerializable(product)}\`);
+
+console.log("\\nCache checks:");
+console.log(\`User is cacheable: \${CacheUtil.isCacheable(user)}\`);
+console.log(\`Product is cacheable: \${CacheUtil.isCacheable(product)}\`);
+
+// Serialize objects that implement Serializable
+try {
+  const serializedUser = SerializationUtil.serialize(user);
+  console.log(\`\\nSerialized user: \${serializedUser}\`);
+} catch (error) {
+  console.log(error.message);
+}
+
+// Cache objects that implement Cacheable  
+try {
+  CacheUtil.store("product_1", product);
+} catch (error) {
+  console.log(error.message);
+}
+
+// Framework usage example
+class FrameworkProcessor {
+  static process(obj) {
+    const capabilities = [];
+    
+    if (obj instanceof Serializable) {
+      capabilities.push("serialization");
+    }
+    
+    if (obj instanceof Cacheable) {
+      capabilities.push("caching");
+    }
+    
+    if (obj instanceof Cloneable) {
+      capabilities.push("cloning");
+    }
+    
+    console.log(\`Object \${obj.constructor.name} supports: \${capabilities.join(", ")}\`);
+    return capabilities;
+  }
+}
+
+FrameworkProcessor.process(user);     // serialization
+FrameworkProcessor.process(product);  // caching
+\`\`\`
+
+**Python Implementation:**
+
+\`\`\`python
+from abc import ABC
+import json
+from typing import Any, Dict
+
+# Marker interfaces (empty abstract classes)
+class Serializable(ABC):
+    """Marker interface indicating that a class can be serialized"""
+    pass
+
+class Cacheable(ABC):
+    """Marker interface indicating that a class can be cached"""
+    pass
+
+class Cloneable(ABC):
+    """Marker interface indicating that a class can be cloned"""
+    pass
+
+# Utility classes that work with marker interfaces
+class SerializationUtil:
+    @staticmethod
+    def serialize(obj: Any) -> str:
+        if not isinstance(obj, Serializable):
+            raise TypeError("Object must implement Serializable interface")
+        
+        return json.dumps({
+            'class_name': obj.__class__.__name__,
+            'data': obj.__dict__
+        })
+    
+    @staticmethod
+    def is_serializable(obj: Any) -> bool:
+        return isinstance(obj, Serializable)
+
+class CacheUtil:
+    _cache: Dict[str, Any] = {}
+    
+    @classmethod
+    def store(cls, key: str, obj: Any) -> None:
+        if not isinstance(obj, Cacheable):
+            raise TypeError("Object must implement Cacheable interface")
+        
+        cls._cache[key] = obj
+        print(f"Cached object: {key}")
+    
+    @classmethod
+    def get(cls, key: str) -> Any:
+        return cls._cache.get(key)
+    
+    @staticmethod
+    def is_cacheable(obj: Any) -> bool:
+        return isinstance(obj, Cacheable)
+
+# Classes implementing marker interfaces
+class User(Serializable):
+    def __init__(self, name: str, email: str):
+        self.name = name
+        self.email = email
+
+class Product(Cacheable):
+    def __init__(self, id: int, name: str, price: float):
+        self.id = id
+        self.name = name
+        self.price = price
+
+class Document(Serializable, Cacheable):  # Multiple marker interfaces
+    def __init__(self, title: str, content: str):
+        self.title = title
+        self.content = content
+
+class SessionData(Serializable, Cacheable, Cloneable):
+    def __init__(self):
+        import uuid
+        from datetime import datetime
+        
+        self.session_id = str(uuid.uuid4())
+        self.login_time = datetime.now().isoformat()
+
+# Usage examples
+def main():
+    user = User("John Doe", "john@example.com")
+    product = Product(1, "Laptop", 999.99)
+    document = Document("Report", "Annual report content")
+    session = SessionData()
+    
+    # Check marker interface implementations
+    print("Serialization checks:")
+    print(f"User is serializable: {SerializationUtil.is_serializable(user)}")
+    print(f"Product is serializable: {SerializationUtil.is_serializable(product)}")
+    print(f"Document is serializable: {SerializationUtil.is_serializable(document)}")
+    
+    print("\\nCache checks:")
+    print(f"User is cacheable: {CacheUtil.is_cacheable(user)}")
+    print(f"Product is cacheable: {CacheUtil.is_cacheable(product)}")
+    print(f"Document is cacheable: {CacheUtil.is_cacheable(document)}")
+    
+    # Serialize objects
+    try:
+        serialized_user = SerializationUtil.serialize(user)
+        print(f"\\nSerialized user: {serialized_user}")
+        
+        serialized_document = SerializationUtil.serialize(document)
+        print(f"Serialized document: {serialized_document}")
+    except TypeError as e:
+        print(f"Serialization error: {e}")
+    
+    # Cache objects
+    try:
+        CacheUtil.store("product_1", product)
+        CacheUtil.store("document_1", document)
+        
+        # Try to cache non-cacheable object
+        # CacheUtil.store("user_1", user)  # This would raise TypeError
+    except TypeError as e:
+        print(f"Cache error: {e}")
+    
+    # Framework processing example
+    def process_object(obj):
+        capabilities = []
+        
+        if isinstance(obj, Serializable):
+            capabilities.append("serialization")
+        
+        if isinstance(obj, Cacheable):
+            capabilities.append("caching")
+        
+        if isinstance(obj, Cloneable):
+            capabilities.append("cloning")
+        
+        print(f"Object {obj.__class__.__name__} supports: {', '.join(capabilities)}")
+        return capabilities
+    
+    print("\\nFramework processing:")
+    process_object(user)      # serialization
+    process_object(product)   # caching  
+    process_object(document)  # serialization, caching
+    process_object(session)   # serialization, caching, cloning
+
+if __name__ == "__main__":
+    main()
+\`\`\`
+
+**Common Marker Interface Examples:**
+
+1. **Serializable** - Objects that can be converted to/from byte streams
+2. **Cloneable** - Objects that support cloning/copying  
+3. **Remote** - Objects that can be used in remote method invocation
+4. **EventListener** - Objects that can handle events
+5. **Cacheable** - Objects suitable for caching
+6. **Immutable** - Objects whose state cannot be modified
+
+**Key Benefits:**
+- **Type Safety**: Compile/runtime checks for specific capabilities
+- **Framework Integration**: Frameworks can treat objects differently based on markers
+- **Documentation**: Self-documenting code about object capabilities  
+- **Flexibility**: Easy to add/remove capabilities without changing method signatures
+- **Polymorphism**: Different behavior based on interface implementation
+
+**Key Points:**
+- Marker interfaces contain no methods or fields
+- They serve as metadata/tags for classes
+- Used extensively in frameworks for capability detection
+- Enable polymorphic behavior based on type checking
+- Common in serialization, caching, and event handling systems`,
+      },
     ],
   },
   {
@@ -28474,6 +30317,1478 @@ finalizer_resource.destroy()  # Explicit cleanup
     prepareLink: "",
     externallinks: [],
     questions: [
+      {
+        question:
+          "How do you design immutable classes and what are their benefits?",
+        solution: `Immutable classes are designed so their state cannot be changed after creation. Key design principles:
+
+**Design Guidelines:**
+1. Make all fields private and final
+2. Don't provide setter methods
+3. Don't allow subclassing (make class final)
+4. If fields are mutable objects, return defensive copies
+5. Initialize all fields via constructor
+
+**JavaScript Example:**
+\`\`\`javascript
+class ImmutablePerson {
+  #name;
+  #age;
+  #hobbies;
+  
+  constructor(name, age, hobbies = []) {
+    this.#name = name;
+    this.#age = age;
+    // Defensive copy of mutable array
+    this.#hobbies = Object.freeze([...hobbies]);
+    Object.freeze(this);
+  }
+  
+  getName() { return this.#name; }
+  getAge() { return this.#age; }
+  getHobbies() { return [...this.#hobbies]; } // Return copy
+  
+  // Return new instance for modifications
+  withAge(newAge) {
+    return new ImmutablePerson(this.#name, newAge, this.#hobbies);
+  }
+}
+
+const person = new ImmutablePerson("John", 25, ["reading"]);
+const olderPerson = person.withAge(26); // Creates new instance
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from typing import List, Tuple
+from dataclasses import dataclass
+
+@dataclass(frozen=True)
+class ImmutablePerson:
+    name: str
+    age: int
+    hobbies: Tuple[str, ...] = ()
+    
+    def __post_init__(self):
+        # Convert list to tuple for immutability
+        if isinstance(self.hobbies, list):
+            object.__setattr__(self, 'hobbies', tuple(self.hobbies))
+    
+    def with_age(self, new_age: int) -> 'ImmutablePerson':
+        return ImmutablePerson(self.name, new_age, self.hobbies)
+
+# Alternative using __slots__
+class ImmutablePoint:
+    __slots__ = ('_x', '_y')
+    
+    def __init__(self, x, y):
+        object.__setattr__(self, '_x', x)
+        object.__setattr__(self, '_y', y)
+    
+    @property
+    def x(self): return self._x
+    
+    @property  
+    def y(self): return self._y
+    
+    def __setattr__(self, name, value):
+        raise AttributeError("Cannot modify immutable object")
+
+person = ImmutablePerson("Alice", 30, ["coding", "music"])
+\`\`\`
+
+**Benefits:**
+- **Thread Safety**: No synchronization needed
+- **Caching**: Safe to cache hash codes and computed values  
+- **Predictability**: State cannot change unexpectedly
+- **Security**: Cannot be modified by malicious code
+- **Simplified Reasoning**: Easier to understand program flow
+- **Side-effect Free**: Functions using immutable objects are pure`,
+      },
+      {
+        question:
+          "What is the difference between shallow copy and deep copy in object cloning?",
+        solution: `Shallow and deep copying differ in how they handle nested objects and references.
+
+**Shallow Copy:**
+- Copies object's immediate properties
+- Nested objects share references with original
+- Changes to nested objects affect both copies
+
+**Deep Copy:**
+- Recursively copies all nested objects
+- Creates completely independent copy
+- Changes to nested objects don't affect original
+
+**JavaScript Example:**
+\`\`\`javascript
+class Address {
+  constructor(street, city) {
+    this.street = street;
+    this.city = city;
+  }
+}
+
+class Person {
+  constructor(name, age, address) {
+    this.name = name;
+    this.age = age;
+    this.address = address;
+    this.hobbies = [];
+  }
+  
+  // Shallow copy
+  shallowCopy() {
+    const copy = new Person(this.name, this.age, this.address);
+    copy.hobbies = [...this.hobbies]; // Still shallow for array contents
+    return copy;
+  }
+  
+  // Deep copy
+  deepCopy() {
+    const addressCopy = new Address(this.address.street, this.address.city);
+    const copy = new Person(this.name, this.age, addressCopy);
+    copy.hobbies = JSON.parse(JSON.stringify(this.hobbies));
+    return copy;
+  }
+  
+  // Better deep copy using structuredClone (modern browsers)
+  modernDeepCopy() {
+    return structuredClone(this);
+  }
+}
+
+const original = new Person("John", 25, new Address("Main St", "NYC"));
+original.hobbies = ["reading", "coding"];
+
+// Shallow copy demonstration
+const shallow = original.shallowCopy();
+shallow.address.street = "Oak Ave"; // Affects original!
+console.log(original.address.street); // "Oak Ave"
+
+// Deep copy demonstration  
+const deep = original.deepCopy();
+deep.address.street = "Pine St"; // Doesn't affect original
+console.log(original.address.street); // Still "Oak Ave"
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import copy
+from dataclasses import dataclass
+from typing import List
+
+@dataclass
+class Address:
+    street: str
+    city: str
+
+@dataclass  
+class Person:
+    name: str
+    age: int
+    address: Address
+    hobbies: List[str] = None
+    
+    def __post_init__(self):
+        if self.hobbies is None:
+            self.hobbies = []
+
+# Create original object
+original = Person(
+    "Alice", 
+    30, 
+    Address("Main St", "Boston"),
+    ["reading", "swimming"]
+)
+
+# Shallow copy - shares nested object references
+shallow = copy.copy(original)
+# or manually: shallow = Person(original.name, original.age, original.address, original.hobbies)
+
+# Deep copy - recursively copies all nested objects
+deep = copy.deepcopy(original)
+
+# Demonstrate difference
+print("Original address:", original.address.street)
+
+shallow.address.street = "Oak Avenue"
+print("After shallow copy modification:", original.address.street)  # "Oak Avenue"
+
+deep.address.street = "Pine Street"  
+print("After deep copy modification:", original.address.street)   # Still "Oak Avenue"
+
+# Custom deep copy implementation
+class CustomPerson:
+    def __init__(self, name, age, address, hobbies=None):
+        self.name = name
+        self.age = age  
+        self.address = address
+        self.hobbies = hobbies or []
+    
+    def __copy__(self):
+        # Shallow copy
+        return CustomPerson(self.name, self.age, self.address, self.hobbies)
+    
+    def __deepcopy__(self, memo):
+        # Deep copy with memo to handle circular references
+        return CustomPerson(
+            copy.deepcopy(self.name, memo),
+            copy.deepcopy(self.age, memo), 
+            copy.deepcopy(self.address, memo),
+            copy.deepcopy(self.hobbies, memo)
+        )
+\`\`\`
+
+**When to Use Each:**
+- **Shallow Copy**: When you need a new container but want to share nested objects (performance critical, memory efficient)
+- **Deep Copy**: When you need complete independence between objects (preventing side effects, creating snapshots)`,
+      },
+      {
+        question: "How would you implement a proper clone() method?",
+        solution: `A proper clone() method should create an independent copy of an object. Implementation varies by language and requirements.
+
+**JavaScript Implementation:**
+\`\`\`javascript
+class Cloneable {
+  clone() {
+    throw new Error("Subclasses must implement clone()");
+  }
+}
+
+class Book extends Cloneable {
+  constructor(title, author, chapters = []) {
+    super();
+    this.title = title;
+    this.author = author;
+    this.chapters = chapters;
+    this.metadata = { created: new Date(), views: 0 };
+  }
+  
+  // Shallow clone
+  clone() {
+    const cloned = Object.create(Object.getPrototypeOf(this));
+    // Copy own properties
+    Object.assign(cloned, this);
+    return cloned;
+  }
+  
+  // Deep clone
+  deepClone() {
+    const cloned = new Book(
+      this.title,
+      this.author,
+      [...this.chapters] // Shallow copy of array
+    );
+    
+    // Deep copy metadata
+    cloned.metadata = {
+      created: new Date(this.metadata.created),
+      views: this.metadata.views
+    };
+    
+    return cloned;
+  }
+  
+  // Generic deep clone using JSON (limited)
+  jsonClone() {
+    const json = JSON.stringify(this);
+    const parsed = JSON.parse(json);
+    return Object.setPrototypeOf(parsed, Object.getPrototypeOf(this));
+  }
+  
+  // Robust deep clone using structuredClone
+  structuredClone() {
+    if (typeof globalThis.structuredClone !== 'undefined') {
+      const cloned = globalThis.structuredClone(this);
+      return Object.setPrototypeOf(cloned, Object.getPrototypeOf(this));
+    }
+    throw new Error("structuredClone not available");
+  }
+}
+
+class Library extends Cloneable {
+  constructor(name, books = []) {
+    super();
+    this.name = name;
+    this.books = books;
+  }
+  
+  clone() {
+    return new Library(
+      this.name,
+      this.books.map(book => book.deepClone()) // Deep clone each book
+    );
+  }
+}
+
+// Usage
+const original = new Book("1984", "Orwell", ["Ch1", "Ch2"]);
+const cloned = original.deepClone();
+cloned.chapters.push("Ch3");
+console.log(original.chapters.length); // 2 (unchanged)
+\`\`\`
+
+**Python Implementation:**
+\`\`\`python
+import copy
+from abc import ABC, abstractmethod
+from datetime import datetime
+from typing import List, Any
+
+class Cloneable(ABC):
+    @abstractmethod
+    def __copy__(self):
+        pass
+    
+    @abstractmethod  
+    def __deepcopy__(self, memo):
+        pass
+
+class Book(Cloneable):
+    def __init__(self, title: str, author: str, chapters: List[str] = None):
+        self.title = title
+        self.author = author
+        self.chapters = chapters or []
+        self.metadata = {"created": datetime.now(), "views": 0}
+    
+    # Shallow copy implementation
+    def __copy__(self):
+        # Create new instance without calling __init__
+        cls = self.__class__
+        result = cls.__new__(cls)
+        # Copy instance dictionary
+        result.__dict__.update(self.__dict__)
+        return result
+    
+    # Deep copy implementation  
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result  # Prevent infinite recursion
+        
+        for key, value in self.__dict__.items():
+            setattr(result, key, copy.deepcopy(value, memo))
+        return result
+    
+    # Alternative manual deep copy
+    def clone(self) -> 'Book':
+        return Book(
+            self.title,
+            self.author,
+            self.chapters.copy()  # Shallow copy of list
+        )
+    
+    def deep_clone(self) -> 'Book':
+        cloned = Book(
+            self.title,
+            self.author, 
+            copy.deepcopy(self.chapters)
+        )
+        cloned.metadata = copy.deepcopy(self.metadata)
+        return cloned
+
+class Library(Cloneable):
+    def __init__(self, name: str, books: List[Book] = None):
+        self.name = name
+        self.books = books or []
+    
+    def __copy__(self):
+        return Library(self.name, self.books)  # Shallow copy
+    
+    def __deepcopy__(self, memo):
+        return Library(
+            self.name,
+            copy.deepcopy(self.books, memo)
+        )
+
+# Advanced clone with custom handling
+class Document:
+    def __init__(self, content: str):
+        self.content = content
+        self.id = id(self)  # Unique identifier
+        self._cache = {}
+    
+    def __copy__(self):
+        cloned = Document(self.content)
+        cloned._cache = self._cache.copy()  # Shallow copy cache
+        return cloned
+    
+    def __deepcopy__(self, memo):
+        if id(self) in memo:
+            return memo[id(self)]
+            
+        cloned = Document(self.content)
+        memo[id(self)] = cloned
+        cloned._cache = copy.deepcopy(self._cache, memo)
+        return cloned
+    
+    def __repr__(self):
+        return f"Document(id={self.id}, content='{self.content[:20]}...')"
+
+# Usage examples
+original_book = Book("Design Patterns", "GoF", ["Creational", "Structural"])
+
+# Different cloning approaches
+shallow_copy = copy.copy(original_book)
+deep_copy = copy.deepcopy(original_book)
+manual_clone = original_book.deep_clone()
+
+# Verify independence
+deep_copy.chapters.append("Behavioral")
+print(len(original_book.chapters))  # 2 (unchanged)
+print(len(deep_copy.chapters))      # 3
+\`\`\`
+
+**Best Practices:**
+1. **Handle Circular References**: Use memo dictionary in deep copy
+2. **Choose Appropriate Depth**: Shallow vs deep based on use case
+3. **Preserve Type Information**: Maintain class hierarchy
+4. **Handle Special Objects**: Files, database connections, etc.
+5. **Consider Performance**: Deep copying can be expensive
+6. **Document Behavior**: Clearly specify shallow vs deep semantics`,
+      },
+      {
+        question:
+          "Explain the problems with fragile base class and how to avoid them.",
+        solution: `The Fragile Base Class problem occurs when changes to a base class break derived classes in unexpected ways, even when the changes seem safe.
+
+**Common Problems:**
+
+**1. Method Addition Conflicts:**
+\`\`\`javascript
+// Base class (version 1)
+class DataProcessor {
+  process(data) {
+    return this.transform(data);
+  }
+}
+
+class UserProcessor extends DataProcessor {
+  // Custom method
+  normalize(data) {
+    return data.toLowerCase();
+  }
+}
+
+// Base class (version 2) - adds normalize method
+class DataProcessor {
+  process(data) {
+    return this.normalize(this.transform(data));
+  }
+  
+  // New method conflicts with derived class
+  normalize(data) {
+    return data.trim();
+  }
+}
+// Now UserProcessor.normalize behavior changes unexpectedly!
+\`\`\`
+
+**2. Self-Use Problems:**
+\`\`\`javascript
+class Counter {
+  constructor() {
+    this.count = 0;
+  }
+  
+  increment() {
+    this.count++;
+  }
+  
+  incrementBy(n) {
+    for (let i = 0; i < n; i++) {
+      this.increment(); // Self-use
+    }
+  }
+}
+
+class TrackedCounter extends Counter {
+  constructor() {
+    super();
+    this.operations = [];
+  }
+  
+  increment() {
+    super.increment();
+    this.operations.push('increment');
+  }
+}
+
+const counter = new TrackedCounter();
+counter.incrementBy(3); 
+// operations array has 3 entries, but if base class changes
+// increment() to use count += n, tracking breaks
+\`\`\`
+
+**Python Examples with Solutions:**
+
+\`\`\`python
+from abc import ABC, abstractmethod
+from typing import List, Any
+
+# Problem: Fragile inheritance
+class BadBaseProcessor:
+    def process(self, data: List[str]) -> List[str]:
+        # Original implementation
+        result = []
+        for item in data:
+            result.append(self.transform(item))
+        return result
+    
+    def transform(self, item: str) -> str:
+        return item.upper()
+
+class BadUserProcessor(BadBaseProcessor):
+    def __init__(self):
+        self.processed_count = 0
+    
+    def transform(self, item: str) -> str:
+        self.processed_count += 1
+        return super().transform(item)
+
+# If BadBaseProcessor changes to use list comprehension:
+# def process(self, data):
+#     return [self.transform(item) for item in data]
+# The processed_count tracking still works, but other changes might break it
+
+# SOLUTION 1: Composition over Inheritance
+class Processor:
+    def __init__(self, transformer):
+        self._transformer = transformer
+    
+    def process(self, data: List[str]) -> List[str]:
+        return [self._transformer.transform(item) for item in data]
+
+class Transformer(ABC):
+    @abstractmethod
+    def transform(self, item: str) -> str:
+        pass
+
+class UpperTransformer(Transformer):
+    def transform(self, item: str) -> str:
+        return item.upper()
+
+class CountingTransformer(Transformer):
+    def __init__(self, delegate: Transformer):
+        self._delegate = delegate
+        self.count = 0
+    
+    def transform(self, item: str) -> str:
+        self.count += 1
+        return self._delegate.transform(item)
+
+# Usage
+transformer = CountingTransformer(UpperTransformer())
+processor = Processor(transformer)
+
+# SOLUTION 2: Template Method Pattern
+class TemplateProcessor(ABC):
+    def process(self, data: List[str]) -> List[str]:
+        self.before_processing(data)
+        result = []
+        for item in data:
+            transformed = self.transform_item(item)
+            result.append(transformed)
+        self.after_processing(result)
+        return result
+    
+    @abstractmethod
+    def transform_item(self, item: str) -> str:
+        pass
+    
+    def before_processing(self, data: List[str]):
+        pass  # Hook method
+    
+    def after_processing(self, result: List[str]):
+        pass  # Hook method
+
+class ConcreteProcessor(TemplateProcessor):
+    def __init__(self):
+        self.processed_count = 0
+    
+    def transform_item(self, item: str) -> str:
+        return item.upper()
+    
+    def before_processing(self, data: List[str]):
+        self.processed_count = 0
+    
+    def after_processing(self, result: List[str]):
+        self.processed_count = len(result)
+
+# SOLUTION 3: Interface Segregation
+class Readable(ABC):
+    @abstractmethod
+    def read(self) -> str:
+        pass
+
+class Writable(ABC):
+    @abstractmethod
+    def write(self, data: str) -> None:
+        pass
+
+class FileHandler(Readable, Writable):
+    def __init__(self, filename: str):
+        self.filename = filename
+    
+    def read(self) -> str:
+        with open(self.filename, 'r') as f:
+            return f.read()
+    
+    def write(self, data: str) -> None:
+        with open(self.filename, 'w') as f:
+            f.write(data)
+
+# SOLUTION 4: Explicit Contracts
+class BaseService:
+    """
+    Contract:
+    - Subclasses must call super().__init__()
+    - Override _process_item() for custom logic
+    - Don't override process() directly
+    """
+    
+    def __init__(self):
+        self._initialized = True
+    
+    def process(self, items: List[Any]) -> List[Any]:
+        if not hasattr(self, '_initialized'):
+            raise RuntimeError("Must call super().__init__()")
+        
+        return [self._process_item(item) for item in items]
+    
+    def _process_item(self, item: Any) -> Any:
+        return item  # Default implementation
+
+class ConcreteService(BaseService):
+    def __init__(self):
+        super().__init__()  # Required by contract
+        self.metrics = []
+    
+    def _process_item(self, item: Any) -> Any:
+        self.metrics.append(f"processed {item}")
+        return str(item).upper()
+\`\`\`
+
+**Prevention Strategies:**
+
+**1. Favor Composition Over Inheritance**
+- Use delegation instead of inheritance
+- More flexible and less fragile
+
+**2. Design for Extension**
+- Use abstract base classes with clear contracts
+- Provide hook methods for customization
+- Document extension points
+
+**3. Minimize Interface Surface**
+- Keep base classes focused and small
+- Use interface segregation principle
+
+**4. Version Carefully**
+- Consider semantic versioning
+- Provide migration paths
+- Document breaking changes
+
+**5. Use Final/Sealed Classes**
+\`\`\`python
+from typing import final
+
+@final
+class UtilityClass:
+    @staticmethod
+    def helper_method():
+        return "Cannot be inherited"
+\`\`\`
+
+**6. Explicit Design Patterns**
+- Strategy Pattern for algorithms
+- Observer Pattern for notifications
+- Template Method for controlled extension`,
+      },
+      {
+        question:
+          "Explain the difference between composition, aggregation, and association with real-world examples.",
+        solution:
+          "**Association** is a loose relationship where objects use each other but maintain independent lifecycles. Example: Teacher-Student relationship - teachers can exist without students and vice versa.\n\n**Aggregation** is a 'has-a' relationship where the container doesn't own the contained objects. Example: Department-Employee - department has employees, but employees can exist without the department.\n\n**Composition** is a strong 'owns-a' relationship where the container controls the lifecycle of contained objects. Example: House-Room - rooms cannot exist without the house.\n\n```javascript\n// Association\nclass Teacher {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  teach(student) {\n    console.log(`${this.name} teaches ${student.name}`);\n  }\n}\n\nclass Student {\n  constructor(name) {\n    this.name = name;\n  }\n}\n\n// Aggregation\nclass Department {\n  constructor(name) {\n    this.name = name;\n    this.employees = [];\n  }\n  \n  addEmployee(employee) {\n    this.employees.push(employee);\n  }\n}\n\nclass Employee {\n  constructor(name) {\n    this.name = name;\n  }\n}\n\n// Composition\nclass House {\n  constructor() {\n    this.rooms = [\n      new Room('bedroom'),\n      new Room('kitchen')\n    ];\n  }\n}\n\nclass Room {\n  constructor(type) {\n    this.type = type;\n  }\n}\n```\n\n```python\n# Association\nclass Teacher:\n    def __init__(self, name):\n        self.name = name\n    \n    def teach(self, student):\n        print(f\"{self.name} teaches {student.name}\")\n\nclass Student:\n    def __init__(self, name):\n        self.name = name\n\n# Aggregation\nclass Department:\n    def __init__(self, name):\n        self.name = name\n        self.employees = []\n    \n    def add_employee(self, employee):\n        self.employees.append(employee)\n\nclass Employee:\n    def __init__(self, name):\n        self.name = name\n\n# Composition\nclass House:\n    def __init__(self):\n        self.rooms = [\n            Room('bedroom'),\n            Room('kitchen')\n        ]\n\nclass Room:\n    def __init__(self, room_type):\n        self.type = room_type\n```",
+      },
+      {
+        question:
+          "How would you design a class hierarchy for a drawing application with shapes?",
+        solution:
+          "Design using abstract base classes with composition for behaviors to avoid deep inheritance. Use strategy pattern for drawing algorithms and composite pattern for grouped shapes.\n\n```javascript\n// Abstract base class\nclass Shape {\n  constructor(x, y, color = 'black') {\n    this.x = x;\n    this.y = y;\n    this.color = color;\n    this.renderer = null;\n  }\n  \n  setRenderer(renderer) {\n    this.renderer = renderer;\n  }\n  \n  draw() {\n    throw new Error('draw() must be implemented');\n  }\n  \n  move(dx, dy) {\n    this.x += dx;\n    this.y += dy;\n  }\n  \n  area() {\n    throw new Error('area() must be implemented');\n  }\n}\n\nclass Circle extends Shape {\n  constructor(x, y, radius, color) {\n    super(x, y, color);\n    this.radius = radius;\n  }\n  \n  draw() {\n    if (this.renderer) {\n      this.renderer.drawCircle(this.x, this.y, this.radius, this.color);\n    }\n  }\n  \n  area() {\n    return Math.PI * this.radius * this.radius;\n  }\n}\n\nclass Rectangle extends Shape {\n  constructor(x, y, width, height, color) {\n    super(x, y, color);\n    this.width = width;\n    this.height = height;\n  }\n  \n  draw() {\n    if (this.renderer) {\n      this.renderer.drawRectangle(this.x, this.y, this.width, this.height, this.color);\n    }\n  }\n  \n  area() {\n    return this.width * this.height;\n  }\n}\n\n// Composite pattern for grouped shapes\nclass ShapeGroup extends Shape {\n  constructor() {\n    super(0, 0);\n    this.shapes = [];\n  }\n  \n  addShape(shape) {\n    this.shapes.push(shape);\n  }\n  \n  draw() {\n    this.shapes.forEach(shape => shape.draw());\n  }\n  \n  area() {\n    return this.shapes.reduce((total, shape) => total + shape.area(), 0);\n  }\n}\n\n// Strategy pattern for rendering\nclass CanvasRenderer {\n  constructor(canvas) {\n    this.ctx = canvas.getContext('2d');\n  }\n  \n  drawCircle(x, y, radius, color) {\n    this.ctx.fillStyle = color;\n    this.ctx.beginPath();\n    this.ctx.arc(x, y, radius, 0, 2 * Math.PI);\n    this.ctx.fill();\n  }\n  \n  drawRectangle(x, y, width, height, color) {\n    this.ctx.fillStyle = color;\n    this.ctx.fillRect(x, y, width, height);\n  }\n}\n```\n\n```python\nfrom abc import ABC, abstractmethod\nimport math\n\n# Abstract base class\nclass Shape(ABC):\n    def __init__(self, x, y, color='black'):\n        self.x = x\n        self.y = y\n        self.color = color\n        self.renderer = None\n    \n    def set_renderer(self, renderer):\n        self.renderer = renderer\n    \n    @abstractmethod\n    def draw(self):\n        pass\n    \n    def move(self, dx, dy):\n        self.x += dx\n        self.y += dy\n    \n    @abstractmethod\n    def area(self):\n        pass\n\nclass Circle(Shape):\n    def __init__(self, x, y, radius, color='black'):\n        super().__init__(x, y, color)\n        self.radius = radius\n    \n    def draw(self):\n        if self.renderer:\n            self.renderer.draw_circle(self.x, self.y, self.radius, self.color)\n    \n    def area(self):\n        return math.pi * self.radius ** 2\n\nclass Rectangle(Shape):\n    def __init__(self, x, y, width, height, color='black'):\n        super().__init__(x, y, color)\n        self.width = width\n        self.height = height\n    \n    def draw(self):\n        if self.renderer:\n            self.renderer.draw_rectangle(self.x, self.y, self.width, self.height, self.color)\n    \n    def area(self):\n        return self.width * self.height\n\n# Composite pattern\nclass ShapeGroup(Shape):\n    def __init__(self):\n        super().__init__(0, 0)\n        self.shapes = []\n    \n    def add_shape(self, shape):\n        self.shapes.append(shape)\n    \n    def draw(self):\n        for shape in self.shapes:\n            shape.draw()\n    \n    def area(self):\n        return sum(shape.area() for shape in self.shapes)\n\n# Strategy pattern for rendering\nclass CanvasRenderer:\n    def __init__(self, canvas):\n        self.canvas = canvas\n    \n    def draw_circle(self, x, y, radius, color):\n        print(f\"Drawing circle at ({x}, {y}) with radius {radius} in {color}\")\n    \n    def draw_rectangle(self, x, y, width, height, color):\n        print(f\"Drawing rectangle at ({x}, {y}) {width}x{height} in {color}\")\n```",
+      },
+      {
+        question:
+          "What are the trade-offs between deep inheritance hierarchies vs flat composition?",
+        solution:
+          '**Deep Inheritance Hierarchies:**\n\n*Advantages:*\n- Code reuse through inheritance\n- Clear taxonomical relationships\n- Polymorphic behavior\n- Easy to understand \'is-a\' relationships\n\n*Disadvantages:*\n- Tight coupling between classes\n- Fragile base class problem\n- Diamond problem in multiple inheritance\n- Hard to modify without affecting subclasses\n- Inflexible at runtime\n\n**Flat Composition:**\n\n*Advantages:*\n- Loose coupling\n- Runtime flexibility\n- Easy to test (mock dependencies)\n- Follows \'has-a\' relationships\n- Better maintainability\n\n*Disadvantages:*\n- More boilerplate code\n- Can be complex to understand\n- Potential for code duplication\n- Less intuitive for natural hierarchies\n\n```javascript\n// Deep Inheritance (Problematic)\nclass Animal {\n  constructor(name) {\n    this.name = name;\n  }\n  \n  eat() {\n    console.log(`${this.name} is eating`);\n  }\n}\n\nclass Mammal extends Animal {\n  constructor(name, furColor) {\n    super(name);\n    this.furColor = furColor;\n  }\n  \n  breathe() {\n    console.log(`${this.name} breathes air`);\n  }\n}\n\nclass Dog extends Mammal {\n  constructor(name, furColor, breed) {\n    super(name, furColor);\n    this.breed = breed;\n  }\n  \n  bark() {\n    console.log(`${this.name} barks`);\n  }\n}\n\n// Composition (Better)\nclass EatingBehavior {\n  eat(name) {\n    console.log(`${name} is eating`);\n  }\n}\n\nclass BreathingBehavior {\n  breathe(name) {\n    console.log(`${name} breathes air`);\n  }\n}\n\nclass BarkingBehavior {\n  bark(name) {\n    console.log(`${name} barks`);\n  }\n}\n\nclass ComposedDog {\n  constructor(name, breed) {\n    this.name = name;\n    this.breed = breed;\n    this.eatingBehavior = new EatingBehavior();\n    this.breathingBehavior = new BreathingBehavior();\n    this.barkingBehavior = new BarkingBehavior();\n  }\n  \n  eat() {\n    this.eatingBehavior.eat(this.name);\n  }\n  \n  breathe() {\n    this.breathingBehavior.breathe(this.name);\n  }\n  \n  bark() {\n    this.barkingBehavior.bark(this.name);\n  }\n}\n```\n\n```python\n# Deep Inheritance (Problematic)\nclass Animal:\n    def __init__(self, name):\n        self.name = name\n    \n    def eat(self):\n        print(f"{self.name} is eating")\n\nclass Mammal(Animal):\n    def __init__(self, name, fur_color):\n        super().__init__(name)\n        self.fur_color = fur_color\n    \n    def breathe(self):\n        print(f"{self.name} breathes air")\n\nclass Dog(Mammal):\n    def __init__(self, name, fur_color, breed):\n        super().__init__(name, fur_color)\n        self.breed = breed\n    \n    def bark(self):\n        print(f"{self.name} barks")\n\n# Composition (Better)\nclass EatingBehavior:\n    def eat(self, name):\n        print(f"{name} is eating")\n\nclass BreathingBehavior:\n    def breathe(self, name):\n        print(f"{name} breathes air")\n\nclass BarkingBehavior:\n    def bark(self, name):\n        print(f"{name} barks")\n\nclass ComposedDog:\n    def __init__(self, name, breed):\n        self.name = name\n        self.breed = breed\n        self.eating_behavior = EatingBehavior()\n        self.breathing_behavior = BreathingBehavior()\n        self.barking_behavior = BarkingBehavior()\n    \n    def eat(self):\n        self.eating_behavior.eat(self.name)\n    \n    def breathe(self):\n        self.breathing_behavior.breathe(self.name)\n    \n    def bark(self):\n        self.barking_behavior.bark(self.name)\n```',
+      },
+      {
+        question:
+          "Explain the Liskov Substitution Principle with a code example where it's violated.",
+        solution:
+          "The Liskov Substitution Principle (LSP) states that objects of a superclass should be replaceable with objects of a subclass without breaking the application. Subclasses should strengthen preconditions and weaken postconditions.\n\n**LSP Violation Example:**\n\n```javascript\n// LSP Violation - Rectangle/Square Problem\nclass Rectangle {\n  constructor(width, height) {\n    this.width = width;\n    this.height = height;\n  }\n  \n  setWidth(width) {\n    this.width = width;\n  }\n  \n  setHeight(height) {\n    this.height = height;\n  }\n  \n  getArea() {\n    return this.width * this.height;\n  }\n}\n\nclass Square extends Rectangle {\n  constructor(side) {\n    super(side, side);\n  }\n  \n  // Violates LSP - changes behavior of base class\n  setWidth(width) {\n    this.width = width;\n    this.height = width; // Side effect not expected in Rectangle\n  }\n  \n  setHeight(height) {\n    this.width = height;\n    this.height = height; // Side effect not expected in Rectangle\n  }\n}\n\n// This function expects Rectangle behavior\nfunction calculateArea(rectangle) {\n  rectangle.setWidth(5);\n  rectangle.setHeight(4);\n  // Expected: 20, but Square returns 16\n  return rectangle.getArea();\n}\n\n// Usage that breaks\nconst rect = new Rectangle(2, 3);\nconsole.log(calculateArea(rect)); // 20 - correct\n\nconst square = new Square(2);\nconsole.log(calculateArea(square)); // 16 - LSP violation!\n\n// LSP Compliant Solution\nclass Shape {\n  getArea() {\n    throw new Error('getArea must be implemented');\n  }\n}\n\nclass LSPRectangle extends Shape {\n  constructor(width, height) {\n    super();\n    this.width = width;\n    this.height = height;\n  }\n  \n  setDimensions(width, height) {\n    this.width = width;\n    this.height = height;\n  }\n  \n  getArea() {\n    return this.width * this.height;\n  }\n}\n\nclass LSPSquare extends Shape {\n  constructor(side) {\n    super();\n    this.side = side;\n  }\n  \n  setSide(side) {\n    this.side = side;\n  }\n  \n  getArea() {\n    return this.side * this.side;\n  }\n}\n```\n\n```python\n# LSP Violation\nclass Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def set_width(self, width):\n        self.width = width\n    \n    def set_height(self, height):\n        self.height = height\n    \n    def get_area(self):\n        return self.width * self.height\n\nclass Square(Rectangle):\n    def __init__(self, side):\n        super().__init__(side, side)\n    \n    def set_width(self, width):\n        self.width = width\n        self.height = width  # LSP violation\n    \n    def set_height(self, height):\n        self.width = height\n        self.height = height  # LSP violation\n\n# Function that expects Rectangle behavior\ndef calculate_area(rectangle):\n    rectangle.set_width(5)\n    rectangle.set_height(4)\n    return rectangle.get_area()\n\n# Usage\nrect = Rectangle(2, 3)\nprint(calculate_area(rect))  # 20 - correct\n\nsquare = Square(2)\nprint(calculate_area(square))  # 16 - LSP violation!\n\n# LSP Compliant Solution\nfrom abc import ABC, abstractmethod\n\nclass Shape(ABC):\n    @abstractmethod\n    def get_area(self):\n        pass\n\nclass LSPRectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def set_dimensions(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def get_area(self):\n        return self.width * self.height\n\nclass LSPSquare(Shape):\n    def __init__(self, side):\n        self.side = side\n    \n    def set_side(self, side):\n        self.side = side\n    \n    def get_area(self):\n        return self.side ** 2\n```",
+      },
+      {
+        question: "How do you handle circular dependencies between classes?",
+        solution:
+          "Circular dependencies occur when two or more classes depend on each other, creating a cycle. Here are several strategies to resolve them:\n\n**1. Dependency Injection**\n**2. Observer Pattern**\n**3. Mediator Pattern**\n**4. Interface Segregation**\n**5. Lazy Loading/Forward Declarations**\n\n```javascript\n// Problem: Circular Dependency\nclass User {\n  constructor(name) {\n    this.name = name;\n    this.orders = [];\n  }\n  \n  addOrder(order) {\n    this.orders.push(order);\n    order.setUser(this); // Circular reference\n  }\n}\n\nclass Order {\n  constructor(id) {\n    this.id = id;\n    this.user = null;\n  }\n  \n  setUser(user) {\n    this.user = user;\n    if (!user.orders.includes(this)) {\n      user.addOrder(this); // Circular call\n    }\n  }\n}\n\n// Solution 1: Dependency Injection\nclass UserService {\n  constructor() {\n    this.users = new Map();\n    this.orders = new Map();\n  }\n  \n  createUser(name) {\n    const user = new IsolatedUser(name);\n    this.users.set(user.id, user);\n    return user;\n  }\n  \n  createOrder(userId, orderId) {\n    const order = new IsolatedOrder(orderId);\n    this.orders.set(orderId, order);\n    this.linkUserOrder(userId, orderId);\n    return order;\n  }\n  \n  linkUserOrder(userId, orderId) {\n    const user = this.users.get(userId);\n    const order = this.orders.get(orderId);\n    if (user && order) {\n      user.orderIds.push(orderId);\n      order.userId = userId;\n    }\n  }\n  \n  getUserOrders(userId) {\n    const user = this.users.get(userId);\n    return user ? user.orderIds.map(id => this.orders.get(id)) : [];\n  }\n}\n\nclass IsolatedUser {\n  constructor(name) {\n    this.id = Math.random().toString(36);\n    this.name = name;\n    this.orderIds = [];\n  }\n}\n\nclass IsolatedOrder {\n  constructor(id) {\n    this.id = id;\n    this.userId = null;\n  }\n}\n\n// Solution 2: Observer Pattern\nclass EventEmitter {\n  constructor() {\n    this.events = {};\n  }\n  \n  on(event, callback) {\n    if (!this.events[event]) {\n      this.events[event] = [];\n    }\n    this.events[event].push(callback);\n  }\n  \n  emit(event, data) {\n    if (this.events[event]) {\n      this.events[event].forEach(callback => callback(data));\n    }\n  }\n}\n\nconst eventBus = new EventEmitter();\n\nclass ObserverUser {\n  constructor(name) {\n    this.name = name;\n    this.orders = [];\n    \n    eventBus.on('orderCreated', (order) => {\n      if (order.userId === this.id) {\n        this.orders.push(order.id);\n      }\n    });\n  }\n  \n  createOrder(orderId) {\n    eventBus.emit('userOrderCreated', {\n      userId: this.id,\n      orderId: orderId\n    });\n  }\n}\n\nclass ObserverOrder {\n  constructor(id, userId) {\n    this.id = id;\n    this.userId = userId;\n    \n    eventBus.on('userOrderCreated', (data) => {\n      if (data.orderId === this.id) {\n        eventBus.emit('orderCreated', this);\n      }\n    });\n  }\n}\n```\n\n```python\n# Problem: Circular Dependency\nclass User:\n    def __init__(self, name):\n        self.name = name\n        self.orders = []\n    \n    def add_order(self, order):\n        self.orders.append(order)\n        order.set_user(self)  # Circular reference\n\nclass Order:\n    def __init__(self, order_id):\n        self.id = order_id\n        self.user = None\n    \n    def set_user(self, user):\n        self.user = user\n        if self not in user.orders:\n            user.add_order(self)  # Circular call\n\n# Solution 1: Dependency Injection\nclass UserService:\n    def __init__(self):\n        self.users = {}\n        self.orders = {}\n    \n    def create_user(self, name):\n        user = IsolatedUser(name)\n        self.users[user.id] = user\n        return user\n    \n    def create_order(self, user_id, order_id):\n        order = IsolatedOrder(order_id)\n        self.orders[order_id] = order\n        self.link_user_order(user_id, order_id)\n        return order\n    \n    def link_user_order(self, user_id, order_id):\n        user = self.users.get(user_id)\n        order = self.orders.get(order_id)\n        if user and order:\n            user.order_ids.append(order_id)\n            order.user_id = user_id\n    \n    def get_user_orders(self, user_id):\n        user = self.users.get(user_id)\n        if user:\n            return [self.orders.get(order_id) for order_id in user.order_ids]\n        return []\n\nclass IsolatedUser:\n    def __init__(self, name):\n        import uuid\n        self.id = str(uuid.uuid4())\n        self.name = name\n        self.order_ids = []\n\nclass IsolatedOrder:\n    def __init__(self, order_id):\n        self.id = order_id\n        self.user_id = None\n\n# Solution 2: Observer Pattern\nclass EventBus:\n    def __init__(self):\n        self.events = {}\n    \n    def on(self, event, callback):\n        if event not in self.events:\n            self.events[event] = []\n        self.events[event].append(callback)\n    \n    def emit(self, event, data):\n        if event in self.events:\n            for callback in self.events[event]:\n                callback(data)\n\nevent_bus = EventBus()\n\nclass ObserverUser:\n    def __init__(self, name):\n        import uuid\n        self.id = str(uuid.uuid4())\n        self.name = name\n        self.orders = []\n        \n        event_bus.on('order_created', self._handle_order_created)\n    \n    def _handle_order_created(self, order_data):\n        if order_data['user_id'] == self.id:\n            self.orders.append(order_data['order_id'])\n    \n    def create_order(self, order_id):\n        event_bus.emit('user_order_created', {\n            'user_id': self.id,\n            'order_id': order_id\n        })\n\nclass ObserverOrder:\n    def __init__(self, order_id, user_id):\n        self.id = order_id\n        self.user_id = user_id\n        \n        event_bus.on('user_order_created', self._handle_user_order_created)\n    \n    def _handle_user_order_created(self, data):\n        if data['order_id'] == self.id:\n            event_bus.emit('order_created', {\n                'order_id': self.id,\n                'user_id': self.user_id\n            })\n```",
+      },
+      {
+        question:
+          "What is the difference between static and dynamic binding in terms of performance?",
+        solution:
+          "Static binding resolves method calls at compile-time, providing better performance with direct function calls and no runtime lookup overhead. Dynamic binding resolves calls at runtime through vtables or method lookup tables, adding 1-2 CPU cycles overhead but enabling polymorphism. Static binding allows aggressive compiler optimizations like inlining, while dynamic binding requires indirection through function pointers, making it ~10-20% slower but essential for OOP flexibility.\n\n**JavaScript Example:**\n```javascript\n// Static-like binding (direct property access)\nclass Rectangle {\n  area() { return this.width * this.height; }\n}\nconst rect = new Rectangle();\nrect.area(); // Direct method call, faster\n\n// Dynamic binding simulation\nclass Shape {\n  getArea() { throw new Error('Must implement'); }\n}\nclass Circle extends Shape {\n  getArea() { return Math.PI * this.radius ** 2; }\n}\nfunction calculateArea(shape) {\n  return shape.getArea(); // Runtime method resolution\n}\n```\n\n**Python Example:**\n```python\n# Static binding (rare in Python, but possible with __slots__)\nclass OptimizedPoint:\n    __slots__ = ['x', 'y']\n    def distance(self): return (self.x**2 + self.y**2)**0.5\n\n# Dynamic binding (default Python behavior)\nclass Animal:\n    def speak(self): pass\n\nclass Dog(Animal):\n    def speak(self): return \"Woof\"\n\nclass Cat(Animal):\n    def speak(self): return \"Meow\"\n\ndef make_sound(animal):\n    return animal.speak()  # Runtime method lookup via __dict__\n```",
+      },
+      {
+        question:
+          "Explain method dispatch mechanisms in different programming languages.",
+        solution:
+          "Method dispatch determines how the correct method implementation is selected at runtime. Single dispatch uses the receiver object's type, while multiple dispatch considers all argument types. Languages implement this through vtables (C++/Java), dynamic lookup (Python/JavaScript), or protocol-based dispatch (Clojure).\n\n**JavaScript - Prototype Chain Dispatch:**\n```javascript\nclass Vehicle {\n  start() { return 'Vehicle starting'; }\n}\n\nclass Car extends Vehicle {\n  start() { return 'Car engine starting'; }\n}\n\nclass ElectricCar extends Car {\n  start() { return 'Electric motor starting'; }\n}\n\nconst tesla = new ElectricCar();\n// Dispatch walks prototype chain: ElectricCar -> Car -> Vehicle\nconsole.log(tesla.start()); // 'Electric motor starting'\n\n// Method resolution order can be inspected\nconsole.log(tesla.__proto__); // ElectricCar.prototype\nconsole.log(tesla.__proto__.__proto__); // Car.prototype\n```\n\n**Python - Method Resolution Order (MRO):**\n```python\nclass A:\n    def method(self): return 'A'\n\nclass B(A):\n    def method(self): return 'B'\n\nclass C(A):\n    def method(self): return 'C'\n\nclass D(B, C):  # Diamond inheritance\n    pass\n\n# Python uses C3 linearization for MRO\nprint(D.__mro__)  # (<class 'D'>, <class 'B'>, <class 'C'>, <class 'A'>, <class 'object'>)\nd = D()\nprint(d.method())  # 'B' (follows MRO left-to-right)\n\n# Dynamic dispatch with __getattribute__\nclass DynamicDispatch:\n    def __getattribute__(self, name):\n        if name == 'dynamic_method':\n            return lambda: f'Called {name} dynamically'\n        return super().__getattribute__(name)\n```",
+      },
+      {
+        question:
+          "How would you implement multiple dispatch in a language that doesn't support it?",
+        solution:
+          "Multiple dispatch can be implemented using visitor pattern, method overloading simulation, or dispatch tables. The key is creating a registry that maps type combinations to appropriate method implementations, typically using isinstance() checks or type inspection.\n\n**JavaScript Implementation:**\n```javascript\nclass MultiDispatch {\n  constructor() {\n    this.registry = new Map();\n  }\n  \n  register(types, func) {\n    const key = types.map(t => t.name).join(',');\n    this.registry.set(key, func);\n  }\n  \n  dispatch(method, ...args) {\n    const types = args.map(arg => arg.constructor);\n    const key = types.map(t => t.name).join(',');\n    \n    const func = this.registry.get(key);\n    if (!func) {\n      throw new Error(`No implementation for types: ${key}`);\n    }\n    \n    return func.apply(this, args);\n  }\n}\n\n// Usage example\nclass Vector { constructor(x, y) { this.x = x; this.y = y; } }\nclass Matrix { constructor(data) { this.data = data; } }\nclass Scalar { constructor(value) { this.value = value; } }\n\nconst math = new MultiDispatch();\n\n// Register different combinations\nmath.register([Vector, Vector], (a, b) => \n  new Vector(a.x + b.x, a.y + b.y));\nmath.register([Vector, Scalar], (v, s) => \n  new Vector(v.x * s.value, v.y * s.value));\nmath.register([Matrix, Vector], (m, v) => \n  new Vector(m.data[0] * v.x, m.data[1] * v.y));\n\nconst v1 = new Vector(1, 2);\nconst v2 = new Vector(3, 4);\nconst result = math.dispatch('add', v1, v2);\n```\n\n**Python Implementation with Decorators:**\n```python\nfrom functools import singledispatch\nfrom typing import Union\n\nclass MultiDispatcher:\n    def __init__(self):\n        self.registry = {}\n    \n    def register(self, *types):\n        def decorator(func):\n            key = tuple(t.__name__ for t in types)\n            self.registry[key] = func\n            return func\n        return decorator\n    \n    def dispatch(self, *args):\n        key = tuple(type(arg).__name__ for arg in args)\n        \n        # Exact match first\n        if key in self.registry:\n            return self.registry[key](*args)\n        \n        # Try inheritance-based matching\n        for registered_key, func in self.registry.items():\n            if len(registered_key) == len(key):\n                if all(issubclass(type(arg), eval(expected_type)) \n                      for arg, expected_type in zip(args, registered_key)):\n                    return func(*args)\n        \n        raise NotImplementedError(f\"No implementation for {key}\")\n\n# Usage\ndispatcher = MultiDispatcher()\n\nclass Vector:\n    def __init__(self, x, y): self.x, self.y = x, y\n\nclass Matrix:\n    def __init__(self, data): self.data = data\n\n@dispatcher.register(Vector, Vector)\ndef add_vectors(a, b):\n    return Vector(a.x + b.x, a.y + b.y)\n\n@dispatcher.register(Vector, int)\ndef scale_vector(v, scalar):\n    return Vector(v.x * scalar, v.y * scalar)\n\n@dispatcher.register(Matrix, Vector)\ndef transform_vector(m, v):\n    return Vector(m.data[0] * v.x, m.data[1] * v.y)\n\n# Usage\nv1, v2 = Vector(1, 2), Vector(3, 4)\nresult = dispatcher.dispatch(v1, v2)  # Calls add_vectors\n```",
+      },
+      {
+        question:
+          "What are mixins and how do they differ from traditional inheritance?",
+        solution:
+          "Mixins provide horizontal code reuse without establishing 'is-a' relationships, solving the diamond problem and enabling composition over inheritance. Unlike traditional inheritance's linear hierarchy, mixins allow combining multiple behaviors from different sources into a single class, promoting more flexible and modular design.\n\n**JavaScript - Mixin Implementation:**\n```javascript\n// Traditional inheritance limitation\nclass Animal { eat() { return 'eating'; } }\nclass Bird extends Animal { fly() { return 'flying'; } }\nclass Fish extends Animal { swim() { return 'swimming'; } }\n// Problem: What if we need a flying fish? Can't extend both!\n\n// Mixin solution\nconst Flyable = {\n  fly() { return `${this.name} is flying`; },\n  altitude: 0,\n  setAltitude(alt) { this.altitude = alt; }\n};\n\nconst Swimmable = {\n  swim() { return `${this.name} is swimming`; },\n  depth: 0,\n  setDepth(d) { this.depth = d; }\n};\n\nconst Walkable = {\n  walk() { return `${this.name} is walking`; },\n  speed: 0\n};\n\n// Mixin factory function\nfunction applyMixins(targetClass, ...mixins) {\n  mixins.forEach(mixin => {\n    Object.getOwnPropertyNames(mixin).forEach(name => {\n      if (name !== 'constructor') {\n        targetClass.prototype[name] = mixin[name];\n      }\n    });\n  });\n}\n\n// Usage\nclass Duck {\n  constructor(name) { this.name = name; }\n}\n\nclass Penguin {\n  constructor(name) { this.name = name; }\n}\n\nclass FlyingFish {\n  constructor(name) { this.name = name; }\n}\n\n// Apply different combinations of behaviors\napplyMixins(Duck, Flyable, Swimmable, Walkable);\napplyMixins(Penguin, Swimmable, Walkable); // Can't fly\napplyMixins(FlyingFish, Flyable, Swimmable); // Can't walk\n\nconst duck = new Duck('Donald');\nconsole.log(duck.fly()); // 'Donald is flying'\nconsole.log(duck.swim()); // 'Donald is swimming'\n```\n\n**Python - Multiple Inheritance as Mixins:**\n```python\n# Mixin classes (no state, just behavior)\nclass TimestampMixin:\n    def add_timestamp(self):\n        import datetime\n        self.created_at = datetime.datetime.now()\n        return self\n\nclass SerializableMixin:\n    def to_dict(self):\n        return {k: v for k, v in self.__dict__.items() \n                if not k.startswith('_')}\n    \n    def to_json(self):\n        import json\n        return json.dumps(self.to_dict())\n\nclass ValidatableMixin:\n    def validate(self):\n        required_fields = getattr(self, 'REQUIRED_FIELDS', [])\n        for field in required_fields:\n            if not hasattr(self, field) or getattr(self, field) is None:\n                raise ValueError(f'Missing required field: {field}')\n        return True\n\n# Base classes with actual functionality\nclass User:\n    REQUIRED_FIELDS = ['name', 'email']\n    \n    def __init__(self, name, email):\n        self.name = name\n        self.email = email\n\nclass Product:\n    REQUIRED_FIELDS = ['name', 'price']\n    \n    def __init__(self, name, price):\n        self.name = name\n        self.price = price\n\n# Combine base classes with mixins\nclass AuditableUser(User, TimestampMixin, SerializableMixin, ValidatableMixin):\n    pass\n\nclass AuditableProduct(Product, TimestampMixin, SerializableMixin, ValidatableMixin):\n    pass\n\n# Usage\nuser = AuditableUser('John', 'john@example.com')\nuser.add_timestamp().validate()\nprint(user.to_json())  # Combines all mixin behaviors\n\n# Method Resolution Order shows mixin precedence\nprint(AuditableUser.__mro__)\n# Shows: AuditableUser -> User -> TimestampMixin -> SerializableMixin -> ValidatableMixin -> object\n```",
+      },
+      {
+        question:
+          "Explain the concept of duck typing and its advantages/disadvantages.",
+        solution:
+          "Duck typing follows the principle 'If it walks like a duck and quacks like a duck, then it's a duck' - focusing on object behavior rather than explicit type declarations. This enables flexible polymorphism and rapid prototyping but sacrifices compile-time type safety and can lead to runtime errors.\n\n**Advantages:**\n- **Flexibility**: Objects don't need common inheritance hierarchy\n- **Rapid Development**: Less boilerplate type declarations\n- **Protocol-based Design**: Focus on interfaces rather than implementations\n- **Easy Testing**: Mock objects just need required methods\n\n**Disadvantages:**\n- **Runtime Errors**: Type mismatches discovered at runtime\n- **Documentation**: Implicit contracts harder to understand\n- **IDE Support**: Limited autocomplete and refactoring\n- **Performance**: Dynamic method lookup overhead\n\n**JavaScript - Duck Typing Examples:**\n```javascript\n// Duck typing in action - no explicit interfaces needed\nfunction processWritable(obj) {\n  // If it has a 'write' method, treat it as writable\n  if (typeof obj.write === 'function') {\n    obj.write('Hello, World!');\n    return true;\n  }\n  return false;\n}\n\n// Different objects that 'quack like a duck'\nclass FileWriter {\n  write(data) { console.log(`Writing to file: ${data}`); }\n}\n\nclass ConsoleWriter {\n  write(data) { console.log(`Console: ${data}`); }\n}\n\nclass DatabaseWriter {\n  write(data) { console.log(`Saving to DB: ${data}`); }\n}\n\n// All work with processWritable despite no common inheritance\nprocessWritable(new FileWriter());     // Works\nprocessWritable(new ConsoleWriter());  // Works\nprocessWritable(new DatabaseWriter()); // Works\nprocessWritable({});                   // Returns false, no error\n\n// More sophisticated duck typing with protocol checking\nclass DuckTypeChecker {\n  static implementsIteratorProtocol(obj) {\n    return obj && \n           typeof obj[Symbol.iterator] === 'function';\n  }\n  \n  static implementsPromiseProtocol(obj) {\n    return obj && \n           typeof obj.then === 'function' &&\n           typeof obj.catch === 'function';\n  }\n}\n\n// Usage\nconst arr = [1, 2, 3];\nconst str = 'hello';\nconst promise = Promise.resolve(42);\n\nconsole.log(DuckTypeChecker.implementsIteratorProtocol(arr)); // true\nconsole.log(DuckTypeChecker.implementsIteratorProtocol(str)); // true\nconsole.log(DuckTypeChecker.implementsPromiseProtocol(promise)); // true\n```\n\n**Python - Duck Typing with Protocols:**\n```python\nfrom abc import ABC, abstractmethod\nfrom typing import Protocol, runtime_checkable\n\n# Traditional approach - explicit interface\nclass WritableABC(ABC):\n    @abstractmethod\n    def write(self, data: str) -> None:\n        pass\n\n# Duck typing approach - no explicit inheritance needed\ndef process_writable(obj):\n    \"\"\"Process any object that has a write method\"\"\"\n    if hasattr(obj, 'write') and callable(getattr(obj, 'write')):\n        obj.write('Hello from duck typing!')\n    else:\n        raise TypeError(f'{type(obj)} is not writable')\n\n# Python 3.8+ Protocol for better type hints\n@runtime_checkable\nclass Writable(Protocol):\n    def write(self, data: str) -> None: ...\n\n# Different implementations\nclass FileWriter:\n    def write(self, data: str):\n        print(f'Writing to file: {data}')\n\nclass NetworkWriter:\n    def write(self, data: str):\n        print(f'Sending over network: {data}')\n\nclass BufferedWriter:\n    def __init__(self):\n        self.buffer = []\n    \n    def write(self, data: str):\n        self.buffer.append(data)\n        print(f'Buffered: {data}')\n\n# Duck typing in action\nwriters = [FileWriter(), NetworkWriter(), BufferedWriter()]\n\nfor writer in writers:\n    # Works with all writers despite no common inheritance\n    process_writable(writer)\n    \n    # Protocol checking (Python 3.8+)\n    if isinstance(writer, Writable):\n        print(f'{type(writer).__name__} implements Writable protocol')\n\n# Advanced duck typing with EAFP (Easier to Ask for Forgiveness than Permission)\ndef safe_duck_typing(obj, method_name, *args, **kwargs):\n    \"\"\"Safely call a method if it exists\"\"\"\n    try:\n        method = getattr(obj, method_name)\n        if callable(method):\n            return method(*args, **kwargs)\n    except AttributeError:\n        pass\n    return None\n\n# Usage\nclass Duck:\n    def quack(self): return 'Quack!'\n    def swim(self): return 'Swimming...'\n\nclass Dog:\n    def bark(self): return 'Woof!'\n\nclass Robot:\n    def quack(self): return 'Beep beep! (simulated quack)'\n    def compute(self): return 'Computing...'\n\nanimals = [Duck(), Dog(), Robot()]\n\nfor animal in animals:\n    # Duck typing - call quack if available\n    result = safe_duck_typing(animal, 'quack')\n    if result:\n        print(f'{type(animal).__name__} says: {result}')\n    \n    # Call any available method\n    for method in ['swim', 'bark', 'compute']:\n        result = safe_duck_typing(animal, method)\n        if result:\n            print(f'{type(animal).__name__} action: {result}')\n```",
+      },
+      {
+        question:
+          "What is the difference between IS-A, HAS-A, and USES-A relationships?",
+        solution: `
+**IS-A Relationship (Inheritance):**
+Represents inheritance where a subclass "is a" specialized version of its parent class. It establishes a parent-child relationship through class extension.
+
+**JavaScript Example:**
+\`\`\`javascript
+class Animal {
+  constructor(name) {
+    this.name = name;
+  }
+  speak() {
+    console.log(\`\${this.name} makes a sound\`);
+  }
+}
+
+// Dog IS-A Animal
+class Dog extends Animal {
+  speak() {
+    console.log(\`\${this.name} barks\`);
+  }
+}
+
+const dog = new Dog("Buddy");
+dog.speak(); // Buddy barks
+console.log(dog instanceof Animal); // true - Dog IS-A Animal
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def speak(self):
+        print(f"{self.name} makes a sound")
+
+# Dog IS-A Animal
+class Dog(Animal):
+    def speak(self):
+        print(f"{self.name} barks")
+
+dog = Dog("Buddy")
+dog.speak()  # Buddy barks
+print(isinstance(dog, Animal))  # True - Dog IS-A Animal
+\`\`\`
+
+**HAS-A Relationship (Composition/Aggregation):**
+Represents ownership where one class contains instances of another class as member variables. The contained object is part of the containing object.
+
+**JavaScript Example:**
+\`\`\`javascript
+class Engine {
+  constructor(horsepower) {
+    this.horsepower = horsepower;
+  }
+  start() {
+    console.log("Engine started");
+  }
+}
+
+// Car HAS-A Engine
+class Car {
+  constructor(make, model, horsepower) {
+    this.make = make;
+    this.model = model;
+    this.engine = new Engine(horsepower); // Car HAS-A Engine
+  }
+  
+  start() {
+    this.engine.start();
+    console.log(\`\${this.make} \${this.model} is running\`);
+  }
+}
+
+const car = new Car("Toyota", "Camry", 203);
+car.start(); // Engine started, Toyota Camry is running
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Engine:
+    def __init__(self, horsepower):
+        self.horsepower = horsepower
+    
+    def start(self):
+        print("Engine started")
+
+# Car HAS-A Engine
+class Car:
+    def __init__(self, make, model, horsepower):
+        self.make = make
+        self.model = model
+        self.engine = Engine(horsepower)  # Car HAS-A Engine
+    
+    def start(self):
+        self.engine.start()
+        print(f"{self.make} {self.model} is running")
+
+car = Car("Toyota", "Camry", 203)
+car.start()  # Engine started, Toyota Camry is running
+\`\`\`
+
+**USES-A Relationship (Dependency):**
+Represents a temporary relationship where one class uses another class's methods or services, typically through method parameters or local variables.
+
+**JavaScript Example:**
+\`\`\`javascript
+class Logger {
+  log(message) {
+    console.log(\`[LOG]: \${message}\`);
+  }
+}
+
+class DatabaseService {
+  save(data) {
+    console.log("Saving to database...");
+    return true;
+  }
+}
+
+// UserService USES-A Logger and DatabaseService
+class UserService {
+  createUser(userData, logger, dbService) {
+    // USES-A Logger
+    logger.log("Creating new user");
+    
+    // USES-A DatabaseService
+    const success = dbService.save(userData);
+    
+    if (success) {
+      logger.log("User created successfully");
+    }
+    return success;
+  }
+}
+
+const userService = new UserService();
+const logger = new Logger();
+const dbService = new DatabaseService();
+
+userService.createUser({name: "John"}, logger, dbService);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class Logger:
+    def log(self, message):
+        print(f"[LOG]: {message}")
+
+class DatabaseService:
+    def save(self, data):
+        print("Saving to database...")
+        return True
+
+# UserService USES-A Logger and DatabaseService
+class UserService:
+    def create_user(self, user_data, logger, db_service):
+        # USES-A Logger
+        logger.log("Creating new user")
+        
+        # USES-A DatabaseService
+        success = db_service.save(user_data)
+        
+        if success:
+            logger.log("User created successfully")
+        return success
+
+user_service = UserService()
+logger = Logger()
+db_service = DatabaseService()
+
+user_service.create_user({"name": "John"}, logger, db_service)
+\`\`\`
+
+**Key Differences:**
+- **IS-A**: Permanent relationship, shared interface, polymorphism
+- **HAS-A**: Ownership relationship, encapsulation, lifecycle management
+- **USES-A**: Temporary relationship, loose coupling, dependency injection`,
+      },
+      {
+        question: "How do you handle versioning in object serialization?",
+        solution: `
+Object serialization versioning is crucial for maintaining compatibility when class structures evolve. Here are the main strategies:
+
+**1. Version Fields and Backward Compatibility:**
+
+**JavaScript Example:**
+\`\`\`javascript
+class User {
+  constructor(name, email, version = "2.0") {
+    this.name = name;
+    this.email = email;
+    this.version = version;
+    // New field in v2.0
+    this.preferences = { theme: "light", notifications: true };
+  }
+  
+  static fromJSON(jsonStr) {
+    const data = JSON.parse(jsonStr);
+    
+    // Handle different versions
+    switch(data.version) {
+      case "1.0":
+        return User.migrateFromV1(data);
+      case "2.0":
+        return new User(data.name, data.email, data.version);
+      default:
+        throw new Error(\`Unsupported version: \${data.version}\`);
+    }
+  }
+  
+  static migrateFromV1(oldData) {
+    const user = new User(oldData.name, oldData.email, "2.0");
+    // Set default preferences for v1 users
+    user.preferences = { theme: "light", notifications: true };
+    return user;
+  }
+  
+  toJSON() {
+    return {
+      name: this.name,
+      email: this.email,
+      version: this.version,
+      preferences: this.preferences
+    };
+  }
+}
+
+// Simulate old v1.0 data
+const v1Data = '{"name": "John", "email": "john@email.com", "version": "1.0"}';
+const user = User.fromJSON(v1Data);
+console.log(user.preferences); // { theme: "light", notifications: true }
+\`\`\`
+
+**Python Example with pickle versioning:**
+\`\`\`python
+import pickle
+import json
+from typing import Dict, Any
+
+class User:
+    VERSION = "2.0"
+    
+    def __init__(self, name: str, email: str, version: str = None):
+        self.name = name
+        self.email = email
+        self.version = version or self.VERSION
+        self.preferences = {"theme": "light", "notifications": True}
+    
+    @classmethod
+    def from_dict(cls, data: Dict[str, Any]):
+        version = data.get("version", "1.0")
+        
+        if version == "1.0":
+            return cls._migrate_from_v1(data)
+        elif version == "2.0":
+            user = cls(data["name"], data["email"], version)
+            user.preferences = data.get("preferences", user.preferences)
+            return user
+        else:
+            raise ValueError(f"Unsupported version: {version}")
+    
+    @classmethod
+    def _migrate_from_v1(cls, old_data: Dict[str, Any]):
+        user = cls(old_data["name"], old_data["email"], "2.0")
+        # Migration logic for v1 -> v2
+        return user
+    
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "name": self.name,
+            "email": self.email,
+            "version": self.version,
+            "preferences": self.preferences
+        }
+    
+    def __getstate__(self):
+        # Custom pickle serialization
+        return self.to_dict()
+    
+    def __setstate__(self, state):
+        # Custom pickle deserialization
+        user_data = User.from_dict(state)
+        self.__dict__.update(user_data.__dict__)
+
+# Example usage
+user = User("John", "john@email.com")
+pickled = pickle.dumps(user)
+unpickled = pickle.loads(pickled)
+print(unpickled.preferences)
+\`\`\`
+
+**2. Schema Evolution with Validation:**
+
+**JavaScript Example:**
+\`\`\`javascript
+class SerializationManager {
+  static schemas = {
+    "1.0": {
+      required: ["name", "email"],
+      optional: [],
+      migrations: {
+        "2.0": (data) => ({
+          ...data,
+          version: "2.0",
+          preferences: { theme: "light", notifications: true }
+        })
+      }
+    },
+    "2.0": {
+      required: ["name", "email", "preferences"],
+      optional: ["lastLogin"],
+      migrations: {}
+    }
+  };
+  
+  static deserialize(jsonStr, targetVersion = "2.0") {
+    const data = JSON.parse(jsonStr);
+    const currentVersion = data.version || "1.0";
+    
+    // Validate current schema
+    this.validateSchema(data, currentVersion);
+    
+    // Migrate if necessary
+    let migratedData = data;
+    if (currentVersion !== targetVersion) {
+      migratedData = this.migrate(data, currentVersion, targetVersion);
+    }
+    
+    return migratedData;
+  }
+  
+  static validateSchema(data, version) {
+    const schema = this.schemas[version];
+    if (!schema) throw new Error(\`Unknown schema version: \${version}\`);
+    
+    for (const field of schema.required) {
+      if (!(field in data)) {
+        throw new Error(\`Missing required field: \${field}\`);
+      }
+    }
+  }
+  
+  static migrate(data, fromVersion, toVersion) {
+    const schema = this.schemas[fromVersion];
+    const migration = schema.migrations[toVersion];
+    
+    if (!migration) {
+      throw new Error(\`No migration path from \${fromVersion} to \${toVersion}\`);
+    }
+    
+    return migration(data);
+  }
+}
+
+// Usage
+const oldData = '{"name": "John", "email": "john@email.com", "version": "1.0"}';
+const migrated = SerializationManager.deserialize(oldData);
+console.log(migrated);
+\`\`\`
+
+**Python Example with dataclasses and versioning:**
+\`\`\`python
+from dataclasses import dataclass, field
+from typing import Dict, Any, Optional
+import json
+from datetime import datetime
+
+@dataclass
+class UserV1:
+    name: str
+    email: str
+    version: str = "1.0"
+
+@dataclass
+class UserV2:
+    name: str
+    email: str
+    preferences: Dict[str, Any] = field(default_factory=lambda: {"theme": "light"})
+    last_login: Optional[datetime] = None
+    version: str = "2.0"
+    
+    @classmethod
+    def from_v1(cls, v1_user: UserV1):
+        return cls(
+            name=v1_user.name,
+            email=v1_user.email,
+            preferences={"theme": "light", "notifications": True},
+            last_login=None
+        )
+
+class UserSerializer:
+    VERSION_MAP = {
+        "1.0": UserV1,
+        "2.0": UserV2
+    }
+    
+    @classmethod
+    def deserialize(cls, data_str: str) -> UserV2:
+        data = json.loads(data_str)
+        version = data.get("version", "1.0")
+        
+        if version == "1.0":
+            v1_user = UserV1(**{k: v for k, v in data.items() if k in ["name", "email", "version"]})
+            return UserV2.from_v1(v1_user)
+        elif version == "2.0":
+            return UserV2(**data)
+        else:
+            raise ValueError(f"Unsupported version: {version}")
+    
+    @classmethod
+    def serialize(cls, user: UserV2) -> str:
+        return json.dumps({
+            "name": user.name,
+            "email": user.email,
+            "preferences": user.preferences,
+            "last_login": user.last_login.isoformat() if user.last_login else None,
+            "version": user.version
+        })
+
+# Example usage
+old_data = '{"name": "John", "email": "john@email.com", "version": "1.0"}'
+user = UserSerializer.deserialize(old_data)
+print(f"Migrated user: {user}")
+\`\`\`
+
+**Key Versioning Strategies:**
+1. **Version Fields**: Explicit version numbers in serialized data
+2. **Schema Migration**: Transform old formats to new formats
+3. **Backward Compatibility**: Support reading old versions
+4. **Forward Compatibility**: Gracefully handle unknown fields
+5. **Default Values**: Provide sensible defaults for new fields
+6. **Validation**: Ensure data integrity across versions`,
+      },
+      {
+        question: "What are phantom types and how are they used in OOP?",
+        solution: `
+Phantom types are type parameters that don't appear in the runtime representation but exist only at compile-time for type safety. They help enforce constraints and provide additional type information without runtime overhead.
+
+**JavaScript Example (using TypeScript for type safety):**
+\`\`\`javascript
+// Since JS doesn't have native phantom types, we simulate the concept
+// In TypeScript, this would be more explicit with generic types
+
+// Phantom type simulation using symbols
+const CURRENCY_TYPE = Symbol('currency');
+const UNIT_TYPE = Symbol('unit');
+
+class Money {
+  constructor(amount, currencyType) {
+    this.amount = amount;
+    this[CURRENCY_TYPE] = currencyType;
+  }
+  
+  static usd(amount) {
+    return new Money(amount, 'USD');
+  }
+  
+  static eur(amount) {
+    return new Money(amount, 'EUR');
+  }
+  
+  add(other) {
+    if (this[CURRENCY_TYPE] !== other[CURRENCY_TYPE]) {
+      throw new Error(\`Cannot add \${this[CURRENCY_TYPE]} to \${other[CURRENCY_TYPE]}\`);
+    }
+    return new Money(this.amount + other.amount, this[CURRENCY_TYPE]);
+  }
+  
+  toString() {
+    return \`\${this.amount} \${this[CURRENCY_TYPE]}\`;
+  }
+}
+
+// Usage - enforces currency type safety
+const usd1 = Money.usd(100);
+const usd2 = Money.usd(50);
+const eur1 = Money.eur(75);
+
+console.log(usd1.add(usd2).toString()); // "150 USD"
+// usd1.add(eur1); // Would throw error - different currencies
+
+// Example with measurement units
+class Measurement {
+  constructor(value, unitType) {
+    this.value = value;
+    this[UNIT_TYPE] = unitType;
+  }
+  
+  static meters(value) {
+    return new Measurement(value, 'METERS');
+  }
+  
+  static feet(value) {
+    return new Measurement(value, 'FEET');
+  }
+  
+  add(other) {
+    if (this[UNIT_TYPE] !== other[UNIT_TYPE]) {
+      throw new Error(\`Cannot add \${this[UNIT_TYPE]} to \${other[UNIT_TYPE]}\`);
+    }
+    return new Measurement(this.value + other.value, this[UNIT_TYPE]);
+  }
+}
+
+const length1 = Measurement.meters(10);
+const length2 = Measurement.meters(5);
+console.log(length1.add(length2)); // Valid - same units
+\`\`\`
+
+**Python Example using typing and runtime checks:**
+\`\`\`python
+from typing import TypeVar, Generic, NewType
+from abc import ABC, abstractmethod
+
+# Define phantom type markers
+class Currency(ABC):
+    pass
+
+class USD(Currency):
+    pass
+
+class EUR(Currency):
+    pass
+
+T = TypeVar('T', bound=Currency)
+
+class Money(Generic[T]):
+    def __init__(self, amount: float, currency_type: type):
+        self.amount = amount
+        self._currency_type = currency_type
+    
+    @classmethod
+    def usd(cls, amount: float) -> 'Money[USD]':
+        return cls(amount, USD)
+    
+    @classmethod
+    def eur(cls, amount: float) -> 'Money[EUR]':
+        return cls(amount, EUR)
+    
+    def add(self, other: 'Money[T]') -> 'Money[T]':
+        if self._currency_type != other._currency_type:
+            raise TypeError(f"Cannot add {self._currency_type.__name__} to {other._currency_type.__name__}")
+        return Money(self.amount + other.amount, self._currency_type)
+    
+    def __str__(self):
+        return f"{self.amount} {self._currency_type.__name__}"
+
+# Usage
+usd_money = Money.usd(100)
+eur_money = Money.eur(50)
+
+print(usd_money.add(Money.usd(25)))  # 125.0 USD
+# usd_money.add(eur_money)  # Would raise TypeError
+
+# Example with state machine phantom types
+class State(ABC):
+    pass
+
+class Locked(State):
+    pass
+
+class Unlocked(State):
+    pass
+
+S = TypeVar('S', bound=State)
+
+class Door(Generic[S]):
+    def __init__(self, state_type: type):
+        self._state_type = state_type
+    
+    @classmethod
+    def locked(cls) -> 'Door[Locked]':
+        return cls(Locked)
+    
+    @classmethod
+    def unlocked(cls) -> 'Door[Unlocked]':
+        return cls(Unlocked)
+    
+    def unlock(self: 'Door[Locked]') -> 'Door[Unlocked]':
+        if self._state_type != Locked:
+            raise TypeError("Can only unlock a locked door")
+        return Door.unlocked()
+    
+    def lock(self: 'Door[Unlocked]') -> 'Door[Locked]':
+        if self._state_type != Unlocked:
+            raise TypeError("Can only lock an unlocked door")
+        return Door.locked()
+    
+    def open(self: 'Door[Unlocked]') -> None:
+        if self._state_type != Unlocked:
+            raise TypeError("Can only open an unlocked door")
+        print("Door opened!")
+    
+    def __str__(self):
+        return f"Door is {self._state_type.__name__.lower()}"
+
+# State machine usage
+locked_door = Door.locked()
+unlocked_door = locked_door.unlock()
+unlocked_door.open()  # Valid
+# locked_door.open()  # Would raise TypeError
+
+# Example with database connection states
+class ConnectionState(ABC):
+    pass
+
+class Connected(ConnectionState):
+    pass
+
+class Disconnected(ConnectionState):
+    pass
+
+class Connection(Generic[S]):
+    def __init__(self, state_type: type, connection_string: str = ""):
+        self._state_type = state_type
+        self.connection_string = connection_string
+    
+    @classmethod
+    def disconnected(cls, connection_string: str) -> 'Connection[Disconnected]':
+        return cls(Disconnected, connection_string)
+    
+    def connect(self: 'Connection[Disconnected]') -> 'Connection[Connected]':
+        if self._state_type != Disconnected:
+            raise TypeError("Already connected")
+        print(f"Connecting to {self.connection_string}")
+        return Connection(Connected, self.connection_string)
+    
+    def query(self: 'Connection[Connected]', sql: str) -> str:
+        if self._state_type != Connected:
+            raise TypeError("Must be connected to execute queries")
+        return f"Executing: {sql}"
+    
+    def disconnect(self: 'Connection[Connected]') -> 'Connection[Disconnected]':
+        if self._state_type != Connected:
+            raise TypeError("Already disconnected")
+        return Connection.disconnected(self.connection_string)
+
+# Database connection usage
+db = Connection.disconnected("postgresql://localhost:5432/mydb")
+connected_db = db.connect()
+result = connected_db.query("SELECT * FROM users")
+print(result)
+# db.query("SELECT * FROM users")  # Would raise TypeError
+\`\`\`
+
+**Advanced Phantom Type Example - Units of Measurement:**
+
+**Python Example:**
+\`\`\`python
+from typing import TypeVar, Generic
+from abc import ABC
+
+class Unit(ABC):
+    pass
+
+class Meter(Unit):
+    SYMBOL = "m"
+
+class Foot(Unit):
+    SYMBOL = "ft"
+
+class Second(Unit):
+    SYMBOL = "s"
+
+class Kilogram(Unit):
+    SYMBOL = "kg"
+
+U = TypeVar('U', bound=Unit)
+
+class Quantity(Generic[U]):
+    def __init__(self, value: float, unit_type: type):
+        self.value = value
+        self._unit_type = unit_type
+    
+    def __add__(self, other: 'Quantity[U]') -> 'Quantity[U]':
+        if self._unit_type != other._unit_type:
+            raise TypeError(f"Cannot add {self._unit_type.__name__} to {other._unit_type.__name__}")
+        return Quantity(self.value + other.value, self._unit_type)
+    
+    def __mul__(self, scalar: float) -> 'Quantity[U]':
+        return Quantity(self.value * scalar, self._unit_type)
+    
+    def __str__(self):
+        return f"{self.value} {self._unit_type.SYMBOL}"
+    
+    @classmethod
+    def meters(cls, value: float) -> 'Quantity[Meter]':
+        return cls(value, Meter)
+    
+    @classmethod
+    def feet(cls, value: float) -> 'Quantity[Foot]':
+        return cls(value, Foot)
+    
+    @classmethod
+    def seconds(cls, value: float) -> 'Quantity[Second]':
+        return cls(value, Second)
+    
+    @classmethod
+    def kilograms(cls, value: float) -> 'Quantity[Kilogram]':
+        return cls(value, Kilogram)
+
+# Usage
+distance1 = Quantity.meters(10)
+distance2 = Quantity.meters(5)
+total_distance = distance1 + distance2
+print(total_distance)  # 15 m
+
+time = Quantity.seconds(2)
+mass = Quantity.kilograms(5)
+# distance1 + time  # Would raise TypeError - different units
+\`\`\`
+
+**Benefits of Phantom Types:**
+1. **Compile-time Safety**: Catch type errors early
+2. **Zero Runtime Cost**: No performance overhead
+3. **API Design**: Create more expressive and safe APIs
+4. **State Machine Modeling**: Enforce valid state transitions
+5. **Unit Safety**: Prevent mixing incompatible units
+6. **Resource Management**: Ensure proper resource lifecycle`,
+      },
       {
         question:
           "What are the four main principles of Object-Oriented Programming?",
