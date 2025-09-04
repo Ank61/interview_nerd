@@ -31823,6 +31823,630 @@ mass = Quantity.kilograms(5)
           "Polymorphism allows objects of different classes to be treated as objects of a common base class. Example: different animals (Dog, Cat) implementing a common 'makeSound()' method differently.",
         tags: [{ name: "polymorphism", link: "" }],
       },
+      {
+        question: "How do you design thread-safe classes?",
+        solution: `Thread-safe class design involves protecting shared state from concurrent access corruption:
+
+**Key Principles:**
+1. **Immutability**: Make objects immutable when possible
+2. **Synchronization**: Use locks/mutexes for mutable state
+3. **Atomic Operations**: Use atomic variables for simple operations
+4. **Thread-local Storage**: Keep state per thread
+5. **Lock-free Programming**: Use concurrent data structures
+
+**JavaScript Example (using Web Workers):**
+\`\`\`javascript
+class ThreadSafeCounter {
+  constructor() {
+    this._value = 0;
+    this._lock = new SharedArrayBuffer(4);
+    this._lockView = new Int32Array(this._lock);
+  }
+
+  // Atomic increment using Atomics
+  increment() {
+    return Atomics.add(this._lockView, 0, 1);
+  }
+
+  // Atomic read
+  getValue() {
+    return Atomics.load(this._lockView, 0);
+  }
+
+  // Compare and swap operation
+  compareAndSet(expected, newValue) {
+    return Atomics.compareExchange(this._lockView, 0, expected, newValue);
+  }
+}
+
+// Immutable approach
+class ImmutablePoint {
+  constructor(x, y) {
+    this._x = x;
+    this._y = y;
+    Object.freeze(this);
+  }
+
+  get x() { return this._x; }
+  get y() { return this._y; }
+
+  // Returns new instance instead of modifying
+  move(dx, dy) {
+    return new ImmutablePoint(this._x + dx, this._y + dy);
+  }
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import threading
+from threading import Lock, RLock
+from collections import deque
+import time
+
+class ThreadSafeCounter:
+    def __init__(self):
+        self._value = 0
+        self._lock = Lock()
+    
+    def increment(self):
+        with self._lock:
+            self._value += 1
+            return self._value
+    
+    def decrement(self):
+        with self._lock:
+            self._value -= 1
+            return self._value
+    
+    @property
+    def value(self):
+        with self._lock:
+            return self._value
+
+# Thread-safe queue implementation
+class ThreadSafeQueue:
+    def __init__(self):
+        self._queue = deque()
+        self._lock = Lock()
+        self._not_empty = threading.Condition(self._lock)
+    
+    def put(self, item):
+        with self._not_empty:
+            self._queue.append(item)
+            self._not_empty.notify()
+    
+    def get(self, timeout=None):
+        with self._not_empty:
+            while not self._queue:
+                if not self._not_empty.wait(timeout):
+                    raise Empty()
+            return self._queue.popleft()
+
+# Immutable approach
+class ImmutableBankAccount:
+    def __init__(self, balance, transactions=None):
+        self._balance = balance
+        self._transactions = tuple(transactions or [])
+    
+    @property
+    def balance(self):
+        return self._balance
+    
+    @property
+    def transactions(self):
+        return self._transactions
+    
+    def deposit(self, amount):
+        new_transactions = self._transactions + (f"Deposit: {amount}",)
+        return ImmutableBankAccount(self._balance + amount, new_transactions)
+    
+    def withdraw(self, amount):
+        if amount > self._balance:
+            raise ValueError("Insufficient funds")
+        new_transactions = self._transactions + (f"Withdraw: {amount}",)
+        return ImmutableBankAccount(self._balance - amount, new_transactions)
+\`\`\`
+
+**Best Practices:**
+- Minimize shared mutable state
+- Use coarse-grained locking initially, optimize later
+- Avoid nested locks to prevent deadlocks
+- Consider using concurrent collections
+- Document thread-safety guarantees`,
+      },
+
+      {
+        question:
+          "What is the difference between intrinsic and extrinsic state in the Flyweight pattern?",
+        solution: `The Flyweight pattern separates object state into two categories to minimize memory usage:
+
+**Intrinsic State:**
+- Shared among multiple objects
+- Stored inside the flyweight object
+- Independent of context
+- Immutable
+
+**Extrinsic State:**
+- Unique to each object instance
+- Passed as parameters to flyweight methods
+- Context-dependent
+- Can be mutable
+
+**JavaScript Example:**
+\`\`\`javascript
+// Flyweight: Character (intrinsic state)
+class CharacterFlyweight {
+  constructor(character, font, size) {
+    this.character = character;  // intrinsic
+    this.font = font;           // intrinsic
+    this.size = size;           // intrinsic
+  }
+
+  // Extrinsic state passed as parameters
+  render(x, y, color, context) {
+    context.fillStyle = color;  // extrinsic
+    context.font = \`\${this.size}px \${this.font}\`;
+    context.fillText(this.character, x, y);  // x, y are extrinsic
+  }
+}
+
+// Flyweight Factory
+class CharacterFactory {
+  constructor() {
+    this.flyweights = new Map();
+  }
+
+  getFlyweight(character, font, size) {
+    const key = \`\${character}-\${font}-\${size}\`;
+    
+    if (!this.flyweights.has(key)) {
+      this.flyweights.set(key, new CharacterFlyweight(character, font, size));
+    }
+    
+    return this.flyweights.get(key);
+  }
+
+  getCreatedFlyweightsCount() {
+    return this.flyweights.size;
+  }
+}
+
+// Context: Document (manages extrinsic state)
+class Document {
+  constructor() {
+    this.characters = [];
+    this.factory = new CharacterFactory();
+  }
+
+  addCharacter(char, x, y, color, font = 'Arial', size = 12) {
+    const flyweight = this.factory.getFlyweight(char, font, size);
+    
+    // Store extrinsic state
+    this.characters.push({
+      flyweight,
+      x,
+      y,
+      color
+    });
+  }
+
+  render(context) {
+    this.characters.forEach(char => {
+      char.flyweight.render(char.x, char.y, char.color, context);
+    });
+  }
+}
+
+// Usage
+const doc = new Document();
+doc.addCharacter('H', 10, 10, 'black');
+doc.addCharacter('e', 20, 10, 'black');
+doc.addCharacter('l', 30, 10, 'red');
+doc.addCharacter('l', 40, 10, 'red');    // Reuses flyweight
+doc.addCharacter('o', 50, 10, 'blue');
+
+console.log(\`Created flyweights: \${doc.factory.getCreatedFlyweightsCount()}\`); // 4, not 5
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+class TreeType:
+    """Flyweight: Contains intrinsic state"""
+    def __init__(self, name, color, sprite):
+        self.name = name      # intrinsic
+        self.color = color    # intrinsic
+        self.sprite = sprite  # intrinsic
+    
+    def render(self, canvas, x, y, size):
+        """Extrinsic state passed as parameters"""
+        # x, y, size are extrinsic state
+        canvas.draw_sprite(self.sprite, x, y, size, self.color)
+        print(f"Rendering {self.name} tree at ({x}, {y}) with size {size}")
+
+class TreeTypeFactory:
+    """Manages flyweight instances"""
+    _tree_types = {}
+    
+    @classmethod
+    def get_tree_type(cls, name, color, sprite):
+        key = f"{name}-{color}-{sprite}"
+        
+        if key not in cls._tree_types:
+            cls._tree_types[key] = TreeType(name, color, sprite)
+            print(f"Created new flyweight for {name}")
+        
+        return cls._tree_types[key]
+    
+    @classmethod
+    def get_created_flyweights_count(cls):
+        return len(cls._tree_types)
+
+class Tree:
+    """Context: Contains extrinsic state"""
+    def __init__(self, x, y, size, tree_type):
+        self.x = x              # extrinsic
+        self.y = y              # extrinsic
+        self.size = size        # extrinsic
+        self.tree_type = tree_type  # reference to flyweight
+    
+    def render(self, canvas):
+        self.tree_type.render(canvas, self.x, self.y, self.size)
+
+class Forest:
+    """Client: Manages context objects"""
+    def __init__(self):
+        self.trees = []
+    
+    def plant_tree(self, x, y, size, name, color, sprite):
+        tree_type = TreeTypeFactory.get_tree_type(name, color, sprite)
+        tree = Tree(x, y, size, tree_type)
+        self.trees.append(tree)
+    
+    def render(self, canvas):
+        for tree in self.trees:
+            tree.render(canvas)
+
+# Mock canvas for demonstration
+class Canvas:
+    def draw_sprite(self, sprite, x, y, size, color):
+        pass
+
+# Usage
+forest = Forest()
+canvas = Canvas()
+
+# Plant many trees
+forest.plant_tree(10, 10, 5, "Oak", "Green", "oak_sprite")
+forest.plant_tree(20, 20, 7, "Oak", "Green", "oak_sprite")  # Reuses flyweight
+forest.plant_tree(30, 30, 4, "Pine", "Dark Green", "pine_sprite")
+forest.plant_tree(40, 40, 6, "Oak", "Green", "oak_sprite")  # Reuses flyweight
+
+print(f"Trees planted: {len(forest.trees)}")  # 4
+print(f"Flyweights created: {TreeTypeFactory.get_created_flyweights_count()}")  # 2
+
+forest.render(canvas)
+\`\`\`
+
+**Key Benefits:**
+- **Memory Efficiency**: Shared intrinsic state reduces memory usage
+- **Performance**: Fewer object creations
+- **Scalability**: Can handle large numbers of similar objects
+
+**When to Use:**
+- Large numbers of similar objects
+- Object creation is expensive
+- Most object state can be made extrinsic`,
+      },
+
+      {
+        question:
+          "How would you implement lazy initialization safely in a multithreaded environment?",
+        solution: `Lazy initialization delays object creation until first use. In multithreaded environments, we need to ensure thread-safety while maintaining performance:
+
+**JavaScript Example (using Web Workers/SharedArrayBuffer):**
+\`\`\`javascript
+class LazyInitializedService {
+  constructor() {
+    this._instance = null;
+    this._initialized = false;
+    // Using SharedArrayBuffer for cross-thread synchronization
+    this._lockBuffer = new SharedArrayBuffer(4);
+    this._lock = new Int32Array(this._lockBuffer);
+  }
+
+  // Double-checked locking pattern
+  getInstance() {
+    if (!this._initialized) {
+      // Acquire lock
+      while (Atomics.compareExchange(this._lock, 0, 0, 1) !== 0) {
+        // Spin wait or yield
+      }
+      
+      try {
+        // Double-check after acquiring lock
+        if (!this._initialized) {
+          this._instance = this._createExpensiveService();
+          this._initialized = true;
+        }
+      } finally {
+        // Release lock
+        Atomics.store(this._lock, 0, 0);
+      }
+    }
+    
+    return this._instance;
+  }
+
+  _createExpensiveService() {
+    // Simulate expensive initialization
+    console.log("Creating expensive service...");
+    return {
+      data: "Expensive service data",
+      processData: (input) => \`Processed: \${input}\`
+    };
+  }
+}
+
+// Singleton with lazy initialization
+class LazySingleton {
+  constructor() {
+    if (LazySingleton._instance) {
+      return LazySingleton._instance;
+    }
+    
+    this.data = "Singleton data";
+    LazySingleton._instance = this;
+  }
+
+  static getInstance() {
+    if (!LazySingleton._instance) {
+      // This is not thread-safe in JS, but shows the pattern
+      LazySingleton._instance = new LazySingleton();
+    }
+    return LazySingleton._instance;
+  }
+}
+
+// Using WeakMap for thread-safe lazy initialization
+class LazyProperty {
+  constructor() {
+    this._cache = new WeakMap();
+  }
+
+  getExpensiveComputation(key) {
+    if (!this._cache.has(key)) {
+      const result = this._performExpensiveComputation(key);
+      this._cache.set(key, result);
+    }
+    return this._cache.get(key);
+  }
+
+  _performExpensiveComputation(key) {
+    console.log(\`Computing for key: \${key}\`);
+    return key * key * Math.random(); // Simulate expensive operation
+  }
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import threading
+import time
+from typing import Optional, Any
+
+class LazyInitializedService:
+    """Thread-safe lazy initialization using double-checked locking"""
+    
+    def __init__(self):
+        self._instance: Optional[Any] = None
+        self._lock = threading.Lock()
+        self._initialized = False
+    
+    def get_instance(self):
+        # First check without locking (performance optimization)
+        if not self._initialized:
+            with self._lock:
+                # Double-check after acquiring lock
+                if not self._initialized:
+                    self._instance = self._create_expensive_service()
+                    self._initialized = True
+        
+        return self._instance
+    
+    def _create_expensive_service(self):
+        print("Creating expensive service...")
+        time.sleep(0.1)  # Simulate expensive initialization
+        return {
+            'data': 'Expensive service data',
+            'timestamp': time.time()
+        }
+
+# Thread-safe Singleton with lazy initialization
+class LazySingleton:
+    _instance: Optional['LazySingleton'] = None
+    _lock = threading.Lock()
+    
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+                    cls._instance._initialize()
+        return cls._instance
+    
+    def _initialize(self):
+        self.data = "Singleton data"
+        self.created_at = time.time()
+        print(f"Singleton initialized at {self.created_at}")
+
+# Using threading.local for thread-specific lazy initialization
+class ThreadLocalLazyService:
+    def __init__(self):
+        self._local = threading.local()
+    
+    def get_service(self):
+        # Each thread gets its own instance
+        if not hasattr(self._local, 'service'):
+            self._local.service = self._create_service()
+        return self._local.service
+    
+    def _create_service(self):
+        thread_id = threading.current_thread().ident
+        print(f"Creating service for thread {thread_id}")
+        return f"Service for thread {thread_id}"
+
+# Property-based lazy initialization with caching
+class LazyPropertyExample:
+    def __init__(self):
+        self._expensive_data = None
+        self._data_lock = threading.Lock()
+        self._cache = {}
+        self._cache_lock = threading.Lock()
+    
+    @property
+    def expensive_data(self):
+        if self._expensive_data is None:
+            with self._data_lock:
+                if self._expensive_data is None:
+                    self._expensive_data = self._compute_expensive_data()
+        return self._expensive_data
+    
+    def get_cached_computation(self, key):
+        with self._cache_lock:
+            if key not in self._cache:
+                self._cache[key] = self._perform_computation(key)
+            return self._cache[key]
+    
+    def _compute_expensive_data(self):
+        print("Computing expensive data...")
+        time.sleep(0.1)
+        return list(range(1000))
+    
+    def _perform_computation(self, key):
+        print(f"Computing for key: {key}")
+        return key * key
+
+# Using functools.lru_cache for thread-safe lazy memoization
+from functools import lru_cache
+
+class LazyComputationService:
+    @lru_cache(maxsize=128)
+    def expensive_computation(self, n):
+        """Thread-safe memoized computation"""
+        print(f"Computing fibonacci({n})")
+        if n < 2:
+            return n
+        return self.expensive_computation(n-1) + self.expensive_computation(n-2)
+    
+    @lru_cache(maxsize=None)
+    def get_user_data(self, user_id):
+        """Simulated database call with caching"""
+        print(f"Fetching data for user {user_id}")
+        time.sleep(0.05)  # Simulate DB call
+        return {
+            'id': user_id,
+            'name': f'User {user_id}',
+            'data': f'Data for user {user_id}'
+        }
+
+# Testing thread safety
+def test_thread_safety():
+    service = LazyInitializedService()
+    singleton = LazySingleton()
+    thread_local_service = ThreadLocalLazyService()
+    
+    def worker(worker_id):
+        # Test lazy service
+        instance = service.get_instance()
+        print(f"Worker {worker_id} got instance: {instance['timestamp']}")
+        
+        # Test singleton
+        s = LazySingleton()
+        print(f"Worker {worker_id} got singleton created at: {s.created_at}")
+        
+        # Test thread-local service
+        local_service = thread_local_service.get_service()
+        print(f"Worker {worker_id} got local service: {local_service}")
+    
+    # Create multiple threads
+    threads = []
+    for i in range(3):
+        t = threading.Thread(target=worker, args=(i,))
+        threads.append(t)
+        t.start()
+    
+    for t in threads:
+        t.join()
+
+# Usage example
+if __name__ == "__main__":
+    test_thread_safety()
+\`\`\`
+
+**Key Patterns:**
+
+1. **Double-Checked Locking**: Check condition, acquire lock, check again
+2. **Singleton Pattern**: Ensure only one instance exists
+3. **Thread-Local Storage**: Each thread gets its own instance
+4. **Memoization**: Cache computed results
+
+**Performance Considerations:**
+- Minimize lock contention
+- Use read-write locks when appropriate
+- Consider lock-free alternatives
+- Profile and measure performance impact
+
+**Common Pitfalls:**
+- Broken double-checked locking (memory model issues)
+- Race conditions during initialization
+- Deadlocks with nested locks
+- Memory leaks in caching mechanisms`,
+      },
+      {
+        question:
+          "How would you design a plugin architecture using OOP principles?",
+        solution:
+          "A plugin architecture allows extending application functionality without modifying core code. Key components include:\n\n**Core Design Elements:**\n1. **Plugin Interface/Abstract Base Class**: Defines contract for all plugins\n2. **Plugin Manager**: Handles plugin discovery, loading, and lifecycle\n3. **Registry Pattern**: Maintains loaded plugins and routing\n4. **Event System**: Enables communication between core and plugins\n\n**JavaScript Implementation:**\n```javascript\n// Plugin interface\nclass Plugin {\n  constructor(name, version) {\n    this.name = name;\n    this.version = version;\n  }\n  \n  // Abstract methods - must be implemented by plugins\n  initialize() {\n    throw new Error('initialize() must be implemented');\n  }\n  \n  execute(data) {\n    throw new Error('execute() must be implemented');\n  }\n  \n  cleanup() {\n    throw new Error('cleanup() must be implemented');\n  }\n}\n\n// Plugin Manager\nclass PluginManager {\n  constructor() {\n    this.plugins = new Map();\n    this.eventBus = new EventEmitter();\n  }\n  \n  register(plugin) {\n    if (!(plugin instanceof Plugin)) {\n      throw new Error('Invalid plugin type');\n    }\n    \n    this.plugins.set(plugin.name, plugin);\n    plugin.initialize();\n    this.eventBus.emit('pluginRegistered', plugin);\n  }\n  \n  execute(pluginName, data) {\n    const plugin = this.plugins.get(pluginName);\n    if (!plugin) {\n      throw new Error(`Plugin ${pluginName} not found`);\n    }\n    return plugin.execute(data);\n  }\n  \n  unregister(pluginName) {\n    const plugin = this.plugins.get(pluginName);\n    if (plugin) {\n      plugin.cleanup();\n      this.plugins.delete(pluginName);\n      this.eventBus.emit('pluginUnregistered', plugin);\n    }\n  }\n}\n\n// Concrete Plugin Example\nclass LoggerPlugin extends Plugin {\n  constructor() {\n    super('logger', '1.0.0');\n  }\n  \n  initialize() {\n    console.log('Logger plugin initialized');\n  }\n  \n  execute(data) {\n    console.log(`[${new Date().toISOString()}] ${data.message}`);\n    return { logged: true, timestamp: Date.now() };\n  }\n  \n  cleanup() {\n    console.log('Logger plugin cleaned up');\n  }\n}\n```\n\n**Python Implementation:**\n```python\nfrom abc import ABC, abstractmethod\nfrom typing import Dict, Any\nimport importlib\nimport pkgutil\n\n# Plugin interface\nclass Plugin(ABC):\n    def __init__(self, name: str, version: str):\n        self.name = name\n        self.version = version\n    \n    @abstractmethod\n    def initialize(self) -> None:\n        pass\n    \n    @abstractmethod\n    def execute(self, data: Any) -> Any:\n        pass\n    \n    @abstractmethod\n    def cleanup(self) -> None:\n        pass\n\n# Plugin Manager\nclass PluginManager:\n    def __init__(self):\n        self.plugins: Dict[str, Plugin] = {}\n        self.event_handlers = []\n    \n    def register(self, plugin: Plugin) -> None:\n        if not isinstance(plugin, Plugin):\n            raise TypeError('Invalid plugin type')\n        \n        self.plugins[plugin.name] = plugin\n        plugin.initialize()\n        self._emit_event('plugin_registered', plugin)\n    \n    def execute(self, plugin_name: str, data: Any) -> Any:\n        plugin = self.plugins.get(plugin_name)\n        if not plugin:\n            raise ValueError(f'Plugin {plugin_name} not found')\n        return plugin.execute(data)\n    \n    def unregister(self, plugin_name: str) -> None:\n        plugin = self.plugins.get(plugin_name)\n        if plugin:\n            plugin.cleanup()\n            del self.plugins[plugin_name]\n            self._emit_event('plugin_unregistered', plugin)\n    \n    def discover_plugins(self, package_name: str) -> None:\n        \"\"\"Automatically discover and load plugins from a package\"\"\"\n        package = importlib.import_module(package_name)\n        for _, name, _ in pkgutil.iter_modules(package.__path__, package_name + '.'):\n            module = importlib.import_module(name)\n            # Look for Plugin classes in the module\n            for attr_name in dir(module):\n                attr = getattr(module, attr_name)\n                if (isinstance(attr, type) and \n                    issubclass(attr, Plugin) and \n                    attr != Plugin):\n                    plugin_instance = attr()\n                    self.register(plugin_instance)\n    \n    def _emit_event(self, event_type: str, plugin: Plugin) -> None:\n        for handler in self.event_handlers:\n            handler(event_type, plugin)\n\n# Concrete Plugin Example\nclass LoggerPlugin(Plugin):\n    def __init__(self):\n        super().__init__('logger', '1.0.0')\n    \n    def initialize(self) -> None:\n        print('Logger plugin initialized')\n    \n    def execute(self, data: Any) -> Dict[str, Any]:\n        from datetime import datetime\n        timestamp = datetime.now().isoformat()\n        print(f'[{timestamp}] {data.get(\"message\", \"\")}')\n        return {'logged': True, 'timestamp': timestamp}\n    \n    def cleanup(self) -> None:\n        print('Logger plugin cleaned up')\n```\n\n**Key Benefits:**\n- **Extensibility**: Add new features without modifying core code\n- **Modularity**: Plugins are self-contained and testable\n- **Loose Coupling**: Core application doesn't depend on specific plugins\n- **Runtime Configuration**: Load/unload plugins dynamically",
+      },
+      {
+        question:
+          "Explain the difference between invariants, preconditions, and postconditions.",
+        solution:
+          'These are fundamental concepts in Design by Contract that help ensure program correctness:\n\n**Preconditions:**\n- Conditions that must be true when a method/function is called\n- Caller\'s responsibility to ensure\n- Define what the method expects as input\n- If violated, indicates a bug in the calling code\n\n**Postconditions:**\n- Conditions that must be true when a method/function returns\n- Method\'s responsibility to ensure\n- Define what the method guarantees as output\n- If violated, indicates a bug in the method implementation\n\n**Invariants:**\n- Conditions that must always be true for an object/class\n- Must hold before and after every public method call\n- Define the consistent state of an object\n- Class designer\'s responsibility to maintain\n\n**JavaScript Implementation:**\n```javascript\nclass BankAccount {\n  constructor(initialBalance = 0) {\n    this._balance = initialBalance;\n    this._accountNumber = Math.random().toString(36).substr(2, 9);\n    this._isActive = true;\n    \n    // Ensure invariants after construction\n    this._checkInvariants();\n  }\n  \n  // Invariants - must always be true\n  _checkInvariants() {\n    if (this._balance < 0) {\n      throw new Error(\'Invariant violation: balance cannot be negative\');\n    }\n    if (!this._accountNumber || this._accountNumber.length === 0) {\n      throw new Error(\'Invariant violation: account number must exist\');\n    }\n    if (typeof this._isActive !== \'boolean\') {\n      throw new Error(\'Invariant violation: isActive must be boolean\');\n    }\n  }\n  \n  // Preconditions checker\n  _checkPreconditions(methodName, conditions) {\n    for (const [condition, message] of conditions) {\n      if (!condition) {\n        throw new Error(`Precondition violation in ${methodName}: ${message}`);\n      }\n    }\n  }\n  \n  // Postconditions checker\n  _checkPostconditions(methodName, conditions) {\n    for (const [condition, message] of conditions) {\n      if (!condition) {\n        throw new Error(`Postcondition violation in ${methodName}: ${message}`);\n      }\n    }\n  }\n  \n  deposit(amount) {\n    // Store old state for postcondition checking\n    const oldBalance = this._balance;\n    \n    // Check preconditions\n    this._checkPreconditions(\'deposit\', [\n      [amount > 0, \'amount must be positive\'],\n      [this._isActive, \'account must be active\'],\n      [typeof amount === \'number\', \'amount must be a number\'],\n      [Number.isFinite(amount), \'amount must be finite\']\n    ]);\n    \n    // Check invariants before operation\n    this._checkInvariants();\n    \n    // Perform operation\n    this._balance += amount;\n    \n    // Check postconditions\n    this._checkPostconditions(\'deposit\', [\n      [this._balance === oldBalance + amount, \'balance must increase by deposit amount\'],\n      [this._balance > oldBalance, \'balance must be greater than before\']\n    ]);\n    \n    // Check invariants after operation\n    this._checkInvariants();\n    \n    return this._balance;\n  }\n  \n  withdraw(amount) {\n    const oldBalance = this._balance;\n    \n    // Check preconditions\n    this._checkPreconditions(\'withdraw\', [\n      [amount > 0, \'amount must be positive\'],\n      [amount <= this._balance, \'insufficient funds\'],\n      [this._isActive, \'account must be active\'],\n      [typeof amount === \'number\', \'amount must be a number\']\n    ]);\n    \n    this._checkInvariants();\n    \n    // Perform operation\n    this._balance -= amount;\n    \n    // Check postconditions\n    this._checkPostconditions(\'withdraw\', [\n      [this._balance === oldBalance - amount, \'balance must decrease by withdrawal amount\'],\n      [this._balance < oldBalance, \'balance must be less than before\']\n    ]);\n    \n    this._checkInvariants();\n    \n    return this._balance;\n  }\n  \n  get balance() {\n    this._checkInvariants();\n    return this._balance;\n  }\n}\n```\n\n**Python Implementation:**\n```python\nfrom typing import List, Tuple, Callable\nfrom functools import wraps\n\nclass ContractViolation(Exception):\n    pass\n\nclass PreconditionViolation(ContractViolation):\n    pass\n\nclass PostconditionViolation(ContractViolation):\n    pass\n\nclass InvariantViolation(ContractViolation):\n    pass\n\ndef require(condition: bool, message: str = "Precondition failed"):\n    """Decorator for preconditions"""\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            if not condition:\n                raise PreconditionViolation(f"{func.__name__}: {message}")\n            return func(*args, **kwargs)\n        return wrapper\n    return decorator\n\ndef ensure(condition_func: Callable, message: str = "Postcondition failed"):\n    """Decorator for postconditions"""\n    def decorator(func):\n        @wraps(func)\n        def wrapper(*args, **kwargs):\n            result = func(*args, **kwargs)\n            if not condition_func(result, *args, **kwargs):\n                raise PostconditionViolation(f"{func.__name__}: {message}")\n            return result\n        return wrapper\n    return decorator\n\nclass BankAccount:\n    def __init__(self, initial_balance: float = 0.0):\n        self._balance = initial_balance\n        self._account_number = f"ACC{hash(id(self)) % 1000000:06d}"\n        self._is_active = True\n        self._check_invariants()\n    \n    def _check_invariants(self) -> None:\n        """Class invariants - must always be true"""\n        if self._balance < 0:\n            raise InvariantViolation("Balance cannot be negative")\n        if not self._account_number:\n            raise InvariantViolation("Account number must exist")\n        if not isinstance(self._is_active, bool):\n            raise InvariantViolation("is_active must be boolean")\n    \n    def deposit(self, amount: float) -> float:\n        # Preconditions\n        if amount <= 0:\n            raise PreconditionViolation("Amount must be positive")\n        if not self._is_active:\n            raise PreconditionViolation("Account must be active")\n        if not isinstance(amount, (int, float)):\n            raise PreconditionViolation("Amount must be a number")\n        \n        # Check invariants before operation\n        self._check_invariants()\n        \n        # Store old state for postcondition checking\n        old_balance = self._balance\n        \n        # Perform operation\n        self._balance += amount\n        \n        # Postconditions\n        if self._balance != old_balance + amount:\n            raise PostconditionViolation("Balance must increase by deposit amount")\n        if self._balance <= old_balance:\n            raise PostconditionViolation("Balance must be greater than before")\n        \n        # Check invariants after operation\n        self._check_invariants()\n        \n        return self._balance\n    \n    def withdraw(self, amount: float) -> float:\n        # Preconditions\n        if amount <= 0:\n            raise PreconditionViolation("Amount must be positive")\n        if amount > self._balance:\n            raise PreconditionViolation("Insufficient funds")\n        if not self._is_active:\n            raise PreconditionViolation("Account must be active")\n        \n        self._check_invariants()\n        \n        old_balance = self._balance\n        self._balance -= amount\n        \n        # Postconditions\n        if self._balance != old_balance - amount:\n            raise PostconditionViolation("Balance must decrease by withdrawal amount")\n        if self._balance >= old_balance:\n            raise PostconditionViolation("Balance must be less than before")\n        \n        self._check_invariants()\n        \n        return self._balance\n    \n    @property\n    def balance(self) -> float:\n        self._check_invariants()\n        return self._balance\n\n# Example using decorators for cleaner syntax\nclass Rectangle:\n    def __init__(self, width: float, height: float):\n        self._width = width\n        self._height = height\n        self._check_invariants()\n    \n    def _check_invariants(self):\n        if self._width <= 0 or self._height <= 0:\n            raise InvariantViolation("Width and height must be positive")\n    \n    @require(lambda self, w: w > 0, "Width must be positive")\n    @ensure(lambda result, self, w: self._width == w, "Width must be set correctly")\n    def set_width(self, width: float) -> None:\n        self._check_invariants()\n        self._width = width\n        self._check_invariants()\n    \n    @property\n    def area(self) -> float:\n        self._check_invariants()\n        return self._width * self._height\n```\n\n**Key Differences Summary:**\n- **Preconditions**: What caller must ensure (input validation)\n- **Postconditions**: What method must ensure (output validation)\n- **Invariants**: What object must always maintain (state consistency)\n\n**Benefits:**\n- **Early Bug Detection**: Catch issues at the boundary\n- **Clear Documentation**: Contracts serve as executable documentation\n- **Debugging Aid**: Pinpoint exactly where contracts are violated\n- **Testing Support**: Natural test cases from contract conditions',
+      },
+      {
+        question:
+          "What is aspect-oriented programming and how does it relate to OOP?",
+        solution:
+          'Aspect-Oriented Programming (AOP) is a programming paradigm that complements OOP by separating cross-cutting concerns from core business logic. While OOP organizes code around objects and their interactions, AOP focuses on concerns that span multiple classes like logging, security, caching, and transaction management.\n\n**Key Concepts:**\n- **Aspects**: Modular units of cross-cutting functionality\n- **Join Points**: Points in program execution where aspects can be applied\n- **Advice**: Code that runs at join points (before, after, around)\n- **Pointcuts**: Expressions that define where advice should be applied\n\n**JavaScript Implementation:**\n```javascript\n// Decorator pattern for AOP in JavaScript\nfunction logMethod(target, propertyName, descriptor) {\n  const method = descriptor.value;\n  \n  descriptor.value = function (...args) {\n    console.log(`Calling ${propertyName} with args:`, args);\n    const result = method.apply(this, args);\n    console.log(`${propertyName} returned:`, result);\n    return result;\n  };\n  \n  return descriptor;\n}\n\nclass Calculator {\n  @logMethod\n  add(a, b) {\n    return a + b;\n  }\n  \n  @logMethod\n  multiply(a, b) {\n    return a * b;\n  }\n}\n\n// Proxy-based AOP\nfunction createAOPProxy(target, aspects) {\n  return new Proxy(target, {\n    get(obj, prop) {\n      if (typeof obj[prop] === \'function\') {\n        return function (...args) {\n          // Before advice\n          aspects.before?.(prop, args);\n          \n          const result = obj[prop].apply(obj, args);\n          \n          // After advice\n          aspects.after?.(prop, result);\n          \n          return result;\n        };\n      }\n      return obj[prop];\n    }\n  });\n}\n\nconst calc = new Calculator();\nconst proxiedCalc = createAOPProxy(calc, {\n  before: (method, args) => console.log(`Before ${method}:`, args),\n  after: (method, result) => console.log(`After ${method}:`, result)\n});\n```\n\n**Python Implementation:**\n```python\nimport functools\nimport time\n\n# Decorator-based AOP\ndef log_execution(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f"Executing {func.__name__} with args: {args}, kwargs: {kwargs}")\n        result = func(*args, **kwargs)\n        print(f"{func.__name__} returned: {result}")\n        return result\n    return wrapper\n\ndef measure_time(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        start = time.time()\n        result = func(*args, **kwargs)\n        end = time.time()\n        print(f"{func.__name__} took {end - start:.4f} seconds")\n        return result\n    return wrapper\n\nclass Calculator:\n    @log_execution\n    @measure_time\n    def add(self, a, b):\n        return a + b\n    \n    @log_execution\n    def multiply(self, a, b):\n        return a * b\n\n# Metaclass-based AOP\nclass AOPMeta(type):\n    def __new__(cls, name, bases, dct):\n        for key, value in dct.items():\n            if callable(value) and not key.startswith(\'_\'):\n                dct[key] = log_execution(value)\n        return super().__new__(cls, name, bases, dct)\n\nclass AutoLoggedCalculator(metaclass=AOPMeta):\n    def add(self, a, b):\n        return a + b\n    \n    def subtract(self, a, b):\n        return a - b\n```\n\n**Relationship with OOP:**\n- OOP handles primary concerns (business logic, data encapsulation)\n- AOP handles secondary concerns (logging, security, caching)\n- Together they provide better separation of concerns and cleaner code\n- AOP reduces code duplication for cross-cutting functionality',
+      },
+      {
+        question: "How do you implement design by contract in OOP?",
+        solution:
+          'Design by Contract (DbC) is a software design approach where components define formal, precise, and verifiable interface specifications. It uses preconditions, postconditions, and invariants to ensure program correctness.\n\n**Key Components:**\n- **Preconditions**: What must be true when a method is called\n- **Postconditions**: What must be true when a method returns\n- **Class Invariants**: Properties that must always hold for an object\n\n**JavaScript Implementation:**\n```javascript\nclass ContractError extends Error {\n  constructor(type, message) {\n    super(`${type}: ${message}`);\n    this.type = type;\n  }\n}\n\nfunction requires(condition, message) {\n  if (!condition) {\n    throw new ContractError(\'Precondition violated\', message);\n  }\n}\n\nfunction ensures(condition, message) {\n  if (!condition) {\n    throw new ContractError(\'Postcondition violated\', message);\n  }\n}\n\nfunction invariant(condition, message) {\n  if (!condition) {\n    throw new ContractError(\'Invariant violated\', message);\n  }\n}\n\n// Contract decorator\nfunction contract(preconditions = [], postconditions = []) {\n  return function(target, propertyName, descriptor) {\n    const method = descriptor.value;\n    \n    descriptor.value = function(...args) {\n      // Check preconditions\n      preconditions.forEach(pre => {\n        requires(pre.condition(...args), pre.message);\n      });\n      \n      const oldState = this.getState ? this.getState() : null;\n      const result = method.apply(this, args);\n      \n      // Check postconditions\n      postconditions.forEach(post => {\n        ensures(post.condition(result, oldState, ...args), post.message);\n      });\n      \n      return result;\n    };\n    \n    return descriptor;\n  };\n}\n\nclass BankAccount {\n  constructor(initialBalance = 0) {\n    requires(initialBalance >= 0, \'Initial balance must be non-negative\');\n    this._balance = initialBalance;\n    this.checkInvariant();\n  }\n  \n  checkInvariant() {\n    invariant(this._balance >= 0, \'Balance must never be negative\');\n  }\n  \n  getState() {\n    return { balance: this._balance };\n  }\n  \n  @contract(\n    [{ \n      condition: (amount) => amount > 0, \n      message: \'Deposit amount must be positive\' \n    }],\n    [{ \n      condition: (result, oldState, amount) => \n        result === oldState.balance + amount,\n      message: \'Balance should increase by deposit amount\'\n    }]\n  )\n  deposit(amount) {\n    this._balance += amount;\n    this.checkInvariant();\n    return this._balance;\n  }\n  \n  @contract(\n    [\n      { condition: (amount) => amount > 0, message: \'Withdrawal amount must be positive\' },\n      { condition: (amount) => this._balance >= amount, message: \'Insufficient funds\' }\n    ],\n    [{ \n      condition: (result, oldState, amount) => \n        result === oldState.balance - amount,\n      message: \'Balance should decrease by withdrawal amount\'\n    }]\n  )\n  withdraw(amount) {\n    this._balance -= amount;\n    this.checkInvariant();\n    return this._balance;\n  }\n}\n```\n\n**Python Implementation:**\n```python\nimport functools\nfrom typing import Callable, Any\n\nclass ContractError(Exception):\n    def __init__(self, contract_type: str, message: str):\n        super().__init__(f"{contract_type}: {message}")\n        self.contract_type = contract_type\n\ndef requires(condition: bool, message: str = "Precondition failed"):\n    """Assert precondition"""\n    if not condition:\n        raise ContractError("Precondition violated", message)\n\ndef ensures(condition: bool, message: str = "Postcondition failed"):\n    """Assert postcondition"""\n    if not condition:\n        raise ContractError("Postcondition violated", message)\n\ndef invariant(condition: bool, message: str = "Invariant failed"):\n    """Assert class invariant"""\n    if not condition:\n        raise ContractError("Invariant violated", message)\n\ndef contract(preconditions=None, postconditions=None):\n    """Decorator for method contracts"""\n    def decorator(func):\n        @functools.wraps(func)\n        def wrapper(self, *args, **kwargs):\n            # Check preconditions\n            if preconditions:\n                for pre in preconditions:\n                    requires(pre(self, *args, **kwargs), f"Precondition failed in {func.__name__}")\n            \n            # Store old state for postcondition checks\n            old_state = getattr(self, \'_get_state\', lambda: None)()\n            \n            # Execute method\n            result = func(self, *args, **kwargs)\n            \n            # Check postconditions\n            if postconditions:\n                for post in postconditions:\n                    ensures(post(self, result, old_state, *args, **kwargs), \n                           f"Postcondition failed in {func.__name__}")\n            \n            return result\n        return wrapper\n    return decorator\n\nclass BankAccount:\n    def __init__(self, initial_balance: float = 0):\n        requires(initial_balance >= 0, "Initial balance must be non-negative")\n        self._balance = initial_balance\n        self._check_invariant()\n    \n    def _check_invariant(self):\n        invariant(self._balance >= 0, "Balance must never be negative")\n    \n    def _get_state(self):\n        return {\'balance\': self._balance}\n    \n    @property\n    def balance(self):\n        return self._balance\n    \n    @contract(\n        preconditions=[\n            lambda self, amount: amount > 0\n        ],\n        postconditions=[\n            lambda self, result, old_state, amount: \n                self._balance == old_state[\'balance\'] + amount\n        ]\n    )\n    def deposit(self, amount: float) -> float:\n        self._balance += amount\n        self._check_invariant()\n        return self._balance\n    \n    @contract(\n        preconditions=[\n            lambda self, amount: amount > 0,\n            lambda self, amount: self._balance >= amount\n        ],\n        postconditions=[\n            lambda self, result, old_state, amount: \n                self._balance == old_state[\'balance\'] - amount\n        ]\n    )\n    def withdraw(self, amount: float) -> float:\n        self._balance -= amount\n        self._check_invariant()\n        return self._balance\n\n# Usage example with assertions\nclass Stack:\n    def __init__(self):\n        self._items = []\n        self._check_invariant()\n    \n    def _check_invariant(self):\n        invariant(isinstance(self._items, list), "Items must be stored in a list")\n    \n    def _get_state(self):\n        return {\'size\': len(self._items), \'items\': self._items.copy()}\n    \n    @contract(\n        postconditions=[\n            lambda self, result, old_state, item: len(self._items) == old_state[\'size\'] + 1,\n            lambda self, result, old_state, item: self._items[-1] == item\n        ]\n    )\n    def push(self, item):\n        self._items.append(item)\n        self._check_invariant()\n    \n    @contract(\n        preconditions=[\n            lambda self: len(self._items) > 0\n        ],\n        postconditions=[\n            lambda self, result, old_state: len(self._items) == old_state[\'size\'] - 1\n        ]\n    )\n    def pop(self):\n        result = self._items.pop()\n        self._check_invariant()\n        return result\n```\n\n**Benefits:**\n- **Documentation**: Contracts serve as executable documentation\n- **Testing**: Automatic verification of correctness\n- **Debugging**: Early detection of logic errors\n- **Reliability**: Ensures components behave as expected\n- **Maintenance**: Makes code changes safer',
+      },
+      {
+        question: "What are the challenges of testing polymorphic code?",
+        solution:
+          'Testing polymorphic code presents unique challenges because the same interface can have multiple implementations, and the actual behavior depends on the runtime type. This requires comprehensive testing strategies to ensure all possible code paths work correctly.\n\n**Key Challenges:**\n1. **Multiple Implementation Coverage**: Need to test all concrete implementations\n2. **Runtime Type Resolution**: Behavior determined at runtime, not compile time\n3. **Interface Contract Verification**: All implementations must honor the same contract\n4. **Complex Inheritance Hierarchies**: Deep inheritance can create unexpected behaviors\n5. **Dynamic Dispatch**: Method calls resolved at runtime\n\n**JavaScript Implementation:**\n```javascript\n// Abstract base class and implementations\nclass Shape {\n  area() {\n    throw new Error(\'Must implement area method\');\n  }\n  \n  perimeter() {\n    throw new Error(\'Must implement perimeter method\');\n  }\n}\n\nclass Rectangle extends Shape {\n  constructor(width, height) {\n    super();\n    this.width = width;\n    this.height = height;\n  }\n  \n  area() {\n    return this.width * this.height;\n  }\n  \n  perimeter() {\n    return 2 * (this.width + this.height);\n  }\n}\n\nclass Circle extends Shape {\n  constructor(radius) {\n    super();\n    this.radius = radius;\n  }\n  \n  area() {\n    return Math.PI * this.radius * this.radius;\n  }\n  \n  perimeter() {\n    return 2 * Math.PI * this.radius;\n  }\n}\n\nclass Triangle extends Shape {\n  constructor(a, b, c) {\n    super();\n    this.a = a;\n    this.b = b;\n    this.c = c;\n  }\n  \n  area() {\n    const s = (this.a + this.b + this.c) / 2;\n    return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));\n  }\n  \n  perimeter() {\n    return this.a + this.b + this.c;\n  }\n}\n\n// Code that uses polymorphism\nclass ShapeCalculator {\n  static calculateTotalArea(shapes) {\n    return shapes.reduce((total, shape) => total + shape.area(), 0);\n  }\n  \n  static findLargestShape(shapes) {\n    return shapes.reduce((largest, current) => \n      current.area() > largest.area() ? current : largest\n    );\n  }\n}\n\n// Testing framework for polymorphic code\nclass PolymorphicTester {\n  constructor() {\n    this.testResults = [];\n  }\n  \n  // Test contract compliance for all implementations\n  testShapeContract(ShapeClass, constructorArgs, expectedArea, expectedPerimeter) {\n    const shape = new ShapeClass(...constructorArgs);\n    \n    // Test that shape implements required interface\n    if (typeof shape.area !== \'function\') {\n      throw new Error(`${ShapeClass.name} must implement area() method`);\n    }\n    \n    if (typeof shape.perimeter !== \'function\') {\n      throw new Error(`${ShapeClass.name} must implement perimeter() method`);\n    }\n    \n    // Test correct behavior\n    const actualArea = shape.area();\n    const actualPerimeter = shape.perimeter();\n    \n    this.assertClose(actualArea, expectedArea, `${ShapeClass.name} area`);\n    this.assertClose(actualPerimeter, expectedPerimeter, `${ShapeClass.name} perimeter`);\n    \n    return shape;\n  }\n  \n  // Test polymorphic behavior with mixed types\n  testPolymorphicBehavior() {\n    const shapes = [\n      this.testShapeContract(Rectangle, [4, 5], 20, 18),\n      this.testShapeContract(Circle, [3], Math.PI * 9, 2 * Math.PI * 3),\n      this.testShapeContract(Triangle, [3, 4, 5], 6, 12)\n    ];\n    \n    // Test polymorphic methods\n    const totalArea = ShapeCalculator.calculateTotalArea(shapes);\n    const expectedTotal = 20 + Math.PI * 9 + 6;\n    this.assertClose(totalArea, expectedTotal, \'Total area calculation\');\n    \n    const largest = ShapeCalculator.findLargestShape(shapes);\n    console.log(`Largest shape: ${largest.constructor.name} with area ${largest.area()}`);\n  }\n  \n  // Test with mock implementations\n  testWithMocks() {\n    class MockShape extends Shape {\n      constructor(area, perimeter) {\n        super();\n        this._area = area;\n        this._perimeter = perimeter;\n        this.areaCalls = 0;\n        this.perimeterCalls = 0;\n      }\n      \n      area() {\n        this.areaCalls++;\n        return this._area;\n      }\n      \n      perimeter() {\n        this.perimeterCalls++;\n        return this._perimeter;\n      }\n    }\n    \n    const mockShapes = [\n      new MockShape(10, 12),\n      new MockShape(15, 14),\n      new MockShape(8, 10)\n    ];\n    \n    const total = ShapeCalculator.calculateTotalArea(mockShapes);\n    this.assertEqual(total, 33, \'Mock shapes total area\');\n    \n    // Verify method calls\n    mockShapes.forEach((shape, index) => {\n      this.assertEqual(shape.areaCalls, 1, `Mock shape ${index} area() called once`);\n    });\n  }\n  \n  assertClose(actual, expected, message, tolerance = 0.0001) {\n    if (Math.abs(actual - expected) > tolerance) {\n      throw new Error(`${message}: expected ${expected}, got ${actual}`);\n    }\n    console.log(`✓ ${message}`);\n  }\n  \n  assertEqual(actual, expected, message) {\n    if (actual !== expected) {\n      throw new Error(`${message}: expected ${expected}, got ${actual}`);\n    }\n    console.log(`✓ ${message}`);\n  }\n  \n  runAllTests() {\n    console.log(\'Testing polymorphic shapes...\');\n    this.testPolymorphicBehavior();\n    this.testWithMocks();\n    console.log(\'All tests passed!\');\n  }\n}\n```\n\n**Python Implementation:**\n```python\nimport unittest\nfrom abc import ABC, abstractmethod\nfrom unittest.mock import Mock, MagicMock\nimport math\n\n# Abstract base class\nclass Shape(ABC):\n    @abstractmethod\n    def area(self) -> float:\n        pass\n    \n    @abstractmethod\n    def perimeter(self) -> float:\n        pass\n\n# Concrete implementations\nclass Rectangle(Shape):\n    def __init__(self, width: float, height: float):\n        self.width = width\n        self.height = height\n    \n    def area(self) -> float:\n        return self.width * self.height\n    \n    def perimeter(self) -> float:\n        return 2 * (self.width + self.height)\n\nclass Circle(Shape):\n    def __init__(self, radius: float):\n        self.radius = radius\n    \n    def area(self) -> float:\n        return math.pi * self.radius ** 2\n    \n    def perimeter(self) -> float:\n        return 2 * math.pi * self.radius\n\nclass Triangle(Shape):\n    def __init__(self, a: float, b: float, c: float):\n        self.a, self.b, self.c = a, b, c\n    \n    def area(self) -> float:\n        s = (self.a + self.b + self.c) / 2\n        return math.sqrt(s * (s - self.a) * (s - self.b) * (s - self.c))\n    \n    def perimeter(self) -> float:\n        return self.a + self.b + self.c\n\n# Code using polymorphism\nclass ShapeCalculator:\n    @staticmethod\n    def calculate_total_area(shapes: list[Shape]) -> float:\n        return sum(shape.area() for shape in shapes)\n    \n    @staticmethod\n    def find_largest_shape(shapes: list[Shape]) -> Shape:\n        return max(shapes, key=lambda s: s.area())\n\n# Comprehensive test suite\nclass TestPolymorphicShapes(unittest.TestCase):\n    \n    def setUp(self):\n        """Set up test fixtures"""\n        self.rectangle = Rectangle(4, 5)\n        self.circle = Circle(3)\n        self.triangle = Triangle(3, 4, 5)\n        self.shapes = [self.rectangle, self.circle, self.triangle]\n    \n    def test_individual_shapes(self):\n        """Test each implementation individually"""\n        # Rectangle tests\n        self.assertAlmostEqual(self.rectangle.area(), 20)\n        self.assertAlmostEqual(self.rectangle.perimeter(), 18)\n        \n        # Circle tests\n        self.assertAlmostEqual(self.circle.area(), math.pi * 9, places=5)\n        self.assertAlmostEqual(self.circle.perimeter(), 2 * math.pi * 3, places=5)\n        \n        # Triangle tests\n        self.assertAlmostEqual(self.triangle.area(), 6)\n        self.assertAlmostEqual(self.triangle.perimeter(), 12)\n    \n    def test_polymorphic_behavior(self):\n        """Test that polymorphic methods work correctly"""\n        total_area = ShapeCalculator.calculate_total_area(self.shapes)\n        expected_total = 20 + math.pi * 9 + 6\n        self.assertAlmostEqual(total_area, expected_total, places=5)\n        \n        largest = ShapeCalculator.find_largest_shape(self.shapes)\n        # Circle should be largest\n        self.assertIsInstance(largest, Circle)\n    \n    def test_interface_contract(self):\n        """Test that all shapes implement required interface"""\n        for shape in self.shapes:\n            # Test that methods exist and are callable\n            self.assertTrue(hasattr(shape, \'area\'))\n            self.assertTrue(callable(getattr(shape, \'area\')))\n            self.assertTrue(hasattr(shape, \'perimeter\'))\n            self.assertTrue(callable(getattr(shape, \'perimeter\')))\n            \n            # Test that methods return numeric values\n            area = shape.area()\n            perimeter = shape.perimeter()\n            self.assertIsInstance(area, (int, float))\n            self.assertIsInstance(perimeter, (int, float))\n            self.assertGreater(area, 0)\n            self.assertGreater(perimeter, 0)\n    \n    def test_with_mocks(self):\n        """Test polymorphic behavior using mocks"""\n        # Create mock shapes\n        mock_shape1 = Mock(spec=Shape)\n        mock_shape1.area.return_value = 10\n        \n        mock_shape2 = Mock(spec=Shape)\n        mock_shape2.area.return_value = 15\n        \n        mock_shape3 = Mock(spec=Shape)\n        mock_shape3.area.return_value = 8\n        \n        mock_shapes = [mock_shape1, mock_shape2, mock_shape3]\n        \n        # Test polymorphic method with mocks\n        total = ShapeCalculator.calculate_total_area(mock_shapes)\n        self.assertEqual(total, 33)\n        \n        # Verify that area() was called on each mock\n        for mock in mock_shapes:\n            mock.area.assert_called_once()\n    \n    def test_edge_cases(self):\n        """Test edge cases and error conditions"""\n        # Test with empty list\n        self.assertEqual(ShapeCalculator.calculate_total_area([]), 0)\n        \n        # Test with single shape\n        single_area = ShapeCalculator.calculate_total_area([self.rectangle])\n        self.assertAlmostEqual(single_area, 20)\n        \n        # Test find_largest with single shape\n        largest = ShapeCalculator.find_largest_shape([self.rectangle])\n        self.assertEqual(largest, self.rectangle)\n    \n    def test_inheritance_hierarchy(self):\n        """Test that inheritance works correctly"""\n        for shape in self.shapes:\n            self.assertIsInstance(shape, Shape)\n            # Test method resolution order\n            self.assertTrue(hasattr(type(shape), \'area\'))\n            self.assertTrue(hasattr(type(shape), \'perimeter\'))\n    \n    def test_dynamic_dispatch(self):\n        """Test that correct methods are called at runtime"""\n        class InstrumentedShape(Shape):\n            def __init__(self):\n                self.method_calls = []\n            \n            def area(self):\n                self.method_calls.append(\'area\')\n                return 10\n            \n            def perimeter(self):\n                self.method_calls.append(\'perimeter\')\n                return 15\n        \n        instrumented = InstrumentedShape()\n        \n        # Call methods polymorphically\n        area = instrumented.area()\n        perimeter = instrumented.perimeter()\n        \n        self.assertEqual(area, 10)\n        self.assertEqual(perimeter, 15)\n        self.assertEqual(instrumented.method_calls, [\'area\', \'perimeter\'])\n\n# Property-based testing for robustness\ndef test_shape_properties():\n    """Property-based tests using hypothesis (conceptual example)"""\n    # These would use hypothesis library in practice\n    import random\n    \n    for _ in range(100):  # Run many random tests\n        # Generate random valid parameters\n        w, h = random.uniform(0.1, 100), random.uniform(0.1, 100)\n        r = random.uniform(0.1, 100)\n        \n        rect = Rectangle(w, h)\n        circle = Circle(r)\n        \n        # Test invariants\n        assert rect.area() > 0\n        assert rect.perimeter() > 0\n        assert circle.area() > 0\n        assert circle.perimeter() > 0\n        \n        # Test scaling properties\n        scaled_rect = Rectangle(w * 2, h * 2)\n        assert scaled_rect.area() == rect.area() * 4  # Area scales quadratically\n        assert scaled_rect.perimeter() == rect.perimeter() * 2  # Perimeter scales linearly\n\nif __name__ == \'__main__\':\n    unittest.main()\n```\n\n**Testing Strategies:**\n1. **Contract Testing**: Verify all implementations honor the interface contract\n2. **Mock Testing**: Use mocks to isolate polymorphic behavior\n3. **Property-Based Testing**: Test invariants that should hold for all implementations\n4. **Edge Case Testing**: Test boundary conditions and error scenarios\n5. **Integration Testing**: Test polymorphic code in realistic scenarios\n6. **Performance Testing**: Ensure all implementations meet performance requirements',
+      },
+      {
+        question: "Explain the concept of object pooling and when to use it.",
+        solution:
+          "Object pooling is a design pattern that maintains a collection of reusable objects to avoid expensive object creation and garbage collection. Instead of creating and destroying objects repeatedly, you reuse existing ones from a pool.\n\n**When to use:**\n- Creating objects is expensive (database connections, threads, heavy objects)\n- Frequent object creation causes garbage collection pressure\n- Objects have significant initialization overhead\n- Memory allocation/deallocation is costly\n\n**JavaScript Example:**\n```javascript\nclass ObjectPool {\n  constructor(createFn, resetFn, maxSize = 10) {\n    this.createFn = createFn;\n    this.resetFn = resetFn;\n    this.pool = [];\n    this.maxSize = maxSize;\n  }\n\n  acquire() {\n    if (this.pool.length > 0) {\n      return this.pool.pop();\n    }\n    return this.createFn();\n  }\n\n  release(obj) {\n    if (this.pool.length < this.maxSize) {\n      this.resetFn(obj);\n      this.pool.push(obj);\n    }\n  }\n}\n\n// Usage example with expensive objects\nclass ExpensiveObject {\n  constructor() {\n    this.data = new Array(1000).fill(0);\n    this.processed = false;\n  }\n\n  process() {\n    this.processed = true;\n    // Heavy computation\n  }\n\n  reset() {\n    this.processed = false;\n    this.data.fill(0);\n  }\n}\n\nconst pool = new ObjectPool(\n  () => new ExpensiveObject(),\n  (obj) => obj.reset()\n);\n\n// Instead of: new ExpensiveObject()\nconst obj = pool.acquire();\nobj.process();\npool.release(obj); // Reuse instead of GC\n```\n\n**Python Example:**\n```python\nfrom queue import Queue\nimport threading\n\nclass ObjectPool:\n    def __init__(self, create_fn, reset_fn, max_size=10):\n        self.create_fn = create_fn\n        self.reset_fn = reset_fn\n        self.pool = Queue(maxsize=max_size)\n        self.max_size = max_size\n        self._lock = threading.Lock()\n    \n    def acquire(self):\n        try:\n            return self.pool.get_nowait()\n        except:\n            return self.create_fn()\n    \n    def release(self, obj):\n        self.reset_fn(obj)\n        try:\n            self.pool.put_nowait(obj)\n        except:\n            pass  # Pool is full, let GC handle it\n\n# Database connection pool example\nimport sqlite3\n\nclass DatabasePool:\n    def __init__(self, db_path, pool_size=5):\n        self.db_path = db_path\n        self.pool = Queue(maxsize=pool_size)\n        # Pre-populate pool\n        for _ in range(pool_size):\n            conn = sqlite3.connect(db_path)\n            self.pool.put(conn)\n    \n    def get_connection(self):\n        return self.pool.get()\n    \n    def return_connection(self, conn):\n        # Reset connection state\n        conn.rollback()\n        self.pool.put(conn)\n    \n    def close_all(self):\n        while not self.pool.empty():\n            conn = self.pool.get()\n            conn.close()\n\n# Usage\ndb_pool = DatabasePool('app.db')\nconn = db_pool.get_connection()\n# Use connection\ndb_pool.return_connection(conn)\n```\n\n**Benefits:** Reduced GC pressure, consistent performance, resource reuse\n**Drawbacks:** Memory overhead, complexity, potential memory leaks if not managed properly",
+      },
+      {
+        question:
+          "What are the performance implications of virtual function calls?",
+        solution:
+          "Virtual function calls have performance overhead compared to direct function calls due to dynamic dispatch through virtual tables (vtables). The runtime must look up the correct function implementation based on the object's actual type.\n\n**Performance Implications:**\n\n1. **Indirection Overhead:** Extra memory access to vtable\n2. **Cache Misses:** Vtable lookups can cause CPU cache misses\n3. **Inlining Prevention:** Compiler can't inline virtual calls at compile time\n4. **Branch Prediction:** Harder for CPU to predict which function will be called\n\n**JavaScript Example (Prototype Chain Lookup):**\n```javascript\n// Direct method call - faster\nclass FastClass {\n  calculate(x, y) {\n    return x + y;\n  }\n}\n\n// Polymorphic approach - slower due to prototype chain lookup\nclass BaseCalculator {\n  calculate(x, y) {\n    throw new Error('Must implement');\n  }\n}\n\nclass AddCalculator extends BaseCalculator {\n  calculate(x, y) {\n    return x + y;\n  }\n}\n\nclass MultiplyCalculator extends BaseCalculator {\n  calculate(x, y) {\n    return x * y;\n  }\n}\n\n// Performance comparison\nfunction benchmarkDirect() {\n  const calc = new FastClass();\n  let result = 0;\n  \n  console.time('Direct calls');\n  for (let i = 0; i < 1000000; i++) {\n    result += calc.calculate(i, i + 1);\n  }\n  console.timeEnd('Direct calls');\n  return result;\n}\n\nfunction benchmarkPolymorphic() {\n  const calculators = [\n    new AddCalculator(),\n    new MultiplyCalculator()\n  ];\n  let result = 0;\n  \n  console.time('Polymorphic calls');\n  for (let i = 0; i < 1000000; i++) {\n    const calc = calculators[i % 2];\n    result += calc.calculate(i, i + 1);\n  }\n  console.timeEnd('Polymorphic calls');\n  return result;\n}\n\n// Optimization: Function caching\nclass OptimizedCalculator {\n  constructor() {\n    this.cachedMethod = this.calculate.bind(this);\n  }\n  \n  calculate(x, y) {\n    return x + y;\n  }\n  \n  fastCalculate(x, y) {\n    return this.cachedMethod(x, y);\n  }\n}\n```\n\n**Python Example:**\n```python\nimport time\nfrom abc import ABC, abstractmethod\n\n# Direct calls - faster\nclass DirectCalculator:\n    def calculate(self, x, y):\n        return x + y\n\n# Virtual calls through inheritance\nclass AbstractCalculator(ABC):\n    @abstractmethod\n    def calculate(self, x, y):\n        pass\n\nclass AddCalculator(AbstractCalculator):\n    def calculate(self, x, y):\n        return x + y\n\nclass MultiplyCalculator(AbstractCalculator):\n    def calculate(self, x, y):\n        return x * y\n\ndef benchmark_direct():\n    calc = DirectCalculator()\n    start = time.time()\n    \n    result = 0\n    for i in range(1000000):\n        result += calc.calculate(i, i + 1)\n    \n    end = time.time()\n    print(f\"Direct calls: {end - start:.4f} seconds\")\n    return result\n\ndef benchmark_polymorphic():\n    calculators = [AddCalculator(), MultiplyCalculator()]\n    start = time.time()\n    \n    result = 0\n    for i in range(1000000):\n        calc = calculators[i % 2]\n        result += calc.calculate(i, i + 1)\n    \n    end = time.time()\n    print(f\"Polymorphic calls: {end - start:.4f} seconds\")\n    return result\n\n# Optimization: Method caching\nclass OptimizedCalculator:\n    def __init__(self):\n        self._calculate = self.calculate  # Cache method reference\n    \n    def calculate(self, x, y):\n        return x + y\n    \n    def fast_calculate(self, x, y):\n        return self._calculate(x, y)\n\n# Using __slots__ to reduce memory overhead\nclass SlottedCalculator:\n    __slots__ = ['_method_cache']\n    \n    def __init__(self):\n        self._method_cache = self.calculate\n    \n    def calculate(self, x, y):\n        return x + y\n\n# Dictionary-based dispatch (alternative to inheritance)\nclass DispatchCalculator:\n    def __init__(self):\n        self.operations = {\n            'add': lambda x, y: x + y,\n            'multiply': lambda x, y: x * y,\n            'subtract': lambda x, y: x - y\n        }\n    \n    def calculate(self, operation, x, y):\n        return self.operations[operation](x, y)\n\n# Usage comparison\nif __name__ == \"__main__\":\n    print(\"Performance comparison:\")\n    benchmark_direct()\n    benchmark_polymorphic()\n```\n\n**Mitigation Strategies:**\n1. Use composition over inheritance when possible\n2. Cache method references\n3. Use static dispatch when the type is known at compile time\n4. Profile and optimize hot paths\n5. Consider using strategy pattern with dictionaries/maps instead of inheritance",
+      },
+      {
+        question: "How do you optimize polymorphic code for performance?",
+        solution:
+          "Optimizing polymorphic code involves reducing the overhead of dynamic dispatch while maintaining flexibility. Here are key strategies:\n\n**1. Strategy Pattern with Function Maps**\n**2. Method Caching**\n**3. Type-based Optimization**\n**4. Composition over Inheritance**\n**5. Static Polymorphism**\n\n**JavaScript Optimization Examples:**\n```javascript\n// 1. Strategy Pattern - Faster than inheritance\nclass OptimizedProcessor {\n  constructor() {\n    this.strategies = new Map([\n      ['json', this.processJSON],\n      ['xml', this.processXML],\n      ['csv', this.processCSV]\n    ]);\n  }\n  \n  process(type, data) {\n    const strategy = this.strategies.get(type);\n    return strategy ? strategy(data) : null;\n  }\n  \n  processJSON(data) { return JSON.parse(data); }\n  processXML(data) { /* XML parsing */ return data; }\n  processCSV(data) { /* CSV parsing */ return data; }\n}\n\n// 2. Method Caching - Avoid repeated lookups\nclass CachedRenderer {\n  constructor() {\n    this.methodCache = new Map();\n  }\n  \n  render(type, data) {\n    let method = this.methodCache.get(type);\n    if (!method) {\n      method = this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}`];\n      if (method) {\n        this.methodCache.set(type, method.bind(this));\n      }\n    }\n    return method ? method(data) : null;\n  }\n  \n  renderHTML(data) { return `<div>${data}</div>`; }\n  renderJSON(data) { return JSON.stringify(data); }\n  renderText(data) { return data.toString(); }\n}\n\n// 3. Type-based optimization with WeakMap\nconst typeCache = new WeakMap();\n\nclass TypeOptimizedHandler {\n  handle(obj) {\n    let handler = typeCache.get(obj.constructor);\n    if (!handler) {\n      handler = this.createHandler(obj.constructor.name);\n      typeCache.set(obj.constructor, handler);\n    }\n    return handler(obj);\n  }\n  \n  createHandler(typeName) {\n    switch (typeName) {\n      case 'User': return (obj) => `User: ${obj.name}`;\n      case 'Product': return (obj) => `Product: ${obj.title}`;\n      default: return (obj) => obj.toString();\n    }\n  }\n}\n\n// 4. Composition-based approach\nclass CompositeProcessor {\n  constructor() {\n    this.processors = {\n      validation: new ValidationProcessor(),\n      transformation: new TransformationProcessor(),\n      storage: new StorageProcessor()\n    };\n  }\n  \n  process(data, pipeline) {\n    return pipeline.reduce((result, step) => {\n      return this.processors[step].process(result);\n    }, data);\n  }\n}\n\n// 5. Static polymorphism with factories\nclass ProcessorFactory {\n  static processors = {\n    'image': () => new ImageProcessor(),\n    'video': () => new VideoProcessor(),\n    'audio': () => new AudioProcessor()\n  };\n  \n  static create(type) {\n    const factory = ProcessorFactory.processors[type];\n    return factory ? factory() : null;\n  }\n}\n\n// Performance measurement helper\nclass PerformanceProfiler {\n  static measure(name, fn, iterations = 1000000) {\n    const start = performance.now();\n    \n    for (let i = 0; i < iterations; i++) {\n      fn();\n    }\n    \n    const end = performance.now();\n    console.log(`${name}: ${end - start}ms for ${iterations} iterations`);\n  }\n}\n\n// Usage example\nconst processor = new OptimizedProcessor();\nPerformanceProfiler.measure('Strategy Pattern', () => {\n  processor.process('json', '{\"test\": true}');\n});\n```\n\n**Python Optimization Examples:**\n```python\nimport time\nfrom functools import lru_cache\nfrom typing import Dict, Callable, Any\nfrom collections import defaultdict\n\n# 1. Dictionary-based dispatch (faster than inheritance)\nclass OptimizedHandler:\n    def __init__(self):\n        self.handlers = {\n            'create': self._handle_create,\n            'update': self._handle_update,\n            'delete': self._handle_delete\n        }\n    \n    def handle(self, action: str, data: Any) -> Any:\n        handler = self.handlers.get(action)\n        return handler(data) if handler else None\n    \n    def _handle_create(self, data): return f\"Creating {data}\"\n    def _handle_update(self, data): return f\"Updating {data}\"\n    def _handle_delete(self, data): return f\"Deleting {data}\"\n\n# 2. Method caching with __slots__ for memory efficiency\nclass CachedProcessor:\n    __slots__ = ['_method_cache', '_data']\n    \n    def __init__(self):\n        self._method_cache = {}\n        self._data = {}\n    \n    @lru_cache(maxsize=128)\n    def get_processor(self, data_type: str) -> Callable:\n        method_name = f'process_{data_type}'\n        return getattr(self, method_name, self.process_default)\n    \n    def process(self, data_type: str, data: Any) -> Any:\n        processor = self.get_processor(data_type)\n        return processor(data)\n    \n    def process_json(self, data): return {'processed': data}\n    def process_xml(self, data): return f'<processed>{data}</processed>'\n    def process_default(self, data): return str(data)\n\n# 3. Type-based optimization using singledispatch\nfrom functools import singledispatch\n\n@singledispatch\ndef process_data(data):\n    return f\"Default processing: {data}\"\n\n@process_data.register\ndef _(data: dict):\n    return f\"Dictionary processing: {len(data)} items\"\n\n@process_data.register\ndef _(data: list):\n    return f\"List processing: {len(data)} items\"\n\n@process_data.register\ndef _(data: str):\n    return f\"String processing: {len(data)} chars\"\n\n# 4. Class-based optimization with __call__\nclass CallableProcessor:\n    def __init__(self, processor_type: str):\n        self.processor_type = processor_type\n        # Pre-bind methods for performance\n        self._process_func = getattr(self, f'_process_{processor_type}', self._process_default)\n    \n    def __call__(self, data: Any) -> Any:\n        return self._process_func(data)\n    \n    def _process_json(self, data): return {'type': 'json', 'data': data}\n    def _process_xml(self, data): return f'<data>{data}</data>'\n    def _process_default(self, data): return str(data)\n\n# 5. Composition with strategy injection\nclass ComposableProcessor:\n    def __init__(self):\n        self.strategies = defaultdict(list)\n    \n    def add_strategy(self, data_type: str, strategy: Callable):\n        self.strategies[data_type].append(strategy)\n    \n    def process(self, data_type: str, data: Any) -> Any:\n        result = data\n        for strategy in self.strategies[data_type]:\n            result = strategy(result)\n        return result\n\n# 6. Performance optimization using __slots__ and cached properties\nclass OptimizedDataProcessor:\n    __slots__ = ['_type', '_cached_method', '_initialized']\n    \n    def __init__(self, processor_type: str):\n        self._type = processor_type\n        self._cached_method = None\n        self._initialized = False\n    \n    def _initialize(self):\n        if not self._initialized:\n            method_name = f'_process_{self._type}'\n            self._cached_method = getattr(self, method_name, self._process_default)\n            self._initialized = True\n    \n    def process(self, data: Any) -> Any:\n        self._initialize()\n        return self._cached_method(data)\n    \n    def _process_fast(self, data): return data * 2\n    def _process_slow(self, data): return data ** 2\n    def _process_default(self, data): return data\n\n# Performance testing\ndef benchmark_approaches():\n    # Traditional inheritance approach\n    class BaseProcessor:\n        def process(self, data): raise NotImplementedError\n    \n    class ConcreteProcessor(BaseProcessor):\n        def process(self, data): return data * 2\n    \n    # Test data\n    iterations = 1000000\n    test_data = 42\n    \n    # Benchmark traditional approach\n    traditional = ConcreteProcessor()\n    start = time.time()\n    for _ in range(iterations):\n        traditional.process(test_data)\n    traditional_time = time.time() - start\n    \n    # Benchmark optimized approach\n    optimized = OptimizedHandler()\n    start = time.time()\n    for _ in range(iterations):\n        optimized.handle('create', test_data)\n    optimized_time = time.time() - start\n    \n    print(f\"Traditional approach: {traditional_time:.4f}s\")\n    print(f\"Optimized approach: {optimized_time:.4f}s\")\n    print(f\"Improvement: {(traditional_time / optimized_time):.2f}x faster\")\n\nif __name__ == \"__main__\":\n    benchmark_approaches()\n    \n    # Example usage of optimized approaches\n    handler = OptimizedHandler()\n    print(handler.handle('create', 'user'))\n    \n    # Singledispatch example\n    print(process_data({'key': 'value'}))\n    print(process_data([1, 2, 3, 4]))\n    print(process_data(\"hello world\"))\n```\n\n**Key Optimization Techniques:**\n1. **Replace inheritance with composition/strategy patterns**\n2. **Use method caching and memoization**\n3. **Leverage language-specific optimizations (singledispatch, WeakMap)**\n4. **Pre-bind methods to avoid runtime lookups**\n5. **Use __slots__ in Python to reduce memory overhead**\n6. **Profile your code to identify bottlenecks**\n7. **Consider static polymorphism when types are known at compile time**",
+      },
     ],
   },
   {

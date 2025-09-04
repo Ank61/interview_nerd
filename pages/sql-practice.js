@@ -22,13 +22,16 @@ import {
   GraduationCap,
   Zap,
 } from "lucide-react";
-import SQLExecutor from "../lib/sqlExecutor";
+// import SQLExecutor from "../lib/sqlExecutor";
+import SQLParseExecutor from "@/lib/sqlParseExecutor";
 import { sqlDatasets, sqlQuestions } from "../data/sqlDatasets";
+import SQLExecutor from "@/lib/sqlExecutor";
 
 export default function SQLPractice() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [sqlExecutor] = useState(() => new SQLExecutor());
+  // const [sqlExecutor] = useState(() => new SQLParseExecutor(sqlDatasets));
 
   // State management
   const [selectedDataset, setSelectedDataset] = useState("employees");
@@ -80,23 +83,57 @@ export default function SQLPractice() {
     }
   };
 
+  // const executeQuery = async () => {
+  //   if (!query.trim()) return;
+
+  //   setLoading(true);
+  //   try {
+  //     const result = sqlExecutor.execute(query);
+  //     setResult(result);
+  //   } catch (error) {
+  //     setResult({
+  //       success: false,
+  //       error: error.message,
+  //       query: query,
+  //     });
+  //   }
+  //   setLoading(false);
+  // };
+
   const executeQuery = async () => {
     if (!query.trim()) return;
 
     setLoading(true);
     try {
-      const result = sqlExecutor.execute(query);
-      setResult(result);
+      const rawResult = sqlExecutor.execute(query);
+
+      if (rawResult.success) {
+        const rows = rawResult.data || [];
+        const columns = rows.length > 0 ? Object.keys(rows[0]) : [];
+
+        setResult({
+          success: true,
+          data: rows,
+          columns,
+          rowCount: rows.length,
+          query,
+        });
+      } else {
+        setResult({
+          success: false,
+          error: rawResult.error,
+          query,
+        });
+      }
     } catch (error) {
       setResult({
         success: false,
         error: error.message,
-        query: query,
+        query,
       });
     }
     setLoading(false);
   };
-
   const loadQuestion = (question) => {
     setSelectedQuestion(question);
     setQuery("");
