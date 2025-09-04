@@ -58807,7 +58807,7 @@ setTimeout(() => manager.destroy(), 5000);`,
             ],
           },
           {
-            topic: "What is Encapsulation?",
+            topic: "Encapsulation",
             tags: ["encapsulation", "data-hiding", "access-control"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
