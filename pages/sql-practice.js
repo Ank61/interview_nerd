@@ -22,16 +22,13 @@ import {
   GraduationCap,
   Zap,
 } from "lucide-react";
-// import SQLExecutor from "../lib/sqlExecutor";
 import SQLParseExecutor from "@/lib/sqlParseExecutor";
-import { sqlDatasets, sqlQuestions } from "../data/sqlDatasets";
-import SQLExecutor from "@/lib/sqlExecutor";
+import { sqlDatasets, sqlQuestions } from "@/data/sqlDatasets";
 
 export default function SQLPractice() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [sqlExecutor] = useState(() => new SQLExecutor());
-  // const [sqlExecutor] = useState(() => new SQLParseExecutor(sqlDatasets));
+  const [sqlExecutor] = useState(() => new SQLParseExecutor(sqlDatasets));
 
   // State management
   const [selectedDataset, setSelectedDataset] = useState("employees");
@@ -83,23 +80,6 @@ export default function SQLPractice() {
     }
   };
 
-  // const executeQuery = async () => {
-  //   if (!query.trim()) return;
-
-  //   setLoading(true);
-  //   try {
-  //     const result = sqlExecutor.execute(query);
-  //     setResult(result);
-  //   } catch (error) {
-  //     setResult({
-  //       success: false,
-  //       error: error.message,
-  //       query: query,
-  //     });
-  //   }
-  //   setLoading(false);
-  // };
-
   const executeQuery = async () => {
     if (!query.trim()) return;
 
@@ -109,7 +89,7 @@ export default function SQLPractice() {
 
       if (rawResult.success) {
         const rows = rawResult.data || [];
-        const columns = rows.length > 0 ? Object.keys(rows[0]) : [];
+        const columns = rawResult.columns || []; // Use columns from executor result
 
         setResult({
           success: true,
@@ -134,6 +114,7 @@ export default function SQLPractice() {
     }
     setLoading(false);
   };
+
   const loadQuestion = (question) => {
     setSelectedQuestion(question);
     setQuery("");
@@ -535,7 +516,7 @@ export default function SQLPractice() {
                           {result.rowCount !== 1 ? "s" : ""} returned
                         </p>
                       </div>
-
+                      {JSON.stringify(result)}
                       {result.data.length > 0 ? (
                         <div className="overflow-x-auto">
                           <table className="min-w-full border border-gray-200 rounded-lg">

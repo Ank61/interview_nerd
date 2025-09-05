@@ -15,32 +15,48 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [allTopics, setAllTopics] = useState([]);
-  // const topicsPerPage = 11;
   const [topicsPerPage, setTopicsPerPage] = useState(11);
-
   const [maxVisible, setMaxVisible] = useState(5);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    const updateMaxVisible = () => {
-      if (window.innerWidth < 640) {
-        // mobile
+    setIsMounted(true);
+    // Set initial state based on screen size
+    const updateResponsiveSettings = () => {
+      const width = window.innerWidth;
+      if (width <= 414) {
+        // iPhone (including iPhone 14 Pro Max)
         setMaxVisible(3);
-        setTopicsPerPage(7);
-      } else if (window.innerWidth < 1024) {
-        // tablet
+        setTopicsPerPage(6);
+        setIsOpen(false);
+      } else if (width <= 768) {
+        // iPad Mini and smaller tablets
+        setMaxVisible(4);
+        setTopicsPerPage(8);
+        setIsOpen(false);
+      } else if (width <= 1024) {
+        // iPad Air/Pro portrait
+        setMaxVisible(4);
+        setTopicsPerPage(10);
+        setIsOpen(false);
+      } else if (width < 1280) {
+        // Laptop
         setMaxVisible(5);
         setTopicsPerPage(10);
+        setIsOpen(true); // Default open on laptop
       } else {
-        //desktop
-        setMaxVisible(7);
-        setTopicsPerPage(5);
+        // Desktop
+        setMaxVisible(6);
+        setTopicsPerPage(12);
+        setIsOpen(true); // Default open on desktop
       }
     };
 
-    updateMaxVisible();
-    window.addEventListener("resize", updateMaxVisible);
-    return () => window.removeEventListener("resize", updateMaxVisible);
+    updateResponsiveSettings();
+    window.addEventListener("resize", updateResponsiveSettings);
+    return () => window.removeEventListener("resize", updateResponsiveSettings);
   }, []);
+
   useEffect(() => {
     const categoryData = prepareData.find(
       (item) => item.category.toLowerCase() === category?.toLowerCase()
@@ -63,7 +79,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
         setCurrentPage(Math.floor(currentIndex / topicsPerPage));
       }
     }
-  }, [category, currentTopic]);
+  }, [category, currentTopic, topicsPerPage]);
 
   const totalPages = Math.ceil(allTopics.length / topicsPerPage);
   const startIndex = currentPage * topicsPerPage;
@@ -71,8 +87,16 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
 
   const handleTopicClick = (topic) => {
     router.push(`/learn/${category}/${topic}`);
-    setIsOpen(false);
+    // Close sidebar on mobile/tablet after selection
+    if (window.innerWidth <= 1024) {
+      setIsOpen(false);
+    }
   };
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
   const renderPageNumbers = () => {
     const pages = [];
 
@@ -83,7 +107,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
     } else {
       pages.push(0);
 
-      let half = Math.floor((maxVisible - 2) / 2); // middle chunk
+      let half = Math.floor((maxVisible - 2) / 2);
       let start = Math.max(currentPage - half, 1);
       let end = Math.min(currentPage + half, totalPages - 2);
 
@@ -98,26 +122,40 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
     return pages;
   };
 
+  // Don't render until mounted to prevent hydration issues
+  if (!isMounted) {
+    return null;
+  }
+
+  const isLargeScreen = typeof window !== 'undefined' && window.innerWidth >= 1024;
+
   return (
     <>
-      {/* Mobile Toggle Button */}
+      {/* Toggle Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        className={`lg:hidden fixed ${
-          isOpen ? "top-6 left-64 " : "left-4 top-16"
-        } z-50 p-3 rounded-full shadow-md transition-all duration-300 hover:scale-110`}
+        onClick={toggleSidebar}
+        className={`
+          fixed z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95
+          touch-manipulation
+          ${isOpen && isLargeScreen
+            ? 'top-6 left-[280px] md:left-[320px]' 
+            : isOpen && !isLargeScreen
+            ? 'top-6 left-[260px] sm:left-[280px]'
+            : 'left-3 sm:left-4 top-20'
+          }
+        `}
         style={{
           backgroundColor: theme?.themeBgColor || "#f3f4f6",
           color: theme?.textColor || "#374151",
         }}
       >
-        {isOpen ? <X size={20} /> : <Menu size={20} />}
+        {isOpen ? <X size={18} className="sm:w-5 sm:h-5" /> : <Menu size={18} className="sm:w-5 sm:h-5" />}
       </button>
 
-      {/* Overlay for mobile */}
-      {isOpen && (
+      {/* Overlay for mobile and tablet only */}
+      {isOpen && !isLargeScreen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-30"
+          className="fixed inset-0 bg-black bg-opacity-50 z-30"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -125,17 +163,26 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
       {/* Sidebar */}
       <div
         className={`
-        fixed lg:sticky top-0 left-0 h-screen lg:h-[calc(100vh-64px)] lg:top-16
-        w-80 lg:w-72 xl:w-80 
-        transform transition-transform duration-300 ease-in-out z-40
-        ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-        bg-white border-r border-gray-200 shadow-lg lg:shadow-none
-        overflow-y-auto
-      `}
+          ${isLargeScreen ? 'sticky' : 'fixed'} top-0 left-0 
+          ${isLargeScreen ? 'h-[calc(100vh-80px)]' : 'h-screen'}
+          transform transition-all duration-300 ease-in-out z-40
+          ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          bg-white border-r border-gray-200 shadow-xl
+          
+          /* Responsive widths for different devices */
+          w-[85vw] max-w-[300px]
+          sm:w-72 sm:max-w-none
+          md:w-80 
+          lg:w-72 
+          xl:w-80
+        `}
+        style={{
+          paddingTop: isLargeScreen ? '20px' : '80px',
+        }}
       >
-        <div className="p-6">
+        <div className="h-full flex flex-col p-4 sm:p-6">
           {/* Header */}
-          <div className="flex items-center gap-3 mb-6">
+          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 flex-shrink-0">
             <div
               className="p-2 rounded-lg"
               style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
@@ -147,201 +194,145 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
             </div>
             <div>
               <h3
-                className="font-semibold text-lg"
+                className="font-semibold text-base sm:text-lg"
                 style={{ color: theme?.textColor || "#374151" }}
               >
                 {category} Topics
               </h3>
-              <p className="text-sm text-gray-500">
+              <p className="text-xs sm:text-sm text-gray-500">
                 {allTopics.length} topics available
               </p>
             </div>
           </div>
 
-          {/* Topics List */}
-          <div className="space-y-2 mb-6">
-            {currentTopics.map((topicItem, index) => {
-              const isActive = topicItem.topic === currentTopic;
-              return (
-                <div
-                  key={index}
-                  onClick={() => handleTopicClick(topicItem.topic)}
-                  className={`
-                    p-3 rounded-lg cursor-pointer transition-all duration-200
-                    hover:scale-[1.02] hover:shadow-md
-                    ${isActive ? "shadow-md ring-2" : "hover:shadow-sm"}
-                  `}
-                  style={{
-                    backgroundColor: isActive
-                      ? theme?.lightColor || "#f3f4f6"
-                      : "#f9fafb",
-                    borderColor: isActive
-                      ? theme?.themeBgColor || "#e5e7eb"
-                      : "transparent",
-                    ringColor: isActive
-                      ? theme?.themeBgColor || "#e5e7eb"
-                      : "transparent",
-                  }}
-                >
-                  <div className="flex items-start gap-3">
-                    {isActive && (
-                      <Star
-                        size={16}
-                        className="mt-0.5 flex-shrink-0"
-                        style={{ color: theme?.textColor || "#374151" }}
-                        fill="currentColor"
-                      />
-                    )}
-                    <div className="flex-1 min-w-0">
-                      <h4
-                        className={`text-sm font-medium leading-5 ${
-                          isActive ? "font-semibold" : ""
-                        }`}
-                        style={{
-                          color: isActive
-                            ? theme?.textColor || "#374151"
-                            : "#4b5563",
-                        }}
-                      >
-                        {topicItem.topic.length > 50
-                          ? `${topicItem.topic.substring(0, 50)}...`
-                          : topicItem.topic}
-                      </h4>
-                      <div className="flex items-center gap-2 mt-1">
-                        <span
-                          className="text-xs px-2 py-1 rounded-full"
+          {/* Topics List - Scrollable area */}
+          <div className="flex-1 overflow-y-auto">
+            <div className="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6">
+              {currentTopics.map((topicItem, index) => {
+                const isActive = topicItem.topic === currentTopic;
+                return (
+                  <div
+                    key={index}
+                    onClick={() => handleTopicClick(topicItem.topic)}
+                    className={`
+                      p-2.5 sm:p-3 rounded-lg cursor-pointer transition-all duration-200
+                      hover:scale-[1.02] hover:shadow-md active:scale-[0.98]
+                      ${isActive ? "shadow-md ring-2" : "hover:shadow-sm"}
+                      touch-manipulation
+                    `}
+                    style={{
+                      backgroundColor: isActive
+                        ? theme?.lightColor || "#f3f4f6"
+                        : "#f9fafb",
+                      borderColor: isActive
+                        ? theme?.themeBgColor || "#e5e7eb"
+                        : "transparent",
+                      ringColor: isActive
+                        ? theme?.themeBgColor || "#e5e7eb"
+                        : "transparent",
+                    }}
+                  >
+                    <div className="flex items-start gap-3">
+                      {isActive && (
+                        <Star
+                          size={16}
+                          className="mt-0.5 flex-shrink-0"
+                          style={{ color: theme?.textColor || "#374151" }}
+                          fill="currentColor"
+                        />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <h4
+                          className={`text-xs sm:text-sm font-medium leading-5 ${
+                            isActive ? "font-semibold" : ""
+                          }`}
                           style={{
-                            backgroundColor: theme?.themeBgColor || "#e5e7eb",
-                            color: theme?.textColor || "#374151",
+                            color: isActive
+                              ? theme?.textColor || "#374151"
+                              : "#4b5563",
                           }}
                         >
-                          {topicItem.label}
-                        </span>
+                          {topicItem.topic.length > (window.innerWidth <= 414 ? 25 : 40)
+                            ? `${topicItem.topic.substring(0, window.innerWidth <= 414 ? 25 : 40)}...`
+                            : topicItem.topic}
+                        </h4>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span
+                            className="text-xs px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full"
+                            style={{
+                              backgroundColor: theme?.themeBgColor || "#e5e7eb",
+                              color: theme?.textColor || "#374151",
+                            }}
+                          >
+                            {topicItem.label}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          {/* Pagination */}
-          {/* {totalPages > 1 && (
-            <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-              <button
-                onClick={prevPage}
-                disabled={currentPage === 0}
-                className={`
-                  flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
-                  transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
-                  hover:scale-105 disabled:hover:scale-100
-                `}
-                style={{
-                  backgroundColor: theme?.lightColor || "#f3f4f6",
-                  color: theme?.textColor || "#374151",
-                }}
-              >
-                <ChevronLeft size={16} />
-                Previous
-              </button>
-
-              <div className="flex items-center gap-2">
-                {Array.from({ length: totalPages }, (_, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setCurrentPage(i)}
-                    className={`
-                      w-8 h-8 rounded-full text-sm font-medium transition-all duration-200
-                      hover:scale-110
-                      ${
-                        currentPage === i
-                          ? "shadow-md ring-2"
-                          : "hover:shadow-sm"
-                      }
-                    `}
-                    style={{
-                      backgroundColor:
-                        currentPage === i
-                          ? theme?.themeBgColor || "#e5e7eb"
-                          : theme?.lightColor || "#f3f4f6",
-                      color: theme?.textColor || "#374151",
-                      ringColor:
-                        currentPage === i
-                          ? theme?.themeBgColor || "#e5e7eb"
-                          : "transparent",
-                    }}
-                  >
-                    {i + 1}
-                  </button>
-                ))}
+          {/* Fixed bottom section */}
+          <div className="flex-shrink-0 border-t border-gray-200 pt-3 sm:pt-4">
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-center gap-1 sm:gap-2 mb-3 sm:mb-4">
+                {renderPageNumbers().map((p, idx) =>
+                  p === "..." ? (
+                    <span key={idx} className="px-2 text-gray-500 text-sm">
+                      ...
+                    </span>
+                  ) : (
+                    <button
+                      key={p}
+                      onClick={() => setCurrentPage(p)}
+                      className={`
+                        w-7 h-7 sm:w-8 sm:h-8 rounded-full text-xs sm:text-sm font-medium transition-all duration-200
+                        hover:scale-110 active:scale-95 touch-manipulation
+                        ${currentPage === p ? "shadow-md ring-2" : "hover:shadow-sm"}
+                      `}
+                      style={{
+                        backgroundColor:
+                          currentPage === p
+                            ? theme?.themeBgColor || "#e5e7eb"
+                            : theme?.lightColor || "#f3f4f6",
+                        color: theme?.textColor || "#374151",
+                        ringColor:
+                          currentPage === p
+                            ? theme?.themeBgColor || "#e5e7eb"
+                            : "transparent",
+                      }}
+                    >
+                      {p + 1}
+                    </button>
+                  )
+                )}
               </div>
-
-              <button
-                onClick={nextPage}
-                disabled={currentPage === totalPages - 1}
-                className={`
-                  flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium
-                  transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
-                  hover:scale-105 disabled:hover:scale-100
-                `}
-                style={{
-                  backgroundColor: theme?.lightColor || "#f3f4f6",
-                  color: theme?.textColor || "#374151",
-                }}
-              >
-                Next
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          )} */}
-
-          <div className="flex items-center gap-2">
-            {renderPageNumbers().map((p, idx) =>
-              p === "..." ? (
-                <span key={idx} className="px-2 text-gray-500">
-                  ...
-                </span>
-              ) : (
-                <button
-                  key={p}
-                  onClick={() => setCurrentPage(p)}
-                  className={`
-          w-8 h-8 rounded-full text-sm font-medium transition-all duration-200
-          hover:scale-110
-          ${currentPage === p ? "shadow-md ring-2" : "hover:shadow-sm"}
-        `}
-                  style={{
-                    backgroundColor:
-                      currentPage === p
-                        ? theme?.themeBgColor || "#e5e7eb"
-                        : theme?.lightColor || "#f3f4f6",
-                    color: theme?.textColor || "#374151",
-                  }}
-                >
-                  {p + 1}
-                </button>
-              )
             )}
-          </div>
 
-          {/* Progress Indicator */}
-          <div className="mt-4 pt-4 border-t border-gray-200">
-            <div className="flex justify-between text-xs text-gray-500 mb-2">
-              <span>Progress</span>
-              <span>
-                {startIndex + 1}-
-                {Math.min(startIndex + topicsPerPage, allTopics.length)} of{" "}
-                {allTopics.length}
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="h-2 rounded-full transition-all duration-300"
-                style={{
-                  backgroundColor: theme?.themeBgColor || "#e5e7eb",
-                  width: `${((currentPage + 1) / totalPages) * 100}%`,
-                }}
-              />
+            {/* Progress Indicator */}
+            <div>
+              <div className="flex justify-between text-xs text-gray-500 mb-2">
+                <span className="hidden sm:inline">Progress</span>
+                <span className="sm:hidden">Topics</span>
+                <span className="text-xs">
+                  {startIndex + 1}-
+                  {Math.min(startIndex + topicsPerPage, allTopics.length)} of{" "}
+                  {allTopics.length}
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  className="h-2 rounded-full transition-all duration-300"
+                  style={{
+                    backgroundColor: theme?.themeBgColor || "#e5e7eb",
+                    width: `${((currentPage + 1) / totalPages) * 100}%`,
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

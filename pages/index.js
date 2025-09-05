@@ -52,50 +52,30 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-200 sticky top-0 z-40 backdrop-blur-sm bg-white/95">
-        <nav className="w-full bg-white/95 backdrop-blur-sm z-50">
-          <div className="container mx-auto px-4 py-3 flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                <svg
-                  width="28"
-                  height="28"
-                  fill="none"
-                  viewBox="0 0 48 48"
-                  className="text-blue-600"
-                >
-                  <circle
-                    cx="24"
-                    cy="24"
-                    r="24"
-                    fill="#2563eb"
-                    fillOpacity="0.1"
-                  />
-                  <path
-                    d="M24 14v12l8 4"
-                    stroke="#2563eb"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <nav className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+                <BookOpen size={24} className="text-blue-600" />
               </div>
-              <span className="font-bold text-xl text-gray-900 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                Interview Nerd
-              </span>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
+                <p className="text-sm text-gray-500 hidden sm:block">Master Tech Interviews</p>
+              </div>
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-8 text-sm font-medium">
+            <div className="hidden md:flex items-center space-x-8">
               <a
                 href="#features"
-                className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
+                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
               >
                 Features
               </a>
               <a
                 href="#categories"
-                className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
+                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
               >
                 Categories
               </a>
@@ -106,9 +86,9 @@ export default function Home() {
                 onMouseEnter={() => setIsToolsDropdownOpen(true)}
                 onMouseLeave={() => setIsToolsDropdownOpen(false)}
               >
-                <button className="text-gray-600 hover:text-blue-600 transition-all duration-200 flex items-center gap-2 font-medium px-3 py-2 rounded-lg hover:bg-blue-50">
+                <button className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200 flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-blue-50">
                   <Settings className="w-4 h-4" />
-                  Tools
+                  <span>Tools</span>
                   <ChevronDown
                     className={`w-4 h-4 transition-transform duration-200 ${
                       isToolsDropdownOpen ? "rotate-180" : ""
@@ -172,7 +152,7 @@ export default function Home() {
 
               <a
                 href="#testimonials"
-                className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"
+                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
               >
                 Testimonials
               </a>
@@ -180,13 +160,13 @@ export default function Home() {
                 <>
                   <Link
                     href="/dashboard"
-                    className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105 font-medium"
+                    className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
                   >
                     Dashboard
                   </Link>
                   <Button
                     size="sm"
-                    className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
                     onClick={() => signOut({ callbackUrl: "/" })}
                   >
                     Logout
@@ -194,9 +174,16 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" className="font-bold text-blue-600">
+                  <Link href="/auth/login" className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
                     Login
                   </Link>
+                  <Button
+                    size="sm"
+                    onClick={() => router.push("/auth/signup")}
+                    className="bg-blue-600 text-white font-medium px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors hover:shadow-md"
+                  >
+                    Get Started
+                  </Button>
                   {/* <Link
                     href="/auth/signup"
                     className="text-gray-600 hover:text-blue-600 transition-all duration-200 hover:scale-105"

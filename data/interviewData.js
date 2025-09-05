@@ -31955,7 +31955,6 @@ class ImmutableBankAccount:
 - Consider using concurrent collections
 - Document thread-safety guarantees`,
       },
-
       {
         question:
           "What is the difference between intrinsic and extrinsic state in the Flyweight pattern?",
@@ -32138,7 +32137,28 @@ forest.render(canvas)
 - Object creation is expensive
 - Most object state can be made extrinsic`,
       },
-
+      {
+        question: "What is the difference between composition and delegation?",
+        solution:
+          "Composition is a structural relationship where one object contains another object as a part of its implementation. The containing object owns the contained object and their lifetimes are typically tied together. Delegation is a behavioral pattern where one object forwards requests to another object to handle the work, but doesn't necessarily own the delegate object.\n\nKey Differences:\n- Ownership: Composition implies ownership; delegation doesn't\n- Lifetime: In composition, contained objects are created/destroyed with the container; in delegation, delegate objects can exist independently\n- Relationship: Composition is has-a; delegation is uses-a\n\nJavaScript Examples:\n\njavascript\n// Composition Example\nclass Engine {\n  start() {\n    console.log('Engine starting...');\n  }\n}\n\nclass Car {\n  constructor() {\n    this.engine = new Engine(); // Car owns the engine\n  }\n  \n  start() {\n    this.engine.start();\n  }\n}\n\n// Delegation Example\nclass Logger {\n  log(message) {\n    console.log(`[LOG]: ${message}`);\n  }\n}\n\nclass UserService {\n  constructor(logger) {\n    this.logger = logger; // UserService uses logger but doesn't own it\n  }\n  \n  createUser(userData) {\n    // Business logic here\n    this.logger.log('User created'); // Delegating logging responsibility\n  }\n}\n\nconst sharedLogger = new Logger();\nconst userService = new UserService(sharedLogger);\n\n\nPython Examples:\n\npython\n# Composition Example\nclass Engine:\n    def start(self):\n        print('Engine starting...')\n\nclass Car:\n    def __init__(self):\n        self.engine = Engine()  # Car owns the engine\n    \n    def start(self):\n        self.engine.start()\n\n# Delegation Example\nclass Logger:\n    def log(self, message):\n        print(f'[LOG]: {message}')\n\nclass UserService:\n    def __init__(self, logger):\n        self.logger = logger  # UserService uses logger but doesn't own it\n    \n    def create_user(self, user_data):\n        # Business logic here\n        self.logger.log('User created')  # Delegating logging responsibility\n\nshared_logger = Logger()\nuser_service = UserService(shared_logger)\n",
+      },
+      {
+        question:
+          "Explain the Law of Demeter and provide examples of violations.",
+        solution:
+          "The Law of Demeter (LoD), also known as the Principle of Least Knowledge, states that an object should only talk to its immediate friends and not to strangers. Specifically, a method M of object O should only invoke methods of:\n\n1. O itself\n2. M's parameters\n3. Objects created within M\n4. O's direct component objects\n\nBenefits:\n- Reduces coupling between classes\n- Makes code more maintainable\n- Prevents chain reactions when changes occur\n- Improves encapsulation\n\nJavaScript Violation Example:\n\njavascript\n// VIOLATION - Chain of method calls\nclass Customer {\n  constructor(wallet) {\n    this.wallet = wallet;\n  }\n}\n\nclass Wallet {\n  constructor(money) {\n    this.money = money;\n  }\n  \n  getMoney() {\n    return this.money;\n  }\n}\n\nclass Money {\n  constructor(amount) {\n    this.amount = amount;\n  }\n  \n  getAmount() {\n    return this.amount;\n  }\n}\n\n// BAD: Violates Law of Demeter\nclass ShoppingCart {\n  calculateTotal(customer) {\n    // Too much knowledge about customer's internal structure\n    const amount = customer.wallet.getMoney().getAmount(); // VIOLATION!\n    return amount * 0.1;\n  }\n}\n\n// GOOD: Following Law of Demeter\nclass Customer {\n  constructor(wallet) {\n    this.wallet = wallet;\n  }\n  \n  // Provide a direct method\n  getAvailableAmount() {\n    return this.wallet.getMoney().getAmount();\n  }\n}\n\nclass ShoppingCart {\n  calculateTotal(customer) {\n    const amount = customer.getAvailableAmount(); // GOOD!\n    return amount * 0.1;\n  }\n}\n\n\nPython Violation Example:\n\npython\n# VIOLATION - Chain of method calls\nclass Customer:\n    def __init__(self, wallet):\n        self.wallet = wallet\n\nclass Wallet:\n    def __init__(self, money):\n        self.money = money\n    \n    def get_money(self):\n        return self.money\n\nclass Money:\n    def __init__(self, amount):\n        self.amount = amount\n    \n    def get_amount(self):\n        return self.amount\n\n# BAD: Violates Law of Demeter\nclass ShoppingCart:\n    def calculate_total(self, customer):\n        # Too much knowledge about customer's internal structure\n        amount = customer.wallet.get_money().get_amount()  # VIOLATION!\n        return amount * 0.1\n\n# GOOD: Following Law of Demeter\nclass Customer:\n    def __init__(self, wallet):\n        self.wallet = wallet\n    \n    # Provide a direct method\n    def get_available_amount(self):\n        return self.wallet.get_money().get_amount()\n\nclass ShoppingCart:\n    def calculate_total(self, customer):\n        amount = customer.get_available_amount()  # GOOD!\n        return amount * 0.1\n\n\nOther Common Violations:\n- object.getProperty().getSubProperty().doSomething()\n- user.getAddress().getStreet().getNumber()\n- order.getCustomer().getPayment().charge()",
+      },
+      {
+        question:
+          "How do you handle cross-cutting concerns in object-oriented design?",
+        solution:
+          'Cross-cutting concerns are aspects of a program that affect multiple modules and cannot be cleanly decomposed from the rest of the system. Examples include logging, security, caching, error handling, and performance monitoring.\n\nCommon Approaches:\n\n1. Decorator Pattern\n2. Aspect-Oriented Programming (AOP)\n3. Proxy Pattern\n4. Middleware Pattern\n5. Event-Driven Architecture\n\nJavaScript Examples:\n\njavascript\n// 1. Decorator Pattern for Logging\nclass Logger {\n  static log(target, propertyName, descriptor) {\n    const originalMethod = descriptor.value;\n    \n    descriptor.value = function(...args) {\n      console.log(`Calling ${propertyName} with args:`, args);\n      const result = originalMethod.apply(this, args);\n      console.log(`${propertyName} returned:`, result);\n      return result;\n    };\n    \n    return descriptor;\n  }\n}\n\nclass UserService {\n  @Logger.log\n  createUser(userData) {\n    return { id: 1, ...userData };\n  }\n  \n  @Logger.log\n  deleteUser(userId) {\n    return `User ${userId} deleted`;\n  }\n}\n\n// 2. Proxy Pattern for Caching\nclass DataService {\n  constructor() {\n    this.cache = new Map();\n  }\n  \n  expensiveOperation(id) {\n    console.log(`Performing expensive operation for ${id}`);\n    return `Result for ${id}`;\n  }\n}\n\nclass CachingProxy {\n  constructor(dataService) {\n    this.dataService = dataService;\n    this.cache = new Map();\n  }\n  \n  expensiveOperation(id) {\n    if (this.cache.has(id)) {\n      console.log(`Cache hit for ${id}`);\n      return this.cache.get(id);\n    }\n    \n    const result = this.dataService.expensiveOperation(id);\n    this.cache.set(id, result);\n    return result;\n  }\n}\n\n// 3. Middleware Pattern\nclass MiddlewareManager {\n  constructor() {\n    this.middlewares = [];\n  }\n  \n  use(middleware) {\n    this.middlewares.push(middleware);\n  }\n  \n  async execute(context) {\n    let index = 0;\n    \n    const next = async () => {\n      if (index < this.middlewares.length) {\n        const middleware = this.middlewares[index++];\n        await middleware(context, next);\n      }\n    };\n    \n    await next();\n  }\n}\n\n// Middleware functions\nconst loggingMiddleware = async (context, next) => {\n  console.log(`Request: ${context.method} ${context.path}`);\n  await next();\n  console.log(`Response: ${context.status}`);\n};\n\nconst authMiddleware = async (context, next) => {\n  if (!context.headers.authorization) {\n    context.status = 401;\n    return;\n  }\n  await next();\n};\n\nconst manager = new MiddlewareManager();\nmanager.use(loggingMiddleware);\nmanager.use(authMiddleware);\n\n\nPython Examples:\n\npython\nimport functools\nimport time\nfrom typing import Any, Callable\n\n# 1. Decorator Pattern for Timing and Logging\ndef timing_decorator(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        start_time = time.time()\n        print(f"Starting {func.__name__}")\n        result = func(*args, **kwargs)\n        end_time = time.time()\n        print(f"{func.__name__} took {end_time - start_time:.2f} seconds")\n        return result\n    return wrapper\n\ndef logging_decorator(func):\n    @functools.wraps(func)\n    def wrapper(*args, **kwargs):\n        print(f"Calling {func.__name__} with args: {args}, kwargs: {kwargs}")\n        result = func(*args, **kwargs)\n        print(f"{func.__name__} returned: {result}")\n        return result\n    return wrapper\n\n# Combining multiple decorators\nclass UserService:\n    @timing_decorator\n    @logging_decorator\n    def create_user(self, user_data):\n        # Simulate some work\n        time.sleep(0.1)\n        return {"id": 1, **user_data}\n\n# 2. Context Manager for Resource Management\nclass DatabaseTransaction:\n    def __enter__(self):\n        print("Starting transaction")\n        return self\n    \n    def __exit__(self, exc_type, exc_val, exc_tb):\n        if exc_type:\n            print("Rolling back transaction")\n        else:\n            print("Committing transaction")\n        return False\n    \n    def execute(self, query):\n        print(f"Executing: {query}")\n\n# Usage\nwith DatabaseTransaction() as tx:\n    tx.execute("INSERT INTO users...")\n    tx.execute("UPDATE profiles...")\n\n# 3. Event-Driven Architecture\nclass EventBus:\n    def __init__(self):\n        self.listeners = {}\n    \n    def subscribe(self, event_type, handler):\n        if event_type not in self.listeners:\n            self.listeners[event_type] = []\n        self.listeners[event_type].append(handler)\n    \n    def publish(self, event_type, data):\n        if event_type in self.listeners:\n            for handler in self.listeners[event_type]:\n                handler(data)\n\n# Cross-cutting concern handlers\nclass AuditHandler:\n    def handle(self, data):\n        print(f"AUDIT: {data}")\n\nclass NotificationHandler:\n    def handle(self, data):\n        print(f"NOTIFICATION: {data}")\n\n# Setup\nevent_bus = EventBus()\naudit_handler = AuditHandler()\nnotification_handler = NotificationHandler()\n\nevent_bus.subscribe(\'user_created\', audit_handler.handle)\nevent_bus.subscribe(\'user_created\', notification_handler.handle)\n\n# Business logic\nclass UserService:\n    def __init__(self, event_bus):\n        self.event_bus = event_bus\n    \n    def create_user(self, user_data):\n        user = {"id": 1, **user_data}\n        self.event_bus.publish(\'user_created\', user)\n        return user\n\n\nBest Practices:\n- Keep cross-cutting concerns separate from business logic\n- Use consistent patterns across the application\n- Make cross-cutting behaviors configurable\n- Consider performance impact of additional layers\n- Document which concerns are handled where',
+      },
+      {
+        question: "How do you mock objects effectively for unit testing?",
+        solution:
+          "Mocking is the practice of creating fake objects that simulate the behavior of real objects in controlled ways during testing. Effective mocking helps isolate the unit under test and makes tests faster, more reliable, and independent.\n\nKey Principles:\n- Mock external dependencies, not the object under test\n- Mock at the boundary of your system\n- Prefer test doubles over real objects for external services\n- Keep mocks simple and focused\n- Verify interactions when behavior matters\n\nJavaScript Examples:\n\njavascript\n// Using Jest framework\n\n// 1. Basic Mocking with Jest\nclass EmailService {\n  async sendEmail(to, subject, body) {\n    // Real implementation would send actual email\n    throw new Error('Should not be called in tests');\n  }\n}\n\nclass UserService {\n  constructor(emailService) {\n    this.emailService = emailService;\n  }\n  \n  async registerUser(userData) {\n    const user = { id: 1, ...userData };\n    await this.emailService.sendEmail(\n      user.email, \n      'Welcome!', \n      `Welcome ${user.name}!`\n    );\n    return user;\n  }\n}\n\n// Test with mocked dependencies\ndescribe('UserService', () => {\n  let emailService;\n  let userService;\n  \n  beforeEach(() => {\n    emailService = {\n      sendEmail: jest.fn().mockResolvedValue(true)\n    };\n    userService = new UserService(emailService);\n  });\n  \n  test('should register user and send welcome email', async () => {\n    const userData = { name: 'John', email: 'john@example.com' };\n    \n    const result = await userService.registerUser(userData);\n    \n    // Verify the result\n    expect(result).toEqual({ id: 1, name: 'John', email: 'john@example.com' });\n    \n    // Verify the interaction\n    expect(emailService.sendEmail).toHaveBeenCalledWith(\n      'john@example.com',\n      'Welcome!',\n      'Welcome John!'\n    );\n    expect(emailService.sendEmail).toHaveBeenCalledTimes(1);\n  });\n  \n  test('should handle email sending failure', async () => {\n    emailService.sendEmail.mockRejectedValue(new Error('Email failed'));\n    \n    await expect(userService.registerUser({ name: 'John', email: 'john@example.com' }))\n      .rejects.toThrow('Email failed');\n  });\n});\n\n// 2. Manual Mock Implementation\nclass MockDatabase {\n  constructor() {\n    this.users = [];\n    this.calls = [];\n  }\n  \n  async save(user) {\n    this.calls.push({ method: 'save', args: [user] });\n    const savedUser = { id: this.users.length + 1, ...user };\n    this.users.push(savedUser);\n    return savedUser;\n  }\n  \n  async findById(id) {\n    this.calls.push({ method: 'findById', args: [id] });\n    return this.users.find(user => user.id === id) || null;\n  }\n  \n  // Test helpers\n  getCallCount(method) {\n    return this.calls.filter(call => call.method === method).length;\n  }\n  \n  getLastCall(method) {\n    const calls = this.calls.filter(call => call.method === method);\n    return calls[calls.length - 1];\n  }\n}\n\n// 3. Spy Pattern\nclass DatabaseService {\n  constructor(database) {\n    this.database = database;\n  }\n  \n  async createUser(userData) {\n    if (!userData.email) {\n      throw new Error('Email is required');\n    }\n    return await this.database.save(userData);\n  }\n}\n\n// Test using spy\ntest('should create user with valid data', async () => {\n  const mockDb = new MockDatabase();\n  const service = new DatabaseService(mockDb);\n  \n  const result = await service.createUser({ name: 'John', email: 'john@example.com' });\n  \n  expect(result.id).toBe(1);\n  expect(mockDb.getCallCount('save')).toBe(1);\n  expect(mockDb.getLastCall('save').args[0]).toEqual({ name: 'John', email: 'john@example.com' });\n});\n\n\nPython Examples:\n\npython\nimport unittest\nfrom unittest.mock import Mock, patch, MagicMock\nimport pytest\n\n# 1. Basic Mocking with unittest.mock\nclass EmailService:\n    def send_email(self, to, subject, body):\n        raise NotImplementedError(\"Should not be called in tests\")\n\nclass UserService:\n    def __init__(self, email_service):\n        self.email_service = email_service\n    \n    def register_user(self, user_data):\n        user = {'id': 1, **user_data}\n        self.email_service.send_email(\n            user['email'], \n            'Welcome!', \n            f\"Welcome {user['name']}!\"\n        )\n        return user\n\nclass TestUserService(unittest.TestCase):\n    def setUp(self):\n        self.email_service = Mock()\n        self.user_service = UserService(self.email_service)\n    \n    def test_register_user_sends_welcome_email(self):\n        user_data = {'name': 'John', 'email': 'john@example.com'}\n        \n        result = self.user_service.register_user(user_data)\n        \n        # Verify the result\n        expected_user = {'id': 1, 'name': 'John', 'email': 'john@example.com'}\n        self.assertEqual(result, expected_user)\n        \n        # Verify the interaction\n        self.email_service.send_email.assert_called_once_with(\n            'john@example.com',\n            'Welcome!',\n            'Welcome John!'\n        )\n    \n    def test_register_user_handles_email_failure(self):\n        self.email_service.send_email.side_effect = Exception('Email failed')\n        user_data = {'name': 'John', 'email': 'john@example.com'}\n        \n        with self.assertRaises(Exception) as context:\n            self.user_service.register_user(user_data)\n        \n        self.assertEqual(str(context.exception), 'Email failed')\n\n# 2. Using pytest with mock\n@pytest.fixture\ndef mock_email_service():\n    return Mock()\n\n@pytest.fixture\ndef user_service(mock_email_service):\n    return UserService(mock_email_service)\n\ndef test_register_user_with_pytest(user_service, mock_email_service):\n    user_data = {'name': 'Alice', 'email': 'alice@example.com'}\n    \n    result = user_service.register_user(user_data)\n    \n    assert result == {'id': 1, 'name': 'Alice', 'email': 'alice@example.com'}\n    mock_email_service.send_email.assert_called_once_with(\n        'alice@example.com',\n        'Welcome!',\n        'Welcome Alice!'\n    )\n\n# 3. Patching External Dependencies\nclass DatabaseService:\n    def save_user(self, user_data):\n        import requests  # External dependency\n        response = requests.post('https://api.example.com/users', json=user_data)\n        return response.json()\n\n# Test with patching\n@patch('requests.post')\ndef test_save_user_makes_api_call(mock_post):\n    # Setup mock response\n    mock_post.return_value.json.return_value = {'id': 1, 'status': 'created'}\n    \n    db_service = DatabaseService()\n    result = db_service.save_user({'name': 'Bob'})\n    \n    # Verify the result\n    assert result == {'id': 1, 'status': 'created'}\n    \n    # Verify the API call\n    mock_post.assert_called_once_with(\n        'https://api.example.com/users',\n        json={'name': 'Bob'}\n    )\n\n# 4. Custom Mock with State\nclass MockRepository:\n    def __init__(self):\n        self.data = {}\n        self.call_log = []\n    \n    def save(self, entity_id, data):\n        self.call_log.append(('save', entity_id, data))\n        self.data[entity_id] = data\n        return data\n    \n    def find(self, entity_id):\n        self.call_log.append(('find', entity_id))\n        return self.data.get(entity_id)\n    \n    def get_call_count(self, method):\n        return len([call for call in self.call_log if call[0] == method])\n\nclass CacheService:\n    def __init__(self, repository):\n        self.repository = repository\n        self.cache = {}\n    \n    def get(self, key):\n        if key in self.cache:\n            return self.cache[key]\n        \n        data = self.repository.find(key)\n        if data:\n            self.cache[key] = data\n        return data\n    \n    def set(self, key, value):\n        self.cache[key] = value\n        return self.repository.save(key, value)\n\ndef test_cache_service_with_custom_mock():\n    mock_repo = MockRepository()\n    cache_service = CacheService(mock_repo)\n    \n    # Test cache miss\n    result = cache_service.get('key1')\n    assert result is None\n    assert mock_repo.get_call_count('find') == 1\n    \n    # Test setting value\n    cache_service.set('key1', 'value1')\n    assert mock_repo.get_call_count('save') == 1\n    \n    # Test cache hit\n    result = cache_service.get('key1')\n    assert result == 'value1'\n    # Should not make another repository call\n    assert mock_repo.get_call_count('find') == 1\n\n\nBest Practices for Effective Mocking:\n\n1. Mock at the right level: Mock external boundaries, not internal logic\n2. Keep mocks simple: Don't recreate complex business logic in mocks\n3. Verify behavior, not just state: Use mocks to verify important interactions\n4. Use descriptive test names: Make it clear what behavior is being tested\n5. Setup and teardown properly: Ensure mocks are reset between tests\n6. Don't over-mock: Only mock what's necessary for the test\n7. Make tests readable: Use clear mock setups and assertions",
+      },
       {
         question:
           "How would you implement lazy initialization safely in a multithreaded environment?",
@@ -32446,6 +32466,5434 @@ if __name__ == "__main__":
         question: "How do you optimize polymorphic code for performance?",
         solution:
           "Optimizing polymorphic code involves reducing the overhead of dynamic dispatch while maintaining flexibility. Here are key strategies:\n\n**1. Strategy Pattern with Function Maps**\n**2. Method Caching**\n**3. Type-based Optimization**\n**4. Composition over Inheritance**\n**5. Static Polymorphism**\n\n**JavaScript Optimization Examples:**\n```javascript\n// 1. Strategy Pattern - Faster than inheritance\nclass OptimizedProcessor {\n  constructor() {\n    this.strategies = new Map([\n      ['json', this.processJSON],\n      ['xml', this.processXML],\n      ['csv', this.processCSV]\n    ]);\n  }\n  \n  process(type, data) {\n    const strategy = this.strategies.get(type);\n    return strategy ? strategy(data) : null;\n  }\n  \n  processJSON(data) { return JSON.parse(data); }\n  processXML(data) { /* XML parsing */ return data; }\n  processCSV(data) { /* CSV parsing */ return data; }\n}\n\n// 2. Method Caching - Avoid repeated lookups\nclass CachedRenderer {\n  constructor() {\n    this.methodCache = new Map();\n  }\n  \n  render(type, data) {\n    let method = this.methodCache.get(type);\n    if (!method) {\n      method = this[`render${type.charAt(0).toUpperCase()}${type.slice(1)}`];\n      if (method) {\n        this.methodCache.set(type, method.bind(this));\n      }\n    }\n    return method ? method(data) : null;\n  }\n  \n  renderHTML(data) { return `<div>${data}</div>`; }\n  renderJSON(data) { return JSON.stringify(data); }\n  renderText(data) { return data.toString(); }\n}\n\n// 3. Type-based optimization with WeakMap\nconst typeCache = new WeakMap();\n\nclass TypeOptimizedHandler {\n  handle(obj) {\n    let handler = typeCache.get(obj.constructor);\n    if (!handler) {\n      handler = this.createHandler(obj.constructor.name);\n      typeCache.set(obj.constructor, handler);\n    }\n    return handler(obj);\n  }\n  \n  createHandler(typeName) {\n    switch (typeName) {\n      case 'User': return (obj) => `User: ${obj.name}`;\n      case 'Product': return (obj) => `Product: ${obj.title}`;\n      default: return (obj) => obj.toString();\n    }\n  }\n}\n\n// 4. Composition-based approach\nclass CompositeProcessor {\n  constructor() {\n    this.processors = {\n      validation: new ValidationProcessor(),\n      transformation: new TransformationProcessor(),\n      storage: new StorageProcessor()\n    };\n  }\n  \n  process(data, pipeline) {\n    return pipeline.reduce((result, step) => {\n      return this.processors[step].process(result);\n    }, data);\n  }\n}\n\n// 5. Static polymorphism with factories\nclass ProcessorFactory {\n  static processors = {\n    'image': () => new ImageProcessor(),\n    'video': () => new VideoProcessor(),\n    'audio': () => new AudioProcessor()\n  };\n  \n  static create(type) {\n    const factory = ProcessorFactory.processors[type];\n    return factory ? factory() : null;\n  }\n}\n\n// Performance measurement helper\nclass PerformanceProfiler {\n  static measure(name, fn, iterations = 1000000) {\n    const start = performance.now();\n    \n    for (let i = 0; i < iterations; i++) {\n      fn();\n    }\n    \n    const end = performance.now();\n    console.log(`${name}: ${end - start}ms for ${iterations} iterations`);\n  }\n}\n\n// Usage example\nconst processor = new OptimizedProcessor();\nPerformanceProfiler.measure('Strategy Pattern', () => {\n  processor.process('json', '{\"test\": true}');\n});\n```\n\n**Python Optimization Examples:**\n```python\nimport time\nfrom functools import lru_cache\nfrom typing import Dict, Callable, Any\nfrom collections import defaultdict\n\n# 1. Dictionary-based dispatch (faster than inheritance)\nclass OptimizedHandler:\n    def __init__(self):\n        self.handlers = {\n            'create': self._handle_create,\n            'update': self._handle_update,\n            'delete': self._handle_delete\n        }\n    \n    def handle(self, action: str, data: Any) -> Any:\n        handler = self.handlers.get(action)\n        return handler(data) if handler else None\n    \n    def _handle_create(self, data): return f\"Creating {data}\"\n    def _handle_update(self, data): return f\"Updating {data}\"\n    def _handle_delete(self, data): return f\"Deleting {data}\"\n\n# 2. Method caching with __slots__ for memory efficiency\nclass CachedProcessor:\n    __slots__ = ['_method_cache', '_data']\n    \n    def __init__(self):\n        self._method_cache = {}\n        self._data = {}\n    \n    @lru_cache(maxsize=128)\n    def get_processor(self, data_type: str) -> Callable:\n        method_name = f'process_{data_type}'\n        return getattr(self, method_name, self.process_default)\n    \n    def process(self, data_type: str, data: Any) -> Any:\n        processor = self.get_processor(data_type)\n        return processor(data)\n    \n    def process_json(self, data): return {'processed': data}\n    def process_xml(self, data): return f'<processed>{data}</processed>'\n    def process_default(self, data): return str(data)\n\n# 3. Type-based optimization using singledispatch\nfrom functools import singledispatch\n\n@singledispatch\ndef process_data(data):\n    return f\"Default processing: {data}\"\n\n@process_data.register\ndef _(data: dict):\n    return f\"Dictionary processing: {len(data)} items\"\n\n@process_data.register\ndef _(data: list):\n    return f\"List processing: {len(data)} items\"\n\n@process_data.register\ndef _(data: str):\n    return f\"String processing: {len(data)} chars\"\n\n# 4. Class-based optimization with __call__\nclass CallableProcessor:\n    def __init__(self, processor_type: str):\n        self.processor_type = processor_type\n        # Pre-bind methods for performance\n        self._process_func = getattr(self, f'_process_{processor_type}', self._process_default)\n    \n    def __call__(self, data: Any) -> Any:\n        return self._process_func(data)\n    \n    def _process_json(self, data): return {'type': 'json', 'data': data}\n    def _process_xml(self, data): return f'<data>{data}</data>'\n    def _process_default(self, data): return str(data)\n\n# 5. Composition with strategy injection\nclass ComposableProcessor:\n    def __init__(self):\n        self.strategies = defaultdict(list)\n    \n    def add_strategy(self, data_type: str, strategy: Callable):\n        self.strategies[data_type].append(strategy)\n    \n    def process(self, data_type: str, data: Any) -> Any:\n        result = data\n        for strategy in self.strategies[data_type]:\n            result = strategy(result)\n        return result\n\n# 6. Performance optimization using __slots__ and cached properties\nclass OptimizedDataProcessor:\n    __slots__ = ['_type', '_cached_method', '_initialized']\n    \n    def __init__(self, processor_type: str):\n        self._type = processor_type\n        self._cached_method = None\n        self._initialized = False\n    \n    def _initialize(self):\n        if not self._initialized:\n            method_name = f'_process_{self._type}'\n            self._cached_method = getattr(self, method_name, self._process_default)\n            self._initialized = True\n    \n    def process(self, data: Any) -> Any:\n        self._initialize()\n        return self._cached_method(data)\n    \n    def _process_fast(self, data): return data * 2\n    def _process_slow(self, data): return data ** 2\n    def _process_default(self, data): return data\n\n# Performance testing\ndef benchmark_approaches():\n    # Traditional inheritance approach\n    class BaseProcessor:\n        def process(self, data): raise NotImplementedError\n    \n    class ConcreteProcessor(BaseProcessor):\n        def process(self, data): return data * 2\n    \n    # Test data\n    iterations = 1000000\n    test_data = 42\n    \n    # Benchmark traditional approach\n    traditional = ConcreteProcessor()\n    start = time.time()\n    for _ in range(iterations):\n        traditional.process(test_data)\n    traditional_time = time.time() - start\n    \n    # Benchmark optimized approach\n    optimized = OptimizedHandler()\n    start = time.time()\n    for _ in range(iterations):\n        optimized.handle('create', test_data)\n    optimized_time = time.time() - start\n    \n    print(f\"Traditional approach: {traditional_time:.4f}s\")\n    print(f\"Optimized approach: {optimized_time:.4f}s\")\n    print(f\"Improvement: {(traditional_time / optimized_time):.2f}x faster\")\n\nif __name__ == \"__main__\":\n    benchmark_approaches()\n    \n    # Example usage of optimized approaches\n    handler = OptimizedHandler()\n    print(handler.handle('create', 'user'))\n    \n    # Singledispatch example\n    print(process_data({'key': 'value'}))\n    print(process_data([1, 2, 3, 4]))\n    print(process_data(\"hello world\"))\n```\n\n**Key Optimization Techniques:**\n1. **Replace inheritance with composition/strategy patterns**\n2. **Use method caching and memoization**\n3. **Leverage language-specific optimizations (singledispatch, WeakMap)**\n4. **Pre-bind methods to avoid runtime lookups**\n5. **Use __slots__ in Python to reduce memory overhead**\n6. **Profile your code to identify bottlenecks**\n7. **Consider static polymorphism when types are known at compile time**",
+      },
+      {
+        question:
+          "What are the memory implications of deep inheritance hierarchies?",
+        solution: `Deep inheritance hierarchies can lead to several memory-related issues:
+
+**Memory Layout Impact:**
+- Each level of inheritance adds to the object's memory footprint
+- Virtual function tables (vtables) consume additional memory per class
+- Multiple inheritance can cause memory fragmentation and padding
+
+**JavaScript Example:**
+\`\`\`javascript
+// Deep inheritance chain - memory overhead
+class Animal {
+  constructor(name) {
+    this.name = name;
+    this.species = "unknown";
+  }
+}
+
+class Mammal extends Animal {
+  constructor(name) {
+    super(name);
+    this.warmBlooded = true;
+    this.furType = "hair";
+  }
+}
+
+class Carnivore extends Mammal {
+  constructor(name) {
+    super(name);
+    this.diet = "meat";
+    this.huntingStyle = "predator";
+  }
+}
+
+class Feline extends Carnivore {
+  constructor(name) {
+    super(name);
+    this.claws = true;
+    this.nightVision = true;
+  }
+}
+
+class DomesticCat extends Feline {
+  constructor(name, breed) {
+    super(name);
+    this.breed = breed;
+    this.domesticated = true;
+    this.playful = true;
+  }
+}
+
+// Each instance carries properties from all parent classes
+const cat = new DomesticCat("Whiskers", "Persian");
+// Memory: name, species, warmBlooded, furType, diet, huntingStyle, claws, nightVision, breed, domesticated, playful
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import sys
+
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        self.species = "unknown"
+
+class Mammal(Animal):
+    def __init__(self, name):
+        super().__init__(name)
+        self.warm_blooded = True
+        self.fur_type = "hair"
+
+class Carnivore(Mammal):
+    def __init__(self, name):
+        super().__init__(name)
+        self.diet = "meat"
+        self.hunting_style = "predator"
+
+class Feline(Carnivore):
+    def __init__(self, name):
+        super().__init__(name)
+        self.claws = True
+        self.night_vision = True
+
+class DomesticCat(Feline):
+    def __init__(self, name, breed):
+        super().__init__(name)
+        self.breed = breed
+        self.domesticated = True
+        self.playful = True
+
+# Memory analysis
+cat = DomesticCat("Whiskers", "Persian")
+print(f"Object size: {sys.getsizeof(cat)} bytes")
+print(f"Dict size: {sys.getsizeof(cat.__dict__)} bytes")
+print(f"Number of attributes: {len(cat.__dict__)}")
+\`\`\`
+
+**Memory Optimization Strategies:**
+1. Use composition over deep inheritance
+2. Implement __slots__ in Python to reduce memory overhead
+3. Consider flyweight pattern for shared data
+4. Profile memory usage in production scenarios`,
+      },
+      {
+        question: "How do virtual function tables affect performance?",
+        solution: `Virtual function tables (vtables) introduce runtime overhead through indirect function calls:
+
+**Performance Impact:**
+- Each virtual method call requires pointer dereferencing
+- Prevents compiler optimizations like inlining
+- Cache misses can occur when jumping to function addresses
+- Branch prediction may be less effective
+
+**JavaScript Example (Simulating vtable behavior):**
+\`\`\`javascript
+// Simulating virtual function behavior
+class Shape {
+  constructor() {
+    // Simulating vtable with method references
+    this.vtable = {
+      draw: this.draw.bind(this),
+      area: this.area.bind(this)
+    };
+  }
+  
+  draw() {
+    console.log("Drawing generic shape");
+  }
+  
+  area() {
+    return 0;
+  }
+}
+
+class Circle extends Shape {
+  constructor(radius) {
+    super();
+    this.radius = radius;
+    // Override vtable entries
+    this.vtable.draw = this.draw.bind(this);
+    this.vtable.area = this.area.bind(this);
+  }
+  
+  draw() {
+    console.log(\`Drawing circle with radius \${this.radius}\`);
+  }
+  
+  area() {
+    return Math.PI * this.radius * this.radius;
+  }
+}
+
+// Performance comparison
+function performanceTest() {
+  const shapes = [];
+  for (let i = 0; i < 100000; i++) {
+    shapes.push(new Circle(Math.random() * 10));
+  }
+  
+  // Direct method call
+  console.time("Direct calls");
+  for (const shape of shapes) {
+    shape.draw();
+    shape.area();
+  }
+  console.timeEnd("Direct calls");
+  
+  // Indirect calls through vtable
+  console.time("Vtable calls");
+  for (const shape of shapes) {
+    shape.vtable.draw();
+    shape.vtable.area();
+  }
+  console.timeEnd("Vtable calls");
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+    
+    @abstractmethod
+    def area(self):
+        pass
+
+class Circle(Shape):
+    def __init__(self, radius):
+        self.radius = radius
+    
+    def draw(self):
+        return f"Drawing circle with radius {self.radius}"
+    
+    def area(self):
+        return 3.14159 * self.radius * self.radius
+
+class Rectangle(Shape):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def draw(self):
+        return f"Drawing rectangle {self.width}x{self.height}"
+    
+    def area(self):
+        return self.width * self.height
+
+# Performance comparison
+def performance_test():
+    shapes = [Circle(i) for i in range(100000)]
+    
+    # Virtual method calls
+    start = time.time()
+    for shape in shapes:
+        shape.draw()
+        shape.area()
+    virtual_time = time.time() - start
+    
+    print(f"Virtual method calls: {virtual_time:.4f}s")
+    
+    # Direct method access (if possible)
+    start = time.time()
+    for shape in shapes:
+        if hasattr(shape, 'radius'):
+            f"Drawing circle with radius {shape.radius}"
+            3.14159 * shape.radius * shape.radius
+    direct_time = time.time() - start
+    
+    print(f"Direct calculations: {direct_time:.4f}s")
+\`\`\`
+
+**Mitigation Strategies:**
+1. Use final/sealed classes when inheritance isn't needed
+2. Profile hot paths and consider devirtualization
+3. Keep inheritance hierarchies shallow
+4. Use static dispatch when polymorphism isn't required`,
+      },
+      {
+        question: "What is devirtualization and when does it occur?",
+        solution: `Devirtualization is a compiler optimization that converts virtual function calls to direct calls when the actual type can be determined at compile time.
+
+**When Devirtualization Occurs:**
+- Final/sealed classes or methods
+- Whole program optimization can see all implementations
+- Type is provably known at compile time
+- Single implementation exists in the program
+
+**JavaScript Example:**
+\`\`\`javascript
+// JavaScript engines perform similar optimizations
+class Animal {
+  speak() {
+    return "Some sound";
+  }
+}
+
+class Dog extends Animal {
+  speak() {
+    return "Woof!";
+  }
+}
+
+// Engine can devirtualize if type is known
+function optimizedCall() {
+  const dog = new Dog(); // Type is known here
+  
+  // Engine can inline this call
+  for (let i = 0; i < 1000000; i++) {
+    dog.speak(); // Can be devirtualized
+  }
+}
+
+// Cannot be easily devirtualized
+function polymorphicCall(animals) {
+  for (const animal of animals) {
+    animal.speak(); // Type unknown, virtual dispatch needed
+  }
+}
+
+// Demonstrating optimization opportunity
+class FinalDog {
+  constructor() {
+    // Freeze to signal immutability
+    Object.freeze(this);
+  }
+  
+  speak() {
+    return "Woof!";
+  }
+}
+
+// Mark as final-like
+Object.freeze(FinalDog.prototype);
+
+function benchmarkCalls() {
+  const dogs = Array(100000).fill().map(() => new FinalDog());
+  
+  console.time("Potentially devirtualized");
+  for (const dog of dogs) {
+    dog.speak();
+  }
+  console.timeEnd("Potentially devirtualized");
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+# Python's approach to devirtualization
+from typing import final
+
+class Animal:
+    def speak(self):
+        return "Some sound"
+
+class Dog(Animal):
+    def speak(self):
+        return "Woof!"
+
+# Using @final decorator (Python 3.8+)
+@final
+class OptimizedDog(Animal):
+    def speak(self):
+        return "Woof!"
+
+# Compiler/interpreter can optimize this
+def monomorphic_call():
+    dog = OptimizedDog()  # Type is final, known at compile time
+    
+    # This loop can be optimized
+    result = []
+    for _ in range(100000):
+        result.append(dog.speak())  # Can be devirtualized
+    return result
+
+# This requires virtual dispatch
+def polymorphic_call(animals):
+    results = []
+    for animal in animals:
+        results.append(animal.speak())  # Virtual dispatch needed
+    return results
+
+# Using __slots__ can also help optimization
+class SlottedDog:
+    __slots__ = ['name']
+    
+    def __init__(self, name):
+        self.name = name
+    
+    def speak(self):
+        return f"{self.name} says Woof!"
+
+# Profile-guided optimization example
+import cProfile
+
+def profile_calls():
+    dogs = [SlottedDog(f"Dog{i}") for i in range(10000)]
+    
+    # Monomorphic call site - can be optimized
+    for dog in dogs:
+        dog.speak()
+
+# Run with profiler to see optimization opportunities
+# cProfile.run('profile_calls()')
+\`\`\`
+
+**Conditions for Devirtualization:**
+1. **Final Classes/Methods**: Compiler knows no overrides exist
+2. **Whole Program Analysis**: All possible implementations are visible
+3. **Type Specialization**: JIT compilers create specialized versions
+4. **Inlining**: Small methods can be inlined after devirtualization
+
+**Benefits:**
+- Eliminates vtable lookup overhead
+- Enables method inlining
+- Improves branch prediction
+- Reduces memory indirection`,
+      },
+      {
+        question:
+          "How do you optimize object creation in performance-critical code?",
+        solution: `Object creation optimization focuses on reducing allocation overhead, improving memory locality, and minimizing garbage collection pressure.
+
+**Optimization Strategies:**
+
+**JavaScript Example:**
+\`\`\`javascript
+// 1. Object Pooling
+class ObjectPool {
+  constructor(createFn, resetFn, initialSize = 10) {
+    this.createFn = createFn;
+    this.resetFn = resetFn;
+    this.pool = [];
+    
+    // Pre-allocate objects
+    for (let i = 0; i < initialSize; i++) {
+      this.pool.push(this.createFn());
+    }
+  }
+  
+  acquire() {
+    if (this.pool.length > 0) {
+      return this.pool.pop();
+    }
+    return this.createFn();
+  }
+  
+  release(obj) {
+    this.resetFn(obj);
+    this.pool.push(obj);
+  }
+}
+
+// 2. Factory Pattern with Caching
+class ParticleFactory {
+  constructor() {
+    this.particlePool = new ObjectPool(
+      () => ({ x: 0, y: 0, vx: 0, vy: 0, life: 1.0 }),
+      (p) => { p.x = 0; p.y = 0; p.vx = 0; p.vy = 0; p.life = 1.0; }
+    );
+  }
+  
+  createParticle(x, y, vx, vy) {
+    const particle = this.particlePool.acquire();
+    particle.x = x;
+    particle.y = y;
+    particle.vx = vx;
+    particle.vy = vy;
+    return particle;
+  }
+  
+  destroyParticle(particle) {
+    this.particlePool.release(particle);
+  }
+}
+
+// 3. Flyweight Pattern for Shared Data
+class ParticleType {
+  constructor(sprite, color, size) {
+    this.sprite = sprite;
+    this.color = color;
+    this.size = size;
+  }
+  
+  render(context, x, y) {
+    // Render using intrinsic data
+    context.fillStyle = this.color;
+    context.fillRect(x, y, this.size, this.size);
+  }
+}
+
+class ParticleTypeFactory {
+  constructor() {
+    this.types = new Map();
+  }
+  
+  getType(sprite, color, size) {
+    const key = \`\${sprite}-\${color}-\${size}\`;
+    if (!this.types.has(key)) {
+      this.types.set(key, new ParticleType(sprite, color, size));
+    }
+    return this.types.get(key);
+  }
+}
+
+// 4. Batch Allocation
+class ParticleSystem {
+  constructor() {
+    this.particles = [];
+    this.factory = new ParticleFactory();
+    this.batchSize = 100;
+  }
+  
+  // Allocate particles in batches
+  preallocateParticles() {
+    const batch = [];
+    for (let i = 0; i < this.batchSize; i++) {
+      batch.push(this.factory.createParticle(0, 0, 0, 0));
+    }
+    return batch;
+  }
+  
+  update() {
+    // Process particles efficiently
+    for (let i = this.particles.length - 1; i >= 0; i--) {
+      const particle = this.particles[i];
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      particle.life -= 0.01;
+      
+      if (particle.life <= 0) {
+        this.factory.destroyParticle(particle);
+        this.particles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// Performance benchmark
+function benchmarkCreation() {
+  const factory = new ParticleFactory();
+  
+  console.time("With pooling");
+  for (let i = 0; i < 100000; i++) {
+    const p = factory.createParticle(i, i, 1, 1);
+    factory.destroyParticle(p);
+  }
+  console.timeEnd("With pooling");
+  
+  console.time("Without pooling");
+  for (let i = 0; i < 100000; i++) {
+    const p = { x: i, y: i, vx: 1, vy: 1, life: 1.0 };
+    // Let GC handle cleanup
+  }
+  console.timeEnd("Without pooling");
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+from typing import List, Optional
+from dataclasses import dataclass
+from collections import deque
+
+# 1. Object Pool Implementation
+class ObjectPool:
+    def __init__(self, factory_func, reset_func, initial_size=10):
+        self.factory_func = factory_func
+        self.reset_func = reset_func
+        self.pool = deque()
+        
+        # Pre-allocate objects
+        for _ in range(initial_size):
+            self.pool.append(self.factory_func())
+    
+    def acquire(self):
+        if self.pool:
+            return self.pool.pop()
+        return self.factory_func()
+    
+    def release(self, obj):
+        self.reset_func(obj)
+        self.pool.append(obj)
+
+# 2. Using __slots__ for memory efficiency
+@dataclass
+class EfficientParticle:
+    __slots__ = ['x', 'y', 'vx', 'vy', 'life']
+    x: float = 0.0
+    y: float = 0.0
+    vx: float = 0.0
+    vy: float = 0.0
+    life: float = 1.0
+
+# 3. Factory with pooling
+class ParticleFactory:
+    def __init__(self):
+        def create_particle():
+            return EfficientParticle()
+        
+        def reset_particle(p):
+            p.x = p.y = p.vx = p.vy = 0.0
+            p.life = 1.0
+        
+        self.pool = ObjectPool(create_particle, reset_particle)
+    
+    def create_particle(self, x: float, y: float, vx: float, vy: float) -> EfficientParticle:
+        particle = self.pool.acquire()
+        particle.x = x
+        particle.y = y
+        particle.vx = vx
+        particle.vy = vy
+        return particle
+    
+    def destroy_particle(self, particle: EfficientParticle):
+        self.pool.release(particle)
+
+# 4. Flyweight pattern for shared immutable data
+class ParticleType:
+    _instances = {}  # Class-level cache
+    
+    def __new__(cls, sprite: str, color: str, size: int):
+        key = (sprite, color, size)
+        if key not in cls._instances:
+            instance = super().__new__(cls)
+            instance.sprite = sprite
+            instance.color = color
+            instance.size = size
+            cls._instances[key] = instance
+        return cls._instances[key]
+
+# 5. Memory-efficient particle system
+class ParticleSystem:
+    def __init__(self):
+        self.particles: List[EfficientParticle] = []
+        self.factory = ParticleFactory()
+        self.active_count = 0
+        
+        # Pre-allocate array to avoid resizing
+        self.particles = [None] * 10000
+    
+    def emit_particle(self, x: float, y: float, vx: float, vy: float):
+        if self.active_count < len(self.particles):
+            particle = self.factory.create_particle(x, y, vx, vy)
+            self.particles[self.active_count] = particle
+            self.active_count += 1
+    
+    def update(self):
+        i = 0
+        while i < self.active_count:
+            particle = self.particles[i]
+            particle.x += particle.vx
+            particle.y += particle.vy
+            particle.life -= 0.01
+            
+            if particle.life <= 0:
+                # Move last particle to current position
+                self.factory.destroy_particle(particle)
+                self.active_count -= 1
+                if i < self.active_count:
+                    self.particles[i] = self.particles[self.active_count]
+                    self.particles[self.active_count] = None
+            else:
+                i += 1
+
+# Performance benchmarking
+def benchmark_creation():
+    factory = ParticleFactory()
+    
+    # With pooling
+    start_time = time.time()
+    particles = []
+    for i in range(100000):
+        p = factory.create_particle(i, i, 1, 1)
+        particles.append(p)
+    
+    for p in particles:
+        factory.destroy_particle(p)
+    
+    pooled_time = time.time() - start_time
+    print(f"With pooling: {pooled_time:.4f}s")
+    
+    # Without pooling
+    start_time = time.time()
+    for i in range(100000):
+        p = EfficientParticle(i, i, 1, 1, 1.0)
+        # Let garbage collector handle cleanup
+    
+    no_pool_time = time.time() - start_time
+    print(f"Without pooling: {no_pool_time:.4f}s")
+
+if __name__ == "__main__":
+    benchmark_creation()
+\`\`\`
+
+**Key Optimization Techniques:**
+1. **Object Pooling**: Reuse objects to avoid allocation/deallocation overhead
+2. **Batch Allocation**: Allocate multiple objects at once
+3. **Flyweight Pattern**: Share immutable data between objects
+4. **Pre-allocation**: Reserve memory upfront to avoid dynamic allocation
+5. **Memory Layout**: Use __slots__ in Python or similar techniques for cache efficiency
+6. **Factory Caching**: Cache expensive-to-create objects`,
+      },
+      {
+        question: "What is object pooling and when should you use it?",
+        solution: `Object pooling is a design pattern that maintains a pool of reusable objects to minimize the overhead of object creation and garbage collection.
+
+**When to Use Object Pooling:**
+- Frequent creation/destruction of expensive objects
+- Memory allocation is a performance bottleneck
+- Garbage collection pressure needs reduction
+- Objects have predictable lifecycle patterns
+- Working with limited memory environments
+
+**JavaScript Example:**
+\`\`\`javascript
+// Generic Object Pool Implementation
+class ObjectPool {
+  constructor(createFn, resetFn, maxSize = 100) {
+    this.createFn = createFn;
+    this.resetFn = resetFn;
+    this.maxSize = maxSize;
+    this.pool = [];
+    this.created = 0;
+    this.acquired = 0;
+    this.released = 0;
+  }
+  
+  acquire() {
+    let obj;
+    if (this.pool.length > 0) {
+      obj = this.pool.pop();
+    } else {
+      obj = this.createFn();
+      this.created++;
+    }
+    this.acquired++;
+    return obj;
+  }
+  
+  release(obj) {
+    if (this.pool.length < this.maxSize) {
+      this.resetFn(obj);
+      this.pool.push(obj);
+      this.released++;
+    }
+  }
+  
+  getStats() {
+    return {
+      poolSize: this.pool.length,
+      created: this.created,
+      acquired: this.acquired,
+      released: this.released,
+      hitRate: this.released / this.acquired
+    };
+  }
+}
+
+// Example: DOM Element Pool
+class DOMElementPool extends ObjectPool {
+  constructor(tagName, maxSize = 50) {
+    super(
+      () => document.createElement(tagName),
+      (element) => {
+        element.innerHTML = '';
+        element.className = '';
+        element.style.cssText = '';
+        if (element.parentNode) {
+          element.parentNode.removeChild(element);
+        }
+      },
+      maxSize
+    );
+    this.tagName = tagName;
+  }
+}
+
+// Example: Game Object Pool
+class Bullet {
+  constructor() {
+    this.x = 0;
+    this.y = 0;
+    this.vx = 0;
+    this.vy = 0;
+    this.active = false;
+    this.damage = 10;
+  }
+  
+  init(x, y, vx, vy) {
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    this.active = true;
+    return this;
+  }
+  
+  update() {
+    if (this.active) {
+      this.x += this.vx;
+      this.y += this.vy;
+      
+      // Deactivate if out of bounds
+      if (this.x < 0 || this.x > 800 || this.y < 0 || this.y > 600) {
+        this.active = false;
+      }
+    }
+  }
+  
+  render(ctx) {
+    if (this.active) {
+      ctx.fillStyle = 'yellow';
+      ctx.fillRect(this.x, this.y, 4, 8);
+    }
+  }
+}
+
+class BulletManager {
+  constructor() {
+    this.bulletPool = new ObjectPool(
+      () => new Bullet(),
+      (bullet) => {
+        bullet.active = false;
+        bullet.x = bullet.y = bullet.vx = bullet.vy = 0;
+      },
+      100
+    );
+    this.activeBullets = [];
+  }
+  
+  fireBullet(x, y, vx, vy) {
+    const bullet = this.bulletPool.acquire();
+    bullet.init(x, y, vx, vy);
+    this.activeBullets.push(bullet);
+    return bullet;
+  }
+  
+  update() {
+    for (let i = this.activeBullets.length - 1; i >= 0; i--) {
+      const bullet = this.activeBullets[i];
+      bullet.update();
+      
+      if (!bullet.active) {
+        this.bulletPool.release(bullet);
+        this.activeBullets.splice(i, 1);
+      }
+    }
+  }
+  
+  render(ctx) {
+    this.activeBullets.forEach(bullet => bullet.render(ctx));
+  }
+}
+
+// Usage example with performance monitoring
+class Game {
+  constructor() {
+    this.bulletManager = new BulletManager();
+    this.frameCount = 0;
+    this.lastStatsTime = Date.now();
+  }
+  
+  update() {
+    this.bulletManager.update();
+    this.frameCount++;
+    
+    // Random bullet firing
+    if (Math.random() < 0.1) {
+      this.bulletManager.fireBullet(
+        Math.random() * 800,
+        600,
+        (Math.random() - 0.5) * 4,
+        -Math.random() * 8 - 2
+      );
+    }
+    
+    // Log stats every second
+    const now = Date.now();
+    if (now - this.lastStatsTime > 1000) {
+      const stats = this.bulletManager.bulletPool.getStats();
+      console.log(\`Pool stats: \${JSON.stringify(stats)}\`);
+      this.lastStatsTime = now;
+    }
+  }
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+import threading
+from queue import Queue
+from typing import Callable, TypeVar, Generic, Optional
+from dataclasses import dataclass
+from abc import ABC, abstractmethod
+
+T = TypeVar('T')
+
+class ObjectPool(Generic[T]):
+    def __init__(self, 
+                 factory: Callable[[], T], 
+                 reset: Callable[[T], None], 
+                 max_size: int = 100):
+        self.factory = factory
+        self.reset = reset
+        self.max_size = max_size
+        self._pool = Queue(maxsize=max_size)
+        self._lock = threading.Lock()
+        
+        # Statistics
+        self.created = 0
+        self.acquired = 0
+        self.released = 0
+        
+        # Pre-populate pool
+        for _ in range(min(10, max_size)):
+            try:
+                obj = self.factory()
+                self._pool.put_nowait(obj)
+                self.created += 1
+            except:
+                break
+    
+    def acquire(self) -> T:
+        with self._lock:
+            self.acquired += 1
+            
+        try:
+            # Try to get from pool first
+            obj = self._pool.get_nowait()
+            return obj
+        except:
+            # Create new if pool is empty
+            with self._lock:
+                self.created += 1
+            return self.factory()
+    
+    def release(self, obj: T) -> None:
+        try:
+            self.reset(obj)
+            self._pool.put_nowait(obj)
+            with self._lock:
+                self.released += 1
+        except:
+            # Pool is full, let object be garbage collected
+            pass
+    
+    def get_stats(self) -> dict:
+        with self._lock:
+            return {
+                'pool_size': self._pool.qsize(),
+                'created': self.created,
+                'acquired': self.acquired,
+                'released': self.released,
+                'hit_rate': self.released / max(self.acquired, 1)
+            }
+
+# Example: Database Connection Pool
+@dataclass
+class MockConnection:
+    connection_id: int
+    is_active: bool = False
+    last_query_time: float = 0
+    
+    def execute_query(self, query: str) -> str:
+        self.last_query_time = time.time()
+        return f"Executed: {query[:50]}..."
+    
+    def close(self):
+        self.is_active = False
+
+class DatabaseConnectionPool:
+    def __init__(self, max_connections: int = 20):
+        self.connection_counter = 0
+        
+        def create_connection():
+            self.connection_counter += 1
+            return MockConnection(
+                connection_id=self.connection_counter,
+                is_active=True
+            )
+        
+        def reset_connection(conn: MockConnection):
+            conn.is_active = False
+            conn.last_query_time = 0
+        
+        self.pool = ObjectPool(create_connection, reset_connection, max_connections)
+    
+    def execute_query(self, query: str) -> str:
+        connection = self.pool.acquire()
+        try:
+            connection.is_active = True
+            result = connection.execute_query(query)
+            return result
+        finally:
+            self.pool.release(connection)
+    
+    def get_stats(self):
+        return self.pool.get_stats()
+
+# Example: Heavy Object Pool
+class ExpensiveResource:
+    def __init__(self):
+        # Simulate expensive initialization
+        self.data = [i * i for i in range(10000)]
+        self.computation_cache = {}
+        self.created_at = time.time()
+    
+    def compute(self, n: int) -> int:
+        if n not in self.computation_cache:
+            # Expensive computation
+            result = sum(i * i for i in range(n))
+            self.computation_cache[n] = result
+        return self.computation_cache[n]
+    
+    def reset(self):
+        self.computation_cache.clear()
+
+def benchmark_object_pooling():
+    # Setup pools
+    def create_resource():
+        return ExpensiveResource()
+    
+    def reset_resource(resource):
+        resource.reset()
+    
+    pool = ObjectPool(create_resource, reset_resource, 10)
+    
+    # Benchmark with pooling
+    start_time = time.time()
+    with_pool_results = []
+    
+    for i in range(1000):
+        resource = pool.acquire()
+        try:
+            result = resource.compute(100)
+            with_pool_results.append(result)
+        finally:
+            pool.release(resource)
+    
+    pool_time = time.time() - start_time
+    print(f"With pool: {pool_time:.4f}s")
+    
+    # Benchmark without pooling
+    start_time = time.time()
+    without_pool_results = []
+    
+    for i in range(1000):
+        resource = ExpensiveResource()
+        result = resource.compute(100)
+        without_pool_results.append(result)
+        # Let GC handle cleanup
+    
+    no_pool_time = time.time() - start_time
+    print(f"Without pool: {no_pool_time:.4f}s")
+    print(f"Pool stats: {pool.get_stats()}")
+    
+    return pool_time, no_pool_time
+
+# Thread-safe usage example
+import concurrent.futures
+
+def worker_function(pool: ObjectPool, task_id: int) -> str:
+    resource = pool.acquire()
+    try:
+        # Simulate work
+        result = resource.compute(task_id % 1000)
+        time.sleep(0.001)  # Simulate processing time
+        return f"Task {task_id}: {result}"
+    finally:
+        pool.release(resource)
+
+def test_concurrent_usage():
+    pool = ObjectPool(
+        lambda: ExpensiveResource(),
+        lambda r: r.reset(),
+        5  # Small pool to test contention
+    )
+    
+    # Run concurrent tasks
+    with concurrent.futures.ThreadPoolExecutor(max_workers=10) as executor:
+        futures = [executor.submit(worker_function, pool, i) for i in range(100)]
+        results = [future.result() for future in concurrent.futures.as_completed(futures)]
+    
+    print(f"Concurrent test stats: {pool.get_stats()}")
+    return results
+
+if __name__ == "__main__":
+    # Run benchmarks
+    benchmark_object_pooling()
+    test_concurrent_usage()
+\`\`\`
+
+**Key Benefits:**
+1. **Reduced Allocation Overhead**: Reuse existing objects
+2. **Lower GC Pressure**: Fewer objects for garbage collection
+3. **Predictable Performance**: Avoid allocation spikes
+4. **Memory Locality**: Objects stay in cache longer
+
+**Best Practices:**
+1. **Pool Size Tuning**: Balance memory usage vs. creation overhead
+2. **Thread Safety**: Use locks for concurrent access
+3. **Proper Reset**: Ensure objects are clean when returned
+4. **Statistics Monitoring**: Track pool effectiveness
+5. **Lifecycle Management**: Handle pool cleanup properly`,
+      },
+      {
+        question: "How does garbage collection affect object-oriented design?",
+        solution: `Garbage collection significantly impacts object-oriented design decisions, affecting performance, memory usage patterns, and architectural choices.
+
+**Impact Areas:**
+
+**JavaScript Example:**
+\`\`\`javascript
+// 1. Reference Cycles and Memory Leaks
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.children = [];
+    this.parent = null;
+  }
+  
+  addChild(child) {
+    child.parent = this; // Creates reference cycle
+    this.children.push(child);
+  }
+  
+  // Proper cleanup to help GC
+  destroy() {
+    this.children.forEach(child => {
+      child.parent = null;
+      child.destroy();
+    });
+    this.children = [];
+    this.parent = null;
+  }
+}
+
+// 2. Weak References to Avoid GC Issues
+class EventManager {
+  constructor() {
+    // Use WeakMap to allow automatic cleanup
+    this.listeners = new WeakMap();
+    this.eventHandlers = new Map();
+  }
+  
+  addListener(obj, event, handler) {
+    if (!this.listeners.has(obj)) {
+      this.listeners.set(obj, new Map());
+    }
+    
+    const objListeners = this.listeners.get(obj);
+    if (!objListeners.has(event)) {
+      objListeners.set(event, []);
+    }
+    
+    objListeners.get(event).push(handler);
+  }
+  
+  // No explicit cleanup needed - WeakMap handles it
+  removeListener(obj, event, handler) {
+    const objListeners = this.listeners.get(obj);
+    if (objListeners && objListeners.has(event)) {
+      const handlers = objListeners.get(event);
+      const index = handlers.indexOf(handler);
+      if (index > -1) {
+        handlers.splice(index, 1);
+      }
+    }
+  }
+}
+
+// 3. Object Pooling for GC Pressure Reduction
+class ParticleSystem {
+  constructor() {
+    this.activeParticles = [];
+    this.inactiveParticles = [];
+    this.maxParticles = 1000;
+    
+    // Pre-allocate to reduce GC pressure
+    for (let i = 0; i < this.maxParticles; i++) {
+      this.inactiveParticles.push({
+        x: 0, y: 0, vx: 0, vy: 0, life: 0, active: false
+      });
+    }
+  }
+  
+  spawnParticle(x, y, vx, vy, life) {
+    let particle;
+    if (this.inactiveParticles.length > 0) {
+      particle = this.inactiveParticles.pop();
+    } else {
+      // Pool exhausted, reuse oldest active particle
+      particle = this.activeParticles.shift();
+    }
+    
+    particle.x = x;
+    particle.y = y;
+    particle.vx = vx;
+    particle.vy = vy;
+    particle.life = life;
+    particle.active = true;
+    
+    this.activeParticles.push(particle);
+  }
+  
+  update() {
+    for (let i = this.activeParticles.length - 1; i >= 0; i--) {
+      const particle = this.activeParticles[i];
+      
+      particle.x += particle.vx;
+      particle.y += particle.vy;
+      particle.life--;
+      
+      if (particle.life <= 0) {
+        particle.active = false;
+        this.inactiveParticles.push(particle);
+        this.activeParticles.splice(i, 1);
+      }
+    }
+  }
+}
+
+// 4. Immutable Objects for GC Optimization
+class ImmutablePoint {
+  constructor(x, y) {
+    this._x = x;
+    this._y = y;
+    Object.freeze(this);
+  }
+  
+  get x() { return this._x; }
+  get y() { return this._y; }
+  
+  // Return new instance instead of modifying
+  translate(dx, dy) {
+    return new ImmutablePoint(this._x + dx, this._y + dy);
+  }
+  
+  // Cache common instances to reduce allocations
+  static ORIGIN = new ImmutablePoint(0, 0);
+  static cache = new Map();
+  
+  static create(x, y) {
+    const key = \`\${x},\${y}\`;
+    if (!ImmutablePoint.cache.has(key)) {
+      ImmutablePoint.cache.set(key, new ImmutablePoint(x, y));
+    }
+    return ImmutablePoint.cache.get(key);
+  }
+}
+
+// 5. GC-Friendly Design Patterns
+class Observer {
+  constructor() {
+    this.observers = new Set(); // Better for frequent add/remove
+  }
+  
+  addObserver(observer) {
+    this.observers.add(observer);
+  }
+  
+  removeObserver(observer) {
+    this.observers.delete(observer);
+  }
+  
+  notify(data) {
+    // Create array only when needed
+    const observerArray = Array.from(this.observers);
+    for (const observer of observerArray) {
+      if (typeof observer.update === 'function') {
+        observer.update(data);
+      }
+    }
+  }
+}
+
+// Memory usage monitoring
+class GCMonitor {
+  static measureMemoryUsage(name, fn) {
+    if (performance.memory) {
+      const before = performance.memory.usedJSHeapSize;
+      const start = performance.now();
+      
+      const result = fn();
+      
+      const end = performance.now();
+      const after = performance.memory.usedJSHeapSize;
+      
+      console.log(\`\${name}:\`);
+      console.log(\`  Time: \${(end - start).toFixed(2)}ms\`);
+      console.log(\`  Memory change: \${(after - before) / 1024 / 1024} MB\`);
+      console.log(\`  Final memory: \${after / 1024 / 1024} MB\`);
+      
+      return result;
+    }
+    return fn();
+  }
+  
+  static forceGC() {
+    // Trigger GC in development (if available)
+    if (window.gc) {
+      window.gc();
+    }
+  }
+}
+
+// Usage example
+function demonstrateGCImpact() {
+  // Test memory allocation patterns
+  GCMonitor.measureMemoryUsage("Heavy allocation", () => {
+    const objects = [];
+    for (let i = 0; i < 100000; i++) {
+      objects.push({ id: i, data: new Array(100).fill(i) });
+    }
+    return objects.length;
+  });
+  
+  GCMonitor.measureMemoryUsage("Object pooling", () => {
+    const system = new ParticleSystem();
+    for (let i = 0; i < 10000; i++) {
+      system.spawnParticle(
+        Math.random() * 800,
+        Math.random() * 600,
+        Math.random() * 4 - 2,
+        Math.random() * 4 - 2,
+        60
+      );
+      if (i % 100 === 0) {
+        system.update();
+      }
+    }
+    return system.activeParticles.length;
+  });
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import gc
+import sys
+import weakref
+import time
+from typing import List, Optional, Any
+from dataclasses import dataclass
+from collections import deque
+
+# 1. Reference Cycle Management
+class Node:
+    def __init__(self, value: Any):
+        self.value = value
+        self.children: List['Node'] = []
+        self._parent: Optional['Node'] = None  # Use weak reference
+        self._parent_ref: Optional[weakref.ref] = None
+    
+    @property
+    def parent(self) -> Optional['Node']:
+        if self._parent_ref:
+            return self._parent_ref()
+        return None
+    
+    @parent.setter
+    def parent(self, parent: Optional['Node']):
+        if parent is not None:
+            self._parent_ref = weakref.ref(parent)
+        else:
+            self._parent_ref = None
+    
+    def add_child(self, child: 'Node'):
+        child.parent = self
+        self.children.append(child)
+    
+    def __del__(self):
+        print(f"Node {self.value} is being garbage collected")
+
+# 2. Cache with Weak References
+class WeakCache:
+    def __init__(self):
+        self._cache = weakref.WeakValueDictionary()
+        self._stats = {'hits': 0, 'misses': 0}
+    
+    def get(self, key: str, factory_func):
+        if key in self._cache:
+            self._stats['hits'] += 1
+            return self._cache[key]
+        
+        self._stats['misses'] += 1
+        obj = factory_func()
+        self._cache[key] = obj
+        return obj
+    
+    def stats(self):
+        total = self._stats['hits'] + self._stats['misses']
+        hit_rate = self._stats['hits'] / total if total > 0 else 0
+        return {
+            'size': len(self._cache),
+            'hit_rate': hit_rate,
+            **self._stats
+        }
+
+# 3. GC-Aware Object Design
+@dataclass
+class GCOptimizedParticle:
+    __slots__ = ['x', 'y', 'vx', 'vy', 'life', 'active']
+    x: float = 0.0
+    y: float = 0.0
+    vx: float = 0.0
+    vy: float = 0.0
+    life: int = 0
+    active: bool = False
+
+class GCFriendlyParticleSystem:
+    def __init__(self, max_particles: int = 1000):
+        self.max_particles = max_particles
+        # Pre-allocate all particles to avoid GC pressure
+        self.particles = [GCOptimizedParticle() for _ in range(max_particles)]
+        self.active_indices = deque()
+        self.free_indices = deque(range(max_particles))
+    
+    def spawn_particle(self, x: float, y: float, vx: float, vy: float, life: int):
+        if self.free_indices:
+            index = self.free_indices.popleft()
+            particle = self.particles[index]
+            particle.x = x
+            particle.y = y
+            particle.vx = vx
+            particle.vy = vy
+            particle.life = life
+            particle.active = True
+            self.active_indices.append(index)
+    
+    def update(self):
+        for _ in range(len(self.active_indices)):
+            index = self.active_indices.popleft()
+            particle = self.particles[index]
+            
+            if particle.active:
+                particle.x += particle.vx
+                particle.y += particle.vy
+                particle.life -= 1
+                
+                if particle.life > 0:
+                    self.active_indices.append(index)
+                else:
+                    particle.active = False
+                    self.free_indices.append(index)
+
+# 4. Generator-based Lazy Evaluation
+class DataProcessor:
+    def __init__(self, data: List[Any]):
+        self._data = data
+    
+    def process_items_eager(self) -> List[Any]:
+        # Creates all intermediate objects at once
+        filtered = [item for item in self._data if item % 2 == 0]
+        transformed = [item * 2 for item in filtered]
+        return [item + 1 for item in transformed]
+    
+    def process_items_lazy(self):
+        # Generator - creates objects on demand
+        for item in self._data:
+            if item % 2 == 0:
+                yield (item * 2) + 1
+
+# 5. Context Managers for Resource Cleanup
+class ManagedResource:
+    def __init__(self, name: str):
+        self.name = name
+        self.data = [i for i in range(10000)]  # Simulate large resource
+    
+    def __enter__(self):
+        print(f"Acquiring resource: {self.name}")
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        print(f"Releasing resource: {self.name}")
+        self.data.clear()
+        return False
+    
+    def __del__(self):
+        print(f"Resource {self.name} garbage collected")
+
+# Memory and GC monitoring
+class GCMonitor:
+    @staticmethod
+    def get_memory_usage() -> dict:
+        return {
+            'objects': len(gc.get_objects()),
+            'garbage': len(gc.garbage),
+            'collections': gc.get_count()
+        }
+    
+    @staticmethod
+    def measure_allocation(name: str, func):
+        # Disable automatic GC for accurate measurement
+        gc.disable()
+        
+        before_stats = GCMonitor.get_memory_usage()
+        before_time = time.time()
+        
+        try:
+            result = func()
+        finally:
+            after_time = time.time()
+            after_stats = GCMonitor.get_memory_usage()
+            
+            gc.enable()
+            gc.collect()  # Force cleanup
+            
+            print(f"\n{name}:")
+            print(f"  Time: {(after_time - before_time)*1000:.2f}ms")
+            print(f"  Objects created: {after_stats['objects'] - before_stats['objects']}")
+            print(f"  Memory usage: {sys.getsizeof(result) if result else 0} bytes")
+            
+            return result
+
+# Demonstration
+def demonstrate_gc_impact():
+    print("=== Garbage Collection Impact Demo ===")
+    
+    # 1. Reference cycles
+    print("\n1. Testing reference cycles:")
+    root = Node("root")
+    for i in range(5):
+        child = Node(f"child_{i}")
+        root.add_child(child)
+    
+    del root  # Should still be cleaned up due to weak references
+    gc.collect()
+    
+    # 2. Object allocation patterns
+    print("\n2. Comparing allocation patterns:")
+    
+    def create_many_objects():
+        return [{'id': i, 'data': list(range(100))} for i in range(10000)]
+    
+    def use_object_pool():
+        system = GCFriendlyParticleSystem(1000)
+        for i in range(10000):
+            system.spawn_particle(i, i, 1, 1, 60)
+            if i % 100 == 0:
+                system.update()
+        return system
+    
+    GCMonitor.measure_allocation("Heavy allocation", create_many_objects)
+    GCMonitor.measure_allocation("Object pooling", use_object_pool)
+    
+    # 3. Lazy vs eager evaluation
+    print("\n3. Lazy vs Eager processing:")
+    data = list(range(100000))
+    processor = DataProcessor(data)
+    
+    GCMonitor.measure_allocation("Eager processing", 
+                               lambda: list(processor.process_items_eager()))
+    GCMonitor.measure_allocation("Lazy processing", 
+                               lambda: list(processor.process_items_lazy()))
+    
+    # 4. Context manager usage
+    print("\n4. Resource management:")
+    with ManagedResource("test_resource") as resource:
+        # Resource is automatically cleaned up
+        pass
+
+if __name__ == "__main__":
+    demonstrate_gc_impact()
+\`\`\`
+
+**Design Guidelines for GC Languages:**
+
+1. **Minimize Object Creation**: Use object pools, flyweight pattern
+2. **Avoid Reference Cycles**: Use weak references where appropriate
+3. **Design for Generations**: Young objects die quickly, old objects persist
+4. **Use Value Types**: Prefer primitives and structs over objects when possible
+5. **Batch Operations**: Group allocations to reduce GC pressure
+6. **Monitor Memory Usage**: Profile allocation patterns and GC behavior
+7. **Lazy Initialization**: Create objects only when needed
+8. **Immutable Objects**: Can be optimized by GC and enable sharing`,
+      },
+      {
+        question:
+          "What are the trade-offs between composition and inheritance for performance?",
+        solution: `
+**Performance Trade-offs:**
+
+**Inheritance Advantages:**
+- Single memory allocation for object hierarchy
+- Direct method calls through vtable (faster dispatch)
+- Shared code across inheritance chain reduces memory footprint
+- Compiler optimizations like inlining work better
+
+**Inheritance Disadvantages:**
+- Deep inheritance chains increase method lookup time
+- Larger object sizes due to parent class data
+- Cache misses from scattered memory layout
+- Less flexible for runtime behavior changes
+
+**Composition Advantages:**
+- Better cache locality for individual components
+- Flexible object assembly at runtime
+- Smaller memory footprint per component
+- Easy to optimize individual components
+
+**Composition Disadvantages:**
+- Additional indirection through object references
+- More memory allocations
+- Method calls through delegation (extra overhead)
+
+**JavaScript Example:**
+\`\`\`javascript
+// Inheritance approach
+class Animal {
+  constructor(name) {
+    this.name = name;
+    this.energy = 100;
+  }
+  
+  move() {
+    this.energy -= 10;
+    console.log(\`\${this.name} moves\`);
+  }
+}
+
+class Bird extends Animal {
+  fly() {
+    this.energy -= 20; // Direct access to parent property
+    console.log(\`\${this.name} flies\`);
+  }
+}
+
+// Composition approach
+class MovementBehavior {
+  constructor() {
+    this.energyCost = 10;
+  }
+  
+  execute(entity) {
+    entity.energy -= this.energyCost;
+  }
+}
+
+class FlyBehavior extends MovementBehavior {
+  constructor() {
+    super();
+    this.energyCost = 20;
+  }
+}
+
+class Entity {
+  constructor(name, behaviors = []) {
+    this.name = name;
+    this.energy = 100;
+    this.behaviors = behaviors; // Composition
+  }
+  
+  performAction(behaviorType) {
+    const behavior = this.behaviors.find(b => b instanceof behaviorType);
+    behavior?.execute(this);
+  }
+}
+
+// Performance comparison
+console.time('Inheritance');
+const birds = Array(10000).fill().map((_, i) => new Bird(\`bird\${i}\`));
+birds.forEach(bird => bird.fly());
+console.timeEnd('Inheritance');
+
+console.time('Composition');
+const entities = Array(10000).fill().map((_, i) => 
+  new Entity(\`entity\${i}\`, [new FlyBehavior()]));
+entities.forEach(entity => entity.performAction(FlyBehavior));
+console.timeEnd('Composition');
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+from abc import ABC, abstractmethod
+
+# Inheritance approach
+class Animal:
+    def __init__(self, name):
+        self.name = name
+        self.energy = 100
+    
+    def move(self):
+        self.energy -= 10
+        print(f"{self.name} moves")
+
+class Bird(Animal):
+    def fly(self):
+        self.energy -= 20  # Direct access
+        print(f"{self.name} flies")
+
+# Composition approach
+class MovementBehavior(ABC):
+    def __init__(self, energy_cost=10):
+        self.energy_cost = energy_cost
+    
+    @abstractmethod
+    def execute(self, entity):
+        entity.energy -= self.energy_cost
+
+class FlyBehavior(MovementBehavior):
+    def __init__(self):
+        super().__init__(20)
+    
+    def execute(self, entity):
+        super().execute(entity)
+        print(f"{entity.name} flies")
+
+class Entity:
+    def __init__(self, name, behaviors=None):
+        self.name = name
+        self.energy = 100
+        self.behaviors = behaviors or []
+    
+    def perform_action(self, behavior_type):
+        behavior = next((b for b in self.behaviors if isinstance(b, behavior_type)), None)
+        if behavior:
+            behavior.execute(self)
+
+# Performance testing
+start_time = time.time()
+birds = [Bird(f"bird{i}") for i in range(10000)]
+for bird in birds:
+    bird.fly()
+inheritance_time = time.time() - start_time
+
+start_time = time.time()
+entities = [Entity(f"entity{i}", [FlyBehavior()]) for i in range(10000)]
+for entity in entities:
+    entity.perform_action(FlyBehavior)
+composition_time = time.time() - start_time
+
+print(f"Inheritance time: {inheritance_time:.4f}s")
+print(f"Composition time: {composition_time:.4f}s")
+\`\`\`
+
+**Recommendation:** Use inheritance for stable, performance-critical hierarchies with shared behavior. Use composition for flexible systems where runtime behavior changes are needed.
+      `,
+      },
+      {
+        question: "How do you optimize object initialization chains?",
+        solution: `
+**Optimization Strategies:**
+
+**1. Lazy Initialization**
+- Initialize expensive objects only when needed
+- Use property getters for lazy loading
+
+**2. Object Pooling**
+- Reuse objects instead of creating new ones
+- Particularly effective for frequently created/destroyed objects
+
+**3. Prototype Pattern**
+- Clone objects instead of full initialization
+- Faster than constructor chains
+
+**4. Factory Caching**
+- Cache commonly used object configurations
+- Reduce redundant initialization work
+
+**JavaScript Example:**
+\`\`\`javascript
+// Optimized initialization patterns
+class ExpensiveResource {
+  constructor(config) {
+    console.log('Creating expensive resource...');
+    this.data = this.loadData(config);
+    this.connections = this.setupConnections(config);
+  }
+  
+  loadData(config) {
+    // Simulate expensive operation
+    return new Array(1000).fill(0).map((_, i) => i * Math.random());
+  }
+  
+  setupConnections(config) {
+    // Simulate connection setup
+    return { host: config.host, port: config.port };
+  }
+}
+
+// 1. Lazy Initialization
+class LazyService {
+  constructor(config) {
+    this.config = config;
+    this._resource = null;
+  }
+  
+  get resource() {
+    if (!this._resource) {
+      this._resource = new ExpensiveResource(this.config);
+    }
+    return this._resource;
+  }
+}
+
+// 2. Object Pool
+class ObjectPool {
+  constructor(createFn, resetFn, initialSize = 10) {
+    this.createFn = createFn;
+    this.resetFn = resetFn;
+    this.pool = [];
+    
+    // Pre-populate pool
+    for (let i = 0; i < initialSize; i++) {
+      this.pool.push(createFn());
+    }
+  }
+  
+  acquire() {
+    return this.pool.length > 0 ? this.pool.pop() : this.createFn();
+  }
+  
+  release(obj) {
+    this.resetFn(obj);
+    this.pool.push(obj);
+  }
+}
+
+// Usage
+const resourcePool = new ObjectPool(
+  () => new ExpensiveResource({ host: 'localhost', port: 8080 }),
+  (resource) => { resource.data = null; resource.connections = null; },
+  5
+);
+
+// 3. Prototype Cloning
+class PrototypeManager {
+  constructor() {
+    this.prototypes = new Map();
+  }
+  
+  registerPrototype(key, prototype) {
+    this.prototypes.set(key, prototype);
+  }
+  
+  create(key, customizations = {}) {
+    const prototype = this.prototypes.get(key);
+    if (!prototype) throw new Error(\`No prototype for \${key}\`);
+    
+    // Clone and customize
+    const clone = Object.assign(Object.create(Object.getPrototypeOf(prototype)), prototype);
+    return Object.assign(clone, customizations);
+  }
+}
+
+// 4. Factory with Caching
+class CachedFactory {
+  constructor() {
+    this.cache = new Map();
+  }
+  
+  create(type, config) {
+    const key = \`\${type}_\${JSON.stringify(config)}\`;
+    
+    if (this.cache.has(key)) {
+      console.log('Cache hit!');
+      return this.cache.get(key);
+    }
+    
+    console.log('Cache miss, creating new object');
+    let obj;
+    switch (type) {
+      case 'resource':
+        obj = new ExpensiveResource(config);
+        break;
+      default:
+        throw new Error(\`Unknown type: \${type}\`);
+    }
+    
+    this.cache.set(key, obj);
+    return obj;
+  }
+}
+
+// Performance comparison
+console.time('Traditional');
+const objects1 = Array(1000).fill().map(() => 
+  new ExpensiveResource({ host: 'localhost', port: 8080 }));
+console.timeEnd('Traditional');
+
+console.time('Pooled');
+const objects2 = Array(1000).fill().map(() => {
+  const obj = resourcePool.acquire();
+  resourcePool.release(obj);
+  return obj;
+});
+console.timeEnd('Pooled');
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+import copy
+from functools import lru_cache
+
+class ExpensiveResource:
+    def __init__(self, config):
+        print('Creating expensive resource...')
+        self.data = self.load_data(config)
+        self.connections = self.setup_connections(config)
+    
+    def load_data(self, config):
+        return [i * 0.5 for i in range(1000)]
+    
+    def setup_connections(self, config):
+        return {'host': config['host'], 'port': config['port']}
+
+# 1. Lazy Initialization with Properties
+class LazyService:
+    def __init__(self, config):
+        self.config = config
+        self._resource = None
+    
+    @property
+    def resource(self):
+        if self._resource is None:
+            self._resource = ExpensiveResource(self.config)
+        return self._resource
+
+# 2. Object Pool
+class ObjectPool:
+    def __init__(self, create_fn, reset_fn, initial_size=10):
+        self.create_fn = create_fn
+        self.reset_fn = reset_fn
+        self.pool = []
+        
+        for _ in range(initial_size):
+            self.pool.append(create_fn())
+    
+    def acquire(self):
+        return self.pool.pop() if self.pool else self.create_fn()
+    
+    def release(self, obj):
+        self.reset_fn(obj)
+        self.pool.append(obj)
+
+# 3. Cached Factory with LRU
+class CachedFactory:
+    def __init__(self, max_size=100):
+        self.create_resource = lru_cache(maxsize=max_size)(self._create_resource)
+    
+    def _create_resource(self, host, port):
+        return ExpensiveResource({'host': host, 'port': port})
+
+# 4. Singleton Pattern for Heavy Resources
+class ResourceSingleton:
+    _instances = {}
+    
+    def __new__(cls, config_key):
+        if config_key not in cls._instances:
+            cls._instances[config_key] = super().__new__(cls)
+        return cls._instances[config_key]
+    
+    def __init__(self, config_key):
+        if not hasattr(self, 'initialized'):
+            self.resource = ExpensiveResource({'host': 'localhost', 'port': 8080})
+            self.initialized = True
+
+# Performance testing
+def test_performance():
+    # Traditional approach
+    start = time.time()
+    objects1 = [ExpensiveResource({'host': 'localhost', 'port': 8080}) 
+                for _ in range(100)]
+    traditional_time = time.time() - start
+    
+    # Pooled approach
+    def create_resource():
+        return ExpensiveResource({'host': 'localhost', 'port': 8080})
+    
+    def reset_resource(resource):
+        resource.data = None
+        resource.connections = None
+    
+    pool = ObjectPool(create_resource, reset_resource, 10)
+    
+    start = time.time()
+    objects2 = []
+    for _ in range(100):
+        obj = pool.acquire()
+        objects2.append(obj)
+        pool.release(obj)
+    pooled_time = time.time() - start
+    
+    print(f"Traditional: {traditional_time:.4f}s")
+    print(f"Pooled: {pooled_time:.4f}s")
+
+test_performance()
+\`\`\`
+
+**Best Practices:**
+- Profile initialization bottlenecks first
+- Use lazy initialization for expensive, rarely-used components
+- Implement object pooling for high-frequency object creation
+- Cache factory results for repeated configurations
+- Consider prototype pattern for complex object graphs
+      `,
+      },
+      {
+        question: "What is the impact of lazy loading on performance?",
+        solution: `
+**Lazy Loading Impact Analysis:**
+
+**Benefits:**
+- Faster initial startup time
+- Reduced memory usage until needed
+- Better user experience for large applications
+- Lower resource consumption for unused features
+
+**Drawbacks:**
+- Latency on first access
+- Complexity in implementation
+- Potential for cascading loads
+- Thread safety concerns in concurrent environments
+
+**JavaScript Example:**
+\`\`\`javascript
+// Traditional eager loading
+class EagerUserProfile {
+  constructor(userId) {
+    this.userId = userId;
+    this.personalInfo = this.loadPersonalInfo();
+    this.preferences = this.loadPreferences();
+    this.activityHistory = this.loadActivityHistory();
+    this.socialConnections = this.loadSocialConnections();
+  }
+  
+  loadPersonalInfo() {
+    // Simulate API call
+    console.log('Loading personal info...');
+    return { name: 'John Doe', email: 'john@example.com' };
+  }
+  
+  loadPreferences() {
+    console.log('Loading preferences...');
+    return { theme: 'dark', language: 'en' };
+  }
+  
+  loadActivityHistory() {
+    console.log('Loading activity history...');
+    return new Array(1000).fill().map((_, i) => \`activity_\${i}\`);
+  }
+  
+  loadSocialConnections() {
+    console.log('Loading social connections...');
+    return new Array(500).fill().map((_, i) => \`friend_\${i}\`);
+  }
+}
+
+// Lazy loading implementation
+class LazyUserProfile {
+  constructor(userId) {
+    this.userId = userId;
+    this._personalInfo = null;
+    this._preferences = null;
+    this._activityHistory = null;
+    this._socialConnections = null;
+  }
+  
+  get personalInfo() {
+    if (!this._personalInfo) {
+      console.log('Lazy loading personal info...');
+      this._personalInfo = this.loadPersonalInfo();
+    }
+    return this._personalInfo;
+  }
+  
+  get preferences() {
+    if (!this._preferences) {
+      console.log('Lazy loading preferences...');
+      this._preferences = this.loadPreferences();
+    }
+    return this._preferences;
+  }
+  
+  get activityHistory() {
+    if (!this._activityHistory) {
+      console.log('Lazy loading activity history...');
+      this._activityHistory = this.loadActivityHistory();
+    }
+    return this._activityHistory;
+  }
+  
+  get socialConnections() {
+    if (!this._socialConnections) {
+      console.log('Lazy loading social connections...');
+      this._socialConnections = this.loadSocialConnections();
+    }
+    return this._socialConnections;
+  }
+  
+  loadPersonalInfo() {
+    return { name: 'John Doe', email: 'john@example.com' };
+  }
+  
+  loadPreferences() {
+    return { theme: 'dark', language: 'en' };
+  }
+  
+  loadActivityHistory() {
+    return new Array(1000).fill().map((_, i) => \`activity_\${i}\`);
+  }
+  
+  loadSocialConnections() {
+    return new Array(500).fill().map((_, i) => \`friend_\${i}\`);
+  }
+}
+
+// Advanced lazy loading with Promise caching
+class AdvancedLazyProfile {
+  constructor(userId) {
+    this.userId = userId;
+    this.cache = new Map();
+    this.loadingPromises = new Map();
+  }
+  
+  async getData(key) {
+    // Return cached data if available
+    if (this.cache.has(key)) {
+      return this.cache.get(key);
+    }
+    
+    // Return existing promise if already loading
+    if (this.loadingPromises.has(key)) {
+      return await this.loadingPromises.get(key);
+    }
+    
+    // Start loading and cache the promise
+    const promise = this.loadData(key);
+    this.loadingPromises.set(key, promise);
+    
+    try {
+      const data = await promise;
+      this.cache.set(key, data);
+      return data;
+    } finally {
+      this.loadingPromises.delete(key);
+    }
+  }
+  
+  async loadData(key) {
+    // Simulate network delay
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    switch (key) {
+      case 'personalInfo':
+        return { name: 'John Doe', email: 'john@example.com' };
+      case 'preferences':
+        return { theme: 'dark', language: 'en' };
+      case 'activityHistory':
+        return new Array(1000).fill().map((_, i) => \`activity_\${i}\`);
+      case 'socialConnections':
+        return new Array(500).fill().map((_, i) => \`friend_\${i}\`);
+      default:
+        throw new Error(\`Unknown data key: \${key}\`);
+    }
+  }
+  
+  async getPersonalInfo() { return this.getData('personalInfo'); }
+  async getPreferences() { return this.getData('preferences'); }
+  async getActivityHistory() { return this.getData('activityHistory'); }
+  async getSocialConnections() { return this.getData('socialConnections'); }
+}
+
+// Performance comparison
+async function comparePerformance() {
+  console.log('=== Eager Loading ===');
+  console.time('Eager Init');
+  const eagerProfile = new EagerUserProfile(123);
+  console.timeEnd('Eager Init');
+  
+  console.log('\\n=== Lazy Loading ===');
+  console.time('Lazy Init');
+  const lazyProfile = new LazyUserProfile(123);
+  console.timeEnd('Lazy Init');
+  
+  console.time('First Access');
+  const personalInfo = lazyProfile.personalInfo;
+  console.timeEnd('First Access');
+  
+  console.log('\\n=== Advanced Lazy Loading ===');
+  const advancedProfile = new AdvancedLazyProfile(123);
+  
+  console.time('Async Load');
+  const data = await advancedProfile.getPersonalInfo();
+  console.timeEnd('Async Load');
+  
+  console.time('Cached Access');
+  const cachedData = await advancedProfile.getPersonalInfo();
+  console.timeEnd('Cached Access');
+}
+
+comparePerformance();
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+import asyncio
+from functools import cached_property
+from typing import Optional
+
+# Traditional eager loading
+class EagerUserProfile:
+    def __init__(self, user_id: int):
+        self.user_id = user_id
+        self.personal_info = self.load_personal_info()
+        self.preferences = self.load_preferences()
+        self.activity_history = self.load_activity_history()
+        self.social_connections = self.load_social_connections()
+    
+    def load_personal_info(self):
+        print('Loading personal info...')
+        time.sleep(0.1)  # Simulate delay
+        return {'name': 'John Doe', 'email': 'john@example.com'}
+    
+    def load_preferences(self):
+        print('Loading preferences...')
+        time.sleep(0.1)
+        return {'theme': 'dark', 'language': 'en'}
+    
+    def load_activity_history(self):
+        print('Loading activity history...')
+        time.sleep(0.1)
+        return [f'activity_{i}' for i in range(1000)]
+    
+    def load_social_connections(self):
+        print('Loading social connections...')
+        time.sleep(0.1)
+        return [f'friend_{i}' for i in range(500)]
+
+# Lazy loading with cached_property (Python 3.8+)
+class LazyUserProfile:
+    def __init__(self, user_id: int):
+        self.user_id = user_id
+    
+    @cached_property
+    def personal_info(self):
+        print('Lazy loading personal info...')
+        time.sleep(0.1)
+        return {'name': 'John Doe', 'email': 'john@example.com'}
+    
+    @cached_property
+    def preferences(self):
+        print('Lazy loading preferences...')
+        time.sleep(0.1)
+        return {'theme': 'dark', 'language': 'en'}
+    
+    @cached_property
+    def activity_history(self):
+        print('Lazy loading activity history...')
+        time.sleep(0.1)
+        return [f'activity_{i}' for i in range(1000)]
+    
+    @cached_property
+    def social_connections(self):
+        print('Lazy loading social connections...')
+        time.sleep(0.1)
+        return [f'friend_{i}' for i in range(500)]
+
+# Advanced lazy loading with async support
+class AdvancedLazyProfile:
+    def __init__(self, user_id: int):
+        self.user_id = user_id
+        self.cache = {}
+        self.loading_futures = {}
+    
+    async def get_data(self, key: str):
+        # Return cached data if available
+        if key in self.cache:
+            return self.cache[key]
+        
+        # Return existing future if already loading
+        if key in self.loading_futures:
+            return await self.loading_futures[key]
+        
+        # Start loading and cache the future
+        future = self.load_data(key)
+        self.loading_futures[key] = future
+        
+        try:
+            data = await future
+            self.cache[key] = data
+            return data
+        finally:
+            del self.loading_futures[key]
+    
+    async def load_data(self, key: str):
+        await asyncio.sleep(0.1)  # Simulate network delay
+        
+        data_loaders = {
+            'personal_info': lambda: {'name': 'John Doe', 'email': 'john@example.com'},
+            'preferences': lambda: {'theme': 'dark', 'language': 'en'},
+            'activity_history': lambda: [f'activity_{i}' for i in range(1000)],
+            'social_connections': lambda: [f'friend_{i}' for i in range(500)]
+        }
+        
+        if key not in data_loaders:
+            raise ValueError(f'Unknown data key: {key}')
+        
+        return data_loaders[key]()
+    
+    async def get_personal_info(self):
+        return await self.get_data('personal_info')
+    
+    async def get_preferences(self):
+        return await self.get_data('preferences')
+    
+    async def get_activity_history(self):
+        return await self.get_data('activity_history')
+    
+    async def get_social_connections(self):
+        return await self.get_data('social_connections')
+
+# Lazy loading with TTL (Time To Live)
+class TTLLazyProfile:
+    def __init__(self, user_id: int, ttl: int = 300):  # 5 minutes TTL
+        self.user_id = user_id
+        self.ttl = ttl
+        self.cache = {}
+        self.timestamps = {}
+    
+    def get_data(self, key: str):
+        now = time.time()
+        
+        # Check if data exists and hasn't expired
+        if (key in self.cache and 
+            key in self.timestamps and 
+            now - self.timestamps[key] < self.ttl):
+            print(f'Using cached {key}')
+            return self.cache[key]
+        
+        # Load fresh data
+        print(f'Loading fresh {key}')
+        data = self.load_data(key)
+        self.cache[key] = data
+        self.timestamps[key] = now
+        return data
+    
+    def load_data(self, key: str):
+        time.sleep(0.1)
+        data_loaders = {
+            'personal_info': lambda: {'name': 'John Doe', 'email': 'john@example.com'},
+            'preferences': lambda: {'theme': 'dark', 'language': 'en'},
+            'activity_history': lambda: [f'activity_{i}' for i in range(1000)],
+            'social_connections': lambda: [f'friend_{i}' for i in range(500)]
+        }
+        return data_loaders[key]()
+    
+    @property
+    def personal_info(self):
+        return self.get_data('personal_info')
+
+# Performance comparison
+async def compare_performance():
+    print('=== Eager Loading ===')
+    start = time.time()
+    eager_profile = EagerUserProfile(123)
+    eager_init_time = time.time() - start
+    print(f'Eager init time: {eager_init_time:.4f}s\\n')
+    
+    print('=== Lazy Loading ===')
+    start = time.time()
+    lazy_profile = LazyUserProfile(123)
+    lazy_init_time = time.time() - start
+    print(f'Lazy init time: {lazy_init_time:.4f}s')
+    
+    start = time.time()
+    personal_info = lazy_profile.personal_info
+    first_access_time = time.time() - start
+    print(f'First access time: {first_access_time:.4f}s')
+    
+    start = time.time()
+    personal_info_again = lazy_profile.personal_info  # Should be cached
+    second_access_time = time.time() - start
+    print(f'Cached access time: {second_access_time:.4f}s\\n')
+    
+    print('=== Advanced Lazy Loading ===')
+    advanced_profile = AdvancedLazyProfile(123)
+    
+    start = time.time()
+    data = await advanced_profile.get_personal_info()
+    async_load_time = time.time() - start
+    print(f'Async load time: {async_load_time:.4f}s')
+    
+    start = time.time()
+    cached_data = await advanced_profile.get_personal_info()
+    async_cached_time = time.time() - start
+    print(f'Async cached time: {async_cached_time:.4f}s')
+
+# Run the comparison
+asyncio.run(compare_performance())
+\`\`\`
+
+**Best Practices:**
+- Use lazy loading for expensive, rarely accessed data
+- Implement caching to avoid repeated loads
+- Consider TTL for data that changes over time
+- Use async lazy loading for I/O bound operations
+- Monitor cache hit rates and adjust strategy accordingly
+- Be careful with lazy loading in hot code paths
+      `,
+      },
+      {
+        question: "What are the performance trade-offs of immutable objects?",
+        solution: `**Immutable objects** provide thread safety and simplified reasoning but come with performance costs:
+
+**Benefits:**
+- **Thread Safety**: No synchronization needed for concurrent access
+- **Caching**: Hash codes can be cached safely
+- **Simplified Logic**: No defensive copying required
+
+**Trade-offs:**
+- **Memory Overhead**: Creating new objects for each modification
+- **Garbage Collection Pressure**: More objects to collect
+- **CPU Cost**: Object creation and copying overhead
+
+**JavaScript Example:**
+\`\`\`javascript
+// Mutable approach (faster for frequent updates)
+class MutablePoint {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+  }
+  
+  move(dx, dy) {
+    this.x += dx;
+    this.y += dy;
+    return this;
+  }
+}
+
+// Immutable approach (safer but more memory)
+class ImmutablePoint {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    Object.freeze(this);
+  }
+  
+  move(dx, dy) {
+    return new ImmutablePoint(this.x + dx, this.y + dy); // New object each time
+  }
+}
+
+// Performance comparison
+const mutable = new MutablePoint(0, 0);
+const start = performance.now();
+for (let i = 0; i < 100000; i++) {
+  mutable.move(1, 1);
+}
+console.log('Mutable:', performance.now() - start);
+
+let immutable = new ImmutablePoint(0, 0);
+const start2 = performance.now();
+for (let i = 0; i < 100000; i++) {
+  immutable = immutable.move(1, 1); // Creates new object
+}
+console.log('Immutable:', performance.now() - start2);
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+from dataclasses import dataclass
+from typing import NamedTuple
+import time
+
+# Mutable class
+class MutablePoint:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def move(self, dx, dy):
+        self.x += dx
+        self.y += dy
+        return self
+
+# Immutable using NamedTuple
+class ImmutablePoint(NamedTuple):
+    x: int
+    y: int
+    
+    def move(self, dx, dy):
+        return ImmutablePoint(self.x + dx, self.y + dy)
+
+# Performance test
+mutable = MutablePoint(0, 0)
+start = time.time()
+for i in range(100000):
+    mutable.move(1, 1)
+print(f"Mutable: {time.time() - start:.4f}s")
+
+immutable = ImmutablePoint(0, 0)
+start = time.time()
+for i in range(100000):
+    immutable = immutable.move(1, 1)
+print(f"Immutable: {time.time() - start:.4f}s")
+\`\`\`
+
+**Best Practices:**
+- Use immutable objects for data that changes infrequently
+- Consider object pooling for frequently created immutable objects
+- Use mutable objects in performance-critical loops
+- Leverage structural sharing in functional data structures`,
+      },
+      {
+        question: "How do you minimize object allocation in tight loops?",
+        solution: `**Object allocation** in tight loops can severely impact performance due to garbage collection pressure and memory fragmentation:
+
+**Key Strategies:**
+1. **Object Reuse/Pooling**
+2. **Primitive Types Over Wrapper Objects**
+3. **Pre-allocation**
+4. **In-place Operations**
+5. **Avoiding Temporary Objects**
+
+**JavaScript Example:**
+\`\`\`javascript
+// Bad: Creates objects in loop
+function processDataBad(data) {
+  const results = [];
+  for (let i = 0; i < data.length; i++) {
+    // Creates new object each iteration
+    const point = { x: data[i].x * 2, y: data[i].y * 2 };
+    const distance = Math.sqrt(point.x * point.x + point.y * point.y);
+    results.push({ point, distance }); // Another object
+  }
+  return results;
+}
+
+// Good: Reuse objects and minimize allocations
+class ObjectPool {
+  constructor(createFn, resetFn, initialSize = 10) {
+    this.createFn = createFn;
+    this.resetFn = resetFn;
+    this.pool = [];
+    
+    // Pre-populate pool
+    for (let i = 0; i < initialSize; i++) {
+      this.pool.push(this.createFn());
+    }
+  }
+  
+  get() {
+    return this.pool.length > 0 ? this.pool.pop() : this.createFn();
+  }
+  
+  release(obj) {
+    this.resetFn(obj);
+    this.pool.push(obj);
+  }
+}
+
+// Object pool for points
+const pointPool = new ObjectPool(
+  () => ({ x: 0, y: 0 }),
+  (obj) => { obj.x = 0; obj.y = 0; }
+);
+
+function processDataGood(data) {
+  const results = [];
+  results.length = data.length; // Pre-allocate array
+  
+  for (let i = 0; i < data.length; i++) {
+    const point = pointPool.get();
+    
+    // Reuse object instead of creating new
+    point.x = data[i].x * 2;
+    point.y = data[i].y * 2;
+    
+    // Avoid Math.sqrt if possible, use squared distance
+    const distanceSquared = point.x * point.x + point.y * point.y;
+    
+    results[i] = { point, distanceSquared };
+  }
+  return results;
+}
+
+// Benchmark
+const testData = Array.from({ length: 100000 }, (_, i) => ({ x: i, y: i }));
+
+console.time('Bad Approach');
+processDataBad(testData);
+console.timeEnd('Bad Approach');
+
+console.time('Good Approach');
+processDataGood(testData);
+console.timeEnd('Good Approach');
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import time
+import numpy as np
+from typing import List, Dict
+
+# Bad: Creates objects in loop
+def process_data_bad(data: List[Dict]) -> List[Dict]:
+    results = []
+    for item in data:
+        # Creates new dict each iteration
+        point = {'x': item['x'] * 2, 'y': item['y'] * 2}
+        distance = (point['x'] ** 2 + point['y'] ** 2) ** 0.5
+        results.append({'point': point, 'distance': distance})
+    return results
+
+# Good: Object pooling and reuse
+class ObjectPool:
+    def __init__(self, create_func, reset_func, initial_size=10):
+        self.create_func = create_func
+        self.reset_func = reset_func
+        self.pool = [create_func() for _ in range(initial_size)]
+    
+    def get(self):
+        return self.pool.pop() if self.pool else self.create_func()
+    
+    def release(self, obj):
+        self.reset_func(obj)
+        self.pool.append(obj)
+
+# Using __slots__ to reduce memory overhead
+class Point:
+    __slots__ = ['x', 'y']
+    
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+    
+    def reset(self):
+        self.x = 0
+        self.y = 0
+
+point_pool = ObjectPool(
+    lambda: Point(),
+    lambda p: p.reset(),
+    100
+)
+
+def process_data_good(data: List[Dict]) -> List[Dict]:
+    results = [None] * len(data)  # Pre-allocate list
+    
+    for i, item in enumerate(data):
+        point = point_pool.get()
+        
+        # Reuse object
+        point.x = item['x'] * 2
+        point.y = item['y'] * 2
+        
+        # Avoid sqrt calculation
+        distance_squared = point.x * point.x + point.y * point.y
+        
+        results[i] = {'point': point, 'distance_squared': distance_squared}
+    
+    return results
+
+# Using NumPy for vectorized operations (best performance)
+def process_data_numpy(data: np.ndarray) -> np.ndarray:
+    # Vectorized operations, no object allocation in loop
+    points = data * 2
+    distances_squared = np.sum(points ** 2, axis=1)
+    return np.column_stack([points, distances_squared])
+
+# Benchmark
+test_data = [{'x': i, 'y': i} for i in range(100000)]
+test_array = np.array([(i, i) for i in range(100000)])
+
+start = time.time()
+result1 = process_data_bad(test_data)
+print(f"Bad approach: {time.time() - start:.4f}s")
+
+start = time.time()
+result2 = process_data_good(test_data)
+print(f"Good approach: {time.time() - start:.4f}s")
+
+start = time.time()
+result3 = process_data_numpy(test_array)
+print(f"NumPy approach: {time.time() - start:.4f}s")
+\`\`\`
+
+**Best Practices:**
+- Pre-allocate collections with known sizes
+- Use object pools for frequently created/destroyed objects
+- Prefer primitive operations over object creation
+- Consider using specialized libraries (NumPy, typed arrays)
+- Profile allocation patterns with memory profilers`,
+      },
+      {
+        question:
+          "What is escape analysis and how does it optimize object allocation?",
+        solution: `**Escape Analysis** is a compiler optimization that determines whether objects can be allocated on the stack instead of the heap, or eliminated entirely.
+
+**How It Works:**
+- Analyzes object lifetimes and scope
+- Determines if objects "escape" their creation method
+- Enables stack allocation and scalar replacement
+
+**Types of Escape:**
+1. **No Escape**: Object doesn't leave method scope
+2. **Method Escape**: Object passed to other methods
+3. **Thread Escape**: Object accessible across threads
+
+**JavaScript (V8 Engine Optimizations):**
+\`\`\`javascript
+// Example 1: No escape - can be stack allocated
+function calculateDistance() {
+  const point = { x: 10, y: 20 }; // Doesn't escape
+  return Math.sqrt(point.x * point.x + point.y * point.y);
+  // V8 may eliminate object allocation entirely
+}
+
+// Example 2: Method escape - may still be optimized
+function processPoint() {
+  const point = { x: 5, y: 10 };
+  return transformPoint(point); // Escapes to another method
+}
+
+function transformPoint(p) {
+  return { x: p.x * 2, y: p.y * 2 };
+}
+
+// Example 3: Thread escape - must be heap allocated
+let globalPoint;
+function createGlobalPoint() {
+  globalPoint = { x: 1, y: 2 }; // Escapes to global scope
+}
+
+// Demonstrating scalar replacement
+function scalarReplacement() {
+  // This object might be eliminated entirely
+  const temp = { a: 1, b: 2 };
+  const sum = temp.a + temp.b; // Could become: const sum = 1 + 2;
+  return sum;
+}
+
+// Benchmark to show optimization effects
+function testEscapeAnalysis() {
+  const iterations = 1000000;
+  
+  // Non-escaping objects (likely optimized)
+  console.time('Non-escaping');
+  for (let i = 0; i < iterations; i++) {
+    const obj = { x: i, y: i * 2 };
+    const result = obj.x + obj.y; // Object doesn't escape
+  }
+  console.timeEnd('Non-escaping');
+  
+  // Escaping objects (heap allocated)
+  const results = [];
+  console.time('Escaping');
+  for (let i = 0; i < iterations; i++) {
+    const obj = { x: i, y: i * 2 };
+    results.push(obj); // Object escapes
+  }
+  console.timeEnd('Escaping');
+}
+
+testEscapeAnalysis();
+
+// Helper function to force heap allocation
+function forceHeapAllocation(obj) {
+  // This prevents escape analysis optimization
+  if (Math.random() > 0.5) {
+    window.temp = obj;
+  }
+  return obj;
+}
+\`\`\`
+
+**Python (Limited Escape Analysis):**
+\`\`\`python
+import time
+import sys
+
+# Python has limited escape analysis, but understanding helps
+# Most optimizations happen in PyPy or compiled extensions
+
+class Point:
+    __slots__ = ['x', 'y']  # Reduces memory overhead
+    
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+def no_escape_example():
+    """Object doesn't escape - could be optimized by PyPy"""
+    point = Point(10, 20)  # Local object
+    return point.x + point.y  # Only fields are used
+
+def method_escape_example():
+    """Object escapes to another method"""
+    point = Point(5, 10)
+    return process_point(point)  # Escapes
+
+def process_point(p):
+    return Point(p.x * 2, p.y * 2)
+
+# Global reference - definitely escapes
+global_points = []
+
+def thread_escape_example():
+    """Object escapes to global scope"""
+    point = Point(1, 2)
+    global_points.append(point)  # Escapes
+    return point
+
+# Demonstrate optimization potential
+def benchmark_escape_analysis():
+    iterations = 1000000
+    
+    # Non-escaping pattern
+    start = time.time()
+    total = 0
+    for i in range(iterations):
+        # These objects might be optimized away by PyPy
+        temp = Point(i, i * 2)
+        total += temp.x + temp.y
+    no_escape_time = time.time() - start
+    
+    # Escaping pattern
+    results = []
+    start = time.time()
+    for i in range(iterations):
+        temp = Point(i, i * 2)
+        results.append(temp)  # Forces heap allocation
+    escape_time = time.time() - start
+    
+    print(f"No escape: {no_escape_time:.4f}s")
+    print(f"Escape: {escape_time:.4f}s")
+    print(f"Ratio: {escape_time / no_escape_time:.2f}x slower")
+
+# Manual optimization to simulate escape analysis
+def manual_scalar_replacement():
+    """Manually eliminate object allocation"""
+    iterations = 1000000
+    
+    # With object allocation
+    start = time.time()
+    total = 0
+    for i in range(iterations):
+        point = Point(i, i * 2)
+        total += point.x + point.y
+    object_time = time.time() - start
+    
+    # Scalar replacement - eliminate object
+    start = time.time()
+    total = 0
+    for i in range(iterations):
+        # Instead of creating object, use variables directly
+        x, y = i, i * 2
+        total += x + y
+    scalar_time = time.time() - start
+    
+    print(f"Object allocation: {object_time:.4f}s")
+    print(f"Scalar replacement: {scalar_time:.4f}s")
+    print(f"Speedup: {object_time / scalar_time:.2f}x")
+
+if __name__ == "__main__":
+    print("Escape Analysis Benchmark:")
+    benchmark_escape_analysis()
+    print("\\nManual Scalar Replacement:")
+    manual_scalar_replacement()
+
+# Using dataclasses for better optimization hints
+from dataclasses import dataclass
+
+@dataclass
+class OptimizedPoint:
+    x: int
+    y: int
+    
+    def distance_squared(self):
+        # This method might be inlined, eliminating 'self' access
+        return self.x * self.x + self.y * self.y
+\`\`\`
+
+**Optimization Benefits:**
+1. **Stack Allocation**: Faster than heap allocation
+2. **Scalar Replacement**: Eliminates objects entirely
+3. **Reduced GC Pressure**: Fewer heap objects to collect
+4. **Cache Efficiency**: Stack data is more cache-friendly
+
+**How to Enable:**
+- **Java**: Enable with -XX:+DoEscapeAnalysis
+- **JavaScript**: Automatic in V8 with optimization flags
+- **Python**: Use PyPy for aggressive optimizations
+- **General**: Write code that doesn't unnecessarily escape objects`,
+      },
+      {
+        question:
+          "How do you profile object-oriented applications for performance issues?",
+        solution: `**Profiling OOP applications** requires understanding memory allocation, method call overhead, and object lifecycle patterns.
+
+**Key Profiling Areas:**
+1. **Memory Allocation Patterns**
+2. **Method Call Overhead**
+3. **Garbage Collection Impact**
+4. **Object Lifecycle Management**
+5. **CPU Hotspots**
+
+**JavaScript Profiling:**
+\`\`\`javascript
+// Built-in Performance API
+class ProfilingDemo {
+  constructor() {
+    this.data = [];
+  }
+  
+  // Method with potential performance issues
+  processLargeDataset(items) {
+    performance.mark('processLargeDataset-start');
+    
+    const results = [];
+    for (let item of items) {
+      // Potential hotspot: object creation in loop
+      const processed = this.transformItem(item);
+      const validated = this.validateItem(processed);
+      results.push(validated);
+    }
+    
+    performance.mark('processLargeDataset-end');
+    performance.measure(
+      'processLargeDataset', 
+      'processLargeDataset-start', 
+      'processLargeDataset-end'
+    );
+    
+    return results;
+  }
+  
+  transformItem(item) {
+    // Simulate expensive transformation
+    return {
+      id: item.id,
+      value: item.value * 2,
+      timestamp: Date.now(),
+      metadata: { processed: true }
+    };
+  }
+  
+  validateItem(item) {
+    // Simulate validation logic
+    if (item.value < 0) {
+      throw new Error('Invalid value');
+    }
+    return { ...item, validated: true };
+  }
+}
+
+// Memory allocation profiling
+class MemoryProfiler {
+  static measureMemoryUsage(fn, name) {
+    // Trigger garbage collection if available
+    if (window.gc) {
+      window.gc();
+    }
+    
+    const before = performance.memory?.usedJSHeapSize || 0;
+    const startTime = performance.now();
+    
+    const result = fn();
+    
+    const endTime = performance.now();
+    const after = performance.memory?.usedJSHeapSize || 0;
+    
+    console.log(\`\${name} Performance:\`);
+    console.log(\`  Time: \${(endTime - startTime).toFixed(2)}ms\`);
+    console.log(\`  Memory Delta: \${((after - before) / 1024 / 1024).toFixed(2)}MB\`);
+    
+    return result;
+  }
+  
+  static profileObjectCreation() {
+    const iterations = 100000;
+    
+    // Profile different object creation patterns
+    this.measureMemoryUsage(() => {
+      const objects = [];
+      for (let i = 0; i < iterations; i++) {
+        objects.push({ id: i, data: 'test', value: Math.random() });
+      }
+      return objects;
+    }, 'Object Literals');
+    
+    this.measureMemoryUsage(() => {
+      const objects = [];
+      for (let i = 0; i < iterations; i++) {
+        const obj = new Object();
+        obj.id = i;
+        obj.data = 'test';
+        obj.value = Math.random();
+        objects.push(obj);
+      }
+      return objects;
+    }, 'Constructor Pattern');
+    
+    this.measureMemoryUsage(() => {
+      class DataObject {
+        constructor(id, data, value) {
+          this.id = id;
+          this.data = data;
+          this.value = value;
+        }
+      }
+      
+      const objects = [];
+      for (let i = 0; i < iterations; i++) {
+        objects.push(new DataObject(i, 'test', Math.random()));
+      }
+      return objects;
+    }, 'Class Constructor');
+  }
+}
+
+// Performance monitoring wrapper
+class MethodProfiler {
+  static profile(target, methodName) {
+    const originalMethod = target[methodName];
+    
+    target[methodName] = function(...args) {
+      const start = performance.now();
+      const result = originalMethod.apply(this, args);
+      const end = performance.now();
+      
+      console.log(\`\${methodName} took \${(end - start).toFixed(3)}ms\`);
+      return result;
+    };
+  }
+  
+  static profileClass(targetClass) {
+    const methods = Object.getOwnPropertyNames(targetClass.prototype)
+      .filter(name => name !== 'constructor' && typeof targetClass.prototype[name] === 'function');
+    
+    methods.forEach(method => {
+      this.profile(targetClass.prototype, method);
+    });
+  }
+}
+
+// Usage example
+const demo = new ProfilingDemo();
+MethodProfiler.profileClass(ProfilingDemo);
+
+// Generate test data
+const testData = Array.from({ length: 10000 }, (_, i) => ({
+  id: i,
+  value: Math.random() * 100 - 50
+}));
+
+// Profile the operation
+const results = demo.processLargeDataset(testData);
+
+// Check performance entries
+performance.getEntriesByType('measure').forEach(entry => {
+  console.log(\`\${entry.name}: \${entry.duration.toFixed(2)}ms\`);
+});
+
+// Run memory profiling
+MemoryProfiler.profileObjectCreation();
+\`\`\`
+
+**Python Profiling:**
+\`\`\`python
+import cProfile
+import pstats
+import io
+import time
+import tracemalloc
+import functools
+from memory_profiler import profile
+from typing import List, Dict, Any
+
+class DataProcessor:
+    def __init__(self):
+        self.cache = {}
+    
+    def process_dataset(self, items: List[Dict]) -> List[Dict]:
+        """Method with potential performance issues"""
+        results = []
+        for item in items:
+            # Potential hotspots
+            transformed = self.transform_item(item)
+            validated = self.validate_item(transformed)
+            cached = self.cache_result(validated)
+            results.append(cached)
+        return results
+    
+    def transform_item(self, item: Dict) -> Dict:
+        """Simulate expensive transformation"""
+        return {
+            'id': item['id'],
+            'value': item['value'] * 2,
+            'timestamp': time.time(),
+            'metadata': {'processed': True}
+        }
+    
+    def validate_item(self, item: Dict) -> Dict:
+        """Simulate validation"""
+        if item['value'] < 0:
+            raise ValueError('Invalid value')
+        return {**item, 'validated': True}
+    
+    def cache_result(self, item: Dict) -> Dict:
+        """Simulate caching with potential memory leak"""
+        key = f"{item['id']}_{item['value']}"
+        self.cache[key] = item
+        return item
+
+# CPU Profiling decorator
+def profile_cpu(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        pr = cProfile.Profile()
+        pr.enable()
+        
+        result = func(*args, **kwargs)
+        
+        pr.disable()
+        
+        # Print stats
+        s = io.StringIO()
+        ps = pstats.Stats(pr, stream=s)
+        ps.sort_stats('cumulative')
+        ps.print_stats(10)  # Top 10 functions
+        
+        print(f"\\nCPU Profile for {func.__name__}:")
+        print(s.getvalue())
+        
+        return result
+    return wrapper
+
+# Memory profiling decorator
+def profile_memory(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        tracemalloc.start()
+        
+        result = func(*args, **kwargs)
+        
+        current, peak = tracemalloc.get_traced_memory()
+        tracemalloc.stop()
+        
+        print(f"\\nMemory Profile for {func.__name__}:")
+        print(f"  Current memory usage: {current / 1024 / 1024:.2f} MB")
+        print(f"  Peak memory usage: {peak / 1024 / 1024:.2f} MB")
+        
+        return result
+    return wrapper
+
+# Comprehensive profiling
+class PerformanceProfiler:
+    @staticmethod
+    def profile_method_calls(obj, method_name: str):
+        """Profile method call overhead"""
+        original_method = getattr(obj, method_name)
+        call_times = []
+        
+        def profiled_method(*args, **kwargs):
+            start = time.perf_counter()
+            result = original_method(*args, **kwargs)
+            end = time.perf_counter()
+            
+            call_times.append(end - start)
+            return result
+        
+        setattr(obj, method_name, profiled_method)
+        return call_times
+    
+    @staticmethod
+    def analyze_object_creation():
+        """Compare different object creation patterns"""
+        iterations = 100000
+        
+        # Dictionary creation
+        start = time.perf_counter()
+        objects1 = [{'id': i, 'value': i * 2} for i in range(iterations)]
+        dict_time = time.perf_counter() - start
+        
+        # Class creation
+        class SimpleObject:
+            def __init__(self, id_val, value):
+                self.id = id_val
+                self.value = value
+        
+        start = time.perf_counter()
+        objects2 = [SimpleObject(i, i * 2) for i in range(iterations)]
+        class_time = time.perf_counter() - start
+        
+        # Namedtuple creation
+        from collections import namedtuple
+        SimpleNamedTuple = namedtuple('SimpleObject', ['id', 'value'])
+        
+        start = time.perf_counter()
+        objects3 = [SimpleNamedTuple(i, i * 2) for i in range(iterations)]
+        namedtuple_time = time.perf_counter() - start
+        
+        print("Object Creation Performance:")
+        print(f"  Dictionary: {dict_time:.4f}s")
+        print(f"  Class: {class_time:.4f}s")
+        print(f"  NamedTuple: {namedtuple_time:.4f}s")
+    
+    @staticmethod
+    def memory_leak_detection():
+        """Detect potential memory leaks"""
+        import gc
+        
+        processor = DataProcessor()
+        
+        # Generate test data
+        test_data = [{'id': i, 'value': i * 2} for i in range(1000)]
+        
+        # Check initial object count
+        gc.collect()
+        initial_objects = len(gc.get_objects())
+        
+        # Process data multiple times
+        for _ in range(10):
+            processor.process_dataset(test_data)
+        
+        # Check final object count
+        gc.collect()
+        final_objects = len(gc.get_objects())
+        
+        print(f"Object count increase: {final_objects - initial_objects}")
+        print(f"Cache size: {len(processor.cache)}")
+
+# Example usage with profiling
+@profile_cpu
+@profile_memory
+def main():
+    processor = DataProcessor()
+    
+    # Generate test data
+    test_data = [
+        {'id': i, 'value': i * 2 - 100} 
+        for i in range(10000)
+    ]
+    
+    # Profile method calls
+    call_times = PerformanceProfiler.profile_method_calls(
+        processor, 'transform_item'
+    )
+    
+    try:
+        results = processor.process_dataset(test_data)
+        
+        # Analyze call times
+        if call_times:
+            avg_time = sum(call_times) / len(call_times)
+            max_time = max(call_times)
+            print(f"\\nMethod Call Analysis:")
+            print(f"  Average call time: {avg_time*1000:.3f}ms")
+            print(f"  Max call time: {max_time*1000:.3f}ms")
+            print(f"  Total calls: {len(call_times)}")
+        
+    except ValueError as e:
+        print(f"Processing error: {e}")
+
+if __name__ == "__main__":
+    print("=== Performance Profiling Demo ===")
+    
+    # Run different profiling scenarios
+    PerformanceProfiler.analyze_object_creation()
+    print()
+    PerformanceProfiler.memory_leak_detection()
+    print()
+    
+    # Run comprehensive profiling
+    main()
+\`\`\`
+
+**Profiling Tools & Techniques:**
+
+**Browser DevTools (JavaScript):**
+- Memory tab for heap snapshots
+- Performance tab for CPU profiling
+- Coverage tab for unused code
+
+**Python Tools:**
+- **cProfile**: Built-in CPU profiler
+- **memory_profiler**: Line-by-line memory usage
+- **py-spy**: Sampling profiler for production
+- **tracemalloc**: Memory allocation tracking
+
+**Best Practices:**
+- Profile in production-like environments
+- Focus on hotspots (80/20 rule)
+- Monitor both CPU and memory usage
+- Track object creation patterns
+- Use sampling for long-running applications
+- Automate performance regression testing`,
+      },
+      {
+        question:
+          "How do you handle memory leaks in object-oriented applications?",
+        solution: `Memory leaks occur when objects are no longer needed but remain referenced, preventing garbage collection. Here's how to handle them:
+
+**JavaScript Example:**
+\`\`\`javascript
+class EventManager {
+  constructor() {
+    this.listeners = new Map();
+    this.timers = new Set();
+  }
+  
+  // Proper cleanup to prevent memory leaks
+  addEventListener(element, event, handler) {
+    const boundHandler = handler.bind(this);
+    element.addEventListener(event, boundHandler);
+    
+    // Store reference for cleanup
+    if (!this.listeners.has(element)) {
+      this.listeners.set(element, new Map());
+    }
+    this.listeners.get(element).set(event, boundHandler);
+  }
+  
+  // Always provide cleanup methods
+  removeEventListener(element, event) {
+    if (this.listeners.has(element)) {
+      const elementListeners = this.listeners.get(element);
+      const handler = elementListeners.get(event);
+      if (handler) {
+        element.removeEventListener(event, handler);
+        elementListeners.delete(event);
+      }
+    }
+  }
+  
+  // Clean up all resources
+  destroy() {
+    // Remove all event listeners
+    for (const [element, events] of this.listeners) {
+      for (const [event, handler] of events) {
+        element.removeEventListener(event, handler);
+      }
+    }
+    this.listeners.clear();
+    
+    // Clear all timers
+    for (const timer of this.timers) {
+      clearTimeout(timer);
+    }
+    this.timers.clear();
+  }
+}
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import weakref
+from typing import Dict, Set, Optional
+
+class ResourceManager:
+    def __init__(self):
+        self._resources: Dict[str, any] = {}
+        self._callbacks: Set[callable] = set()
+        self._file_handles: Set[object] = set()
+    
+    def add_resource(self, name: str, resource):
+        """Add resource with proper tracking"""
+        if name in self._resources:
+            self.cleanup_resource(name)  # Clean up existing
+        self._resources[name] = resource
+    
+    def cleanup_resource(self, name: str):
+        """Clean up specific resource"""
+        if name in self._resources:
+            resource = self._resources[name]
+            
+            # Handle different resource types
+            if hasattr(resource, 'close'):
+                resource.close()
+            elif hasattr(resource, '__del__'):
+                del resource
+            
+            del self._resources[name]
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        """Automatic cleanup using context manager"""
+        self.cleanup_all()
+    
+    def cleanup_all(self):
+        """Clean up all resources"""
+        # Close file handles
+        for handle in self._file_handles:
+            if hasattr(handle, 'close'):
+                handle.close()
+        
+        # Clear all resources
+        for name in list(self._resources.keys()):
+            self.cleanup_resource(name)
+        
+        # Clear callbacks
+        self._callbacks.clear()
+        self._file_handles.clear()
+
+# Usage with proper cleanup
+with ResourceManager() as manager:
+    manager.add_resource('db_connection', create_db_connection())
+    # Resources automatically cleaned up when exiting context
+\`\`\`
+
+**Prevention Strategies:**
+1. **Use weak references** for parent-child relationships
+2. **Implement proper cleanup methods** (dispose, destroy, close)
+3. **Use context managers** (Python) or try-finally blocks
+4. **Remove event listeners** and clear intervals/timeouts
+5. **Profile memory usage** regularly with tools like Chrome DevTools or memory_profiler
+6. **Avoid global references** to temporary objects
+7. **Use object pools** for frequently created/destroyed objects`,
+      },
+      {
+        question: "How do you handle N+1 query problems in object mapping?",
+        solution: `The N+1 query problem occurs when you fetch a list of objects and then make additional queries for each object's related data, resulting in 1 initial query + N additional queries.
+  
+  **Solutions:**
+  
+  1. **Eager Loading/Prefetch**
+     
+     JavaScript (Sequelize):
+     \`\`\`javascript
+     // Problem: N+1 queries
+     const users = await User.findAll();
+     for (const user of users) {
+       const posts = await user.getPosts(); // N queries!
+     }
+  
+     // Solution: Eager loading
+     const users = await User.findAll({
+       include: [{
+         model: Post,
+         attributes: ['title', 'content']
+       }]
+     });
+  
+     // Or using separate include
+     const users = await User.findAll({
+       include: [Post]
+     });
+     \`\`\`
+  
+     Python (SQLAlchemy):
+     \`\`\`python
+     from sqlalchemy.orm import joinedload, selectinload
+  
+     # Problem: N+1 queries
+     users = session.query(User).all()
+     for user in users:
+         posts = user.posts  # Lazy loading triggers N queries
+  
+     # Solution 1: Joined loading (LEFT JOIN)
+     users = session.query(User).options(joinedload(User.posts)).all()
+  
+     # Solution 2: Select-in loading (IN clause)
+     users = session.query(User).options(selectinload(User.posts)).all()
+  
+     # Solution 3: Subquery loading
+     users = session.query(User).options(subqueryload(User.posts)).all()
+     \`\`\`
+  
+  2. **DataLoader Pattern (Batching)**
+  
+     JavaScript:
+     \`\`\`javascript
+     const DataLoader = require('dataloader');
+  
+     const postLoader = new DataLoader(async (userIds) => {
+       const posts = await Post.findAll({
+         where: { userId: userIds }
+       });
+       
+       // Group by userId
+       const grouped = userIds.map(id => 
+         posts.filter(post => post.userId === id)
+       );
+       return grouped;
+     });
+  
+     // Usage
+     const users = await User.findAll();
+     const postsPromises = users.map(user => postLoader.load(user.id));
+     const allPosts = await Promise.all(postsPromises);
+     \`\`\`
+  
+  3. **Query Optimization**
+  
+     Python (Django):
+     \`\`\`python
+     # Problem
+     users = User.objects.all()
+     for user in users:
+         print(user.profile.bio)  # N+1 queries
+  
+     # Solution: select_related for ForeignKey
+     users = User.objects.select_related('profile')
+  
+     # For ManyToMany: prefetch_related
+     users = User.objects.prefetch_related('posts')
+  
+     # Combined approach
+     users = User.objects.select_related('profile').prefetch_related('posts')
+     \`\`\`
+  
+  **Best Practices:**
+  - Use query analysis tools to identify N+1 problems
+  - Implement query counting in development
+  - Consider lazy vs eager loading trade-offs
+  - Use projection to fetch only needed fields`,
+      },
+      {
+        question:
+          "What is connection pooling and how does it relate to object lifecycle?",
+        solution: `Connection pooling is a technique that maintains a cache of database connections that can be reused across multiple requests, reducing the overhead of creating/destroying connections.
+  
+  **Connection Pooling Concepts:**
+  
+  1. **Basic Implementation**
+  
+     JavaScript (Node.js with pg-pool):
+     \`\`\`javascript
+     const { Pool } = require('pg');
+  
+     const pool = new Pool({
+       user: 'username',
+       host: 'localhost',
+       database: 'mydb',
+       password: 'password',
+       port: 5432,
+       max: 20,          // Maximum connections
+       min: 5,           // Minimum connections
+       idleTimeoutMillis: 30000,  // Close idle connections after 30s
+       connectionTimeoutMillis: 2000,  // Wait 2s for connection
+     });
+  
+     // Usage with proper cleanup
+     async function getUserById(id) {
+       const client = await pool.connect();
+       try {
+         const result = await client.query('SELECT * FROM users WHERE id = $1', [id]);
+         return result.rows[0];
+       } finally {
+         client.release(); // Return connection to pool
+       }
+     }
+  
+     // Graceful shutdown
+     process.on('SIGTERM', () => {
+       pool.end();
+     });
+     \`\`\`
+  
+     Python (SQLAlchemy):
+     \`\`\`python
+     from sqlalchemy import create_engine
+     from sqlalchemy.orm import sessionmaker
+     from sqlalchemy.pool import QueuePool
+  
+     # Engine with connection pool
+     engine = create_engine(
+         'postgresql://user:pass@localhost/db',
+         poolclass=QueuePool,
+         pool_size=10,           # Number of connections to maintain
+         max_overflow=20,        # Additional connections beyond pool_size
+         pool_timeout=30,        # Seconds to wait for connection
+         pool_recycle=3600,      # Recycle connections after 1 hour
+         pool_pre_ping=True,     # Validate connections before use
+     )
+  
+     SessionLocal = sessionmaker(bind=engine)
+  
+     # Context manager for session lifecycle
+     from contextlib import contextmanager
+  
+     @contextmanager
+     def get_db_session():
+         session = SessionLocal()
+         try:
+             yield session
+             session.commit()
+         except Exception:
+             session.rollback()
+             raise
+         finally:
+             session.close()  # Returns connection to pool
+  
+     # Usage
+     def get_user(user_id):
+         with get_db_session() as session:
+             return session.query(User).filter(User.id == user_id).first()
+     \`\`\`
+  
+  2. **Object Lifecycle Management**
+  
+     JavaScript (Sequelize with pooling):
+     \`\`\`javascript
+     const sequelize = new Sequelize('database', 'username', 'password', {
+       host: 'localhost',
+       dialect: 'postgres',
+       pool: {
+         max: 25,      // Maximum connections
+         min: 0,       // Minimum connections
+         acquire: 30000,  // Maximum time to get connection
+         idle: 10000,     // Maximum idle time
+         evict: 1000,     // Check for idle connections interval
+       },
+     });
+  
+     // Service class managing object lifecycle
+     class UserService {
+       async createUser(userData) {
+         const transaction = await sequelize.transaction();
+         try {
+           const user = await User.create(userData, { transaction });
+           const profile = await Profile.create({
+             userId: user.id,
+             ...userData.profile
+           }, { transaction });
+           
+           await transaction.commit();
+           return user;
+         } catch (error) {
+           await transaction.rollback();
+           throw error;
+         }
+       }
+  
+       async updateUser(id, updates) {
+         return await sequelize.transaction(async (t) => {
+           const user = await User.findByPk(id, { 
+             transaction: t,
+             lock: t.LOCK.UPDATE  // Row-level locking
+           });
+           
+           if (!user) throw new Error('User not found');
+           
+           await user.update(updates, { transaction: t });
+           return user;
+         });
+       }
+     }
+     \`\`\`
+  
+     Python (Advanced session management):
+     \`\`\`python
+     from sqlalchemy.orm import scoped_session
+     from contextlib import contextmanager
+     import threading
+  
+     # Thread-local session management
+     SessionLocal = scoped_session(sessionmaker(bind=engine))
+  
+     class DatabaseManager:
+         def __init__(self):
+             self.local = threading.local()
+  
+         @contextmanager
+         def session_scope(self):
+             session = SessionLocal()
+             try:
+                 yield session
+                 session.commit()
+             except Exception:
+                 session.rollback()
+                 raise
+             finally:
+                 session.close()
+  
+         @contextmanager
+         def transaction_scope(self):
+             session = SessionLocal()
+             with session.begin():
+                 try:
+                     yield session
+                 except Exception:
+                     session.rollback()
+                     raise
+                 finally:
+                     session.close()
+  
+     # Usage with proper lifecycle
+     db_manager = DatabaseManager()
+  
+     def create_user_with_posts(user_data, posts_data):
+         with db_manager.transaction_scope() as session:
+             user = User(**user_data)
+             session.add(user)
+             session.flush()  # Get user.id without committing
+             
+             for post_data in posts_data:
+                 post = Post(user_id=user.id, **post_data)
+                 session.add(post)
+             
+             return user  # Transaction commits automatically
+     \`\`\`
+  
+  **Best Practices:**
+  - Always return connections to the pool promptly
+  - Use connection pooling at application level, not per request
+  - Monitor pool metrics (active, idle, waiting connections)
+  - Set appropriate pool sizes based on concurrent users
+  - Implement proper error handling and connection cleanup
+  - Use transactions to maintain data consistency
+  - Consider read/write splitting for scaled applications`,
+      },
+      {
+        question: "How do you optimize serialization of complex object graphs?",
+        solution: `Serializing complex object graphs efficiently requires careful consideration of circular references, depth control, selective field inclusion, and performance optimization.
+  
+  **Optimization Strategies:**
+  
+  1. **Circular Reference Handling**
+  
+     JavaScript:
+     \`\`\`javascript
+     // Problem: Circular references cause stack overflow
+     const user = { name: 'John', posts: [] };
+     const post = { title: 'Hello', author: user };
+     user.posts.push(post);
+  
+     // Solution 1: Custom JSON.stringify with replacer
+     function safeStringify(obj, maxDepth = 3) {
+       const seen = new WeakSet();
+       let depth = 0;
+  
+       return JSON.stringify(obj, function(key, val) {
+         if (depth > maxDepth) return '[Max Depth Reached]';
+         
+         if (val != null && typeof val === 'object') {
+           if (seen.has(val)) return '[Circular Reference]';
+           seen.add(val);
+           depth++;
+         }
+         return val;
+       });
+     }
+  
+     // Solution 2: Custom serializer class
+     class ObjectSerializer {
+       constructor(options = {}) {
+         this.maxDepth = options.maxDepth || 5;
+         this.includeFields = options.includeFields;
+         this.excludeFields = options.excludeFields || [];
+         this.transforms = options.transforms || {};
+       }
+  
+       serialize(obj, currentDepth = 0) {
+         if (currentDepth > this.maxDepth) {
+           return { _truncated: true, _depth: currentDepth };
+         }
+  
+         if (obj === null || typeof obj !== 'object') {
+           return obj;
+         }
+  
+         if (obj instanceof Date) return obj.toISOString();
+         if (obj instanceof Array) {
+           return obj.map(item => this.serialize(item, currentDepth + 1));
+         }
+  
+         const result = {};
+         const visited = this.visited || new WeakSet();
+  
+         if (visited.has(obj)) {
+           return { _ref: obj.id || '[Circular]' };
+         }
+  
+         visited.add(obj);
+         this.visited = visited;
+  
+         for (const [key, value] of Object.entries(obj)) {
+           if (this.excludeFields.includes(key)) continue;
+           if (this.includeFields && !this.includeFields.includes(key)) continue;
+  
+           // Apply transforms
+           if (this.transforms[key]) {
+             result[key] = this.transforms[key](value);
+           } else {
+             result[key] = this.serialize(value, currentDepth + 1);
+           }
+         }
+  
+         return result;
+       }
+     }
+  
+     // Usage
+     const serializer = new ObjectSerializer({
+       maxDepth: 3,
+       excludeFields: ['password', 'createdAt'],
+       transforms: {
+         email: (email) => email.toLowerCase(),
+         posts: (posts) => posts.slice(0, 5) // Limit array size
+       }
+     });
+  
+     const serialized = serializer.serialize(complexObject);
+     \`\`\`
+  
+     Python:
+     \`\`\`python
+     import json
+     from typing import Any, Dict, Set, Optional, List
+     from dataclasses import dataclass, asdict
+     from datetime import datetime
+     import uuid
+  
+     class CircularReferenceEncoder(json.JSONEncoder):
+         def __init__(self, *args, max_depth=5, **kwargs):
+             super().__init__(*args, **kwargs)
+             self.max_depth = max_depth
+             self.current_depth = 0
+             self.visited = set()
+  
+         def default(self, obj):
+             # Handle common types
+             if isinstance(obj, datetime):
+                 return obj.isoformat()
+             if isinstance(obj, uuid.UUID):
+                 return str(obj)
+             if hasattr(obj, '__dict__'):
+                 return self.serialize_object(obj)
+             return super().default(obj)
+  
+         def serialize_object(self, obj):
+             obj_id = id(obj)
+             
+             if obj_id in self.visited:
+                 return {"_ref": getattr(obj, 'id', f"circular_{obj_id}")}
+             
+             if self.current_depth > self.max_depth:
+                 return {"_truncated": True, "_type": type(obj).__name__}
+  
+             self.visited.add(obj_id)
+             self.current_depth += 1
+  
+             try:
+                 if hasattr(obj, 'to_dict'):
+                     result = obj.to_dict()
+                 else:
+                     result = {
+                         key: value for key, value in obj.__dict__.items()
+                         if not key.startswith('_')
+                     }
+                 return result
+             finally:
+                 self.current_depth -= 1
+  
+     # Advanced serialization with field control
+     class SmartSerializer:
+         def __init__(self, max_depth=5, include_fields=None, exclude_fields=None):
+             self.max_depth = max_depth
+             self.include_fields = include_fields or set()
+             self.exclude_fields = exclude_fields or set()
+             self.visited = set()
+             self.depth = 0
+  
+         def serialize(self, obj, fields=None):
+             self.visited.clear()
+             return self._serialize_recursive(obj, fields or self.include_fields)
+  
+         def _serialize_recursive(self, obj, fields=None):
+             if self.depth > self.max_depth:
+                 return {"_truncated": True}
+  
+             if obj is None or isinstance(obj, (str, int, float, bool)):
+                 return obj
+  
+             if isinstance(obj, datetime):
+                 return obj.isoformat()
+  
+             if isinstance(obj, (list, tuple)):
+                 self.depth += 1
+                 result = [self._serialize_recursive(item, fields) for item in obj[:100]]  # Limit size
+                 self.depth -= 1
+                 return result
+  
+             if isinstance(obj, dict):
+                 return {k: self._serialize_recursive(v, fields) for k, v in obj.items()}
+  
+             # Handle custom objects
+             obj_id = id(obj)
+             if obj_id in self.visited:
+                 return {"_ref": getattr(obj, 'id', obj_id)}
+  
+             self.visited.add(obj_id)
+             self.depth += 1
+  
+             try:
+                 result = {}
+                 obj_dict = obj.__dict__ if hasattr(obj, '__dict__') else {}
+                 
+                 for key, value in obj_dict.items():
+                     if key.startswith('_'):
+                         continue
+                     if self.exclude_fields and key in self.exclude_fields:
+                         continue
+                     if fields and key not in fields:
+                         continue
+  
+                     result[key] = self._serialize_recursive(value, fields)
+  
+                 return result
+             finally:
+                 self.depth -= 1
+     \`\`\`
+  
+  2. **Performance Optimization**
+  
+     JavaScript (Streaming serialization):
+     \`\`\`javascript
+     // For large datasets - streaming approach
+     class StreamingSerializer {
+       constructor(options = {}) {
+         this.batchSize = options.batchSize || 1000;
+         this.transform = options.transform || (x => x);
+       }
+  
+       async* serializeStream(iterable) {
+         let batch = [];
+         
+         for await (const item of iterable) {
+           batch.push(this.transform(item));
+           
+           if (batch.length >= this.batchSize) {
+             yield JSON.stringify(batch);
+             batch = [];
+           }
+         }
+         
+         if (batch.length > 0) {
+           yield JSON.stringify(batch);
+         }
+       }
+  
+       // Selective field serialization
+       createFieldSelector(fields) {
+         return (obj) => {
+           const result = {};
+           for (const field of fields) {
+             if (field.includes('.')) {
+               // Handle nested fields like 'user.profile.name'
+               const parts = field.split('.');
+               let current = obj;
+               let target = result;
+               
+               for (let i = 0; i < parts.length - 1; i++) {
+                 current = current?.[parts[i]];
+                 target[parts[i]] = target[parts[i]] || {};
+                 target = target[parts[i]];
+               }
+               
+               if (current) {
+                 target[parts[parts.length - 1]] = current[parts[parts.length - 1]];
+               }
+             } else {
+               result[field] = obj[field];
+             }
+           }
+           return result;
+         };
+       }
+     }
+  
+     // Usage for API responses
+     async function serializeLargeDataset(query, fields) {
+       const selector = new StreamingSerializer().createFieldSelector(fields);
+       const stream = User.findAllStream(query);
+       
+       for await (const batch of new StreamingSerializer().serializeStream(stream)) {
+         console.log('Batch size:', batch.length);
+         // Send batch to client or write to file
+       }
+     }
+     \`\`\`
+  
+     Python (Optimized serialization):
+     \`\`\`python
+     import json
+     from typing import Generator, Any, List, Dict
+     from dataclasses import dataclass, fields
+     import asyncio
+  
+     class OptimizedSerializer:
+         def __init__(self, chunk_size=1000):
+             self.chunk_size = chunk_size
+  
+         def serialize_batch(self, objects: List[Any], selected_fields: set = None) -> str:
+             """Serialize objects in batches for memory efficiency"""
+             serialized = []
+             
+             for obj in objects:
+                 if hasattr(obj, '__dict__'):
+                     obj_dict = obj.__dict__
+                 elif hasattr(obj, '_asdict'):  # namedtuple
+                     obj_dict = obj._asdict()
+                 else:
+                     obj_dict = obj
+  
+                 if selected_fields:
+                     obj_dict = {k: v for k, v in obj_dict.items() if k in selected_fields}
+  
+                 serialized.append(obj_dict)
+  
+             return json.dumps(serialized, default=str, separators=(',', ':'))
+  
+         async def serialize_async_generator(self, async_gen) -> Generator[str, None, None]:
+             """Async generator for large datasets"""
+             batch = []
+             
+             async for item in async_gen:
+                 batch.append(item)
+                 
+                 if len(batch) >= self.chunk_size:
+                     yield self.serialize_batch(batch)
+                     batch = []
+             
+             if batch:
+                 yield self.serialize_batch(batch)
+  
+     # Custom serialization with caching
+     class CachedSerializer:
+         def __init__(self):
+             self.field_cache = {}
+  
+         def get_serializable_fields(self, obj_type):
+             if obj_type not in self.field_cache:
+                 if hasattr(obj_type, '__dataclass_fields__'):
+                     # Dataclass
+                     self.field_cache[obj_type] = list(obj_type.__dataclass_fields__.keys())
+                 elif hasattr(obj_type, '__slots__'):
+                     # Slotted class
+                     self.field_cache[obj_type] = list(obj_type.__slots__)
+                 else:
+                     # Regular class - determined at runtime
+                     self.field_cache[obj_type] = None
+  
+             return self.field_cache[obj_type]
+  
+         def serialize_optimized(self, obj, max_depth=3, current_depth=0):
+             if current_depth > max_depth:
+                 return {"_truncated": True}
+  
+             if isinstance(obj, (list, tuple)):
+                 return [self.serialize_optimized(item, max_depth, current_depth + 1) 
+                        for item in obj]
+  
+             if not hasattr(obj, '__dict__'):
+                 return obj
+  
+             obj_type = type(obj)
+             cached_fields = self.get_serializable_fields(obj_type)
+             
+             if cached_fields:
+                 return {
+                     field: self.serialize_optimized(
+                         getattr(obj, field), max_depth, current_depth + 1
+                     ) for field in cached_fields
+                 }
+             else:
+                 return {
+                     k: self.serialize_optimized(v, max_depth, current_depth + 1)
+                     for k, v in obj.__dict__.items()
+                     if not k.startswith('_')
+                 }
+     \`\`\`
+  
+  **Best Practices:**
+  - Implement depth limiting to prevent infinite recursion
+  - Use field selection to reduce payload size  
+  - Cache serialization metadata for repeated operations
+  - Consider lazy loading for nested objects
+  - Use streaming for large datasets
+  - Profile serialization performance in production
+  - Implement custom serializers for domain-specific optimization
+  - Consider binary formats (Protocol Buffers, MessagePack) for high-performance scenarios`,
+      },
+      {
+        question:
+          "How does false sharing affect multithreaded object access and what techniques can prevent performance degradation?",
+        solution: `**False Sharing in Multithreaded Object Access**
+  
+  False sharing occurs when multiple threads access different variables that reside in the same cache line (typically 64 bytes). Even though threads modify different data, the cache coherency protocol invalidates the entire cache line across CPU cores, causing severe performance degradation.
+  
+  **Key Concepts:**
+  - **Cache Line**: 64-byte blocks that CPUs load from memory
+  - **Cache Coherency**: Protocol ensuring all cores see consistent data
+  - **MESI Protocol**: Modified, Exclusive, Shared, Invalid states
+  - **Cache Line Bouncing**: Cache lines moving between cores unnecessarily
+  
+  **JavaScript Example (Node.js Worker Threads):**
+  \`\`\`javascript
+  // False sharing problem
+  const { Worker, isMainThread, parentPort, workerData } = require('worker_threads');
+  
+  // Problem: Adjacent counters in same cache line
+  class BadCounterManager {
+    constructor() {
+      // These counters are likely in the same cache line
+      this.counter1 = 0;
+      this.counter2 = 0;
+      this.counter3 = 0;
+      this.counter4 = 0;
+    }
+    
+    incrementCounter(id) {
+      switch(id) {
+        case 1: this.counter1++; break;
+        case 2: this.counter2++; break;
+        case 3: this.counter3++; break;
+        case 4: this.counter4++; break;
+      }
+    }
+  }
+  
+  // Solution: Cache line padding
+  class OptimizedCounterManager {
+    constructor() {
+      // Pad each counter to its own cache line (64 bytes)
+      this.counter1 = 0;
+      this.padding1 = new Array(15).fill(0); // 60 bytes padding
+      
+      this.counter2 = 0;
+      this.padding2 = new Array(15).fill(0);
+      
+      this.counter3 = 0;
+      this.padding3 = new Array(15).fill(0);
+      
+      this.counter4 = 0;
+      this.padding4 = new Array(15).fill(0);
+    }
+    
+    incrementCounter(id) {
+      switch(id) {
+        case 1: this.counter1++; break;
+        case 2: this.counter2++; break;
+        case 3: this.counter3++; break;
+        case 4: this.counter4++; break;
+      }
+    }
+  }
+  
+  // Better solution: Thread-local storage pattern
+  class ThreadLocalCounters {
+    constructor(numThreads) {
+      this.numThreads = numThreads;
+      // Each thread gets its own object to avoid sharing
+      this.threadCounters = new Map();
+    }
+    
+    getThreadCounter(threadId) {
+      if (!this.threadCounters.has(threadId)) {
+        this.threadCounters.set(threadId, { count: 0 });
+      }
+      return this.threadCounters.get(threadId);
+    }
+    
+    increment(threadId) {
+      const counter = this.getThreadCounter(threadId);
+      counter.count++;
+    }
+    
+    getTotalCount() {
+      let total = 0;
+      for (const counter of this.threadCounters.values()) {
+        total += counter.count;
+      }
+      return total;
+    }
+  }
+  
+  // Producer-Consumer pattern avoiding false sharing
+  class LockFreeQueue {
+    constructor(size = 1024) {
+      this.buffer = new Array(size);
+      this.size = size;
+      
+      // Separate head and tail to different cache lines
+      this.head = 0;
+      this.headPadding = new Array(15).fill(0);
+      
+      this.tail = 0;
+      this.tailPadding = new Array(15).fill(0);
+    }
+    
+    enqueue(item) {
+      const currentTail = this.tail;
+      const nextTail = (currentTail + 1) % this.size;
+      
+      if (nextTail === this.head) {
+        return false; // Queue full
+      }
+      
+      this.buffer[currentTail] = item;
+      this.tail = nextTail;
+      return true;
+    }
+    
+    dequeue() {
+      if (this.head === this.tail) {
+        return null; // Queue empty
+      }
+      
+      const item = this.buffer[this.head];
+      this.head = (this.head + 1) % this.size;
+      return item;
+    }
+  }
+  
+  // Example usage with Worker threads
+  if (isMainThread) {
+    const counterManager = new ThreadLocalCounters(4);
+    
+    // Spawn worker threads
+    for (let i = 0; i < 4; i++) {
+      const worker = new Worker(__filename, {
+        workerData: { threadId: i, iterations: 1000000 }
+      });
+      
+      worker.on('message', (data) => {
+        console.log(\`Thread \${data.threadId} completed \${data.count} increments\`);
+      });
+    }
+  } else {
+    // Worker thread code
+    const { threadId, iterations } = workerData;
+    let localCount = 0;
+    
+    // Perform work without sharing data
+    for (let i = 0; i < iterations; i++) {
+      localCount++;
+    }
+    
+    parentPort.postMessage({ threadId, count: localCount });
+  }
+  \`\`\`
+  
+  **Python Example:**
+  \`\`\`python
+  import threading
+  import multiprocessing
+  import ctypes
+  from multiprocessing import shared_memory
+  import numpy as np
+  import time
+  
+  # Problem: False sharing with shared counters
+  class BadCounterManager:
+      def __init__(self):
+          # These counters are adjacent in memory (false sharing risk)
+          self.counters = multiprocessing.Array('i', [0, 0, 0, 0])
+          self.lock = threading.Lock()
+      
+      def increment_counter(self, counter_id, iterations):
+          for _ in range(iterations):
+              with self.lock:
+                  self.counters[counter_id] += 1
+  
+  # Solution 1: Cache line padding
+  class PaddedCounterManager:
+      def __init__(self):
+          # Pad each counter to separate cache lines (64 bytes apart)
+          cache_line_size = 64
+          int_size = 4
+          padding_size = cache_line_size // int_size  # 16 integers per cache line
+          
+          # Create array with padding between actual counters
+          total_size = 4 * padding_size  # 4 counters, each padded
+          self.raw_counters = multiprocessing.Array('i', [0] * total_size)
+          
+          # Access counters at padded offsets
+          self.counter_offsets = [i * padding_size for i in range(4)]
+      
+      def increment_counter(self, counter_id, iterations):
+          offset = self.counter_offsets[counter_id]
+          for _ in range(iterations):
+              self.raw_counters[offset] += 1
+      
+      def get_counter(self, counter_id):
+          offset = self.counter_offsets[counter_id]
+          return self.raw_counters[offset]
+  
+  # Solution 2: Thread-local storage pattern
+  class ThreadLocalCounters:
+      def __init__(self):
+          self.local_storage = threading.local()
+          self.global_counters = {}
+          self.lock = threading.Lock()
+      
+      def get_local_counter(self):
+          if not hasattr(self.local_storage, 'counter'):
+              self.local_storage.counter = 0
+          return self.local_storage.counter
+      
+      def increment_local(self, iterations):
+          # No synchronization needed for thread-local data
+          for _ in range(iterations):
+              if not hasattr(self.local_storage, 'counter'):
+                  self.local_storage.counter = 0
+              self.local_storage.counter += 1
+      
+      def flush_to_global(self, thread_id):
+          # Periodic synchronization
+          local_count = getattr(self.local_storage, 'counter', 0)
+          with self.lock:
+              self.global_counters[thread_id] = local_count
+      
+      def get_total_count(self):
+          with self.lock:
+              return sum(self.global_counters.values())
+  
+  # Solution 3: Lock-free data structure
+  class LockFreeQueue:
+      def __init__(self, size=1024):
+          self.size = size
+          self.buffer = multiprocessing.Array('i', [0] * size)
+          
+          # Separate head and tail with padding to avoid false sharing
+          self.head = multiprocessing.Value('i', 0)
+          self.tail = multiprocessing.Value('i', 0)
+          
+          # Use atomic operations where possible
+          self._head_padding = [0] * 15  # Cache line padding
+          self._tail_padding = [0] * 15
+      
+      def enqueue(self, item):
+          current_tail = self.tail.value
+          next_tail = (current_tail + 1) % self.size
+          
+          if next_tail == self.head.value:
+              return False  # Queue full
+          
+          self.buffer[current_tail] = item
+          self.tail.value = next_tail
+          return True
+      
+      def dequeue(self):
+          if self.head.value == self.tail.value:
+              return None  # Queue empty
+          
+          item = self.buffer[self.head.value]
+          self.head.value = (self.head.value + 1) % self.size
+          return item
+  
+  # Performance comparison
+  def benchmark_false_sharing():
+      import concurrent.futures
+      
+      def worker_bad_counters(manager, counter_id, iterations):
+          manager.increment_counter(counter_id, iterations)
+      
+      def worker_padded_counters(manager, counter_id, iterations):
+          manager.increment_counter(counter_id, iterations)
+      
+      def worker_thread_local(manager, thread_id, iterations):
+          manager.increment_local(iterations)
+          manager.flush_to_global(thread_id)
+      
+      iterations = 100000
+      num_threads = 4
+      
+      # Test bad implementation
+      print("Testing with false sharing...")
+      bad_manager = BadCounterManager()
+      start_time = time.time()
+      
+      with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+          futures = [
+              executor.submit(worker_bad_counters, bad_manager, i, iterations)
+              for i in range(num_threads)
+          ]
+          concurrent.futures.wait(futures)
+      
+      bad_time = time.time() - start_time
+      print(f"Bad implementation time: {bad_time:.3f}s")
+      
+      # Test padded implementation
+      print("Testing with cache line padding...")
+      padded_manager = PaddedCounterManager()
+      start_time = time.time()
+      
+      with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+          futures = [
+              executor.submit(worker_padded_counters, padded_manager, i, iterations)
+              for i in range(num_threads)
+          ]
+          concurrent.futures.wait(futures)
+      
+      padded_time = time.time() - start_time
+      print(f"Padded implementation time: {padded_time:.3f}s")
+      
+      # Test thread-local implementation
+      print("Testing with thread-local storage...")
+      tl_manager = ThreadLocalCounters()
+      start_time = time.time()
+      
+      with concurrent.futures.ThreadPoolExecutor(max_workers=num_threads) as executor:
+          futures = [
+              executor.submit(worker_thread_local, tl_manager, i, iterations)
+              for i in range(num_threads)
+          ]
+          concurrent.futures.wait(futures)
+      
+      tl_time = time.time() - start_time
+      print(f"Thread-local implementation time: {tl_time:.3f}s")
+      
+      print(f"\\nPerformance improvement:")
+      print(f"Padding vs Bad: {bad_time/padded_time:.2f}x faster")
+      print(f"Thread-local vs Bad: {bad_time/tl_time:.2f}x faster")
+  
+  # NUMA-aware object placement
+  class NumaAwareDataStructure:
+      def __init__(self, num_nodes=2):
+          self.num_nodes = num_nodes
+          self.node_data = []
+          
+          # Allocate separate data structures for each NUMA node
+          for node in range(num_nodes):
+              node_specific_data = {
+                  'counters': [0] * 16,  # Local counters
+                  'cache_line_padding': [0] * 48,  # Avoid false sharing
+                  'local_queue': [],
+                  'node_id': node
+              }
+              self.node_data.append(node_specific_data)
+      
+      def get_node_data(self, thread_id):
+          # Simple thread-to-node mapping
+          node_id = thread_id % self.num_nodes
+          return self.node_data[node_id]
+      
+      def increment_on_node(self, thread_id, counter_id):
+          node_data = self.get_node_data(thread_id)
+          node_data['counters'][counter_id] += 1
+  
+  if __name__ == "__main__":
+      benchmark_false_sharing()
+  \`\`\`
+  
+  **Prevention Techniques:**
+  
+  1. **Cache Line Padding**: Add padding to separate data into different cache lines
+  2. **Thread-Local Storage**: Each thread works on its own data copy
+  3. **Lock-Free Data Structures**: Use atomic operations and careful memory layout
+  4. **NUMA-Aware Design**: Place data close to the threads that access it
+  5. **Batching Updates**: Accumulate changes locally before global synchronization
+  6. **Memory Alignment**: Align critical data to cache line boundaries
+  
+  **Performance Impact:**
+  - False sharing can reduce performance by 5-50x in multithreaded applications
+  - Proper prevention techniques can restore near-linear scaling
+  - Critical for high-performance concurrent applications
+  - More important as core counts increase`,
+      },
+      {
+        question:
+          "What are the cache performance implications of object layout and how can you optimize memory access patterns in object-oriented designs?",
+        solution: `**Cache Performance & Object Layout Optimization**
+  
+  Cache performance is crucial for modern applications as CPU cache access is 50-100x faster than RAM access. Poor object layout can cause cache misses, significantly impacting performance.
+  
+  **Key Concepts:**
+  - **Spatial Locality**: Accessing nearby memory locations
+  - **Temporal Locality**: Reusing recently accessed data
+  - **Cache Lines**: CPUs load 64-byte cache lines, not individual bytes
+  - **False Sharing**: Multiple threads accessing different data in the same cache line
+  
+  **JavaScript Example:**
+  \`\`\`javascript
+  // Poor cache performance - scattered data
+  class BadUser {
+    constructor(id, name, email, age, address, phone) {
+      this.id = id;
+      this.metadata = { created: new Date(), updated: new Date() };
+      this.name = name;
+      this.preferences = { theme: 'dark', notifications: true };
+      this.email = email;
+      this.stats = { loginCount: 0, lastLogin: null };
+      this.age = age;
+      this.address = address;
+      this.phone = phone;
+    }
+  }
+  
+  // Better cache performance - grouped related data
+  class OptimizedUser {
+    constructor(id, name, email, age, address, phone) {
+      // Core data accessed together
+      this.id = id;
+      this.name = name;
+      this.email = email;
+      this.age = age;
+      this.address = address;
+      this.phone = phone;
+      
+      // Separate hot vs cold data
+      this.hotData = {
+        loginCount: 0,
+        lastLogin: null,
+        isActive: true
+      };
+      
+      this.coldData = {
+        created: new Date(),
+        updated: new Date(),
+        preferences: { theme: 'dark', notifications: true }
+      };
+    }
+  }
+  
+  // Array of Objects vs Object of Arrays pattern
+  class UserManager {
+    constructor() {
+      // Array of Objects (AoS) - better for accessing all properties of one user
+      this.users_aos = [];
+      
+      // Structure of Arrays (SoA) - better for bulk operations on single properties
+      this.users_soa = {
+        ids: [],
+        names: [],
+        emails: [],
+        ages: []
+      };
+    }
+    
+    // Bulk operation example - more cache-friendly with SoA
+    calculateAverageAge_SoA() {
+      return this.users_soa.ages.reduce((sum, age) => sum + age, 0) / this.users_soa.ages.length;
+    }
+    
+    // Less cache-friendly with AoS
+    calculateAverageAge_AoS() {
+      return this.users_aos.reduce((sum, user) => sum + user.age, 0) / this.users_aos.length;
+    }
+  }
+  
+  // Object pooling for better cache utilization
+  class ObjectPool {
+    constructor(createFn, resetFn, initialSize = 10) {
+      this.createFn = createFn;
+      this.resetFn = resetFn;
+      this.pool = [];
+      
+      // Pre-allocate objects to improve cache locality
+      for (let i = 0; i < initialSize; i++) {
+        this.pool.push(this.createFn());
+      }
+    }
+    
+    acquire() {
+      if (this.pool.length > 0) {
+        return this.pool.pop(); // Reuse existing object
+      }
+      return this.createFn(); // Create new if pool empty
+    }
+    
+    release(obj) {
+      this.resetFn(obj);
+      this.pool.push(obj); // Return to pool
+    }
+  }
+  
+  // Usage example
+  const vectorPool = new ObjectPool(
+    () => ({ x: 0, y: 0, z: 0 }),
+    (vec) => { vec.x = vec.y = vec.z = 0; },
+    100
+  );
+  \`\`\`
+  
+  **Python Example:**
+  \`\`\`python
+  import array
+  from dataclasses import dataclass
+  from typing import List
+  import sys
+  
+  # Poor cache performance - mixed data types and scattered layout
+  class BadUser:
+      def __init__(self, id, name, email, age, address, phone):
+          self.id = id
+          self.metadata = {"created": "2024-01-01", "updated": "2024-01-01"}
+          self.name = name
+          self.preferences = {"theme": "dark", "notifications": True}
+          self.email = email
+          self.stats = {"login_count": 0, "last_login": None}
+          self.age = age
+          self.address = address
+          self.phone = phone
+  
+  # Better cache performance using __slots__ and grouped data
+  @dataclass
+  class OptimizedUser:
+      __slots__ = ['id', 'name', 'email', 'age', 'address', 'phone', 'hot_data', 'cold_data']
+      
+      id: int
+      name: str
+      email: str
+      age: int
+      address: str
+      phone: str
+      
+      def __post_init__(self):
+          # Separate frequently accessed data
+          self.hot_data = {
+              'login_count': 0,
+              'last_login': None,
+              'is_active': True
+          }
+          
+          # Less frequently accessed data
+          self.cold_data = {
+              'created': '2024-01-01',
+              'updated': '2024-01-01',
+              'preferences': {'theme': 'dark', 'notifications': True}
+          }
+  
+  # Structure of Arrays for better cache performance in bulk operations
+  class UserManager:
+      def __init__(self):
+          # Using arrays for better cache locality and memory efficiency
+          self.ids = array.array('i')  # 32-bit integers
+          self.ages = array.array('i')  # 32-bit integers
+          self.names = []  # List for strings
+          self.emails = []
+          
+      def add_user(self, id: int, name: str, email: str, age: int):
+          self.ids.append(id)
+          self.names.append(name)
+          self.emails.append(email)
+          self.ages.append(age)
+      
+      def calculate_average_age(self) -> float:
+          # More cache-friendly - accessing contiguous memory
+          return sum(self.ages) / len(self.ages) if self.ages else 0
+      
+      def find_users_by_age_range(self, min_age: int, max_age: int) -> List[int]:
+          # Efficient scanning of contiguous memory
+          return [
+              self.ids[i] for i, age in enumerate(self.ages)
+              if min_age <= age <= max_age
+          ]
+  
+  # Memory pool for object reuse
+  class ObjectPool:
+      def __init__(self, factory_func, reset_func, initial_size=10):
+          self.factory_func = factory_func
+          self.reset_func = reset_func
+          self.pool = [factory_func() for _ in range(initial_size)]
+      
+      def acquire(self):
+          if self.pool:
+              return self.pool.pop()
+          return self.factory_func()
+      
+      def release(self, obj):
+          self.reset_func(obj)
+          self.pool.append(obj)
+  
+  # Example: Vector pool for 3D calculations
+  class Vector3D:
+      __slots__ = ['x', 'y', 'z']  # Reduces memory overhead
+      
+      def __init__(self, x=0, y=0, z=0):
+          self.x = x
+          self.y = y
+          self.z = z
+      
+      def reset(self):
+          self.x = self.y = self.z = 0
+  
+  # Usage
+  vector_pool = ObjectPool(
+      factory_func=Vector3D,
+      reset_func=lambda v: v.reset(),
+      initial_size=100
+  )
+  
+  # Cache-friendly data processing
+  def process_vectors_efficiently(vectors: List[Vector3D]) -> float:
+      # Process all x coordinates together (better cache usage)
+      sum_x = sum(v.x for v in vectors)
+      sum_y = sum(v.y for v in vectors)
+      sum_z = sum(v.z for v in vectors)
+      
+      return (sum_x + sum_y + sum_z) / len(vectors)
+  \`\`\`
+  
+  **Optimization Strategies:**
+  
+  1. **Group Related Data**: Keep frequently accessed fields together
+  2. **Use __slots__ in Python**: Reduces memory overhead and improves access speed
+  3. **Structure of Arrays (SoA)**: Better for bulk operations on specific properties
+  4. **Array of Structures (AoS)**: Better for accessing all properties of one object
+  5. **Object Pooling**: Reuse objects to improve cache locality
+  6. **Primitive Collections**: Use typed arrays when possible
+  7. **Hot/Cold Data Separation**: Separate frequently vs rarely accessed data
+  
+  **Performance Impact:**
+  - Well-optimized object layout can improve performance by 2-5x
+  - Reduces cache misses from ~10-30% to ~2-5%
+  - Lower memory usage leads to better cache utilization
+  - Improved spatial locality reduces memory bandwidth requirements`,
+      },
+
+      {
+        question: "What are weak references and when to use them?",
+        solution: `Weak references allow you to reference an object without preventing it from being garbage collected. They're crucial for breaking circular references and implementing caches.
+
+**JavaScript Example:**
+\`\`\`javascript
+// Using WeakMap for weak references
+class Observer {
+  constructor() {
+    // WeakMap automatically cleans up when keys are garbage collected
+    this.subscribers = new WeakMap();
+    this.eventCallbacks = new WeakMap();
+  }
+  
+  subscribe(object, callback) {
+    if (!this.subscribers.has(object)) {
+      this.subscribers.set(object, new Set());
+    }
+    this.subscribers.get(object).add(callback);
+  }
+  
+  notify(object, data) {
+    const callbacks = this.subscribers.get(object);
+    if (callbacks) {
+      callbacks.forEach(callback => callback(data));
+    }
+  }
+}
+
+// WeakSet for tracking objects without preventing GC
+class ObjectTracker {
+  constructor() {
+    this.trackedObjects = new WeakSet();
+  }
+  
+  track(obj) {
+    this.trackedObjects.add(obj);
+  }
+  
+  isTracked(obj) {
+    return this.trackedObjects.has(obj);
+  }
+}
+
+// Usage
+const tracker = new ObjectTracker();
+let obj = { id: 1 };
+tracker.track(obj);
+console.log(tracker.isTracked(obj)); // true
+
+obj = null; // Object can now be garbage collected
+\`\`\`
+
+**Python Example:**
+\`\`\`python
+import weakref
+import gc
+from typing import Dict, Set, Optional
+
+class WeakObserver:
+    def __init__(self):
+        # WeakKeyDictionary - keys can be garbage collected
+        self._subscribers = weakref.WeakKeyDictionary()
+        # WeakValueDictionary - values can be garbage collected
+        self._cached_data = weakref.WeakValueDictionary()
+    
+    def subscribe(self, obj, callback):
+        """Subscribe with weak reference to object"""
+        if obj not in self._subscribers:
+            self._subscribers[obj] = set()
+        self._subscribers[obj].add(callback)
+    
+    def notify(self, obj, data):
+        """Notify subscribers if object still exists"""
+        callbacks = self._subscribers.get(obj, set())
+        for callback in callbacks:
+            callback(data)
+
+class CacheManager:
+    def __init__(self):
+        # Cache that doesn't prevent objects from being GC'd
+        self._cache = weakref.WeakValueDictionary()
+        self._callbacks = weakref.WeakKeyDictionary()
+    
+    def cache_object(self, key: str, obj):
+        """Cache object with weak reference"""
+        self._cache[key] = obj
+        
+        # Set up callback for when object is garbage collected
+        def cleanup_callback(weak_ref):
+            print(f"Object with key '{key}' was garbage collected")
+        
+        weakref.ref(obj, cleanup_callback)
+    
+    def get_cached(self, key: str):
+        """Get cached object if it still exists"""
+        return self._cache.get(key)
+
+# Parent-Child relationship without circular reference
+class Parent:
+    def __init__(self, name):
+        self.name = name
+        # Use WeakSet to avoid circular references
+        self._children = weakref.WeakSet()
+    
+    def add_child(self, child):
+        self._children.add(child)
+        child.parent_ref = weakref.ref(self)  # Weak reference to parent
+    
+    def get_children(self):
+        return list(self._children)
+
+class Child:
+    def __init__(self, name):
+        self.name = name
+        self.parent_ref = None  # Will hold weak reference
+    
+    def get_parent(self):
+        if self.parent_ref:
+            return self.parent_ref()  # Call weak reference
+        return None
+
+# Usage example
+parent = Parent("Parent1")
+child = Child("Child1")
+parent.add_child(child)
+
+print(f"Child's parent: {child.get_parent().name}")  # Parent1
+
+# Parent can be garbage collected even though child references it
+parent = None
+gc.collect()  # Force garbage collection
+print(f"Child's parent after GC: {child.get_parent()}")  # None
+\`\`\`
+
+**When to Use Weak References:**
+
+1. **Breaking Circular References:**
+   - Parent-child relationships
+   - Observer patterns
+   - Cache implementations
+
+2. **Memory-Sensitive Caches:**
+   - Objects that should be GC'd when not used elsewhere
+   - Temporary data storage
+
+3. **Event Systems:**
+   - Prevent memory leaks from unregistered listeners
+   - Auto-cleanup when objects are destroyed
+
+4. **Callback Management:**
+   - Allow objects to be cleaned up even with pending callbacks
+
+**Important Considerations:**
+- Weak references may become None/undefined at any time
+- Always check if weak reference is still valid before use
+- Not suitable for objects you need to keep alive
+- Python: Use weakref module; JavaScript: Use WeakMap/WeakSet`,
+      },
+
+      {
+        question: "How do circular references affect garbage collection?",
+        solution: `Circular references occur when objects reference each other, creating cycles that can prevent garbage collection in some systems. Modern garbage collectors handle this, but it's still important to understand and prevent when possible.
+
+**JavaScript Example - Problem and Solution:**
+\`\`\`javascript
+// PROBLEM: Circular reference
+class Node {
+  constructor(value) {
+    this.value = value;
+    this.parent = null;
+    this.children = [];
+  }
+  
+  addChild(child) {
+    child.parent = this;  // Creates circular reference
+    this.children.push(child);
+  }
+  
+  // Without proper cleanup, this creates memory issues
+  removeChild(child) {
+    const index = this.children.indexOf(child);
+    if (index !== -1) {
+      this.children.splice(index, 1);
+      // FORGOT to set child.parent = null!
+    }
+  }
+}
+
+// SOLUTION 1: Proper cleanup methods
+class BetterNode {
+  constructor(value) {
+    this.value = value;
+    this.parent = null;
+    this.children = [];
+  }
+  
+  addChild(child) {
+    if (child.parent) {
+      child.parent.removeChild(child);
+    }
+    child.parent = this;
+    this.children.push(child);
+  }
+  
+  removeChild(child) {
+    const index = this.children.indexOf(child);
+    if (index !== -1) {
+      this.children.splice(index, 1);
+      child.parent = null;  // Break the circular reference
+    }
+  }
+  
+  // Clean up all references
+  destroy() {
+    // Remove from parent
+    if (this.parent) {
+      this.parent.removeChild(this);
+    }
+    
+    // Clean up children
+    while (this.children.length > 0) {
+      this.children[0].destroy();
+    }
+    
+    this.children = [];
+    this.parent = null;
+  }
+}
+
+// SOLUTION 2: Using WeakMap to avoid circular references
+class WeakNode {
+  constructor(value) {
+    this.value = value;
+    this.children = [];
+    // Store parent relationships in WeakMap to avoid circular refs
+    WeakNode.parentMap = WeakNode.parentMap || new WeakMap();
+  }
+  
+  addChild(child) {
+    this.children.push(child);
+    WeakNode.parentMap.set(child, this);
+  }
+  
+  getParent() {
+    return WeakNode.parentMap.get(this);
+  }
+  
+  removeChild(child) {
+    const index = this.children.indexOf(child);
+    if (index !== -1) {
+      this.children.splice(index, 1);
+      WeakNode.parentMap.delete(child);
+    }
+  }
+}
+\`\`\`
+
+**Python Example - Problem and Solution:**
+\`\`\`python
+import weakref
+import gc
+from typing import List, Optional
+
+# PROBLEM: Circular reference
+class CircularNode:
+    def __init__(self, value):
+        self.value = value
+        self.parent: Optional['CircularNode'] = None
+        self.children: List['CircularNode'] = []
+        self._refs_count = 0
+    
+    def add_child(self, child):
+        child.parent = self  # Creates circular reference
+        self.children.append(child)
+    
+    def __del__(self):
+        print(f"Node {self.value} is being garbage collected")
+
+# SOLUTION 1: Using weak references
+class WeakNode:
+    def __init__(self, value):
+        self.value = value
+        self._parent_ref: Optional[weakref.ReferenceType] = None
+        self.children: List['WeakNode'] = []
+    
+    @property
+    def parent(self) -> Optional['WeakNode']:
+        if self._parent_ref:
+            return self._parent_ref()
+        return None
+    
+    @parent.setter
+    def parent(self, parent_node: Optional['WeakNode']):
+        if parent_node is None:
+            self._parent_ref = None
+        else:
+            self._parent_ref = weakref.ref(parent_node)
+    
+    def add_child(self, child: 'WeakNode'):
+        if child.parent:
+            child.parent.remove_child(child)
+        
+        child.parent = self
+        self.children.append(child)
+    
+    def remove_child(self, child: 'WeakNode'):
+        if child in self.children:
+            self.children.remove(child)
+            child.parent = None
+    
+    def destroy(self):
+        """Clean up all references"""
+        # Remove from parent
+        if self.parent:
+            self.parent.remove_child(self)
+        
+        # Clean up children
+        for child in self.children[:]:  # Copy list to avoid modification during iteration
+            child.destroy()
+        
+        self.children.clear()
+    
+    def __del__(self):
+        print(f"WeakNode {self.value} is being garbage collected")
+
+# SOLUTION 2: Context manager for automatic cleanup
+class ManagedNode:
+    def __init__(self, value, manager=None):
+        self.value = value
+        self.parent = None
+        self.children = []
+        if manager:
+            manager.register_node(self)
+    
+    def add_child(self, child):
+        child.parent = self
+        self.children.append(child)
+
+class NodeManager:
+    def __init__(self):
+        self.nodes = weakref.WeakSet()
+    
+    def register_node(self, node):
+        self.nodes.add(node)
+    
+    def cleanup_all(self):
+        """Break all circular references"""
+        for node in list(self.nodes):  # Convert to list since WeakSet may change
+            node.parent = None
+            node.children.clear()
+    
+    def __enter__(self):
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        self.cleanup_all()
+
+# Usage examples
+def demonstrate_circular_reference_problem():
+    print("=== Circular Reference Problem ===")
+    
+    # This creates circular references
+    parent = CircularNode("parent")
+    child1 = CircularNode("child1")
+    child2 = CircularNode("child2")
+    
+    parent.add_child(child1)
+    parent.add_child(child2)
+    
+    # Even when we delete references, circular refs prevent GC
+    del parent, child1, child2
+    gc.collect()  # Force garbage collection
+    
+    print("=== Using Weak References ===")
+    
+    # This properly handles circular references
+    weak_parent = WeakNode("weak_parent")
+    weak_child1 = WeakNode("weak_child1")
+    weak_child2 = WeakNode("weak_child2")
+    
+    weak_parent.add_child(weak_child1)
+    weak_parent.add_child(weak_child2)
+    
+    # Proper cleanup
+    weak_parent.destroy()
+    del weak_parent, weak_child1, weak_child2
+    gc.collect()
+    
+    print("=== Using Context Manager ===")
+    
+    with NodeManager() as manager:
+        managed_parent = ManagedNode("managed_parent", manager)
+        managed_child = ManagedNode("managed_child", manager)
+        managed_parent.add_child(managed_child)
+        # Automatic cleanup when exiting context
+\`\`\`
+
+**Impact on Garbage Collection:**
+
+1. **Reference Counting GC:** Cannot collect circular references automatically
+2. **Mark-and-Sweep GC:** Can handle circular references but with performance cost
+3. **Generational GC:** May delay collection of long-lived circular references
+
+**Prevention Strategies:**
+
+1. **Use Weak References:** For parent-child relationships
+2. **Implement Cleanup Methods:** Explicit reference breaking
+3. **Use Context Managers:** Automatic resource cleanup
+4. **Observer Pattern:** Use weak references for subscribers
+5. **Factory Pattern:** Centralized cleanup management
+6. **Regular Profiling:** Monitor memory usage and reference counts
+
+**Performance Impact:**
+- Increased memory usage until GC cycle runs
+- Longer GC pause times when breaking large cycles
+- Potential memory leaks in older JavaScript engines
+- Performance degradation due to unnecessary object retention`,
+      },
+
+      {
+        question:
+          "What is the performance impact of reflection in object-oriented code?",
+        solution: `Reflection allows runtime inspection and modification of code structure but comes with significant performance costs. Here's how to understand and mitigate these impacts:
+
+**JavaScript Example - Reflection Performance:**
+\`\`\`javascript
+class PerformanceTest {
+  constructor() {
+    this.name = "test";
+    this.value = 42;
+    this.data = [1, 2, 3, 4, 5];
+  }
+  
+  regularMethod(x) {
+    return x * 2;
+  }
+  
+  getValue() {
+    return this.value;
+  }
+}
+
+// Performance comparison between direct access and reflection
+function performanceComparison() {
+  const obj = new PerformanceTest();
+  const iterations = 1000000;
+  
+  console.time("Direct Property Access");
+  for (let i = 0; i < iterations; i++) {
+    const val = obj.value; // Direct access
+  }
+  console.timeEnd("Direct Property Access");
+  
+  console.time("Reflection Property Access");
+  for (let i = 0; i < iterations; i++) {
+    const val = obj["value"]; // Reflection-like access
+  }
+  console.timeEnd("Reflection Property Access");
+  
+  console.time("Direct Method Call");
+  for (let i = 0; i < iterations; i++) {
+    obj.getValue(); // Direct method call
+  }
+  console.timeEnd("Direct Method Call");
+  
+  console.time("Reflection Method Call");
+  for (let i = 0; i < iterations; i++) {
+    obj["getValue"](); // Reflection method call
+  }
+  console.timeEnd("Reflection Method Call");
+}
+
+// Advanced reflection patterns and optimizations
+class ReflectionOptimizer {
+  constructor() {
+    this._methodCache = new Map();
+    this._propertyCache = new Map();
+  }
+  
+  // SLOW: Dynamic method invocation without caching
+  invokeMethodSlow(obj, methodName, ...args) {
+    if (typeof obj[methodName] === 'function') {
+      return obj[methodName](...args);
+    }
+    throw new Error(\`Method \${methodName} not found\`);
+  }
+  
+  // FASTER: Cached method references
+  invokeMethodFast(obj, methodName, ...args) {
+    const className = obj.constructor.name;
+    const cacheKey = \`\${className}.\${methodName}\`;
+    
+    if (!this._methodCache.has(cacheKey)) {
+      if (typeof obj[methodName] === 'function') {
+        this._methodCache.set(cacheKey, obj[methodName]);
+      } else {
+        throw new Error(\`Method \${methodName} not found\`);
+      }
+    }
+    
+    const method = this._methodCache.get(cacheKey);
+    return method.call(obj, ...args);
+  }
+  
+  // Property access with caching
+  getPropertyFast(obj, propName) {
+    const className = obj.constructor.name;
+    const cacheKey = \`\${className}.\${propName}\`;
+    
+    if (!this._propertyCache.has(cacheKey)) {
+      if (propName in obj) {
+        this._propertyCache.set(cacheKey, true);
+      } else {
+        throw new Error(\`Property \${propName} not found\`);
+      }
+    }
+    
+    return obj[propName];
+  }
+}
+
+// Proxy-based reflection (very slow but powerful)
+class ReflectiveProxy {
+  static create(target) {
+    return new Proxy(target, {
+      get(target, prop, receiver) {
+        console.log(\`Accessing property: \${prop}\`);
+        return Reflect.get(target, prop, receiver);
+      },
+      
+      set(target, prop, value, receiver) {
+        console.log(\`Setting property: \${prop} = \${value}\`);
+        return Reflect.set(target, prop, value, receiver);
+      },
+      
+      apply(target, thisArg, argumentsList) {
+        console.log(\`Calling method with args: \${argumentsList}\`);
+        return Reflect.apply(target, thisArg, argumentsList);
+      }
+    });
+  }
+}
+\`\`\`
+
+**Python Example - Reflection Performance:**
+\`\`\`python
+import time
+import types
+from typing import Any, Dict, Callable
+
+class PerformanceTest:
+    def __init__(self):
+        self.name = "test"
+        self.value = 42
+        self.data = [1, 2, 3, 4, 5]
+    
+    def regular_method(self, x: int) -> int:
+        return x * 2
+    
+    def get_value(self) -> int:
+        return self.value
+
+def performance_comparison():
+    """Compare direct access vs reflection performance"""
+    obj = PerformanceTest()
+    iterations = 1000000
+    
+    # Direct property access
+    start = time.time()
+    for _ in range(iterations):
+        val = obj.value
+    direct_property_time = time.time() - start
+    
+    # Reflection property access
+    start = time.time()
+    for _ in range(iterations):
+        val = getattr(obj, 'value')
+    reflection_property_time = time.time() - start
+    
+    # Direct method call
+    start = time.time()
+    for _ in range(iterations):
+        obj.get_value()
+    direct_method_time = time.time() - start
+    
+    # Reflection method call
+    start = time.time()
+    for _ in range(iterations):
+        getattr(obj, 'get_value')()
+    reflection_method_time = time.time() - start
+    
+    print(f"Direct property access: {direct_property_time:.4f}s")
+    print(f"Reflection property access: {reflection_property_time:.4f}s")
+    print(f"Slowdown: {reflection_property_time / direct_property_time:.2f}x")
+    
+    print(f"Direct method call: {direct_method_time:.4f}s")
+    print(f"Reflection method call: {reflection_method_time:.4f}s")
+    print(f"Slowdown: {reflection_method_time / direct_method_time:.2f}x")
+
+class ReflectionOptimizer:
+    """Optimized reflection with caching"""
+    
+    def __init__(self):
+        self._method_cache: Dict[str, Callable] = {}
+        self._property_cache: Dict[str, Any] = {}
+        self._descriptor_cache: Dict[str, bool] = {}
+    
+    def get_method_slow(self, obj: Any, method_name: str) -> Callable:
+        """Slow reflection without caching"""
+        if hasattr(obj, method_name):
+            method = getattr(obj, method_name)
+            if callable(method):
+                return method
+        raise AttributeError(f"Method '{method_name}' not found")
+    
+    def get_method_fast(self, obj: Any, method_name: str) -> Callable:
+        """Fast reflection with caching"""
+        class_name = obj.__class__.__name__
+        cache_key = f"{class_name}.{method_name}"
+        
+        if cache_key not in self._method_cache:
+            if hasattr(obj, method_name):
+                method = getattr(obj, method_name)
+                if callable(method):
+                    self._method_cache[cache_key] = method
+                else:
+                    raise AttributeError(f"'{method_name}' is not callable")
+            else:
+                raise AttributeError(f"Method '{method_name}' not found")
+        
+        return self._method_cache[cache_key]
+    
+    def invoke_method(self, obj: Any, method_name: str, *args, **kwargs) -> Any:
+        """Invoke method with caching"""
+        method = self.get_method_fast(obj, method_name)
+        return method(*args, **kwargs)
+    
+    def get_property_fast(self, obj: Any, prop_name: str) -> Any:
+        """Fast property access with existence caching"""
+        class_name = obj.__class__.__name__
+        cache_key = f"{class_name}.{prop_name}"
+        
+        if cache_key not in self._descriptor_cache:
+            self._descriptor_cache[cache_key] = hasattr(obj, prop_name)
+        
+        if self._descriptor_cache[cache_key]:
+            return getattr(obj, prop_name)
+        else:
+            raise AttributeError(f"Property '{prop_name}' not found")
+
+class MetaclassReflection(type):
+    """Metaclass for compile-time reflection optimization"""
+    
+    def __new__(mcs, name, bases, attrs):
+        # Pre-compute method signatures at class creation time
+        methods = {}
+        properties = {}
+        
+        for attr_name, attr_value in attrs.items():
+            if callable(attr_value):
+                methods[attr_name] = attr_value
+            elif not attr_name.startswith('_'):
+                properties[attr_name] = attr_value
+        
+        attrs['_reflected_methods'] = methods
+        attrs['_reflected_properties'] = properties
+        
+        return super().__new__(mcs, name, bases, attrs)
+
+class OptimizedReflectiveClass(metaclass=MetaclassReflection):
+    """Class with pre-computed reflection metadata"""
+    
+    def __init__(self):
+        self.value = 42
+        self.name = "optimized"
+    
+    def get_value(self):
+        return self.value
+    
+    def fast_invoke(self, method_name: str, *args, **kwargs):
+        """Fast method invocation using pre-computed metadata"""
+        if method_name in self._reflected_methods:
+            method = getattr(self, method_name)
+            return method(*args, **kwargs)
+        raise AttributeError(f"Method '{method_name}' not found")
+
+def benchmark_optimizations():
+    """Benchmark different reflection optimization strategies"""
+    obj = PerformanceTest()
+    optimizer = ReflectionOptimizer()
+    optimized_obj = OptimizedReflectiveClass()
+    iterations = 100000
+    
+    # Test method invocation performance
+    strategies = [
+        ("Direct call", lambda: obj.get_value()),
+        ("Slow reflection", lambda: optimizer.get_method_slow(obj, 'get_value')()),
+        ("Fast reflection", lambda: optimizer.get_method_fast(obj, 'get_value')()),
+        ("Cached invoke", lambda: optimizer.invoke_method(obj, 'get_value')),
+        ("Metaclass optimization", lambda: optimized_obj.fast_invoke('get_value'))
+    ]
+    
+    for name, strategy in strategies:
+        start = time.time()
+        for _ in range(iterations):
+            strategy()
+        elapsed = time.time() - start
+        print(f"{name}: {elapsed:.4f}s")
+\`\`\`
+
+**Performance Impact Analysis:**
+
+**Cost Factors:**
+1. **Attribute Lookup:** 2-5x slower than direct access
+2. **Method Resolution:** 3-10x slower than direct calls  
+3. **Dynamic Dispatch:** Additional overhead for each call
+4. **String Operations:** Method/property names as strings
+5. **Error Handling:** Try-catch for missing attributes
+
+**Optimization Strategies:**
+
+1. **Caching:** Store method/property references
+2. **Compile-time Reflection:** Use metaclasses/decorators
+3. **Lazy Loading:** Cache only when first accessed
+4. **Batch Operations:** Group multiple reflective operations
+5. **Profile-Guided:** Cache based on usage patterns
+
+**When to Use Reflection:**
+- **Configuration Systems:** Dynamic property setting
+- **Serialization:** Object-to-JSON conversion
+- **Testing Frameworks:** Dynamic test discovery
+- **Plugin Systems:** Dynamic loading and invocation
+- **ORM Frameworks:** Database mapping
+
+**When to Avoid:**
+- **Hot Code Paths:** Frequently executed code
+- **Real-time Systems:** Where performance is critical
+- **Simple Operations:** Direct access is sufficient
+- **Static Structure:** Known at compile time
+
+**Mitigation Techniques:**
+1. Use reflection during initialization, not runtime
+2. Cache reflected metadata
+3. Consider code generation as alternative
+4. Profile to identify bottlenecks
+5. Use static analysis tools to minimize reflection usage`,
       },
     ],
   },

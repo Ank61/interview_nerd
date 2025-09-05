@@ -20,7 +20,7 @@ import { Tabs as MuiTabs } from "@mui/material";
 import Tab from "@mui/material/Tab";
 import { motion, AnimatePresence } from "framer-motion";
 import Box from "@mui/material/Box";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Home, User, Settings } from "lucide-react";
 import { useRouter } from "next/router";
 import { Hash, X, BookOpen, ChevronDown, ChevronUp } from "lucide-react";
 import {
@@ -43,7 +43,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { SearchIcon } from "lucide-react";
 import { prepareData } from "@/data/prepareData";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Header from "@/components/header";
 import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
 import GamificationDashboard from "@/components/gamification/GamificationDashboard";
 import XPNotification from "@/components/gamification/XPNotification";
@@ -765,9 +764,69 @@ export default function BasicTabs({
         />
       ))}
 
-      <Box className="w-full max-w-6xl mx-auto px-4">
-        <Header topic={topic} indexSelected={indexSelected} />
+      {/* New Custom Header */}
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Left side - Logo and Navigation */}
+            <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-3">
+                <div 
+                  className="p-2 rounded-lg"
+                  style={{ backgroundColor: themeColors?.light || "#f3f4f6" }}
+                >
+                  <BookOpen 
+                    size={24} 
+                    style={{ color: themeColors?.text || "#374151" }}
+                  />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
+                  <p className="text-sm text-gray-500">{topic} Questions</p>
+                </div>
+              </div>
+              
+              {/* Breadcrumb */}
+              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+                <button 
+                  onClick={() => router.push('/')}
+                  className="hover:text-gray-700 transition-colors"
+                >
+                  <Home size={16} className="inline mr-1" />
+                  Home
+                </button>
+                <span>/</span>
+                <span className="text-gray-900 font-medium">{topic}</span>
+              </nav>
+            </div>
 
+            {/* Right side - Actions */}
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => router.push(`/learn/${topic}/introduction`)}
+                style={{
+                  backgroundColor: themeColors?.bg,
+                  color: themeColors?.text,
+                }}
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm rounded-lg hover:shadow-md transition-all duration-200"
+              >
+                <BookOpen size={16} />
+                <span>Learn</span>
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <User size={20} className="text-gray-600" />
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <Settings size={20} className="text-gray-600" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <Box className="w-full max-w-6xl mx-auto px-4 pt-6">
         {/* Gamification Components */}
         {session?.user?.id && (
           <div className="mb-4 space-y-4">
