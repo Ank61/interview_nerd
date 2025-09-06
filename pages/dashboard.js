@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { motion } from "framer-motion";
 import Header from "@/components/header";
 import TopicsProgressChart from "@/components/gamification/TopicsProgressChart";
+import MCQDailyChallenge from "@/components/gamification/MCQDailyChallenge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -24,7 +25,6 @@ export default function Dashboard() {
   const router = useRouter();
   const [recentActivity, setRecentActivity] = useState([]);
   const [studyStats, setStudyStats] = useState(null);
-  const [dailyChallenge, setDailyChallenge] = useState(null);
   const [gamificationData, setGamificationData] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -43,12 +43,11 @@ export default function Dashboard() {
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const [activityRes, statsRes, gamificationRes, challengeRes] =
+      const [activityRes, statsRes, gamificationRes] =
         await Promise.all([
           fetch(`/api/user/activity/${session.user.id}`),
           fetch(`/api/user/stats/${session.user.id}`),
           fetch(`/api/gamification/${session.user.id}`),
-          fetch("/api/gamification/daily-challenge"),
         ]);
 
       if (activityRes.ok) {
@@ -64,11 +63,6 @@ export default function Dashboard() {
       if (gamificationRes.ok) {
         const gamificationData = await gamificationRes.json();
         setGamificationData(gamificationData);
-      }
-
-      if (challengeRes.ok) {
-        const challengeData = await challengeRes.json();
-        setDailyChallenge(challengeData);
       }
     } catch (error) {
       console.error("Error fetching dashboard data:", error);
@@ -349,55 +343,13 @@ export default function Dashboard() {
 
                 {/* Sidebar */}
                 <div className="space-y-6">
-                  {/* Daily Challenge */}
+                  {/* Daily MCQ Challenge */}
                   <motion.div
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.6, delay: 0.5 }}
                   >
-                    <Card className="bg-gradient-to-br from-orange-50 to-red-50 border-orange-200 shadow-lg">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="flex items-center gap-2 text-orange-900">
-                          <Zap className="w-5 h-5" />
-                          Daily Challenge
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        {dailyChallenge ? (
-                          <div className="space-y-4">
-                            <div className="bg-white/50 rounded-lg p-3">
-                              <div className="text-sm font-medium text-orange-800 mb-1">
-                                {dailyChallenge.category}
-                              </div>
-                              <div className="text-xs text-orange-600 line-clamp-2">
-                                {dailyChallenge.question}
-                              </div>
-                            </div>
-                            <button
-                              onClick={() =>
-                                router.push(
-                                  `/challenge/${dailyChallenge.category}`
-                                )
-                              }
-                              className="w-full bg-orange-500 text-white py-2 px-4 rounded-lg font-medium hover:bg-orange-600 transition-colors text-sm"
-                            >
-                              Start Challenge
-                            </button>
-                            <div className="flex items-center justify-between text-xs text-orange-600">
-                              <span>Streak: {currentStreak} days</span>
-                              <span>+50 XP</span>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="text-center py-4">
-                            <div className="text-orange-600 mb-2">🎯</div>
-                            <div className="text-sm text-orange-700">
-                              Loading challenge...
-                            </div>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
+                    <MCQDailyChallenge />
                   </motion.div>
 
                   {/* This Week Stats */}

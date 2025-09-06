@@ -46,7 +46,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { getThemeColors, getThemeCSSProperties } from "@/lib/themeUtils";
 import GamificationDashboard from "@/components/gamification/GamificationDashboard";
 import XPNotification from "@/components/gamification/XPNotification";
-import ActiveChallenge from "@/components/gamification/ActiveChallenge";
+import MCQDailyChallenge from "@/components/gamification/MCQDailyChallenge";
 import QuestionFeedback from "@/components/questions/QuestionFeedback";
 import { useGamification } from "@/hooks/useGamification";
 
@@ -831,7 +831,7 @@ export default function BasicTabs({
         {session?.user?.id && (
           <div className="mb-4 space-y-4">
             <GamificationDashboard userId={session.user.id} compact={true} />
-            <ActiveChallenge topic={topic} />
+            <MCQDailyChallenge />
           </div>
         )}
         {/* Main Content Card */}

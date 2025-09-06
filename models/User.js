@@ -182,6 +182,38 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             default: false,
           },
+          // MCQ Challenge specific data
+          mcqChallenge: {
+            questions: [{
+              questionId: Number,
+              question: String,
+              options: [String],
+              correctAnswer: Number,
+              userAnswer: {
+                type: Number,
+                default: -1, // -1 means not answered
+              },
+              isCorrect: {
+                type: Boolean,
+                default: false,
+              },
+              answeredAt: Date,
+            }],
+            score: {
+              type: Number,
+              default: 0,
+            },
+            totalQuestions: {
+              type: Number,
+              default: 5,
+            },
+            completedQuestions: {
+              type: Number,
+              default: 0,
+            },
+            startedAt: Date,
+            completedAt: Date,
+          },
         },
         weekly: {
           current: {

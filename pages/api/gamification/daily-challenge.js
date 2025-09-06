@@ -2,6 +2,8 @@ import GamificationEngine from '@/lib/gamification';
 import User from '@/models/User';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
+import { getDailyMCQQuestions } from '@/data/mcqDatasets';
+import dbConnect from '@/lib/mongodb';
 
 export default async function handler(req, res) {
   const session = await getServerSession(req, res, authOptions);
@@ -11,52 +13,129 @@ export default async function handler(req, res) {
   }
 
   try {
+    await dbConnect();
+
     switch (req.method) {
       case 'GET':
-        // Get or generate daily challenge for user
+        // Get or generate daily MCQ challenge for user
         const user = await User.findById(session.user.id);
-        let challenge = user.gamification.challenges.daily.current;
+        if (!user) {
+          return res.status(404).json({ error: 'User not found' });
+        }
 
-        // Check if challenge is expired or doesn't exist
-        const now = new Date();
-        if (!challenge || (challenge.expiresAt && new Date(challenge.expiresAt) < now)) {
-          // Generate new daily challenge
-          challenge = GamificationEngine.generateDailyChallenge();
+        const today = new Date().toISOString().split('T')[0];
+        const mcqChallenge = user.gamification.challenges.daily.mcqChallenge;
+
+        // Check if we need to generate a new challenge for today
+        const needsNewChallenge = !mcqChallenge || 
+          !mcqChallenge.startedAt || 
+          mcqChallenge.startedAt.toISOString().split('T')[0] !== today;
+
+        if (needsNewChallenge) {
+          // Generate new daily MCQ challenge
+          const dailyQuestions = getDailyMCQQuestions(new Date());
           
+          // Reset MCQ challenge data
+          user.gamification.challenges.daily.mcqChallenge = {
+            questions: dailyQuestions.map(q => ({
+              questionId: q.id,
+              question: q.question,
+              options: q.options,
+              correctAnswer: q.correctAnswer,
+              userAnswer: -1,
+              isCorrect: false,
+              category: q.category,
+              difficulty: q.difficulty,
+              explanation: q.explanation
+            })),
+            score: 0,
+            totalQuestions: 5,
+            completedQuestions: 0,
+            startedAt: new Date(),
+            completedAt: null
+          };
+
           // Reset daily completion status
-          user.gamification.challenges.daily.current = challenge;
           user.gamification.challenges.daily.completedToday = false;
           
           await user.save();
         }
 
-        return res.status(200).json(challenge);
+        const challengeData = {
+          questions: user.gamification.challenges.daily.mcqChallenge.questions,
+          score: user.gamification.challenges.daily.mcqChallenge.score,
+          totalQuestions: user.gamification.challenges.daily.mcqChallenge.totalQuestions,
+          completedQuestions: user.gamification.challenges.daily.mcqChallenge.completedQuestions,
+          isCompleted: user.gamification.challenges.daily.completedToday,
+          streak: user.gamification.challenges.daily.streak,
+          startedAt: user.gamification.challenges.daily.mcqChallenge.startedAt,
+          completedAt: user.gamification.challenges.daily.mcqChallenge.completedAt
+        };
+
+        return res.status(200).json({ success: true, data: challengeData });
 
       case 'POST':
-        const { action } = req.body;
+        const { action, questionIndex, answer } = req.body;
         
-        if (action === 'complete') {
-          // Mark challenge as completed
+        if (action === 'submit_answer') {
           const user = await User.findById(session.user.id);
-          const challenge = user.gamification.challenges.daily.current;
+          if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+          }
+
+          const mcqChallenge = user.gamification.challenges.daily.mcqChallenge;
           
-          if (challenge && !challenge.completed) {
-            challenge.completed = true;
-            challenge.progress = challenge.target;
+          if (!mcqChallenge || questionIndex < 0 || questionIndex >= mcqChallenge.questions.length) {
+            return res.status(400).json({ error: 'Invalid question index' });
+          }
+
+          const question = mcqChallenge.questions[questionIndex];
+          
+          // Check if question is already answered
+          if (question.userAnswer !== -1) {
+            return res.status(400).json({ error: 'Question already answered' });
+          }
+
+          // Update question with user's answer
+          question.userAnswer = answer;
+          question.isCorrect = answer === question.correctAnswer;
+          question.answeredAt = new Date();
+
+          // Update challenge progress
+          mcqChallenge.completedQuestions += 1;
+          if (question.isCorrect) {
+            mcqChallenge.score += 1;
+          }
+
+          // Check if challenge is completed
+          if (mcqChallenge.completedQuestions === mcqChallenge.totalQuestions) {
+            mcqChallenge.completedAt = new Date();
             user.gamification.challenges.daily.completedToday = true;
             user.gamification.challenges.daily.streak += 1;
 
-            // Award XP
+            // Award XP based on score
+            const xpReward = mcqChallenge.score * 10; // 10 XP per correct answer
             await GamificationEngine.awardXP(
               session.user.id, 
-              challenge.xpReward, 
-              'Daily challenge completed'
+              xpReward, 
+              `Daily MCQ challenge completed (${mcqChallenge.score}/5 correct)`
             );
 
-            await user.save();
+            // Update streak
+            await GamificationEngine.updateStreak(session.user.id);
           }
 
-          return res.status(200).json({ success: true, challenge });
+          await user.save();
+
+          return res.status(200).json({ 
+            success: true, 
+            isCorrect: question.isCorrect,
+            correctAnswer: question.correctAnswer,
+            explanation: question.explanation,
+            score: mcqChallenge.score,
+            completedQuestions: mcqChallenge.completedQuestions,
+            isCompleted: mcqChallenge.completedQuestions === mcqChallenge.totalQuestions
+          });
         }
 
         return res.status(400).json({ error: 'Invalid action' });
