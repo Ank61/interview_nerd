@@ -22,6 +22,7 @@ import {
   DatabaseZap,
   Database,
   Workflow,
+  FileCode2,
   CheckCircle,
   Target,
   Award,
@@ -60,8 +61,12 @@ export default function Home() {
                 <BookOpen size={24} className="text-blue-600" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
-                <p className="text-sm text-gray-500 hidden sm:block">Master Tech Interviews</p>
+                <h1 className="text-xl font-bold text-gray-900">
+                  Interview Nerd
+                </h1>
+                <p className="text-sm text-gray-500 hidden sm:block">
+                  Master Tech Interviews
+                </p>
               </div>
             </div>
 
@@ -135,6 +140,21 @@ export default function Home() {
                         size="sm"
                         onClick={() =>
                           session
+                            ? router.push("/python-practice")
+                            : router.push("/auth/login")
+                        }
+                        className="w-full justify-start text-gray-600 hover:text-yellow-700 hover:bg-yellow-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
+                      >
+                        <FileCode2 className="w-5 h-5 text-yellow-700" />
+                        <div className="text-left">
+                          <div className="font-medium">Python Practice</div>
+                        </div>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() =>
+                          session
                             ? router.push("/playground")
                             : router.push("/auth/login")
                         }
@@ -174,7 +194,10 @@ export default function Home() {
                 </>
               ) : (
                 <>
-                  <Link href="/auth/login" className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors">
+                  <Link
+                    href="/auth/login"
+                    className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                  >
                     Login
                   </Link>
                   <Button
@@ -271,6 +294,20 @@ export default function Home() {
                       >
                         <Database className="w-4 h-4" />
                         MongoDB Practice
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => {
+                          session
+                            ? router.push("/python-practice")
+                            : router.push("/auth/login");
+                          setIsMobileMenuOpen(false);
+                        }}
+                        className="w-full justify-start text-yellow-600 hover:text-yellow-700 font-medium flex items-center gap-2 py-2"
+                      >
+                        <FileCode2 className="w-4 h-4" />
+                        Python Practice
                       </Button>
                       <Button
                         variant="ghost"
@@ -470,7 +507,7 @@ export default function Home() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -514,7 +551,7 @@ export default function Home() {
                   </h3>
                   <p className="text-blue-100 text-sm mb-4">
                     Master SQL with interactive queries, real datasets, and
-                    comprehensive practice questions from beginner to advanced
+                    comprehensive practice questions
                   </p>
                   <Button
                     size="sm"
@@ -558,6 +595,36 @@ export default function Home() {
                   >
                     <Database className="mr-2 w-4 h-4" />
                     Practice MongoDB
+                  </Button>
+                </div>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-center"
+              >
+                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
+                  <FileCode2 className="w-12 h-12 text-white mx-auto mb-4" />
+                  <h3 className="text-xl font-bold text-white mb-2">
+                    Python Practice
+                  </h3>
+                  <p className="text-blue-100 text-sm mb-4">
+                    Master Python programming with interactive code execution,
+                    beginner to advanced questions, and instant feedback
+                  </p>
+                  <Button
+                    size="sm"
+                    onClick={() =>
+                      session
+                        ? router.push("/python-practice")
+                        : router.push("/auth/login")
+                    }
+                    className="bg-white text-yellow-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
+                  >
+                    <FileCode2 className="mr-2 w-4 h-4" />
+                    Practice Python
                   </Button>
                 </div>
               </motion.div>
