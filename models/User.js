@@ -198,6 +198,9 @@ const userSchema = new mongoose.Schema(
                 default: false,
               },
               answeredAt: Date,
+              category: String,
+              difficulty: String,
+              explanation: String,
             }],
             score: {
               type: Number,
@@ -214,6 +217,11 @@ const userSchema = new mongoose.Schema(
             startedAt: Date,
             completedAt: Date,
           },
+          // Track all answered MCQ questions to ensure uniqueness
+          answeredMCQQuestions: [{
+            type: Number, // questionId from mcqDatasets
+            default: []
+          }],
         },
         weekly: {
           current: {

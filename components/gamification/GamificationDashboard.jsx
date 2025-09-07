@@ -27,16 +27,16 @@ import {
   Star
 } from 'lucide-react';
 
-const GamificationDashboard = ({ compact = false }) => {
+const GamificationDashboard = ({ compact = false, initialData = null }) => {
   const { data: session } = useSession();
-  const [gamificationData, setGamificationData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [gamificationData, setGamificationData] = useState(initialData);
+  const [loading, setLoading] = useState(!initialData);
 
   useEffect(() => {
-    if (session?.user?.id) {
+    if (session?.user?.id && !initialData) {
       fetchGamificationData();
     }
-  }, [session]);
+  }, [session, initialData]);
 
   const fetchGamificationData = async () => {
     try {

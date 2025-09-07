@@ -18,15 +18,22 @@ import {
   Trophy,
   Zap,
   CheckCircle,
+  Home,
+  User,
+  Settings,
 } from "lucide-react";
 
-export default function Dashboard() {
+export default function Dashboard({ 
+  initialRecentActivity = [], 
+  initialStudyStats = null, 
+  initialGamificationData = null 
+}) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [recentActivity, setRecentActivity] = useState([]);
-  const [studyStats, setStudyStats] = useState(null);
-  const [gamificationData, setGamificationData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [recentActivity, setRecentActivity] = useState(initialRecentActivity);
+  const [studyStats, setStudyStats] = useState(initialStudyStats);
+  const [gamificationData, setGamificationData] = useState(initialGamificationData);
+  const [loading, setLoading] = useState(!initialStudyStats);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -34,11 +41,12 @@ export default function Dashboard() {
     }
   }, [status, router]);
 
+  // Only fetch data if not provided as props
   useEffect(() => {
-    if (session?.user?.id) {
+    if (session?.user?.id && !initialStudyStats) {
       fetchDashboardData();
     }
-  }, [session]);
+  }, [session, initialStudyStats]);
 
   const fetchDashboardData = async () => {
     try {
@@ -116,7 +124,57 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* <Header /> */}
+      {/* Header matching category page structure */}
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Left side - Logo and Navigation */}
+            <div className="flex items-center space-x-8">
+              <div className="flex items-center space-x-3">
+                <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+                  <BookOpen size={24} className="text-blue-600" />
+                </div>
+                <div>
+                  <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
+                  <p className="text-sm text-gray-500">Dashboard</p>
+                </div>
+              </div>
+              
+              {/* Breadcrumb */}
+              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+                <button 
+                  onClick={() => router.push('/')}
+                  className="hover:text-gray-700 transition-colors"
+                >
+                  <Home size={16} className="inline mr-1" />
+                  Home
+                </button>
+                <span>/</span>
+                <span className="text-gray-900 font-medium">Dashboard</span>
+              </nav>
+            </div>
+
+            {/* Right side - Actions */}
+            <div className="flex items-center space-x-4">
+              <button 
+                onClick={() => router.push("/category/Javascript")}
+                className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md transition-all duration-200"
+              >
+                <BookOpen size={16} />
+                <span>Start Learning</span>
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <User size={20} className="text-gray-600" />
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <Settings size={20} className="text-gray-600" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <motion.div
@@ -125,30 +183,13 @@ export default function Dashboard() {
           transition={{ duration: 0.5 }}
           className="space-y-8"
         >
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-4">
-              <button
-                onClick={() => router.back()}
-                className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors p-2 rounded-lg hover:bg-gray-100"
-              >
-                <ArrowLeft className="w-5 h-5" />
-              </button>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">
-                  Welcome back, {session.user.name}! 👋
-                </h1>
-                <p className="text-gray-600 mt-2">
-                  Ready to level up your interview skills today?
-                </p>
-              </div>
-            </div>
-
-            <button
-              onClick={() => router.push("/category/Javascript")}
-              className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
-            >
-              Start Learning
-            </button>
+          <div className="mb-8">
+            <h2 className="text-3xl font-bold text-gray-900 mb-2">
+              Welcome back, {session.user.name}! 👋
+            </h2>
+            <p className="text-gray-600">
+              Ready to level up your interview skills today?
+            </p>
           </div>
 
           <Tabs defaultValue="overview" className="space-y-6">

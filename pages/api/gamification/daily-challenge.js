@@ -2,7 +2,7 @@ import GamificationEngine from '@/lib/gamification';
 import User from '@/models/User';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from '../auth/[...nextauth]';
-import { getDailyMCQQuestions } from '@/data/mcqDatasets';
+import { getUniqueDailyMCQQuestions } from '@/data/mcqDatasets';
 import dbConnect from '@/lib/mongodb';
 
 export default async function handler(req, res) {
@@ -32,8 +32,30 @@ export default async function handler(req, res) {
           mcqChallenge.startedAt.toISOString().split('T')[0] !== today;
 
         if (needsNewChallenge) {
-          // Generate new daily MCQ challenge
-          const dailyQuestions = getDailyMCQQuestions(new Date());
+          // Get user's answered MCQ questions to ensure uniqueness
+          const answeredQuestionIds = user.gamification.challenges.daily.answeredMCQQuestions || [];
+          
+          // Generate new unique daily MCQ challenge
+          const dailyQuestions = getUniqueDailyMCQQuestions(answeredQuestionIds, 5);
+          
+          // If no questions available, return empty challenge
+          if (dailyQuestions.length === 0) {
+            return res.status(200).json({ 
+              success: true, 
+              data: {
+                questions: [],
+                score: 0,
+                totalQuestions: 0,
+                completedQuestions: 0,
+                isCompleted: true,
+                streak: user.gamification.challenges.daily.streak,
+                startedAt: null,
+                completedAt: null,
+                noQuestionsLeft: true,
+                message: "Congratulations! You've answered all available MCQ questions. Check back later for new questions!"
+              }
+            });
+          }
           
           // Reset MCQ challenge data
           user.gamification.challenges.daily.mcqChallenge = {
@@ -49,7 +71,7 @@ export default async function handler(req, res) {
               explanation: q.explanation
             })),
             score: 0,
-            totalQuestions: 5,
+            totalQuestions: dailyQuestions.length,
             completedQuestions: 0,
             startedAt: new Date(),
             completedAt: null
@@ -107,6 +129,15 @@ export default async function handler(req, res) {
             mcqChallenge.score += 1;
           }
 
+          // Add question to answered questions list
+          if (!user.gamification.challenges.daily.answeredMCQQuestions) {
+            user.gamification.challenges.daily.answeredMCQQuestions = [];
+          }
+          
+          if (!user.gamification.challenges.daily.answeredMCQQuestions.includes(question.questionId)) {
+            user.gamification.challenges.daily.answeredMCQQuestions.push(question.questionId);
+          }
+
           // Check if challenge is completed
           if (mcqChallenge.completedQuestions === mcqChallenge.totalQuestions) {
             mcqChallenge.completedAt = new Date();
@@ -118,7 +149,7 @@ export default async function handler(req, res) {
             await GamificationEngine.awardXP(
               session.user.id, 
               xpReward, 
-              `Daily MCQ challenge completed (${mcqChallenge.score}/5 correct)`
+              `Daily MCQ challenge completed (${mcqChallenge.score}/${mcqChallenge.totalQuestions} correct)`
             );
 
             // Update streak
