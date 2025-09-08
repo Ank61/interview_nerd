@@ -44,10 +44,10 @@ export default function Learn({
       const width = window.innerWidth;
       const isLarge = width >= 1024; // Desktop
       const isTabletSize = width >= 768 && width < 1024; // iPad range
-      
+
       setIsLargeScreen(isLarge);
       setIsTablet(isTabletSize);
-      
+
       // Auto-close sidebar on mobile/small tablets
       if (width < 768 && sidebarOpen) {
         setSidebarOpen(false);
@@ -111,7 +111,7 @@ export default function Learn({
   };
 
   const closeSidebar = () => {
-    console.log('Closing sidebar');
+    console.log("Closing sidebar");
     setSidebarOpen(false);
   };
 
@@ -132,32 +132,34 @@ export default function Learn({
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-3">
-                <div 
+                <div
                   className="p-2 rounded-lg"
                   style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
                 >
-                  <BookOpen 
-                    size={24} 
+                  <BookOpen
+                    size={24}
                     style={{ color: theme?.textColor || "#374151" }}
                   />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
+                  <h1 className="text-xl font-bold text-gray-900">
+                    Interview Nerd
+                  </h1>
                   <p className="text-sm text-gray-500">{category} Learning</p>
                 </div>
               </div>
-              
+
               {/* Breadcrumb */}
               <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button 
-                  onClick={() => router.push('/')}
+                <button
+                  onClick={() => router.push("/")}
                   className="hover:text-gray-700 transition-colors"
                 >
                   <Home size={16} className="inline mr-1" />
                   Home
                 </button>
                 <span>/</span>
-                <button 
+                <button
                   onClick={() => router.push(`/category/${category}`)}
                   className="hover:text-gray-700 transition-colors"
                 >
@@ -181,11 +183,11 @@ export default function Learn({
                 <BookCheck size={16} />
                 <span>Practice</span>
               </Button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User size={20} className="text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings size={20} className="text-gray-600" />
               </button>
@@ -200,7 +202,7 @@ export default function Learn({
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
-            console.log('Button clicked, sidebarOpen:', sidebarOpen);
+            console.log("Button clicked, sidebarOpen:", sidebarOpen);
             if (sidebarOpen) {
               closeSidebar();
             } else {
@@ -223,7 +225,11 @@ export default function Learn({
             color: theme?.textColor || "#374151",
           }}
         >
-          {sidebarOpen ? <X size={18} className="sm:w-5 sm:h-5" /> : <Menu size={18} className="sm:w-5 sm:h-5" />}
+          {sidebarOpen ? (
+            <X size={18} className="sm:w-5 sm:h-5" />
+          ) : (
+            <Menu size={18} className="sm:w-5 sm:h-5" />
+          )}
         </button>
 
         {/* Mobile Overlay */}
@@ -254,10 +260,14 @@ export default function Learn({
               w-80 sm:w-72 md:w-80 lg:w-72
               
               /* iPhone specific adjustments */
-              ${typeof window !== 'undefined' && window.innerWidth <= 414 ? 'w-[85vw] max-w-[300px]' : ''}
+              ${
+                typeof window !== "undefined" && window.innerWidth <= 414
+                  ? "w-[85vw] max-w-[300px]"
+                  : ""
+              }
               
               /* iPad specific adjustments */
-              ${isTablet ? 'w-80' : ''}
+              ${isTablet ? "w-80" : ""}
             `}
             style={{
               top: "64px", // Start below header (h-16 = 64px)
@@ -418,16 +428,23 @@ export default function Learn({
           </div>
 
           {/* Main Content Area */}
-          <div 
+          <div
             className={`
               flex-1 flex justify-center transition-all duration-300
               ${sidebarOpen && isLargeScreen ? "ml-72" : "ml-0"}
             `}
           >
             <div
+              // className={`
+              //   w-full px-4 sm:px-6 lg:px-8 py-6
+              //   ${sidebarOpen && isLargeScreen ? "max-w-4xl" : "max-w-5xl"}
+              // `}
               className={`
-                w-full px-4 sm:px-6 lg:px-8 py-6
+                w-full 
+                px-4 sm:px-6 md:px-8 lg:px-10
+                py-6
                 ${sidebarOpen && isLargeScreen ? "max-w-4xl" : "max-w-5xl"}
+                md:max-w-3xl      // iPad Air (820px ~ md) gets a narrower max width
               `}
             >
               <motion.article

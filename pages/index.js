@@ -61,15 +61,14 @@ export default function Home() {
                 <BookOpen size={24} className="text-blue-600" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-900">
+                <h1 className="text-xl font-bold text-gray-900 md:hidden lg:block">
                   Interview Nerd
                 </h1>
-                <p className="text-sm text-gray-500 hidden sm:block">
+                {/* <p className="text-sm text-gray-500 hidden sm:block">
                   Master Tech Interviews
-                </p>
+                </p> */}
               </div>
             </div>
-
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
               <a
@@ -162,7 +161,9 @@ export default function Home() {
                       >
                         <Code className="w-5 h-5 text-purple-700" />
                         <div className="text-left">
-                          <div className="font-medium">JavaScript Playground</div>
+                          <div className="font-medium">
+                            JavaScript Playground
+                          </div>
                         </div>
                       </Button>
                     </div>
@@ -520,7 +521,7 @@ export default function Home() {
                     JavaScript Playground
                   </h3>
                   <p className="text-blue-100 text-sm mb-4">
-                    Practice JavaScript with real-time code execution, 
+                    Practice JavaScript with real-time code execution,
                     interactive challenges, and AI-powered recommendations
                   </p>
                   <Button
@@ -1226,8 +1227,8 @@ export default function Home() {
                 JavaScript Playground
               </h3>
               <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Interactive JavaScript coding environment with AI-powered adaptive
-                difficulty and real-time feedback.
+                Interactive JavaScript coding environment with AI-powered
+                adaptive difficulty and real-time feedback.
               </p>
               <Badge className="mt-2 bg-purple-100 text-purple-800 text-xs">
                 🆕 New Feature
