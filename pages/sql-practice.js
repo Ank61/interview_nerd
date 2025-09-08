@@ -1,10 +1,15 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Head from "next/head";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import {
   Play,
   Database,
@@ -21,14 +26,26 @@ import {
   ChevronRight,
   GraduationCap,
   Zap,
+  User,
+  Settings,
+  ArrowRight,
+  ChevronDown,
+  MonitorCog,
+  DatabaseZap,
+  Workflow,
+  FileCode2,
+  Target,
+  Award,
 } from "lucide-react";
 import SQLParseExecutor from "@/lib/sqlParseExecutor";
 import { sqlDatasets, sqlQuestions } from "@/data/sqlDatasets";
+import { motion } from "framer-motion";
 
 export default function SQLPractice() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [sqlExecutor] = useState(() => new SQLParseExecutor(sqlDatasets));
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // State management
   const [selectedDataset, setSelectedDataset] = useState("employees");
@@ -40,12 +57,21 @@ export default function SQLPractice() {
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [activeTab, setActiveTab] = useState("beginner");
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
 
   // Separate questions by difficulty
   const beginnerQuestions = sqlQuestions.filter((q) => q.difficulty === "easy");
   const advancedQuestions = sqlQuestions.filter(
     (q) => q.difficulty === "medium" || q.difficulty === "hard"
   );
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   useEffect(() => {
     if (status === "loading") return;
@@ -159,43 +185,52 @@ export default function SQLPractice() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                onClick={() => router.push("/")}
-                className="flex items-center gap-2"
-              >
-                <Home className="w-4 h-4" />
-                Home
-              </Button>
-              <div className="flex items-center gap-2">
-                <Database className="w-6 h-6 text-blue-600" />
-                <h1 className="text-2xl font-bold text-gray-900">
-                  SQL Practice
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <nav className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+                <Database size={24} className="text-blue-600" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">
+                  Interview Nerd
                 </h1>
+                <p className="text-sm text-gray-500 hidden sm:block">
+                  SQL Practice
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Dataset:</span>
-              <select
-                value={selectedDataset}
-                onChange={(e) => handleDatasetChange(e.target.value)}
-                className="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {Object.entries(sqlDatasets).map(([key, dataset]) => (
-                  <option key={key} value={key}>
-                    {dataset.name.charAt(0).toUpperCase() +
-                      dataset.name.slice(1)}
-                  </option>
-                ))}
-              </select>
+
+            {/* Right side - Actions */}
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">Dataset:</span>
+                <select
+                  value={selectedDataset}
+                  onChange={(e) => handleDatasetChange(e.target.value)}
+                  className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  {Object.entries(sqlDatasets).map(([key, dataset]) => (
+                    <option key={key} value={key}>
+                      {dataset.name.charAt(0).toUpperCase() +
+                        dataset.name.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <User className="w-5 h-5 text-gray-600" />
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <Settings className="w-5 h-5 text-gray-600" />
+              </button>
             </div>
           </div>
-        </div>
-      </div>
+        </nav>
+      </header>
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
@@ -516,7 +551,6 @@ export default function SQLPractice() {
                           {result.rowCount !== 1 ? "s" : ""} returned
                         </p>
                       </div>
-                      {JSON.stringify(result)}
                       {result.data.length > 0 ? (
                         <div className="overflow-x-auto">
                           <table className="min-w-full border border-gray-200 rounded-lg">

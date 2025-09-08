@@ -1,10 +1,16 @@
 import { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import Head from "next/head";
+import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import {
   Play,
   RotateCcw,
@@ -17,8 +23,24 @@ import {
   Timer,
   ChevronLeft,
   Zap,
+  Home,
+  User,
+  Settings,
+  ChevronDown,
+  ArrowRight,
+  MonitorCog,
+  DatabaseZap,
+  Workflow,
+  FileCode2,
+  Target,
+  Award,
+  ChevronRight,
+  GraduationCap,
+  Database,
+  Table,
+  BookOpen,
+  EyeOff,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import {
   languageConfig,
   playgroundQuestions,
@@ -27,8 +49,12 @@ import { AdaptiveAlgorithm, playgroundAdaptive } from "@/lib/adaptiveAlgorithm";
 import CodeEditor from "@/components/playground/CodeEditor";
 
 export default function CodePlayground() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
+  
+  // Playground state
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [userCode, setUserCode] = useState("");
   const [output, setOutput] = useState("");
@@ -44,6 +70,21 @@ export default function CodePlayground() {
 
   const timerRef = useRef(null);
   const codeEditorRef = useRef(null);
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.push('/auth/login');
+    }
+  }, [status, router]);
 
   // Initialize playground on mount
   useEffect(() => {
@@ -288,337 +329,360 @@ export default function CodePlayground() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => router.push("/")}
-              className="flex items-center gap-1 text-gray-600 hover:text-gray-900"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              Back
-            </Button>
-            <div className="flex items-center gap-2">
-              <Code2 className="w-6 h-6 text-yellow-600" />
-              <h1 className="text-xl font-semibold text-gray-900">
-                JavaScript Playground
-              </h1>
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <nav className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100">
+                <Code2 size={24} className="text-yellow-600" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">
+                  Interview Nerd
+                </h1>
+                <p className="text-sm text-gray-500 hidden sm:block">
+                  JavaScript Playground
+                </p>
+              </div>
+            </div>
+
+            {/* Right side - Actions */}
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <Timer className="w-4 h-4" />
+                <span>{formatTime(timeSpent)}</span>
+                <span className="mx-2">•</span>
+                <span>Attempts: {attempts}</span>
+              </div>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <User className="w-5 h-5 text-gray-600" />
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <Settings className="w-5 h-5 text-gray-600" />
+              </button>
             </div>
           </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Timer className="w-4 h-4" />
-            <span>{formatTime(timeSpent)}</span>
-            <span className="mx-2">•</span>
-            <span>Attempts: {attempts}</span>
-          </div>
-        </div>
+        </nav>
       </header>
 
-      <div className="flex h-[calc(100vh-80px)]">
-        {/* Sidebar */}
-        <div className="w-80 bg-white border-r border-gray-200 overflow-y-auto">
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full">
-            <div className="border-b border-gray-200 p-4">
-              <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="beginner">Beginner</TabsTrigger>
-                <TabsTrigger value="advanced">Advanced</TabsTrigger>
-              </TabsList>
-            </div>
-
-            <TabsContent value="beginner" className="p-4 space-y-3">
-              <h3 className="font-medium text-gray-900 mb-3">Beginner Questions</h3>
-              {(playgroundQuestions.beginner || []).map((question) => (
-                <Card
-                  key={question.id}
-                  className={`cursor-pointer transition-all hover:shadow-md ${
-                    currentQuestion?.id === question.id
-                      ? "ring-2 ring-yellow-500 bg-yellow-50"
-                      : "hover:bg-gray-50"
-                  }`}
-                  onClick={() => selectQuestion(question)}
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Sidebar */}
+          <div className="lg:col-span-1 space-y-4">
+            {/* Practice Questions */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-lg">
+                  <Code2 className="w-5 h-5" />
+                  Practice Questions
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Tabs
+                  value={activeTab}
+                  onValueChange={setActiveTab}
+                  className="w-full"
                 >
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">
-                          {question.title}
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                          {question.description}
-                        </p>
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            variant="secondary"
-                            className="bg-green-100 text-green-800"
-                          >
-                            {question.difficulty}
-                          </Badge>
-                          <span className="text-xs text-gray-500">
-                            {question.tags?.slice(0, 2).join(", ")}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </TabsContent>
+                  <TabsList className="grid w-full grid-cols-2">
+                    <TabsTrigger
+                      value="beginner"
+                      className="flex items-center gap-1"
+                    >
+                      <Zap className="w-4 h-4" />
+                      Beginner
+                    </TabsTrigger>
+                    <TabsTrigger
+                      value="advanced"
+                      className="flex items-center gap-1"
+                    >
+                      <Zap className="w-4 h-4" />
+                      Advanced
+                    </TabsTrigger>
+                  </TabsList>
 
-            <TabsContent value="advanced" className="p-4 space-y-3">
-              <h3 className="font-medium text-gray-900 mb-3">Advanced Questions</h3>
-              {(playgroundQuestions.advanced || []).map((question) => (
-                <Card
-                  key={question.id}
-                  className={`cursor-pointer transition-all hover:shadow-md ${
-                    currentQuestion?.id === question.id
-                      ? "ring-2 ring-yellow-500 bg-yellow-50"
-                      : "hover:bg-gray-50"
-                  }`}
-                  onClick={() => selectQuestion(question)}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900 mb-1">
-                          {question.title}
-                        </h4>
-                        <p className="text-sm text-gray-600 mb-2 line-clamp-2">
-                          {question.description}
-                        </p>
-                        <div className="flex items-center gap-2">
-                          <Badge
-                            variant="secondary"
-                            className={
-                              question.difficulty === "medium"
-                                ? "bg-yellow-100 text-yellow-800"
-                                : "bg-red-100 text-red-800"
-                            }
-                          >
-                            {question.difficulty}
-                          </Badge>
-                          <span className="text-xs text-gray-500">
-                            {question.tags?.slice(0, 2).join(", ")}
-                          </span>
+                  <TabsContent value="beginner" className="mt-4">
+                    <div className="space-y-2">
+                      {(playgroundQuestions.beginner || []).map((question) => (
+                        <div
+                          key={question.id}
+                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
+                            currentQuestion?.id === question.id
+                              ? "border-yellow-500 bg-yellow-50"
+                              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                          }`}
+                          onClick={() => selectQuestion(question)}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-medium text-gray-900">
+                              {question.title}
+                            </span>
+                            <Badge
+                              className={getDifficultyColor(question.difficulty)}
+                            >
+                              {question.difficulty}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-gray-600 line-clamp-2">
+                            {question.description}
+                          </p>
                         </div>
-                      </div>
+                      ))}
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </TabsContent>
-          </Tabs>
-        </div>
+                  </TabsContent>
 
-        {/* Main Content */}
-        <div className="flex-1 bg-gray-50 overflow-hidden">
-          {currentQuestion ? (
-            <div className="h-full flex flex-col">
-              {/* Question Details */}
-              <Card className="m-6 mb-4">
+                  <TabsContent value="advanced" className="mt-4">
+                    <div className="space-y-2">
+                      {(playgroundQuestions.advanced || []).map((question) => (
+                        <div
+                          key={question.id}
+                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
+                            currentQuestion?.id === question.id
+                              ? "border-yellow-500 bg-yellow-50"
+                              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                          }`}
+                          onClick={() => selectQuestion(question)}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className="text-sm font-medium text-gray-900">
+                              {question.title}
+                            </span>
+                            <Badge
+                              className={getDifficultyColor(question.difficulty)}
+                            >
+                              {question.difficulty}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-gray-600 line-clamp-2">
+                            {question.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Main Content */}
+          <div className="lg:col-span-3 space-y-4">
+            {/* Question Details */}
+            {currentQuestion && (
+              <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <CardTitle className="text-xl">{currentQuestion.title}</CardTitle>
+                    <CardTitle className="flex items-center gap-2">
+                      <Code2 className="w-5 h-5" />
+                      {currentQuestion.title}
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-2">
                       <Badge
-                        variant="secondary"
-                        className={
-                          currentQuestion.difficulty === "easy"
-                            ? "bg-green-100 text-green-800"
-                            : currentQuestion.difficulty === "medium"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-red-100 text-red-800"
-                        }
+                        className={getDifficultyColor(currentQuestion.difficulty)}
                       >
                         {currentQuestion.difficulty}
                       </Badge>
                     </div>
+                    <p className="text-gray-700">{currentQuestion.description}</p>
+
+                    {currentQuestion.examples && (
+                      <div className="mb-4">
+                        <h4 className="font-medium text-gray-900 mb-2">Examples:</h4>
+                        {currentQuestion.examples.map((example, index) => (
+                          <div key={index} className="bg-gray-50 p-3 rounded mb-2">
+                            <div className="text-sm">
+                              <div><strong>Input:</strong> {example.input}</div>
+                              <div><strong>Output:</strong> {example.output}</div>
+                              {example.explanation && (
+                                <div className="text-gray-600 mt-1">{example.explanation}</div>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
                     <div className="flex items-center gap-2">
                       <Button
-                        size="sm"
                         variant="outline"
+                        size="sm"
                         onClick={showHintHandler}
                         disabled={showHint}
+                        className="flex items-center gap-1"
                       >
-                        <Lightbulb className="w-4 h-4 mr-1" />
+                        <Lightbulb className="w-4 h-4" />
                         {showHint ? "Hint Shown" : "Show Hint"}
                       </Button>
                       <Button
-                        size="sm"
                         variant="outline"
+                        size="sm"
                         onClick={() => setShowSolution(!showSolution)}
+                        className="flex items-center gap-1"
                       >
-                        <Eye className="w-4 h-4 mr-1" />
+                        <Eye className="w-4 h-4" />
                         {showSolution ? "Hide Solution" : "Show Solution"}
                       </Button>
                       <Button
-                        size="sm"
                         variant="outline"
+                        size="sm"
                         onClick={resetQuestion}
+                        className="flex items-center gap-1"
                       >
-                        <RotateCcw className="w-4 h-4 mr-1" />
+                        <RotateCcw className="w-4 h-4" />
                         Reset
                       </Button>
                     </div>
+
+                    {/* Hints */}
+                    {showHint && currentQuestion.hints && (
+                      <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+                        <p className="text-sm text-yellow-800">
+                          <strong>Hints:</strong>
+                        </p>
+                        <ul className="text-yellow-700 text-sm space-y-1 mt-1">
+                          {currentQuestion.hints.map((hint, index) => (
+                            <li key={index}>• {hint}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+
+                    {/* Solution */}
+                    {showSolution && (
+                      <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                        <p className="text-sm text-green-800 mb-2">
+                          <strong>Solution:</strong>
+                        </p>
+                        <code className="text-sm font-mono bg-white p-2 rounded border block text-gray-900">
+                          {currentQuestion.solution}
+                        </code>
+                      </div>
+                    )}
                   </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* JavaScript Editor */}
+            <Card>
+              <CardHeader>
+                <div className="flex items-center justify-between">
+                  <CardTitle>JavaScript Editor</CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={resetQuestion}
+                      className="flex items-center gap-1"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                      Reset
+                    </Button>
+                    <Button
+                      onClick={executeCode}
+                      disabled={isRunning || !userCode.trim()}
+                      className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white"
+                    >
+                      <Play className="w-4 h-4" />
+                      {isRunning ? "Running..." : "Run Code"}
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64">
+                  <CodeEditor
+                    code={userCode}
+                    onChange={setUserCode}
+                    language="javascript"
+                    onRun={executeCode}
+                    className="h-full"
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-2">
+                  Press Ctrl+Enter (Cmd+Enter on Mac) to run code
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Results */}
+            {(output || testResults.length > 0) && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5 text-green-600" />
+                    Results
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-gray-700 mb-4">{currentQuestion.description}</p>
-                  
-                  {currentQuestion.examples && (
+                  {output && (
                     <div className="mb-4">
-                      <h4 className="font-medium text-gray-900 mb-2">Examples:</h4>
-                      {currentQuestion.examples.map((example, index) => (
-                        <div key={index} className="bg-gray-50 p-3 rounded mb-2">
-                          <div className="text-sm">
-                            <div><strong>Input:</strong> {example.input}</div>
-                            <div><strong>Output:</strong> {example.output}</div>
-                            {example.explanation && (
-                              <div className="text-gray-600 mt-1">{example.explanation}</div>
+                      <h4 className="font-medium text-gray-900 mb-2">Console Output:</h4>
+                      <pre className="bg-gray-900 text-green-400 p-3 rounded text-sm whitespace-pre-wrap">
+                        {output}
+                      </pre>
+                    </div>
+                  )}
+
+                  {testResults.length > 0 && (
+                    <div>
+                      <h4 className="font-medium text-gray-900 mb-2">Test Results:</h4>
+                      <div className="space-y-2">
+                        {testResults.map((test, index) => (
+                          <div
+                            key={index}
+                            className={`p-3 rounded border ${
+                              test.passed
+                                ? "bg-green-50 border-green-200"
+                                : "bg-red-50 border-red-200"
+                            }`}
+                          >
+                            <div className="flex items-center gap-2 mb-1">
+                              {test.passed ? (
+                                <CheckCircle className="w-4 h-4 text-green-600" />
+                              ) : (
+                                <XCircle className="w-4 h-4 text-red-600" />
+                              )}
+                              <span className={`font-medium ${
+                                test.passed ? "text-green-800" : "text-red-800"
+                              }`}>
+                                Test {index + 1}: {test.passed ? "PASSED" : "FAILED"}
+                              </span>
+                            </div>
+                            {!test.passed && (
+                              <div className="text-sm text-red-700 ml-6">
+                                <div>Expected: {JSON.stringify(test.expected)}</div>
+                                <div>Actual: {JSON.stringify(test.actual)}</div>
+                              </div>
                             )}
                           </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Hints */}
-                  {showHint && currentQuestion.hints && (
-                    <div className="bg-yellow-50 border border-yellow-200 rounded p-4 mb-4">
-                      <h4 className="font-medium text-yellow-800 mb-2">💡 Hints:</h4>
-                      <ul className="text-yellow-700 text-sm space-y-1">
-                        {currentQuestion.hints.map((hint, index) => (
-                          <li key={index}>• {hint}</li>
                         ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* Solution */}
-                  {showSolution && (
-                    <div className="bg-blue-50 border border-blue-200 rounded p-4 mb-4">
-                      <h4 className="font-medium text-blue-800 mb-2">✅ Solution:</h4>
-                      <pre className="bg-gray-900 text-gray-100 p-4 rounded text-sm overflow-x-auto">
-                        <code>{currentQuestion.solution}</code>
-                      </pre>
+                      </div>
                     </div>
                   )}
                 </CardContent>
               </Card>
+            )}
 
-              {/* Code Editor and Results */}
-              <div className="flex-1 mx-6 mb-6 flex gap-6">
-                {/* Code Editor */}
-                <Card className="flex-1 flex flex-col">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg">JavaScript Editor</CardTitle>
-                      <Button
-                        onClick={executeCode}
-                        disabled={isRunning || !userCode.trim()}
-                        className="bg-yellow-600 hover:bg-yellow-700 text-white"
-                      >
-                        {isRunning ? (
-                          <>
-                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                            Running...
-                          </>
-                        ) : (
-                          <>
-                            <Play className="w-4 h-4 mr-2" />
-                            Run Code
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex-1 p-0">
-                    <CodeEditor
-                      code={userCode}
-                      onChange={setUserCode}
-                      language="javascript"
-                      onRun={executeCode}
-                      className="h-full"
-                    />
-                  </CardContent>
-                </Card>
-
-                {/* Results Panel */}
-                <Card className="w-96 flex flex-col">
-                  <CardHeader className="pb-3">
-                    <CardTitle className="text-lg">Results</CardTitle>
-                  </CardHeader>
-                  <CardContent className="flex-1 overflow-y-auto">
-                    {output && (
-                      <div className="mb-4">
-                        <h4 className="font-medium text-gray-900 mb-2">Console Output:</h4>
-                        <pre className="bg-gray-900 text-green-400 p-3 rounded text-sm whitespace-pre-wrap">
-                          {output}
-                        </pre>
-                      </div>
-                    )}
-
-                    {testResults.length > 0 && (
-                      <div>
-                        <h4 className="font-medium text-gray-900 mb-2">Test Results:</h4>
-                        <div className="space-y-2">
-                          {testResults.map((test, index) => (
-                            <div
-                              key={index}
-                              className={`p-3 rounded border ${
-                                test.passed
-                                  ? "bg-green-50 border-green-200"
-                                  : "bg-red-50 border-red-200"
-                              }`}
-                            >
-                              <div className="flex items-center gap-2 mb-1">
-                                {test.passed ? (
-                                  <CheckCircle className="w-4 h-4 text-green-600" />
-                                ) : (
-                                  <XCircle className="w-4 h-4 text-red-600" />
-                                )}
-                                <span className={`font-medium ${
-                                  test.passed ? "text-green-800" : "text-red-800"
-                                }`}>
-                                  Test {index + 1}: {test.passed ? "PASSED" : "FAILED"}
-                                </span>
-                              </div>
-                              {!test.passed && (
-                                <div className="text-sm text-red-700 ml-6">
-                                  <div>Expected: {JSON.stringify(test.expected)}</div>
-                                  <div>Actual: {JSON.stringify(test.actual)}</div>
-                                </div>
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {!output && testResults.length === 0 && (
-                      <div className="text-center text-gray-500 py-8">
-                        <Code2 className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                        <p>Run your code to see results</p>
-                      </div>
-                    )}
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-          ) : (
-            <div className="h-full flex items-center justify-center">
-              <div className="text-center">
-                <Code2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                  Select a Question
-                </h3>
-                <p className="text-gray-600">
-                  Choose a coding challenge from the sidebar to start practicing.
-                </p>
-              </div>
-            </div>
-          )}
+            {!currentQuestion && (
+              <Card>
+                <CardContent className="text-center py-12">
+                  <Code2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                    Select a Question
+                  </h3>
+                  <p className="text-gray-600">
+                    Choose a JavaScript coding challenge from the sidebar to start practicing.
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+          </div>
         </div>
       </div>
     </div>

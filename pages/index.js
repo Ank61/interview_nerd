@@ -162,7 +162,7 @@ export default function Home() {
                       >
                         <Code className="w-5 h-5 text-purple-700" />
                         <div className="text-left">
-                          <div className="font-medium">Code Playground</div>
+                          <div className="font-medium">JavaScript Playground</div>
                         </div>
                       </Button>
                     </div>
@@ -321,7 +321,7 @@ export default function Home() {
                         className="w-full justify-start text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 py-2"
                       >
                         <Code className="w-4 h-4" />
-                        Code Playground
+                        JavaScript Playground
                       </Button>
                     </div>
                   )}
@@ -517,11 +517,11 @@ export default function Home() {
                 <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
                   <Code className="w-12 h-12 text-white mx-auto mb-4" />
                   <h3 className="text-xl font-bold text-white mb-2">
-                    Code Playground
+                    JavaScript Playground
                   </h3>
                   <p className="text-blue-100 text-sm mb-4">
-                    Practice in JavaScript, TypeScript, and Python with
-                    real-time code execution and AI-powered recommendations
+                    Practice JavaScript with real-time code execution, 
+                    interactive challenges, and AI-powered recommendations
                   </p>
                   <Button
                     size="sm"
@@ -533,7 +533,7 @@ export default function Home() {
                     className="bg-white text-purple-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
                     <Play className="mr-2 w-4 h-4" />
-                    Start Coding
+                    Practice Javascript
                   </Button>
                 </div>
               </motion.div>
@@ -1223,10 +1223,10 @@ export default function Home() {
                 <Code className="w-8 h-8 text-white" />
               </div>
               <h3 className="font-semibold text-lg mb-2 text-gray-900">
-                Code Playground
+                JavaScript Playground
               </h3>
               <p className="text-gray-600 text-center text-sm leading-relaxed">
-                Interactive coding environment with AI-powered adaptive
+                Interactive JavaScript coding environment with AI-powered adaptive
                 difficulty and real-time feedback.
               </p>
               <Badge className="mt-2 bg-purple-100 text-purple-800 text-xs">

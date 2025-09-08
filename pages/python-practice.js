@@ -1,10 +1,23 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Head from "next/head";
+import { motion } from "framer-motion";
+import { 
+  Card, 
+  CardContent, 
+  CardHeader, 
+  CardTitle, 
+  CardDescription,
+  CardFooter 
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import {
   Play,
   FileCode2,
@@ -18,6 +31,19 @@ import {
   Home,
   GraduationCap,
   Zap,
+  User,
+  Settings,
+  ChevronDown,
+  ArrowRight,
+  MonitorCog,
+  DatabaseZap,
+  Workflow,
+  Database,
+  Target,
+  Award,
+  ChevronLeft,
+  ChevronRight,
+  Table,
 } from "lucide-react";
 import { pythonQuestions, pythonConcepts } from "../data/pythonDatasets";
 import PythonExecutor from "../lib/pythonExecutor";
@@ -25,6 +51,8 @@ import PythonExecutor from "../lib/pythonExecutor";
 export default function PythonPractice() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
   const [executor] = useState(() => new PythonExecutor());
 
   // State management
@@ -39,6 +67,14 @@ export default function PythonPractice() {
   // Separate questions by difficulty
   const beginnerQuestions = pythonQuestions.beginner || [];
   const advancedQuestions = pythonQuestions.advanced || [];
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   useEffect(() => {
     if (status === "loading") return;
@@ -124,28 +160,36 @@ export default function PythonPractice() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                onClick={() => router.push("/")}
-                className="flex items-center gap-2"
-              >
-                <Home className="w-4 h-4" />
-                Home
-              </Button>
-              <div className="flex items-center gap-2">
-                <FileCode2 className="w-6 h-6 text-yellow-600" />
-                <h1 className="text-2xl font-bold text-gray-900">
-                  Python Practice
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <nav className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100">
+                <FileCode2 size={24} className="text-yellow-600" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">
+                  Interview Nerd
                 </h1>
+                <p className="text-sm text-gray-500 hidden sm:block">
+                  Python Practice
+                </p>
               </div>
             </div>
+
+            {/* Right side - Actions */}
+            <div className="flex items-center space-x-4">
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <User className="w-5 h-5 text-gray-600" />
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <Settings className="w-5 h-5 text-gray-600" />
+              </button>
+            </div>
           </div>
-        </div>
-      </div>
+        </nav>
+      </header>
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">

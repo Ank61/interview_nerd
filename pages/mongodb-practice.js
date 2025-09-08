@@ -1,11 +1,23 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { motion } from "framer-motion";
+import { 
+  Card, 
+  CardHeader, 
+  CardTitle, 
+  CardContent, 
+  CardDescription,
+  CardFooter 
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Separator } from "@/components/ui/separator";
 import {
   Database,
   Play,
@@ -17,6 +29,24 @@ import {
   Clock,
   Code,
   FileText,
+  User,
+  Settings,
+  ChevronDown,
+  ArrowRight,
+  MonitorCog,
+  DatabaseZap,
+  Workflow,
+  FileCode2,
+  Target,
+  Award,
+  ChevronLeft,
+  ChevronRight,
+  GraduationCap,
+  Zap,
+  XCircle,
+  Eye,
+  EyeOff,
+  RotateCcw,
 } from "lucide-react";
 import MongoExecutor from "../lib/mongoExecutor";
 import { mongoDatasets, mongoQuestions } from "../data/mongoDatasets";
@@ -24,6 +54,10 @@ import { mongoDatasets, mongoQuestions } from "../data/mongoDatasets";
 export default function MongoDBPractice() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
+  
+  // State management
   const [selectedDataset, setSelectedDataset] = useState("ecommerce");
   const [query, setQuery] = useState("db.products.find()");
   const [result, setResult] = useState(null);
@@ -33,8 +67,17 @@ export default function MongoDBPractice() {
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [activeTab, setActiveTab] = useState("beginner");
+  const [showSchema, setShowSchema] = useState(true);
 
   const mongoExecutor = new MongoExecutor();
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    await signOut({ callbackUrl: '/' });
+  };
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -123,42 +166,51 @@ export default function MongoDBPractice() {
       </Head>
 
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <Button
-                variant="ghost"
-                onClick={() => router.push("/")}
-                className="flex items-center gap-2"
-              >
-                <Home className="w-4 h-4" />
-                Home
-              </Button>
-              <div className="flex items-center gap-2">
-                <Database className="w-6 h-6 text-green-600" />
-                <h1 className="text-2xl font-bold text-gray-900">
-                  MongoDB Practice
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <nav className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-3">
+              <div className="p-2 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100">
+                <Database size={24} className="text-green-600" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">
+                  Interview Nerd
                 </h1>
+                <p className="text-sm text-gray-500 hidden sm:block">
+                  MongoDB Practice
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-600">Dataset:</span>
-              <select
-                value={selectedDataset}
-                onChange={(e) => handleDatasetChange(e.target.value)}
-                className="px-3 py-1 bg-white border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                {Object.entries(mongoDatasets).map(([key, dataset]) => (
-                  <option key={key} value={key}>
-                    {dataset.name}
-                  </option>
-                ))}
-              </select>
+
+            {/* Right side - Actions */}
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-gray-600">Dataset:</span>
+                <select
+                  value={selectedDataset}
+                  onChange={(e) => handleDatasetChange(e.target.value)}
+                  className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                >
+                  {Object.entries(mongoDatasets).map(([key, dataset]) => (
+                    <option key={key} value={key}>
+                      {dataset.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <User className="w-5 h-5 text-gray-600" />
+              </button>
+              
+              <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                <Settings className="w-5 h-5 text-gray-600" />
+              </button>
             </div>
           </div>
-        </div>
-      </div>
+        </nav>
+      </header>
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">

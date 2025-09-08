@@ -59785,1710 +59785,1487 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
           },
           {
             topic: "Encapsulation",
-            tags: ["OOP", "Security", "Maintainability"],
-            explanation: `
-<div>
-  <h2 style="margin-top: 1.5rem; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.025em;">
-    Encapsulation in Object-Oriented Programming
-  </h2>
-
-  <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
-    <strong>Encapsulation</strong> is the bundling of data (attributes) and methods (functions) that operate on the data into a single unit — a class — and restricting direct access to some of the object's components. This is typically achieved through <strong>access modifiers</strong> like <code>private</code>, <code>protected</code>, and <code>public</code>.
-  </p>
-
-  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
-    🔐 Why Encapsulation Matters
-  </h3>
-
-  <ul style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: disc;">
-    <li style="margin-top: 0.5rem;">
-      <strong>Security:</strong> Prevents external code from directly modifying sensitive data.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <strong>Maintainability:</strong> Internal implementation can change without affecting external code.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <strong>Modularity:</strong> Encourages clean interfaces and separation of concerns.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <strong>Control:</strong> Allows validation and logic inside setter/getter methods.
-    </li>
-  </ul>
-
-  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
-    🧱 Key Pillars of Encapsulation
-  </h3>
-
-  <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: decimal;">
-    <li><strong>Data Hiding:</strong> Hide internal state using private variables.</li>
-    <li><strong>Access Control:</strong> Use public methods (getters/setters) to allow controlled access.</li>
-    <li><strong>Validation:</strong> Enforce rules before setting values.</li>
-  </ol>
-
-  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
-    🧪 Use Case: Bank Account System
-  </h3>
-
-  <p style="line-height: 1.75; margin-top: 1rem;">
-    Let’s design a simple <strong>BankAccount</strong> class that encapsulates balance and ensures no invalid operations (e.g., negative deposits or over-withdrawals).
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">Python Example</h4>
-  <div style="padding: 10px; border-radius: 8px; background-color: #f5f5f5;">
-    <pre><code class="language-python">
-class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.__balance = balance  # Private attribute
-
-    def deposit(self, amount):
-        if amount <= 0:
-            raise ValueError("Deposit must be positive")
-        self.__balance += amount
-
-    def withdraw(self, amount):
-        if amount > self.__balance:
-            raise ValueError("Insufficient funds")
-        self.__balance -= amount
-
-    def get_balance(self):
-        return self.__balance
-
-# Usage
-acc = BankAccount("Alice")
-acc.deposit(100)
-print(acc.get_balance())  # 100
-acc.withdraw(50)
-print(acc.get_balance())  # 50
-    </code></pre>
+            tags: ["OOP", "Data Hiding", "Access Control", "Private Members"],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Encapsulation is one of the four fundamental principles of Object-Oriented Programming (OOP). It refers to the bundling of data (attributes) and methods (functions) that operate on that data into a single unit called a class, while restricting direct access to some of the object's components. This concept promotes data hiding and provides a controlled interface to interact with the object's internal state.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Why Use Encapsulation?
+     </h4>
+   
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Data Protection:</span> Prevents unauthorized access and modification of internal data.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Modularity:</span> Code is organized into logical, self-contained units.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Changes to internal implementation don't affect external code.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Encapsulated objects can be reused across different parts of an application.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Abstraction:</span> Hides complex implementation details behind a simple interface.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Sensitive data and operations are protected from external interference.
+       </li>
+     </ol>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Key Concepts of Encapsulation
+     </h4>
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Data Hiding:</span> Internal data is hidden from external access using private members.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Access Control:</span> Different levels of access (public, private, protected) control visibility.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Getters and Setters:</span> Controlled methods to access and modify private data.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Interface:</span> Public methods that define how external code can interact with the object.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Information Hiding:</span> Implementation details are concealed from the outside world.
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       JavaScript Example - Encapsulation with Private Fields
+     </h4>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+  class BankAccount {
+    // Private fields (ES2022+)
+    #balance = 0;
+    #accountNumber;
+    
+    constructor(accountNumber, initialBalance = 0) {
+      this.#accountNumber = accountNumber;
+      this.#balance = initialBalance;
+    }
+    
+    // Public method to deposit money
+    deposit(amount) {
+      if (amount > 0) {
+        this.#balance += amount;
+        console.log(\`Deposited $\${amount}. New balance: $\${this.#balance}\`);
+      } else {
+        console.log("Deposit amount must be positive");
+      }
+    }
+    
+    // Public method to withdraw money
+    withdraw(amount) {
+      if (amount > 0 && amount <= this.#balance) {
+        this.#balance -= amount;
+        console.log(\`Withdrawn $\${amount}. New balance: $\${this.#balance}\`);
+      } else {
+        console.log("Invalid withdrawal amount");
+      }
+    }
+    
+    // Getter method for balance (controlled access)
+    getBalance() {
+      return this.#balance;
+    }
+    
+    // Getter for account number
+    getAccountNumber() {
+      return this.#accountNumber;
+    }
+  }
+  
+  // Usage example
+  const account = new BankAccount("12345", 1000);
+  account.deposit(500);        // Deposited $500. New balance: $1500
+  account.withdraw(200);       // Withdrawn $200. New balance: $1300
+  console.log(account.getBalance()); // 1300
+  
+  // Direct access to private fields will throw an error
+  // console.log(account.#balance); // SyntaxError: Private field '#balance' must be declared in an enclosing class
+   </code></pre>
+    </div>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Python Example - Encapsulation with Name Mangling
+     </h4>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+  class Student:
+      def __init__(self, name, age, student_id):
+          self.name = name              # Public attribute
+          self._age = age              # Protected attribute (convention)
+          self.__student_id = student_id  # Private attribute (name mangling)
+          self.__grades = []           # Private list to store grades
+      
+      # Public method
+      def add_grade(self, grade):
+          if 0 <= grade <= 100:
+              self.__grades.append(grade)
+              print(f"Grade {grade} added successfully")
+          else:
+              print("Grade must be between 0 and 100")
+      
+      # Public method to get average grade
+      def get_average_grade(self):
+          if self.__grades:
+              return sum(self.__grades) / len(self.__grades)
+          return 0
+      
+      # Getter method for private student ID
+      def get_student_id(self):
+          return self.__student_id
+      
+      # Setter method for age with validation
+      def set_age(self, age):
+          if age > 0 and age < 150:
+              self._age = age
+          else:
+              print("Invalid age")
+      
+      # Getter method for age
+      def get_age(self):
+          return self._age
+      
+      # Private method (helper method)
+      def __calculate_letter_grade(self, numeric_grade):
+          if numeric_grade >= 90:
+              return 'A'
+          elif numeric_grade >= 80:
+              return 'B'
+          elif numeric_grade >= 70:
+              return 'C'
+          elif numeric_grade >= 60:
+              return 'D'
+          else:
+              return 'F'
+      
+      # Public method that uses private method
+      def get_letter_grade(self):
+          avg = self.get_average_grade()
+          return self.__calculate_letter_grade(avg)
+      
+      # String representation
+      def __str__(self):
+          return f"Student: {self.name}, Age: {self._age}, ID: {self.__student_id}"
+  
+  # Usage example
+  student = Student("Alice Johnson", 20, "STU001")
+  print(student)  # Student: Alice Johnson, Age: 20, ID: STU001
+  
+  student.add_grade(85)  # Grade 85 added successfully
+  student.add_grade(92)  # Grade 92 added successfully
+  student.add_grade(78)  # Grade 78 added successfully
+  
+  print(f"Average Grade: {student.get_average_grade():.2f}")  # Average Grade: 85.00
+  print(f"Letter Grade: {student.get_letter_grade()}")        # Letter Grade: B
+  
+  # Direct access to public attribute works
+  print(student.name)  # Alice Johnson
+  
+  # Direct access to private attribute will cause AttributeError
+  # print(student.__student_id)  # AttributeError: 'Student' object has no attribute '__student_id'
+  
+  # However, name mangling allows access via _ClassName__attribute (not recommended)
+  # print(student._Student__student_id)  # STU001
+   </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Alternative JavaScript Example - Closure-based Encapsulation
+     </h4>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+  // Using closures for encapsulation (older approach)
+  function createCounter(initialValue = 0) {
+    let count = initialValue;  // Private variable
+    
+    // Return an object with public methods
+    return {
+      increment() {
+        count++;
+        return count;
+      },
+      
+      decrement() {
+        count--;
+        return count;
+      },
+      
+      getValue() {
+        return count;
+      },
+      
+      reset() {
+        count = initialValue;
+        return count;
+      }
+    };
+  }
+  
+  // Usage
+  const counter = createCounter(10);
+  console.log(counter.getValue()); // 10
+  console.log(counter.increment()); // 11
+  console.log(counter.increment()); // 12
+  console.log(counter.decrement()); // 11
+  console.log(counter.reset()); // 10
+  
+  // Direct access to 'count' is not possible
+  // console.log(counter.count); // undefined
+   </code></pre>
+    </div>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Benefits and Best Practices
+     </h4>
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Data Integrity:</span> Validate data before allowing modifications through setter methods.
+       </li>
+        <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Interface Consistency:</span> Maintain stable public interfaces while allowing internal changes.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Error Prevention:</span> Prevent accidental modification of critical internal state.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Code Organization:</span> Group related data and functionality together logically.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Testing:</span> Easier to test individual components when they're properly encapsulated.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Debugging:</span> Controlled access points make it easier to track data changes.
+       </li>
+     </ol>
   </div>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">JavaScript Example</h4>
-  <div style="padding: 10px; border-radius: 8px; background-color: #f5f5f5;">
-    <pre><code class="language-javascript">
-class BankAccount {
-  #balance; // Private field
-
-  constructor(owner, balance = 0) {
-    this.owner = owner;
-    this.#balance = balance;
-  }
-
-  deposit(amount) {
-    if (amount <= 0) throw new Error("Deposit must be positive");
-    this.#balance += amount;
-  }
-
-  withdraw(amount) {
-    if (amount > this.#balance) throw new Error("Insufficient funds");
-    this.#balance -= amount;
-  }
-
-  getBalance() {
-    return this.#balance;
-  }
-}
-
-// Usage
-const acc = new BankAccount("Alice");
-acc.deposit(100);
-console.log(acc.getBalance()); // 100
-acc.withdraw(50);
-console.log(acc.getBalance()); // 50
-    </code></pre>
-  </div>
-
-  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
-    🧩 Advanced Use Case: Immutable DTOs
-  </h3>
-
-  <p style="line-height: 1.75;">
-    In some systems, you may want to expose read-only data transfer objects (DTOs) to external systems while keeping internal state mutable only via controlled APIs.
-  </p>
-
-  <h4>Python Immutable DTO</h4>
-  <pre><code class="language-python">
-class UserDTO:
-    def __init__(self, name, email):
-        self._name = name
-        self._email = email
-
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def email(self):
-        return self._email
-  </code></pre>
-
-  <h4>JavaScript Immutable DTO</h4>
-  <pre><code class="language-javascript">
-class UserDTO {
-  #name;
-  #email;
-
-  constructor(name, email) {
-    this.#name = name;
-    this.#email = email;
-  }
-
-  get name() {
-    return this.#name;
-  }
-
-  get email() {
-    return this.#email;
-  }
-}
-  </code></pre>
-
-  <h3 style="margin-top: 2rem; font-size: 1.5rem; font-weight: 600;">
-    ✅ Summary
-  </h3>
-
-  <ul style="margin-left: 1.5rem; list-style-type: square;">
-    <li>Encapsulation hides internal state and exposes only necessary interfaces.</li>
-    <li>It improves <strong>security</strong> by preventing unauthorized access.</li>
-    <li>It enhances <strong>maintainability</strong> by isolating changes.</li>
-    <li>It supports <strong>validation</strong> and <strong>control</strong> through getter/setter methods.</li>
-    <li>Both Python and JavaScript support encapsulation via naming conventions or keywords.</li>
-  </ul>
-</div>
-          `,
+  `,
             examples: [
-              `class BankAccount:
-    def __init__(self, owner, balance=0):
-        self.owner = owner
-        self.__balance = balance
-
-    def deposit(self, amount):
-        if amount <= 0:
-            raise ValueError("Deposit must be positive")
-        self.__balance += amount
-
-    def get_balance(self):
-        return self.__balance`,
-              `class BankAccount {
-  #balance;
-  constructor(owner, balance = 0) {
-    this.owner = owner;
-    this.#balance = balance;
-  }
-  deposit(amount) {
-    if (amount <= 0) throw new Error("Invalid deposit");
-    this.#balance += amount;
-  }
-  getBalance() {
-    return this.#balance;
-  }
-}`,
+              `// Real-world example: Shopping Cart with Encapsulation
+  class ShoppingCart {
+    #items = [];
+    #discountRate = 0;
+    
+    constructor() {
+      this.#items = [];
+    }
+    
+    addItem(product, quantity = 1) {
+      const existingItem = this.#items.find(item => item.product.id === product.id);
+      if (existingItem) {
+        existingItem.quantity += quantity;
+      } else {
+        this.#items.push({ product, quantity });
+      }
+    }
+    
+    removeItem(productId) {
+      this.#items = this.#items.filter(item => item.product.id !== productId);
+    }
+    
+    #calculateSubtotal() {
+      return this.#items.reduce((total, item) => {
+        return total + (item.product.price * item.quantity);
+      }, 0);
+    }
+    
+    getTotalPrice() {
+      const subtotal = this.#calculateSubtotal();
+      return subtotal * (1 - this.#discountRate);
+    }
+    
+    applyDiscount(rate) {
+      if (rate >= 0 && rate <= 1) {
+        this.#discountRate = rate;
+      }
+    }
+    
+    getItems() {
+      return [...this.#items]; // Return copy to prevent external modification
+    }
+  }`,
+              `# Python example: Temperature Sensor with Encapsulation
+  class TemperatureSensor:
+      def __init__(self, sensor_id, location):
+          self.__sensor_id = sensor_id
+          self.__location = location
+          self.__temperature_readings = []
+          self.__is_active = True
+      
+      def record_temperature(self, temp_celsius):
+          if self.__is_active and -50 <= temp_celsius <= 100:
+              self.__temperature_readings.append(temp_celsius)
+              return True
+          return False
+      
+      def get_average_temperature(self):
+          if not self.__temperature_readings:
+              return None
+          return sum(self.__temperature_readings) / len(self.__temperature_readings)
+      
+      def get_sensor_info(self):
+          return {
+              'id': self.__sensor_id,
+              'location': self.__location,
+              'active': self.__is_active,
+              'readings_count': len(self.__temperature_readings)
+          }
+      
+      def deactivate_sensor(self):
+          self.__is_active = False
+      
+      def activate_sensor(self):
+          self.__is_active = True`,
             ],
             questions: [
               {
-                question: "Why is encapsulation important in OOP?",
+                question:
+                  "What is encapsulation and why is it important in programming?",
                 solution:
-                  "Encapsulation protects internal data from unintended interference, ensures validation logic is centralized, and allows internal implementation changes without breaking external code. This leads to more secure and maintainable systems.",
+                  "<p>Encapsulation is the OOP principle of bundling data and methods together while restricting direct access to internal components. It's important because it provides data protection, promotes modularity, improves maintainability, enables code reusability, provides abstraction, and enhances security by controlling how data is accessed and modified.</p>",
               },
               {
                 question:
-                  "How do Python and JavaScript implement private variables?",
-                solution:
-                  "Python uses double underscores (__var) for name mangling to simulate private variables. JavaScript uses the # syntax for truly private class fields, introduced in ES2022.",
+                  "How do you implement private fields in modern JavaScript?",
+                solution: `<p>Modern JavaScript (ES2022+) supports private fields using the # symbol:</p>
+               <pre><code className="language-javascript">
+  class MyClass {
+    #privateField = 'hidden';
+    
+    constructor(value) {
+      this.#privateField = value;
+    }
+    
+    getPrivateField() {
+      return this.#privateField;
+    }
+  }
+              </code></pre>
+             <p>Private fields cannot be accessed directly from outside the class and will throw a SyntaxError if attempted.</p>`,
+              },
+              {
+                question:
+                  "What's the difference between private and protected members in Python?",
+                solution: `<p>In Python:</p>
+                <ul>
+                  <li><strong>Private members</strong> use double underscore (__) prefix and trigger name mangling, making them harder to access from outside the class.</li>
+                  <li><strong>Protected members</strong> use single underscore (_) prefix and are a convention indicating they shouldn't be accessed directly, but there's no enforcement.</li>
+                </ul>
+               <pre><code className="language-python">
+  class Example:
+      def __init__(self):
+          self.public = "Everyone can access"
+          self._protected = "Please don't access directly"
+          self.__private = "Hard to access from outside"
+              </code></pre>`,
+              },
+              {
+                question:
+                  "How can you achieve encapsulation without classes in JavaScript?",
+                solution: `<p>You can use closures to achieve encapsulation in JavaScript:</p>
+               <pre><code className="language-javascript">
+  function createPrivateCounter() {
+    let count = 0; // Private variable
+    
+    return {
+      increment: () => ++count,
+      decrement: () => --count,
+      getCount: () => count
+    };
+  }
+  
+  const counter = createPrivateCounter();
+  console.log(counter.getCount()); // 0
+  counter.increment();
+  console.log(counter.getCount()); // 1
+  // counter.count is undefined - no direct access
+              </code></pre>
+             <p>The closure keeps the 'count' variable private while exposing controlled methods to interact with it.</p>`,
               },
             ],
             links: [
-              "https://docs.python.org/3/tutorial/classes.html#private-variables",
               "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
+              "https://docs.python.org/3/tutorial/classes.html#private-variables",
+              "https://javascript.info/property-accessors",
+              "https://realpython.com/python-getter-setter/",
             ],
           },
           {
             topic: "Abstraction in OOP",
             tags: [
-              "abstraction",
-              "abstract-classes",
-              "interfaces",
-              "python",
-              "javascript",
+              "OOP",
+              "Abstraction",
+              "Design Patterns",
+              "JavaScript",
+              "Python",
             ],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Abstraction is one of the four fundamental principles of Object-Oriented Programming (along with Encapsulation, Inheritance, and Polymorphism). It involves hiding complex implementation details while exposing only the essential features of an object or system. Abstraction allows developers to focus on what an object does rather than how it does it.
-   </p>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Abstraction is one of the four fundamental principles of Object-Oriented Programming (OOP), alongside Encapsulation, Inheritance, and Polymorphism. It is the process of hiding complex implementation details while exposing only the essential features and functionality that users need to interact with an object or system.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       What is Abstraction?
+     </h4>
    
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     What is Abstraction?
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data Abstraction:</span> Hiding internal data representation and exposing only necessary operations.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Process Abstraction:</span> Hiding complex implementation details behind simple interfaces.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Control Abstraction:</span> Using high-level constructs to hide low-level control flow.
-     </li>
-   </ol>
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Abstraction allows you to focus on <strong>what</strong> an object does rather than <strong>how</strong> it does it. It creates a simplified interface that hides the underlying complexity, making code more manageable, reusable, and easier to understand.
+     </p>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Think of abstraction like driving a car: you use the steering wheel, pedals, and gear shift without needing to understand the internal combustion engine, transmission system, or electronic control units. The car's interface abstracts away the mechanical complexity.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Types of Abstraction
+     </h4>
    
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Abstraction
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Reduced Complexity:</span> Users interact with simplified interfaces.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Abstract classes and interfaces promote code reuse.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Implementation changes don't affect client code.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Internal implementation details are hidden from users.
-     </li>
-   </ol>
-</div>`,
-            examples: [
-              `# Python Example 1 - Database Abstraction Layer
-from abc import ABC, abstractmethod
-import sqlite3
-import mysql.connector
-from typing import List, Dict, Any
-
-class DatabaseConnection(ABC):
-    """Abstract database connection interface"""
-    
-    @abstractmethod
-    def connect(self):
-        pass
-    
-    @abstractmethod
-    def execute_query(self, query: str, params: tuple = None) -> List[Dict]:
-        pass
-    
-    @abstractmethod
-    def execute_update(self, query: str, params: tuple = None) -> int:
-        pass
-    
-    @abstractmethod
-    def close(self):
-        pass
-
-class SQLiteConnection(DatabaseConnection):
-    def __init__(self, database_path: str):
-        self.database_path = database_path
-        self.connection = None
-    
-    def connect(self):
-        self.connection = sqlite3.connect(self.database_path)
-        self.connection.row_factory = sqlite3.Row
-        return self
-    
-    def execute_query(self, query: str, params: tuple = None) -> List[Dict]:
-        cursor = self.connection.cursor()
-        cursor.execute(query, params or ())
-        return [dict(row) for row in cursor.fetchall()]
-    
-    def execute_update(self, query: str, params: tuple = None) -> int:
-        cursor = self.connection.cursor()
-        cursor.execute(query, params or ())
-        self.connection.commit()
-        return cursor.rowcount
-    
-    def close(self):
-        if self.connection:
-            self.connection.close()
-
-class MySQLConnection(DatabaseConnection):
-    def __init__(self, host: str, user: str, password: str, database: str):
-        self.config = {
-            'host': host, 'user': user, 
-            'password': password, 'database': database
-        }
-        self.connection = None
-    
-    def connect(self):
-        self.connection = mysql.connector.connect(**self.config)
-        return self
-    
-    def execute_query(self, query: str, params: tuple = None) -> List[Dict]:
-        cursor = self.connection.cursor(dictionary=True)
-        cursor.execute(query, params or ())
-        return cursor.fetchall()
-    
-    def execute_update(self, query: str, params: tuple = None) -> int:
-        cursor = self.connection.cursor()
-        cursor.execute(query, params or ())
-        self.connection.commit()
-        return cursor.rowcount
-    
-    def close(self):
-        if self.connection:
-            self.connection.close()
-
-# Repository pattern using abstraction
-class UserRepository:
-    def __init__(self, db_connection: DatabaseConnection):
-        self.db = db_connection.connect()
-    
-    def find_by_id(self, user_id: int) -> Dict:
-        query = "SELECT * FROM users WHERE id = ?"
-        results = self.db.execute_query(query, (user_id,))
-        return results[0] if results else None
-    
-    def create_user(self, name: str, email: str) -> int:
-        query = "INSERT INTO users (name, email) VALUES (?, ?)"
-        return self.db.execute_update(query, (name, email))
-    
-    def __del__(self):
-        self.db.close()
-
-# Usage - Client code doesn't know about specific database
-def create_user_service(db_type: str):
-    if db_type == "sqlite":
-        db = SQLiteConnection("users.db")
-    elif db_type == "mysql":
-        db = MySQLConnection("localhost", "user", "pass", "mydb")
-    else:
-        raise ValueError("Unsupported database type")
-    
-    return UserRepository(db)
-
-# Same interface, different implementations
-sqlite_service = create_user_service("sqlite")
-mysql_service = create_user_service("mysql")
-
-# Both work identically
-user1 = sqlite_service.find_by_id(1)
-user2 = mysql_service.find_by_id(1)`,
-
-              `# Python Example 2 - Payment Processing Abstraction
-from abc import ABC, abstractmethod
-from enum import Enum
-from dataclasses import dataclass
-from typing import Optional
-
-class PaymentStatus(Enum):
-    SUCCESS = "success"
-    FAILED = "failed"
-    PENDING = "pending"
-
-@dataclass
-class PaymentResult:
-    status: PaymentStatus
-    transaction_id: Optional[str] = None
-    message: str = ""
-    amount: float = 0.0
-
-class PaymentProcessor(ABC):
-    """Abstract payment processor interface"""
-    
-    @abstractmethod
-    def process_payment(self, amount: float, card_token: str) -> PaymentResult:
-        pass
-    
-    @abstractmethod
-    def refund_payment(self, transaction_id: str, amount: float) -> PaymentResult:
-        pass
-    
-    @abstractmethod
-    def get_payment_status(self, transaction_id: str) -> PaymentStatus:
-        pass
-
-class StripeProcessor(PaymentProcessor):
-    def __init__(self, api_key: str):
-        self.api_key = api_key
-    
-    def process_payment(self, amount: float, card_token: str) -> PaymentResult:
-        # Simulate Stripe API call
-        print(f"Processing {amount:.2f} via Stripe...")
-        # In real implementation, call Stripe API
-        return PaymentResult(
-            status=PaymentStatus.SUCCESS,
-            transaction_id="stripe_txn_123456",
-            message="Payment processed successfully via Stripe",
-            amount=amount
-        )
-    
-    def refund_payment(self, transaction_id: str, amount: float) -> PaymentResult:
-        print(f"Refunding {amount:.2f} for transaction {transaction_id} via Stripe...")
-        return PaymentResult(
-            status=PaymentStatus.SUCCESS,
-            transaction_id=f"refund_{transaction_id}",
-            message="Refund processed via Stripe",
-            amount=amount
-        )
-    
-    def get_payment_status(self, transaction_id: str) -> PaymentStatus:
-        return PaymentStatus.SUCCESS
-
-class PayPalProcessor(PaymentProcessor):
-    def __init__(self, client_id: str, client_secret: str):
-        self.client_id = client_id
-        self.client_secret = client_secret
-    
-    def process_payment(self, amount: float, card_token: str) -> PaymentResult:
-        print(f"Processing {amount:.2f} via PayPal...")
-        return PaymentResult(
-            status=PaymentStatus.SUCCESS,
-            transaction_id="paypal_txn_789012",
-            message="Payment processed successfully via PayPal",
-            amount=amount
-        )
-    
-    def refund_payment(self, transaction_id: str, amount: float) -> PaymentResult:
-        print(f"Refunding {amount:.2f} for transaction {transaction_id} via PayPal...")
-        return PaymentResult(
-            status=PaymentStatus.SUCCESS,
-            transaction_id=f"refund_{transaction_id}",
-            message="Refund processed via PayPal",
-            amount=amount
-        )
-    
-    def get_payment_status(self, transaction_id: str) -> PaymentStatus:
-        return PaymentStatus.SUCCESS
-
-# E-commerce service using payment abstraction
-class ECommerceService:
-    def __init__(self, payment_processor: PaymentProcessor):
-        self.payment_processor = payment_processor
-    
-    def checkout(self, cart_total: float, card_token: str) -> bool:
-        """Process checkout - doesn't care about payment provider"""
-        result = self.payment_processor.process_payment(cart_total, card_token)
-        
-        if result.status == PaymentStatus.SUCCESS:
-            print(f"Order completed! Transaction ID: {result.transaction_id}")
-            return True
-        else:
-            print(f"Payment failed: {result.message}")
-            return False
-    
-    def process_refund(self, transaction_id: str, amount: float) -> bool:
-        """Process refund - works with any payment provider"""
-        result = self.payment_processor.refund_payment(transaction_id, amount)
-        return result.status == PaymentStatus.SUCCESS
-
-# Usage - Easy to switch between payment providers
-def create_ecommerce_service(payment_provider: str):
-    if payment_provider == "stripe":
-        processor = StripeProcessor("sk_test_stripe_key")
-    elif payment_provider == "paypal":
-        processor = PayPalProcessor("paypal_client_id", "paypal_secret")
-    else:
-        raise ValueError("Unsupported payment provider")
-    
-    return ECommerceService(processor)
-
-# Same business logic, different payment processors
-stripe_store = create_ecommerce_service("stripe")
-paypal_store = create_ecommerce_service("paypal")
-
-# Both work identically
-stripe_store.checkout(99.99, "card_token_123")
-paypal_store.checkout(149.50, "card_token_456")`,
-
-              `// JavaScript Example 1 - Notification System Abstraction
-
-// Abstract base class for notifications
-class NotificationSender {
-    constructor() {
-        if (new.target === NotificationSender) {
-            throw new Error("Cannot instantiate abstract NotificationSender");
-        }
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Data Abstraction:</span> Hiding the internal data structure and providing methods to access and manipulate data.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Process Abstraction:</span> Hiding the implementation details of methods while providing a clean interface.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Interface Abstraction:</span> Using abstract classes or interfaces to define contracts without implementation.
+       </li>
+     </ol>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Benefits of Abstraction
+     </h4>
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Simplicity:</span> Complex systems become easier to use and understand.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Abstract interfaces can be implemented by multiple classes.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Changes to implementation don't affect the interface users.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Different implementations can be swapped without changing client code.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Security:</span> Internal implementation details remain hidden from external access.
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Abstraction in JavaScript
+     </h4>
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       JavaScript doesn't have built-in abstract classes, but we can achieve abstraction through various patterns:
+     </p>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code class="language-javascript">
+  // Abstract Shape class (conceptual - JS doesn't have true abstract classes)
+  class Shape {
+    constructor(color) {
+      if (this.constructor === Shape) {
+        throw new Error("Cannot instantiate abstract class Shape directly");
+      }
+      this.color = color;
     }
     
-    // Abstract methods
-    send(recipient, message, subject = null) {
-        throw new Error("Method 'send' must be implemented");
+    // Abstract method - must be implemented by subclasses
+    calculateArea() {
+      throw new Error("calculateArea() must be implemented by subclass");
     }
     
-    validateRecipient(recipient) {
-        throw new Error("Method 'validateRecipient' must be implemented");
+    // Abstract method
+    getPerimeter() {
+      throw new Error("getPerimeter() must be implemented by subclass");
     }
     
-    // Concrete method - common functionality
-    formatMessage(message, timestamp = new Date()) {
-        return \`[\ {timestamp.toISOString()}] \ {message}\`;
+    // Concrete method - shared implementation
+    displayInfo() {
+      console.log(\`Color: \${this.color}, Area: \${this.calculateArea()}\`);
     }
-}
-
-class EmailSender extends NotificationSender {
-    constructor(smtpConfig) {
-        super();
-        this.smtpConfig = smtpConfig;
-    }
-    
-    send(recipient, message, subject = "Notification") {
-        if (!this.validateRecipient(recipient)) {
-            throw new Error("Invalid email address");
-        }
-        
-        const formattedMessage = this.formatMessage(message);
-        console.log(\`📧 Sending email to \ {recipient}\`);
-        console.log(\`Subject: \ {subject}\`);
-        console.log(\`Message: \ {formattedMessage}\`);
-        
-        // Simulate email sending
-        return {
-            success: true,
-            messageId: \`email_\ {Date.now()}\`,
-            provider: 'email'
-        };
+  }
+  
+  // Concrete implementation - Rectangle
+  class Rectangle extends Shape {
+    constructor(color, width, height) {
+      super(color);
+      this.width = width;
+      this.height = height;
     }
     
-    validateRecipient(email) {
-        const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+ /;
-        return emailRegex.test(email);
-    }
-}
-
-class SMSSender extends NotificationSender {
-    constructor(apiKey, serviceProvider) {
-        super();
-        this.apiKey = apiKey;
-        this.serviceProvider = serviceProvider;
+    calculateArea() {
+      return this.width * this.height;
     }
     
-    send(recipient, message, subject = null) {
-        if (!this.validateRecipient(recipient)) {
-            throw new Error("Invalid phone number");
-        }
-        
-        const formattedMessage = this.formatMessage(message);
-        console.log(\`📱 Sending SMS to \ {recipient}\`);
-        console.log(\`Message: \ {formattedMessage}\`);
-        
-        // Simulate SMS sending
-        return {
-            success: true,
-            messageId: \`sms_\ {Date.now()}\`,
-            provider: 'sms'
-        };
+    getPerimeter() {
+      return 2 * (this.width + this.height);
+    }
+  }
+  
+  // Concrete implementation - Circle
+  class Circle extends Shape {
+    constructor(color, radius) {
+      super(color);
+      this.radius = radius;
     }
     
-    validateRecipient(phone) {
-        const phoneRegex = /^\\+?[1-9]\\d{1,14} /;
-        return phoneRegex.test(phone.replace(/[\\s\\-\\(\\)]/g, ''));
-    }
-}
-
-class PushNotificationSender extends NotificationSender {
-    constructor(firebaseConfig) {
-        super();
-        this.firebaseConfig = firebaseConfig;
+    calculateArea() {
+      return Math.PI * this.radius * this.radius;
     }
     
-    send(recipient, message, subject = "App Notification") {
-        if (!this.validateRecipient(recipient)) {
-            throw new Error("Invalid device token");
-        }
-        
-        const formattedMessage = this.formatMessage(message);
-        console.log(\`🔔 Sending push notification to device \ {recipient.substring(0, 10)}...\`);
-        console.log(\`Title: \ {subject}\`);
-        console.log(\`Message: \ {formattedMessage}\`);
-        
-        // Simulate push notification
-        return {
-            success: true,
-            messageId: \`push_\ {Date.now()}\`,
-            provider: 'push'
-        };
+    getPerimeter() {
+      return 2 * Math.PI * this.radius;
+    }
+  }
+  
+  // Usage
+  const rectangle = new Rectangle("Red", 5, 3);
+  const circle = new Circle("Blue", 4);
+  
+  rectangle.displayInfo(); // Color: Red, Area: 15
+  circle.displayInfo();    // Color: Blue, Area: 50.26548245743669
+  
+  // This would throw an error:
+  // const shape = new Shape("Green"); // Error: Cannot instantiate abstract class
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Data Abstraction Example in JavaScript
+     </h4>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code class="language-javascript">
+  // Bank Account with data abstraction
+  class BankAccount {
+    #balance; // Private field (abstracted away from user)
+    #accountNumber;
+    #transactionHistory;
+    
+    constructor(accountNumber, initialBalance) {
+      this.#accountNumber = accountNumber;
+      this.#balance = initialBalance;
+      this.#transactionHistory = [];
     }
     
-    validateRecipient(deviceToken) {
-        return deviceToken && deviceToken.length >= 32;
-    }
-}
-
-// Notification service that can use any sender
-class NotificationService {
-    constructor() {
-        this.senders = new Map();
-    }
-    
-    addSender(type, sender) {
-        if (!(sender instanceof NotificationSender)) {
-            throw new Error("Sender must extend NotificationSender");
-        }
-        this.senders.set(type, sender);
-    }
-    
-    async sendNotification(type, recipient, message, subject = null) {
-        const sender = this.senders.get(type);
-        if (!sender) {
-            throw new Error(\`No sender configured for type: \ {type}\`);
-        }
-        
-        try {
-            const result = sender.send(recipient, message, subject);
-            console.log(\`✅ Notification sent successfully via \ {result.provider}\`);
-            return result;
-        } catch (error) {
-            console.error(\`❌ Failed to send notification: \ {error.message}\`);
-            throw error;
-        }
-    }
-    
-    // Send to multiple channels
-    async broadcastNotification(recipients, message, subject = null) {
-        const results = [];
-        
-        for (const [type, recipient] of recipients) {
-            try {
-                const result = await this.sendNotification(type, recipient, message, subject);
-                results.push({ type, recipient, success: true, result });
-            } catch (error) {
-                results.push({ type, recipient, success: false, error: error.message });
-            }
-        }
-        
-        return results;
-    }
-}
-
-// Usage Example
-const notificationService = new NotificationService();
-
-// Configure different senders
-notificationService.addSender('email', new EmailSender({
-    host: 'smtp.gmail.com',
-    port: 587,
-    user: 'app@example.com',
-    password: 'app_password'
-}));
-
-notificationService.addSender('sms', new SMSSender('twilio_api_key', 'Twilio'));
-notificationService.addSender('push', new PushNotificationSender({
-    serverKey: 'firebase_server_key'
-}));
-
-// Send notifications through different channels
-async function sendWelcomeNotifications(user) {
-    const message = \`Welcome to our app, \ {user.name}! Thanks for signing up.\`;
-    
-    const recipients = [
-        ['email', user.email],
-        ['sms', user.phone],
-        ['push', user.deviceToken]
-    ];
-    
-    const results = await notificationService.broadcastNotification(
-        recipients, 
-        message, 
-        "Welcome!"
-    );
-    
-    console.log('Broadcast results:', results);
-}
-
-// Example usage
-const newUser = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    phone: '+1234567890',
-    deviceToken: 'firebase_device_token_1234567890abcdef'
-};
-
-sendWelcomeNotifications(newUser);`,
-
-              `// JavaScript Example 2 - File Storage Abstraction
-
-// Abstract file storage interface
-class FileStorage {
-    constructor() {
-        if (new.target === FileStorage) {
-            throw new Error("Cannot instantiate abstract FileStorage");
-        }
-    }
-    
-    // Abstract methods
-    async upload(filePath, content) {
-        throw new Error("Method 'upload' must be implemented");
-    }
-    
-    async download(filePath) {
-        throw new Error("Method 'download' must be implemented");
-    }
-    
-    async delete(filePath) {
-        throw new Error("Method 'delete' must be implemented");
-    }
-    
-    async exists(filePath) {
-        throw new Error("Method 'exists' must be implemented");
-    }
-    
-    async listFiles(directory = '') {
-        throw new Error("Method 'listFiles' must be implemented");
-    }
-    
-    // Common utility methods
-    getFileExtension(filePath) {
-        return filePath.split('.').pop().toLowerCase();
-    }
-    
-    generateUniqueFileName(originalName) {
-        const timestamp = Date.now();
-        const random = Math.random().toString(36).substring(7);
-        const extension = this.getFileExtension(originalName);
-        const nameWithoutExt = originalName.replace(/\\.[^/.]+ /, "");
-        return \`\ {nameWithoutExt}_\ {timestamp}_\ {random}.\ {extension}\`;
-    }
-}
-
-// Local file system implementation
-class LocalFileStorage extends FileStorage {
-    constructor(basePath = './uploads') {
-        super();
-        this.basePath = basePath;
-    }
-    
-    async upload(filePath, content) {
-        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
-        console.log(\`💾 Uploading to local storage: \ {fullPath}\`);
-        
-        // Simulate file writing
-        return {
-            success: true,
-            path: fullPath,
-            size: content.length,
-            provider: 'local'
-        };
-    }
-    
-    async download(filePath) {
-        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
-        console.log(\`📁 Downloading from local storage: \ {fullPath}\`);
-        
-        // Simulate file reading
-        return {
-            content: "File content from local storage",
-            path: fullPath,
-            provider: 'local'
-        };
-    }
-    
-    async delete(filePath) {
-        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
-        console.log(\`🗑️ Deleting from local storage: \ {fullPath}\`);
-        
-        return {
-            success: true,
-            path: fullPath,
-            provider: 'local'
-        };
-    }
-    
-    async exists(filePath) {
-        const fullPath = \`\ {this.basePath}/\ {filePath}\`;
-        console.log(\`🔍 Checking existence in local storage: \ {fullPath}\`);
-        return true; // Simulate file exists
-    }
-    
-    async listFiles(directory = '') {
-        const fullPath = \`\ {this.basePath}/\ {directory}\`;
-        console.log(\`📋 Listing files in local storage: \ {fullPath}\`);
-        
-        return [
-            'document1.pdf',
-            'image1.jpg',
-            'data.json'
-        ];
-    }
-}
-
-// Cloud storage implementation (AWS S3-like)
-class CloudFileStorage extends FileStorage {
-    constructor(bucketName, region, credentials) {
-        super();
-        this.bucketName = bucketName;
-        this.region = region;
-        this.credentials = credentials;
-    }
-    
-    async upload(filePath, content) {
-        const key = \`uploads/\ {filePath}\`;
-        console.log(\`☁️ Uploading to cloud storage: s3://\ {this.bucketName}/\ {key}\`);
-        
-        // Simulate S3 upload
-        return {
-            success: true,
-            path: key,
-            url: \`https://\ {this.bucketName}.s3.\ {this.region}.amazonaws.com/\ {key}\`,
-            size: content.length,
-            provider: 'cloud'
-        };
-    }
-    
-    async download(filePath) {
-        const key = \`uploads/\ {filePath}\`;
-        console.log(\`☁️ Downloading from cloud storage: s3://\ {this.bucketName}/\ {key}\`);
-        
-        return {
-            content: "File content from cloud storage",
-            path: key,
-            url: \`https://\ {this.bucketName}.s3.\ {this.region}.amazonaws.com/\ {key}\`,
-            provider: 'cloud'
-        };
-    }
-    
-    async delete(filePath) {
-        const key = \`uploads/\ {filePath}\`;
-        console.log(\`🗑️ Deleting from cloud storage: s3://\ {this.bucketName}/\ {key}\`);
-        
-        return {
-            success: true,
-            path: key,
-            provider: 'cloud'
-        };
-    }
-    
-    async exists(filePath) {
-        const key = \`uploads/\ {filePath}\`;
-        console.log(\`🔍 Checking existence in cloud storage: s3://\ {this.bucketName}/\ {key}\`);
-        return true;
-    }
-    
-    async listFiles(directory = '') {
-        const prefix = directory ? \`uploads/\ {directory}/\` : 'uploads/';
-        console.log(\`📋 Listing files in cloud storage with prefix: \ {prefix}\`);
-        
-        return [
-            'uploads/documents/report.pdf',
-            'uploads/images/photo.jpg',
-            'uploads/data/backup.json'
-        ];
-    }
-}
-
-// Database file storage implementation
-class DatabaseFileStorage extends FileStorage {
-    constructor(connectionString) {
-        super();
-        this.connectionString = connectionString;
-    }
-    
-    async upload(filePath, content) {
-        console.log(\`🗄️ Storing file in database: \ {filePath}\`);
-        
-        // Simulate database storage
-        const fileId = \`db_file_\ {Date.now()}\`;
-        return {
-            success: true,
-            path: filePath,
-            fileId: fileId,
-            size: content.length,
-            provider: 'database'
-        };
-    }
-    
-    async download(filePath) {
-        console.log(\`🗄️ Retrieving file from database: \ {filePath}\`);
-        
-        return {
-            content: "File content from database",
-            path: filePath,
-            provider: 'database'
-        };
-    }
-    
-    async delete(filePath) {
-        console.log(\`🗑️ Deleting file from database: \ {filePath}\`);
-        
-        return {
-            success: true,
-            path: filePath,
-            provider: 'database'
-        };
-    }
-    
-    async exists(filePath) {
-        console.log(\`🔍 Checking file existence in database: \ {filePath}\`);
-        return true;
-    }
-    
-    async listFiles(directory = '') {
-        console.log(\`📋 Listing files in database directory: \ {directory}\`);
-        
-        return [
-            'user_uploads/avatar.png',
-            'documents/contract.pdf',
-            'backups/data.sql'
-        ];
-    }
-}
-
-// File manager service using storage abstraction
-class FileManager {
-    constructor(storage) {
-        if (!(storage instanceof FileStorage)) {
-            throw new Error("Storage must extend FileStorage");
-        }
-        this.storage = storage;
-    }
-    
-    async uploadFile(fileName, content, useUniqueNames = true) {
-        const finalFileName = useUniqueNames ? 
-            this.storage.generateUniqueFileName(fileName) : fileName;
-        
-        try {
-            const result = await this.storage.upload(finalFileName, content);
-            console.log(\`✅ File uploaded successfully: \ {finalFileName}\`);
-            return result;
-        } catch (error) {
-            console.error(\`❌ Upload failed: \ {error.message}\`);
-            throw error;
-        }
-    }
-    
-    async downloadFile(fileName) {
-        try {
-            const result = await this.storage.download(fileName);
-            console.log(\`✅ File downloaded successfully: \ {fileName}\`);
-            return result;
-        } catch (error) {
-            console.error(\`❌ Download failed: \ {error.message}\`);
-            throw error;
-        }
-    }
-    
-    async deleteFile(fileName) {
-        const exists = await this.storage.exists(fileName);
-        if (!exists) {
-            throw new Error(\`File not found: \ {fileName}\`);
-        }
-        
-        try {
-            const result = await this.storage.delete(fileName);
-            console.log(\`✅ File deleted successfully: \ {fileName}\`);
-            return result;
-        } catch (error) {
-            console.error(\`❌ Delete failed: \ {error.message}\`);
-            throw error;
-        }
-    }
-    
-    async listAllFiles(directory = '') {
-        try {
-            const files = await this.storage.listFiles(directory);
-            console.log(\`✅ Listed \ {files.length} files in directory: \ {directory || 'root'}\`);
-            return files;
-        } catch (error) {
-            console.error(\`❌ List files failed: \ {error.message}\`);
-            throw error;
-        }
-    }
-}
-
-// Factory function to create file manager with different storage types
-function createFileManager(storageType, config = {}) {
-    let storage;
-    
-    switch (storageType) {
-        case 'local':
-            storage = new LocalFileStorage(config.basePath);
-            break;
-        case 'cloud':
-            storage = new CloudFileStorage(
-                config.bucketName, 
-                config.region, 
-                config.credentials
-            );
-            break;
-        case 'database':
-            storage = new DatabaseFileStorage(config.connectionString);
-            break;
-        default:
-            throw new Error(\`Unsupported storage type: \ {storageType}\`);
-    }
-    
-    return new FileManager(storage);
-}
-
-// Usage examples
-async function demonstrateFileStorage() {
-    // Local storage
-    const localManager = createFileManager('local', { basePath: './uploads' });
-    await localManager.uploadFile('document.pdf', 'PDF content here');
-    
-    // Cloud storage
-    const cloudManager = createFileManager('cloud', {
-        bucketName: 'my-app-files',
-        region: 'us-east-1',
-        credentials: { accessKey: 'key', secretKey: 'secret' }
-    });
-    await cloudManager.uploadFile('image.jpg', 'Image content here');
-    
-    // Database storage
-    const dbManager = createFileManager('database', {
-        connectionString: 'postgresql://user:pass@localhost/db'
-    });
-    await dbManager.uploadFile('backup.json', 'JSON backup data');
-    
-    // All managers work identically despite different storage implementations
-    console.log('\\n=== Listing files from all storage types ===');
-    await localManager.listAllFiles();
-    await cloudManager.listAllFiles();
-    await dbManager.listAllFiles();
-}
-
-// Run demonstration
-demonstrateFileStorage().catch(console.error);`,
-            ],
-            questions: [
-              `# Python Example - Basic Abstraction
-class BankAccount:
-    def __init__(self, account_number, balance):
-        self._account_number = account_number  # Protected attribute
-        self._balance = balance
-    
-    def deposit(self, amount):
-        """Public interface - hides validation logic"""
-        if self._validate_amount(amount):
-            self._balance += amount
-            return True
-        return False
-    
-    def get_balance(self):
-        """Public interface - controlled access to balance"""
-        return self._balance
-    
-    def _validate_amount(self, amount):
-        """Private method - implementation detail hidden"""
-        return amount > 0 and isinstance(amount, (int, float))
-
-# Usage - User doesn't need to know internal validation logic
-account = BankAccount("12345", 1000)
-account.deposit(500)  # Simple interface
-print(account.get_balance())  # 1500`,
-
-              `// JavaScript Example - Basic Abstraction
-class BankAccount {
-    constructor(accountNumber, balance) {
-        this._accountNumber = accountNumber;  // Protected property
-        this._balance = balance;
-    }
-    
+    // Public interface methods (abstracted operations)
     deposit(amount) {
-        // Public interface - hides validation logic
-        if (this._validateAmount(amount)) {
-            this._balance += amount;
-            return true;
-        }
-        return false;
+      if (amount > 0) {
+        this.#balance += amount;
+        this.#addTransaction("Deposit", amount);
+        return \`Deposited $\${amount}. New balance: $\${this.#balance}\`;
+      }
+      throw new Error("Invalid deposit amount");
+    }
+    
+    withdraw(amount) {
+      if (amount > 0 && amount <= this.#balance) {
+        this.#balance -= amount;
+        this.#addTransaction("Withdrawal", amount);
+        return \`Withdrawn $\${amount}. New balance: $\${this.#balance}\`;
+      }
+      throw new Error("Invalid withdrawal amount or insufficient funds");
     }
     
     getBalance() {
-        // Public interface - controlled access to balance
-        return this._balance;
+      return this.#balance;
     }
     
-    _validateAmount(amount) {
-        // Private method - implementation detail hidden
-        return amount > 0 && typeof amount === 'number';
+    getAccountNumber() {
+      return this.#accountNumber;
     }
-}
-
-// Usage - User doesn't need to know internal validation logic
-const account = new BankAccount("12345", 1000);
-account.deposit(500);  // Simple interface
-console.log(account.getBalance());  // 1500`,
-            ],
-            questions: [
-              {
-                question:
-                  "What is the difference between abstraction and encapsulation?",
-                solution:
-                  "<p>While both concepts involve hiding details, <strong>Abstraction</strong> focuses on hiding unnecessary complexity and showing only essential features (what an object does), while <strong>Encapsulation</strong> focuses on bundling data and methods together and controlling access to them (how an object protects its state). Abstraction is about design and interface, encapsulation is about implementation and data security.</p>",
-              },
-              {
-                question: "How does abstraction improve code maintainability?",
-                solution:
-                  "<p>Abstraction improves maintainability by creating stable interfaces that don't change even when implementation details do. This means you can modify internal algorithms, data structures, or business logic without breaking existing code that depends on the abstract interface. It also makes code easier to understand and test since users only need to know the public interface.</p>",
-              },
-            ],
-            links: [
-              "https://docs.python.org/3/tutorial/classes.html",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
-              "https://refactoring.guru/design-patterns/what-is-pattern",
-            ],
-          },
-          {
-            topic: "Abstract Classes & Abstract Methods",
-            tags: [
-              "abstract-classes",
-              "abstract-methods",
-              "inheritance",
-              "python",
-              "javascript",
-            ],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Abstract classes are classes that cannot be instantiated directly and typically contain one or more abstract methods. Abstract methods are method declarations without implementation that must be implemented by concrete subclasses. This enforces a contract that derived classes must follow while providing a common base structure.
-   </p>
-   
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Key Characteristics of Abstract Classes
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Cannot be instantiated:</span> You cannot create objects directly from abstract classes.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">May contain abstract methods:</span> Methods declared but not implemented.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">May contain concrete methods:</span> Fully implemented methods that subclasses inherit.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Enforce contracts:</span> Subclasses must implement all abstract methods.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Support inheritance:</span> Can have constructors and instance variables.
-     </li>
-   </ol>
-   
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     When to Use Abstract Classes
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Common Base Functionality:</span> When multiple classes share common methods and attributes.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Enforcing Method Implementation:</span> When you want to ensure specific methods are implemented in subclasses.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Template Method Pattern:</span> When you want to define a skeleton of an algorithm with some steps to be implemented by subclasses.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Code Organization:</span> When you want to group related classes under a common abstract parent.
-     </li>
-   </ol>
-</div>`,
+    
+    // Private method (implementation detail hidden from user)
+    #addTransaction(type, amount) {
+      this.#transactionHistory.push({
+        type,
+        amount,
+        timestamp: new Date().toISOString(),
+        balance: this.#balance
+      });
+    }
+    
+    // Public method that uses private data
+    getTransactionHistory() {
+      return [...this.#transactionHistory]; // Return copy, not original
+    }
+  }
+  
+  // Usage - user only interacts with the public interface
+  const account = new BankAccount("12345", 1000);
+  console.log(account.deposit(500));   // Deposited $500. New balance: $1500
+  console.log(account.withdraw(200));  // Withdrawn $200. New balance: $1300
+  console.log(account.getBalance());   // 1300
+  
+  // Private fields are not accessible:
+  // console.log(account.#balance); // SyntaxError: Private field '#balance' must be declared in an enclosing class
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Abstraction in Python
+     </h4>
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Python provides the <code>abc</code> (Abstract Base Classes) module for creating true abstract classes:
+     </p>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code class="language-python">
+  from abc import ABC, abstractmethod
+  import math
+  
+  # Abstract base class
+  class Vehicle(ABC):
+      def __init__(self, brand, model):
+          self.brand = brand
+          self.model = model
+          self._mileage = 0  # Protected attribute
+      
+      # Abstract methods - must be implemented by subclasses
+      @abstractmethod
+      def start_engine(self):
+          pass
+      
+      @abstractmethod
+      def stop_engine(self):
+          pass
+      
+      @abstractmethod
+      def calculate_fuel_efficiency(self):
+          pass
+      
+      # Concrete method - shared implementation
+      def display_info(self):
+          print(f"{self.brand} {self.model} - Mileage: {self._mileage} miles")
+      
+      def add_mileage(self, miles):
+          if miles > 0:
+              self._mileage += miles
+          else:
+              raise ValueError("Miles must be positive")
+  
+  # Concrete implementation - Car
+  class Car(Vehicle):
+      def __init__(self, brand, model, fuel_capacity):
+          super().__init__(brand, model)
+          self.fuel_capacity = fuel_capacity
+          self.engine_running = False
+      
+      def start_engine(self):
+          if not self.engine_running:
+              self.engine_running = True
+              print(f"{self.brand} {self.model} engine started")
+          else:
+              print("Engine is already running")
+      
+      def stop_engine(self):
+          if self.engine_running:
+              self.engine_running = False
+              print(f"{self.brand} {self.model} engine stopped")
+          else:
+              print("Engine is already stopped")
+      
+      def calculate_fuel_efficiency(self):
+          # Simplified calculation
+          return self._mileage / max(self.fuel_capacity, 1) * 25  # mpg
+  
+  # Concrete implementation - Motorcycle
+  class Motorcycle(Vehicle):
+      def __init__(self, brand, model, engine_cc):
+          super().__init__(brand, model)
+          self.engine_cc = engine_cc
+          self.engine_running = False
+      
+      def start_engine(self):
+          if not self.engine_running:
+              self.engine_running = True
+              print(f"{self.brand} {self.model} motorcycle engine started")
+      
+      def stop_engine(self):
+          if self.engine_running:
+              self.engine_running = False
+              print(f"{self.brand} {self.model} motorcycle engine stopped")
+      
+      def calculate_fuel_efficiency(self):
+          # Different calculation for motorcycles
+          base_efficiency = 50
+          cc_factor = self.engine_cc / 1000
+          return base_efficiency - (cc_factor * 5)
+  
+  # Usage
+  car = Car("Toyota", "Camry", 15)
+  motorcycle = Motorcycle("Honda", "CBR", 600)
+  
+  car.start_engine()           # Toyota Camry engine started
+  car.add_mileage(300)
+  car.display_info()           # Toyota Camry - Mileage: 300 miles
+  print(f"Fuel efficiency: {car.calculate_fuel_efficiency():.2f} mpg")
+  
+  motorcycle.start_engine()    # Honda CBR motorcycle engine started
+  motorcycle.add_mileage(150)
+  motorcycle.display_info()    # Honda CBR - Mileage: 150 miles
+  print(f"Fuel efficiency: {motorcycle.calculate_fuel_efficiency():.2f} mpg")
+  
+  # This would raise an error:
+  # vehicle = Vehicle("Generic", "Model")  # TypeError: Can't instantiate abstract class
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Python Data Abstraction Example
+     </h4>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code class="language-python">
+  # Database abstraction example
+  from abc import ABC, abstractmethod
+  
+  class DatabaseConnection(ABC):
+      """Abstract base class for database connections"""
+      
+      def __init__(self, host, port, database):
+          self.host = host
+          self.port = port
+          self.database = database
+          self._connection = None
+      
+      @abstractmethod
+      def connect(self):
+          """Establish database connection"""
+          pass
+      
+      @abstractmethod
+      def disconnect(self):
+          """Close database connection"""
+          pass
+      
+      @abstractmethod
+      def execute_query(self, query):
+          """Execute a database query"""
+          pass
+      
+      # Concrete method using template method pattern
+      def execute_transaction(self, queries):
+          """Execute multiple queries as a transaction"""
+          try:
+              self.connect()
+              results = []
+              for query in queries:
+                  result = self.execute_query(query)
+                  results.append(result)
+              print("Transaction completed successfully")
+              return results
+          except Exception as e:
+              print(f"Transaction failed: {e}")
+              raise
+          finally:
+              self.disconnect()
+  
+  # Concrete implementation for MySQL
+  class MySQLConnection(DatabaseConnection):
+      def connect(self):
+          print(f"Connecting to MySQL database at {self.host}:{self.port}")
+          self._connection = f"mysql_connection_object"
+      
+      def disconnect(self):
+          if self._connection:
+              print("Disconnecting from MySQL database")
+              self._connection = None
+      
+      def execute_query(self, query):
+          if not self._connection:
+              raise Exception("No active connection")
+          print(f"Executing MySQL query: {query}")
+          return f"MySQL result for: {query}"
+  
+  # Concrete implementation for PostgreSQL
+  class PostgreSQLConnection(DatabaseConnection):
+      def connect(self):
+          print(f"Connecting to PostgreSQL database at {self.host}:{self.port}")
+          self._connection = f"postgresql_connection_object"
+      
+      def disconnect(self):
+          if self._connection:
+              print("Disconnecting from PostgreSQL database")
+              self._connection = None
+      
+      def execute_query(self, query):
+          if not self._connection:
+              raise Exception("No active connection")
+          print(f"Executing PostgreSQL query: {query}")
+          return f"PostgreSQL result for: {query}"
+  
+  # Usage - client code works with abstraction, not specific implementations
+  def perform_database_operations(db_connection):
+      """Function that works with any database connection"""
+      queries = [
+          "SELECT * FROM users",
+          "UPDATE users SET active=1 WHERE id=123",
+          "INSERT INTO logs (message) VALUES ('Operation completed')"
+      ]
+      return db_connection.execute_transaction(queries)
+  
+  # Using different implementations
+  mysql_db = MySQLConnection("localhost", 3306, "myapp")
+  postgresql_db = PostgreSQLConnection("localhost", 5432, "myapp")
+  
+  print("=== MySQL Operations ===")
+  perform_database_operations(mysql_db)
+  
+  print("\n=== PostgreSQL Operations ===")
+  perform_database_operations(postgresql_db)
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Key Principles of Abstraction
+     </h4>
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Hide Implementation Details:</span> Users shouldn't need to know how methods work internally.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Provide Clear Interfaces:</span> Methods should have clear names and expected behaviors.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Enforce Contracts:</span> Abstract classes and interfaces define what methods must be implemented.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Enable Polymorphism:</span> Different implementations can be used interchangeably.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Reduce Complexity:</span> Complex systems are broken down into manageable, understandable parts.
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Real-World Applications
+     </h4>
+     <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">APIs:</span> Web APIs abstract away server implementation details.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Database Layers:</span> ORMs abstract SQL operations into object methods.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">UI Frameworks:</span> Components abstract complex DOM manipulation.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Payment Systems:</span> Payment gateways abstract different payment methods.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">File Systems:</span> Operating systems abstract hardware storage details.
+       </li>
+     </ul>
+  </div>`,
             examples: [
-              `# Python Example - Abstract Classes using ABC module
-from abc import ABC, abstractmethod
-import math
-
-class Shape(ABC):
-    """Abstract base class for all shapes"""
-    
-    def __init__(self, color):
-        self.color = color
-    
-    @abstractmethod
-    def area(self):
-        """Abstract method - must be implemented by subclasses"""
-        pass
-    
-    @abstractmethod
-    def perimeter(self):
-        """Abstract method - must be implemented by subclasses"""
-        pass
-    
-    # Concrete method - inherited by all subclasses
-    def display_info(self):
-        return f"{self.__class__.__name__}: Color={self.color}, Area={self.area():.2f}"
-
-class Circle(Shape):
-    def __init__(self, color, radius):
-        super().__init__(color)
-        self.radius = radius
-    
-    def area(self):
-        return math.pi * self.radius ** 2
-    
-    def perimeter(self):
-        return 2 * math.pi * self.radius
-
-class Rectangle(Shape):
-    def __init__(self, color, width, height):
-        super().__init__(color)
-        self.width = width
-        self.height = height
-    
-    def area(self):
-        return self.width * self.height
-    
-    def perimeter(self):
-        return 2 * (self.width + self.height)
-
-# Usage
-circle = Circle("red", 5)
-rectangle = Rectangle("blue", 4, 6)
-
-print(circle.display_info())  # Circle: Color=red, Area=78.54
-print(rectangle.display_info())  # Rectangle: Color=blue, Area=24.00
-
-# This would raise TypeError: Can't instantiate abstract class Shape
-# shape = Shape("green")`,
-
-              `// JavaScript Example - Abstract Classes (ES6+)
-// Note: JavaScript doesn't have built-in abstract classes, 
-// but we can simulate them using constructor checks
-
-class Shape {
-    constructor(color) {
-        // Prevent direct instantiation of abstract class
-        if (new.target === Shape) {
-            throw new Error("Cannot instantiate abstract class Shape directly");
-        }
-        this.color = color;
+              `// JavaScript: Payment Processing Abstraction
+  class PaymentProcessor {
+    constructor() {
+      if (this.constructor === PaymentProcessor) {
+        throw new Error("Cannot instantiate abstract PaymentProcessor");
+      }
     }
     
-    // Abstract methods - throw errors if not overridden
-    area() {
-        throw new Error("Abstract method 'area' must be implemented");
+    processPayment(amount) {
+      throw new Error("processPayment must be implemented");
     }
     
-    perimeter() {
-        throw new Error("Abstract method 'perimeter' must be implemented");
+    validatePayment(amount) {
+      return amount > 0;
     }
-    
-    // Concrete method - inherited by all subclasses
-    displayInfo() {
-        return \`\ {this.constructor.name}: Color=\ {this.color}, Area=\ {this.area().toFixed(2)}\`;
+  }
+  
+  class CreditCardProcessor extends PaymentProcessor {
+    processPayment(amount, cardNumber) {
+      if (!this.validatePayment(amount)) return false;
+      console.log(\`Processing $\${amount} via Credit Card: ***\${cardNumber.slice(-4)}\`);
+      return true;
     }
-}
-
-class Circle extends Shape {
-    constructor(color, radius) {
-        super(color);
-        this.radius = radius;
+  }
+  
+  class PayPalProcessor extends PaymentProcessor {
+    processPayment(amount, email) {
+      if (!this.validatePayment(amount)) return false;
+      console.log(\`Processing $\${amount} via PayPal: \${email}\`);
+      return true;
     }
-    
-    area() {
-        return Math.PI * this.radius ** 2;
-    }
-    
-    perimeter() {
-        return 2 * Math.PI * this.radius;
-    }
-}
-
-class Rectangle extends Shape {
-    constructor(color, width, height) {
-        super(color);
-        this.width = width;
-        this.height = height;
-    }
-    
-    area() {
-        return this.width * this.height;
-    }
-    
-    perimeter() {
-        return 2 * (this.width + this.height);
-    }
-}
-
-// Usage
-const circle = new Circle("red", 5);
-const rectangle = new Rectangle("blue", 4, 6);
-
-console.log(circle.displayInfo());     // Circle: Color=red, Area=78.54
-console.log(rectangle.displayInfo());  // Rectangle: Color=blue, Area=24.00
-
-// This would throw an error: Cannot instantiate abstract class Shape directly
-// const shape = new Shape("green");`,
+  }`,
+              `# Python: File Handler Abstraction
+  from abc import ABC, abstractmethod
+  
+  class FileHandler(ABC):
+      def __init__(self, filename):
+          self.filename = filename
+      
+      @abstractmethod
+      def read(self):
+          pass
+      
+      @abstractmethod
+      def write(self, data):
+          pass
+      
+      def get_file_info(self):
+          return f"File: {self.filename}"
+  
+  class TextFileHandler(FileHandler):
+      def read(self):
+          with open(self.filename, 'r') as f:
+              return f.read()
+      
+      def write(self, data):
+          with open(self.filename, 'w') as f:
+              f.write(str(data))
+  
+  class JSONFileHandler(FileHandler):
+      def read(self):
+          import json
+          with open(self.filename, 'r') as f:
+              return json.load(f)
+      
+      def write(self, data):
+          import json
+          with open(self.filename, 'w') as f:
+              json.dump(data, f)`,
             ],
             questions: [
               {
-                question:
-                  "Can abstract classes have constructors and instance variables?",
+                question: "What is abstraction in Object-Oriented Programming?",
                 solution:
-                  "<p>Yes, abstract classes can have constructors, instance variables, and concrete methods. The constructor is typically called by subclass constructors using <code>super()</code> in Python or <code>super()</code> in JavaScript. Instance variables defined in abstract classes are inherited by all subclasses, providing a common state structure.</p>",
+                  "<p>Abstraction in OOP is the process of hiding complex implementation details while exposing only the essential features and functionality that users need. It allows developers to focus on 'what' an object does rather than 'how' it does it, creating simplified interfaces that make code more manageable, reusable, and easier to understand. Abstraction is achieved through abstract classes, interfaces, and access modifiers that control what parts of a class are visible to external code.</p>",
               },
               {
                 question:
-                  "What happens if a subclass doesn't implement all abstract methods?",
+                  "How do you implement abstraction in JavaScript since it doesn't have built-in abstract classes?",
+                solution: `<p>JavaScript implements abstraction through several patterns:</p>
+               <ol>
+                 <li><strong>Constructor Checks:</strong> Throw errors if the abstract class is instantiated directly</li>
+                 <li><strong>Method Stubs:</strong> Create methods that throw errors if not overridden in subclasses</li>
+                 <li><strong>Private Fields:</strong> Use # syntax for truly private fields (ES2022+)</li>
+                 <li><strong>Conventions:</strong> Use underscore prefix for "protected" members</li>
+               </ol>
+               <p>While not enforced at the language level like in Java or C#, these patterns effectively create abstraction by establishing contracts that subclasses must follow.</p>`,
+              },
+              {
+                question:
+                  "What's the difference between abstraction and encapsulation?",
                 solution:
-                  "<p>In Python, if a subclass doesn't implement all abstract methods from its parent abstract class, attempting to instantiate that subclass will raise a <code>TypeError</code>. In JavaScript (our simulation), the abstract method will throw an error when called. This ensures that the contract defined by the abstract class is enforced.</p>",
+                  "<p><strong>Abstraction</strong> focuses on hiding complexity by showing only essential features - it's about creating simplified interfaces and defining 'what' operations are available. <strong>Encapsulation</strong> focuses on hiding internal data and implementation details by bundling data and methods together and controlling access to them. Abstraction is about interface design and conceptual simplification, while encapsulation is about data protection and internal organization. They often work together: encapsulation provides the mechanism to hide details, while abstraction determines which details should be hidden.</p>",
+              },
+              {
+                question:
+                  "Can you explain the benefits of using abstraction in software design?",
+                solution: `<p>Abstraction provides several key benefits:</p>
+               <ol>
+                 <li><strong>Simplicity:</strong> Complex systems become easier to understand and use</li>
+                 <li><strong>Maintainability:</strong> Changes to implementation don't affect client code</li>
+                 <li><strong>Reusability:</strong> Abstract interfaces can be implemented by multiple classes</li>
+                 <li><strong>Flexibility:</strong> Different implementations can be swapped without changing client code</li>
+                 <li><strong>Security:</strong> Internal implementation details remain hidden</li>
+                 <li><strong>Reduced Coupling:</strong> Code depends on interfaces rather than concrete implementations</li>
+                 <li><strong>Better Testing:</strong> Abstract interfaces enable easier mocking and unit testing</li>
+               </ol>`,
               },
             ],
             links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields",
               "https://docs.python.org/3/library/abc.html",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new.target",
               "https://refactoring.guru/design-patterns/template-method",
+              "https://www.geeksforgeeks.org/abstraction-in-python/",
+              "https://javascript.info/class-inheritance",
             ],
           },
           {
             topic: "Interfaces vs Abstract Classes",
-            tags: [
-              "interfaces",
-              "abstract-classes",
-              "comparison",
-              "python",
-              "javascript",
-            ],
+            tags: ["OOP", "Design Patterns", "JavaScript", "Python"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     While both interfaces and abstract classes define contracts that implementing classes must follow, they serve different purposes and have distinct characteristics. Understanding when to use each is crucial for good object-oriented design. Note that Python doesn't have explicit interfaces like some languages, but we can simulate them using abstract base classes or protocols.
-   </p>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Interfaces and Abstract Classes are fundamental concepts in object-oriented programming that help define contracts and common behavior for classes. While both serve similar purposes, they have distinct characteristics and use cases.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       What are Interfaces?
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       An interface is a contract that defines what methods a class must implement, but doesn't provide any implementation itself. It's like a blueprint that specifies the structure without the actual construction details.
+     </p>
    
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Interfaces Characteristics
-   </h4>
- 
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Pure Contracts:</span> Define what methods a class must implement, not how.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">No Implementation:</span> Contain only method signatures (traditionally).
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Multiple Implementation:</span> A class can implement multiple interfaces.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">No State:</span> Cannot have instance variables or constructors.
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Loose Coupling:</span> Define capabilities without inheritance relationships.
-     </li>
-   </ol>
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       What are Abstract Classes?
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       An abstract class is a class that cannot be instantiated directly and may contain both abstract methods (without implementation) and concrete methods (with implementation). It serves as a base class for other classes.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Key Differences
+     </h4>
    
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Abstract Classes vs Interfaces Comparison
-   </h4>
-   <div style="margin-top: 1.5rem; overflow-x: auto;">
-     <table style="width: 100%; border-collapse: collapse; border: 1px solid #e5e7eb;">
-       <thead>
-         <tr style="background-color: #f9fafb;">
-           <th style="padding: 12px; border: 1px solid #e5e7eb; text-align: left; font-weight: 600;">Aspect</th>
-           <th style="padding: 12px; border: 1px solid #e5e7eb; text-align: left; font-weight: 600;">Abstract Classes</th>
-           <th style="padding: 12px; border: 1px solid #e5e7eb; text-align: left; font-weight: 600;">Interfaces</th>
-         </tr>
-       </thead>
-       <tbody>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Purpose</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">IS-A relationship, shared code</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">CAN-DO relationship, behavior contract</td>
-         </tr>
-         <tr style="background-color: #f9fafb;">
-           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Implementation</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">Can have concrete methods</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">Only method signatures (traditionally)</td>
-         </tr>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">State</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">Can have instance variables</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">No instance variables</td>
-         </tr>
-         <tr style="background-color: #f9fafb;">
-           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Inheritance</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">Single inheritance</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">Multiple implementation</td>
-         </tr>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #e5e7eb; font-weight: 600;">Access Modifiers</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">Can have private/protected</td>
-           <td style="padding: 12px; border: 1px solid #e5e7eb;">All methods public</td>
-         </tr>
-       </tbody>
-     </table>
-   </div>
-   
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     When to Use Which?
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use Abstract Classes When:</span>
-      <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
-        <li>You want to share code among related classes</li>
-        <li>Classes have common state (instance variables)</li>
-        <li>You want to provide default implementations</li>
-        <li>You need access control (private/protected methods)</li>
-      </ul>
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Use Interfaces When:</span>
-      <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
-        <li>You want to specify behavior contracts</li>
-        <li>Unrelated classes need to implement same methods</li>
-        <li>You need multiple inheritance of type</li>
-        <li>You want loose coupling between components</li>
-      </ul>
-     </li>
-   </ol>
-</div>`,
-            examples: [
-              `# Python Example - Interface-like behavior using ABC and Protocol
-
-from abc import ABC, abstractmethod
-from typing import Protocol
-
-# Method 1: Using ABC to simulate interface
-class Drawable(ABC):
-    """Interface-like abstract class - only abstract methods"""
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Implementation:</span> Interfaces define only method signatures, while abstract classes can have both abstract and concrete methods.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Multiple Inheritance:</span> A class can implement multiple interfaces but can only extend one abstract class.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">State:</span> Interfaces cannot have instance variables, while abstract classes can have both instance variables and constructors.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Purpose:</span> Interfaces focus on "what" a class can do, abstract classes focus on "what" a class is.
+       </li>
+     </ol>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       JavaScript Implementation
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       JavaScript doesn't have native interfaces or abstract classes, but we can simulate them using various patterns:
+     </p>
+     
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">Interface Simulation in JavaScript:</h5>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-javascript">
+  // Interface simulation using a base class with unimplemented methods
+  class IDrawable {
+    draw() {
+      throw new Error("Method 'draw()' must be implemented");
+    }
     
-    @abstractmethod
-    def draw(self):
-        pass
-    
-    @abstractmethod
-    def get_area(self):
-        pass
-
-class Movable(ABC):
-    """Another interface-like abstract class"""
-    
-    @abstractmethod
-    def move(self, x, y):
-        pass
-
-# Method 2: Using Protocol (Python 3.8+) for structural typing
-class Serializable(Protocol):
-    """Protocol defines interface without inheritance"""
-    
-    def serialize(self) -> str:
-        ...
-    
-    def deserialize(self, data: str):
-        ...
-
-# Abstract class with shared implementation
-class Shape(ABC):
-    """Abstract class with common functionality"""
-    
-    def __init__(self, color, position=(0, 0)):
-        self.color = color
-        self.position = position
-    
-    @abstractmethod
-    def area(self):
-        pass
-    
-    # Concrete method shared by all shapes
-    def get_color(self):
-        return self.color
-
-# Concrete class implementing multiple "interfaces"
-class Circle(Shape, Drawable, Movable):
-    def __init__(self, color, radius, position=(0, 0)):
-        super().__init__(color, position)
-        self.radius = radius
-    
-    # Abstract method from Shape
-    def area(self):
-        return 3.14159 * self.radius ** 2
-    
-    # Interface methods from Drawable
-    def draw(self):
-        return f"Drawing {self.color} circle at {self.position}"
-    
-    def get_area(self):
-        return self.area()
-    
-    # Interface methods from Movable
-    def move(self, x, y):
-        self.position = (x, y)
-        return f"Moved circle to ({x}, {y})"
-    
-    # Protocol method (duck typing)
-    def serialize(self) -> str:
-        return f"Circle|{self.color}|{self.radius}|{self.position[0]}|{self.position[1]}"
-    
-    def deserialize(self, data: str):
-        parts = data.split('|')
-        self.color = parts[1]
-        self.radius = float(parts[2])
-        self.position = (float(parts[3]), float(parts[4]))
-
-# Usage
-circle = Circle("red", 5)
-print(circle.draw())        # Drawing red circle at (0, 0)
-print(circle.move(10, 20))  # Moved circle to (10, 20)
-print(circle.serialize())   # Circle|red|5.0|10.0|20.0
-
-# Polymorphic usage with interfaces
-def process_drawable(drawable: Drawable):
-    print(f"Processing: {drawable.draw()}")
-    print(f"Area: {drawable.get_area()}")
-
-process_drawable(circle)`,
-
-              `// JavaScript Example - Interface simulation and comparison with abstract classes
-
-// Interface simulation using conventions and documentation
-class IDrawable {
-    /**
-     * Interface for drawable objects
-     * All implementing classes must provide these methods
-     */
+    resize() {
+      throw new Error("Method 'resize()' must be implemented");
+    }
+  }
+  
+  // Another interface
+  class IMovable {
+    move(x, y) {
+      throw new Error("Method 'move()' must be implemented");
+    }
+  }
+  
+  // Implementing multiple "interfaces"
+  class Rectangle extends IDrawable {
+    constructor(width, height) {
+      super();
+      this.width = width;
+      this.height = height;
+    }
     
     draw() {
-        throw new Error("Method 'draw' must be implemented");
+      console.log(\`Drawing rectangle: \${this.width}x\${this.height}\`);
     }
     
-    getArea() {
-        throw new Error("Method 'getArea' must be implemented");
+    resize(newWidth, newHeight) {
+      this.width = newWidth;
+      this.height = newHeight;
+      console.log(\`Rectangle resized to \${this.width}x\${this.height}\`);
     }
-}
-
-class IMovable {
-    /**
-     * Interface for movable objects
-     */
-    
+  }
+  
+  // Using mixins for multiple interface implementation
+  const MovableMixin = {
     move(x, y) {
-        throw new Error("Method 'move' must be implemented");
+      this.x = x;
+      this.y = y;
+      console.log(\`Moved to position (\${x}, \${y})\`);
     }
-}
-
-class ISerializable {
-    /**
-     * Interface for serializable objects
-     */
+  };
+  
+  class MovableRectangle extends Rectangle {
+    constructor(width, height, x = 0, y = 0) {
+      super(width, height);
+      this.x = x;
+      this.y = y;
+      Object.assign(this, MovableMixin);
+    }
+  }
+  </code></pre>
+    </div>
+     
+     <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">Abstract Class Simulation in JavaScript:</h5>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-javascript">
+  // Abstract class simulation
+  class Shape {
+    constructor(color) {
+      if (this.constructor === Shape) {
+        throw new Error("Cannot instantiate abstract class Shape");
+      }
+      this.color = color;
+    }
     
-    serialize() {
-        throw new Error("Method 'serialize' must be implemented");
-    }
-    
-    deserialize(data) {
-        throw new Error("Method 'deserialize' must be implemented");
-    }
-}
-
-// Abstract class with shared implementation
-class Shape {
-    constructor(color, position = {x: 0, y: 0}) {
-        if (new.target === Shape) {
-            throw new Error("Cannot instantiate abstract class Shape");
-        }
-        this.color = color;
-        this.position = position;
+    // Concrete method
+    getColor() {
+      return this.color;
     }
     
     // Abstract method
-    area() {
-        throw new Error("Abstract method 'area' must be implemented");
+    calculateArea() {
+      throw new Error("Method 'calculateArea()' must be implemented");
     }
     
-    // Concrete method shared by all shapes
-    getColor() {
-        return this.color;
-    }
-}
-
-// Concrete class implementing multiple "interfaces"
-class Circle extends Shape {
-    constructor(color, radius, position = {x: 0, y: 0}) {
-        super(color, position);
-        this.radius = radius;
-    }
-    
-    // Abstract method from Shape
-    area() {
-        return Math.PI * this.radius ** 2;
-    }
-    
-    // Interface methods from IDrawable
+    // Abstract method
     draw() {
-        return \`Drawing \ {this.color} circle at (\ {this.position.x}, \ {this.position.y})\`;
+      throw new Error("Method 'draw()' must be implemented");
     }
     
-    getArea() {
-        return this.area();
+    // Template method using abstract methods
+    display() {
+      console.log(\`Color: \${this.getColor()}\`);
+      console.log(\`Area: \${this.calculateArea()}\`);
+      this.draw();
+    }
+  }
+  
+  class Circle extends Shape {
+    constructor(color, radius) {
+      super(color);
+      this.radius = radius;
     }
     
-    // Interface methods from IMovable
-    move(x, y) {
-        this.position = {x, y};
-        return \`Moved circle to (\ {x}, \ {y})\`;
+    calculateArea() {
+      return Math.PI * this.radius * this.radius;
     }
     
-    // Interface methods from ISerializable
-    serialize() {
-        return \`Circle|\ {this.color}|\ {this.radius}|\ {this.position.x}|\ {this.position.y}\`;
-    }
-    
-    deserialize(data) {
-        const parts = data.split('|');
-        this.color = parts[1];
-        this.radius = parseFloat(parts[2]);
-        this.position = {
-            x: parseFloat(parts[3]),
-            y: parseFloat(parts[4])
-        };
-    }
-}
-
-// Modern JavaScript: Using mixins for interface-like behavior
-const DrawableMixin = {
     draw() {
-        throw new Error("Method 'draw' must be implemented");
-    },
+      console.log(\`Drawing a \${this.color} circle with radius \${this.radius}\`);
+    }
+  }
+  
+  class Square extends Shape {
+    constructor(color, side) {
+      super(color);
+      this.side = side;
+    }
     
-    getArea() {
-        throw new Error("Method 'getArea' must be implemented");
+    calculateArea() {
+      return this.side * this.side;
     }
-};
-
-const MovableMixin = {
-    move(x, y) {
-        throw new Error("Method 'move' must be implemented");
+    
+    draw() {
+      console.log(\`Drawing a \${this.color} square with side \${this.side}\`);
     }
-};
-
-// Apply mixins to a class
-function implementInterfaces(targetClass, ...mixins) {
-    mixins.forEach(mixin => {
-        Object.getOwnPropertyNames(mixin).forEach(name => {
-            if (name !== 'constructor') {
-                targetClass.prototype[name] = mixin[name];
-            }
-        });
-    });
-    return targetClass;
-}
-
-// Usage
-const circle = new Circle("red", 5);
-console.log(circle.draw());        // Drawing red circle at (0, 0)
-console.log(circle.move(10, 20));  // Moved circle to (10, 20)
-console.log(circle.serialize());   // Circle|red|5|10|20
-
-// Polymorphic usage with "interfaces"
-function processDrawable(drawable) {
-    console.log(\`Processing: \ {drawable.draw()}\`);
-    console.log(\`Area: \ {drawable.getArea()}\`);
-}
-
-processDrawable(circle);`,
+  }
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Python Implementation
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Python provides native support for both interfaces (through abc module) and abstract classes:
+     </p>
+     
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">Interface in Python (using ABC):</h5>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  from abc import ABC, abstractmethod
+  
+  # Pure interface - all methods are abstract
+  class IDrawable(ABC):
+      @abstractmethod
+      def draw(self):
+          pass
+      
+      @abstractmethod
+      def resize(self, width, height):
+          pass
+  
+  class IMovable(ABC):
+      @abstractmethod
+      def move(self, x, y):
+          pass
+  
+  # Multiple interface implementation
+  class Rectangle(IDrawable, IMovable):
+      def __init__(self, width, height, x=0, y=0):
+          self.width = width
+          self.height = height
+          self.x = x
+          self.y = y
+      
+      def draw(self):
+          print(f"Drawing rectangle: {self.width}x{self.height} at ({self.x}, {self.y})")
+      
+      def resize(self, width, height):
+          self.width = width
+          self.height = height
+          print(f"Rectangle resized to {self.width}x{self.height}")
+      
+      def move(self, x, y):
+          self.x = x
+          self.y = y
+          print(f"Rectangle moved to ({x}, {y})")
+  
+  # Usage
+  rect = Rectangle(10, 5)
+  rect.draw()
+  rect.resize(15, 8)
+  rect.move(100, 200)
+  </code></pre>
+    </div>
+     
+     <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">Abstract Class in Python:</h5>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  from abc import ABC, abstractmethod
+  import math
+  
+  # Abstract class with both abstract and concrete methods
+  class Shape(ABC):
+      def __init__(self, color):
+          self.color = color
+      
+      # Concrete method
+      def get_color(self):
+          return self.color
+      
+      # Concrete method
+      def set_color(self, color):
+          self.color = color
+      
+      # Abstract methods
+      @abstractmethod
+      def calculate_area(self):
+          pass
+      
+      @abstractmethod
+      def calculate_perimeter(self):
+          pass
+      
+      @abstractmethod
+      def draw(self):
+          pass
+      
+      # Template method using abstract methods
+      def display_info(self):
+          print(f"Shape Color: {self.get_color()}")
+          print(f"Area: {self.calculate_area():.2f}")
+          print(f"Perimeter: {self.calculate_perimeter():.2f}")
+          self.draw()
+  
+  class Circle(Shape):
+      def __init__(self, color, radius):
+          super().__init__(color)
+          self.radius = radius
+      
+      def calculate_area(self):
+          return math.pi * self.radius ** 2
+      
+      def calculate_perimeter(self):
+          return 2 * math.pi * self.radius
+      
+      def draw(self):
+          print(f"Drawing a {self.color} circle with radius {self.radius}")
+  
+  class Rectangle(Shape):
+      def __init__(self, color, width, height):
+          super().__init__(color)
+          self.width = width
+          self.height = height
+      
+      def calculate_area(self):
+          return self.width * self.height
+      
+      def calculate_perimeter(self):
+          return 2 * (self.width + self.height)
+      
+      def draw(self):
+          print(f"Drawing a {self.color} rectangle {self.width}x{self.height}")
+  
+  # Usage
+  circle = Circle("red", 5)
+  rectangle = Rectangle("blue", 4, 6)
+  
+  circle.display_info()
+  print("---")
+  rectangle.display_info()
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       When to Use Which?
+     </h4>
+     
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #059669;">Use Interfaces When:</h5>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+       <li>You want to define a contract that multiple unrelated classes can implement</li>
+       <li>You need multiple inheritance of type</li>
+       <li>You want to achieve loose coupling between classes</li>
+       <li>You're designing APIs or plugin systems</li>
+     </ul>
+     
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600; color: #DC2626;">Use Abstract Classes When:</h5>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem;">
+       <li>You want to share code among several related classes</li>
+       <li>You have common functionality that shouldn't be duplicated</li>
+       <li>You want to provide a template method pattern</li>
+       <li>You need to maintain state or have constructors</li>
+     </ul>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Real-World Example: Payment System
+     </h4>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  # Interface for payment processing
+  class IPaymentProcessor(ABC):
+      @abstractmethod
+      def process_payment(self, amount):
+          pass
+      
+      @abstractmethod
+      def validate_payment_data(self, payment_data):
+          pass
+  
+  # Abstract class for common payment functionality
+  class PaymentGateway(ABC):
+      def __init__(self, gateway_name):
+          self.gateway_name = gateway_name
+          self.is_connected = False
+      
+      def connect(self):
+          self.is_connected = True
+          print(f"Connected to {self.gateway_name}")
+      
+      def disconnect(self):
+          self.is_connected = False
+          print(f"Disconnected from {self.gateway_name}")
+      
+      @abstractmethod
+      def authenticate(self, credentials):
+          pass
+      
+      def log_transaction(self, amount, status):
+          print(f"Transaction logged: {amount} - {status}")
+  
+  # Concrete implementation
+  class PayPalGateway(PaymentGateway, IPaymentProcessor):
+      def __init__(self):
+          super().__init__("PayPal")
+      
+      def authenticate(self, credentials):
+          print("Authenticating with PayPal API")
+          return True
+      
+      def process_payment(self, amount):
+          if self.is_connected:
+              print(f"Processing $ {amount} through PayPal")
+              self.log_transaction(amount, "SUCCESS")
+              return True
+          return False
+      
+      def validate_payment_data(self, payment_data):
+          return payment_data.get('email') is not None
+  </code></pre>
+    </div>
+  </div>`,
+            examples: [
+              `// JavaScript Interface Simulation Example
+  class IAnimal {
+    makeSound() {
+      throw new Error("makeSound() must be implemented");
+    }
+    
+    move() {
+      throw new Error("move() must be implemented");
+    }
+  }
+  
+  class Dog extends IAnimal {
+    makeSound() {
+      return "Woof!";
+    }
+    
+    move() {
+      return "Running on four legs";
+    }
+  }
+  
+  class Bird extends IAnimal {
+    makeSound() {
+      return "Tweet!";
+    }
+    
+    move() {
+      return "Flying with wings";
+    }
+  }
+  
+  // Python Abstract Class Example
+  from abc import ABC, abstractmethod
+  
+  class Vehicle(ABC):
+      def __init__(self, brand):
+          self.brand = brand
+      
+      def get_brand(self):
+          return self.brand
+      
+      @abstractmethod
+      def start_engine(self):
+          pass
+      
+      @abstractmethod
+      def stop_engine(self):
+          pass
+  
+  class Car(Vehicle):
+      def start_engine(self):
+          print(f"{self.brand} car engine started")
+      
+      def stop_engine(self):
+          print(f"{self.brand} car engine stopped")`,
             ],
             questions: [
               {
                 question:
-                  "Can a class implement multiple interfaces but extend only one abstract class?",
+                  "What is the main difference between interfaces and abstract classes?",
                 solution:
-                  "<p>Yes, this is a key distinction. In languages that support both concepts, a class can implement multiple interfaces but can only extend one abstract class (single inheritance limitation). This is why interfaces are preferred when you need to define multiple contracts that unrelated classes should follow, while abstract classes are better for sharing implementation among related classes.</p>",
+                  "<p>The main difference is that interfaces define only method signatures (what methods a class must implement) without any implementation, while abstract classes can contain both abstract methods (without implementation) and concrete methods (with implementation). Additionally, a class can implement multiple interfaces but can only extend one abstract class, and abstract classes can have constructors and instance variables while interfaces cannot.</p>",
               },
               {
                 question:
-                  "How do you simulate interfaces in Python and JavaScript?",
+                  "When should you use an interface vs an abstract class?",
                 solution:
-                  "<p>In <strong>Python</strong>, you can simulate interfaces using abstract base classes (ABC) with only abstract methods, or use Protocol classes for structural typing. In <strong>JavaScript</strong>, you can create 'interface' classes that throw errors for unimplemented methods, use mixins, or rely on documentation and conventions. Both languages use duck typing, so explicit interfaces aren't always necessary.</p>",
+                  "<p>Use interfaces when you want to define a contract that multiple unrelated classes can implement, need multiple inheritance of type, or want loose coupling. Use abstract classes when you want to share code among related classes, have common functionality that shouldn't be duplicated, need to provide a template method pattern, or require constructors and state management.</p>",
+              },
+              {
+                question: "How do you simulate interfaces in JavaScript?",
+                solution:
+                  "<p>In JavaScript, you can simulate interfaces by creating base classes with methods that throw errors if not implemented, using mixins for multiple interface-like behavior, or using TypeScript which provides native interface support. You can also use documentation and naming conventions to indicate interface-like contracts.</p>",
               },
               {
                 question:
-                  "When would you choose composition over inheritance with interfaces?",
+                  "Can a class implement multiple interfaces in Python?",
                 solution:
-                  "<p>Choose composition with interfaces when you want to avoid deep inheritance hierarchies, need more flexibility in combining behaviors, or when classes don't have an 'IS-A' relationship but need to share behaviors. For example, a 'Car' and 'Airplane' both need to be 'Movable' but shouldn't inherit from the same base class. Using interfaces allows you to compose different capabilities without tight coupling.</p>",
+                  "<p>Yes, in Python a class can implement multiple interfaces by inheriting from multiple abstract base classes (ABCs). This is achieved through multiple inheritance, for example: <code>class MyClass(IInterface1, IInterface2, ABC)</code>. Each interface must have all its abstract methods implemented in the concrete class.</p>",
               },
             ],
             links: [
-              "https://docs.python.org/3/library/typing.html#typing.Protocol",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-              "https://refactoring.guru/design-patterns/strategy",
+              "https://docs.python.org/3/library/abc.html",
+              "https://medium.com/@amirm.lavasani/interface-vs-abstract-class-in-python-8cab26c7e951",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://refactoring.guru/design-patterns/template-method",
             ],
           },
           {
