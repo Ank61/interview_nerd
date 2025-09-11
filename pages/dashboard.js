@@ -150,15 +150,17 @@ export default function Dashboard({
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-3">
+              <div
+                className="flex items-center space-x-3 cursor-pointer"
+                onClick={() => router.push("/")}
+              >
                 <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
                   <BookOpen size={24} className="text-blue-600" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">
+                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
                     Interview Nerd
                   </h1>
-                  <p className="text-sm text-gray-500">Dashboard</p>
                 </div>
               </div>
 
@@ -168,7 +170,6 @@ export default function Dashboard({
                   onClick={() => router.push("/")}
                   className="hover:text-gray-700 transition-colors"
                 >
-                  <Home size={16} className="inline mr-1" />
                   Home
                 </button>
                 <span>/</span>

@@ -61162,7 +61162,7 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
             ],
           },
           {
-            topic: "Inheritance in Object-Oriented Programming",
+            topic: "Inheritance",
             tags: ["OOP", "Inheritance", "JavaScript", "Python"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -62848,740 +62848,1758 @@ console.log(s.getInfo(), "|", s.renew());`,
             ],
           },
           {
-            topic: "Multiple Inheritance (via Interfaces Mix-Ins)",
-            tags: [
-              "multiple-inheritance",
-              "interfaces",
-              "oop",
-              "python",
-              "javascript",
-            ],
+            topic: "Multiple Inheritance",
+            tags: ["inheritance", "oop", "python", "javascript"],
             explanation: `<div>
-  <h3 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600;">
-    What is Multiple Inheritance?
-  </h3>
-  <p style="line-height: 1.75;">
-    Multiple inheritance allows a class to inherit <strong>features from more than one parent class</strong>.  
-    Languages differ in support:
-  </p>
-  <ul style="margin-left: 1.5rem;">
-    <li><strong>Python</strong> supports true multiple inheritance directly.</li>
-    <li><strong>JavaScript</strong> (ES6 classes) supports single inheritance only; multiple behaviors are achieved via <strong>interfaces (TypeScript)</strong>, <strong>mix-ins</strong>, or <strong>composition</strong>.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Use-Case</h4>
-  <ul style="margin-left: 1.5rem;">
-    <li>A <code>Drone</code> class that needs capabilities of both <code>Aircraft</code> and <code>Camera</code>.</li>
-    <li>Reusing orthogonal feature sets without deep hierarchies.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Caveats</h4>
-  <ul style="margin-left: 1.5rem;">
-    <li><strong>Diamond Problem</strong>: Ambiguity when two parents define the same method.</li>
-    <li>Can be mitigated via <strong>MRO (Method Resolution Order)</strong> in Python or <strong>composition / mix-ins</strong> in JS.</li>
-  </ul>
-</div>`,
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Multiple Inheritance is a feature in object-oriented programming where a class can inherit properties and methods from more than one parent class. This allows a child class to combine functionality from multiple sources, creating more flexible and reusable code structures.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Python Multiple Inheritance
+     </h4>
+   
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Python natively supports multiple inheritance. A class can inherit from multiple parent classes by listing them in the class definition.
+     </p>
+  
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  # Parent class 1
+  class Vehicle:
+      def __init__(self, brand, model):
+          self.brand = brand
+          self.model = model
+      
+      def start_engine(self):
+          return f"{self.brand} {self.model} engine started!"
+      
+      def stop_engine(self):
+          return f"{self.brand} {self.model} engine stopped!"
+  
+  # Parent class 2
+  class Electric:
+      def __init__(self, battery_capacity):
+          self.battery_capacity = battery_capacity
+      
+      def charge_battery(self):
+          return f"Battery charging... Capacity: {self.battery_capacity}kWh"
+      
+      def battery_status(self):
+          return f"Battery capacity: {self.battery_capacity}kWh"
+  
+  # Parent class 3
+  class GPS:
+      def __init__(self, gps_version):
+          self.gps_version = gps_version
+      
+      def navigate(self, destination):
+          return f"GPS {self.gps_version}: Navigating to {destination}"
+      
+      def current_location(self):
+          return "Current location: 40.7128°N, 74.0060°W"
+  
+  # Child class inheriting from multiple parents
+  class ElectricCar(Vehicle, Electric, GPS):
+      def __init__(self, brand, model, battery_capacity, gps_version, range_km):
+          Vehicle.__init__(self, brand, model)
+          Electric.__init__(self, battery_capacity)
+          GPS.__init__(self, gps_version)
+          self.range_km = range_km
+      
+      def car_info(self):
+          return f"{self.brand} {self.model} - Range: {self.range_km}km"
+      
+      def eco_mode(self):
+          return f"{self.brand} {self.model} switched to eco mode for better efficiency"
+  </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       JavaScript Multiple Inheritance (Using Mixins)
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       JavaScript doesn't support true multiple inheritance, but we can achieve similar functionality using mixins, Object.assign(), or composition patterns.
+     </p>
+  
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-javascript">
+  // Mixin 1
+  const VehicleMixin = {
+      startEngine() {
+          return \`\${this.brand} \${this.model} engine started!\`;
+      },
+      
+      stopEngine() {
+          return \`\${this.brand} \${this.model} engine stopped!\`;
+      }
+  };
+  
+  // Mixin 2
+  const ElectricMixin = {
+      chargeBattery() {
+          return \`Battery charging... Capacity: \${this.batteryCapacity}kWh\`;
+      },
+      
+      batteryStatus() {
+          return \`Battery capacity: \${this.batteryCapacity}kWh\`;
+      }
+  };
+  
+  // Mixin 3
+  const GPSMixin = {
+      navigate(destination) {
+          return \`GPS \${this.gpsVersion}: Navigating to \${destination}\`;
+      },
+      
+      currentLocation() {
+          return "Current location: 40.7128°N, 74.0060°W";
+      }
+  };
+  
+  // Base class
+  class Vehicle {
+      constructor(brand, model) {
+          this.brand = brand;
+          this.model = model;
+      }
+  }
+  
+  // Child class using multiple mixins
+  class ElectricCar extends Vehicle {
+      constructor(brand, model, batteryCapacity, gpsVersion, rangeKm) {
+          super(brand, model);
+          this.batteryCapacity = batteryCapacity;
+          this.gpsVersion = gpsVersion;
+          this.rangeKm = rangeKm;
+      }
+      
+      carInfo() {
+          return \`\${this.brand} \${this.model} - Range: \${this.rangeKm}km\`;
+      }
+      
+      ecoMode() {
+          return \`\${this.brand} \${this.model} switched to eco mode for better efficiency\`;
+      }
+  }
+  
+  // Apply mixins to the prototype
+  Object.assign(ElectricCar.prototype, VehicleMixin, ElectricMixin, GPSMixin);
+  </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Method Resolution Order (MRO) in Python
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Python uses C3 Linearization to determine the order in which methods are resolved in multiple inheritance scenarios.
+     </p>
+  
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  class A:
+      def method(self):
+          print("Method from class A")
+  
+  class B(A):
+      def method(self):
+          print("Method from class B")
+  
+  class C(A):
+      def method(self):
+          print("Method from class C")
+  
+  class D(B, C):
+      pass
+  
+  # Check Method Resolution Order
+  print(D.__mro__)  # (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+  
+  # Create instance and call method
+  d = D()
+  d.method()  # Output: "Method from class B" (first in MRO after D)
+  </code></pre>
+     </div>
+  </div>`,
             examples: [
-              {
-                language: "Python (True Multiple Inheritance)",
-                code: `class Aircraft:
-    def fly(self):
-        return "Flying at 300 km/h"
+              `# Python Multiple Inheritance Example
+  tesla = ElectricCar("Tesla", "Model 3", 75, "v3.0", 500)
+  print(tesla.start_engine())      # From Vehicle
+  print(tesla.charge_battery())    # From Electric  
+  print(tesla.navigate("Home"))    # From GPS
+  print(tesla.car_info())         # From ElectricCar`,
 
-
-class Camera:
-    def take_photo(self):
-        return "Photo captured at 4K"
-
-
-class Drone(Aircraft, Camera):
-    def hover(self):
-        return "Hovering at 10 m altitude"
-
-
-# Usage
-d = Drone()
-print(d.fly())        # Flying at 300 km/h
-print(d.take_photo()) # Photo captured at 4K
-print(d.hover())      # Hovering at 10 m altitude`,
-              },
-              {
-                language: "JavaScript (Mix-In Pattern)",
-                code: `// Flyable mix-in
-const Flyable = (Base) => class extends Base {
-  fly() {
-    return "Flying at 300 km/h";
-  }
-};
-
-// Photographable mix-in
-const Photographable = (Base) => class extends Base {
-  takePhoto() {
-    return "Photo captured at 4K";
-  }
-};
-
-// Base Drone class
-class DroneBase {
-  hover() {
-    return "Hovering at 10 m altitude";
-  }
-}
-
-// Compose multiple behaviors via mix-ins
-class Drone extends Flyable(Photographable(DroneBase)) {}
-
-// Usage
-const d = new Drone();
-console.log(d.fly());        // Flying at 300 km/h
-console.log(d.takePhoto());  // Photo captured at 4K
-console.log(d.hover());      // Hovering at 10 m altitude`,
-              },
+              `// JavaScript Multiple Inheritance Example
+  const tesla = new ElectricCar("Tesla", "Model 3", 75, "v3.0", 500);
+  console.log(tesla.startEngine());      // From VehicleMixin
+  console.log(tesla.chargeBattery());    // From ElectricMixin
+  console.log(tesla.navigate("Home"));   // From GPSMixin
+  console.log(tesla.carInfo());         // From ElectricCar`,
             ],
             questions: [
               {
-                question: "How does Python resolve the diamond problem?",
-                solution:
-                  "Python uses the <strong>C3 linearization</strong> algorithm to determine Method Resolution Order (MRO). You can inspect the MRO via <code>ClassName.__mro__</code>.",
+                question:
+                  "What is the diamond problem in multiple inheritance?",
+                solution: `<p>The diamond problem occurs when a class inherits from two classes that both inherit from a common base class, creating an ambiguous inheritance path. Python solves this using Method Resolution Order (MRO) with C3 Linearization, ensuring a consistent and predictable method lookup order.</p>
+                
+                <pre><code class="language-python">
+  class A:
+      def method(self):
+          print("A")
+  
+  class B(A):
+      def method(self):
+          print("B")
+  
+  class C(A):  
+      def method(self):
+          print("C")
+  
+  class D(B, C):  # Diamond inheritance
+      pass
+  
+  # MRO ensures clear resolution
+  print(D.__mro__)  # D -> B -> C -> A -> object
+  </code></pre>`,
               },
               {
-                question:
-                  "Can JavaScript classes extend more than one class directly?",
-                solution:
-                  "No. ES6 classes support single inheritance. Use <strong>mix-ins</strong> (functions that return classes) or <strong>composition</strong> to combine behaviors.",
+                question: "How does JavaScript handle multiple inheritance?",
+                solution: `<p>JavaScript doesn't have true multiple inheritance but achieves similar functionality through:</p>
+                <ul>
+                  <li><strong>Mixins:</strong> Objects containing methods that can be copied to other objects</li>
+                  <li><strong>Object.assign():</strong> Copies properties from source objects to target</li>
+                  <li><strong>Composition:</strong> Combining multiple objects or functions</li>
+                </ul>
+                
+                <pre><code class="language-javascript">
+  // Using Object.assign for multiple inheritance
+  const obj = Object.assign({}, MixinA, MixinB, MixinC);
+  </code></pre>`,
               },
             ],
             links: [
               "https://docs.python.org/3/tutorial/classes.html#multiple-inheritance",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#mix-ins",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://python-course.eu/oop/multiple-inheritance.php",
             ],
           },
           {
             topic: "Hybrid Inheritance",
-            tags: [
-              "hybrid-inheritance",
-              "multiple-inheritance",
-              "multilevel-inheritance",
-              "oop",
-              "python",
-              "javascript",
-            ],
+            tags: ["inheritance", "oop", "python", "javascript"],
             explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>Hybrid inheritance</strong> is a <em>composition</em> of two or more inheritance types—most commonly <strong>multiple</strong> + <strong>multilevel</strong> or <strong>hierarchical</strong> + <strong>multilevel</strong>.  
-    There is <strong>no single canonical form</strong>; rather, it describes any real-world design that blends inheritance patterns to achieve maximum reuse while (attempting to) avoid the downsides of each.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Canonical Hybrid Blueprint
-  </h4>
-  <pre style="margin-top: 1rem; padding: 1rem; background: #f6f8fa; border-radius: 8px; font-size: 14px;">
-         A  (root)
-         |
-         B  (multilevel)
-       /   \
-      C     D  (hierarchical)
-       \   /
-         E   (multiple)
-  </pre>
-  <p style="line-height: 1.75;">
-    In the diagram above:
-  </p>
-  <ul style="margin-left: 1.5rem;">
-    <li><code>B</code> inherits from <code>A</code> (multilevel).</li>
-    <li><code>C</code> and <code>D</code> inherit from <code>B</code> (hierarchical).</li>
-    <li><code>E</code> inherits from <em>both</em> <code>C</code> and <code>D</code> (multiple), completing the hybrid.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    When & Why Use Hybrid?
-  </h4>
-  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Complex Domain Models:</span> e.g., a <code>Vehicle → Car → ElectricCar</code> chain that also needs <code>AIAssistant</code> features from another branch.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Framework Design:</span> UI toolkits often have deep widget hierarchies (<code>Widget → Container → Panel</code>) plus mixin-like interfaces (<code>Scrollable</code>, <code>Clickable</code>).
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Code Reuse Across Concerns:</span> Combine orthogonal behaviors without duplicating code in every branch.
-    </li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Caveats & Mitigations
-  </h4>
-  <ul style="margin-left: 1.5rem;">
-    <li><strong>Diamond Problem:</strong> Occurs when the final child inherits the same ancestor through two paths.<br>
-        → Python resolves via <strong>C3 linearization</strong>; JavaScript avoids via <strong>composition / mix-ins</strong>.</li>
-    <li><strong>Tight Coupling:</strong> Deep hierarchies plus cross-branch inheritance can create fragile code.<br>
-        → Favor <strong>composition over inheritance</strong> where practical.</li>
-    <li><strong>Testing Overhead:</strong> Unit tests must account for multiple parent behaviors.<br>
-        → Isolate mix-ins with <strong>interface segregation</strong>.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Implementation Strategies
-  </h4>
-  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600;">Python:</span> Use true multiple inheritance and rely on <code>super()</code> & MRO.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600;">JavaScript:</span> Combine <code>extends</code> (single inheritance) with <strong>mix-in functions</strong> to simulate multiple inheritance without prototype conflicts.
-    </li>
-  </ol>
-</div>`,
-            examples: [
-              {
-                language: "Python (True Hybrid + MRO)",
-                code: `class Device:
-    def __init__(self, brand):
-        self.brand = brand
-
-    def power_on(self):
-        return f"{self.brand} device powered on."
-
-
-class Computer(Device):
-    def __init__(self, brand, cpu):
-        super().__init__(brand)
-        self.cpu = cpu
-
-    def compile(self):
-        return f"{self.brand} compiling code on {self.cpu}."
-
-
-class Phone(Device):
-    def __init__(self, brand, screen_size):
-        super().__init__(brand)
-        self.screen_size = screen_size
-
-    def call(self, number):
-        return f"{self.brand} calling {number}."
-
-
-class Smartphone(Computer, Phone):
-    def __init__(self, brand, cpu, screen_size):
-        # MRO: Device → Computer → Phone → Smartphone
-        Computer.__init__(self, brand, cpu)
-        Phone.__init__(self, brand, screen_size)
-
-    def run_app(self, app):
-        return f"{self.brand} running {app}."
-
-
-# --- Usage ---
-s = Smartphone("Pixel", "Tensor G3", 6.7)
-print(s.power_on())    # Device method
-print(s.compile())     # Computer method
-print(s.call("911"))   # Phone method
-print(s.run_app("Maps"))  # Smartphone method`,
-              },
-              {
-                language: "JavaScript (Mix-In Hybrid)",
-                code: `// 1. Root class (multilevel)
-class Device {
-  constructor(brand) {
-    this.brand = brand;
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Hybrid Inheritance is a combination of two or more types of inheritance. It typically involves a mix of single, multiple, and multilevel inheritance patterns. This creates complex inheritance hierarchies that can provide great flexibility but also require careful design to avoid complications.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Python Hybrid Inheritance
+     </h4>
+   
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Hybrid inheritance in Python combines different inheritance patterns to create complex class hierarchies.
+     </p>
+  
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  # Base class
+  class Animal:
+      def __init__(self, name, species):
+          self.name = name
+          self.species = species
+      
+      def make_sound(self):
+          return f"{self.name} makes a sound"
+      
+      def basic_info(self):
+          return f"{self.name} is a {self.species}"
+  
+  # Single inheritance from Animal
+  class Mammal(Animal):
+      def __init__(self, name, species, fur_color):
+          super().__init__(name, species)
+          self.fur_color = fur_color
+      
+      def give_birth(self):
+          return f"{self.name} gives birth to live young"
+      
+      def regulate_temperature(self):
+          return f"{self.name} regulates body temperature"
+  
+  # Single inheritance from Animal
+  class Bird(Animal):
+      def __init__(self, name, species, wingspan):
+          super().__init__(name, species)
+          self.wingspan = wingspan
+      
+      def fly(self):
+          return f"{self.name} flies with {self.wingspan}cm wingspan"
+      
+      def lay_eggs(self):
+          return f"{self.name} lays eggs"
+  
+  # Mixin classes for additional behaviors
+  class Carnivore:
+      def hunt(self):
+          return f"{self.name} hunts for prey"
+      
+      def eat_meat(self):
+          return f"{self.name} eats meat"
+  
+  class Herbivore:
+      def graze(self):
+          return f"{self.name} grazes on plants"
+      
+      def eat_plants(self):
+          return f"{self.name} eats plants"
+  
+  class Swimmer:
+      def swim(self):
+          return f"{self.name} swims in water"
+      
+      def dive(self):
+          return f"{self.name} dives underwater"
+  
+  # Hybrid inheritance - combining multiple inheritance patterns
+  class Lion(Mammal, Carnivore):  # Multilevel + Multiple
+      def __init__(self, name, fur_color, pride_size):
+          super().__init__(name, "Lion", fur_color)
+          self.pride_size = pride_size
+      
+      def roar(self):
+          return f"{self.name} roars loudly!"
+      
+      def lead_pride(self):
+          return f"{self.name} leads a pride of {self.pride_size} lions"
+  
+  class Penguin(Bird, Swimmer):  # Multilevel + Multiple  
+      def __init__(self, name, wingspan, colony_size):
+          super().__init__(name, "Penguin", wingspan)
+          self.colony_size = colony_size
+      
+      def slide_on_ice(self):
+          return f"{self.name} slides on ice"
+      
+      def huddle_for_warmth(self):
+          return f"{self.name} huddles with {self.colony_size} other penguins"
+      
+      def fly(self):  # Method overriding
+          return f"{self.name} cannot fly but swims excellently"
+  
+  class Dolphin(Mammal, Swimmer, Carnivore):  # Multiple inheritance from different levels
+      def __init__(self, name, pod_size):
+          super().__init__(name, "Dolphin", "gray")
+          self.pod_size = pod_size
+      
+      def echolocation(self):
+          return f"{self.name} uses echolocation to navigate"
+      
+      def communicate(self):
+          return f"{self.name} communicates with {self.pod_size} pod members"
+      
+      def jump(self):
+          return f"{self.name} jumps out of water"
+  
+  # Even more complex hybrid inheritance
+  class FlyingFish(Bird, Swimmer):
+      def __init__(self, name, wingspan, depth_range):
+          super().__init__(name, "Flying Fish", wingspan)
+          self.depth_range = depth_range
+      
+      def glide(self):
+          return f"{self.name} glides above water for short distances"
+      
+      def escape_predators(self):
+          return f"{self.name} escapes by flying out of water"
+  </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       JavaScript Hybrid Inheritance
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       JavaScript implements hybrid inheritance through a combination of class inheritance, mixins, and composition patterns.
+     </p>
+  
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-javascript">
+  // Base class
+  class Animal {
+      constructor(name, species) {
+          this.name = name;
+          this.species = species;
+      }
+      
+      makeSound() {
+          return \`\${this.name} makes a sound\`;
+      }
+      
+      basicInfo() {
+          return \`\${this.name} is a \${this.species}\`;
+      }
   }
-  powerOn() {
-    return \\{this.brand} device powered on.\\;
+  
+  // Single inheritance
+  class Mammal extends Animal {
+      constructor(name, species, furColor) {
+          super(name, species);
+          this.furColor = furColor;
+      }
+      
+      giveBirth() {
+          return \`\${this.name} gives birth to live young\`;
+      }
+      
+      regulateTemperature() {
+          return \`\${this.name} regulates body temperature\`;
+      }
   }
-}
-
-// 2. Hierarchical branch 1
-class Computer extends Device {
-  constructor(brand, cpu) {
-    super(brand);
-    this.cpu = cpu;
+  
+  // Single inheritance
+  class Bird extends Animal {
+      constructor(name, species, wingspan) {
+          super(name, species);
+          this.wingspan = wingspan;
+      }
+      
+      fly() {
+          return \`\${this.name} flies with \${this.wingspan}cm wingspan\`;
+      }
+      
+      layEggs() {
+          return \`\${this.name} lays eggs\`;
+      }
   }
-  compile() {
-    return \\{this.brand} compiling code on {this.cpu}.\\;
-  }
-}
-
-// 3. Hierarchical branch 2
-class Phone extends Device {
-  constructor(brand, screenSize) {
-    super(brand);
-    this.screenSize = screenSize;
-  }
-  call(number) {
-    return {this.brand} calling \\{number}.\\;
-  }
-}
-
-// 4. Mix-in to add Phone behavior to Smartphone
-function asPhone(Base) {
-  return class extends Base {
-    call(number) {
-      return \\{this.brand} calling \\{number}.\\;
-    }
+  
+  // Mixin behaviors
+  const CarnivoreMixin = {
+      hunt() {
+          return \`\${this.name} hunts for prey\`;
+      },
+      
+      eatMeat() {
+          return \`\${this.name} eats meat\`;
+      }
   };
-}
-
-// 5. Hybrid child inherits from Computer + Phone mix-in
-class Smartphone extends asPhone(Computer) {
-  constructor(brand, cpu, screenSize) {
-    super(brand, cpu);
-    this.screenSize = screenSize;
+  
+  const HerbivoreMixin = {
+      graze() {
+          return \`\${this.name} grazes on plants\`;
+      },
+      
+      eatPlants() {
+          return \`\${this.name} eats plants\`;
+      }
+  };
+  
+  const SwimmerMixin = {
+      swim() {
+          return \`\${this.name} swims in water\`;
+      },
+      
+      dive() {
+          return \`\${this.name} dives underwater\`;
+      }
+  };
+  
+  // Hybrid inheritance implementation
+  class Lion extends Mammal {
+      constructor(name, furColor, prideSize) {
+          super(name, "Lion", furColor);
+          this.prideSize = prideSize;
+      }
+      
+      roar() {
+          return \`\${this.name} roars loudly!\`;
+      }
+      
+      leadPride() {
+          return \`\${this.name} leads a pride of \${this.prideSize} lions\`;
+      }
   }
-  runApp(app) {
-    return {this.brand} running {app}.\\;
+  
+  // Apply carnivore behavior
+  Object.assign(Lion.prototype, CarnivoreMixin);
+  
+  class Penguin extends Bird {
+      constructor(name, wingspan, colonySize) {
+          super(name, "Penguin", wingspan);
+          this.colonySize = colonySize;
+      }
+      
+      slideOnIce() {
+          return \`\${this.name} slides on ice\`;
+      }
+      
+      huddleForWarmth() {
+          return \`\${this.name} huddles with \${this.colonySize} other penguins\`;
+      }
+      
+      // Method overriding
+      fly() {
+          return \`\${this.name} cannot fly but swims excellently\`;
+      }
   }
-}
+  
+  // Apply swimmer behavior
+  Object.assign(Penguin.prototype, SwimmerMixin);
+  
+  class Dolphin extends Mammal {
+      constructor(name, podSize) {
+          super(name, "Dolphin", "gray");
+          this.podSize = podSize;
+      }
+      
+      echolocation() {
+          return \`\${this.name} uses echolocation to navigate\`;
+      }
+      
+      communicate() {
+          return \`\${this.name} communicates with \${this.podSize} pod members\`;
+      }
+      
+      jump() {
+          return \`\${this.name} jumps out of water\`;
+      }
+  }
+  
+  // Apply multiple behaviors
+  Object.assign(Dolphin.prototype, SwimmerMixin, CarnivoreMixin);
+  
+  // Advanced mixin application function
+  function applyMixins(targetClass, ...mixins) {
+      mixins.forEach(mixin => {
+          Object.assign(targetClass.prototype, mixin);
+      });
+  }
+  
+  class FlyingFish extends Bird {
+      constructor(name, wingspan, depthRange) {
+          super(name, "Flying Fish", wingspan);
+          this.depthRange = depthRange;
+      }
+      
+      glide() {
+          return \`\${this.name} glides above water for short distances\`;
+      }
+      
+      escapePredators() {
+          return \`\${this.name} escapes by flying out of water\`;
+      }
+  }
+  
+  // Apply swimmer behavior to flying fish
+  applyMixins(FlyingFish, SwimmerMixin);
+  </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Key Characteristics of Hybrid Inheritance
+     </h4>
+     
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Combines Multiple Patterns:</span> Uses single, multiple, and multilevel inheritance together
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Complex Hierarchies:</span> Creates intricate class relationships and dependencies
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Provides maximum code reuse and behavioral combination
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Challenges:</span> Can lead to diamond problems, method resolution ambiguity, and maintenance complexity
+       </li>
+     </ol>
+  </div>`,
+            examples: [
+              `# Python Hybrid Inheritance Usage
+  simba = Lion("Simba", "golden", 12)
+  print(simba.basic_info())        # From Animal
+  print(simba.give_birth())        # From Mammal  
+  print(simba.hunt())             # From Carnivore
+  print(simba.lead_pride())       # From Lion
+  
+  flipper = Dolphin("Flipper", 8)
+  print(flipper.regulate_temperature())  # From Mammal
+  print(flipper.swim())                  # From Swimmer
+  print(flipper.hunt())                  # From Carnivore
+  print(flipper.echolocation())          # From Dolphin`,
 
-// --- Usage ---
-const s = new Smartphone("Pixel", "Tensor G3", 6.7);
-console.log(s.powerOn());    // Device
-console.log(s.compile());    // Computer
-console.log(s.call("911"));  // Phone (via mix-in)
-console.log(s.runApp("Maps")); // Smartphone`,
-              },
+              `// JavaScript Hybrid Inheritance Usage
+  const simba = new Lion("Simba", "golden", 12);
+  console.log(simba.basicInfo());        // From Animal
+  console.log(simba.giveBirth());        // From Mammal
+  console.log(simba.hunt());             // From CarnivoreMixin
+  console.log(simba.leadPride());        // From Lion
+  
+  const flipper = new Dolphin("Flipper", 8);
+  console.log(flipper.regulateTemperature()); // From Mammal
+  console.log(flipper.swim());                // From SwimmerMixin
+  console.log(flipper.hunt());                // From CarnivoreMixin
+  console.log(flipper.echolocation());        // From Dolphin`,
             ],
             questions: [
               {
                 question:
-                  "How does Python's MRO resolve conflicts in hybrid hierarchies?",
-                solution:
-                  "Python uses the <strong>C3 linearization</strong> algorithm to produce a deterministic method-resolution order. You can inspect it via <code>ClassName.__mro__</code>. The rule is: <em>children precede parents, and left-to-right in bases</em>.",
+                  "What are the advantages and disadvantages of hybrid inheritance?",
+                solution: `<p><strong>Advantages:</strong></p>
+                <ul>
+                  <li>Maximum code reusability and flexibility</li>
+                  <li>Can model complex real-world relationships</li>
+                  <li>Combines benefits of different inheritance types</li>
+                </ul>
+                
+                <p><strong>Disadvantages:</strong></p>
+                <ul>
+                  <li>Increased complexity and potential confusion</li>
+                  <li>Diamond problem and method resolution ambiguity</li>
+                  <li>Harder to maintain and debug</li>
+                  <li>Performance overhead from complex method lookups</li>
+                </ul>`,
               },
               {
                 question:
-                  "Why can’t JavaScript classes directly extend multiple classes?",
-                solution:
-                  "The ECMAScript class syntax is intentionally restricted to single inheritance to avoid prototype-chain complexity and the diamond problem. Multiple behaviors are achieved through <strong>mix-ins</strong> (functions that return classes) or <strong>object composition</strong>.",
+                  "How do you handle method conflicts in hybrid inheritance?",
+                solution: `<p>Method conflicts in hybrid inheritance can be resolved through:</p>
+                <ul>
+                  <li><strong>Method Resolution Order (MRO):</strong> Python's C3 linearization algorithm</li>
+                  <li><strong>Explicit method calls:</strong> Using super() or direct parent class calls</li>
+                  <li><strong>Method overriding:</strong> Explicitly defining behavior in child classes</li>
+                  <li><strong>Interface segregation:</strong> Using mixins with specific, non-conflicting methods</li>
+                </ul>
+                
+                <pre><code class="language-python">
+  class Child(Parent1, Parent2):
+      def method(self):
+          # Explicit resolution
+          result1 = Parent1.method(self)
+          result2 = Parent2.method(self) 
+          return f"Combined: {result1} and {result2}"
+  </code></pre>`,
               },
             ],
             links: [
-              "https://docs.python.org/3/tutorial/classes.html#multiple-inheritance",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#mix-ins",
+              "https://www.geeksforgeeks.org/hybrid-inheritance-in-python/",
+              "https://www.programiz.com/python-programming/multiple-inheritance",
+              "https://javascript.info/mixins",
             ],
           },
           {
-            topic: "Inheritance Method Overriding & super Keyword",
+            topic: "Inheritance and Method Overriding",
             tags: [
-              "Python",
-              "JavaScript",
-              "OOPs",
+              "OOP",
               "Inheritance",
               "Polymorphism",
+              "Python",
+              "JavaScript",
             ],
             explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>Method Overriding</strong> is a pillar of polymorphism: a child class <em>redefines</em> a method already defined in its parent so that instances of the child execute the <em>newer</em> version while still inheriting everything else.  
-    <br><br>
-    The <strong>super keyword</strong> is the bridge between the overriding and overridden method: it lets the child explicitly call the parent’s implementation, reuse its logic, or access its constructor.
-  </p>
-
-  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600;">Key Rules & Use-Cases</h4>
-  <ul style="margin-left: 1.5rem; margin-top: 1rem;">
-    <li><strong>Signature must match</strong> (name + expected parameters).</li>
-    <li><strong>Return type covariance</strong> is allowed (return a subclass).</li>
-    <li><strong>super()</strong> must be the first statement in a child constructor (JS & Python).</li>
-    <li><strong>Use-case:</strong> Customise parent behavior without duplicating code (e.g., extend <code>Vehicle.drive()</code> into <code>ElectricCar.drive()</code> that adds battery checks).</li>
-  </ul>
-
-  <h4 style="margin-top: 2rem; font-size: 1.25rem; font-weight: 600;">Python vs JavaScript Quick Glance</h4>
-  <table style="border-collapse: collapse; margin-top: 1rem; width: 100%;">
-    <thead>
-      <tr>
-        <th style="border: 1px solid #ccc; padding: 0.5rem;">Aspect</th>
-        <th style="border: 1px solid #ccc; padding: 0.5rem;">Python</th>
-        <th style="border: 1px solid #ccc; padding: 0.5rem;">JavaScript (ES6+)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;">Override syntax</td>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;">redefine method</td>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;">redefine method</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;">Parent call</td>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super().method(args)</code></td>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super.method(args)</code> or <code>super(args)</code> in constructor</td>
-      </tr>
-      <tr>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;">Constructor chaining</td>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super().__init__(...)</code></td>
-        <td style="border: 1px solid #ccc; padding: 0.5rem;"><code>super(...)</code></td>
-      </tr>
-    </tbody>
-  </table>
-</div>`,
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Inheritance is a fundamental concept in Object-Oriented Programming (OOP) that allows a class to inherit properties and methods from another class. Method overriding is the ability of a subclass to provide a specific implementation of a method that is already defined in its parent class.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       What is Inheritance?
+     </h4>
+   
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Child classes inherit properties and methods from parent classes.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Hierarchical Structure:</span> Creates an "is-a" relationship between classes.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> Child classes can add new features while inheriting existing ones.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Polymorphism Support:</span> Enables method overriding for specialized behavior.
+       </li>
+     </ol>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       What is Method Overriding?
+     </h4>
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Method overriding allows a subclass to provide a different implementation of a method that exists in its parent class. The overridden method in the child class has the same name, parameters, and return type as the parent method but different functionality.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Python Implementation
+     </h4>
+     
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Basic Inheritance Example:
+     </h5>
+     <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  # Parent class (Base class)
+  class Animal:
+      def __init__(self, name, species):
+          self.name = name
+          self.species = species
+      
+      def make_sound(self):
+          return f"{self.name} makes a sound"
+      
+      def move(self):
+          return f"{self.name} is moving"
+      
+      def info(self):
+          return f"{self.name} is a {self.species}"
+  
+  # Child class (Derived class)
+  class Dog(Animal):
+      def __init__(self, name, breed):
+          super().__init__(name, "Canine")  # Call parent constructor
+          self.breed = breed
+      
+      # Method overriding - providing specific implementation
+      def make_sound(self):
+          return f"{self.name} barks: Woof! Woof!"
+      
+      # Method overriding with calling parent method
+      def move(self):
+          parent_move = super().move()
+          return f"{parent_move} by running on four legs"
+      
+      # Adding new method specific to Dog
+      def fetch(self):
+          return f"{self.name} is fetching the ball"
+  
+  # Another child class
+  class Bird(Animal):
+      def __init__(self, name, wing_span):
+          super().__init__(name, "Avian")
+          self.wing_span = wing_span
+      
+      # Method overriding
+      def make_sound(self):
+          return f"{self.name} chirps: Tweet! Tweet!"
+      
+      def move(self):
+          return f"{self.name} is flying with {self.wing_span}cm wingspan"
+  
+  # Usage example
+  dog = Dog("Buddy", "Golden Retriever")
+  bird = Bird("Robin", 25)
+  
+  print(dog.info())           # Inherited method
+  print(dog.make_sound())     # Overridden method
+  print(dog.move())           # Overridden method calling parent
+  print(dog.fetch())          # New method
+  
+  print(bird.info())          # Inherited method
+  print(bird.make_sound())    # Overridden method
+  print(bird.move())          # Overridden method
+        </code></pre>
+    </div>
+  
+     <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+       Advanced Python Example with Multiple Inheritance:
+     </h5>
+     <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-python">
+  class Flyable:
+      def fly(self):
+          return "Flying through the air"
+  
+  class Swimmable:
+      def swim(self):
+          return "Swimming in water"
+  
+  # Multiple inheritance
+  class Duck(Animal, Flyable, Swimmable):
+      def __init__(self, name):
+          super().__init__(name, "Waterfowl")
+      
+      # Method overriding
+      def make_sound(self):
+          return f"{self.name} quacks: Quack! Quack!"
+      
+      # Overriding inherited method from Flyable
+      def fly(self):
+          return f"{self.name} is flying over the pond"
+  
+  # Method Resolution Order (MRO) example
+  class A:
+      def method(self):
+          return "A's method"
+  
+  class B(A):
+      def method(self):
+          return "B's method"
+  
+  class C(A):
+      def method(self):
+          return "C's method"
+  
+  class D(B, C):  # Multiple inheritance
+      pass  # Uses MRO to determine which method to call
+  
+  # Usage
+  duck = Duck("Donald")
+  print(duck.make_sound())    # Overridden method
+  print(duck.fly())           # Overridden method from Flyable
+  print(duck.swim())          # Inherited from Swimmable
+  
+  d = D()
+  print(d.method())           # Will print "B's method" due to MRO
+  print(D.__mro__)            # Shows Method Resolution Order
+        </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       JavaScript Implementation
+     </h4>
+     
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       ES6 Class Syntax:
+     </h5>
+     <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-javascript">
+  // Parent class (Base class)
+  class Animal {
+      constructor(name, species) {
+          this.name = name;
+          this.species = species;
+      }
+      
+      makeSound() {
+          return \`\${this.name} makes a sound\`;
+      }
+      
+      move() {
+          return \`\${this.name} is moving\`;
+      }
+      
+      info() {
+          return \`\${this.name} is a \${this.species}\`;
+      }
+  }
+  
+  // Child class (Derived class)
+  class Dog extends Animal {
+      constructor(name, breed) {
+          super(name, "Canine"); // Call parent constructor
+          this.breed = breed;
+      }
+      
+      // Method overriding - providing specific implementation
+      makeSound() {
+          return \`\${this.name} barks: Woof! Woof!\`;
+      }
+      
+      // Method overriding with calling parent method
+      move() {
+          const parentMove = super.move();
+          return \`\${parentMove} by running on four legs\`;
+      }
+      
+      // Adding new method specific to Dog
+      fetch() {
+          return \`\${this.name} is fetching the ball\`;
+      }
+      
+      // Getter method
+      get breedInfo() {
+          return \`\${this.name} is a \${this.breed}\`;
+      }
+  }
+  
+  // Another child class
+  class Bird extends Animal {
+      constructor(name, wingSpan) {
+          super(name, "Avian");
+          this.wingSpan = wingSpan;
+      }
+      
+      // Method overriding
+      makeSound() {
+          return \`\${this.name} chirps: Tweet! Tweet!\`;
+      }
+      
+      move() {
+          return \`\${this.name} is flying with \${this.wingSpan}cm wingspan\`;
+      }
+  }
+  
+  // Usage example
+  const dog = new Dog("Buddy", "Golden Retriever");
+  const bird = new Bird("Robin", 25);
+  
+  console.log(dog.info());           // Inherited method
+  console.log(dog.makeSound());      // Overridden method
+  console.log(dog.move());           // Overridden method calling parent
+  console.log(dog.fetch());          // New method
+  console.log(dog.breedInfo);        // Getter method
+  
+  console.log(bird.info());          // Inherited method
+  console.log(bird.makeSound());     // Overridden method
+  console.log(bird.move());          // Overridden method
+        </code></pre>
+    </div>
+  
+     <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+       Prototype-based Inheritance (Traditional JavaScript):
+     </h5>
+     <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-javascript">
+  // Constructor function for parent class
+  function Animal(name, species) {
+      this.name = name;
+      this.species = species;
+  }
+  
+  // Adding methods to prototype
+  Animal.prototype.makeSound = function() {
+      return this.name + " makes a sound";
+  };
+  
+  Animal.prototype.move = function() {
+      return this.name + " is moving";
+  };
+  
+  Animal.prototype.info = function() {
+      return this.name + " is a " + this.species;
+  };
+  
+  // Constructor function for child class
+  function Dog(name, breed) {
+      Animal.call(this, name, "Canine"); // Call parent constructor
+      this.breed = breed;
+  }
+  
+  // Setting up inheritance
+  Dog.prototype = Object.create(Animal.prototype);
+  Dog.prototype.constructor = Dog;
+  
+  // Method overriding
+  Dog.prototype.makeSound = function() {
+      return this.name + " barks: Woof! Woof!";
+  };
+  
+  // Method overriding with calling parent method
+  Dog.prototype.move = function() {
+      var parentMove = Animal.prototype.move.call(this);
+      return parentMove + " by running on four legs";
+  };
+  
+  // Adding new method
+  Dog.prototype.fetch = function() {
+      return this.name + " is fetching the ball";
+  };
+  
+  // Usage
+  var dog = new Dog("Buddy", "Golden Retriever");
+  console.log(dog.info());           // Inherited method
+  console.log(dog.makeSound());      // Overridden method
+  console.log(dog.move());           // Overridden method calling parent
+  console.log(dog.fetch());          // New method
+        </code></pre>
+    </div>
+  
+     <h5 style="margin-top: 1.5rem; font-size: 1.1rem; font-weight: 600;">
+       Advanced JavaScript Example with Mixins:
+     </h5>
+     <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
+        <pre><code class="language-javascript">
+  // Mixin for flying behavior
+  const Flyable = {
+      fly() {
+          return \`\${this.name} is flying through the air\`;
+      }
+  };
+  
+  // Mixin for swimming behavior
+  const Swimmable = {
+      swim() {
+          return \`\${this.name} is swimming in water\`;
+      }
+  };
+  
+  // Utility function to apply mixins
+  function applyMixins(target, ...mixins) {
+      mixins.forEach(mixin => {
+          Object.assign(target.prototype, mixin);
+      });
+  }
+  
+  // Duck class with multiple behaviors
+  class Duck extends Animal {
+      constructor(name) {
+          super(name, "Waterfowl");
+      }
+      
+      // Method overriding
+      makeSound() {
+          return \`\${this.name} quacks: Quack! Quack!\`;
+      }
+      
+      // This will be overridden by the mixin
+      fly() {
+          return \`\${this.name} is flying over the pond\`;
+      }
+  }
+  
+  // Apply mixins to Duck
+  applyMixins(Duck, Flyable, Swimmable);
+  
+  // Override the mixin method
+  Duck.prototype.fly = function() {
+      return \`\${this.name} is gracefully flying over the pond\`;
+  };
+  
+  const duck = new Duck("Donald");
+  console.log(duck.makeSound());     // Overridden method
+  console.log(duck.fly());           // Overridden mixin method
+  console.log(duck.swim());          // Mixin method
+        </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Key Differences Between Python and JavaScript
+     </h4>
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Syntax:</span> Python uses <code>super()</code> while JavaScript uses <code>super</code> keyword.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Multiple Inheritance:</span> Python supports multiple inheritance natively, JavaScript uses mixins or composition.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Method Resolution:</span> Python uses MRO (Method Resolution Order), JavaScript uses prototype chain.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Private Members:</span> Python uses naming conventions (_private), JavaScript has true private fields (#private).
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Best Practices
+     </h4>
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Use Composition over Inheritance:</span> When the relationship is not clearly "is-a".
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Follow LSP:</span> Liskov Substitution Principle - subclasses should be replaceable for their base classes.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Call Parent Methods:</span> When overriding, consider whether to extend or completely replace parent behavior.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Document Overrides:</span> Clearly document when and why methods are overridden.
+       </li>
+     </ol>
+  </div>`,
             examples: [
-              `### Python  Method Overriding & super
+              `# Python Example: Shape hierarchy with method overriding
+  class Shape:
+      def __init__(self, color):
+          self.color = color
+      
+      def area(self):
+          raise NotImplementedError("Subclasses must implement area method")
+      
+      def perimeter(self):
+          raise NotImplementedError("Subclasses must implement perimeter method")
+  
+  class Rectangle(Shape):
+      def __init__(self, color, width, height):
+          super().__init__(color)
+          self.width = width
+          self.height = height
+      
+      def area(self):
+          return self.width * self.height
+      
+      def perimeter(self):
+          return 2 * (self.width + self.height)
+  
+  class Circle(Shape):
+      def __init__(self, color, radius):
+          super().__init__(color)
+          self.radius = radius
+      
+      def area(self):
+          return 3.14159 * self.radius ** 2
+      
+      def perimeter(self):
+          return 2 * 3.14159 * self.radius
+  
+  # Usage
+  rect = Rectangle("blue", 5, 3)
+  circle = Circle("red", 4)
+  
+  print(f"Rectangle area: {rect.area()}")    # Output: 15
+  print(f"Circle area: {circle.area()}")     # Output: 50.26544`,
 
-\`\`\`python
-class Vehicle:
-    def __init__(self, brand, speed):
-        self.brand = brand
-        self.speed = speed
-
-    def drive(self):
-        return f"{self.brand} running at {self.speed} km/h"
-
-class ElectricCar(Vehicle):
-    def __init__(self, brand, speed, battery_kwh):
-        super().__init__(brand, speed)   # call parent constructor
-        self.battery_kwh = battery_kwh
-
-    # overriding
-    def drive(self):
-        base = super().drive()           # reuse parent logic
-        return f"{base} | battery {self.battery_kwh} kWh"
-
-# ---- Usage ----
-tesla = ElectricCar("Tesla", 220, 75)
-print(tesla.drive())  # Tesla running at 220 km/h | battery 75 kWh
-\`\`\`
-`,
-              `### JavaScript – Method Overriding & super
-
-\`\`\`javascript
-class Vehicle {
-  constructor(brand, speed) {
-    this.brand = brand;
-    this.speed = speed;
+              `// JavaScript Example: Vehicle hierarchy with method overriding
+  class Vehicle {
+      constructor(brand, model) {
+          this.brand = brand;
+          this.model = model;
+      }
+      
+      start() {
+          return \`\${this.brand} \${this.model} is starting\`;
+      }
+      
+      stop() {
+          return \`\${this.brand} \${this.model} has stopped\`;
+      }
+      
+      getInfo() {
+          return \`\${this.brand} \${this.model}\`;
+      }
   }
-  drive() {
-    return \`\ {this.brand} running at \ {this.speed} km/h\`;
+  
+  class Car extends Vehicle {
+      constructor(brand, model, doors) {
+          super(brand, model);
+          this.doors = doors;
+      }
+      
+      // Method overriding
+      start() {
+          return \`\${super.start()} - Engine running\`;
+      }
+      
+      honk() {
+          return \`\${this.getInfo()} goes Beep! Beep!\`;
+      }
   }
-}
-
-class ElectricCar extends Vehicle {
-  constructor(brand, speed, batteryKwh) {
-    super(brand, speed);        // must be first
-    this.batteryKwh = batteryKwh;
+  
+  class Motorcycle extends Vehicle {
+      constructor(brand, model, engineSize) {
+          super(brand, model);
+          this.engineSize = engineSize;
+      }
+      
+      // Method overriding
+      start() {
+          return \`\${super.start()} - \${this.engineSize}cc engine roaring\`;
+      }
+      
+      wheelie() {
+          return \`\${this.getInfo()} is doing a wheelie!\`;
+      }
   }
-
-  // overriding
-  drive() {
-    const base = super.drive(); // reuse parent logic
-    return \`\ {base} | battery \ {this.batteryKwh} kWh\`;
-  }
-}
-
-// ---- Usage ----
-const tesla = new ElectricCar("Tesla", 220, 75);
-console.log(tesla.drive()); // Tesla running at 220 km/h | battery 75 kWh
-\`\`\`
-`,
+  
+  // Usage
+  const car = new Car("Toyota", "Camry", 4);
+  const bike = new Motorcycle("Harley", "Davidson", 1200);
+  
+  console.log(car.start());      // Toyota Camry is starting - Engine running
+  console.log(bike.start());     // Harley Davidson is starting - 1200cc engine roaring`,
             ],
             questions: [
               {
                 question:
-                  "What happens if I forget to call super() in the child constructor?",
+                  "What is the difference between inheritance and composition?",
                 solution:
-                  "<p><strong>Python:</strong> <code>super().__init__()</code> is optional if you do not need parent initialization, but you lose access to any parent constructor logic.<br><strong>JavaScript:</strong> Omitting <code>super()</code> in a derived class throws a <strong>ReferenceError</strong> because the class cannot be instantiated without initializing the parent.</p>",
-              },
-              {
-                question: "Can I change the signature when overriding?",
-                solution:
-                  "<p>Only <strong>covariant</strong> changes are safe (e.g., narrower parameter types or subclass return). Arbitrary changes break <em>Liskov Substitution Principle</em> and may cause runtime errors in strongly-typed languages.</p>",
+                  "<p><strong>Inheritance</strong> creates an 'is-a' relationship where a child class inherits properties and methods from a parent class. <strong>Composition</strong> creates a 'has-a' relationship where a class contains instances of other classes as components. Inheritance provides code reusability but creates tight coupling, while composition offers more flexibility and loose coupling. Use inheritance when there's a clear hierarchical relationship, and composition when you need to combine behaviors from multiple sources.</p>",
               },
               {
                 question:
-                  "How do I access a grand-parent method that the parent also overrides?",
+                  "How does method overriding work in Python vs JavaScript?",
+                solution: `<p>In <strong>Python</strong>, method overriding is achieved by defining a method with the same name in the child class. Use <code>super()</code> to call the parent method. Python supports multiple inheritance with Method Resolution Order (MRO).</p>
+                <p>In <strong>JavaScript</strong>, method overriding works similarly with ES6 classes using the <code>extends</code> keyword. Use <code>super.methodName()</code> to call parent methods. JavaScript doesn't support multiple inheritance natively but can use mixins or composition patterns.</p>
+                <pre><code># Python
+  class Parent:
+      def method(self): return "Parent"
+  class Child(Parent):
+      def method(self): return super().method() + " Child"
+  
+  // JavaScript  
+  class Parent {
+      method() { return "Parent"; }
+  }
+  class Child extends Parent {
+      method() { return super.method() + " Child"; }
+  }</code></pre>`,
+              },
+              {
+                question:
+                  "What are the benefits and drawbacks of method overriding?",
                 solution:
-                  "<p><strong>Python:</strong> Use <code>GrandParent.method(self)</code> explicitly.<br><strong>JavaScript:</strong> Use <code>GrandParent.prototype.method.call(this)</code>.</p>",
+                  "<p><strong>Benefits:</strong> Enables polymorphism, allows specialized behavior in subclasses, promotes code reusability, and supports the Open/Closed Principle. <strong>Drawbacks:</strong> Can create tight coupling between parent and child classes, may lead to complex inheritance hierarchies, can make debugging difficult, and might violate the Liskov Substitution Principle if not implemented correctly. It's important to ensure that overridden methods maintain the expected behavior contract of the parent class.</p>",
+              },
+              {
+                question:
+                  "When should you call the parent method in an overridden method?",
+                solution:
+                  "<p>Call the parent method when you want to <strong>extend</strong> rather than completely <strong>replace</strong> the parent's functionality. Common scenarios include: adding additional behavior before or after the parent's logic, logging or validation around parent method calls, maintaining core functionality while adding specialization, and ensuring proper initialization in constructors. Use <code>super().method()</code> in Python or <code>super.method()</code> in JavaScript to invoke parent methods.</p>",
               },
             ],
             links: [
               "https://docs.python.org/3/tutorial/classes.html#inheritance",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://realpython.com/inheritance-composition-python/",
+              "https://javascript.info/class-inheritance",
             ],
           },
           {
             topic: "Constructor Chaining",
-            tags: [
-              "constructor-chaining",
-              "super",
-              "this",
-              "oop",
-              "python",
-              "javascript",
-            ],
+            tags: ["inheritance", "constructors", "super"],
             explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>Constructor chaining</strong> is the process of <em>calling one constructor from another</em> so that object initialization can be <strong>reused, centralized, and extended</strong> across an inheritance hierarchy or within the same class via overloading.
-  </p>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Two Flavors
-  </h4>
-  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Within the same class</span> (constructor overloading / delegation)  
-      <ul>
-        <li>Python: <code>__init__</code> can delegate to <code>@classmethod</code> factory constructors.</li>
-        <li>JavaScript: A constructor can call <code>this(...)</code> (ES2022+) or rely on <code>static factory</code> methods.</li>
-      </ul>
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Across inheritance levels</span>  
-      <ul>
-        <li>Child constructor explicitly invokes parent constructor via <code>super(...)</code>.</li>
-        <li>Guarantees that every ancestor gets a chance to initialize its own state.</li>
-      </ul>
-    </li>
-  </ol>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Execution Flow
-  </h4>
-  <pre style="margin-top: 1rem; padding: 1rem; background: #f6f8fa; border-radius: 8px; font-size: 14px;">
-1. Memory is allocated for the object.
-2. Parent constructors run in top-down order.
-3. Child constructor body runs last, overriding or extending parent state.
-  </pre>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Rules & Edge Cases</h4>
-  <ul style="margin-left: 1.5rem;">
-    <li><strong>Python:</strong> <code>super().__init__()</code> is <em>optional</em> if parent’s <code>__init__</code> is no-arg or absent.</li>
-    <li><strong>JavaScript:</strong> <code>super()</code> <strong>must</strong> appear before any <code>this</code> access in a derived constructor.</li>
-    <li>Chaining prevents code duplication, centralizes validation, and ensures invariants are always set.</li>
-  </ul>
-
-  <h4 style="margin-top: 1.5rem; font-size: 1.125rem; font-weight: 600;">Real-World Analogy</h4>
-  <p style="line-height: 1.75;">
-    Building a car: the <strong>Vehicle</strong> constructor installs wheels and an engine; the <strong>Car</strong> constructor adds doors and seats by <em>chaining</em> to the parent, ensuring no car can exist without the basic vehicle infrastructure.
-  </p>
-</div>`,
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Constructor chaining is a technique in object-oriented programming where one constructor calls another constructor within the same class or its parent class. This allows for code reusability and ensures proper initialization of objects in inheritance hierarchies.
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Why Use Constructor Chaining?
+     </h4>
+   
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Avoid duplicating initialization logic across multiple constructors.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Proper Initialization:</span> Ensures parent class constructors are called before child class constructors.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Changes to initialization logic only need to be made in one place.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Allows multiple constructor overloads with different parameters.
+       </li>
+     </ol>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Constructor Chaining in Python
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       In Python, constructor chaining is achieved using the <code>super()</code> function to call the parent class constructor.
+     </p>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+  class Animal:
+      def __init__(self, name, species):
+          self.name = name
+          self.species = species
+          print(f"Animal constructor called: {name}")
+      
+      def make_sound(self):
+          print(f"{self.name} makes a sound")
+  
+  class Mammal(Animal):
+      def __init__(self, name, species, fur_color):
+          # Constructor chaining - calling parent constructor
+          super().__init__(name, species)
+          self.fur_color = fur_color
+          print(f"Mammal constructor called: {fur_color} fur")
+      
+      def feed_milk(self):
+          print(f"{self.name} feeds milk to babies")
+  
+  class Dog(Mammal):
+      def __init__(self, name, breed, fur_color="brown"):
+          # Constructor chaining - calling parent constructor
+          super().__init__(name, "Canis lupus", fur_color)
+          self.breed = breed
+          print(f"Dog constructor called: {breed} breed")
+      
+      def make_sound(self):
+          print(f"{self.name} barks: Woof!")
+      
+      def fetch(self):
+          print(f"{self.name} fetches the ball")
+  
+  # Creating instances
+  print("Creating a Dog:")
+  my_dog = Dog("Buddy", "Golden Retriever", "golden")
+  print()
+  my_dog.make_sound()
+  my_dog.feed_milk()
+  my_dog.fetch()
+  </code></pre>
+    </div>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Constructor Chaining in JavaScript
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       In JavaScript, constructor chaining is achieved using the <code>super()</code> keyword in class-based inheritance (ES6+).
+     </p>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+  class Animal {
+      constructor(name, species) {
+          this.name = name;
+          this.species = species;
+          console.log(\`Animal constructor called: \${name}\`);
+      }
+      
+      makeSound() {
+          console.log(\`\${this.name} makes a sound\`);
+      }
+  }
+  
+  class Mammal extends Animal {
+      constructor(name, species, furColor) {
+          // Constructor chaining - calling parent constructor
+          super(name, species);
+          this.furColor = furColor;
+          console.log(\`Mammal constructor called: \${furColor} fur\`);
+      }
+      
+      feedMilk() {
+          console.log(\`\${this.name} feeds milk to babies\`);
+      }
+  }
+  
+  class Dog extends Mammal {
+      constructor(name, breed, furColor = "brown") {
+          // Constructor chaining - calling parent constructor
+          super(name, "Canis lupus", furColor);
+          this.breed = breed;
+          console.log(\`Dog constructor called: \${breed} breed\`);
+      }
+      
+      makeSound() {
+          console.log(\`\${this.name} barks: Woof!\`);
+      }
+      
+      fetch() {
+          console.log(\`\${this.name} fetches the ball\`);
+      }
+  }
+  
+  // Creating instances
+  console.log("Creating a Dog:");
+  const myDog = new Dog("Buddy", "Golden Retriever", "golden");
+  console.log();
+  myDog.makeSound();
+  myDog.feedMilk();
+  myDog.fetch();
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Multiple Constructor Chaining (Python)
+     </h4>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+  class Vehicle:
+      def __init__(self, make, model, year):
+          self.make = make
+          self.model = model
+          self.year = year
+          print(f"Vehicle created: {year} {make} {model}")
+  
+  class Car(Vehicle):
+      def __init__(self, make, model, year, doors=4):
+          super().__init__(make, model, year)
+          self.doors = doors
+          print(f"Car created with {doors} doors")
+      
+      # Alternative constructor using class method
+      @classmethod
+      def create_default(cls, make, model):
+          return cls(make, model, 2024, 4)
+      
+      @classmethod
+      def create_sports_car(cls, make, model, year):
+          return cls(make, model, year, 2)
+  
+  # Different ways to create Car objects
+  car1 = Car("Toyota", "Camry", 2023, 4)
+  car2 = Car.create_default("Honda", "Civic")
+  car3 = Car.create_sports_car("Ferrari", "488", 2022)
+  </code></pre>
+    </div>
+  </div>
+  `,
             examples: [
-              {
-                language: "Python (intraclass + inheritance chaining)",
-                code: `from datetime import datetime
+              `# Python Constructor Chaining Example
+  class Person:
+      def __init__(self, name, age):
+          self.name = name
+          self.age = age
+          print(f"Person constructor: {name}, {age}")
+  
+  class Student(Person):
+      def __init__(self, name, age, student_id):
+          super().__init__(name, age)  # Constructor chaining
+          self.student_id = student_id
+          print(f"Student constructor: ID {student_id}")
+  
+  class GraduateStudent(Student):
+      def __init__(self, name, age, student_id, thesis_topic):
+          super().__init__(name, age, student_id)  # Constructor chaining
+          self.thesis_topic = thesis_topic
+          print(f"Graduate constructor: {thesis_topic}")
+  
+  # Creating instance
+  grad = GraduateStudent("Alice", 25, "S12345", "AI Research")`,
 
-class Event:
-    def __init__(self, title, timestamp=None):
-        self.title = title
-        # default to now if not provided
-        self.timestamp = timestamp or datetime.utcnow()
-
-    def __repr__(self):
-        return f"Event({self.title}, {self.timestamp})"
-
-
-class Meeting(Event):
-    def __init__(self, title, attendees, timestamp=None):
-        # 1) Chain to parent's constructor
-        super().__init__(title, timestamp)
-        self.attendees = attendees
-
-    # factory constructor (intraclass chaining)
-    @classmethod
-    def from_today(cls, title, attendees):
-        return cls(title, attendees, datetime.utcnow())
-
-    def __repr__(self):
-        return f"Meeting({self.title}, {self.attendees}, {self.timestamp})"
-
-
-class RecurringMeeting(Meeting):
-    def __init__(self, title, attendees, interval_days, timestamp=None):
-        # 2) Chain to grand-parent via Meeting
-        super().__init__(title, attendees, timestamp)
-        self.interval_days = interval_days
-
-    def next_occurrence(self):
-        from datetime import timedelta
-        return self.timestamp + timedelta(days=self.interval_days)
-
-
-# --- Usage ---
-m1 = Meeting("Sprint Planning", ["Alice", "Bob"])
-print(m1)
-
-m2 = Meeting.from_today("Demo", ["Carol"])
-print(m2)
-
-r = RecurringMeeting("Stand-up", ["Team"], 1)
-print(r, "next:", r.next_occurrence())`,
-              },
-              {
-                language: "JavaScript (intraclass + inheritance chaining)",
-                code: `class Event {
-  constructor(title, timestamp = new Date()) {
-    this.title = title;
-    this.timestamp = timestamp;
+              `// JavaScript Constructor Chaining Example
+  class Person {
+      constructor(name, age) {
+          this.name = name;
+          this.age = age;
+          console.log(\`Person constructor: \${name}, \${age}\`);
+      }
   }
-  toString() {
-    return \\Event(\\{this.title}, \\{this.timestamp.toISOString()})\\;
+  
+  class Student extends Person {
+      constructor(name, age, studentId) {
+          super(name, age); // Constructor chaining
+          this.studentId = studentId;
+          console.log(\`Student constructor: ID \${studentId}\`);
+      }
   }
-
-  // Static factory (intraclass chaining)
-  static today(title) {
-    return new Event(title, new Date());
+  
+  class GraduateStudent extends Student {
+      constructor(name, age, studentId, thesisTopic) {
+          super(name, age, studentId); // Constructor chaining
+          this.thesisTopic = thesisTopic;
+          console.log(\`Graduate constructor: \${thesisTopic}\`);
+      }
   }
-}
-
-class Meeting extends Event {
-  constructor(title, attendees, timestamp) {
-    super(title, timestamp);   // MUST be first
-    this.attendees = attendees;
-  }
-  toString() {
-    return \\Meeting(\\{this.title}, \\{this.attendees}, \\{this.timestamp.toISOString()})\\;
-  }
-}
-
-class RecurringMeeting extends Meeting {
-  constructor(title, attendees, intervalDays, timestamp) {
-    super(title, attendees, timestamp);
-    this.intervalDays = intervalDays;
-  }
-  nextOccurrence() {
-    const next = new Date(this.timestamp);
-    next.setDate(next.getDate() + this.intervalDays);
-    return next;
-  }
-}
-
-// --- Usage ---
-const m1 = new Meeting("Sprint Planning", ["Alice", "Bob"]);
-console.log(m1.toString());
-
-const m2 = Event.today("Demo");
-console.log(m2.toString());
-
-const r = new RecurringMeeting("Stand-up", ["Team"], 1);
-console.log(r.toString(), "next:", r.nextOccurrence().toDateString());`,
-              },
+  
+  // Creating instance
+  const grad = new GraduateStudent("Alice", 25, "S12345", "AI Research");`,
             ],
             questions: [
               {
                 question:
-                  "What happens if I forget to call <code>super()</code> in a JavaScript derived constructor?",
+                  "What is constructor chaining and why is it important?",
                 solution:
-                  "The engine throws <strong>ReferenceError: Must call super constructor in derived class before accessing 'this'</strong>. The child constructor <em>must</em> delegate to the parent before using <code>this</code>.",
+                  "<p>Constructor chaining is the process of calling one constructor from another constructor, either within the same class or from a parent class. It's important because it ensures proper initialization order in inheritance hierarchies, promotes code reusability by avoiding duplication of initialization logic, and maintains the object-oriented principle of encapsulation by allowing parent classes to handle their own initialization.</p>",
               },
               {
-                question: "Can I call multiple parent constructors in Python?",
+                question: "How does super() work in constructor chaining?",
                 solution:
-                  "Not directly. Python’s <code>super()</code> follows the MRO and calls the <em>next</em> class in the linearized chain once. To initialize multiple independent bases, call each explicitly: <code>Base1.__init__(self, ...)</code>, <code>Base2.__init__(self, ...)</code>.",
-              },
-              {
-                question:
-                  "Is constructor chaining the same as method chaining?",
-                solution:
-                  "No. Constructor chaining is about <em>delegating initialization logic</em> between constructors. Method chaining (a.k.a. fluent interface) returns <code>this</code>/<code>self</code> to allow sequential calls on the same instance.",
+                  "<p>The super() function/keyword calls the constructor of the parent class. In Python, super().__init__() calls the parent constructor, while in JavaScript, super() does the same. It must be called before accessing 'this' in the child constructor and ensures that the parent class is properly initialized before the child class adds its own properties and methods.</p>",
               },
             ],
             links: [
-              "https://docs.python.org/3/library/functions.html#super",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/super",
+              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/super",
+              "https://realpython.com/python-super/",
             ],
           },
           {
             topic: "Polymorphism Overview",
-            tags: ["polymorphism", "oop", "inheritance"],
+            tags: ["polymorphism", "method-overriding", "method-overloading"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Polymorphism is one of the four fundamental principles of Object-Oriented Programming (OOP), alongside encapsulation, inheritance, and abstraction. The word "polymorphism" comes from Greek, meaning "many forms." In programming, it allows objects of different types to be treated as instances of the same type through a common interface.
-   </p>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Polymorphism is a fundamental concept in object-oriented programming that allows objects of different types to be treated as objects of a common base type. The word "polymorphism" comes from Greek, meaning "many forms." It enables a single interface to represent different underlying forms (data types).
+     </p>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Types of Polymorphism
+     </h4>
    
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     What is Polymorphism?
-   </h4>
- 
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     Polymorphism enables a single interface to represent different underlying forms (data types). It allows you to write more flexible and reusable code by letting the same code work with objects of different types, as long as they adhere to the same interface or base class.
-   </p>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Types of Polymorphism
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Compile-time Polymorphism (Static):</span> Method overloading and operator overloading
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Runtime Polymorphism (Dynamic):</span> Method overriding and dynamic method dispatch
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Polymorphism
-   </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Code reusability and maintainability</li>
-     <li style="margin-top: 0.5rem;">Flexibility in adding new types without modifying existing code</li>
-     <li style="margin-top: 0.5rem;">Loose coupling between components</li>
-     <li style="margin-top: 0.5rem;">Implementation of design patterns like Strategy and Factory</li>
-   </ul>
-</div>`,
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Compile-time Polymorphism (Static):</span> Resolved during compilation. Includes method overloading and operator overloading.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Runtime Polymorphism (Dynamic):</span> Resolved during runtime. Achieved through method overriding and inheritance.
+       </li>
+     </ol>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Benefits of Polymorphism
+     </h4>
+     
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Write code once and use it for multiple types.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Easy to add new types without changing existing code.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Changes to implementation don't affect client code.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Abstraction:</span> Client code works with interfaces rather than concrete implementations.
+       </li>
+     </ol>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Polymorphism Example in Python
+     </h4>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-python">
+  from abc import ABC, abstractmethod
+  
+  # Abstract base class
+  class Shape(ABC):
+      @abstractmethod
+      def area(self):
+          pass
+      
+      @abstractmethod
+      def perimeter(self):
+          pass
+      
+      def describe(self):
+          return f"This shape has area {self.area()} and perimeter {self.perimeter()}"
+  
+  class Rectangle(Shape):
+      def __init__(self, width, height):
+          self.width = width
+          self.height = height
+      
+      def area(self):
+          return self.width * self.height
+      
+      def perimeter(self):
+          return 2 * (self.width + self.height)
+  
+  class Circle(Shape):
+      def __init__(self, radius):
+          self.radius = radius
+      
+      def area(self):
+          return 3.14159 * self.radius ** 2
+      
+      def perimeter(self):
+          return 2 * 3.14159 * self.radius
+  
+  class Triangle(Shape):
+      def __init__(self, a, b, c):
+          self.a = a
+          self.b = b
+          self.c = c
+      
+      def area(self):
+          # Using Heron's formula
+          s = (self.a + self.b + self.c) / 2
+          return (s * (s - self.a) * (s - self.b) * (s - self.c)) ** 0.5
+      
+      def perimeter(self):
+          return self.a + self.b + self.c
+  
+  # Polymorphism in action
+  def process_shapes(shapes):
+      for shape in shapes:
+          print(f"{shape.__class__.__name__}: {shape.describe()}")
+          print(f"Area: {shape.area():.2f}")
+          print(f"Perimeter: {shape.perimeter():.2f}")
+          print("-" * 40)
+  
+  # Creating different shapes
+  shapes = [
+      Rectangle(5, 3),
+      Circle(4),
+      Triangle(3, 4, 5)
+  ]
+  
+  # Same function works with all shapes - polymorphism!
+  process_shapes(shapes)
+  </code></pre>
+    </div>
+     
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Polymorphism Example in JavaScript
+     </h4>
+     
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-javascript">
+  // Base class
+  class Shape {
+      area() {
+          throw new Error("area() method must be implemented");
+      }
+      
+      perimeter() {
+          throw new Error("perimeter() method must be implemented");
+      }
+      
+      describe() {
+          return \`This shape has area \${this.area()} and perimeter \${this.perimeter()}\`;
+      }
+  }
+  
+  class Rectangle extends Shape {
+      constructor(width, height) {
+          super();
+          this.width = width;
+          this.height = height;
+      }
+      
+      area() {
+          return this.width * this.height;
+      }
+      
+      perimeter() {
+          return 2 * (this.width + this.height);
+      }
+  }
+  
+  class Circle extends Shape {
+      constructor(radius) {
+          super();
+          this.radius = radius;
+      }
+      
+      area() {
+          return Math.PI * this.radius ** 2;
+      }
+      
+      perimeter() {
+          return 2 * Math.PI * this.radius;
+      }
+  }
+  
+  class Triangle extends Shape {
+      constructor(a, b, c) {
+          super();
+          this.a = a;
+          this.b = b;
+          this.c = c;
+      }
+      
+      area() {
+          // Using Heron's formula
+          const s = (this.a + this.b + this.c) / 2;
+          return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+      }
+      
+      perimeter() {
+          return this.a + this.b + this.c;
+      }
+  }
+  
+  // Polymorphism in action
+  function processShapes(shapes) {
+      shapes.forEach(shape => {
+          console.log(\`\${shape.constructor.name}: \${shape.describe()}\`);
+          console.log(\`Area: \${shape.area().toFixed(2)}\`);
+          console.log(\`Perimeter: \${shape.perimeter().toFixed(2)}\`);
+          console.log("-".repeat(40));
+      });
+  }
+  
+  // Creating different shapes
+  const shapes = [
+      new Rectangle(5, 3),
+      new Circle(4),
+      new Triangle(3, 4, 5)
+  ];
+  
+  // Same function works with all shapes - polymorphism!
+  processShapes(shapes);
+  </code></pre>
+    </div>
+  </div>
+  `,
             examples: [
-              `# Python - Basic Polymorphism Example
-class Animal:
-    def make_sound(self):
-        pass
+              `# Python Polymorphism with Duck Typing
+  class Dog:
+      def make_sound(self):
+          return "Woof!"
+      
+      def move(self):
+          return "Running"
+  
+  class Cat:
+      def make_sound(self):
+          return "Meow!"
+      
+      def move(self):
+          return "Sneaking"
+  
+  class Bird:
+      def make_sound(self):
+          return "Tweet!"
+      
+      def move(self):
+          return "Flying"
+  
+  def animal_behavior(animal):
+      print(f"Animal says: {animal.make_sound()}")
+      print(f"Animal is: {animal.move()}")
+  
+  # Polymorphism through duck typing
+  animals = [Dog(), Cat(), Bird()]
+  for animal in animals:
+      animal_behavior(animal)`,
 
-class Dog(Animal):
-    def make_sound(self):
-        return "Woof!"
-
-class Cat(Animal):
-    def make_sound(self):
-        return "Meow!"
-
-# Polymorphic function
-def animal_sound(animal):
-    return animal.make_sound()
-
-# Usage
-dog = Dog()
-cat = Cat()
-print(animal_sound(dog))  # Output: Woof!
-print(animal_sound(cat))  # Output: Meow!`,
-              `// JavaScript - Basic Polymorphism Example
-class Animal {
-    makeSound() {
-        throw new Error("makeSound method must be implemented");
-    }
-}
-
-class Dog extends Animal {
-    makeSound() {
-        return "Woof!";
-    }
-}
-
-class Cat extends Animal {
-    makeSound() {
-        return "Meow!";
-    }
-}
-
-// Polymorphic function
-function animalSound(animal) {
-    return animal.makeSound();
-}
-
-// Usage
-const dog = new Dog();
-const cat = new Cat();
-console.log(animalSound(dog)); // Output: Woof!
-console.log(animalSound(cat)); // Output: Meow!`,
+              `// JavaScript Polymorphism Example
+  class Vehicle {
+      startEngine() {
+          throw new Error("startEngine must be implemented");
+      }
+      
+      stopEngine() {
+          throw new Error("stopEngine must be implemented");
+      }
+  }
+  
+  class Car extends Vehicle {
+      startEngine() {
+          return "Car engine started with key";
+      }
+      
+      stopEngine() {
+          return "Car engine stopped";
+      }
+  }
+  
+  class Motorcycle extends Vehicle {
+      startEngine() {
+          return "Motorcycle engine started with button";
+      }
+      
+      stopEngine() {
+          return "Motorcycle engine stopped";
+      }
+  }
+  
+  class ElectricCar extends Vehicle {
+      startEngine() {
+          return "Electric motor activated silently";
+      }
+      
+      stopEngine() {
+          return "Electric motor deactivated";
+      }
+  }
+  
+  function operateVehicle(vehicle) {
+      console.log(vehicle.startEngine());
+      console.log(vehicle.stopEngine());
+  }
+  
+  // Polymorphism in action
+  const vehicles = [new Car(), new Motorcycle(), new ElectricCar()];
+  vehicles.forEach(operateVehicle);`,
             ],
             questions: [
               {
-                question: "What is the main advantage of polymorphism in OOP?",
+                question:
+                  "What is polymorphism and how does it benefit software development?",
                 solution:
-                  "<p>The main advantage of polymorphism is that it allows you to write more flexible and maintainable code. You can treat objects of different classes uniformly through a common interface, making your code less dependent on specific implementations. This enables you to add new types without modifying existing code, following the Open-Closed Principle.</p>",
+                  "<p>Polymorphism is the ability of objects of different types to be treated as instances of the same type through a common interface. It benefits software development by enabling code reusability (same function can work with multiple types), flexibility (easy to add new types without changing existing code), maintainability (changes to implementations don't affect client code), and abstraction (clients work with interfaces rather than concrete implementations).</p>",
               },
               {
-                question: "How does polymorphism relate to inheritance?",
+                question:
+                  "What's the difference between compile-time and runtime polymorphism?",
                 solution:
-                  "<p>Polymorphism and inheritance work together closely. Inheritance allows you to create a hierarchy of classes with shared interfaces, while polymorphism allows you to treat objects of different derived classes as instances of their base class. This combination enables dynamic method dispatch and method overriding.</p>",
+                  "<p>Compile-time polymorphism (static) is resolved during compilation and includes method overloading and operator overloading. The compiler determines which method to call based on method signatures. Runtime polymorphism (dynamic) is resolved during program execution through method overriding and virtual functions. The actual method called depends on the object's type at runtime, enabling true polymorphic behavior.</p>",
               },
             ],
             links: [
-              "https://en.wikipedia.org/wiki/Polymorphism_(computer_science)",
-              "https://refactoring.guru/design-patterns/strategy",
-              "https://docs.python.org/3/tutorial/classes.html#inheritance",
+              "https://docs.python.org/3/tutorial/classes.html#polymorphism",
+              "https://developer.mozilla.org/en-US/docs/Glossary/Polymorphism",
+              "https://realpython.com/python3-object-oriented-programming/",
             ],
           },
           {

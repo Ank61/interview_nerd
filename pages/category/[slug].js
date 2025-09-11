@@ -770,7 +770,10 @@ export default function BasicTabs({
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-3">
+              <div
+                className="flex items-center space-x-3 cursor-pointer"
+                onClick={() => router.push("/")}
+              >
                 <div
                   className="p-2 rounded-lg"
                   style={{ backgroundColor: themeColors?.light || "#f3f4f6" }}
@@ -781,10 +784,9 @@ export default function BasicTabs({
                   />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">
+                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
                     Interview Nerd
                   </h1>
-                  <p className="text-sm text-gray-500">{topic} Questions</p>
                 </div>
               </div>
 

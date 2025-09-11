@@ -54,9 +54,15 @@ export default function Learn({
       const headerHeight = 80;
       const footerHeight = 120; // Pagination + progress indicator
       const paddingHeight = 40; // Top and bottom padding
-      const availableHeight = Math.max(200, height - headerHeight - footerHeight - paddingHeight);
+      const availableHeight = Math.max(
+        200,
+        height - headerHeight - footerHeight - paddingHeight
+      );
       const topicItemHeight = 70; // Approximate height per topic item
-      const maxTopicsFit = Math.max(1, Math.floor(availableHeight / topicItemHeight));
+      const maxTopicsFit = Math.max(
+        1,
+        Math.floor(availableHeight / topicItemHeight)
+      );
 
       if (width <= 414) {
         setTopicsPerPage(Math.min(4, maxTopicsFit));
@@ -153,7 +159,10 @@ export default function Learn({
           <div className="flex items-center justify-between h-16">
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center space-x-8">
-              <div className="flex items-center space-x-3">
+              <div
+                className="flex items-center space-x-3 cursor-pointer"
+                onClick={() => router.push("/")}
+              >
                 <div
                   className="p-2 rounded-lg"
                   style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
@@ -164,10 +173,9 @@ export default function Learn({
                   />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">
+                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
                     Interview Nerd
                   </h1>
-                  <p className="text-sm text-gray-500">{category} Learning</p>
                 </div>
               </div>
 
@@ -296,7 +304,7 @@ export default function Learn({
                     </p>
                   </div>
                 </div>
-                
+
                 {/* Close Button - Inside sidebar */}
                 <button
                   onClick={closeSidebar}
@@ -438,28 +446,13 @@ export default function Learn({
           </div>
 
           {/* Main Content Area */}
-          <div
-            className={`
-              flex-1 flex justify-center transition-all duration-300
-              ${sidebarOpen && isLargeScreen ? "ml-72" : "ml-0"}
-            `}
-          >
-            <div
-              className={`
-                w-full 
-                px-4 sm:px-6 md:px-8 lg:px-10
-                py-6
-                ${sidebarOpen && isLargeScreen ? "max-w-5xl" : "max-w-6xl"}
-                lg:max-w-4xl      // Large screens get wider content
-                xl:max-w-5xl      // Extra large screens get even wider
-                2xl:max-w-6xl     // 2xl screens get maximum width
-              `}
-            >
+          <div className="flex-1 overflow-x-hidden">
+            <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 py-6">
               <motion.article
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3 }}
-                className="bg-white rounded-xl shadow-sm border border-gray-200/50 overflow-hidden mx-auto"
+                className="bg-white rounded-xl shadow-sm border border-gray-200/50 overflow-hidden"
               >
                 <div className="p-6 sm:p-8">
                   <h1
@@ -471,7 +464,14 @@ export default function Learn({
 
                   {hydrated && explanation ? (
                     <div
-                      className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-code:text-gray-800 prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200"
+                      className="prose prose-sm sm:prose-base lg:prose-lg max-w-none w-full prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-code:text-gray-800 prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200 prose-pre:overflow-x-auto"
+                      style={{
+                        maxWidth: "100%",
+                        overflowWrap: "break-word",
+                        wordWrap: "break-word",
+                        wordBreak: "break-word",
+                        overflowX: "hidden",
+                      }}
                       dangerouslySetInnerHTML={{ __html: explanation }}
                     />
                   ) : (

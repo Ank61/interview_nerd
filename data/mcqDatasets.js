@@ -1,10 +1,6 @@
-// MCQ Questions Dataset for Daily Challenges
-// Each question has 4 options with one correct answer
-
 export const mcqQuestions = [
-  // TypeScript MCQs
   {
-    id: 16,
+    id: 1,
     category: "Typescript",
     difficulty: "easy",
     question: "What is TypeScript?",
@@ -19,7 +15,7 @@ export const mcqQuestions = [
       "TypeScript is a superset of JavaScript that adds optional static typing and other features. It compiles to plain JavaScript.",
   },
   {
-    id: 17,
+    id: 2,
     category: "Typescript",
     difficulty: "easy",
     question: "How do you define an interface in TypeScript?",
@@ -34,7 +30,7 @@ export const mcqQuestions = [
       "Interfaces in TypeScript are defined using the interface keyword followed by the interface name and its structure.",
   },
   {
-    id: 18,
+    id: 3,
     category: "Typescript",
     difficulty: "easy",
     question:
@@ -50,7 +46,7 @@ export const mcqQuestions = [
       "Interfaces can be merged (declaration merging) and extended, while types are more flexible for unions and computed properties but cannot be merged.",
   },
   {
-    id: 19,
+    id: 4,
     category: "Typescript",
     difficulty: "easy",
     question: "How do you specify that a parameter is optional in TypeScript?",
@@ -65,7 +61,7 @@ export const mcqQuestions = [
       "Optional parameters in TypeScript are denoted by adding a question mark (?) after the parameter name.",
   },
   {
-    id: 20,
+    id: 5,
     category: "Typescript",
     difficulty: "easy",
     question: "What is a generic in TypeScript?",
@@ -79,74 +75,288 @@ export const mcqQuestions = [
     explanation:
       "Generics allow you to create reusable components that can work with multiple types while maintaining type safety.",
   },
-
-  // SQL MCQs
   {
-    id: 21,
-    category: "SQL",
+    id: 6,
+    category: "Typescript",
     difficulty: "easy",
-    question: "Which SQL statement is used to retrieve data from a database?",
-    options: ["GET", "SELECT", "RETRIEVE", "FETCH"],
+    question:
+      "Which of the following is the correct way to define a string type?",
+    options: [
+      "let name: String = 'John';",
+      "let name: string = 'John';",
+      "let name: TEXT = 'John';",
+      "let name: str = 'John';",
+    ],
     correctAnswer: 1,
     explanation:
-      "SELECT is the SQL statement used to query and retrieve data from one or more tables in a database.",
+      "In TypeScript, primitive types are lowercase. Use 'string' not 'String' for primitive string type.",
+  },
+  {
+    id: 7,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What does the 'any' type represent in TypeScript?",
+    options: [
+      "A type that can be any string value",
+      "A type that disables type checking",
+      "A type that can only be numbers",
+      "A type that represents arrays only",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The 'any' type essentially disables TypeScript's type checking and allows any value to be assigned.",
+  },
+  {
+    id: 8,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "How do you define an array of numbers in TypeScript?",
+    options: [
+      "let numbers: number[] = [1, 2, 3];",
+      "let numbers: Array[number] = [1, 2, 3];",
+      "let numbers: [number] = [1, 2, 3];",
+      "let numbers: number{} = [1, 2, 3];",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Arrays in TypeScript can be defined using type[] syntax. number[] represents an array of numbers.",
+  },
+  {
+    id: 9,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What is the purpose of the tsconfig.json file?",
+    options: [
+      "To store project dependencies",
+      "To configure TypeScript compiler options",
+      "To define CSS styles",
+      "To manage database connections",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "tsconfig.json contains configuration options for the TypeScript compiler, including target, module, and other compilation settings.",
+  },
+  {
+    id: 10,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "Which command compiles TypeScript files?",
+    options: [
+      "node filename.ts",
+      "tsc filename.ts",
+      "npm run filename.ts",
+      "ts-compile filename.ts",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The 'tsc' (TypeScript Compiler) command is used to compile TypeScript files to JavaScript.",
+  },
+  {
+    id: 11,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What is the default file extension for TypeScript files?",
+    options: [".js", ".ts", ".typescript", ".tsx"],
+    correctAnswer: 1,
+    explanation:
+      "TypeScript files use the .ts extension. .tsx is used for TypeScript files with JSX.",
+  },
+  {
+    id: 12,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "How do you define a function type in TypeScript?",
+    options: [
+      "function(a: number, b: number): number",
+      "(a: number, b: number) => number",
+      "func: number -> number",
+      "def(a: number, b: number): number",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Function types in TypeScript use arrow syntax: (parameters) => returnType.",
+  },
+  {
+    id: 13,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What does 'strict' mode enable in TypeScript?",
+    options: [
+      "Only allows ES6 features",
+      "Enables all strict type checking options",
+      "Disables type inference",
+      "Forces explicit return types",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Strict mode enables a family of strict type checking options like noImplicitAny, strictNullChecks, etc.",
+  },
+  {
+    id: 14,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What is type inference in TypeScript?",
+    options: [
+      "Manually specifying all types",
+      "TypeScript automatically determining types",
+      "Converting types at runtime",
+      "Importing types from other files",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Type inference is TypeScript's ability to automatically determine and assign types based on the value or context.",
+  },
+  {
+    id: 15,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "How do you define a literal type in TypeScript?",
+    options: [
+      "type Status = 'active' | 'inactive';",
+      "type Status = string;",
+      "type Status = literal('active', 'inactive');",
+      "type Status = enum('active', 'inactive');",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Literal types use union syntax with specific string, number, or boolean values.",
+  },
+  {
+    id: 16,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What is the 'void' type used for?",
+    options: [
+      "Functions that return nothing",
+      "Variables that can be null",
+      "Empty objects",
+      "Undefined variables",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "void is used for functions that don't return a value (undefined return).",
+  },
+  {
+    id: 17,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "How do you make a property readonly in an interface?",
+    options: [
+      "const property: string;",
+      "readonly property: string;",
+      "final property: string;",
+      "immutable property: string;",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The 'readonly' modifier makes interface properties immutable after initialization.",
+  },
+  {
+    id: 18,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What is a tuple in TypeScript?",
+    options: [
+      "An array with fixed length and types",
+      "A type of object",
+      "A function parameter",
+      "A generic constraint",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Tuples are arrays with a fixed number of elements where each element can have a different type.",
+  },
+  {
+    id: 19,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "How do you define a tuple with two elements?",
+    options: [
+      "let tuple: [string, number] = ['hello', 42];",
+      "let tuple: (string, number) = ['hello', 42];",
+      "let tuple: {string, number} = ['hello', 42];",
+      "let tuple: string | number = ['hello', 42];",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Tuples use square brackets with comma-separated types: [type1, type2].",
+  },
+  {
+    id: 20,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "What is the 'never' type?",
+    options: [
+      "A type for variables that are never used",
+      "A type for functions that never return",
+      "A type for null values",
+      "A type for empty arrays",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The 'never' type represents functions that never return (throw errors or infinite loops).",
+  },
+  {
+    id: 21,
+    category: "Typescript",
+    difficulty: "easy",
+    question: "How do you define an enum in TypeScript?",
+    options: [
+      "enum Colors { Red, Green, Blue }",
+      "const Colors = { Red, Green, Blue }",
+      "type Colors = 'Red' | 'Green' | 'Blue'",
+      "interface Colors { Red; Green; Blue; }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Enums are defined using the 'enum' keyword followed by the enum name and values in braces.",
   },
   {
     id: 22,
-    category: "SQL",
+    category: "Typescript",
     difficulty: "easy",
-    question: "What does the GROUP BY clause do in SQL?",
+    question:
+      "What is the difference between 'null' and 'undefined' in TypeScript?",
     options: [
-      "Sorts the results",
-      "Filters the results",
-      "Groups rows with the same values",
-      "Joins multiple tables",
+      "They are identical",
+      "null is intentional absence, undefined is uninitialized",
+      "null is for numbers, undefined is for strings",
+      "undefined is intentional absence, null is uninitialized",
     ],
-    correctAnswer: 2,
+    correctAnswer: 1,
     explanation:
-      "GROUP BY groups rows that have the same values in specified columns into summary rows, often used with aggregate functions.",
+      "null represents intentional absence of value, undefined represents uninitialized or missing value.",
   },
   {
     id: 23,
-    category: "SQL",
+    category: "Typescript",
     difficulty: "easy",
-    question: "What is the difference between INNER JOIN and LEFT JOIN?",
+    question: "How do you specify multiple types for a variable (union types)?",
     options: [
-      "No difference, they are the same",
-      "INNER JOIN returns all rows, LEFT JOIN returns matching rows only",
-      "INNER JOIN returns matching rows only, LEFT JOIN returns all rows from left table",
-      "LEFT JOIN is faster than INNER JOIN",
+      "let value: string & number;",
+      "let value: string | number;",
+      "let value: string + number;",
+      "let value: string, number;",
     ],
-    correctAnswer: 2,
+    correctAnswer: 1,
     explanation:
-      "INNER JOIN returns only matching rows from both tables, while LEFT JOIN returns all rows from the left table and matching rows from the right table.",
+      "Union types use the pipe symbol (|) to specify multiple possible types.",
   },
   {
     id: 24,
-    category: "SQL",
+    category: "Typescript",
     difficulty: "easy",
-    question: "Which clause is used to filter rows in SQL?",
-    options: ["FILTER", "WHERE", "HAVING", "CONDITION"],
-    correctAnswer: 1,
-    explanation:
-      "WHERE clause is used to filter rows based on specified conditions before grouping or aggregation.",
-  },
-  {
-    id: 25,
-    category: "SQL",
-    difficulty: "easy",
-    question: "What is the purpose of the HAVING clause?",
+    question: "What is type assertion in TypeScript?",
     options: [
-      "To filter rows before grouping",
-      "To filter groups after GROUP BY",
-      "To sort the results",
-      "To join tables",
+      "Automatically converting types",
+      "Telling the compiler to treat a value as a specific type",
+      "Validating types at runtime",
+      "Creating new types",
     ],
     correctAnswer: 1,
     explanation:
-      "HAVING clause is used to filter groups created by GROUP BY, typically used with aggregate functions.",
+      "Type assertion tells TypeScript compiler to treat a value as a specific type, overriding inference.",
   },
-
   // Next.js MCQs
   {
     id: 26,
@@ -298,85 +508,306 @@ export const mcqQuestions = [
       "Versioning allows you to keep multiple variants of an object in the same bucket, helping protect against accidental deletion or modification.",
   },
 
-  // OOP MCQs
   {
-    id: 36,
-    category: "OOP",
-    difficulty: "easy",
-    question: "What does OOP stand for?",
-    options: [
-      "Object Oriented Programming",
-      "Open Operating Platform",
-      "Optimized Object Processing",
-      "Organized Operation Procedure",
-    ],
+    id: 117,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What will this output? let x = [1,2,3]; let y = x; y.push(4); console.log(x);",
+    options: ["[1,2,3]", "[1,2,3,4]", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Arrays are reference types. y and x point to the same array, so modifying y affects x.",
+  },
+  {
+    id: 118,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the output of: console.log('5' - - '5')?",
+    options: ["0", "10", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "- -'5' is equivalent to -(-5) = 5, then '5' - 5 = 0... wait, '5' - 5 = 0, but '5' - -'5' = '5' - (-5) = 5 + 5 = 10.",
+  },
+  {
+    id: 119,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What will be the output of: console.log([] == ![]);",
+    options: ["true", "false", "undefined", "Error"],
     correctAnswer: 0,
     explanation:
-      "OOP stands for Object-Oriented Programming, a programming paradigm based on the concept of objects containing data and methods.",
+      "![] is false (negation of truthy array), then [] == false becomes '' == false, which is true.",
   },
   {
-    id: 37,
-    category: "OOP",
+    id: 120,
+    category: "Javascript",
     difficulty: "medium",
-    question: "What is encapsulation in OOP?",
-    options: [
-      "Creating multiple objects",
-      "Hiding internal implementation details",
-      "Inheriting from parent classes",
-      "Overriding methods",
-    ],
+    question: "What is the result of: console.log(({}+{}).length)?",
+    options: ["2", "30", "Error", "undefined"],
     correctAnswer: 1,
     explanation:
-      "Encapsulation is the bundling of data and methods that operate on that data within a single unit, hiding internal implementation details from the outside.",
+      "{}+{} becomes '[object Object][object Object]', which has length 30.",
   },
   {
-    id: 38,
-    category: "OOP",
-    difficulty: "easy",
-    question: "What is polymorphism in OOP?",
-    options: [
-      "Having multiple constructors",
-      "The ability of objects to take multiple forms",
-      "Creating abstract classes",
-      "Using multiple inheritance",
-    ],
-    correctAnswer: 1,
-    explanation:
-      "Polymorphism allows objects of different types to be treated as objects of a common base type, enabling a single interface to represent different underlying forms.",
-  },
-  {
-    id: 39,
-    category: "OOP",
-    difficulty: "easy",
-    question: "What is inheritance in OOP?",
-    options: [
-      "Creating new objects",
-      "A mechanism where a class acquires properties of another class",
-      "Hiding data from other classes",
-      "Overloading methods",
-    ],
-    correctAnswer: 1,
-    explanation:
-      "Inheritance is a mechanism that allows a class to inherit properties and methods from another class, promoting code reusability.",
-  },
-  {
-    id: 40,
-    category: "OOP",
+    id: 121,
+    category: "Javascript",
     difficulty: "medium",
-    question: "What is abstraction in OOP?",
-    options: [
-      "Creating concrete classes",
-      "Hiding complex implementation details and showing only essential features",
-      "Using multiple inheritance",
-      "Overriding parent methods",
-    ],
+    question: "What will this code output? console.log(0 || 1 && 2);",
+    options: ["0", "1", "2", "true"],
+    correctAnswer: 2,
+    explanation:
+      "Due to operator precedence, && is evaluated first: 1 && 2 = 2, then 0 || 2 = 2.",
+  },
+  {
+    id: 122,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the output of: console.log(new Array(3).join('#'));",
+    options: ["###", "##", "#", "Error"],
     correctAnswer: 1,
     explanation:
-      "Abstraction is the process of hiding complex implementation details while showing only the essential features of an object to the user.",
+      "new Array(3) creates array with 3 empty slots. join('#') puts # between elements, so 2 #'s for 3 slots.",
+  },
+  {
+    id: 123,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What will console.log(Number.MIN_VALUE > 0) output?",
+    options: ["true", "false", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "Number.MIN_VALUE is the smallest positive number greater than 0, so it's greater than 0.",
+  },
+  {
+    id: 124,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the result of: console.log('hello'[1]);",
+    options: ["h", "e", "l", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Strings can be accessed like arrays. 'hello'[1] returns the character at index 1, which is 'e'.",
+  },
+  {
+    id: 125,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What will this output? function test() { return { a: 1 }; } console.log(test().a);",
+    options: ["1", "undefined", "Error", "{}"],
+    correctAnswer: 0,
+    explanation:
+      "The function returns an object {a: 1}, so test().a accesses the property a, which is 1.",
+  },
+  {
+    id: 126,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the output of: console.log(parseInt('08', 10));",
+    options: ["8", "0", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "parseInt('08', 10) parses '08' in base 10 (decimal), resulting in 8.",
+  },
+  {
+    id: 127,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What will console.log(1/0 === Infinity) output?",
+    options: ["true", "false", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "Division by zero in JavaScript results in Infinity, so 1/0 === Infinity is true.",
+  },
+  {
+    id: 128,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What is the result of: console.log(Object.prototype.toString.call([]));",
+    options: ["[object Array]", "[object Object]", "Array", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "Object.prototype.toString.call([]) returns '[object Array]' for arrays.",
+  },
+  {
+    id: 129,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What will this code output? let a = {b: 1}; let c = a; c.b = 2; console.log(a.b);",
+    options: ["1", "2", "undefined", "Error"],
+    correctAnswer: 1,
+    explanation:
+      "Objects are reference types. c and a reference the same object, so modifying c.b affects a.b.",
+  },
+  {
+    id: 130,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the output of: console.log(Array(3) == Array(3));",
+    options: ["true", "false", "undefined", "Error"],
+    correctAnswer: 1,
+    explanation:
+      "Each Array(3) creates a new array object. Objects are compared by reference, not value.",
+  },
+  {
+    id: 131,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What will console.log([1,2,3].slice(-1)) output?",
+    options: ["[3]", "[1,2]", "3", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "slice(-1) returns the last element(s) as an array. -1 means start from the last element.",
+  },
+  {
+    id: 132,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the result of: console.log(void 0 === undefined);",
+    options: ["true", "false", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "void operator always returns undefined, so void 0 === undefined is true.",
+  },
+  {
+    id: 133,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What will this output? const obj = {}; obj[Symbol.iterator] = null; console.log(obj[Symbol.iterator]);",
+    options: ["null", "undefined", "Symbol", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "We explicitly set obj[Symbol.iterator] to null, so it returns null.",
+  },
+  {
+    id: 134,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the output of: console.log(false == '0');",
+    options: ["true", "false", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "With loose equality, false is converted to 0 and '0' is converted to 0, so 0 == 0 is true.",
+  },
+  {
+    id: 135,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What will console.log(String.prototype.split.call(12345, '')) output?",
+    options: ["['1','2','3','4','5']", "Error", "12345", "['12345']"],
+    correctAnswer: 0,
+    explanation:
+      "String.prototype.split.call converts 12345 to '12345', then splits into individual characters.",
+  },
+  {
+    id: 136,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the result of: console.log([1] + [2]);",
+    options: ["12", "3", "[1,2]", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "Arrays are converted to strings: [1] becomes '1', [2] becomes '2', then '1' + '2' = '12'.",
+  },
+  {
+    id: 137,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What will this code output? function test() { arguments[0] = 'changed'; console.log(arguments[0]); } test('original');",
+    options: ["original", "changed", "undefined", "Error"],
+    correctAnswer: 1,
+    explanation:
+      "The arguments object is mutable, so changing arguments[0] modifies the first argument.",
+  },
+  {
+    id: 138,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the output of: console.log(Date.now() === Date.now());",
+    options: ["true", "false", "undefined", "Depends on timing"],
+    correctAnswer: 3,
+    explanation:
+      "Date.now() returns current timestamp. Two calls might return different values due to time passage.",
+  },
+  {
+    id: 139,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What will console.log([...'abc']) output?",
+    options: ["['a','b','c']", "'abc'", "Error", "['abc']"],
+    correctAnswer: 0,
+    explanation:
+      "The spread operator spreads the string 'abc' into individual characters in an array.",
+  },
+  {
+    id: 140,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the result of: console.log(Number(''))?",
+    options: ["0", "NaN", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "An empty string is converted to 0 when using Number() constructor.",
+  },
+  {
+    id: 141,
+    category: "Javascript",
+    difficulty: "medium",
+    question:
+      "What will this output? const a = [1,2,3]; const b = [...a]; b.push(4); console.log(a.length);",
+    options: ["3", "4", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "The spread operator creates a shallow copy. Modifying b doesn't affect the original array a.",
+  },
+  {
+    id: 142,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the output of: console.log(+!![]);",
+    options: ["0", "1", "true", "false"],
+    correctAnswer: 1,
+    explanation: "[] is truthy, !![] is true, +true converts to 1.",
+  },
+  {
+    id: 143,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What will console.log('b' + 'a' + + 'a' + 'a') output?",
+    options: ["baNaNa", "baaa", "Error", "ba+aa"],
+    correctAnswer: 0,
+    explanation: "'b' + 'a' + (+'a') + 'a' = 'ba' + NaN + 'a' = 'baNaNa'.",
+  },
+  {
+    id: 144,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What is the result of: console.log(!!null || !!undefined);",
+    options: ["true", "false", "null", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "!!null is false, !!undefined is false, so false || false is false.",
+  },
+  {
+    id: 145,
+    category: "Javascript",
+    difficulty: "medium",
+    question: "What will this code output? console.log(Array.from('hello'));",
+    options: ["['h','e','l','l','o']", "'hello'", "Error", "hello"],
+    correctAnswer: 0,
+    explanation:
+      "Array.from() creates an array from an iterable. Strings are iterable, so it creates an array of characters.",
   },
 ];
 
-export const nodeJsMCQs = [
+// 200 questions
+export const nodeMCQs = [
   {
     id: 1,
     category: "Node",
@@ -3060,8 +3491,1499 @@ export const nodeJsMCQs = [
     explanation:
       "Sticky sessions route users to the same server consistently. Non-sticky allows any server to handle requests, requiring shared session storage.",
   },
+  {
+    id: 201,
+    category: "Node",
+    difficulty: "medium",
+    question:
+      "What will be the output of: console.log(typeof process.nextTick(() => {}));",
+    options: ["function", "undefined", "object", "string"],
+    correctAnswer: 1,
+    explanation:
+      "process.nextTick() returns undefined. It schedules a callback but doesn't return any meaningful value.",
+  },
+  {
+    id: 202,
+    category: "Node",
+    difficulty: "medium",
+    question: "What is the correct way to handle unhandled promise rejections?",
+    options: [
+      "process.on('unhandledRejection', (reason, promise) => {})",
+      "process.on('rejection', (reason) => {})",
+      "process.on('error', (err) => {})",
+      "No need to handle, Node.js handles automatically",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Unhandled promise rejections should be caught using process.on('unhandledRejection') to prevent process termination in future Node.js versions.",
+  },
+  {
+    id: 203,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What happens when you call stream.push(null) on a readable stream?",
+    options: [
+      "Stream errors",
+      "Stream ends after buffered data is consumed",
+      "Stream immediately closes",
+      "Stream becomes writable",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "stream.push(null) signals the end of the stream. The readable stream will end after all buffered data has been consumed, not immediately.",
+  },
+  {
+    id: 204,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to implement a transform stream?",
+    options: [
+      "Extend stream.Transform and implement _transform()",
+      "Extend stream.Readable and implement _read()",
+      "Extend stream.Writable and implement _write()",
+      "Create a duplex stream",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Transform streams must extend stream.Transform and implement the _transform(chunk, encoding, callback) method to transform data as it passes through.",
+  },
+  {
+    id: 205,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the output of: console.log(Buffer.from('hello').equals(Buffer.from('hello')));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Buffer.equals() compares the contents of two buffers and returns true if they're identical, so Buffer.from('hello').equals(Buffer.from('hello')) returns true.",
+  },
+  {
+    id: 206,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly handle backpressure in a transform stream?",
+    options: [
+      "Ignore it - streams handle it automatically",
+      "Return false from _transform() when buffer is full and wait for 'drain' event",
+      "Use pause() and resume() methods",
+      "Increase the highWaterMark",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "In transform streams, return false from _transform() when the buffer is full and wait for the 'drain' event before accepting more data to properly handle backpressure.",
+  },
+  {
+    id: 207,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the difference between crypto.createHash() and crypto.createHmac()?",
+    options: [
+      "No difference - both create hashes",
+      "HMAC uses a secret key, regular hash doesn't",
+      "Hash is faster than HMAC",
+      "HMAC is for encryption, hash is for integrity",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "crypto.createHmac() uses a secret key along with the hash function, providing both data integrity and authenticity, while crypto.createHash() only provides integrity checking.",
+  },
+  {
+    id: 208,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What happens when you call crypto.scrypt() with different salts for the same password?",
+    options: [
+      "Same result - salt doesn't matter",
+      "Different results - salt affects output",
+      "Error - salt must be same",
+      "Depends on the password length",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "crypto.scrypt() produces different results with different salts for the same password. This is intentional and important for security - each password should have a unique salt.",
+  },
+  {
+    id: 209,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the correct way to implement a custom promise-based API?",
+    options: [
+      "Wrap callback functions in new Promise()",
+      "Use util.promisify() on all functions",
+      "Return new Promise() with resolve/reject",
+      "Both A and C are correct",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "You can implement custom promise-based APIs by either wrapping callback functions in new Promise() or returning new Promise() with proper resolve/reject handling inside.",
+  },
+  {
+    id: 210,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the result of: Promise.allSettled([Promise.resolve(1), Promise.reject(2)]).then(console.log);",
+    options: [
+      "[1, 2]",
+      "[{status: 'fulfilled', value: 1}, {status: 'rejected', reason: 2}]",
+      "Error",
+      "[1]",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Promise.allSettled() waits for all promises to settle (fulfill or reject) and returns an array of objects with status and value/reason for each promise.",
+  },
+  {
+    id: 211,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "How do you properly implement a singleton pattern in Node.js with module caching?",
+    options: [
+      "Use global variables",
+      "Export a new instance from module",
+      "Export the same instance using module.exports",
+      "Use static class methods",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Node.js modules are cached after first load. By exporting the same instance using module.exports = new MyClass(), you ensure singleton behavior across requires.",
+  },
+  {
+    id: 212,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the correct way to handle uncaught exceptions without crashing the process?",
+    options: [
+      "process.on('uncaughtException', (err) => { console.error(err); })",
+      "process.on('uncaughtException', (err) => { console.error(err); process.exit(1); })",
+      "Ignore them - they'll be handled automatically",
+      "Use try-catch around all code",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "While you can catch uncaught exceptions, the recommended approach is to log the error and gracefully exit the process, as the application may be in an unstable state.",
+  },
+  {
+    id: 213,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will happen if you don't handle 'error' events on a stream?",
+    options: [
+      "Nothing - errors are ignored",
+      "Stream continues with warnings",
+      "Uncaught exception is thrown",
+      "Stream automatically recovers",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "If an 'error' event is emitted on a stream and no listeners are attached, an uncaught exception will be thrown, potentially crashing the process.",
+  },
+  {
+    id: 214,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of the 'finish' event on a writable stream?",
+    options: [
+      "All data has been written to underlying system",
+      "All data has been processed by stream",
+      "Stream is closed",
+      "Stream has error",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The 'finish' event is emitted when all data has been flushed to the underlying system (after stream.end() is called), not necessarily when the OS has written it to disk.",
+  },
+  {
+    id: 215,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "How do you properly implement a readable stream that generates data?",
+    options: [
+      "Extend stream.Readable and implement _read() method",
+      "Extend stream.Writable and implement _write()",
+      "Use stream.PassThrough",
+      "Extend EventEmitter",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "To create a readable stream that generates data, extend stream.Readable and implement the _read(size) method which pushes data when called.",
+  },
+  {
+    id: 216,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the difference between pipeline() and pipe() for streams?",
+    options: [
+      "No difference - they're aliases",
+      "pipeline() handles errors and cleanup automatically, pipe() doesn't",
+      "pipe() is faster than pipeline()",
+      "pipeline() is for transform streams only",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "pipeline() automatically handles errors, properly cleans up streams on error, and forwards errors between streams, while pipe() requires manual error handling.",
+  },
+  {
+    id: 217,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the output of: console.log(Buffer.allocUnsafe(10).length);",
+    options: ["0", "10", "undefined", "Error"],
+    correctAnswer: 1,
+    explanation:
+      "Buffer.allocUnsafe(10) creates a Buffer of specified length (10) with uninitialized memory. The length property returns the buffer size, which is 10.",
+  },
+  {
+    id: 218,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly compare two buffers for equality?",
+    options: [
+      "buffer1 == buffer2",
+      "buffer1 === buffer2",
+      "buffer1.equals(buffer2)",
+      "buffer1.toString() == buffer2.toString()",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Use buffer1.equals(buffer2) to compare buffer contents. The == and === operators compare object references, not content, and toString() comparison fails for binary data.",
+  },
+  {
+    id: 219,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of crypto.randomBytes()?",
+    options: [
+      "Generate predictable random numbers",
+      "Generate cryptographically secure random bytes",
+      "Create hash values",
+      "Generate UUIDs",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "crypto.randomBytes() generates cryptographically secure random bytes suitable for security-sensitive operations like token generation or encryption keys.",
+  },
+  {
+    id: 220,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What happens when you call crypto.createCipher() with a weak password?",
+    options: [
+      "Error is thrown",
+      "Weak encryption is used",
+      "Password is automatically strengthened",
+      "Same as createCipheriv()",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "crypto.createCipher() derives a key from the password, but weak passwords result in weak encryption. It's deprecated in favor of createCipheriv() with proper key derivation.",
+  },
+  {
+    id: 221,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement async iteration over a stream?",
+    options: [
+      "Use for...of loop directly",
+      "Use stream[Symbol.asyncIterator]() with for await...of",
+      "Use stream.on('data')",
+      "Use stream.read() in a loop",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Streams implement async iteration via Symbol.asyncIterator(). Use for await (const chunk of stream) for proper async iteration over stream data.",
+  },
+  {
+    id: 222,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the correct way to handle Promise rejection in async generators?",
+    options: [
+      "Try-catch around yield",
+      "Generator automatically handles rejections",
+      "Use catch() on the generator",
+      "Rejections can't be handled",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "In async generators, wrap yield statements in try-catch blocks to handle promise rejections, as yield* will propagate the rejection.",
+  },
+  {
+    id: 223,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the behavior of: Promise.race([new Promise(() => {}), Promise.resolve(1)]).then(console.log);",
+    options: ["1", "undefined", "Never resolves", "Error"],
+    correctAnswer: 2,
+    explanation:
+      "Promise.race() waits for the first promise to settle. Since the first promise never resolves or rejects, the race never completes, so nothing is logged.",
+  },
+  {
+    id: 224,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you implement a custom thenable object?",
+    options: [
+      "Implement then() method that returns a promise",
+      "Extend Promise class",
+      "Implement catch() method",
+      "Use Symbol.thenable",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A thenable is any object with a then() method. Implement then(onFulfilled, onRejected) that behaves like a Promise's then method.",
+  },
+  {
+    id: 225,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of WeakMap in the context of caching?",
+    options: [
+      "Strong references for long-term caching",
+      "Memory-efficient caching with automatic garbage collection",
+      "Faster than Map",
+      "Synchronous operations only",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "WeakMap allows objects to be garbage collected when no other references exist, making it useful for memory-efficient caching that doesn't prevent garbage collection.",
+  },
+  {
+    id: 226,
+    category: "Node",
+    difficulty: "hard",
+    question: "What happens when you call util.inspect() on a circular object?",
+    options: [
+      "Error is thrown",
+      "Returns '[Circular]'",
+      "Infinite loop",
+      "Returns null",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "util.inspect() detects circular references and replaces them with '[Circular]' to prevent infinite loops and provide meaningful output.",
+  },
+  {
+    id: 227,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement a memory-efficient object pool?",
+    options: [
+      "Use arrays only",
+      "Use WeakMap with object reuse",
+      "Use Map with strong references",
+      "Don't pool objects",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Use WeakMap to track pooled objects, allowing unused objects to be garbage collected while reusing active objects, providing memory-efficient pooling.",
+  },
+  {
+    id: 228,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to handle EADDRINUSE error?",
+    options: [
+      "Ignore the error",
+      "Try a different port or wait and retry",
+      "Kill all Node processes",
+      "Use process.exit()",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "EADDRINUSE means the port is already in use. Handle by trying a different port, or implementing retry logic with exponential backoff for the same port.",
+  },
+  {
+    id: 229,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the output of: console.log(require('module').builtinModules.includes('fs'));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "require('module').builtinModules returns an array of built-in modules, and 'fs' is included, so the check returns true.",
+  },
+  {
+    id: 230,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "How do you properly implement hot module replacement in Node.js?",
+    options: [
+      "Use delete require.cache[moduleName]",
+      "Use fs.watch() and clear require.cache",
+      "Restart the process",
+      "Use module.hot API",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement HMR by watching file changes with fs.watch(), clearing the module from require.cache, and re-requiring it. This allows runtime module updates without restart.",
+  },
+  {
+    id: 231,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of require.resolve()?",
+    options: [
+      "Load a module",
+      "Get the full path to a module without loading it",
+      "Check if module exists",
+      "Resolve promise",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "require.resolve() returns the resolved filename of a module without actually loading it, useful for checking module locations or build tools.",
+  },
+  {
+    id: 232,
+    category: "Node",
+    difficulty: "hard",
+    question: "What happens when you modify module.exports after requiring?",
+    options: [
+      "All existing requires get updated",
+      "Only future requires get updated",
+      "Changes are ignored",
+      "Error is thrown",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Changes to module.exports only affect future require() calls. Existing requires keep the reference to the original exported object due to module caching.",
+  },
+  {
+    id: 233,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement a worker thread pool?",
+    options: [
+      "Create new Worker for each task",
+      "Maintain a pool of workers and reuse them",
+      "Use cluster module",
+      "Use child_process",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement a worker pool by creating a fixed number of worker threads and reusing them for multiple tasks, managing task queue and worker lifecycle efficiently.",
+  },
+  {
+    id: 234,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to share memory between worker threads?",
+    options: [
+      "Use global variables",
+      "Use SharedArrayBuffer with Atomics",
+      "Use postMessage() only",
+      "Use require() to share modules",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Use SharedArrayBuffer for shared memory between worker threads, with Atomics operations for thread-safe access to avoid race conditions.",
+  },
+  {
+    id: 235,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the behavior of: new Worker(__filename, { workerData: { shared: new SharedArrayBuffer(10) } });",
+    options: [
+      "Error",
+      "Shared memory available in worker",
+      "Copy is made",
+      "Undefined behavior",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "SharedArrayBuffer can be passed to worker threads through workerData, allowing both threads to access and modify the same memory location.",
+  },
+  {
+    id: 236,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement async resource tracking?",
+    options: [
+      "Use console.log()",
+      "Use async_hooks.createHook()",
+      "Use process.on()",
+      "Use EventEmitter",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Use async_hooks.createHook() to track the lifecycle of async resources across async operations, useful for APM tools and context tracking.",
+  },
+  {
+    id: 237,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of AsyncLocalStorage?",
+    options: [
+      "Store async functions",
+      "Maintain context across async operations",
+      "Store local variables",
+      "Create async storage",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "AsyncLocalStorage provides a way to store and retrieve context across asynchronous operations, useful for request tracing and context propagation.",
+  },
+  {
+    id: 238,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will happen if you don't call parentPort.close() in a worker thread?",
+    options: [
+      "Worker terminates immediately",
+      "Worker stays alive until parent terminates",
+      "Memory leak occurs",
+      "Nothing happens",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "If parentPort.close() is not called, the worker thread will remain alive until the parent process terminates, potentially causing resource leaks.",
+  },
+  {
+    id: 239,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement a zero-copy buffer transfer?",
+    options: [
+      "Use Buffer.slice()",
+      "Use Buffer.copy()",
+      "Use ArrayBuffer.transfer()",
+      "Zero-copy is not possible in Node.js",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Use ArrayBuffer.transfer() or structuredClone() with transfer option to move ArrayBuffer ownership without copying data, achieving zero-copy transfer.",
+  },
+  {
+    id: 240,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to handle V8 heap snapshots?",
+    options: [
+      "Use v8.writeHeapSnapshot()",
+      "Use process.memoryUsage()",
+      "Use console.memory()",
+      "Heap snapshots aren't supported",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Use v8.writeHeapSnapshot(filename) to create heap snapshots for memory analysis, useful for detecting memory leaks and understanding memory usage.",
+  },
+  {
+    id: 241,
+    category: "Node",
+    difficulty: "hard",
+    question: "What does --max-old-space-size flag do?",
+    options: [
+      "Limit new space size",
+      "Increase maximum heap size for V8",
+      "Limit stack size",
+      "Increase worker thread memory",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "--max-old-space-size increases the maximum heap size for V8's old generation, allowing Node.js to use more memory for large applications.",
+  },
+  {
+    id: 242,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly detect and handle memory leaks?",
+    options: [
+      "Use console.log()",
+      "Take heap snapshots and compare over time",
+      "Increase memory limit",
+      "Use try-catch blocks",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Take heap snapshots at different times using v8.writeHeapSnapshot() or Chrome DevTools, then compare to identify objects that aren't being garbage collected.",
+  },
+  {
+    id: 243,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to implement a DNS cache?",
+    options: [
+      "Use a simple object",
+      "Use Map with TTL and periodic cleanup",
+      "Use Array",
+      "DNS caching isn't needed",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement DNS cache using Map with TTL (time-to-live) values and periodic cleanup of expired entries to prevent memory growth and stale records.",
+  },
+  {
+    id: 244,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the output of: dns.setServers(['8.8.8.8']); console.log(dns.getServers());",
+    options: ["[]", "['8.8.8.8']", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "dns.setServers() sets the DNS servers, and dns.getServers() returns the current list, so it will output ['8.8.8.8'] after setting.",
+  },
+  {
+    id: 245,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement DNS over HTTPS (DoH)?",
+    options: [
+      "Use dns module only",
+      "Use https module with DNS JSON API",
+      "Use http module",
+      "DoH isn't supported",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement DoH by making HTTPS requests to DoH providers (like Cloudflare or Google) using their JSON APIs via the https module.",
+  },
+  {
+    id: 246,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of net.createConnection() vs net.connect()?",
+    options: [
+      "No difference - they're aliases",
+      "createConnection() returns socket, connect() is event-based",
+      "connect() is for servers",
+      "createConnection() is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "net.createConnection() and net.connect() are functionally identical - both create TCP connections and return Socket instances. They're aliases.",
+  },
+  {
+    id: 247,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to implement TCP keep-alive?",
+    options: [
+      "Use socket.setKeepAlive(true)",
+      "Send periodic data manually",
+      "Use setInterval()",
+      "TCP keep-alive isn't supported",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Use socket.setKeepAlive(enable, initialDelay) to enable TCP keep-alive, which sends periodic probes to maintain connections and detect dead peers.",
+  },
+  {
+    id: 248,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly handle TCP backpressure?",
+    options: [
+      "Ignore it",
+      "Use socket.pause() and socket.resume()",
+      "Increase buffer size",
+      "Close connection",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Handle TCP backpressure by using socket.pause() when write buffer is full and socket.resume() when 'drain' event fires to prevent memory issues.",
+  },
+  {
+    id: 249,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of dgram module?",
+    options: [
+      "TCP connections",
+      "UDP/datagram sockets",
+      "HTTP requests",
+      "File transfer",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The dgram module provides UDP datagram socket implementation for connectionless communication, useful for DNS, streaming, and real-time applications.",
+  },
+  {
+    id: 250,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will happen with: const socket = dgram.createSocket('udp4'); socket.send(Buffer.alloc(0), 0, 0, 53, '8.8.8.8');",
+    options: [
+      "Error",
+      "Sends empty packet",
+      "Sends DNS query",
+      "Nothing happens",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "This sends an empty UDP packet to port 53 (DNS) at 8.8.8.8. While valid, an empty packet may not elicit a response from DNS servers.",
+  },
+  {
+    id: 251,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement UDP multicast?",
+    options: [
+      "Use socket.addMembership()",
+      "Use broadcast address",
+      "Use TCP instead",
+      "UDP multicast isn't supported",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Implement UDP multicast using socket.addMembership(multicastAddress, [interfaceAddress]) to join multicast groups and receive multicast traffic.",
+  },
+  {
+    id: 252,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the difference between os.cpus() and os.cpus().length?",
+    options: [
+      "No difference",
+      "cpus() returns details, length returns count",
+      "cpus() is faster",
+      "length is deprecated",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "os.cpus() returns an array of objects with CPU details for each core. os.cpus().length gives the total number of logical CPU cores.",
+  },
+  {
+    id: 253,
+    category: "Node",
+    difficulty: "hard",
+    question: "What does os.freemem() return?",
+    options: [
+      "Free memory in bytes",
+      "Free memory in MB",
+      "Percentage of free memory",
+      "Total system memory",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "os.freemem() returns the amount of free system memory in bytes as an integer, not percentage or MB.",
+  },
+  {
+    id: 254,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly detect the operating system platform?",
+    options: [
+      "Use os.platform()",
+      "Use process.platform",
+      "Both A and B",
+      "Use os.type()",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Both os.platform() and process.platform return the operating system platform (like 'darwin', 'win32', 'linux'). They provide the same information.",
+  },
+  {
+    id: 255,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of os.networkInterfaces()?",
+    options: [
+      "Get network statistics",
+      "Get detailed network interface information",
+      "Get IP address only",
+      "Get MAC address only",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "os.networkInterfaces() returns detailed information about each network interface including IP addresses, MAC addresses, family (IPv4/IPv6), and internal status.",
+  },
+  {
+    id: 256,
+    category: "Node",
+    difficulty: "hard",
+    question: "What will os.endianness() return on most modern systems?",
+    options: ["BE", "LE", "ME", "Depends on system architecture"],
+    correctAnswer: 1,
+    explanation:
+      "os.endianness() returns 'LE' (Little Endian) for most modern x86 and x64 systems, while 'BE' (Big Endian) is found on some ARM or PowerPC systems.",
+  },
+  {
+    id: 257,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement file watching with fs.watch()?",
+    options: [
+      "Use fs.watch() only",
+      "Handle 'change' and 'error' events, with platform-specific considerations",
+      "Use setInterval() to poll",
+      "File watching isn't reliable",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement fs.watch() by handling 'change' and 'error' events, considering platform differences (recursive support on Windows vs macOS), and using fs.watchFile() as fallback.",
+  },
+  {
+    id: 258,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the difference between fs.watch() and fs.watchFile()?",
+    options: [
+      "No difference",
+      "watch() uses native API, watchFile() polls",
+      "watchFile() is faster",
+      "watch() is deprecated",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "fs.watch() uses native OS file watching APIs (more efficient but less consistent across platforms), while fs.watchFile() uses stat polling (more reliable but less efficient).",
+  },
+  {
+    id: 259,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will happen with: fs.watch('file.txt', (eventType, filename) => { console.log(eventType, filename); });",
+    options: [
+      "Watches file changes",
+      "Error if file doesn't exist",
+      "Watches directory only",
+      "Nothing happens",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "This sets up a watcher for file.txt changes. It will log the event type ('rename' or 'change') and filename when changes occur, creating the watch successfully if the file exists.",
+  },
+  {
+    id: 260,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly handle EMFILE (too many open files) errors?",
+    options: [
+      "Increase ulimit only",
+      "Use graceful-fs or implement queue with limit",
+      "Ignore the error",
+      "Close all files",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Handle EMFILE by using graceful-fs library or implementing a queue that limits concurrent file operations, preventing too many files from being opened simultaneously.",
+  },
+  {
+    id: 261,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of fs.open() with flags?",
+    options: [
+      "Open files only",
+      "Control file access mode and behavior",
+      "Set file permissions only",
+      "Create directories",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "fs.open() flags like 'r', 'w', 'a', 'r+', 'w+', 'a+' control how files are opened (read, write, append, create if not exists, truncate, etc.) and access behavior.",
+  },
+  {
+    id: 262,
+    category: "Node",
+    difficulty: "hard",
+    question: "What does the 'wx' flag do in fs.open()?",
+    options: [
+      "Write only",
+      "Write and create if not exists, fail if exists",
+      "Exclusive write",
+      "Write and truncate",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "'wx' flag opens file for writing, creates it if it doesn't exist, but fails if the file already exists (exclusive creation), useful for atomic file creation.",
+  },
+  {
+    id: 263,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement atomic file writes?",
+    options: [
+      "Write directly to file",
+      "Write to temp file then rename",
+      "Use fs.appendFile()",
+      "Atomic writes aren't possible",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement atomic writes by writing to a temporary file first, then using fs.rename() to atomically replace the target file, ensuring no partial writes are visible.",
+  },
+  {
+    id: 264,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of fs.fsync()?",
+    options: [
+      "Sync file metadata only",
+      "Force file data and metadata to disk",
+      "Sync directory only",
+      "Flush read cache",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "fs.fsync() forces all file data and metadata to be written to the underlying storage device, ensuring data persistence even after system crashes.",
+  },
+  {
+    id: 265,
+    category: "Node",
+    difficulty: "hard",
+    question: "What will fs.createReadStream() do if file doesn't exist?",
+    options: [
+      "Creates empty file",
+      "Emits 'error' event",
+      "Creates stream with warning",
+      "Waits for file creation",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "fs.createReadStream() will emit an 'error' event on the stream if the file doesn't exist. You must handle this event to prevent uncaught exceptions.",
+  },
+  {
+    id: 266,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "How do you properly implement stream backpressure with async iteration?",
+    options: [
+      "Use for await...of only",
+      "Handle backpressure with return value of yield",
+      "Streams handle it automatically",
+      "Use pause() and resume() manually",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "With async iteration, the return value of yield indicates backpressure. If yield returns false, stop yielding until the stream drains to handle backpressure properly.",
+  },
+  {
+    id: 267,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the highWaterMark option in streams?",
+    options: [
+      "Maximum stream speed",
+      "Buffer size threshold for backpressure",
+      "Maximum file size",
+      "Stream timeout",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "highWaterMark is the buffer size threshold (in bytes or objects) that determines when backpressure is applied to prevent memory issues in streams.",
+  },
+  {
+    id: 268,
+    category: "Node",
+    difficulty: "hard",
+    question: "What happens when you pipe a slow readable to a fast writable?",
+    options: [
+      "Data loss",
+      "Backpressure is applied automatically",
+      "Memory overflow",
+      "Stream error",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Node.js streams automatically apply backpressure when a slow readable is piped to a fast writable, preventing data loss and memory issues through proper flow control.",
+  },
+  {
+    id: 269,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement object mode streams?",
+    options: [
+      "Set objectMode: true in options",
+      "Use JSON only",
+      "Use Buffer only",
+      "Object mode isn't supported",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Enable object mode by setting objectMode: true in stream options. This allows streams to work with JavaScript objects instead of only strings/buffers.",
+  },
+  {
+    id: 270,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the difference between objectMode and highWaterMark in object streams?",
+    options: [
+      "No difference",
+      "objectMode enables objects, highWaterMark counts objects vs bytes",
+      "highWaterMark is ignored in object mode",
+      "objectMode sets highWaterMark automatically",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "In object mode streams, highWaterMark represents the number of objects (not bytes) that can be buffered before backpressure is applied.",
+  },
+  {
+    id: 271,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of the 'prefinish' event in streams?",
+    options: [
+      "Stream is ready",
+      "Writable stream is about to finish",
+      "Readable stream ended",
+      "Transform stream completed",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "'prefinish' is emitted on writable streams before 'finish' event, allowing final operations before the stream is considered completely finished.",
+  },
+  {
+    id: 272,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly destroy a stream with cleanup?",
+    options: [
+      "Use stream.end() only",
+      "Implement _destroy() method and call destroy()",
+      "Use stream.close()",
+      "Set stream to null",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement _destroy(error, callback) in custom streams and call stream.destroy() to properly close resources and emit 'close' event after cleanup.",
+  },
+  {
+    id: 273,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to implement a pass-through stream?",
+    options: [
+      "Extend stream.PassThrough",
+      "Use stream.PassThrough directly",
+      "Extend stream.Transform without transformation",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "You can either extend stream.PassThrough or use it directly. PassThrough is a simple transform stream that doesn't modify data, useful for testing or piping.",
+  },
+  {
+    id: 274,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will happen with: const { pipeline } = require('stream/promises'); await pipeline(readable, transform, writable);",
+    options: [
+      "Returns promise",
+      "Throws on error",
+      "Both A and B",
+      "Nothing happens",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "stream/promises.pipeline() returns a promise that resolves when pipeline completes successfully or rejects on error, enabling async/await usage with proper error handling.",
+  },
+  {
+    id: 275,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement stream multiplexing?",
+    options: [
+      "Use single stream only",
+      "Use stream.PassThrough for each channel",
+      "Implement custom multiplexing with proper channel management",
+      "Multiplexing isn't possible",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Implement stream multiplexing by creating a custom stream that manages multiple logical channels, properly handling channel IDs, data framing, and backpressure for each channel.",
+  },
+  {
+    id: 276,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of the final() method in transform streams?",
+    options: [
+      "End the stream",
+      "Flush remaining data before stream ends",
+      "Transform final chunk",
+      "Close resources",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The final(callback) method in transform streams is called before the stream ends, allowing you to flush any remaining buffered data or perform cleanup operations.",
+  },
+  {
+    id: 277,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly handle stream errors in pipeline?",
+    options: [
+      "Handle on each stream",
+      "Pipeline handles all errors",
+      "Use try-catch with pipeline callback",
+      "Errors are ignored",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "With callback-based pipeline(), use try-catch around the callback. With promises pipeline(), use try-catch or .catch(). Pipeline forwards errors and cleans up automatically.",
+  },
+  {
+    id: 278,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to implement stream composition?",
+    options: [
+      "Use pipe() chains",
+      "Use compose() from stream/promises",
+      "Use pipeline() for error handling",
+      "Both B and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Use compose() from stream/promises for composing streams into a single stream, or pipeline() for proper error handling and cleanup in stream chains.",
+  },
+  {
+    id: 279,
+    category: "Node",
+    difficulty: "hard",
+    question: "What happens when you set emitClose: false in stream options?",
+    options: [
+      "Stream never closes",
+      "'close' event won't be emitted automatically",
+      "Stream errors",
+      "No effect",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Setting emitClose: false prevents the automatic emission of 'close' event when stream.destroy() is called, giving you manual control over when to emit it.",
+  },
+  {
+    id: 280,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of the autoDestroy option in streams?",
+    options: [
+      "Automatically destroy on error",
+      "Automatically call destroy() when stream ends",
+      "Destroy on timeout",
+      "Auto cleanup resources",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "autoDestroy: true automatically calls destroy() on a stream when it emits 'finish' or 'end', ensuring proper cleanup and resource release.",
+  },
+  {
+    id: 281,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "How do you properly implement a readable stream from async generator?",
+    options: [
+      "Use Readable.from()",
+      "Implement _read() with generator",
+      "Use pipeline()",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Use Readable.from(asyncGenerator) to create a readable stream from an async generator function, which automatically handles the async iteration.",
+  },
+  {
+    id: 282,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to handle stream cancellation?",
+    options: [
+      "Use stream.destroy()",
+      "Implement cancel() method",
+      "Use AbortController with signal",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Handle stream cancellation using stream.destroy() for immediate termination, or AbortController with signal option for cooperative cancellation in modern stream APIs.",
+  },
+  {
+    id: 283,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What will be the output of: console.log(util.types.isAsyncFunction(async () => {}));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "util.types.isAsyncFunction() returns true for async functions, so util.types.isAsyncFunction(async () => {}) returns true.",
+  },
+  {
+    id: 284,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement a custom inspection method?",
+    options: [
+      "Implement [util.inspect.custom]()",
+      "Override toString()",
+      "Use JSON.stringify()",
+      "Implement inspect() method",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Implement [util.inspect.custom](depth, options) method to provide custom string representation when util.inspect() is called on your object.",
+  },
+  {
+    id: 285,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of util.deprecate()?",
+    options: [
+      "Remove functions",
+      "Mark functions as deprecated with warnings",
+      "Disable functions",
+      "Document functions",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "util.deprecate(fn, message) wraps a function to emit deprecation warnings when called, helping developers migrate away from deprecated APIs.",
+  },
+  {
+    id: 286,
+    category: "Node",
+    difficulty: "hard",
+    question: "What does util.promisify.custom symbol do?",
+    options: [
+      "Custom promise implementation",
+      "Custom promisify behavior for functions",
+      "Disable promisify",
+      "Custom callback handling",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Functions can implement [util.promisify.custom] property to provide custom promisification behavior when used with util.promisify().",
+  },
+  {
+    id: 287,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement a timeout for async operations?",
+    options: [
+      "Use setTimeout() only",
+      "Use Promise.race() with delay",
+      "Use AbortController with timeout",
+      "Both B and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Implement timeouts using Promise.race() with a delay promise, or AbortController with signal and clearTimeout(). Both approaches provide proper timeout handling.",
+  },
+  {
+    id: 288,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the correct way to implement exponential backoff with jitter?",
+    options: [
+      "delay = Math.pow(2, attempt) * baseDelay",
+      "delay = Math.pow(2, attempt) * baseDelay + Math.random() * baseDelay",
+      "delay = attempt * baseDelay",
+      "delay = baseDelay only",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Exponential backoff with jitter: delay = (2^attempt * baseDelay) + (Math.random() * baseDelay). Jitter prevents thundering herd by randomizing retry times.",
+  },
+  {
+    id: 289,
+    category: "Node",
+    difficulty: "hard",
+    question:
+      "What is the purpose of performance.mark() and performance.measure()?",
+    options: [
+      "Memory measurement",
+      "CPU measurement",
+      "Performance timing and measurement",
+      "Network measurement",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "performance.mark() creates timestamps and performance.measure() calculates durations between marks, enabling detailed performance analysis of code sections.",
+  },
+  {
+    id: 290,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement request coalescing?",
+    options: [
+      "Queue all requests",
+      "Combine identical concurrent requests into one",
+      "Reject duplicate requests",
+      "Use caching only",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Request coalescing identifies identical concurrent requests and combines them into a single backend request, sharing the result among all pending requests to reduce load.",
+  },
+  {
+    id: 291,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to implement circuit breaker pattern?",
+    options: [
+      "Try-catch with retry",
+      "State machine with closed, open, half-open states",
+      "Use promises only",
+      "Circuit breaker isn't needed",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement circuit breaker as a state machine: Closed (normal operation), Open (failing fast), Half-Open (testing recovery), with failure counting and timeout mechanisms.",
+  },
+  {
+    id: 292,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of bulkhead pattern?",
+    options: [
+      "Ship construction",
+      "Isolate failures to prevent cascading",
+      "Improve performance",
+      "Increase capacity",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Bulkhead pattern isolates resources (threads, connections, memory) into separate pools, preventing failures in one component from affecting others, similar to ship bulkheads.",
+  },
+  {
+    id: 293,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement retry with circuit breaker?",
+    options: [
+      "Retry immediately",
+      "Retry only in half-open state with limited attempts",
+      "Retry forever",
+      "Don't retry with circuit breaker",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Only retry when circuit breaker is in half-open state with limited attempts, and only after the timeout period has elapsed to allow the downstream service to recover.",
+  },
+  {
+    id: 294,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to handle distributed locks?",
+    options: [
+      "Use local locks",
+      "Use Redis with SET NX EX and Lua scripts",
+      "Use database locks only",
+      "Don't use locks",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement distributed locks using Redis SET key value NX EX seconds with unique values and Lua scripts for atomic release, ensuring lock ownership and preventing race conditions.",
+  },
+  {
+    id: 295,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of saga pattern?",
+    options: [
+      "Stories",
+      "Manage distributed transactions across services",
+      "Improve performance",
+      "Simple transactions",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Saga pattern manages distributed transactions across multiple services by breaking them into local transactions with compensating actions for rollbacks.",
+  },
+  {
+    id: 296,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement event sourcing?",
+    options: [
+      "Store current state only",
+      "Store all state changes as events",
+      "Use database triggers",
+      "Store in cache",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Event sourcing stores all state changes as a sequence of events, allowing reconstruction of state at any point and providing audit trail, rather than storing just current state.",
+  },
+  {
+    id: 297,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the difference between CQRS and CRUD?",
+    options: [
+      "No difference",
+      "CQRS separates read/write models, CRUD uses same model",
+      "CQRS is faster",
+      "CRUD is more complex",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "CQRS (Command Query Responsibility Segregation) separates read and write models for optimization, while CRUD uses the same model for all operations (Create, Read, Update, Delete).",
+  },
+  {
+    id: 298,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the correct way to implement idempotency?",
+    options: [
+      "Use GET only",
+      "Use unique request IDs and store processed requests",
+      "Use POST only",
+      "Idempotency isn't needed",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Implement idempotency using unique request IDs, storing processed request results, and returning the same response for duplicate requests regardless of how many times they're sent.",
+  },
+  {
+    id: 299,
+    category: "Node",
+    difficulty: "hard",
+    question: "How do you properly implement distributed tracing?",
+    options: [
+      "Use logs only",
+      "Pass trace context through requests and correlate spans",
+      "Use metrics only",
+      "Tracing isn't needed",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Distributed tracing passes trace context (trace ID, span ID) through service requests, creating spans for each operation and correlating them to trace requests across services.",
+  },
+  {
+    id: 300,
+    category: "Node",
+    difficulty: "hard",
+    question: "What is the purpose of OpenTelemetry in Node.js?",
+    options: [
+      "Database tool",
+      "Vendor-neutral observability framework for traces, metrics, logs",
+      "Testing framework",
+      "Security framework",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "OpenTelemetry provides vendor-neutral APIs and SDKs for collecting traces, metrics, and logs from applications, enabling observability across distributed systems.",
+  },
 ];
 
+// 348 questions
 export const reactMCQs = [
   {
     id: 1,
@@ -4968,8 +6890,4146 @@ export const reactMCQs = [
     explanation:
       "React's Scheduler package provides low-level scheduling primitives that enable cooperative scheduling and time-slicing capabilities in React.",
   },
+  {
+    id: 127,
+    category: "React",
+    difficulty: "easy",
+    question: "What does the 'children' prop represent in React?",
+    options: [
+      "Component's internal data",
+      "Content passed between JSX tags",
+      "Array of child components",
+      "Event handlers",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The children prop contains the content passed between a component's opening and closing JSX tags, allowing components to act as containers.",
+  },
+  {
+    id: 128,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "Which hook helps you avoid recreating expensive objects on every render?",
+    options: ["useCallback", "useMemo", "useRef", "useState"],
+    correctAnswer: 1,
+    explanation:
+      "useMemo caches the result of a computation and only recalculates when dependencies change, preventing expensive recreations.",
+  },
+  {
+    id: 129,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to update state based on previous state?",
+    options: [
+      "setState(prevState => newValue)",
+      "setState(newValue)",
+      "setState = newValue",
+      "state = newValue",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Using the updater function form setState(prevState => ...) ensures you always work with the latest state and avoid race conditions.",
+  },
+  {
+    id: 130,
+    category: "React",
+    difficulty: "medium",
+    question: "What will happen if you forget to add a key prop to list items?",
+    options: [
+      "React will crash",
+      "React will show a warning and use array indices",
+      "Nothing",
+      "Items won't render",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "React will show a warning in development and fall back to using array indices as keys, which can lead to performance and bug issues.",
+  },
+  {
+    id: 131,
+    category: "React",
+    difficulty: "hard",
+    question: "What is the primary benefit of React Server Components?",
+    options: [
+      "Better SEO",
+      "Zero JavaScript bundle for server-rendered components",
+      "Faster client-side routing",
+      "Automatic code splitting",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Server Components render on the server and send only HTML to the client, eliminating the need to ship their JavaScript to the browser.",
+  },
+  {
+    id: 132,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "Which method is used to perform side effects after rendering in class components?",
+    options: [
+      "componentWillMount",
+      "componentDidMount",
+      "shouldComponentUpdate",
+      "render",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "componentDidMount is called after the component has been rendered to the DOM, making it the right place for side effects like API calls.",
+  },
+  {
+    id: 133,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the ReactDOM.createRoot API?",
+    options: [
+      "Create new React elements",
+      "Create a root for React 18 concurrent features",
+      "Create component instances",
+      "Create DOM nodes",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "createRoot is the new root API introduced in React 18 that enables concurrent features like automatic batching and Suspense.",
+  },
+  {
+    id: 134,
+    category: "React",
+    difficulty: "hard",
+    question: "What does the useDeferredValue hook return?",
+    options: [
+      "A memoized value",
+      "A debounced value",
+      "A deferred version of the value that may lag behind",
+      "A throttled value",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "useDeferredValue returns a deferred version of the input value that can lag behind, allowing urgent updates to be processed first.",
+  },
+  {
+    id: 135,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "How do you access the previous value of props or state in functional components?",
+    options: ["useRef", "useState", "useEffect with ref", "usePrevious hook"],
+    correctAnswer: 2,
+    explanation:
+      "You can store the previous value in a ref and update it in useEffect: const prevValueRef = useRef(); useEffect(() => { prevValueRef.current = value; });",
+  },
+  {
+    id: 136,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the 'default' in export default Component?",
+    options: [
+      "Indicates the main export",
+      "Sets default props",
+      "Provides fallback rendering",
+      "Enables TypeScript support",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "export default specifies the main export from a module that will be imported when no specific name is used in the import statement.",
+  },
+  {
+    id: 137,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useRef and createRef?",
+    options: [
+      "useRef is for functional components, createRef for class components",
+      "No difference",
+      "useRef is faster",
+      "createRef is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useRef is a hook used in functional components, while createRef is used in class components to create refs.",
+  },
+  {
+    id: 138,
+    category: "React",
+    difficulty: "hard",
+    question: "What is the purpose of React's unstable_flushSync?",
+    options: [
+      "Force synchronous React updates",
+      "Flush the DOM",
+      "Synchronize state",
+      "Update props",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "unstable_flushSync forces React to flush updates synchronously, bypassing concurrent features and automatic batching.",
+  },
+  {
+    id: 139,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "Which hook would you use to optimize a callback that is passed to child components?",
+    options: ["useMemo", "useCallback", "useRef", "useState"],
+    correctAnswer: 1,
+    explanation:
+      "useCallback memoizes a callback function, preventing child components from re-rendering when the callback reference hasn't changed.",
+  },
+  {
+    id: 140,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to conditionally render a component?",
+    options: [
+      "{condition && <Component />}",
+      "{condition ? <Component />}",
+      "{if(condition) <Component />}",
+      "All of the above",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The most common and recommended way is using the logical && operator: {condition && <Component />}.",
+  },
+  {
+    id: 141,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of the cleanup function in useEffect?",
+    options: [
+      "Remove the component",
+      "Clean up subscriptions, timers, or event listeners",
+      "Reset state",
+      "Unmount the component",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The cleanup function returned from useEffect is called before the component unmounts or before the effect runs again to clean up side effects.",
+  },
+  {
+    id: 142,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useEvent hook proposal?",
+    options: [
+      "Event handling hook",
+      "Stable event callback that doesn't need dependencies",
+      "Synthetic event wrapper",
+      "Event delegation helper",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The proposed useEvent would provide an event callback that never changes identity and doesn't need to be listed in useEffect dependencies.",
+  },
+  {
+    id: 143,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "How do you prevent a function from being recreated on every render?",
+    options: [
+      "Define it outside the component",
+      "Use useCallback",
+      "Use useMemo",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "You can either define the function outside the component (if it doesn't need props/state) or use useCallback to memoize it.",
+  },
+  {
+    id: 144,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the React.StrictMode component?",
+    options: [
+      "Enforce coding standards",
+      "Highlight potential problems in development",
+      "Improve performance",
+      "Enable strict type checking",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "StrictMode helps identify unsafe lifecycle methods, legacy API usage, and unexpected side effects by intentionally double-invoking functions in development.",
+  },
+  {
+    id: 145,
+    category: "React",
+    difficulty: "hard",
+    question: "What is the difference between useMemo and useCallback?",
+    options: [
+      "useMemo returns a value, useCallback returns a function",
+      "No difference",
+      "useMemo is for primitives only",
+      "useCallback is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useMemo memoizes a computed value, while useCallback memoizes a function instance to prevent unnecessary re-creations.",
+  },
+  {
+    id: 146,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the correct way to handle forms in React?",
+    options: [
+      "Controlled components with state",
+      "Uncontrolled components with refs",
+      "Both are valid",
+      "Only controlled components",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Both controlled components (using state) and uncontrolled components (using refs) are valid approaches for handling forms in React.",
+  },
+  {
+    id: 147,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Server Components architecture?",
+    options: [
+      "Components that run on server and client",
+      "Zero-bundle-size server-rendered components",
+      "Components for server-side routing",
+      "Database-connected components",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Server Components render on the server and send only HTML to the client, with zero JavaScript bundle size for those components.",
+  },
+  {
+    id: 148,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of the second argument in useEffect?",
+    options: [
+      "Cleanup function",
+      "Dependency array",
+      "Effect name",
+      "Delay time",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The second argument is the dependency array that tells React when to re-run the effect based on value changes.",
+  },
+  {
+    id: 149,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the children prop in React?",
+    options: [
+      "A special prop for child components",
+      "Content between component tags",
+      "Array of child elements",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "The children prop represents the content between component opening and closing tags, which can be elements, text, or other components.",
+  },
+  {
+    id: 150,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between props and state?",
+    options: [
+      "Props are passed from parent, state is managed internally",
+      "Props are mutable, state is immutable",
+      "No difference",
+      "Props are faster",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Props are read-only data passed from parent components, while state is managed within the component and can be changed.",
+  },
+  {
+    id: 151,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental use() hook?",
+    options: [
+      "Universal hook for promises and context",
+      "Hook for external libraries",
+      "Replacement for all hooks",
+      "Hook for component composition",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental use() hook can read promises and context values, and unlike other hooks, can be called conditionally.",
+  },
+  {
+    id: 152,
+    category: "React",
+    difficulty: "medium",
+    question: "How do you share state between sibling components?",
+    options: [
+      "Lift state up to common parent",
+      "Use context",
+      "Use Redux",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "State can be shared by lifting it up to a common parent, using Context API, or using state management libraries like Redux.",
+  },
+  {
+    id: 153,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of ReactDOM.render?",
+    options: [
+      "Render React elements to the DOM",
+      "Create React components",
+      "Update component state",
+      "Handle events",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "ReactDOM.render renders a React element into the DOM in the supplied container and returns a reference to the component.",
+  },
+  {
+    id: 154,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useEffect and useLayoutEffect?",
+    options: [
+      "Timing of when they run relative to browser paint",
+      "useLayoutEffect is for DOM manipulation",
+      "useEffect is for async operations",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "useLayoutEffect runs synchronously after DOM mutations but before browser paint, while useEffect runs asynchronously after paint.",
+  },
+  {
+    id: 155,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Offscreen API?",
+    options: [
+      "Render components invisibly",
+      "Hide components from DOM",
+      "Background component processing",
+      "Component virtualization",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Offscreen API allows rendering and maintaining components in memory without displaying them, useful for pre-rendering and caching.",
+  },
+  {
+    id: 156,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.PureComponent?",
+    options: [
+      "Component with shallow comparison optimization",
+      "Component without side effects",
+      "Functional component",
+      "Component for pure functions",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.PureComponent implements shouldComponentUpdate with shallow prop and state comparison to prevent unnecessary re-renders.",
+  },
+  {
+    id: 157,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to bind event handlers in class components?",
+    options: [
+      "In constructor",
+      "Arrow functions in render",
+      "Class fields with arrow functions",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Event handlers can be bound in the constructor, using arrow functions in render, or using class field syntax with arrow functions.",
+  },
+  {
+    id: 158,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Cache API?",
+    options: [
+      "API for caching function results across renders",
+      "Browser cache management",
+      "Component caching",
+      "State persistence",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental Cache API provides a way to cache expensive function results across component renders and components.",
+  },
+  {
+    id: 159,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.memo()?",
+    options: [
+      "Memoize component to prevent unnecessary re-renders",
+      "Cache component state",
+      "Optimize component memory usage",
+      "Speed up component creation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.memo is a higher-order component that memoizes a component and only re-renders when props change (with shallow comparison).",
+  },
+  {
+    id: 160,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the difference between a controlled and uncontrolled component?",
+    options: [
+      "Controlled components use React state, uncontrolled use refs",
+      "Controlled components are faster",
+      "Uncontrolled components are deprecated",
+      "No difference",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Controlled components have their value controlled by React state, while uncontrolled components manage their own state using refs.",
+  },
+  {
+    id: 161,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useTransition hook?",
+    options: [
+      "Mark updates as non-urgent transitions",
+      "Handle component transitions",
+      "Manage animation states",
+      "Control component mounting",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useTransition allows marking state updates as transitions that can be interrupted by more urgent updates, keeping UI responsive.",
+  },
+  {
+    id: 162,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of the dependency array in useEffect?",
+    options: [
+      "Specify when effect should re-run",
+      "Pass data to effect",
+      "Clean up effect",
+      "Handle errors",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The dependency array tells React which values the effect depends on, determining when the effect should be re-executed.",
+  },
+  {
+    id: 163,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the children prop?",
+    options: [
+      "Special React property",
+      "Content between component tags",
+      "Array of components",
+      "Child component instances",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "The children prop contains whatever is passed between the opening and closing tags of a component.",
+  },
+  {
+    id: 164,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useDeferredValue hook?",
+    options: [
+      "Defer value updates for better responsiveness",
+      "Delay value initialization",
+      "Cache expensive values",
+      "Validate value types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useDeferredValue returns a deferred version of the value that can lag behind, allowing urgent updates to be processed first.",
+  },
+  {
+    id: 165,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useRef and createRef?",
+    options: [
+      "useRef is hook for functional components, createRef for class components",
+      "No difference",
+      "useRef is faster",
+      "createRef is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useRef is a hook used in functional components, while createRef is used in class components to create refs.",
+  },
+  {
+    id: 166,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of keys in React lists?",
+    options: [
+      "Help React identify changed items",
+      "Style list items",
+      "Sort items",
+      "Add event listeners",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Keys help React identify which items have changed, been added, or removed, enabling efficient list updates.",
+  },
+  {
+    id: 167,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useId hook?",
+    options: [
+      "Generate unique IDs for accessibility",
+      "Create component identifiers",
+      "Generate random numbers",
+      "Manage component keys",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useId generates unique IDs that are stable across server and client rendering, useful for accessibility attributes.",
+  },
+  {
+    id: 168,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useCallback hook?",
+    options: [
+      "Memoize function instances",
+      "Manage state",
+      "Handle effects",
+      "Create components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useCallback returns a memoized callback that only changes if dependencies change, preventing unnecessary re-renders.",
+  },
+  {
+    id: 169,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to update state in React?",
+    options: [
+      "Using setState or state setter function",
+      "Direct assignment",
+      "Mutating state object",
+      "Using forceUpdate",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "State should only be updated using setState (class components) or the setter function from useState (functional components).",
+  },
+  {
+    id: 170,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useSyncExternalStore hook?",
+    options: [
+      "Subscribe to external data sources",
+      "Synchronize component state",
+      "Manage external APIs",
+      "Handle browser storage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useSyncExternalStore allows components to subscribe to external mutable data sources and work with concurrent features.",
+  },
+  {
+    id: 171,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.StrictMode?",
+    options: [
+      "Highlight potential problems in development",
+      "Enforce coding standards",
+      "Improve performance",
+      "Enable strict types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "StrictMode helps identify unsafe lifecycle methods, legacy APIs, and side effects by intentionally double-invoking functions in development.",
+  },
+  {
+    id: 172,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the difference between props and state?",
+    options: [
+      "Props are passed from parent, state is internal",
+      "Props are mutable, state is immutable",
+      "No difference",
+      "Props are faster",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Props are read-only data passed from parent components, while state is managed within the component and can be changed.",
+  },
+  {
+    id: 173,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useInsertionEffect hook?",
+    options: [
+      "For CSS-in-JS libraries to inject styles",
+      "For inserting DOM elements",
+      "For adding event listeners",
+      "For component insertion",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useInsertionEffect is designed for CSS-in-JS libraries to inject styles before the browser paints, ensuring correct styling.",
+  },
+  {
+    id: 174,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useMemo hook?",
+    options: [
+      "Memoize expensive calculations",
+      "Manage state",
+      "Handle effects",
+      "Create refs",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useMemo caches the result of expensive computations and only recalculates when dependencies change.",
+  },
+  {
+    id: 175,
+    category: "React",
+    difficulty: "easy",
+    question: "What is JSX in React?",
+    options: [
+      "Syntax extension for JavaScript",
+      "JavaScript library",
+      "CSS framework",
+      "Database query language",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "JSX is a syntax extension that allows you to write HTML-like code in JavaScript, which gets compiled to React.createElement calls.",
+  },
+  {
+    id: 176,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Offscreen API?",
+    options: [
+      "Render components invisibly",
+      "Hide components from DOM",
+      "Background rendering",
+      "Component virtualization",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Offscreen API allows rendering and maintaining components in memory without displaying them, useful for pre-rendering.",
+  },
+  {
+    id: 177,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useEffect and useLayoutEffect?",
+    options: [
+      "Timing relative to browser paint",
+      "useLayoutEffect is for DOM manipulation",
+      "useEffect is for async operations",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "useLayoutEffect runs synchronously after DOM mutations but before paint, while useEffect runs asynchronously after paint.",
+  },
+  {
+    id: 178,
+    category: "React",
+    difficulty: "easy",
+    question: "What is a React component?",
+    options: [
+      "Reusable piece of UI",
+      "HTML element",
+      "CSS class",
+      "JavaScript function only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A React component is a reusable piece of UI that can be either a function or class, returning React elements to render.",
+  },
+  {
+    id: 179,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Cache API?",
+    options: [
+      "API for caching function results",
+      "Browser cache management",
+      "Component caching",
+      "State persistence",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental Cache API provides a way to cache expensive function results across component renders and components.",
+  },
+  {
+    id: 180,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.memo()?",
+    options: [
+      "Prevent unnecessary re-renders",
+      "Cache component state",
+      "Optimize memory",
+      "Speed up creation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.memo memoizes a component and only re-renders when props change (using shallow comparison), preventing unnecessary re-renders.",
+  },
+  {
+    id: 181,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the virtual DOM?",
+    options: [
+      "JavaScript representation of real DOM",
+      "Copy of real DOM in memory",
+      "Faster version of DOM",
+      "Debugging tool",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The virtual DOM is a JavaScript representation of the real DOM that React uses to optimize updates by comparing changes.",
+  },
+  {
+    id: 182,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Activity API?",
+    options: [
+      "Track user activity and interactions",
+      "Component activity monitoring",
+      "Performance tracking",
+      "State activity management",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental Activity API tracks user activity and interactions to help optimize rendering and prioritize updates.",
+  },
+  {
+    id: 183,
+    category: "React",
+    difficulty: "medium",
+    question: "What is prop drilling?",
+    options: [
+      "Passing props through multiple component layers",
+      "Creating holes in components",
+      "Validating props",
+      "Optimizing props",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Prop drilling refers to passing props through multiple layers of components to reach deeply nested child components.",
+  },
+  {
+    id: 184,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of useState hook?",
+    options: [
+      "Manage state in functional components",
+      "Handle side effects",
+      "Create refs",
+      "Manage context",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useState is a hook that allows you to add state to functional components, returning the current state and a setter function.",
+  },
+  {
+    id: 185,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Selective Hydration?",
+    options: [
+      "Prioritize hydrating interactive components",
+      "Partial page hydration",
+      "Optimized SSR",
+      "Conditional loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Selective Hydration allows React to prioritize hydrating components that users are interacting with for better perceived performance.",
+  },
+  {
+    id: 186,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useContext hook?",
+    options: [
+      "Consume context values",
+      "Create context",
+      "Manage local state",
+      "Handle effects",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useContext is a hook that allows you to consume context values in functional components without using Context.Consumer.",
+  },
+  {
+    id: 187,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the difference between functional and class components?",
+    options: [
+      "Functional use functions, class use ES6 classes",
+      "No difference",
+      "Functional are faster",
+      "Class components are deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Functional components are JavaScript functions that return JSX, while class components are ES6 classes extending React.Component.",
+  },
+  {
+    id: 188,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Fresh API?",
+    options: [
+      "Invalidate and refresh cached data",
+      "Component refresh",
+      "State refresh",
+      "DOM refresh",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental Fresh API provides mechanisms for invalidating and refreshing cached data, particularly with Server Components.",
+  },
+  {
+    id: 189,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.createRef?",
+    options: [
+      "Create refs in class components",
+      "Create refs in functional components",
+      "Create state",
+      "Create context",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.createRef is used in class components to create refs, while useRef is the hook equivalent for functional components.",
+  },
+  {
+    id: 190,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of keys in React lists?",
+    options: [
+      "Help React identify items",
+      "Style items",
+      "Sort items",
+      "Add events",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Keys help React identify which items have changed, been added, or removed, enabling efficient list updates and preventing bugs.",
+  },
+  {
+    id: 191,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental use() hook?",
+    options: [
+      "Read promises and context conditionally",
+      "Use external libraries",
+      "Replace all hooks",
+      "Component composition",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental use() hook can read promises and context values and unlike other hooks, can be called conditionally.",
+  },
+  {
+    id: 192,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.forwardRef?",
+    options: [
+      "Forward refs to child components",
+      "Forward props",
+      "Forward state",
+      "Forward events",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.forwardRef creates a component that can forward refs to its child components, allowing parent components to access child DOM elements.",
+  },
+  {
+    id: 193,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to create a React app?",
+    options: [
+      "npx create-react-app my-app",
+      "npm install react",
+      "react new app",
+      "npm create react",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The standard way to create a new React app is using Create React App with 'npx create-react-app my-app'.",
+  },
+  {
+    id: 194,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Scheduler package?",
+    options: [
+      "Low-level scheduling primitives",
+      "Component scheduling",
+      "Task scheduling",
+      "Time-based scheduling",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The Scheduler package provides low-level scheduling primitives that enable cooperative scheduling and time-slicing in React.",
+  },
+  {
+    id: 195,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useReducer hook?",
+    options: [
+      "Manage complex state logic",
+      "Reduce bundle size",
+      "Handle side effects",
+      "Create components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useReducer is used for managing complex state logic that involves multiple sub-values or when the next state depends on the previous one.",
+  },
+  {
+    id: 196,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the difference between state and props?",
+    options: [
+      "State is internal, props are external",
+      "State is external, props are internal",
+      "No difference",
+      "Props are mutable",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "State is managed within the component and can be changed, while props are passed from parent components and are read-only.",
+  },
+  {
+    id: 197,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's reconciliation priority system?",
+    options: [
+      "Prioritize different types of updates",
+      "Order component renders",
+      "Component comparison",
+      "Manage lifecycle",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's priority system allows different types of updates to be prioritized differently for optimal user experience.",
+  },
+  {
+    id: 198,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Fragment?",
+    options: [
+      "Group elements without extra DOM nodes",
+      "Handle errors",
+      "Manage state",
+      "Route components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Fragment allows you to group multiple elements without adding extra DOM nodes to the rendered output.",
+  },
+  {
+    id: 199,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of useEffect hook?",
+    options: [
+      "Handle side effects",
+      "Manage state",
+      "Create components",
+      "Style components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useEffect is used for handling side effects in functional components, such as API calls, subscriptions, or DOM manipulation.",
+  },
+  {
+    id: 200,
+    category: "React",
+    difficulty: "hard",
+    question: "What are React's scheduling priorities?",
+    options: [
+      "System for prioritizing updates",
+      "Component loading order",
+      "State update sequence",
+      "Event handling priority",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's scheduling priorities allow the framework to prioritize different types of updates for optimal user experience.",
+  },
+  {
+    id: 201,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.lazy()?",
+    options: [
+      "Lazy load components",
+      "Delay state updates",
+      "Slow rendering",
+      "Test components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.lazy() enables code-splitting by allowing you to load components lazily, reducing the initial bundle size.",
+  },
+  {
+    id: 202,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the difference between controlled and uncontrolled components?",
+    options: [
+      "Controlled use React state, uncontrolled use DOM state",
+      "Controlled are faster",
+      "Uncontrolled are deprecated",
+      "No difference",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Controlled components have their value controlled by React state, while uncontrolled components maintain their own state in the DOM.",
+  },
+  {
+    id: 203,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental startTransition API?",
+    options: [
+      "Mark updates as non-urgent transitions",
+      "Start animations",
+      "Initialize transitions",
+      "Begin async operations",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "startTransition allows marking state updates as non-urgent transitions, helping React prioritize more urgent updates.",
+  },
+  {
+    id: 204,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of Suspense in React?",
+    options: [
+      "Specify loading UI while waiting",
+      "Handle async operations",
+      "Catch errors",
+      "Optimize performance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Suspense lets you specify a loading UI while waiting for lazy-loaded components or async operations to complete.",
+  },
+  {
+    id: 205,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of ReactDOM.createPortal?",
+    options: [
+      "Render children outside parent DOM hierarchy",
+      "Create DOM elements",
+      "Handle routing",
+      "Manage state",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "ReactDOM.createPortal allows rendering children into a DOM node that exists outside the DOM hierarchy of the parent component.",
+  },
+  {
+    id: 206,
+    category: "React",
+    difficulty: "hard",
+    question: "What is the difference between flushSync and regular updates?",
+    options: [
+      "flushSync forces synchronous updates",
+      "flushSync is faster",
+      "No difference",
+      "Regular updates are deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "flushSync forces React to flush updates synchronously, bypassing automatic batching and concurrent features.",
+  },
+  {
+    id: 207,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of Error Boundaries?",
+    options: [
+      "Catch JavaScript errors in component tree",
+      "Handle network errors",
+      "Validate props",
+      "Catch syntax errors",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree and display fallback UI.",
+  },
+  {
+    id: 208,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct syntax for importing a default export?",
+    options: [
+      "import Component from './Component'",
+      "import { Component } from './Component'",
+      "import * as Component from './Component'",
+      "import './Component'",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Default exports are imported without curly braces: import Component from './Component'",
+  },
+  {
+    id: 209,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's automatic batching?",
+    options: [
+      "Groups multiple state updates into single re-render",
+      "Improves memory usage",
+      "Enables concurrent rendering",
+      "Simplifies state management",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Automatic batching groups multiple state updates into a single re-render for better performance, even in promises and timeouts.",
+  },
+  {
+    id: 210,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useImperativeHandle hook?",
+    options: [
+      "Customize instance value exposed to parent",
+      "Handle imperative updates",
+      "Manage imperative state",
+      "Imperative rendering",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useImperativeHandle customizes the instance value that is exposed to parent components when using ref, allowing you to expose specific methods.",
+  },
+  {
+    id: 211,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the difference between export and export default?",
+    options: [
+      "export default has one per file, export can have multiple",
+      "No difference",
+      "export is deprecated",
+      "export default is faster",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A module can have only one default export but multiple named exports, and they are imported differently.",
+  },
+  {
+    id: 212,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental concurrent rendering?",
+    options: [
+      "Ability to interrupt and resume rendering",
+      "Render multiple components simultaneously",
+      "Parallel execution",
+      "Async loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Concurrent rendering allows React to interrupt rendering work for high-priority updates and resume lower-priority work later.",
+  },
+  {
+    id: 213,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.cloneElement?",
+    options: [
+      "Clone element with new props",
+      "Deep copy components",
+      "Duplicate components",
+      "Create element copies",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.cloneElement clones and returns a new React element using the original element as the starting point with new props merged in.",
+  },
+  {
+    id: 214,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the className attribute in React?",
+    options: [
+      "Apply CSS classes",
+      "Set component name",
+      "Define JavaScript class",
+      "Create React component",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "className is used to apply CSS classes to JSX elements (equivalent to the class attribute in HTML).",
+  },
+  {
+    id: 215,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's time slicing?",
+    options: [
+      "Break work into small units for responsiveness",
+      "Schedule updates",
+      "Optimize rendering",
+      "Manage lifecycle",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Time slicing breaks work into small units and yields control back to the browser to maintain responsiveness during heavy computations.",
+  },
+  {
+    id: 216,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children utilities?",
+    options: [
+      "Manipulate and transform children",
+      "Create child components",
+      "Count children",
+      "Style children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children provides utilities for dealing with the opaque data structure of props.children, allowing manipulation and transformation.",
+  },
+  {
+    id: 217,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to conditionally apply a className?",
+    options: [
+      "Using template literals or conditional operators",
+      "Using if statements in JSX",
+      "Using switch statements",
+      "Class names cannot be conditional",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Class names can be conditionally applied using template literals: className={`base-class ${condition ? 'active' : ''}`} or conditional operators.",
+  },
+  {
+    id: 218,
+    category: "React",
+    difficulty: "hard",
+    question: "What are the limitations of React's reconciliation algorithm?",
+    options: [
+      "Cannot detect all changes efficiently",
+      "No limitations",
+      "Too slow for large apps",
+      "Cannot handle complex data",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's reconciliation uses heuristics and cannot detect all possible changes efficiently, which is why keys and component structure matter.",
+  },
+  {
+    id: 219,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of displayName in React components?",
+    options: [
+      "Debugging and development tools",
+      "Component styling",
+      "Component routing",
+      "Component optimization",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "displayName is used by React DevTools and error messages to identify components, especially useful for HOCs and anonymous functions.",
+  },
+  {
+    id: 220,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle form submission in React?",
+    options: [
+      "Using onSubmit event handler",
+      "Using onClick on submit button",
+      "Using form action",
+      "Using JavaScript submit()",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Form submission should be handled using the onSubmit event on the form element, which captures both button clicks and Enter key presses.",
+  },
+  {
+    id: 221,
+    category: "React",
+    difficulty: "hard",
+    question:
+      "What is the difference between shallow and deep comparison in React?",
+    options: [
+      "Shallow compares references, deep compares values",
+      "No difference",
+      "Deep is always faster",
+      "Shallow is more accurate",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Shallow comparison only checks if references are the same, while deep comparison recursively checks all nested values for equality.",
+  },
+  {
+    id: 222,
+    category: "React",
+    difficulty: "medium",
+    question: "What is event delegation in React?",
+    options: [
+      "Single event listener on document root",
+      "Events passed to children",
+      "Events automatically handled",
+      "Events delayed for performance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React uses event delegation by attaching a single event listener to the document root and managing events through its synthetic event system.",
+  },
+  {
+    id: 223,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the htmlFor attribute in React?",
+    options: [
+      "Associate labels with form elements",
+      "Set HTML format",
+      "Define for loops",
+      "Create HTML templates",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "htmlFor is the React equivalent of the for attribute in HTML, used to associate label elements with form inputs.",
+  },
+  {
+    id: 224,
+    category: "React",
+    difficulty: "hard",
+    question: "What happens when you update state with the same value?",
+    options: [
+      "React may skip re-render",
+      "Component always re-renders",
+      "Error is thrown",
+      "State update is ignored",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React uses Object.is comparison and may skip re-rendering if the new state value is the same as the current value.",
+  },
+  {
+    id: 225,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.PureComponent vs React.Component?",
+    options: [
+      "PureComponent implements shallow comparison",
+      "PureComponent is faster always",
+      "No difference",
+      "Component is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.PureComponent automatically implements shouldComponentUpdate with shallow prop and state comparison, while React.Component does not.",
+  },
+  {
+    id: 226,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to add comments in JSX?",
+    options: ["{/* comment */}", "// comment", "<!-- comment -->", "# comment"],
+    correctAnswer: 0,
+    explanation:
+      "JSX comments use the JavaScript block comment syntax wrapped in curly braces: {/* This is a comment */}",
+  },
+  {
+    id: 227,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's Profiler API?",
+    options: [
+      "API for measuring performance",
+      "Automatic performance monitoring",
+      "Built-in benchmarking",
+      "Memory tracking",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React Profiler API allows measuring the performance of React applications and identifying performance bottlenecks by recording render times.",
+  },
+  {
+    id: 228,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of getDerivedStateFromProps?",
+    options: [
+      "Update state based on props changes",
+      "Initialize state",
+      "Validate props",
+      "Optimize performance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "getDerivedStateFromProps is called before every render and allows a component to update its state based on changes in props.",
+  },
+  {
+    id: 229,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the difference between onChange and onInput in React?",
+    options: [
+      "onChange is React's standard, onInput is less common",
+      "onInput is for text input only",
+      "onChange fires immediately",
+      "No difference",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "onChange is the standard React event for form inputs, while onInput is less commonly used and behaves slightly differently across browsers.",
+  },
+  {
+    id: 230,
+    category: "React",
+    difficulty: "hard",
+    question:
+      "What is the difference between componentDidUpdate and useEffect with dependencies?",
+    options: [
+      "componentDidUpdate runs after every update, useEffect can be controlled",
+      "No difference",
+      "useEffect is faster",
+      "componentDidUpdate is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "componentDidUpdate runs after every update in class components, while useEffect with dependencies only runs when specified dependencies change.",
+  },
+  {
+    id: 231,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Fragment short syntax?",
+    options: [
+      "<> </> shorthand for React.Fragment",
+      "Faster rendering",
+      "Better performance",
+      "Automatic optimization",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The <> </> syntax is a shorthand for React.Fragment, providing a cleaner way to group elements without adding extra DOM nodes.",
+  },
+  {
+    id: 232,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to bind 'this' in React class components?",
+    options: [
+      "In constructor, arrow functions, or class fields",
+      "Using Function.prototype.bind()",
+      "Using call() or apply()",
+      "Using bind() in render",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Common approaches include binding in the constructor, using arrow functions as class properties, or using arrow functions in event handlers.",
+  },
+  {
+    id: 233,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Concurrent Mode?",
+    options: [
+      "Feature for time slicing and suspense",
+      "Parallel execution",
+      "Multi-threaded rendering",
+      "Concurrent state updates",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Concurrent Mode is React's experimental feature that enables time slicing, Suspense for data fetching, and other concurrent features.",
+  },
+  {
+    id: 234,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useMemo and React.memo?",
+    options: [
+      "useMemo memoizes values, React.memo memoizes components",
+      "No difference",
+      "useMemo is for class components",
+      "React.memo is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useMemo memoizes computed values within a component, while React.memo memoizes the entire component to prevent unnecessary re-renders.",
+  },
+  {
+    id: 235,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the style attribute in React?",
+    options: [
+      "Apply inline styles",
+      "Link external stylesheets",
+      "Define CSS classes",
+      "Create style components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The style attribute accepts a JavaScript object with camelCased properties to apply inline styles to JSX elements.",
+  },
+  {
+    id: 236,
+    category: "React",
+    difficulty: "hard",
+    question: "What are React DevTools Profiler insights?",
+    options: [
+      "Performance analysis of renders and commits",
+      "Memory statistics",
+      "Network monitoring",
+      "Code coverage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React DevTools Profiler provides insights into component render performance, showing render times, commit phases, and identifying bottlenecks.",
+  },
+  {
+    id: 237,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What is the difference between getDerivedStateFromProps and componentDidUpdate?",
+    options: [
+      "getDerivedStateFromProps is called before render, componentDidUpdate after",
+      "No difference",
+      "getDerivedStateFromProps is deprecated",
+      "componentDidUpdate is faster",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "getDerivedStateFromProps is called during the render phase before the component renders, while componentDidUpdate is called after the component has updated.",
+  },
+  {
+    id: 238,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the key prop in lists?",
+    options: [
+      "Help React identify items",
+      "Style items",
+      "Sort items",
+      "Add event listeners",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The key prop helps React identify which items have changed, been added, or removed, enabling efficient list updates.",
+  },
+  {
+    id: 239,
+    category: "React",
+    difficulty: "hard",
+    question: "What is the performance impact of using array indices as keys?",
+    options: [
+      "Can cause issues when list order changes",
+      "Always improves performance",
+      "No impact",
+      "Reduces memory usage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Using array indices as keys can cause performance issues and bugs when the list order changes, as React may incorrectly associate component instances with their state.",
+  },
+  {
+    id: 240,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of defaultValue in React forms?",
+    options: [
+      "Set initial value for uncontrolled components",
+      "Set placeholder",
+      "Provide fallback value",
+      "Validate input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "defaultValue sets the initial value for uncontrolled form inputs, similar to the HTML attribute, but doesn't control the input after mounting.",
+  },
+  {
+    id: 241,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to update array state in React?",
+    options: [
+      "Using spread operator or map/filter",
+      "Direct mutation",
+      "Using push()/pop()",
+      "Using splice()",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Array state should be updated immutably using spread operator ([...array]) or array methods like map(), filter(), or concat() that return new arrays.",
+  },
+  {
+    id: 242,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useDeferredValue hook?",
+    options: [
+      "Defer value updates for responsiveness",
+      "Delay initialization",
+      "Cache expensive values",
+      "Validate types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useDeferredValue returns a deferred version of the value that can lag behind, allowing urgent updates to be processed first for better responsiveness.",
+  },
+  {
+    id: 243,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What happens if you use both value and defaultValue on an input?",
+    options: [
+      "React shows warning and value takes precedence",
+      "defaultValue takes precedence",
+      "Values are merged",
+      "Component crashes",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React will show a warning about conflicting props, and the value prop will take precedence, making it a controlled component.",
+  },
+  {
+    id: 244,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the onSubmit event in React forms?",
+    options: [
+      "Handle form submission",
+      "Handle button clicks",
+      "Validate form data",
+      "Prevent default behavior",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "onSubmit is triggered when a form is submitted, either by clicking a submit button or pressing Enter in a form field.",
+  },
+  {
+    id: 245,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useTransition hook?",
+    options: [
+      "Mark updates as non-urgent transitions",
+      "Handle component transitions",
+      "Manage animations",
+      "Control mounting",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useTransition allows you to mark state updates as non-urgent transitions that can be interrupted by more urgent updates, keeping UI responsive.",
+  },
+  {
+    id: 246,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What is the difference between controlled and uncontrolled inputs?",
+    options: [
+      "Controlled use React state, uncontrolled use DOM state",
+      "Uncontrolled are faster",
+      "No functional difference",
+      "Controlled use more memory",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Controlled inputs have their value managed by React state and use onChange handlers, while uncontrolled inputs manage their own state internally.",
+  },
+  {
+    id: 247,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the map() method when rendering lists?",
+    options: [
+      "Transform array into React elements",
+      "Sort the array",
+      "Filter the array",
+      "Modify the original array",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "map() is used to transform an array of data into an array of React elements, with each element typically requiring a unique key prop.",
+  },
+  {
+    id: 248,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental automatic batching enhancement?",
+    options: [
+      "Batch updates in promises and timeouts",
+      "Batch only in event handlers",
+      "Improve memory usage",
+      "Enable concurrent rendering",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React 18's automatic batching extends to promises, timeouts, and native event handlers, not just React event handlers.",
+  },
+  {
+    id: 249,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.version property?",
+    options: [
+      "Returns current React version",
+      "Set version requirements",
+      "Validate compatibility",
+      "Update version",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.version is a string property that contains the version number of the React library currently being used.",
+  },
+  {
+    id: 250,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle multiple input fields in a form?",
+    options: [
+      "Using name attributes and a single handler",
+      "Separate handler for each input",
+      "Using refs for all inputs",
+      "Using separate state for each input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "You can use a single event handler for multiple inputs by giving each input a name attribute and using event.target.name to identify which input changed.",
+  },
+  {
+    id: 251,
+    category: "React",
+    difficulty: "hard",
+    question:
+      "What is the difference between React development and production builds?",
+    options: [
+      "Development includes warnings and debugging tools",
+      "Production is slower",
+      "No significant difference",
+      "Development uses different syntax",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Development builds include helpful warnings, debugging information, and development tools, while production builds are optimized and minified.",
+  },
+  {
+    id: 252,
+    category: "React",
+    difficulty: "medium",
+    question: "What is tree shaking in React applications?",
+    options: [
+      "Eliminate unused code from bundles",
+      "Optimize component trees",
+      "Remove unused components",
+      "Clean up memory",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Tree shaking is a dead code elimination technique that removes unused code from your final bundle, reducing application size.",
+  },
+  {
+    id: 253,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the preventDefault() method in React events?",
+    options: [
+      "Prevent default browser behavior",
+      "Stop event propagation",
+      "Prevent component re-render",
+      "Disable event handling",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "preventDefault() prevents the default browser behavior associated with an event, such as preventing form submission or link navigation.",
+  },
+  {
+    id: 254,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useSyncExternalStore hook?",
+    options: [
+      "Subscribe to external data sources",
+      "Synchronize component state",
+      "Manage external APIs",
+      "Handle browser storage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useSyncExternalStore allows components to subscribe to external mutable data sources and work with React's concurrent features.",
+  },
+  {
+    id: 255,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.unstable_batchedUpdates?",
+    options: [
+      "Manually batch updates outside React events",
+      "Optimize performance",
+      "Handle async operations",
+      "Manage lifecycle",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "unstable_batchedUpdates allows manual batching of state updates that occur outside of React's event handlers, like in setTimeout or Promise callbacks.",
+  },
+  {
+    id: 256,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to add event listeners in React?",
+    options: [
+      "Using camelCase event props like onClick",
+      "Using lowercase event attributes",
+      "Using addEventListener",
+      "Using HTML event attributes",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React uses camelCase event handlers as props (onClick, onChange, etc.) rather than lowercase HTML event attributes.",
+  },
+  {
+    id: 257,
+    category: "React",
+    difficulty: "hard",
+    question: "What are React Hooks rules?",
+    options: [
+      "Only call at top level and in React functions",
+      "Must be imported",
+      "Need initialization",
+      "Require cleanup",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Hooks must only be called at the top level of React functions and never inside loops, conditions, or nested functions.",
+  },
+  {
+    id: 258,
+    category: "React",
+    difficulty: "medium",
+    question: "Why can't hooks be called conditionally?",
+    options: [
+      "React relies on call order",
+      "Performance reasons",
+      "Memory management",
+      "Error handling",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React uses the order in which hooks are called to associate each hook call with its corresponding state, so the order must be consistent.",
+  },
+  {
+    id: 259,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the stopPropagation() method?",
+    options: [
+      "Prevent event bubbling",
+      "Prevent default behavior",
+      "Stop component rendering",
+      "Disable event handling",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "stopPropagation() prevents the event from bubbling up to parent elements in the DOM tree.",
+  },
+  {
+    id: 260,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useInsertionEffect hook?",
+    options: [
+      "For CSS-in-JS libraries to inject styles",
+      "For inserting DOM elements",
+      "For adding event listeners",
+      "For component insertion",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useInsertionEffect is designed for CSS-in-JS libraries to inject styles into the DOM before the browser paints, ensuring styles are applied correctly.",
+  },
+  {
+    id: 261,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useLayoutEffect?",
+    options: [
+      "Run synchronously after DOM mutations",
+      "Optimize layout calculations",
+      "Handle responsive layouts",
+      "Manage positioning",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useLayoutEffect runs synchronously after all DOM mutations but before the browser paints, useful for reading layout and synchronously re-rendering.",
+  },
+  {
+    id: 262,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to conditionally render components?",
+    options: [
+      "Using && operator, ternary operator, or if statements",
+      "Using switch statements only",
+      "Using loops",
+      "Using regular if statements in JSX",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional rendering can be done using the logical && operator, ternary operator, or by calling functions that return different components.",
+  },
+  {
+    id: 263,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useId hook?",
+    options: [
+      "Generate unique IDs for accessibility",
+      "Create component identifiers",
+      "Generate random numbers",
+      "Manage component keys",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useId generates unique IDs that are stable across server and client rendering, primarily useful for accessibility attributes like aria-describedby.",
+  },
+  {
+    id: 264,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useEffect and useLayoutEffect?",
+    options: [
+      "useEffect runs asynchronously, useLayoutEffect runs synchronously",
+      "No difference",
+      "useLayoutEffect is deprecated",
+      "useEffect is faster",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useEffect runs asynchronously after the render is committed to the screen, while useLayoutEffect runs synchronously before the browser paints.",
+  },
+  {
+    id: 265,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the ref attribute in React?",
+    options: [
+      "Get reference to DOM elements or component instances",
+      "Create references to values",
+      "Link to external resources",
+      "Create component relationships",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Refs provide a way to access DOM elements or React component instances directly, bypassing the typical props/state flow.",
+  },
+  {
+    id: 266,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Cache API?",
+    options: [
+      "API for caching function results across renders",
+      "Browser cache management",
+      "Component caching system",
+      "State caching mechanism",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's experimental Cache API provides a way to cache the results of expensive function calls across component renders and even across different components.",
+  },
+  {
+    id: 267,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.createContext?",
+    options: [
+      "Create context object for passing data",
+      "Create new components",
+      "Create state containers",
+      "Create event handlers",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.createContext() creates a Context object that can be used to pass data through the component tree without manually passing props at every level.",
+  },
+  {
+    id: 268,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to update object state in React?",
+    options: [
+      "Using spread operator to create new object",
+      "Direct mutation",
+      "Using Object.assign() to mutate",
+      "Using setState with mutation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object state should be updated immutably using the spread operator: setState({...obj, key: newValue}) or Object.assign({}, obj, {key: newValue})",
+  },
+  {
+    id: 269,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental use() hook?",
+    options: [
+      "Read promises and context conditionally",
+      "Use external libraries",
+      "Replace all hooks",
+      "Component composition",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental use() hook can read promises and context values in any part of a component, including conditionally, unlike other hooks.",
+  },
+  {
+    id: 270,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What is the difference between Context.Provider and Context.Consumer?",
+    options: [
+      "Provider supplies values, Consumer receives values",
+      "No difference",
+      "Provider is deprecated",
+      "Consumer is faster",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Context.Provider is used to supply context values to its descendant components, while Context.Consumer (or useContext) is used to consume those values.",
+  },
+  {
+    id: 271,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the map() method in React?",
+    options: [
+      "Transform arrays into React elements",
+      "Sort arrays",
+      "Filter arrays",
+      "Modify original array",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "map() is commonly used to transform an array of data into an array of React elements for rendering lists.",
+  },
+  {
+    id: 272,
+    category: "React",
+    difficulty: "hard",
+    question: "What happens if a Context.Provider is not found?",
+    options: [
+      "Default value from createContext is used",
+      "Error is thrown",
+      "undefined is returned",
+      "Component crashes",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "If no matching Provider is found in the component tree, React uses the default value that was passed to createContext().",
+  },
+  {
+    id: 273,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.forwardRef?",
+    options: [
+      "Forward refs to child components",
+      "Forward props",
+      "Forward state",
+      "Forward events",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.forwardRef creates a component that can forward refs to its child components, enabling parent components to access child DOM elements.",
+  },
+  {
+    id: 274,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle errors in React components?",
+    options: [
+      "Using Error Boundaries",
+      "Try-catch in render",
+      "Using componentDidCatch only",
+      "Using console.error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Error Boundaries are the recommended way to handle JavaScript errors in React components, catching errors in their child component tree.",
+  },
+  {
+    id: 275,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Offscreen API?",
+    options: [
+      "API for rendering components without displaying them",
+      "Background rendering system",
+      "Hidden component management",
+      "Performance optimization tool",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's experimental Offscreen API allows components to be rendered and maintained in memory without being visible, useful for pre-rendering and caching.",
+  },
+  {
+    id: 276,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useImperativeHandle?",
+    options: [
+      "Customize instance value exposed to parent",
+      "Handle imperative updates",
+      "Manage imperative state",
+      "Imperative rendering",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useImperativeHandle customizes the instance value that is exposed to parent components when using ref, allowing you to expose specific methods or values.",
+  },
+  {
+    id: 277,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to add a CSS class conditionally in React?",
+    options: [
+      "Using template literals or conditional operators",
+      "Using if statements in JSX",
+      "Using switch statements",
+      "Classes cannot be conditional",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional classes can be added using template literals: `className={baseClass ${condition ? 'active' : ''}}` or conditional operators.",
+  },
+  {
+    id: 278,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental startTransition API?",
+    options: [
+      "Mark updates as non-urgent transitions",
+      "Start animations",
+      "Initialize transitions",
+      "Begin async operations",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.startTransition() allows you to mark state updates as non-urgent transitions, helping React prioritize more urgent updates for better user experience.",
+  },
+  {
+    id: 279,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the significance of non-unique keys in React lists?",
+    options: [
+      "Can cause rendering issues and state problems",
+      "Nothing happens",
+      "Performance improves",
+      "Keys become unique automatically",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Non-unique keys can cause React to incorrectly associate component instances with their state, leading to rendering bugs and performance issues.",
+  },
+  {
+    id: 280,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the disabled attribute in React forms?",
+    options: [
+      "Disable form elements",
+      "Hide form elements",
+      "Validate form data",
+      "Style form elements",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The disabled attribute prevents user interaction with form elements and is commonly used to disable buttons or inputs based on certain conditions.",
+  },
+  {
+    id: 281,
+    category: "React",
+    difficulty: "hard",
+    question:
+      "What is React's experimental useSyncExternalStore hook used for?",
+    options: [
+      "Subscribe to external data sources",
+      "Synchronize component state",
+      "Manage external APIs",
+      "Handle browser storage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useSyncExternalStore allows components to subscribe to external mutable data sources and work properly with React's concurrent features.",
+  },
+  {
+    id: 282,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between React.createElement and JSX?",
+    options: [
+      "JSX is syntactic sugar for React.createElement",
+      "createElement is faster",
+      "JSX has more features",
+      "No functional difference",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "JSX is syntactic sugar that gets compiled to React.createElement() calls. They produce the same result but JSX is more readable.",
+  },
+  {
+    id: 283,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle checkbox inputs in React?",
+    options: [
+      "Using checked attribute instead of value",
+      "Using value attribute only",
+      "Using selected attribute",
+      "Using textContent",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Checkboxes should be controlled using the checked attribute (for checked state) rather than the value attribute used for text inputs.",
+  },
+  {
+    id: 284,
+    category: "React",
+    difficulty: "hard",
+    question: "What is the purpose of React's Cache API?",
+    options: [
+      "Cache function results across renders",
+      "Browser cache management",
+      "Component caching",
+      "State persistence",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's experimental Cache API provides a way to cache expensive function results across component renders and components.",
+  },
+  {
+    id: 285,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.StrictMode in development?",
+    options: [
+      "Identify unsafe lifecycle methods and side effects",
+      "Enforce coding standards",
+      "Improve performance",
+      "Enable debugging features",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.StrictMode helps identify components with unsafe lifecycle methods, legacy API usage, and unexpected side effects by intentionally double-invoking functions in development.",
+  },
+  {
+    id: 286,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle radio button groups in React?",
+    options: [
+      "Using the same name attribute with different values",
+      "Using different name attributes",
+      "Using the same value",
+      "Using checked attribute only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Radio buttons in a group should share the same name attribute but have different values, with the checked attribute indicating which is selected.",
+  },
+  {
+    id: 287,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useDeferredValue hook?",
+    options: [
+      "Defer value updates to maintain responsiveness",
+      "Delay value initialization",
+      "Cache expensive values",
+      "Validate value types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useDeferredValue lets you defer updating a part of the UI, allowing more urgent updates to be processed first for better user experience.",
+  },
+  {
+    id: 288,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.memo()?",
+    options: [
+      "Prevent unnecessary re-renders when props haven't changed",
+      "Cache component state",
+      "Optimize memory usage",
+      "Speed up component creation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.memo is a higher-order component that memoizes a component and only re-renders when props change (using shallow comparison).",
+  },
+  {
+    id: 289,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle select dropdowns in React?",
+    options: [
+      "Using value attribute on select element",
+      "Using selected attribute on options only",
+      "Using checked attribute",
+      "Using multiple attributes",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Select elements should be controlled using the value attribute on the select element itself, not on individual option elements.",
+  },
+  {
+    id: 290,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useId hook?",
+    options: [
+      "Generate unique IDs for accessibility attributes",
+      "Create component identifiers",
+      "Generate random numbers",
+      "Manage component keys",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useId generates unique IDs that are stable across server and client rendering, primarily useful for accessibility attributes like aria-describedby.",
+  },
+  {
+    id: 291,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useMemo and useCallback?",
+    options: [
+      "useMemo returns a value, useCallback returns a function",
+      "No difference",
+      "useMemo is for primitives only",
+      "useCallback is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useMemo memoizes the result of a computation (a value), while useCallback memoizes a function itself to prevent recreating it on every render.",
+  },
+  {
+    id: 292,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the pattern attribute in React forms?",
+    options: [
+      "Validate input using regular expressions",
+      "Set input placeholder",
+      "Define input type",
+      "Style the input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The pattern attribute specifies a regular expression that the input's value must match for validation purposes.",
+  },
+  {
+    id: 293,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useInsertionEffect hook?",
+    options: [
+      "For CSS-in-JS libraries to inject styles",
+      "For inserting DOM elements",
+      "For adding event listeners",
+      "For component insertion",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useInsertionEffect is designed for CSS-in-JS libraries to inject styles into the DOM before the browser paints, ensuring styles are applied correctly.",
+  },
+  {
+    id: 294,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useRef hook?",
+    options: [
+      "Create references to DOM elements or store mutable values",
+      "Manage state",
+      "Handle effects",
+      "Create context",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useRef creates a mutable ref object that can hold references to DOM elements or any mutable value that persists across re-renders.",
+  },
+  {
+    id: 295,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle form validation in React?",
+    options: [
+      "Using controlled components with validation logic",
+      "Using HTML5 validation only",
+      "Using external libraries only",
+      "Using regex in pattern attribute only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Form validation in React is typically handled using controlled components where you can implement custom validation logic in your event handlers.",
+  },
+  {
+    id: 296,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental use() hook?",
+    options: [
+      "Read promises and context in any component",
+      "Use external libraries",
+      "Replace all hooks",
+      "Component composition",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental use() hook can read promises and context values in any part of a component, including conditionally, unlike other hooks.",
+  },
+  {
+    id: 297,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children utilities?",
+    options: [
+      "Manipulate and transform children props",
+      "Create child components",
+      "Count child elements",
+      "Style child components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children provides utilities for dealing with the opaque data structure of props.children, allowing you to map, count, and manipulate children.",
+  },
+  {
+    id: 298,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the required attribute in React forms?",
+    options: [
+      "Make form fields mandatory",
+      "Set field as read-only",
+      "Validate field format",
+      "Style required fields",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The required attribute makes form fields mandatory, preventing form submission until the field has a value.",
+  },
+  {
+    id: 299,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Offscreen API?",
+    options: [
+      "Render components without displaying them",
+      "Hide components from DOM",
+      "Background rendering",
+      "Component virtualization",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's experimental Offscreen API allows components to be rendered and maintained in memory without being visible, useful for pre-rendering and caching.",
+  },
+  {
+    id: 300,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.cloneElement?",
+    options: [
+      "Clone element with new props",
+      "Deep copy components",
+      "Duplicate components",
+      "Create element copies",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.cloneElement clones and returns a new React element using the original element as the starting point, with new props merged in.",
+  },
+  {
+    id: 301,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle file inputs in React?",
+    options: [
+      "Using uncontrolled components with refs",
+      "Using controlled components",
+      "Using value attribute",
+      "Using textContent",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "File inputs are typically handled as uncontrolled components using refs because their value is read-only and cannot be set programmatically for security reasons.",
+  },
+  {
+    id: 302,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Selective Hydration?",
+    options: [
+      "Prioritize hydrating interactive components",
+      "Partial page hydration",
+      "Optimized SSR",
+      "Conditional loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Selective Hydration allows React to prioritize hydrating components that users are interacting with, improving perceived performance.",
+  },
+  {
+    id: 303,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What is the significance of React's key prop in component reconciliation?",
+    options: [
+      "Help React identify changed, moved, or removed items",
+      "Improve component performance",
+      "Enable component styling",
+      "Manage component state",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The key prop helps React's reconciliation algorithm efficiently determine which list items have changed, been added, or removed, enabling optimal DOM updates.",
+  },
+  {
+    id: 304,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the min and max attributes in React number inputs?",
+    options: [
+      "Set minimum and maximum values",
+      "Set input size",
+      "Define validation pattern",
+      "Style the input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The min and max attributes set the minimum and maximum numeric values that can be entered in number input fields.",
+  },
+  {
+    id: 305,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental automatic batching enhancement?",
+    options: [
+      "Batch updates in promises and timeouts",
+      "Batch only in event handlers",
+      "Improve memory usage",
+      "Enable concurrent rendering",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React 18's automatic batching extends to promises, timeouts, and native event handlers, not just React event handlers.",
+  },
+  {
+    id: 306,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.PureComponent?",
+    options: [
+      "Component with shallow comparison optimization",
+      "Component without side effects",
+      "Functional component",
+      "Component for pure functions",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.PureComponent is similar to React.Component but implements shouldComponentUpdate with a shallow prop and state comparison to prevent unnecessary re-renders.",
+  },
+  {
+    id: 307,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle multiple checkboxes with the same name?",
+    options: [
+      "Using an array to store checked values",
+      "Using separate state for each",
+      "Using a single boolean",
+      "Using the checked attribute only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Multiple checkboxes with the same name should be handled by maintaining an array of checked values, adding or removing values as checkboxes are toggled.",
+  },
+  {
+    id: 308,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Fresh API?",
+    options: [
+      "Invalidate and refresh cached data",
+      "Component refresh mechanism",
+      "State refresh system",
+      "DOM refresh utility",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's experimental Fresh API provides mechanisms for invalidating and refreshing cached data, particularly useful with Server Components and data fetching.",
+  },
+  {
+    id: 309,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of getDerivedStateFromProps?",
+    options: [
+      "Update state based on props changes",
+      "Initialize component state",
+      "Handle prop validation",
+      "Optimize component performance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "getDerivedStateFromProps is called before every render and allows a component to update its state based on changes in props.",
+  },
+  {
+    id: 310,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the step attribute in React number inputs?",
+    options: [
+      "Set increment/decrement step value",
+      "Set validation steps",
+      "Define input size",
+      "Style the input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The step attribute specifies the increment or decrement step for numeric inputs when using spinner controls or validation.",
+  },
+  {
+    id: 311,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's reconciliation priority system?",
+    options: [
+      "System for prioritizing different types of updates",
+      "Method for ordering component renders",
+      "Algorithm for component comparison",
+      "System for managing component lifecycle",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's priority system allows the framework to prioritize different types of updates (synchronous, animation-related, etc.) to maintain smooth user interactions.",
+  },
+  {
+    id: 312,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What is the difference between React.Component and React.PureComponent?",
+    options: [
+      "PureComponent implements shallow comparison automatically",
+      "No difference",
+      "PureComponent is faster in all cases",
+      "Component is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.PureComponent automatically implements shouldComponentUpdate with a shallow prop and state comparison, while React.Component requires manual implementation.",
+  },
+  {
+    id: 313,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle form reset in React?",
+    options: [
+      "Using the reset() method or controlled state",
+      "Using defaultValue only",
+      "Using refs to reset DOM",
+      "Using setState to null",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Forms can be reset using the native reset() method on the form element or by resetting all controlled state values to their initial state.",
+  },
+  {
+    id: 314,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useDeferredValue hook?",
+    options: [
+      "Defer value updates for better responsiveness",
+      "Delay value initialization",
+      "Cache expensive values",
+      "Validate value types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useDeferredValue returns a deferred version of the value that can lag behind, allowing urgent updates to be processed first for better user experience.",
+  },
+  {
+    id: 315,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React DevTools?",
+    options: [
+      "Browser extension for debugging React applications",
+      "Library for testing React",
+      "Tool for building React apps",
+      "React documentation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React DevTools is a browser extension that allows developers to inspect React component hierarchies, props, state, and performance in real-time.",
+  },
+  {
+    id: 316,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the multiple attribute in React select elements?",
+    options: [
+      "Allow selection of multiple options",
+      "Create multiple select elements",
+      "Set multiple validation rules",
+      "Apply multiple styles",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The multiple attribute on select elements allows users to select multiple options by holding Ctrl/Cmd while clicking.",
+  },
+  {
+    id: 317,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useInsertionEffect hook used for?",
+    options: [
+      "CSS-in-JS libraries to inject styles",
+      "DOM element insertion",
+      "Event listener insertion",
+      "Component insertion",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useInsertionEffect is designed for CSS-in-JS libraries to inject styles into the DOM before the browser paints, ensuring styles are applied correctly.",
+  },
+  {
+    id: 318,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.lazy() and Suspense?",
+    options: [
+      "Code-splitting with loading states",
+      "Lazy state updates",
+      "Slow component rendering",
+      "Component testing",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.lazy() enables code-splitting by loading components on demand, while Suspense provides a loading UI while waiting for the lazy component to load.",
+  },
+  {
+    id: 319,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle textarea inputs in React?",
+    options: [
+      "Using value attribute instead of textContent",
+      "Using textContent attribute",
+      "Using innerHTML",
+      "Using defaultValue only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Textarea elements should be controlled using the value attribute, not by placing text between the opening and closing tags like in HTML.",
+  },
+  {
+    id: 320,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useSyncExternalStore?",
+    options: [
+      "Subscribe to external mutable data sources",
+      "Synchronize component state",
+      "Manage external APIs",
+      "Handle browser storage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useSyncExternalStore allows components to subscribe to external mutable data sources (like browser APIs) and work properly with React's concurrent features.",
+  },
+  {
+    id: 321,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.map?",
+    options: [
+      "Transform and manipulate children",
+      "Count children",
+      "Filter children by type",
+      "Create new children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.map allows you to iterate over children and transform them, handling the opaque structure of props.children properly.",
+  },
+  {
+    id: 322,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the accept attribute in React file inputs?",
+    options: [
+      "Specify accepted file types",
+      "Accept all files",
+      "Validate file size",
+      "Style the file input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The accept attribute specifies which file types are accepted by the file input, using MIME types or file extensions (e.g., 'image/*', '.jpg,.png').",
+  },
+  {
+    id: 323,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental use() hook?",
+    options: [
+      "Read promises and context conditionally",
+      "Use external libraries",
+      "Replace all hooks",
+      "Component composition",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental use() hook can read promises and context values in any part of a component, and unlike other hooks, can be called conditionally.",
+  },
+  {
+    id: 324,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.PureComponent vs React.Component?",
+    options: [
+      "PureComponent has built-in shallow comparison",
+      "PureComponent is always faster",
+      "No difference",
+      "Component is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.PureComponent automatically implements shouldComponentUpdate with shallow comparison of props and state, while React.Component does not.",
+  },
+  {
+    id: 325,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form validation messages in React?",
+    options: [
+      "Using conditional rendering based on validation state",
+      "Using HTML5 validation only",
+      "Using alert() functions",
+      "Using console.log()",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Form validation messages should be handled by maintaining validation state and conditionally rendering appropriate messages based on the validation results.",
+  },
+  {
+    id: 326,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Activity API?",
+    options: [
+      "Track user activity and interactions",
+      "Component activity monitoring",
+      "Performance tracking",
+      "State activity management",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's experimental Activity API is designed to track user activity and interactions to help optimize rendering and prioritize updates based on user behavior.",
+  },
+  {
+    id: 327,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.forwardRef?",
+    options: [
+      "Forward refs to child components",
+      "Forward props",
+      "Forward state",
+      "Forward events",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.forwardRef creates a component that can forward refs to its child components, enabling parent components to access child DOM elements.",
+  },
+  {
+    id: 328,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the size attribute in React select elements?",
+    options: [
+      "Set number of visible options",
+      "Set font size",
+      "Define option count",
+      "Style the select",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The size attribute specifies how many options should be visible at once in a select element, creating a scrollable list when size > 1.",
+  },
+  {
+    id: 329,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental concurrent features?",
+    options: [
+      "Time slicing and interruptible rendering",
+      "Parallel component execution",
+      "Multi-threaded rendering",
+      "Async component loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's concurrent features include time slicing, interruptible rendering, and the ability to prioritize updates based on user interactions.",
+  },
+  {
+    id: 330,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useImperativeHandle hook?",
+    options: [
+      "Customize instance value exposed to parent components",
+      "Handle imperative updates",
+      "Manage imperative state",
+      "Imperative rendering",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useImperativeHandle customizes the instance value that is exposed to parent components when using ref, allowing you to expose specific methods or values.",
+  },
+  {
+    id: 331,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form data submission in React?",
+    options: [
+      "Prevent default and handle data in onSubmit",
+      "Let browser handle submission",
+      "Use form action attribute",
+      "Use GET method only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Form submission should be handled by preventing the default browser behavior with event.preventDefault() and then processing the form data in JavaScript.",
+  },
+  {
+    id: 332,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental scheduling priorities?",
+    options: [
+      "System for prioritizing different types of updates",
+      "Component loading order",
+      "State update sequence",
+      "Event handling priority",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's scheduling priorities allow the framework to prioritize different types of updates (immediate, normal, low) to maintain smooth user interactions.",
+  },
+  {
+    id: 333,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.createRef vs useRef?",
+    options: [
+      "createRef for class components, useRef for functional",
+      "No difference",
+      "useRef is faster",
+      "createRef is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.createRef() is used in class components to create refs, while useRef() is the hook equivalent for functional components.",
+  },
+  {
+    id: 334,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the autoFocus attribute in React forms?",
+    options: [
+      "Automatically focus element on mount",
+      "Enable autofocus feature",
+      "Set focus style",
+      "Validate focus state",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The autoFocus attribute automatically focuses the specified form element when the component mounts, similar to HTML autofocus.",
+  },
+  {
+    id: 335,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Fresh API?",
+    options: [
+      "Invalidate and refresh cached data",
+      "Component refresh mechanism",
+      "State refresh system",
+      "DOM refresh utility",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React's experimental Fresh API provides mechanisms for invalidating and refreshing cached data, particularly useful with Server Components and data fetching.",
+  },
+  {
+    id: 336,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of Error Boundaries in React?",
+    options: [
+      "Catch JavaScript errors in component tree",
+      "Handle network errors",
+      "Validate props",
+      "Catch syntax errors",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display fallback UI.",
+  },
+  {
+    id: 337,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle dynamic form fields in React?",
+    options: [
+      "Using array state and mapping over fields",
+      "Using separate state for each field",
+      "Using refs only",
+      "Using DOM manipulation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Dynamic form fields should be handled by maintaining an array in state and using map() to render fields, with proper key props for each field.",
+  },
+  {
+    id: 338,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental time slicing?",
+    options: [
+      "Break work into small units to maintain responsiveness",
+      "Schedule updates",
+      "Optimize rendering",
+      "Manage lifecycle",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Time slicing allows React to break work into small units and yield control back to the browser to maintain responsiveness during heavy computations.",
+  },
+  {
+    id: 339,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.StrictMode?",
+    options: [
+      "Identify potential problems in development",
+      "Enforce coding standards",
+      "Improve performance",
+      "Enable debugging features",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.StrictMode helps identify components with unsafe lifecycle methods, legacy API usage, and unexpected side effects by intentionally double-invoking functions in development.",
+  },
+  {
+    id: 340,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the placeholder attribute in React form inputs?",
+    options: [
+      "Display hint text when input is empty",
+      "Set default value",
+      "Validate input format",
+      "Style the input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The placeholder attribute displays hint text inside an input field when it's empty, guiding users on what to enter.",
+  },
+  {
+    id: 341,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Server Components architecture?",
+    options: [
+      "Zero-bundle-size server-rendered components",
+      "Components that run on server and client",
+      "Components for server-side routing",
+      "Database-connected components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Server Components render on the server and send only HTML to the client, with zero JavaScript bundle size for those components.",
+  },
+  {
+    id: 342,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.memo()?",
+    options: [
+      "Prevent unnecessary re-renders when props haven't changed",
+      "Cache component state",
+      "Optimize memory usage",
+      "Speed up component creation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.memo is a higher-order component that memoizes a component and only re-renders when props change (using shallow comparison).",
+  },
+  {
+    id: 343,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle form field arrays in React?",
+    options: [
+      "Using array state with map() and proper keys",
+      "Using separate state for each field",
+      "Using refs array",
+      "Using DOM manipulation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Form field arrays should be handled using state arrays, mapping over them to render fields, with proper key props and functions to add/remove fields.",
+  },
+  {
+    id: 344,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useTransition hook?",
+    options: [
+      "Mark updates as non-urgent to keep UI responsive",
+      "Handle component transitions",
+      "Manage animation states",
+      "Control component mounting",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useTransition allows you to mark state updates as transitions that are non-urgent and can be interrupted by more urgent updates to keep the UI responsive.",
+  },
+  {
+    id: 345,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What is the difference between controlled and uncontrolled components?",
+    options: [
+      "Controlled use React state, uncontrolled use DOM state",
+      "Controlled are faster",
+      "Uncontrolled are deprecated",
+      "No difference",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Controlled components have their value controlled by React state and use onChange handlers, while uncontrolled components manage their own state in the DOM.",
+  },
+  {
+    id: 346,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the readOnly attribute in React forms?",
+    options: [
+      "Make input read-only but not disabled",
+      "Disable the input",
+      "Make input required",
+      "Validate input format",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The readOnly attribute makes form inputs read-only (users can't modify the value) but they remain focusable and their values are submitted with forms.",
+  },
+  {
+    id: 347,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useDeferredValue hook?",
+    options: [
+      "Defer value updates for better responsiveness",
+      "Delay value initialization",
+      "Cache expensive values",
+      "Validate value types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useDeferredValue returns a deferred version of the value that can lag behind, allowing urgent updates to be processed first for better user experience.",
+  },
+  {
+    id: 348,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Lazy and Suspense?",
+    options: [
+      "Code-splitting with loading states",
+      "Lazy state updates",
+      "Slow component rendering",
+      "Component testing",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.lazy() enables code-splitting by loading components on demand, while Suspense provides a loading UI while waiting for the lazy component to load.",
+  },
+  {
+    id: 349,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle form field validation errors?",
+    options: [
+      "Using state to store and display error messages",
+      "Using HTML5 validation only",
+      "Using alert() functions",
+      "Using console.log",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Validation errors should be stored in component state and conditionally rendered near the relevant form fields to provide user-friendly feedback without interrupting the user experience.",
+  },
+  {
+    id: 350,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental concurrent rendering?",
+    options: [
+      "Ability to interrupt and resume rendering work",
+      "Rendering multiple components simultaneously",
+      "Parallel component execution",
+      "Asynchronous component loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Concurrent rendering allows React to interrupt rendering work for high-priority updates and resume lower-priority work later, improving perceived performance and responsiveness.",
+  },
+  {
+    id: 351,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useCallback hook?",
+    options: [
+      "Memoize function instances to prevent unnecessary re-creations",
+      "Manage state",
+      "Handle effects",
+      "Create components",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useCallback returns a memoized callback that only changes if its dependencies change, preventing child components from re-rendering when the callback reference hasn't changed.",
+  },
+  {
+    id: 352,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the maxLength attribute in React text inputs?",
+    options: [
+      "Limit the number of characters allowed",
+      "Set input width",
+      "Define validation length",
+      "Style the input",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "maxLength restricts the number of characters a user can type into an input field and is enforced by both the browser and React's controlled input logic.",
+  },
+  {
+    id: 353,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useSyncExternalStore hook?",
+    options: [
+      "Subscribe to external mutable data sources",
+      "Synchronize component state",
+      "Manage external APIs",
+      "Handle browser storage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useSyncExternalStore allows components to subscribe to external mutable data sources (like browser APIs or third-party stores) and remain compatible with concurrent features.",
+  },
+  {
+    id: 354,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.count?",
+    options: [
+      "Count the number of children",
+      "Count component instances",
+      "Count DOM elements",
+      "Count valid React elements",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.count returns the total number of components in children, equal to how many times a callback passed to React.Children.map would be invoked.",
+  },
+  {
+    id: 355,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form data submission in React?",
+    options: [
+      "Prevent default and handle data in onSubmit",
+      "Let browser handle submission",
+      "Use form action attribute",
+      "Use GET method only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Always call event.preventDefault() in the onSubmit handler to prevent page reload, then collect and process form data programmatically (e.g., via API calls).",
+  },
+  {
+    id: 356,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useInsertionEffect hook?",
+    options: [
+      "For CSS-in-JS to inject styles before paint",
+      "For inserting DOM elements",
+      "For adding event listeners",
+      "For component insertion",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useInsertionEffect runs synchronously before DOM mutations are flushed to the screen, allowing CSS-in-JS libraries to inject styles at the right time.",
+  },
+  {
+    id: 357,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.only?",
+    options: [
+      "Verify that children has only one child",
+      "Count children",
+      "Filter children",
+      "Transform children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.only verifies that children contains exactly one React element and returns it; otherwise it throws an error.",
+  },
+  {
+    id: 358,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the autoSave attribute in React forms?",
+    options: [
+      "Enable/disable form field auto-saving",
+      "Save form automatically",
+      "Set save interval",
+      "Style saved fields",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "autoSave specifies whether form fields should be automatically saved and restored when the user returns to the page, improving user experience.",
+  },
+  {
+    id: 359,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useId hook?",
+    options: [
+      "Generate unique IDs for accessibility attributes",
+      "Create component identifiers",
+      "Generate random numbers",
+      "Manage component keys",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useId generates stable, unique IDs across server and client renders, primarily used for accessibility attributes like aria-describedby and aria-labelledby.",
+  },
+  {
+    id: 360,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useMemo and useCallback?",
+    options: [
+      "useMemo returns a value, useCallback returns a function",
+      "No difference",
+      "useMemo is for primitives only",
+      "useCallback is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useMemo memoizes a computed value, while useCallback memoizes a function instance to prevent child components from re-rendering unnecessarily.",
+  },
+  {
+    id: 361,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the correct way to handle select multiple in React?",
+    options: [
+      "Using array state with selected options",
+      "Using single string value",
+      "Using boolean state",
+      "Using separate state for each option",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Multi-select elements should be controlled with an array containing the values of all selected options, updated as users select or deselect items.",
+  },
+  {
+    id: 362,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental use() hook?",
+    options: [
+      "Read promises and context conditionally",
+      "Use external libraries",
+      "Replace all hooks",
+      "Component composition",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The experimental use() hook can read the resolved value of a promise or a context value, and unlike other hooks, it can be called conditionally.",
+  },
+  {
+    id: 363,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.toArray?",
+    options: [
+      "Convert children to flat array with keys",
+      "Count children",
+      "Filter children",
+      "Create children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.toArray flattens the children data structure into a regular array and assigns keys to each element, useful for transforming or filtering children.",
+  },
+  {
+    id: 364,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the list attribute in React inputs?",
+    options: [
+      "Associate input with a datalist",
+      "Create list inputs",
+      "Set input as list",
+      "Style as list",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The list attribute links an input to a datalist element, providing autocomplete suggestions based on the datalist options while allowing free-form input.",
+  },
+  {
+    id: 365,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Offscreen API?",
+    options: [
+      "Render components without displaying them",
+      "Hide components from DOM",
+      "Background rendering",
+      "Component virtualization",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Offscreen allows components to be rendered and kept in memory without being visible, useful for pre-rendering, caching, or preserving component state.",
+  },
+  {
+    id: 366,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.memo()?",
+    options: [
+      "Prevent unnecessary re-renders when props haven't changed",
+      "Cache component state",
+      "Optimize memory usage",
+      "Speed up component creation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.memo memoizes a component and only re-renders when props change (using shallow comparison), preventing wasted renders.",
+  },
+  {
+    id: 367,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form field calculations in React?",
+    options: [
+      "Using useEffect to watch dependent fields",
+      "Using separate handlers",
+      "Using DOM manipulation",
+      "Using CSS calculations",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Use useEffect to listen for changes in dependent fields and automatically recalculate derived values, keeping the form state consistent.",
+  },
+  {
+    id: 368,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useDeferredValue hook?",
+    options: [
+      "Defer value updates for better responsiveness",
+      "Delay value initialization",
+      "Cache expensive values",
+      "Validate value types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useDeferredValue returns a version of the value that may lag behind, allowing urgent updates to interrupt heavy computations for better UX.",
+  },
+  {
+    id: 369,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.cloneElement?",
+    options: [
+      "Clone element with new props",
+      "Deep copy components",
+      "Duplicate components",
+      "Create element copies",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.cloneElement creates a new React element using an existing one as the starting point, merging in new props without modifying the original.",
+  },
+  {
+    id: 370,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the noValidate attribute in React forms?",
+    options: [
+      "Disable browser validation",
+      "Enable validation",
+      "Set validation rules",
+      "Style validated fields",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "noValidate turns off browser-native validation for the entire form, letting you handle validation entirely with custom JavaScript logic.",
+  },
+  {
+    id: 371,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental Selective Hydration?",
+    options: [
+      "Prioritize hydrating interactive components",
+      "Partial page hydration",
+      "Optimized SSR",
+      "Conditional loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Selective Hydration allows React to prioritize hydrating components that the user is interacting with first, improving perceived performance.",
+  },
+  {
+    id: 372,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of useLayoutEffect?",
+    options: [
+      "Run synchronously after DOM mutations",
+      "Optimize layout calculations",
+      "Handle responsive layouts",
+      "Manage component positioning",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useLayoutEffect fires synchronously after DOM mutations but before the browser paints, making it ideal for measuring DOM elements and syncing React state to those measurements.",
+  },
+  {
+    id: 373,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form field arrays with dynamic validation?",
+    options: [
+      "Using array state with validation for each item",
+      "Using single validation rule",
+      "Using HTML5 validation only",
+      "Using external validation libraries only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Maintain an array of validation states or error messages alongside the field data, updating validation whenever fields are added, removed, or modified.",
+  },
+  {
+    id: 374,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useSyncExternalStore hook?",
+    options: [
+      "Subscribe to external mutable data sources",
+      "Synchronize component state",
+      "Manage external APIs",
+      "Handle browser storage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useSyncExternalStore lets components subscribe to external mutable stores (like browser APIs) while remaining compatible with concurrent features and time-slicing.",
+  },
+  {
+    id: 375,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.forEach?",
+    options: [
+      "Iterate over children without returning",
+      "Transform children",
+      "Count children",
+      "Filter children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.forEach iterates over each child in children and executes a callback, but unlike map, it does not return a new array.",
+  },
+  {
+    id: 376,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the dirname attribute in React form inputs?",
+    options: [
+      "Submit text direction with form data",
+      "Set input direction",
+      "Define input name",
+      "Style input direction",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "dirname submits the text-directionality (ltr or rtl) of the input field along with the form data, useful for multilingual applications.",
+  },
+  {
+    id: 377,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental startTransition?",
+    options: [
+      "Mark updates as non-urgent transitions",
+      "Start animations",
+      "Initialize transitions",
+      "Begin async operations",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "startTransition lets you mark a state update as non-urgent, allowing React to interrupt it with higher-priority updates for smoother user interactions.",
+  },
+  {
+    id: 378,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.PureComponent?",
+    options: [
+      "Component with built-in shallow comparison",
+      "Component without side effects",
+      "Functional component",
+      "Component for pure functions",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "PureComponent implements shouldComponentUpdate with a shallow comparison of props and state, automatically preventing unnecessary re-renders.",
+  },
+  {
+    id: 379,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form field masking with validation?",
+    options: [
+      "Using controlled components with input transformation and validation",
+      "Using uncontrolled components",
+      "Using DOM manipulation",
+      "Using CSS only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Implement masking by transforming the input value in the onChange handler while preserving the raw value for validation, keeping both masked and raw values in state.",
+  },
+  {
+    id: 380,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental concurrent features?",
+    options: [
+      "Time slicing and interruptible rendering",
+      "Parallel component execution",
+      "Multi-threaded rendering",
+      "Async component loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Concurrent features include time-slicing, interruptible rendering, and prioritized updates, allowing React to maintain responsiveness during heavy computations.",
+  },
+  {
+    id: 381,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.only?",
+    options: [
+      "Verify children has only one child",
+      "Count children",
+      "Filter children",
+      "Transform children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.only returns the single child in children; if there are zero or more than one, it throws an error, ensuring a single element.",
+  },
+  {
+    id: 382,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the capture attribute in React file inputs?",
+    options: [
+      "Specify camera/microphone capture method",
+      "Capture files automatically",
+      "Set file capture size",
+      "Style captured files",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "capture lets you specify which camera to use for capturing images or videos on mobile devices (user for front-facing, environment for rear-facing).",
+  },
+  {
+    id: 383,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useInsertionEffect?",
+    options: [
+      "For CSS-in-JS to inject styles before paint",
+      "For inserting DOM elements",
+      "For adding event listeners",
+      "For component insertion",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useInsertionEffect fires synchronously before DOM mutations are painted, letting CSS-in-JS libraries inject styles at the exact right time to avoid visual flicker.",
+  },
+  {
+    id: 384,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the difference between useMemo and React.memo?",
+    options: [
+      "useMemo memoizes values, React.memo memoizes components",
+      "No difference",
+      "useMemo is for class components",
+      "React.memo is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useMemo caches a computed value inside a component; React.memo wraps a component to cache its render output based on props.",
+  },
+  {
+    id: 385,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form field dependencies with validation?",
+    options: [
+      "Using useEffect to watch fields and update validation",
+      "Using separate validation functions",
+      "Using HTML5 validation only",
+      "Using CSS for validation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useEffect can watch for changes in dependent fields and automatically update validation rules or re-validate when related values change.",
+  },
+  {
+    id: 386,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useDeferredValue hook?",
+    options: [
+      "Defer value updates for better responsiveness",
+      "Delay value initialization",
+      "Cache expensive values",
+      "Validate value types",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useDeferredValue returns a version of the value that may lag behind, allowing urgent updates (like typing) to interrupt heavy computations (like filtering large lists).",
+  },
+  {
+    id: 387,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.toArray?",
+    options: [
+      "Convert children to flat array with keys",
+      "Count children",
+      "Filter children",
+      "Create children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.toArray flattens nested children into a flat array and assigns keys to each element, making it easier to manipulate or transform children.",
+  },
+  {
+    id: 388,
+    category: "React",
+    difficulty: "easy",
+    question: "What is the purpose of the list attribute in React inputs?",
+    options: [
+      "Associate input with a datalist",
+      "Create list inputs",
+      "Set input as list",
+      "Style as list",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "list binds an input to a datalist element, providing autocomplete suggestions while still allowing free-form input.",
+  },
+  {
+    id: 389,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental use() hook?",
+    options: [
+      "Read promises and context conditionally",
+      "Use external libraries",
+      "Replace all hooks",
+      "Component composition",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "use() can read the resolved value of a promise or a context value, and—uniquely among hooks—it may be called conditionally inside loops and branches.",
+  },
+  {
+    id: 390,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.forwardRef?",
+    options: [
+      "Forward refs to child components",
+      "Forward props",
+      "Forward state",
+      "Forward events",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "forwardRef creates a component that can pass its ref down to a child, letting a parent component reach into a child's DOM node or instance.",
+  },
+  {
+    id: 391,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form field arrays with dynamic validation?",
+    options: [
+      "Using array state with validation for each item",
+      "Using single validation rule",
+      "Using HTML5 validation only",
+      "Using external validation libraries only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Maintain an array of field values and a parallel array or object of validation errors, updating validation whenever fields are added, removed, or changed.",
+  },
+  {
+    id: 392,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useSyncExternalStore hook?",
+    options: [
+      "Subscribe to external mutable data sources",
+      "Synchronize component state",
+      "Manage external APIs",
+      "Handle browser storage",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useSyncExternalStore lets a component subscribe to an external mutable store (like a browser API) while remaining concurrent-mode safe and avoiding tearing.",
+  },
+  {
+    id: 393,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.forEach?",
+    options: [
+      "Iterate over children without returning",
+      "Transform children",
+      "Count children",
+      "Filter children",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.forEach iterates over each child in children and executes a callback, but unlike map, it does not collect or return an array of results.",
+  },
+  {
+    id: 394,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the purpose of the dirname attribute in React form inputs?",
+    options: [
+      "Submit text direction with form data",
+      "Set input direction",
+      "Define input name",
+      "Style input direction",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "dirname submits the text-directionality (ltr or rtl) of the input field along with the form data, useful for multilingual applications.",
+  },
+  {
+    id: 395,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental useId hook?",
+    options: [
+      "Generate unique IDs for accessibility",
+      "Create component identifiers",
+      "Generate random numbers",
+      "Manage component keys",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useId generates stable, unique IDs across server and client, essential for accessibility attributes like aria-describedby that must not change between renders.",
+  },
+  {
+    id: 396,
+    category: "React",
+    difficulty: "medium",
+    question:
+      "What is the purpose of React.PureComponent vs regular Component?",
+    options: [
+      "PureComponent has built-in shallow comparison",
+      "PureComponent is always faster",
+      "No difference",
+      "Component is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "PureComponent implements shouldComponentUpdate with a shallow comparison of props and state, automatically skipping re-renders when data hasn't changed.",
+  },
+  {
+    id: 397,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form field calculations in React?",
+    options: [
+      "Using useEffect to watch dependent fields",
+      "Using separate handlers",
+      "Using DOM manipulation",
+      "Using CSS calculations",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "useEffect can watch for changes in dependent fields and automatically recalculate derived values, keeping the form state consistent and reactive.",
+  },
+  {
+    id: 398,
+    category: "React",
+    difficulty: "hard",
+    question: "What is React's experimental concurrent features?",
+    options: [
+      "Time slicing and interruptible rendering",
+      "Parallel component execution",
+      "Multi-threaded rendering",
+      "Async component loading",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Concurrent features include time-slicing, interruptible rendering, and prioritized updates, allowing React to maintain responsiveness during expensive operations.",
+  },
+  {
+    id: 399,
+    category: "React",
+    difficulty: "medium",
+    question: "What is the purpose of React.Children.count?",
+    options: [
+      "Count the number of children",
+      "Count component instances",
+      "Count DOM elements",
+      "Count valid React elements",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React.Children.count returns the total number of times a callback passed to React.Children.map would be invoked, effectively counting all children elements.",
+  },
+  {
+    id: 400,
+    category: "React",
+    difficulty: "easy",
+    question:
+      "What is the correct way to handle form submission success/error states in React?",
+    options: [
+      "Using state to manage and display success/error messages",
+      "Using alert() functions",
+      "Using console.log only",
+      "Using HTML5 validation messages",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Maintain state variables for loading, success, and error conditions, then render appropriate UI feedback (spinners, success messages, or error alerts) based on those states.",
+  },
 ];
 
+// 400 questions
 export const jsMCQs = [
   {
     id: 1,
@@ -6014,8 +12074,6 @@ export const jsMCQs = [
     explanation:
       "The every() method tests whether all elements in an array pass a test function.",
   },
-
-  // MEDIUM QUESTIONS (101-200)
   {
     id: 101,
     category: "Javascript",
@@ -7045,8 +13103,6 @@ export const jsMCQs = [
     explanation:
       "some() returns true if at least one element satisfies the condition. 3 > 2 is true.",
   },
-
-  // HARD QUESTIONS (201-300)
   {
     id: 201,
     category: "Javascript",
@@ -7296,9 +13352,1936 @@ export const jsMCQs = [
     explanation:
       "Async generator's next() returns {value: Promise, done: false} because yield produces a Promise.",
   },
+  {
+    id: 224,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(Object.getPrototypeOf(Function.prototype)) output?",
+    options: ["Function", "Object.prototype", "null", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Function.prototype's prototype is Object.prototype, completing the prototype chain.",
+  },
+  {
+    id: 225,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(([]).constructor.prototype === Array.prototype);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "The constructor property of an array instance points to Array, and Array.prototype is the same object.",
+  },
+  {
+    id: 226,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(delete Object.prototype);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Object.prototype is non-configurable and cannot be deleted, so delete returns false.",
+  },
+  {
+    id: 227,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Math.max(...[1, 2, 3], 4, ...[5]));",
+    options: ["5", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "The spread operator expands arrays into individual arguments; Math.max receives 1,2,3,4,5 and returns 5.",
+  },
+  {
+    id: 228,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(new class A { static x = 1 }.x) output?",
+    options: ["1", "undefined", "Error", "A.x"],
+    correctAnswer: 1,
+    explanation:
+      "Static fields belong to the class constructor, not instances; the instance has no x property.",
+  },
+  {
+    id: 229,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Object.isExtensible(Object.preventExtensions({})));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Object.preventExtensions makes the object non-extensible; Object.isExtensible returns false.",
+  },
+  {
+    id: 230,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this async iterator output? for await (const x of [Promise.resolve(1)]) console.log(x);",
+    options: ["1", "Promise", "Error", "undefined"],
+    correctAnswer: 2,
+    explanation:
+      "Plain arrays are not async iterables; for await...of requires an async iterable, causing TypeError.",
+  },
+  {
+    id: 231,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Reflect.getPrototypeOf(Reflect));",
+    options: ["Object.prototype", "null", "Reflect.prototype", "Error"],
+    correctAnswer: 1,
+    explanation:
+      "Reflect is a plain object created with null prototype, so getPrototypeOf returns null.",
+  },
+  {
+    id: 232,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(Array.of.length) output?",
+    options: ["0", "1", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "Array.of has a length of 0 because it uses rest parameters instead of named arguments.",
+  },
+  {
+    id: 233,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log((function* g() {}).prototype.constructor);",
+    options: ["g", "GeneratorFunction", "Object", "Error"],
+    correctAnswer: 1,
+    explanation:
+      "Generator function's prototype property points to an object whose constructor is GeneratorFunction.",
+  },
+  {
+    id: 234,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(Object.getOwnPropertyDescriptor([], 'length').writable);",
+    options: ["true", "false", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "The length property of arrays is writable by default, so the descriptor shows writable: true.",
+  },
+  {
+    id: 235,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(new Proxy({}, { has() { return false; } }) in {});",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "The has trap returns false for any in check, so the expression evaluates to false.",
+  },
+  {
+    id: 236,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(Symbol.toPrimitive in Object.prototype) output?",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Symbol.toPrimitive is defined in Object.prototype, so the in check returns true.",
+  },
+  {
+    id: 237,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(WeakRef.prototype.constructor === WeakRef);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "WeakRef.prototype.constructor points back to the WeakRef constructor function.",
+  },
+  {
+    id: 238,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(new FinalizationRegistry(() => {}).constructor === FinalizationRegistry);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "FinalizationRegistry instances inherit constructor property pointing to FinalizationRegistry.",
+  },
+  {
+    id: 239,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Intl.Collator().compare('a', 'A'));",
+    options: ["-1", "0", "1", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "Collator.compare returns negative when first string sorts before second; 'a' < 'A' in default locale.",
+  },
+  {
+    id: 240,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(Object.groupBy([1, 2, 1], x => x)) output?",
+    options: ["{1: [1, 1], 2: [2]}", "Error", "undefined", "Map"],
+    correctAnswer: 1,
+    explanation:
+      "Object.groupBy is not a standard method; attempting to call it throws TypeError.",
+  },
+  {
+    id: 241,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Proxy.revocable({}, {}).revoke.length);",
+    options: ["0", "1", "undefined", "Error"],
+    correctAnswer: 0,
+    explanation: "The revoke function takes no arguments, so its length is 0.",
+  },
+  {
+    id: 242,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(typeof (class { static { console.log('static'); } }));",
+    options: ["function", "static", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Static blocks run during class evaluation, but typeof still returns 'function' for the class.",
+  },
+  {
+    id: 243,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Iterator.prototype === Object.getPrototypeOf(Object.getPrototypeOf([][Symbol.iterator]())));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Array iterator objects inherit from Iterator.prototype through the prototype chain.",
+  },
+  {
+    id: 244,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(new class { #x = 1; getX() { return this.#x; } }().getX()) output?",
+    options: ["1", "undefined", "Error", "#x"],
+    correctAnswer: 0,
+    explanation:
+      "Private fields are accessible within class methods; getX returns the private #x value 1.",
+  },
+  {
+    id: 245,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What is the output of: console.log(Object.hasOwn({a: 1}, 'a'));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Object.hasOwn returns true when the object owns the specified property directly.",
+  },
+  {
+    id: 246,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(Array.prototype.at.call('hello', -1));",
+    options: ["o", "undefined", "Error", "hello"],
+    correctAnswer: 0,
+    explanation:
+      "Array.prototype.at can be generic; negative index -1 accesses last character 'o' of string.",
+  },
+  {
+    id: 247,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(structuredClone({a: 1}).constructor === Object);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "structuredClone creates a deep copy with same prototype; cloned object constructor remains Object.",
+  },
+  {
+    id: 248,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(AbortSignal.abort().constructor === AbortSignal) output?",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "AbortSignal.abort() returns an AbortSignal instance whose constructor is AbortSignal.",
+  },
+  {
+    id: 249,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Object.getOwnPropertyNames(function* () {}).length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Generator function objects have no own enumerable properties, so getOwnPropertyNames returns empty array.",
+  },
+  {
+    id: 250,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(new EventTarget().dispatchEvent(new Event('test')));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "dispatchEvent returns true when the event is not canceled; default Event is not cancelable.",
+  },
+  {
+    id: 251,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Object.getPrototypeOf(async function () {}) === Object.getPrototypeOf(function* () {}));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Async functions and generator functions have different prototype objects (AsyncFunction vs GeneratorFunction).",
+  },
+  {
+    id: 252,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(PerformanceObserver.length) output?",
+    options: ["0", "1", "2", "Error"],
+    correctAnswer: 0,
+    explanation:
+      "PerformanceObserver constructor takes no required arguments, so its length is 0.",
+  },
+  {
+    id: 253,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(new URL('https://example.com').protocol);",
+    options: ["https:", "https", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "URL.protocol includes the colon, so it returns 'https:' for HTTPS URLs.",
+  },
+  {
+    id: 254,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(Object.isSealed(Date.prototype));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Built-in prototypes like Date.prototype are typically sealed to prevent modification.",
+  },
+  {
+    id: 255,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What is the result of: console.log(Notification.permission);",
+    options: ["granted", "denied", "default", "Error"],
+    correctAnswer: 2,
+    explanation:
+      "In environments without prior permission, Notification.permission defaults to 'default'.",
+  },
+  {
+    id: 256,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(CryptoKey.prototype) output?",
+    options: ["undefined", "Error", "CryptoKeyPrototype", "Object"],
+    correctAnswer: 0,
+    explanation:
+      "CryptoKey is a built-in opaque type without exposed prototype; accessing prototype returns undefined.",
+  },
+  {
+    id: 257,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Object.getOwnPropertySymbols(Object.prototype).length > 0);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Object.prototype contains well-known symbols like Symbol.toStringTag, so the length is greater than 0.",
+  },
+  {
+    id: 258,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will this code output? console.log(ResizeObserver.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "ResizeObserver constructor takes no required arguments, so its length is 0.",
+  },
+  {
+    id: 259,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(IntersectionObserver.prototype.constructor === IntersectionObserver);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IntersectionObserver.prototype.constructor points back to the IntersectionObserver constructor.",
+  },
+  {
+    id: 260,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(MutationObserver.prototype.observe.length) output?",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "MutationObserver.prototype.observe takes 2 parameters (target, options), so its length is 2.",
+  },
+  {
+    id: 261,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Object.getOwnPropertyDescriptor(Uint8Array.prototype, 'length').enumerable);",
+    options: ["false", "true", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "The length property of typed array prototypes is non-enumerable, so enumerable is false.",
+  },
+  {
+    id: 262,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(new Blob(['hello']).type);",
+    options: ["", "text/plain", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Blob constructor without type option creates blob with empty string type.",
+  },
+  {
+    id: 263,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(FileReader.prototype.readAsText.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "FileReader.prototype.readAsText takes 1 required parameter (blob), so its length is 1.",
+  },
+  {
+    id: 264,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(XMLHttpRequest.prototype.open.length) output?",
+    options: ["2", "3", "4", "Error"],
+    correctAnswer: 2,
+    explanation:
+      "XMLHttpRequest.prototype.open has 5 parameters with 2 required (method, url), but length is 2.",
+  },
+  {
+    id: 265,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What is the output of: console.log(fetch.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "fetch function has 1 required parameter (input), so its length is 1.",
+  },
+  {
+    id: 266,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(Object.getPrototypeOf(Headers.prototype));",
+    options: ["Object.prototype", "null", "Error", "HeadersPrototype"],
+    correctAnswer: 0,
+    explanation:
+      "Headers.prototype inherits from Object.prototype in the prototype chain.",
+  },
+  {
+    id: 267,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Request.prototype.constructor === Request);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Request.prototype.constructor points back to the Request constructor function.",
+  },
+  {
+    id: 268,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(Response.prototype.json.length) output?",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Response.prototype.json takes no arguments, so its length is 0.",
+  },
+  {
+    id: 269,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Object.getOwnPropertyNames(Storage.prototype).includes('getItem'));",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Storage.prototype defines getItem method, so it's included in getOwnPropertyNames.",
+  },
+  {
+    id: 270,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(History.prototype.forward.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "History.prototype.forward takes no arguments, so its length is 0.",
+  },
+  {
+    id: 271,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Location.prototype.reload.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Location.prototype.reload takes optional parameter, but length is 0 for optional-only parameters.",
+  },
+  {
+    id: 272,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(Navigator.prototype.javaEnabled.length) output?",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Navigator.prototype.javaEnabled takes no arguments, so its length is 0.",
+  },
+  {
+    id: 273,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Screen.prototype.constructor === Screen);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Screen.prototype.constructor points back to the Screen constructor function.",
+  },
+  {
+    id: 274,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(Document.prototype.createElement.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Document.prototype.createElement takes 1 required parameter (tagName), so its length is 1.",
+  },
+  {
+    id: 275,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Element.prototype.getAttribute.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Element.prototype.getAttribute takes 1 parameter (qualifiedName), so its length is 1.",
+  },
+  {
+    id: 276,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLElement.prototype.attachShadow.length) output?",
+    options: ["1", "0", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLElement.prototype.attachShadow takes 1 parameter (init), so its length is 1.",
+  },
+  {
+    id: 277,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Node.prototype.appendChild.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "Node.prototype.appendChild takes 1 parameter (node), so its length is 1.",
+  },
+  {
+    id: 278,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(Window.prototype.constructor === Window);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Window.prototype.constructor points back to the Window constructor function.",
+  },
+  {
+    id: 279,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(CSSRule.prototype.constructor === CSSRule);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "CSSRule.prototype.constructor points back to the CSSRule constructor function.",
+  },
+  {
+    id: 280,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will consoleOff(CSSStyleDeclaration.prototype.setProperty.length) output?",
+    options: ["2", "3", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "CSSStyleDeclaration.prototype.setProperty takes 2 required parameters (property, value), so length is 2.",
+  },
+  {
+    id: 281,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Object.getOwnPropertyDescriptor(HTMLCollection.prototype, 'length').configurable);",
+    options: ["false", "true", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "The length property of HTMLCollection is non-configurable, so configurable is false.",
+  },
+  {
+    id: 282,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(NodeList.prototype.forEach.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "NodeList.prototype.forEach takes 1 parameter (callback), so its length is 1.",
+  },
+  {
+    id: 283,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(DOMTokenList.prototype.toggle.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "DOMTokenList.prototype.toggle has 1 required parameter (token), so its length is 1.",
+  },
+  {
+    id: 284,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will consoleOff(HTMLFormElement.prototype.submit.length) output?",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLFormElement.prototype.submit takes no arguments, so its length is 0.",
+  },
+  {
+    id: 285,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLInputElement.prototype.checkValidity.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLInputElement.prototype.checkValidity takes no arguments, so its length is 0.",
+  },
+  {
+    id: 286,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLTextAreaElement.prototype.select.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTextAreaElement.prototype.select takes no arguments, so its length is 0.",
+  },
+  {
+    id: 287,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLButtonElement.prototype.click.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLButtonElement.prototype.click takes no arguments, so its length is 0.",
+  },
+  {
+    id: 288,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLSelectElement.prototype.add.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "HTMLSelectElement.prototype.add takes 1 required parameter (element), so its length is 1.",
+  },
+  {
+    id: 289,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLAnchorElement.prototype.focus.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLAnchorElement.prototype.focus takes no arguments, so its length is 0.",
+  },
+  {
+    id: 290,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLImageElement.prototype.setAttribute.length);",
+    options: ["2", "1", "Error", "undefined"],
+    correctAnswer: 2,
+    explanation:
+      "HTMLImageElement.prototype.setAttribute takes 2 parameters (name, value), so its length is 2.",
+  },
+  {
+    id: 291,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLScriptElement.prototype.getAttribute.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "HTMLScriptElement.prototype.getAttribute takes 1 parameter (qualifiedName), so its length is 1.",
+  },
+  {
+    id: 292,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLTableElement.prototype.insertRow.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTableElement.prototype.insertRow takes optional parameter, but length is 0 for optional-only.",
+  },
+  {
+    id: 293,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLCanvasElement.prototype.getContext.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "HTMLCanvasElement.prototype.getContext takes 1 required parameter (contextId), so its length is 1.",
+  },
+  {
+    id: 294,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLMediaElement.prototype.play.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLMediaElement.prototype.play takes no arguments, so its length is 0.",
+  },
+  {
+    id: 295,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLVideoElement.prototype.pause.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLVideoElement.prototype.pause takes no arguments, so its length is 0.",
+  },
+  {
+    id: 296,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLAudioElement.prototype.load.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLAudioElement.prototype.load takes no arguments, so its length is 0.",
+  },
+  {
+    id: 297,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLSourceElement.prototype.setAttributeNS.length);",
+    options: ["3", "2", "Error", "undefined"],
+    correctAnswer: 3,
+    explanation:
+      "HTMLSourceElement.prototype.setAttributeNS takes 3 parameters (namespace, qualifiedName, value), so length is 3.",
+  },
+  {
+    id: 298,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLTrackElement.prototype.getAttributeNS.length);",
+    options: ["2", "1", "Error", "undefined"],
+    correctAnswer: 2,
+    explanation:
+      "HTMLTrackElement.prototype.getAttributeNS takes 2 parameters (namespace, localName), so its length is 2.",
+  },
+  {
+    id: 299,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLDivElement.prototype.constructor === HTMLDivElement);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLDivElement.prototype.constructor points back to the HTMLDivElement constructor function.",
+  },
+  {
+    id: 300,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLParagraphElement.prototype.cloneNode.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLParagraphElement.prototype.cloneNode takes optional parameter, but length is 0 for optional-only.",
+  },
+  {
+    id: 301,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLHeadingElement.prototype.removeAttribute.length);",
+    options: ["1", "2", "Error", "undefined"],
+    correctAnswer: 1,
+    explanation:
+      "HTMLHeadingElement.prototype.removeAttribute takes 1 parameter (qualifiedName), so its length is 1.",
+  },
+  {
+    id: 302,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLLIElement.prototype.insertAdjacentHTML.length);",
+    options: ["2", "1", "Error", "undefined"],
+    correctAnswer: 2,
+    explanation:
+      "HTMLLIElement.prototype.insertAdjacentHTML takes 2 parameters (position, text), so its length is 2.",
+  },
+  {
+    id: 303,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLDataElement.prototype.valueOf === Object.prototype.valueOf);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLDataElement inherits valueOf from Object.prototype, so they are the same function.",
+  },
+  {
+    id: 304,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLTimeElement.prototype.toString === Object.prototype.toString);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTimeElement inherits toString from Object.prototype, so they are the same function.",
+  },
+  {
+    id: 305,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLProgressElement.prototype.max);",
+    options: ["undefined", "number", "Error", "100"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLProgressElement.prototype.max is an accessor property without value on prototype; accessing it returns undefined.",
+  },
+  {
+    id: 306,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLMeterElement.prototype.labels);",
+    options: ["undefined", "NodeList", "Error", "null"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLMeterElement.prototype.labels is a getter that returns null when called on prototype, not instance.",
+  },
+  {
+    id: 307,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLDetailsElement.prototype.open);",
+    options: ["undefined", "boolean", "Error", "false"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLDetailsElement.prototype.open is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 308,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLDialogElement.prototype.showModal.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLDialogElement.prototype.showModal takes no arguments, so its length is 0.",
+  },
+  {
+    id: 309,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLSlotElement.prototype.assignedElements.length);",
+    options: ["0", "1", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLSlotElement.prototype.assignedElements takes optional parameter, but length is 0 for optional-only.",
+  },
+  {
+    id: 310,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLTemplateElement.prototype.content);",
+    options: ["DocumentFragment", "null", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTemplateElement.prototype.content is an accessor that returns a DocumentFragment when accessed on instance.",
+  },
+  {
+    id: 311,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLShadowElement.prototype === undefined);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLShadowElement is not a standard interface; accessing its prototype returns undefined.",
+  },
+  {
+    id: 312,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLOptGroupElement.prototype.disabled);",
+    options: ["undefined", "boolean", "Error", "false"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLOptGroupElement.prototype.disabled is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 313,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLOptionElement.prototype.index);",
+    options: ["undefined", "number", "Error", "-1"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLOptionElement.prototype.index is a getter that returns undefined when called on prototype.",
+  },
+  {
+    id: 314,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLFieldSetElement.prototype.elements);",
+    options: ["HTMLCollection", "undefined", "Error", "null"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLFieldSetElement.prototype.elements is a getter returning HTMLCollection when accessed on instance.",
+  },
+  {
+    id: 315,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLLegendElement.prototype.form);",
+    options: ["HTMLFormElement", "null", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLLegendElement.prototype.form is a getter returning associated form element or null.",
+  },
+  {
+    id: 316,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLLabelElement.prototype.control);",
+    options: ["HTMLElement", "null", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLLabelElement.prototype.control is a getter returning labeled control element or null.",
+  },
+  {
+    id: 317,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLObjectElement.prototype.contentDocument);",
+    options: ["Document", "null", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLObjectElement.prototype.contentDocument is a getter returning content document or null.",
+  },
+  {
+    id: 318,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLParamElement.prototype.name);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLParamElement.prototype.name is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 319,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLMapElement.prototype.areas);",
+    options: ["HTMLCollection", "undefined", "Error", "null"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLMapElement.prototype.areas is a getter returning HTMLCollection of area elements.",
+  },
+  {
+    id: 320,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLAreaElement.prototype.shape);",
+    options: ["undefined", "string", "Error", "rect"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLAreaElement.prototype.shape is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 321,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLBRElement.prototype.clear);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLBRElement.prototype.clear is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 322,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLQuoteElement.prototype.cite);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLQuoteElement.prototype.cite is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 323,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLPreElement.prototype.wrap);",
+    options: ["undefined", "boolean", "Error", "false"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLPreElement.prototype.wrap is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 324,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLUnknownElement.prototype.constructor === HTMLElement);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLUnknownElement inherits from HTMLElement, so its prototype constructor is HTMLElement.",
+  },
+  {
+    id: 325,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLFrameElement.prototype.src);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLFrameElement.prototype.src is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 326,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLFrameSetElement.prototype.cols);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLFrameSetElement.prototype.cols is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 327,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLIFrameElement.prototype.sandbox);",
+    options: ["DOMTokenList", "undefined", "Error", "null"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLIFrameElement.prototype.sandbox is a getter returning DOMTokenList when accessed on instance.",
+  },
+  {
+    id: 328,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLEmbedElement.prototype.type);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLEmbedElement.prototype.type is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 329,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLModElement.prototype.dateTime);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLModElement.prototype.dateTime is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 330,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLFontElement.prototype.constructor === HTMLElement);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLFontElement inherits from HTMLElement, so its prototype constructor is HTMLElement.",
+  },
+  {
+    id: 331,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLBaseFontElement.prototype.size);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLBaseFontElement.prototype.size is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 332,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLDirectoryElement.prototype.compact);",
+    options: ["undefined", "boolean", "Error", "false"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLDirectoryElement.prototype.compact is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 333,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLMenuElement.prototype.compact);",
+    options: ["undefined", "boolean", "Error", "false"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLMenuElement.prototype.compact is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 334,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLMetaElement.prototype.httpEquiv);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLMetaElement.prototype.httpEquiv is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 335,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLBaseElement.prototype.href);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLBaseElement.prototype.href is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 336,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLStyleElement.prototype.disabled);",
+    options: ["undefined", "boolean", "Error", "false"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLStyleElement.prototype.disabled is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 337,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLLinkElement.prototype.relList);",
+    options: ["DOMTokenList", "undefined", "Error", "null"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLLinkElement.prototype.relList is a getter returning DOMTokenList when accessed on instance.",
+  },
+  {
+    id: 338,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLTitleElement.prototype.text);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTitleElement.prototype.text is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 339,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLBodyElement.prototype.text);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLBodyElement.prototype.text is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 340,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLTableCaptionElement.prototype.constructor === HTMLElement);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTableCaptionElement inherits from HTMLElement, so its prototype constructor is HTMLElement.",
+  },
+  {
+    id: 341,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLTableSectionElement.prototype.rows);",
+    options: ["HTMLCollection", "undefined", "Error", "null"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTableSectionElement.prototype.rows is a getter returning HTMLCollection of row elements.",
+  },
+  {
+    id: 342,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLTableRowElement.prototype.cells);",
+    options: ["HTMLCollection", "undefined", "Error", "null"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTableRowElement.prototype.cells is a getter returning HTMLCollection of cell elements.",
+  },
+  {
+    id: 343,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(HTMLTableCellElement.prototype.colSpan);",
+    options: ["undefined", "number", "Error", "1"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTableCellElement.prototype.colSpan is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 344,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(HTMLTableColElement.prototype.span);",
+    options: ["undefined", "number", "Error", "1"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLTableColElement.prototype.span is an accessor property; accessing it on prototype returns undefined.",
+  },
+  {
+    id: 345,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLFormControlsCollection.prototype.constructor === HTMLCollection);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLFormControlsCollection inherits from HTMLCollection, so its prototype constructor is HTMLCollection.",
+  },
+  {
+    id: 346,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(HTMLAllCollection.prototype.length);",
+    options: ["undefined", "number", "Error", "0"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLAllCollection.prototype.length is a getter returning 0 when accessed on prototype.",
+  },
+  {
+    id: 347,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(RadioNodeList.prototype.value);",
+    options: ["undefined", "string", "Error", "empty string"],
+    correctAnswer: 0,
+    explanation:
+      "RadioNodeList.prototype.value is a getter returning empty string when accessed on prototype.",
+  },
+  {
+    id: 348,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(HTMLOptionsCollection.prototype.selectedIndex);",
+    options: ["undefined", "number", "Error", "-1"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLOptionsCollection.prototype.selectedIndex is a getter returning -1 when accessed on prototype.",
+  },
+  {
+    id: 349,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HTMLDocument.prototype.constructor === Document);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HTMLDocument inherits from Document, so its prototype constructor is Document.",
+  },
+  {
+    id: 350,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(XMLDocument.prototype.constructor === Document);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "XMLDocument inherits from Document, so its prototype constructor is Document.",
+  },
+  {
+    id: 351,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(DocumentFragment.prototype.constructor === DocumentFragment);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "DocumentFragment.prototype.constructor points back to the DocumentFragment constructor function.",
+  },
+  {
+    id: 352,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(ShadowRoot.prototype.constructor === ShadowRoot);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "ShadowRoot.prototype.constructor points back to the ShadowRoot constructor function.",
+  },
+  {
+    id: 353,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(CharacterData.prototype.constructor === CharacterData);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "CharacterData.prototype.constructor points back to the CharacterData constructor function.",
+  },
+  {
+    id: 354,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(Text.prototype.constructor === Text);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Text.prototype.constructor points back to the Text constructor function.",
+  },
+  {
+    id: 355,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(Comment.prototype.constructor === Comment);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Comment.prototype.constructor points back to the Comment constructor function.",
+  },
+  {
+    id: 356,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(CDATASection.prototype.constructor === CDATASection);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "CDATASection.prototype.constructor points back to the CDATASection constructor function.",
+  },
+  {
+    id: 357,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(ProcessingInstruction.prototype.constructor === ProcessingInstruction);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "ProcessingInstruction.prototype.constructor points back to the ProcessingInstruction constructor function.",
+  },
+  {
+    id: 358,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(DOMImplementation.prototype.constructor === DOMImplementation);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "DOMImplementation.prototype.constructor points back to the DOMImplementation constructor function.",
+  },
+  {
+    id: 359,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(DocumentType.prototype.constructor === DocumentType);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "DocumentType.prototype.constructor points back to the DocumentType constructor function.",
+  },
+  {
+    id: 360,
+    category: "Javascript",
+    difficulty: "hard",
+    question: "What will console.log(Attr.prototype.constructor === Attr);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Attr.prototype.constructor points back to the Attr constructor function.",
+  },
+  {
+    id: 361,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(Event.prototype.constructor === Event);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Event.prototype.constructor points back to the Event constructor function.",
+  },
+  {
+    id: 362,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(CustomEvent.prototype.constructor === CustomEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "CustomEvent.prototype.constructor points back to the CustomEvent constructor function.",
+  },
+  {
+    id: 363,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(MouseEvent.prototype.constructor === MouseEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "MouseEvent.prototype.constructor points back to the MouseEvent constructor function.",
+  },
+  {
+    id: 364,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(KeyboardEvent.prototype.constructor === KeyboardEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "KeyboardEvent.prototype.constructor points back to the KeyboardEvent constructor function.",
+  },
+  {
+    id: 365,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(TouchEvent.prototype.constructor === TouchEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "TouchEvent.prototype.constructor points back to the TouchEvent constructor function.",
+  },
+  {
+    id: 366,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(WheelEvent.prototype.constructor === WheelEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "WheelEvent.prototype.constructor points back to the WheelEvent constructor function.",
+  },
+  {
+    id: 367,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(FocusEvent.prototype.constructor === FocusEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "FocusEvent.prototype.constructor points back to the FocusEvent constructor function.",
+  },
+  {
+    id: 368,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(InputEvent.prototype.constructor === InputEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "InputEvent.prototype.constructor points back to the InputEvent constructor function.",
+  },
+  {
+    id: 369,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(CompositionEvent.prototype.constructor === CompositionEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "CompositionEvent.prototype.constructor points back to the CompositionEvent constructor function.",
+  },
+  {
+    id: 370,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(DragEvent.prototype.constructor === DragEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "DragEvent.prototype.constructor points back to the DragEvent constructor function.",
+  },
+  {
+    id: 371,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(ClipboardEvent.prototype.constructor === ClipboardEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "ClipboardEvent.prototype.constructor points back to the ClipboardEvent constructor function.",
+  },
+  {
+    id: 372,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(PointerEvent.prototype.constructor === PointerEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "PointerEvent.prototype.constructor points back to the PointerEvent constructor function.",
+  },
+  {
+    id: 373,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(HashChangeEvent.prototype.constructor === HashChangeEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "HashChangeEvent.prototype.constructor points back to the HashChangeEvent constructor function.",
+  },
+  {
+    id: 374,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(PageTransitionEvent.prototype.constructor === PageTransitionEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "PageTransitionEvent.prototype.constructor points back to the PageTransitionEvent constructor function.",
+  },
+  {
+    id: 375,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(PopStateEvent.prototype.constructor === PopStateEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "PopStateEvent.prototype.constructor points back to the PopStateEvent constructor function.",
+  },
+  {
+    id: 376,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(StorageEvent.prototype.constructor === StorageEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "StorageEvent.prototype.constructor points back to the StorageEvent constructor function.",
+  },
+  {
+    id: 377,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(SubmitEvent.prototype.constructor === SubmitEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "SubmitEvent.prototype.constructor points back to the SubmitEvent constructor function.",
+  },
+  {
+    id: 378,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(TransitionEvent.prototype.constructor === TransitionEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "TransitionEvent.prototype.constructor points back to the TransitionEvent constructor function.",
+  },
+  {
+    id: 379,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(AnimationEvent.prototype.constructor === AnimationEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "AnimationEvent.prototype.constructor points back to the AnimationEvent constructor function.",
+  },
+  {
+    id: 380,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(ErrorEvent.prototype.constructor === ErrorEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "ErrorEvent.prototype.constructor points back to the ErrorEvent constructor function.",
+  },
+  {
+    id: 381,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(CloseEvent.prototype.constructor === CloseEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "CloseEvent.prototype.constructor points back to the CloseEvent constructor function.",
+  },
+  {
+    id: 382,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(MessageEvent.prototype.constructor === MessageEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "MessageEvent.prototype.constructor points back to the MessageEvent constructor function.",
+  },
+  {
+    id: 383,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(ProgressEvent.prototype.constructor === ProgressEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "ProgressEvent.prototype.constructor points back to the ProgressEvent constructor function.",
+  },
+  {
+    id: 384,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(XMLHttpRequestEventTarget.prototype.constructor === XMLHttpRequestEventTarget);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "XMLHttpRequestEventTarget.prototype.constructor points back to the XMLHttpRequestEventTarget constructor function.",
+  },
+  {
+    id: 385,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(XMLHttpRequestUpload.prototype.constructor === XMLHttpRequestUpload);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "XMLHttpRequestUpload.prototype.constructor points back to the XMLHttpRequestUpload constructor function.",
+  },
+  {
+    id: 386,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(FileReader.prototype.constructor === FileReader);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "FileReader.prototype.constructor points back to the FileReader constructor function.",
+  },
+  {
+    id: 387,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(FileReaderSync.prototype.constructor === FileReaderSync);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "FileReaderSync.prototype.constructor points back to the FileReaderSync constructor function.",
+  },
+  {
+    id: 388,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(IDBCursor.prototype.constructor === IDBCursor);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBCursor.prototype.constructor points back to the IDBCursor constructor function.",
+  },
+  {
+    id: 389,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(IDBCursorWithValue.prototype.constructor === IDBCursorWithValue);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBCursorWithValue.prototype.constructor points back to the IDBCursorWithValue constructor function.",
+  },
+  {
+    id: 390,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(IDBDatabase.prototype.constructor === IDBDatabase);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBDatabase.prototype.constructor points back to the IDBDatabase constructor function.",
+  },
+  {
+    id: 391,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(IDBFactory.prototype.constructor === IDBFactory);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBFactory.prototype.constructor points back to the IDBFactory constructor function.",
+  },
+  {
+    id: 392,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(IDBIndex.prototype.constructor === IDBIndex);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBIndex.prototype.constructor points back to the IDBIndex constructor function.",
+  },
+  {
+    id: 393,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(IDBKeyRange.prototype.constructor === IDBKeyRange);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBKeyRange.prototype.constructor points back to the IDBKeyRange constructor function.",
+  },
+  {
+    id: 394,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(IDBObjectStore.prototype.constructor === IDBObjectStore);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBObjectStore.prototype.constructor points back to the IDBObjectStore constructor function.",
+  },
+  {
+    id: 395,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(IDBOpenDBRequest.prototype.constructor === IDBOpenDBRequest);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBOpenDBRequest.prototype.constructor points back to the IDBOpenDBRequest constructor function.",
+  },
+  {
+    id: 396,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(IDBRequest.prototype.constructor === IDBRequest);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBRequest.prototype.constructor points back to the IDBRequest constructor function.",
+  },
+  {
+    id: 397,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the output of: console.log(IDBTransaction.prototype.constructor === IDBTransaction);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBTransaction.prototype.constructor points back to the IDBTransaction constructor function.",
+  },
+  {
+    id: 398,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will this code output? console.log(IDBVersionChangeEvent.prototype.constructor === IDBVersionChangeEvent);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "IDBVersionChangeEvent.prototype.constructor points back to the IDBVersionChangeEvent constructor function.",
+  },
+  {
+    id: 399,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What is the result of: console.log(ApplicationCache.prototype.constructor === ApplicationCache);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "ApplicationCache.prototype.constructor points back to the ApplicationCache constructor function.",
+  },
+  {
+    id: 400,
+    category: "Javascript",
+    difficulty: "hard",
+    question:
+      "What will console.log(Performance.prototype.constructor === Performance);",
+    options: ["true", "false", "Error", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Performance.prototype.constructor points back to the Performance constructor function.",
+  },
 ];
 
-// 216 questions
+// 400 questions
 export const tsMCQs = [
   {
     id: 1,
@@ -10230,6 +18213,2684 @@ export const tsMCQs = [
     ],
     correctAnswer: 2,
     explanation: "SagaIterator is an alias for the generator signature.",
+  },
+  {
+    id: 216,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which compiler option forces you to handle all possible code-paths that could return undefined?",
+    options: [
+      "strictNullChecks",
+      "noUncheckedIndexedAccess",
+      "exactOptionalPropertyTypes",
+      "strictFunctionTypes",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "noUncheckedIndexedAccess adds undefined to every array/tuple access, forcing you to handle the missing case.",
+  },
+  {
+    id: 217,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the exact type of the parameters tuple for Promise.allSettled?",
+    options: [
+      "Iterable<Promise<T>>",
+      "readonly Promise<T>[]",
+      "readonly [Promise<T1>, Promise<T2>, ...]",
+      "Iterable<Promise<any>>",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Promise.allSettled accepts any iterable of promises; the results are PromiseSettledResult<any>[].",
+  },
+  {
+    id: 218,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "How do you constrain a generic so it must be a key of a specific interface?",
+    options: [
+      "T extends keyof IUser",
+      "T implements keyof IUser",
+      "T = keyof IUser",
+      "T in keyof IUser",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The extends clause is used to constrain generics; keyof produces the union of keys.",
+  },
+  {
+    id: 219,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which utility type converts a union of string literals to a union of functions?",
+    options: [
+      "UnionToFunction",
+      "There is no built-in",
+      "MapToFunction",
+      "Apply",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "No official utility exists; you would write a custom distributive conditional type.",
+  },
+  {
+    id: 220,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the second argument to Array.prototype.reduce?",
+    options: ["T", "U", "U | undefined", "any"],
+    correctAnswer: 2,
+    explanation:
+      "The initialValue is optional; when omitted the accumulator starts with the first array element.",
+  },
+  {
+    id: 221,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which tsconfig flag prevents accidental use of deprecated APIs?",
+    options: ["skipLibCheck", "noDeprecation", "noImplicitAny", "strict"],
+    correctAnswer: 1,
+    explanation:
+      "noDeprecation (or ESLint) will flag usage of @deprecated declarations.",
+  },
+  {
+    id: 222,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the return type of Object.assign(target, source) in lib.es2015.d.ts?",
+    options: ["typeof target", "T & U", "any", "void"],
+    correctAnswer: 0,
+    explanation:
+      "The overload returns the mutated target object, preserving its narrowed type.",
+  },
+  {
+    id: 223,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a pipe function (compose left-to-right)?",
+    options: [
+      "function pipe<A, B, C>(f: (x: A) => B, g: (x: B) => C): (x: A) => C",
+      "function pipe(...fns: Function[]): Function",
+      "const pipe = (f, g) => x => g(f(x))",
+      "Both A and B",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Fully typed pipe uses generics to preserve input/output relationships.",
+  },
+  {
+    id: 224,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the first parameter of Proxy constructor?",
+    options: ["any", "object", "T", "Record<PropertyKey, any>"],
+    correctAnswer: 1,
+    explanation:
+      "The target must be a non-null object (including arrays and functions).",
+  },
+  {
+    id: 225,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these will NOT widen a const assertion literal?",
+    options: [
+      "let x = 'a' as const",
+      "const x = 'a'",
+      "var x = 'a' as const",
+      "const x: 'a' = 'a'",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "Without 'as const' the literal 'a' widens to string when assigned to a mutable binding.",
+  },
+  {
+    id: 226,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of Array.isArray at runtime when narrowed?",
+    options: ["boolean", "arg is any[]", "arg is unknown[]", "never"],
+    correctAnswer: 1,
+    explanation:
+      "The type predicate narrows to any[]; further narrowing requires user code.",
+  },
+  {
+    id: 227,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a curried function?",
+    options: [
+      "function curry<A, B, C>(f: (a: A, b: B) => C): (a: A) => (b: B) => C",
+      "function curry(f: Function): Function",
+      "const curry = f => a => b => f(a, b)",
+      "Both A and C",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Generics preserve the relationship between arguments and return types.",
+  },
+  {
+    id: 228,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the iterator result after yield in a generator?",
+    options: ["IteratorResult<T, R>", "T", "R", "any"],
+    correctAnswer: 0,
+    explanation:
+      "The result object has value and done properties typed as IteratorResult<T, R>.",
+  },
+  {
+    id: 229,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a thunk action in Redux?",
+    options: [
+      "type Thunk = (dispatch: Dispatch, getState: () => RootState) => void",
+      "type Thunk = () => void",
+      "type Thunk = Promise<void>",
+      "type Thunk = Dispatch",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Thunks receive dispatch and getState and may return any value (commonly void or Promise).",
+  },
+  {
+    id: 230,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of Reflect.getPrototypeOf(obj)?",
+    options: ["any", "object | null", "T", "unknown"],
+    correctAnswer: 1,
+    explanation:
+      "The prototype may be null for Object.create(null), hence the union.",
+  },
+  {
+    id: 231,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a higher-order React component?",
+    options: [
+      "function withFoo<P>(Component: ComponentType<P>): ComponentType<P>",
+      "function withFoo(Component: React.Component): React.Component",
+      "const withFoo = Component => Component",
+      "HOC<P>",
+    ],
+    correctAnswer: 0,
+    explanation: "HOCs preserve the wrapped component’s props via generics.",
+  },
+  {
+    id: 232,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the value produced by a template literal type?",
+    options: ["string", "literal union", "never", "any"],
+    correctAnswer: 1,
+    explanation:
+      "Template literal types produce string literal unions based on the unions they interpolate.",
+  },
+  {
+    id: 233,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a mutex/lock interface?",
+    options: [
+      "interface Mutex { acquire(): Promise<Release>, release(): void }",
+      "interface Mutex { lock(): void, unlock(): void }",
+      "type Mutex = () => Promise<void>",
+      "Both A and B",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Modern async mutexes return a release function to avoid forgetting unlock.",
+  },
+  {
+    id: 234,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the second argument to setTimeout in Node?",
+    options: ["...any[]", "number", "string", "void"],
+    correctAnswer: 0,
+    explanation:
+      "Additional arguments are passed to the callback and typed as a rest array.",
+  },
+  {
+    id: 235,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a tagged union (discriminated union)?",
+    options: [
+      "type Shape = { kind: 'circle'; radius: number } | { kind: 'square'; side: number }",
+      "type Shape = Circle | Square",
+      "interface Shape { kind: string }",
+      "Both A and B",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A literal discriminator field allows narrowing between variants.",
+  },
+  {
+    id: 236,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the resolve parameter in new Promise<T>((resolve, reject) => …)?",
+    options: [
+      "T => void",
+      "(value?: T) => void",
+      "(value: T | PromiseLike<T>) => void",
+      "any",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "resolve accepts either a plain value or a thenable (PromiseLike).",
+  },
+  {
+    id: 237,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a WeakMap key?",
+    options: ["object", "{}", "T extends object", "All of the above"],
+    correctAnswer: 3,
+    explanation:
+      "Keys must be objects; object, {}, or a generic constrained to object all satisfy.",
+  },
+  {
+    id: 238,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in window.addEventListener('message')?",
+    options: ["MessageEvent", "Event", "CustomEvent", "any"],
+    correctAnswer: 0,
+    explanation:
+      "The message event uses the MessageEvent interface with data origin etc.",
+  },
+  {
+    id: 239,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a recursive partial (deep partial)?",
+    options: [
+      "type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }",
+      "type DeepPartial<T> = Partial<T>",
+      "type DeepPartial<T> = T | Partial<T>",
+      "type DeepPartial<T> = { [K in keyof T]: T[K] }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A mapped type that calls itself on each property creates a deeply nested partial.",
+  },
+  {
+    id: 240,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the value returned by URLSearchParams.get()?",
+    options: ["string | null", "string", "string | undefined", "any"],
+    correctAnswer: 0,
+    explanation: "get returns null when the key is absent, not undefined.",
+  },
+  {
+    id: 241,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a debounced function with cancel?",
+    options: [
+      "debounced<F extends (...args: any[]) => any>(func: F): F & { cancel(): void }",
+      "debounced<F>(func: F): F",
+      "debounced(func: Function): Function",
+      "There is no standard pattern",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "An intersection preserves the original signature while adding cancel.",
+  },
+  {
+    id: 242,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the first argument to Array.prototype.sort()?",
+    options: [
+      "(a: T, b: T) => number",
+      "(a: T, b: T) => boolean",
+      "Comparator<T>",
+      "both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "The comparator returns a number; Comparator<T> is an alias for the same signature.",
+  },
+  {
+    id: 243,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a file upload change event?",
+    options: [
+      "React.ChangeEvent<HTMLInputElement>",
+      "Event & { target: HTMLInputElement }",
+      "Both A and B",
+      "FileListEvent",
+    ],
+    correctAnswer: 0,
+    explanation: "React provides the strongly typed ChangeEvent wrapper.",
+  },
+  {
+    id: 244,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the return value of Object.freeze()?",
+    options: [
+      "Readonly<T>",
+      "T",
+      "Frozen<T>",
+      "T & { readonly [K in keyof T]: T[K] }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.freeze returns the same object but TypeScript narrows it to Readonly<T>.",
+  },
+  {
+    id: 245,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a socket event map?",
+    options: [
+      "interface Events { connect: () => void; data: (payload: Buffer) => void }",
+      "type Events = { [event: string]: Function }",
+      "Map<string, Function>",
+      "Both A and B",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "An interface with specific event names provides strongly typed handlers.",
+  },
+  {
+    id: 246,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the callback parameter to requestAnimationFrame?",
+    options: [
+      "(timestamp: number) => void",
+      "() => void",
+      "(time: DOMHighResTimeStamp) => void",
+      "both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "The parameter is a high-resolution timestamp; DOMHighResTimeStamp is an alias for number.",
+  },
+  {
+    id: 247,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a Redux action union?",
+    options: [
+      "type Action = { type: 'INCREMENT' } | { type: 'DECREMENT' }",
+      "interface Action { type: string }",
+      "type Action = { type: string }",
+      "enum Action { Increment, Decrement }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Discriminated unions use literal type fields to narrow between shapes.",
+  },
+  {
+    id: 248,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by JSON.parse()?",
+    options: ["any", "unknown", "JSONValue", "object"],
+    correctAnswer: 0,
+    explanation:
+      "JSON.parse is typed to return any for backward compatibility; consumers should narrow.",
+  },
+  {
+    id: 249,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a generic fetch wrapper?",
+    options: [
+      "async function get<T>(url: string): Promise<T>",
+      "function get<T>(url: string): T",
+      "function get(url: string): Promise<any>",
+      "async function get(url: string): unknown",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic async function returning Promise<T> lets callers specify the expected JSON shape.",
+  },
+  {
+    id: 250,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('dragover')?",
+    options: ["DragEvent", "MouseEvent", "Event", "DragOverEvent"],
+    correctAnswer: 0,
+    explanation: "DragEvent extends MouseEvent and adds dataTransfer.",
+  },
+  {
+    id: 251,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a React ref callback?",
+    options: [
+      "(node: HTMLDivElement | null) => void",
+      "(node: Element | null) => void",
+      "RefCallback<HTMLDivElement>",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation: "RefCallback<T> is an alias for the function signature in A.",
+  },
+  {
+    id: 252,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by encodeURIComponent()?",
+    options: ["string", "URI", "EncodedString", "any"],
+    correctAnswer: 0,
+    explanation: "The function returns a percent-encoded string.",
+  },
+  {
+    id: 253,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a bigint literal?",
+    options: [
+      "const x: bigint = 123n",
+      "const x = 123 as bigint",
+      "const x = BigInt(123)",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "All three forms produce a bigint; the literal suffix 'n' is the most concise.",
+  },
+  {
+    id: 254,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the first argument to setTimeout in Node?",
+    options: ["(...args: any[]) => void", "Function", "string", "both A and B"],
+    correctAnswer: 3,
+    explanation:
+      "setTimeout accepts either a function or a string of code (deprecated).",
+  },
+  {
+    id: 255,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a recursive readonly?",
+    options: [
+      "type DeepReadonly<T> = { readonly [K in keyof T]: DeepReadonly<T[K]> }",
+      "type DeepReadonly<T> = Readonly<T>",
+      "type DeepReadonly<T> = T",
+      "type DeepReadonly<T> = { [K in keyof T]: T[K] }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A mapped type that calls itself on each property creates a deeply nested readonly.",
+  },
+  {
+    id: 256,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the return value of Object.keys()?",
+    options: ["string[]", "Array<keyof T>", "PropertyKey[]", "never"],
+    correctAnswer: 0,
+    explanation:
+      "Object.keys is typed to return string[] for structural soundness.",
+  },
+  {
+    id: 257,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a generic class component in React?",
+    options: [
+      "class Component<P, S> extends React.Component<P, S>",
+      "class Component<P> extends React.Component<P>",
+      "Both A and B",
+      "class Component extends React.Component",
+    ],
+    correctAnswer: 2,
+    explanation: "You can provide both props (P) and state (S) generics.",
+  },
+  {
+    id: 258,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Promise.reject()?",
+    options: [
+      "Promise<never>",
+      "Promise<void>",
+      "Promise<Error>",
+      "Promise<unknown>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "reject produces Promise<never> because the promise will never successfully resolve.",
+  },
+  {
+    id: 259,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a form submit handler?",
+    options: [
+      "React.FormEvent<HTMLFormElement>",
+      "React.SyntheticEvent",
+      "Event",
+      "SubmitEvent",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "FormEvent is generic over the element type; HTMLFormElement is correct.",
+  },
+  {
+    id: 260,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('scroll')?",
+    options: ["Event", "UIEvent", "ScrollEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation:
+      "Scroll events are plain Event objects; UIEvent is a supertype.",
+  },
+  {
+    id: 261,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a JSON value?",
+    options: [
+      "type JSONValue = string | number | boolean | null | JSONValue[] | { [k: string]: JSONValue }",
+      "any",
+      "unknown",
+      "object",
+    ],
+    correctAnswer: 0,
+    explanation: "The recursive type accurately models valid JSON structures.",
+  },
+  {
+    id: 262,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the callback parameter to Array.prototype.map?",
+    options: [
+      "(value: T, index: number, array: T[]) => U",
+      "(item: T) => U",
+      "MapCallback<T, U>",
+      "both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "The standard lib declares the full signature; MapCallback is an alias.",
+  },
+  {
+    id: 263,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a WebSocket message event?",
+    options: [
+      "MessageEvent",
+      "WebSocketMessageEvent",
+      "Event & { data: any }",
+      "Both A and C",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "MessageEvent is the standard interface carrying the data payload.",
+  },
+  {
+    id: 264,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Math.random()?",
+    options: ["number", "0 | 1", "float", "double"],
+    correctAnswer: 0,
+    explanation:
+      "The return type is simply number; no subtype guarantees are provided.",
+  },
+  {
+    id: 265,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a Redux slice state?",
+    options: [
+      "interface SliceState { user: User | null; loading: boolean }",
+      "type SliceState = any",
+      "unknown",
+      "object",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Explicit interfaces provide type safety and IDE autocomplete.",
+  },
+  {
+    id: 266,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('resize')?",
+    options: ["UIEvent", "Event", "ResizeEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation: "Resize events are UIEvent objects; Event is a supertype.",
+  },
+  {
+    id: 267,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a generic hook?",
+    options: [
+      "function useCustom<T>(initial: T): [T, (value: T) => void]",
+      "const useCustom = <T>(initial: T) => useState<T>(initial)",
+      "Both A and B",
+      "function useCustom<T = string>(initial: T)",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "Both function and arrow syntax work; the generic allows inference.",
+  },
+  {
+    id: 268,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Date.now()?",
+    options: ["number", "Date", "timestamp", "bigint"],
+    correctAnswer: 0,
+    explanation: "Date.now returns the epoch milliseconds as number.",
+  },
+  {
+    id: 269,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a fetch error handler?",
+    options: [
+      "(error: unknown) => void",
+      "(error: Error) => void",
+      "(error: any) => void",
+      "Both A and C",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Catching unknown forces you to inspect the error, improving safety.",
+  },
+  {
+    id: 270,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('keydown')?",
+    options: ["KeyboardEvent", "Event", "KeyEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation: "KeyboardEvent extends Event; either type is acceptable.",
+  },
+  {
+    id: 271,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a context provider props?",
+    options: [
+      "interface ProviderProps { value: T; children: ReactNode }",
+      "type ProviderProps = { value: T }",
+      "Both A and B",
+      "PropsWithChildren<{ value: T }>",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "PropsWithChildren adds the optional children field automatically.",
+  },
+  {
+    id: 272,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by encodeURI()?",
+    options: ["string", "URI", "EncodedString", "any"],
+    correctAnswer: 0,
+    explanation: "The function returns a percent-encoded string.",
+  },
+  {
+    id: 273,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a generic default parameter?",
+    options: [
+      "type MyType<T = string> = T",
+      "type MyType<T: string> = T",
+      "type MyType<T extends string = string> = T",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Defaults are written after '='; when a constraint exists it appears before the default.",
+  },
+  {
+    id: 274,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('click')?",
+    options: ["MouseEvent", "Event", "ClickEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation: "MouseEvent extends Event; either type is acceptable.",
+  },
+  {
+    id: 275,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a reducer action?",
+    options: [
+      "type Action = { type: string; payload?: any }",
+      "interface Action { type: string }",
+      "Both A and B",
+      "type Action = never",
+    ],
+    correctAnswer: 2,
+    explanation: "Both forms are valid; the first allows optional payload.",
+  },
+  {
+    id: 276,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Promise.resolve()?",
+    options: ["Promise<T>", "T", "Promise<void>", "any"],
+    correctAnswer: 0,
+    explanation: "Promise.resolve wraps the value in a resolved promise.",
+  },
+  {
+    id: 277,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a drag event in React?",
+    options: [
+      "React.DragEvent<HTMLDivElement>",
+      "DragEvent",
+      "Event",
+      "Both A and B",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "React’s synthetic event wrapper provides cross-browser normalization.",
+  },
+  {
+    id: 278,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('focus')?",
+    options: ["FocusEvent", "Event", "UIEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation: "FocusEvent extends Event; either type is acceptable.",
+  },
+  {
+    id: 279,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a socket.io event?",
+    options: [
+      "interface Events { connect: () => void; data: (payload: any) => void }",
+      "type Events = { [event: string]: Function }",
+      "Map<string, Function>",
+      "Both A and B",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "An interface with specific event names provides strongly typed handlers.",
+  },
+  {
+    id: 280,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Object.entries()?",
+    options: [
+      "Array<[string, any]>",
+      "[keyof T, T[keyof T]][]",
+      "Array<[PropertyKey, any]>",
+      "never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "entries returns an array of key-value pairs where keys are strings and values are any.",
+  },
+  {
+    id: 281,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a focus event handler?",
+    options: [
+      "React.FocusEventHandler<HTMLInputElement>",
+      "(event: React.FocusEvent<HTMLInputElement>) => void",
+      "Both A and B",
+      "FocusEvent",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "The handler type is an alias for the function signature in B.",
+  },
+  {
+    id: 282,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('blur')?",
+    options: ["FocusEvent", "Event", "BlurEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation: "Blur events use FocusEvent; Event is a supertype.",
+  },
+  {
+    id: 283,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a generic class?",
+    options: [
+      "class Container<T> { value: T }",
+      "class Container { value: any }",
+      "interface Container<T> { value: T }",
+      "type Container<T> = { value: T }",
+    ],
+    correctAnswer: 0,
+    explanation: "Classes can be generic just like functions and interfaces.",
+  },
+  {
+    id: 284,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Reflect.get()?",
+    options: ["any", "unknown", "target[prop]", "undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Reflect.get is typed to return any; consumers should narrow or cast.",
+  },
+  {
+    id: 285,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a clipboard event?",
+    options: [
+      "ClipboardEvent",
+      "Event & { clipboardData: DataTransfer }",
+      "Both A and B",
+      "PasteEvent",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "ClipboardEvent is the standard interface exposing clipboardData.",
+  },
+  {
+    id: 286,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('dblclick')?",
+    options: ["MouseEvent", "Event", "DoubleClickEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation:
+      "DblClick events are MouseEvent instances; Event is a supertype.",
+  },
+  {
+    id: 287,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a route parameter in Express?",
+    options: [
+      "req.params: { id: string }",
+      "req.params.id: string",
+      "ParamsDictionary",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "@types/express declares params as ParamsDictionary, an alias for Record<string, string>.",
+  },
+  {
+    id: 288,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Object.assign()?",
+    options: ["T", "T & U", "any", "void"],
+    correctAnswer: 0,
+    explanation:
+      "The overload returns the mutated target object, preserving its narrowed type.",
+  },
+  {
+    id: 289,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a mutation observer?",
+    options: [
+      "(mutations: MutationRecord[], observer: MutationObserver) => void",
+      "MutationCallback",
+      "Both A and B",
+      "(mutation: MutationRecord) => void",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "MutationCallback is the provided alias for the signature in A.",
+  },
+  {
+    id: 290,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('input')?",
+    options: ["InputEvent", "Event", "UIEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation: "InputEvent extends Event; either type is acceptable.",
+  },
+  {
+    id: 291,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type a WebAssembly instance?",
+    options: [
+      "WebAssembly.Instance",
+      "Instance",
+      "{ exports: Record<string, any> }",
+      "any",
+    ],
+    correctAnswer: 0,
+    explanation: "The WebAssembly namespace provides the Instance interface.",
+  },
+  {
+    id: 292,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "What is the type of the value returned by Object.create()?",
+    options: ["any", "object", "T", "never"],
+    correctAnswer: 0,
+    explanation:
+      "Object.create returns any; you can narrow via a generic helper.",
+  },
+  {
+    id: 293,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a resize observer?",
+    options: [
+      "(entries: ResizeObserverEntry[], observer: ResizeObserver) => void",
+      "ResizeObserverCallback",
+      "Both A and B",
+      "(entry: ResizeObserverEntry) => void",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "ResizeObserverCallback is the provided alias for the signature in A.",
+  },
+  {
+    id: 294,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('change')?",
+    options: ["Event", "UIEvent", "ChangeEvent", "Event"],
+    correctAnswer: 0,
+    explanation:
+      "Change events are plain Event objects; specific subtypes exist for inputs.",
+  },
+  {
+    id: 295,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a fetch response?",
+    options: ["Response", "Promise<Response>", "any", "unknown"],
+    correctAnswer: 0,
+    explanation:
+      "fetch resolves with the Response interface; consumers must call .json() etc.",
+  },
+  {
+    id: 296,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the value returned by Object.defineProperty()?",
+    options: ["T", "void", "object", "any"],
+    correctAnswer: 0,
+    explanation:
+      "The function returns the mutated object, preserving its type.",
+  },
+  {
+    id: 297,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "Which of these is the correct way to type an intersection observer?",
+    options: [
+      "(entries: IntersectionObserverEntry[], observer: IntersectionObserver) => void",
+      "IntersectionObserverCallback",
+      "Both A and B",
+      "(entry: IntersectionObserverEntry) => void",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "IntersectionObserverCallback is the provided alias for the signature in A.",
+  },
+  {
+    id: 298,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the event parameter in addEventListener('submit')?",
+    options: ["SubmitEvent", "Event", "UIEvent", "both A and B"],
+    correctAnswer: 3,
+    explanation: "SubmitEvent extends Event; either type is acceptable.",
+  },
+  {
+    id: 299,
+    category: "Typescript",
+    difficulty: "medium",
+    question: "Which of these is the correct way to type a Web Worker message?",
+    options: [
+      "MessageEvent",
+      "{ data: any }",
+      "Both A and B",
+      "WorkerMessageEvent",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "The standard MessageEvent interface carries the data payload.",
+  },
+  {
+    id: 300,
+    category: "Typescript",
+    difficulty: "medium",
+    question:
+      "What is the type of the value returned by Object.getOwnPropertyDescriptor()?",
+    options: [
+      "PropertyDescriptor | undefined",
+      "PropertyDescriptor",
+      "any",
+      "never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The descriptor may be undefined if the property does not exist.",
+  },
+  {
+    id: 301,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "Which of these produces a compile-time error in strict mode?",
+    options: [
+      "const x: string = null!",
+      "const x: string = undefined as any",
+      "const x: string = null as unknown as string",
+      "const x: string = null",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Strict null checks reject direct assignment of null to a non-nullable string.",
+  },
+  {
+    id: 302,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following conditional type: type T = number extends string ? true : false?",
+    options: ["false", "boolean", "never", "error"],
+    correctAnswer: 0,
+    explanation:
+      "The conditional resolves to the false branch because number does not extend string.",
+  },
+  {
+    id: 303,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to extract the parameter types of a function?",
+    options: ["Parameters<F>", "ParamTypes<F>", "Args<F>", "FunctionArgs<F>"],
+    correctAnswer: 0,
+    explanation:
+      "Parameters<F> is the built-in utility that extracts a tuple of argument types.",
+  },
+  {
+    id: 304,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following mapped type: { [K in keyof T as `get${Capitalize<K & string>}`]: () => T[K] }",
+    options: [
+      "Transforms each property into a getter method",
+      "Adds a prefix to each property name",
+      "Both A and B",
+      "Removes readonly modifier",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "The 'as' clause remaps keys and the value type becomes a zero-arg function returning the original property type.",
+  },
+  {
+    id: 305,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a variadic tuple with leading fixed elements?",
+    options: [
+      "[number, ...T[]]",
+      "[...T[], number]",
+      "[number, T, ...T[]]",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "All listed patterns are valid uses of variadic tuple syntax introduced in TS 4.0.",
+  },
+  {
+    id: 306,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never?",
+    options: [
+      "Converts a union to an intersection",
+      "Converts an intersection to a union",
+      "Removes never from a union",
+      "Extracts the last union member",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The contravariant position trick collects all union members into an intersection.",
+  },
+  {
+    id: 307,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a deeply nested nullable path?",
+    options: [
+      "type DeepNullable<T> = { [K in keyof T]: DeepNullable<T[K]> | null }",
+      "type DeepNullable<T> = T | null",
+      "type DeepNullable<T> = Partial<T>",
+      "type DeepNullable<T> = { [K in keyof T]: T[K] | null }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursively applying | null to every leaf creates a deeply nullable structure.",
+  },
+  {
+    id: 308,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following conditional: type IsNever<T> = [T] extends [never] ? true : false?",
+    options: [
+      "A way to test for the never type",
+      "Always returns false",
+      "Always returns true",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Wrapping in a tuple prevents distributive behavior, allowing reliable never detection.",
+  },
+  {
+    id: 309,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a branded type for nominal typing?",
+    options: [
+      "type USD = number & { _brand: 'USD' }",
+      "type USD = { value: number, currency: 'USD' }",
+      "type USD = number",
+      "interface USD extends number {}",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Intersection with a unique brand property creates a compile-time distinct subtype of number.",
+  },
+  {
+    id: 310,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Mutable<T> = { -readonly [P in keyof T]: T[P] }",
+    options: [
+      "Removes readonly from all properties",
+      "Adds readonly to all properties",
+      "Makes all properties optional",
+      "Converts all properties to never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The -readonly modifier strips the readonly flag from each property.",
+  },
+  {
+    id: 311,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "Which of these is the correct way to type a recursive union?",
+    options: [
+      "type Json = string | number | boolean | null | Json[] | { [k: string]: Json }",
+      "type Json = any",
+      "type Json = unknown",
+      "type Json = object",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The self-referencing union accurately models JSON-compatible values.",
+  },
+  {
+    id: 312,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following mapped type: type PickByType<T, U> = { [K in keyof T as T[K] extends U ? K : never]: T[K] }",
+    options: [
+      "Picks properties whose values extend U",
+      "Omits properties whose values extend U",
+      "Transforms values to U",
+      "Produces never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The 'as' clause filters keys whose values match the condition.",
+  },
+  {
+    id: 313,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a curried function with arity preservation?",
+    options: [
+      "function curry<F extends (...args: any[]) => any>(f: F): Curried<F>",
+      "function curry(f: Function): Function",
+      "const curry = f => a => b => f(a, b)",
+      "Curry<F>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic curried type can preserve the original function’s arity and types.",
+  },
+  {
+    id: 314,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Flatten<T> = T extends Array<infer U> ? U : T?",
+    options: [
+      "Extracts the element type of an array",
+      "Wraps T in an array",
+      "Returns never if T is not an array",
+      "Converts T to unknown",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference extracts the element type from arrays and leaves non-arrays unchanged.",
+  },
+  {
+    id: 315,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a pipe function with strict type flow?",
+    options: [
+      "type Pipe = <A, B, C>(ab: (a: A) => B, bc: (b: B) => C) => (a: A) => C",
+      "type Pipe = (...fns: Function[]) => Function",
+      "const pipe = (...fns) => x => fns.reduce((v, f) => f(v), x)",
+      "Pipe<F, G>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Generics ensure each step’s output matches the next step’s input.",
+  },
+  {
+    id: 316,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type OptionalKeys<T> = { [K in keyof T]-?: {} extends Pick<T, K> ? K : never }[keyof T]?",
+    options: [
+      "Extracts optional keys of T",
+      "Extracts required keys of T",
+      "Removes all keys",
+      "Produces never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The distributive test checks whether {} extends the picked property, identifying optionality.",
+  },
+  {
+    id: 317,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a higher-kinded type emulation?",
+    options: [
+      "type HKT<F, A> = { readonly _F: F; readonly _A: A }",
+      "type HKT<F, A> = F<A>",
+      "type HKT = any",
+      "Not possible in TypeScript",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The *lightweight higher-kinded type* pattern uses a phantom field to simulate HKTs.",
+  },
+  {
+    id: 318,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Reverse<T extends readonly any[]> = T extends readonly [...infer I, infer L] ? [L, ...Reverse<I>] : []?",
+    options: [
+      "Reverses a tuple type",
+      "Sorts a tuple",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive conditional inference extracts the last element and prepends it to the reversed rest.",
+  },
+  {
+    id: 319,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "Which of these is the correct way to type a path-based getter?",
+    options: [
+      "function get<O, P extends Path<O>>(obj: O, path: P): PathValue<O, P>",
+      "function get(obj: object, path: string): any",
+      "const get = (obj, path) => path.split('.').reduce((o, k) => o[k], obj)",
+      "Get<O, P>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Path and PathValue are custom types that validate and infer the nested type at the given path.",
+  },
+  {
+    id: 320,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Length<T extends readonly any[]> = T['length']?",
+    options: [
+      "Extracts the numeric length of a tuple",
+      "Returns never",
+      "Returns any",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Indexed access on the length property yields the literal number for fixed-length tuples.",
+  },
+  {
+    id: 321,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a conditional return type based on an argument?",
+    options: [
+      "function f<T extends boolean>(x: T): T extends true ? string : number",
+      "function f(x: boolean): any",
+      "const f = (x: boolean) => x ? 's' : 1",
+      "F<T>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional types in function signatures allow return types that depend on the input type.",
+  },
+  {
+    id: 322,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type AllKeys<T> = T extends any ? keyof T : never?",
+    options: [
+      "Collects all keys from a union of objects",
+      "Returns never",
+      "Returns keyof T",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Distributive conditional mapping extracts keyof each union member and unites them.",
+  },
+  {
+    id: 323,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a nominal type for IDs?",
+    options: [
+      "type UserId = string & { readonly _brand: unique symbol }",
+      "type UserId = string",
+      "type UserId = { value: string }",
+      "interface UserId extends string {}",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A unique symbol brand ensures compile-time distinctness even from other branded strings.",
+  },
+  {
+    id: 324,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Split<S extends string, D extends string> = S extends `${infer T}${D}${infer U}` ? [T, ...Split<U, D>] : [S]?",
+    options: [
+      "Splits a string literal into a tuple of substrings",
+      "Joins strings",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive template literal inference splits the string at each delimiter and collects the parts into a tuple.",
+  },
+  {
+    id: 325,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a variadic function with typed rest parameters?",
+    options: [
+      "function f<T extends any[]>(...args: T): T",
+      "function f(...args: any[]): any[]",
+      "const f = (...args) => args",
+      "Variadic<T>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic rest tuple preserves the exact types and length of the arguments.",
+  },
+  {
+    id: 326,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Merge<A, B> = { [K in keyof A]: K extends keyof B ? B[K] : A[K] } & Omit<B, keyof A>?",
+    options: [
+      "Shallow merges B into A, with B winning conflicts",
+      "Deep merges nested objects",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The intersection and conditional overwrite implement a shallow merge with B taking precedence.",
+  },
+  {
+    id: 327,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a proxy handler with traps?",
+    options: [
+      "const handler: ProxyHandler<T> = { get(target, prop) { ... } }",
+      "const handler = { get(target, prop) { ... } }",
+      "Handler<T>",
+      "Proxy<T>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "ProxyHandler<T> provides typed trap signatures for the target object.",
+  },
+  {
+    id: 328,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Join<T extends readonly string[], D extends string> = T extends readonly [infer F, ...infer R] ? `${F & string}${R extends readonly string[] ? Join<R, D> : ''}` : ''?",
+    options: [
+      "Joins a tuple of string literals with a delimiter",
+      "Splits a string",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive template literal concatenation joins the tuple elements with the delimiter.",
+  },
+  {
+    id: 329,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a discriminated union with a shared field?",
+    options: [
+      "type Action = { type: 'add'; item: string } | { type: 'remove'; id: number }",
+      "type Action = { type: string }",
+      "type Action = never",
+      "interface Action { type: string }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A literal discriminator field allows narrowing between variants.",
+  },
+  {
+    id: 330,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type NonNullableKeys<T> = { [K in keyof T]-?: null extends T[K] ? never : K }[keyof T]?",
+    options: [
+      "Extracts keys whose values do not include null",
+      "Extracts keys whose values include null",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The distributive test checks whether null extends the property type, filtering out nullable ones.",
+  },
+  {
+    id: 331,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a function that never returns?",
+    options: [
+      "function f(): never",
+      "function f(): void",
+      "function f(): undefined",
+      "function f(): Error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The never return type indicates the function does not return (throws or infinite loop).",
+  },
+  {
+    id: 332,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Head<T extends readonly any[]> = T extends readonly [infer H, ...any[]] ? H : never?",
+    options: [
+      "Extracts the first element of a tuple",
+      "Extracts the last element",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference picks the first element if the tuple is non-empty.",
+  },
+  {
+    id: 333,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a deeply partial intersection?",
+    options: [
+      "type DeepPartial<T> = { [K in keyof T]?: DeepPartial<T[K]> }",
+      "type DeepPartial<T> = Partial<T>",
+      "type DeepPartial<T> = T | Partial<T>",
+      "type DeepPartial<T> = { [K in keyof T]: T[K] }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursively applying the optional modifier creates a deeply nested partial.",
+  },
+  {
+    id: 334,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Tail<T extends readonly any[]> = T extends readonly [any, ...infer Rest] ? Rest : []?",
+    options: [
+      "Returns a tuple without the first element",
+      "Returns a tuple without the last element",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference captures the rest of the tuple after the first element.",
+  },
+  {
+    id: 335,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a generic constraints with multiple conditions?",
+    options: [
+      "T extends object & { id: string }",
+      "T extends object, { id: string }",
+      "T = object & { id: string }",
+      "T implements object & { id: string }",
+    ],
+    correctAnswer: 0,
+    explanation: "Intersection types combine multiple constraints into one.",
+  },
+  {
+    id: 336,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Last<T extends readonly any[]> = T extends readonly [...any[], infer L] ? L : never?",
+    options: [
+      "Extracts the last element of a tuple",
+      "Extracts the first element",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference picks the last element if the tuple is non-empty.",
+  },
+  {
+    id: 337,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a conditional props type?",
+    options: [
+      "type Props<T extends boolean> = T extends true ? { a: string } : { b: number }",
+      "type Props = { a: string } | { b: number }",
+      "type Props<T> = T",
+      "type Props = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional types allow props to depend on a generic boolean flag.",
+  },
+  {
+    id: 338,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type IsArray<T> = T extends readonly any[] ? true : false?",
+    options: [
+      "Returns true if T is an array",
+      "Returns false always",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation: "The conditional checks whether T extends any array type.",
+  },
+  {
+    id: 339,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a union to intersection?",
+    options: [
+      "type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never",
+      "type UnionToIntersection<U> = U",
+      "type UnionToIntersection<U> = never",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The contravariant position trick collects all union members into an intersection.",
+  },
+  {
+    id: 340,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>?",
+    options: [
+      "Makes only the specified keys partial",
+      "Makes all keys partial",
+      "Removes the specified keys",
+      "Returns never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Omit removes the keys, then Partial<Pick> adds them back as optional.",
+  },
+  {
+    id: 341,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a function overload with different return types?",
+    options: [
+      "function f(x: string): string; function f(x: number): number; function f(x: string | number): string | number",
+      "function f(x: string | number): string | number",
+      "const f = (x: string | number) => x",
+      "type f = (x: string | number) => string | number",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Overload signatures allow distinct return types per input type.",
+  },
+  {
+    id: 342,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type RequiredBy<T, K extends keyof T> = T & Required<Pick<T, K>>?",
+    options: [
+      "Makes only the specified keys required",
+      "Makes all keys required",
+      "Removes the specified keys",
+      "Returns never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Intersection with Required<Pick> forces the chosen keys to be required.",
+  },
+  {
+    id: 343,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a deeply required type?",
+    options: [
+      "type DeepRequired<T> = { [K in keyof T]-?: DeepRequired<T[K]> }",
+      "type DeepRequired<T> = Required<T>",
+      "type DeepRequired<T> = T",
+      "type DeepRequired<T> = { [K in keyof T]: T[K] }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursively applying the required modifier creates a deeply required structure.",
+  },
+  {
+    id: 344,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Immutable<T> = { readonly [K in keyof T]: Immutable<T[K]> }",
+    options: [
+      "Makes all properties deeply readonly",
+      "Makes all properties optional",
+      "Removes readonly",
+      "Returns never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive readonly mapping creates an immutable version of the type.",
+  },
+  {
+    id: 345,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a union of tuple permutations?",
+    options: [
+      "type Permutations<T extends any[]> = T extends [infer A, ...infer Rest] ? [A, ...Permutations<Rest>] : []",
+      "type Permutations<T> = T",
+      "type Permutations<T> = never",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive conditional inference can generate all permutations of a tuple.",
+  },
+  {
+    id: 346,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type NonEmptyArray<T> = [T, ...T[]]?",
+    options: [
+      "An array that must have at least one element",
+      "An optional array",
+      "A readonly tuple",
+      "Returns never",
+    ],
+    correctAnswer: 0,
+    explanation: "The leading required element ensures the array is non-empty.",
+  },
+  {
+    id: 347,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a function that asserts a predicate?",
+    options: [
+      "function assert(value: any): asserts value is string",
+      "function assert(value: any): boolean",
+      "const assert = (value: any) => typeof value === 'string'",
+      "type assert = (value: any) => void",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The asserts predicate narrows the type of the parameter in control flow.",
+  },
+  {
+    id: 348,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Replace<T, U, V> = T extends U ? V : T?",
+    options: [
+      "Replaces occurrences of U in T with V",
+      "Removes U from T",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The conditional checks each union member and replaces matches with V.",
+  },
+  {
+    id: 349,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a recursive union flatten?",
+    options: [
+      "type Flatten<T> = T extends Array<infer U> ? Flatten<U> : T",
+      "type Flatten<T> = T",
+      "type Flatten<T> = never",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive conditional inference flattens nested arrays to their base element type.",
+  },
+  {
+    id: 350,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Swap<T extends [any, any]> = T extends [infer A, infer B] ? [B, A] : never?",
+    options: [
+      "Swaps the two elements of a pair tuple",
+      "Returns the same tuple",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference reverses the order of the tuple elements.",
+  },
+  {
+    id: 351,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "Which of these is the correct way to type a deeply omit type?",
+    options: [
+      "type DeepOmit<T, K extends PropertyKey> = { [P in keyof T as P extends K ? never : P]: DeepOmit<T[P], K> }",
+      "type DeepOmit<T, K> = Omit<T, K>",
+      "type DeepOmit<T, K> = T",
+      "type DeepOmit<T, K> = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive key remapping removes the specified keys at every level.",
+  },
+  {
+    id: 352,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type PartialKeys<T> = { [K in keyof T]-?: {} extends Pick<T, K> ? K : never }[keyof T]?",
+    options: [
+      "Extracts optional keys of T",
+      "Extracts required keys of T",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The distributive test checks whether {} extends the picked property, identifying optionality.",
+  },
+  {
+    id: 353,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a union of object values?",
+    options: [
+      "type Values<T> = T[keyof T]",
+      "type Values<T> = T",
+      "type Values<T> = never",
+      "type Values<T> = any",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Indexed access with keyof T produces the union of all property value types.",
+  },
+  {
+    id: 354,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Keys<T> = keyof T?",
+    options: [
+      "Returns the union of keys of T",
+      "Returns never",
+      "Returns any",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The built-in keyof operator already produces the union of keys; this is an alias.",
+  },
+  {
+    id: 355,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a conditional mapped type?",
+    options: [
+      "type Conditional<T, Condition> = { [K in keyof T as T[K] extends Condition ? K : never]: T[K] }",
+      "type Conditional<T, Condition> = T",
+      "type Conditional<T, Condition> = never",
+      "type Conditional<T, Condition> = any",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The 'as' clause filters keys whose values satisfy the condition.",
+  },
+  {
+    id: 356,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type TupleUnion<U extends string, R extends any[] = []> = { [S in U]: Exclude<U, S> extends never ? [...R, S] : TupleUnion<Exclude<U, S>, [...R, S]> }[U]?",
+    options: [
+      "Converts a string union to a tuple of all permutations",
+      "Returns the same union",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive conditional mapping collects each union member into a tuple and continues with the remaining members.",
+  },
+  {
+    id: 357,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a function with a generic default and constraint?",
+    options: [
+      "function f<T extends object = object>(x: T): T",
+      "function f<T = object>(x: T): T",
+      "function f<T extends object>(x: T): T",
+      "function f(x: object): object",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Both constraint and default can be specified together; the default must satisfy the constraint.",
+  },
+  {
+    id: 358,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a recursive partial that stops at primitives?",
+    options: [
+      "type DeepPartial<T> = T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T",
+      "type DeepPartial<T> = Partial<T>",
+      "type DeepPartial<T> = T",
+      "type DeepPartial<T> = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The conditional checks whether T is an object before recursing, preventing primitives from becoming partial.",
+  },
+  {
+    id: 359,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the exact compile-time type of the expression `keyof never`?",
+    options: ["never", "string | number | symbol", "undefined", "any"],
+    correctAnswer: 1,
+    explanation:
+      "`keyof never` produces the union of all possible property-key types because never is the bottom type and extends every type.",
+  },
+  {
+    id: 360,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which compiler option makes index signatures return `T | undefined` instead of `T`?",
+    options: [
+      "noUncheckedIndexedAccess",
+      "strictNullChecks",
+      "exactOptionalPropertyTypes",
+      "strict",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "noUncheckedIndexedAccess adds undefined to every bracket-access result, forcing you to handle missing indices.",
+  },
+  {
+    id: 361,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "How do you type a generic constructor that accepts variadic arguments?",
+    options: [
+      "type Constructable<T, A extends any[]> = new (...args: A) => T",
+      "type Constructable<T> = new () => T",
+      "type Constructable = Function",
+      "type Constructable<T, A> = new (args: A) => T",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A rest tuple in the construct signature preserves the arity and types of the constructor arguments.",
+  },
+  {
+    id: 362,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "What is the type produced by `type T = { [K in string]: K }`?",
+    options: [
+      "an index signature whose values are the keys themselves",
+      "a mapped type over every possible string",
+      "string",
+      "never",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "This is a homomorphic mapped type over all string keys; each property’s value is its own key literal.",
+  },
+  {
+    id: 363,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which built-in utility extracts the refutation type of an assertion function?",
+    options: [
+      "There is no built-in utility",
+      "ReturnType<F>",
+      "Parameters<F>",
+      "AssertType<F>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "TypeScript does not expose a utility to extract the predicate type from an assertion function; you must write one.",
+  },
+  {
+    id: 364,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the exact type of `import.meta` in a Node ESM file with `@types/node`?",
+    options: ["ImportMeta", "typeof import.meta", "object", "any"],
+    correctAnswer: 1,
+    explanation:
+      "@types/node augments the global ImportMeta interface, so the type is the unique `typeof import.meta`.",
+  },
+  {
+    id: 365,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these conditional types correctly distributes over unions?",
+    options: [
+      "type Distribute<T> = T extends any ? { value: T } : never",
+      "type Distribute<T> = { value: T }",
+      "type Distribute<T> = never",
+      "type Distribute<T> = T",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The naked `T extends any` triggers distributivity, mapping the conditional over each union member.",
+  },
+  {
+    id: 366,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "How do you type a mapped type that remaps keys to camelCase?",
+    options: [
+      "type CamelKeys<T> = { [K in keyof T as CamelCase<K & string>]: T[K] }",
+      "type CamelKeys<T> = { [K in keyof T]: T[K] }",
+      "type CamelKeys<T> = T",
+      "type CamelKeys<T> = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The `as` clause in mapped types can transform keys using template literal utilities like CamelCase.",
+  },
+  {
+    id: 367,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following expression: `type T = number & string`?",
+    options: ["never", "unknown", "number | string", "any"],
+    correctAnswer: 0,
+    explanation:
+      "No value can be both number and string, so the intersection reduces to never.",
+  },
+  {
+    id: 368,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is a lawful way to implement a higher-kinded type emulation?",
+    options: [
+      "type HKT<F, A> = { readonly _F: F; readonly _A: A; readonly URI: F }",
+      "type HKT<F, A> = F<A>",
+      "type HKT<F, A> = any",
+      "type HKT<F, A> = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The *lightweight HKT* pattern uses phantom fields and a URI tag to simulate type constructors.",
+  },
+  {
+    id: 369,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "What is the exact type of `this` inside a static class method?",
+    options: ["typeof Class", "Class", "object", "any"],
+    correctAnswer: 0,
+    explanation:
+      "Static methods use the constructor function as their this context, typed as `typeof Class`.",
+  },
+  {
+    id: 370,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these conditional types extracts the successful branch of a Promise?",
+    options: [
+      "type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T",
+      "type Awaited<T> = T",
+      "type Awaited<T> = never",
+      "type Awaited<T> = T extends Promise<infer U> ? U : T",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The recursive Awaited utility unwraps nested promises until it reaches a non-promise type.",
+  },
+  {
+    id: 371,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following mapped type that inverts keys and values?",
+    options: [
+      "type Swap<T extends Record<PropertyKey, PropertyKey>> = { [K in T[keyof T]]: { [P in keyof T]: T[P] extends K ? P : never }[keyof T] }",
+      "type Swap<T> = T",
+      "type Swap<T> = never",
+      "type Swap<T> = any",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The nested mapped type collects keys whose values match K, producing an inverse mapping.",
+  },
+  {
+    id: 372,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a refutation assertion?",
+    options: [
+      "function assertIsString(x: unknown): asserts x is string { if (typeof x !== 'string') throw new Error(); }",
+      "function assertIsString(x: unknown): boolean { return typeof x === 'string'; }",
+      "const assertIsString = (x: unknown) => typeof x === 'string'",
+      "type assertIsString = (x: unknown) => void",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Assertion functions use the `asserts` predicate to narrow the argument type in control flow.",
+  },
+  {
+    id: 373,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type StrictOmit<T, K extends keyof T> = Omit<T, K>?",
+    options: [
+      "A stricter version of Omit that enforces K to be keys of T",
+      "Same as built-in Omit",
+      "Returns never",
+      "Returns T",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The constraint ensures K is actually a key of T, catching typos at compile time.",
+  },
+  {
+    id: 374,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "Which of these is the correct way to type a pipeable operator?",
+    options: [
+      "type Operator<A, B> = (source: Observable<A>) => Observable<B>",
+      "type Operator<A> = (a: A) => A",
+      "type Operator = Function",
+      "type Operator<A, B> = Observable<B>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A pipeable operator is a higher-order function that transforms one observable into another.",
+  },
+  {
+    id: 375,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type AllEquals<T extends readonly any[]> = T extends readonly [infer H, ...infer Rest] ? Rest extends H[] ? Equal<H, Rest[number]> extends true ? AllEquals<Rest> : false : true : true?",
+    options: [
+      "Checks whether all elements in a tuple are equal",
+      "Returns true always",
+      "Returns false always",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive conditional inference compares each element to the head and continues until the tuple is empty.",
+  },
+  {
+    id: 376,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "Which of these is the correct way to type a nominal number ID?",
+    options: [
+      "type UserId = number & { readonly _brand: unique symbol }",
+      "type UserId = number",
+      "type UserId = { value: number }",
+      "interface UserId extends number {}",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A unique symbol brand ensures compile-time distinctness even from other branded numbers.",
+  },
+  {
+    id: 377,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type TupleToUnion<T extends readonly any[]> = T[number]?",
+    options: [
+      "Converts a tuple to a union of its elements",
+      "Converts a union to a tuple",
+      "Returns never",
+      "Returns T",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Indexed access with number produces the union of all element types in the tuple.",
+  },
+  {
+    id: 378,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a variadic zip function?",
+    options: [
+      "function zip<T extends any[][]>(...arrays: T): { [K in keyof T]: T[K][number] }[]",
+      "function zip(...arrays: any[][]): any[][]",
+      "const zip = (...arrays) => arrays[0].map((_, i) => arrays.map(a => a[i]))",
+      "Zip<T>",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic rest tuple preserves the types of each input array and produces a tuple of elements at each index.",
+  },
+  {
+    id: 379,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type IsAny<T> = 0 extends 1 & T ? true : false?",
+    options: [
+      "Detects the any type",
+      "Always returns true",
+      "Always returns false",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Because any absorbs all types, `1 & T` becomes any, and `0 extends any` is true only when T is any.",
+  },
+  {
+    id: 380,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a deeply nullable union?",
+    options: [
+      "type DeepNullable<T> = T extends object ? { [K in keyof T]: DeepNullable<T[K]> | null } : T | null",
+      "type DeepNullable<T> = T | null",
+      "type DeepNullable<T> = Partial<T>",
+      "type DeepNullable<T> = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The conditional recurses until it reaches a primitive, then unions it with null.",
+  },
+  {
+    id: 381,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Pop<T extends readonly any[]> = T extends readonly [...infer Rest, any] ? Rest : []?",
+    options: [
+      "Returns a tuple without the last element",
+      "Returns a tuple without the first element",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference captures all elements except the last one.",
+  },
+  {
+    id: 382,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a generic event emitter?",
+    options: [
+      "interface Emitter<T extends Record<string, any[]>> { on<K extends keyof T>(event: K, listener: (...args: T[K]) => void): void; emit<K extends keyof T>(event: K, ...args: T[K]): void; }",
+      "interface Emitter { on(event: string, listener: Function): void; emit(event: string, ...args: any[]): void; }",
+      "type Emitter = Map<string, Function>",
+      "type Emitter<T> = T",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A mapped interface over the event map keys provides strongly typed on/emit pairs.",
+  },
+  {
+    id: 383,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Shift<T extends readonly any[]> = T extends readonly [any, ...infer Rest] ? Rest : []?",
+    options: [
+      "Returns a tuple without the first element",
+      "Returns a tuple without the last element",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference captures all elements except the first one.",
+  },
+  {
+    id: 384,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a conditional return type based on a flag?",
+    options: [
+      "function f<T extends boolean>(flag: T): T extends true ? string : number",
+      "function f(flag: boolean): any",
+      "const f = (flag: boolean) => flag ? 's' : 1",
+      "type f = (flag: boolean) => string | number",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional types in function signatures allow return types that depend on the input flag.",
+  },
+  {
+    id: 385,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Equal<X, Y> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? true : false?",
+    options: [
+      "A lawful equality test for types",
+      "Always returns true",
+      "Always returns false",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The double-lambda trick leverages variance to detect true type equality, not structural compatibility.",
+  },
+  {
+    id: 386,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a deeply readonly tuple?",
+    options: [
+      "type DeepReadonly<T> = T extends readonly [infer H, ...infer Rest] ? readonly [DeepReadonly<H>, ...DeepReadonly<Rest>] : T",
+      "type DeepReadonly<T> = Readonly<T>",
+      "type DeepReadonly<T> = T",
+      "type DeepReadonly<T> = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference recursively applies readonly to each element of the tuple.",
+  },
+  {
+    id: 387,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type UnionToTuple<T, L = Last<T>, Rest = Exclude<T, L>> = [T] extends [never] ? [] : [...UnionToTuple<Rest>, L]?",
+    options: [
+      "Converts a union to a tuple (order not guaranteed)",
+      "Converts a tuple to a union",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive extraction of the last union member builds a tuple; order depends on internal union representation.",
+  },
+  {
+    id: 388,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a pipeable operator with inference preservation?",
+    options: [
+      "type Operator<A, B> = <C>(source: Observable<A>) => Observable<B>",
+      "type Operator<A, B> = (source: Observable<A>) => Observable<B>",
+      "type Operator = Function",
+      "type Operator<A, B> = Observable<B>",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "A simple function signature preserves inference without extra generic indirection.",
+  },
+  {
+    id: 389,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Cartesian<T extends readonly any[][]> = T extends readonly [infer H extends readonly any[], ...infer Rest extends readonly any[][]] ? FlatMap<H, Cartesian<Rest>> : [[]]?",
+    options: [
+      "Computes the Cartesian product of a tuple of arrays",
+      "Flattens a single array",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive FlatMap builds all combinations of elements from each array in the tuple.",
+  },
+  {
+    id: 390,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a mutable ref in React?",
+    options: [
+      "const ref = useRef<T>(null!); ref.current = …",
+      "const ref = useRef<T | null>(null)",
+      "const ref = { current: null as T | null }",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "All patterns are valid; the first uses the definite assignment assertion to avoid null checks.",
+  },
+  {
+    id: 391,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Drop<T extends readonly any[], N extends number, I extends any[] = []> = I['length'] extends N ? T : T extends readonly [any, ...infer Rest] ? Drop<Rest, N, [...I, 0]> : []?",
+    options: [
+      "Drops the first N elements from a tuple",
+      "Takes the first N elements",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive tail-call with a counter tuple I stops when the desired count N is reached.",
+  },
+  {
+    id: 392,
+    category: "Typescript",
+    difficulty: "hard",
+    question: "Which of these is the correct way to type a saga yield effect?",
+    options: [
+      "type Effect = CallEffect | PutEffect | SelectEffect | …",
+      "type Effect = any",
+      "type Effect = Generator",
+      "type Effect = Promise",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Redux-Saga exports specific effect types that can be unioned for exhaustive matching.",
+  },
+  {
+    id: 393,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Repeat<T, N extends number, R extends any[] = []> = R['length'] extends N ? R : Repeat<T, N, [...R, T]>?",
+    options: [
+      "Builds a tuple containing T repeated N times",
+      "Returns never",
+      "Returns T",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive tail-call with a counter tuple R accumulates T until the desired length N is reached.",
+  },
+  {
+    id: 394,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a proxy trap that intercepts property assignment?",
+    options: [
+      "set(target, property, value, receiver): boolean",
+      "set(target, property, value): void",
+      "set(target, property): boolean",
+      "set(target): void",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The set trap must return a boolean indicating success and receives the target, property, value, and receiver.",
+  },
+  {
+    id: 395,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Bipartition<T, U> = T extends U ? [T, never] : [never, T]?",
+    options: [
+      "Splits a union into two tuples based on whether each member extends U",
+      "Returns never",
+      "Returns T",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Distributive conditional mapping produces a pair of tuples: left contains members that extend U, right contains those that do not.",
+  },
+  {
+    id: 396,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a fetch retry wrapper with exponential backoff?",
+    options: [
+      "async function retry<T>(fn: () => Promise<T>, retries = 3, delay = 1000): Promise<T>",
+      "function retry<T>(fn: () => T): T",
+      "const retry = async (fn) => fn()",
+      "type Retry = <T>(fn: Promise<T>) => T",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic async wrapper preserves the return type while adding retry logic with configurable count and delay.",
+  },
+  {
+    id: 397,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Zip<T extends readonly any[], U extends readonly any[]> = T extends readonly [infer HT, ...infer TT], U extends readonly [infer HU, ...infer TU] ? [[HT, HU], ...Zip<TT, TU>] : []?",
+    options: [
+      "Zips two tuples into a tuple of pairs",
+      "Unzips a tuple",
+      "Returns never",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive conditional inference pairs elements at each index and continues with the remaining tails.",
+  },
+  {
+    id: 398,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a mutable version of ReadonlyArray?",
+    options: [
+      "type MutableArray<T> = T extends readonly (infer U)[] ? U[] : T",
+      "type MutableArray<T> = T",
+      "type MutableArray<T> = ReadonlyArray<T>",
+      "type MutableArray<T> = never",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Conditional inference strips the readonly modifier from the array element type and reconstructs a mutable array.",
+  },
+  {
+    id: 399,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "What is the type of the following utility: type Range<N extends number, R extends any[] = []> = R['length'] extends N ? R : Range<N, [...R, R['length']]>?",
+    options: [
+      "Builds a tuple of numeric literals 0 … N-1",
+      "Returns never",
+      "Returns number[]",
+      "Produces a compile error",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Recursive tail-call accumulates the current length until the desired count N is reached, producing a tuple of indices.",
+  },
+  {
+    id: 400,
+    category: "Typescript",
+    difficulty: "hard",
+    question:
+      "Which of these is the correct way to type a fully type-safe event bus with strict emit/on pairs?",
+    options: [
+      "interface EventBus<E extends Record<string, any[]>> { on<K extends keyof E>(event: K, listener: (...args: E[K]) => void): void; emit<K extends keyof E>(event: K, ...args: E[K]): void; }",
+      "interface EventBus { on(event: string, listener: Function): void; emit(event: string, ...args: any[]): void; }",
+      "type EventBus = Map<string, Function>",
+      "type EventBus<E> = E",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic event map enforces that the arguments to emit match the signature registered with on for each event name.",
   },
 ];
 
@@ -14182,5 +24843,1931 @@ export const sqlMCQs = [
     correctAnswer: 0,
     explanation:
       "Global distributed SQL databases must carefully balance CAP theorem trade-offs, considering latency implications of consistency requirements, data placement for locality, and partition tolerance across geographic regions.",
+  },
+];
+
+//  questions
+export const oopMCQs = [
+  {
+    id: 1,
+    category: "OOP",
+    difficulty: "easy",
+    question: "What does OOP stand for?",
+    options: [
+      "Object Oriented Programming",
+      "Open Operating Platform",
+      "Optimized Object Processing",
+      "Organized Operation Procedure",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "OOP stands for Object-Oriented Programming, a programming paradigm based on the concept of objects containing data and methods.",
+  },
+  {
+    id: 2,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "In Python, which method is automatically called when an object is created?",
+    options: ["__init__", "__new__", "__create__", "__start__"],
+    correctAnswer: 0,
+    explanation:
+      "__init__ is the constructor method in Python that is invoked immediately after an object is created.",
+  },
+  {
+    id: 3,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement true private attributes in Python (as of 3.9+)?",
+    options: [
+      "Using __name mangling only",
+      "Using @property with no setter",
+      "Using typing.TypedDict",
+      "Using __slots__ and module-level encapsulation",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "While __name mangling provides strong privacy hints, the closest to 'true' private is combining __slots__ with module-level encapsulation and no public accessors.",
+  },
+  {
+    id: 4,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "In JavaScript, what is the difference between a factory function and a constructor function?",
+    options: [
+      "Factory uses new, constructor does not",
+      "Factory returns an object explicitly, constructor uses new and this",
+      "There is no difference",
+      "Factory is async, constructor is sync",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "A factory function returns an object explicitly without new, whereas a constructor function is meant to be called with new and uses this.",
+  },
+  {
+    id: 5,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "Which Python descriptor protocol method is triggered when you assign to a property?",
+    options: ["__set__", "__setattr__", "__setitem__", "__assign__"],
+    correctAnswer: 0,
+    explanation:
+      "__set__ is part of the descriptor protocol and is invoked on assignment to a property.",
+  },
+  {
+    id: 6,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "In JS, what does the super keyword do inside a derived class constructor?",
+    options: [
+      "Calls the parent class constructor",
+      "Creates a new instance",
+      "Binds the prototype",
+      "Returns the parent class",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "super() must be called before using this in a derived class to invoke the parent constructor.",
+  },
+  {
+    id: 7,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How can you prevent subclassing a Python class?",
+    options: [
+      "Using @final decorator (PEP 591)",
+      "Using __slots__ = ()",
+      "Raising TypeError in __init_subclass__",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "@final, empty __slots__, or overriding __init_subclass__ to raise can all block subclassing.",
+  },
+  {
+    id: 8,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the primary purpose of the Mixin pattern in JavaScript?",
+    options: [
+      "Multiple inheritance via object composition",
+      "Creating singletons",
+      "Enforcing immutability",
+      "Async iteration",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Mixins allow composing behaviors from multiple sources without classical multiple inheritance.",
+  },
+  {
+    id: 9,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, which special method controls how an object behaves with the @ operator?",
+    options: ["__matmul__", "__at__", "__multiply__", "__dot__"],
+    correctAnswer: 0,
+    explanation:
+      "__matmul__ and its reverse __rmatmul__ implement the @ matrix multiplication operator.",
+  },
+  {
+    id: 10,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "What is the difference between Object.create and new Function() in JavaScript?",
+    options: [
+      "Object.create sets prototype without calling constructor; new invokes it",
+      "They are identical",
+      "Object.create cannot set prototype",
+      "new Function() is deprecated",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.create links prototype but does not execute the constructor function.",
+  },
+  {
+    id: 11,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How do you implement a thread-safe singleton in Python?",
+    options: [
+      "Using a metaclass with double-checked locking",
+      "Using __new__ with threading.Lock",
+      "Using a module-level variable",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "All approaches can achieve thread-safety; modules are naturally singleton and thread-safe.",
+  },
+  {
+    id: 12,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "What is the output of the following Python code?\n\nclass A:\n    x = 1\n\nclass B(A):\n    pass\n\nB.x = 2\nprint(A.x, B.x)",
+    options: ["1 2", "2 2", "1 1", "AttributeError"],
+    correctAnswer: 0,
+    explanation:
+      "Class variables are inherited but separate; setting B.x does not mutate A.x.",
+  },
+  {
+    id: 13,
+    category: "OOP",
+    difficulty: "hard",
+    question: "In JavaScript, how can you intercept property deletion?",
+    options: [
+      "Using deleteProperty proxy trap",
+      "Using __delete__",
+      "Using Object.preventExtensions",
+      "You cannot intercept it",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The deleteProperty trap of a Proxy can intercept and veto delete operations.",
+  },
+  {
+    id: 14,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python decorator automatically generates comparison methods?",
+    options: [
+      "@dataclass(order=True)",
+      "@total_ordering",
+      "@compare",
+      "@auto_cmp",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "@dataclass with order=True generates __lt__, __le__, __gt__, __ge__ based on fields.",
+  },
+  {
+    id: 15,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the difference between __getattribute__ and __getattr__ in Python?",
+    options: [
+      "__getattribute__ is always called; __getattr__ only if attribute missing",
+      "They are aliases",
+      "__getattr__ is called first",
+      "__getattribute__ only exists in metaclasses",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "__getattribute__ intercepts every attribute access, while __getattr__ is a fallback when the attribute is not found.",
+  },
+  {
+    id: 16,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does Object.setPrototypeOf return?",
+    options: [
+      "The modified object",
+      "undefined",
+      "The old prototype",
+      "A new object",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.setPrototypeOf returns the first argument (the modified object) for chaining.",
+  },
+  {
+    id: 17,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How can you create an immutable record type in Python 3.11+?",
+    options: [
+      "Using typing.TypedDict(total=False) with @final",
+      "Using dataclasses with frozen=True and slots=True",
+      "Using types.MappingProxyType",
+      "All of the above",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "frozen=True prevents mutation; slots=True blocks dynamic attribute addition, giving closest immutable record semantics.",
+  },
+  {
+    id: 18,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the primary benefit of the Flyweight pattern?",
+    options: [
+      "Memory efficiency by sharing intrinsic state",
+      "CPU optimization",
+      "Network latency reduction",
+      "Improved readability",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Flyweight minimizes memory by sharing common data among many similar objects.",
+  },
+  {
+    id: 19,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you implement private fields that are truly private at runtime?",
+    options: [
+      "Using # prefix syntax (private class fields)",
+      "Using Symbol",
+      "Using WeakMap",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "# fields are language-level private; WeakMap can also encapsulate data outside the object.",
+  },
+  {
+    id: 20,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python method is invoked when an instance is called like a function?",
+    options: ["__call__", "__invoke__", "__run__", "__execute__"],
+    correctAnswer: 0,
+    explanation: "Defining __call__ makes an instance callable via obj().",
+  },
+  {
+    id: 21,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following JavaScript code?\n\nclass Base {\n  static who = 'Base';\n  static log() { console.log(this.who); }\n}\nclass Derived extends Base {\n  static who = 'Derived';\n}\nDerived.log();",
+    options: ["Derived", "Base", "undefined", "TypeError"],
+    correctAnswer: 0,
+    explanation:
+      "Static methods are called with this pointing to the constructor function (Derived), so this.who is 'Derived'.",
+  },
+  {
+    id: 22,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "What does the Observer pattern typically use to notify subscribers?",
+    options: [
+      "A callback or listener interface",
+      "Polling loop",
+      "Shared memory",
+      "Database triggers",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Observers register callbacks that the subject invokes when state changes.",
+  },
+  {
+    id: 23,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, which special method controls how an object behaves with the `await` keyword?",
+    options: ["__await__", "__async__", "__iter__", "__next__"],
+    correctAnswer: 0,
+    explanation:
+      "__await__ must return an iterator; it makes an object awaitable.",
+  },
+  {
+    id: 24,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "In JS, what is the difference between Object.freeze and Object.seal?",
+    options: [
+      "Freeze makes values immutable; seal only prevents adding/removing properties",
+      "They are identical",
+      "Seal freezes prototypes",
+      "Freeze allows configuration changes",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Freeze prevents value changes and reconfiguration; seal only blocks addition/deletion and makes existing properties non-configurable.",
+  },
+  {
+    id: 25,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a compile-time only brand in TypeScript to make nominal types?",
+    options: [
+      "type USD = number & { readonly _brand: unique symbol }",
+      "type USD = number",
+      "interface USD { value: number }",
+      "type USD = number | unique symbol",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Intersection with a unique-symbol brand creates a compile-time distinct subtype of number.",
+  },
+  {
+    id: 26,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main intent of the Strategy pattern?",
+    options: [
+      "Encapsulate interchangeable algorithms",
+      "Create single-instance objects",
+      "Force inheritance",
+      "Hide object creation",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Strategy lets the algorithm vary independently from clients that use it.",
+  },
+  {
+    id: 27,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you enforce that a subclass must override a method?",
+    options: [
+      "Raise NotImplementedError in the base method",
+      "Use @abstractmethod from abc",
+      "Use typing.overload",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "@abstractmethod is the canonical way; raising NotImplementedError is a runtime fallback.",
+  },
+  {
+    id: 28,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "What is the output of the following Python code?\n\nclass A:\n    def __eq__(self, other):\n        return True\n\nprint(A() == 1, A() is None)",
+    options: ["True False", "True True", "False False", "TypeError"],
+    correctAnswer: 0,
+    explanation:
+      "== uses __eq__ (returns True), whereas is tests identity (always False for distinct objects).",
+  },
+  {
+    id: 29,
+    category: "OOP",
+    difficulty: "hard",
+    question: "In JavaScript, how can you intercept the `in` operator?",
+    options: [
+      "Using the has Proxy trap",
+      "Using __in__",
+      "Using Object.defineProperty",
+      "You cannot intercept it",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The has trap of a Proxy is triggered when the `in` operator is used.",
+  },
+  {
+    id: 30,
+    category: "OOP",
+    difficulty: "medium",
+    question: "Which Python decorator automatically generates a repr string?",
+    options: ["@dataclass", "@auto_repr", "@repr", "@str"],
+    correctAnswer: 0,
+    explanation: "@dataclass generates __repr__ automatically based on fields.",
+  },
+  {
+    id: 31,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the difference between __slots__ and __dict__ in Python?",
+    options: [
+      "__slots__ predefines attributes and avoids __dict__, saving memory",
+      "__slots__ is an alias for __dict__",
+      "__slots__ only works with metaclasses",
+      "__dict__ is faster than __slots__",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "__slots__ reserves space for declared attributes and suppresses the per-instance __dict__, reducing memory.",
+  },
+  {
+    id: 32,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "In JS, what does the Composite pattern treat individual objects and compositions as?",
+    options: [
+      "A common interface or base class",
+      "Separate hierarchies",
+      "Only leaves",
+      "Only branches",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Composite lets clients treat single objects and compositions uniformly via a shared interface.",
+  },
+  {
+    id: 33,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How can you create a weakly referenced singleton in Python?",
+    options: [
+      "Using weakref.ref around the instance cache",
+      "Using __weakref__ slot",
+      "Using WeakValueDictionary",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Storing the singleton in a WeakValueDictionary or wrapping it with weakref.ref allows GC when no strong references remain.",
+  },
+  {
+    id: 34,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the primary goal of the Dependency Inversion Principle?",
+    options: [
+      "Depend on abstractions, not concretions",
+      "Increase coupling",
+      "Reduce cohesion",
+      "Use only static methods",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "DIP states that high-level modules should not depend on low-level modules, but both should depend on abstractions.",
+  },
+  {
+    id: 35,
+    category: "OOP",
+    difficulty: "hard",
+    question: "In JavaScript, how can you implement a private static field?",
+    options: [
+      "static #field = 1;",
+      "private static field = 1;",
+      "static _field = 1;",
+      "static field = 1; Object.freeze(this);",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The # prefix inside a class body creates a private static field accessible only within the class.",
+  },
+  {
+    id: 36,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "What Python special method is invoked during pickle serialization?",
+    options: ["__reduce__", "__pickle__", "__serialize__", "__dump__"],
+    correctAnswer: 0,
+    explanation:
+      "__reduce__ returns a tuple that allows reconstructing the object during unpickling.",
+  },
+  {
+    id: 37,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following JavaScript code?\n\nclass A {\n  #x = 1;\n  getX() { return this.#x; }\n}\nconst a = new A();\nconsole.log('#x' in a, a.hasOwnProperty('getX'));",
+    options: ["false true", "true false", "false false", "true true"],
+    correctAnswer: 0,
+    explanation:
+      "Private fields are not exposed to reflection; getX is a public method and exists on the instance.",
+  },
+  {
+    id: 38,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which pattern provides a surrogate or placeholder for another object?",
+    options: ["Proxy", "Adapter", "Decorator", "Bridge"],
+    correctAnswer: 0,
+    explanation:
+      "Proxy controls access to the real object, possibly adding lazy loading, security, or caching.",
+  },
+  {
+    id: 39,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a custom metaclass that enforces singleton behavior?",
+    options: [
+      "Override __call__ in the metaclass to return the same instance",
+      "Override __new__ in the base class",
+      "Use __init_subclass__",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "The metaclass can control instance creation via __call__, and the class can also cooperate via __new__.",
+  },
+  {
+    id: 40,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does Object.fromEntries do?",
+    options: [
+      "Converts an iterable of [key, value] pairs into an object",
+      "Creates a Map from an object",
+      "Freezes an object",
+      "Returns entries array",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.fromEntries is the inverse of Object.entries, turning key-value pairs into an object.",
+  },
+  {
+    id: 41,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How can you implement a compile-time mixin in TypeScript?",
+    options: [
+      "Using intersection types and generic class factories",
+      "Using extends only",
+      "Using implements only",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic function that returns an anonymous class expression can mix in behaviors at compile time via intersections.",
+  },
+  {
+    id: 42,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main intent of the Open/Closed Principle?",
+    options: [
+      "Open for extension, closed for modification",
+      "Open for modification, closed for extension",
+      "Use only final classes",
+      "Avoid inheritance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "OCP states that entities should be extendable without changing their source code.",
+  },
+  {
+    id: 43,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, which method must return an iterator and is triggered by iter(obj)?",
+    options: ["__iter__", "__next__", "__getitem__", "__call__"],
+    correctAnswer: 0,
+    explanation:
+      "__iter__ returns an iterator object; __next__ is called on that iterator.",
+  },
+  {
+    id: 44,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the difference between isinstance and type in Python?",
+    options: [
+      "isinstance respects inheritance; type does not",
+      "They are identical",
+      "type is faster",
+      "isinstance only works with built-ins",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "isinstance checks against the method resolution order, while type returns the exact class.",
+  },
+  {
+    id: 45,
+    category: "OOP",
+    difficulty: "hard",
+    question: "In JavaScript, how can you intercept the new operator?",
+    options: [
+      "Using the construct Proxy trap",
+      "Using __construct__",
+      "Using Reflect.construct",
+      "You cannot intercept it",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The construct trap of a Proxy is invoked when the proxy is called with new.",
+  },
+  {
+    id: 46,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python module provides an immutable namespace-like object?",
+    options: [
+      "types.SimpleNamespace",
+      "collections.namedtuple",
+      "dataclasses.dataclass",
+      "typing.NamedTuple",
+    ],
+    correctAnswer: 1,
+    explanation:
+      "namedtuple creates tuple subclasses with named fields that are immutable.",
+  },
+  {
+    id: 47,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following Python code?\n\nclass Meta(type):\n    def __prepare__(name, bases, **kw):\n        return {'x': 1}\nclass A(metaclass=Meta):\n    pass\nprint(A.x)",
+    options: ["1", "AttributeError", "0", "None"],
+    correctAnswer: 0,
+    explanation:
+      "__prepare__ returns the namespace dict used during class creation, so x becomes a class attribute.",
+  },
+  {
+    id: 48,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does the Bridge pattern decouple?",
+    options: [
+      "Abstraction from implementation",
+      "Observer from subject",
+      "Factory from product",
+      "Proxy from real subject",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Bridge lets both vary independently by composition rather than inheritance.",
+  },
+  {
+    id: 49,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a lazy property in Python that is computed once and cached?",
+    options: [
+      "Using a descriptor with __get__ that caches the result on the instance",
+      "Using @property without setter",
+      "Using __slots__",
+      "Using @lru_cache on the class",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A non-data descriptor can compute the value once, store it on the instance under a private name, and return it on subsequent accesses.",
+  },
+  {
+    id: 50,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main benefit of the Command pattern?",
+    options: [
+      "Encapsulates requests as objects, enabling queuing and undo",
+      "Reduces memory usage",
+      "Speeds up method calls",
+      "Eliminates inheritance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Command turns requests into objects, allowing parameterization, queuing, logging, and undo.",
+  },
+  {
+    id: 51,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you create an object with a null prototype?",
+    options: [
+      "Object.create(null)",
+      "new Object(null)",
+      "{}",
+      "Object.setPrototypeOf({}, null)",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.create(null) produces a pure dictionary with no prototype chain.",
+  },
+  {
+    id: 52,
+    category: "OOP",
+    difficulty: "medium",
+    question: "Which Python special method is called by the `del` statement?",
+    options: ["__del__", "__delete__", "__delattr__", "__remove__"],
+    correctAnswer: 2,
+    explanation:
+      "__delattr__ is invoked when del obj.attr is executed; __del__ is the finalizer.",
+  },
+  {
+    id: 53,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following JavaScript code?\n\nconst obj = { a: 1 };\nObject.setPrototypeOf(obj, { b: 2 });\nconsole.log(Object.keys(obj).length, obj.b);",
+    options: ["1 2", "2 2", "1 undefined", "2 undefined"],
+    correctAnswer: 0,
+    explanation:
+      "Object.keys only lists own enumerable properties; prototype properties are not included, but accessible via delegation.",
+  },
+  {
+    id: 54,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What does the Memento pattern capture?",
+    options: [
+      "The internal state of an object without violating encapsulation",
+      "The class hierarchy",
+      "The factory method",
+      "The observer list",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Memento saves state so the object can be restored later without exposing internals.",
+  },
+  {
+    id: 55,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a final class (non-subclassable) without a decorator?",
+    options: [
+      "Raise TypeError in __init_subclass__",
+      "Set __slots__ = ()",
+      "Use metaclass that returns None",
+      "Delete __class__",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Overriding __init_subclass__ to raise TypeError prevents any subclass from being created.",
+  },
+  {
+    id: 56,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what is the difference between a mixin and inheritance?",
+    options: [
+      "Mixin copies properties; inheritance delegates via prototype chain",
+      "Mixin is slower",
+      "They are identical",
+      "Mixin only works with classes",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Mixins typically copy or assign properties, whereas inheritance sets up a delegation chain.",
+  },
+  {
+    id: 57,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a thread-safe lazy singleton in JavaScript?",
+    options: [
+      "Using a Proxy with a locked check",
+      "Using Atomics.wait",
+      "Using a module (ESM are singleton)",
+      "Both A and C",
+    ],
+    correctAnswer: 2,
+    explanation:
+      "ES modules are evaluated once and cached, providing natural thread-safe singleton semantics in the main thread.",
+  },
+  {
+    id: 58,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python class decorator generates __init__, __repr__, __eq__, etc., from type hints?",
+    options: ["@dataclass", "@attrs.define", "@auto_init", "@generate"],
+    correctAnswer: 0,
+    explanation:
+      "@dataclass in the dataclasses module auto-generates common dunder methods based on annotated fields.",
+  },
+  {
+    id: 59,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you intercept property enumeration (for...in)?",
+    options: [
+      "Using the ownKeys Proxy trap",
+      "Using __enumerate__",
+      "Using Object.defineProperty enumerable flag",
+      "You cannot intercept it",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The ownKeys trap can filter or reorder the keys seen by for...in and Object.keys.",
+  },
+  {
+    id: 60,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main intent of the Liskov Substitution Principle?",
+    options: [
+      "Subtypes must be substitutable for their base types without breaking the program",
+      "All classes must be sealed",
+      "Use only interfaces",
+      "Avoid inheritance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "LSP ensures that objects of a superclass shall be replaceable with objects of subclasses without altering correctness.",
+  },
+  {
+    id: 61,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, which method must return an awaitable when implementing an async context manager?",
+    options: ["__aenter__", "__enter__", "__await__", "__async__"],
+    correctAnswer: 0,
+    explanation:
+      "__aenter__ and __aexit__ must return awaitables; they are used by async with.",
+  },
+  {
+    id: 62,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the difference between Adapter and Decorator patterns?",
+    options: [
+      "Adapter changes interface; Decorator adds behavior transparently",
+      "They are identical",
+      "Adapter only works with classes",
+      "Decorator only works with functions",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Adapter converts one interface to another; Decorator augments behavior while preserving the original interface.",
+  },
+  {
+    id: 63,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a compile-time mixin in Python using typing?",
+    options: [
+      "Using Protocol and multiple inheritance with structural subtyping",
+      "Using @overload",
+      "Using cast",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Protocols allow structural mixin-like behavior where classes implement required methods to satisfy the protocol.",
+  },
+  {
+    id: 64,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does the Visitor pattern allow?",
+    options: [
+      "Adding operations to objects without modifying their classes",
+      "Visiting DOM nodes",
+      "Iterating arrays",
+      "Creating closures",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Visitor moves operations into separate visitor objects, enabling open/extension for new operations.",
+  },
+  {
+    id: 65,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following Python code?\n\nclass A:\n    def __getattr__(self, name):\n        return 42\n\na = A()\nprint(hasattr(a, 'x'), a.x)",
+    options: [
+      "True 42",
+      "False 42",
+      "True AttributeError",
+      "False AttributeError",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "hasattr internally calls getattr and swallows exceptions, so it returns True because __getattr__ provides a value.",
+  },
+  {
+    id: 66,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python special method is invoked by the `with` statement for cleanup?",
+    options: ["__exit__", "__enter__", "__del__", "__close__"],
+    correctAnswer: 0,
+    explanation:
+      "__exit__ is called when exiting the with block, even if an exception occurs.",
+  },
+  {
+    id: 67,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you create a truly private method that is inaccessible outside the class?",
+    options: [
+      "Using #methodName syntax",
+      "Using Symbol",
+      "Using WeakMap",
+      "Both A and C",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "#methodName is language-level private and cannot be accessed outside the class body.",
+  },
+  {
+    id: 68,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "What is the main benefit of the Factory Method pattern over direct instantiation?",
+    options: [
+      "Decouples client from concrete classes",
+      "Speeds up creation",
+      "Reduces memory",
+      "Eliminates constructors",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Factory Method lets subclasses decide which concrete class to instantiate, keeping client code generic.",
+  },
+  {
+    id: 69,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a descriptor that is both a data and non-data descriptor?",
+    options: [
+      "Provide both __get__ and __set__; remove __set__ to become non-data",
+      "Provide __get__ only",
+      "Provide __set__ only",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A descriptor with __set__ is a data descriptor; removing __set__ turns it into a non-data descriptor, changing lookup precedence.",
+  },
+  {
+    id: 70,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does the Module pattern encapsulate?",
+    options: [
+      "Both data and behavior in a closure",
+      "Only functions",
+      "Only variables",
+      "Prototype chain",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Module pattern uses closures to hide private data and expose public APIs.",
+  },
+  {
+    id: 71,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following JavaScript code?\n\nclass A {\n  static #priv = 1;\n  static getPriv() { return A.#priv; }\n}\nclass B extends A {}\nconsole.log(B.getPriv());",
+    options: ["1", "undefined", "TypeError", "ReferenceError"],
+    correctAnswer: 0,
+    explanation:
+      "Private static fields are scoped to the declaring class, but public static methods can still access them via the class name.",
+  },
+  {
+    id: 72,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python class decorator provides automatic ordering methods from a single method?",
+    options: ["@total_ordering", "@order", "@compare", "@rank"],
+    correctAnswer: 0,
+    explanation:
+      "@total_ordering generates missing comparison methods from __eq__ and one of __lt__, __le__, __gt__, or __ge__.",
+  },
+  {
+    id: 73,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a final method in Python (non-overridable)?",
+    options: [
+      "Use @final decorator (PEP 591) on the method",
+      "Raise TypeError in __init_subclass__ if overridden",
+      "Use __slots__",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "@final marks the method as final statically; runtime enforcement can be added in __init_subclass__.",
+  },
+  {
+    id: 74,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main intent of the Abstract Factory pattern?",
+    options: [
+      "Provide an interface for creating families of related objects",
+      "Create a single object",
+      "Hide singleton instances",
+      "Convert interfaces",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Abstract Factory creates families of products that are designed to work together.",
+  },
+  {
+    id: 75,
+    category: "OOP",
+    difficulty: "hard",
+    question: "In JavaScript, how can you intercept the instanceof operator?",
+    options: [
+      "Using Symbol.hasInstance",
+      "Using __instanceof__",
+      "Using Proxy.has",
+      "You cannot intercept it",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Symbol.hasInstance lets a class or function customize instanceof behavior.",
+  },
+  {
+    id: 76,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What Python special method is called by copy.deepcopy?",
+    options: ["__deepcopy__", "__copy__", "__clone__", "__duplicate__"],
+    correctAnswer: 0,
+    explanation:
+      "If __deepcopy__ is defined, deepcopy uses it; otherwise it recursively copies attributes.",
+  },
+  {
+    id: 77,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following Python code?\n\nclass A:\n    __slots__ = ('x',)\n\na = A()\na.x = 1\na.y = 2",
+    options: ["AttributeError", "1 2", "1", "TypeError"],
+    correctAnswer: 0,
+    explanation:
+      "__slots__ restricts attribute creation; assigning to y raises AttributeError.",
+  },
+  {
+    id: 78,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does Object.assign do with getters?",
+    options: [
+      "Copies enumerable own properties (invoking getters)",
+      "Copies descriptors",
+      "Skips getters",
+      "Throws on getters",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.assign performs a shallow copy of enumerable own properties, invoking getters and copying the returned values.",
+  },
+  {
+    id: 79,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How can you implement a weakly referenced cache in JavaScript?",
+    options: [
+      "Using WeakMap with object keys",
+      "Using Map",
+      "Using Set",
+      "Using Array",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "WeakMap allows garbage collection of keys when no other references exist, making it ideal for caches.",
+  },
+  {
+    id: 80,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which pattern encapsulates a set of operations and supports undo?",
+    options: ["Command", "Strategy", "State", "Observer"],
+    correctAnswer: 0,
+    explanation:
+      "Command stores enough information to reverse the operation, enabling undo/redo.",
+  },
+  {
+    id: 81,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a context manager without a class?",
+    options: [
+      "Using contextlib.contextmanager decorator on a generator",
+      "Using __enter__ and __exit__ only",
+      "Using with statement only",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "@contextmanager turns a generator that yields once into a context manager, splitting code before and after yield into __enter__ and __exit__.",
+  },
+  {
+    id: 82,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main benefit of the State pattern?",
+    options: [
+      "Encapsulates state-specific behavior and transitions",
+      "Reduces class count",
+      "Eliminates if statements completely",
+      "Speeds up execution",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "State delegates behavior to state objects, avoiding large conditional blocks and centralizing transitions.",
+  },
+  {
+    id: 83,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you create a private field that is shared among all instances of a class?",
+    options: [
+      "Use a WeakMap scoped outside the class",
+      "Use #field inside the class",
+      "Use Symbol",
+      "Use var inside constructor",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A WeakMap declared outside the class but used inside can store private per-instance data shared across all instances.",
+  },
+  {
+    id: 84,
+    category: "OOP",
+    difficulty: "medium",
+    question: "Which Python special method is invoked by the `in` operator?",
+    options: ["__contains__", "__iter__", "__getitem__", "__in__"],
+    correctAnswer: 0,
+    explanation:
+      "__contains__ returns a boolean for membership tests; if missing, Python falls back to __iter__ or __getitem__.",
+  },
+  {
+    id: 85,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following JavaScript code?\n\nclass A {\n  static { console.log('static A'); }\n}\nclass B extends A {\n  static { console.log('static B'); }\n}\nnew B();",
+    options: ["static A static B", "static B static A", "static A", "static B"],
+    correctAnswer: 0,
+    explanation:
+      "Static blocks execute in declaration order during class evaluation, so A’s runs before B’s.",
+  },
+  {
+    id: 86,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What does the Iterator pattern provide?",
+    options: [
+      "A way to access elements sequentially without exposing internal structure",
+      "A way to sort collections",
+      "A way to filter arrays",
+      "A way to merge objects",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Iterator encapsulates traversal logic, letting clients iterate without knowing the underlying representation.",
+  },
+  {
+    id: 87,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a read-only property that has no setter?",
+    options: [
+      "Use @property without defining @x.setter",
+      "Use __setattr__ that raises AttributeError",
+      "Use __slots__",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Omitting the setter or overriding __setattr__ to reject the name both prevent assignment.",
+  },
+  {
+    id: 88,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what is the difference between a mixin and a trait?",
+    options: [
+      "Traits require conflict resolution; mixins usually override",
+      "Traits are slower",
+      "Mixins are part of ES6",
+      "There is no difference",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Traits often provide linearized conflict resolution, whereas simple mixins last-one-wins override.",
+  },
+  {
+    id: 89,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How can you implement a compile-time interface check in Python?",
+    options: [
+      "Using typing.Protocol and isinstance with structural subtyping",
+      "Using ABC only",
+      "Using inspect module",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Protocols enable static duck typing; runtime isinstance checks respect structural compatibility.",
+  },
+  {
+    id: 90,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main intent of the Mediator pattern?",
+    options: [
+      "Encapsulates how objects interact, promoting loose coupling",
+      "Speeds up method calls",
+      "Eliminates classes",
+      "Provides singleton access",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Mediator centralizes complex communications between objects, reducing direct references.",
+  },
+  {
+    id: 91,
+    category: "OOP",
+    difficulty: "hard",
+    question: "In JavaScript, how can you implement a private static method?",
+    options: [
+      "static #method() {}",
+      "private static method() {}",
+      "static _method() {}",
+      "static method() { 'use strict'; }",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "# prefix on a static method makes it private to the class body.",
+  },
+  {
+    id: 92,
+    category: "OOP",
+    difficulty: "medium",
+    question: "Which Python special method is called by format(obj, spec)?",
+    options: ["__format__", "__str__", "__repr__", "__spec__"],
+    correctAnswer: 0,
+    explanation:
+      "__format__ receives the format specification string and should return the formatted text.",
+  },
+  {
+    id: 93,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following Python code?\n\nfrom dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass Point:\n    x: int\n    y: int\n\np = Point(1, 2)\np.x = 3",
+    options: ["FrozenInstanceError", "1", "3", "AttributeError"],
+    correctAnswer: 0,
+    explanation:
+      "frozen=True generates __setattr__ that raises FrozenInstanceError on assignment.",
+  },
+  {
+    id: 94,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does the Template Method pattern define?",
+    options: [
+      "A skeleton algorithm with steps overridden by subclasses",
+      "A string template engine",
+      "A DOM template",
+      "A factory for templates",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Template Method lets subclasses override specific steps of an algorithm without changing its structure.",
+  },
+  {
+    id: 95,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a weakly referenced method cache in Python?",
+    options: [
+      "Using functools.lru_cache with weakref.WeakValueDictionary",
+      "Using @cache",
+      "Using __weakref__ slot",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A custom cache backed by WeakValueDictionary allows cached entries to be garbage collected when the instance is no longer referenced.",
+  },
+  {
+    id: 96,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What does the Prototype pattern clone?",
+    options: [
+      "An existing object without depending on its concrete class",
+      "Only primitives",
+      "The class definition",
+      "The prototype chain",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Prototype delegates cloning to the object itself, avoiding factory coupling.",
+  },
+  {
+    id: 97,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you create an object whose prototype can be changed after creation but not via __proto__?",
+    options: [
+      "Use Object.create with a mutable prototype object",
+      "Use Proxy",
+      "Use Object.preventExtensions",
+      "Use Object.freeze",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "The prototype object itself can be mutated, affecting delegating instances, even though __proto__ accessor is not used.",
+  },
+  {
+    id: 98,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python decorator memoizes a function with an unbounded cache?",
+    options: ["@functools.cache (3.9+)", "@lru_cache", "@memoize", "@cached"],
+    correctAnswer: 0,
+    explanation:
+      "@cache is equivalent to @lru_cache(maxsize=None), providing unbounded memoization.",
+  },
+  {
+    id: 99,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following JavaScript code?\n\nclass A {\n  #x = 1;\n  getX() { return this.#x; }\n}\nconst p = new Proxy(new A(), {});\nconsole.log(p.getX());",
+    options: ["1", "TypeError", "undefined", "ReferenceError"],
+    correctAnswer: 0,
+    explanation:
+      "Private fields are accessible via methods even when the instance is proxied, because the method runs in the original class scope.",
+  },
+  {
+    id: 100,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main benefit of the Facade pattern?",
+    options: [
+      "Provides a simplified interface to a complex subsystem",
+      "Speeds up algorithms",
+      "Eliminates dependencies",
+      "Provides multiple interfaces",
+    ],
+    correctAnswer: 0,
+    explanation: "Facade hides complexity behind a single, easier-to-use API.",
+  },
+  {
+    id: 101,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a final variable (constant) in a dataclass?",
+    options: [
+      "Use Final[int] from typing and field with default",
+      "Use const keyword",
+      "Use __setattr__ that raises",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Typing.Final marks it for linters; overriding __setattr__ to reject reassignment enforces runtime immutability.",
+  },
+  {
+    id: 102,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does Object.preventExtensions do?",
+    options: [
+      "Prevents new properties from being added",
+      "Prevents deletion",
+      "Prevents value changes",
+      "Freezes the object",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "preventExtensions blocks new properties but allows deletion and value modification.",
+  },
+  {
+    id: 103,
+    category: "OOP",
+    difficulty: "hard",
+    question: "How can you implement a type-safe event emitter in TypeScript?",
+    options: [
+      "interface EventMap { [event: string]: any[] } class Emitter<E extends EventMap> { on<K extends keyof E>(event: K, listener: (...args: E[K]) => void): void; emit<K extends keyof E>(event: K, ...args: E[K]): void; }",
+      "class Emitter { on(event: string, listener: Function): void; emit(event: string, ...args: any[]): void; }",
+      "type Emitter = Map<string, Function>",
+      "type Emitter<E> = E",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A generic event map ensures that emit/on pairs are type-safe per event name.",
+  },
+  {
+    id: 104,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What does the Builder pattern separate?",
+    options: [
+      "Construction complexity from representation",
+      "Builder from director",
+      "Client from product",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Builder isolates how an object is constructed from its final representation, letting the same process create different products.",
+  },
+  {
+    id: 105,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a class that cannot be instantiated (static utility class)?",
+    options: [
+      "Raise TypeError in __new__",
+      "Use @staticmethod on all methods",
+      "Use metaclass that returns None",
+      "Both A and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Overriding __new__ to raise or using a metaclass that blocks instantiation both achieve a static-only class.",
+  },
+  {
+    id: 106,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what is the difference between Object.is and ===?",
+    options: [
+      "Object.is treats -0 and +0 as unequal, and NaN equal to NaN",
+      "They are identical",
+      "Object.is is slower",
+      "=== handles objects better",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.is differs for -0/+0 and NaN comparisons, otherwise same as ===.",
+  },
+  {
+    id: 107,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a compile-time interface in Python using typing?",
+    options: [
+      "Using Protocol with structural subtyping",
+      "Using ABC only",
+      "Using inspect module",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "typing.Protocol enables static duck typing—classes implement the protocol by having the required methods, no explicit inheritance needed.",
+  },
+  {
+    id: 108,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main intent of the Single Responsibility Principle?",
+    options: [
+      "A class should have only one reason to change",
+      "A class should have only one method",
+      "A class should be immutable",
+      "A class should be final",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "SRP states that a class should focus on a single concern or responsibility, reducing coupling.",
+  },
+  {
+    id: 109,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you create an object with a custom prototype without using __proto__?",
+    options: [
+      "Object.create(proto)",
+      "new Object(proto)",
+      "{}",
+      "Object.setPrototypeOf({}, proto)",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.create is the standard way to create an object with a specified prototype.",
+  },
+  {
+    id: 110,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which Python module provides an OrderedDict that remembers insertion order?",
+    options: ["collections", "dict", "ordered", "typing"],
+    correctAnswer: 0,
+    explanation:
+      "collections.OrderedDict maintains insertion order (dict does too as of 3.7, but OrderedDict has move_to_end, etc.).",
+  },
+  {
+    id: 111,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following Python code?\n\nclass A:\n    def __iter__(self):\n        return self\n    def __next__(self):\n        raise StopIteration\n\nprint(isinstance(A(), Iterable))",
+    options: ["True", "False", "TypeError", "NameError"],
+    correctAnswer: 0,
+    explanation:
+      "A class implementing __iter__ is considered an Iterable even if __next__ raises StopIteration immediately.",
+  },
+  {
+    id: 112,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does the Chain of Responsibility pattern avoid?",
+    options: [
+      "Coupling the sender of a request to its receiver",
+      "Using callbacks",
+      "Creating objects",
+      "Using promises",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Chain of Responsibility passes the request along a chain until an object handles it, decoupling sender and receiver.",
+  },
+  {
+    id: 113,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a type-safe dependency injection container in TypeScript?",
+    options: [
+      "Use token symbols and generic providers with interfaces",
+      "Use any for all bindings",
+      "Use Object.create",
+      "Use Map only",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Symbol tokens and generic providers allow the container to resolve implementations while preserving compile-time type safety.",
+  },
+  {
+    id: 114,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What does the Mediator pattern promote?",
+    options: [
+      "Loose coupling by preventing objects from referring to each other explicitly",
+      "Tight coupling",
+      "Inheritance hierarchies",
+      "Static methods",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Mediator centralizes communications, so colleagues don't need to know about each other directly.",
+  },
+  {
+    id: 115,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a final attribute that cannot be reassigned?",
+    options: [
+      "Use __setattr__ to raise AttributeError on that name",
+      "Use @property without setter",
+      "Use Final from typing",
+      "All of the above",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Each technique prevents reassignment: __setattr__ at runtime, @property by design, Final for static checkers.",
+  },
+  {
+    id: 116,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what is the purpose of Symbol.iterator?",
+    options: [
+      "To define the default iterator for an object",
+      "To create a new symbol",
+      "To iterate symbols",
+      "To freeze an object",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Symbol.iterator lets an object be iterated with for...of by returning an iterator.",
+  },
+  {
+    id: 117,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following JavaScript code?\n\nconst obj = { a: 1 };\nconst handler = {\n  get(target, prop, receiver) {\n    return Reflect.get(target, prop, receiver) * 2;\n  }\n};\nconst p = new Proxy(obj, handler);\nconsole.log(p.a);",
+    options: ["2", "1", "undefined", "NaN"],
+    correctAnswer: 0,
+    explanation: "The get trap doubles the value before returning it.",
+  },
+  {
+    id: 118,
+    category: "OOP",
+    difficulty: "medium",
+    question: "Which Python special method is invoked by reversed(obj)?",
+    options: ["__reversed__", "__reverse__", "__iter__", "__getitem__"],
+    correctAnswer: 0,
+    explanation:
+      "__reversed__ should return an iterator that yields items in reverse order; if missing, Python falls back to __len__ and __getitem__.",
+  },
+  {
+    id: 119,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a compile-time mixin in Python using multiple inheritance and protocols?",
+    options: [
+      "Define protocols for features and inherit from multiple protocol-implementing mixins",
+      "Use @overload",
+      "Use cast",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Protocols allow structural mixing of behaviors; a class can inherit from several mixin classes that implement protocol requirements.",
+  },
+  {
+    id: 120,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main intent of the Interface Segregation Principle?",
+    options: [
+      "Clients should not be forced to depend on interfaces they do not use",
+      "All interfaces must be small",
+      "No interface should have more than one method",
+      "Interfaces should be generic",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "ISP advocates splitting large interfaces into smaller, client-specific ones to reduce coupling.",
+  },
+  {
+    id: 121,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you implement a final class (non-extendable) at runtime?",
+    options: [
+      "Use Object.seal on the constructor function",
+      "Use class X { } and then Object.freeze(X)",
+      "Use Proxy to block construct trap",
+      "Both B and C",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Freezing the constructor prevents prototype mutation and extension; a Proxy can also veto subclassing via construct trap.",
+  },
+  {
+    id: 122,
+    category: "OOP",
+    difficulty: "medium",
+    question: "Which Python class creates an immutable mapping view?",
+    options: [
+      "types.MappingProxyType",
+      "dict",
+      "collections.OrderedDict",
+      "typing.Mapping",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "MappingProxyType wraps a dict and provides a read-only view, used internally for class __dict__ views.",
+  },
+  {
+    id: 123,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following Python code?\n\nclass A:\n    def __bool__(self):\n        return False\n\nif A():\n    print('yes')\nelse:\n    print('no')",
+    options: ["no", "yes", "TypeError", "ValueError"],
+    correctAnswer: 0,
+    explanation:
+      "__bool__ (or __len__ if missing) determines truthiness; returning False makes the instance falsy.",
+  },
+  {
+    id: 124,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "In JS, what does the Visitor pattern allow you to do without modifying existing classes?",
+    options: [
+      "Add new operations",
+      "Add new fields",
+      "Remove methods",
+      "Change inheritance",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Visitor lets you define a new operation over an object structure without changing the classes of the elements.",
+  },
+  {
+    id: 125,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a type-safe event bus in Python using generics and protocols?",
+    options: [
+      "Use typing.Protocol for listeners and generics for event payloads",
+      "Use ABC only",
+      "Use inspect module",
+      "Not possible",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Protocols define listener interfaces; generics parameterize event payloads, enabling static type checking.",
+  },
+  {
+    id: 126,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main benefit of the Dependency Inversion Principle?",
+    options: [
+      "High-level modules do not depend on low-level modules; both depend on abstractions",
+      "Reduces file count",
+      "Eliminates constructors",
+      "Makes all classes final",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "DIP reduces coupling by introducing abstract interfaces between layers.",
+  },
+  {
+    id: 127,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a descriptor that caches its result per instance?",
+    options: [
+      "Store the cached value under a private name in the instance dict inside __get__",
+      "Use @cached_property",
+      "Use __slots__",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Manual descriptor or @cached_property both store the computed value on the instance to avoid recomputation.",
+  },
+  {
+    id: 128,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what is the purpose of Symbol.hasInstance?",
+    options: [
+      "To customize instanceof behavior",
+      "To create a singleton",
+      "To freeze an object",
+      "To define an iterator",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Symbol.hasInstance lets a function or class control what instanceof returns.",
+  },
+  {
+    id: 129,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "What is the output of the following Python code?\n\nclass A:\n    def __init_subclass__(cls, **kw):\n        cls.x = 1\n\nclass B(A):\n    pass\n\nprint(B.x)",
+    options: ["1", "AttributeError", "0", "None"],
+    correctAnswer: 0,
+    explanation:
+      "__init_subclass__ is called when the subclass is created, allowing the base class to augment it.",
+  },
+  {
+    id: 130,
+    category: "OOP",
+    difficulty: "medium",
+    question:
+      "Which pattern encapsulates an algorithm family and makes them interchangeable?",
+    options: ["Strategy", "Template Method", "Factory", "Singleton"],
+    correctAnswer: 0,
+    explanation:
+      "Strategy defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime.",
+  },
+  {
+    id: 131,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In JavaScript, how can you implement a private field shared by all instances but not accessible outside?",
+    options: [
+      "Use a WeakMap keyed by instances, scoped outside the class",
+      "Use #field",
+      "Use Symbol",
+      "Use const inside constructor",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "A module-scoped WeakMap allows storing per-instance private data that is truly inaccessible from outside the module.",
+  },
+  {
+    id: 132,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What Python special method is invoked by hash(obj)?",
+    options: ["__hash__", "__eq__", "__int__", "__index__"],
+    correctAnswer: 0,
+    explanation:
+      "__hash__ must return an integer and should be consistent with __eq__ for hashable objects.",
+  },
+  {
+    id: 133,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "How can you implement a final method in JavaScript that cannot be overridden?",
+    options: [
+      "Use a Proxy to block defineProperty on subclasses",
+      "Use #method (private methods are final)",
+      "Use Object.freeze on prototype",
+      "Both A and B",
+    ],
+    correctAnswer: 3,
+    explanation:
+      "Private methods are final by language design; a Proxy can also prevent redefinition of public methods.",
+  },
+  {
+    id: 134,
+    category: "OOP",
+    difficulty: "medium",
+    question: "What is the main benefit of the Open/Closed Principle?",
+    options: [
+      "Software entities should be open for extension but closed for modification",
+      "Allows unlimited changes",
+      "Prohibits inheritance",
+      "Requires all classes to be sealed",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "OCP encourages extending behavior via inheritance, composition, or polymorphism rather than modifying existing code.",
+  },
+  {
+    id: 135,
+    category: "OOP",
+    difficulty: "hard",
+    question:
+      "In Python, how do you implement a descriptor that is shared across all instances (non-data descriptor)?",
+    options: [
+      "Define only __get__ and store shared state in the descriptor instance",
+      "Define __get__ and __set__",
+      "Use __dict__",
+      "Use __slots__",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Without __set__, the descriptor is non-data and its value is shared among all instances unless stored per-instance.",
+  },
+  {
+    id: 136,
+    category: "OOP",
+    difficulty: "medium",
+    question: "In JS, what does Object.fromEntries do?",
+    options: [
+      "Converts an iterable of [key, value] pairs into an object",
+      "Creates a Map",
+      "Freezes an object",
+      "Returns entries array",
+    ],
+    correctAnswer: 0,
+    explanation:
+      "Object.fromEntries is the inverse of Object.entries, turning key-value pairs into an object.",
   },
 ];
