@@ -89,33 +89,41 @@ export default function Component() {
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center space-x-4 sm:space-x-8">
               <div className="flex items-center space-x-3">
-                <div 
+                <div
                   className="p-2 rounded-lg"
-                  style={{ backgroundColor: themeColor?.lightColor || "#f3f4f6" }}
+                  style={{
+                    backgroundColor: themeColor?.lightColor || "#f3f4f6",
+                  }}
                 >
-                  <BookOpen 
-                    size={24} 
+                  <BookOpen
+                    size={24}
                     style={{ color: themeColor?.textColor || "#374151" }}
                   />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
-                  <p className="text-sm text-gray-500">{topicSelected} Practice</p>
+                  <h1 className="text-xl font-bold text-gray-900">
+                    Interview Nerd
+                  </h1>
+                  <p className="text-sm text-gray-500">
+                    {topicSelected} Practice
+                  </p>
                 </div>
               </div>
-              
+
               {/* Breadcrumb */}
               <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button 
-                  onClick={() => router.push('/')}
+                <button
+                  onClick={() => router.push("/")}
                   className="hover:text-gray-700 transition-colors"
                 >
-                  <Home size={16} className="inline mr-1" />
+                  {/* <Home size={16} className="inline mr-1" /> */}
                   Home
                 </button>
                 <span>/</span>
-                <button 
-                  onClick={() => router.push(`/learn/${topicSelected}/introduction`)}
+                <button
+                  onClick={() =>
+                    router.push(`/learn/${topicSelected}/introduction`)
+                  }
                   className="hover:text-gray-700 transition-colors"
                 >
                   Learn
@@ -128,7 +136,9 @@ export default function Component() {
             {/* Right side - Actions */}
             <div className="flex items-center space-x-4">
               <Button
-                onClick={() => router.push(`/learn/${topicSelected}/introduction`)}
+                onClick={() =>
+                  router.push(`/learn/${topicSelected}/introduction`)
+                }
                 style={{
                   backgroundColor: themeColor?.themeBgColor,
                   color: themeColor?.textColor,
@@ -138,11 +148,11 @@ export default function Component() {
                 <BookOpen size={16} />
                 <span>Learn</span>
               </Button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User size={20} className="text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings size={20} className="text-gray-600" />
               </button>
@@ -188,7 +198,9 @@ export default function Component() {
               animate={{
                 opacity: 1,
                 y: showExplanation ? -120 : 0,
-                backgroundColor: showExplanation ? themeColor?.lightColor || "#f3f4f6" : "#ffffff",
+                backgroundColor: showExplanation
+                  ? themeColor?.lightColor || "#f3f4f6"
+                  : "#ffffff",
               }}
               transition={{
                 type: "spring",
@@ -200,7 +212,10 @@ export default function Component() {
               }}
             >
               <motion.div className="w-full flex items-center justify-center mx-auto p-3 sm:p-4">
-                <span className="text-sm sm:text-base font-medium" style={{ color: themeColor?.textColor || "#374151" }}>
+                <span
+                  className="text-sm sm:text-base font-medium"
+                  style={{ color: themeColor?.textColor || "#374151" }}
+                >
                   {showExplanation ? "Hide Solution" : "Show Solution"}
                 </span>
                 <motion.div
@@ -209,9 +224,15 @@ export default function Component() {
                   className="ml-2"
                 >
                   {showExplanation ? (
-                    <ChevronUp className="h-4 w-4" style={{ color: themeColor?.textColor || "#374151" }} />
+                    <ChevronUp
+                      className="h-4 w-4"
+                      style={{ color: themeColor?.textColor || "#374151" }}
+                    />
                   ) : (
-                    <ChevronDown className="h-4 w-4" style={{ color: themeColor?.textColor || "#374151" }} />
+                    <ChevronDown
+                      className="h-4 w-4"
+                      style={{ color: themeColor?.textColor || "#374151" }}
+                    />
                   )}
                 </motion.div>
               </motion.div>
@@ -227,7 +248,7 @@ export default function Component() {
                   delay: 0.2,
                 }}
                 className="mt-1 p-4 sm:p-6 bg-muted rounded-md overflow-hidden cursor-pointer w-full max-w-4xl"
-                style={{ backgroundColor: themeColor?.lightColor || '#f3f4f6' }}
+                style={{ backgroundColor: themeColor?.lightColor || "#f3f4f6" }}
               >
                 <div
                   className="w-full prose prose-sm sm:prose max-w-none"
@@ -238,7 +259,7 @@ export default function Component() {
               </motion.div>
             )}
           </div>
-          
+
           {/* Navigation Buttons - Fixed at bottom */}
           <div className="flex justify-between items-center mt-8 px-4 sm:px-6 lg:px-8 pb-6 sticky bottom-3 sm:bottom-6">
             <Button
@@ -251,12 +272,12 @@ export default function Component() {
               <span className="hidden sm:inline">Previous</span>
               <span className="sm:hidden">Prev</span>
             </Button>
-            
+
             {/* Mobile Question Counter */}
             <div className="sm:hidden text-xs text-gray-500 font-medium">
               {currentIndex + 1} / {practiceQuestions?.length}
             </div>
-            
+
             <Button
               onClick={handleNext}
               disabled={currentIndex === practiceQuestions?.length - 1}

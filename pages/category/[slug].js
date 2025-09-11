@@ -375,7 +375,7 @@ function AccordionQuestion({ question, topic, index }) {
                         dangerouslySetInnerHTML={{ __html: question.solution }}
                       />
                       <div className="pt-2 space-y-3">
-                        <button
+                        {/* <button
                           onClick={handleAnswer}
                           disabled={isAnswered}
                           className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors ${
@@ -391,7 +391,7 @@ function AccordionQuestion({ question, topic, index }) {
                           }}
                         >
                           {isAnswered ? "✓ Answered" : "I've Answered This"}
-                        </button>
+                        </button> */}
 
                         {/* Question Feedback Component */}
                         <QuestionFeedback
@@ -510,8 +510,8 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
               </div>
 
               {/* Footer */}
-              <div className="flex justify-between items-center p-6 border-t bg-gray-50">
-                <button
+              {/* <div className="flex justify-between items-center p-6 border-t bg-gray-50"> */}
+              {/* <button
                   onClick={handleAnswer}
                   disabled={isAnswered}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors ${
@@ -531,8 +531,8 @@ function QuestionModal({ isOpen, onClose, question, topic }) {
                   }}
                 >
                   Close
-                </button>
-              </div>
+                </button> */}
+              {/* </div> */}
             </div>
           </motion.div>
         </>
@@ -771,28 +771,30 @@ export default function BasicTabs({
             {/* Left side - Logo and Navigation */}
             <div className="flex items-center space-x-8">
               <div className="flex items-center space-x-3">
-                <div 
+                <div
                   className="p-2 rounded-lg"
                   style={{ backgroundColor: themeColors?.light || "#f3f4f6" }}
                 >
-                  <BookOpen 
-                    size={24} 
+                  <BookOpen
+                    size={24}
                     style={{ color: themeColors?.text || "#374151" }}
                   />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
+                  <h1 className="text-xl font-bold text-gray-900">
+                    Interview Nerd
+                  </h1>
                   <p className="text-sm text-gray-500">{topic} Questions</p>
                 </div>
               </div>
-              
+
               {/* Breadcrumb */}
               <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button 
-                  onClick={() => router.push('/')}
+                <button
+                  onClick={() => router.push("/")}
                   className="hover:text-gray-700 transition-colors"
                 >
-                  <Home size={16} className="inline mr-1" />
+                  {/* <Home size={16} className="inline mr-1" /> */}
                   Home
                 </button>
                 <span>/</span>
@@ -802,7 +804,7 @@ export default function BasicTabs({
 
             {/* Right side - Actions */}
             <div className="flex items-center space-x-4">
-              <button 
+              <button
                 onClick={() => router.push(`/learn/${topic}/introduction`)}
                 style={{
                   backgroundColor: themeColors?.bg,
@@ -813,11 +815,11 @@ export default function BasicTabs({
                 <BookOpen size={16} />
                 <span>Learn</span>
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User size={20} className="text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings size={20} className="text-gray-600" />
               </button>

@@ -21,33 +21,44 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
 
   useEffect(() => {
     setIsMounted(true);
-    // Set initial state based on screen size
+    // Set initial state based on screen size and available height
     const updateResponsiveSettings = () => {
       const width = window.innerWidth;
+      const height = window.innerHeight;
+
+      // Calculate available height for topics
+      // Header: ~80px, Footer (pagination + progress): ~120px, Padding: ~40px
+      const headerHeight = 80;
+      const footerHeight = 120; // Pagination + progress indicator
+      const paddingHeight = 40; // Top and bottom padding
+      const availableHeight = Math.max(200, height - headerHeight - footerHeight - paddingHeight);
+      const topicItemHeight = 70; // Approximate height per topic item
+      const maxTopicsFit = Math.max(1, Math.floor(availableHeight / topicItemHeight));
+
       if (width <= 414) {
         // iPhone (including iPhone 14 Pro Max)
         setMaxVisible(3);
-        setTopicsPerPage(6);
+        setTopicsPerPage(Math.min(4, maxTopicsFit));
         setIsOpen(false);
       } else if (width <= 768) {
         // iPad Mini and smaller tablets
         setMaxVisible(4);
-        setTopicsPerPage(8);
+        setTopicsPerPage(Math.min(6, maxTopicsFit));
         setIsOpen(false);
       } else if (width <= 1024) {
         // iPad Air/Pro portrait
         setMaxVisible(4);
-        setTopicsPerPage(10);
+        setTopicsPerPage(Math.min(8, maxTopicsFit));
         setIsOpen(false);
       } else if (width < 1280) {
         // Laptop
         setMaxVisible(5);
-        setTopicsPerPage(10);
+        setTopicsPerPage(Math.min(10, maxTopicsFit));
         setIsOpen(true); // Default open on laptop
       } else {
         // Desktop
         setMaxVisible(6);
-        setTopicsPerPage(12);
+        setTopicsPerPage(Math.min(12, maxTopicsFit));
         setIsOpen(true); // Default open on desktop
       }
     };
@@ -131,26 +142,19 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
 
   return (
     <>
-      {/* Toggle Button */}
-      <button
-        onClick={toggleSidebar}
-        className={`
-          fixed z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95
-          touch-manipulation
-          ${isOpen && isLargeScreen
-            ? 'top-6 left-[280px] md:left-[320px]' 
-            : isOpen && !isLargeScreen
-            ? 'top-6 left-[260px] sm:left-[280px]'
-            : 'left-3 sm:left-4 top-20'
-          }
-        `}
-        style={{
-          backgroundColor: theme?.themeBgColor || "#f3f4f6",
-          color: theme?.textColor || "#374151",
-        }}
-      >
-        {isOpen ? <X size={18} className="sm:w-5 sm:h-5" /> : <Menu size={18} className="sm:w-5 sm:h-5" />}
-      </button>
+      {/* Toggle Button - Outside sidebar when closed */}
+      {!isOpen && (
+        <button
+          onClick={toggleSidebar}
+          className="fixed z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 touch-manipulation left-3 sm:left-4 top-20"
+          style={{
+            backgroundColor: theme?.themeBgColor || "#f3f4f6",
+            color: theme?.textColor || "#374151",
+          }}
+        >
+          <Menu size={18} className="sm:w-5 sm:h-5" />
+        </button>
+      )}
 
       {/* Overlay for mobile and tablet only */}
       {isOpen && !isLargeScreen && (
@@ -180,34 +184,47 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
           paddingTop: isLargeScreen ? '20px' : '80px',
         }}
       >
-        <div className="h-full flex flex-col p-4 sm:p-6">
+        <div className="h-full flex flex-col">
           {/* Header */}
-          <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 flex-shrink-0">
-            <div
-              className="p-2 rounded-lg"
-              style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
-            >
-              <BookOpen
-                size={20}
-                style={{ color: theme?.textColor || "#374151" }}
-              />
-            </div>
-            <div>
-              <h3
-                className="font-semibold text-base sm:text-lg"
-                style={{ color: theme?.textColor || "#374151" }}
+          <div className="flex items-center justify-between gap-2 sm:gap-3 p-4 sm:p-6 pb-4 flex-shrink-0">
+            <div className="flex items-center gap-2 sm:gap-3">
+              <div
+                className="p-2 rounded-lg"
+                style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
               >
-                {category} Topics
-              </h3>
-              <p className="text-xs sm:text-sm text-gray-500">
-                {allTopics.length} topics available
-              </p>
+                <BookOpen
+                  size={20}
+                  style={{ color: theme?.textColor || "#374151" }}
+                />
+              </div>
+              <div>
+                <h3
+                  className="font-semibold text-base sm:text-lg"
+                  style={{ color: theme?.textColor || "#374151" }}
+                >
+                  {category} Topics
+                </h3>
+                <p className="text-xs sm:text-sm text-gray-500">
+                  {allTopics.length} topics available
+                </p>
+              </div>
             </div>
+
+            {/* Close Button - Inside sidebar */}
+            <button
+              onClick={toggleSidebar}
+              className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              style={{
+                color: theme?.textColor || "#374151",
+              }}
+            >
+              <X size={18} className="sm:w-5 sm:h-5" />
+            </button>
           </div>
 
-          {/* Topics List - Scrollable area */}
-          <div className="flex-1 overflow-y-auto">
-            <div className="space-y-1.5 sm:space-y-2 mb-4 sm:mb-6">
+          {/* Topics List - No scrolling, fit within available space */}
+          <div className="flex-1 px-4 sm:px-6">
+            <div className="space-y-1.5 sm:space-y-2">
               {currentTopics.map((topicItem, index) => {
                 const isActive = topicItem.topic === currentTopic;
                 return (
@@ -243,9 +260,8 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
                       )}
                       <div className="flex-1 min-w-0">
                         <h4
-                          className={`text-xs sm:text-sm font-medium leading-5 ${
-                            isActive ? "font-semibold" : ""
-                          }`}
+                          className={`text-xs sm:text-sm font-medium leading-5 ${isActive ? "font-semibold" : ""
+                            }`}
                           style={{
                             color: isActive
                               ? theme?.textColor || "#374151"
@@ -276,7 +292,7 @@ const TopicSidebar = ({ currentTopic, category, theme }) => {
           </div>
 
           {/* Fixed bottom section */}
-          <div className="flex-shrink-0 border-t border-gray-200 pt-3 sm:pt-4">
+          <div className="flex-shrink-0 border-t border-gray-200 p-4 sm:p-6 pt-3 sm:pt-4">
             {/* Pagination */}
             {totalPages > 1 && (
               <div className="flex items-center justify-center gap-1 sm:gap-2 mb-3 sm:mb-4">

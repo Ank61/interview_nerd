@@ -23,23 +23,44 @@ import {
   Settings,
 } from "lucide-react";
 
-export default function Dashboard({ 
-  initialRecentActivity = [], 
-  initialStudyStats = null, 
-  initialGamificationData = null 
+export default function Dashboard({
+  initialRecentActivity = [],
+  initialStudyStats = null,
+  initialGamificationData = null,
 }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [recentActivity, setRecentActivity] = useState(initialRecentActivity);
   const [studyStats, setStudyStats] = useState(initialStudyStats);
-  const [gamificationData, setGamificationData] = useState(initialGamificationData);
+  const [gamificationData, setGamificationData] = useState(
+    initialGamificationData
+  );
   const [loading, setLoading] = useState(!initialStudyStats);
+  const [topicsToShow, setTopicsToShow] = useState(6);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/login");
     }
   }, [status, router]);
+
+  // Calculate topics to show based on screen size
+  useEffect(() => {
+    const updateTopicsToShow = () => {
+      const width = window.innerWidth;
+      if (width <= 640) {
+        setTopicsToShow(4); // 2x2 grid on mobile
+      } else if (width <= 1024) {
+        setTopicsToShow(6); // 3x2 grid on tablet
+      } else {
+        setTopicsToShow(8); // 4x2 grid on desktop
+      }
+    };
+
+    updateTopicsToShow();
+    window.addEventListener("resize", updateTopicsToShow);
+    return () => window.removeEventListener("resize", updateTopicsToShow);
+  }, []);
 
   // Only fetch data if not provided as props
   useEffect(() => {
@@ -51,12 +72,11 @@ export default function Dashboard({
   const fetchDashboardData = async () => {
     try {
       setLoading(true);
-      const [activityRes, statsRes, gamificationRes] =
-        await Promise.all([
-          fetch(`/api/user/activity/${session.user.id}`),
-          fetch(`/api/user/stats/${session.user.id}`),
-          fetch(`/api/gamification/${session.user.id}`),
-        ]);
+      const [activityRes, statsRes, gamificationRes] = await Promise.all([
+        fetch(`/api/user/activity/${session.user.id}`),
+        fetch(`/api/user/stats/${session.user.id}`),
+        fetch(`/api/gamification/${session.user.id}`),
+      ]);
 
       if (activityRes.ok) {
         const activityData = await activityRes.json();
@@ -135,15 +155,17 @@ export default function Dashboard({
                   <BookOpen size={24} className="text-blue-600" />
                 </div>
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900">Interview Nerd</h1>
+                  <h1 className="text-xl font-bold text-gray-900">
+                    Interview Nerd
+                  </h1>
                   <p className="text-sm text-gray-500">Dashboard</p>
                 </div>
               </div>
-              
+
               {/* Breadcrumb */}
               <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button 
-                  onClick={() => router.push('/')}
+                <button
+                  onClick={() => router.push("/")}
                   className="hover:text-gray-700 transition-colors"
                 >
                   <Home size={16} className="inline mr-1" />
@@ -156,18 +178,18 @@ export default function Dashboard({
 
             {/* Right side - Actions */}
             <div className="flex items-center space-x-4">
-              <button 
+              <button
                 onClick={() => router.push("/category/Javascript")}
                 className="hidden sm:flex items-center space-x-2 px-4 py-2 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 hover:shadow-md transition-all duration-200"
               >
                 <BookOpen size={16} />
                 <span>Start Learning</span>
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User size={20} className="text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings size={20} className="text-gray-600" />
               </button>
@@ -301,7 +323,7 @@ export default function Dashboard({
                         </p>
                       </CardHeader>
                       <CardContent>
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                           {[
                             {
                               name: "JavaScript",
@@ -351,31 +373,33 @@ export default function Dashboard({
                               questions: 32,
                               path: "/category/OOP",
                             },
-                          ].map((topic, index) => (
-                            <motion.button
-                              key={topic.name}
-                              initial={{ opacity: 0, scale: 0.9 }}
-                              animate={{ opacity: 1, scale: 1 }}
-                              transition={{
-                                duration: 0.3,
-                                delay: 0.5 + index * 0.05,
-                              }}
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.98 }}
-                              onClick={() => router.push(topic.path)}
-                              className="p-4 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
-                            >
-                              <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-200">
-                                {topic.icon}
-                              </div>
-                              <div className="font-semibold text-gray-900 text-sm mb-1">
-                                {topic.name}
-                              </div>
-                              <div className="text-xs text-gray-600">
-                                {topic.questions} questions
-                              </div>
-                            </motion.button>
-                          ))}
+                          ]
+                            .slice(0, topicsToShow)
+                            .map((topic, index) => (
+                              <motion.button
+                                key={topic.name}
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                  duration: 0.3,
+                                  delay: 0.5 + index * 0.05,
+                                }}
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.98 }}
+                                onClick={() => router.push(topic.path)}
+                                className="p-4 bg-gray-50 border border-gray-200 rounded-xl hover:bg-gray-100 transition-all duration-200 text-left group shadow-sm hover:shadow-md"
+                              >
+                                <div className="text-2xl mb-2 group-hover:scale-110 transition-transform duration-200">
+                                  {topic.icon}
+                                </div>
+                                <div className="font-semibold text-gray-900 text-sm mb-1">
+                                  {topic.name}
+                                </div>
+                                <div className="text-xs text-gray-600">
+                                  {topic.questions} questions
+                                </div>
+                              </motion.button>
+                            ))}
                         </div>
                       </CardContent>
                     </Card>

@@ -61162,222 +61162,495 @@ console.log(manager.promoteManager());      // "Promoted to Senior Manager"`,
             ],
           },
           {
-            topic: "What is Inheritance?",
-            tags: ["OOP", "Inheritance", "Concepts"],
+            topic: "Inheritance in Object-Oriented Programming",
+            tags: ["OOP", "Inheritance", "JavaScript", "Python"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Inheritance is a fundamental concept in Object-Oriented Programming (OOP) that allows a class (child/derived class) to inherit properties and methods from another class (parent/base class). It promotes code reusability, establishes hierarchical relationships between classes, and enables polymorphism.
+     Inheritance is a fundamental concept in Object-Oriented Programming (OOP) that allows a class (child/derived class) to inherit properties and methods from another class (parent/base class). This mechanism promotes code reusability, establishes relationships between classes, and enables polymorphism.
    </p>
    
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Key Benefits of Inheritance
+     Why Use Inheritance?
    </h4>
  
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Child classes can reuse code from parent classes without rewriting it.
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability:</span> Avoid duplicating code by inheriting common functionality.
      </li>
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Hierarchical Classification:</span> Models real-world relationships (e.g., Animal → Dog → Labrador).
+      <span style="font-weight: 600; font-size: 1.1rem;">Hierarchical Classification:</span> Model real-world relationships (e.g., Animal → Dog → Labrador).
      </li>
      <li style="margin-top: 0.5rem;">
       <span style="font-weight: 600; font-size: 1.1rem;">Method Overriding:</span> Child classes can provide specific implementations of parent methods.
      </li>
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Polymorphism:</span> Objects of different classes can be treated uniformly through inheritance.
+      <span style="font-weight: 600; font-size: 1.1rem;">Polymorphism:</span> Objects of different classes can be treated as instances of the same parent class.
      </li>
      <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> New functionality can be added to existing classes without modifying them.
+      <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> Easy to add new features by extending existing classes.
      </li>
    </ol>
    
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Real-World Use Case: E-commerce System
+     Types of Inheritance
    </h4>
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     Consider an e-commerce system where you have different types of products. Instead of creating separate classes with duplicate code, you can use inheritance to create a base Product class and derive specific product types from it.
-   </p>
-   
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Python Example
-   </h4>
-   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
-      <pre><code class="language-python">
-# Base class (Parent)
-class Product:
-    def __init__(self, name, price, category):
-        self.name = name
-        self.price = price
-        self.category = category
-        self.in_stock = True
-    
-    def display_info(self):
-        return f"{self.name} - {self.price} ({self.category})"
-    
-    def apply_discount(self, percentage):
-        self.price = self.price * (1 - percentage / 100)
-        return self.price
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single Inheritance:</span> Child class inherits from one parent class.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multiple Inheritance:</span> Child class inherits from multiple parent classes (supported in Python, not JavaScript).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multilevel Inheritance:</span> Chain of inheritance (A → B → C).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Hierarchical Inheritance:</span> Multiple child classes inherit from one parent.
+     </li>
+   </ol>
 
-# Child class (Derived)
-class Electronics(Product):
-    def __init__(self, name, price, brand, warranty_years):
-        super().__init__(name, price, "Electronics")
-        self.brand = brand
-        self.warranty_years = warranty_years
-    
-    def display_info(self):  # Method overriding
-        base_info = super().display_info()
-        return f"{base_info} | Brand: {self.brand} | Warranty: {self.warranty_years} years"
-    
-    def extend_warranty(self, additional_years):
-        self.warranty_years += additional_years
-        print(f"Warranty extended to {self.warranty_years} years")
-
-# Usage
-laptop = Electronics("MacBook Pro", 1299, "Apple", 2)
-print(laptop.display_info())  # Uses overridden method
-laptop.apply_discount(10)     # Uses inherited method
-print(f"After discount: {laptop.price}")
-laptop.extend_warranty(1)     # Uses child-specific method
-      </code></pre>
-   </div>
-   
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     JavaScript Example
+     JavaScript Inheritance Examples
    </h4>
-   <div style="background-color: #f8f9fa; padding: 16px; border-radius: 8px; font-size: 14px; margin-top: 1rem;">
-      <pre><code class="language-javascript">
-// Base class (Parent)
-class Product {
-    constructor(name, price, category) {
-        this.name = name;
-        this.price = price;
-        this.category = category;
-        this.inStock = true;
-    }
-    
-    displayInfo() {
-        return \`\ {this.name} -  \ {this.price} (\ {this.category})\`;
-    }
-    
-    applyDiscount(percentage) {
-        this.price = this.price * (1 - percentage / 100);
-        return this.price;
-    }
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     1. Class-based Inheritance (ES6+)
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Parent class
+class Animal {
+  constructor(name, species) {
+    this.name = name;
+    this.species = species;
+  }
+  
+  speak() {
+    console.log(\`\${this.name} makes a sound\`);
+  }
+  
+  info() {
+    console.log(\`\${this.name} is a \${this.species}\`);
+  }
 }
 
-// Child class (Derived)
-class Electronics extends Product {
-    constructor(name, price, brand, warrantyYears) {
-        super(name, price, "Electronics");
-        this.brand = brand;
-        this.warrantyYears = warrantyYears;
-    }
-    
-    displayInfo() {  // Method overriding
-        const baseInfo = super.displayInfo();
-        return \`\ {baseInfo} | Brand: \ {this.brand} | Warranty: \ {this.warrantyYears} years\`;
-    }
-    
-    extendWarranty(additionalYears) {
-        this.warrantyYears += additionalYears;
-        console.log(\`Warranty extended to \ {this.warrantyYears} years\`);
-    }
+// Child class inheriting from Animal
+class Dog extends Animal {
+  constructor(name, breed) {
+    super(name, "Canine"); // Call parent constructor
+    this.breed = breed;
+  }
+  
+  // Method overriding
+  speak() {
+    console.log(\`\${this.name} barks: Woof! Woof!\`);
+  }
+  
+  // New method specific to Dog
+  wagTail() {
+    console.log(\`\${this.name} wags tail happily!\`);
+  }
+}
+
+// Another child class
+class Cat extends Animal {
+  constructor(name, color) {
+    super(name, "Feline");
+    this.color = color;
+  }
+  
+  speak() {
+    console.log(\`\${this.name} meows: Meow!\`);
+  }
+  
+  purr() {
+    console.log(\`\${this.name} purrs contentedly\`);
+  }
 }
 
 // Usage
-const laptop = new Electronics("MacBook Pro", 1299, "Apple", 2);
-console.log(laptop.displayInfo());  // Uses overridden method
-laptop.applyDiscount(10);           // Uses inherited method
-console.log(\`After discount:  \ {laptop.price}\`);
-laptop.extendWarranty(1);           // Uses child-specific method
+const myDog = new Dog("Buddy", "Golden Retriever");
+const myCat = new Cat("Whiskers", "Orange");
+
+myDog.speak();     // "Buddy barks: Woof! Woof!"
+myDog.info();      // "Buddy is a Canine"
+myDog.wagTail();   // "Buddy wags tail happily!"
+
+myCat.speak();     // "Whiskers meows: Meow!"
+myCat.info();      // "Whiskers is a Feline"
+myCat.purr();      // "Whiskers purrs contentedly"
       </code></pre>
    </div>
-</div>`,
-            examples: [
-              `# Python - Basic Inheritance Example
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     2. Prototype-based Inheritance (Traditional JavaScript)
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// Parent constructor function
+function Vehicle(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+}
+
+// Adding methods to prototype
+Vehicle.prototype.getInfo = function() {
+  return \`\${this.year} \${this.make} \${this.model}\`;
+};
+
+Vehicle.prototype.start = function() {
+  console.log(\`\${this.getInfo()} is starting...\`);
+};
+
+// Child constructor function
+function Car(make, model, year, doors) {
+  // Call parent constructor
+  Vehicle.call(this, make, model, year);
+  this.doors = doors;
+  this.type = "Car";
+}
+
+// Set up inheritance
+Car.prototype = Object.create(Vehicle.prototype);
+Car.prototype.constructor = Car;
+
+// Override parent method
+Car.prototype.start = function() {
+  console.log(\`\${this.getInfo()} car with \${this.doors} doors is starting...\`);
+};
+
+// Add new method
+Car.prototype.honk = function() {
+  console.log("Beep! Beep!");
+};
+
+// Usage
+const myCar = new Car("Toyota", "Camry", 2023, 4);
+myCar.start();    // "2023 Toyota Camry car with 4 doors is starting..."
+myCar.honk();     // "Beep! Beep!"
+console.log(myCar.getInfo()); // "2023 Toyota Camry"
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Inheritance Examples
+   </h4>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     1. Single Inheritance
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+# Parent class
 class Animal:
     def __init__(self, name, species):
         self.name = name
         self.species = species
     
-    def make_sound(self):
-        return f"{self.name} makes a sound"
+    def speak(self):
+        print(f"{self.name} makes a sound")
     
-    def sleep(self):
-        return f"{self.name} is sleeping"
+    def info(self):
+        print(f"{self.name} is a {self.species}")
 
+# Child class inheriting from Animal
 class Dog(Animal):
     def __init__(self, name, breed):
-        super().__init__(name, "Canine")
+        super().__init__(name, "Canine")  # Call parent constructor
         self.breed = breed
     
-    def make_sound(self):  # Override
-        return f"{self.name} barks: Woof!"
+    # Method overriding
+    def speak(self):
+        print(f"{self.name} barks: Woof! Woof!")
     
-    def fetch(self):  # New method
-        return f"{self.name} fetches the ball"
+    # New method specific to Dog
+    def wag_tail(self):
+        print(f"{self.name} wags tail happily!")
+
+# Another child class
+class Cat(Animal):
+    def __init__(self, name, color):
+        super().__init__(name, "Feline")
+        self.color = color
+    
+    def speak(self):
+        print(f"{self.name} meows: Meow!")
+    
+    def purr(self):
+        print(f"{self.name} purrs contentedly")
 
 # Usage
 my_dog = Dog("Buddy", "Golden Retriever")
-print(my_dog.make_sound())  # Buddy barks: Woof!
-print(my_dog.sleep())       # Buddy is sleeping (inherited)
-print(my_dog.fetch())       # Buddy fetches the ball`,
+my_cat = Cat("Whiskers", "Orange")
 
-              `// JavaScript - Basic Inheritance Example
-class Animal {
-    constructor(name, species) {
-        this.name = name;
-        this.species = species;
-    }
+my_dog.speak()     # "Buddy barks: Woof! Woof!"
+my_dog.info()      # "Buddy is a Canine"
+my_dog.wag_tail()  # "Buddy wags tail happily!"
+
+my_cat.speak()     # "Whiskers meows: Meow!"
+my_cat.info()      # "Whiskers is a Feline"
+my_cat.purr()      # "Whiskers purrs contentedly"
+      </code></pre>
+   </div>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     2. Multiple Inheritance (Python Only)
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+# First parent class
+class Mammal:
+    def __init__(self):
+        self.warm_blooded = True
     
-    makeSound() {
-        return \`\ {this.name} makes a sound\`;
-    }
+    def breathe(self):
+        print("Breathing through lungs")
     
-    sleep() {
-        return \`\ {this.name} is sleeping\`;
-    }
+    def feed_milk(self):
+        print("Feeding milk to offspring")
+
+# Second parent class
+class Swimmer:
+    def __init__(self):
+        self.can_swim = True
+    
+    def swim(self):
+        print("Swimming in water")
+    
+    def hold_breath(self):
+        print("Holding breath underwater")
+
+# Child class inheriting from both parents
+class Dolphin(Mammal, Swimmer):
+    def __init__(self, name):
+        Mammal.__init__(self)
+        Swimmer.__init__(self)
+        self.name = name
+    
+    def echolocate(self):
+        print(f"{self.name} uses echolocation")
+    
+    def jump(self):
+        print(f"{self.name} jumps out of water")
+
+# Usage
+dolphin = Dolphin("Flipper")
+dolphin.breathe()      # From Mammal
+dolphin.feed_milk()    # From Mammal
+dolphin.swim()         # From Swimmer
+dolphin.hold_breath()  # From Swimmer
+dolphin.echolocate()   # Own method
+dolphin.jump()         # Own method
+
+print(f"Warm blooded: {dolphin.warm_blooded}")  # True
+print(f"Can swim: {dolphin.can_swim}")          # True
+      </code></pre>
+   </div>
+   
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     3. Multilevel Inheritance
+   </h5>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+# Base class
+class Vehicle:
+    def __init__(self, make, model, year):
+        self.make = make
+        self.model = model
+        self.year = year
+    
+    def start(self):
+        print(f"{self.get_info()} is starting...")
+    
+    def get_info(self):
+        return f"{self.year} {self.make} {self.model}"
+
+# Intermediate class
+class Car(Vehicle):
+    def __init__(self, make, model, year, doors):
+        super().__init__(make, model, year)
+        self.doors = doors
+        self.fuel_type = "Gasoline"
+    
+    def honk(self):
+        print("Beep! Beep!")
+    
+    def drive(self):
+        print(f"Driving the {self.doors}-door car")
+
+# Final derived class
+class ElectricCar(Car):
+    def __init__(self, make, model, year, doors, battery_capacity):
+        super().__init__(make, model, year, doors)
+        self.battery_capacity = battery_capacity
+        self.fuel_type = "Electric"  # Override parent attribute
+    
+    def charge(self):
+        print(f"Charging {self.battery_capacity}kWh battery")
+    
+    def start(self):  # Override grandparent method
+        print(f"Silently starting {self.get_info()} electric car")
+
+# Usage
+tesla = ElectricCar("Tesla", "Model 3", 2023, 4, 75)
+tesla.start()        # "Silently starting 2023 Tesla Model 3 electric car"
+tesla.drive()        # "Driving the 4-door car"
+tesla.honk()         # "Beep! Beep!"
+tesla.charge()       # "Charging 75kWh battery"
+print(tesla.fuel_type)  # "Electric"
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Concepts Explained
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">super() keyword:</span> Calls the parent class constructor or methods. In JavaScript, it's used in constructor and method calls. In Python, super() provides access to parent class methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Overriding:</span> Child classes can provide their own implementation of parent methods while maintaining the same method signature.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Resolution Order (MRO):</span> In Python's multiple inheritance, MRO determines the order in which parent classes are searched for methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">instanceof/isinstance:</span> Check if an object is an instance of a particular class or its parent classes.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Favor Composition over Inheritance:</span> Sometimes it's better to include objects as properties rather than inheriting.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Keep Inheritance Hierarchies Shallow:</span> Deep inheritance chains can become difficult to maintain.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Abstract Base Classes:</span> Define contracts that child classes must implement.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Follow the Liskov Substitution Principle:</span> Objects of child classes should be substitutable for objects of parent classes.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `// JavaScript ES6 Class Inheritance Example
+class Shape {
+  constructor(color) {
+    this.color = color;
+  }
+  
+  getArea() {
+    throw new Error("getArea() must be implemented by subclass");
+  }
+  
+  getColor() {
+    return this.color;
+  }
 }
 
-class Dog extends Animal {
-    constructor(name, breed) {
-        super(name, "Canine");
-        this.breed = breed;
-    }
-    
-    makeSound() {  // Override
-        return \`\ {this.name} barks: Woof!\`;
-    }
-    
-    fetch() {  // New method
-        return \`\ {this.name} fetches the ball\`;
-    }
+class Rectangle extends Shape {
+  constructor(color, width, height) {
+    super(color);
+    this.width = width;
+    this.height = height;
+  }
+  
+  getArea() {
+    return this.width * this.height;
+  }
+  
+  getPerimeter() {
+    return 2 * (this.width + this.height);
+  }
 }
 
-// Usage
-const myDog = new Dog("Buddy", "Golden Retriever");
-console.log(myDog.makeSound());  // Buddy barks: Woof!
-console.log(myDog.sleep());      // Buddy is sleeping (inherited)
-console.log(myDog.fetch());      // Buddy fetches the ball`,
+const rect = new Rectangle("red", 5, 3);
+console.log(rect.getArea());    // 15
+console.log(rect.getColor());   // "red"
+console.log(rect.getPerimeter()); // 16`,
+
+              `# Python Multiple Inheritance with MRO
+class A:
+    def method(self):
+        print("Method from A")
+
+class B(A):
+    def method(self):
+        print("Method from B")
+        super().method()
+
+class C(A):
+    def method(self):
+        print("Method from C")
+        super().method()
+
+class D(B, C):
+    def method(self):
+        print("Method from D")
+        super().method()
+
+# Usage
+obj = D()
+obj.method()
+# Output:
+# Method from D
+# Method from B  
+# Method from C
+# Method from A
+
+# Check Method Resolution Order
+print(D.__mro__)
+# (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)`,
             ],
             questions: [
               {
                 question:
                   "What is the difference between inheritance and composition?",
                 solution:
-                  "<p><strong>Inheritance</strong> creates an 'is-a' relationship where a child class inherits properties and methods from a parent class. <strong>Composition</strong> creates a 'has-a' relationship where a class contains instances of other classes. Inheritance promotes code reuse through hierarchical relationships, while composition promotes flexibility through object aggregation. For example: Car 'is-a' Vehicle (inheritance) vs Car 'has-a' Engine (composition).</p>",
+                  "<p>Inheritance establishes an 'is-a' relationship where a child class inherits properties and methods from a parent class, enabling code reuse and polymorphism. Composition establishes a 'has-a' relationship where a class contains objects of other classes as attributes. Inheritance creates tighter coupling and can lead to complex hierarchies, while composition provides more flexibility and is often preferred for building complex systems. The rule of thumb is to use inheritance when there's a clear hierarchical relationship and composition when you need to combine different behaviors.</p>",
               },
               {
-                question: "When should you use inheritance vs composition?",
+                question:
+                  "How does method overriding work in JavaScript and Python?",
+                solution: `<p>Method overriding allows a child class to provide a specific implementation of a method that is already defined in its parent class. In both JavaScript and Python, you simply define a method with the same name in the child class:</p>
+              <pre><code className="language-javascript">
+// JavaScript
+class Parent {
+  greet() { console.log("Hello from Parent"); }
+}
+class Child extends Parent {
+  greet() { console.log("Hello from Child"); }
+}
+              </code></pre>
+              <pre><code className="language-python">
+# Python  
+class Parent:
+    def greet(self):
+        print("Hello from Parent")
+        
+class Child(Parent):
+    def greet(self):
+        print("Hello from Child")
+              </code></pre>
+              <p>The child class method will be called instead of the parent method. You can still access the parent method using super() if needed.</p>`,
+              },
+              {
+                question: "What is the super() keyword and how is it used?",
                 solution:
-                  "<p>Use <strong>inheritance</strong> when: 1) There's a clear 'is-a' relationship, 2) You want to leverage polymorphism, 3) The relationship is stable and unlikely to change. Use <strong>composition</strong> when: 1) There's a 'has-a' relationship, 2) You need more flexibility, 3) You want to avoid tight coupling, 4) Multiple inheritance-like behavior is needed. The principle 'favor composition over inheritance' suggests composition is often more flexible and maintainable.</p>",
+                  "<p>The super() keyword is used to access methods and properties of the parent class from within a child class. In JavaScript, super() is used in constructors to call the parent constructor and super.methodName() to call parent methods. In Python, super() returns a proxy object that allows you to access parent class methods. It's essential for proper inheritance, especially when you want to extend parent functionality rather than completely replace it. Using super() ensures that the inheritance chain is properly maintained and makes code more maintainable when class hierarchies change.</p>",
               },
             ],
             links: [
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
               "https://docs.python.org/3/tutorial/classes.html#inheritance",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-              "https://refactoring.guru/design-patterns/strategy",
+              "https://realpython.com/python-super/",
+              "https://javascript.info/class-inheritance",
             ],
           },
           {

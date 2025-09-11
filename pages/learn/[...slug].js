@@ -42,11 +42,33 @@ export default function Learn({
     // Check screen size and set initial sidebar state
     const checkScreenSize = () => {
       const width = window.innerWidth;
+      const height = window.innerHeight;
       const isLarge = width >= 1024; // Desktop
       const isTabletSize = width >= 768 && width < 1024; // iPad range
 
       setIsLargeScreen(isLarge);
       setIsTablet(isTabletSize);
+
+      // Calculate topics per page based on available height
+      // Header: ~80px, Footer (pagination + progress): ~120px, Padding: ~40px
+      const headerHeight = 80;
+      const footerHeight = 120; // Pagination + progress indicator
+      const paddingHeight = 40; // Top and bottom padding
+      const availableHeight = Math.max(200, height - headerHeight - footerHeight - paddingHeight);
+      const topicItemHeight = 70; // Approximate height per topic item
+      const maxTopicsFit = Math.max(1, Math.floor(availableHeight / topicItemHeight));
+
+      if (width <= 414) {
+        setTopicsPerPage(Math.min(4, maxTopicsFit));
+      } else if (width <= 768) {
+        setTopicsPerPage(Math.min(6, maxTopicsFit));
+      } else if (width <= 1024) {
+        setTopicsPerPage(Math.min(8, maxTopicsFit));
+      } else if (width < 1280) {
+        setTopicsPerPage(Math.min(10, maxTopicsFit));
+      } else {
+        setTopicsPerPage(Math.min(12, maxTopicsFit));
+      }
 
       // Auto-close sidebar on mobile/small tablets
       if (width < 768 && sidebarOpen) {
@@ -155,7 +177,7 @@ export default function Learn({
                   onClick={() => router.push("/")}
                   className="hover:text-gray-700 transition-colors"
                 >
-                  <Home size={16} className="inline mr-1" />
+                  {/* <Home size={16} className="inline mr-1" /> */}
                   Home
                 </button>
                 <span>/</span>
@@ -197,40 +219,24 @@ export default function Learn({
       </header>
 
       <div className="relative">
-        {/* Sidebar Toggle Button */}
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log("Button clicked, sidebarOpen:", sidebarOpen);
-            if (sidebarOpen) {
-              closeSidebar();
-            } else {
+        {/* Sidebar Toggle Button - Only show when sidebar is closed */}
+        {!sidebarOpen && (
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              console.log("Button clicked, sidebarOpen:", sidebarOpen);
               toggleSidebar();
-            }
-          }}
-          className={`
-            fixed z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95
-            touch-manipulation
-            ${
-              sidebarOpen && isLargeScreen
-                ? "top-20 left-[280px] sm:left-[320px]"
-                : sidebarOpen && isTablet
-                ? "top-20 left-[260px] sm:left-[280px]"
-                : "left-3 sm:left-4 top-20"
-            }
-          `}
-          style={{
-            backgroundColor: theme?.themeBgColor || "#f3f4f6",
-            color: theme?.textColor || "#374151",
-          }}
-        >
-          {sidebarOpen ? (
-            <X size={18} className="sm:w-5 sm:h-5" />
-          ) : (
+            }}
+            className="fixed z-50 p-2.5 sm:p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 active:scale-95 touch-manipulation left-3 sm:left-4 top-20"
+            style={{
+              backgroundColor: theme?.themeBgColor || "#f3f4f6",
+              color: theme?.textColor || "#374151",
+            }}
+          >
             <Menu size={18} className="sm:w-5 sm:h-5" />
-          )}
-        </button>
+          </button>
+        )}
 
         {/* Mobile Overlay */}
         {sidebarOpen && !isLargeScreen && (
@@ -276,31 +282,35 @@ export default function Learn({
           >
             <div className="h-full flex flex-col">
               {/* Header */}
-              <div className="flex items-center gap-3 mb-4 sm:mb-6 flex-shrink-0 p-4 sm:p-6 pb-0">
-                <div
-                  className="p-2 rounded-lg"
-                  style={{ backgroundColor: theme?.lightColor || "#f3f4f6" }}
+              <div className="flex items-center justify-between gap-3 mb-4 sm:mb-6 flex-shrink-0 p-4 sm:p-6 pb-4">
+                <div className="flex items-center gap-3">
+                  <div>
+                    <h3
+                      className="font-semibold text-base sm:text-lg"
+                      style={{ color: theme?.textColor || "#374151" }}
+                    >
+                      {category} Topics
+                    </h3>
+                    <p className="text-xs sm:text-sm text-gray-500">
+                      {allTopics.length} topics available
+                    </p>
+                  </div>
+                </div>
+                
+                {/* Close Button - Inside sidebar */}
+                <button
+                  onClick={closeSidebar}
+                  className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                  style={{
+                    color: theme?.textColor || "#374151",
+                  }}
                 >
-                  <BookOpen
-                    size={20}
-                    style={{ color: theme?.textColor || "#374151" }}
-                  />
-                </div>
-                <div>
-                  <h3
-                    className="font-semibold text-base sm:text-lg"
-                    style={{ color: theme?.textColor || "#374151" }}
-                  >
-                    {category} Topics
-                  </h3>
-                  <p className="text-xs sm:text-sm text-gray-500">
-                    {allTopics.length} topics available
-                  </p>
-                </div>
+                  <X size={18} className="sm:w-5 sm:h-5" />
+                </button>
               </div>
 
-              {/* Topics List - Scrollable */}
-              <div className="flex-1 overflow-y-auto px-4 sm:px-6">
+              {/* Topics List - No scrolling, fit within available space */}
+              <div className="flex-1 px-4 sm:px-6">
                 <div className="space-y-2 pb-6">
                   {currentTopics.map((topicItem, index) => {
                     const isActive = topicItem.topic === topic;
@@ -372,7 +382,7 @@ export default function Learn({
 
               {/* Pagination */}
               {totalPages > 1 && (
-                <div className="flex-shrink-0 border-t border-gray-200 pt-3 sm:pt-4 px-4 sm:px-6 pb-4 sm:pb-6">
+                <div className="flex-shrink-0 border-t border-gray-200 p-4 sm:p-6 pt-3 sm:pt-4">
                   <div className="flex items-center justify-between mb-4">
                     <button
                       onClick={() =>
@@ -435,16 +445,14 @@ export default function Learn({
             `}
           >
             <div
-              // className={`
-              //   w-full px-4 sm:px-6 lg:px-8 py-6
-              //   ${sidebarOpen && isLargeScreen ? "max-w-4xl" : "max-w-5xl"}
-              // `}
               className={`
                 w-full 
                 px-4 sm:px-6 md:px-8 lg:px-10
                 py-6
-                ${sidebarOpen && isLargeScreen ? "max-w-4xl" : "max-w-5xl"}
-                md:max-w-3xl      // iPad Air (820px ~ md) gets a narrower max width
+                ${sidebarOpen && isLargeScreen ? "max-w-5xl" : "max-w-6xl"}
+                lg:max-w-4xl      // Large screens get wider content
+                xl:max-w-5xl      // Extra large screens get even wider
+                2xl:max-w-6xl     // 2xl screens get maximum width
               `}
             >
               <motion.article
@@ -463,7 +471,7 @@ export default function Learn({
 
                   {hydrated && explanation ? (
                     <div
-                      className="prose prose-lg max-w-none"
+                      className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-code:text-gray-800 prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200"
                       dangerouslySetInnerHTML={{ __html: explanation }}
                     />
                   ) : (
