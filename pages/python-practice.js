@@ -3,13 +3,13 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion } from "framer-motion";
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle, 
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
   CardDescription,
-  CardFooter 
+  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -63,6 +63,8 @@ export default function PythonPractice() {
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [activeTab, setActiveTab] = useState("beginner");
+  const [submissionResult, setSubmissionResult] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Separate questions by difficulty
   const beginnerQuestions = pythonQuestions.beginner || [];
@@ -73,18 +75,18 @@ export default function PythonPractice() {
   };
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' });
+    await signOut({ callbackUrl: "/" });
   };
 
   useEffect(() => {
     if (status === "loading") return;
-    if (!session) {
-      router.push("/auth/login");
-      return;
-    }
+    // if (!session) {
+    //   router.push("/auth/login");
+    //   return;
+    // }
 
     // Load initial code
-    setCode("# Write your Python code here\nprint('Hello, World!')");
+    setCode("");
   }, [session, status, router]);
 
   const executeCode = async () => {
@@ -92,7 +94,7 @@ export default function PythonPractice() {
 
     setLoading(true);
     try {
-      const rawResult = executor.execute(code);
+      const rawResult = await executor.execute(code);
 
       if (rawResult.success) {
         setResult({
@@ -123,17 +125,70 @@ export default function PythonPractice() {
     setResult(null);
     setShowHint(false);
     setShowSolution(false);
+    setSubmissionResult(null);
   };
 
   const resetCode = () => {
     if (selectedQuestion) {
       setCode(selectedQuestion.starterCode || "");
     } else {
-      setCode("# Write your Python code here\nprint('Hello, World!')");
+      setCode("");
     }
     setResult(null);
     setShowHint(false);
     setShowSolution(false);
+    setSubmissionResult(null);
+  };
+
+  const submitSolution = async () => {
+    if (!selectedQuestion || !code.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      const executionResult = await executor.execute(code);
+      
+      if (executionResult.success) {
+        const userOutput = executionResult.output.trim();
+        const expectedOutput = selectedQuestion.expectedOutput.trim();
+        
+        // Normalize outputs for comparison
+        const normalizeOutput = (output) => {
+          return output
+            .replace(/\s+/g, ' ')
+            .replace(/'/g, '"')
+            .replace(/\[\s+/g, '[')
+            .replace(/\s+\]/g, ']')
+            .replace(/\{\s+/g, '{')
+            .replace(/\s+\}/g, '}')
+            .trim();
+        };
+        
+        const normalizedUserOutput = normalizeOutput(userOutput);
+        const normalizedExpectedOutput = normalizeOutput(expectedOutput);
+        
+        const isCorrect = normalizedUserOutput === normalizedExpectedOutput;
+        
+        setSubmissionResult({
+          isCorrect,
+          userOutput,
+          expectedOutput: selectedQuestion.expectedOutput,
+          executionResult
+        });
+      } else {
+        setSubmissionResult({
+          isCorrect: false,
+          error: executionResult.error,
+          executionResult
+        });
+      }
+    } catch (error) {
+      setSubmissionResult({
+        isCorrect: false,
+        error: error.message,
+        executionResult: null
+      });
+    }
+    setIsSubmitting(false);
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -163,7 +218,10 @@ export default function PythonPractice() {
       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <nav className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => router.push("/")}
+            >
               <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100">
                 <FileCode2 size={24} className="text-yellow-600" />
               </div>
@@ -182,7 +240,7 @@ export default function PythonPractice() {
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User className="w-5 h-5 text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings className="w-5 h-5 text-gray-600" />
               </button>
@@ -193,37 +251,7 @@ export default function PythonPractice() {
 
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar */}
           <div className="lg:col-span-1 space-y-4">
-            {/* Python Concepts */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <FileCode2 className="w-5 h-5" />
-                  Python Concepts
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
-                  <p className="text-sm text-gray-600">
-                    Practice Python programming with interactive code execution
-                  </p>
-                  <div className="space-y-2 mt-4">
-                    {Object.entries(pythonConcepts).slice(0, 6).map(([key, concept]) => (
-                      <div
-                        key={key}
-                        className="text-xs p-2 rounded-md bg-gray-50 border border-gray-200"
-                      >
-                        <div className="font-medium text-gray-900">{concept.title}</div>
-                        <div className="text-gray-600 mt-1">{concept.description}</div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Practice Questions */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-lg">
@@ -349,7 +377,9 @@ export default function PythonPractice() {
                         {selectedQuestion.category}
                       </Badge>
                     </div>
-                    <p className="text-gray-700">{selectedQuestion.description}</p>
+                    <p className="text-gray-700">
+                      {selectedQuestion.description}
+                    </p>
 
                     <div className="flex items-center gap-2">
                       <Button
@@ -433,6 +463,16 @@ export default function PythonPractice() {
                       <Play className="w-4 h-4" />
                       {loading ? "Executing..." : "Execute Code"}
                     </Button>
+                    {selectedQuestion && (
+                      <Button
+                        onClick={submitSolution}
+                        disabled={isSubmitting || !code.trim()}
+                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        {isSubmitting ? "Checking..." : "Submit Solution"}
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardHeader>
@@ -455,13 +495,83 @@ export default function PythonPractice() {
               </CardContent>
             </Card>
 
-            {/* Results */}
+            {/* Submission Results */}
+            {submissionResult && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    {submissionResult.isCorrect ? (
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    ) : (
+                      <XCircle className="w-5 h-5 text-red-600" />
+                    )}
+                    {submissionResult.isCorrect ? "Solution Correct!" : "Solution Incorrect"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {submissionResult.isCorrect ? (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="text-green-800 font-semibold mb-2">
+                        🎉 Congratulations!
+                      </h4>
+                      <p className="text-green-700 text-sm mb-3">
+                        Your solution produces the correct output!
+                      </p>
+                      <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-sm whitespace-pre-wrap">
+                        {submissionResult.userOutput}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {submissionResult.error ? (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                          <h4 className="text-red-800 font-semibold mb-2">
+                            Execution Error
+                          </h4>
+                          <p className="text-red-700 text-sm font-mono">
+                            {submissionResult.error}
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <h4 className="text-red-800 font-semibold mb-2">
+                              Output Mismatch
+                            </h4>
+                            <p className="text-red-700 text-sm mb-3">
+                              Your output doesn&apos;t match the expected result.
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <h5 className="text-sm font-semibold text-gray-700 mb-2">Your Output:</h5>
+                              <div className="bg-gray-900 text-red-400 p-3 rounded font-mono text-sm whitespace-pre-wrap">
+                                {submissionResult.userOutput || "(no output)"}
+                              </div>
+                            </div>
+                            <div>
+                              <h5 className="text-sm font-semibold text-gray-700 mb-2">Expected Output:</h5>
+                              <div className="bg-gray-900 text-green-400 p-3 rounded font-mono text-sm whitespace-pre-wrap">
+                                {submissionResult.expectedOutput}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Execution Results */}
             {result && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     {result.success ? (
-                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <Play className="w-5 h-5 text-blue-600" />
                     ) : (
                       <XCircle className="w-5 h-5 text-red-600" />
                     )}

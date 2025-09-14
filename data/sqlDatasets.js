@@ -515,19 +515,6 @@ export const sqlDatasets = {
 
 // SQL Practice Questions with Expected Results
 export const sqlQuestions = [
-  // Basic SELECT queries
-  {
-    id: 1,
-    title: "List All Employees",
-    description:
-      "Write a query to select all employees from the employees table.",
-    dataset: "employees",
-    difficulty: "easy",
-    category: "SELECT",
-    question: "Select all columns from the employees table.",
-    expectedQuery: "SELECT * FROM employees;",
-    hint: "Use SELECT * to get all columns from a table.",
-  },
   {
     id: 2,
     title: "Employee Names and Salaries",

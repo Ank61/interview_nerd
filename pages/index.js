@@ -551,15 +551,17 @@ export default function Home() {
                     SQL Practice
                   </h3>
                   <p className="text-blue-100 text-sm mb-4">
-                    Master SQL with interactive queries, real datasets, and
-                    comprehensive practice questions
+                    Master SQL with interactive queries, real datasets,
+                    realistic datasets and comprehensive practice questions
                   </p>
                   <Button
                     size="sm"
-                    onClick={() =>
-                      session
-                        ? router.push("/sql-practice")
-                        : router.push("/auth/login")
+                    onClick={
+                      () =>
+                        // session
+                        //   ?
+                        router.push("/sql-practice")
+                      // : router.push("/auth/login")
                     }
                     className="bg-white text-indigo-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
@@ -617,11 +619,7 @@ export default function Home() {
                   </p>
                   <Button
                     size="sm"
-                    onClick={() =>
-                      session
-                        ? router.push("/python-practice")
-                        : router.push("/auth/login")
-                    }
+                    onClick={() => router.push("/python-practice")}
                     className="bg-white text-yellow-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
                     <FileCode2 className="mr-2 w-4 h-4" />
@@ -631,7 +629,7 @@ export default function Home() {
               </motion.div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {/* <div className="grid md:grid-cols-3 gap-8 mb-12">
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -685,7 +683,7 @@ export default function Home() {
                   </p>
                 </div>
               </motion.div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>

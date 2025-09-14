@@ -139,64 +139,141 @@ const executeJavaScript = async (code, testCases, compilerMode = false) => {
 };
 
 
-// Simple Python execution (basic interpreter)
+// Advanced Python execution with OOP support
 const executePython = async (code, testCases, compilerMode = false) => {
   try {
-    // Compiler mode - just execute the code and capture console output
+    // Compiler mode - execute the code and capture console output
     if (compilerMode || !testCases || testCases.length === 0) {
       let consoleOutput = [];
       
-      // Create a custom console that captures output
-      const customConsole = {
-        log: (...args) => {
-          consoleOutput.push(args.map(arg => 
-            typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-          ).join(' '));
-        },
-        error: (...args) => {
-          consoleOutput.push('ERROR: ' + args.map(arg => 
-            typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-          ).join(' '));
+      // Create a comprehensive Python-to-JavaScript transpiler
+      const transpilePythonToJS = (pythonCode) => {
+        let jsCode = pythonCode;
+        
+        // First pass: Handle basic Python syntax
+        jsCode = jsCode.replace(/\bprint\s*\(/g, 'console.log(');
+        jsCode = jsCode.replace(/\blen\s*\(([^)]+)\)/g, '($1.length || Object.keys($1).length || 0)');
+        jsCode = jsCode.replace(/\brange\s*\(([^)]+)\)/g, 'Array.from({length: $1}, (_, i) => i)');
+        jsCode = jsCode.replace(/\bisinstance\s*\(([^,]+),\s*([^)]+)\)/g, '($1 instanceof $2)');
+        
+        // Handle class definitions
+        jsCode = jsCode.replace(/class\s+(\w+)(\([^)]*\))?:/g, (match, className, inheritance) => {
+          if (inheritance) {
+            const parentClass = inheritance.replace(/[()]/g, '');
+            return `class ${className} extends ${parentClass} {`;
+          }
+          return `class ${className} {`;
+        });
+        
+        // Handle method definitions
+        jsCode = jsCode.replace(/(\s+)def\s+(__init__)\s*\(([^)]*)\):/g, '$1constructor($3) {');
+        jsCode = jsCode.replace(/(\s+)def\s+(\w+)\s*\(([^)]*)\):/g, '$1$2($3) {');
+        jsCode = jsCode.replace(/^def\s+(\w+)\s*\(([^)]*)\):/gm, 'function $1($2) {');
+        
+        // Handle self parameter
+        jsCode = jsCode.replace(/\bself\./g, 'this.');
+        jsCode = jsCode.replace(/\(self,\s*/g, '(');
+        jsCode = jsCode.replace(/\(self\)/g, '()');
+        jsCode = jsCode.replace(/\(,\s*/g, '(');
+        
+        // Handle magic methods
+        jsCode = jsCode.replace(/def\s+__str__\s*\([^)]*\):/g, 'toString() {');
+        jsCode = jsCode.replace(/def\s+__repr__\s*\([^)]*\):/g, 'toString() {');
+        jsCode = jsCode.replace(/def\s+__len__\s*\([^)]*\):/g, 'get length() {');
+        jsCode = jsCode.replace(/def\s+__add__\s*\([^)]*\):/g, 'valueOf() {');
+        
+        // Handle decorators
+        jsCode = jsCode.replace(/@property/g, 'get');
+        jsCode = jsCode.replace(/@staticmethod/g, 'static');
+        jsCode = jsCode.replace(/@classmethod/g, 'static');
+        
+        // Handle list operations
+        jsCode = jsCode.replace(/\.append\s*\(/g, '.push(');
+        jsCode = jsCode.replace(/\.join\s*\(/g, '.join(');
+        
+        // Handle colons and indentation
+        jsCode = jsCode.replace(/:\s*$/gm, ' {');
+        
+        // Process line by line for proper indentation handling
+        const lines = jsCode.split('\n');
+        const processedLines = [];
+        const indentStack = [0];
+        
+        for (let i = 0; i < lines.length; i++) {
+          const line = lines[i];
+          const trimmedLine = line.trim();
+          
+          if (trimmedLine === '') {
+            processedLines.push('');
+            continue;
+          }
+          
+          const currentIndent = line.length - line.trimStart().length;
+          const lastIndent = indentStack[indentStack.length - 1];
+          
+          // Handle indentation changes
+          if (currentIndent > lastIndent) {
+            indentStack.push(currentIndent);
+          } else if (currentIndent < lastIndent) {
+            while (indentStack.length > 1 && indentStack[indentStack.length - 1] > currentIndent) {
+              indentStack.pop();
+              processedLines.push('  '.repeat(indentStack.length - 1) + '}');
+            }
+          }
+          
+          processedLines.push('  '.repeat(indentStack.length - 1) + trimmedLine);
         }
+        
+        // Close remaining blocks
+        while (indentStack.length > 1) {
+          indentStack.pop();
+          processedLines.push('  '.repeat(indentStack.length - 1) + '}');
+        }
+        
+        return processedLines.join('\n');
       };
       
       try {
-        // Convert Python code to JavaScript equivalent for simple execution
-        let jsCode = code
-          .replace(/print\s*\(/g, 'console.log(') // Convert print to console.log
-          .replace(/len\s*\(/g, '(') // Remove len function (basic)
-          .replace(/\.append\s*\(/g, '.push(') // Convert append to push
-          .replace(/range\s*\(([^)]+)\)/g, 'Array.from({length: $1}, (_, i) => i)') // Convert range
-          .replace(/def\s+(\w+)\s*\([^)]*\):/g, 'function $1() {') // Convert simple function definitions
-          .replace(/:\s*$/gm, ' {') // Convert colons to braces
-          .replace(/^\s{4}/gm, '  '); // Convert 4-space indentation to 2-space
+        const jsCode = transpilePythonToJS(code);
         
-        // Add closing braces for blocks
-        const lines = jsCode.split('\n');
-        let braceCount = 0;
-        const processedLines = [];
+        // Create execution environment with Python-like built-ins
+        const executionEnv = {
+          console: {
+            log: (...args) => {
+              consoleOutput.push(args.map(arg => 
+                typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
+              ).join(' '));
+            }
+          },
+          len: (obj) => {
+            if (Array.isArray(obj) || typeof obj === 'string') return obj.length;
+            if (obj && typeof obj === 'object') return Object.keys(obj).length;
+            return 0;
+          },
+          range: (start, stop, step = 1) => {
+            if (stop === undefined) {
+              stop = start;
+              start = 0;
+            }
+            const result = [];
+            for (let i = start; i < stop; i += step) {
+              result.push(i);
+            }
+            return result;
+          },
+          isinstance: (obj, type) => {
+            if (typeof type === 'function') {
+              return obj instanceof type;
+            }
+            return typeof obj === type;
+          }
+        };
         
-        for (const line of lines) {
-          processedLines.push(line);
-          if (line.includes('{')) braceCount++;
-          if (line.includes('}')) braceCount--;
-        }
-        
-        // Add missing closing braces
-        while (braceCount > 0) {
-          processedLines.push('}');
-          braceCount--;
-        }
-        
-        jsCode = processedLines.join('\n');
-        
-        // Execute the converted code with custom console
-        const executeCode = new Function('console', `
-          ${jsCode}
-        `);
+        // Execute the converted code
+        const executeCode = new Function(...Object.keys(executionEnv), jsCode);
         
         const startTime = Date.now();
-        const result = executeCode(customConsole);
+        const result = executeCode(...Object.values(executionEnv));
         const executionTime = Date.now() - startTime;
         
         // If there's a return value, add it to output
@@ -215,29 +292,30 @@ const executePython = async (code, testCases, compilerMode = false) => {
           success: false,
           error: error.message,
           results: [],
-          output: `Python Execution Error: ${error.message}`
+          output: `Python Execution Error: ${error.message}\n\nNote: This is a JavaScript-based Python interpreter with limited functionality. Complex Python features may not be fully supported.`
         };
       }
     }
     
-    // Question mode - run test cases (existing logic)
+    // Question mode - run test cases
     const results = [];
     
     for (let i = 0; i < testCases.length; i++) {
       const testCase = testCases[i];
       try {
-        // Convert Python code to JavaScript equivalent
+        // For test cases, we'll use a simpler approach
+        // This is mainly for algorithm problems, not full OOP demos
         let jsCode = code
-          .replace(/def\s+(\w+)\s*\([^)]*\):/g, 'function $1(input) {') // Convert function definition
-          .replace(/^\s*return\s+/gm, 'return ') // Fix return statements
-          .replace(/print\s*\(/g, 'console.log(') // Convert print to console.log
-          .replace(/len\s*\(/g, '(') // Remove len function
-          .replace(/\.append\s*\(/g, '.push(') // Convert append to push
-          .replace(/range\s*\(([^)]+)\)/g, 'Array.from({length: $1}, (_, i) => i)') // Convert range
-          .replace(/:\s*$/gm, ' {') // Convert colons to braces
-          .replace(/^\s{4}/gm, '  '); // Convert 4-space indentation to 2-space
+          .replace(/def\s+(\w+)\s*\([^)]*\):/g, 'function $1(input) {')
+          .replace(/^\s*return\s+/gm, 'return ')
+          .replace(/print\s*\(/g, 'console.log(')
+          .replace(/len\s*\(/g, '(')
+          .replace(/\.append\s*\(/g, '.push(')
+          .replace(/range\s*\(([^)]+)\)/g, 'Array.from({length: $1}, (_, i) => i)')
+          .replace(/:\s*$/gm, ' {')
+          .replace(/^\s{4}/gm, '  ');
         
-        // Add closing braces for functions
+        // Add closing braces
         const lines = jsCode.split('\n');
         let braceCount = 0;
         const processedLines = [];
@@ -248,7 +326,6 @@ const executePython = async (code, testCases, compilerMode = false) => {
           if (line.includes('}')) braceCount--;
         }
         
-        // Add missing closing braces
         while (braceCount > 0) {
           processedLines.push('}');
           braceCount--;
@@ -256,11 +333,9 @@ const executePython = async (code, testCases, compilerMode = false) => {
         
         jsCode = processedLines.join('\n');
         
-        // Execute the converted code
         const executeCode = new Function('input', `
           ${jsCode}
           
-          // Find and execute the main function
           const lines = \`${jsCode}\`.split('\\n');
           const functionLine = lines.find(line => line.trim().startsWith('function '));
           
@@ -368,14 +443,11 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Check authentication
+    // Get session for rate limiting (optional for public access)
     const session = await getServerSession(req, res, authOptions);
-    if (!session) {
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    // Check rate limit
-    if (!checkRateLimit(session.user.id)) {
+    
+    // Check rate limit only if user is authenticated
+    if (session?.user?.id && !checkRateLimit(session.user.id)) {
       return res.status(429).json({ 
         error: 'Rate limit exceeded. Please wait before executing more code.' 
       });
@@ -439,16 +511,19 @@ export default async function handler(req, res) {
         result = await executeJavaScript(code, testCases, compilerMode);
         break;
       case 'typescript':
-        return await executeTypeScript(code, testCases, compilerMode);
+        result = await executeTypeScript(code, testCases, compilerMode);
+        break;
       case 'python':
-        return await executePython(code, testCases, compilerMode);
+        result = await executePython(code, testCases, compilerMode);
+        break;
       default:
-        return {
+        result = {
           success: false,
           error: `Unsupported language: ${language}`,
           results: [],
           output: `Language ${language} is not supported`
         };
+        break;
     }
 
     // Calculate performance metrics

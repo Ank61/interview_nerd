@@ -44,6 +44,7 @@
     "next-auth": "^4.24.11",
     "next-themes": "^0.3.0",
     "node-sql-parser": "^5.3.12",
+    "pyodide": "^0.28.2",
     "react": "^18",
     "react-ace": "^14.0.1",
     "react-dom": "^18",

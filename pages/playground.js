@@ -4,7 +4,14 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
@@ -53,7 +60,7 @@ export default function CodePlayground() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
-  
+
   // Playground state
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [userCode, setUserCode] = useState("");
@@ -67,6 +74,9 @@ export default function CodePlayground() {
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [activeTab, setActiveTab] = useState("beginner");
+  const [submissionResult, setSubmissionResult] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("javascript");
 
   const timerRef = useRef(null);
   const codeEditorRef = useRef(null);
@@ -76,29 +86,24 @@ export default function CodePlayground() {
   };
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' });
+    await signOut({ callbackUrl: "/" });
   };
 
-  // Redirect if not authenticated
-  useEffect(() => {
-    if (status === 'unauthenticated') {
-      router.push('/auth/login');
-    }
-  }, [status, router]);
+  // Remove authentication redirect - playground is now public
 
   // Initialize playground on mount
   useEffect(() => {
     if (session?.user?.id) {
       playgroundAdaptive.initializeSession(session.user.id);
-      // Auto-select first beginner question if none selected
-      if (!currentQuestion) {
-        const beginnerQuestions = playgroundQuestions.beginner || [];
-        if (beginnerQuestions.length > 0) {
-          selectQuestion(beginnerQuestions[0]);
-        }
+    }
+    // Auto-select first beginner question if none selected
+    if (!currentQuestion) {
+      const beginnerQuestions = playgroundQuestions.beginner || [];
+      if (beginnerQuestions.length > 0) {
+        selectQuestion(beginnerQuestions[0]);
       }
     }
-  }, [session]);
+  }, [session, currentQuestion]);
 
   // Timer for tracking time spent
   useEffect(() => {
@@ -115,25 +120,83 @@ export default function CodePlayground() {
 
   // Select a question to solve
   const selectQuestion = (question) => {
-    setCurrentQuestion(question);
-    setUserCode(question.starterCode || "");
+    setSelectedQuestion(question);
+    setCode(question.starterCode || "");
     setOutput("");
-    setTestResults([]);
-    setStartTime(Date.now());
-    setTimeSpent(0);
-    setAttempts(0);
-    setHintsUsed(0);
+    setError("");
     setShowHint(false);
     setShowSolution(false);
+    setTestResults([]);
+    setSubmissionResult(null);
   };
 
   // Execute JavaScript code
-  const executeCode = async () => {
-    if (!userCode.trim()) return;
+  const submitSolution = async () => {
+    if (!selectedQuestion || !code.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch("/api/playground/execute", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          code,
+          questionId: selectedQuestion.id,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const allTestsPassed = data.testResults.every((test) => test.passed);
+
+        setSubmissionResult({
+          isCorrect: allTestsPassed,
+          testResults: data.testResults,
+          output: data.output || "",
+          userCode: code,
+        });
+
+        // Award points for completing the challenge if all tests passed
+        if (allTestsPassed && session?.user?.email) {
+          await fetch("/api/gamification/award-points", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: session.user.email,
+              points: 10,
+              reason: `Completed ${selectedQuestion.title}`,
+            }),
+          });
+        }
+      } else {
+        setSubmissionResult({
+          isCorrect: false,
+          error: data.error,
+          userCode: code,
+        });
+      }
+    } catch (err) {
+      setSubmissionResult({
+        isCorrect: false,
+        error: "Failed to execute code",
+        userCode: code,
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const runTests = async () => {
+    if (!selectedQuestion || !code.trim()) return;
 
     setIsRunning(true);
-    setOutput("Running tests...");
-    setAttempts((prev) => prev + 1);
+    setError("");
+    setTestResults([]);
 
     try {
       const response = await fetch("/api/playground/execute", {
@@ -142,33 +205,38 @@ export default function CodePlayground() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          code: userCode,
-          language: "javascript",
-          testCases: currentQuestion?.testCases || [],
+          code,
+          questionId: selectedQuestion.id,
         }),
       });
 
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error || "Execution failed");
-      }
+      if (data.success) {
+        setTestResults(data.testResults);
+        setOutput(data.output || "");
 
-      setTestResults(data.results || []);
-      setOutput(data.output);
-
-      // Check if all tests passed
-      if (currentQuestion && data.results) {
-        const passedCount = data.results.filter((r) => r.passed).length;
-        const totalCount = data.results.length;
-
-        if (passedCount === totalCount) {
-          await handleQuestionCompleted(true);
+        // Check if all tests passed for gamification
+        const allTestsPassed = data.testResults.every((test) => test.passed);
+        if (allTestsPassed && session?.user?.email) {
+          // Award points for completing the challenge
+          await fetch("/api/gamification/award-points", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: session.user.email,
+              points: 10,
+              reason: `Completed ${selectedQuestion.title}`,
+            }),
+          });
         }
+      } else {
+        setError(data.error);
       }
-    } catch (error) {
-      setOutput(`Error: ${error.message}`);
-      setTestResults([]);
+    } catch (err) {
+      setError("Failed to execute code");
     } finally {
       setIsRunning(false);
     }
@@ -176,18 +244,27 @@ export default function CodePlayground() {
 
   // Handle question completion
   const handleQuestionCompleted = async (success) => {
-    if (!session?.user?.id || !currentQuestion) return;
+    if (!selectedQuestion) return;
+
+    // Skip gamification if no session (public access)
+    if (!session?.user?.id) {
+      let feedbackMessage = success
+        ? `🎉 Congratulations! All tests passed!`
+        : `Keep trying! You can do it.`;
+      setOutput((prev) => prev + "\n\n" + feedbackMessage);
+      return;
+    }
 
     const userMetrics = {
       timeSpent,
       attempts,
       hintsUsed,
       success,
-      finalCode: userCode,
+      finalCode: code,
     };
 
     const questionData = {
-      ...currentQuestion,
+      ...selectedQuestion,
       language: "javascript",
     };
 
@@ -206,15 +283,15 @@ export default function CodePlayground() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          questionId: currentQuestion.id,
-          language: "javascript",
-          difficulty: currentQuestion.difficulty,
+          questionId: selectedQuestion.id,
+          language: selectedLanguage,
+          difficulty: selectedQuestion.difficulty,
           timeSpent,
           attempts,
           hintsUsed,
           success,
-          codeQuality: assessCodeQuality(userCode),
-          tags: currentQuestion.tags,
+          codeQuality: assessCodeQuality(code),
+          tags: selectedQuestion.tags,
         }),
       });
 
@@ -264,9 +341,10 @@ export default function CodePlayground() {
 
   // Reset current question
   const resetQuestion = () => {
-    if (currentQuestion) {
-      setUserCode(currentQuestion.starterCode || "");
+    if (selectedQuestion) {
+      setCode(selectedQuestion.starterCode || "");
       setOutput("");
+      setError("");
       setTestResults([]);
       setAttempts(0);
       setHintsUsed(0);
@@ -303,28 +381,7 @@ export default function CodePlayground() {
     }
   };
 
-  if (!session) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Card className="w-96">
-          <CardHeader>
-            <CardTitle>Login Required</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <p className="text-gray-600 mb-4">
-              Please log in to access the Code Playground.
-            </p>
-            <Button
-              onClick={() => router.push("/auth/login")}
-              className="w-full"
-            >
-              Login
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Remove session check - playground is now public
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -332,7 +389,10 @@ export default function CodePlayground() {
       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <nav className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => router.push("/")}
+            >
               <div className="p-2 rounded-lg bg-gradient-to-br from-yellow-50 to-orange-50 border border-yellow-100">
                 <Code2 size={24} className="text-yellow-600" />
               </div>
@@ -354,11 +414,11 @@ export default function CodePlayground() {
                 <span className="mx-2">•</span>
                 <span>Attempts: {attempts}</span>
               </div>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User className="w-5 h-5 text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings className="w-5 h-5 text-gray-600" />
               </button>
@@ -408,7 +468,7 @@ export default function CodePlayground() {
                         <div
                           key={question.id}
                           className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            currentQuestion?.id === question.id
+                            selectedQuestion?.id === question.id
                               ? "border-yellow-500 bg-yellow-50"
                               : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                           }`}
@@ -419,7 +479,9 @@ export default function CodePlayground() {
                               {question.title}
                             </span>
                             <Badge
-                              className={getDifficultyColor(question.difficulty)}
+                              className={getDifficultyColor(
+                                question.difficulty
+                              )}
                             >
                               {question.difficulty}
                             </Badge>
@@ -438,7 +500,7 @@ export default function CodePlayground() {
                         <div
                           key={question.id}
                           className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            currentQuestion?.id === question.id
+                            selectedQuestion?.id === question.id
                               ? "border-yellow-500 bg-yellow-50"
                               : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                           }`}
@@ -449,7 +511,9 @@ export default function CodePlayground() {
                               {question.title}
                             </span>
                             <Badge
-                              className={getDifficultyColor(question.difficulty)}
+                              className={getDifficultyColor(
+                                question.difficulty
+                              )}
                             >
                               {question.difficulty}
                             </Badge>
@@ -469,13 +533,13 @@ export default function CodePlayground() {
           {/* Main Content */}
           <div className="lg:col-span-3 space-y-4">
             {/* Question Details */}
-            {currentQuestion && (
+            {selectedQuestion && (
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <CardTitle className="flex items-center gap-2">
                       <Code2 className="w-5 h-5" />
-                      {currentQuestion.title}
+                      {selectedQuestion.title}
                     </CardTitle>
                   </div>
                 </CardHeader>
@@ -483,23 +547,38 @@ export default function CodePlayground() {
                   <div className="space-y-4">
                     <div className="flex items-center gap-2">
                       <Badge
-                        className={getDifficultyColor(currentQuestion.difficulty)}
+                        className={getDifficultyColor(
+                          selectedQuestion.difficulty
+                        )}
                       >
-                        {currentQuestion.difficulty}
+                        {selectedQuestion.difficulty}
                       </Badge>
                     </div>
-                    <p className="text-gray-700">{currentQuestion.description}</p>
+                    <p className="text-gray-700">
+                      {selectedQuestion.description}
+                    </p>
 
-                    {currentQuestion.examples && (
+                    {selectedQuestion.examples && (
                       <div className="mb-4">
-                        <h4 className="font-medium text-gray-900 mb-2">Examples:</h4>
-                        {currentQuestion.examples.map((example, index) => (
-                          <div key={index} className="bg-gray-50 p-3 rounded mb-2">
+                        <h4 className="font-medium text-gray-900 mb-2">
+                          Examples:
+                        </h4>
+                        {selectedQuestion.examples.map((example, index) => (
+                          <div
+                            key={index}
+                            className="bg-gray-50 p-3 rounded mb-2"
+                          >
                             <div className="text-sm">
-                              <div><strong>Input:</strong> {example.input}</div>
-                              <div><strong>Output:</strong> {example.output}</div>
+                              <div>
+                                <strong>Input:</strong> {example.input}
+                              </div>
+                              <div>
+                                <strong>Output:</strong> {example.output}
+                              </div>
                               {example.explanation && (
-                                <div className="text-gray-600 mt-1">{example.explanation}</div>
+                                <div className="text-gray-600 mt-1">
+                                  {example.explanation}
+                                </div>
                               )}
                             </div>
                           </div>
@@ -539,13 +618,13 @@ export default function CodePlayground() {
                     </div>
 
                     {/* Hints */}
-                    {showHint && currentQuestion.hints && (
+                    {showHint && selectedQuestion.hints && (
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                         <p className="text-sm text-yellow-800">
                           <strong>Hints:</strong>
                         </p>
                         <ul className="text-yellow-700 text-sm space-y-1 mt-1">
-                          {currentQuestion.hints.map((hint, index) => (
+                          {selectedQuestion.hints.map((hint, index) => (
                             <li key={index}>• {hint}</li>
                           ))}
                         </ul>
@@ -559,7 +638,7 @@ export default function CodePlayground() {
                           <strong>Solution:</strong>
                         </p>
                         <code className="text-sm font-mono bg-white p-2 rounded border block text-gray-900">
-                          {currentQuestion.solution}
+                          {selectedQuestion.solution}
                         </code>
                       </div>
                     )}
@@ -568,11 +647,31 @@ export default function CodePlayground() {
               </Card>
             )}
 
-            {/* JavaScript Editor */}
+            {/* Code Editor */}
             <Card>
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle>JavaScript Editor</CardTitle>
+                  <div className="flex items-center gap-4">
+                    <CardTitle>Code Editor</CardTitle>
+                    <div className="flex items-center gap-2">
+                      <Label
+                        htmlFor="language-select"
+                        className="text-sm font-medium"
+                      >
+                        Language:
+                      </Label>
+                      <select
+                        id="language-select"
+                        value={selectedLanguage}
+                        onChange={(e) => setSelectedLanguage(e.target.value)}
+                        className="px-3 py-1 border border-gray-300 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-transparent"
+                      >
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="typescript">TypeScript</option>
+                      </select>
+                    </div>
+                  </div>
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
@@ -584,23 +683,37 @@ export default function CodePlayground() {
                       Reset
                     </Button>
                     <Button
-                      onClick={executeCode}
-                      disabled={isRunning || !userCode.trim()}
-                      className="flex items-center gap-2 bg-yellow-600 hover:bg-yellow-700 text-white"
+                      onClick={runTests}
+                      disabled={isRunning || !code.trim()}
+                      className="flex items-center gap-2"
                     >
-                      <Play className="w-4 h-4" />
-                      {isRunning ? "Running..." : "Run Code"}
+                      {isRunning ? (
+                        <Clock className="w-4 h-4 animate-spin" />
+                      ) : (
+                        <Play className="w-4 h-4" />
+                      )}
+                      {isRunning ? "Running..." : "Run Tests"}
                     </Button>
+                    {selectedQuestion && (
+                      <Button
+                        onClick={submitSolution}
+                        disabled={isSubmitting || !code.trim()}
+                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        {isSubmitting ? "Checking..." : "Submit Solution"}
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="h-64">
                   <CodeEditor
-                    code={userCode}
-                    onChange={setUserCode}
-                    language="javascript"
-                    onRun={executeCode}
+                    code={code}
+                    onChange={setCode}
+                    language={selectedLanguage}
+                    onRun={runTests}
                     className="h-full"
                   />
                 </div>
@@ -622,7 +735,9 @@ export default function CodePlayground() {
                 <CardContent>
                   {output && (
                     <div className="mb-4">
-                      <h4 className="font-medium text-gray-900 mb-2">Console Output:</h4>
+                      <h4 className="font-medium text-gray-900 mb-2">
+                        Console Output:
+                      </h4>
                       <pre className="bg-gray-900 text-green-400 p-3 rounded text-sm whitespace-pre-wrap">
                         {output}
                       </pre>
@@ -631,7 +746,9 @@ export default function CodePlayground() {
 
                   {testResults.length > 0 && (
                     <div>
-                      <h4 className="font-medium text-gray-900 mb-2">Test Results:</h4>
+                      <h4 className="font-medium text-gray-900 mb-2">
+                        Test Results:
+                      </h4>
                       <div className="space-y-2">
                         {testResults.map((test, index) => (
                           <div
@@ -648,15 +765,22 @@ export default function CodePlayground() {
                               ) : (
                                 <XCircle className="w-4 h-4 text-red-600" />
                               )}
-                              <span className={`font-medium ${
-                                test.passed ? "text-green-800" : "text-red-800"
-                              }`}>
-                                Test {index + 1}: {test.passed ? "PASSED" : "FAILED"}
+                              <span
+                                className={`font-medium ${
+                                  test.passed
+                                    ? "text-green-800"
+                                    : "text-red-800"
+                                }`}
+                              >
+                                Test {index + 1}:{" "}
+                                {test.passed ? "PASSED" : "FAILED"}
                               </span>
                             </div>
                             {!test.passed && (
                               <div className="text-sm text-red-700 ml-6">
-                                <div>Expected: {JSON.stringify(test.expected)}</div>
+                                <div>
+                                  Expected: {JSON.stringify(test.expected)}
+                                </div>
                                 <div>Actual: {JSON.stringify(test.actual)}</div>
                               </div>
                             )}
@@ -669,7 +793,127 @@ export default function CodePlayground() {
               </Card>
             )}
 
-            {!currentQuestion && (
+            {/* Submission Results */}
+            {submissionResult && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    {submissionResult.isCorrect ? (
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    ) : (
+                      <XCircle className="w-5 h-5 text-red-600" />
+                    )}
+                    {submissionResult.isCorrect
+                      ? "Solution Correct!"
+                      : "Solution Incorrect"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {submissionResult.isCorrect ? (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="text-green-800 font-semibold mb-2">
+                        🎉 Congratulations!
+                      </h4>
+                      <p className="text-green-700 text-sm mb-3">
+                        Your JavaScript solution passes all test cases!
+                      </p>
+                      <div className="text-sm text-gray-600">
+                        <strong>Tests Passed:</strong>{" "}
+                        {submissionResult.testResults?.filter((t) => t.passed)
+                          .length}{" "}
+                        / {submissionResult.testResults?.length}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {submissionResult.error ? (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                          <h4 className="text-red-800 font-semibold mb-2">
+                            Execution Error
+                          </h4>
+                          <p className="text-red-700 text-sm font-mono">
+                            {submissionResult.error}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                          <h4 className="text-red-800 font-semibold mb-2">
+                            Some Tests Failed
+                          </h4>
+                          <p className="text-red-700 text-sm mb-3">
+                            Your solution doesn&apos;t pass all test cases. Review the
+                            failing tests below.
+                          </p>
+                          <div className="text-sm text-gray-600">
+                            <strong>Tests Passed:</strong>{" "}
+                            {submissionResult.testResults?.filter((t) => t.passed)
+                              .length}{" "}
+                            / {submissionResult.testResults?.length}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Test Results */}
+            {testResults.length > 0 && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <CheckCircle className="w-5 h-5" />
+                    Test Results
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-3">
+                    {testResults.map((test, index) => (
+                      <div
+                        key={index}
+                        className={`p-3 rounded-lg border ${
+                          test.passed
+                            ? "bg-green-50 border-green-200"
+                            : "bg-red-50 border-red-200"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="font-medium">
+                            Test {index + 1}
+                          </span>
+                          <span
+                            className={`text-sm ${
+                              test.passed ? "text-green-600" : "text-red-600"
+                            }`}
+                          >
+                            {test.passed ? "✓ Passed" : "✗ Failed"}
+                          </span>
+                        </div>
+                        {test.input && (
+                          <div className="mt-2 text-sm text-gray-600">
+                            <strong>Input:</strong> {test.input}
+                          </div>
+                        )}
+                        <div className="mt-1 text-sm text-gray-600">
+                          <strong>Expected:</strong> {test.expected}
+                        </div>
+                        <div className="mt-1 text-sm text-gray-600">
+                          <strong>Got:</strong> {test.actual}
+                        </div>
+                        {test.error && (
+                          <div className="mt-2 text-sm text-red-600">
+                            <strong>Error:</strong> {test.error}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </CardContent>
+              </Card>
+            )}
+
+            {!selectedQuestion && (
               <Card>
                 <CardContent className="text-center py-12">
                   <Code2 className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -677,7 +921,8 @@ export default function CodePlayground() {
                     Select a Question
                   </h3>
                   <p className="text-gray-600">
-                    Choose a JavaScript coding challenge from the sidebar to start practicing.
+                    Choose a JavaScript coding challenge from the sidebar to
+                    start practicing.
                   </p>
                 </CardContent>
               </Card>

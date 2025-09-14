@@ -3,13 +3,13 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion } from "framer-motion";
-import { 
-  Card, 
-  CardHeader, 
-  CardTitle, 
-  CardContent, 
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
   CardDescription,
-  CardFooter 
+  CardFooter,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -30,23 +30,13 @@ import {
   Code,
   FileText,
   User,
-  Settings,
-  ChevronDown,
-  ArrowRight,
-  MonitorCog,
-  DatabaseZap,
-  Workflow,
-  FileCode2,
-  Target,
-  Award,
-  ChevronLeft,
-  ChevronRight,
-  GraduationCap,
-  Zap,
-  XCircle,
   Eye,
   EyeOff,
-  RotateCcw,
+  Menu,
+  X,
+  XCircle,
+  LogOut,
+  Settings,
 } from "lucide-react";
 import MongoExecutor from "../lib/mongoExecutor";
 import { mongoDatasets, mongoQuestions } from "../data/mongoDatasets";
@@ -56,7 +46,7 @@ export default function MongoDBPractice() {
   const router = useRouter();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
-  
+
   // State management
   const [selectedDataset, setSelectedDataset] = useState("ecommerce");
   const [query, setQuery] = useState("db.products.find()");
@@ -68,6 +58,8 @@ export default function MongoDBPractice() {
   const [showSolution, setShowSolution] = useState(false);
   const [activeTab, setActiveTab] = useState("beginner");
   const [showSchema, setShowSchema] = useState(true);
+  const [submissionResult, setSubmissionResult] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const mongoExecutor = new MongoExecutor();
 
@@ -76,7 +68,7 @@ export default function MongoDBPractice() {
   };
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' });
+    await signOut({ callbackUrl: "/" });
   };
 
   useEffect(() => {
@@ -127,10 +119,73 @@ export default function MongoDBPractice() {
     setError("");
     setShowHint(false);
     setShowSolution(false);
+    setSubmissionResult(null);
 
     if (question.dataset !== selectedDataset) {
       setSelectedDataset(question.dataset);
     }
+  };
+
+  const submitSolution = async () => {
+    if (!selectedQuestion || !query.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      const executionResult = mongoExecutor.executeQuery(selectedDataset, query);
+      
+      if (executionResult.success) {
+        // For MongoDB, we'll compare the user's query result with expected result
+        const userResult = executionResult.result;
+        const expectedQuery = selectedQuestion.solution;
+        
+        // Execute the expected query to compare results
+        const expectedResult = mongoExecutor.executeQuery(selectedDataset, expectedQuery);
+        
+        if (expectedResult.success) {
+          const expectedData = expectedResult.result;
+          
+          // Compare results - normalize and compare JSON strings
+          const normalizeResult = (result) => {
+            if (Array.isArray(result)) {
+              return JSON.stringify(result.slice(0, 10).map(item => 
+                typeof item === 'object' ? JSON.stringify(item) : item
+              ).sort());
+            }
+            return JSON.stringify(result);
+          };
+          
+          const isCorrect = normalizeResult(userResult) === normalizeResult(expectedData);
+          
+          setSubmissionResult({
+            isCorrect,
+            userResult,
+            expectedResult: expectedData,
+            userQuery: query,
+            expectedQuery,
+            executionResult
+          });
+        } else {
+          setSubmissionResult({
+            isCorrect: false,
+            error: "Could not execute expected query for comparison",
+            executionResult
+          });
+        }
+      } else {
+        setSubmissionResult({
+          isCorrect: false,
+          error: executionResult.error,
+          executionResult
+        });
+      }
+    } catch (error) {
+      setSubmissionResult({
+        isCorrect: false,
+        error: error.message,
+        executionResult: null
+      });
+    }
+    setIsSubmitting(false);
   };
 
   const formatResult = (data) => {
@@ -169,7 +224,10 @@ export default function MongoDBPractice() {
       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <nav className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => router.push("/")}
+            >
               <div className="p-2 rounded-lg bg-gradient-to-br from-green-50 to-emerald-50 border border-green-100">
                 <Database size={24} className="text-green-600" />
               </div>
@@ -199,11 +257,11 @@ export default function MongoDBPractice() {
                   ))}
                 </select>
               </div>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User className="w-5 h-5 text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings className="w-5 h-5 text-gray-600" />
               </button>
@@ -445,6 +503,16 @@ export default function MongoDBPractice() {
                       )}
                       {loading ? "Executing..." : "Execute Query"}
                     </Button>
+                    {selectedQuestion && (
+                      <Button
+                        onClick={submitSolution}
+                        disabled={isSubmitting || !query.trim()}
+                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        {isSubmitting ? "Checking..." : "Submit Solution"}
+                      </Button>
+                    )}
                     <Button
                       variant="outline"
                       onClick={() => {
@@ -460,7 +528,80 @@ export default function MongoDBPractice() {
               </CardContent>
             </Card>
 
-            {/* Results */}
+            {/* Submission Results */}
+            {submissionResult && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    {submissionResult.isCorrect ? (
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    ) : (
+                      <XCircle className="w-5 h-5 text-red-600" />
+                    )}
+                    {submissionResult.isCorrect ? "Solution Correct!" : "Solution Incorrect"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {submissionResult.isCorrect ? (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="text-green-800 font-semibold mb-2">
+                        🎉 Congratulations!
+                      </h4>
+                      <p className="text-green-700 text-sm mb-3">
+                        Your MongoDB query produces the correct results!
+                      </p>
+                      <div className="text-sm text-gray-600">
+                        <strong>Your Query:</strong>
+                        <code className="block bg-white p-2 rounded mt-1 font-mono text-gray-900">
+                          {submissionResult.userQuery}
+                        </code>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {submissionResult.error ? (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                          <h4 className="text-red-800 font-semibold mb-2">
+                            Query Error
+                          </h4>
+                          <p className="text-red-700 text-sm font-mono">
+                            {submissionResult.error}
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <h4 className="text-red-800 font-semibold mb-2">
+                              Results Don&apos;t Match
+                            </h4>
+                            <p className="text-red-700 text-sm mb-3">
+                              Your query results don&apos;t match the expected output.
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <h5 className="text-sm font-semibold text-gray-700 mb-2">Your Query:</h5>
+                              <code className="text-sm font-mono bg-gray-100 p-2 rounded block text-gray-900">
+                                {submissionResult.userQuery}
+                              </code>
+                            </div>
+                            <div>
+                              <h5 className="text-sm font-semibold text-gray-700 mb-2">Expected Query:</h5>
+                              <code className="text-sm font-mono bg-gray-100 p-2 rounded block text-gray-900">
+                                {submissionResult.expectedQuery}
+                              </code>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Query Results */}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">

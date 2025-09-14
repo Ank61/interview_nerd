@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardFooter,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -37,14 +44,14 @@ import {
   Target,
   Award,
 } from "lucide-react";
-import SQLParseExecutor from "@/lib/sqlParseExecutor";
+import SQLExecutor from "@/lib/sqlExecutor";
 import { sqlDatasets, sqlQuestions } from "@/data/sqlDatasets";
 import { motion } from "framer-motion";
 
 export default function SQLPractice() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [sqlExecutor] = useState(() => new SQLParseExecutor(sqlDatasets));
+  const [sqlExecutor] = useState(() => new SQLExecutor());
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // State management
@@ -52,12 +59,15 @@ export default function SQLPractice() {
   const [query, setQuery] = useState("");
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [showSchema, setShowSchema] = useState(true);
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [activeTab, setActiveTab] = useState("beginner");
   const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
+  const [submissionResult, setSubmissionResult] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Separate questions by difficulty
   const beginnerQuestions = sqlQuestions.filter((q) => q.difficulty === "easy");
@@ -70,39 +80,48 @@ export default function SQLPractice() {
   };
 
   const handleLogout = async () => {
-    await signOut({ callbackUrl: '/' });
+    await signOut({ callbackUrl: "/" });
   };
 
   useEffect(() => {
-    if (status === "loading") return;
-    if (!session) {
+    if (status === "unauthenticated") {
       router.push("/auth/login");
-      return;
     }
+  }, [status, router]);
 
-    // Load initial dataset
-    try {
-      sqlExecutor.loadDataset(selectedDataset);
-      setQuery("SELECT * FROM employees LIMIT 5;");
-    } catch (error) {
-      console.error("Failed to load dataset:", error);
+  useEffect(() => {
+    const loadInitialDataset = async () => {
+      try {
+        await sqlExecutor.loadDataset(selectedDataset);
+        setQuery("SELECT * FROM employees LIMIT 5;");
+      } catch (error) {
+        console.error("Failed to load initial dataset:", error);
+        setError(`Failed to load dataset: ${error.message}`);
+      }
+    };
+    
+    if (status !== "loading") {
+      loadInitialDataset();
     }
-  }, [session, status, router, selectedDataset, sqlExecutor]);
+  }, [status, selectedDataset, sqlExecutor]);
 
-  const handleDatasetChange = (datasetName) => {
+
+  const handleDatasetChange = async (datasetName) => {
     setSelectedDataset(datasetName);
-    setSelectedQuestion(null);
-    setShowHint(false);
-    setShowSolution(false);
-    setResult(null);
-
+    setLoading(true);
     try {
-      sqlExecutor.loadDataset(datasetName);
-      // Set a default query for the new dataset
-      const firstTable = Object.keys(sqlDatasets[datasetName].tables)[0];
-      setQuery(`SELECT * FROM ${firstTable} LIMIT 5;`);
+      await sqlExecutor.loadDataset(datasetName);
+      setQuery("");
+      setResult(null);
+      setError("");
+      setSelectedQuestion(null);
+      setShowHint(false);
+      setShowSolution(false);
+      setSubmissionResult(null);
     } catch (error) {
-      console.error("Failed to load dataset:", error);
+      setError(`Failed to load dataset: ${error.message}`);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -110,35 +129,23 @@ export default function SQLPractice() {
     if (!query.trim()) return;
 
     setLoading(true);
+    setError("");
+
     try {
-      const rawResult = sqlExecutor.execute(query);
+      const queryResult = sqlExecutor.execute(query);
 
-      if (rawResult.success) {
-        const rows = rawResult.data || [];
-        const columns = rawResult.columns || []; // Use columns from executor result
-
-        setResult({
-          success: true,
-          data: rows,
-          columns,
-          rowCount: rows.length,
-          query,
-        });
+      if (queryResult.success) {
+        setResult(queryResult);
       } else {
-        setResult({
-          success: false,
-          error: rawResult.error,
-          query,
-        });
+        setError(queryResult.error);
+        setResult(null);
       }
-    } catch (error) {
-      setResult({
-        success: false,
-        error: error.message,
-        query,
-      });
+    } catch (err) {
+      setError(err.message);
+      setResult(null);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const loadQuestion = (question) => {
@@ -147,6 +154,7 @@ export default function SQLPractice() {
     setResult(null);
     setShowHint(false);
     setShowSolution(false);
+    setSubmissionResult(null);
 
     // Load the appropriate dataset if different
     if (question.dataset !== selectedDataset) {
@@ -159,6 +167,60 @@ export default function SQLPractice() {
     setResult(null);
     setShowHint(false);
     setShowSolution(false);
+    setSubmissionResult(null);
+  };
+
+  const submitSolution = async () => {
+    if (!selectedQuestion || !query.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      const executionResult = sqlExecutor.execute(query);
+
+      if (executionResult.success) {
+        // For SQL, we'll compare the user's query result with expected result
+        const userResult = executionResult.data;
+        const expectedQuery = selectedQuestion.expectedQuery;
+
+        // Execute the expected query to compare results
+        const expectedResult = sqlExecutor.execute(expectedQuery);
+
+        if (expectedResult.success) {
+          const expectedData = expectedResult.data;
+
+          // Compare results - basic comparison of first 10 rows
+          const isCorrect = JSON.stringify(userResult.slice(0, 10)) === JSON.stringify(expectedData.slice(0, 10));
+
+          setSubmissionResult({
+            isCorrect,
+            userResult,
+            expectedData,
+            userQuery: query,
+            expectedQuery,
+            executionResult,
+          });
+        } else {
+          setSubmissionResult({
+            isCorrect: false,
+            error: "Could not execute expected query for comparison",
+            executionResult,
+          });
+        }
+      } else {
+        setSubmissionResult({
+          isCorrect: false,
+          error: executionResult.error,
+          executionResult,
+        });
+      }
+    } catch (error) {
+      setSubmissionResult({
+        isCorrect: false,
+        error: error.message,
+        executionResult: null,
+      });
+    }
+    setIsSubmitting(false);
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -184,11 +246,20 @@ export default function SQLPractice() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Head>
+        <title>SQL Practice - Interview Nerd</title>
+        <meta name="description" content="Practice SQL queries with real datasets" />
+        <script src="https://sql.js.org/dist/sql-wasm.js" async></script>
+      </Head>
+
       {/* Header */}
       <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
         <nav className="w-full px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-3">
+            <div
+              className="flex items-center space-x-3 cursor-pointer"
+              onClick={() => router.push("/")}
+            >
               <div className="p-2 rounded-lg bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
                 <Database size={24} className="text-blue-600" />
               </div>
@@ -213,17 +284,16 @@ export default function SQLPractice() {
                 >
                   {Object.entries(sqlDatasets).map(([key, dataset]) => (
                     <option key={key} value={key}>
-                      {dataset.name.charAt(0).toUpperCase() +
-                        dataset.name.slice(1)}
+                      {dataset.name.charAt(0).toUpperCase() + dataset.name.slice(1)}
                     </option>
                   ))}
                 </select>
               </div>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <User className="w-5 h-5 text-gray-600" />
               </button>
-              
+
               <button className="p-2 rounded-lg hover:bg-gray-100 transition-colors">
                 <Settings className="w-5 h-5 text-gray-600" />
               </button>
@@ -507,6 +577,16 @@ export default function SQLPractice() {
                       <Play className="w-4 h-4" />
                       {loading ? "Executing..." : "Execute Query"}
                     </Button>
+                    {selectedQuestion && (
+                      <Button
+                        onClick={submitSolution}
+                        disabled={isSubmitting || !query.trim()}
+                        className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
+                      >
+                        <CheckCircle className="w-4 h-4" />
+                        {isSubmitting ? "Checking..." : "Submit Solution"}
+                      </Button>
+                    )}
                   </div>
                 </div>
               </CardHeader>
@@ -529,13 +609,86 @@ export default function SQLPractice() {
               </CardContent>
             </Card>
 
-            {/* Results */}
+            {/* Submission Results */}
+            {submissionResult && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    {submissionResult.isCorrect ? (
+                      <CheckCircle className="w-5 h-5 text-green-600" />
+                    ) : (
+                      <XCircle className="w-5 h-5 text-red-600" />
+                    )}
+                    {submissionResult.isCorrect ? "Solution Correct!" : "Solution Incorrect"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {submissionResult.isCorrect ? (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <h4 className="text-green-800 font-semibold mb-2">
+                        🎉 Congratulations!
+                      </h4>
+                      <p className="text-green-700 text-sm mb-3">
+                        Your SQL query produces the correct results!
+                      </p>
+                      <div className="text-sm text-gray-600">
+                        <strong>Your Query:</strong>
+                        <code className="block bg-white p-2 rounded mt-1 font-mono text-gray-900">
+                          {submissionResult.userQuery}
+                        </code>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {submissionResult.error ? (
+                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                          <h4 className="text-red-800 font-semibold mb-2">
+                            Query Error
+                          </h4>
+                          <p className="text-red-700 text-sm font-mono">
+                            {submissionResult.error}
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+                            <h4 className="text-red-800 font-semibold mb-2">
+                              Results Don&apos;t Match
+                            </h4>
+                            <p className="text-red-700 text-sm mb-3">
+                              Your query results don&apos;t match the expected output.
+                            </p>
+                          </div>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                              <h5 className="text-sm font-semibold text-gray-700 mb-2">Your Query:</h5>
+                              <code className="text-sm font-mono bg-gray-100 p-2 rounded block text-gray-900">
+                                {submissionResult.userQuery}
+                              </code>
+                            </div>
+                            <div>
+                              <h5 className="text-sm font-semibold text-gray-700 mb-2">Expected Query:</h5>
+                              <code className="text-sm font-mono bg-gray-100 p-2 rounded block text-gray-900">
+                                {submissionResult.expectedQuery}
+                              </code>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Query Results */}
             {result && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     {result.success ? (
-                      <CheckCircle className="w-5 h-5 text-green-600" />
+                      <Play className="w-5 h-5 text-blue-600" />
                     ) : (
                       <XCircle className="w-5 h-5 text-red-600" />
                     )}
