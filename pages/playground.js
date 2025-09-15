@@ -63,9 +63,11 @@ export default function CodePlayground() {
 
   // Playground state
   const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [code, setCode] = useState("");
   const [userCode, setUserCode] = useState("");
   const [output, setOutput] = useState("");
   const [isRunning, setIsRunning] = useState(false);
+  const [error, setError] = useState(null)
   const [testResults, setTestResults] = useState([]);
   const [startTime, setStartTime] = useState(null);
   const [timeSpent, setTimeSpent] = useState(0);
@@ -74,6 +76,7 @@ export default function CodePlayground() {
   const [showHint, setShowHint] = useState(false);
   const [showSolution, setShowSolution] = useState(false);
   const [activeTab, setActiveTab] = useState("beginner");
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [submissionResult, setSubmissionResult] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState("javascript");
@@ -467,11 +470,10 @@ export default function CodePlayground() {
                       {(playgroundQuestions.beginner || []).map((question) => (
                         <div
                           key={question.id}
-                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            selectedQuestion?.id === question.id
-                              ? "border-yellow-500 bg-yellow-50"
-                              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                          }`}
+                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedQuestion?.id === question.id
+                            ? "border-yellow-500 bg-yellow-50"
+                            : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                            }`}
                           onClick={() => selectQuestion(question)}
                         >
                           <div className="flex items-center justify-between mb-1">
@@ -499,11 +501,10 @@ export default function CodePlayground() {
                       {(playgroundQuestions.advanced || []).map((question) => (
                         <div
                           key={question.id}
-                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            selectedQuestion?.id === question.id
-                              ? "border-yellow-500 bg-yellow-50"
-                              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                          }`}
+                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedQuestion?.id === question.id
+                            ? "border-yellow-500 bg-yellow-50"
+                            : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                            }`}
                           onClick={() => selectQuestion(question)}
                         >
                           <div className="flex items-center justify-between mb-1">
@@ -753,11 +754,10 @@ export default function CodePlayground() {
                         {testResults.map((test, index) => (
                           <div
                             key={index}
-                            className={`p-3 rounded border ${
-                              test.passed
-                                ? "bg-green-50 border-green-200"
-                                : "bg-red-50 border-red-200"
-                            }`}
+                            className={`p-3 rounded border ${test.passed
+                              ? "bg-green-50 border-green-200"
+                              : "bg-red-50 border-red-200"
+                              }`}
                           >
                             <div className="flex items-center gap-2 mb-1">
                               {test.passed ? (
@@ -766,11 +766,10 @@ export default function CodePlayground() {
                                 <XCircle className="w-4 h-4 text-red-600" />
                               )}
                               <span
-                                className={`font-medium ${
-                                  test.passed
-                                    ? "text-green-800"
-                                    : "text-red-800"
-                                }`}
+                                className={`font-medium ${test.passed
+                                  ? "text-green-800"
+                                  : "text-red-800"
+                                  }`}
                               >
                                 Test {index + 1}:{" "}
                                 {test.passed ? "PASSED" : "FAILED"}
@@ -872,20 +871,18 @@ export default function CodePlayground() {
                     {testResults.map((test, index) => (
                       <div
                         key={index}
-                        className={`p-3 rounded-lg border ${
-                          test.passed
-                            ? "bg-green-50 border-green-200"
-                            : "bg-red-50 border-red-200"
-                        }`}
+                        className={`p-3 rounded-lg border ${test.passed
+                          ? "bg-green-50 border-green-200"
+                          : "bg-red-50 border-red-200"
+                          }`}
                       >
                         <div className="flex items-center justify-between">
                           <span className="font-medium">
                             Test {index + 1}
                           </span>
                           <span
-                            className={`text-sm ${
-                              test.passed ? "text-green-600" : "text-red-600"
-                            }`}
+                            className={`text-sm ${test.passed ? "text-green-600" : "text-red-600"
+                              }`}
                           >
                             {test.passed ? "✓ Passed" : "✗ Failed"}
                           </span>
