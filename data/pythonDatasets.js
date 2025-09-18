@@ -170,10 +170,10 @@ price = float(price_str)
 quantity = int(quantity_str)
 total = price * quantity
 
-print(f"Price per item: ${price}")
+print(f"Price per item: $ {price}")
 print(f"Quantity: {quantity}")
-print(f"Total cost: ${total}")
-print(f"Total as integer: ${int(total)}")
+print(f"Total cost: $ {total}")
+print(f"Total as integer: $ {int(total)}")
 print(f"Total as string: '{str(total)}'")`,
       expectedOutput: "Price per item: $19.99\nQuantity: 3\nTotal cost: $59.97\nTotal as integer: $59\nTotal as string: '59.97'",
       hints: [

@@ -62663,189 +62663,370 @@ tesla.charge(2);   // From ElectricCar`,
           },
           {
             topic: "Hierarchical Inheritance",
-            tags: ["inheritance", "oop", "python", "javascript"],
+            tags: ["inheritance", "oop", "class hierarchy"],
             explanation: `<div>
-  <p style="line-height: 1.75; margin-top: 1.5rem;">
-    <strong>Hierarchical inheritance</strong> is an OOP pattern where <strong>one base (parent) class is inherited by two or more distinct child classes</strong>.  
-    Every child shares the same ancestor, but the children do <strong>not</strong> inherit from each other, forming a <em>tree-like structure</em> with a single root and multiple branches.
-  </p>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Hierarchical inheritance is a fundamental concept in object-oriented programming where multiple child classes (also called derived or subclasses) inherit from a single parent class (also called base or superclass). This inheritance pattern creates a tree-like hierarchical structure where one common parent serves as the root, and multiple specialized children branch out from it. Each child class inherits all the properties, methods, and behaviors of the parent class while having the ability to add its own unique features and override inherited behaviors.
+   </p>
 
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Why Use Hierarchical Inheritance?
-  </h4>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Understanding the Concept in Detail
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     In hierarchical inheritance, the relationship is characterized by an "is-a" relationship between child and parent classes. For example, if we have a parent class called <code>Animal</code>, then child classes like <code>Dog</code>, <code>Cat</code>, and <code>Bird</code> would inherit from it. Each child "is-a" type of Animal but has its own specific characteristics and behaviors. The parent class contains common attributes and methods that are shared across all children, while each child class can extend this functionality with specialized features.
+   </p>
 
-  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Centralized Common Logic:</span> Place shared attributes/methods once in the parent and reuse everywhere.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Polymorphism:</span> Treat all children as instances of the parent when you need generic processing.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> Add new sibling classes without touching existing ones (Open/Closed principle).
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Avoids Deep Chains:</span> Keeps inheritance shallow compared to multilevel inheritance, reducing complexity.
-    </li>
-  </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics and Features
+   </h4>
 
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Anatomy Diagram
-  </h4>
-  <pre style="margin-top: 1rem; padding: 1rem; background: #f6f8fa; border-radius: 8px; font-size: 14px;">
-        Animal (parent)
-         /   |   \
-      Dog   Cat   Bird
-  </pre>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Single Parent, Multiple Children:</span> The defining feature of hierarchical inheritance is that exactly one parent class is inherited by two or more child classes. This creates a one-to-many relationship where the parent serves as a common foundation for multiple specialized implementations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shared Common Interface:</span> All child classes inherit the same set of methods and properties from the parent class, ensuring a consistent interface across all derived classes. This means any code that works with the parent class will also work with any of its child classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Individual Specialization:</span> While sharing common features, each child class can add its own unique methods, properties, and behaviors. This allows for specialization where each child class can be tailored for specific use cases while maintaining the common foundation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Overriding Capability:</span> Child classes can override (redefine) methods inherited from the parent class to provide specialized implementations. This allows the same method name to behave differently across different child classes while maintaining the same interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Constructor Inheritance:</span> Child classes can call parent class constructors using mechanisms like <code>super()</code> in Python or <code>super()</code> in JavaScript, allowing them to initialize parent class properties while adding their own initialization logic.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Access to Protected Members:</span> Child classes have access to protected (and public) members of the parent class, enabling them to work with inherited data and methods directly.
+     </li>
+   </ol>
 
-  <p style="line-height: 1.75;">
-    All three leaf classes inherit <code>eat()</code> and <code>sleep()</code> from <code>Animal</code>, yet each can define its own <code>makeSound()</code>.
-  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Structure and Visual Representation
+   </h4>
+   <div style="padding: 1rem; background-color: #f8fafc; border-radius: 8px; margin-top: 1rem;">
+     <pre style="font-family: monospace; font-size: 14px;">
+        Parent Class (Base)
+    ┌─────────────────────┐
+    │   Common Methods    │
+    │   Common Properties │
+    │   Common Behaviors  │
+    └─────────┬───────────┘
+              │
+    ┌─────────┼─────────┐
+    │         │         │
+    ▼         ▼         ▼
+Child1    Child2    Child3
+(Specialized) (Specialized) (Specialized)
+     </pre>
+   </div>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     The structure shows how common functionality flows down from the parent to all children, while each child can have its own additional specialized features.
+   </p>
 
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Detailed Use-Case Walkthrough
-  </h4>
-  <p style="line-height: 1.75;">
-    Imagine an e-commerce platform where every product has common metadata (ID, title, price) but differing behavior:
-  </p>
-  <ul style="margin-left: 1.5rem;">
-    <li><strong>PhysicalProduct:</strong> adds shipping weight & dimensions.</li>
-    <li><strong>DigitalProduct:</strong> adds file-size & download URL.</li>
-    <li><strong>SubscriptionProduct:</strong> adds billing cycle & renewal logic.</li>
-  </ul>
-  <p style="line-height: 1.75;">
-    By keeping <code>Product</code> as the single parent, you avoid duplicating common code while still allowing each subtype to evolve independently.
-  </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Detailed Advantages and Benefits
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Reusability and DRY Principle:</span> Common functionality is written once in the parent class and automatically available to all child classes. This follows the "Don't Repeat Yourself" (DRY) principle, reducing code duplication and making the codebase more efficient and maintainable.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Centralized Maintenance:</span> When changes are needed to common functionality, they only need to be made in the parent class. This change automatically propagates to all child classes, making maintenance much easier and reducing the risk of inconsistencies.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Logical Organization and Modularity:</span> Related classes are naturally grouped under a common parent, creating a logical structure that's easier to understand, navigate, and manage. This improves code organization and makes the system architecture more intuitive.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Extensibility and Scalability:</span> New child classes can be easily added to the hierarchy without modifying existing code. This makes the system highly extensible and allows for easy scaling as new requirements emerge.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Polymorphic Behavior:</span> Objects of different child classes can be treated uniformly as objects of the parent class. This enables polymorphism, where the same code can work with different types of objects, making the system more flexible and powerful.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consistent Interface:</span> All child classes share the same basic interface from the parent class, ensuring consistency across the hierarchy and making it easier for developers to work with different child classes.
+     </li>
+   </ol>
 
-  <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-    Key Rules & Best Practices
-  </h4>
-  <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600;">Single Responsibility:</span> Parent should hold only what is truly common.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600;">Avoid Refactoring Nightmares:</span> Changing the parent affects all children—use with care.
-    </li>
-    <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600;">Prefer Composition When:</span> Children need unrelated orthogonal behaviors (e.g., mix-ins instead).
-    </li>
-  </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Potential Disadvantages and Considerations
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Tight Coupling:</span> Child classes are tightly coupled to the parent class. Changes to the parent class interface can break all child classes, requiring careful consideration when modifying the parent.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Inheritance Limitations:</span> Child classes inherit everything from the parent, including methods or properties they might not need, potentially leading to bloated objects.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Complexity with Deep Hierarchies:</span> While hierarchical inheritance typically involves one level, if extended to multiple levels, it can become complex and harder to manage.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Implementation Mechanisms
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">In JavaScript:</span> Uses the <code>extends</code> keyword with ES6 classes, or prototype-based inheritance in earlier versions. The <code>super()</code> function is used to call parent class methods and constructors.
+   </p>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     <span style="font-weight: 600;">In Python:</span> Child classes are defined by passing the parent class as a parameter in the class definition. The <code>super()</code> function is used to access parent class methods and constructors.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Applications and Use Cases
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Vehicle Management Systems:</span> A <code>Vehicle</code> parent class with common properties like registration, make, model, and methods like start(), stop(). Child classes like <code>Car</code>, <code>Motorcycle</code>, <code>Truck</code>, and <code>Bus</code> inherit these common features while adding specific functionality like passenger capacity for buses or cargo capacity for trucks.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Graphics and Game Development:</span> A <code>Shape</code> or <code>GameObject</code> parent class with common properties like position, color, and methods like draw(), move(). Child classes like <code>Circle</code>, <code>Rectangle</code>, <code>Triangle</code> provide specific implementations for area calculation and rendering.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Employee Management Systems:</span> An <code>Employee</code> parent class with common properties like name, ID, salary, and methods like calculatePay(). Child classes like <code>Manager</code>, <code>Developer</code>, <code>Designer</code>, <code>Salesperson</code> add role-specific methods and override salary calculations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">File System Operations:</span> A <code>File</code> parent class with common operations like open(), close(), read(). Child classes like <code>TextFile</code>, <code>ImageFile</code>, <code>VideoFile</code> provide format-specific implementations for processing different file types.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">Database Connections:</span> A <code>Database</code> parent class with common methods like connect(), disconnect(), query(). Child classes like <code>MySQL</code>, <code>PostgreSQL</code>, <code>MongoDB</code> implement database-specific connection and query mechanisms.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <span style="font-weight: 600;">UI Component Libraries:</span> A <code>UIComponent</code> parent class with common properties like position, size, visibility, and methods like render(), hide(), show(). Child classes like <code>Button</code>, <code>TextBox</code>, <code>Dropdown</code> implement specific rendering and interaction logic.
+     </li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Hierarchical Inheritance
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Design Parent Classes Carefully:</span> Parent classes should contain only truly common functionality that all child classes will need. Avoid putting specific functionality in the parent that only some children will use.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Abstract Methods When Appropriate:</span> If certain methods should be implemented differently by each child class, consider making them abstract in the parent class to enforce implementation in child classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Follow the Liskov Substitution Principle:</span> Child classes should be substitutable for their parent class without breaking the functionality of the code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Keep Hierarchies Shallow:</span> Deep inheritance hierarchies can become complex and hard to maintain. Try to keep the inheritance tree relatively flat.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Document Override Behavior:</span> When child classes override parent methods, clearly document the changes in behavior to maintain code clarity and prevent confusion.
+     </li>
+   </ol>
 </div>`,
             examples: [
-              `class Product:
-    def __init__(self, sku, title, price):
-        self.sku = sku
-        self.title = title
-        self.price = price
+              `// JavaScript Example: Vehicle Hierarchy
+class Vehicle {
+    constructor(brand, model, year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
 
-    def get_info(self):
-        return f"{self.title} ( {self.price}) - SKU:{self.sku}"
+    start() {
+        console.log(\`\${this.brand} \${this.model} is starting...\`);
+    }
 
+    stop() {
+        console.log(\`\${this.brand} \${this.model} has stopped.\`);
+    }
 
-class PhysicalProduct(Product):
-    def __init__(self, sku, title, price, weight_kg):
-        super().__init__(sku, title, price)
-        self.weight_kg = weight_kg
-
-    def ship(self):
-        return f"Shipping {self.title} with weight {self.weight_kg} kg"
-
-
-class DigitalProduct(Product):
-    def __init__(self, sku, title, price, file_size_mb):
-        super().__init__(sku, title, price)
-        self.file_size_mb = file_size_mb
-
-    def download(self):
-        return f"Downloading {self.title} ({self.file_size_mb} MB)"
-
-
-class SubscriptionProduct(Product):
-    def __init__(self, sku, title, price, cycle_days):
-        super().__init__(sku, title, price)
-        self.cycle_days = cycle_days
-
-    def renew(self):
-        return f"Renewing {self.title} every {self.cycle_days} days"
-
-
-# --- Usage ---
-if __name__ == "__main__":
-    p = PhysicalProduct("A1", "T-Shirt", 19.99, 0.3)
-    d = DigitalProduct("B2", "E-book", 9.99, 2.1)
-    s = SubscriptionProduct("C3", "Music Plan", 4.99, 30)
-
-    print(p.get_info(), "|", p.ship())
-    print(d.get_info(), "|", d.download())
-    print(s.get_info(), "|", s.renew())`,
-              `class Product {
-  constructor(sku, title, price) {
-    this.sku = sku;
-    this.title = title;
-    this.price = price;
-  }
-  getInfo() {
-    return \`\ {this.title} ( \ {this.price}) - SKU:\ {this.sku}\`;
-  }
+    getInfo() {
+        return \`\${this.year} \${this.brand} \${this.model}\`;
+    }
 }
 
-class PhysicalProduct extends Product {
-  constructor(sku, title, price, weightKg) {
-    super(sku, title, price);
-    this.weightKg = weightKg;
-  }
-  ship() {
-    return \`Shipping \ {this.title} with weight \ {this.weightKg} kg\`;
-  }
+// Child class 1: Car
+class Car extends Vehicle {
+    constructor(brand, model, year, doors) {
+        super(brand, model, year);
+        this.doors = doors;
+    }
+
+    honk() {
+        console.log("Car is honking: Beep beep!");
+    }
+
+    // Override parent method
+    start() {
+        console.log(\`Car \${this.brand} \${this.model} engine started with key.\`);
+    }
 }
 
-class DigitalProduct extends Product {
-  constructor(sku, title, price, fileSizeMb) {
-    super(sku, title, price);
-    this.fileSizeMb = fileSizeMb;
-  }
-  download() {
-    return \`Downloading \ {this.title} (\ {this.fileSizeMb} MB)\`;
-  }
+// Child class 2: Motorcycle
+class Motorcycle extends Vehicle {
+    constructor(brand, model, year, engineCC) {
+        super(brand, model, year);
+        this.engineCC = engineCC;
+    }
+
+    wheelie() {
+        console.log("Motorcycle is doing a wheelie!");
+    }
+
+    // Override parent method
+    start() {
+        console.log(\`Motorcycle \${this.brand} \${this.model} kick-started.\`);
+    }
 }
 
-class SubscriptionProduct extends Product {
-  constructor(sku, title, price, cycleDays) {
-    super(sku, title, price);
-    this.cycleDays = cycleDays;
-  }
-  renew() {
-    return \`Renewing \ {this.title} every \ {this.cycleDays} days\`;
-  }
+// Child class 3: Truck
+class Truck extends Vehicle {
+    constructor(brand, model, year, loadCapacity) {
+        super(brand, model, year);
+        this.loadCapacity = loadCapacity;
+    }
+
+    loadCargo() {
+        console.log(\`Truck can load up to \${this.loadCapacity} tons.\`);
+    }
+
+    // Override parent method
+    start() {
+        console.log(\`Truck \${this.brand} \${this.model} diesel engine started.\`);
+    }
 }
 
-// --- Usage ---
-const p = new PhysicalProduct("A1", "T-Shirt", 19.99, 0.3);
-const d = new DigitalProduct("B2", "E-book", 9.99, 2.1);
-const s = new SubscriptionProduct("C3", "Music Plan", 4.99, 30);
+// Usage Example
+const myCar = new Car("Toyota", "Camry", 2022, 4);
+const myBike = new Motorcycle("Honda", "CBR", 2021, 600);
+const myTruck = new Truck("Ford", "F-150", 2023, 3.5);
 
-console.log(p.getInfo(), "|", p.ship());
-console.log(d.getInfo(), "|", d.download());
-console.log(s.getInfo(), "|", s.renew());`,
+console.log(myCar.getInfo()); // 2022 Toyota Camry
+myCar.start(); // Car Toyota Camry engine started with key.
+myCar.honk(); // Car is honking: Beep beep!
+
+console.log(myBike.getInfo()); // 2021 Honda CBR
+myBike.start(); // Motorcycle Honda CBR kick-started.
+myBike.wheelie(); // Motorcycle is doing a wheelie!
+
+console.log(myTruck.getInfo()); // 2023 Ford F-150
+myTruck.start(); // Truck Ford F-150 diesel engine started.
+myTruck.loadCargo(); // Truck can load up to 3.5 tons.`,
+
+              `# Python Example: Shape Hierarchy
+class Shape:
+    def __init__(self, color, name):
+        self.color = color
+        self.name = name
+    
+    def display_info(self):
+        print(f"This is a {self.color} {self.name}")
+    
+    def area(self):
+        # This will be overridden by child classes
+        pass
+    
+    def perimeter(self):
+        # This will be overridden by child classes
+        pass
+
+# Child class 1: Circle
+class Circle(Shape):
+    def __init__(self, color, radius):
+        super().__init__(color, "circle")
+        self.radius = radius
+    
+    def area(self):
+        import math
+        return math.pi * self.radius ** 2
+    
+    def perimeter(self):
+        import math
+        return 2 * math.pi * self.radius
+    
+    def draw(self):
+        print(f"Drawing a {self.color} circle with radius {self.radius}")
+
+# Child class 2: Rectangle
+class Rectangle(Shape):
+    def __init__(self, color, length, width):
+        super().__init__(color, "rectangle")
+        self.length = length
+        self.width = width
+    
+    def area(self):
+        return self.length * self.width
+    
+    def perimeter(self):
+        return 2 * (self.length + self.width)
+    
+    def draw(self):
+        print(f"Drawing a {self.color} rectangle {self.length}x{self.width}")
+
+# Child class 3: Triangle
+class Triangle(Shape):
+    def __init__(self, color, base, height, side1, side2):
+        super().__init__(color, "triangle")
+        self.base = base
+        self.height = height
+        self.side1 = side1
+        self.side2 = side2
+    
+    def area(self):
+        return 0.5 * self.base * self.height
+    
+    def perimeter(self):
+        return self.base + self.side1 + self.side2
+    
+    def draw(self):
+        print(f"Drawing a {self.color} triangle with base {self.base}")
+
+# Usage Example
+circle = Circle("red", 5)
+rectangle = Rectangle("blue", 10, 6)
+triangle = Triangle("green", 8, 6, 7, 9)
+
+# Using common parent methods
+shapes = [circle, rectangle, triangle]
+
+for shape in shapes:
+    shape.display_info()
+    print(f"Area: {shape.area():.2f}")
+    print(f"Perimeter: {shape.perimeter():.2f}")
+    shape.draw()
+    print("-" * 30)
+
+# Output:
+# This is a red circle
+# Area: 78.54
+# Perimeter: 31.42
+# Drawing a red circle with radius 5
+# ------------------------------
+# This is a blue rectangle
+# Area: 60.00
+# Perimeter: 32.00
+# Drawing a blue rectangle 10x6
+# ------------------------------
+# This is a green triangle
+# Area: 24.00
+# Perimeter: 24.00
+# Drawing a green triangle with base 8`
             ],
             questions: [
               {
-                question:
-                  "How does hierarchical inheritance differ from multilevel inheritance?",
-                solution:
-                  "In hierarchical, all children inherit directly from one parent, creating a wide, shallow tree. In multilevel, classes inherit in a straight line (Grandparent → Parent → Child), forming a deep chain. The former favors breadth; the latter favors depth.",
+                question: "What is hierarchical inheritance and how does it differ from other types of inheritance?",
+                solution: "<p>Hierarchical inheritance is a type of inheritance where multiple child classes inherit from a single parent class, creating a tree-like structure. It differs from single inheritance (one child, one parent), multiple inheritance (one child, multiple parents), and multilevel inheritance (chain of inheritance). In hierarchical inheritance, the parent class serves as a common base for multiple specialized child classes, promoting code reusability while allowing each child to have its own specific functionality.</p>"
               },
               {
-                question: "When should I avoid hierarchical inheritance?",
-                solution:
-                  "Avoid it when children have little in common—forcing them to share a parent leads to bloated base classes. Also avoid if future changes in the parent could unintentionally break many children; prefer composition or interfaces instead.",
+                question: "What are the main advantages of using hierarchical inheritance?",
+                solution: "<p>The main advantages include: <strong>Code Reusability</strong> - common functionality is defined once in the parent class; <strong>Easy Maintenance</strong> - changes to shared behavior only need to be made in the parent class; <strong>Logical Organization</strong> - related classes are grouped under a common parent; <strong>Extensibility</strong> - new child classes can be easily added; <strong>Polymorphism</strong> - objects of different child classes can be treated uniformly as parent class objects; and <strong>Consistency</strong> - ensures all child classes follow a common interface or structure.</p>"
               },
+              {
+                question: "Can you provide a real-world example of hierarchical inheritance?",
+                solution: "<p>A common real-world example is a <strong>Vehicle</strong> hierarchy: The parent class <code>Vehicle</code> contains common properties like brand, model, year, and methods like start(), stop(). Child classes like <code>Car</code>, <code>Motorcycle</code>, and <code>Truck</code> inherit these common features but also have their specific methods - Car has honk(), Motorcycle has wheelie(), and Truck has loadCargo(). Each child class can also override parent methods to provide specialized behavior, like different starting mechanisms for each vehicle type.</p>"
+              }
             ],
             links: [
-              "https://docs.python.org/3/tutorial/classes.html#inheritance",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-            ],
+              "https://www.geeksforgeeks.org/inheritance-in-python/",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+              "https://www.programiz.com/python-programming/inheritance",
+              "https://javascript.info/class-inheritance"
+            ]
           },
           {
             topic: "Multiple Inheritance",
