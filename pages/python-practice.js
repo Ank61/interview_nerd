@@ -65,10 +65,33 @@ export default function PythonPractice() {
   const [activeTab, setActiveTab] = useState("beginner");
   const [submissionResult, setSubmissionResult] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [currentPage, setCurrentPage] = useState({
+    beginner: 1,
+    advanced: 1
+  });
+  const [solvedQuestions, setSolvedQuestions] = useState([]);
+  const [isLoadingSolved, setIsLoadingSolved] = useState(true);
+  const questionsPerPage = 5; // Number of questions to show per page
 
   // Separate questions by difficulty
   const beginnerQuestions = pythonQuestions.beginner || [];
   const advancedQuestions = pythonQuestions.advanced || [];
+
+  const getCurrentQuestions = (questions, difficulty) => {
+    const indexOfLastQuestion = currentPage[difficulty] * questionsPerPage;
+    const indexOfFirstQuestion = indexOfLastQuestion - questionsPerPage;
+    return questions.slice(indexOfFirstQuestion, indexOfLastQuestion);
+  };
+
+  const paginate = (difficulty, pageNumber) => {
+    setCurrentPage(prev => ({
+      ...prev,
+      [difficulty]: pageNumber
+    }));
+  };
+
+  const totalBeginnerPages = Math.ceil(beginnerQuestions.length / questionsPerPage);
+  const totalAdvancedPages = Math.ceil(advancedQuestions.length / questionsPerPage);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -146,11 +169,11 @@ export default function PythonPractice() {
     setIsSubmitting(true);
     try {
       const executionResult = await executor.execute(code);
-      
+
       if (executionResult.success) {
         const userOutput = executionResult.output.trim();
         const expectedOutput = selectedQuestion.expectedOutput.trim();
-        
+
         // Normalize outputs for comparison
         const normalizeOutput = (output) => {
           return output
@@ -162,12 +185,17 @@ export default function PythonPractice() {
             .replace(/\s+\}/g, '}')
             .trim();
         };
-        
+
         const normalizedUserOutput = normalizeOutput(userOutput);
         const normalizedExpectedOutput = normalizeOutput(expectedOutput);
-        
+
         const isCorrect = normalizedUserOutput === normalizedExpectedOutput;
-        
+
+        // Mark as solved if correct and user is logged in
+        if (isCorrect && session) {
+          await markQuestionAsSolved(selectedQuestion);
+        }
+
         setSubmissionResult({
           isCorrect,
           userOutput,
@@ -178,14 +206,15 @@ export default function PythonPractice() {
         setSubmissionResult({
           isCorrect: false,
           error: executionResult.error,
-          executionResult
+          code: code,
         });
       }
     } catch (error) {
+      console.error('Error executing code:', error);
       setSubmissionResult({
         isCorrect: false,
-        error: error.message,
-        executionResult: null
+        error: 'An error occurred while executing your code',
+        code: code,
       });
     }
     setIsSubmitting(false);
@@ -204,6 +233,89 @@ export default function PythonPractice() {
     }
   };
 
+  const markQuestionAsSolved = async (question) => {
+    if (!session) {
+      console.log('⚠️ [Frontend] User not logged in, skipping mark as solved');
+      return;
+    }
+
+    try {
+      console.log('📝 [Frontend] Marking question as solved:', question.id);
+      const response = await fetch('/api/questions/solved', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          questionId: question.id,
+          difficulty: question.difficulty?.toLowerCase() || 'medium',
+          category: question.category || 'Python',
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        console.log('✅ [Frontend] Successfully marked question as solved:', data);
+        // Refresh the solved questions list
+        await fetchSolvedQuestions();
+      } else {
+        console.error('❌ [Frontend] Failed to mark question as solved:', data.message);
+      }
+    } catch (error) {
+      console.error('❌ [Frontend] Error in markQuestionAsSolved:', error);
+    }
+  };
+
+  const fetchSolvedQuestions = async () => {
+    if (status === 'authenticated') {
+      try {
+        console.log('🔍 [Frontend] Fetching solved questions...');
+        const response = await fetch('/api/questions/solved');
+        const data = await response.json();
+
+        if (data.success) {
+          console.log('✅ [Frontend] Fetched solved questions:', data.solvedQuestions);
+          setSolvedQuestions(data.solvedQuestions || []);
+        } else {
+          console.error('❌ [Frontend] Error fetching solved questions:', data.message);
+        }
+      } catch (error) {
+        console.error('❌ [Frontend] Error in fetchSolvedQuestions:', error);
+      } finally {
+        setIsLoadingSolved(false);
+      }
+    } else {
+      setIsLoadingSolved(false);
+    }
+  };
+
+  useEffect(() => {
+    const fetchSolvedQuestions = async () => {
+      if (status === 'authenticated') {
+        try {
+          console.log('🔍 [Frontend] Fetching solved questions...');
+          const response = await fetch('/api/questions/solved');
+          const data = await response.json();
+
+          if (data.success) {
+            console.log('✅ [Frontend] Fetched solved questions:', data.solvedQuestions);
+            setSolvedQuestions(data.solvedQuestions || []);
+          } else {
+            console.error('❌ [Frontend] Error fetching solved questions:', data.message);
+          }
+        } catch (error) {
+          console.error('❌ [Frontend] Error in fetchSolvedQuestions:', error);
+        } finally {
+          setIsLoadingSolved(false);
+        }
+      } else {
+        setIsLoadingSolved(false);
+      }
+    };
+
+    fetchSolvedQuestions();
+  }, [status]);
+
   if (status === "loading") {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -211,6 +323,82 @@ export default function PythonPractice() {
       </div>
     );
   }
+
+  const SolvedQuestionsPanel = () => {
+    if (status !== 'authenticated' || isLoadingSolved) return null;
+
+    const userSolvedIds = solvedQuestions.map(q => q.questionId);
+    const allQuestions = [...beginnerQuestions, ...advancedQuestions];
+    const solved = allQuestions.filter(q => userSolvedIds.includes(q.id));
+
+    if (solved.length === 0) return null;
+
+    return (
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle className="text-lg font-semibold flex items-center gap-2">
+            <CheckCircle className="w-5 h-5 text-green-500" />
+            Solved Questions
+          </CardTitle>
+          <CardDescription>
+            {solved.length} problem{solved.length !== 1 ? 's' : ''} solved
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            {solved.map((question) => (
+              <div
+                key={question.id}
+                className="p-3 border rounded-lg bg-green-50 border-green-200"
+              >
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h4 className="font-medium text-green-900">
+                      {question.title}
+                    </h4>
+                    <p className="text-sm text-green-700">{question.category}</p>
+                    <Badge variant="outline" className="mt-2 bg-green-100 text-green-800 border-green-200">
+                      {question.difficulty}
+                    </Badge>
+                  </div>
+                  <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  const QuestionItem = ({ question, isActive }) => {
+    const isSolved = solvedQuestions.some(q => q.questionId === question.id);
+
+    return (
+      <div
+        className={`p-3 border rounded-lg cursor-pointer transition-colors ${isActive
+          ? "border-yellow-500 bg-yellow-50"
+          : isSolved
+            ? "border-green-200 bg-green-50 hover:border-green-300"
+            : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+          }`}
+        onClick={() => loadQuestion(question)}
+      >
+        <div className="flex items-center justify-between mb-1">
+          <span className="text-sm font-medium text-gray-900 flex items-center gap-2">
+            {isSolved && <CheckCircle className="w-4 h-4 text-green-500" />}
+            {question.title}
+          </span>
+          <Badge className={getDifficultyColor(question.difficulty)}>
+            {question.difficulty}
+          </Badge>
+        </div>
+        <p className="text-xs text-gray-600">
+          {question.category}
+        </p>
+      </div>
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -283,67 +471,83 @@ export default function PythonPractice() {
                   </TabsList>
 
                   <TabsContent value="beginner" className="mt-4">
-                    <div className="space-y-2">
-                      {beginnerQuestions.map((question, index) => (
-                        <div
+                    <div className="space-y-2 mb-4">
+                      {getCurrentQuestions(beginnerQuestions, 'beginner').map((question) => (
+                        <QuestionItem
                           key={question.id}
-                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            selectedQuestion?.id === question.id
-                              ? "border-yellow-500 bg-yellow-50"
-                              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                          }`}
-                          onClick={() => loadQuestion(question)}
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-gray-900">
-                              {question.title}
-                            </span>
-                            <Badge
-                              className={getDifficultyColor(
-                                question.difficulty
-                              )}
-                            >
-                              {question.difficulty}
-                            </Badge>
-                          </div>
-                          <p className="text-xs text-gray-600">
-                            {question.category}
-                          </p>
-                        </div>
+                          question={question}
+                          isActive={selectedQuestion?.id === question.id}
+                        />
                       ))}
                     </div>
+                    {/* Pagination */}
+                    {totalBeginnerPages > 1 && (
+                      <div className="flex justify-between items-center mt-4">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => paginate('beginner', Math.max(1, currentPage.beginner - 1))}
+                          disabled={currentPage.beginner === 1}
+                          className="flex items-center gap-1"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                          Previous
+                        </Button>
+                        <span className="text-sm text-gray-600">
+                          Page {currentPage.beginner} of {totalBeginnerPages}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => paginate('beginner', Math.min(totalBeginnerPages, currentPage.beginner + 1))}
+                          disabled={currentPage.beginner === totalBeginnerPages}
+                          className="flex items-center gap-1"
+                        >
+                          Next
+                          <ChevronRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
                   </TabsContent>
 
                   <TabsContent value="advanced" className="mt-4">
-                    <div className="space-y-2">
-                      {advancedQuestions.map((question, index) => (
-                        <div
+                    <div className="space-y-2 mb-4">
+                      {getCurrentQuestions(advancedQuestions, 'advanced').map((question) => (
+                        <QuestionItem
                           key={question.id}
-                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            selectedQuestion?.id === question.id
-                              ? "border-orange-500 bg-orange-50"
-                              : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                          }`}
-                          onClick={() => loadQuestion(question)}
-                        >
-                          <div className="flex items-center justify-between mb-1">
-                            <span className="text-sm font-medium text-gray-900">
-                              {question.title}
-                            </span>
-                            <Badge
-                              className={getDifficultyColor(
-                                question.difficulty
-                              )}
-                            >
-                              {question.difficulty}
-                            </Badge>
-                          </div>
-                          <p className="text-xs text-gray-600">
-                            {question.category}
-                          </p>
-                        </div>
+                          question={question}
+                          isActive={selectedQuestion?.id === question.id}
+                        />
                       ))}
                     </div>
+                    {/* Pagination */}
+                    {totalAdvancedPages > 1 && (
+                      <div className="flex justify-between items-center mt-4">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => paginate('advanced', Math.max(1, currentPage.advanced - 1))}
+                          disabled={currentPage.advanced === 1}
+                          className="flex items-center gap-1"
+                        >
+                          <ChevronLeft className="w-4 h-4" />
+                          Previous
+                        </Button>
+                        <span className="text-sm text-gray-600">
+                          Page {currentPage.advanced} of {totalAdvancedPages}
+                        </span>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => paginate('advanced', Math.min(totalAdvancedPages, currentPage.advanced + 1))}
+                          disabled={currentPage.advanced === totalAdvancedPages}
+                          className="flex items-center gap-1"
+                        >
+                          Next
+                          <ChevronRight className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    )}
                   </TabsContent>
                 </Tabs>
               </CardContent>
@@ -441,10 +645,47 @@ export default function PythonPractice() {
             )}
 
             {/* Python Editor */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>Python Code Editor</CardTitle>
+            <Card className="flex flex-col h-full">
+              <CardHeader className="pb-2">
+                <div className="flex justify-between items-center">
+                  <CardTitle className="flex items-center gap-2">
+                    <FileCode2 className="w-5 h-5" />
+                    Code Editor
+                  </CardTitle>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowHint(!showHint)}
+                      className="flex items-center gap-1"
+                    >
+                      <Lightbulb className="w-4 h-4" />
+                      {showHint ? 'Hide Hint' : 'Hint'}
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowSolution(!showSolution)}
+                      className="flex items-center gap-1"
+                      disabled={!selectedQuestion?.solution}
+                    >
+                      <Eye className="w-4 h-4" />
+                      {showSolution ? 'Hide Solution' : 'Solution'}
+                    </Button>
+                  </div>
+                </div>
+              </CardHeader>
+              <CardContent className="flex-1 overflow-auto p-4">
+                <Textarea
+                  id="code"
+                  value={code}
+                  onChange={(e) => setCode(e.target.value)}
+                  className="font-mono min-h-[calc(100%-40px)] w-full h-full resize-none"
+                  placeholder="Write your Python code here..."
+                />
+              </CardContent>
+              <CardFooter className="border-t p-4">
+                <div className="w-full flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Button
                       variant="outline"
@@ -455,13 +696,15 @@ export default function PythonPractice() {
                       <RotateCcw className="w-4 h-4" />
                       Reset
                     </Button>
+                  </div>
+                  <div className="flex items-center gap-2">
                     <Button
                       onClick={executeCode}
                       disabled={loading || !code.trim()}
                       className="flex items-center gap-2"
                     >
                       <Play className="w-4 h-4" />
-                      {loading ? "Executing..." : "Execute Code"}
+                      {loading ? 'Executing...' : 'Run'}
                     </Button>
                     {selectedQuestion && (
                       <Button
@@ -470,29 +713,12 @@ export default function PythonPractice() {
                         className="flex items-center gap-2 bg-green-600 hover:bg-green-700"
                       >
                         <CheckCircle className="w-4 h-4" />
-                        {isSubmitting ? "Checking..." : "Submit Solution"}
+                        {isSubmitting ? 'Checking...' : 'Submit'}
                       </Button>
                     )}
                   </div>
                 </div>
-              </CardHeader>
-              <CardContent>
-                <textarea
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  placeholder="Write your Python code here..."
-                  className="w-full h-32 p-3 border border-gray-300 rounded-lg font-mono text-sm focus:outline-none focus:ring-2 focus:ring-yellow-500 resize-none bg-white text-gray-900 placeholder-gray-500"
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
-                      e.preventDefault();
-                      executeCode();
-                    }
-                  }}
-                />
-                <p className="text-xs text-gray-500 mt-2">
-                  Press Ctrl+Enter (Cmd+Enter on Mac) to execute code
-                </p>
-              </CardContent>
+              </CardFooter>
             </Card>
 
             {/* Submission Results */}
@@ -542,7 +768,7 @@ export default function PythonPractice() {
                               Your output doesn&apos;t match the expected result.
                             </p>
                           </div>
-                          
+
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <h5 className="text-sm font-semibold text-gray-700 mb-2">Your Output:</h5>
@@ -600,6 +826,7 @@ export default function PythonPractice() {
             )}
           </div>
         </div>
+        {/* <SolvedQuestionsPanel /> */}
       </div>
     </div>
   );

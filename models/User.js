@@ -242,6 +242,37 @@ const userSchema = new mongoose.Schema(
         },
       },
 
+      // Solved Questions Tracking
+      solvedQuestions: [{
+        questionId: {
+          type: String,
+          required: true
+        },
+        difficulty: {
+          type: String,
+          required: true,
+          enum: ['easy', 'medium', 'hard']
+        },
+        category: {
+          type: String,
+          required: true
+        },
+        solvedAt: {
+          type: Date,
+          default: Date.now
+        },
+        // Store the code that solved the question (optional)
+        solutionCode: {
+          type: String,
+          default: ''
+        },
+        // Time taken to solve in seconds (optional)
+        timeTaken: {
+          type: Number,
+          default: 0
+        }
+      }],
+
       // Leaderboard Rankings
       leaderboards: {
         weeklyRank: {
@@ -520,10 +551,10 @@ userSchema.statics.updateUserLevel = async function (userId) {
               newLevel % 10 === 0
                 ? "legendary"
                 : newLevel % 5 === 0
-                ? "epic"
-                : newLevel % 2 === 0
-                ? "rare"
-                : "common",
+                  ? "epic"
+                  : newLevel % 2 === 0
+                    ? "rare"
+                    : "common",
             icon: "🏆",
             earnedAt: new Date(),
           },

@@ -65456,6 +65456,386 @@ playlist.forEach(media => {
             ]
           },
           {
+            topic: "Operator Overloading",
+            tags: ["Python", "JavaScript", "OOP"],
+            explanation: `<div>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What is Operator Overloading?
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Operator overloading is a powerful programming feature that allows developers to redefine or customize the behavior of operators (such as +, -, *, /, ==, <, >, etc.) for user-defined classes and objects. Instead of being limited to the default behavior of operators with primitive data types, operator overloading enables you to specify what should happen when these operators are applied to your custom objects.
+   </p>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Think of it as giving meaning to mathematical and logical operations for your own data types. For example, if you create a <code>Vector</code> class, operator overloading allows you to use <code>vector1 + vector2</code> instead of calling a method like <code>vector1.add(vector2)</code>. This makes your code more intuitive, readable, and closer to natural mathematical notation.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why is Operator Overloading Important?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Enhanced Code Readability:</span> 
+      <p style="margin-top: 0.5rem; line-height: 1.6;">
+        Instead of writing <code>matrix1.multiply(matrix2).add(matrix3)</code>, you can write <code>matrix1 * matrix2 + matrix3</code>. This is much more intuitive and resembles mathematical expressions we're familiar with.
+      </p>
+     </li>
+     <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Natural and Intuitive Syntax:</span> 
+      <p style="margin-top: 0.5rem; line-height: 1.6;">
+        Users of your classes can interact with objects using familiar operators, reducing the learning curve and making the API more user-friendly.
+      </p>
+     </li>
+     <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Polymorphism Support:</span> 
+      <p style="margin-top: 0.5rem; line-height: 1.6;">
+        Different classes can implement the same operator in different ways. A <code>+</code> operator might mean vector addition for a Vector class, string concatenation for a custom String class, and matrix addition for a Matrix class.
+      </p>
+     </li>
+     <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consistency with Built-in Types:</span> 
+      <p style="margin-top: 0.5rem; line-height: 1.6;">
+        Your custom objects can behave similarly to built-in types, making them feel like first-class citizens in the language.
+      </p>
+     </li>
+     <li style="margin-top: 0.75rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Maintainability:</span> 
+      <p style="margin-top: 0.5rem; line-height: 1.6;">
+        Cleaner, more expressive code is easier to understand, debug, and maintain over time.
+      </p>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Operator Overloading - Deep Dive
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Python has excellent support for operator overloading through special methods called "magic methods" or "dunder methods" (short for double underscore). These are methods that Python automatically calls when specific operators are used with your objects.
+   </p>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">How Python Magic Methods Work:</h5>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     When you write <code>obj1 + obj2</code>, Python internally calls <code>obj1.__add__(obj2)</code>. If the <code>__add__</code> method is not defined in the class, Python will try the reverse operation <code>obj2.__radd__(obj1)</code>. If neither is found, a TypeError is raised.
+   </p>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">Categories of Magic Methods:</h5>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">1. Arithmetic Operators:</h6>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; line-height: 1.6;">
+       <li><strong>__add__(self, other):</strong> Addition (+)</li>
+       <li><strong>__sub__(self, other):</strong> Subtraction (-)</li>
+       <li><strong>__mul__(self, other):</strong> Multiplication (*)</li>
+       <li><strong>__truediv__(self, other):</strong> Division (/)</li>
+       <li><strong>__floordiv__(self, other):</strong> Floor division (//)</li>
+       <li><strong>__mod__(self, other):</strong> Modulo (%)</li>
+       <li><strong>__pow__(self, other):</strong> Exponentiation (**)</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">2. Comparison Operators:</h6>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; line-height: 1.6;">
+       <li><strong>__eq__(self, other):</strong> Equal to (==)</li>
+       <li><strong>__ne__(self, other):</strong> Not equal to (!=)</li>
+       <li><strong>__lt__(self, other):</strong> Less than (<)</li>
+       <li><strong>__le__(self, other):</strong> Less than or equal to (<=)</li>
+       <li><strong>__gt__(self, other):</strong> Greater than (>)</li>
+       <li><strong>__ge__(self, other):</strong> Greater than or equal to (>=)</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">3. Unary Operators:</h6>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; line-height: 1.6;">
+       <li><strong>__neg__(self):</strong> Unary negation (-obj)</li>
+       <li><strong>__pos__(self):</strong> Unary positive (+obj)</li>
+       <li><strong>__abs__(self):</strong> Absolute value (abs(obj))</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">4. String Representation:</h6>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; line-height: 1.6;">
+       <li><strong>__str__(self):</strong> Human-readable string (str(obj))</li>
+       <li><strong>__repr__(self):</strong> Developer-friendly representation (repr(obj))</li>
+     </ul>
+   </div>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">Best Practices for Python Operator Overloading:</h5>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 1.6;">
+     <li><strong>Maintain Consistency:</strong> Ensure your operators behave intuitively (e.g., + should be commutative when it makes sense)</li>
+     <li><strong>Handle Edge Cases:</strong> Consider what happens with None, different types, or invalid operations</li>
+     <li><strong>Return Appropriate Types:</strong> Comparison operators should return boolean values</li>
+     <li><strong>Implement Complementary Operations:</strong> If you implement __eq__, also consider __ne__, __hash__, etc.</li>
+   </ul>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript and Operator Behavior - The Reality
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     JavaScript does <strong>not</strong> support true operator overloading like Python or C++. You cannot redefine what the <code>+</code> operator does for your custom objects in the same way. However, JavaScript provides several mechanisms that allow you to influence how operators behave with your objects through type conversion and coercion.
+   </p>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600; color: #dc2626;">Why JavaScript Doesn't Have Traditional Operator Overloading:</h5>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     JavaScript was designed to be simple and flexible, with automatic type conversion being a core feature. The language designers chose to avoid operator overloading to prevent complexity and maintain the dynamic, loosely-typed nature of the language.
+   </p>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">JavaScript's Approach - Type Conversion Methods:</h5>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">1. toString() Method:</h6>
+     <p style="line-height: 1.6; margin-top: 0.5rem;">
+       Controls how an object is converted to a string. Called automatically when the object is used in a string context or with string concatenation.
+     </p>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">2. valueOf() Method:</h6>
+     <p style="line-height: 1.6; margin-top: 0.5rem;">
+       Controls how an object is converted to a primitive value (usually a number). Called when the object is used in mathematical operations or comparisons.
+     </p>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">3. Symbol.toPrimitive (ES2015+):</h6>
+     <p style="line-height: 1.6; margin-top: 0.5rem;">
+       The most modern and flexible approach. This symbol-keyed method receives a "hint" parameter that indicates the expected type conversion: "number", "string", or "default".
+     </p>
+   </div>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">JavaScript Type Conversion Process:</h5>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     When JavaScript encounters an operator with objects, it follows a specific algorithm:
+   </p>
+   <ol style="margin-top: 1rem; margin-left: 1.5rem; line-height: 1.6;">
+     <li>Check for Symbol.toPrimitive method</li>
+     <li>If not found, for "string" hint: try toString(), then valueOf()</li>
+     <li>For "number" hint: try valueOf(), then toString()</li>
+     <li>Use the result of the conversion in the operation</li>
+   </ol>
+
+   <h5 style="margin-top: 1.25rem; font-size: 1.1rem; font-weight: 600; color: #2563eb;">Advanced JavaScript Techniques:</h5>
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">1. Proxy Objects:</h6>
+     <p style="line-height: 1.6; margin-top: 0.5rem;">
+       While not true operator overloading, Proxy objects can intercept property access and method calls, allowing for some creative solutions to mimic operator-like behavior.
+     </p>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem;">2. Fluent Interfaces:</h6>
+     <p style="line-height: 1.6; margin-top: 0.5rem;">
+       Many JavaScript libraries use method chaining to create readable, operator-like syntax: <code>obj.add(5).multiply(2).subtract(1)</code>
+     </p>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Comparison: Python vs JavaScript
+   </h4>
+   
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem; color: #059669;">Python Advantages:</h6>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; line-height: 1.6;">
+       <li>Full control over operator behavior</li>
+       <li>Clean, readable syntax for complex mathematical operations</li>
+       <li>Extensive support for all types of operators</li>
+       <li>Consistent and predictable behavior</li>
+       <li>Perfect for scientific computing, data analysis, and mathematical libraries</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem; color: #dc2626;">JavaScript Limitations:</h6>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; line-height: 1.6;">
+       <li>No true operator overloading</li>
+       <li>Limited to type conversion customization</li>
+       <li>Must rely on explicit method calls for complex operations</li>
+       <li>Can be confusing due to automatic type coercion</li>
+       <li>Less intuitive for mathematical computations</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem;">
+     <h6 style="font-weight: 600; margin-top: 1rem; color: #2563eb;">When to Use Each:</h6>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; line-height: 1.6;">
+       <li><strong>Python:</strong> Mathematical libraries, data science, scientific computing, when you need intuitive mathematical notation</li>
+       <li><strong>JavaScript:</strong> Web development, when you need basic type conversion customization, or when working within JavaScript's ecosystem</li>
+     </ul>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Real-World Applications
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Operator overloading is extensively used in many popular libraries and frameworks:
+   </p>
+   <ul style="margin-top: 1rem; margin-left: 1.5rem; line-height: 1.6;">
+     <li><strong>NumPy (Python):</strong> Arrays support all mathematical operators for element-wise operations</li>
+     <li><strong>Pandas (Python):</strong> DataFrames can be added, subtracted, and compared using operators</li>
+     <li><strong>TensorFlow/PyTorch (Python):</strong> Tensor operations use natural mathematical notation</li>
+     <li><strong>Decimal and Fraction classes (Python):</strong> Provide precise arithmetic with operator support</li>
+   </ul>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Understanding operator overloading helps you write more expressive, maintainable code and better understand how modern libraries and frameworks provide their intuitive APIs.
+   </p>
+</div>`,
+            examples: [
+              `# Python Example - Vector Class with Operator Overloading
+class Vector:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def __add__(self, other):
+        return Vector(self.x + other.x, self.y + other.y)
+    
+    def __sub__(self, other):
+        return Vector(self.x - other.x, self.y - other.y)
+    
+    def __mul__(self, scalar):
+        return Vector(self.x * scalar, self.y * scalar)
+    
+    def __eq__(self, other):
+        return self.x == other.x and self.y == other.y
+    
+    def __str__(self):
+        return f"Vector({self.x}, {self.y})"
+
+# Usage
+v1 = Vector(3, 4)
+v2 = Vector(1, 2)
+
+print(v1 + v2)  # Vector(4, 6)
+print(v1 - v2)  # Vector(2, 2)
+print(v1 * 3)   # Vector(9, 12)
+print(v1 == v2) # False`,
+
+              `// JavaScript Example - Using valueOf() and toString()
+class Vector {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+    
+    // Custom addition method since JS doesn't support + operator overloading
+    add(other) {
+        return new Vector(this.x + other.x, this.y + other.y);
+    }
+    
+    // Control string conversion
+    toString() {
+        return \`Vector(\${this.x}, \${this.y})\`;
+    }
+    
+    // Control numeric conversion (limited use)
+    valueOf() {
+        return Math.sqrt(this.x * this.x + this.y * this.y);
+    }
+}
+
+// Usage
+const v1 = new Vector(3, 4);
+const v2 = new Vector(1, 2);
+
+console.log(v1.add(v2).toString()); // "Vector(4, 6)"
+console.log(String(v1)); // "Vector(3, 4)"
+console.log(Number(v1)); // 5 (magnitude of vector)`,
+
+              `// JavaScript with Symbol.toPrimitive (ES2015+)
+class Money {
+    constructor(amount, currency = 'USD') {
+        this.amount = amount;
+        this.currency = currency;
+    }
+    
+    [Symbol.toPrimitive](hint) {
+        if (hint === 'number') {
+            return this.amount;
+        }
+        if (hint === 'string') {
+            return \`\${this.amount} \${this.currency}\`;
+        }
+        return this.amount; // default
+    }
+}
+
+const money1 = new Money(100);
+const money2 = new Money(50);
+
+console.log(money1 + money2); // 150 (numeric conversion)
+console.log(\`I have \${money1}\`); // "I have 100 USD" (string conversion)`
+            ],
+            questions: [
+              {
+                question: "What is operator overloading and why is it useful?",
+                solution: "<p>Operator overloading is a feature that allows developers to define custom behavior for operators when used with user-defined classes. It's useful because it makes code more readable and intuitive - for example, you can use '+' to add two custom Vector objects instead of calling a method like 'vector1.add(vector2)'. This creates more natural, mathematical-looking code that's easier to understand and maintain.</p>"
+              },
+              {
+                question: "How does Python implement operator overloading?",
+                solution: `<p>Python implements operator overloading through special methods called 'magic methods' or 'dunder methods' (double underscore methods). For example:</p>
+             <pre><code className="language-python">
+class Point:
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+    
+    def __add__(self, other):  # Overloads + operator
+        return Point(self.x + other.x, self.y + other.y)
+    
+    def __str__(self):  # Overloads str() function
+        return f"Point({self.x}, {self.y})"
+
+p1 = Point(1, 2)
+p2 = Point(3, 4)
+print(p1 + p2)  # Point(4, 6)
+            </code></pre>
+           <p>When you use 'p1 + p2', Python automatically calls 'p1.__add__(p2)'.</p>`
+              },
+              {
+                question: "Can JavaScript do operator overloading like Python?",
+                solution: `<p>JavaScript doesn't support true operator overloading like Python. However, it provides some limited customization through:</p>
+              <ul>
+                <li><strong>toString():</strong> Controls string conversion</li>
+                <li><strong>valueOf():</strong> Controls numeric conversion</li>
+                <li><strong>Symbol.toPrimitive:</strong> Modern way to control type conversion</li>
+              </ul>
+              <pre><code className="language-javascript">
+class Temperature {
+    constructor(celsius) {
+        this.celsius = celsius;
+    }
+    
+    valueOf() {
+        return this.celsius;
+    }
+    
+    toString() {
+        return \`\${this.celsius}°C\`;
+    }
+}
+
+const temp1 = new Temperature(25);
+const temp2 = new Temperature(15);
+console.log(temp1 + temp2); // 40 (uses valueOf)
+console.log(\`Today is \${temp1}\`); // "Today is 25°C" (uses toString)
+              </code></pre>
+              <p>For true operator overloading, you need to define explicit methods like 'add()', 'subtract()', etc.</p>`
+              }
+            ],
+            links: [
+              "https://docs.python.org/3/reference/datamodel.html#special-method-names",
+              "https://realpython.com/operator-function-overloading/",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive"
+            ]
+          },
+          {
             topic: "Dynamic Method Dispatch",
             tags: ["polymorphism", "inheritance", "runtime"],
             explanation: `<div>
