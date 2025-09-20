@@ -64785,686 +64785,675 @@ for shape in shapes:
           },
           {
             topic: "Compile-time Polymorphism (Method Overloading)",
-            tags: ["method-overloading", "compile-time", "static-polymorphism"],
+            tags: ["polymorphism", "overloading", "compile-time", "methods"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Compile-time polymorphism, also known as static polymorphism, is resolved during compilation. Method overloading is the most common form, where multiple methods share the same name but have different parameter lists (different number, types, or order of parameters).
-   </p>
-   
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Method Overloading
-   </h4>
- 
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     Method overloading allows you to define multiple methods with the same name but different signatures. The compiler determines which method to call based on the arguments passed at compile time.
-   </p>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Language Differences
-   </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Python:</span> Doesn't support traditional method overloading, but we can simulate it using default parameters, *args, **kwargs, or functools.singledispatch</li>
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">JavaScript:</span> Doesn't support traditional method overloading, but we can simulate it by checking arguments</li>
-   </ul>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Use Cases
-   </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Mathematical operations with different parameter types</li>
-     <li style="margin-top: 0.5rem;">Constructor overloading for different initialization methods</li>
-     <li style="margin-top: 0.5rem;">Utility functions that can handle various input formats</li>
-   </ul>
-</div>`,
-            examples: [
-              `# Python - Method Overloading Simulation
-from functools import singledispatch
-
-class Calculator:
-    def add(self, a, b=None, c=None):
-        """Simulate method overloading with default parameters"""
-        if c is not None:
-            return a + b + c
-        elif b is not None:
-            return a + b
-        else:
-            return a
-    
-    def multiply(self, *args):
-        """Simulate method overloading with *args"""
-        if len(args) == 1:
-            return args[0]
-        elif len(args) == 2:
-            return args[0] * args[1]
-        elif len(args) == 3:
-            return args[0] * args[1] * args[2]
-        else:
-            result = 1
-            for num in args:
-                result *= num
-            return result
-
-# Using singledispatch for type-based overloading
-@singledispatch
-def process_data(data):
-    """Default implementation"""
-    return f"Processing unknown data type: {type(data)}"
-
-@process_data.register
-def _(data: int):
-    return f"Processing integer: {data * 2}"
-
-@process_data.register
-def _(data: str):
-    return f"Processing string: {data.upper()}"
-
-@process_data.register
-def _(data: list):
-    return f"Processing list of {len(data)} items"
-
-# Usage
-calc = Calculator()
-print(calc.add(5))          # Output: 5
-print(calc.add(5, 3))       # Output: 8
-print(calc.add(5, 3, 2))    # Output: 10
-
-print(calc.multiply(5))         # Output: 5
-print(calc.multiply(5, 3))      # Output: 15
-print(calc.multiply(5, 3, 2))   # Output: 30
-
-print(process_data(10))         # Output: Processing integer: 20
-print(process_data("hello"))    # Output: Processing string: HELLO
-print(process_data([1, 2, 3]))  # Output: Processing list of 3 items`,
-              `// JavaScript - Method Overloading Simulation
-class Calculator {
-    add(...args) {
-        // Simulate method overloading by checking arguments
-        switch (args.length) {
-            case 1:
-                return args[0];
-            case 2:
-                return args[0] + args[1];
-            case 3:
-                return args[0] + args[1] + args[2];
-            default:
-                return args.reduce((sum, num) => sum + num, 0);
-        }
-    }
-    
-    multiply(...args) {
-        if (args.length === 0) return 0;
-        return args.reduce((product, num) => product * num, 1);
-    }
-    
-    // Method overloading based on argument types
-    process(data) {
-        if (typeof data === 'number') {
-            return this.processNumber(data);
-        } else if (typeof data === 'string') {
-            return this.processString(data);
-        } else if (Array.isArray(data)) {
-            return this.processArray(data);
-        } else {
-            return "Unknown data type";
-        }
-    }
-    
-    processNumber(num) {
-        return num * 2;
-    }
-    
-    processString(str) {
-        return str.toUpperCase();
-    }
-    
-    processArray(arr) {
-        return \`Array with \ {arr.length} elements\`;
-    }
-}
-
-// Advanced method overloading with parameter validation
-class Shape {
-    static create(...args) {
-        if (args.length === 1 && typeof args[0] === 'number') {
-            // Circle with radius
-            return new Circle(args[0]);
-        } else if (args.length === 2 && args.every(arg => typeof arg === 'number')) {
-            // Rectangle with width and height
-            return new Rectangle(args[0], args[1]);
-        } else if (args.length === 3 && args.every(arg => typeof arg === 'number')) {
-            // Triangle with three sides
-            return new Triangle(args[0], args[1], args[2]);
-        } else {
-            throw new Error("Invalid arguments for shape creation");
-        }
-    }
-}
-
-class Circle {
-    constructor(radius) {
-        this.radius = radius;
-    }
-    
-    area() {
-        return Math.PI * this.radius * this.radius;
-    }
-}
-
-class Rectangle {
-    constructor(width, height) {
-        this.width = width;
-        this.height = height;
-    }
-    
-    area() {
-        return this.width * this.height;
-    }
-}
-
-class Triangle {
-    constructor(a, b, c) {
-        this.a = a;
-        this.b = b;
-        this.c = c;
-    }
-    
-    area() {
-        const s = (this.a + this.b + this.c) / 2;
-        return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
-    }
-}
-
-// Usage
-const calc = new Calculator();
-console.log(calc.add(5));           // Output: 5
-console.log(calc.add(5, 3));        // Output: 8
-console.log(calc.add(5, 3, 2));     // Output: 10
-
-console.log(calc.multiply(5));      // Output: 5
-console.log(calc.multiply(5, 3));   // Output: 15
-console.log(calc.multiply(5, 3, 2)); // Output: 30
-
-console.log(calc.process(10));      // Output: 20
-console.log(calc.process("hello")); // Output: HELLO
-console.log(calc.process([1, 2, 3])); // Output: Array with 3 elements
-
-// Shape creation with overloaded constructor
-const circle = Shape.create(5);        // Circle with radius 5
-const rectangle = Shape.create(4, 6);  // Rectangle 4x6
-const triangle = Shape.create(3, 4, 5); // Triangle with sides 3, 4, 5
-
-console.log(circle.area());     // Output: ~78.54
-console.log(rectangle.area());  // Output: 24
-console.log(triangle.area());   // Output: 6`,
-            ],
-            questions: [
-              {
-                question:
-                  "Why don't Python and JavaScript support traditional method overloading?",
-                solution:
-                  "<p>Python and JavaScript don't support traditional method overloading because they are dynamically typed languages where function names are treated as variables. When you define multiple functions with the same name, the last definition overwrites the previous ones. Instead, these languages provide alternative mechanisms like default parameters, variable arguments (*args, **kwargs in Python), and argument checking to achieve similar functionality.</p>",
-              },
-              {
-                question:
-                  "What's the difference between method overloading and method overriding?",
-                solution:
-                  "<p>Method overloading occurs when multiple methods have the same name but different parameter lists within the same class (compile-time polymorphism). Method overriding occurs when a subclass provides a specific implementation of a method that is already defined in its parent class (runtime polymorphism). Overloading is resolved at compile time, while overriding is resolved at runtime.</p>",
-              },
-            ],
-            links: [
-              "https://docs.python.org/3/library/functools.html#functools.singledispatch",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/rest_parameters",
-              "https://realpython.com/python-method-overloading/",
-            ],
-          },
-          {
-            topic: "Runtime Polymorphism (Method Overriding)",
-            tags: [
-              "method-overriding",
-              "runtime",
-              "dynamic-polymorphism",
-              "inheritance",
-            ],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Runtime polymorphism, also known as dynamic polymorphism, occurs when a subclass provides a specific implementation of a method that is already defined in its parent class. The decision of which method to call is made at runtime based on the actual type of the object, not the reference type.
-   </p>
-   
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Method Overriding
-   </h4>
- 
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     Method overriding allows a subclass to provide a different implementation of a method that is already defined in its parent class. The overridden method in the subclass must have the same name, return type, and parameters as the method in the parent class.
+     Compile-time polymorphism, also known as method overloading, is a feature where multiple methods can have the same name but different parameters (different number of parameters, different types, or both). The appropriate method is selected at compile time based on the method signature.
    </p>
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
      Key Characteristics
    </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Resolved at runtime (dynamic binding)</li>
-     <li style="margin-top: 0.5rem;">Requires inheritance relationship</li>
-     <li style="margin-top: 0.5rem;">Method signature must match exactly</li>
-     <li style="margin-top: 0.5rem;">Enables late binding and virtual method calls</li>
-   </ul>
 
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Rules for Method Overriding
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-     <li style="margin-top: 0.5rem;">The method must have the same name as in the parent class</li>
-     <li style="margin-top: 0.5rem;">The method must have the same parameter list</li>
-     <li style="margin-top: 0.5rem;">There must be an inheritance relationship</li>
-     <li style="margin-top: 0.5rem;">The method cannot be static, final, or private (in languages that support these)</li>
-     <li style="margin-top: 0.5rem;">The access modifier cannot be more restrictive</li>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Static Binding:</span> Method resolution happens at compile time, not runtime.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Same Method Name:</span> Multiple methods share the same name but have different signatures.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Different Parameters:</span> Methods differ in number, type, or order of parameters.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Return Type:</span> Return type alone cannot distinguish overloaded methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> No runtime overhead as method selection is done at compile time.
+     </li>
    </ol>
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Use Cases
+     Python Implementation
    </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Implementing specific behavior in subclasses</li>
-     <li style="margin-top: 0.5rem;">Framework and library design patterns</li>
-     <li style="margin-top: 0.5rem;">Template method pattern implementation</li>
-     <li style="margin-top: 0.5rem;">Strategy pattern with inheritance</li>
-   </ul>
-</div>`,
-            examples: [
-              `# Python - Method Overriding Examples
-from abc import ABC, abstractmethod
+   <p style="line-height: 1.75;">
+     Python doesn't support traditional method overloading, but we can simulate it using default parameters and variable arguments:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class Calculator:
+    def add(self, *args):
+        """Simulate method overloading using *args"""
+        if len(args) == 2:
+            return args[0] + args[1]
+        elif len(args) == 3:
+            return args[0] + args[1] + args[2]
+        else:
+            return sum(args)
+    
+    def multiply(self, a, b=1, c=1):
+        """Using default parameters for overloading"""
+        return a * b * c
+    
+    def process(self, data):
+        """Method overloading using type checking"""
+        if isinstance(data, int):
+            return data * 2
+        elif isinstance(data, str):
+            return data.upper()
+        elif isinstance(data, list):
+            return len(data)
+        else:
+            return "Unknown type"
 
-class Vehicle(ABC):
-    def __init__(self, brand, model):
-        self.brand = brand
-        self.model = model
-    
-    @abstractmethod
-    def start_engine(self):
-        """Abstract method - must be implemented by subclasses"""
-        pass
-    
-    def display_info(self):
-        """Common method that can be overridden"""
-        return f"{self.brand} {self.model}"
-    
-    def stop_engine(self):
-        """Default implementation"""
-        return "Engine stopped"
+# Using the Calculator class
+calc = Calculator()
 
-class Car(Vehicle):
-    def __init__(self, brand, model, doors):
-        super().__init__(brand, model)
-        self.doors = doors
-    
-    def start_engine(self):
-        """Override abstract method"""
-        return f"{self.brand} car engine started with key"
-    
-    def display_info(self):
-        """Override parent method"""
-        parent_info = super().display_info()
-        return f"{parent_info} - {self.doors} doors"
+# Different ways to call add method
+print(calc.add(5, 3))           # Output: 8
+print(calc.add(1, 2, 3))        # Output: 6
+print(calc.add(1, 2, 3, 4, 5))  # Output: 15
 
-class Motorcycle(Vehicle):
-    def __init__(self, brand, model, engine_size):
-        super().__init__(brand, model)
-        self.engine_size = engine_size
-    
-    def start_engine(self):
-        """Override abstract method"""
-        return f"{self.brand} motorcycle engine started with button"
-    
-    def display_info(self):
-        """Override parent method"""
-        parent_info = super().display_info()
-        return f"{parent_info} - {self.engine_size}cc"
+# Different ways to call multiply method
+print(calc.multiply(5))         # Output: 5
+print(calc.multiply(5, 2))      # Output: 10
+print(calc.multiply(5, 2, 3))   # Output: 30
 
-class ElectricCar(Car):
-    def __init__(self, brand, model, doors, battery_capacity):
-        super().__init__(brand, model, doors)
-        self.battery_capacity = battery_capacity
-    
-    def start_engine(self):
-        """Override parent method"""
-        return f"{self.brand} electric car powered on silently"
-    
-    def stop_engine(self):
-        """Override grandparent method"""
-        return "Electric motor powered off"
+# Type-based overloading
+print(calc.process(10))         # Output: 20
+print(calc.process("hello"))    # Output: HELLO
+print(calc.process([1, 2, 3]))  # Output: 3
+      </code></pre>
+   </div>
 
-# Polymorphic function
-def test_vehicle(vehicle):
-    print(f"Vehicle Info: {vehicle.display_info()}")
-    print(f"Start: {vehicle.start_engine()}")
-    print(f"Stop: {vehicle.stop_engine()}")
-    print("-" * 40)
-
-# Usage demonstrating runtime polymorphism
-vehicles = [
-    Car("Toyota", "Camry", 4),
-    Motorcycle("Harley", "Davidson", 1200),
-    ElectricCar("Tesla", "Model 3", 4, 75)
-]
-
-for vehicle in vehicles:
-    test_vehicle(vehicle)
-
-# Another example with shapes
-class Shape(ABC):
-    @abstractmethod
-    def area(self):
-        pass
-    
-    @abstractmethod
-    def perimeter(self):
-        pass
-    
-    def description(self):
-        return f"This is a {self.__class__.__name__}"
-
-class Rectangle(Shape):
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-    
-    def area(self):
-        return self.width * self.height
-    
-    def perimeter(self):
-        return 2 * (self.width + self.height)
-    
-    def description(self):
-        return f"Rectangle with width {self.width} and height {self.height}"
-
-class Circle(Shape):
-    def __init__(self, radius):
-        self.radius = radius
-    
-    def area(self):
-        return 3.14159 * self.radius ** 2
-    
-    def perimeter(self):
-        return 2 * 3.14159 * self.radius
-    
-    def description(self):
-        return f"Circle with radius {self.radius}"
-
-def shape_info(shape):
-    print(shape.description())
-    print(f"Area: {shape.area():.2f}")
-    print(f"Perimeter: {shape.perimeter():.2f}")
-    print("-" * 30)
-
-# Runtime polymorphism with shapes
-shapes = [
-    Rectangle(5, 3),
-    Circle(4),
-    Rectangle(10, 2)
-]
-
-for shape in shapes:
-    shape_info(shape)`,
-              `// JavaScript - Method Overriding Examples
-class Vehicle {
-    constructor(brand, model) {
-        this.brand = brand;
-        this.model = model;
-    }
-    
-    startEngine() {
-        // Default implementation
-        return \`\ {this.brand} vehicle engine started\`;
-    }
-    
-    displayInfo() {
-        return \`\ {this.brand} \ {this.model}\`;
-    }
-    
-    stopEngine() {
-        return "Engine stopped";
-    }
-}
-
-class Car extends Vehicle {
-    constructor(brand, model, doors) {
-        super(brand, model);
-        this.doors = doors;
-    }
-    
-    startEngine() {
-        // Override parent method
-        return \`\ {this.brand} car engine started with key\`;
-    }
-    
-    displayInfo() {
-        // Override parent method
-        const parentInfo = super.displayInfo();
-        return \`\ {parentInfo} - \ {this.doors} doors\`;
-    }
-}
-
-class Motorcycle extends Vehicle {
-    constructor(brand, model, engineSize) {
-        super(brand, model);
-        this.engineSize = engineSize;
-    }
-    
-    startEngine() {
-        // Override parent method
-        return \`\ {this.brand} motorcycle engine started with button\`;
-    }
-    
-    displayInfo() {
-        // Override parent method
-        const parentInfo = super.displayInfo();
-        return \`\ {parentInfo} - \ {this.engineSize}cc\`;
-    }
-}
-
-class ElectricCar extends Car {
-    constructor(brand, model, doors, batteryCapacity) {
-        super(brand, model, doors);
-        this.batteryCapacity = batteryCapacity;
-    }
-    
-    startEngine() {
-        // Override parent method
-        return \`\ {this.brand} electric car powered on silently\`;
-    }
-    
-    stopEngine() {
-        // Override grandparent method
-        return "Electric motor powered off";
-    }
-    
-    displayInfo() {
-        const parentInfo = super.displayInfo();
-        return \`\ {parentInfo} - \ {this.batteryCapacity}kWh battery\`;
-    }
-}
-
-// Polymorphic function
-function testVehicle(vehicle) {
-    console.log(\`Vehicle Info: \ {vehicle.displayInfo()}\`);
-    console.log(\`Start: \ {vehicle.startEngine()}\`);
-    console.log(\`Stop: \ {vehicle.stopEngine()}\`);
-    console.log("-".repeat(40));
-}
-
-// Usage demonstrating runtime polymorphism
-const vehicles = [
-    new Car("Toyota", "Camry", 4),
-    new Motorcycle("Harley", "Davidson", 1200),
-    new ElectricCar("Tesla", "Model 3", 4, 75)
-];
-
-vehicles.forEach(vehicle => testVehicle(vehicle));
-
-// Another example with abstract-like behavior
-class Shape {
-    constructor() {
-        if (this.constructor === Shape) {
-            throw new Error("Abstract class cannot be instantiated");
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Implementation
+   </h4>
+   <p style="line-height: 1.75;">
+     JavaScript also doesn't support traditional method overloading, but we can simulate it using argument checking:
+   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class Calculator {
+    // Simulating method overloading using arguments length
+    add() {
+        if (arguments.length === 2) {
+            return arguments[0] + arguments[1];
+        } else if (arguments.length === 3) {
+            return arguments[0] + arguments[1] + arguments[2];
+        } else {
+            // Handle any number of arguments
+            return Array.from(arguments).reduce((sum, num) => sum + num, 0);
         }
     }
     
-    area() {
-        throw new Error("area method must be implemented");
+    // Using default parameters for overloading
+    multiply(a, b = 1, c = 1) {
+        return a * b * c;
     }
     
-    perimeter() {
-        throw new Error("perimeter method must be implemented");
+    // Type-based method overloading
+    process(data) {
+        if (typeof data === 'number') {
+            return data * 2;
+        } else if (typeof data === 'string') {
+            return data.toUpperCase();
+        } else if (Array.isArray(data)) {
+            return data.length;
+        } else {
+            return "Unknown type";
+        }
     }
     
-    description() {
-        return \`This is a \ {this.constructor.name}\`;
+    // More sophisticated overloading using rest parameters
+    concatenate(...args) {
+        if (args.length === 0) {
+            return "";
+        } else if (args.every(arg => typeof arg === 'string')) {
+            return args.join('');
+        } else if (args.every(arg => typeof arg === 'number')) {
+            return args.join('-');
+        } else {
+            return args.map(String).join(' ');
+        }
     }
 }
 
-class Rectangle extends Shape {
-    constructor(width, height) {
-        super();
-        this.width = width;
-        this.height = height;
+// Using the Calculator class
+const calc = new Calculator();
+
+// Different ways to call add method
+console.log(calc.add(5, 3));           // Output: 8
+console.log(calc.add(1, 2, 3));        // Output: 6
+console.log(calc.add(1, 2, 3, 4, 5));  // Output: 15
+
+// Different ways to call multiply method
+console.log(calc.multiply(5));         // Output: 5
+console.log(calc.multiply(5, 2));      // Output: 10
+console.log(calc.multiply(5, 2, 3));   // Output: 30
+
+// Type-based overloading
+console.log(calc.process(10));         // Output: 20
+console.log(calc.process("hello"));    // Output: HELLO
+console.log(calc.process([1, 2, 3]));  // Output: 3
+
+// Concatenate overloading
+console.log(calc.concatenate("Hello", "World"));    // Output: HelloWorld
+console.log(calc.concatenate(1, 2, 3));             // Output: 1-2-3
+console.log(calc.concatenate("Hi", 42, true));      // Output: Hi 42 true
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Alternative JavaScript Approach Using Object Pattern
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+// More elegant approach using object destructuring
+class AdvancedCalculator {
+    // Method overloading using object parameters
+    calculate({ operation, numbers = [], a, b, c }) {
+        switch (operation) {
+            case 'add':
+                if (numbers.length > 0) {
+                    return numbers.reduce((sum, num) => sum + num, 0);
+                } else if (a !== undefined && b !== undefined) {
+                    return c !== undefined ? a + b + c : a + b;
+                }
+                break;
+            case 'multiply':
+                if (numbers.length > 0) {
+                    return numbers.reduce((product, num) => product * num, 1);
+                } else if (a !== undefined && b !== undefined) {
+                    return c !== undefined ? a * b * c : a * b;
+                }
+                break;
+            default:
+                return "Invalid operation";
+        }
+    }
+}
+
+const advCalc = new AdvancedCalculator();
+
+// Different ways to use the same method
+console.log(advCalc.calculate({ operation: 'add', a: 5, b: 3 }));                    // Output: 8
+console.log(advCalc.calculate({ operation: 'add', a: 1, b: 2, c: 3 }));              // Output: 6
+console.log(advCalc.calculate({ operation: 'add', numbers: [1, 2, 3, 4, 5] }));      // Output: 15
+console.log(advCalc.calculate({ operation: 'multiply', a: 5, b: 2 }));               // Output: 10
+console.log(advCalc.calculate({ operation: 'multiply', numbers: [2, 3, 4] }));       // Output: 24
+      </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Method Overloading
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Readability:</span> Same method name for related functionality makes code more intuitive.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Provides multiple ways to call the same logical operation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">API Design:</span> Creates cleaner, more user-friendly interfaces.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintenance:</span> Easier to maintain related functionality under one method name.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Compile-time resolution means no runtime overhead.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Important Notes
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+     <li style="margin-top: 0.5rem;">
+       Neither Python nor JavaScript support true compile-time method overloading like Java or C#.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       The examples above simulate overloading behavior using runtime checks and default parameters.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       True compile-time polymorphism requires static typing and compile-time method resolution.
+     </li>
+     <li style="margin-top: 0.5rem;">
+       These simulated approaches provide similar functionality but with runtime overhead.
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `# Python Example: Simulating Method Overloading
+class MathOperations:
+    def power(self, base, exponent=2):
+        """Default exponent of 2 for square"""
+        return base ** exponent
+    
+    def combine(self, *args, **kwargs):
+        """Variable arguments for different operations"""
+        operation = kwargs.get('op', 'sum')
+        if operation == 'sum':
+            return sum(args)
+        elif operation == 'product':
+            result = 1
+            for arg in args:
+                result *= arg
+            return result
+        elif operation == 'concat':
+            return ''.join(str(arg) for arg in args)
+
+math_ops = MathOperations()
+print(math_ops.power(5))           # 25 (5^2)
+print(math_ops.power(5, 3))        # 125 (5^3)
+print(math_ops.combine(1, 2, 3, 4, op='sum'))      # 10
+print(math_ops.combine(2, 3, 4, op='product'))     # 24`,
+
+              `// JavaScript Example: Method Overloading Simulation
+class StringProcessor {
+    format() {
+        const args = Array.from(arguments);
+        
+        if (args.length === 1 && typeof args[0] === 'string') {
+            // Single string - just trim
+            return args[0].trim();
+        } else if (args.length === 2 && typeof args[1] === 'boolean') {
+            // String with uppercase flag
+            const [str, uppercase] = args;
+            return uppercase ? str.toUpperCase() : str.toLowerCase();
+        } else if (args.length >= 2 && typeof args[0] === 'string') {
+            // Template string with replacements
+            let template = args[0];
+            for (let i = 1; i < args.length; i++) {
+                template = template.replace(\`{{\${i-1}}}\`, args[i]);
+            }
+            return template;
+        }
+        return "Invalid arguments";
+    }
+}
+
+const processor = new StringProcessor();
+console.log(processor.format("  hello world  "));           // "hello world"
+console.log(processor.format("hello", true));               // "HELLO"
+console.log(processor.format("Hello {{0}}, welcome to {{1}}", "John", "JavaScript")); // "Hello John, welcome to JavaScript"`
+            ],
+            questions: [
+              {
+                question: "What is compile-time polymorphism and how does it differ from runtime polymorphism?",
+                solution: `<p>Compile-time polymorphism (method overloading) is resolved at compile time based on method signatures, while runtime polymorphism (method overriding) is resolved at runtime based on the actual object type. Compile-time polymorphism has no runtime overhead and uses static binding, whereas runtime polymorphism uses dynamic binding and has slight performance overhead due to method lookup at runtime.</p>`
+              },
+              {
+                question: "Why don't Python and JavaScript support true method overloading?",
+                solution: `<p>Python and JavaScript are dynamically typed languages that resolve method calls at runtime, not compile time. They don't have static method signatures that can be analyzed during compilation. Instead, they support method overriding and can simulate overloading using default parameters, variable arguments (*args, **kwargs in Python or rest parameters in JavaScript), and runtime type checking. True method overloading requires static typing and compile-time method resolution.</p>`
+              },
+              {
+                question: "How can you simulate method overloading in Python?",
+                solution: `<p>You can simulate method overloading in Python using several techniques:</p>
+              <ul>
+                <li><strong>Default Parameters:</strong> Use default values to provide multiple ways to call a method</li>
+                <li><strong>Variable Arguments:</strong> Use *args and **kwargs to accept different numbers of arguments</li>
+                <li><strong>Type Checking:</strong> Use isinstance() or type() to provide different behavior based on argument types</li>
+                <li><strong>functools.singledispatch:</strong> Use this decorator for type-based method dispatch</li>
+              </ul>
+              <p>These approaches provide similar functionality to method overloading but are resolved at runtime rather than compile time.</p>`
+              }
+            ],
+            links: [
+              "https://realpython.com/python-method-overloading/",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters",
+              "https://docs.python.org/3/library/functools.html#functools.singledispatch",
+              "https://javascript.info/rest-parameters-spread"
+            ]
+          },
+          {
+            topic: "Runtime Polymorphism (Method Overriding)",
+            tags: ["polymorphism", "inheritance", "method-overriding", "oop"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Runtime Polymorphism, also known as Method Overriding, is a fundamental concept in Object-Oriented Programming where a child class provides a specific implementation of a method that is already defined in its parent class. The decision of which method to call is made at runtime based on the actual object type, not the reference type.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Key Characteristics
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Method Resolution:</span> The method to be executed is determined at runtime based on the object's actual type.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Inheritance Required:</span> Method overriding occurs between parent and child classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Same Method Signature:</span> The overriding method must have the same name, parameters, and return type as the parent method.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Achieves Polymorphism:</span> One interface, multiple implementations - the essence of polymorphism.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Benefits of Runtime Polymorphism
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Flexibility:</span> Allows different classes to be treated uniformly through a common interface.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintainability:</span> Easy to add new classes without modifying existing code.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Extensibility:</span> New implementations can be added by simply extending the base class.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Abstraction:</span> Client code works with abstract interfaces rather than concrete implementations.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Python Example - Animal Hierarchy
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def make_sound(self):
+        return f"{self.name} makes a generic animal sound"
+    
+    def move(self):
+        return f"{self.name} moves"
+
+class Dog(Animal):
+    def make_sound(self):  # Method overriding
+        return f"{self.name} barks: Woof! Woof!"
+    
+    def move(self):  # Method overriding
+        return f"{self.name} runs on four legs"
+
+class Cat(Animal):
+    def make_sound(self):  # Method overriding
+        return f"{self.name} meows: Meow! Meow!"
+    
+    def move(self):  # Method overriding
+        return f"{self.name} stalks silently"
+
+class Bird(Animal):
+    def make_sound(self):  # Method overriding
+        return f"{self.name} chirps: Tweet! Tweet!"
+    
+    def move(self):  # Method overriding
+        return f"{self.name} flies through the air"
+
+# Runtime Polymorphism in action
+def animal_behavior(animal):
+    print(animal.make_sound())
+    print(animal.move())
+    print("-" * 30)
+
+# Creating objects
+animals = [
+    Dog("Buddy"),
+    Cat("Whiskers"),
+    Bird("Robin"),
+    Animal("Generic")  # Base class object
+]
+
+# Demonstrating polymorphism
+for animal in animals:
+    animal_behavior(animal)  # Same function, different behaviors
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     JavaScript Example - Shape Hierarchy
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class Shape {
+    constructor(name) {
+        this.name = name;
     }
     
-    area() {
-        return this.width * this.height;
+    calculateArea() {
+        return \`\${this.name}: Area calculation not implemented\`;
     }
     
-    perimeter() {
-        return 2 * (this.width + this.height);
+    getPerimeter() {
+        return \`\${this.name}: Perimeter calculation not implemented\`;
     }
     
-    description() {
-        return \`Rectangle with width \ {this.width} and height \ {this.height}\`;
+    displayInfo() {
+        console.log(\`Shape: \${this.name}\`);
+        console.log(this.calculateArea());
+        console.log(this.getPerimeter());
     }
 }
 
 class Circle extends Shape {
     constructor(radius) {
-        super();
+        super("Circle");
         this.radius = radius;
     }
     
-    area() {
-        return Math.PI * this.radius ** 2;
+    // Method overriding
+    calculateArea() {
+        const area = Math.PI * this.radius * this.radius;
+        return \`Circle area: \${area.toFixed(2)} square units\`;
     }
     
-    perimeter() {
-        return 2 * Math.PI * this.radius;
+    // Method overriding
+    getPerimeter() {
+        const perimeter = 2 * Math.PI * this.radius;
+        return \`Circle circumference: \${perimeter.toFixed(2)} units\`;
+    }
+}
+
+class Rectangle extends Shape {
+    constructor(width, height) {
+        super("Rectangle");
+        this.width = width;
+        this.height = height;
     }
     
-    description() {
-        return \`Circle with radius \ {this.radius}\`;
+    // Method overriding
+    calculateArea() {
+        const area = this.width * this.height;
+        return \`Rectangle area: \${area} square units\`;
+    }
+    
+    // Method overriding
+    getPerimeter() {
+        const perimeter = 2 * (this.width + this.height);
+        return \`Rectangle perimeter: \${perimeter} units\`;
     }
 }
 
 class Triangle extends Shape {
-    constructor(a, b, c) {
-        super();
-        this.a = a;
-        this.b = b;
-        this.c = c;
+    constructor(base, height, side1, side2, side3) {
+        super("Triangle");
+        this.base = base;
+        this.height = height;
+        this.side1 = side1;
+        this.side2 = side2;
+        this.side3 = side3;
     }
     
-    area() {
-        const s = (this.a + this.b + this.c) / 2;
-        return Math.sqrt(s * (s - this.a) * (s - this.b) * (s - this.c));
+    // Method overriding
+    calculateArea() {
+        const area = 0.5 * this.base * this.height;
+        return \`Triangle area: \${area} square units\`;
     }
     
-    perimeter() {
-        return this.a + this.b + this.c;
-    }
-    
-    description() {
-        return \`Triangle with sides \ {this.a}, \ {this.b}, \ {this.c}\`;
+    // Method overriding
+    getPerimeter() {
+        const perimeter = this.side1 + this.side2 + this.side3;
+        return \`Triangle perimeter: \${perimeter} units\`;
     }
 }
 
-function shapeInfo(shape) {
-    console.log(shape.description());
-    console.log(\`Area: \ {shape.area().toFixed(2)}\`);
-    console.log(\`Perimeter: \ {shape.perimeter().toFixed(2)}\`);
-    console.log("-".repeat(30));
+// Runtime Polymorphism demonstration
+function processShape(shape) {
+    console.log("=".repeat(40));
+    shape.displayInfo();  // Same method call, different implementations
+    console.log("=".repeat(40));
 }
 
-// Runtime polymorphism with shapes
+// Creating different shape objects
 const shapes = [
-    new Rectangle(5, 3),
-    new Circle(4),
-    new Triangle(3, 4, 5)
+    new Circle(5),
+    new Rectangle(4, 6),
+    new Triangle(3, 4, 3, 4, 5),
+    new Shape("Generic Shape")  // Base class
 ];
 
-shapes.forEach(shape => shapeInfo(shape));
+// Demonstrating polymorphism
+shapes.forEach(shape => {
+    processShape(shape);  // Runtime decision of which method to call
+});
 
-// Example with method chaining and polymorphism
-class Animal {
-    constructor(name) {
-        this.name = name;
+// Additional example showing polymorphism in array operations
+console.log("\\n--- Calculating total area of all shapes ---");
+let totalArea = 0;
+shapes.forEach(shape => {
+    // Each shape calculates its area differently
+    const areaString = shape.calculateArea();
+    console.log(areaString);
+});
+ </code></pre>
+  </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How Runtime Polymorphism Works
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Lookup:</span> When a method is called, the runtime system looks up the method in the actual object's class first.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Inheritance Chain:</span> If the method is not found, it searches up the inheritance chain until it finds the method or reaches the base class.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Binding:</span> The correct method implementation is bound to the method call at runtime, not compile time.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtual Method Table:</span> Many languages use a virtual method table (vtable) to efficiently resolve method calls at runtime.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Abstract Base Classes:</span> Define clear contracts that subclasses must implement.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Follow Liskov Substitution Principle:</span> Derived classes should be substitutable for their base classes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Consistent Method Signatures:</span> Ensure overriding methods maintain the same interface as the base method.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Document Behavior Changes:</span> Clearly document how overridden methods differ from their parent implementations.
+     </li>
+   </ol>
+</div>`,
+            examples: [
+              `# Python Example - Payment Processing System
+class PaymentProcessor:
+    def process_payment(self, amount):
+        return f"Processing $ {amount} payment"
+    
+    def validate_payment(self):
+        return "Basic validation"
+
+class CreditCardProcessor(PaymentProcessor):
+    def process_payment(self, amount):  # Override
+        return f"Processing $ {amount} via Credit Card with 3% fee"
+    
+    def validate_payment(self):  # Override
+        return "Credit card validation with CVV check"
+
+class PayPalProcessor(PaymentProcessor):
+    def process_payment(self, amount):  # Override
+        return f"Processing $ {amount} via PayPal"
+    
+    def validate_payment(self):  # Override
+        return "PayPal account validation"
+
+# Polymorphism in action
+processors = [CreditCardProcessor(), PayPalProcessor()]
+for processor in processors:
+    print(processor.process_payment(100))`,
+
+              `// JavaScript Example - Media Player
+class MediaPlayer {
+    constructor(filename) {
+        this.filename = filename;
     }
     
-    speak() {
-        return \`\ {this.name} makes a sound\`;
+    play() {
+        return \`Playing \${this.filename}\`;
     }
     
-    move() {
-        return \`\ {this.name} moves\`;
-    }
-    
-    introduce() {
-        return \`\ {this.speak()}. \ {this.move()}.\`;
+    stop() {
+        return \`Stopping \${this.filename}\`;
     }
 }
 
-class Dog extends Animal {
-    speak() {
-        return \`\ {this.name} barks\`;
+class AudioPlayer extends MediaPlayer {
+    play() {  // Override
+        return \`🎵 Playing audio: \${this.filename}\`;
     }
     
-    move() {
-        return \`\ {this.name} runs on four legs\`;
+    stop() {  // Override
+        return \`⏹️ Audio stopped: \${this.filename}\`;
     }
 }
 
-class Bird extends Animal {
-    speak() {
-        return \`\ {this.name} chirps\`;
+class VideoPlayer extends MediaPlayer {
+    play() {  // Override
+        return \`🎬 Playing video: \${this.filename}\`;
     }
     
-    move() {
-        return \`\ {this.name} flies in the sky\`;
+    stop() {  // Override
+        return \`⏹️ Video stopped: \${this.filename}\`;
     }
 }
 
-const animals = [
-    new Dog("Rex"),
-    new Bird("Tweety"),
-    new Animal("Generic")
+// Runtime polymorphism
+const playlist = [
+    new AudioPlayer("song.mp3"),
+    new VideoPlayer("movie.mp4")
 ];
 
-animals.forEach(animal => {
-    console.log(animal.introduce());
-});`,
+playlist.forEach(media => {
+    console.log(media.play());  // Different implementations called
+});`
             ],
             questions: [
               {
-                question:
-                  "What happens during runtime polymorphism when a method is called?",
-                solution:
-                  "<p>During runtime polymorphism, when a method is called on an object, the runtime environment determines the actual type of the object (not the reference type) and calls the appropriate overridden method. This process is called dynamic method dispatch or late binding. The decision is made at runtime based on the object's actual class, enabling the same interface to exhibit different behaviors depending on the implementing class.</p>",
+                question: "What is the difference between method overloading and method overriding?",
+                solution: "<p>Method overloading occurs when multiple methods have the same name but different parameters (compile-time polymorphism), while method overriding occurs when a child class provides a specific implementation of a method that exists in the parent class (runtime polymorphism). Overloading is resolved at compile time, while overriding is resolved at runtime based on the actual object type.</p>"
               },
               {
-                question: "Can you override static methods?",
-                solution:
-                  "<p>In most object-oriented languages, you cannot override static methods in the traditional sense because static methods belong to the class, not to instances. However, you can 'hide' a static method by defining another static method with the same signature in a subclass. The method that gets called depends on the class used to invoke it, not on runtime polymorphism. This is called method hiding, not method overriding.</p>",
+                question: "How does runtime polymorphism improve code maintainability?",
+                solution: "<p>Runtime polymorphism improves maintainability by allowing you to write code that works with base class references but can handle any derived class objects. This means you can add new classes without modifying existing code that uses the base class interface. It promotes loose coupling and makes the system more extensible and easier to maintain.</p>"
               },
+              {
+                question: "Can you explain the concept of dynamic method dispatch?",
+                solution: "<p>Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at runtime rather than compile time. When a method is called on an object, the runtime system determines which version of the method to execute based on the actual type of the object, not the reference type. This enables the same method call to produce different behaviors depending on the object's actual class.</p>"
+              }
             ],
             links: [
-              "https://docs.python.org/3/library/abc.html",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/extends",
-              "https://refactoring.guru/design-patterns/template-method",
-            ],
+              "https://realpython.com/python3-object-oriented-programming/",
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
+              "https://refactoring.guru/design-patterns/strategy"
+            ]
           },
           {
             topic: "Operator Overloading",
