@@ -65456,722 +65456,705 @@ playlist.forEach(media => {
             ]
           },
           {
-            topic: "Operator Overloading",
-            tags: ["operator-overloading", "magic-methods", "dunder-methods"],
+            topic: "Dynamic Method Dispatch",
+            tags: ["polymorphism", "inheritance", "runtime"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Operator overloading is a form of polymorphism that allows developers to define custom behavior for operators (like +, -, *, ==, etc.) when used with user-defined classes. This makes custom objects behave more naturally and intuitively, similar to built-in types.
+     Dynamic Method Dispatch is a fundamental mechanism in object-oriented programming that enables runtime polymorphism. It's the process by which a call to an overridden method is resolved at runtime rather than compile time, allowing the program to determine which specific method implementation to execute based on the actual object type, not the reference or variable type that holds the object.
    </p>
-   
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     What is Operator Overloading?
-   </h4>
- 
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     Operator overloading allows you to define the meaning of operators for your custom classes. For example, you can define what happens when you add two instances of your class using the + operator, or compare them using ==.
+
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     This mechanism is crucial for achieving true polymorphism, where a single interface can represent different underlying forms (data types). When you have a base class reference pointing to a derived class object, dynamic method dispatch ensures that the derived class's version of the method is called, not the base class's version.
    </p>
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Language Support
+     How Dynamic Method Dispatch Works Internally
    </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Python:</span> Full support through magic methods (dunder methods)</li>
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">JavaScript:</span> Limited support; can override some behaviors through Symbol methods and prototypes</li>
-   </ul>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtual Method Table (VTable):</span> Each class maintains a table of function pointers to its methods. When an object is created, it contains a pointer to its class's vtable.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Runtime Method Lookup:</span> When a method is called, the runtime system follows the object's vtable pointer to find the correct method implementation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Inheritance Chain Traversal:</span> If a method isn't overridden in the current class, the system searches up the inheritance hierarchy until it finds an implementation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Resolution Order:</span> In languages supporting multiple inheritance (like Python), a specific order determines which parent class method to call.
+     </li>
+   </ol>
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Common Overloadable Operators
+     Static vs Dynamic Dispatch Comparison
    </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Arithmetic: +, -, *, /, //, %, **</li>
-     <li style="margin-top: 0.5rem;">Comparison: ==, !=, <, >, <=, >=</li>
-     <li style="margin-top: 0.5rem;">Unary: +, -, ~</li>
-     <li style="margin-top: 0.5rem;">Bitwise: &, |, ^, <<, >></li>
-     <li style="margin-top: 0.5rem;">Assignment: +=, -=, *=, /=</li>
-     <li style="margin-top: 0.5rem;">Special: [], (), str(), len()</li>
-   </ul>
+
+   <div style="margin-top: 1rem; background-color: #F9FAFB; padding: 1rem; border-radius: 8px; border-left: 4px solid #3B82F6;">
+     <p style="margin: 0; font-weight: 600;">Static Dispatch (Compile-time):</p>
+     <ul style="margin-top: 0.5rem;">
+       <li>Method call resolved during compilation</li>
+       <li>Faster execution (no runtime lookup)</li>
+       <li>Based on reference/variable type</li>
+       <li>Used for method overloading, final methods, private methods</li>
+     </ul>
+   </div>
+
+   <div style="margin-top: 1rem; background-color: #FEF2F2; padding: 1rem; border-radius: 8px; border-left: 4px solid #EF4444;">
+     <p style="margin: 0; font-weight: 600;">Dynamic Dispatch (Runtime):</p>
+     <ul style="margin-top: 0.5rem;">
+       <li>Method call resolved during program execution</li>
+       <li>Slight performance overhead (runtime lookup)</li>
+       <li>Based on actual object type</li>
+       <li>Enables polymorphism and method overriding</li>
+     </ul>
+   </div>
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Benefits of Operator Overloading
+     Detailed Python Example with Explanation
    </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Makes code more intuitive and readable</li>
-     <li style="margin-top: 0.5rem;">Allows custom objects to behave like built-in types</li>
-     <li style="margin-top: 0.5rem;">Enables mathematical notation for custom classes</li>
-     <li style="margin-top: 0.5rem;">Improves code expressiveness</li>
-   </ul>
-</div>`,
-            examples: [
-              `# Python - Comprehensive Operator Overloading
-class Vector:
-    """A 2D vector class with operator overloading"""
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class Animal:
+    """Base class defining the animal interface"""
     
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+    def __init__(self, name, species):
+        self.name = name
+        self.species = species
     
-    # String representation
-    def __str__(self):
-        return f"Vector({self.x}, {self.y})"
+    def speak(self):
+        """Default implementation - should be overridden"""
+        return f"{self.name} makes a generic animal sound"
     
-    def __repr__(self):
-        return f"Vector({self.x}, {self.y})"
+    def move(self):
+        """Default movement behavior"""
+        return f"{self.name} moves around"
     
-    # Arithmetic operators
-    def __add__(self, other):
-        """Addition: v1 + v2"""
-        if isinstance(other, Vector):
-            return Vector(self.x + other.x, self.y + other.y)
-        elif isinstance(other, (int, float)):
-            return Vector(self.x + other, self.y + other)
-        return NotImplemented
-    
-    def __radd__(self, other):
-        """Right addition: 5 + v1"""
-        return self.__add__(other)
-    
-    def __sub__(self, other):
-        """Subtraction: v1 - v2"""
-        if isinstance(other, Vector):
-            return Vector(self.x - other.x, self.y - other.y)
-        elif isinstance(other, (int, float)):
-            return Vector(self.x - other, self.y - other)
-        return NotImplemented
-    
-    def __mul__(self, scalar):
-        """Scalar multiplication: v1 * 3"""
-        if isinstance(scalar, (int, float)):
-            return Vector(self.x * scalar, self.y * scalar)
-        return NotImplemented
-    
-    def __rmul__(self, scalar):
-        """Right multiplication: 3 * v1"""
-        return self.__mul__(scalar)
-    
-    def __truediv__(self, scalar):
-        """Division: v1 / 2"""
-        if isinstance(scalar, (int, float)) and scalar != 0:
-            return Vector(self.x / scalar, self.y / scalar)
-        return NotImplemented
-    
-    def __pow__(self, exponent):
-        """Power: v1 ** 2 (magnitude squared)"""
-        return (self.x ** 2 + self.y ** 2) ** (exponent / 2)
-    
-    # Comparison operators
-    def __eq__(self, other):
-        """Equality: v1 == v2"""
-        if isinstance(other, Vector):
-            return self.x == other.x and self.y == other.y
-        return False
-    
-    def __ne__(self, other):
-        """Not equal: v1 != v2"""
-        return not self.__eq__(other)
-    
-    def __lt__(self, other):
-        """Less than (by magnitude): v1 < v2"""
-        if isinstance(other, Vector):
-            return self.magnitude() < other.magnitude()
-        return NotImplemented
-    
-    def __le__(self, other):
-        """Less than or equal: v1 <= v2"""
-        return self.__lt__(other) or self.__eq__(other)
-    
-    def __gt__(self, other):
-        """Greater than: v1 > v2"""
-        if isinstance(other, Vector):
-            return self.magnitude() > other.magnitude()
-        return NotImplemented
-    
-    def __ge__(self, other):
-        """Greater than or equal: v1 >= v2"""
-        return self.__gt__(other) or self.__eq__(other)
-    
-    # Unary operators
-    def __neg__(self):
-        """Negation: -v1"""
-        return Vector(-self.x, -self.y)
-    
-    def __pos__(self):
-        """Positive: +v1"""
-        return Vector(self.x, self.y)
-    
-    def __abs__(self):
-        """Absolute value: abs(v1) - returns magnitude"""
-        return self.magnitude()
-    
-    # In-place operators
-    def __iadd__(self, other):
-        """In-place addition: v1 += v2"""
-        if isinstance(other, Vector):
-            self.x += other.x
-            self.y += other.y
-        elif isinstance(other, (int, float)):
-            self.x += other
-            self.y += other
-        return self
-    
-    def __isub__(self, other):
-        """In-place subtraction: v1 -= v2"""
-        if isinstance(other, Vector):
-            self.x -= other.x
-            self.y -= other.y
-        elif isinstance(other, (int, float)):
-            self.x -= other
-            self.y -= other
-        return self
-    
-    def __imul__(self, scalar):
-        """In-place multiplication: v1 *= 3"""
-        if isinstance(scalar, (int, float)):
-            self.x *= scalar
-            self.y *= scalar
-        return self
-    
-    # Container-like behavior
-    def __getitem__(self, key):
-        """Index access: v1[0] or v1[1]"""
-        if key == 0:
-            return self.x
-        elif key == 1:
-            return self.y
-        else:
-            raise IndexError("Vector index out of range")
-    
-    def __setitem__(self, key, value):
-        """Index assignment: v1[0] = 5"""
-        if key == 0:
-            self.x = value
-        elif key == 1:
-            self.y = value
-        else:
-            raise IndexError("Vector index out of range")
-    
-    def __len__(self):
-        """Length: len(v1) - always 2 for 2D vector"""
-        return 2
-    
-    def __contains__(self, item):
-        """Membership: 5 in v1"""
-        return item in (self.x, self.y)
-    
-    # Iterator protocol
-    def __iter__(self):
-        """Make vector iterable: for component in v1"""
-        yield self.x
-        yield self.y
-    
-    # Callable
-    def __call__(self):
-        """Make vector callable: v1() returns magnitude"""
-        return self.magnitude()
-    
-    # Hash (for use in sets/dictionaries)
-    def __hash__(self):
-        """Hash: hash(v1)"""
-        return hash((self.x, self.y))
-    
-    # Context manager
-    def __enter__(self):
-        print(f"Entering context with {self}")
-        return self
-    
-    def __exit__(self, exc_type, exc_val, exc_tb):
-        print(f"Exiting context with {self}")
-        return False
-    
-    # Helper methods
-    def magnitude(self):
-        return (self.x ** 2 + self.y ** 2) ** 0.5
-    
-    def dot(self, other):
-        """Dot product"""
-        return self.x * other.x + self.y * other.y
+    def describe(self):
+        """Uses dynamic dispatch internally"""
+        return f"{self.name} is a {self.species}. {self.speak()}"
 
-# Complex number class example
-class ComplexNumber:
-    def __init__(self, real, imag):
-        self.real = real
-        self.imag = imag
+class Dog(Animal):
+    def __init__(self, name, breed):
+        super().__init__(name, "Dog")
+        self.breed = breed
     
-    def __str__(self):
-        if self.imag >= 0:
-            return f"{self.real} + {self.imag}i"
-        else:
-            return f"{self.real} - {abs(self.imag)}i"
+    def speak(self):
+        """Overridden method - will be called via dynamic dispatch"""
+        return f"{self.name} barks loudly: WOOF WOOF!"
     
-    def __add__(self, other):
-        if isinstance(other, ComplexNumber):
-            return ComplexNumber(self.real + other.real, self.imag + other.imag)
-        elif isinstance(other, (int, float)):
-            return ComplexNumber(self.real + other, self.imag)
-        return NotImplemented
+    def move(self):
+        """Overridden movement behavior"""
+        return f"{self.name} runs around on four legs, tail wagging"
     
-    def __mul__(self, other):
-        if isinstance(other, ComplexNumber):
-            real = self.real * other.real - self.imag * other.imag
-            imag = self.real * other.imag + self.imag * other.real
-            return ComplexNumber(real, imag)
-        elif isinstance(other, (int, float)):
-            return ComplexNumber(self.real * other, self.imag * other)
-        return NotImplemented
-    
-    def __abs__(self):
-        return (self.real ** 2 + self.imag ** 2) ** 0.5
+    def fetch(self):
+        """Dog-specific method"""
+        return f"{self.name} fetches the ball enthusiastically!"
 
-# Usage examples
+class Cat(Animal):
+    def __init__(self, name, is_indoor=True):
+        super().__init__(name, "Cat")
+        self.is_indoor = is_indoor
+    
+    def speak(self):
+        """Overridden method with different behavior"""
+        return f"{self.name} meows softly: meow meow"
+    
+    def move(self):
+        """Cats have their own movement style"""
+        location = "indoors" if self.is_indoor else "outdoors"
+        return f"{self.name} prowls gracefully around {location}"
+
+class Bird(Animal):
+    def __init__(self, name, can_fly=True):
+        super().__init__(name, "Bird")
+        self.can_fly = can_fly
+    
+    def speak(self):
+        """Birds have unique vocalizations"""
+        return f"{self.name} chirps melodiously: tweet tweet!"
+    
+    def move(self):
+        """Flight behavior for birds"""
+        if self.can_fly:
+            return f"{self.name} soars through the sky with spread wings"
+        else:
+            return f"{self.name} hops around on the ground"
+
+# Demonstration of Dynamic Method Dispatch
+def demonstrate_animal_behavior(animal):
+    """
+    This function demonstrates dynamic method dispatch.
+    The parameter 'animal' can be any Animal subclass,
+    but the correct overridden methods will be called
+    based on the actual object type at runtime.
+    """
+    print(f"\\n=== Demonstrating {animal.__class__.__name__} Behavior ===")
+    print(f"Animal Info: {animal.describe()}")  # Uses dynamic dispatch
+    print(f"Speech: {animal.speak()}")          # Dynamic dispatch
+    print(f"Movement: {animal.move()}")         # Dynamic dispatch
+    
+    # Check if the animal has specific methods (runtime type checking)
+    if hasattr(animal, 'fetch'):
+        print(f"Special ability: {animal.fetch()}")
+
+def polymorphic_behavior_demo():
+    """Demonstrates polymorphism using dynamic method dispatch"""
+    
+    # Create different animal objects
+    animals = [
+        Dog("Buddy", "Golden Retriever"),
+        Cat("Whiskers", is_indoor=True),
+        Bird("Robin", can_fly=True),
+        Dog("Rex", "German Shepherd"),
+        Cat("Shadow", is_indoor=False)
+    ]
+    
+    # The same function call works for all animals
+    # but produces different behaviors based on actual object type
+    for animal in animals:
+        demonstrate_animal_behavior(animal)
+    
+    print("\\n=== Mass Animal Concert ===")
+    # All animals "perform" - each with their own sound
+    for animal in animals:
+        print(f"{animal.speak()}")
+
+# Execute the demonstration
 if __name__ == "__main__":
-    # Vector operations
-    v1 = Vector(3, 4)
-    v2 = Vector(1, 2)
-    
-    print("=== Vector Operations ===")
-    print(f"v1: {v1}")
-    print(f"v2: {v2}")
-    print(f"v1 + v2: {v1 + v2}")
-    print(f"v1 - v2: {v1 - v2}")
-    print(f"v1 * 3: {v1 * 3}")
-    print(f"3 * v1: {3 * v1}")
-    print(f"v1 / 2: {v1 / 2}")
-    print(f"-v1: {-v1}")
-    print(f"abs(v1): {abs(v1)}")
-    print(f"v1 == v2: {v1 == v2}")
-    print(f"v1 > v2: {v1 > v2}")
-    print(f"v1[0]: {v1[0]}")
-    print(f"len(v1): {len(v1)}")
-    print(f"3 in v1: {3 in v1}")
-    print(f"v1(): {v1()}")  # Call operator
-    
-    # In-place operations
-    v3 = Vector(2, 3)
-    v3 += Vector(1, 1)
-    print(f"After v3 += Vector(1, 1): {v3}")
-    
-    # Iteration
-    print("Vector components:", [component for component in v1])
-    
-    # Context manager
-    with Vector(5, 6) as v:
-        print(f"Inside context: {v}")
-    
-    # Complex numbers
-    print("\\n=== Complex Number Operations ===")
-    c1 = ComplexNumber(3, 4)
-    c2 = ComplexNumber(1, 2)
-    
-    print(f"c1: {c1}")
-    print(f"c2: {c2}")
-    print(f"c1 + c2: {c1 + c2}")
-    print(f"c1 * c2: {c1 * c2}")
-    print(f"abs(c1): {abs(c1):.2f}")`,
-              `// JavaScript - Operator Overloading Simulation
-// JavaScript doesn't support traditional operator overloading,
-// but we can simulate some behaviors
+    polymorphic_behavior_demo()
+ </code></pre>
+  </div>
 
-class Vector {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced JavaScript Example with Detailed Explanation
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-javascript">
+class Vehicle {
+    constructor(brand, model, year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.isRunning = false;
     }
     
-    // String conversion
-    toString() {
-        return \`Vector(\ {this.x}, \ {this.y})\`;
+    start() {
+        /**
+         * Base implementation - can be overridden
+         * Dynamic dispatch will call the appropriate version
+         */
+        this.isRunning = true;
+        return \`\${this.brand} \${this.model} is starting...\`;
     }
     
-    // JSON serialization
-    toJSON() {
-        return { x: this.x, y: this.y };
+    stop() {
+        this.isRunning = false;
+        return \`\${this.brand} \${this.model} has stopped.\`;
     }
     
-    // Arithmetic methods (since we can't overload operators)
-    add(other) {
-        if (other instanceof Vector) {
-            return new Vector(this.x + other.x, this.y + other.y);
-        } else if (typeof other === 'number') {
-            return new Vector(this.x + other, this.y + other);
+    getInfo() {
+        /**
+         * This method uses dynamic dispatch internally
+         * It calls start() which may be overridden in subclasses
+         */
+        const startMessage = this.start();
+        const status = this.isRunning ? "running" : "stopped";
+        return \`\${this.year} \${this.brand} \${this.model} - Status: \${status}. \${startMessage}\`;
+    }
+    
+    performMaintenance() {
+        return \`Performing basic maintenance on \${this.brand} \${this.model}\`;
+    }
+}
+
+class Car extends Vehicle {
+    constructor(brand, model, year, doors = 4) {
+        super(brand, model, year);
+        this.doors = doors;
+        this.engineType = "Internal Combustion";
+    }
+    
+    start() {
+        /**
+         * Overridden method - will be called via dynamic dispatch
+         * even when called from parent class methods
+         */
+        this.isRunning = true;
+        return \`\${this.brand} \${this.model} engine roars to life with a powerful rumble!\`;
+    }
+    
+    stop() {
+        this.isRunning = false;
+        return \`\${this.brand} \${this.model} engine shuts down with a final purr.\`;
+    }
+    
+    honk() {
+        return \`\${this.brand} \${this.model} goes BEEP BEEP!\`;
+    }
+    
+    performMaintenance() {
+        // Calls parent method and adds car-specific maintenance
+        const basicMaintenance = super.performMaintenance();
+        return \`\${basicMaintenance}. Checking oil, brakes, and tire pressure.\`;
+    }
+}
+
+class ElectricCar extends Car {
+    constructor(brand, model, year, batteryCapacity) {
+        super(brand, model, year);
+        this.batteryCapacity = batteryCapacity;
+        this.engineType = "Electric";
+        this.batteryLevel = 100;
+    }
+    
+    start() {
+        /**
+         * Electric cars start differently - silent operation
+         * This overridden method will be called via dynamic dispatch
+         */
+        this.isRunning = true;
+        return \`\${this.brand} \${this.model} silently powers on - no engine noise!\`;
+    }
+    
+    stop() {
+        this.isRunning = false;
+        return \`\${this.brand} \${this.model} powers down silently.\`;
+    }
+    
+    charge() {
+        this.batteryLevel = 100;
+        return \`\${this.brand} \${this.model} battery charged to 100%\`;
+    }
+    
+    performMaintenance() {
+        // Electric cars have different maintenance needs
+        return \`Performing electric vehicle maintenance on \${this.brand} \${this.model}: 
+                checking battery health, updating software, inspecting charging port.\`;
+    }
+}
+
+class Motorcycle extends Vehicle {
+    constructor(brand, model, year, engineSize) {
+        super(brand, model, year);
+        this.engineSize = engineSize;
+        this.wheels = 2;
+    }
+    
+    start() {
+        /**
+         * Motorcycles have their own starting characteristics
+         */
+        this.isRunning = true;
+        return \`\${this.brand} \${this.model} (\${this.engineSize}cc) kicks to life with a thunderous roar!\`;
+    }
+    
+    wheelie() {
+        if (this.isRunning) {
+            return \`\${this.brand} \${this.model} pops a wheelie! 🏍️\`;
         }
-        throw new Error('Invalid operand type for addition');
+        return "Can't do a wheelie while stopped!";
+    }
+}
+
+// Comprehensive Dynamic Method Dispatch Demonstration
+class VehicleManager {
+    constructor() {
+        this.vehicles = [];
     }
     
-    subtract(other) {
-        if (other instanceof Vector) {
-            return new Vector(this.x - other.x, this.y - other.y);
-        } else if (typeof other === 'number') {
-            return new Vector(this.x - other, this.y - other);
-        }
-        throw new Error('Invalid operand type for subtraction');
+    addVehicle(vehicle) {
+        this.vehicles.push(vehicle);
     }
     
-    multiply(scalar) {
-        if (typeof scalar === 'number') {
-            return new Vector(this.x * scalar, this.y * scalar);
-        }
-        throw new Error('Can only multiply vector by scalar');
-    }
-    
-    divide(scalar) {
-        if (typeof scalar === 'number' && scalar !== 0) {
-            return new Vector(this.x / scalar, this.y / scalar);
-        }
-        throw new Error('Can only divide vector by non-zero scalar');
-    }
-    
-    negate() {
-        return new Vector(-this.x, -this.y);
-    }
-    
-    // Comparison methods
-    equals(other) {
-        if (other instanceof Vector) {
-            return this.x === other.x && this.y === other.y;
-        }
-        return false;
-    }
-    
-    lessThan(other) {
-        if (other instanceof Vector) {
-            return this.magnitude() < other.magnitude();
-        }
-        throw new Error('Can only compare with another Vector');
-    }
-    
-    greaterThan(other) {
-        if (other instanceof Vector) {
-            return this.magnitude() > other.magnitude();
-        }
-        throw new Error('Can only compare with another Vector');
-    }
-    
-    // Array-like access using Proxy (modern JavaScript)
-    static create(x, y) {
-        const vector = new Vector(x, y);
-        return new Proxy(vector, {
-            get(target, prop) {
-                if (prop === '0' || prop === 0) return target.x;
-                if (prop === '1' || prop === 1) return target.y;
-                if (prop === 'length') return 2;
-                return target[prop];
-            },
-            set(target, prop, value) {
-                if (prop === '0' || prop === 0) {
-                    target.x = value;
-                    return true;
-                }
-                if (prop === '1' || prop === 1) {
-                    target.y = value;
-                    return true;
-                }
-                target[prop] = value;
-                return true;
-            }
+    startAllVehicles() {
+        /**
+         * This method demonstrates dynamic method dispatch perfectly.
+         * Each vehicle's start() method is called, but the actual
+         * implementation depends on the object's runtime type.
+         */
+        console.log("\\n=== Starting All Vehicles ===");
+        this.vehicles.forEach((vehicle, index) => {
+            console.log(\`\${index + 1}. \${vehicle.start()}\`);
         });
     }
     
-    // Iterator protocol
-    *[Symbol.iterator]() {
-        yield this.x;
-        yield this.y;
+    getVehicleInfo() {
+        /**
+         * The getInfo() method in the base class calls start(),
+         * which demonstrates dynamic dispatch within inherited methods.
+         */
+        console.log("\\n=== Vehicle Information (with Dynamic Dispatch) ===");
+        this.vehicles.forEach((vehicle, index) => {
+            console.log(\`\${index + 1}. \${vehicle.getInfo()}\`);
+        });
     }
     
-    // Make it callable-like using apply
-    valueOf() {
-        return this.magnitude();
+    performMaintenanceOnAll() {
+        /**
+         * Each vehicle type has its own maintenance requirements
+         */
+        console.log("\\n=== Maintenance Schedule ===");
+        this.vehicles.forEach((vehicle, index) => {
+            console.log(\`\${index + 1}. \${vehicle.performMaintenance()}\`);
+        });
     }
     
-    // Helper methods
-    magnitude() {
-        return Math.sqrt(this.x ** 2 + this.y ** 2);
-    }
-    
-    dot(other) {
-        return this.x * other.x + this.y * other.y;
-    }
-    
-    // In-place operations
-    addInPlace(other) {
-        if (other instanceof Vector) {
-            this.x += other.x;
-            this.y += other.y;
-        } else if (typeof other === 'number') {
-            this.x += other;
-            this.y += other;
-        }
-        return this;
-    }
-    
-    multiplyInPlace(scalar) {
-        if (typeof scalar === 'number') {
-            this.x *= scalar;
-            this.y *= scalar;
-        }
-        return this;
-    }
-}
-
-// Complex number class
-class ComplexNumber {
-    constructor(real, imag) {
-        this.real = real;
-        this.imag = imag;
-    }
-    
-    toString() {
-        if (this.imag >= 0) {
-            return \`\ {this.real} + \ {this.imag}i\`;
-        } else {
-            return \`\ {this.real} - \ {Math.abs(this.imag)}i\`;
-        }
-    }
-    
-    add(other) {
-        if (other instanceof ComplexNumber) {
-            return new ComplexNumber(this.real + other.real, this.imag + other.imag);
-        } else if (typeof other === 'number') {
-            return new ComplexNumber(this.real + other, this.imag);
-        }
-        throw new Error('Invalid operand type');
-    }
-    
-    multiply(other) {
-        if (other instanceof ComplexNumber) {
-            const real = this.real * other.real - this.imag * other.imag;
-            const imag = this.real * other.imag + this.imag * other.real;
-            return new ComplexNumber(real, imag);
-        } else if (typeof other === 'number') {
-            return new ComplexNumber(this.real * other, this.imag * other);
-        }
-        throw new Error('Invalid operand type');
-    }
-    
-    magnitude() {
-        return Math.sqrt(this.real ** 2 + this.imag ** 2);
-    }
-    
-    valueOf() {
-        return this.magnitude();
-    }
-}
-
-// Matrix class with operator-like methods
-class Matrix {
-    constructor(rows) {
-        this.rows = rows;
-        this.height = rows.length;
-        this.width = rows[0].length;
-    }
-    
-    static create(height, width, fillValue = 0) {
-        const rows = Array(height).fill(null).map(() => 
-            Array(width).fill(fillValue)
-        );
-        return new Matrix(rows);
-    }
-    
-    toString() {
-        return this.rows.map(row => 
-            '[' + row.map(val => val.toString().padStart(4)).join('') + ' ]'
-        ).join('\\n');
-    }
-    
-    add(other) {
-        if (other instanceof Matrix && 
-            this.height === other.height && 
-            this.width === other.width) {
-            const result = this.rows.map((row, i) =>
-                row.map((val, j) => val + other.rows[i][j])
-            );
-            return new Matrix(result);
-        }
-        throw new Error('Matrix dimensions must match for addition');
-    }
-    
-    multiply(other) {
-        if (typeof other === 'number') {
-            // Scalar multiplication
-            const result = this.rows.map(row =>
-                row.map(val => val * other)
-            );
-            return new Matrix(result);
-        } else if (other instanceof Matrix && this.width === other.height) {
-            // Matrix multiplication
-            const result = Array(this.height).fill(null).map(() =>
-                Array(other.width).fill(0)
-            );
-            
-            for (let i = 0; i < this.height; i++) {
-                for (let j = 0; j < other.width; j++) {
-                    for (let k = 0; k < this.width; k++) {
-                        result[i][j] += this.rows[i][k] * other.rows[k][j];
-                    }
-                }
-            }
-            return new Matrix(result);
-        }
-        throw new Error('Invalid matrix multiplication');
-    }
-    
-    // Array-like access
-    get(row, col) {
-        return this.rows[row][col];
-    }
-    
-    set(row, col, value) {
-        this.rows[row][col] = value;
-    }
-    
-    equals(other) {
-        if (!(other instanceof Matrix) || 
-            this.height !== other.height || 
-            this.width !== other.width) {
-            return false;
-        }
+    demonstratePolymorphism() {
+        /**
+         * This method shows how the same method call
+         * produces different behaviors based on object type
+         */
+        console.log("\\n=== Polymorphism Demonstration ===");
         
-        return this.rows.every((row, i) =>
-            row.every((val, j) => val === other.rows[i][j])
-        );
+        this.vehicles.forEach((vehicle) => {
+            console.log(\`\\n--- \${vehicle.constructor.name}: \${vehicle.brand} \${vehicle.model} ---\`);
+            console.log(\`Start: \${vehicle.start()}\`);
+            console.log(\`Stop: \${vehicle.stop()}\`);
+            
+            // Check for type-specific methods using duck typing
+            if (typeof vehicle.honk === 'function') {
+                console.log(\`Horn: \${vehicle.honk()}\`);
+            }
+            if (typeof vehicle.charge === 'function') {
+                console.log(\`Charging: \${vehicle.charge()}\`);
+            }
+            if (typeof vehicle.wheelie === 'function') {
+                vehicle.start(); // Make sure it's running
+                console.log(\`Trick: \${vehicle.wheelie()}\`);
+            }
+        });
     }
 }
 
-// Usage examples
-console.log("=== Vector Operations ===");
-const v1 = new Vector(3, 4);
-const v2 = new Vector(1, 2);
+// Execute comprehensive demonstration
+function demonstrateDynamicMethodDispatch() {
+    const manager = new VehicleManager();
+    
+    // Add different types of vehicles
+    manager.addVehicle(new Car("Toyota", "Camry", 2023));
+    manager.addVehicle(new ElectricCar("Tesla", "Model 3", 2023, "75kWh"));
+    manager.addVehicle(new Motorcycle("Harley-Davidson", "Street 750", 2023, 750));
+    manager.addVehicle(new Car("BMW", "X5", 2023, 4));
+    manager.addVehicle(new ElectricCar("Nissan", "Leaf", 2023, "40kWh"));
+    
+    // Demonstrate various aspects of dynamic method dispatch
+    manager.startAllVehicles();
+    manager.getVehicleInfo();
+    manager.performMaintenanceOnAll();
+    manager.demonstratePolymorphism();
+}
 
-console.log(\`v1: \ {v1}\`);
-console.log(\`v2: \ {v2}\`);
-console.log(\`v1.add(v2): \ {v1.add(v2)}\`);
-console.log(\`v1.subtract(v2): \ {v1.subtract(v2)}\`);
-console.log(\`v1.multiply(3): \ {v1.multiply(3)}\`);
-console.log(\`v1.divide(2): \ {v1.divide(2)}\`);
-console.log(\`v1.negate(): \ {v1.negate()}\`);
-console.log(\`v1.magnitude(): \ {v1.magnitude()}\`);
-console.log(\`v1.equals(v2): \ {v1.equals(v2)}\`);
-console.log(\`v1.greaterThan(v2): \ {v1.greaterThan(v2)}\`);
+// Run the demonstration
+demonstrateDynamicMethodDispatch();
+ </code></pre>
+  </div>
 
-// Array-like access with Proxy
-const v3 = Vector.create(5, 6);
-console.log(\`v3[0]: \ {v3[0]}\`);
-console.log(\`v3[1]: \ {v3[1]}\`);
-console.log(\`v3.length: \ {v3.length}\`);
-
-v3[0] = 10;
-console.log(\`After v3[0] = 10: \ {v3}\`);
-
-// Iteration
-console.log("Vector components:", [...v1]);
-
-// In-place operations
-const v4 = new Vector(2, 3);
-v4.addInPlace(new Vector(1, 1));
-console.log(\`After addInPlace: \ {v4}\`);
-
-// Complex numbers
-console.log("\\n=== Complex Number Operations ===");
-const c1 = new ComplexNumber(3, 4);
-const c2 = new ComplexNumber(1, 2);
-
-console.log(\`c1: \ {c1}\`);
-console.log(\`c2: \ {c2}\`);
-console.log(\`c1.add(c2): \ {c1.add(c2)}\`);
-console.log(\`c1.multiply(c2): \ {c1.multiply(c2)}\`);
-console.log(\`c1.magnitude(): \ {c1.magnitude().toFixed(2)}\`);
-
-// Matrix operations
-console.log("\\n=== Matrix Operations ===");
-const m1 = new Matrix([[1, 2], [3, 4]]);
-const m2 = new Matrix([[2, 0], [1, 3]]);
-
-console.log("Matrix 1:");
-console.log(m1.toString());
-console.log("Matrix 2:");
-console.log(m2.toString());
-console.log("m1.add(m2):");
-console.log(m1.add(m2).toString());
-console.log("m1.multiply(m2):");
-console.log(m1.multiply(m2).toString());
-console.log("m1.multiply(2):");
-console.log(m1.multiply(2).toString());`,
-            ],
-            questions: [
-              {
-                question:
-                  "What are the advantages and disadvantages of operator overloading?",
-                solution:
-                  "<p><strong>Advantages:</strong> Makes code more intuitive and readable, allows custom objects to behave like built-in types, enables natural mathematical notation. <strong>Disadvantages:</strong> Can make code harder to understand if overused or misused, may hide complex operations behind simple operators, can lead to unexpected behavior if not implemented carefully, and may impact performance due to method calls.</p>",
-              },
-              {
-                question:
-                  "Why doesn't JavaScript support operator overloading natively?",
-                solution:
-                  "<p>JavaScript was designed to be simple and lightweight, and operator overloading adds complexity to the language implementation and can make code harder to understand. However, JavaScript provides alternative mechanisms like Symbol methods (Symbol.iterator, Symbol.toPrimitive) and valueOf() for some operator-like behaviors. The language prioritizes simplicity and dynamic typing over the complexity that full operator overloading would introduce.</p>",
-              },
-            ],
-            links: [
-              "https://docs.python.org/3/reference/datamodel.html#special-method-names",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol",
-              "https://realpython.com/operator-function-overloading/",
-            ],
-          },
-          {
-            topic: "Dynamic Method Dispatch",
-            tags: ["dynamic-dispatch", "virtual-methods", "late-binding"],
-            explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1.5rem;">
-     Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at runtime rather than at compile time. It's the foundation of runtime polymorphism and enables objects of different types to respond to the same method call in their own specific way.
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Method Resolution Order (MRO) in Python
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Python uses the C3 linearization algorithm to determine the Method Resolution Order when multiple inheritance is involved. This ensures a consistent and predictable method lookup process.
    </p>
    
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     How Dynamic Method Dispatch Works
-   </h4>
- 
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     When a method is called on an object, the runtime system determines the actual type of the object (not the reference type) and calls the appropriate method implementation. This process involves looking up the method in the object's vtable (virtual method table) or similar dispatch mechanism.
-   </p>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-python">
+class A:
+    def method(self):
+        return "A's method"
 
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Key Concepts
-   </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Late Binding:</span> Method resolution happens at runtime</li>
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Virtual Methods:</span> Methods that can be overridden and dispatched dynamically</li>
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Method Resolution Order (MRO):</span> The order in which methods are searched in inheritance hierarchies</li>
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Dispatch Table:</span> Internal structure mapping method names to implementations</li>
-   </ul>
+class B(A):
+    def method(self):
+        return "B's method"
 
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Language Implementation
-   </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">Python:</span> All methods are virtual by default, uses MRO for method resolution</li>
-     <li style="margin-top: 0.5rem;"><span style="font-weight: 600;">JavaScript:</span> Prototype-based dispatch, methods resolved through prototype chain</li>
-   </ul>
+class C(A):
+    def method(self):
+        return "C's method"
+
+class D(B, C):  # Multiple inheritance
+    pass
+
+# Check the Method Resolution Order
+print(D.__mro__)  # (<class '__main__.D'>, <class '__main__.B'>, <class '__main__.C'>, <class '__main__.A'>, <class 'object'>)
+
+d = D()
+print(d.method())  # Output: "B's method" (B comes before C in MRO)
+ </code></pre>
+  </div>
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
      Performance Considerations
    </h4>
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     Dynamic dispatch has a small runtime overhead compared to static dispatch because the method lookup must happen at runtime. However, modern interpreters and JIT compilers use various optimization techniques like inline caching and method inlining to minimize this overhead.
-   </p>
+
+   <div style="margin-top: 1rem; background-color: #FEF3C7; padding: 1rem; border-radius: 8px; border-left: 4px solid #F59E0B;">
+     <p style="margin: 0; font-weight: 600;">Dynamic Dispatch Overhead:</p>
+     <ul style="margin-top: 0.5rem;">
+       <li><strong>Method Table Lookup:</strong> Extra indirection to find the correct method</li>
+       <li><strong>Cache Misses:</strong> Unpredictable method calls can cause CPU cache misses</li>
+       <li><strong>Branch Prediction:</strong> Modern CPUs struggle to predict which method will be called</li>
+       <li><strong>Memory Usage:</strong> Each class needs space for its method table</li>
+     </ul>
+     <p style="margin-top: 0.5rem; font-style: italic;">
+       Despite these costs, the benefits of polymorphism usually outweigh the performance overhead in most applications.
+     </p>
+   </div>
 
    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Use Cases
+     Real-World Applications
    </h4>
-   <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
-     <li style="margin-top: 0.5rem;">Plugin architectures and extensible frameworks</li>
-     <li style="margin-top: 0.5rem;">Strategy pattern implementation</li>
-     <li style="margin-top: 0.5rem;">Event handling systems</li>
-     <li style="margin-top: 0.5rem;">Visitor pattern and double dispatch</li>
-   </ul>
-</div>`,
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">GUI Frameworks:</span> Different UI components (buttons, text fields, checkboxes) can all respond to common events like click() or render() in their own specific ways.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Database Abstraction:</span> Different database drivers (MySQL, PostgreSQL, SQLite) can implement the same interface (connect(), query(), disconnect()) with database-specific behavior.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Game Development:</span> Different game objects (players, enemies, NPCs) can all have update() and render() methods that behave differently based on the object type.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Plugin Systems:</span> Different plugins can implement the same interface, allowing the main application to treat all plugins uniformly while each provides unique functionality.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shape Drawing Applications:</span> Different shapes (circles, rectangles, triangles) can all implement draw(), calculateArea(), and calculatePerimeter() methods with shape-specific logic.
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `# Python Example: Complex inheritance hierarchy with dynamic dispatch
+class MediaPlayer:
+    def __init__(self, name):
+        self.name = name
+        self.is_playing = False
+    
+    def play(self):
+        self.is_playing = True
+        return f"{self.name}: Starting playback..."
+    
+    def stop(self):
+        self.is_playing = False
+        return f"{self.name}: Stopping playback..."
+    
+    def get_status(self):
+        # This method uses dynamic dispatch when calling play()
+        status = "Playing" if self.is_playing else "Stopped"
+        play_msg = self.play() if not self.is_playing else "Already playing"
+        return f"{self.name} status: {status}. {play_msg}"
+
+class AudioPlayer(MediaPlayer):
+    def __init__(self, name, sample_rate=44100):
+        super().__init__(name)
+        self.sample_rate = sample_rate
+    
+    def play(self):
+        self.is_playing = True
+        return f"{self.name}: Playing audio at {self.sample_rate}Hz sample rate 🎵"
+    
+    def adjust_volume(self, level):
+        return f"{self.name}: Volume adjusted to {level}%"
+
+class VideoPlayer(MediaPlayer):
+    def __init__(self, name, resolution="1080p"):
+        super().__init__(name)
+        self.resolution = resolution
+    
+    def play(self):
+        self.is_playing = True
+        return f"{self.name}: Playing video in {self.resolution} resolution 🎬"
+    
+    def toggle_fullscreen(self):
+        return f"{self.name}: Toggled fullscreen mode"
+
+class StreamingPlayer(VideoPlayer):
+    def __init__(self, name, platform, bitrate="5Mbps"):
+        super().__init__(name)
+        self.platform = platform
+        self.bitrate = bitrate
+    
+    def play(self):
+        self.is_playing = True
+        return f"{self.name}: Streaming from {self.platform} at {self.bitrate} 📺"
+    
+    def check_connection(self):
+        return f"{self.name}: Connection to {self.platform} is stable"
+
+# Demonstrate dynamic dispatch in media system
+players = [
+    AudioPlayer("Spotify Player", 48000),
+    VideoPlayer("Local Video Player", "4K"),
+    StreamingPlayer("Netflix Player", "Netflix", "8Mbps"),
+    AudioPlayer("Podcast Player")
+]
+
+for player in players:
+    print(player.get_status())  # Dynamic dispatch in action
+    print("---")`,
+
+              `// JavaScript Example: Advanced plugin system with dynamic dispatch
+class Plugin {
+    constructor(name, version) {
+        this.name = name;
+        this.version = version;
+        this.isActive = false;
+    }
+    
+    activate() {
+        this.isActive = true;
+        return \`\${this.name} v\${this.version}: Plugin activated\`;
+    }
+    
+    deactivate() {
+        this.isActive = false;
+        return \`\${this.name} v\${this.version}: Plugin deactivated\`;
+    }
+    
+    execute(data) {
+        // Base implementation - should be overridden
+        return \`\${this.name}: Processing data with base functionality\`;
+    }
+    
+    getInfo() {
+        // Uses dynamic dispatch when calling execute()
+        const status = this.isActive ? "Active" : "Inactive";
+        const execution = this.execute("sample data");
+        return \`\${this.name} v\${this.version} - Status: \${status}\\nExecution: \${execution}\`;
+    }
+}
+
+class SecurityPlugin extends Plugin {
+    constructor(name, version, securityLevel = "medium") {
+        super(name, version);
+        this.securityLevel = securityLevel;
+    }
+    
+    activate() {
+        this.isActive = true;
+        return \`\${this.name} v\${this.version}: Security plugin activated with \${this.securityLevel} security level 🛡️\`;
+    }
+    
+    execute(data) {
+        if (!this.isActive) return "Security plugin not active";
+        return \`\${this.name}: Scanning and securing data - \${this.securityLevel} level checks passed ✅\`;
+    }
+    
+    performSecurityScan() {
+        return \`\${this.name}: Comprehensive security scan completed\`;
+    }
+}
+
+class PerformancePlugin extends Plugin {
+    constructor(name, version, optimizationLevel = "standard") {
+        super(name, version);
+        this.optimizationLevel = optimizationLevel;
+    }
+    
+    activate() {
+        this.isActive = true;
+        return \`\${this.name} v\${this.version}: Performance plugin activated with \${this.optimizationLevel} optimization ⚡\`;
+    }
+    
+    execute(data) {
+        if (!this.isActive) return "Performance plugin not active";
+        return \`\${this.name}: Optimizing data processing with \${this.optimizationLevel} level optimization 🚀\`;
+    }
+    
+    generateReport() {
+        return \`\${this.name}: Performance report generated\`;
+    }
+}
+
+class LoggingPlugin extends Plugin {
+    constructor(name, version, logLevel = "INFO") {
+        super(name, version);
+        this.logLevel = logLevel;
+        this.logs = [];
+    }
+    
+    activate() {
+        this.isActive = true;
+        this.log("Plugin activated");
+        return \`\${this.name} v\${this.version}: Logging plugin activated with \${this.logLevel} level 📝\`;
+    }
+    
+    execute(data) {
+        if (!this.isActive) return "Logging plugin not active";
+        this.log(\`Processing: \${data}\`);
+        return \`\${this.name}: Data logged at \${this.logLevel} level\`;
+    }
+    
+    log(message) {
+        const timestamp = new Date().toISOString();
+        this.logs.push(\`[\${timestamp}] \${this.logLevel}: \${message}\`);
+    }
+    
+    getLogs() {
+        return this.logs.join('\\n');
+    }
+}
+
+// Plugin Manager demonstrating dynamic dispatch
+class PluginManager {
+    constructor() {
+        this.plugins = new Map();
+    }
+    
+    registerPlugin(plugin) {
+        this.plugins.set(plugin.name, plugin);
+        return \`Registered: \${plugin.name}\`;
+    }
+    
+    activateAll() {
+        console.log("\\n=== Activating All Plugins ===");
+        for (let plugin of this.plugins.values()) {
+            console.log(plugin.activate()); // Dynamic dispatch
+        }
+    }
+    
+    executeAll(data) {
+        console.log("\\n=== Executing All Plugins ===");
+        for (let plugin of this.plugins.values()) {
+            console.log(plugin.execute(data)); // Dynamic dispatch
+        }
+    }
+    
+    getPluginInfo() {
+        console.log("\\n=== Plugin Information ===");
+        for (let plugin of this.plugins.values()) {
+            console.log(plugin.getInfo()); // Uses dynamic dispatch internally
+            console.log("---");
+        }
+    }
+}
+
+// Comprehensive demonstration
+const manager = new PluginManager();
+
+manager.registerPlugin(new SecurityPlugin("AntiVirus Pro", "3.2.1", "high"));
+manager.registerPlugin(new PerformancePlugin("Speed Booster", "2.1.0", "aggressive"));
+manager.registerPlugin(new LoggingPlugin("System Logger", "1.5.2", "DEBUG"));
+
+manager.activateAll();
+manager.executeAll("sensitive user data");
+manager.getPluginInfo();`
+            ],
             questions: [
               {
-                question:
-                  "What happens during runtime polymorphism when a method is called?",
+                question: "What is Dynamic Method Dispatch and how does it differ from static binding?",
                 solution:
-                  "<p>During runtime polymorphism, when a method is called on an object, the runtime environment determines the actual type of the object (not the reference type) and calls the appropriate overridden method. This process is called dynamic method dispatch or late binding. The decision is made at runtime based on the object's actual class, enabling the same interface to exhibit different behaviors depending on the implementing class.</p>",
+                  "<p>Dynamic Method Dispatch is a runtime mechanism that determines which method implementation to execute based on the actual object type, not the reference type. Unlike static binding (resolved at compile time based on reference type), dynamic dispatch occurs during program execution by looking up the correct method in the object's virtual method table (vtable). This enables true polymorphism where the same method call can produce different behaviors depending on the object's runtime type. Static binding is faster but less flexible, while dynamic dispatch enables polymorphic behavior at the cost of slight runtime overhead.</p>",
+              },
+              {
+                question: "How does method resolution work in inheritance hierarchies with multiple inheritance?",
+                solution:
+                  "<p>In inheritance hierarchies with multiple inheritance, method resolution follows a specific algorithm to determine which method to call. Python uses the C3 linearization algorithm to create a Method Resolution Order (MRO) that ensures a consistent, predictable lookup sequence. The algorithm creates a linear ordering of classes that respects the inheritance relationships and avoids ambiguity. When a method is called, the system searches through the MRO from most specific (derived class) to most general (base class), calling the first matching method found. This ensures that derived class methods override parent class methods appropriately while handling complex inheritance scenarios consistently.</p>",
+              },
+              {
+                question: "What are the performance implications of dynamic method dispatch and how can they be optimized?",
+                solution:
+                  "<p>Dynamic method dispatch introduces several performance costs: method table lookups add an extra indirection step, unpredictable method calls can cause CPU cache misses and branch prediction failures, and each class requires memory for its vtable. However, modern languages and runtimes employ various optimizations: inline caching stores recently called methods to avoid repeated lookups, just-in-time compilation can optimize frequently called polymorphic sites, and profile-guided optimization can predict likely method targets. Additionally, techniques like method devirtualization can convert dynamic calls to static calls when the compiler can prove the object type. Despite these costs, the flexibility and maintainability benefits of polymorphism usually justify the performance overhead in most applications.</p>",
               },
               {
                 question: "Can you override static methods?",
