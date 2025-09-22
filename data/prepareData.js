@@ -63005,28 +63005,34 @@ for shape in shapes:
 # This is a green triangle
 # Area: 24.00
 # Perimeter: 24.00
-# Drawing a green triangle with base 8`
+# Drawing a green triangle with base 8`,
             ],
             questions: [
               {
-                question: "What is hierarchical inheritance and how does it differ from other types of inheritance?",
-                solution: "<p>Hierarchical inheritance is a type of inheritance where multiple child classes inherit from a single parent class, creating a tree-like structure. It differs from single inheritance (one child, one parent), multiple inheritance (one child, multiple parents), and multilevel inheritance (chain of inheritance). In hierarchical inheritance, the parent class serves as a common base for multiple specialized child classes, promoting code reusability while allowing each child to have its own specific functionality.</p>"
+                question:
+                  "What is hierarchical inheritance and how does it differ from other types of inheritance?",
+                solution:
+                  "<p>Hierarchical inheritance is a type of inheritance where multiple child classes inherit from a single parent class, creating a tree-like structure. It differs from single inheritance (one child, one parent), multiple inheritance (one child, multiple parents), and multilevel inheritance (chain of inheritance). In hierarchical inheritance, the parent class serves as a common base for multiple specialized child classes, promoting code reusability while allowing each child to have its own specific functionality.</p>",
               },
               {
-                question: "What are the main advantages of using hierarchical inheritance?",
-                solution: "<p>The main advantages include: <strong>Code Reusability</strong> - common functionality is defined once in the parent class; <strong>Easy Maintenance</strong> - changes to shared behavior only need to be made in the parent class; <strong>Logical Organization</strong> - related classes are grouped under a common parent; <strong>Extensibility</strong> - new child classes can be easily added; <strong>Polymorphism</strong> - objects of different child classes can be treated uniformly as parent class objects; and <strong>Consistency</strong> - ensures all child classes follow a common interface or structure.</p>"
+                question:
+                  "What are the main advantages of using hierarchical inheritance?",
+                solution:
+                  "<p>The main advantages include: <strong>Code Reusability</strong> - common functionality is defined once in the parent class; <strong>Easy Maintenance</strong> - changes to shared behavior only need to be made in the parent class; <strong>Logical Organization</strong> - related classes are grouped under a common parent; <strong>Extensibility</strong> - new child classes can be easily added; <strong>Polymorphism</strong> - objects of different child classes can be treated uniformly as parent class objects; and <strong>Consistency</strong> - ensures all child classes follow a common interface or structure.</p>",
               },
               {
-                question: "Can you provide a real-world example of hierarchical inheritance?",
-                solution: "<p>A common real-world example is a <strong>Vehicle</strong> hierarchy: The parent class <code>Vehicle</code> contains common properties like brand, model, year, and methods like start(), stop(). Child classes like <code>Car</code>, <code>Motorcycle</code>, and <code>Truck</code> inherit these common features but also have their specific methods - Car has honk(), Motorcycle has wheelie(), and Truck has loadCargo(). Each child class can also override parent methods to provide specialized behavior, like different starting mechanisms for each vehicle type.</p>"
-              }
+                question:
+                  "Can you provide a real-world example of hierarchical inheritance?",
+                solution:
+                  "<p>A common real-world example is a <strong>Vehicle</strong> hierarchy: The parent class <code>Vehicle</code> contains common properties like brand, model, year, and methods like start(), stop(). Child classes like <code>Car</code>, <code>Motorcycle</code>, and <code>Truck</code> inherit these common features but also have their specific methods - Car has honk(), Motorcycle has wheelie(), and Truck has loadCargo(). Each child class can also override parent methods to provide specialized behavior, like different starting mechanisms for each vehicle type.</p>",
+              },
             ],
             links: [
               "https://www.geeksforgeeks.org/inheritance-in-python/",
               "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
               "https://www.programiz.com/python-programming/inheritance",
-              "https://javascript.info/class-inheritance"
-            ]
+              "https://javascript.info/class-inheritance",
+            ],
           },
           {
             topic: "Multiple Inheritance",
@@ -65077,16 +65083,18 @@ class StringProcessor {
 const processor = new StringProcessor();
 console.log(processor.format("  hello world  "));           // "hello world"
 console.log(processor.format("hello", true));               // "HELLO"
-console.log(processor.format("Hello {{0}}, welcome to {{1}}", "John", "JavaScript")); // "Hello John, welcome to JavaScript"`
+console.log(processor.format("Hello {{0}}, welcome to {{1}}", "John", "JavaScript")); // "Hello John, welcome to JavaScript"`,
             ],
             questions: [
               {
-                question: "What is compile-time polymorphism and how does it differ from runtime polymorphism?",
-                solution: `<p>Compile-time polymorphism (method overloading) is resolved at compile time based on method signatures, while runtime polymorphism (method overriding) is resolved at runtime based on the actual object type. Compile-time polymorphism has no runtime overhead and uses static binding, whereas runtime polymorphism uses dynamic binding and has slight performance overhead due to method lookup at runtime.</p>`
+                question:
+                  "What is compile-time polymorphism and how does it differ from runtime polymorphism?",
+                solution: `<p>Compile-time polymorphism (method overloading) is resolved at compile time based on method signatures, while runtime polymorphism (method overriding) is resolved at runtime based on the actual object type. Compile-time polymorphism has no runtime overhead and uses static binding, whereas runtime polymorphism uses dynamic binding and has slight performance overhead due to method lookup at runtime.</p>`,
               },
               {
-                question: "Why don't Python and JavaScript support true method overloading?",
-                solution: `<p>Python and JavaScript are dynamically typed languages that resolve method calls at runtime, not compile time. They don't have static method signatures that can be analyzed during compilation. Instead, they support method overriding and can simulate overloading using default parameters, variable arguments (*args, **kwargs in Python or rest parameters in JavaScript), and runtime type checking. True method overloading requires static typing and compile-time method resolution.</p>`
+                question:
+                  "Why don't Python and JavaScript support true method overloading?",
+                solution: `<p>Python and JavaScript are dynamically typed languages that resolve method calls at runtime, not compile time. They don't have static method signatures that can be analyzed during compilation. Instead, they support method overriding and can simulate overloading using default parameters, variable arguments (*args, **kwargs in Python or rest parameters in JavaScript), and runtime type checking. True method overloading requires static typing and compile-time method resolution.</p>`,
               },
               {
                 question: "How can you simulate method overloading in Python?",
@@ -65097,15 +65105,15 @@ console.log(processor.format("Hello {{0}}, welcome to {{1}}", "John", "JavaScrip
                 <li><strong>Type Checking:</strong> Use isinstance() or type() to provide different behavior based on argument types</li>
                 <li><strong>functools.singledispatch:</strong> Use this decorator for type-based method dispatch</li>
               </ul>
-              <p>These approaches provide similar functionality to method overloading but are resolved at runtime rather than compile time.</p>`
-              }
+              <p>These approaches provide similar functionality to method overloading but are resolved at runtime rather than compile time.</p>`,
+              },
             ],
             links: [
               "https://realpython.com/python-method-overloading/",
               "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Default_parameters",
               "https://docs.python.org/3/library/functools.html#functools.singledispatch",
-              "https://javascript.info/rest-parameters-spread"
-            ]
+              "https://javascript.info/rest-parameters-spread",
+            ],
           },
           {
             topic: "Runtime Polymorphism (Method Overriding)",
@@ -65433,27 +65441,33 @@ const playlist = [
 
 playlist.forEach(media => {
     console.log(media.play());  // Different implementations called
-});`
+});`,
             ],
             questions: [
               {
-                question: "What is the difference between method overloading and method overriding?",
-                solution: "<p>Method overloading occurs when multiple methods have the same name but different parameters (compile-time polymorphism), while method overriding occurs when a child class provides a specific implementation of a method that exists in the parent class (runtime polymorphism). Overloading is resolved at compile time, while overriding is resolved at runtime based on the actual object type.</p>"
+                question:
+                  "What is the difference between method overloading and method overriding?",
+                solution:
+                  "<p>Method overloading occurs when multiple methods have the same name but different parameters (compile-time polymorphism), while method overriding occurs when a child class provides a specific implementation of a method that exists in the parent class (runtime polymorphism). Overloading is resolved at compile time, while overriding is resolved at runtime based on the actual object type.</p>",
               },
               {
-                question: "How does runtime polymorphism improve code maintainability?",
-                solution: "<p>Runtime polymorphism improves maintainability by allowing you to write code that works with base class references but can handle any derived class objects. This means you can add new classes without modifying existing code that uses the base class interface. It promotes loose coupling and makes the system more extensible and easier to maintain.</p>"
+                question:
+                  "How does runtime polymorphism improve code maintainability?",
+                solution:
+                  "<p>Runtime polymorphism improves maintainability by allowing you to write code that works with base class references but can handle any derived class objects. This means you can add new classes without modifying existing code that uses the base class interface. It promotes loose coupling and makes the system more extensible and easier to maintain.</p>",
               },
               {
-                question: "Can you explain the concept of dynamic method dispatch?",
-                solution: "<p>Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at runtime rather than compile time. When a method is called on an object, the runtime system determines which version of the method to execute based on the actual type of the object, not the reference type. This enables the same method call to produce different behaviors depending on the object's actual class.</p>"
-              }
+                question:
+                  "Can you explain the concept of dynamic method dispatch?",
+                solution:
+                  "<p>Dynamic method dispatch is the mechanism by which a call to an overridden method is resolved at runtime rather than compile time. When a method is called on an object, the runtime system determines which version of the method to execute based on the actual type of the object, not the reference type. This enables the same method call to produce different behaviors depending on the object's actual class.</p>",
+              },
             ],
             links: [
               "https://realpython.com/python3-object-oriented-programming/",
               "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Inheritance_and_the_prototype_chain",
-              "https://refactoring.guru/design-patterns/strategy"
-            ]
+              "https://refactoring.guru/design-patterns/strategy",
+            ],
           },
           {
             topic: "Operator Overloading",
@@ -65771,12 +65785,13 @@ const money1 = new Money(100);
 const money2 = new Money(50);
 
 console.log(money1 + money2); // 150 (numeric conversion)
-console.log(\`I have \${money1}\`); // "I have 100 USD" (string conversion)`
+console.log(\`I have \${money1}\`); // "I have 100 USD" (string conversion)`,
             ],
             questions: [
               {
                 question: "What is operator overloading and why is it useful?",
-                solution: "<p>Operator overloading is a feature that allows developers to define custom behavior for operators when used with user-defined classes. It's useful because it makes code more readable and intuitive - for example, you can use '+' to add two custom Vector objects instead of calling a method like 'vector1.add(vector2)'. This creates more natural, mathematical-looking code that's easier to understand and maintain.</p>"
+                solution:
+                  "<p>Operator overloading is a feature that allows developers to define custom behavior for operators when used with user-defined classes. It's useful because it makes code more readable and intuitive - for example, you can use '+' to add two custom Vector objects instead of calling a method like 'vector1.add(vector2)'. This creates more natural, mathematical-looking code that's easier to understand and maintain.</p>",
               },
               {
                 question: "How does Python implement operator overloading?",
@@ -65796,7 +65811,7 @@ p1 = Point(1, 2)
 p2 = Point(3, 4)
 print(p1 + p2)  # Point(4, 6)
             </code></pre>
-           <p>When you use 'p1 + p2', Python automatically calls 'p1.__add__(p2)'.</p>`
+           <p>When you use 'p1 + p2', Python automatically calls 'p1.__add__(p2)'.</p>`,
               },
               {
                 question: "Can JavaScript do operator overloading like Python?",
@@ -65826,14 +65841,14 @@ const temp2 = new Temperature(15);
 console.log(temp1 + temp2); // 40 (uses valueOf)
 console.log(\`Today is \${temp1}\`); // "Today is 25°C" (uses toString)
               </code></pre>
-              <p>For true operator overloading, you need to define explicit methods like 'add()', 'subtract()', etc.</p>`
-              }
+              <p>For true operator overloading, you need to define explicit methods like 'add()', 'subtract()', etc.</p>`,
+              },
             ],
             links: [
               "https://docs.python.org/3/reference/datamodel.html#special-method-names",
               "https://realpython.com/operator-function-overloading/",
-              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive"
-            ]
+              "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol/toPrimitive",
+            ],
           },
           {
             topic: "Dynamic Method Dispatch",
@@ -66518,21 +66533,24 @@ manager.registerPlugin(new LoggingPlugin("System Logger", "1.5.2", "DEBUG"));
 
 manager.activateAll();
 manager.executeAll("sensitive user data");
-manager.getPluginInfo();`
+manager.getPluginInfo();`,
             ],
             questions: [
               {
-                question: "What is Dynamic Method Dispatch and how does it differ from static binding?",
+                question:
+                  "What is Dynamic Method Dispatch and how does it differ from static binding?",
                 solution:
                   "<p>Dynamic Method Dispatch is a runtime mechanism that determines which method implementation to execute based on the actual object type, not the reference type. Unlike static binding (resolved at compile time based on reference type), dynamic dispatch occurs during program execution by looking up the correct method in the object's virtual method table (vtable). This enables true polymorphism where the same method call can produce different behaviors depending on the object's runtime type. Static binding is faster but less flexible, while dynamic dispatch enables polymorphic behavior at the cost of slight runtime overhead.</p>",
               },
               {
-                question: "How does method resolution work in inheritance hierarchies with multiple inheritance?",
+                question:
+                  "How does method resolution work in inheritance hierarchies with multiple inheritance?",
                 solution:
                   "<p>In inheritance hierarchies with multiple inheritance, method resolution follows a specific algorithm to determine which method to call. Python uses the C3 linearization algorithm to create a Method Resolution Order (MRO) that ensures a consistent, predictable lookup sequence. The algorithm creates a linear ordering of classes that respects the inheritance relationships and avoids ambiguity. When a method is called, the system searches through the MRO from most specific (derived class) to most general (base class), calling the first matching method found. This ensures that derived class methods override parent class methods appropriately while handling complex inheritance scenarios consistently.</p>",
               },
               {
-                question: "What are the performance implications of dynamic method dispatch and how can they be optimized?",
+                question:
+                  "What are the performance implications of dynamic method dispatch and how can they be optimized?",
                 solution:
                   "<p>Dynamic method dispatch introduces several performance costs: method table lookups add an extra indirection step, unpredictable method calls can cause CPU cache misses and branch prediction failures, and each class requires memory for its vtable. However, modern languages and runtimes employ various optimizations: inline caching stores recently called methods to avoid repeated lookups, just-in-time compilation can optimize frequently called polymorphic sites, and profile-guided optimization can predict likely method targets. Additionally, techniques like method devirtualization can convert dynamic calls to static calls when the compiler can prove the object type. Despite these costs, the flexibility and maintainability benefits of polymorphism usually justify the performance overhead in most applications.</p>",
               },
@@ -73749,7 +73767,7 @@ class InvoiceRepository {
             ],
           },
           {
-            topic: "Open/Closed Principle (OCP)",
+            topic: "Open Closed Principle (OCP)",
             tags: ["SOLID", "Design Patterns", "Extensibility"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
