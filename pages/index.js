@@ -36,6 +36,7 @@ import {
   Brain,
   ChevronDown,
   Settings,
+  FileText,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
@@ -71,6 +72,13 @@ export default function Home() {
             </div>
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-8">
+              <Link
+                href="/resources"
+                className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                Resources
+              </Link>
               <a
                 href="#features"
                 className="text-sm font-medium text-gray-600 hover:text-blue-600 transition-colors duration-200"
@@ -94,9 +102,8 @@ export default function Home() {
                   <Settings className="w-4 h-4" />
                   <span>Tools</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
-                      isToolsDropdownOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 transition-transform duration-200 ${isToolsDropdownOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
                 {isToolsDropdownOpen && (
@@ -261,9 +268,8 @@ export default function Home() {
                       Tools
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        isMobileToolsOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-4 h-4 transition-transform duration-200 ${isMobileToolsOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
                   {isMobileToolsOpen && (
@@ -327,6 +333,13 @@ export default function Home() {
                     </div>
                   )}
                 </div>
+                <Link
+                  href="/resources"
+                  className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Resources
+                </Link>
                 <a
                   href="#testimonials"
                   className="block text-gray-600 hover:text-blue-600 transition-all duration-200 py-2"

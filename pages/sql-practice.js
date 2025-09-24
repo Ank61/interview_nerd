@@ -99,7 +99,7 @@ export default function SQLPractice() {
         setError(`Failed to load dataset: ${error.message}`);
       }
     };
-    
+
     if (status !== "loading") {
       loadInitialDataset();
     }
@@ -415,11 +415,10 @@ export default function SQLPractice() {
                       {beginnerQuestions.map((question, index) => (
                         <div
                           key={question.id}
-                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            selectedQuestion?.id === question.id
+                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedQuestion?.id === question.id
                               ? "border-green-500 bg-green-50"
                               : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                          }`}
+                            }`}
                           onClick={() => loadQuestion(question)}
                         >
                           <div className="flex items-center justify-between mb-1">
@@ -447,11 +446,10 @@ export default function SQLPractice() {
                       {advancedQuestions.map((question, index) => (
                         <div
                           key={question.id}
-                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                            selectedQuestion?.id === question.id
+                          className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedQuestion?.id === question.id
                               ? "border-orange-500 bg-orange-50"
                               : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
-                          }`}
+                            }`}
                           onClick={() => loadQuestion(question)}
                         >
                           <div className="flex items-center justify-between mb-1">
@@ -659,7 +657,7 @@ export default function SQLPractice() {
                               Your query results don&apos;t match the expected output.
                             </p>
                           </div>
-                          
+
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
                               <h5 className="text-sm font-semibold text-gray-700 mb-2">Your Query:</h5>
