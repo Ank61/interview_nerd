@@ -4,8 +4,10 @@ import Script from 'next/script';
 import * as gtag from '../lib/gtag';
 import { ThemeProvider } from '@/components/theme-provider';
 import { SessionProvider } from 'next-auth/react';
+import Head from 'next/head';
+import "@/styles/globals.css";
 
-function MyApp({ Component, pageProps }) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter();
 
   useEffect(() => {
@@ -13,11 +15,7 @@ function MyApp({ Component, pageProps }) {
       gtag.pageview(url);
     };
 
-    // When the component is mounted, subscribe to router changes
-    // and log those page views
     router.events.on('routeChangeComplete', handleRouteChange);
-
-    // If the component is unmounted, unsubscribe from the event
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
@@ -25,6 +23,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
       {/* Global Site Tag (gtag.js) - Google Analytics */}
       <Script
         strategy="afterInteractive"
@@ -44,22 +45,16 @@ function MyApp({ Component, pageProps }) {
           `,
         }}
       />
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
-        <Component {...pageProps} />
-      </ThemeProvider>
+      <SessionProvider session={session}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Component {...pageProps} />
+        </ThemeProvider>
+      </SessionProvider>
     </>
-  );
-}
-
-export default function App({ Component, pageProps: { session, ...pageProps } }) {
-  return (
-    <SessionProvider session={session}>
-      <MyApp Component={Component} pageProps={pageProps} />
-    </SessionProvider>
   );
 }
