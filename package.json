@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "node scripts/seed.js",
-    "test:build": "node scripts/build-test.js"
+    "test:build": "node scripts/build-test.js",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@emotion/react": "^11.13.3",
@@ -44,6 +45,7 @@
     "next-auth": "^4.24.11",
     "next-themes": "^0.3.0",
     "node-sql-parser": "^5.3.12",
+    "postbuild": "^2.1.0",
     "pyodide": "^0.28.2",
     "react": "^18",
     "react-ace": "^14.0.1",
@@ -55,6 +57,7 @@
   "devDependencies": {
     "eslint": "^8",
     "eslint-config-next": "14.2.7",
+    "next-sitemap": "^4.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1"
   }

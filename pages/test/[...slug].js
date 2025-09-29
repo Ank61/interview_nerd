@@ -122,7 +122,7 @@ export default function Component() {
                 <span>/</span>
                 <button
                   onClick={() =>
-                    router.push(`/learn/${topicSelected}/introduction`)
+                    router.push(`/learn/${topicSelected}`)
                   }
                   className="hover:text-gray-700 transition-colors"
                 >
