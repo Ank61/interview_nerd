@@ -1,6 +1,6 @@
 self.options = {
-    "domain": "pertawee.net",
-    "zoneId": 9964843
+    "domain": "staupsoaksy.net",
+    "zoneId": 9965014
 }
 self.lary = ""
-importScripts('https://pertawee.net/act/files/service-worker.min.js?r=sw')
+importScripts('https://staupsoaksy.net/act/files/service-worker.min.js?r=sw')
