@@ -62,6 +62,7 @@ export async function getStaticPaths() {
     "SQL",
     "RabbitMQ",
     "OOP",
+    "python"
   ];
   const paths = topics.map((topic) => ({
     params: { slug: topic },

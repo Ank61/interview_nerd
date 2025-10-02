@@ -5,8 +5,10 @@ import Image from "next/image";
 import react from "../images/react.png";
 import next from "../images/next.png";
 import node from "../images/node_logo.png";
+import python from "../images/python1.png";
 import js from "../images/js_logo.png";
 import ts from "../images/ts.png";
+import rabbitmq from "../images/rabitt.png";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -938,23 +940,10 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-red-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="#ea580c"
-                        className="w-12 h-12"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
-                        />
-                      </svg>
+                    <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl p-2 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <Image src={rabbitmq} width={70} height={70} alt="rabbitmq" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
                       RabbitMQ
                     </CardTitle>
                   </div>
@@ -1010,6 +999,38 @@ export default function Home() {
                   </div>
                   <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
                     Classes, inheritance, polymorphism, and design patterns
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push("/category/python")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-purple-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/50 to-yellow-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-yellow-100 to-yellow-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <Image src={python} width={60} height={60} alt="python" />
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                      Python
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-yellow-600 mb-3 group-hover:scale-110 transition-transform">
+                    15
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                    Data structures, algorithms, and problem-solving
                   </p>
                 </CardContent>
               </Card>

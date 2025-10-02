@@ -85710,298 +85710,428 @@ WHERE department NOT IN (SELECT dept_name FROM departments WHERE active = 1);
           },
           {
             topic: "CREATE Statement",
-            tags: ["DDL", "Database", "Tables", "Schemas"],
+            tags: ["DDL", "Tables", "Databases", "Schema"],
             explanation: `<div>
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     TRUNCATE removes all rows from a table by deallocating the data pages, making it much faster than DELETE for removing all data. It resets auto-increment counters and cannot be used with WHERE clauses.
-   </p>
-   
-   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
-      <pre><code>-- Basic TRUNCATE syntax
-TRUNCATE TABLE employees;
-
--- TRUNCATE with CASCADE (PostgreSQL) - removes from related tables
-TRUNCATE TABLE orders CASCADE;
-
--- Some systems require specifying TABLE keyword
-TRUNCATE employees;  -- MySQL allows this
-
--- Cannot use WHERE clause with TRUNCATE
--- This is INVALID:
--- TRUNCATE TABLE employees WHERE department = 'Sales';</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     DELETE Command
-   </h4>
-   
-   <p style="line-height: 1.75; margin-top: 1rem;">
-     DELETE removes rows one by one and supports selective deletion with WHERE clauses. It can be rolled back and maintains transaction logs.
-   </p>
-   
-   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
-      <pre><code>-- Delete all rows (equivalent to TRUNCATE but slower)
-DELETE FROM employees;
-
--- Selective deletion with WHERE clause
-DELETE FROM employees WHERE department = 'Sales';
-DELETE FROM orders WHERE order_date < '2023-01-01';
-
--- Delete with JOIN (remove related data)
-DELETE e FROM employees e
-JOIN departments d ON e.dept_id = d.dept_id
-WHERE d.dept_name = 'Closed Department';
-
--- Delete with LIMIT
-DELETE FROM audit_log ORDER BY created_date LIMIT 1000;</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Key Differences Comparison
-   </h4>
-   
-   <div style="overflow-x: auto; margin-top: 1rem;">
-     <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-       <thead style="background-color: #e9ecef;">
-         <tr>
-           <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left; font-weight: 600;">Aspect</th>
-           <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left; font-weight: 600;">TRUNCATE</th>
-           <th style="padding: 12px; border: 1px solid #dee2e6; text-align: left; font-weight: 600;">DELETE</th>
-         </tr>
-       </thead>
-       <tbody>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Command Type</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">DDL (Data Definition Language)</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">DML (Data Manipulation Language)</td>
-         </tr>
-         <tr style="background-color: #f8f9fa;">
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Speed</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Very Fast - deallocates pages</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Slower - removes row by row</td>
-         </tr>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">WHERE Clause</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Not supported</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Supported - selective deletion</td>
-         </tr>
-         <tr style="background-color: #f8f9fa;">
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Transaction Log</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Minimal logging</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Full logging - each row</td>
-         </tr>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Rollback</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Limited (depends on system)</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Full rollback support</td>
-         </tr>
-         <tr style="background-color: #f8f9fa;">
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Auto-increment Reset</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Yes - resets to initial value</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">No - maintains counter</td>
-         </tr>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Triggers</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Does not fire triggers</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Fires DELETE triggers</td>
-         </tr>
-         <tr style="background-color: #f8f9fa;">
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Foreign Keys</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Cannot truncate if referenced</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Respects FK constraints</td>
-         </tr>
-         <tr>
-           <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: 600;">Storage Space</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">Immediately reclaimed</td>
-           <td style="padding: 12px; border: 1px solid #dee2e6;">May need manual cleanup</td>
-         </tr>
-       </tbody>
-     </table>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     When to Use TRUNCATE
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Clearing entire tables:</span> When you need to remove all data quickly
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Resetting test data:</span> Development and testing environments
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Data loading preparation:</span> Before bulk imports
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Performance critical:</span> Large tables where speed is important
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Auto-increment reset:</span> When you need to restart ID sequences
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     When to Use DELETE
-   </h4>
-   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Selective removal:</span> Removing specific rows with conditions
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Trigger requirements:</span> When DELETE triggers must fire
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Transaction control:</span> Need full rollback capability
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Foreign key tables:</span> Tables referenced by foreign keys
-     </li>
-     <li style="margin-top: 0.5rem;">
-      <span style="font-weight: 600; font-size: 1.1rem;">Audit requirements:</span> When you need detailed logging
-     </li>
-   </ol>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Performance Considerations
-   </h4>
-   
-   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #fff3cd; border: 1px solid #ffeaa7;">
-      <pre><code>-- Performance comparison example
--- For a table with 1 million rows:
-
--- TRUNCATE: Nearly instantaneous
-TRUNCATE TABLE large_table;  -- ~0.1 seconds
-
--- DELETE: Much slower, depends on table size
-DELETE FROM large_table;     -- ~30-300 seconds
-
--- DELETE with small batches for better performance
-DELETE FROM large_table LIMIT 10000;  -- Repeat in batches
-
--- Check table size before deciding
-SELECT 
-    COUNT(*) as row_count,
-    ROUND(((data_length + index_length) / 1024 / 1024), 2) AS 'Size (MB)'
-FROM information_schema.TABLES 
-WHERE table_name = 'your_table';</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Practical Usage Scenarios
-   </h4>
-   
-   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #d1ecf1; border: 1px solid #bee5eb;">
-      <pre><code>-- Scenario 1: Daily data processing cleanup
--- Clear staging tables after processing
-TRUNCATE TABLE daily_sales_staging;
-TRUNCATE TABLE import_temp_data;
-
--- Scenario 2: Remove old audit logs selectively
--- Keep last 90 days, remove older entries
-DELETE FROM audit_logs 
-WHERE created_date < DATE_SUB(NOW(), INTERVAL 90 DAY);
-
--- Scenario 3: Development environment reset
--- Clear test data but preserve structure
-TRUNCATE TABLE test_users;
-TRUNCATE TABLE test_orders;
-TRUNCATE TABLE test_products;
-
--- Scenario 4: Gradual cleanup of large table
--- Delete in batches to avoid locking
-DELETE FROM large_archive_table 
-WHERE archive_date < '2020-01-01' 
-LIMIT 5000;
-
--- Scenario 5: Clear cache tables
--- Fast cleanup of temporary data
-TRUNCATE TABLE session_cache;
-TRUNCATE TABLE query_results_cache;</code></pre>
-   </div>
-
-   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
-     Best Practices
-   </h4>
-   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #d4edda; border: 1px solid #c3e6cb;">
-     <ul style="margin-left: 1rem; list-style-type: disc;">
-       <li style="margin-top: 0.5rem;"><strong>Backup first:</strong> Always backup important data before mass deletion</li>
-       <li style="margin-top: 0.5rem;"><strong>Use transactions:</strong> Wrap DELETE operations in transactions for safety</li>
-       <li style="margin-top: 0.5rem;"><strong>Check foreign keys:</strong> Verify constraints before using TRUNCATE</li>
-       <li style="margin-top: 0.5rem;"><strong>Monitor performance:</strong> DELETE large tables in batches</li>
-       <li style="margin-top: 0.5rem;"><strong>Test first:</strong> Try operations in development environment first</li>
-     </ul>
-   </div>
-</div>`,
+             <p style="line-height: 1.75; margin-top: 1.5rem;">
+               The CREATE statement is used to create new database objects such as databases, tables, indexes, views, and more. It's a fundamental DDL (Data Definition Language) command that establishes the structure and schema of your database.
+             </p>
+             
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Creating Databases
+             </h4>
+           
+             <p style="line-height: 1.75; margin-top: 1rem;">
+               Creating a database is the first step in setting up your data storage environment.
+             </p>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Create a basic database
+          CREATE DATABASE company_db;
+          
+          -- Create database with character set
+          CREATE DATABASE company_db 
+          CHARACTER SET utf8mb4 
+          COLLATE utf8mb4_unicode_ci;
+          
+          -- Create database if it doesn't exist
+          CREATE DATABASE IF NOT EXISTS company_db;
+          
+          -- PostgreSQL with owner
+          CREATE DATABASE company_db 
+          OWNER postgres 
+          ENCODING 'UTF8';</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Creating Tables
+             </h4>
+             
+             <p style="line-height: 1.75; margin-top: 1rem;">
+               Tables are the primary data storage structures in relational databases. A well-designed table includes columns with appropriate data types and constraints.
+             </p>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Basic table creation
+          CREATE TABLE employees (
+              employee_id INT AUTO_INCREMENT PRIMARY KEY,
+              first_name VARCHAR(50) NOT NULL,
+              last_name VARCHAR(50) NOT NULL,
+              email VARCHAR(100) UNIQUE,
+              hire_date DATE,
+              salary DECIMAL(10,2)
+          );
+          
+          -- Table with multiple constraints
+          CREATE TABLE orders (
+              order_id INT AUTO_INCREMENT PRIMARY KEY,
+              customer_id INT NOT NULL,
+              order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              total_amount DECIMAL(10,2) CHECK (total_amount >= 0),
+              status ENUM('pending', 'processing', 'shipped', 'delivered') DEFAULT 'pending',
+              FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE
+          );
+          
+          -- Create table if not exists
+          CREATE TABLE IF NOT EXISTS products (
+              product_id INT PRIMARY KEY,
+              product_name VARCHAR(100) NOT NULL,
+              price DECIMAL(8,2) NOT NULL
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Common Data Types
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>CREATE TABLE data_types_demo (
+              -- Numeric types
+              id INT,
+              small_number SMALLINT,
+              large_number BIGINT,
+              price DECIMAL(10,2),
+              percentage FLOAT,
+              
+              -- String types
+              name VARCHAR(100),
+              description TEXT,
+              code CHAR(5),
+              
+              -- Date and time types
+              birth_date DATE,
+              created_at DATETIME,
+              updated_at TIMESTAMP,
+              event_time TIME,
+              
+              -- Boolean type
+              is_active BOOLEAN,
+              
+              -- Binary types
+              profile_image BLOB,
+              document MEDIUMBLOB
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Primary Keys and Auto Increment
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Single column primary key
+          CREATE TABLE users (
+              user_id INT AUTO_INCREMENT PRIMARY KEY,
+              username VARCHAR(50) NOT NULL
+          );
+          
+          -- Composite primary key
+          CREATE TABLE order_items (
+              order_id INT,
+              product_id INT,
+              quantity INT,
+              PRIMARY KEY (order_id, product_id)
+          );
+          
+          -- Named primary key constraint
+          CREATE TABLE departments (
+              dept_id INT,
+              dept_name VARCHAR(50),
+              CONSTRAINT pk_department PRIMARY KEY (dept_id)
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Foreign Keys and Relationships
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Foreign key with CASCADE
+          CREATE TABLE employee_details (
+              detail_id INT AUTO_INCREMENT PRIMARY KEY,
+              employee_id INT NOT NULL,
+              address VARCHAR(200),
+              phone VARCHAR(20),
+              FOREIGN KEY (employee_id) 
+                  REFERENCES employees(employee_id) 
+                  ON DELETE CASCADE 
+                  ON UPDATE CASCADE
+          );
+          
+          -- Named foreign key constraint
+          CREATE TABLE projects (
+              project_id INT PRIMARY KEY,
+              manager_id INT,
+              project_name VARCHAR(100),
+              CONSTRAINT fk_manager 
+                  FOREIGN KEY (manager_id) 
+                  REFERENCES employees(employee_id) 
+                  ON DELETE SET NULL
+          );
+          
+          -- Multiple foreign keys
+          CREATE TABLE assignments (
+              assignment_id INT PRIMARY KEY,
+              employee_id INT,
+              project_id INT,
+              FOREIGN KEY (employee_id) REFERENCES employees(employee_id),
+              FOREIGN KEY (project_id) REFERENCES projects(project_id)
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Constraints and Defaults
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>CREATE TABLE accounts (
+              account_id INT AUTO_INCREMENT PRIMARY KEY,
+              account_number VARCHAR(20) NOT NULL UNIQUE,
+              balance DECIMAL(15,2) DEFAULT 0.00 CHECK (balance >= 0),
+              account_type ENUM('savings', 'checking') NOT NULL,
+              status VARCHAR(20) DEFAULT 'active',
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+              CONSTRAINT chk_account_number CHECK (LENGTH(account_number) >= 10),
+              CONSTRAINT uk_account_number UNIQUE (account_number)
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Creating Indexes
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Create index on single column
+          CREATE INDEX idx_last_name ON employees(last_name);
+          
+          -- Create unique index
+          CREATE UNIQUE INDEX idx_email ON employees(email);
+          
+          -- Create composite index
+          CREATE INDEX idx_name ON employees(first_name, last_name);
+          
+          -- Create index with order
+          CREATE INDEX idx_salary_desc ON employees(salary DESC);
+          
+          -- Full-text index (MySQL)
+          CREATE FULLTEXT INDEX idx_description ON products(description);</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Creating Views
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Simple view
+          CREATE VIEW active_employees AS
+          SELECT employee_id, first_name, last_name, email
+          FROM employees
+          WHERE status = 'active';
+          
+          -- View with joins
+          CREATE VIEW employee_details_view AS
+          SELECT e.employee_id, e.first_name, e.last_name, 
+                 d.dept_name, e.salary
+          FROM employees e
+          JOIN departments d ON e.dept_id = d.dept_id;
+          
+          -- View with aggregation
+          CREATE VIEW department_summary AS
+          SELECT dept_id, COUNT(*) as employee_count, AVG(salary) as avg_salary
+          FROM employees
+          GROUP BY dept_id;</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Creating Table from Another Table
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Create table with data from another table
+          CREATE TABLE employees_backup AS
+          SELECT * FROM employees;
+          
+          -- Create table structure only (no data)
+          CREATE TABLE employees_template LIKE employees;
+          
+          -- Create table with selected columns
+          CREATE TABLE employee_summary AS
+          SELECT employee_id, first_name, last_name, department_id
+          FROM employees
+          WHERE hire_date > '2020-01-01';</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Temporary Tables
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Create temporary table (exists only for the session)
+          CREATE TEMPORARY TABLE temp_calculations (
+              id INT,
+              result DECIMAL(10,2)
+          );
+          
+          -- Temporary table from query
+          CREATE TEMPORARY TABLE temp_high_earners AS
+          SELECT employee_id, first_name, last_name, salary
+          FROM employees
+          WHERE salary > 100000;</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Best Practices
+             </h4>
+             <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Use IF NOT EXISTS:</span> Prevents errors when running scripts multiple times
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Choose Appropriate Data Types:</span> Use the smallest data type that fits your needs
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Define Constraints:</span> Add NOT NULL, UNIQUE, CHECK constraints for data integrity
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Name Constraints:</span> Use meaningful names for easier maintenance
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Plan Indexes:</span> Create indexes on columns used in WHERE, JOIN, and ORDER BY clauses
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Use Foreign Keys:</span> Maintain referential integrity between related tables
+               </li>
+             </ol>
+          </div>`,
             examples: [
-              `-- Real-world comparison scenarios
-
--- Scenario 1: E-commerce order processing cleanup
--- Clear temporary cart data (use TRUNCATE for speed)
-TRUNCATE TABLE shopping_cart_temp;
-
--- Remove expired user sessions (use DELETE for selective)
-DELETE FROM user_sessions 
-WHERE last_activity < DATE_SUB(NOW(), INTERVAL 24 HOUR);
-
--- Scenario 2: Data warehouse maintenance
--- Clear staging area after ETL (TRUNCATE - fast reset)
-TRUNCATE TABLE sales_staging;
-TRUNCATE TABLE product_staging;
-
--- Archive old transactions (DELETE - selective with audit)
-INSERT INTO sales_archive 
-SELECT * FROM sales_transactions 
-WHERE transaction_date < '2023-01-01';
-
-DELETE FROM sales_transactions 
-WHERE transaction_date < '2023-01-01';
-
--- Scenario 3: Application cache management
--- Reset application cache tables
-TRUNCATE TABLE api_response_cache;
-TRUNCATE TABLE search_results_cache;
-
--- Remove specific cache entries
-DELETE FROM user_preference_cache 
-WHERE user_id IN (
-    SELECT user_id FROM users WHERE status = 'inactive'
-);
-
--- Scenario 4: Testing environment setup
--- Quick test data reset
-TRUNCATE TABLE test_customers;  -- Resets customer_id sequence
-INSERT INTO test_customers VALUES 
-(1, 'Test User 1', 'test1@example.com'),
-(2, 'Test User 2', 'test2@example.com');
-
--- Performance monitoring example
--- Check execution time difference
-SET @start_time = NOW(6);
-DELETE FROM large_test_table;
-SELECT TIMESTAMPDIFF(MICROSECOND, @start_time, NOW(6)) / 1000000 AS delete_seconds;
-
-SET @start_time = NOW(6);
-TRUNCATE TABLE large_test_table;
-SELECT TIMESTAMPDIFF(MICROSECOND, @start_time, NOW(6)) / 1000000 AS truncate_seconds;`,
+              `-- Complete e-commerce database schema example
+          -- 1. Create the database
+          CREATE DATABASE IF NOT EXISTS ecommerce_db
+          CHARACTER SET utf8mb4 
+          COLLATE utf8mb4_unicode_ci;
+          
+          USE ecommerce_db;
+          
+          -- 2. Create customers table
+          CREATE TABLE customers (
+              customer_id INT AUTO_INCREMENT PRIMARY KEY,
+              email VARCHAR(255) NOT NULL UNIQUE,
+              first_name VARCHAR(100) NOT NULL,
+              last_name VARCHAR(100) NOT NULL,
+              phone VARCHAR(20),
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+              INDEX idx_email (email),
+              INDEX idx_name (last_name, first_name)
+          );
+          
+          -- 3. Create categories table
+          CREATE TABLE categories (
+              category_id INT AUTO_INCREMENT PRIMARY KEY,
+              category_name VARCHAR(100) NOT NULL UNIQUE,
+              description TEXT,
+              parent_category_id INT,
+              FOREIGN KEY (parent_category_id) REFERENCES categories(category_id) ON DELETE SET NULL
+          );
+          
+          -- 4. Create products table
+          CREATE TABLE products (
+              product_id INT AUTO_INCREMENT PRIMARY KEY,
+              product_name VARCHAR(200) NOT NULL,
+              description TEXT,
+              price DECIMAL(10,2) NOT NULL CHECK (price > 0),
+              stock_quantity INT DEFAULT 0 CHECK (stock_quantity >= 0),
+              category_id INT,
+              is_active BOOLEAN DEFAULT TRUE,
+              created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+              FOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL,
+              INDEX idx_category (category_id),
+              INDEX idx_price (price),
+              FULLTEXT INDEX idx_search (product_name, description)
+          );
+          
+          -- 5. Create orders table
+          CREATE TABLE orders (
+              order_id INT AUTO_INCREMENT PRIMARY KEY,
+              customer_id INT NOT NULL,
+              order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              total_amount DECIMAL(12,2) NOT NULL DEFAULT 0.00,
+              status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
+              shipping_address TEXT NOT NULL,
+              FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
+              INDEX idx_customer (customer_id),
+              INDEX idx_status (status),
+              INDEX idx_order_date (order_date)
+          );
+          
+          -- 6. Create order_items table (junction table)
+          CREATE TABLE order_items (
+              order_item_id INT AUTO_INCREMENT PRIMARY KEY,
+              order_id INT NOT NULL,
+              product_id INT NOT NULL,
+              quantity INT NOT NULL CHECK (quantity > 0),
+              unit_price DECIMAL(10,2) NOT NULL,
+              subtotal DECIMAL(10,2) AS (quantity * unit_price) STORED,
+              FOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE,
+              FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE RESTRICT,
+              INDEX idx_order (order_id),
+              INDEX idx_product (product_id)
+          );
+          
+          -- 7. Create reviews table
+          CREATE TABLE reviews (
+              review_id INT AUTO_INCREMENT PRIMARY KEY,
+              product_id INT NOT NULL,
+              customer_id INT NOT NULL,
+              rating INT NOT NULL CHECK (rating BETWEEN 1 AND 5),
+              review_text TEXT,
+              review_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+              FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE CASCADE,
+              FOREIGN KEY (customer_id) REFERENCES customers(customer_id) ON DELETE CASCADE,
+              UNIQUE KEY uk_customer_product (customer_id, product_id),
+              INDEX idx_product_rating (product_id, rating)
+          );
+          
+          -- 8. Create a view for product statistics
+          CREATE VIEW product_statistics AS
+          SELECT 
+              p.product_id,
+              p.product_name,
+              p.price,
+              p.stock_quantity,
+              COUNT(DISTINCT r.review_id) as review_count,
+              AVG(r.rating) as avg_rating,
+              COUNT(DISTINCT oi.order_id) as times_ordered
+          FROM products p
+          LEFT JOIN reviews r ON p.product_id = r.product_id
+          LEFT JOIN order_items oi ON p.product_id = oi.product_id
+          GROUP BY p.product_id, p.product_name, p.price, p.stock_quantity;`,
             ],
             questions: [
               {
                 question:
-                  "Why can't TRUNCATE be used on tables with foreign key references?",
+                  "What's the difference between CHAR and VARCHAR data types?",
                 solution:
-                  "<p>TRUNCATE cannot be used on tables that are referenced by foreign keys because:</p><ul><li><strong>Referential Integrity:</strong> TRUNCATE doesn't check foreign key constraints, which could leave orphaned records in child tables</li><li><strong>DDL Nature:</strong> As a DDL command, TRUNCATE operates at the storage level and bypasses constraint checking</li><li><strong>Solutions:</strong><ul><li>Use DELETE instead: <code>DELETE FROM parent_table;</code></li><li>Temporarily disable constraints (not recommended in production)</li><li>TRUNCATE child tables first, then parent tables</li><li>Use CASCADE option where supported: <code>TRUNCATE TABLE parent_table CASCADE;</code></li></ul></li></ul>",
+                  "<p>The main differences between CHAR and VARCHAR are:</p><ul><li><strong>CHAR:</strong> Fixed-length storage. If you define CHAR(10), it always uses 10 bytes even if you store only 3 characters. Remaining space is padded with spaces. Best for fixed-length data like country codes (US, UK, etc.).</li><li><strong>VARCHAR:</strong> Variable-length storage. VARCHAR(10) uses only the space needed plus 1-2 bytes for length information. If you store 3 characters, it uses approximately 3 bytes. Best for variable-length data like names, emails, descriptions.</li><li><strong>Performance:</strong> CHAR is slightly faster for fixed-length data, but VARCHAR saves storage space for variable-length data.</li></ul>",
               },
               {
                 question:
-                  "How do you choose between TRUNCATE and DELETE for large tables?",
+                  "When should you use ON DELETE CASCADE vs ON DELETE SET NULL?",
                 solution:
-                  "<p>Choose based on these factors:</p><table><tr><th>Use TRUNCATE when:</th><th>Use DELETE when:</th></tr><tr><td>• Removing ALL rows<br>• Speed is critical<br>• Table has no FK references<br>• Auto-increment reset needed<br>• No triggers required</td><td>• Selective deletion needed<br>• Foreign keys exist<br>• Triggers must fire<br>• Rollback capability needed<br>• Gradual cleanup preferred</td></tr></table><p><strong>For very large tables:</strong> Consider DELETE in batches:</p><pre><code>-- Process in chunks\nDELETE FROM large_table WHERE id BETWEEN 1 AND 10000;\n-- Repeat until done</code></pre>",
+                  "<p>The choice depends on your business logic:</p><ul><li><strong>ON DELETE CASCADE:</strong> Use when child records should be deleted when the parent is deleted. Example: When an order is deleted, all its order_items should also be deleted since they have no meaning without the order.</li><li><strong>ON DELETE SET NULL:</strong> Use when child records should remain but lose their reference. Example: When a category is deleted, products can remain with NULL category_id for later recategorization.</li><li><strong>ON DELETE RESTRICT:</strong> Use when you want to prevent deletion of parent records that have children. Example: Prevent deleting a product that has been ordered.</li></ul><pre><code>-- CASCADE: Delete order_items when order is deleted\nFOREIGN KEY (order_id) REFERENCES orders(order_id) ON DELETE CASCADE\n\n-- SET NULL: Keep products when category is deleted\nFOREIGN KEY (category_id) REFERENCES categories(category_id) ON DELETE SET NULL\n\n-- RESTRICT: Prevent deleting products with orders\nFOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE RESTRICT</code></pre>",
+              },
+              {
+                question:
+                  "What are the benefits of using generated/computed columns?",
+                solution:
+                  "<p>Generated columns (also called computed or calculated columns) automatically compute their values based on other columns:</p><ul><li><strong>Data Consistency:</strong> Values are always calculated correctly and can't be manually set to incorrect values.</li><li><strong>Simplified Queries:</strong> Complex calculations are stored in the schema rather than repeated in every query.</li><li><strong>Storage Options:</strong> STORED (physically stored) or VIRTUAL (calculated on-the-fly).</li></ul><pre><code>CREATE TABLE order_items (\n    quantity INT NOT NULL,\n    unit_price DECIMAL(10,2) NOT NULL,\n    -- Generated column automatically calculates total\n    subtotal DECIMAL(10,2) AS (quantity * unit_price) STORED,\n    discount_percent DECIMAL(5,2) DEFAULT 0,\n    final_amount DECIMAL(10,2) AS (subtotal * (1 - discount_percent/100)) STORED\n);</code></pre>",
               },
             ],
             links: [
-              "https://dev.mysql.com/doc/refman/8.0/en/truncate-table.html",
-              "https://www.postgresql.org/docs/current/sql-truncate.html",
-              "https://stackoverflow.com/questions/139630/whats-the-difference-between-truncate-and-delete-in-sql",
+              "https://dev.mysql.com/doc/refman/8.0/en/create-table.html",
+              "https://www.postgresql.org/docs/current/sql-createtable.html",
+              "https://docs.microsoft.com/en-us/sql/t-sql/statements/create-table-transact-sql",
+              "https://dev.mysql.com/doc/refman/8.0/en/data-types.html",
             ],
           },
           {
@@ -86450,7 +86580,7 @@ SHOW DATABASES LIKE '%test%';`,
             ],
           },
           {
-            topic: "TRUNCATE vs DELETE - Core Differences",
+            topic: "TRUNCATE vs DELETE",
             tags: ["DDL", "DML", "Performance", "Data Management"],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -86952,6 +87082,11040 @@ SET STATISTICS TIME OFF;`,
             ],
             questions: [],
             links: [],
+          },
+          {
+            topic: "SELECT and FROM - Foundation of SQL Queries",
+            tags: ["SELECT", "FROM", "Basic Query"],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      The <code>SELECT</code> statement is the most fundamental SQL command used to retrieve data from a database. Combined with the <code>FROM</code> clause, it forms the foundation of every SQL query. Think of <code>SELECT</code> as "what data you want" and <code>FROM</code> as "where to get it from".
+    </p>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Why Use SELECT and FROM?
+    </h4>
+  
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Data Retrieval:</span> Extract specific information from database tables.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Flexibility:</span> Select all columns or specific columns based on your needs.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Selecting only needed columns improves query performance.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Foundation:</span> Every SQL query starts with these clauses.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Syntax
+    </h4>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Basic syntax
+  SELECT column1, column2, ...
+  FROM table_name;
+  
+  -- Select all columns
+  SELECT * FROM table_name;
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Use Cases
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">E-commerce:</span> Retrieve product information for display on a website.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">HR Systems:</span> Get employee details for payroll processing.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Analytics:</span> Extract data for reports and dashboards.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Customer Management:</span> View customer contact information.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Real-World Examples
+    </h4>
+    
+    <p style="margin-top: 1rem; font-weight: 600;">Example 1: Select All Columns from Employees Table</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT * FROM employees;
+  
+  -- Result: Returns all columns and all rows from employees table
+  -- Use this for: Quick exploration of table data
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 2: Select Specific Columns from Products Table</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT product_name, price, stock_quantity 
+  FROM products;
+  
+  -- Result: Returns only product_name, price, and stock_quantity columns
+  -- Use this for: Product inventory reports, better performance
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 3: Select Customer Contact Information</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT first_name, last_name, email, phone 
+  FROM customers;
+  
+  -- Result: Returns customer contact details
+  -- Use this for: Email marketing campaigns, customer service lookup
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Best Practices
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Avoid SELECT *:</span> In production, specify columns explicitly for better performance and clarity.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Use Meaningful Names:</span> Choose descriptive column names that make queries self-documenting.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Consider Data Volume:</span> Be mindful when selecting from large tables without filters.
+      </li>
+    </ol>
+  </div>`,
+            examples: [
+              `-- Example: E-commerce Product Catalog Query
+  SELECT product_id, product_name, category, price, stock_quantity
+  FROM products;
+  
+  -- Real output might look like:
+  -- product_id | product_name      | category    | price  | stock_quantity
+  -- 1          | Laptop Pro 15"    | Electronics | 1299.99| 45
+  -- 2          | Wireless Mouse    | Accessories | 29.99  | 150
+  -- 3          | USB-C Cable       | Accessories | 12.99  | 200`,
+
+              `-- Example: HR Employee Directory
+  SELECT employee_id, first_name, last_name, department, hire_date
+  FROM employees;
+  
+  -- Use case: Building an employee directory application
+  -- This query provides essential employee information`,
+
+              `-- Example: Customer Email List
+  SELECT customer_id, email, subscription_status
+  FROM customers;
+  
+  -- Use case: Extracting emails for newsletter campaigns
+  -- Only retrieves necessary columns for efficiency`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between SELECT * and SELECT specific columns?",
+                solution: `<p><code>SELECT *</code> retrieves all columns from a table, while <code>SELECT column1, column2</code> retrieves only specified columns. Use <code>SELECT *</code> for quick exploration or when you need all data. Use specific columns in production for:</p>
+                <ul>
+                  <li><strong>Better Performance:</strong> Less data transferred from database to application</li>
+                  <li><strong>Clarity:</strong> Makes it clear what data your query needs</li>
+                  <li><strong>Maintenance:</strong> Prevents breaking code if table structure changes</li>
+                  <li><strong>Security:</strong> Avoids exposing sensitive columns accidentally</li>
+                </ul>
+                <pre><code className="language-sql">
+  -- Less efficient
+  SELECT * FROM orders;
+  
+  -- More efficient and clear
+  SELECT order_id, customer_id, order_date, total_amount FROM orders;
+                </code></pre>`,
+              },
+              {
+                question: "Can I use SELECT without FROM?",
+                solution: `<p>Yes! In some databases like MySQL and PostgreSQL, you can use SELECT without FROM for calculations or testing:</p>
+                <pre><code className="language-sql">
+  -- Calculate expressions
+  SELECT 10 + 5 AS result;
+  -- Returns: 15
+  
+  -- Get current date
+  SELECT CURRENT_DATE;
+  -- Returns: 2025-09-29
+  
+  -- String concatenation
+  SELECT CONCAT('Hello', ' ', 'World') AS greeting;
+  -- Returns: Hello World
+                </code></pre>
+                <p>This is useful for testing functions, performing calculations, or getting system values without needing a table.</p>`,
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_select.asp",
+              "https://www.postgresql.org/docs/current/sql-select.html",
+              "https://dev.to/dataengineerone/sql-select-statement-explained-with-examples-2kp5",
+            ],
+          },
+          {
+            topic: "WHERE Clause - Filtering Data",
+            tags: ["WHERE", "Filtering", "Conditions"],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      The <code>WHERE</code> clause is used to filter records based on specific conditions. It allows you to retrieve only the data that meets your criteria, making your queries more precise and efficient. Without WHERE, you'd get all rows from a table.
+    </p>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Why Use WHERE?
+    </h4>
+  
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Precision:</span> Get exactly the data you need, nothing more.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Performance:</span> Reduces amount of data processed and returned.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Business Logic:</span> Implement complex business rules in queries.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Data Analysis:</span> Filter data for specific time periods, categories, or conditions.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Syntax
+    </h4>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT column1, column2, ...
+  FROM table_name
+  WHERE condition;
+  
+  -- Multiple conditions
+  SELECT column1, column2
+  FROM table_name
+  WHERE condition1 AND condition2;
+  
+  SELECT column1, column2
+  FROM table_name
+  WHERE condition1 OR condition2;
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Use Cases
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">E-commerce:</span> Find products in a specific price range or category.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">User Management:</span> Retrieve active users or users from specific regions.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Financial Systems:</span> Get transactions above a certain amount or from a specific date.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Inventory Management:</span> Find low-stock items or products that need reordering.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Real-World Examples
+    </h4>
+    
+    <p style="margin-top: 1rem; font-weight: 600;">Example 1: Filter Products by Price</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT product_name, price, category
+  FROM products
+  WHERE price > 100;
+  
+  -- Result: Returns only products priced above $100
+  -- Use case: Premium products display, high-value inventory report
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 2: Find Customers from Specific City</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT first_name, last_name, email, city
+  FROM customers
+  WHERE city = 'New York';
+  
+  -- Result: Returns all customers located in New York
+  -- Use case: Localized marketing campaigns, regional analysis
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 3: Get Orders from Last Month with Multiple Conditions</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT order_id, customer_id, order_date, total_amount
+  FROM orders
+  WHERE order_date >= '2025-09-01' 
+    AND order_date < '2025-10-01'
+    AND total_amount > 50;
+  
+  -- Result: Returns September 2025 orders over $50
+  -- Use case: Monthly sales report, high-value order analysis
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 4: Find Employees in Specific Departments</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT employee_id, first_name, last_name, department, salary
+  FROM employees
+  WHERE department = 'Sales' OR department = 'Marketing';
+  
+  -- Result: Returns employees from Sales or Marketing departments
+  -- Use case: Department-specific reports, team roster
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Important Considerations
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">AND vs OR:</span> AND requires all conditions to be true; OR requires at least one condition to be true.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Case Sensitivity:</span> String comparisons may be case-sensitive depending on your database.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">NULL Values:</span> Use IS NULL or IS NOT NULL, not = NULL.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Performance:</span> Add indexes on columns frequently used in WHERE clauses.
+      </li>
+    </ol>
+  </div>`,
+            examples: [
+              `-- Example: Find Low Stock Products (Inventory Alert)
+  SELECT product_name, stock_quantity, reorder_level
+  FROM products
+  WHERE stock_quantity < reorder_level;
+  
+  -- Real scenario: Daily inventory check
+  -- Alerts when products need reordering`,
+
+              `-- Example: Active Premium Subscribers
+  SELECT user_id, username, email, subscription_tier
+  FROM users
+  WHERE subscription_tier = 'Premium' 
+    AND status = 'Active';
+  
+  -- Use case: Sending premium feature announcements
+  -- Targeting only active paying customers`,
+
+              `-- Example: Recent High-Value Transactions
+  SELECT transaction_id, customer_id, amount, transaction_date
+  FROM transactions
+  WHERE amount >= 1000 
+    AND transaction_date >= CURRENT_DATE - INTERVAL '7 days';
+  
+  -- Use case: Fraud detection, VIP customer identification
+  -- Monitoring large recent transactions`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between AND and OR in WHERE clause?",
+                solution: `<p><code>AND</code> requires ALL conditions to be true, while <code>OR</code> requires AT LEAST ONE condition to be true.</p>
+                <pre><code className="language-sql">
+  -- AND Example: Both conditions must be true
+  SELECT * FROM products
+  WHERE price > 100 AND category = 'Electronics';
+  -- Returns: Electronics items that cost more than $100
+  
+  -- OR Example: At least one condition must be true
+  SELECT * FROM products
+  WHERE price > 100 OR category = 'Electronics';
+  -- Returns: ALL Electronics OR anything over $100 (even non-electronics)
+  
+  -- Complex Example: Combining AND and OR (use parentheses!)
+  SELECT * FROM products
+  WHERE (category = 'Electronics' OR category = 'Computers')
+    AND price < 500;
+  -- Returns: Electronics or Computers that cost less than $500
+                </code></pre>
+                <p><strong>Key Point:</strong> Use parentheses when combining AND and OR to ensure correct logic!</p>`,
+              },
+              {
+                question: "How do I filter for NULL values?",
+                solution: `<p>Use <code>IS NULL</code> or <code>IS NOT NULL</code>. You cannot use = NULL or != NULL.</p>
+                <pre><code className="language-sql">
+  -- WRONG: This doesn't work
+  SELECT * FROM employees WHERE manager_id = NULL;
+  
+  -- CORRECT: Use IS NULL
+  SELECT * FROM employees WHERE manager_id IS NULL;
+  -- Returns: Employees without a manager (top-level executives)
+  
+  -- Find employees WITH managers
+  SELECT * FROM employees WHERE manager_id IS NOT NULL;
+  
+  -- Real scenario: Find customers without phone numbers
+  SELECT customer_id, first_name, last_name, email
+  FROM customers
+  WHERE phone IS NULL;
+  -- Use case: Data quality check, request missing information
+                </code></pre>
+                <p><strong>Why?</strong> NULL means "unknown" in SQL, so you can't compare it using regular operators. You must use special NULL-checking operators.</p>`,
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_where.asp",
+              "https://www.sqlshack.com/sql-where-clause-usage-and-examples/",
+              "https://mode.com/sql-tutorial/sql-where/",
+            ],
+          },
+          {
+            topic: "Comparison Operators (=, >, <, >=, <=, <>)",
+            tags: ["Operators", "Comparison", "Filtering"],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      Comparison operators are used in WHERE clauses to compare values and filter data. They form the building blocks of SQL conditions, allowing you to create precise queries that match your business requirements.
+    </p>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Available Comparison Operators
+    </h4>
+  
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">= (Equal to):</span> Tests if two values are exactly equal.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">&gt; (Greater than):</span> Tests if left value is greater than right value.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">&lt; (Less than):</span> Tests if left value is less than right value.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">&gt;= (Greater than or equal to):</span> Tests if left value is greater than or equal to right value.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">&lt;= (Less than or equal to):</span> Tests if left value is less than or equal to right value.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">&lt;&gt; or != (Not equal to):</span> Tests if two values are not equal.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Use Cases
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Pricing Queries:</span> Find products within specific price ranges.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Date Filtering:</span> Get records before, after, or on specific dates.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Performance Metrics:</span> Filter employees by performance scores or sales targets.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Inventory Management:</span> Identify stock levels that need attention.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Real-World Examples
+    </h4>
+    
+    <p style="margin-top: 1rem; font-weight: 600;">Example 1: Equal To (=) - Find Exact Matches</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Find specific product by ID
+  SELECT * FROM products
+  WHERE product_id = 101;
+  
+  -- Find all orders with specific status
+  SELECT order_id, customer_id, total_amount
+  FROM orders
+  WHERE status = 'Shipped';
+  
+  -- Use case: Order tracking, status filtering
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 2: Greater Than (>) - Find Values Above Threshold</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Find high-value orders
+  SELECT order_id, customer_id, total_amount
+  FROM orders
+  WHERE total_amount > 500;
+  
+  -- Find employees with high salaries
+  SELECT employee_id, first_name, last_name, salary
+  FROM employees
+  WHERE salary > 75000;
+  
+  -- Use case: VIP customer identification, compensation analysis
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 3: Less Than (<) - Find Values Below Threshold</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Find budget-friendly products
+  SELECT product_name, price, category
+  FROM products
+  WHERE price < 50;
+  
+  -- Find low stock items
+  SELECT product_name, stock_quantity
+  FROM products
+  WHERE stock_quantity < 10;
+  
+  -- Use case: Sales promotions, inventory alerts
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 4: Greater Than or Equal To (>=) - Inclusive Lower Bound</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Find orders from start of month onwards
+  SELECT * FROM orders
+  WHERE order_date >= '2025-09-01';
+  
+  -- Find employees eligible for benefits (worked 6+ months)
+  SELECT first_name, last_name, hire_date
+  FROM employees
+  WHERE hire_date >= '2025-03-01';
+  
+  -- Use case: Monthly reports, eligibility checks
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 5: Less Than or Equal To (<=) - Inclusive Upper Bound</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Find affordable products
+  SELECT product_name, price
+  FROM products
+  WHERE price <= 100;
+  
+  -- Find junior employees (less than 2 years experience)
+  SELECT employee_id, first_name, years_of_experience
+  FROM employees
+  WHERE years_of_experience <= 2;
+  
+  -- Use case: Budget constraints, experience-based filtering
+      </code></pre>
+    </div>
+  
+    <p style="margin-top: 1rem; font-weight: 600;">Example 6: Not Equal To (<> or !=) - Exclude Specific Values</p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Find all orders except cancelled ones
+  SELECT order_id, customer_id, status, total_amount
+  FROM orders
+  WHERE status <> 'Cancelled';
+  
+  -- Alternative syntax (both work the same)
+  SELECT * FROM products
+  WHERE category != 'Discontinued';
+  
+  -- Use case: Active record filtering, exclusion logic
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Combining Operators for Range Queries
+    </h4>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Find mid-range products ($50-$200)
+  SELECT product_name, price
+  FROM products
+  WHERE price >= 50 AND price <= 200;
+  
+  -- Find recent orders (last 30 days)
+  SELECT order_id, order_date, total_amount
+  FROM orders
+  WHERE order_date >= CURRENT_DATE - INTERVAL '30 days'
+    AND order_date <= CURRENT_DATE;
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Important Notes
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">String Comparison:</span> Works alphabetically (A < B < C).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Date Comparison:</span> Earlier dates are "less than" later dates.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">NULL Behavior:</span> Comparisons with NULL always return NULL (use IS NULL instead).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Type Consistency:</span> Compare values of the same data type for accurate results.
+      </li>
+    </ol>
+  </div>`,
+            examples: [
+              `-- Example: Customer Segmentation by Purchase Amount
+  SELECT customer_id, 
+         first_name, 
+         last_name,
+         total_purchases,
+         CASE
+           WHEN total_purchases >= 1000 THEN 'VIP'
+           WHEN total_purchases >= 500 THEN 'Gold'
+           WHEN total_purchases >= 100 THEN 'Silver'
+           ELSE 'Bronze'
+         END AS customer_tier
+  FROM customers
+  WHERE total_purchases > 0;
+  
+  -- Use case: Customer loyalty program, targeted marketing`,
+
+              `-- Example: Product Price Analysis
+  -- Budget items
+  SELECT COUNT(*) as budget_items FROM products WHERE price < 25;
+  -- Mid-range items
+  SELECT COUNT(*) as midrange_items FROM products WHERE price >= 25 AND price <= 100;
+  -- Premium items
+  SELECT COUNT(*) as premium_items FROM products WHERE price > 100;
+  
+  -- Use case: Inventory distribution analysis, pricing strategy`,
+
+              `-- Example: Employee Performance Review Filter
+  SELECT employee_id, 
+         first_name, 
+         last_name, 
+         performance_score,
+         salary
+  FROM employees
+  WHERE performance_score >= 4.0 
+    AND salary < 100000;
+  
+  -- Use case: Identifying high performers for raises
+  -- Finding underpaid top performers`,
+            ],
+            questions: [
+              {
+                question: "What is the purpose of comparison operators in SQL?",
+                solution:
+                  "<p>Comparison operators are used to filter data based on specific conditions in SQL queries. They allow you to select records that meet a certain criteria such as equality, inequality, or value ranges.</p>",
+              },
+              {
+                question:
+                  "Give an example of using the greater than operator in a SQL query.",
+                solution:
+                  '<pre><code className="language-sql">SELECT order_id, total_amount FROM orders WHERE total_amount > 500;</code></pre><p>This query retrieves all orders with a total amount greater than 500.</p>',
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_operators.asp",
+              "https://www.sqlshack.com/sql-comparison-operators/",
+              "https://www.geeksforgeeks.org/sql-comparison-operators/",
+            ],
+          },
+          {
+            topic: "ORDER BY Clause - Sorting Results",
+            tags: ["Sorting", "ORDER BY", "ASC", "DESC"],
+            explanation: `<div>
+    <p style="line-height: 1.75; margin-top: 1.5rem;">
+      The ORDER BY clause in SQL is used to sort the result set of a query in ascending or descending order based on one or more columns. By default, ORDER BY sorts data in ascending order (ASC), but you can explicitly specify DESC for descending order.
+    </p>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Why Use ORDER BY?
+    </h4>
+  
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Data Organization:</span> Present data in a meaningful sequence for better readability.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Business Requirements:</span> Sort sales by revenue, employees by hire date, products by price, etc.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Ranking & Analytics:</span> Identify top performers, latest entries, or oldest records.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">User Experience:</span> Display data in an intuitive order for reports and dashboards.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Syntax of ORDER BY
+    </h4>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  SELECT column1, column2, ...
+  FROM table_name
+  ORDER BY column1 [ASC|DESC], column2 [ASC|DESC], ...;
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Key Features of ORDER BY
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">ASC (Ascending):</span> Default order, sorts from lowest to highest (A-Z, 0-9).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">DESC (Descending):</span> Sorts from highest to lowest (Z-A, 9-0).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Multiple Column Sorting:</span> Sort by multiple columns with different orders.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">NULL Handling:</span> NULLs typically appear first in ASC and last in DESC (database-specific).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Position-Based Sorting:</span> Can use column position numbers instead of names.
+      </li>
+    </ol>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Basic Examples
+    </h4>
+    
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      1. Simple Ascending Order (Default):
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Sort employees by first name (A to Z)
+  SELECT first_name, last_name, salary
+  FROM employees
+  ORDER BY first_name;
+      </code></pre>
+    </div>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      2. Descending Order:
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Sort products by price (highest to lowest)
+  SELECT product_name, price
+  FROM products
+  ORDER BY price DESC;
+      </code></pre>
+    </div>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      3. Multiple Column Sorting:
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Sort by department (ascending), then by salary (descending)
+  SELECT first_name, department, salary
+  FROM employees
+  ORDER BY department ASC, salary DESC;
+      </code></pre>
+    </div>
+    <p style="line-height: 1.75; margin-top: 0.5rem;">
+      This first sorts by department alphabetically, then within each department, sorts by salary from highest to lowest.
+    </p>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Advanced ORDER BY Techniques
+    </h4>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      1. Sorting by Column Position:
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Sort by 2nd column (last_name), then 3rd column (salary)
+  SELECT first_name, last_name, salary
+  FROM employees
+  ORDER BY 2, 3 DESC;
+      </code></pre>
+    </div>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      2. Sorting by Expressions:
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Sort by total compensation (salary + bonus)
+  SELECT first_name, salary, bonus, (salary + bonus) AS total_comp
+  FROM employees
+  ORDER BY (salary + bonus) DESC;
+      </code></pre>
+    </div>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      3. Conditional Sorting with CASE:
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Custom sort order: Premium first, then Standard, then Basic
+  SELECT customer_name, membership_type
+  FROM customers
+  ORDER BY 
+    CASE membership_type
+      WHEN 'Premium' THEN 1
+      WHEN 'Standard' THEN 2
+      WHEN 'Basic' THEN 3
+      ELSE 4
+    END;
+      </code></pre>
+    </div>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Real-World Use Cases
+    </h4>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      Use Case 1: E-commerce Product Listing
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Show products sorted by popularity, then price
+  SELECT product_name, category, price, sales_count
+  FROM products
+  WHERE category = 'Electronics'
+  ORDER BY sales_count DESC, price ASC
+  LIMIT 20;
+      </code></pre>
+    </div>
+    <p style="line-height: 1.75; margin-top: 0.5rem;">
+      This query displays the top 20 electronics sorted by sales count (most popular first), and if two products have the same sales count, the cheaper one appears first.
+    </p>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      Use Case 2: Employee Performance Report
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- List employees by department and performance rating
+  SELECT 
+    department,
+    first_name,
+    last_name,
+    performance_rating,
+    hire_date
+  FROM employees
+  ORDER BY 
+    department ASC,
+    performance_rating DESC,
+    hire_date ASC;
+      </code></pre>
+    </div>
+    <p style="line-height: 1.75; margin-top: 0.5rem;">
+      Groups employees by department, shows highest performers first, and among equal performers, shows longest-serving employees first.
+    </p>
+  
+    <p style="line-height: 1.75; margin-top: 1rem; font-weight: 600;">
+      Use Case 3: Recent Activity Feed
+    </p>
+    <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-sql">
+  -- Show most recent user activities
+  SELECT 
+    user_id,
+    activity_type,
+    activity_description,
+    created_at
+  FROM user_activities
+  ORDER BY created_at DESC
+  LIMIT 50;
+      </code></pre>
+    </div>
+    <p style="line-height: 1.75; margin-top: 0.5rem;">
+      Displays the 50 most recent activities with newest first, perfect for activity feeds or audit logs.
+    </p>
+  
+    <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+      Important Notes
+    </h4>
+    <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+      <li style="margin-top: 0.5rem;">
+        ORDER BY is typically the last clause in a SELECT statement (except for LIMIT/OFFSET).
+      </li>
+      <li style="margin-top: 0.5rem;">
+        Sorting large datasets can be resource-intensive; consider using indexes on sorted columns.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        NULL values behavior varies by database: MySQL/PostgreSQL put NULLs first in ASC, SQL Server puts them first regardless.
+      </li>
+      <li style="margin-top: 0.5rem;">
+        You can use NULLS FIRST or NULLS LAST (in PostgreSQL, Oracle) to control NULL positioning.
+      </li>
+    </ol>
+  </div>`,
+            examples: [
+              `-- Example 1: Sort students by grade (highest first), then by name
+  SELECT student_name, grade, class
+  FROM students
+  ORDER BY grade DESC, student_name ASC;
+  
+  -- Example 2: Sort sales by month and revenue
+  SELECT 
+    sale_month,
+    total_revenue,
+    total_orders
+  FROM monthly_sales
+  ORDER BY sale_month DESC;
+  
+  -- Example 3: Custom sorting with CASE
+  SELECT 
+    order_id,
+    status,
+    order_date
+  FROM orders
+  ORDER BY 
+    CASE status
+      WHEN 'Urgent' THEN 1
+      WHEN 'Processing' THEN 2
+      WHEN 'Shipped' THEN 3
+      WHEN 'Delivered' THEN 4
+    END,
+    order_date DESC;`,
+            ],
+            questions: [
+              {
+                question: "What is the default sorting order in ORDER BY?",
+                solution:
+                  "<p>The default sorting order in ORDER BY is ascending (ASC). This means data is sorted from lowest to highest for numbers (0-9), alphabetically for text (A-Z), and chronologically for dates (oldest to newest). You don't need to explicitly specify ASC as it's applied by default when you use ORDER BY without specifying a sort direction.</p>",
+              },
+              {
+                question: "Can you sort by multiple columns? How does it work?",
+                solution: `<p>Yes, you can sort by multiple columns in ORDER BY. The sorting happens hierarchically - first by the first column specified, then by the second column for rows with the same value in the first column, and so on.</p>
+              <pre><code className="language-sql">
+  SELECT first_name, department, salary
+  FROM employees
+  ORDER BY department ASC, salary DESC;
+              </code></pre>
+              <p>In this example, all employees are first grouped by department alphabetically. Within each department, employees are then sorted by salary from highest to lowest. This multi-level sorting is essential for creating meaningful reports and organized data views.</p>`,
+              },
+              {
+                question: "How do you handle NULL values in ORDER BY?",
+                solution: `<p>NULL handling in ORDER BY varies by database system. In MySQL and PostgreSQL, NULL values appear first in ascending order and last in descending order. However, you can control this behavior:</p>
+              <pre><code className="language-sql">
+  -- PostgreSQL/Oracle: Explicit NULL positioning
+  SELECT product_name, stock_quantity
+  FROM products
+  ORDER BY stock_quantity ASC NULLS LAST;
+  
+  -- MySQL: Using COALESCE or IS NULL
+  SELECT product_name, stock_quantity
+  FROM products
+  ORDER BY stock_quantity IS NULL, stock_quantity ASC;
+              </code></pre>
+              <p>The IS NULL trick in MySQL places NULLs at the end for ASC ordering, as FALSE (0) comes before TRUE (1).</p>`,
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_orderby.asp",
+              "https://www.sqltutorial.org/sql-order-by/",
+              "https://mode.com/sql-tutorial/sql-order-by/",
+            ],
+          },
+          {
+            topic: "SQL Joins",
+            tags: [
+              "INNER JOIN",
+              "LEFT JOIN",
+              "RIGHT JOIN",
+              "FULL OUTER JOIN",
+              "SELF JOIN",
+            ],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       SQL Joins are used to combine rows from two or more tables based on a related column between them. Joins are fundamental for working with relational databases as they allow you to retrieve data from multiple tables in a single query.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create two sample tables to demonstrate different types of joins:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Employees Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-----------+------------+
+  | employee_id| name      | department_id |
+  +------------+-----------+------------+
+  | 1          | John Doe  | 101        |
+  | 2          | Jane Smith| 102        |
+  | 3          | Bob Johnson| 101       |
+  | 4          | Alice Brown| NULL       |
+  +------------+-----------+------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Departments Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-----------------+
+  | department_id| department_name |
+  +------------+-----------------+
+  | 101        | IT             |
+  | 102        | HR             |
+  | 103        | Finance        |
+  +------------+-----------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. INNER JOIN
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       INNER JOIN returns only the rows that have matching values in both tables. It's the most common type of join.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Syntax:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT columns
+  FROM table1
+  INNER JOIN table2
+  ON table1.column = table2.column;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Example:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT e.name, d.department_name
+  FROM Employees e
+  INNER JOIN Departments d ON e.department_id = d.department_id;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Result:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  +-------------+-----------------+
+  | name        | department_name |
+  +-------------+-----------------+
+  | John Doe    | IT              |
+  | Jane Smith  | HR              |
+  | Bob Johnson | IT              |
+  +-------------+-----------------+
+       </code></pre>
+     </div>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       <strong>Use Case:</strong> When you need to find employees who are assigned to departments and want to see their department names.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. LEFT JOIN (or LEFT OUTER JOIN)
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       LEFT JOIN returns all rows from the left table (table1), and the matched rows from the right table (table2). If no match is found, NULL values are returned for columns from the right table.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Syntax:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT columns
+  FROM table1
+  LEFT JOIN table2
+  ON table1.column = table2.column;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Example:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT e.name, d.department_name
+  FROM Employees e
+  LEFT JOIN Departments d ON e.department_id = d.department_id;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Result:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  +-------------+-----------------+
+  | name        | department_name |
+  +-------------+-----------------+
+  | John Doe    | IT              |
+  | Jane Smith  | HR              |
+  | Bob Johnson | IT              |
+  | Alice Brown | NULL            |
+  +-------------+-----------------+
+       </code></pre>
+     </div>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       <strong>Use Case:</strong> When you want to list all employees, including those who are not assigned to any department.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. RIGHT JOIN (or RIGHT OUTER JOIN)
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       RIGHT JOIN returns all rows from the right table (table2), and the matched rows from the left table (table1). If no match is found, NULL values are returned for columns from the left table.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Syntax:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT columns
+  FROM table1
+  RIGHT JOIN table2
+  ON table1.column = table2.column;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Example:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT e.name, d.department_name
+  FROM Employees e
+  RIGHT JOIN Departments d ON e.department_id = d.department_id;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Result:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  +-------------+-----------------+
+  | name        | department_name |
+  +-------------+-----------------+
+  | John Doe    | IT              |
+  | Jane Smith  | HR              |
+  | Bob Johnson | IT              |
+  | NULL        | Finance         |
+  +-------------+-----------------+
+       </code></pre>
+     </div>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       <strong>Use Case:</strong> When you want to list all departments, including those that have no employees assigned.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       4. FULL OUTER JOIN
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       FULL OUTER JOIN returns all rows when there is a match in either left or right table. If there's no match, the missing side will contain NULL values.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Syntax:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT columns
+  FROM table1
+  FULL OUTER JOIN table2
+  ON table1.column = table2.column;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Example:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT e.name, d.department_name
+  FROM Employees e
+  FULL OUTER JOIN Departments d ON e.department_id = d.department_id;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Result:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  +-------------+-----------------+
+  | name        | department_name |
+  +-------------+-----------------+
+  | John Doe    | IT              |
+  | Jane Smith  | HR              |
+  | Bob Johnson | IT              |
+  | Alice Brown | NULL            |
+  | NULL        | Finance         |
+  +-------------+-----------------+
+       </code></pre>
+     </div>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       <strong>Use Case:</strong> When you want a complete picture - all employees and all departments, showing relationships where they exist.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       5. SELF JOIN
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       A SELF JOIN is a regular join but the table is joined with itself. This is useful when you need to compare rows within the same table.
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Employees with Managers Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-----------+------------+
+  | employee_id| name      | manager_id |
+  +------------+-----------+------------+
+  | 1          | John Doe  | NULL       |
+  | 2          | Jane Smith| 1          |
+  | 3          | Bob Johnson| 1         |
+  | 4          | Alice Brown| 2         |
+  +------------+-----------+------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Example:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  SELECT e1.name AS employee_name, e2.name AS manager_name
+  FROM Employees e1
+  LEFT JOIN Employees e2 ON e1.manager_id = e2.employee_id;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Result:
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  +---------------+--------------+
+  | employee_name | manager_name |
+  +---------------+--------------+
+  | John Doe      | NULL         |
+  | Jane Smith    | John Doe     |
+  | Bob Johnson   | John Doe     |
+  | Alice Brown   | Jane Smith   |
+  +---------------+--------------+
+       </code></pre>
+     </div>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       <strong>Use Case:</strong> When you need to find hierarchical relationships within the same table, like employees and their managers.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Join Visualization
+     </h4>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  INNER JOIN:       Only overlapping area
+  LEFT JOIN:        Left circle + overlapping area
+  RIGHT JOIN:       Right circle + overlapping area
+  FULL OUTER JOIN:  Both circles completely
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Best Practices
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+         <strong>Use table aliases</strong> for better readability
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Always specify the join condition</strong> to avoid Cartesian products
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use INNER JOIN</strong> when you only need matching records
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use LEFT/RIGHT JOIN</strong> when you need all records from one table
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Be careful with NULL values</strong> in join conditions
+       </li>
+     </ol>
+  </div>`,
+            examples: [
+              `-- INNER JOIN: Find employees with their department names
+  SELECT e.employee_id, e.name, d.department_name
+  FROM Employees e
+  INNER JOIN Departments d ON e.department_id = d.department_id;`,
+
+              `-- LEFT JOIN: Find all employees and their departments (including those without departments)
+  SELECT e.employee_id, e.name, d.department_name
+  FROM Employees e
+  LEFT JOIN Departments d ON e.department_id = d.department_id;`,
+
+              `-- SELF JOIN: Find employees and their managers
+  SELECT e1.name AS Employee, e2.name AS Manager
+  FROM Employees e1
+  LEFT JOIN Employees e2 ON e1.manager_id = e2.employee_id;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between INNER JOIN and LEFT JOIN?",
+                solution:
+                  "<p>INNER JOIN returns only the rows that have matching values in both tables. LEFT JOIN returns all rows from the left table and the matched rows from the right table. If no match is found in the right table, NULL values are returned for the right table's columns.</p><p><strong>Key Difference:</strong> INNER JOIN only shows records that exist in both tables, while LEFT JOIN shows all records from the left table regardless of whether they have matches in the right table.</p>",
+              },
+              {
+                question: "When would you use a SELF JOIN?",
+                solution:
+                  "<p>A SELF JOIN is used when you need to join a table with itself. Common use cases include:</p><ul><li>Finding hierarchical relationships (employees and managers)</li><li>Comparing rows within the same table</li><li>Finding duplicate records</li><li>Calculating running totals or comparisons between rows</li></ul><p>For example, to find all employees and their direct managers from the same Employees table.</p>",
+              },
+              {
+                question: "What happens if you forget the ON clause in a JOIN?",
+                solution:
+                  "<p>If you forget the ON clause in a JOIN, you'll get a Cartesian product (CROSS JOIN), which means every row from the first table is joined with every row from the second table. This can result in a very large result set and is usually not what you want.</p><p><strong>Example:</strong> If table A has 100 rows and table B has 100 rows, a Cartesian product would return 10,000 rows (100 × 100).</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_join.asp",
+              "https://learn.microsoft.com/en-us/sql/relational-databases/performance/joins?view=sql-server-ver16",
+              "https://www.sqlshack.com/sql-join-overview-and-tutorial/",
+            ],
+          },
+          {
+            topic: "SQL Aggregations ",
+            tags: ["COUNT", "SUM", "AVG", "MIN", "MAX", "GROUP BY", "HAVING"],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       SQL aggregation functions perform calculations on multiple rows of a table and return a single value. They are essential for data analysis, reporting, and summarizing large datasets. Combined with GROUP BY and HAVING clauses, they provide powerful tools for data grouping and filtering.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create sample tables to demonstrate aggregation functions:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Employees Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-----------+------------+--------+--------+
+  | employee_id| name      | department | salary | gender |
+  +------------+-----------+------------+--------+--------+
+  | 1          | John Doe  | IT         | 60000  | M      |
+  | 2          | Jane Smith| HR         | 55000  | F      |
+  | 3          | Bob Johnson| IT        | 65000  | M      |
+  | 4          | Alice Brown| HR        | 52000  | F      |
+  | 5          | Mike Wilson| IT        | 70000  | M      |
+  | 6          | Sara Davis| Finance    | 58000  | F      |
+  +------------+-----------+------------+--------+--------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Sales Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +---------+------------+----------+--------+
+  | sale_id | product    | quantity | amount |
+  +---------+------------+----------+--------+
+  | 1       | Laptop     | 2        | 2000   |
+  | 2       | Mouse      | 5        | 250    |
+  | 3       | Laptop     | 1        | 1000   |
+  | 4       | Keyboard   | 3        | 450    |
+  | 5       | Mouse      | 2        | 100    |
+  | 6       | Monitor    | 1        | 300    |
+  +---------+------------+----------+--------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. Aggregate Functions
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       COUNT() - Counts the number of rows
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Counts the number of rows that match specified criteria.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Count total employees
+  SELECT COUNT(*) AS total_employees FROM Employees;
+  
+  -- Count employees in IT department
+  SELECT COUNT(*) AS it_employees 
+  FROM Employees 
+  WHERE department = 'IT';
+  
+  -- Count distinct departments
+  SELECT COUNT(DISTINCT department) AS unique_departments 
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SUM() - Calculates the total sum
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Calculates the sum of values in a numeric column.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Total salary expenditure
+  SELECT SUM(salary) AS total_salary_cost FROM Employees;
+  
+  -- Total sales amount
+  SELECT SUM(amount) AS total_sales FROM Sales;
+  
+  -- Total quantity of products sold
+  SELECT SUM(quantity) AS total_quantity FROM Sales;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       AVG() - Calculates the average value
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Calculates the average value of a numeric column.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Average employee salary
+  SELECT AVG(salary) AS average_salary FROM Employees;
+  
+  -- Average sales amount
+  SELECT AVG(amount) AS average_sale FROM Sales;
+  
+  -- Average salary in IT department
+  SELECT AVG(salary) AS avg_it_salary 
+  FROM Employees 
+  WHERE department = 'IT';
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       MIN() - Finds the minimum value
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Finds the minimum value in a column.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Minimum salary
+  SELECT MIN(salary) AS minimum_salary FROM Employees;
+  
+  -- Smallest sale amount
+  SELECT MIN(amount) AS smallest_sale FROM Sales;
+  
+  -- Lowest salary in HR department
+  SELECT MIN(salary) AS min_hr_salary 
+  FROM Employees 
+  WHERE department = 'HR';
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       MAX() - Finds the maximum value
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Finds the maximum value in a column.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Maximum salary
+  SELECT MAX(salary) AS maximum_salary FROM Employees;
+  
+  -- Largest sale amount
+  SELECT MAX(amount) AS largest_sale FROM Sales;
+  
+  -- Highest salary in IT department
+  SELECT MAX(salary) AS max_it_salary 
+  FROM Employees 
+  WHERE department = 'IT';
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. GROUP BY - Grouping Data
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       The GROUP BY clause groups rows that have the same values in specified columns into summary rows. It's used with aggregate functions to perform calculations on each group.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Basic GROUP BY Examples:
+     </h5>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Count employees by department
+  SELECT department, COUNT(*) AS employee_count
+  FROM Employees
+  GROUP BY department;
+  
+  -- Average salary by department
+  SELECT department, AVG(salary) AS average_salary
+  FROM Employees
+  GROUP BY department;
+  
+  -- Total sales by product
+  SELECT product, SUM(amount) AS total_sales
+  FROM Sales
+  GROUP BY product;
+  
+  -- Multiple column grouping: Count by department and gender
+  SELECT department, gender, COUNT(*) AS count
+  FROM Employees
+  GROUP BY department, gender;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Results Examples:
+     </h5>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Department-wise employee count result:
+  +------------+----------------+
+  | department | employee_count |
+  +------------+----------------+
+  | IT         | 3              |
+  | HR         | 2              |
+  | Finance    | 1              |
+  +------------+----------------+
+  
+  -- Department-wise average salary result:
+  +------------+---------------+
+  | department | average_salary|
+  +------------+---------------+
+  | IT         | 65000         |
+  | HR         | 53500         |
+  | Finance    | 58000         |
+  +------------+---------------+
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. HAVING - Filtering Groups
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       The HAVING clause is used to filter groups created by the GROUP BY clause. Unlike WHERE which filters rows before grouping, HAVING filters groups after aggregation.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       HAVING vs WHERE:
+     </h5>
+     <ul style="margin-top: 0.5rem; margin-left: 1.5rem; list-style-type: disc;">
+       <li style="margin-top: 0.5rem;"><strong>WHERE</strong> filters rows BEFORE aggregation</li>
+       <li style="margin-top: 0.5rem;"><strong>HAVING</strong> filters groups AFTER aggregation</li>
+       <li style="margin-top: 0.5rem;"><strong>WHERE</strong> cannot use aggregate functions</li>
+       <li style="margin-top: 0.5rem;"><strong>HAVING</strong> can use aggregate functions</li>
+     </ul>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       HAVING Examples:
+     </h5>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Departments with more than 2 employees
+  SELECT department, COUNT(*) AS employee_count
+  FROM Employees
+  GROUP BY department
+  HAVING COUNT(*) > 2;
+  
+  -- Products with total sales over $1000
+  SELECT product, SUM(amount) AS total_sales
+  FROM Sales
+  GROUP BY product
+  HAVING SUM(amount) > 1000;
+  
+  -- Departments with average salary above $55,000
+  SELECT department, AVG(salary) AS average_salary
+  FROM Employees
+  GROUP BY department
+  HAVING AVG(salary) > 55000;
+  
+  -- Using both WHERE and HAVING together
+  SELECT department, AVG(salary) AS average_salary
+  FROM Employees
+  WHERE gender = 'M'  -- Filter rows first
+  GROUP BY department
+  HAVING AVG(salary) > 60000;  -- Filter groups after
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Complete Query Execution Order
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;"><strong>FROM</strong> - Identify the tables</li>
+       <li style="margin-top: 0.5rem;"><strong>WHERE</strong> - Filter individual rows</li>
+       <li style="margin-top: 0.5rem;"><strong>GROUP BY</strong> - Group the rows</li>
+       <li style="margin-top: 0.5rem;"><strong>HAVING</strong> - Filter the groups</li>
+       <li style="margin-top: 0.5rem;"><strong>SELECT</strong> - Select the columns</li>
+       <li style="margin-top: 0.5rem;"><strong>ORDER BY</strong> - Sort the results</li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Real-World Use Cases
+     </h4>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Business Analysis: Department performance report
+  SELECT 
+      department,
+      COUNT(*) AS total_employees,
+      AVG(salary) AS avg_salary,
+      MIN(salary) AS min_salary,
+      MAX(salary) AS max_salary,
+      SUM(salary) AS total_cost
+  FROM Employees
+  GROUP BY department
+  HAVING COUNT(*) >= 2
+  ORDER BY avg_salary DESC;
+  
+  -- Sales Analysis: Product performance
+  SELECT 
+      product,
+      COUNT(*) AS total_sales,
+      SUM(quantity) AS total_quantity,
+      SUM(amount) AS total_revenue,
+      AVG(amount) AS avg_sale_amount
+  FROM Sales
+  GROUP BY product
+  HAVING SUM(amount) > 500
+  ORDER BY total_revenue DESC;
+  
+  -- HR Analytics: Gender distribution by department
+  SELECT 
+      department,
+      gender,
+      COUNT(*) AS count,
+      ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER(PARTITION BY department), 2) AS percentage
+  FROM Employees
+  GROUP BY department, gender
+  ORDER BY department, gender;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Common Mistakes and Best Practices
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+         <strong>Include all non-aggregated columns in GROUP BY</strong><br>
+         <span style="color: #d32f2f;">Wrong:</span> SELECT department, name, AVG(salary) FROM Employees GROUP BY department<br>
+         <span style="color: #388e3c;">Correct:</span> SELECT department, AVG(salary) FROM Employees GROUP BY department
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use HAVING for aggregate conditions, WHERE for row conditions</strong><br>
+         <span style="color: #d32f2f;">Wrong:</span> SELECT department FROM Employees WHERE AVG(salary) > 50000 GROUP BY department<br>
+         <span style="color: #388e3c;">Correct:</span> SELECT department FROM Employees GROUP BY department HAVING AVG(salary) > 50000
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use COUNT(*) for counting all rows, COUNT(column) for non-null values</strong>
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Consider NULL values in aggregations (they are ignored in most functions)</strong>
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Performance Tips
+     </h4>
+  
+     <ul style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: disc;">
+       <li style="margin-top: 0.5rem;">Use WHERE to filter rows before grouping to reduce the dataset size</li>
+       <li style="margin-top: 0.5rem;">Create indexes on columns used in GROUP BY and WHERE clauses</li>
+       <li style="margin-top: 0.5rem;">Be cautious with GROUP BY on columns with high cardinality</li>
+       <li style="margin-top: 0.5rem;">Use approximate aggregations (like APPROX_COUNT_DISTINCT) for large datasets when exact counts aren't critical</li>
+     </ul>
+  </div>`,
+            examples: [
+              `-- Count employees by department with average salary
+  SELECT 
+      department,
+      COUNT(*) AS employee_count,
+      AVG(salary) AS average_salary,
+      SUM(salary) AS total_salary
+  FROM Employees
+  GROUP BY department
+  ORDER BY average_salary DESC;`,
+
+              `-- Find products with high total sales
+  SELECT 
+      product,
+      SUM(quantity) AS total_quantity,
+      SUM(amount) AS total_revenue
+  FROM Sales
+  GROUP BY product
+  HAVING SUM(amount) > 1000
+  ORDER BY total_revenue DESC;`,
+
+              `-- Complex aggregation with multiple conditions
+  SELECT 
+      department,
+      gender,
+      COUNT(*) AS count,
+      AVG(salary) AS avg_salary,
+      MIN(salary) AS min_salary,
+      MAX(salary) AS max_salary
+  FROM Employees
+  WHERE salary > 50000  -- Filter rows first
+  GROUP BY department, gender
+  HAVING COUNT(*) >= 1  -- Filter groups after
+  ORDER BY department, gender;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between WHERE and HAVING clauses?",
+                solution:
+                  "<p><strong>WHERE</strong> filters individual rows BEFORE aggregation occurs. It cannot use aggregate functions. <strong>HAVING</strong> filters groups AFTER aggregation and can use aggregate functions.</p><p><strong>Example:</strong><br>WHERE salary > 50000 (filters rows before grouping)<br>HAVING AVG(salary) > 50000 (filters groups after calculating average)</p><p><strong>Key Point:</strong> WHERE works on rows, HAVING works on groups.</p>",
+              },
+              {
+                question: "Can you use GROUP BY without aggregate functions?",
+                solution:
+                  "<p>Yes, you can use GROUP BY without aggregate functions to get distinct combinations of values, but it's more efficient to use DISTINCT for that purpose. However, when you need to get unique combinations and also perform calculations on those groups, GROUP BY with aggregate functions is necessary.</p><p><strong>Example:</strong><br>SELECT department FROM Employees GROUP BY department<br>This returns unique departments, similar to:<br>SELECT DISTINCT department FROM Employees</p>",
+              },
+              {
+                question: "How does COUNT(*) differ from COUNT(column_name)?",
+                solution:
+                  "<p><strong>COUNT(*)</strong> counts all rows in the table or group, including those with NULL values in any column.</p><p><strong>COUNT(column_name)</strong> counts only the rows where the specified column is NOT NULL.</p><p><strong>Example:</strong> If a table has 10 rows and one column has 2 NULL values:<br>COUNT(*) returns 10<br>COUNT(column_name) returns 8</p><p>Use COUNT(*) when you want to count all rows, and COUNT(column) when you want to count non-null values in a specific column.</p>",
+              },
+              {
+                question:
+                  "What happens when you use GROUP BY with multiple columns?",
+                solution:
+                  "<p>When you use GROUP BY with multiple columns, it creates groups for each unique combination of values in those columns. The result set will have one row for each unique combination.</p><p><strong>Example:</strong> GROUP BY department, gender<br>This creates groups like: (IT, M), (IT, F), (HR, M), (HR, F), etc.</p><p>Each group will have its own aggregate calculations, and you'll get summary statistics for each department-gender combination.</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_groupby.asp",
+              "https://learn.microsoft.com/en-us/sql/t-sql/functions/aggregate-functions-transact-sql?view=sql-server-ver16",
+              "https://www.sqlshack.com/overview-of-sql-aggregate-functions/",
+            ],
+          },
+          {
+            topic: "SQL String Functions",
+            tags: [
+              "CONCAT",
+              "SUBSTRING",
+              "UPPER",
+              "LOWER",
+              "TRIM",
+              "LENGTH",
+              "REPLACE",
+            ],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       SQL string functions are used to manipulate and transform text data in databases. They are essential for data cleaning, formatting, extraction, and transformation operations. String functions help you work with textual data efficiently without needing to process it in application code.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create sample tables to demonstrate string functions:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Employees Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-------------+-----------+-------------------+-----------------+
+  | employee_id| first_name  | last_name | email             | notes           |
+  +------------+-------------+-----------+-------------------+-----------------+
+  | 1          | John        | Doe       | JOHN.DOE@COM      |   "  Manager  " |
+  | 2          | Jane        | Smith     | jane.smith@com    | Senior Developer|
+  | 3          | BOB         | JOHNSON   | BOB@COMPANY.COM   | NULL            |
+  | 4          | alice       | brown     | alice@test.com    |   Developer     |
+  | 5          | Mike        | Wilson    | MIKE.WILSON@COM   | "Team Lead  "  |
+  +------------+-------------+-----------+-------------------+-----------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Products Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +-----------+--------------------------+----------------+-----------+
+  | product_id| product_name             | product_code   | category  |
+  +-----------+--------------------------+----------------+-----------+
+  | 1         | Laptop Dell XPS 13       | LP-DELL-XPS13  | Computing |
+  | 2         | Wireless Mouse Logitech  | ACC-MOUSE-LOGI | Accessory |
+  | 3         | Mechanical Keyboard      | ACC-KEYB-MECH  | Accessory |
+  | 4         | 24-inch Monitor Samsung  | MON-SAMS-24    | Display   |
+  +-----------+--------------------------+----------------+-----------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. CONCAT / Concatenation Functions
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       CONCAT function combines two or more strings into a single string. Different database systems have variations:
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       CONCAT() - Standard SQL (MySQL, PostgreSQL, SQL Server 2012+)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Basic concatenation
+  SELECT CONCAT(first_name, ' ', last_name) AS full_name 
+  FROM Employees;
+  
+  -- Multiple string concatenation
+  SELECT CONCAT(first_name, ' ', last_name, ' - ', email) AS employee_info 
+  FROM Employees;
+  
+  -- With literal strings
+  SELECT CONCAT('Employee: ', first_name, ' ', last_name) AS display_name 
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Concatenation with + operator (SQL Server)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- SQL Server using + operator
+  SELECT first_name + ' ' + last_name AS full_name 
+  FROM Employees;
+  
+  -- With COALESCE to handle NULL values
+  SELECT first_name + ' ' + COALESCE(last_name, '') AS full_name 
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       CONCAT_WS() - Concatenate with separator (MySQL)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Concatenate with space separator
+  SELECT CONCAT_WS(' ', first_name, last_name) AS full_name 
+  FROM Employees;
+  
+  -- Multiple fields with different separators
+  SELECT CONCAT_WS(' - ', first_name, last_name, email) AS employee_info 
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. SUBSTRING / String Extraction Functions
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       SUBSTRING extracts a portion of a string starting from a specified position. Syntax varies slightly between databases.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SUBSTRING() - Standard Syntax
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Extract first 3 characters
+  SELECT SUBSTRING(first_name, 1, 3) AS name_prefix 
+  FROM Employees;
+  
+  -- Extract domain from email
+  SELECT 
+      email,
+      SUBSTRING(email, POSITION('@' IN email) + 1) AS email_domain
+  FROM Employees;
+  
+  -- Extract product category from product code
+  SELECT 
+      product_code,
+      SUBSTRING(product_code, 1, 3) AS category_code
+  FROM Products;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Database-Specific Variations
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- MySQL: SUBSTRING(string, start, length)
+  SELECT SUBSTRING('Hello World', 7, 5) AS result; -- 'World'
+  
+  -- PostgreSQL: SUBSTRING(string FROM start FOR length)
+  SELECT SUBSTRING('Hello World' FROM 7 FOR 5) AS result; -- 'World'
+  
+  -- SQL Server: SUBSTRING(string, start, length)
+  SELECT SUBSTRING('Hello World', 7, 5) AS result; -- 'World'
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       LEFT() and RIGHT() Functions
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Extract first 5 characters
+  SELECT LEFT(product_name, 5) AS short_name 
+  FROM Products;
+  
+  -- Extract last 10 characters
+  SELECT RIGHT(product_name, 10) AS ending 
+  FROM Products;
+  
+  -- Extract file extensions from emails
+  SELECT 
+      email,
+      RIGHT(email, 4) AS possible_extension
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. UPPER() and LOWER() - Case Conversion
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       UPPER converts a string to uppercase, while LOWER converts it to lowercase. Essential for case-insensitive comparisons and data standardization.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Basic Case Conversion Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Convert names to uppercase
+  SELECT UPPER(first_name) AS upper_first_name 
+  FROM Employees;
+  
+  -- Convert emails to lowercase for standardization
+  SELECT LOWER(email) AS standardized_email 
+  FROM Employees;
+  
+  -- Case-insensitive search
+  SELECT * FROM Employees 
+  WHERE LOWER(first_name) = LOWER('bob');
+  
+  -- Format full name with proper case
+  SELECT 
+      CONCAT(
+          UPPER(SUBSTRING(first_name, 1, 1)), 
+          LOWER(SUBSTRING(first_name, 2)),
+          ' ',
+          UPPER(SUBSTRING(last_name, 1, 1)),
+          LOWER(SUBSTRING(last_name, 2))
+      ) AS proper_case_name
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Data Standardization Example
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Standardize employee data
+  SELECT 
+      employee_id,
+      UPPER(SUBSTRING(first_name, 1, 1)) || LOWER(SUBSTRING(first_name, 2)) AS standardized_first_name,
+      UPPER(SUBSTRING(last_name, 1, 1)) || LOWER(SUBSTRING(last_name, 2)) AS standardized_last_name,
+      LOWER(email) AS standardized_email
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       4. TRIM() - Removing Whitespace
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       TRIM removes leading and/or trailing spaces (or other specified characters) from a string. Essential for data cleaning.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       TRIM Variations
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Remove leading and trailing spaces (standard TRIM)
+  SELECT TRIM(notes) AS cleaned_notes 
+  FROM Employees;
+  
+  -- Remove only leading spaces (LTRIM)
+  SELECT LTRIM(notes) AS left_trimmed 
+  FROM Employees;
+  
+  -- Remove only trailing spaces (RTRIM)
+  SELECT RTRIM(notes) AS right_trimmed 
+  FROM Employees;
+  
+  -- Remove specific characters
+  SELECT TRIM(BOTH '"' FROM notes) AS removed_quotes 
+  FROM Employees;
+  
+  -- Remove multiple specific characters
+  SELECT TRIM(' "' FROM notes) AS cleaned_text 
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Database-Specific TRIM Syntax
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Standard SQL
+  SELECT TRIM(BOTH ' ' FROM notes) FROM Employees;
+  
+  -- MySQL
+  SELECT TRIM(notes) FROM Employees;
+  
+  -- PostgreSQL
+  SELECT TRIM(BOTH FROM notes) FROM Employees;
+  
+  -- SQL Server
+  SELECT LTRIM(RTRIM(notes)) FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       5. Additional Important String Functions
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       LENGTH() / LEN() - String Length
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Get length of strings (LENGTH in MySQL/PostgreSQL, LEN in SQL Server)
+  SELECT 
+      first_name,
+      LENGTH(first_name) AS name_length
+  FROM Employees;
+  
+  -- Validate email length
+  SELECT 
+      email,
+      LENGTH(email) AS email_length
+  FROM Employees
+  WHERE LENGTH(email) > 20;
+  
+  -- Find longest product name
+  SELECT 
+      product_name,
+      LENGTH(product_name) AS name_length
+  FROM Products
+  ORDER BY name_length DESC
+  LIMIT 1;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       REPLACE() - String Replacement
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Replace domain in emails
+  SELECT 
+      email,
+      REPLACE(email, '@com', '@company.com') AS corrected_email
+  FROM Employees;
+  
+  -- Remove spaces from product codes
+  SELECT 
+      product_code,
+      REPLACE(product_code, '-', '') AS simplified_code
+  FROM Products;
+  
+  -- Multiple replacements
+  SELECT 
+      notes,
+      REPLACE(REPLACE(notes, '"', ''), '  ', ' ') AS cleaned_notes
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       POSITION() / CHARINDEX() / INSTR() - Find Substring Position
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Find position of '@' in email (POSITION in PostgreSQL, CHARINDEX in SQL Server, INSTR in MySQL)
+  SELECT 
+      email,
+      POSITION('@' IN email) AS at_position
+  FROM Employees;
+  
+  -- Extract username from email
+  SELECT 
+      email,
+      SUBSTRING(email, 1, POSITION('@' IN email) - 1) AS email_username
+  FROM Employees;
+  
+  -- Find space position in full names
+  SELECT 
+      CONCAT(first_name, ' ', last_name) AS full_name,
+      POSITION(' ' IN CONCAT(first_name, ' ', last_name)) AS space_position
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Real-World Use Cases and Practical Examples
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Data Cleaning and Standardization
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Comprehensive employee data cleaning
+  SELECT 
+      employee_id,
+      -- Clean and format first name
+      CONCAT(
+          UPPER(SUBSTRING(TRIM(first_name), 1, 1)),
+          LOWER(SUBSTRING(TRIM(first_name), 2))
+      ) AS clean_first_name,
+      
+      -- Clean and format last name
+      CONCAT(
+          UPPER(SUBSTRING(TRIM(last_name), 1, 1)),
+          LOWER(SUBSTRING(TRIM(last_name), 2))
+      ) AS clean_last_name,
+      
+      -- Standardize email format
+      LOWER(TRIM(REPLACE(email, ' ', ''))) AS clean_email,
+      
+      -- Remove extra spaces and quotes from notes
+      TRIM(BOTH '" ' FROM REPLACE(notes, '  ', ' ')) AS clean_notes
+      
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Product Code Analysis
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Parse product codes into components
+  SELECT 
+      product_name,
+      product_code,
+      -- Extract category (first part before first dash)
+      SUBSTRING(product_code, 1, POSITION('-' IN product_code) - 1) AS category,
+      
+      -- Extract brand (second part between first and second dash)
+      SUBSTRING(
+          product_code,
+          POSITION('-' IN product_code) + 1,
+          POSITION('-' IN SUBSTRING(product_code, POSITION('-' IN product_code) + 1)) - 1
+      ) AS brand,
+      
+      -- Extract model (everything after second dash)
+      SUBSTRING(
+          product_code,
+          POSITION('-' IN product_code) + POSITION('-' IN SUBSTRING(product_code, POSITION('-' IN product_code) + 1)) + 1
+      ) AS model
+      
+  FROM Products;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Email Validation and Extraction
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Email analysis and validation
+  SELECT 
+      email,
+      -- Check if email contains '@'
+      CASE WHEN POSITION('@' IN email) > 0 THEN 'Valid' ELSE 'Invalid' END AS validity,
+      
+      -- Extract username part
+      CASE 
+          WHEN POSITION('@' IN email) > 0 
+          THEN SUBSTRING(email, 1, POSITION('@' IN email) - 1)
+          ELSE email
+      END AS username,
+      
+      -- Extract domain part
+      CASE 
+          WHEN POSITION('@' IN email) > 0 
+          THEN SUBSTRING(email, POSITION('@' IN email) + 1)
+          ELSE NULL
+      END AS domain,
+      
+      -- Check domain length
+      CASE 
+          WHEN POSITION('@' IN email) > 0 
+          THEN LENGTH(SUBSTRING(email, POSITION('@' IN email) + 1))
+          ELSE 0
+      END AS domain_length
+      
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Database-Specific Function Variations
+     </h4>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- MySQL Specific
+  SELECT 
+      CONCAT(first_name, ' ', last_name) AS full_name,
+      SUBSTRING_INDEX(email, '@', 1) AS username,  -- MySQL specific
+      LENGTH(first_name) AS name_len
+  FROM Employees;
+  
+  -- PostgreSQL Specific
+  SELECT 
+      first_name || ' ' || last_name AS full_name,  -- PostgreSQL concatenation
+      SPLIT_PART(email, '@', 1) AS username,        -- PostgreSQL specific
+      CHAR_LENGTH(first_name) AS name_len
+  FROM Employees;
+  
+  -- SQL Server Specific
+  SELECT 
+      first_name + ' ' + last_name AS full_name,    -- SQL Server concatenation
+      LEFT(email, CHARINDEX('@', email) - 1) AS username,  -- SQL Server specific
+      LEN(first_name) AS name_len
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Best Practices and Performance Tips
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+         <strong>Handle NULL values</strong> - Use COALESCE or CASE statements to avoid unexpected results
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Consider performance</strong> - String functions in WHERE clauses can prevent index usage
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Be aware of collation</strong> - Case sensitivity depends on database collation settings
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Test edge cases</strong> - Empty strings, NULL values, and very long strings
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use consistent character sets</strong> - Ensure proper handling of Unicode and special characters
+       </li>
+     </ol>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       NULL Handling Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Safe string operations with NULL handling
+  SELECT 
+      first_name,
+      last_name,
+      COALESCE(CONCAT(first_name, ' ', last_name), 'Unknown') AS safe_full_name,
+      COALESCE(UPPER(TRIM(notes)), 'No notes') AS safe_notes
+  FROM Employees;
+  
+  -- Using CASE for conditional string operations
+  SELECT 
+      email,
+      CASE 
+          WHEN POSITION('@' IN email) > 0 THEN 'Valid'
+          WHEN email IS NULL THEN 'Missing'
+          ELSE 'Invalid'
+      END AS email_status
+  FROM Employees;
+       </code></pre>
+     </div>
+  </div>`,
+            examples: [
+              `-- Comprehensive employee data formatting
+  SELECT 
+      employee_id,
+      CONCAT(
+          UPPER(SUBSTRING(TRIM(first_name), 1, 1)),
+          LOWER(SUBSTRING(TRIM(first_name), 2)),
+          ' ',
+          UPPER(SUBSTRING(TRIM(last_name), 1, 1)),
+          LOWER(SUBSTRING(TRIM(last_name), 2))
+      ) AS formatted_name,
+      LOWER(TRIM(REPLACE(email, ' ', ''))) AS clean_email,
+      TRIM(BOTH '" ' FROM notes) AS clean_notes
+  FROM Employees;`,
+
+              `-- Product code parsing and analysis
+  SELECT 
+      product_name,
+      product_code,
+      SUBSTRING(product_code, 1, POSITION('-' IN product_code) - 1) AS category_code,
+      SUBSTRING(
+          product_code, 
+          POSITION('-' IN product_code) + 1,
+          POSITION('-' IN SUBSTRING(product_code, POSITION('-' IN product_code) + 1)) - 1
+      ) AS brand_code,
+      LENGTH(product_name) AS name_length
+  FROM Products;`,
+
+              `-- Email validation and domain extraction
+  SELECT 
+      email,
+      CASE WHEN POSITION('@' IN email) > 0 THEN 'Valid' ELSE 'Invalid' END AS validity,
+      SUBSTRING(email, 1, POSITION('@' IN email) - 1) AS username,
+      SUBSTRING(email, POSITION('@' IN email) + 1) AS domain,
+      LENGTH(email) AS total_length
+  FROM Employees
+  WHERE email IS NOT NULL;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between TRIM, LTRIM, and RTRIM functions?",
+                solution:
+                  "<p><strong>TRIM</strong> removes both leading and trailing spaces (or specified characters) from a string.</p><p><strong>LTRIM</strong> removes only leading spaces (left side) from a string.</p><p><strong>RTRIM</strong> removes only trailing spaces (right side) from a string.</p><p><strong>Example:</strong><br>TRIM('  Hello  ') returns 'Hello'<br>LTRIM('  Hello  ') returns 'Hello  '<br>RTRIM('  Hello  ') returns '  Hello'</p>",
+              },
+              {
+                question:
+                  "How do you handle NULL values in string concatenation?",
+                solution:
+                  "<p>NULL values in concatenation can cause the entire result to become NULL. Use COALESCE or CASE statements to handle NULL values:</p><p><strong>Using COALESCE:</strong><br>SELECT CONCAT(COALESCE(first_name, ''), ' ', COALESCE(last_name, '')) AS full_name</p><p><strong>Using CASE:</strong><br>SELECT CASE WHEN first_name IS NULL THEN '' ELSE first_name END || ' ' || CASE WHEN last_name IS NULL THEN '' ELSE last_name END AS full_name</p><p><strong>Database-specific:</strong> Some databases like MySQL's CONCAT automatically treat NULL as empty string.</p>",
+              },
+              {
+                question:
+                  "What are the performance implications of using string functions in WHERE clauses?",
+                solution:
+                  "<p>Using string functions in WHERE clauses can prevent the database from using indexes, leading to full table scans. This is because the function must be applied to every row before the condition can be evaluated.</p><p><strong>Slow:</strong> WHERE UPPER(name) = 'JOHN' (cannot use index on 'name')</p><p><strong>Better:</strong> WHERE name = 'John' OR name = 'JOHN' (can use index if available)</p><p><strong>Best:</strong> Store data in consistent case and search directly, or use functional indexes if supported.</p>",
+              },
+              {
+                question:
+                  "How does the SUBSTRING function handle out-of-bound positions?",
+                solution:
+                  "<p>Most databases handle out-of-bound positions gracefully:</p><p><strong>Start position greater than string length:</strong> Returns empty string</p><p><strong>Length extends beyond string end:</strong> Returns characters from start to end of string</p><p><strong>Negative start position:</strong> Behavior varies by database (some count from end, some return error)</p><p><strong>Examples:</strong><br>SUBSTRING('Hello', 10, 5) returns ''<br>SUBSTRING('Hello', 2, 10) returns 'ello'<br>Always test with your specific database system.</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_ref_sqlserver.asp",
+              "https://learn.microsoft.com/en-us/sql/t-sql/functions/string-functions-transact-sql?view=sql-server-ver16",
+              "https://www.postgresql.org/docs/current/functions-string.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/string-functions.html",
+            ],
+          },
+          {
+            topic: "SQL Date/Time Functions",
+            tags: [
+              "NOW()",
+              "CURDATE()",
+              "DATEADD",
+              "DATEDIFF",
+              "EXTRACT",
+              "DATE_FORMAT",
+              "STR_TO_DATE",
+            ],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       SQL date and time functions are essential for working with temporal data in databases. They allow you to retrieve current date/time, perform date arithmetic, extract specific components from dates, and format dates for display. Proper handling of dates is crucial for reporting, analytics, and time-based operations.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create sample tables to demonstrate date/time functions:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Orders Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +----------+-------------+---------------------+---------------------+-----------+
+  | order_id | customer_id | order_date          | delivery_date       | status    |
+  +----------+-------------+---------------------+---------------------+-----------+
+  | 1        | 101         | 2024-01-15 09:30:00 | 2024-01-20 00:00:00 | Delivered |
+  | 2        | 102         | 2024-02-01 14:45:00 | 2024-02-05 00:00:00 | Shipped   |
+  | 3        | 103         | 2024-02-14 10:15:00 | 2024-02-28 00:00:00 | Pending   |
+  | 4        | 101         | 2024-03-01 16:20:00 | NULL                | Processing|
+  | 5        | 104         | 2024-03-10 11:00:00 | 2024-03-12 00:00:00 | Delivered |
+  +----------+-------------+---------------------+---------------------+-----------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Employees Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-----------+------------+---------------------+
+  | employee_id| name      | department | hire_date           |
+  +------------+-----------+------------+---------------------+
+  | 1          | John Doe  | IT         | 2020-05-15          |
+  | 2          | Jane Smith| HR         | 2021-08-22          |
+  | 3          | Bob Johnson| IT        | 2019-11-30          |
+  | 4          | Alice Brown| Finance   | 2022-03-10          |
+  | 5          | Mike Wilson| IT        | 2023-01-05          |
+  +------------+-----------+------------+---------------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. Current Date/Time Functions
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Functions to retrieve the current date and/or time. Syntax varies significantly between database systems.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       MySQL Date/Time Functions
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Current date and time
+  SELECT NOW() AS current_datetime;          -- 2024-03-15 14:30:45
+  SELECT SYSDATE() AS system_datetime;       -- 2024-03-15 14:30:45
+  
+  -- Current date only
+  SELECT CURDATE() AS current_date;          -- 2024-03-15
+  SELECT CURRENT_DATE() AS current_date;     -- 2024-03-15
+  
+  -- Current time only
+  SELECT CURTIME() AS current_time;          -- 14:30:45
+  SELECT CURRENT_TIME() AS current_time;     -- 14:30:45
+  
+  -- Current timestamp
+  SELECT CURRENT_TIMESTAMP() AS timestamp;   -- 2024-03-15 14:30:45
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       PostgreSQL Date/Time Functions
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Current date and time
+  SELECT NOW() AS current_datetime;          -- 2024-03-15 14:30:45.123456+00
+  SELECT CURRENT_TIMESTAMP AS timestamp;     -- 2024-03-15 14:30:45.123456+00
+  
+  -- Current date only
+  SELECT CURRENT_DATE AS current_date;       -- 2024-03-15
+  
+  -- Current time only
+  SELECT CURRENT_TIME AS current_time;       -- 14:30:45.123456+00
+  
+  -- Transaction timestamp (consistent within transaction)
+  SELECT TRANSACTION_TIMESTAMP() AS tx_timestamp;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SQL Server Date/Time Functions
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Current date and time
+  SELECT GETDATE() AS current_datetime;      -- 2024-03-15 14:30:45.123
+  SELECT SYSDATETIME() AS system_datetime;   -- 2024-03-15 14:30:45.1234567
+  
+  -- Current date only
+  SELECT CAST(GETDATE() AS DATE) AS current_date; -- 2024-03-15
+  
+  -- Current time only
+  SELECT CAST(GETDATE() AS TIME) AS current_time; -- 14:30:45.1234567
+  
+  -- UTC time
+  SELECT GETUTCDATE() AS utc_datetime;       -- 2024-03-15 18:30:45.123
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. Date Addition Functions (DATEADD)
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Functions to add or subtract intervals from dates. Useful for calculating future dates, deadlines, or date ranges.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       MySQL Date Addition (DATE_ADD, DATE_SUB)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Add 7 days to order date
+  SELECT 
+      order_date,
+      DATE_ADD(order_date, INTERVAL 7 DAY) AS expected_delivery
+  FROM Orders;
+  
+  -- Add 1 month to current date
+  SELECT 
+      CURDATE() AS today,
+      DATE_ADD(CURDATE(), INTERVAL 1 MONTH) AS next_month;
+  
+  -- Subtract 30 days
+  SELECT 
+      order_date,
+      DATE_SUB(order_date, INTERVAL 30 DAY) AS one_month_ago
+  FROM Orders;
+  
+  -- Multiple interval types
+  SELECT 
+      order_date,
+      DATE_ADD(order_date, INTERVAL 2 HOUR) AS plus_2_hours,
+      DATE_ADD(order_date, INTERVAL 1 WEEK) AS plus_1_week,
+      DATE_ADD(order_date, INTERVAL 3 MONTH) AS plus_3_months,
+      DATE_ADD(order_date, INTERVAL 1 YEAR) AS plus_1_year
+  FROM Orders;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       PostgreSQL Date Addition (INTERVAL arithmetic)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Add 7 days using INTERVAL
+  SELECT 
+      order_date,
+      order_date + INTERVAL '7 days' AS expected_delivery
+  FROM Orders;
+  
+  -- Add multiple units
+  SELECT 
+      order_date,
+      order_date + INTERVAL '1 month 2 days 3 hours' AS future_date
+  FROM Orders;
+  
+  -- Subtract intervals
+  SELECT 
+      order_date,
+      order_date - INTERVAL '30 days' AS past_date
+  FROM Orders;
+  
+  -- Using explicit functions
+  SELECT 
+      order_date,
+      order_date + MAKE_INTERVAL(days => 7) AS plus_7_days
+  FROM Orders;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SQL Server Date Addition (DATEADD)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Add 7 days using DATEADD
+  SELECT 
+      order_date,
+      DATEADD(DAY, 7, order_date) AS expected_delivery
+  FROM Orders;
+  
+  -- Add different intervals
+  SELECT 
+      order_date,
+      DATEADD(HOUR, 2, order_date) AS plus_2_hours,
+      DATEADD(WEEK, 1, order_date) AS plus_1_week,
+      DATEADD(MONTH, 3, order_date) AS plus_3_months,
+      DATEADD(YEAR, 1, order_date) AS plus_1_year
+  FROM Orders;
+  
+  -- Subtract by using negative values
+  SELECT 
+      order_date,
+      DATEADD(DAY, -30, order_date) AS thirty_days_ago
+  FROM Orders;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. Date Difference Functions (DATEDIFF)
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Functions to calculate the difference between two dates in various units (days, months, years, etc.).
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       MySQL Date Difference (DATEDIFF, TIMESTAMPDIFF)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Difference in days between order and delivery
+  SELECT 
+      order_date,
+      delivery_date,
+      DATEDIFF(delivery_date, order_date) AS delivery_days
+  FROM Orders
+  WHERE delivery_date IS NOT NULL;
+  
+  -- Difference in various units using TIMESTAMPDIFF
+  SELECT 
+      order_date,
+      delivery_date,
+      TIMESTAMPDIFF(DAY, order_date, delivery_date) AS days_diff,
+      TIMESTAMPDIFF(HOUR, order_date, delivery_date) AS hours_diff,
+      TIMESTAMPDIFF(MONTH, order_date, delivery_date) AS months_diff
+  FROM Orders
+  WHERE delivery_date IS NOT NULL;
+  
+  -- Employee tenure in years
+  SELECT 
+      name,
+      hire_date,
+      TIMESTAMPDIFF(YEAR, hire_date, CURDATE()) AS years_with_company
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       PostgreSQL Date Difference (EXTRACT with subtraction)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Difference in days
+  SELECT 
+      order_date,
+      delivery_date,
+      (delivery_date - order_date) AS days_difference
+  FROM Orders
+  WHERE delivery_date IS NOT NULL;
+  
+  -- Extract specific units from interval
+  SELECT 
+      order_date,
+      delivery_date,
+      EXTRACT(DAY FROM (delivery_date - order_date)) AS days_diff,
+      EXTRACT(MONTH FROM (delivery_date - order_date)) AS months_diff,
+      EXTRACT(YEAR FROM (delivery_date - order_date)) AS years_diff
+  FROM Orders
+  WHERE delivery_date IS NOT NULL;
+  
+  -- Using AGE function
+  SELECT 
+      name,
+      hire_date,
+      AGE(CURRENT_DATE, hire_date) AS tenure_interval,
+      EXTRACT(YEAR FROM AGE(CURRENT_DATE, hire_date)) AS years_tenure
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SQL Server Date Difference (DATEDIFF)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Difference in various units
+  SELECT 
+      order_date,
+      delivery_date,
+      DATEDIFF(DAY, order_date, delivery_date) AS days_diff,
+      DATEDIFF(HOUR, order_date, delivery_date) AS hours_diff,
+      DATEDIFF(MONTH, order_date, delivery_date) AS months_diff,
+      DATEDIFF(YEAR, order_date, delivery_date) AS years_diff
+  FROM Orders
+  WHERE delivery_date IS NOT NULL;
+  
+  -- Employee tenure calculation
+  SELECT 
+      name,
+      hire_date,
+      DATEDIFF(YEAR, hire_date, GETDATE()) AS years_tenure,
+      DATEDIFF(MONTH, hire_date, GETDATE()) AS months_tenure
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       4. EXTRACT Function - Date Component Extraction
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Extract specific components (year, month, day, hour, etc.) from date/time values for analysis and reporting.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       MySQL EXTRACT and Component Functions
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Extract individual components
+  SELECT 
+      order_date,
+      EXTRACT(YEAR FROM order_date) AS order_year,
+      EXTRACT(MONTH FROM order_date) AS order_month,
+      EXTRACT(DAY FROM order_date) AS order_day,
+      EXTRACT(HOUR FROM order_date) AS order_hour,
+      EXTRACT(MINUTE FROM order_date) AS order_minute
+  FROM Orders;
+  
+  -- Alternative component functions
+  SELECT 
+      order_date,
+      YEAR(order_date) AS order_year,
+      MONTH(order_date) AS order_month,
+      DAY(order_date) AS order_day,
+      HOUR(order_date) AS order_hour,
+      MINUTE(order_date) AS order_minute,
+      DAYNAME(order_date) AS day_name,
+      MONTHNAME(order_date) AS month_name
+  FROM Orders;
+  
+  -- Group orders by month and year
+  SELECT 
+      YEAR(order_date) AS order_year,
+      MONTH(order_date) AS order_month,
+      COUNT(*) AS order_count
+  FROM Orders
+  GROUP BY YEAR(order_date), MONTH(order_date)
+  ORDER BY order_year, order_month;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       PostgreSQL EXTRACT Function
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Extract various date components
+  SELECT 
+      order_date,
+      EXTRACT(YEAR FROM order_date) AS order_year,
+      EXTRACT(MONTH FROM order_date) AS order_month,
+      EXTRACT(DAY FROM order_date) AS order_day,
+      EXTRACT(DOW FROM order_date) AS day_of_week, -- 0=Sunday, 6=Saturday
+      EXTRACT(DOY FROM order_date) AS day_of_year,
+      EXTRACT(QUARTER FROM order_date) AS quarter,
+      EXTRACT(HOUR FROM order_date) AS order_hour
+  FROM Orders;
+  
+  -- Using DATE_PART (alternative to EXTRACT)
+  SELECT 
+      order_date,
+      DATE_PART('year', order_date) AS order_year,
+      DATE_PART('month', order_date) AS order_month,
+      DATE_PART('hour', order_date) AS order_hour
+  FROM Orders;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SQL Server DATEPART Function
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Extract date components using DATEPART
+  SELECT 
+      order_date,
+      DATEPART(YEAR, order_date) AS order_year,
+      DATEPART(MONTH, order_date) AS order_month,
+      DATEPART(DAY, order_date) AS order_day,
+      DATEPART(WEEKDAY, order_date) AS day_of_week, -- 1=Sunday, 7=Saturday
+      DATEPART(QUARTER, order_date) AS quarter,
+      DATEPART(HOUR, order_date) AS order_hour
+  FROM Orders;
+  
+  -- Alternative component functions
+  SELECT 
+      order_date,
+      YEAR(order_date) AS order_year,
+      MONTH(order_date) AS order_month,
+      DAY(order_date) AS order_day,
+      DATENAME(MONTH, order_date) AS month_name,
+      DATENAME(WEEKDAY, order_date) AS day_name
+  FROM Orders;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       5. Date Formatting and Conversion
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Format dates for display and convert between string and date types.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       MySQL Date Formatting (DATE_FORMAT)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Format dates in various styles
+  SELECT 
+      order_date,
+      DATE_FORMAT(order_date, '%Y-%m-%d') AS simple_date,
+      DATE_FORMAT(order_date, '%M %d, %Y') AS full_date,    -- March 15, 2024
+      DATE_FORMAT(order_date, '%W, %M %e, %Y') AS long_date, -- Friday, March 15, 2024
+      DATE_FORMAT(order_date, '%l:%i %p') AS formatted_time, -- 2:30 PM
+      DATE_FORMAT(order_date, '%Y-%m-%d %H:%i:%s') AS iso_format
+  FROM Orders;
+  
+  -- Common format patterns
+  -- %Y: 4-digit year, %y: 2-digit year
+  -- %M: Month name, %m: Month number
+  -- %d: Day with leading zeros, %e: Day without leading zeros
+  -- %H: 24-hour, %I: 12-hour, %p: AM/PM
+  -- %W: Weekday name, %a: Abbreviated weekday
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       PostgreSQL Date Formatting (TO_CHAR)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Format dates using TO_CHAR
+  SELECT 
+      order_date,
+      TO_CHAR(order_date, 'YYYY-MM-DD') AS simple_date,
+      TO_CHAR(order_date, 'Month DD, YYYY') AS full_date,
+      TO_CHAR(order_date, 'Day, Month DD, YYYY') AS long_date,
+      TO_CHAR(order_date, 'HH12:MI AM') AS formatted_time,
+      TO_CHAR(order_date, 'YYYY-MM-DD HH24:MI:SS') AS iso_format
+  FROM Orders;
+  
+  -- String to date conversion
+  SELECT 
+      '2024-03-15'::DATE AS string_to_date,
+      TO_DATE('15/03/2024', 'DD/MM/YYYY') AS custom_format_date;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SQL Server Date Formatting (CONVERT, FORMAT)
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Format using CONVERT with style codes
+  SELECT 
+      order_date,
+      CONVERT(VARCHAR, order_date, 23) AS iso_date,        -- 2024-03-15
+      CONVERT(VARCHAR, order_date, 101) AS us_date,        -- 03/15/2024
+      CONVERT(VARCHAR, order_date, 103) AS eu_date,        -- 15/03/2024
+      CONVERT(VARCHAR, order_date, 108) AS time_only       -- 14:30:45
+  FROM Orders;
+  
+  -- Modern formatting with FORMAT (SQL Server 2012+)
+  SELECT 
+      order_date,
+      FORMAT(order_date, 'yyyy-MM-dd') AS iso_date,
+      FORMAT(order_date, 'MMMM dd, yyyy') AS full_date,
+      FORMAT(order_date, 'dddd, MMMM dd, yyyy') AS long_date,
+      FORMAT(order_date, 'hh:mm tt') AS formatted_time
+  FROM Orders;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Real-World Business Use Cases
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Sales Reporting and Analysis
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Monthly sales report
+  SELECT 
+      EXTRACT(YEAR FROM order_date) AS order_year,
+      EXTRACT(MONTH FROM order_date) AS order_month,
+      COUNT(*) AS total_orders,
+      AVG(DATEDIFF(DAY, order_date, delivery_date)) AS avg_delivery_days
+  FROM Orders
+  WHERE delivery_date IS NOT NULL
+  GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date)
+  ORDER BY order_year DESC, order_month DESC;
+  
+  -- Orders by day of week analysis
+  SELECT 
+      DAYNAME(order_date) AS day_name,
+      COUNT(*) AS order_count,
+      ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM Orders), 2) AS percentage
+  FROM Orders
+  GROUP BY DAYNAME(order_date), DAYOFWEEK(order_date)
+  ORDER BY DAYOFWEEK(order_date);
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Employee Management and HR Analytics
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Employee tenure analysis
+  SELECT 
+      name,
+      department,
+      hire_date,
+      DATEDIFF(YEAR, hire_date, CURDATE()) AS years_employed,
+      DATEDIFF(MONTH, hire_date, CURDATE()) AS months_employed,
+      CASE 
+          WHEN DATEDIFF(YEAR, hire_date, CURDATE()) >= 5 THEN 'Senior'
+          WHEN DATEDIFF(YEAR, hire_date, CURDATE()) >= 2 THEN 'Mid-level'
+          ELSE 'Junior'
+      END AS experience_level
+  FROM Employees
+  ORDER BY years_employed DESC;
+  
+  -- Upcoming work anniversaries (next 30 days)
+  SELECT 
+      name,
+      hire_date,
+      DATEDIFF(DAY, CURDATE(), DATE_ADD(hire_date, INTERVAL DATEDIFF(YEAR, hire_date, CURDATE()) + 1 YEAR)) AS days_to_anniversary
+  FROM Employees
+  WHERE DATE_ADD(hire_date, INTERVAL DATEDIFF(YEAR, hire_date, CURDATE()) + 1 YEAR) 
+        BETWEEN CURDATE() AND DATE_ADD(CURDATE(), INTERVAL 30 DAY);
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Delivery Performance Monitoring
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Delivery performance analysis
+  SELECT 
+      order_id,
+      order_date,
+      delivery_date,
+      DATEDIFF(DAY, order_date, delivery_date) AS actual_days,
+      CASE 
+          WHEN DATEDIFF(DAY, order_date, delivery_date) <= 7 THEN 'On Time'
+          WHEN DATEDIFF(DAY, order_date, delivery_date) <= 10 THEN 'Slightly Delayed'
+          ELSE 'Delayed'
+      END AS delivery_status,
+      CASE 
+          WHEN DATEDIFF(DAY, order_date, delivery_date) > 7 
+          THEN DATEDIFF(DAY, order_date, delivery_date) - 7
+          ELSE 0
+      END AS days_overdue
+  FROM Orders
+  WHERE delivery_date IS NOT NULL
+  ORDER BY days_overdue DESC;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Database-Specific Quick Reference
+     </h4>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- MySQL
+  SELECT NOW(), CURDATE(), DATE_ADD(NOW(), INTERVAL 7 DAY), DATEDIFF('2024-03-20', '2024-03-15');
+  
+  -- PostgreSQL  
+  SELECT NOW(), CURRENT_DATE, NOW() + INTERVAL '7 days', '2024-03-20'::DATE - '2024-03-15'::DATE;
+  
+  -- SQL Server
+  SELECT GETDATE(), CAST(GETDATE() AS DATE), DATEADD(DAY, 7, GETDATE()), DATEDIFF(DAY, '2024-03-15', '2024-03-20');
+  
+  -- Oracle
+  SELECT SYSDATE, TRUNC(SYSDATE), SYSDATE + 7, '2024-03-20' - '2024-03-15' FROM DUAL;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Best Practices and Common Pitfalls
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+         <strong>Use appropriate data types</strong> - Store dates in DATE/TIME/DATETIME types, not strings
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Be aware of time zones</strong> - Use UTC for storage and convert to local time for display
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Handle NULL dates properly</strong> - Use COALESCE or conditional logic
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Consider performance</strong> - Date functions in WHERE clauses may prevent index usage
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Test edge cases</strong> - Leap years, month boundaries, daylight saving time changes
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use database-specific functions</strong> - Be aware of syntax differences between databases
+       </li>
+     </ol>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Time Zone Handling Example
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- MySQL time zone conversion
+  SELECT 
+      order_date,
+      CONVERT_TZ(order_date, '+00:00', '-05:00') AS local_time
+  FROM Orders;
+  
+  -- PostgreSQL time zone handling
+  SELECT 
+      order_date,
+      order_date AT TIME ZONE 'UTC' AT TIME ZONE 'America/New_York' AS local_time
+  FROM Orders;
+  
+  -- SQL Server time zone (using AT TIME ZONE in newer versions)
+  SELECT 
+      order_date,
+      order_date AT TIME ZONE 'Eastern Standard Time' AS local_time
+  FROM Orders;
+       </code></pre>
+     </div>
+  </div>`,
+            examples: [
+              `-- Comprehensive order analysis with date functions
+  SELECT 
+      order_id,
+      order_date,
+      delivery_date,
+      -- Date calculations
+      DATEDIFF(DAY, order_date, delivery_date) AS delivery_days,
+      DATE_ADD(order_date, INTERVAL 7 DAY) AS expected_delivery,
+      -- Date components
+      YEAR(order_date) AS order_year,
+      MONTH(order_date) AS order_month,
+      DAYNAME(order_date) AS order_day_name,
+      -- Formatting
+      DATE_FORMAT(order_date, '%M %d, %Y') AS formatted_order_date,
+      -- Status based on dates
+      CASE 
+          WHEN delivery_date IS NULL THEN 'Pending'
+          WHEN DATEDIFF(DAY, order_date, delivery_date) <= 7 THEN 'On Time'
+          ELSE 'Delayed'
+      END AS delivery_status
+  FROM Orders
+  ORDER BY order_date DESC;`,
+
+              `-- Employee anniversary and tenure reporting
+  SELECT 
+      name,
+      department,
+      hire_date,
+      -- Tenure calculations
+      TIMESTAMPDIFF(YEAR, hire_date, CURDATE()) AS years_employed,
+      TIMESTAMPDIFF(MONTH, hire_date, CURDATE()) AS months_employed,
+      -- Next anniversary
+      DATE_ADD(hire_date, INTERVAL TIMESTAMPDIFF(YEAR, hire_date, CURDATE()) + 1 YEAR) AS next_anniversary,
+      -- Days until next anniversary
+      DATEDIFF(
+          DATE_ADD(hire_date, INTERVAL TIMESTAMPDIFF(YEAR, hire_date, CURDATE()) + 1 YEAR),
+          CURDATE()
+      ) AS days_to_anniversary,
+      -- Formatted dates
+      DATE_FORMAT(hire_date, '%M %d, %Y') AS formatted_hire_date
+  FROM Employees
+  ORDER BY years_employed DESC;`,
+
+              `-- Monthly sales performance with date ranges
+  SELECT 
+      EXTRACT(YEAR FROM order_date) AS sales_year,
+      EXTRACT(MONTH FROM order_date) AS sales_month,
+      COUNT(*) AS total_orders,
+      -- Date range for the month
+      MIN(order_date) AS first_order_date,
+      MAX(order_date) AS last_order_date,
+      -- Average delivery time
+      AVG(DATEDIFF(DAY, order_date, delivery_date)) AS avg_delivery_days,
+      -- Current month indicator
+      CASE 
+          WHEN EXTRACT(YEAR FROM order_date) = EXTRACT(YEAR FROM CURDATE()) 
+          AND EXTRACT(MONTH FROM order_date) = EXTRACT(MONTH FROM CURDATE())
+          THEN 'Current Month'
+          ELSE 'Historical'
+      END AS month_type
+  FROM Orders
+  WHERE delivery_date IS NOT NULL
+  GROUP BY EXTRACT(YEAR FROM order_date), EXTRACT(MONTH FROM order_date)
+  ORDER BY sales_year DESC, sales_month DESC;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between NOW() and SYSDATE() in MySQL?",
+                solution:
+                  "<p><strong>NOW()</strong> returns the time at which the statement began execution and remains constant throughout the statement.</p><p><strong>SYSDATE()</strong> returns the exact time at which the function is called and can return different values within the same statement.</p><p><strong>Example:</strong> In a query that processes multiple rows, NOW() will be the same for all rows, while SYSDATE() might be different for each row if the query takes time to execute.</p><p><strong>Best Practice:</strong> Use NOW() for consistency within transactions, SYSDATE() for precise timing when needed.</p>",
+              },
+              {
+                question:
+                  "How do you calculate age or tenure in years accurately?",
+                solution:
+                  "<p>Simple year difference (YEAR(end) - YEAR(start)) can be inaccurate. Use proper date difference functions:</p><p><strong>MySQL:</strong> TIMESTAMPDIFF(YEAR, start_date, end_date)</p><p><strong>PostgreSQL:</strong> EXTRACT(YEAR FROM AGE(end_date, start_date))</p><p><strong>SQL Server:</strong> DATEDIFF(YEAR, start_date, end_date) - CASE WHEN DATEADD(YEAR, DATEDIFF(YEAR, start_date, end_date), start_date) > end_date THEN 1 ELSE 0 END</p><p><strong>Example:</strong> For someone born on '2000-02-29', calculating age on '2023-02-28' should return 22, not 23.</p>",
+              },
+              {
+                question:
+                  "What are the best practices for handling time zones in SQL dates?",
+                solution:
+                  "<p><strong>Store in UTC:</strong> Always store dates in UTC timezone in the database</p><p><strong>Convert on display:</strong> Convert to local timezone in application code or queries</p><p><strong>Use appropriate types:</strong> Use TIMESTAMP WITH TIME ZONE when available</p><p><strong>Be consistent:</strong> Use the same timezone across your entire application stack</p><p><strong>Daylight Saving Time:</strong> Be aware of DST changes and use timezone-aware functions</p><p><strong>Example:</strong> Store as UTC: '2024-03-15 18:30:00+00', display as local: '2024-03-15 14:30:00-04'</p>",
+              },
+              {
+                question: "How do you handle NULL dates in date calculations?",
+                solution:
+                  "<p>NULL dates in calculations will result in NULL. Use COALESCE or conditional logic:</p><p><strong>Using COALESCE:</strong> DATEDIFF(DAY, order_date, COALESCE(delivery_date, CURDATE()))</p><p><strong>Using CASE:</strong> CASE WHEN delivery_date IS NULL THEN 'Pending' ELSE 'Delivered' END</p><p><strong>Using IFNULL/ISNULL:</strong> DATEDIFF(DAY, order_date, IFNULL(delivery_date, CURDATE()))</p><p><strong>Best Practice:</strong> Explicitly handle NULLs based on business logic - either exclude them, use current date, or provide default values.</p>",
+              },
+            ],
+            links: [
+              "https://www.w3schools.com/sql/sql_ref_mysql.asp",
+              "https://dev.mysql.com/doc/refman/8.0/en/date-and-time-functions.html",
+              "https://www.postgresql.org/docs/current/functions-datetime.html",
+              "https://learn.microsoft.com/en-us/sql/t-sql/functions/date-and-time-data-types-and-functions-transact-sql?view=sql-server-ver16",
+            ],
+          },
+        ],
+      },
+      {
+        id: 2,
+        label: "Advanced",
+        concepts: [
+          {
+            topic: "Advanced Joins & Subqueries",
+            tags: ["Queries", "Joins", "Subqueries", "Performance"],
+            explanation: `<div>
+             <p style="line-height: 1.75; margin-top: 1.5rem;">
+               Advanced joins and subqueries are powerful SQL techniques that allow you to write complex queries by combining data from multiple tables or using nested queries. Understanding when and how to use each technique is crucial for writing efficient and maintainable SQL code.
+             </p>
+             
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Correlated Subqueries
+             </h4>
+           
+             <p style="line-height: 1.75; margin-top: 1rem;">
+               A correlated subquery references columns from the outer query, executing once for each row processed by the outer query. Unlike regular subqueries, they depend on the outer query for their values.
+             </p>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Find employees earning more than their department average
+          SELECT e.employee_id, e.first_name, e.last_name, e.salary, e.department_id
+          FROM employees e
+          WHERE e.salary > (
+              SELECT AVG(e2.salary)
+              FROM employees e2
+              WHERE e2.department_id = e.department_id  -- Correlated to outer query
+          );
+          
+          -- Find products with above-average reviews
+          SELECT p.product_id, p.product_name, p.price
+          FROM products p
+          WHERE (
+              SELECT AVG(rating)
+              FROM reviews r
+              WHERE r.product_id = p.product_id  -- References outer table
+          ) > 4.0;
+          
+          -- Find customers with their latest order date
+          SELECT c.customer_id, c.first_name, c.last_name,
+              (SELECT MAX(o.order_date)
+               FROM orders o
+               WHERE o.customer_id = c.customer_id) as last_order_date
+          FROM customers c;
+          
+          -- Find employees who earn more than anyone in Sales dept
+          SELECT e.employee_id, e.first_name, e.salary
+          FROM employees e
+          WHERE e.salary > ALL (
+              SELECT e2.salary
+              FROM employees e2
+              WHERE e2.department_id = (
+                  SELECT dept_id FROM departments WHERE dept_name = 'Sales'
+              )
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Nested Subqueries in SELECT Clause
+             </h4>
+             
+             <p style="line-height: 1.75; margin-top: 1rem;">
+               Subqueries in the SELECT clause (scalar subqueries) return a single value for each row and are useful for calculating derived values or fetching related data.
+             </p>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Calculate multiple aggregate values per row
+          SELECT 
+              e.employee_id,
+              e.first_name,
+              e.salary,
+              (SELECT AVG(salary) FROM employees) as company_avg_salary,
+              (SELECT AVG(e2.salary) 
+               FROM employees e2 
+               WHERE e2.department_id = e.department_id) as dept_avg_salary,
+              e.salary - (SELECT AVG(salary) FROM employees) as diff_from_avg
+          FROM employees e;
+          
+          -- Get related counts and values
+          SELECT 
+              p.product_id,
+              p.product_name,
+              (SELECT COUNT(*) 
+               FROM reviews r 
+               WHERE r.product_id = p.product_id) as review_count,
+              (SELECT AVG(r.rating) 
+               FROM reviews r 
+               WHERE r.product_id = p.product_id) as avg_rating,
+              (SELECT SUM(oi.quantity) 
+               FROM order_items oi 
+               WHERE oi.product_id = p.product_id) as total_sold
+          FROM products p;
+          
+          -- Complex calculations with subqueries
+          SELECT 
+              c.customer_id,
+              c.first_name,
+              (SELECT COUNT(*) 
+               FROM orders o 
+               WHERE o.customer_id = c.customer_id) as total_orders,
+              (SELECT COALESCE(SUM(o.total_amount), 0)
+               FROM orders o 
+               WHERE o.customer_id = c.customer_id) as lifetime_value,
+              (SELECT MAX(o.order_date)
+               FROM orders o 
+               WHERE o.customer_id = c.customer_id) as last_order_date
+          FROM customers c;</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Nested Subqueries in FROM Clause
+             </h4>
+             
+             <p style="line-height: 1.75; margin-top: 1rem;">
+               Subqueries in the FROM clause (derived tables or inline views) create temporary result sets that can be queried like regular tables. They're excellent for multi-step transformations.
+             </p>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Query aggregated data
+          SELECT dept_stats.department_id, dept_stats.avg_salary, d.dept_name
+          FROM (
+              SELECT department_id, AVG(salary) as avg_salary, COUNT(*) as emp_count
+              FROM employees
+              GROUP BY department_id
+          ) as dept_stats
+          JOIN departments d ON dept_stats.department_id = d.dept_id
+          WHERE dept_stats.avg_salary > 60000;
+          
+          -- Multiple levels of aggregation
+          SELECT 
+              category_summary.category_name,
+              category_summary.product_count,
+              category_summary.avg_price
+          FROM (
+              SELECT 
+                  c.category_name,
+                  COUNT(p.product_id) as product_count,
+                  AVG(p.price) as avg_price,
+                  SUM(p.stock_quantity) as total_stock
+              FROM categories c
+              LEFT JOIN products p ON c.category_id = p.category_id
+              GROUP BY c.category_id, c.category_name
+          ) as category_summary
+          WHERE category_summary.product_count > 5;
+          
+          -- Ranking and filtering
+          SELECT ranked_products.*
+          FROM (
+              SELECT 
+                  p.product_id,
+                  p.product_name,
+                  p.price,
+                  COUNT(oi.order_item_id) as times_ordered,
+                  RANK() OVER (ORDER BY COUNT(oi.order_item_id) DESC) as popularity_rank
+              FROM products p
+              LEFT JOIN order_items oi ON p.product_id = oi.product_id
+              GROUP BY p.product_id, p.product_name, p.price
+          ) as ranked_products
+          WHERE ranked_products.popularity_rank <= 10;
+          
+          -- Complex joins on derived tables
+          SELECT 
+              customer_orders.customer_id,
+              customer_orders.order_count,
+              customer_products.unique_products
+          FROM (
+              SELECT customer_id, COUNT(*) as order_count
+              FROM orders
+              GROUP BY customer_id
+          ) as customer_orders
+          JOIN (
+              SELECT o.customer_id, COUNT(DISTINCT oi.product_id) as unique_products
+              FROM orders o
+              JOIN order_items oi ON o.order_id = oi.order_id
+              GROUP BY o.customer_id
+          ) as customer_products ON customer_orders.customer_id = customer_products.customer_id
+          WHERE customer_orders.order_count > 3;</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Nested Subqueries in WHERE Clause
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Single value comparison
+          SELECT * FROM employees
+          WHERE salary > (SELECT AVG(salary) FROM employees);
+          
+          -- Multiple value comparison with IN
+          SELECT * FROM products
+          WHERE category_id IN (
+              SELECT category_id 
+              FROM categories 
+              WHERE category_name LIKE '%Electronics%'
+          );
+          
+          -- ANY/SOME operator (true if any comparison is true)
+          SELECT * FROM employees e
+          WHERE e.salary > ANY (
+              SELECT salary 
+              FROM employees 
+              WHERE department_id = 5
+          );
+          
+          -- ALL operator (true if all comparisons are true)
+          SELECT * FROM employees e
+          WHERE e.salary > ALL (
+              SELECT salary 
+              FROM employees 
+              WHERE department_id = 3
+          );
+          
+          -- Nested subqueries (multiple levels)
+          SELECT employee_id, first_name, salary
+          FROM employees
+          WHERE department_id IN (
+              SELECT dept_id
+              FROM departments
+              WHERE location_id IN (
+                  SELECT location_id
+                  FROM locations
+                  WHERE country = 'USA'
+              )
+          );
+          
+          -- Complex filtering
+          SELECT p.product_id, p.product_name
+          FROM products p
+          WHERE p.price > (
+              SELECT AVG(p2.price)
+              FROM products p2
+              WHERE p2.category_id = p.category_id
+          )
+          AND p.product_id NOT IN (
+              SELECT product_id
+              FROM order_items
+              WHERE order_id IN (
+                  SELECT order_id
+                  FROM orders
+                  WHERE order_date < DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+              )
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               EXISTS vs IN
+             </h4>
+             
+             <p style="line-height: 1.75; margin-top: 1rem;">
+               EXISTS and IN are both used to check for the existence of rows, but they work differently and have distinct performance characteristics.
+             </p>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- EXISTS: Checks for existence (returns TRUE/FALSE)
+          -- Stops searching once first match is found
+          SELECT c.customer_id, c.first_name, c.last_name
+          FROM customers c
+          WHERE EXISTS (
+              SELECT 1
+              FROM orders o
+              WHERE o.customer_id = c.customer_id
+              AND o.order_date > '2024-01-01'
+          );
+          
+          -- IN: Checks if value is in a list
+          -- Evaluates entire subquery first
+          SELECT c.customer_id, c.first_name, c.last_name
+          FROM customers c
+          WHERE c.customer_id IN (
+              SELECT o.customer_id
+              FROM orders o
+              WHERE o.order_date > '2024-01-01'
+          );
+          
+          -- NOT EXISTS: Find customers with no orders
+          SELECT c.customer_id, c.first_name, c.last_name
+          FROM customers c
+          WHERE NOT EXISTS (
+              SELECT 1
+              FROM orders o
+              WHERE o.customer_id = c.customer_id
+          );
+          
+          -- NOT IN: Be careful with NULLs!
+          -- If subquery contains NULL, NOT IN returns no rows
+          SELECT c.customer_id, c.first_name
+          FROM customers c
+          WHERE c.customer_id NOT IN (
+              SELECT customer_id
+              FROM orders
+              WHERE customer_id IS NOT NULL  -- Important!
+          );
+          
+          -- EXISTS with correlated subquery (common use case)
+          SELECT p.product_id, p.product_name
+          FROM products p
+          WHERE EXISTS (
+              SELECT 1
+              FROM order_items oi
+              WHERE oi.product_id = p.product_id
+              AND oi.quantity > 10
+          )
+          AND NOT EXISTS (
+              SELECT 1
+              FROM reviews r
+              WHERE r.product_id = p.product_id
+              AND r.rating < 3
+          );
+          
+          -- Performance comparison example
+          -- EXISTS - typically faster for large datasets
+          SELECT e.employee_id, e.first_name
+          FROM employees e
+          WHERE EXISTS (
+              SELECT 1
+              FROM projects p
+              WHERE p.manager_id = e.employee_id
+              AND p.status = 'active'
+          );
+          
+          -- IN - can be faster for small subquery results
+          SELECT e.employee_id, e.first_name
+          FROM employees e
+          WHERE e.department_id IN (
+              SELECT dept_id
+              FROM departments
+              WHERE location = 'New York'  -- Small result set
+          );</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Advanced Join Techniques
+             </h4>
+             
+             <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+                <pre><code>-- Self-join: Find employees and their managers
+          SELECT 
+              e.employee_id,
+              e.first_name as employee_name,
+              m.first_name as manager_name
+          FROM employees e
+          LEFT JOIN employees m ON e.manager_id = m.employee_id;
+          
+          -- Multiple joins with subqueries
+          SELECT 
+              c.customer_id,
+              c.first_name,
+              o.order_id,
+              o.total_amount,
+              order_stats.avg_order_value
+          FROM customers c
+          JOIN orders o ON c.customer_id = o.customer_id
+          JOIN (
+              SELECT customer_id, AVG(total_amount) as avg_order_value
+              FROM orders
+              GROUP BY customer_id
+          ) as order_stats ON c.customer_id = order_stats.customer_id
+          WHERE o.total_amount > order_stats.avg_order_value;
+          
+          -- Cross join with filtering
+          SELECT p1.product_name, p2.product_name as related_product
+          FROM products p1
+          CROSS JOIN products p2
+          WHERE p1.category_id = p2.category_id
+          AND p1.product_id < p2.product_id
+          AND ABS(p1.price - p2.price) < 10;
+          
+          -- Join with aggregated subquery
+          SELECT 
+              e.employee_id,
+              e.first_name,
+              e.salary,
+              dept_avg.avg_salary,
+              (e.salary - dept_avg.avg_salary) as diff
+          FROM employees e
+          JOIN (
+              SELECT department_id, AVG(salary) as avg_salary
+              FROM employees
+              GROUP BY department_id
+          ) as dept_avg ON e.department_id = dept_avg.department_id;</code></pre>
+             </div>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               Performance Considerations
+             </h4>
+             <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Correlated Subqueries:</span> Can be slow as they execute once per outer row. Consider JOINs or window functions as alternatives.
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">EXISTS vs IN:</span> EXISTS often faster for large datasets; IN better for small lists. EXISTS stops at first match.
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">NOT IN with NULLs:</span> Avoid NOT IN if subquery might contain NULLs. Use NOT EXISTS or LEFT JOIN with IS NULL instead.
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Derived Tables:</span> Can be optimized by database engine but may prevent index usage. Consider CTEs for readability.
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Index Usage:</span> Ensure columns used in subquery conditions are indexed for better performance.
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600; font-size: 1.1rem;">Alternatives:</span> Window functions, CTEs, and JOINs can often replace complex subqueries with better performance.
+               </li>
+             </ol>
+          
+             <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+               When to Use Each Technique
+             </h4>
+             <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">Correlated Subquery:</span> When you need row-by-row comparison with related data
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">SELECT Subquery:</span> For calculated columns or single values per row
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">FROM Subquery:</span> For multi-step transformations and complex aggregations
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">WHERE Subquery:</span> For filtering based on other table data
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">EXISTS:</span> For existence checks, especially with correlated conditions
+               </li>
+               <li style="margin-top: 0.5rem;">
+                <span style="font-weight: 600;">IN:</span> For simple list matching with small result sets
+               </li>
+             </ul>
+          </div>`,
+            examples: [
+              `-- Real-world e-commerce analytics example
+          -- Find high-value customers and their purchase patterns
+          
+          -- 1. Customer segmentation using multiple subqueries
+          SELECT 
+              c.customer_id,
+              c.first_name,
+              c.last_name,
+              customer_stats.total_orders,
+              customer_stats.total_spent,
+              customer_stats.avg_order_value,
+              customer_stats.days_since_last_order,
+              CASE 
+                  WHEN customer_stats.total_spent > 10000 THEN 'VIP'
+                  WHEN customer_stats.total_spent > 5000 THEN 'Premium'
+                  WHEN customer_stats.total_spent > 1000 THEN 'Regular'
+                  ELSE 'New'
+              END as customer_tier
+          FROM customers c
+          JOIN (
+              SELECT 
+                  o.customer_id,
+                  COUNT(*) as total_orders,
+                  SUM(o.total_amount) as total_spent,
+                  AVG(o.total_amount) as avg_order_value,
+                  DATEDIFF(CURDATE(), MAX(o.order_date)) as days_since_last_order
+              FROM orders o
+              WHERE o.status != 'cancelled'
+              GROUP BY o.customer_id
+          ) as customer_stats ON c.customer_id = customer_stats.customer_id
+          WHERE customer_stats.total_orders >= 3;
+          
+          -- 2. Find products that are frequently bought together
+          SELECT 
+              p1.product_name as product_1,
+              p2.product_name as product_2,
+              combo_stats.combo_count,
+              combo_stats.total_revenue
+          FROM (
+              SELECT 
+                  oi1.product_id as product_1_id,
+                  oi2.product_id as product_2_id,
+                  COUNT(*) as combo_count,
+                  SUM(oi1.subtotal + oi2.subtotal) as total_revenue
+              FROM order_items oi1
+              JOIN order_items oi2 ON oi1.order_id = oi2.order_id
+              WHERE oi1.product_id < oi2.product_id
+              GROUP BY oi1.product_id, oi2.product_id
+              HAVING COUNT(*) >= 5
+          ) as combo_stats
+          JOIN products p1 ON combo_stats.product_1_id = p1.product_id
+          JOIN products p2 ON combo_stats.product_2_id = p2.product_id
+          ORDER BY combo_stats.combo_count DESC
+          LIMIT 20;
+          
+          -- 3. Identify customers who haven't ordered recently but were previously active
+          SELECT 
+              c.customer_id,
+              c.first_name,
+              c.email,
+              past_stats.last_order_date,
+              past_stats.total_orders,
+              past_stats.lifetime_value,
+              DATEDIFF(CURDATE(), past_stats.last_order_date) as days_inactive
+          FROM customers c
+          JOIN (
+              SELECT 
+                  customer_id,
+                  MAX(order_date) as last_order_date,
+                  COUNT(*) as total_orders,
+                  SUM(total_amount) as lifetime_value
+              FROM orders
+              WHERE status != 'cancelled'
+              GROUP BY customer_id
+          ) as past_stats ON c.customer_id = past_stats.customer_id
+          WHERE past_stats.total_orders >= 5
+          AND DATEDIFF(CURDATE(), past_stats.last_order_date) > 90
+          AND NOT EXISTS (
+              SELECT 1
+              FROM orders o
+              WHERE o.customer_id = c.customer_id
+              AND o.order_date > DATE_SUB(CURDATE(), INTERVAL 3 MONTH)
+          );
+          
+          -- 4. Products with better performance than category average
+          SELECT 
+              p.product_id,
+              p.product_name,
+              c.category_name,
+              product_metrics.units_sold,
+              product_metrics.revenue,
+              product_metrics.avg_rating,
+              category_metrics.category_avg_sales,
+              category_metrics.category_avg_rating,
+              ((product_metrics.units_sold - category_metrics.category_avg_sales) / 
+               category_metrics.category_avg_sales * 100) as performance_vs_category
+          FROM products p
+          JOIN categories c ON p.category_id = c.category_id
+          JOIN (
+              SELECT 
+                  oi.product_id,
+                  SUM(oi.quantity) as units_sold,
+                  SUM(oi.subtotal) as revenue,
+                  (SELECT AVG(rating) FROM reviews r WHERE r.product_id = oi.product_id) as avg_rating
+              FROM order_items oi
+              JOIN orders o ON oi.order_id = o.order_id
+              WHERE o.order_date > DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+              GROUP BY oi.product_id
+          ) as product_metrics ON p.product_id = product_metrics.product_id
+          JOIN (
+              SELECT 
+                  p.category_id,
+                  AVG(units_sold) as category_avg_sales,
+                  AVG(avg_rating) as category_avg_rating
+              FROM (
+                  SELECT 
+                      p.product_id,
+                      p.category_id,
+                      SUM(oi.quantity) as units_sold,
+                      (SELECT AVG(rating) FROM reviews r WHERE r.product_id = p.product_id) as avg_rating
+                  FROM products p
+                  JOIN order_items oi ON p.product_id = oi.product_id
+                  JOIN orders o ON oi.order_id = o.order_id
+                  WHERE o.order_date > DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+                  GROUP BY p.product_id, p.category_id
+              ) as product_stats
+              GROUP BY category_id
+          ) as category_metrics ON p.category_id = category_metrics.category_id
+          WHERE product_metrics.units_sold > category_metrics.category_avg_sales
+          ORDER BY performance_vs_category DESC;
+          
+          -- 5. Customer cohort analysis using advanced subqueries
+          SELECT 
+              cohort_month,
+              COUNT(*) as customers_in_cohort,
+              SUM(CASE WHEN months_since_first = 0 THEN 1 ELSE 0 END) as month_0,
+              SUM(CASE WHEN months_since_first = 1 THEN 1 ELSE 0 END) as month_1,
+              SUM(CASE WHEN months_since_first = 2 THEN 1 ELSE 0 END) as month_2,
+              SUM(CASE WHEN months_since_first = 3 THEN 1 ELSE 0 END) as month_3
+          FROM (
+              SELECT 
+                  c.customer_id,
+                  DATE_FORMAT(first_order.first_order_date, '%Y-%m') as cohort_month,
+                  DATE_FORMAT(o.order_date, '%Y-%m') as order_month,
+                  PERIOD_DIFF(
+                      DATE_FORMAT(o.order_date, '%Y%m'),
+                      DATE_FORMAT(first_order.first_order_date, '%Y%m')
+                  ) as months_since_first
+              FROM customers c
+              JOIN (
+                  SELECT customer_id, MIN(order_date) as first_order_date
+                  FROM orders
+                  GROUP BY customer_id
+              ) as first_order ON c.customer_id = first_order.customer_id
+              JOIN orders o ON c.customer_id = o.customer_id
+              WHERE first_order.first_order_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+          ) as cohort_data
+          GROUP BY cohort_month
+          ORDER BY cohort_month;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between a correlated and non-correlated subquery?",
+                solution:
+                  "<p>The key differences are:</p><ul><li><strong>Non-correlated subquery:</strong> Independent of the outer query. Executes once and returns results that the outer query uses. Example: <code>SELECT * FROM employees WHERE salary > (SELECT AVG(salary) FROM employees)</code> - the subquery runs once.</li><li><strong>Correlated subquery:</strong> References columns from the outer query. Executes once for each row in the outer query. Example: <code>SELECT * FROM employees e WHERE salary > (SELECT AVG(salary) FROM employees e2 WHERE e2.department_id = e.department_id)</code> - the subquery runs for each employee.</li><li><strong>Performance:</strong> Non-correlated subqueries are usually faster since they execute only once. Correlated subqueries can be slow with large datasets.</li><li><strong>Use case:</strong> Use correlated when you need row-by-row comparisons with related data. Consider JOINs or window functions as alternatives for better performance.</li></ul>",
+              },
+              {
+                question: "When should you use EXISTS instead of IN, and why?",
+                solution:
+                  "<p>EXISTS is often preferable to IN for several reasons:</p><ul><li><strong>Performance with large datasets:</strong> EXISTS stops searching as soon as it finds the first match, while IN evaluates the entire subquery first. For large result sets, EXISTS is typically faster.</li><li><strong>NULL handling:</strong> NOT IN returns no rows if the subquery contains any NULL values, which can cause unexpected results. NOT EXISTS handles NULLs correctly.</li><li><strong>Correlated subqueries:</strong> EXISTS works naturally with correlated subqueries: <code>WHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id)</code></li><li><strong>Best practices:</strong> Use EXISTS for existence checks and large datasets. Use IN for small, known lists or when you need to match specific values: <code>WHERE status IN ('active', 'pending')</code></li></ul><pre><code>-- EXISTS (faster for large datasets)\nSELECT * FROM customers c\nWHERE EXISTS (SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id);\n\n-- IN (better for small lists)\nSELECT * FROM employees\nWHERE department_id IN (1, 2, 3);</code></pre>",
+              },
+              {
+                question: "How can you optimize a slow correlated subquery?",
+                solution:
+                  "<p>There are several strategies to optimize correlated subqueries:</p><ol><li><strong>Convert to JOIN:</strong> Often the best solution. Replace the correlated subquery with a JOIN and aggregation.</li><li><strong>Use window functions:</strong> For ranking, running totals, or comparisons within groups.</li><li><strong>Create indexes:</strong> Ensure columns used in the correlation are indexed.</li><li><strong>Use CTEs or derived tables:</strong> Pre-calculate values once instead of repeatedly.</li></ol><pre><code>-- SLOW: Correlated subquery\nSELECT e.employee_id, e.salary\nFROM employees e\nWHERE e.salary > (SELECT AVG(e2.salary) FROM employees e2 WHERE e2.dept_id = e.dept_id);\n\n-- FAST: Using JOIN\nSELECT e.employee_id, e.salary\nFROM employees e\nJOIN (SELECT dept_id, AVG(salary) as avg_sal FROM employees GROUP BY dept_id) d\n  ON e.dept_id = d.dept_id\nWHERE e.salary > d.avg_sal;\n\n-- FAST: Using window function\nSELECT employee_id, salary\nFROM (SELECT employee_id, salary, AVG(salary) OVER (PARTITION BY dept_id) as dept_avg FROM employees) t\nWHERE salary > dept_avg;</code></pre>",
+              },
+              {
+                question:
+                  "What are the risks of using subqueries in the SELECT clause?",
+                solution:
+                  "<p>Subqueries in the SELECT clause have several potential issues:</p><ul><li><strong>Performance:</strong> Each subquery executes once per row in the result set, which can be very slow for large datasets. A query with 3 subqueries on 10,000 rows means 30,000 subquery executions.</li><li><strong>Must return single value:</strong> SELECT subqueries must return exactly one row and one column, or you'll get an error.</li><li><strong>Hidden dependencies:</strong> The query may look simple but hide expensive operations.</li><li><strong>Better alternatives:</strong> Use JOINs with aggregation, window functions, or derived tables in FROM clause.</li></ul><pre><code>-- SLOW: Multiple subqueries in SELECT\nSELECT p.product_id,\n  (SELECT COUNT(*) FROM reviews WHERE product_id = p.product_id) as reviews,\n  (SELECT AVG(rating) FROM reviews WHERE product_id = p.product_id) as avg_rating\nFROM products p;\n\n-- BETTER: Single JOIN with aggregation\nSELECT p.product_id, COUNT(r.review_id) as reviews, AVG(r.rating) as avg_rating\nFROM products p\nLEFT JOIN reviews r ON p.product_id = r.product_id\nGROUP BY p.product_id;</code></pre>",
+              },
+            ],
+            links: [
+              "https://dev.mysql.com/doc/refman/8.0/en/subqueries.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/correlated-subqueries.html",
+              "https://www.postgresql.org/docs/current/functions-subquery.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/exists-and-not-exists-subqueries.html",
+            ],
+          },
+          {
+            topic: "Set Operations",
+            tags: ["Queries", "UNION", "INTERSECT", "EXCEPT", "Set Theory"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Set operations allow you to combine results from multiple SELECT statements using mathematical set theory principles. These operations treat query results as sets and perform operations like union, intersection, and difference to produce a final result set.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     UNION vs UNION ALL
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     UNION combines results from multiple queries and removes duplicates, while UNION ALL keeps all rows including duplicates. Understanding the difference is crucial for both correctness and performance.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- UNION: Removes duplicates (slower but ensures unique rows)
+SELECT product_id, product_name FROM products WHERE category_id = 1
+UNION
+SELECT product_id, product_name FROM products WHERE price > 100;
+
+-- UNION ALL: Keeps all rows including duplicates (faster)
+SELECT product_id, product_name FROM products WHERE category_id = 1
+UNION ALL
+SELECT product_id, product_name FROM products WHERE price > 100;
+
+-- Combining different tables
+SELECT employee_id, first_name, last_name, 'Employee' as type
+FROM employees
+UNION
+SELECT customer_id, first_name, last_name, 'Customer' as type
+FROM customers;
+
+-- Multiple UNION operations
+SELECT city FROM customers
+UNION
+SELECT city FROM suppliers
+UNION
+SELECT city FROM warehouses
+ORDER BY city;
+
+-- UNION with aggregations
+SELECT 'Q1' as quarter, SUM(total_amount) as revenue
+FROM orders
+WHERE order_date BETWEEN '2024-01-01' AND '2024-03-31'
+UNION ALL
+SELECT 'Q2', SUM(total_amount)
+FROM orders
+WHERE order_date BETWEEN '2024-04-01' AND '2024-06-30'
+UNION ALL
+SELECT 'Q3', SUM(total_amount)
+FROM orders
+WHERE order_date BETWEEN '2024-07-01' AND '2024-09-30'
+UNION ALL
+SELECT 'Q4', SUM(total_amount)
+FROM orders
+WHERE order_date BETWEEN '2024-10-01' AND '2024-12-31';
+
+-- UNION with calculated columns
+SELECT 
+    employee_id as id,
+    CONCAT(first_name, ' ', last_name) as full_name,
+    salary as amount,
+    'Salary' as transaction_type
+FROM employees
+UNION ALL
+SELECT 
+    order_id,
+    CONCAT('Order #', order_id),
+    total_amount,
+    'Revenue'
+FROM orders;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     UNION Requirements and Best Practices
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Requirements for UNION:
+-- 1. Same number of columns
+-- 2. Compatible data types
+-- 3. Column order matters (names can differ)
+
+-- CORRECT: Same structure
+SELECT product_id, product_name, price FROM products WHERE stock > 0
+UNION
+SELECT product_id, product_name, price FROM archived_products WHERE archived_date > '2023-01-01';
+
+-- INCORRECT: Different number of columns (will error)
+-- SELECT product_id, product_name FROM products
+-- UNION
+-- SELECT product_id, product_name, price FROM archived_products;
+
+-- Column names from first SELECT are used
+SELECT product_id as id, product_name as name FROM products
+UNION
+SELECT old_id, old_name FROM legacy_products;
+-- Result columns will be: id, name
+
+-- Using NULL for missing columns
+SELECT employee_id, first_name, last_name, department_id
+FROM employees
+UNION ALL
+SELECT contractor_id, first_name, last_name, NULL
+FROM contractors;
+
+-- Sorting UNION results (ORDER BY goes at the end)
+SELECT product_id, product_name, created_at FROM new_products
+UNION ALL
+SELECT product_id, product_name, created_at FROM old_products
+ORDER BY created_at DESC;  -- Applies to entire result
+
+-- Limiting UNION results
+(SELECT product_name FROM products WHERE category_id = 1 ORDER BY price DESC LIMIT 5)
+UNION ALL
+(SELECT product_name FROM products WHERE category_id = 2 ORDER BY price DESC LIMIT 5);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     INTERSECT
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     INTERSECT returns only rows that appear in both result sets. It's useful for finding common elements between two queries. Note: MySQL doesn't natively support INTERSECT, but you can achieve the same result with other methods.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- INTERSECT (PostgreSQL, SQL Server, Oracle)
+SELECT customer_id FROM customers WHERE city = 'New York'
+INTERSECT
+SELECT customer_id FROM orders WHERE order_date > '2024-01-01';
+-- Returns customers in New York who ordered after Jan 1, 2024
+
+-- Find products that are both popular and highly rated
+SELECT product_id FROM order_items 
+GROUP BY product_id 
+HAVING SUM(quantity) > 100
+INTERSECT
+SELECT product_id FROM reviews 
+GROUP BY product_id 
+HAVING AVG(rating) >= 4.5;
+
+-- Find employees in multiple departments (impossible but showing syntax)
+SELECT employee_id FROM employee_assignments WHERE department_id = 1
+INTERSECT
+SELECT employee_id FROM employee_assignments WHERE department_id = 2;
+
+-- MySQL alternative using INNER JOIN
+SELECT DISTINCT c.customer_id
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id
+WHERE c.city = 'New York' AND o.order_date > '2024-01-01';
+
+-- MySQL alternative using EXISTS
+SELECT customer_id 
+FROM customers 
+WHERE city = 'New York'
+AND EXISTS (
+    SELECT 1 FROM orders 
+    WHERE orders.customer_id = customers.customer_id 
+    AND order_date > '2024-01-01'
+);
+
+-- MySQL alternative using IN with subquery
+SELECT customer_id
+FROM customers
+WHERE city = 'New York'
+AND customer_id IN (
+    SELECT customer_id FROM orders WHERE order_date > '2024-01-01'
+);
+
+-- Complex INTERSECT example
+SELECT email FROM users WHERE account_type = 'premium'
+INTERSECT
+SELECT email FROM newsletter_subscribers WHERE active = TRUE
+INTERSECT
+SELECT email FROM customers WHERE total_purchases > 1000;
+-- Finds premium users who are active newsletter subscribers with high purchases</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     EXCEPT (MINUS)
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     EXCEPT returns rows from the first query that don't appear in the second query. It's called MINUS in Oracle. This operation is perfect for finding differences between sets.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- EXCEPT (PostgreSQL, SQL Server) / MINUS (Oracle)
+-- Find customers who haven't placed orders
+SELECT customer_id FROM customers
+EXCEPT
+SELECT customer_id FROM orders;
+
+-- Find products never ordered
+SELECT product_id FROM products
+EXCEPT
+SELECT DISTINCT product_id FROM order_items;
+
+-- Find employees not assigned to any project
+SELECT employee_id FROM employees
+EXCEPT
+SELECT DISTINCT employee_id FROM project_assignments;
+
+-- Find email addresses in database but not in mailing list
+SELECT email FROM customers
+EXCEPT
+SELECT email FROM mailing_list;
+
+-- Complex EXCEPT: Active users who haven't engaged recently
+SELECT user_id FROM users WHERE status = 'active'
+EXCEPT
+SELECT user_id FROM user_activity WHERE activity_date > DATE_SUB(CURDATE(), INTERVAL 30 DAY);
+
+-- MySQL alternative using LEFT JOIN with NULL check
+SELECT c.customer_id
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.customer_id IS NULL;
+
+-- MySQL alternative using NOT EXISTS
+SELECT customer_id
+FROM customers c
+WHERE NOT EXISTS (
+    SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id
+);
+
+-- MySQL alternative using NOT IN (careful with NULLs!)
+SELECT customer_id
+FROM customers
+WHERE customer_id NOT IN (
+    SELECT customer_id FROM orders WHERE customer_id IS NOT NULL
+);
+
+-- Multiple EXCEPT operations
+SELECT employee_id FROM all_employees
+EXCEPT
+SELECT employee_id FROM terminated_employees
+EXCEPT
+SELECT employee_id FROM on_leave_employees;
+-- Returns only active, working employees</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Combining Set Operations
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Combining UNION and EXCEPT
+-- Get all customers from NY or LA, but exclude those who ordered recently
+(
+    SELECT customer_id FROM customers WHERE city = 'New York'
+    UNION
+    SELECT customer_id FROM customers WHERE city = 'Los Angeles'
+)
+EXCEPT
+SELECT customer_id FROM orders WHERE order_date > DATE_SUB(CURDATE(), INTERVAL 30 DAY);
+
+-- Combining INTERSECT and UNION
+-- Premium users who are either active or have high value
+(
+    SELECT user_id FROM premium_users
+    INTERSECT
+    SELECT user_id FROM active_users
+)
+UNION
+(
+    SELECT user_id FROM premium_users
+    INTERSECT
+    SELECT user_id FROM high_value_users
+);
+
+-- Complex business logic with multiple set operations
+-- Find products that are either:
+-- 1. In stock and highly rated, OR
+-- 2. Pre-order items with reservations
+(
+    SELECT product_id FROM products WHERE stock_quantity > 0
+    INTERSECT
+    SELECT product_id FROM reviews GROUP BY product_id HAVING AVG(rating) >= 4.0
+)
+UNION ALL
+(
+    SELECT product_id FROM pre_orders
+    INTERSECT
+    SELECT product_id FROM reservations WHERE status = 'confirmed'
+);
+
+-- Parentheses for explicit precedence
+(
+    SELECT id FROM set_a
+    UNION
+    SELECT id FROM set_b
+)
+INTERSECT
+(
+    SELECT id FROM set_c
+    UNION
+    SELECT id FROM set_d
+);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Use Cases
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- 1. Creating comprehensive contact lists
+SELECT email, first_name, last_name, 'Customer' as source
+FROM customers
+UNION
+SELECT email, first_name, last_name, 'Employee'
+FROM employees
+UNION
+SELECT email, first_name, last_name, 'Supplier'
+FROM suppliers
+ORDER BY last_name, first_name;
+
+-- 2. Generating reports from multiple time periods
+SELECT 'This Month' as period, COUNT(*) as order_count, SUM(total_amount) as revenue
+FROM orders
+WHERE MONTH(order_date) = MONTH(CURRENT_DATE)
+UNION ALL
+SELECT 'Last Month', COUNT(*), SUM(total_amount)
+FROM orders
+WHERE MONTH(order_date) = MONTH(DATE_SUB(CURRENT_DATE, INTERVAL 1 MONTH))
+UNION ALL
+SELECT 'This Year', COUNT(*), SUM(total_amount)
+FROM orders
+WHERE YEAR(order_date) = YEAR(CURRENT_DATE);
+
+-- 3. Finding data inconsistencies
+-- Products in inventory but not in catalog
+SELECT sku FROM inventory
+EXCEPT
+SELECT sku FROM product_catalog;
+
+-- 4. Audience segmentation for marketing
+-- Get all potential targets (anyone who showed interest)
+SELECT email FROM newsletter_signups
+UNION
+SELECT email FROM abandoned_carts
+UNION
+SELECT email FROM product_waitlist
+-- But exclude existing customers and unsubscribers
+EXCEPT
+SELECT email FROM customers WHERE last_order_date > DATE_SUB(CURDATE(), INTERVAL 90 DAY)
+EXCEPT
+SELECT email FROM unsubscribed_emails;
+
+-- 5. Identifying VIP customers across multiple criteria
+-- Customers who meet ANY of these criteria
+SELECT customer_id, 'High Spender' as vip_reason
+FROM orders
+GROUP BY customer_id
+HAVING SUM(total_amount) > 10000
+UNION
+SELECT customer_id, 'Frequent Buyer'
+FROM orders
+GROUP BY customer_id
+HAVING COUNT(*) > 50
+UNION
+SELECT customer_id, 'Premium Member'
+FROM customer_memberships
+WHERE membership_level = 'premium';
+
+-- 6. Data migration validation
+-- Find records in old system not in new system
+SELECT record_id, record_data FROM legacy_system
+EXCEPT
+SELECT record_id, record_data FROM new_system;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Considerations
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">UNION vs UNION ALL:</span> UNION ALL is faster because it doesn't remove duplicates. Use UNION only when you need unique rows.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Sorting:</span> Place ORDER BY at the end of the entire set operation, not within individual queries (unless using parentheses).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Indexes:</span> Ensure columns used in WHERE clauses of each query are indexed for optimal performance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">INTERSECT/EXCEPT Alternatives:</span> In MySQL, JOINs or EXISTS might be faster than simulating these operations with subqueries.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Large Result Sets:</span> Set operations can be memory-intensive. Consider breaking complex operations into temporary tables.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Column Compatibility:</span> Use explicit casting when combining columns of different but compatible types to avoid implicit conversions.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Database-Specific Notes
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">MySQL:</span> Supports UNION and UNION ALL. Does NOT support INTERSECT or EXCEPT (use JOINs/subqueries instead).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">PostgreSQL:</span> Full support for UNION, INTERSECT, and EXCEPT. All set operations have ALL variants.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">SQL Server:</span> Full support for all set operations including UNION, INTERSECT, and EXCEPT.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Oracle:</span> Uses MINUS instead of EXCEPT. Otherwise full support for set operations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">SQLite:</span> Supports UNION, INTERSECT, and EXCEPT with full functionality.
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `-- Real-world e-commerce example: Customer segmentation and reporting
+
+-- 1. Comprehensive customer activity report
+-- Combine data from multiple sources to understand customer engagement
+
+SELECT 
+    'Active Buyer' as segment,
+    c.customer_id,
+    c.email,
+    c.first_name,
+    c.last_name,
+    COUNT(o.order_id) as order_count,
+    SUM(o.total_amount) as total_spent,
+    MAX(o.order_date) as last_activity
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_date > DATE_SUB(CURDATE(), INTERVAL 90 DAY)
+GROUP BY c.customer_id, c.email, c.first_name, c.last_name
+
+UNION ALL
+
+SELECT 
+    'Newsletter Only' as segment,
+    c.customer_id,
+    c.email,
+    c.first_name,
+    c.last_name,
+    0 as order_count,
+    0 as total_spent,
+    ns.subscribed_at as last_activity
+FROM customers c
+INNER JOIN newsletter_subscribers ns ON c.email = ns.email
+WHERE NOT EXISTS (
+    SELECT 1 FROM orders o 
+    WHERE o.customer_id = c.customer_id 
+    AND o.order_date > DATE_SUB(CURDATE(), INTERVAL 90 DAY)
+)
+
+UNION ALL
+
+SELECT 
+    'Cart Abandoner' as segment,
+    c.customer_id,
+    c.email,
+    c.first_name,
+    c.last_name,
+    0 as order_count,
+    ac.cart_value as total_spent,
+    ac.abandoned_at as last_activity
+FROM customers c
+INNER JOIN abandoned_carts ac ON c.customer_id = ac.customer_id
+WHERE ac.abandoned_at > DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+AND NOT EXISTS (
+    SELECT 1 FROM orders o 
+    WHERE o.customer_id = c.customer_id 
+    AND o.order_date > ac.abandoned_at
+)
+
+ORDER BY segment, total_spent DESC;
+
+-- 2. Product availability report across channels
+-- Show products available in-store, online, or both
+
+-- Products available both online and in-store
+SELECT 
+    p.product_id,
+    p.product_name,
+    'Both Channels' as availability,
+    op.online_stock + sp.store_stock as total_stock
+FROM products p
+INNER JOIN online_inventory op ON p.product_id = op.product_id
+INNER JOIN store_inventory sp ON p.product_id = sp.product_id
+WHERE op.online_stock > 0 AND sp.store_stock > 0
+
+UNION ALL
+
+-- Products only available online
+SELECT 
+    p.product_id,
+    p.product_name,
+    'Online Only' as availability,
+    op.online_stock as total_stock
+FROM products p
+INNER JOIN online_inventory op ON p.product_id = op.product_id
+WHERE op.online_stock > 0
+AND p.product_id NOT IN (
+    SELECT product_id FROM store_inventory WHERE store_stock > 0
+)
+
+UNION ALL
+
+-- Products only available in stores
+SELECT 
+    p.product_id,
+    p.product_name,
+    'Store Only' as availability,
+    sp.store_stock as total_stock
+FROM products p
+INNER JOIN store_inventory sp ON p.product_id = sp.product_id
+WHERE sp.store_stock > 0
+AND p.product_id NOT IN (
+    SELECT product_id FROM online_inventory WHERE online_stock > 0
+)
+
+ORDER BY availability, product_name;
+
+-- 3. Finding lost customers and win-back opportunities
+-- Customers who were active but haven't purchased recently
+
+-- Previously active customers (had 3+ orders)
+SELECT DISTINCT c.customer_id, c.email, c.first_name, c.last_name
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_date < DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+GROUP BY c.customer_id, c.email, c.first_name, c.last_name
+HAVING COUNT(o.order_id) >= 3
+
+-- Exclude customers with recent orders
+EXCEPT
+
+SELECT c.customer_id, c.email, c.first_name, c.last_name
+FROM customers c
+INNER JOIN orders o ON c.customer_id = o.customer_id
+WHERE o.order_date > DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+
+-- Exclude unsubscribed customers
+EXCEPT
+
+SELECT c.customer_id, c.email, c.first_name, c.last_name
+FROM customers c
+INNER JOIN email_unsubscribes u ON c.email = u.email;
+
+-- 4. Revenue analysis across multiple dimensions
+-- Quarterly comparison with year-over-year growth
+
+SELECT 
+    'Q1' as quarter,
+    YEAR(order_date) as year,
+    COUNT(*) as orders,
+    SUM(total_amount) as revenue,
+    AVG(total_amount) as avg_order_value
+FROM orders
+WHERE QUARTER(order_date) = 1
+GROUP BY YEAR(order_date)
+
+UNION ALL
+
+SELECT 
+    'Q2' as quarter,
+    YEAR(order_date) as year,
+    COUNT(*) as orders,
+    SUM(total_amount) as revenue,
+    AVG(total_amount) as avg_order_value
+FROM orders
+WHERE QUARTER(order_date) = 2
+GROUP BY YEAR(order_date)
+
+UNION ALL
+
+SELECT 
+    'Q3' as quarter,
+    YEAR(order_date) as year,
+    COUNT(*) as orders,
+    SUM(total_amount) as revenue,
+    AVG(total_amount) as avg_order_value
+FROM orders
+WHERE QUARTER(order_date) = 3
+GROUP BY YEAR(order_date)
+
+UNION ALL
+
+SELECT 
+    'Q4' as quarter,
+    YEAR(order_date) as year,
+    COUNT(*) as orders,
+    SUM(total_amount) as revenue,
+    AVG(total_amount) as avg_order_value
+FROM orders
+WHERE QUARTER(order_date) = 4
+GROUP BY YEAR(order_date)
+
+ORDER BY year, 
+    CASE quarter 
+        WHEN 'Q1' THEN 1 
+        WHEN 'Q2' THEN 2 
+        WHEN 'Q3' THEN 3 
+        WHEN 'Q4' THEN 4 
+    END;
+
+-- 5. Data quality check: Finding orphaned records
+-- Products, customers, or orders with referential integrity issues
+
+-- Find orphaned order items (order was deleted but items remain)
+SELECT 'Orphaned Order Items' as issue_type, 
+       oi.order_item_id as record_id,
+       CONCAT('Order ID: ', oi.order_id) as details
+FROM order_items oi
+WHERE oi.order_id NOT IN (SELECT order_id FROM orders WHERE order_id IS NOT NULL)
+
+UNION ALL
+
+-- Find orders with no items
+SELECT 'Orders Without Items' as issue_type,
+       o.order_id as record_id,
+       CONCAT('Customer: ', c.first_name, ' ', c.last_name) as details
+FROM orders o
+INNER JOIN customers c ON o.customer_id = c.customer_id
+WHERE o.order_id NOT IN (SELECT order_id FROM order_items WHERE order_id IS NOT NULL)
+
+UNION ALL
+
+-- Find products with no category
+SELECT 'Products Without Category' as issue_type,
+       p.product_id as record_id,
+       p.product_name as details
+FROM products p
+WHERE p.category_id IS NULL OR p.category_id NOT IN (SELECT category_id FROM categories)
+
+ORDER BY issue_type, record_id;`,
+            ],
+            questions: [
+              {
+                question: "When should you use UNION instead of UNION ALL?",
+                solution:
+                  "<p>Use UNION when you need to eliminate duplicate rows; use UNION ALL when you want to keep all rows including duplicates:</p><ul><li><strong>Use UNION when:</strong><ul><li>Combining data from different tables that might have overlapping records (e.g., combining customer lists from different regions where some customers exist in multiple regions)</li><li>You need guaranteed unique results for business logic reasons</li><li>The duplicate removal is part of your requirements</li></ul></li><li><strong>Use UNION ALL when:</strong><ul><li>You know there are no duplicates in the source data</li><li>Duplicates are acceptable or desired (e.g., creating transaction logs from multiple tables)</li><li>Performance is critical - UNION ALL is significantly faster as it skips the duplicate elimination step</li><li>Building reports where each query returns distinct categories (quarterly reports, etc.)</li></ul></li></ul><pre><code>-- UNION ALL: Faster, keeps duplicates - use for distinct data sources\nSELECT 'Q1' as quarter, SUM(revenue) FROM sales WHERE quarter = 1\nUNION ALL\nSELECT 'Q2', SUM(revenue) FROM sales WHERE quarter = 2;\n\n-- UNION: Slower, removes duplicates - use when overlap possible\nSELECT email FROM customers WHERE city = 'NYC'\nUNION\nSELECT email FROM customers WHERE state = 'NY';</code></pre>",
+              },
+              {
+                question:
+                  "How do you implement INTERSECT in MySQL since it's not supported?",
+                solution:
+                  "<p>MySQL doesn't natively support INTERSECT, but you can achieve the same result using several methods:</p><ol><li><strong>INNER JOIN method (most efficient):</strong></li></ol><pre><code>-- Find customers in NYC who placed orders in 2024\nSELECT DISTINCT c.customer_id\nFROM customers c\nINNER JOIN orders o ON c.customer_id = o.customer_id\nWHERE c.city = 'New York' AND YEAR(o.order_date) = 2024;</code></pre><ol start='2'><li><strong>EXISTS method (good for complex conditions):</strong></li></ol><pre><code>SELECT customer_id FROM customers WHERE city = 'New York'\nAND EXISTS (\n    SELECT 1 FROM orders \n    WHERE orders.customer_id = customers.customer_id \n    AND YEAR(order_date) = 2024\n);</code></pre><ol start='3'><li><strong>IN with subquery (simple but slower):</strong></li></ol><pre><code>SELECT customer_id FROM customers WHERE city = 'New York'\nAND customer_id IN (\n    SELECT customer_id FROM orders WHERE YEAR(order_date) = 2024\n);</code></pre><p>The INNER JOIN method is typically fastest and most readable for straightforward intersections.</p>",
+              },
+              {
+                question:
+                  "What are the common pitfalls when using EXCEPT (or NOT IN) and how do you avoid them?",
+                solution:
+                  "<p>The main pitfall with EXCEPT/NOT IN is NULL handling, which can cause unexpected results:</p><ul><li><strong>NOT IN with NULLs returns empty result:</strong> If the subquery contains any NULL values, NOT IN returns no rows because NULL comparisons are always UNKNOWN.</li></ul><pre><code>-- DANGEROUS: Returns no rows if any order has NULL customer_id\nSELECT customer_id FROM customers\nWHERE customer_id NOT IN (SELECT customer_id FROM orders);\n\n-- SAFE: Filter out NULLs explicitly\nSELECT customer_id FROM customers\nWHERE customer_id NOT IN (\n    SELECT customer_id FROM orders WHERE customer_id IS NOT NULL\n);</code></pre><ul><li><strong>Better alternatives to avoid NULL issues:</strong></li></ul><pre><code>-- Use NOT EXISTS (handles NULLs correctly)\nSELECT customer_id FROM customers c\nWHERE NOT EXISTS (\n    SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id\n);\n\n-- Use LEFT JOIN with NULL check\nSELECT c.customer_id\nFROM customers c\nLEFT JOIN orders o ON c.customer_id = o.customer_id\nWHERE o.customer_id IS NULL;</code></pre><p><strong>Best practice:</strong> Use NOT EXISTS or LEFT JOIN instead of NOT IN when there's any possibility of NULL values in your data.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Indexes & Performance",
+            tags: [
+              "Performance",
+              "Indexes",
+              "Optimization",
+              "Execution Plans",
+              "Query Tuning",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Indexes are database structures that improve the speed of data retrieval operations. They work like a book's index, allowing the database to find data without scanning every row. Understanding indexes and query execution is crucial for building high-performance database applications.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Indexes
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Different index types serve different purposes. Choosing the right index type can dramatically improve query performance, while the wrong choice can actually hurt performance or waste storage space.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- 1. CLUSTERED INDEX
+-- Determines physical order of data in table
+-- Only ONE per table (usually primary key)
+-- Table data IS the index (leaf nodes contain actual data)
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,  -- Automatically creates clustered index
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    email VARCHAR(100),
+    department_id INT,
+    salary DECIMAL(10,2),
+    hire_date DATE
+);
+
+-- Explicit clustered index creation (SQL Server)
+CREATE CLUSTERED INDEX idx_employee_id ON employees(employee_id);
+
+-- Range queries are fast with clustered indexes
+SELECT * FROM employees 
+WHERE employee_id BETWEEN 1000 AND 2000;  -- Very efficient
+
+-- 2. NON-CLUSTERED INDEX
+-- Separate structure from table data
+-- Contains index key + pointer to actual data
+-- Can have MULTIPLE per table
+
+-- Single column non-clustered index
+CREATE INDEX idx_email ON employees(email);
+
+-- Makes email lookups fast
+SELECT * FROM employees WHERE email = 'john.doe@company.com';
+
+-- Multiple non-clustered indexes on same table
+CREATE INDEX idx_department ON employees(department_id);
+CREATE INDEX idx_hire_date ON employees(hire_date);
+CREATE INDEX idx_last_name ON employees(last_name);
+
+-- 3. COMPOSITE (COMPOUND) INDEX
+-- Index on multiple columns
+-- Column order matters significantly!
+
+-- Composite index on last_name, first_name
+CREATE INDEX idx_name ON employees(last_name, first_name);
+
+-- Efficient: Uses index (left-most prefix rule)
+SELECT * FROM employees WHERE last_name = 'Smith';
+SELECT * FROM employees WHERE last_name = 'Smith' AND first_name = 'John';
+
+-- Inefficient: Doesn't use index (first_name alone not indexed)
+SELECT * FROM employees WHERE first_name = 'John';
+
+-- Best practice: Most selective column first
+CREATE INDEX idx_dept_salary ON employees(department_id, salary);
+
+-- 4. UNIQUE INDEX
+-- Ensures no duplicate values
+-- Automatically created for PRIMARY KEY and UNIQUE constraints
+
+CREATE UNIQUE INDEX idx_unique_email ON employees(email);
+
+-- Prevents duplicate emails
+-- INSERT INTO employees (email) VALUES ('duplicate@email.com');  -- Error if exists
+
+-- Unique composite index
+CREATE UNIQUE INDEX idx_unique_emp_dept ON employee_assignments(employee_id, department_id);
+
+-- 5. COVERING INDEX (INCLUDE columns)
+-- Non-clustered index that includes additional columns
+-- Allows index-only scans (doesn't need to look up table data)
+
+-- SQL Server syntax
+CREATE INDEX idx_dept_covering ON employees(department_id) 
+INCLUDE (first_name, last_name, salary);
+
+-- PostgreSQL syntax
+CREATE INDEX idx_dept_covering ON employees(department_id, first_name, last_name, salary);
+
+-- Query satisfied entirely by index (index-only scan)
+SELECT first_name, last_name, salary 
+FROM employees 
+WHERE department_id = 5;
+
+-- 6. FILTERED INDEX (Partial Index)
+-- Index on subset of rows based on WHERE condition
+-- Saves space and improves performance for specific queries
+
+-- SQL Server: Filtered index
+CREATE INDEX idx_active_employees ON employees(hire_date)
+WHERE status = 'active';
+
+-- PostgreSQL: Partial index
+CREATE INDEX idx_active_employees ON employees(hire_date)
+WHERE status = 'active';
+
+-- Only indexes active employees, making it smaller and faster
+SELECT * FROM employees WHERE status = 'active' AND hire_date > '2024-01-01';
+
+-- 7. FULL-TEXT INDEX
+-- Specialized for text search across large text fields
+-- Supports natural language queries
+
+-- MySQL
+CREATE FULLTEXT INDEX idx_product_description ON products(description);
+
+SELECT * FROM products 
+WHERE MATCH(description) AGAINST('wireless bluetooth headphones' IN NATURAL LANGUAGE MODE);
+
+-- 8. SPATIAL INDEX
+-- For geographic/spatial data (GIS applications)
+
+CREATE SPATIAL INDEX idx_location ON stores(location);
+
+-- Find stores within radius
+SELECT * FROM stores 
+WHERE ST_Distance_Sphere(location, POINT(-74.0060, 40.7128)) <= 5000;  -- 5km radius</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     How Indexes Improve Queries
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Indexes accelerate queries by reducing the amount of data the database must scan. Without an index, the database performs a full table scan, examining every row. With an index, it can quickly locate relevant data.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- WITHOUT INDEX: Full Table Scan
+-- Examines ALL rows in orders table (millions of rows)
+SELECT * FROM orders WHERE customer_id = 12345;
+-- Performance: O(n) - linear scan through entire table
+
+-- WITH INDEX: Index Seek
+CREATE INDEX idx_customer ON orders(customer_id);
+
+SELECT * FROM orders WHERE customer_id = 12345;
+-- Performance: O(log n) - logarithmic search through B-tree
+-- 1,000,000 rows: ~20 operations instead of 1,000,000
+
+-- How indexes help different operations:
+
+-- 1. WHERE clause filtering
+CREATE INDEX idx_status ON orders(status);
+SELECT * FROM orders WHERE status = 'pending';  -- Index seek
+
+-- 2. JOIN operations
+CREATE INDEX idx_product_id ON order_items(product_id);
+SELECT o.order_id, p.product_name
+FROM orders o
+JOIN order_items oi ON o.order_id = oi.order_id  -- Faster with index on oi.order_id
+JOIN products p ON oi.product_id = p.product_id;  -- Faster with index on p.product_id
+
+-- 3. ORDER BY clauses
+CREATE INDEX idx_order_date ON orders(order_date);
+SELECT * FROM orders ORDER BY order_date DESC;  -- Can use index for sorting
+
+-- 4. GROUP BY operations
+CREATE INDEX idx_customer_id ON orders(customer_id);
+SELECT customer_id, COUNT(*) 
+FROM orders 
+GROUP BY customer_id;  -- Index helps grouping
+
+-- 5. DISTINCT operations
+CREATE INDEX idx_city ON customers(city);
+SELECT DISTINCT city FROM customers;  -- Index scan faster than full table
+
+-- 6. MIN/MAX aggregate functions
+CREATE INDEX idx_price ON products(price);
+SELECT MIN(price), MAX(price) FROM products;  -- Index seeks to endpoints
+
+-- 7. EXISTS subqueries
+CREATE INDEX idx_customer_id ON orders(customer_id);
+SELECT * FROM customers c
+WHERE EXISTS (
+    SELECT 1 FROM orders o WHERE o.customer_id = c.customer_id
+);  -- Index on orders.customer_id speeds EXISTS check
+
+-- Query speed comparison:
+-- Table: 10,000,000 orders
+
+-- No index: ~45 seconds
+SELECT * FROM orders WHERE customer_id = 12345;
+
+-- With index: ~0.001 seconds (45,000x faster!)
+CREATE INDEX idx_customer ON orders(customer_id);
+SELECT * FROM orders WHERE customer_id = 12345;
+
+-- Composite index advantages:
+CREATE INDEX idx_customer_date ON orders(customer_id, order_date);
+
+-- Very fast: Uses entire index
+SELECT * FROM orders 
+WHERE customer_id = 12345 AND order_date > '2024-01-01';
+
+-- Still fast: Uses left portion of index
+SELECT * FROM orders WHERE customer_id = 12345;
+
+-- Slower: Cannot use index efficiently
+SELECT * FROM orders WHERE order_date > '2024-01-01';  -- order_date not first column</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Query Execution Plans
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Execution plans show how the database engine executes a query. They reveal whether indexes are used, how tables are joined, and where performance bottlenecks exist. Learning to read execution plans is essential for query optimization.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Viewing execution plans (syntax varies by database):
+
+-- MySQL
+EXPLAIN SELECT * FROM orders WHERE customer_id = 12345;
+EXPLAIN ANALYZE SELECT * FROM orders WHERE customer_id = 12345;  -- With actual timings
+
+-- PostgreSQL
+EXPLAIN SELECT * FROM orders WHERE customer_id = 12345;
+EXPLAIN ANALYZE SELECT * FROM orders WHERE customer_id = 12345;  -- With execution stats
+EXPLAIN (ANALYZE, BUFFERS) SELECT * FROM orders WHERE customer_id = 12345;  -- Detailed
+
+-- SQL Server
+SET SHOWPLAN_ALL ON;
+GO
+SELECT * FROM orders WHERE customer_id = 12345;
+GO
+SET SHOWPLAN_ALL OFF;
+GO
+
+-- Or use SQL Server Management Studio: Ctrl+L for estimated plan, Ctrl+M for actual
+
+-- Oracle
+EXPLAIN PLAN FOR SELECT * FROM orders WHERE customer_id = 12345;
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+-- Key execution plan concepts:
+
+-- 1. TABLE SCAN (bad for large tables)
+EXPLAIN SELECT * FROM orders WHERE status = 'pending';
+-- Result: "Table Scan" - reads entire table
+-- Solution: Add index on status column
+
+-- 2. INDEX SCAN vs INDEX SEEK
+CREATE INDEX idx_status ON orders(status);
+
+-- Index Seek (good): Goes directly to matching rows
+EXPLAIN SELECT * FROM orders WHERE status = 'pending';
+-- Result: "Index Seek" or "Index Range Scan"
+
+-- Index Scan (okay): Scans entire index (still faster than table scan)
+EXPLAIN SELECT status FROM orders;
+-- Result: "Index Scan" - reads all index entries
+
+-- 3. Understanding plan output:
+
+EXPLAIN ANALYZE 
+SELECT o.order_id, c.customer_name, SUM(oi.quantity * oi.unit_price) as total
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+WHERE o.order_date >= '2024-01-01'
+GROUP BY o.order_id, c.customer_name;
+
+-- Sample output interpretation:
+/*
+-> Nested Loop Join  (cost=1000 rows=500) (actual time=0.5..10.2 rows=523)
+   -> Index Range Scan on orders  (cost=100 rows=500) (actual time=0.1..2.1 rows=523)
+         Index: idx_order_date
+         Condition: order_date >= '2024-01-01'
+   -> Index Seek on customers  (cost=1.8 rows=1) (actual time=0.01..0.01 rows=1)
+         Index: PRIMARY
+         Condition: customer_id = o.customer_id
+-> Hash Aggregate  (cost=50 rows=500)
+   Group Key: order_id, customer_name
+*/
+
+-- Key metrics in execution plans:
+-- - Cost: Estimated resource usage (relative, not absolute)
+-- - Rows: Estimated vs actual number of rows
+-- - Time: Execution time for operation
+-- - Operation type: Scan, Seek, Join method
+
+-- 4. JOIN algorithms in execution plans:
+
+-- Nested Loop Join (good for small datasets, indexed columns)
+-- For each row in outer table, lookup matching rows in inner table
+SELECT * FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+WHERE o.order_id < 100;
+
+-- Hash Join (good for large datasets without indexes)
+-- Build hash table of smaller table, probe with larger table
+SELECT * FROM orders o
+JOIN order_items oi ON o.order_id = oi.order_id;
+
+-- Merge Join (good for sorted data, equality joins)
+-- Requires sorted inputs, efficient for large sorted datasets
+SELECT * FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+ORDER BY c.customer_id;
+
+-- 5. Identifying problems in execution plans:
+
+-- RED FLAGS:
+-- - Table Scan on large tables
+-- - High "cost" values
+-- - Large difference between estimated and actual rows
+-- - Missing indexes (shown as "no usable index")
+-- - Implicit conversions (different data types)
+-- - Nested loops with many iterations
+
+-- Example: Bad plan
+EXPLAIN SELECT * FROM orders 
+WHERE CAST(order_date AS CHAR) = '2024-01-15';
+-- Problem: CAST prevents index use, causes table scan
+-- Solution: Fix query to use date comparison directly
+
+-- 6. Optimizing based on execution plan:
+
+-- Before: Slow query with table scan
+EXPLAIN SELECT * FROM products WHERE LOWER(product_name) = 'laptop';
+-- Plan shows: Table Scan (expensive)
+
+-- Solution 1: Add computed column with index
+ALTER TABLE products ADD product_name_lower VARCHAR(255) 
+AS (LOWER(product_name)) STORED;
+CREATE INDEX idx_name_lower ON products(product_name_lower);
+
+-- Solution 2: Use full-text search
+CREATE FULLTEXT INDEX idx_name_fulltext ON products(product_name);
+SELECT * FROM products WHERE MATCH(product_name) AGAINST('laptop');
+
+-- 7. Analyzing subquery performance:
+
+-- Slow: Correlated subquery
+EXPLAIN SELECT c.customer_id, c.customer_name,
+    (SELECT COUNT(*) FROM orders o WHERE o.customer_id = c.customer_id) as order_count
+FROM customers c;
+-- Plan shows: Dependent Subquery executed for EACH customer (N+1 problem)
+
+-- Fast: JOIN with aggregation
+EXPLAIN SELECT c.customer_id, c.customer_name, COUNT(o.order_id) as order_count
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name;
+-- Plan shows: Single join with grouping (much faster)</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Index Best Practices and Strategies
+   </h4>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- 1. Index columns used in WHERE, JOIN, ORDER BY, GROUP BY
+CREATE INDEX idx_order_customer ON orders(customer_id);  -- JOIN condition
+CREATE INDEX idx_order_date ON orders(order_date);       -- WHERE and ORDER BY
+CREATE INDEX idx_order_status ON orders(status);         -- WHERE and GROUP BY
+
+-- 2. Composite index column order: Most selective first
+-- Bad: Low selectivity first
+CREATE INDEX idx_bad ON employees(department_id, employee_id);  -- dept has few values
+
+-- Good: High selectivity first
+CREATE INDEX idx_good ON employees(employee_id, department_id);  -- emp_id unique
+
+-- 3. Include frequently accessed columns in covering indexes
+CREATE INDEX idx_order_covering ON orders(customer_id, order_date) 
+INCLUDE (total_amount, status);
+
+-- This query uses index only (no table lookup needed)
+SELECT order_date, total_amount, status 
+FROM orders 
+WHERE customer_id = 12345;
+
+-- 4. Don't over-index: Each index has maintenance cost
+-- Indexes slow down INSERT, UPDATE, DELETE operations
+-- Balance read performance vs write performance
+
+-- Bad: Too many similar indexes
+CREATE INDEX idx1 ON orders(customer_id);
+CREATE INDEX idx2 ON orders(customer_id, order_date);
+CREATE INDEX idx3 ON orders(customer_id, status);
+-- These overlap! One composite index may suffice
+
+-- Better: Strategic composite index
+CREATE INDEX idx_customer_date_status ON orders(customer_id, order_date, status);
+
+-- 5. Drop unused indexes
+-- Find unused indexes (PostgreSQL)
+SELECT schemaname, tablename, indexname, idx_scan
+FROM pg_stat_user_indexes
+WHERE idx_scan = 0 AND indexrelname NOT LIKE 'pg_%';
+
+-- Drop unused index
+DROP INDEX idx_unused;
+
+-- 6. Rebuild fragmented indexes periodically
+-- SQL Server
+ALTER INDEX ALL ON orders REBUILD;
+
+-- MySQL
+OPTIMIZE TABLE orders;
+
+-- PostgreSQL
+REINDEX TABLE orders;
+
+-- 7. Use partial indexes for common filtered queries
+CREATE INDEX idx_pending_orders ON orders(order_date)
+WHERE status = 'pending';
+
+-- Very efficient for this specific query
+SELECT * FROM orders WHERE status = 'pending' AND order_date > '2024-01-01';
+
+-- 8. Avoid functions on indexed columns in WHERE
+-- Bad: Prevents index use
+SELECT * FROM orders WHERE YEAR(order_date) = 2024;
+
+-- Good: Index can be used
+SELECT * FROM orders WHERE order_date >= '2024-01-01' AND order_date < '2025-01-01';
+
+-- 9. Monitor index usage and performance
+-- SQL Server: sys.dm_db_index_usage_stats
+SELECT 
+    OBJECT_NAME(s.object_id) as table_name,
+    i.name as index_name,
+    s.user_seeks,
+    s.user_scans,
+    s.user_lookups,
+    s.user_updates
+FROM sys.dm_db_index_usage_stats s
+JOIN sys.indexes i ON s.object_id = i.object_id AND s.index_id = i.index_id;
+
+-- 10. Consider index hints when optimizer makes poor choices
+-- Use sparingly! Usually let optimizer decide.
+SELECT * FROM orders USE INDEX (idx_customer_date) 
+WHERE customer_id = 12345 AND order_date > '2024-01-01';</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Common Performance Pitfalls
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">SELECT * instead of specific columns:</span> Fetches unnecessary data and prevents covering index use. Always select only needed columns.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Functions on indexed columns:</span> WHERE YEAR(date_column) = 2024 prevents index use. Rewrite as range: date_column >= '2024-01-01' AND date_column < '2025-01-01'.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Implicit type conversions:</span> Comparing VARCHAR to INT forces conversion and table scan. Ensure data types match between columns and values.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">LIKE with leading wildcard:</span> WHERE name LIKE '%smith' cannot use index. Use full-text search or suffix trees for this pattern.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">OR conditions across columns:</span> WHERE col1 = 'A' OR col2 = 'B' may not use indexes efficiently. Consider UNION or restructuring.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">NOT IN with subqueries:</span> Often performs poorly. Use NOT EXISTS or LEFT JOIN with NULL check instead.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Missing indexes on foreign keys:</span> JOIN operations are slow without indexes on FK columns. Always index foreign keys.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Too many indexes:</span> Slows INSERT/UPDATE/DELETE operations. Each index must be maintained on writes.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Optimization Workflow
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Step 1:</span> Identify slow queries using slow query log or monitoring tools (queries taking >1 second).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Step 2:</span> Run EXPLAIN/EXPLAIN ANALYZE to see execution plan and identify bottlenecks.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Step 3:</span> Look for table scans, missing indexes, or inefficient join algorithms in the plan.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Step 4:</span> Add appropriate indexes or rewrite query to enable index usage.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Step 5:</span> Re-run EXPLAIN to verify improvement and compare estimated vs actual costs.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Step 6:</span> Test with production-like data volume to ensure optimization holds at scale.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Step 7:</span> Monitor query performance over time and adjust as data patterns change.
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `-- Real-world e-commerce example: Optimizing order queries with strategic indexing
+
+-- Scenario: E-commerce site with millions of orders
+-- Common queries are slow and causing customer complaints
+
+-- Initial table structure (no indexes except primary key)
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    order_date DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL,  -- 'pending', 'processing', 'shipped', 'delivered', 'cancelled'
+    total_amount DECIMAL(10,2) NOT NULL,
+    shipping_address_id INT,
+    payment_method VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Problem Query 1: Customer order history (runs on every customer profile page)
+-- Current performance: 8.5 seconds for customers with many orders
+EXPLAIN ANALYZE
+SELECT order_id, order_date, status, total_amount
+FROM orders
+WHERE customer_id = 12345
+ORDER BY order_date DESC;
+
+-- Execution plan shows:
+-- Table Scan: 10,000,000 rows examined
+-- Filesort: Sorting 2,847 result rows
+
+-- Solution: Add composite index for customer lookups with date sorting
+CREATE INDEX idx_customer_orders ON orders(customer_id, order_date DESC);
+
+-- After optimization: 0.003 seconds (2,800x faster!)
+EXPLAIN ANALYZE
+SELECT order_id, order_date, status, total_amount
+FROM orders
+WHERE customer_id = 12345
+ORDER BY order_date DESC;
+-- Now shows: Index Range Scan, no filesort needed
+
+-- Problem Query 2: Admin dashboard showing pending orders (runs every minute)
+-- Current performance: 12 seconds
+EXPLAIN ANALYZE
+SELECT order_id, customer_id, order_date, total_amount
+FROM orders
+WHERE status = 'pending'
+AND order_date >= DATE_SUB(NOW(), INTERVAL 7 DAY)
+ORDER BY order_date DESC;
+
+-- Execution plan shows:
+-- Table Scan with WHERE filter
+-- Examining all 10M rows to find ~5,000 pending orders
+
+-- Solution: Composite index on status and date
+CREATE INDEX idx_status_date ON orders(status, order_date DESC);
+
+-- After optimization: 0.015 seconds (800x faster!)
+-- Index Range Scan on status + date, no table access needed for sorting
+
+-- Problem Query 3: Revenue reporting by date range
+-- Current performance: 45 seconds for monthly reports
+EXPLAIN ANALYZE
+SELECT 
+    DATE(order_date) as day,
+    COUNT(*) as order_count,
+    SUM(total_amount) as daily_revenue,
+    AVG(total_amount) as avg_order_value
+FROM orders
+WHERE order_date >= '2024-01-01' 
+AND order_date < '2024-02-01'
+AND status IN ('delivered', 'shipped')
+GROUP BY DATE(order_date)
+ORDER BY day;
+
+-- Execution plan shows:
+-- Table Scan with complex WHERE filter
+-- Expensive DATE() function call on every row
+-- External sort for GROUP BY
+
+-- Solution: Covering index with included columns
+CREATE INDEX idx_reporting ON orders(order_date, status) 
+INCLUDE (total_amount);
+
+-- After optimization: 0.8 seconds (56x faster!)
+-- Index-only scan, no table access needed
+
+-- Problem Query 4: Join performance for order details with customer info
+-- Current performance: 35 seconds
+EXPLAIN ANALYZE
+SELECT 
+    o.order_id,
+    c.customer_name,
+    c.email,
+    o.order_date,
+    o.status,
+    o.total_amount
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+WHERE o.order_date >= '2024-01-01'
+AND o.status = 'delivered'
+ORDER BY o.order_date DESC
+LIMIT 100;
+
+-- Execution plan shows:
+-- Hash join with table scan on orders
+-- Index seek on customers (PRIMARY KEY)
+-- But orders table has no helpful index
+
+-- Solution: Index on orders for filtering + foreign key
+CREATE INDEX idx_order_details ON orders(order_date DESC, status, customer_id);
+
+-- After optimization: 0.02 seconds (1,750x faster!)
+-- Index Range Scan on orders, Nested Loop Join
+
+-- Problem Query 5: Customer lifetime value calculation
+-- Current performance: 180 seconds (times out!)
+EXPLAIN ANALYZE
+SELECT 
+    customer_id,
+    COUNT(*) as total_orders,
+    SUM(total_amount) as lifetime_value,
+    MAX(order_date) as last_order_date,
+    MIN(order_date) as first_order_date
+FROM orders
+WHERE status IN ('delivered', 'shipped')
+GROUP BY customer_id
+HAVING SUM(total_amount) > 1000
+ORDER BY lifetime_value DESC;
+
+-- Execution plan shows:
+-- Full Table Scan
+-- External merge sort for GROUP BY
+-- Having clause filter after aggregation
+
+-- Solution: Composite index optimized for this aggregation
+CREATE INDEX idx_customer_analytics ON orders(customer_id, status, order_date, total_amount);
+
+-- After optimization: 4.2 seconds (43x faster!)
+-- Index Range Scan with loose index scan for grouping
+
+-- Comprehensive indexing strategy for orders table:
+CREATE TABLE orders_optimized (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    order_date DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    shipping_address_id INT,
+    payment_method VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    
+    -- Index for customer order history
+    INDEX idx_customer_orders (customer_id, order_date DESC),
+    
+    -- Index for status-based queries and admin dashboards
+    INDEX idx_status_date (status, order_date DESC),
+    
+    -- Index for date range reporting
+    INDEX idx_date_status (order_date, status) INCLUDE (total_amount),
+    
+    -- Index for foreign key joins
+    INDEX idx_shipping_address (shipping_address_id)
+);
+
+-- Before optimization summary:
+-- Query 1 (Customer history): 8.5s
+-- Query 2 (Pending orders): 12s
+-- Query 3 (Revenue report): 45s
+-- Query 4 (Order details join): 35s
+-- Query 5 (Customer LTV): 180s (timeout)
+-- Total: 280.5 seconds for common operations
+
+-- After optimization summary:
+-- Query 1: 0.003s (2,833x faster)
+-- Query 2: 0.015s (800x faster)
+-- Query 3: 0.8s (56x faster)
+-- Query 4: 0.02s (1,750x faster)
+-- Query 5: 4.2s (43x faster)
+-- Total: 5.038 seconds (56x faster overall)
+
+-- Additional optimization: Partitioning for historical data
+-- For very large tables, partition by date to improve performance further
+CREATE TABLE orders_partitioned (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT NOT NULL,
+    order_date DATETIME NOT NULL,
+    status VARCHAR(20) NOT NULL,
+    total_amount DECIMAL(10,2) NOT NULL,
+    shipping_address_id INT,
+    payment_method VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)
+PARTITION BY RANGE (YEAR(order_date)) (
+    PARTITION p2022 VALUES LESS THAN (2023),
+    PARTITION p2023 VALUES LESS THAN (2024),
+    PARTITION p2024 VALUES LESS THAN (2025),
+    PARTITION p2025 VALUES LESS THAN (2026),
+    PARTITION pfuture VALUES LESS THAN MAXVALUE
+);
+
+-- Queries automatically use partition pruning
+SELECT * FROM orders_partitioned
+WHERE order_date >= '2024-01-01' AND order_date < '2024-12-31';
+-- Only scans p2024 partition, ignoring others`,
+            ],
+            questions: [
+              {
+                question:
+                  "What's the difference between a clustered and non-clustered index, and when would you use each?",
+                solution:
+                  "<p><strong>Clustered Index:</strong></p><ul><li>Determines the physical order of data in the table (table data IS the index)</li><li>Only ONE per table because data can only be sorted one way physically</li><li>Leaf nodes contain the actual data rows</li><li>Usually created on PRIMARY KEY by default</li><li>Best for: Range queries, sequential access, columns frequently used in ORDER BY</li></ul><pre><code>-- Clustered index on order_date\nCREATE CLUSTERED INDEX idx_order_date ON orders(order_date);\n\n-- Extremely fast for range queries\nSELECT * FROM orders \nWHERE order_date BETWEEN '2024-01-01' AND '2024-01-31';\n-- Data is physically ordered by date, so all January orders are together</code></pre><p><strong>Non-Clustered Index:</strong></p><ul><li>Separate structure from table data (like a book's index)</li><li>Can have MULTIPLE per table (up to hundreds, though not recommended)</li><li>Leaf nodes contain pointer to actual data row (or clustered index key)</li><li>Best for: Specific column lookups, covering queries, foreign keys</li></ul><pre><code>-- Non-clustered index on customer_id\nCREATE INDEX idx_customer ON orders(customer_id);\n\n-- Fast lookup via index, then access table data via pointer\nSELECT * FROM orders WHERE customer_id = 12345;</code></pre><p><strong>When to use each:</strong></p><ul><li><strong>Clustered:</strong> Use on your most frequently queried column for range searches. Primary keys are excellent candidates because they're unique and often used in joins.</li><li><strong>Non-Clustered:</strong> Create on foreign keys, frequently filtered columns, and any column used in WHERE, JOIN, or ORDER BY clauses. These supplement your clustered index.</li></ul>",
+              },
+              {
+                question:
+                  "How do you determine which columns should be indexed in a table?",
+                solution:
+                  "<p>Follow this systematic approach to identify columns that need indexing:</p><ol><li><strong>Columns in WHERE clauses:</strong> Any column frequently used for filtering should be indexed.</li></ol><pre><code>-- If this query runs often, index customer_id\nSELECT * FROM orders WHERE customer_id = 12345;</code></pre><ol start='2'><li><strong>Foreign key columns:</strong> Always index foreign keys used in JOINs.</li></ol><pre><code>-- Index customer_id in orders table for this join\nSELECT * FROM orders o\nJOIN customers c ON o.customer_id = c.customer_id;</code></pre><ol start='3'><li><strong>Columns in ORDER BY and GROUP BY:</strong> These operations benefit greatly from indexes.</li></ol><pre><code>-- Index order_date for sorting\nSELECT * FROM orders ORDER BY order_date DESC;</code></pre><ol start='4'><li><strong>High cardinality columns:</strong> Columns with many unique values (email, SSN) benefit more than low cardinality (gender, boolean).</li></ol><pre><code>-- Good: email has high cardinality\nCREATE INDEX idx_email ON users(email);\n\n-- Less useful: status has only 3-4 values\n-- Consider filtered index instead\nCREATE INDEX idx_active ON users(last_login) WHERE status = 'active';</code></pre><ol start='5'><li><strong>Composite indexes for common query patterns:</strong></li></ol><pre><code>-- If queries often filter by customer AND date together\nCREATE INDEX idx_customer_date ON orders(customer_id, order_date);</code></pre><p><strong>Don't index:</strong></p><ul><li>Small tables (< 1000 rows) - table scan is faster</li><li>Columns with low cardinality unless using filtered indexes</li><li>Columns rarely used in queries</li><li>Tables with high INSERT/UPDATE volume (indexes slow writes)</li></ul><p><strong>Analysis workflow:</strong></p><pre><code>-- 1. Identify slow queries\nSELECT query_time, sql_text FROM mysql.slow_log WHERE query_time > 1;\n\n-- 2. Check execution plan\nEXPLAIN SELECT * FROM orders WHERE status = 'pending';\n\n-- 3. Look for 'Table Scan' or 'ALL' in type column\n-- 4. Add index on filtered/joined columns\n-- 5. Verify improvement with EXPLAIN ANALYZE</code></pre>",
+              },
+              {
+                question:
+                  "Why might adding an index not improve query performance, or even make it worse?",
+                solution:
+                  "<p>Several scenarios where indexes don't help or can hurt performance:</p><ol><li><strong>Low cardinality columns:</strong> When a column has few distinct values, the index isn't selective enough.</li></ol><pre><code>-- Bad: gender column only has 2-3 values\nCREATE INDEX idx_gender ON users(gender);\nSELECT * FROM users WHERE gender = 'F';\n-- Might return 50% of rows - table scan could be faster!</code></pre><ol start='2'><li><strong>Small tables:</strong> For tables with few rows, table scan overhead is lower than index overhead.</li></ol><pre><code>-- Table with 100 rows doesn't need indexes\n-- Reading 100 rows sequentially is faster than index lookup</code></pre><ol start='3'><li><strong>Functions on indexed columns:</strong> Prevents index usage entirely.</li></ol><pre><code>-- Index on email exists but can't be used\nSELECT * FROM users WHERE LOWER(email) = 'test@example.com';\n\n-- Fix: Store lowercase version or use computed column\nCREATE INDEX idx_email_lower ON users((LOWER(email)));</code></pre><ol start='4'><li><strong>Data type mismatches:</strong> Causes implicit conversion and table scan.</li></ol><pre><code>-- customer_id is INT, but comparing to string\nSELECT * FROM orders WHERE customer_id = '12345';  -- Index not used!\n\n-- Fix: Use correct type\nSELECT * FROM orders WHERE customer_id = 12345;  -- Index used</code></pre><ol start='5'><li><strong>Leading wildcards in LIKE:</strong></li></ol><pre><code>-- Cannot use index\nSELECT * FROM products WHERE name LIKE '%laptop%';\n\n-- Can use index\nSELECT * FROM products WHERE name LIKE 'laptop%';</code></pre><ol start='6'><li><strong>OR conditions across different columns:</strong></li></ol><pre><code>-- May not use indexes efficiently\nSELECT * FROM products WHERE category = 'electronics' OR price > 1000;\n\n-- Better: Use UNION\nSELECT * FROM products WHERE category = 'electronics'\nUNION\nSELECT * FROM products WHERE price > 1000;</code></pre><ol start='7'><li><strong>Too many indexes slow writes:</strong> Each INSERT/UPDATE/DELETE must update all indexes.</li></ol><pre><code>-- Table with 15 indexes\n-- INSERT performance degraded by 10x\n-- Solution: Remove unused indexes, keep only essential ones</code></pre><ol start='8'><li><strong>Returning too many rows:</strong> If query returns >20% of table, full scan is often faster.</li></ol><pre><code>-- Returns 80% of orders - index lookup wasteful\nSELECT * FROM orders WHERE status != 'cancelled';\n-- Optimizer may choose table scan instead</code></pre><p><strong>How to verify:</strong></p><pre><code>-- Check if index is actually used\nEXPLAIN SELECT * FROM orders WHERE status = 'pending';\n-- Look for 'possible_keys' vs 'key' columns\n-- If index listed in possible_keys but not used in key, investigate why</code></pre>",
+              },
+            ],
+          },
+          {
+            topic: "Normalization & Schema Design",
+            tags: [
+              "Database Design",
+              "Normalization",
+              "Schema",
+              "Best Practices",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Normalization is the process of organizing database tables to minimize redundancy and dependency. Understanding normal forms and when to denormalize is crucial for designing efficient, maintainable database schemas that balance data integrity with performance requirements.
+   </p>
+   
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     First Normal Form (1NF)
+   </h4>
+ 
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A table is in 1NF if it contains only atomic (indivisible) values and each column contains values of a single type. No repeating groups or arrays are allowed.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- NOT in 1NF: Multiple phone numbers in one column
+CREATE TABLE customers_bad (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100),
+    phone_numbers VARCHAR(255)  -- '555-1234, 555-5678, 555-9012'
+);
+
+-- NOT in 1NF: Repeating groups
+CREATE TABLE orders_bad (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    product1 VARCHAR(100),
+    quantity1 INT,
+    product2 VARCHAR(100),
+    quantity2 INT,
+    product3 VARCHAR(100),
+    quantity3 INT
+);
+
+-- IN 1NF: Atomic values only
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    name VARCHAR(100)
+);
+
+CREATE TABLE customer_phones (
+    phone_id INT PRIMARY KEY,
+    customer_id INT,
+    phone_number VARCHAR(20),
+    phone_type VARCHAR(20),  -- 'mobile', 'home', 'work'
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- IN 1NF: No repeating groups
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE order_items (
+    order_item_id INT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Second Normal Form (2NF)
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A table is in 2NF if it is in 1NF and all non-key attributes are fully dependent on the entire primary key (no partial dependencies). This applies to tables with composite keys.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- NOT in 2NF: Partial dependency exists
+-- student_name depends only on student_id, not on the full key
+CREATE TABLE enrollments_bad (
+    student_id INT,
+    course_id INT,
+    student_name VARCHAR(100),  -- Depends only on student_id
+    student_email VARCHAR(100), -- Depends only on student_id
+    course_name VARCHAR(100),   -- Depends only on course_id
+    enrollment_date DATE,
+    grade VARCHAR(2),
+    PRIMARY KEY (student_id, course_id)
+);
+
+-- IN 2NF: Split into multiple tables
+CREATE TABLE students (
+    student_id INT PRIMARY KEY,
+    student_name VARCHAR(100),
+    student_email VARCHAR(100)
+);
+
+CREATE TABLE courses (
+    course_id INT PRIMARY KEY,
+    course_name VARCHAR(100),
+    course_credits INT
+);
+
+CREATE TABLE enrollments (
+    student_id INT,
+    course_id INT,
+    enrollment_date DATE,
+    grade VARCHAR(2),
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+-- Another example: Order items
+-- NOT in 2NF
+CREATE TABLE order_details_bad (
+    order_id INT,
+    product_id INT,
+    product_name VARCHAR(100),    -- Depends only on product_id
+    product_category VARCHAR(50), -- Depends only on product_id
+    quantity INT,
+    unit_price DECIMAL(10,2),
+    PRIMARY KEY (order_id, product_id)
+);
+
+-- IN 2NF
+CREATE TABLE products (
+    product_id INT PRIMARY KEY,
+    product_name VARCHAR(100),
+    product_category VARCHAR(50),
+    unit_price DECIMAL(10,2)
+);
+
+CREATE TABLE order_items (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price_at_purchase DECIMAL(10,2),  -- Snapshot of price
+    PRIMARY KEY (order_id, product_id),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Third Normal Form (3NF)
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A table is in 3NF if it is in 2NF and has no transitive dependencies (non-key attributes depending on other non-key attributes).
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- NOT in 3NF: Transitive dependency
+-- department_name and department_location depend on department_id
+-- which depends on employee_id (transitive)
+CREATE TABLE employees_bad (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(100),
+    department_id INT,
+    department_name VARCHAR(100),     -- Transitive dependency
+    department_location VARCHAR(100), -- Transitive dependency
+    salary DECIMAL(10,2)
+);
+
+-- IN 3NF: Remove transitive dependencies
+CREATE TABLE departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100),
+    department_location VARCHAR(100),
+    manager_id INT
+);
+
+CREATE TABLE employees (
+    employee_id INT PRIMARY KEY,
+    employee_name VARCHAR(100),
+    department_id INT,
+    salary DECIMAL(10,2),
+    hire_date DATE,
+    FOREIGN KEY (department_id) REFERENCES departments(department_id)
+);
+
+-- Another example: Customer orders
+-- NOT in 3NF
+CREATE TABLE orders_bad (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    customer_name VARCHAR(100),
+    customer_city VARCHAR(100),
+    customer_state VARCHAR(50),
+    state_tax_rate DECIMAL(5,4),  -- Depends on customer_state, not order_id
+    order_date DATE,
+    total_amount DECIMAL(10,2)
+);
+
+-- IN 3NF
+CREATE TABLE states (
+    state_code VARCHAR(2) PRIMARY KEY,
+    state_name VARCHAR(50),
+    tax_rate DECIMAL(5,4)
+);
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    customer_city VARCHAR(100),
+    state_code VARCHAR(2),
+    FOREIGN KEY (state_code) REFERENCES states(state_code)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Boyce-Codd Normal Form (BCNF)
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A table is in BCNF if it is in 3NF and every determinant is a candidate key. BCNF is a stricter version of 3NF that handles certain edge cases involving multiple overlapping candidate keys.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- NOT in BCNF: Violates BCNF but satisfies 3NF
+-- Each professor teaches only one subject, but multiple professors can teach same subject
+-- professor determines subject, but professor is not a candidate key
+CREATE TABLE teaching_assignments_bad (
+    student_id INT,
+    subject VARCHAR(100),
+    professor VARCHAR(100),
+    PRIMARY KEY (student_id, subject)
+    -- professor -> subject (professor determines subject)
+    -- but professor is not a candidate key
+);
+
+-- IN BCNF: Split to make all determinants candidate keys
+CREATE TABLE professors (
+    professor_id INT PRIMARY KEY,
+    professor_name VARCHAR(100),
+    subject VARCHAR(100),
+    UNIQUE (professor_name)
+);
+
+CREATE TABLE teaching_assignments (
+    student_id INT,
+    professor_id INT,
+    semester VARCHAR(20),
+    PRIMARY KEY (student_id, professor_id, semester),
+    FOREIGN KEY (professor_id) REFERENCES professors(professor_id)
+);
+
+-- Another example: Court bookings
+-- NOT in BCNF
+CREATE TABLE court_bookings_bad (
+    court_id INT,
+    booking_time TIME,
+    rate_type VARCHAR(20),  -- 'peak' or 'off-peak'
+    PRIMARY KEY (court_id, booking_time)
+    -- booking_time -> rate_type (time determines rate)
+    -- but booking_time is not a candidate key alone
+);
+
+-- IN BCNF
+CREATE TABLE rate_schedules (
+    time_slot_id INT PRIMARY KEY,
+    start_time TIME,
+    end_time TIME,
+    rate_type VARCHAR(20),
+    hourly_rate DECIMAL(6,2)
+);
+
+CREATE TABLE court_bookings (
+    booking_id INT PRIMARY KEY,
+    court_id INT,
+    time_slot_id INT,
+    booking_date DATE,
+    customer_id INT,
+    FOREIGN KEY (time_slot_id) REFERENCES rate_schedules(time_slot_id),
+    UNIQUE (court_id, booking_date, time_slot_id)
+);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Denormalization: When and Why
+   </h4>
+   
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Denormalization is the intentional introduction of redundancy to improve query performance. While normalization focuses on data integrity, denormalization trades some redundancy for speed.
+   </p>
+   
+   <div style="padding: 12px; border-radius: 8px; font-size: 14px; background-color: #f8f9fa; border: 1px solid #e9ecef;">
+      <pre><code>-- Scenario 1: Frequently accessed aggregated data
+-- Normalized version (requires JOIN and aggregation)
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    COUNT(o.order_id) as total_orders,
+    SUM(o.total_amount) as lifetime_value
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name;
+
+-- Denormalized: Add summary columns to customers table
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    email VARCHAR(100),
+    total_orders INT DEFAULT 0,          -- Denormalized
+    lifetime_value DECIMAL(12,2) DEFAULT 0,  -- Denormalized
+    last_order_date DATE,                -- Denormalized
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Update with triggers to maintain consistency
+CREATE TRIGGER update_customer_stats_after_order
+AFTER INSERT ON orders
+FOR EACH ROW
+BEGIN
+    UPDATE customers
+    SET total_orders = total_orders + 1,
+        lifetime_value = lifetime_value + NEW.total_amount,
+        last_order_date = NEW.order_date
+    WHERE customer_id = NEW.customer_id;
+END;
+
+-- Scenario 2: Avoid expensive JOINs for read-heavy operations
+-- Normalized version
+SELECT 
+    o.order_id,
+    o.order_date,
+    c.customer_name,
+    c.email,
+    c.city,
+    c.state
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id;
+
+-- Denormalized: Store frequently accessed customer data in orders
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    customer_name VARCHAR(100),  -- Denormalized
+    customer_email VARCHAR(100), -- Denormalized
+    order_date DATE,
+    total_amount DECIMAL(10,2),
+    status VARCHAR(20),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Scenario 3: Materialized views for complex analytics
+-- Create a denormalized table for reporting
+CREATE TABLE sales_summary_denorm (
+    summary_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_id INT,
+    product_name VARCHAR(100),      -- Denormalized
+    category_name VARCHAR(100),     -- Denormalized
+    year INT,
+    month INT,
+    total_quantity INT,
+    total_revenue DECIMAL(12,2),
+    avg_price DECIMAL(10,2),
+    updated_at TIMESTAMP,
+    INDEX idx_product_period (product_id, year, month)
+);
+
+-- Refresh periodically instead of calculating on every query
+-- Can use stored procedure or scheduled job
+CREATE PROCEDURE refresh_sales_summary()
+BEGIN
+    TRUNCATE TABLE sales_summary_denorm;
+    
+    INSERT INTO sales_summary_denorm 
+        (product_id, product_name, category_name, year, month, 
+         total_quantity, total_revenue, avg_price, updated_at)
+    SELECT 
+        p.product_id,
+        p.product_name,
+        c.category_name,
+        YEAR(o.order_date) as year,
+        MONTH(o.order_date) as month,
+        SUM(oi.quantity) as total_quantity,
+        SUM(oi.subtotal) as total_revenue,
+        AVG(oi.unit_price) as avg_price,
+        CURRENT_TIMESTAMP
+    FROM products p
+    JOIN categories c ON p.category_id = c.category_id
+    JOIN order_items oi ON p.product_id = oi.product_id
+    JOIN orders o ON oi.order_id = o.order_id
+    GROUP BY p.product_id, p.product_name, c.category_name, 
+             YEAR(o.order_date), MONTH(o.order_date);
+END;
+
+-- Scenario 4: Storing computed values
+-- Instead of calculating every time
+SELECT 
+    order_id,
+    SUM(quantity * unit_price) as order_total
+FROM order_items
+GROUP BY order_id;
+
+-- Store computed total in orders table
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    subtotal DECIMAL(10,2),      -- Denormalized
+    tax_amount DECIMAL(10,2),    -- Denormalized
+    shipping_cost DECIMAL(10,2), -- Denormalized
+    total_amount DECIMAL(10,2),  -- Denormalized (subtotal + tax + shipping)
+    status VARCHAR(20),
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+-- Scenario 5: Historical/snapshot data
+-- Store product price at time of purchase (not current price)
+CREATE TABLE order_items (
+    order_item_id INT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    product_name VARCHAR(100),   -- Snapshot at purchase time
+    quantity INT,
+    unit_price DECIMAL(10,2),    -- Price at purchase, not current price
+    subtotal DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Denormalize
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Read-Heavy Workloads:</span> When queries are far more frequent than updates, and JOIN operations are expensive.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance Requirements:</span> When query performance is critical and normalized queries are too slow even with proper indexing.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Aggregated Data:</span> For frequently accessed summary statistics that are expensive to calculate on-the-fly.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reporting/Analytics:</span> Data warehouses and OLAP systems often denormalize for complex analytical queries.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Historical Data:</span> Storing snapshots of data as it existed at a point in time (e.g., prices at purchase).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Caching Frequently Accessed Data:</span> Reduce need for complex JOINs across multiple tables.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Risks and Trade-offs of Denormalization
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Inconsistency:</span> Redundant data can become out of sync if not properly maintained with triggers or application logic.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Increased Storage:</span> More disk space required to store duplicate data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Complex Updates:</span> INSERT/UPDATE/DELETE operations become more complex and slower as multiple tables need updating.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Maintenance Burden:</span> Need triggers, stored procedures, or application code to maintain consistency.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Anomalies:</span> Potential for update, insertion, and deletion anomalies if not carefully managed.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Schema Design
+   </h4>
+   <ul style="margin-top: 1.5rem; margin-left: 1.5rem;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Start Normalized:</span> Begin with a fully normalized design (3NF/BCNF) to ensure data integrity
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Denormalize Strategically:</span> Only denormalize specific areas where performance testing shows clear benefits
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Document Decisions:</span> Clearly document why denormalization was chosen and how consistency is maintained
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Use Triggers/Procedures:</span> Implement triggers or stored procedures to maintain denormalized data consistency
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Consider Alternatives:</span> Before denormalizing, try indexes, query optimization, caching, or read replicas
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Monitor Performance:</span> Regularly measure and validate that denormalization provides expected benefits
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Separate OLTP and OLAP:</span> Keep transactional databases normalized; use denormalized data warehouses for analytics
+     </li>
+   </ul>
+</div>`,
+            examples: [
+              `-- Real-world e-commerce schema design example
+-- Demonstrates progression from normalized to strategically denormalized
+
+-- FULLY NORMALIZED SCHEMA (3NF/BCNF)
+-- Good for data integrity, may have performance issues
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE addresses (
+    address_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    address_line1 VARCHAR(100),
+    address_line2 VARCHAR(100),
+    city VARCHAR(50),
+    state_code VARCHAR(2),
+    postal_code VARCHAR(10),
+    country_code VARCHAR(2),
+    address_type ENUM('shipping', 'billing'),
+    is_default BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+
+CREATE TABLE categories (
+    category_id INT PRIMARY KEY AUTO_INCREMENT,
+    category_name VARCHAR(100),
+    parent_category_id INT,
+    FOREIGN KEY (parent_category_id) REFERENCES categories(category_id)
+);
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(200),
+    description TEXT,
+    category_id INT,
+    base_price DECIMAL(10,2),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled'),
+    shipping_address_id INT,
+    billing_address_id INT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    FOREIGN KEY (shipping_address_id) REFERENCES addresses(address_id),
+    FOREIGN KEY (billing_address_id) REFERENCES addresses(address_id)
+);
+
+CREATE TABLE order_items (
+    order_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+
+-- Problem: This query requires multiple JOINs and is slow
+SELECT 
+    o.order_id,
+    c.first_name,
+    c.last_name,
+    c.email,
+    p.product_name,
+    p.base_price,
+    oi.quantity,
+    (p.base_price * oi.quantity) as line_total,
+    cat.category_name
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+JOIN order_items oi ON o.order_id = oi.order_id
+JOIN products p ON oi.product_id = p.product_id
+JOIN categories cat ON p.category_id = cat.category_id
+WHERE o.order_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY);
+
+-- STRATEGICALLY DENORMALIZED SCHEMA
+-- Improves read performance while maintaining critical relationships
+
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    -- Denormalized for quick access
+    total_orders INT DEFAULT 0,
+    total_spent DECIMAL(12,2) DEFAULT 0,
+    average_order_value DECIMAL(10,2) DEFAULT 0,
+    last_order_date DATE,
+    customer_tier ENUM('bronze', 'silver', 'gold', 'platinum') DEFAULT 'bronze',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_tier (customer_tier),
+    INDEX idx_last_order (last_order_date)
+);
+
+CREATE TABLE products (
+    product_id INT PRIMARY KEY AUTO_INCREMENT,
+    product_name VARCHAR(200),
+    description TEXT,
+    category_id INT,
+    category_name VARCHAR(100),  -- Denormalized for quick access
+    base_price DECIMAL(10,2),
+    current_price DECIMAL(10,2),
+    -- Denormalized aggregates
+    total_sold INT DEFAULT 0,
+    revenue_generated DECIMAL(12,2) DEFAULT 0,
+    average_rating DECIMAL(3,2) DEFAULT 0,
+    review_count INT DEFAULT 0,
+    stock_quantity INT DEFAULT 0,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (category_id) REFERENCES categories(category_id),
+    INDEX idx_category (category_id),
+    INDEX idx_active_price (is_active, current_price)
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY AUTO_INCREMENT,
+    customer_id INT,
+    -- Denormalized customer info for quick access
+    customer_email VARCHAR(100),
+    customer_name VARCHAR(100),
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled'),
+    -- Denormalized calculations
+    subtotal DECIMAL(10,2),
+    tax_amount DECIMAL(10,2),
+    shipping_cost DECIMAL(10,2),
+    discount_amount DECIMAL(10,2),
+    total_amount DECIMAL(10,2),
+    item_count INT,
+    -- Address snapshots (historical data)
+    shipping_address TEXT,  -- JSON or formatted string
+    billing_address TEXT,
+    FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
+    INDEX idx_customer_date (customer_id, order_date),
+    INDEX idx_status_date (status, order_date),
+    INDEX idx_total (total_amount)
+);
+
+CREATE TABLE order_items (
+    order_item_id INT PRIMARY KEY AUTO_INCREMENT,
+    order_id INT,
+    product_id INT,
+    -- Snapshot data at time of purchase
+    product_name VARCHAR(200),
+    product_category VARCHAR(100),
+    unit_price DECIMAL(10,2),  -- Price at time of purchase
+    quantity INT,
+    subtotal DECIMAL(10,2),
+    discount_amount DECIMAL(10,2),
+    final_amount DECIMAL(10,2),
+    FOREIGN KEY (order_id) REFERENCES orders(order_id),
+    FOREIGN KEY (product_id) REFERENCES products(product_id),
+    INDEX idx_product (product_id)
+);
+
+-- Triggers to maintain denormalized data consistency
+
+DELIMITER //
+
+CREATE TRIGGER update_customer_stats
+AFTER INSERT ON orders
+FOR EACH ROW
+BEGIN
+    UPDATE customers
+    SET total_orders = total_orders + 1,
+        total_spent = total_spent + NEW.total_amount,
+        average_order_value = (total_spent + NEW.total_amount) / (total_orders + 1),
+        last_order_date = NEW.order_date,
+        customer_tier = CASE
+            WHEN (total_spent + NEW.total_amount) > 10000 THEN 'platinum'
+            WHEN (total_spent + NEW.total_amount) > 5000 THEN 'gold'
+            WHEN (total_spent + NEW.total_amount) > 1000 THEN 'silver'
+            ELSE 'bronze'
+        END
+    WHERE customer_id = NEW.customer_id;
+END//
+
+CREATE TRIGGER update_product_stats
+AFTER INSERT ON order_items
+FOR EACH ROW
+BEGIN
+    UPDATE products
+    SET total_sold = total_sold + NEW.quantity,
+        revenue_generated = revenue_generated + NEW.final_amount,
+        stock_quantity = stock_quantity - NEW.quantity
+    WHERE product_id = NEW.product_id;
+END//
+
+CREATE TRIGGER calculate_order_item_amounts
+BEFORE INSERT ON order_items
+FOR EACH ROW
+BEGIN
+    SET NEW.subtotal = NEW.quantity * NEW.unit_price;
+    SET NEW.final_amount = NEW.subtotal - NEW.discount_amount;
+END//
+
+DELIMITER ;
+
+-- Now queries are much faster with denormalized data
+
+-- Fast query without JOINs
+SELECT 
+    order_id,
+    customer_name,
+    customer_email,
+    order_date,
+    total_amount,
+    status
+FROM orders
+WHERE order_date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+ORDER BY order_date DESC;
+
+-- Quick customer analytics without aggregation
+SELECT 
+    customer_id,
+    customer_name,
+    customer_tier,
+    total_orders,
+    total_spent,
+    average_order_value,
+    last_order_date
+FROM customers
+WHERE customer_tier IN ('gold', 'platinum')
+AND last_order_date >= DATE_SUB(CURDATE(), INTERVAL 90 DAY)
+ORDER BY total_spent DESC;
+
+-- Product performance without complex aggregations
+SELECT 
+    product_id,
+    product_name,
+    category_name,
+    current_price,
+    total_sold,
+    revenue_generated,
+    average_rating,
+    review_count,
+    stock_quantity
+FROM products
+WHERE is_active = TRUE
+AND total_sold > 100
+ORDER BY revenue_generated DESC
+LIMIT 20;
+
+-- REPORTING/ANALYTICS DENORMALIZED TABLE
+-- Separate denormalized table for complex analytics
+
+CREATE TABLE daily_sales_summary (
+    summary_date DATE PRIMARY KEY,
+    total_orders INT,
+    total_revenue DECIMAL(12,2),
+    total_items_sold INT,
+    unique_customers INT,
+    new_customers INT,
+    average_order_value DECIMAL(10,2),
+    -- By category
+    electronics_revenue DECIMAL(12,2),
+    clothing_revenue DECIMAL(12,2),
+    home_revenue DECIMAL(12,2),
+    -- By customer tier
+    platinum_revenue DECIMAL(12,2),
+    gold_revenue DECIMAL(12,2),
+    silver_revenue DECIMAL(12,2),
+    bronze_revenue DECIMAL(12,2),
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Stored procedure to refresh analytics table
+CREATE PROCEDURE refresh_daily_sales_summary(IN target_date DATE)
+BEGIN
+    INSERT INTO daily_sales_summary 
+    (summary_date, total_orders, total_revenue, total_items_sold, 
+     unique_customers, new_customers, average_order_value,
+     electronics_revenue, clothing_revenue, home_revenue,
+     platinum_revenue, gold_revenue, silver_revenue, bronze_revenue)
+    SELECT 
+        target_date,
+        COUNT(DISTINCT o.order_id),
+        SUM(o.total_amount),
+        SUM(o.item_count),
+        COUNT(DISTINCT o.customer_id),
+        COUNT(DISTINCT CASE 
+            WHEN c.created_at >= target_date 
+            THEN o.customer_id 
+        END),
+        AVG(o.total_amount),
+        -- Category revenue
+        SUM(CASE WHEN oi.product_category = 'Electronics' 
+            THEN oi.final_amount ELSE 0 END),
+        SUM(CASE WHEN oi.product_category = 'Clothing' 
+            THEN oi.final_amount ELSE 0 END),
+        SUM(CASE WHEN oi.product_category = 'Home & Garden' 
+            THEN oi.final_amount ELSE 0 END),
+        -- Tier revenue
+        SUM(CASE WHEN c.customer_tier = 'platinum' 
+            THEN o.total_amount ELSE 0 END),
+        SUM(CASE WHEN c.customer_tier = 'gold' 
+            THEN o.total_amount ELSE 0 END),
+        SUM(CASE WHEN c.customer_tier = 'silver' 
+            THEN o.total_amount ELSE 0 END),
+        SUM(CASE WHEN c.customer_tier = 'bronze' 
+            THEN o.total_amount ELSE 0 END)
+    FROM orders o
+    JOIN customers c ON o.customer_id = c.customer_id
+    LEFT JOIN order_items oi ON o.order_id = oi.order_id
+    WHERE DATE(o.order_date) = target_date
+    ON DUPLICATE KEY UPDATE
+        total_orders = VALUES(total_orders),
+        total_revenue = VALUES(total_revenue),
+        total_items_sold = VALUES(total_items_sold),
+        unique_customers = VALUES(unique_customers),
+        new_customers = VALUES(new_customers),
+        average_order_value = VALUES(average_order_value),
+        electronics_revenue = VALUES(electronics_revenue),
+        clothing_revenue = VALUES(clothing_revenue),
+        home_revenue = VALUES(home_revenue),
+        platinum_revenue = VALUES(platinum_revenue),
+        gold_revenue = VALUES(gold_revenue),
+        silver_revenue = VALUES(silver_revenue),
+        bronze_revenue = VALUES(bronze_revenue);
+END;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the key differences between CTEs and temporary tables?",
+                solution:
+                  "<p><strong>CTEs (Common Table Expressions):</strong></p><ul><li>Exist only during query execution</li><li>Not materialized by default (may be re-executed)</li><li>Better for readability and recursive queries</li><li>No statistics collected</li><li>Cannot have indexes</li><li>Limited to single statement scope</li></ul><p><strong>Temporary Tables:</strong></p><ul><li>Physically stored in temp database</li><li>Persist for session or transaction</li><li>Can have indexes and constraints</li><li>Statistics are collected</li><li>Better for heavy reuse in complex queries</li><li>Can be shared across multiple statements</li></ul><p><strong>Rule of thumb:</strong> Use CTEs for query organization, use temp tables when you need to reference the data multiple times or benefit from indexing.</p>",
+              },
+              {
+                question:
+                  "When should you use recursive CTEs versus other hierarchical query methods?",
+                solution:
+                  "<p><strong>Use Recursive CTEs when:</strong></p><ul><li>You need to traverse trees or graphs of unknown depth</li><li>Database doesn't have built-in hierarchical functions</li><li>You need custom logic during traversal</li><li>You want to build paths or collect multiple levels</li></ul><p><strong>Consider alternatives when:</strong></p><ul><li>Fixed depth hierarchies (use multiple JOINs)</li><li>Very large datasets (consider closure tables)</li><li>Frequent hierarchical queries (consider nested sets)</li><li>Oracle databases (use CONNECT BY)</li><li>SQL Server (use hierarchyid data type)</li></ul><p><strong>Performance tip:</strong> Always include termination conditions and consider depth limits to prevent infinite recursion.</p>",
+              },
+              {
+                question:
+                  "What are the trade-offs of using materialized views?",
+                solution:
+                  "<p><strong>Advantages of Materialized Views:</strong></p><ul><li>Dramatically faster query performance</li><li>Reduce load on base tables</li><li>Precompute complex aggregations</li><li>Can be indexed for additional speed</li></ul><p><strong>Disadvantages and Considerations:</strong></p><ul><li>Data is not real-time (staleness)</li><li>Storage overhead</li><li>Refresh overhead (can be expensive)</li><li>May need complex refresh strategies</li><li>Application must handle potential inconsistencies</li></ul><p><strong>Best for:</strong> Reporting, dashboards, data that changes infrequently, complex aggregations on large datasets.</p><p><strong>Avoid for:</strong> Real-time transaction processing, frequently updated data, small datasets.</p>",
+              },
+              {
+                question:
+                  "How do you determine which indexes to create and which to drop?",
+                solution:
+                  "<p><strong>Create indexes for:</strong></p><ul><li>Columns in WHERE clauses with high selectivity</li><li>Foreign key columns</li><li>Columns in JOIN conditions</li><li>Columns in ORDER BY and GROUP BY</li><li>Frequently queried combinations (composite indexes)</li></ul><p><strong>Consider dropping indexes that:</strong></p><ul><li>Are never used (check usage statistics)</li><li>Have significant overlap with other indexes</li><li>Are on frequently updated tables causing write overhead</li><li>Are on small tables where sequential scan is faster</li></ul><p><strong>Monitoring:</strong> Regularly check index usage statistics, size, and maintenance overhead. Use EXPLAIN ANALYZE to verify index usage in query plans.</p>",
+              },
+              {
+                question:
+                  "What are the most common query performance anti-patterns and how to fix them?",
+                solution:
+                  "<p><strong>Common Anti-patterns and Solutions:</strong></p><ul><li><strong>N+1 Query Problem:</strong> Multiple round trips - Use JOINs or batch queries</li><li><strong>SELECT *:</strong> Unnecessary data transfer - Specify only needed columns</li><li><strong>Functions in WHERE clauses:</strong> Prevents index usage - Rewrite or use expression indexes</li><li><strong>Implicit type conversions:</strong> Inefficient comparisons - Ensure data types match</li><li><strong>Correlated subqueries:</strong> Executed repeatedly - Use JOINs or window functions</li><li><strong>Missing WHERE clauses:</strong> Full table scans - Always filter data early</li><li><strong>Over-normalization:</strong> Excessive JOINs - Consider denormalization for read-heavy workloads</li></ul><p><strong>Always:</strong> Use EXPLAIN ANALYZE, monitor slow queries, and test with realistic data volumes.</p>",
+              },
+            ],
+            links: [
+              "https://www.postgresql.org/docs/current/queries-with.html ",
+              "https://learn.microsoft.com/en-us/sql/t-sql/queries/with-common-table-expression-transact-sql?view=sql-server-ver16 ",
+              "https://dev.mysql.com/doc/refman/8.0/en/with.html ",
+              "https://www.postgresql.org/docs/current/rules-materializedviews.html ",
+              "https://use-the-index-luke.com/ ",
+            ],
+          },
+          {
+            "topic": "Transaction Control: BEGIN, COMMIT, ROLLBACK",
+            "tags": ["BEGIN TRANSACTION", "COMMIT", "ROLLBACK", "SAVEPOINT", "Transaction Control"],
+            "explanation": `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Transaction control statements are fundamental to maintaining data integrity in SQL databases. They allow you to group multiple operations into atomic units of work that either completely succeed or completely fail, ensuring database consistency.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create sample tables to demonstrate transaction control:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Banking System Tables:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+---------------+---------+---------------------+
+  | account_id | account_holder| balance | last_updated        |
+  +------------+---------------+---------+---------------------+
+  | 101        | John Doe      | 5000.00 | 2024-03-15 09:30:00 |
+  | 102        | Jane Smith    | 3000.00 | 2024-03-15 10:15:00 |
+  | 103        | Bob Johnson   | 7500.00 | 2024-03-15 11:45:00 |
+  +------------+---------------+---------+---------------------+
+  
+  +----------+------------+------------+--------+---------------------+-----------+
+  | order_id | customer_id| product_id | amount | order_date          | status    |
+  +----------+------------+------------+--------+---------------------+-----------+
+  | 1        | 101        | 1          | 250.00 | 2024-03-15 09:35:00 | COMPLETED |
+  | 2        | 102        | 2          | 150.00 | 2024-03-15 10:20:00 | PENDING   |
+  +----------+------------+------------+--------+---------------------+-----------+
+  
+  +-----------+-------------+---------------------+---------+
+  | audit_id  | table_name  | changed_at          | action  |
+  +-----------+-------------+---------------------+---------+
+  | 1         | accounts    | 2024-03-15 09:30:00 | UPDATE  |
+  +-----------+-------------+---------------------+---------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. BEGIN TRANSACTION - Starting a Transaction
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       The BEGIN TRANSACTION statement (or its equivalents) marks the start of an explicit transaction. All subsequent SQL statements become part of this transaction until it's either committed or rolled back.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Database-Specific BEGIN Syntax
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- SQL Server, MySQL, PostgreSQL (standard)
+  BEGIN TRANSACTION;
+  -- or
+  BEGIN;
+  
+  -- PostgreSQL alternative
+  START TRANSACTION;
+  
+  -- MySQL with additional options
+  START TRANSACTION READ WRITE;  -- Default: read/write transaction
+  START TRANSACTION READ ONLY;   -- Read-only transaction (optimizations)
+  
+  -- Oracle (different syntax)
+  SET TRANSACTION;
+  -- or implicitly with first DML statement
+  
+  -- Setting transaction characteristics
+  BEGIN TRANSACTION ISOLATION LEVEL SERIALIZABLE READ WRITE;
+  
+  -- PostgreSQL with multiple options
+  START TRANSACTION ISOLATION LEVEL REPEATABLE READ READ WRITE;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       BEGIN TRANSACTION Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Simple transaction start
+  BEGIN TRANSACTION;
+  
+  -- With explicit isolation level
+  BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED;
+  
+  -- PostgreSQL: Start transaction with multiple settings
+  START TRANSACTION 
+      ISOLATION LEVEL REPEATABLE READ 
+      READ WRITE 
+      DEFERRABLE;
+  
+  -- MySQL: Read-only transaction for reporting
+  START TRANSACTION READ ONLY;
+  
+  -- What happens when you begin a transaction:
+  -- 1. A transaction ID is assigned
+  -- 2. A transaction log is started
+  -- 3. Locks may be acquired as needed
+  -- 4. Changes are not visible to other sessions until committed
+  
+  -- Verify transaction status
+  -- PostgreSQL:
+  SELECT * FROM pg_stat_activity WHERE state = 'idle in transaction';
+  
+  -- SQL Server:
+  DBCC OPENTRAN;  -- Check for open transactions
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. COMMIT - Making Changes Permanent
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       The COMMIT statement permanently saves all changes made during the current transaction to the database. Once committed, changes become visible to other transactions and cannot be rolled back.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       COMMIT Syntax and Variations
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Standard COMMIT
+  COMMIT;
+  
+  -- Alternative syntaxes
+  COMMIT TRANSACTION;  -- SQL Server
+  COMMIT WORK;         -- Standard SQL, Oracle, PostgreSQL
+  
+  -- With additional options (Oracle)
+  COMMIT COMMENT 'Monthly salary processing';
+  COMMIT FORCE '123.456.789';  -- Force commit of in-doubt transaction
+  
+  -- What happens during COMMIT:
+  -- 1. All changes are written to the transaction log
+  -- 2. Locks are released
+  -- 3. Changes become visible to other transactions
+  -- 4. Transaction is marked as completed
+  -- 5. Resources are freed
+  
+  -- Example of a complete transaction
+  BEGIN TRANSACTION;
+  
+  UPDATE accounts SET balance = balance - 500.00 WHERE account_id = 101;
+  UPDATE accounts SET balance = balance + 500.00 WHERE account_id = 102;
+  INSERT INTO transactions (from_account, to_account, amount) 
+  VALUES (101, 102, 500.00);
+  
+  COMMIT;  -- All three operations are now permanent
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       COMMIT in Action - Real Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Example 1: Bank transfer with commit
+  BEGIN TRANSACTION;
+  
+  -- Check sufficient funds
+  DECLARE @current_balance DECIMAL(15,2);
+  SELECT @current_balance = balance FROM accounts WHERE account_id = 101;
+  
+  IF @current_balance >= 1000.00
+  BEGIN
+      -- Perform transfer
+      UPDATE accounts SET balance = balance - 1000.00 WHERE account_id = 101;
+      UPDATE accounts SET balance = balance + 1000.00 WHERE account_id = 103;
+      INSERT INTO transactions (from_account, to_account, amount) 
+      VALUES (101, 103, 1000.00);
+      
+      -- Log the operation
+      INSERT INTO audit_log (table_name, action, changed_by)
+      VALUES ('accounts', 'TRANSFER', CURRENT_USER);
+      
+      COMMIT TRANSACTION;
+      PRINT 'Transfer completed successfully';
+  END
+  ELSE
+  BEGIN
+      ROLLBACK TRANSACTION;
+      PRINT 'Insufficient funds';
+  END
+  
+  -- Example 2: Batch update with commit
+  BEGIN TRANSACTION;
+  
+  -- Update multiple records
+  UPDATE products SET price = price * 1.1 WHERE category = 'Electronics';
+  UPDATE inventory SET quantity = quantity - 10 WHERE product_id IN (
+      SELECT product_id FROM products WHERE category = 'Electronics'
+  );
+  
+  -- Verify business rules
+  IF EXISTS(SELECT 1 FROM inventory WHERE quantity < 0)
+  BEGIN
+      ROLLBACK TRANSACTION;
+      RAISERROR('Inventory would go negative', 16, 1);
+  END
+  ELSE
+  BEGIN
+      COMMIT TRANSACTION;
+      PRINT 'Price update completed';
+  END
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. ROLLBACK - Undoing Changes
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       The ROLLBACK statement undoes all changes made during the current transaction, restoring the database to its state before the transaction began. This is essential for error handling and maintaining data consistency.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       ROLLBACK Syntax and Usage
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Standard ROLLBACK
+  ROLLBACK;
+  
+  -- Alternative syntaxes
+  ROLLBACK TRANSACTION;  -- SQL Server
+  ROLLBACK WORK;         -- Standard SQL
+  
+  -- Rollback to savepoint (covered in next section)
+  ROLLBACK TO SAVEPOINT savepoint_name;
+  
+  -- What happens during ROLLBACK:
+  -- 1. All changes made in the transaction are undone
+  -- 2. Locks are released
+  -- 3. Transaction is aborted
+  -- 4. Database returns to state before transaction began
+  -- 5. No changes are visible to other transactions
+  
+  -- Example: Automatic rollback on error
+  BEGIN TRANSACTION;
+  
+  BEGIN TRY
+      UPDATE accounts SET balance = balance - 200.00 WHERE account_id = 101;
+      UPDATE accounts SET balance = balance + 200.00 WHERE account_id = 102;
+      
+      -- This will cause an error (division by zero)
+      DECLARE @test INT = 1/0;
+      
+      COMMIT TRANSACTION;
+  END TRY
+  BEGIN CATCH
+      ROLLBACK TRANSACTION;
+      PRINT 'Transaction rolled back due to error: ' + ERROR_MESSAGE();
+  END CATCH
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       ROLLBACK Scenarios and Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Scenario 1: Business rule violation
+  BEGIN TRANSACTION;
+  
+  -- Process order
+  UPDATE accounts SET balance = balance - 500.00 WHERE account_id = 101;
+  INSERT INTO orders (customer_id, product_id, amount, status)
+  VALUES (101, 5, 500.00, 'PROCESSING');
+  
+  -- Check business rule: minimum balance
+  IF (SELECT balance FROM accounts WHERE account_id = 101) < 100.00
+  BEGIN
+      ROLLBACK TRANSACTION;
+      PRINT 'Transaction cancelled: Minimum balance violation';
+  END
+  ELSE
+  BEGIN
+      COMMIT TRANSACTION;
+      PRINT 'Order processed successfully';
+  END
+  
+  -- Scenario 2: External system failure
+  BEGIN TRANSACTION;
+  
+  BEGIN TRY
+      -- Update local database
+      UPDATE inventory SET quantity = quantity - 5 WHERE product_id = 1;
+      
+      -- Call external payment service (simulated)
+      DECLARE @payment_result INT = dbo.ProcessPayment(101, 250.00);
+      
+      IF @payment_result != 0
+      BEGIN
+          RAISERROR('Payment processing failed', 16, 1);
+      END
+      
+      COMMIT TRANSACTION;
+      PRINT 'Inventory updated and payment processed';
+  END TRY
+  BEGIN CATCH
+      ROLLBACK TRANSACTION;
+      PRINT 'Transaction rolled back: ' + ERROR_MESSAGE();
+  END CATCH
+  
+  -- Scenario 3: Manual rollback in application
+  BEGIN TRANSACTION;
+  
+  -- User performs multiple operations
+  UPDATE accounts SET balance = balance - 300.00 WHERE account_id = 101;
+  INSERT INTO orders (customer_id, product_id, amount) 
+  VALUES (101, 3, 300.00);
+  
+  -- User clicks "Cancel" button
+  ROLLBACK TRANSACTION;  -- All changes are undone
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       4. SAVEPOINT - Partial Rollbacks
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       SAVEPOINT allows you to set intermediate points within a transaction that you can roll back to, without affecting the entire transaction. This enables partial undo operations within a larger transaction.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       SAVEPOINT Syntax and Usage
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Create a savepoint
+  SAVEPOINT savepoint_name;
+  
+  -- Rollback to a savepoint
+  ROLLBACK TO SAVEPOINT savepoint_name;
+  
+  -- Release a savepoint (not always necessary)
+  RELEASE SAVEPOINT savepoint_name;
+  
+  -- Database support:
+  -- PostgreSQL: Full support
+  -- Oracle: Full support  
+  -- MySQL: Supported in InnoDB
+  -- SQL Server: Uses named transactions with SAVE TRANSACTION
+  
+  -- SQL Server syntax (different)
+  SAVE TRANSACTION savepoint_name;
+  ROLLBACK TRANSACTION savepoint_name;
+  
+  -- Example: Complex business process with savepoints
+  BEGIN TRANSACTION;
+  
+  -- Initial setup
+  UPDATE config SET value = 'PROCESSING' WHERE name = 'batch_status';
+  SAVEPOINT after_config;
+  
+  -- Process phase 1
+  UPDATE accounts SET balance = balance * 1.05 WHERE account_type = 'SAVINGS';
+  SAVEPOINT after_interest;
+  
+  -- Process phase 2
+  UPDATE accounts SET balance = balance - 10.00 WHERE balance > 1000.00;
+  SAVEPOINT after_fees;
+  
+  -- Check if any accounts went negative
+  IF EXISTS(SELECT 1 FROM accounts WHERE balance < 0)
+  BEGIN
+      -- Rollback only the fees, keep interest
+      ROLLBACK TO SAVEPOINT after_interest;
+      PRINT 'Fees rolled back due to negative balances';
+  END
+  
+  -- Continue or commit
+  COMMIT TRANSACTION;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Advanced SAVEPOINT Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Example 1: Multi-step order processing with error recovery
+  BEGIN TRANSACTION;
+  
+  SAVEPOINT start_order;
+  
+  -- Step 1: Reserve inventory
+  UPDATE inventory SET reserved = reserved + 1 
+  WHERE product_id = 5 AND (quantity - reserved) >= 1;
+  
+  IF NOT FOUND THEN
+      ROLLBACK TO SAVEPOINT start_order;
+      RAISE EXCEPTION 'Insufficient inventory';
+  END IF;
+  
+  SAVEPOINT inventory_reserved;
+  
+  -- Step 2: Process payment
+  UPDATE accounts SET balance = balance - 250.00 
+  WHERE account_id = 101 AND balance >= 250.00;
+  
+  IF NOT FOUND THEN
+      ROLLBACK TO SAVEPOINT start_order;
+      RAISE EXCEPTION 'Insufficient funds';
+  END IF;
+  
+  SAVEPOINT payment_processed;
+  
+  -- Step 3: Create order record
+  INSERT INTO orders (customer_id, product_id, amount, status)
+  VALUES (101, 5, 250.00, 'CONFIRMED');
+  
+  -- All steps successful
+  COMMIT;
+  
+  -- Example 2: Nested savepoints for complex workflows
+  BEGIN TRANSACTION;
+  
+  SAVEPOINT main_process;
+  
+  -- Sub-process A
+  SAVEPOINT subprocess_a;
+  UPDATE table_a SET status = 'PROCESSING';
+  -- ... more operations for A
+  RELEASE SAVEPOINT subprocess_a;
+  
+  -- Sub-process B  
+  SAVEPOINT subprocess_b;
+  UPDATE table_b SET value = value * 1.1;
+  -- If this fails, we can rollback just subprocess B
+  IF some_condition THEN
+      ROLLBACK TO SAVEPOINT subprocess_b;
+      -- subprocess A changes are preserved
+  END IF;
+  
+  COMMIT;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       5. Auto-commit vs Explicit Transactions
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Understanding the difference between auto-commit mode and explicit transaction mode is crucial for proper transaction management.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Auto-commit Mode
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Auto-commit is the default in most databases
+  -- Each statement is automatically committed as a separate transaction
+  
+  -- Example: Three separate transactions
+  UPDATE accounts SET balance = 5000.00 WHERE account_id = 101; -- Transaction 1
+  UPDATE accounts SET balance = 3000.00 WHERE account_id = 102; -- Transaction 2  
+  INSERT INTO audit_log (message) VALUES ('Balance updates');   -- Transaction 3
+  
+  -- If the second update fails, the first update is already committed
+  -- This can lead to inconsistent states
+  
+  -- Checking auto-commit status
+  -- MySQL:
+  SELECT @@autocommit;  -- 1 = enabled, 0 = disabled
+  
+  -- PostgreSQL:
+  \echo :AUTOCOMMIT    -- Shows current setting
+  
+  -- SQL Server:
+  -- Auto-commit is always on unless explicit transaction started
+  
+  -- Disabling auto-commit
+  -- MySQL:
+  SET autocommit = 0;
+  
+  -- PostgreSQL:
+  \set AUTOCOMMIT off
+  
+  -- SQL Server:
+  SET IMPLICIT_TRANSACTIONS ON;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Explicit Transaction Mode
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Explicit transactions group multiple statements
+  BEGIN TRANSACTION;
+  
+  UPDATE accounts SET balance = balance - 200.00 WHERE account_id = 101;
+  UPDATE accounts SET balance = balance + 200.00 WHERE account_id = 102;
+  
+  -- Both updates succeed or fail together
+  COMMIT;
+  
+  -- Benefits of explicit transactions:
+  -- 1. Atomicity: All operations succeed or fail together
+  -- 2. Consistency: Database remains in valid state
+  -- 3. Performance: Reduced overhead from multiple commits
+  -- 4. Control: Precise control over when changes become visible
+  
+  -- When to use explicit transactions:
+  -- * Financial operations (transfers, payments)
+  -- * Batch processing
+  -- * Complex business processes
+  -- * Operations requiring multiple table updates
+  -- * Scenarios where consistency is critical
+  
+  -- When auto-commit is sufficient:
+  -- * Simple single-statement operations
+  -- * Reporting queries
+  -- * Data exploration
+  -- * Non-critical updates
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       6. Real-World Transaction Patterns
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Pattern 1: Bank Transfer with Comprehensive Error Handling
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  CREATE OR REPLACE FUNCTION bank_transfer(
+      from_account_id INT,
+      to_account_id INT,
+      amount DECIMAL(15,2)
+  ) RETURNS TEXT AS $$
+  DECLARE
+      from_balance DECIMAL(15,2);
+      to_account_exists BOOLEAN;
+  BEGIN
+      -- Start explicit transaction
+      BEGIN
+          -- Set isolation level
+          SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+          
+          -- Check sender account and balance with lock
+          SELECT balance INTO from_balance 
+          FROM accounts 
+          WHERE account_id = from_account_id 
+          FOR UPDATE;
+          
+          IF NOT FOUND THEN
+              ROLLBACK;
+              RETURN 'ERROR: Sender account not found';
+          END IF;
+          
+          -- Check sufficient funds
+          IF from_balance < amount THEN
+              ROLLBACK;
+              RETURN 'ERROR: Insufficient funds';
+          END IF;
+          
+          -- Check recipient account exists
+          SELECT EXISTS(
+              SELECT 1 FROM accounts WHERE account_id = to_account_id
+          ) INTO to_account_exists;
+          
+          IF NOT to_account_exists THEN
+              ROLLBACK;
+              RETURN 'ERROR: Recipient account not found';
+          END IF;
+          
+          -- Perform the transfer
+          UPDATE accounts 
+          SET balance = balance - amount 
+          WHERE account_id = from_account_id;
+          
+          UPDATE accounts 
+          SET balance = balance + amount 
+          WHERE account_id = to_account_id;
+          
+          -- Record transaction
+          INSERT INTO transactions (from_account, to_account, amount, trans_type)
+          VALUES (from_account_id, to_account_id, amount, 'TRANSFER');
+          
+          -- Log the operation
+          INSERT INTO audit_log (table_name, action, details)
+          VALUES ('accounts', 'TRANSFER', 
+                  format('Transfer %s from %s to %s', amount, from_account_id, to_account_id));
+          
+          -- Success - commit all changes
+          COMMIT;
+          RETURN 'SUCCESS: Transfer completed';
+          
+      EXCEPTION
+          WHEN OTHERS THEN
+              -- Any error - rollback everything
+              ROLLBACK;
+              RETURN 'ERROR: ' || SQLERRM;
+      END;
+  END;
+  $$ LANGUAGE plpgsql;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Pattern 2: Order Processing with Inventory Management
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Complex order processing with multiple savepoints
+  CREATE OR REPLACE FUNCTION process_order(
+      p_customer_id INT,
+      p_product_id INT,
+      p_quantity INT
+  ) RETURNS TEXT AS $$
+  DECLARE
+      v_available_stock INT;
+      v_product_price DECIMAL(10,2);
+      v_total_amount DECIMAL(10,2);
+      v_customer_balance DECIMAL(15,2);
+  BEGIN
+      BEGIN
+          SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+          
+          SAVEPOINT start_order;
+          
+          -- Step 1: Check product availability and price
+          SELECT quantity, price INTO v_available_stock, v_product_price
+          FROM inventory i
+          JOIN products p ON i.product_id = p.product_id
+          WHERE i.product_id = p_product_id
+          FOR UPDATE;  -- Lock the inventory row
+          
+          IF NOT FOUND THEN
+              ROLLBACK TO SAVEPOINT start_order;
+              RETURN 'ERROR: Product not found';
+          END IF;
+          
+          IF v_available_stock < p_quantity THEN
+              ROLLBACK TO SAVEPOINT start_order;
+              RETURN 'ERROR: Insufficient stock';
+          END IF;
+          
+          v_total_amount := p_quantity * v_product_price;
+          SAVEPOINT product_verified;
+          
+          -- Step 2: Check customer balance
+          SELECT balance INTO v_customer_balance
+          FROM accounts 
+          WHERE account_id = p_customer_id
+          FOR UPDATE;
+          
+          IF NOT FOUND THEN
+              ROLLBACK TO SAVEPOINT start_order;
+              RETURN 'ERROR: Customer account not found';
+          END IF;
+          
+          IF v_customer_balance < v_total_amount THEN
+              ROLLBACK TO SAVEPOINT start_order;
+              RETURN 'ERROR: Insufficient funds';
+          END IF;
+          
+          SAVEPOINT balance_verified;
+          
+          -- Step 3: Update inventory
+          UPDATE inventory 
+          SET quantity = quantity - p_quantity
+          WHERE product_id = p_product_id;
+          
+          SAVEPOINT inventory_updated;
+          
+          -- Step 4: Deduct payment
+          UPDATE accounts 
+          SET balance = balance - v_total_amount
+          WHERE account_id = p_customer_id;
+          
+          SAVEPOINT payment_processed;
+          
+          -- Step 5: Create order record
+          INSERT INTO orders (customer_id, product_id, quantity, amount, status)
+          VALUES (p_customer_id, p_product_id, p_quantity, v_total_amount, 'COMPLETED');
+          
+          -- All steps successful
+          COMMIT;
+          RETURN 'SUCCESS: Order processed successfully';
+          
+      EXCEPTION
+          WHEN OTHERS THEN
+              ROLLBACK;
+              RETURN 'ERROR: ' || SQLERRM;
+      END;
+  END;
+  $$ LANGUAGE plpgsql;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Pattern 3: Batch Processing with Error Recovery
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Batch processing with individual transaction per item
+  CREATE OR REPLACE FUNCTION process_salary_batch() 
+  RETURNS TABLE(processed INT, failed INT) AS $$
+  DECLARE
+      employee_record RECORD;
+      success_count INT := 0;
+      fail_count INT := 0;
+  BEGIN
+      -- Process each employee in separate transactions
+      FOR employee_record IN 
+          SELECT employee_id, salary, account_id 
+          FROM employees 
+          WHERE status = 'ACTIVE'
+      LOOP
+          BEGIN
+              -- Start transaction for each employee
+              BEGIN
+                  -- Process salary for this employee
+                  UPDATE accounts 
+                  SET balance = balance + employee_record.salary
+                  WHERE account_id = employee_record.account_id;
+                  
+                  INSERT INTO salary_payments (employee_id, amount, payment_date)
+                  VALUES (employee_record.employee_id, employee_record.salary, CURRENT_DATE);
+                  
+                  -- Log successful payment
+                  INSERT INTO audit_log (action, details)
+                  VALUES ('SALARY_PAYMENT', 
+                          format('Paid %s to employee %s', 
+                                 employee_record.salary, employee_record.employee_id));
+                  
+                  -- Commit this employee's transaction
+                  COMMIT;
+                  success_count := success_count + 1;
+                  
+              EXCEPTION
+                  WHEN OTHERS THEN
+                      -- Rollback this employee's transaction only
+                      ROLLBACK;
+                      fail_count := fail_count + 1;
+                      
+                      -- Log the failure but continue processing others
+                      INSERT INTO error_log (error_type, error_message, record_id)
+                      VALUES ('SALARY_PROCESSING', SQLERRM, employee_record.employee_id);
+                      COMMIT;  -- Commit the error log entry
+              END;
+              
+          END;
+      END LOOP;
+      
+      -- Return results
+      processed := success_count;
+      failed := fail_count;
+      RETURN NEXT;
+  END;
+  $$ LANGUAGE plpgsql;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       7. Best Practices and Common Pitfalls
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Transaction Best Practices
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- 1. Keep transactions short
+  BEGIN TRANSACTION;
+  -- Do the minimum necessary work
+  UPDATE critical_table SET status = 'PROCESSED' WHERE id = 123;
+  COMMIT;
+  -- Don't include long-running operations or user interactions
+  
+  -- 2. Always handle errors
+  BEGIN TRANSACTION;
+  BEGIN TRY
+      -- Your operations here
+      COMMIT;
+  END TRY
+  BEGIN CATCH
+      ROLLBACK;
+      -- Handle or re-raise the error
+  END CATCH
+  
+  -- 3. Use appropriate isolation levels
+  BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED;
+  -- Use SERIALIZABLE only when necessary
+  
+  -- 4. Avoid holding transactions open during user interaction
+  -- BAD: 
+  BEGIN TRANSACTION;
+  UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+  -- ... wait for user confirmation ...
+  COMMIT;
+  
+  -- GOOD:
+  -- Start transaction only when ready to commit
+  BEGIN TRANSACTION;
+  UPDATE accounts SET balance = balance - 100 WHERE id = 1;
+  COMMIT;  -- Immediate commit
+  
+  -- 5. Monitor long-running transactions
+  -- PostgreSQL:
+  SELECT now() - xact_start as duration, query 
+  FROM pg_stat_activity 
+  WHERE state = 'idle in transaction';
+  
+  -- 6. Use savepoints for complex logic
+  BEGIN;
+  SAVEPOINT step1;
+  -- Operations...
+  ROLLBACK TO SAVEPOINT step1;  -- Partial rollback if needed
+  COMMIT;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Common Transaction Pitfalls
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Pitfall 1: Unclosed transactions (idle in transaction)
+  BEGIN TRANSACTION;
+  UPDATE accounts SET balance = 5000 WHERE id = 1;
+  -- Forgot to COMMIT or ROLLBACK - locks held indefinitely
+  
+  -- Pitfall 2: Nested transactions (not supported in most databases)
+  BEGIN TRANSACTION;
+      UPDATE table1 SET col1 = 'value';
+      BEGIN TRANSACTION;  -- This doesn't create a nested transaction!
+      UPDATE table2 SET col2 = 'value';
+      COMMIT;  -- This commits everything!
+  COMMIT;  -- Error: No transaction to commit
+  
+  -- Pitfall 3: Assuming auto-commit is off
+  -- In many tools, auto-commit is ON by default
+  UPDATE accounts SET balance = 1000;  -- Immediately committed!
+  -- Next statement fails but previous one is already committed
+  
+  -- Pitfall 4: Long-running transactions blocking others
+  BEGIN TRANSACTION;
+  -- Complex report that takes 5 minutes
+  SELECT * FROM large_table JOIN other_table ...;
+  -- Other transactions trying to update large_table are blocked
+  COMMIT;
+  
+  -- Pitfall 5: Not handling constraint violations
+  BEGIN TRANSACTION;
+  INSERT INTO table1 (id, unique_col) VALUES (1, 'unique_value');
+  INSERT INTO table1 (id, unique_col) VALUES (2, 'unique_value');  -- Violation!
+  -- Entire transaction fails and rolls back
+  COMMIT;
+  
+  -- Solution: Use savepoints or handle errors appropriately
+  BEGIN TRANSACTION;
+  SAVEPOINT sp1;
+  INSERT INTO table1 (id, unique_col) VALUES (1, 'unique_value');
+  SAVEPOINT sp2;
+  BEGIN
+      INSERT INTO table1 (id, unique_col) VALUES (2, 'unique_value');
+  EXCEPTION WHEN unique_violation THEN
+      ROLLBACK TO SAVEPOINT sp2;
+      -- Handle the duplicate case
+  END;
+  COMMIT;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Database-Specific Transaction Notes
+     </h4>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- PostgreSQL
+  -- Default: READ COMMITTED, Auto-commit ON in tools
+  BEGIN;  -- or START TRANSACTION;
+  COMMIT;
+  ROLLBACK;
+  SAVEPOINT name;
+  ROLLBACK TO SAVEPOINT name;
+  
+  -- MySQL (InnoDB)
+  -- Default: REPEATABLE READ, Auto-commit ON
+  START TRANSACTION;  -- or BEGIN, BEGIN WORK
+  COMMIT;
+  ROLLBACK;
+  SAVEPOINT name;
+  ROLLBACK TO SAVEPOINT name;
+  
+  -- SQL Server
+  -- Default: READ COMMITTED, Auto-commit ON
+  BEGIN TRANSACTION;  -- or BEGIN TRAN
+  COMMIT TRANSACTION;  -- or COMMIT TRAN, COMMIT
+  ROLLBACK TRANSACTION;  -- or ROLLBACK TRAN, ROLLBACK
+  SAVE TRANSACTION name;  -- Savepoint syntax different
+  
+  -- Oracle
+  -- Different transaction model
+  -- Transactions start implicitly with first DML statement
+  SET TRANSACTION READ WRITE;  -- Optional explicit start
+  COMMIT;
+  ROLLBACK;
+  SAVEPOINT name;
+  ROLLBACK TO SAVEPOINT name;
+  
+  -- Key differences:
+  -- * Oracle: No explicit BEGIN, transactions start implicitly
+  -- * SQL Server: Uses BEGIN TRANSACTION explicitly
+  -- * PostgreSQL/MySQL: Support both BEGIN and START TRANSACTION
+  -- * Savepoint syntax varies slightly
+       </code></pre>
+     </div>
+  </div>`,
+            "examples": [
+              `-- Complete Banking Transaction Example
+  CREATE OR REPLACE FUNCTION complete_bank_transaction(
+      p_from_account INT,
+      p_to_account INT, 
+      p_amount DECIMAL(15,2)
+  ) RETURNS TEXT AS $$
+  DECLARE
+      v_from_balance DECIMAL(15,2);
+      v_to_exists BOOLEAN;
+      v_transaction_id INT;
+  BEGIN
+      -- Start explicit transaction
+      BEGIN
+          -- Set transaction characteristics
+          SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+          
+          -- Check sender account with lock
+          SELECT balance INTO v_from_balance
+          FROM accounts 
+          WHERE account_id = p_from_account
+          FOR UPDATE;  -- Lock the row for update
+          
+          IF NOT FOUND THEN
+              ROLLBACK;
+              RETURN 'ERROR: Sender account ' || p_from_account || ' not found';
+          END IF;
+          
+          -- Validate sufficient funds
+          IF v_from_balance < p_amount THEN
+              ROLLBACK;
+              RETURN 'ERROR: Insufficient funds. Available: ' || v_from_balance;
+          END IF;
+          
+          -- Check recipient account exists
+          SELECT EXISTS(
+              SELECT 1 FROM accounts WHERE account_id = p_to_account
+          ) INTO v_to_exists;
+          
+          IF NOT v_to_exists THEN
+              ROLLBACK;
+              RETURN 'ERROR: Recipient account ' || p_to_account || ' not found';
+          END IF;
+          
+          -- Perform the transfer operations
+          UPDATE accounts 
+          SET balance = balance - p_amount,
+              last_updated = CURRENT_TIMESTAMP
+          WHERE account_id = p_from_account;
+          
+          UPDATE accounts 
+          SET balance = balance + p_amount,
+              last_updated = CURRENT_TIMESTAMP
+          WHERE account_id = p_to_account;
+          
+          -- Record the transaction
+          INSERT INTO transactions (from_account, to_account, amount, trans_type, trans_date)
+          VALUES (p_from_account, p_to_account, p_amount, 'TRANSFER', CURRENT_TIMESTAMP)
+          RETURNING trans_id INTO v_transaction_id;
+          
+          -- Log the operation
+          INSERT INTO audit_log (table_name, action, details, changed_by)
+          VALUES ('accounts', 'TRANSFER', 
+                  format('Transferred %s from account %s to %s', p_amount, p_from_account, p_to_account),
+                  CURRENT_USER);
+          
+          -- Commit the transaction - all changes become permanent
+          COMMIT;
+          
+          RETURN 'SUCCESS: Transfer completed. Transaction ID: ' || v_transaction_id;
+          
+      EXCEPTION
+          WHEN OTHERS THEN
+              -- Rollback on any error
+              ROLLBACK;
+              RETURN 'ERROR: Transaction failed - ' || SQLERRM;
+      END;
+  END;
+  $$ LANGUAGE plpgsql;
+  
+  -- Usage examples:
+  -- SELECT complete_bank_transaction(101, 102, 500.00);
+  -- SELECT complete_bank_transaction(101, 999, 1000.00);  -- Will fail`,
+
+              `-- E-commerce Order Processing with Savepoints
+  CREATE OR REPLACE FUNCTION process_ecommerce_order(
+      p_customer_id INT,
+      p_items JSONB  -- Format: [{"product_id": 1, "quantity": 2}, ...]
+  ) RETURNS TEXT AS $$
+  DECLARE
+      item RECORD;
+      v_total_amount DECIMAL(10,2) := 0;
+      v_order_id INT;
+      v_available INT;
+      v_price DECIMAL(10,2);
+  BEGIN
+      BEGIN
+          SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+          
+          SAVEPOINT start_order;
+          
+          -- Step 1: Validate all items and calculate total
+          FOR item IN SELECT * FROM jsonb_to_recordset(p_items) AS x(product_id INT, quantity INT)
+          LOOP
+              -- Check product availability and get price
+              SELECT quantity, price INTO v_available, v_price
+              FROM inventory i
+              JOIN products p ON i.product_id = p.product_id
+              WHERE i.product_id = item.product_id
+              FOR UPDATE;
+              
+              IF NOT FOUND THEN
+                  ROLLBACK TO SAVEPOINT start_order;
+                  RETURN 'ERROR: Product ' || item.product_id || ' not found';
+              END IF;
+              
+              IF v_available < item.quantity THEN
+                  ROLLBACK TO SAVEPOINT start_order;
+                  RETURN 'ERROR: Insufficient stock for product ' || item.product_id;
+              END IF;
+              
+              v_total_amount := v_total_amount + (item.quantity * v_price);
+          END LOOP;
+          
+          SAVEPOINT items_validated;
+          
+          -- Step 2: Check customer balance
+          IF (SELECT balance FROM accounts WHERE account_id = p_customer_id) < v_total_amount THEN
+              ROLLBACK TO SAVEPOINT start_order;
+              RETURN 'ERROR: Insufficient customer balance';
+          END IF;
+          
+          SAVEPOINT balance_checked;
+          
+          -- Step 3: Update inventory for all items
+          FOR item IN SELECT * FROM jsonb_to_recordset(p_items) AS x(product_id INT, quantity INT)
+          LOOP
+              UPDATE inventory 
+              SET quantity = quantity - item.quantity
+              WHERE product_id = item.product_id;
+          END LOOP;
+          
+          SAVEPOINT inventory_updated;
+          
+          -- Step 4: Process payment
+          UPDATE accounts 
+          SET balance = balance - v_total_amount
+          WHERE account_id = p_customer_id;
+          
+          SAVEPOINT payment_processed;
+          
+          -- Step 5: Create order record
+          INSERT INTO orders (customer_id, total_amount, status, order_date)
+          VALUES (p_customer_id, v_total_amount, 'COMPLETED', CURRENT_TIMESTAMP)
+          RETURNING order_id INTO v_order_id;
+          
+          -- Step 6: Create order items
+          FOR item IN SELECT * FROM jsonb_to_recordset(p_items) AS x(product_id INT, quantity INT)
+          LOOP
+              SELECT price INTO v_price FROM products WHERE product_id = item.product_id;
+              
+              INSERT INTO order_items (order_id, product_id, quantity, unit_price)
+              VALUES (v_order_id, item.product_id, item.quantity, v_price);
+          END LOOP;
+          
+          -- All steps successful
+          COMMIT;
+          RETURN 'SUCCESS: Order ' || v_order_id || ' processed. Total: ' || v_total_amount;
+          
+      EXCEPTION
+          WHEN OTHERS THEN
+              ROLLBACK;
+              RETURN 'ERROR: Order processing failed - ' || SQLERRM;
+      END;
+  END;
+  $$ LANGUAGE plpgsql;`,
+
+              `-- Batch Account Maintenance with Individual Transactions
+  CREATE OR REPLACE FUNCTION monthly_account_maintenance() 
+  RETURNS TABLE(accounts_processed INT, fees_collected DECIMAL(15,2)) AS $$
+  DECLARE
+      account_record RECORD;
+      v_monthly_fee DECIMAL(15,2) := 5.00;
+      v_processed_count INT := 0;
+      v_total_fees DECIMAL(15,2) := 0;
+  BEGIN
+      -- Process each account in separate transactions
+      FOR account_record IN 
+          SELECT account_id, balance, account_type
+          FROM accounts 
+          WHERE status = 'ACTIVE' 
+            AND balance >= v_monthly_fee  -- Only charge if sufficient funds
+      LOOP
+          BEGIN
+              -- Start transaction for this account
+              BEGIN
+                  -- Apply monthly fee
+                  UPDATE accounts 
+                  SET balance = balance - v_monthly_fee,
+                      last_updated = CURRENT_TIMESTAMP
+                  WHERE account_id = account_record.account_id;
+                  
+                  -- Record the fee transaction
+                  INSERT INTO transactions (from_account, amount, trans_type, trans_date)
+                  VALUES (account_record.account_id, v_monthly_fee, 'MAINTENANCE_FEE', CURRENT_DATE);
+                  
+                  -- Log the operation
+                  INSERT INTO audit_log (table_name, action, details)
+                  VALUES ('accounts', 'MONTHLY_FEE', 
+                          format('Charged %s monthly fee to account %s', 
+                                 v_monthly_fee, account_record.account_id));
+                  
+                  -- Commit this account's transaction
+                  COMMIT;
+                  
+                  v_processed_count := v_processed_count + 1;
+                  v_total_fees := v_total_fees + v_monthly_fee;
+                  
+              EXCEPTION
+                  WHEN OTHERS THEN
+                      -- Rollback this account's transaction only
+                      ROLLBACK;
+                      
+                      -- Log the error but continue with other accounts
+                      INSERT INTO error_log (error_type, error_message, record_id)
+                      VALUES ('MONTHLY_FEE', SQLERRM, account_record.account_id);
+                      COMMIT;  -- Commit the error log entry
+              END;
+              
+          END;
+      END LOOP;
+      
+      -- Return summary
+      accounts_processed := v_processed_count;
+      fees_collected := v_total_fees;
+      RETURN NEXT;
+  END;
+  $$ LANGUAGE plpgsql;`
+            ],
+            "questions": [
+              {
+                "question": "What is the difference between COMMIT and ROLLBACK, and when should you use each?",
+                "solution": "<p><strong>COMMIT:</strong> Makes all changes in the current transaction permanent. Use COMMIT when all operations in the transaction have completed successfully and you want to save the changes to the database.</p><p><strong>ROLLBACK:</strong> Undoes all changes in the current transaction. Use ROLLBACK when an error occurs, business rules are violated, or you need to cancel the transaction for any reason.</p><p><strong>Key Differences:</strong></p><ul><li>COMMIT persists changes; ROLLBACK discards them</li><li>COMMIT makes changes visible to other transactions; ROLLBACK hides them</li><li>After COMMIT, changes cannot be undone; after ROLLBACK, it's as if the transaction never happened</li></ul><p><strong>Best Practice:</strong> Always include error handling that performs ROLLBACK on failures, and only COMMIT when all operations succeed.</p>"
+              },
+              {
+                "question": "How do savepoints work and what are their practical use cases?",
+                "solution": "<p><strong>Savepoints</strong> allow you to set markers within a transaction that you can roll back to without affecting the entire transaction.</p><p><strong>How they work:</strong></p><ol><li>Create a savepoint with SAVEPOINT name</li><li>Perform operations</li><li>If needed, rollback to the savepoint with ROLLBACK TO SAVEPOINT name</li><li>Operations after the savepoint are undone, but previous operations remain</li></ol><p><strong>Practical Use Cases:</strong></p><ul><li><strong>Complex business processes:</strong> Rollback failed steps while keeping successful ones</li><li><strong>Conditional logic:</strong> Try different approaches and rollback unsuccessful attempts</li><li><strong>Error recovery:</strong> Handle errors in specific steps without losing entire transaction</li><li><strong>Testing scenarios:</strong> Try operations and rollback if they don't meet criteria</li></ul><p><strong>Example:</strong> In order processing, if payment fails, rollback to before payment but keep inventory reservation.</p>"
+              },
+              {
+                "question": "What are the risks of long-running transactions and how can you avoid them?",
+                "solution": "<p><strong>Risks of Long-Running Transactions:</strong></p><ul><li><strong>Lock contention:</strong> Locks are held for extended periods, blocking other transactions</li><li><strong>Resource consumption:</strong> Database resources (memory, log space) are tied up</li><li><strong>Timeout issues:</strong> May exceed database or application timeouts</li><li><strong>Data staleness:</strong> Other transactions see outdated data</li><li><strong>Deadlock susceptibility:</strong> Higher chance of deadlocks with prolonged lock holding</li></ul><p><strong>Avoidance Strategies:</strong></p><ul><li><strong>Keep transactions short:</strong> Do minimal work within transactions</li><li><strong>Avoid user interaction:</strong> Never wait for user input within a transaction</li><li><strong>Use appropriate isolation levels:</strong> Lower isolation levels reduce locking</li><li><strong>Break large operations:</strong> Process in smaller batches with separate transactions</li><li><strong>Monitor and alert:</strong> Set up monitoring for long-running transactions</li><li><strong>Use read-only transactions:</strong> For reporting, use READ ONLY transactions</li><li><strong>Optimize queries:</strong> Ensure operations within transactions are efficient</li></ul>"
+              },
+              {
+                "question": "What is the difference between auto-commit mode and explicit transaction mode?",
+                "solution": "<p><strong>Auto-commit Mode:</strong></p><ul><li>Each SQL statement is automatically committed as a separate transaction</li><li>Default behavior in most database clients and tools</li><li>No explicit BEGIN/COMMIT/ROLLBACK needed</li><li>Simple but can lead to inconsistent states if multiple operations fail</li></ul><p><strong>Explicit Transaction Mode:</strong></p><ul><li>You control transaction boundaries with BEGIN/COMMIT/ROLLBACK</li><li>Multiple statements grouped into a single atomic unit</li><li>All operations succeed or fail together</li><li>More complex but ensures data consistency</li></ul><p><strong>When to use each:</strong></p><ul><li><strong>Auto-commit:</strong> Simple single-statement operations, ad-hoc queries, reporting</li><li><strong>Explicit transactions:</strong> Financial operations, batch processing, multi-step business processes, any scenario requiring atomicity</li></ul><p><strong>Switching between modes:</strong> Most databases allow you to disable auto-commit (SET AUTOCOMMIT=0) for explicit transaction control.</p>"
+              },
+              {
+                "question": "How do you handle transaction errors and ensure proper cleanup?",
+                "solution": "<p><strong>Error Handling Strategies:</strong></p><ol><li><strong>Use try-catch blocks:</strong> Wrap transaction code in error handling structures</li><li><strong>Always rollback on errors:</strong> Ensure ROLLBACK is called in exception handlers</li><li><strong>Use savepoints for partial recovery:</strong> Allow rolling back failed steps while keeping successful ones</li><li><strong>Log errors appropriately:</strong> Record errors for debugging while maintaining transaction integrity</li><li><strong>Implement retry logic:</strong> For transient errors, retry the transaction</li></ol><p><strong>Proper Cleanup Example:</strong></p><pre><code>BEGIN TRANSACTION;\nBEGIN TRY\n    -- Operations here\n    COMMIT;\nEND TRY\nBEGIN CATCH\n    IF @@TRANCOUNT > 0\n        ROLLBACK;\n    -- Log error, notify, etc.\nEND CATCH</code></pre><p><strong>Best Practices:</strong></p><ul><li>Always check if a transaction is active before rolling back</li><li>Release resources (cursors, temporary objects) in finally blocks</li><li>Use transaction scoping to ensure proper cleanup</li><li>Test error scenarios to verify cleanup works correctly</li></ul>"
+              }
+            ],
+            "links": [
+              "https://www.postgresql.org/docs/current/tutorial-transactions.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/commit.html",
+              "https://learn.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql?view=sql-server-ver16",
+              "https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_10001.htm",
+              "https://www.sqlshack.com/transaction-control-in-sql-server/"
+            ]
+          },
+          {
+            "topic": "Transactions - ACID Properties",
+            "tags": ["ACID", "Transactions", "Concurrency", "Isolation Levels", "Locking", "Deadlocks"],
+            "explanation": `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Transactions and concurrency control are fundamental concepts in database systems that ensure data integrity and consistency when multiple operations occur simultaneously. The ACID properties provide the foundation for reliable database transactions in multi-user environments.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create sample tables to demonstrate transactions and concurrency:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Banking System Tables:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+---------------+---------+---------------------+
+  | account_id | account_holder| balance | last_updated        |
+  +------------+---------------+---------+---------------------+
+  | 101        | John Doe      | 5000.00 | 2024-03-15 09:30:00 |
+  | 102        | Jane Smith    | 3000.00 | 2024-03-15 10:15:00 |
+  | 103        | Bob Johnson   | 7500.00 | 2024-03-15 11:45:00 |
+  +------------+---------------+---------+---------------------+
+  
+  +----------+------------+------------+--------+---------------------+-----------+
+  | trans_id | from_account| to_account | amount | trans_date          | trans_type|
+  +----------+------------+------------+--------+---------------------+-----------+
+  | 1        | 101        | 102        | 500.00 | 2024-03-15 09:35:00 | TRANSFER  |
+  | 2        | 103        | 101        | 1000.00| 2024-03-15 10:20:00 | TRANSFER  |
+  +----------+------------+------------+--------+---------------------+-----------+
+  
+  +-----------+-------------+---------------------+---------+-----------+
+  | lock_id   | account_id  | locked_at           | lock_type| session_id|
+  +-----------+-------------+---------------------+---------+-----------+
+  | 1         | 101         | 2024-03-15 14:30:00 | ROW     | 12345     |
+  +-----------+-------------+---------------------+---------+-----------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. ACID Properties Overview
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       ACID is an acronym that stands for Atomicity, Consistency, Isolation, and Durability. These properties guarantee that database transactions are processed reliably and ensure data integrity.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       A - Atomicity
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all operations within the transaction complete successfully, or none of them do.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Bank transfer example demonstrating atomicity
+  BEGIN TRANSACTION;
+  
+  -- Step 1: Deduct amount from sender's account
+  UPDATE accounts 
+  SET balance = balance - 500.00,
+      last_updated = CURRENT_TIMESTAMP
+  WHERE account_id = 101;
+  
+  -- Step 2: Add amount to receiver's account  
+  UPDATE accounts 
+  SET balance = balance + 500.00,
+      last_updated = CURRENT_TIMESTAMP
+  WHERE account_id = 102;
+  
+  -- Step 3: Record the transaction
+  INSERT INTO transactions (from_account, to_account, amount, trans_date, trans_type)
+  VALUES (101, 102, 500.00, CURRENT_TIMESTAMP, 'TRANSFER');
+  
+  -- If any step fails, the entire transaction is rolled back
+  COMMIT;
+  -- or ROLLBACK; if an error occurs
+  
+  -- Atomicity ensures:
+  -- Either ALL three operations succeed, or NONE of them do
+  -- No partial updates where money is deducted but not added
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       C - Consistency
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Consistency ensures that a transaction brings the database from one valid state to another, maintaining all database rules, constraints, and invariants.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Consistency constraints and rules
+  CREATE TABLE accounts (
+      account_id INT PRIMARY KEY,
+      account_holder VARCHAR(100) NOT NULL,
+      balance DECIMAL(15,2) NOT NULL CHECK (balance >= 0), -- Balance cannot be negative
+      last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+  
+  CREATE TABLE transactions (
+      trans_id SERIAL PRIMARY KEY,
+      from_account INT REFERENCES accounts(account_id),
+      to_account INT REFERENCES accounts(account_id),
+      amount DECIMAL(15,2) NOT NULL CHECK (amount > 0), -- Positive amount only
+      trans_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      trans_type VARCHAR(20) CHECK (trans_type IN ('DEPOSIT', 'WITHDRAWAL', 'TRANSFER'))
+  );
+  
+  -- Consistency ensures:
+  -- 1. Balance never goes negative (CHECK constraint)
+  -- 2. Foreign key relationships are maintained
+  -- 3. Amounts are always positive
+  -- 4. Total money in system remains constant during transfers
+  
+  -- Example of maintaining consistency
+  BEGIN;
+  -- Business rule: Ensure sufficient funds before transfer
+  DECLARE current_balance DECIMAL(15,2);
+  SELECT balance INTO current_balance FROM accounts WHERE account_id = 101;
+  
+  IF current_balance >= 500.00 THEN
+      UPDATE accounts SET balance = balance - 500.00 WHERE account_id = 101;
+      UPDATE accounts SET balance = balance + 500.00 WHERE account_id = 102;
+      COMMIT;
+  ELSE
+      ROLLBACK;
+      RAISE EXCEPTION 'Insufficient funds';
+  END IF;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       I - Isolation
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Isolation ensures that concurrent transactions execute in isolation from each other. The operations in one transaction are hidden from other transactions until the first transaction is committed.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Session 1: Transaction A
+  BEGIN TRANSACTION;
+  UPDATE accounts SET balance = balance - 200.00 WHERE account_id = 101;
+  -- Balance is now 4800.00 in this transaction, but other sessions still see 5000.00
+  
+  -- Session 2: Transaction B (concurrent)
+  BEGIN TRANSACTION;
+  SELECT balance FROM accounts WHERE account_id = 101; 
+  -- Still sees 5000.00 (not the uncommitted change from Transaction A)
+  
+  -- Session 1: Commit the changes
+  COMMIT;
+  
+  -- Session 2: Now sees the updated balance
+  SELECT balance FROM accounts WHERE account_id = 101; -- Sees 4800.00
+  
+  -- Isolation prevents:
+  -- * Dirty reads (reading uncommitted data)
+  -- * Non-repeatable reads (data changing during a transaction)
+  -- * Phantom reads (new rows appearing during a transaction)
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       D - Durability
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Durability guarantees that once a transaction is committed, its changes are permanent and will survive system failures (power loss, crashes, etc.).
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Durability in action
+  BEGIN TRANSACTION;
+  
+  -- Critical financial operation
+  UPDATE accounts SET balance = balance + 1000.00 WHERE account_id = 103;
+  INSERT INTO transactions (to_account, amount, trans_type) 
+  VALUES (103, 1000.00, 'DEPOSIT');
+  
+  -- Once committed, the changes are permanent
+  COMMIT;
+  
+  -- Even if:
+  -- * Database server crashes immediately after COMMIT
+  -- * Power failure occurs
+  -- * Hardware fails
+  -- The committed transaction will be recovered and persisted
+  
+  -- Database mechanisms ensuring durability:
+  -- * Write-Ahead Logging (WAL)
+  -- * Transaction logs
+  -- * Checkpointing
+  -- * Redo logs
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. Transaction Control Statements
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       SQL provides explicit transaction control statements to manage the boundaries and behavior of transactions.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Basic Transaction Control
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Explicit transaction control
+  BEGIN TRANSACTION;  -- or START TRANSACTION;
+  
+  -- Series of database operations
+  UPDATE accounts SET balance = balance - 250.00 WHERE account_id = 101;
+  UPDATE accounts SET balance = balance + 250.00 WHERE account_id = 102;
+  INSERT INTO transactions (from_account, to_account, amount, trans_type)
+  VALUES (101, 102, 250.00, 'TRANSFER');
+  
+  -- Finalize the transaction
+  COMMIT;  -- Make changes permanent
+  -- OR
+  ROLLBACK; -- Undo all changes in the transaction
+  
+  -- Auto-commit mode (default in many databases)
+  -- Each statement is automatically committed
+  UPDATE accounts SET balance = 6000.00 WHERE account_id = 101; -- Auto-committed
+  
+  -- Turning off auto-commit
+  SET AUTOCOMMIT = OFF;  -- MySQL
+  SET IMPLICIT_TRANSACTIONS ON;  -- SQL Server
+  \set AUTOCOMMIT off  -- PostgreSQL
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Savepoints for Partial Rollbacks
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Using savepoints for complex transaction logic
+  BEGIN TRANSACTION;
+  
+  -- Initial operations
+  UPDATE accounts SET balance = balance - 1000.00 WHERE account_id = 101;
+  SAVEPOINT after_debit;
+  
+  -- More operations
+  UPDATE accounts SET balance = balance + 1000.00 WHERE account_id = 102;
+  SAVEPOINT after_credit;
+  
+  -- Conditional logic
+  IF some_condition THEN
+      -- Everything is fine, continue
+      INSERT INTO transactions (from_account, to_account, amount, trans_type)
+      VALUES (101, 102, 1000.00, 'TRANSFER');
+      COMMIT;
+  ELSE
+      -- Rollback to specific savepoint
+      ROLLBACK TO SAVEPOINT after_debit;
+      -- Now only the debit was rolled back, credit remains
+      UPDATE accounts SET balance = balance + 1000.00 WHERE account_id = 103;
+      INSERT INTO transactions (from_account, to_account, amount, trans_type)
+      VALUES (101, 103, 1000.00, 'TRANSFER');
+      COMMIT;
+  END IF;
+  
+  -- Release savepoints (automatic on commit/rollback)
+  RELEASE SAVEPOINT after_debit;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. Transaction Isolation Levels
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Isolation levels control the degree to which transactions are isolated from each other. Different levels provide different trade-offs between consistency and performance.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Concurrency Problems
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- 1. Dirty Read: Reading uncommitted data
+  -- Transaction A
+  BEGIN;
+  UPDATE accounts SET balance = 6000.00 WHERE account_id = 101; -- Not committed yet
+  
+  -- Transaction B (with READ UNCOMMITTED)
+  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+  SELECT balance FROM accounts WHERE account_id = 101; -- Sees 6000.00 (dirty read)
+  
+  -- Transaction A rolls back
+  ROLLBACK;
+  
+  -- Now Transaction B has seen data that never truly existed!
+  
+  -- 2. Non-repeatable Read: Data changed during transaction
+  -- Transaction A
+  BEGIN;
+  SELECT balance FROM accounts WHERE account_id = 101; -- Returns 5000.00
+  
+  -- Transaction B
+  UPDATE accounts SET balance = 4500.00 WHERE account_id = 101;
+  COMMIT;
+  
+  -- Transaction A (same transaction)
+  SELECT balance FROM accounts WHERE account_id = 101; -- Now returns 4500.00!
+  -- Same query, different results within same transaction
+  
+  -- 3. Phantom Read: New rows appearing
+  -- Transaction A
+  BEGIN;
+  SELECT COUNT(*) FROM accounts WHERE balance > 1000.00; -- Returns 3
+  
+  -- Transaction B
+  INSERT INTO accounts (account_id, account_holder, balance) 
+  VALUES (104, 'New Customer', 2000.00);
+  COMMIT;
+  
+  -- Transaction A
+  SELECT COUNT(*) FROM accounts WHERE balance > 1000.00; -- Now returns 4!
+  -- New "phantom" row appeared
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Standard Isolation Levels
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- 1. READ UNCOMMITTED (Lowest isolation)
+  SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+  BEGIN TRANSACTION;
+  -- Allows dirty reads, non-repeatable reads, phantom reads
+  -- Highest performance, lowest consistency
+  SELECT * FROM accounts; -- Can see uncommitted changes from other transactions
+  COMMIT;
+  
+  -- 2. READ COMMITTED (Default in PostgreSQL, Oracle)
+  SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+  BEGIN TRANSACTION;
+  -- Prevents dirty reads
+  -- Allows non-repeatable reads and phantom reads
+  SELECT balance FROM accounts WHERE account_id = 101; -- Only sees committed data
+  -- But if another transaction commits changes, subsequent reads may see different values
+  COMMIT;
+  
+  -- 3. REPEATABLE READ (Default in MySQL InnoDB)
+  SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+  BEGIN TRANSACTION;
+  -- Prevents dirty reads and non-repeatable reads
+  -- May allow phantom reads (implementation dependent)
+  SELECT balance FROM accounts WHERE account_id = 101; -- Value remains consistent
+  -- Even if other transactions update and commit changes
+  COMMIT;
+  
+  -- 4. SERIALIZABLE (Highest isolation)
+  SET TRANSACTION ISOLATION LEVEL SERIALIZABLE;
+  BEGIN TRANSACTION;
+  -- Prevents all concurrency problems: dirty reads, non-repeatable reads, phantom reads
+  -- Transactions execute as if they were serialized (one after another)
+  -- Lowest performance, highest consistency
+  SELECT * FROM accounts WHERE balance > 1000.00;
+  -- No other transactions can modify data that would affect this query
+  COMMIT;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Isolation Levels Comparison
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  +------------------+-------------+---------------------+--------------+-----------+
+  | Isolation Level  | Dirty Reads | Non-repeatable Reads| Phantom Reads| Performance|
+  +------------------+-------------+---------------------+--------------+-----------+
+  | READ UNCOMMITTED | Allowed     | Allowed             | Allowed      | Highest   |
+  | READ COMMITTED   | Prevented   | Allowed             | Allowed      | High      |
+  | REPEATABLE READ  | Prevented   | Prevented           | Allowed*     | Medium    |
+  | SERIALIZABLE     | Prevented   | Prevented           | Prevented    | Lowest    |
+  +------------------+-------------+---------------------+--------------+-----------+
+  * Some databases prevent phantom reads at REPEATABLE READ level
+  
+  -- Database-specific defaults:
+  -- PostgreSQL: READ COMMITTED
+  -- MySQL InnoDB: REPEATABLE READ  
+  -- Oracle: READ COMMITTED
+  -- SQL Server: READ COMMITTED
+  
+  -- Checking current isolation level
+  -- PostgreSQL:
+  SHOW default_transaction_isolation;
+  -- MySQL:
+  SELECT @@transaction_isolation;
+  -- SQL Server:
+  DBCC USEROPTIONS;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       4. Locking Mechanisms
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Locks are used to control concurrent access to data. Different types of locks provide different levels of access control.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Lock Types and Granularity
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- 1. Shared Locks (Read Locks)
+  -- Multiple transactions can hold shared locks simultaneously
+  BEGIN TRANSACTION;
+  SELECT balance FROM accounts WHERE account_id = 101 FOR SHARE;
+  -- Other transactions can also acquire FOR SHARE locks
+  -- But no transaction can acquire exclusive lock until all shared locks released
+  COMMIT;
+  
+  -- 2. Exclusive Locks (Write Locks)
+  -- Only one transaction can hold an exclusive lock
+  BEGIN TRANSACTION;
+  SELECT balance FROM accounts WHERE account_id = 101 FOR UPDATE;
+  -- Other transactions cannot read or write this row until lock released
+  UPDATE accounts SET balance = 5500.00 WHERE account_id = 101;
+  COMMIT;
+  
+  -- 3. Intent Locks
+  -- Signal intention to lock at a finer granularity
+  -- Example: Intent to lock a row within a table
+  
+  -- Lock granularity levels:
+  -- * Row-level locks (most granular)
+  -- * Page-level locks 
+  -- * Table-level locks (least granular)
+  
+  -- Explicit locking examples:
+  -- PostgreSQL
+  SELECT * FROM accounts WHERE account_id = 101 FOR UPDATE; -- Exclusive lock
+  SELECT * FROM accounts WHERE account_id = 101 FOR SHARE;  -- Shared lock
+  LOCK TABLE accounts IN EXCLUSIVE MODE; -- Table-level lock
+  
+  -- MySQL
+  SELECT * FROM accounts WHERE account_id = 101 FOR UPDATE;
+  SELECT * FROM accounts WHERE account_id = 101 LOCK IN SHARE MODE;
+  
+  -- SQL Server
+  SELECT * FROM accounts WITH (UPDLOCK) WHERE account_id = 101;
+  SELECT * FROM accounts WITH (ROWLOCK, XLOCK) WHERE account_id = 101;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Deadlocks and Prevention
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Deadlock scenario
+  -- Transaction A
+  BEGIN;
+  UPDATE accounts SET balance = balance - 100.00 WHERE account_id = 101;
+  -- Holds lock on account 101
+  
+  -- Transaction B (concurrent)
+  BEGIN;
+  UPDATE accounts SET balance = balance - 200.00 WHERE account_id = 102;
+  -- Holds lock on account 102
+  
+  -- Transaction A now tries to access account 102
+  UPDATE accounts SET balance = balance + 100.00 WHERE account_id = 102;
+  -- BLOCKED: Waiting for Transaction B to release lock on account 102
+  
+  -- Transaction B tries to access account 101  
+  UPDATE accounts SET balance = balance + 200.00 WHERE account_id = 101;
+  -- BLOCKED: Waiting for Transaction A to release lock on account 101
+  
+  -- DEADLOCK! Both transactions are waiting for each other
+  
+  -- Deadlock prevention strategies:
+  
+  -- 1. Consistent lock ordering
+  -- Always acquire locks in the same order
+  -- Example: Always lock lower account_id first
+  BEGIN;
+  UPDATE accounts SET balance = balance - 100.00 WHERE account_id = 101; -- Lock 101 first
+  UPDATE accounts SET balance = balance + 100.00 WHERE account_id = 102; -- Then lock 102
+  COMMIT;
+  
+  -- 2. Lock timeouts
+  SET lock_timeout = '5s'; -- PostgreSQL
+  -- Or in application code with retry logic
+  
+  -- 3. Keep transactions short
+  -- Minimize time locks are held
+  
+  -- 4. Use lower isolation levels when appropriate
+  
+  -- 5. Monitoring and detecting deadlocks
+  -- PostgreSQL: log_lock_waits and deadlock_timeout
+  -- MySQL: SHOW ENGINE INNODB STATUS
+  -- SQL Server: System Health extended events
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       5. Real-World Transaction Patterns
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Banking Transfer with Error Handling
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Robust bank transfer with comprehensive error handling
+  CREATE OR REPLACE FUNCTION transfer_funds(
+      from_account_id INT,
+      to_account_id INT, 
+      transfer_amount DECIMAL(15,2)
+  ) RETURNS VOID AS $$
+  DECLARE
+      from_balance DECIMAL(15,2);
+      insufficient_funds EXCEPTION;
+      account_not_found EXCEPTION;
+  BEGIN
+      -- Set isolation level for this transaction
+      SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+      
+      BEGIN
+          -- Check if accounts exist and get current balance
+          SELECT balance INTO from_balance 
+          FROM accounts 
+          WHERE account_id = from_account_id
+          FOR UPDATE;  -- Lock the row to prevent concurrent modifications
+          
+          IF NOT FOUND THEN
+              RAISE account_not_found;
+          END IF;
+          
+          -- Validate sufficient funds
+          IF from_balance < transfer_amount THEN
+              RAISE insufficient_funds;
+          END IF;
+          
+          -- Check if recipient account exists
+          PERFORM 1 FROM accounts WHERE account_id = to_account_id;
+          IF NOT FOUND THEN
+              RAISE account_not_found;
+          END IF;
+          
+          -- Perform the transfer
+          UPDATE accounts 
+          SET balance = balance - transfer_amount,
+              last_updated = CURRENT_TIMESTAMP
+          WHERE account_id = from_account_id;
+          
+          UPDATE accounts 
+          SET balance = balance + transfer_amount,
+              last_updated = CURRENT_TIMESTAMP
+          WHERE account_id = to_account_id;
+          
+          -- Record the transaction
+          INSERT INTO transactions (from_account, to_account, amount, trans_type)
+          VALUES (from_account_id, to_account_id, transfer_amount, 'TRANSFER');
+          
+          -- Commit the transaction
+          COMMIT;
+          
+      EXCEPTION
+          WHEN insufficient_funds THEN
+              ROLLBACK;
+              RAISE EXCEPTION 'Insufficient funds in account %', from_account_id;
+          WHEN account_not_found THEN
+              ROLLBACK;
+              RAISE EXCEPTION 'One or more accounts not found';
+          WHEN OTHERS THEN
+              ROLLBACK;
+              RAISE EXCEPTION 'Transfer failed: %', SQLERRM;
+      END;
+  END;
+  $$ LANGUAGE plpgsql;
+  
+  -- Usage
+  SELECT transfer_funds(101, 102, 500.00);
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Inventory Management with Optimistic Locking
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Inventory table with versioning for optimistic locking
+  CREATE TABLE inventory (
+      product_id INT PRIMARY KEY,
+      product_name VARCHAR(255),
+      quantity INT CHECK (quantity >= 0),
+      version INT DEFAULT 1,  -- Optimistic lock version
+      last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  );
+  
+  -- Optimistic locking update function
+  CREATE OR REPLACE FUNCTION update_inventory(
+      p_product_id INT,
+      p_quantity_change INT,
+      p_expected_version INT
+  ) RETURNS BOOLEAN AS $$
+  DECLARE
+      current_version INT;
+      current_quantity INT;
+  BEGIN
+      -- Get current state (without locking)
+      SELECT quantity, version INTO current_quantity, current_version
+      FROM inventory 
+      WHERE product_id = p_product_id;
+      
+      IF NOT FOUND THEN
+          RETURN FALSE; -- Product not found
+      END IF;
+      
+      -- Check if version matches (no concurrent modification)
+      IF current_version != p_expected_version THEN
+          RETURN FALSE; -- Concurrent modification detected
+      END IF;
+      
+      -- Check if sufficient inventory
+      IF current_quantity + p_quantity_change < 0 THEN
+          RETURN FALSE; -- Insufficient inventory
+      END IF;
+      
+      -- Perform the update with version check
+      UPDATE inventory 
+      SET quantity = quantity + p_quantity_change,
+          version = version + 1,
+          last_updated = CURRENT_TIMESTAMP
+      WHERE product_id = p_product_id 
+        AND version = p_expected_version;
+      
+      -- Check if update succeeded
+      IF FOUND THEN
+          RETURN TRUE; -- Success
+      ELSE
+          RETURN FALSE; -- Concurrent modification occurred
+      END IF;
+  END;
+  $$ LANGUAGE plpgsql;
+  
+  -- Usage with retry logic
+  DO $$
+  DECLARE
+      success BOOLEAN := FALSE;
+      retry_count INT := 0;
+      current_version INT;
+      current_quantity INT;
+  BEGIN
+      -- Get current state
+      SELECT version, quantity INTO current_version, current_quantity
+      FROM inventory WHERE product_id = 1;
+      
+      -- Retry loop for optimistic locking
+      WHILE NOT success AND retry_count < 3 LOOP
+          success := update_inventory(1, -5, current_version);
+          
+          IF NOT success THEN
+              -- Concurrent modification occurred, get new state
+              SELECT version, quantity INTO current_version, current_quantity
+              FROM inventory WHERE product_id = 1;
+              retry_count := retry_count + 1;
+          END IF;
+      END LOOP;
+      
+      IF NOT success THEN
+          RAISE EXCEPTION 'Failed to update inventory after % retries', retry_count;
+      END IF;
+  END;
+  $$;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       6. Monitoring and Troubleshooting
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Transaction Monitoring Queries
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- PostgreSQL: Monitor active transactions
+  SELECT 
+      pid as process_id,
+      usename as username,
+      application_name,
+      client_addr as client_address,
+      state,
+      query,
+      xact_start as transaction_start,
+      now() - xact_start as transaction_duration
+  FROM pg_stat_activity 
+  WHERE state IS NOT NULL 
+  ORDER BY xact_start;
+  
+  -- Check for locks and blocking
+  SELECT 
+      blocked_locks.pid AS blocked_pid,
+      blocked_activity.usename AS blocked_user,
+      blocking_locks.pid AS blocking_pid,
+      blocking_activity.usename AS blocking_user,
+      blocked_activity.query AS blocked_statement,
+      blocking_activity.query AS current_statement_in_blocking_process
+  FROM pg_catalog.pg_locks blocked_locks
+  JOIN pg_stat_activity blocked_activity ON blocked_activity.pid = blocked_locks.pid
+  JOIN pg_catalog.pg_locks blocking_locks ON blocking_locks.locktype = blocked_locks.locktype
+      AND blocking_locks.DATABASE IS NOT DISTINCT FROM blocked_locks.DATABASE
+      AND blocking_locks.relation IS NOT DISTINCT FROM blocked_locks.relation
+      AND blocking_locks.page IS NOT DISTINCT FROM blocked_locks.page
+      AND blocking_locks.tuple IS NOT DISTINCT FROM blocked_locks.tuple
+      AND blocking_locks.virtualxid IS NOT DISTINCT FROM blocked_locks.virtualxid
+      AND blocking_locks.transactionid IS NOT DISTINCT FROM blocked_locks.transactionid
+      AND blocking_locks.classid IS NOT DISTINCT FROM blocked_locks.classid
+      AND blocking_locks.objid IS NOT DISTINCT FROM blocked_locks.objid
+      AND blocking_locks.objsubid IS NOT DISTINCT FROM blocked_locks.objsubid
+      AND blocking_locks.pid != blocked_locks.pid
+  JOIN pg_stat_activity blocking_activity ON blocking_activity.pid = blocking_locks.pid
+  WHERE NOT blocked_locks.GRANTED;
+  
+  -- MySQL: Check InnoDB status including deadlocks
+  SHOW ENGINE INNODB STATUS;
+  
+  -- SQL Server: Monitor locks
+  SELECT 
+      request_session_id as spid,
+      resource_type,
+      resource_description,
+      request_mode as lock_type,
+      request_status as lock_status
+  FROM sys.dm_tran_locks
+  WHERE resource_database_id = DB_ID();
+  
+  -- Check long-running transactions
+  SELECT 
+      datname as database_name,
+      usename as username,
+      state,
+      query,
+      now() - xact_start as duration
+  FROM pg_stat_activity 
+  WHERE state = 'active' 
+  AND now() - xact_start > interval '5 minutes'
+  ORDER BY duration DESC;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Best Practices for Transactions
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+         <strong>Keep transactions short</strong> - Minimize lock duration and resource consumption
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Choose appropriate isolation level</strong> - Balance consistency needs with performance
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Handle errors gracefully</strong> - Always include proper rollback logic in exception handlers
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Avoid user interaction within transactions</strong> - Don't wait for user input while holding locks
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use consistent lock ordering</strong> - Prevent deadlocks by acquiring locks in predictable order
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Monitor transaction performance</strong> - Identify long-running transactions and bottlenecks
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Test concurrency scenarios</strong> - Simulate multiple users to identify race conditions
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use connection pooling appropriately</strong> - Manage database connections efficiently
+       </li>
+     </ol>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Performance Considerations
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Transaction performance tips:
+  
+  -- 1. Batch operations when possible
+  BEGIN;
+  INSERT INTO table1 VALUES (...);
+  INSERT INTO table1 VALUES (...);
+  INSERT INTO table1 VALUES (...);
+  COMMIT;
+  -- Instead of three separate auto-committed transactions
+  
+  -- 2. Use appropriate indexes to reduce lock contention
+  CREATE INDEX idx_accounts_balance ON accounts(balance);
+  
+  -- 3. Consider READ ONLY transactions for reporting
+  BEGIN TRANSACTION READ ONLY;
+  SELECT * FROM large_report_view;
+  COMMIT;
+  
+  -- 4. Use deferred constraints when appropriate
+  ALTER TABLE transactions 
+  ADD CONSTRAINT check_positive_amount 
+  CHECK (amount > 0) DEFERRABLE INITIALLY DEFERRED;
+  
+  -- 5. Monitor and tune lock-related parameters
+  -- PostgreSQL: max_connections, shared_buffers, deadlock_timeout
+  -- MySQL: innodb_lock_wait_timeout, innodb_buffer_pool_size
+  -- SQL Server: lock_timeout, maxdop
+       </code></pre>
+     </div>
+  </div>`,
+            "examples": [
+              `-- Complete banking transaction with all ACID properties
+  CREATE OR REPLACE FUNCTION process_bank_transfer(
+      p_from_account INT,
+      p_to_account INT,
+      p_amount DECIMAL(15,2)
+  ) RETURNS TABLE(success BOOLEAN, message TEXT) AS $$
+  DECLARE
+      v_from_balance DECIMAL(15,2);
+      v_to_exists BOOLEAN;
+      v_transaction_id INT;
+  BEGIN
+      -- Atomicity: All operations succeed or fail together
+      BEGIN
+          -- Set isolation level
+          SET TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+          
+          -- Consistency: Check business rules before proceeding
+          -- Verify sender account exists and has sufficient funds
+          SELECT balance INTO v_from_balance
+          FROM accounts 
+          WHERE account_id = p_from_account
+          FOR UPDATE;  -- Lock for update to prevent race conditions
+          
+          IF NOT FOUND THEN
+              RAISE EXCEPTION 'Sender account not found';
+          END IF;
+          
+          IF v_from_balance < p_amount THEN
+              RAISE EXCEPTION 'Insufficient funds';
+          END IF;
+          
+          -- Verify recipient account exists
+          SELECT EXISTS(
+              SELECT 1 FROM accounts WHERE account_id = p_to_account
+          ) INTO v_to_exists;
+          
+          IF NOT v_to_exists THEN
+              RAISE EXCEPTION 'Recipient account not found';
+          END IF;
+          
+          -- Perform the transfer operations
+          -- Deduct from sender
+          UPDATE accounts 
+          SET balance = balance - p_amount,
+              last_updated = CURRENT_TIMESTAMP
+          WHERE account_id = p_from_account;
+          
+          -- Add to recipient
+          UPDATE accounts 
+          SET balance = balance + p_amount,
+              last_updated = CURRENT_TIMESTAMP
+          WHERE account_id = p_to_account;
+          
+          -- Record transaction
+          INSERT INTO transactions (from_account, to_account, amount, trans_type)
+          VALUES (p_from_account, p_to_account, p_amount, 'TRANSFER')
+          RETURNING trans_id INTO v_transaction_id;
+          
+          -- Durability: Changes are now permanent
+          COMMIT;
+          
+          -- Return success
+          success := TRUE;
+          message := format('Transfer completed successfully. Transaction ID: %s', v_transaction_id);
+          RETURN NEXT;
+          
+      EXCEPTION
+          WHEN OTHERS THEN
+              -- Atomicity: Rollback all changes on error
+              ROLLBACK;
+              success := FALSE;
+              message := format('Transfer failed: %s', SQLERRM);
+              RETURN NEXT;
+      END;
+  END;
+  $$ LANGUAGE plpgsql;`,
+
+              `-- Concurrent transaction scenario demonstrating isolation levels
+  -- Session 1: Long-running report transaction
+  BEGIN TRANSACTION ISOLATION LEVEL REPEATABLE READ;
+  SELECT 'Session 1: Starting report generation at ' || CURRENT_TIMESTAMP;
+  
+  -- Read initial state
+  SELECT account_id, balance 
+  FROM accounts 
+  WHERE balance > 1000
+  ORDER BY account_id;
+  
+  -- Simulate long-running report (30 seconds)
+  SELECT pg_sleep(30);
+  
+  -- Read again - should see same data due to REPEATABLE READ
+  SELECT 'Session 1: Reading again after delay - should see same data';
+  SELECT account_id, balance 
+  FROM accounts 
+  WHERE balance > 1000
+  ORDER BY account_id;
+  
+  COMMIT;
+  
+  -- Session 2 (run concurrently): Update transactions
+  BEGIN TRANSACTION;
+  
+  -- This update will be blocked if Session 1 uses SERIALIZABLE
+  -- Or will proceed but not visible to Session 1 if REPEATABLE READ
+  UPDATE accounts 
+  SET balance = balance + 500
+  WHERE account_id = 102;
+  
+  INSERT INTO transactions (from_account, to_account, amount, trans_type)
+  VALUES (NULL, 102, 500, 'DEPOSIT');
+  
+  COMMIT;
+  
+  -- Session 3: Demonstrate different isolation levels
+  -- READ UNCOMMITTED (not supported in PostgreSQL, simulated)
+  BEGIN TRANSACTION ISOLATION LEVEL READ COMMITTED;
+  SELECT 'Session 3: Cannot see uncommitted changes in PostgreSQL';
+  SELECT * FROM accounts WHERE account_id = 102;
+  COMMIT;`,
+
+              `-- Deadlock detection and resolution example
+  CREATE OR REPLACE FUNCTION safe_transfer_with_retry(
+      p_from_account INT,
+      p_to_account INT, 
+      p_amount DECIMAL(15,2),
+      p_max_retries INT DEFAULT 3
+  ) RETURNS BOOLEAN AS $$
+  DECLARE
+      v_retry_count INT := 0;
+      v_success BOOLEAN := FALSE;
+      v_deadlock_detected BOOLEAN;
+  BEGIN
+      WHILE v_retry_count <= p_max_retries AND NOT v_success LOOP
+          BEGIN
+              -- Attempt the transfer
+              PERFORM process_bank_transfer(p_from_account, p_to_account, p_amount);
+              v_success := TRUE;
+              
+          EXCEPTION 
+              WHEN deadlock_detected THEN
+                  v_retry_count := v_retry_count + 1;
+                  v_deadlock_detected := TRUE;
+                  
+                  -- Log the deadlock
+                  INSERT INTO error_log (error_type, error_message, retry_count)
+                  VALUES ('DEADLOCK', 'Deadlock detected in transfer', v_retry_count);
+                  
+                  -- Wait with exponential backoff
+                  PERFORM pg_sleep((2 ^ v_retry_count) * 0.1); -- 0.1s, 0.2s, 0.4s...
+                  
+              WHEN OTHERS THEN
+                  -- Other errors are not retried
+                  RAISE;
+          END;
+      END LOOP;
+      
+      IF NOT v_success THEN
+          RAISE EXCEPTION 'Transfer failed after % retries due to deadlocks', p_max_retries;
+      END IF;
+      
+      RETURN v_success;
+  END;
+  $$ LANGUAGE plpgsql;`
+            ],
+            "questions": [
+              {
+                "question": "What are the ACID properties and why are they important in database systems?",
+                "solution": "<p><strong>ACID Properties:</strong></p><ul><li><strong>Atomicity:</strong> Transactions are all-or-nothing. Either all operations complete successfully, or none do. Prevents partial updates.</li><li><strong>Consistency:</strong> Transactions bring the database from one valid state to another, maintaining all rules and constraints.</li><li><strong>Isolation:</strong> Concurrent transactions don't interfere with each other. Each transaction sees a consistent view of the database.</li><li><strong>Durability:</strong> Committed transactions survive system failures. Changes are permanent once committed.</li></ul><p><strong>Importance:</strong> ACID properties ensure data integrity, reliability, and predictability in multi-user database environments. They prevent data corruption, lost updates, and inconsistent states that could occur in concurrent access scenarios.</p>"
+              },
+              {
+                "question": "What are the different transaction isolation levels and when should you use each?",
+                "solution": "<p><strong>Isolation Levels:</strong></p><ul><li><strong>READ UNCOMMITTED:</strong> Allows dirty reads. Use for non-critical data where performance is paramount.</li><li><strong>READ COMMITTED:</strong> Prevents dirty reads. Good balance for most applications. Default in many databases.</li><li><strong>REPEATABLE READ:</strong> Prevents dirty and non-repeatable reads. Use when you need consistent reads within a transaction.</li><li><strong>SERIALIZABLE:</strong> Prevents all concurrency issues. Use for financial transactions or when absolute consistency is required.</li></ul><p><strong>Choosing the right level:</strong> Consider your application's consistency requirements vs performance needs. Start with READ COMMITTED and increase isolation only when necessary due to concurrency issues.</p>"
+              },
+              {
+                "question": "How do deadlocks occur and what strategies can prevent them?",
+                "solution": "<p><strong>Deadlock Causes:</strong> Occur when two or more transactions are waiting for each other to release locks, creating a circular dependency.</p><p><strong>Prevention Strategies:</strong></p><ul><li><strong>Consistent Lock Ordering:</strong> Always acquire locks in the same order across all transactions</li><li><strong>Lock Timeouts:</strong> Set maximum wait time for locks to avoid indefinite waiting</li><li><strong>Keep Transactions Short:</strong> Minimize lock duration to reduce contention</li><li><strong>Use Lower Isolation Levels:</strong> When appropriate, use levels with less locking</li><li><strong>Application-level Retry Logic:</strong> Implement retry mechanisms for deadlock victims</li></ul><p><strong>Detection:</strong> Most databases automatically detect deadlocks and abort one of the transactions (the 'victim').</p>"
+              },
+              {
+                "question": "What is the difference between optimistic and pessimistic locking?",
+                "solution": "<p><strong>Pessimistic Locking:</strong></p><ul><li>Assumes conflicts will occur</li><li>Locks data during read/write operations</li><li>Prevents other transactions from accessing locked data</li><li>Better for high-contention scenarios</li><li>Examples: SELECT FOR UPDATE, SELECT FOR SHARE</li></ul><p><strong>Optimistic Locking:</strong></p><ul><li>Assumes conflicts are rare</li><li>Doesn't lock data during reads</li><li>Checks for conflicts during updates (using version numbers/timestamps)</li><li>Requires retry logic for conflicts</li><li>Better for low-contention scenarios</li><li>Example: Version columns with conditional updates</li></ul><p><strong>Choice depends on:</strong> Contention level, performance requirements, and application complexity.</p>"
+              },
+              {
+                "question": "How does Write-Ahead Logging (WAL) ensure durability in database systems?",
+                "solution": "<p><strong>Write-Ahead Logging (WAL) Principle:</strong> Changes must be written to the transaction log before they are written to the main database files.</p><p><strong>WAL Process:</strong></p><ol><li>Transaction makes changes to data in memory</li><li>Changes are written to WAL (transaction log) on disk</li><li>Once WAL is safely written, transaction is considered committed</li><li>Changes are later written to main database files (can be asynchronous)</li></ol><p><strong>Durability Guarantee:</strong> Even if the database crashes after commit but before changes reach main files, the system can recover by replaying the WAL.</p><p><strong>Benefits:</strong> Better performance (sequential writes to log), crash recovery, and point-in-time recovery capabilities.</p>"
+              }
+            ],
+            "links": [
+              "https://www.postgresql.org/docs/current/transaction-iso.html",
+              "https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-model.html",
+              "https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-ver16",
+              "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
+              "https://medium.com/@mena.meseha/understanding-database-isolation-levels-8c99b82c7dba"
+            ]
+          },
+          {
+            topic: "Advanced Query Optimization Techniques",
+            tags: [
+              "CTEs",
+              "Recursive CTEs",
+              "Materialized Views",
+              "Index Tuning",
+              "Query Performance",
+            ],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Advanced query optimization techniques are essential for improving database performance, managing complex queries, and handling large datasets efficiently. These techniques include Common Table Expressions (CTEs), recursive queries, materialized views, and strategic index tuning.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create sample tables to demonstrate optimization techniques:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Employees Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-----------+------------+--------+------------+---------------------+
+  | employee_id| name      | department | salary | manager_id | hire_date           |
+  +------------+-----------+------------+--------+------------+---------------------+
+  | 1          | John CEO  | Executive  | 150000 | NULL       | 2018-01-15          |
+  | 2          | Jane VP   | IT         | 120000 | 1          | 2019-03-20          |
+  | 3          | Bob Manager| IT        | 90000  | 2          | 2020-06-10          |
+  | 4          | Alice Sr  | IT         | 75000  | 3          | 2021-02-15          |
+  | 5          | Mike Dev  | IT         | 65000  | 3          | 2022-01-10          |
+  | 6          | Sarah HR  | HR         | 70000  | 2          | 2020-08-22          |
+  | 7          | Tom Jr    | HR         | 50000  | 6          | 2023-03-15          |
+  +------------+-----------+------------+--------+------------+---------------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Sales Table (Large Dataset):</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +----------+-------------+------------+--------+---------------------+---------+
+  | sale_id  | customer_id | product_id | amount | sale_date           | region  |
+  +----------+-------------+------------+--------+---------------------+---------+
+  | 1        | 101         | 1          | 5000   | 2024-01-15 09:30:00 | North   |
+  | 2        | 102         | 2          | 7500   | 2024-01-16 14:45:00 | South   |
+  | 3        | 103         | 1          | 3000   | 2024-01-17 10:15:00 | North   |
+  | ...      | ...         | ...        | ...    | ...                 | ...     |
+  | 1000000  | 999         | 5          | 8200   | 2024-12-31 16:20:00 | East    |
+  +----------+-------------+------------+--------+---------------------+---------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. Common Table Expressions (CTEs)
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       CTEs are temporary named result sets that exist only during query execution. They improve query readability, maintainability, and can sometimes improve performance by breaking complex queries into logical parts.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Basic CTE Syntax and Benefits
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Basic CTE structure
+  WITH cte_name (column1, column2) AS (
+      SELECT column1, column2
+      FROM table_name
+      WHERE conditions
+  )
+  SELECT * FROM cte_name;
+  
+  -- Benefits:
+  -- 1. Improved readability for complex queries
+  -- 2. Reuse of the same subquery multiple times
+  -- 3. Recursive queries (hierarchical data)
+  -- 4. Alternative to temporary tables
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Practical CTE Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Example 1: Department salary analysis
+  WITH DepartmentStats AS (
+      SELECT 
+          department,
+          COUNT(*) as employee_count,
+          AVG(salary) as avg_salary,
+          MAX(salary) as max_salary
+      FROM Employees
+      GROUP BY department
+  ),
+  HighEarners AS (
+      SELECT 
+          e.name,
+          e.department,
+          e.salary,
+          ds.avg_salary
+      FROM Employees e
+      JOIN DepartmentStats ds ON e.department = ds.department
+      WHERE e.salary > ds.avg_salary * 1.2
+  )
+  SELECT * FROM HighEarners;
+  
+  -- Example 2: Multiple CTEs in sequence
+  WITH RegionalSales AS (
+      SELECT 
+          region,
+          SUM(amount) as total_sales,
+          COUNT(*) as transaction_count
+      FROM Sales
+      WHERE sale_date >= '2024-01-01'
+      GROUP BY region
+  ),
+  RegionalAvg AS (
+      SELECT 
+          AVG(total_sales) as avg_regional_sales
+      FROM RegionalSales
+  )
+  SELECT 
+      rs.region,
+      rs.total_sales,
+      rs.transaction_count,
+      CASE 
+          WHEN rs.total_sales > ra.avg_regional_sales THEN 'Above Average'
+          ELSE 'Below Average'
+      END as performance
+  FROM RegionalSales rs
+  CROSS JOIN RegionalAvg ra;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Performance Considerations for CTEs
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- CTEs are generally not materialized (except in specific cases)
+  -- Each reference to a CTE may re-execute the query
+  
+  -- Good: CTE used once
+  WITH RecentSales AS (
+      SELECT * FROM Sales 
+      WHERE sale_date >= CURRENT_DATE - INTERVAL 30 DAY
+  )
+  SELECT COUNT(*) FROM RecentSales;
+  
+  -- Potentially inefficient: CTE referenced multiple times in complex query
+  WITH SalesSummary AS (
+      SELECT customer_id, SUM(amount) as total
+      FROM Sales 
+      GROUP BY customer_id
+  )
+  SELECT 
+      ss1.customer_id,
+      ss1.total,
+      (SELECT COUNT(*) FROM SalesSummary ss2 WHERE ss2.total > ss1.total) as rank
+  FROM SalesSummary ss1;
+  
+  -- Better alternative: Use temporary table for heavy reuse
+  CREATE TEMPORARY TABLE temp_sales_summary AS
+  SELECT customer_id, SUM(amount) as total
+  FROM Sales 
+  GROUP BY customer_id;
+  
+  SELECT 
+      customer_id,
+      total,
+      (SELECT COUNT(*) FROM temp_sales_summary WHERE total > tss.total) as rank
+  FROM temp_sales_summary tss;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. Recursive CTEs
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Recursive CTEs allow queries to reference themselves, making them ideal for hierarchical data, tree structures, and graph traversals. They consist of an anchor member (base case) and a recursive member.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Recursive CTE Syntax
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  WITH RECURSIVE cte_name AS (
+      -- Anchor member (base case)
+      SELECT ... FROM ... WHERE ...
+      
+      UNION ALL
+      
+      -- Recursive member
+      SELECT ... FROM cte_name
+      JOIN ... ON ...
+      WHERE ...
+  )
+  SELECT * FROM cte_name;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Organizational Hierarchy Example
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Find complete reporting hierarchy for all employees
+  WITH RECURSIVE EmployeeHierarchy AS (
+      -- Anchor: Top-level employees (no manager)
+      SELECT 
+          employee_id,
+          name,
+          department,
+          manager_id,
+          0 as level,
+          CAST(name AS VARCHAR(1000)) as hierarchy_path
+      FROM Employees
+      WHERE manager_id IS NULL
+      
+      UNION ALL
+      
+      -- Recursive: Subordinates of current level
+      SELECT 
+          e.employee_id,
+          e.name,
+          e.department,
+          e.manager_id,
+          eh.level + 1 as level,
+          CAST(eh.hierarchy_path || ' -> ' || e.name AS VARCHAR(1000)) as hierarchy_path
+      FROM Employees e
+      INNER JOIN EmployeeHierarchy eh ON e.manager_id = eh.employee_id
+  )
+  SELECT 
+      employee_id,
+      name,
+      department,
+      level,
+      hierarchy_path
+  FROM EmployeeHierarchy
+  ORDER BY level, name;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Number Series and Date Generation
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Generate a series of numbers
+  WITH RECURSIVE NumberSeries AS (
+      SELECT 1 as num
+      
+      UNION ALL
+      
+      SELECT num + 1
+      FROM NumberSeries
+      WHERE num < 100
+  )
+  SELECT * FROM NumberSeries;
+  
+  -- Generate date ranges for reporting
+  WITH RECURSIVE DateSeries AS (
+      SELECT 
+          '2024-01-01'::DATE as date_value
+      
+      UNION ALL
+      
+      SELECT date_value + 1
+      FROM DateSeries
+      WHERE date_value < '2024-01-31'
+  )
+  SELECT 
+      date_value,
+      EXTRACT(DOW FROM date_value) as day_of_week
+  FROM DateSeries;
+  
+  -- Fill missing dates in sales data
+  WITH RECURSIVE AllDates AS (
+      SELECT MIN(sale_date) as date_value FROM Sales
+      UNION ALL
+      SELECT date_value + 1
+      FROM AllDates
+      WHERE date_value < (SELECT MAX(sale_date) FROM Sales)
+  )
+  SELECT 
+      ad.date_value,
+      COALESCE(SUM(s.amount), 0) as daily_sales
+  FROM AllDates ad
+  LEFT JOIN Sales s ON ad.date_value = s.sale_date
+  GROUP BY ad.date_value
+  ORDER BY ad.date_value;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Graph Traversal and Path Finding
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Assuming we have an EmployeeConnections table for office proximity
+  WITH RECURSIVE OfficePaths AS (
+      SELECT 
+          from_employee,
+          to_employee,
+          distance,
+          CAST(from_employee || '->' || to_employee AS VARCHAR(1000)) as path,
+          1 as depth
+      FROM EmployeeConnections
+      WHERE from_employee = 1  -- Start from employee 1
+      
+      UNION ALL
+      
+      SELECT 
+          op.from_employee,
+          ec.to_employee,
+          op.distance + ec.distance,
+          CAST(op.path || '->' || ec.to_employee AS VARCHAR(1000)),
+          op.depth + 1
+      FROM OfficePaths op
+      JOIN EmployeeConnections ec ON op.to_employee = ec.from_employee
+      WHERE op.depth < 5  -- Prevent infinite recursion
+        AND op.path NOT LIKE '%' || ec.to_employee || '%'  -- Avoid cycles
+  )
+  SELECT * FROM OfficePaths
+  ORDER BY distance;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. Materialized Views
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Materialized Views store the results of a query physically and can be refreshed periodically. They dramatically improve performance for complex queries on large datasets by precomputing expensive operations.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Creating and Using Materialized Views
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- PostgreSQL: Create materialized view for sales summaries
+  CREATE MATERIALIZED VIEW mv_sales_daily_summary AS
+  SELECT 
+      DATE(sale_date) as sale_day,
+      region,
+      COUNT(*) as transaction_count,
+      SUM(amount) as total_sales,
+      AVG(amount) as avg_sale_amount,
+      COUNT(DISTINCT customer_id) as unique_customers
+  FROM Sales
+  GROUP BY DATE(sale_date), region;
+  
+  -- Create index on materialized view for fast queries
+  CREATE INDEX idx_mv_sales_day ON mv_sales_daily_summary(sale_day);
+  CREATE INDEX idx_mv_sales_region ON mv_sales_daily_summary(region);
+  
+  -- Query the materialized view (much faster than base tables)
+  SELECT * FROM mv_sales_daily_summary
+  WHERE sale_day BETWEEN '2024-01-01' AND '2024-01-31'
+  ORDER BY total_sales DESC;
+  
+  -- Refresh the materialized view to update data
+  REFRESH MATERIALIZED VIEW mv_sales_daily_summary;
+  -- Concurrent refresh (PostgreSQL 9.4+)
+  REFRESH MATERIALIZED VIEW CONCURRENTLY mv_sales_daily_summary;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Use Cases for Materialized Views
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Complex aggregations for reporting
+  CREATE MATERIALIZED VIEW mv_employee_performance AS
+  SELECT 
+      e.department,
+      e.employee_id,
+      e.name,
+      COUNT(s.sale_id) as sale_count,
+      SUM(s.amount) as total_sales,
+      AVG(s.amount) as avg_sale_amount
+  FROM Employees e
+  LEFT JOIN Sales s ON e.employee_id = s.salesperson_id
+  WHERE s.sale_date >= CURRENT_DATE - INTERVAL '90 days'
+  GROUP BY e.department, e.employee_id, e.name;
+  
+  -- Hierarchical data flattening
+  CREATE MATERIALIZED VIEW mv_employee_hierarchy_flat AS
+  WITH RECURSIVE OrgChart AS (
+      SELECT 
+          employee_id, name, manager_id, department,
+          0 as level,
+          CAST(name AS VARCHAR(1000)) as path
+      FROM Employees WHERE manager_id IS NULL
+      UNION ALL
+      SELECT 
+          e.employee_id, e.name, e.manager_id, e.department,
+          oc.level + 1,
+          CAST(oc.path || ' -> ' || e.name AS VARCHAR(1000))
+      FROM Employees e
+      JOIN OrgChart oc ON e.manager_id = oc.employee_id
+  )
+  SELECT * FROM OrgChart;
+  
+  -- Cross-table denormalization for performance
+  CREATE MATERIALIZED VIEW mv_customer_360 AS
+  SELECT 
+      c.customer_id,
+      c.name,
+      c.email,
+      COUNT(s.sale_id) as total_orders,
+      SUM(s.amount) as lifetime_value,
+      MAX(s.sale_date) as last_order_date,
+      AVG(s.amount) as avg_order_value
+  FROM Customers c
+  LEFT JOIN Sales s ON c.customer_id = s.customer_id
+  GROUP BY c.customer_id, c.name, c.email;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Materialized View Strategies
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Refresh strategies
+  -- 1. Manual refresh (application-controlled)
+  REFRESH MATERIALIZED VIEW mv_sales_daily_summary;
+  
+  -- 2. Scheduled refresh (via cron job or DB scheduler)
+  -- 3. Trigger-based refresh (on base table changes)
+  
+  -- Monitoring materialized view usage
+  SELECT 
+      schemaname,
+      matviewname,
+      matviewowner,
+      ispopulated
+  FROM pg_matviews  -- PostgreSQL specific
+  WHERE schemaname = 'public';
+  
+  -- Size and statistics
+  SELECT 
+      pg_size_pretty(pg_total_relation_size('mv_sales_daily_summary')) as size;
+  
+  -- When to use materialized views:
+  -- * Complex aggregations on large datasets
+  -- * Frequently accessed, slowly changing data
+  -- * Reporting and dashboard queries
+  -- * Data that can tolerate some staleness
+  
+  -- When to avoid:
+  -- * Real-time data requirements
+  -- * Frequently updated base tables
+  -- * Small datasets that fit in memory
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       4. Index Tuning and Optimization
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Proper index tuning is crucial for database performance. Understanding when and how to create indexes, which types to use, and how to maintain them can dramatically improve query performance.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Index Types and Their Uses
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- B-Tree Index (Default) - Good for equality and range queries
+  CREATE INDEX idx_employees_department ON Employees(department);
+  CREATE INDEX idx_sales_date_amount ON Sales(sale_date, amount);
+  
+  -- Hash Index - Good for exact equality matches only
+  CREATE INDEX idx_employees_id_hash ON Employees USING HASH (employee_id);
+  
+  -- GiST (Generalized Search Tree) - Good for geometric data, full-text search
+  CREATE INDEX idx_employees_location_gist ON Employees USING GIST (location);
+  
+  -- GIN (Generalized Inverted Index) - Good for array data, JSON, full-text
+  CREATE INDEX idx_employees_skills_gin ON Employees USING GIN (skills);
+  
+  -- BRIN (Block Range Index) - Good for very large, naturally ordered data
+  CREATE INDEX idx_sales_date_brin ON Sales USING BRIN (sale_date);
+  
+  -- Partial Index - Index only a subset of data
+  CREATE INDEX idx_high_salary ON Employees(salary) 
+  WHERE salary > 100000;
+  
+  -- Expression Index - Index on computed values
+  CREATE INDEX idx_employee_name_lower ON Employees(LOWER(name));
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Strategic Index Creation
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Multi-column indexes for common query patterns
+  CREATE INDEX idx_sales_region_date_customer 
+  ON Sales(region, sale_date, customer_id);
+  
+  -- Covering indexes (include all columns needed by query)
+  CREATE INDEX idx_sales_covering 
+  ON Sales(region, sale_date) 
+  INCLUDE (amount, product_id);
+  
+  -- Indexes for foreign keys (improve JOIN performance)
+  CREATE INDEX idx_sales_customer_id ON Sales(customer_id);
+  CREATE INDEX idx_employees_manager_id ON Employees(manager_id);
+  
+  -- Unique indexes for data integrity
+  CREATE UNIQUE INDEX idx_employees_email ON Employees(email);
+  
+  -- Analyze query patterns to identify missing indexes
+  -- Look for:
+  -- * Sequential scans on large tables
+  -- * Expensive sort operations
+  -- * Nested loops that could be hash joins
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Index Maintenance and Monitoring
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Check index usage statistics (PostgreSQL)
+  SELECT 
+      schemaname,
+      tablename,
+      indexname,
+      idx_scan as index_scans,
+      idx_tup_read as tuples_read,
+      idx_tup_fetch as tuples_fetched
+  FROM pg_stat_user_indexes
+  WHERE schemaname = 'public'
+  ORDER BY idx_scan DESC;
+  
+  -- Find unused indexes (consider dropping these)
+  SELECT 
+      schemaname,
+      tablename,
+      indexname,
+      idx_scan as index_scans
+  FROM pg_stat_user_indexes
+  WHERE idx_scan = 0;
+  
+  -- Check index size and bloat
+  SELECT 
+      indexname,
+      pg_size_pretty(pg_relation_size(indexname::regclass)) as size,
+      idx_scan as usage_count
+  FROM pg_stat_user_indexes
+  ORDER BY pg_relation_size(indexname::regclass) DESC;
+  
+  -- Rebuild indexes to reduce bloat
+  REINDEX INDEX idx_sales_date_amount;
+  REINDEX TABLE Sales;
+  
+  -- Update statistics for query planner
+  ANALYZE Sales;
+  ANALYZE VERBOSE Employees;  -- With detailed output
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Query Plan Analysis and Optimization
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Analyze query execution plans
+  EXPLAIN ANALYZE 
+  SELECT * FROM Sales 
+  WHERE sale_date BETWEEN '2024-01-01' AND '2024-01-31'
+  AND region = 'North'
+  ORDER BY amount DESC;
+  
+  -- Common plan operations and what they indicate:
+  -- Seq Scan: Full table scan - consider adding indexes
+  -- Index Scan: Using index - good
+  -- Bitmap Heap Scan: Multiple index usage
+  -- Nested Loop: May need better join conditions or indexes
+  -- Hash Join: Good for larger datasets
+  -- Sort: Expensive operation - consider index on ORDER BY columns
+  
+  -- Force index usage (when planner chooses poorly)
+  SELECT * FROM Sales 
+  WITH (INDEX(idx_sales_date_region))
+  WHERE sale_date >= '2024-01-01';
+  
+  -- Disable specific indexes for testing
+  SET enable_indexscan = off;
+  EXPLAIN ANALYZE YOUR_QUERY;
+  SET enable_indexscan = on;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Advanced Optimization Strategies
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Partitioning for Large Tables
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Range partitioning by date (PostgreSQL)
+  CREATE TABLE sales_partitioned (
+      sale_id SERIAL,
+      customer_id INTEGER,
+      amount DECIMAL(10,2),
+      sale_date DATE,
+      region VARCHAR(50)
+  ) PARTITION BY RANGE (sale_date);
+  
+  -- Create monthly partitions
+  CREATE TABLE sales_2024_01 PARTITION OF sales_partitioned
+      FOR VALUES FROM ('2024-01-01') TO ('2024-02-01');
+  
+  CREATE TABLE sales_2024_02 PARTITION OF sales_partitioned
+      FOR VALUES FROM ('2024-02-01') TO ('2024-03-01');
+  
+  -- List partitioning by region
+  CREATE TABLE sales_partitioned_region (
+      sale_id SERIAL,
+      customer_id INTEGER,
+      amount DECIMAL(10,2),
+      sale_date DATE,
+      region VARCHAR(50)
+  ) PARTITION BY LIST (region);
+  
+  CREATE TABLE sales_north PARTITION OF sales_partitioned_region
+      FOR VALUES IN ('North');
+  CREATE TABLE sales_south PARTITION OF sales_partitioned_region
+      FOR VALUES IN ('South');
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Query Rewriting for Performance
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Instead of: Multiple OR conditions
+  SELECT * FROM Sales 
+  WHERE region = 'North' OR region = 'South' OR region = 'East';
+  
+  -- Use: IN clause
+  SELECT * FROM Sales 
+  WHERE region IN ('North', 'South', 'East');
+  
+  -- Instead of: Subquery in SELECT
+  SELECT 
+      customer_id,
+      (SELECT COUNT(*) FROM Sales s2 WHERE s2.customer_id = s1.customer_id) as order_count
+  FROM Sales s1;
+  
+  -- Use: Window function or JOIN
+  SELECT 
+      customer_id,
+      COUNT(*) OVER (PARTITION BY customer_id) as order_count
+  FROM Sales;
+  
+  -- Or: Pre-aggregate with CTE
+  WITH OrderCounts AS (
+      SELECT customer_id, COUNT(*) as order_count
+      FROM Sales
+      GROUP BY customer_id
+  )
+  SELECT s.*, oc.order_count
+  FROM Sales s
+  JOIN OrderCounts oc ON s.customer_id = oc.customer_id;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Performance Monitoring and Tuning Checklist
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+         <strong>Identify slow queries</strong> - Use database logs and monitoring tools
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Analyze execution plans</strong> - Look for full table scans, expensive sorts
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Check index usage</strong> - Ensure queries are using appropriate indexes
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Consider query rewriting</strong> - Simplify complex queries, use CTEs
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Evaluate materialized views</strong> - For frequently accessed complex queries
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Review partitioning strategy</strong> - For very large tables
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Monitor resource usage</strong> - CPU, memory, I/O patterns
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Regular maintenance</strong> - Update statistics, rebuild indexes, vacuum tables
+       </li>
+     </ol>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Database Configuration Tuning
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- PostgreSQL configuration examples
+  -- shared_buffers = 25% of total RAM (for dedicated DB server)
+  -- work_mem = for sort operations and hash tables
+  -- maintenance_work_mem = for index creation and vacuum
+  -- effective_cache_size = estimate of OS cache available
+  
+  -- Check current settings
+  SELECT name, setting, unit, context 
+  FROM pg_settings 
+  WHERE name IN ('shared_buffers', 'work_mem', 'maintenance_work_mem', 'effective_cache_size');
+  
+  -- Monitor database activity
+  SELECT 
+      datname,
+      numbackends as connections,
+      xact_commit as transactions_committed,
+      xact_rollback as transactions_rolled_back,
+      blks_read as blocks_read,
+      blks_hit as blocks_hit_cache
+  FROM pg_stat_database 
+  WHERE datname = current_database();
+       </code></pre>
+     </div>
+  </div>`,
+            examples: [
+              `-- Comprehensive optimization example: Sales reporting system
+  WITH DailySales AS (
+      SELECT 
+          DATE(sale_date) as sale_day,
+          region,
+          salesperson_id,
+          SUM(amount) as daily_total,
+          COUNT(*) as daily_count
+      FROM Sales
+      WHERE sale_date >= CURRENT_DATE - INTERVAL '90 days'
+      GROUP BY DATE(sale_date), region, salesperson_id
+  ),
+  SalespersonStats AS (
+      SELECT 
+          salesperson_id,
+          AVG(daily_total) as avg_daily_sales,
+          MAX(daily_total) as best_daily_sales,
+          COUNT(DISTINCT sale_day) as active_days
+      FROM DailySales
+      GROUP BY salesperson_id
+  ),
+  RankedSalespeople AS (
+      SELECT 
+          e.employee_id,
+          e.name,
+          e.department,
+          ss.avg_daily_sales,
+          ss.best_daily_sales,
+          ss.active_days,
+          RANK() OVER (ORDER BY ss.avg_daily_sales DESC) as performance_rank
+      FROM Employees e
+      JOIN SalespersonStats ss ON e.employee_id = ss.salesperson_id
+      WHERE e.department = 'Sales'
+  )
+  SELECT 
+      name,
+      department,
+      ROUND(avg_daily_sales, 2) as avg_daily,
+      ROUND(best_daily_sales, 2) as best_daily,
+      active_days,
+      performance_rank
+  FROM RankedSalespeople
+  WHERE performance_rank <= 10
+  ORDER BY performance_rank;`,
+
+              `-- Recursive CTE for organizational reporting chain
+  WITH RECURSIVE ReportingChain AS (
+      -- Anchor: Start with specific employee
+      SELECT 
+          employee_id,
+          name,
+          department,
+          manager_id,
+          0 as level,
+          CAST(name AS VARCHAR(1000)) as chain
+      FROM Employees
+      WHERE employee_id = 5  -- Start from Mike Dev
+      
+      UNION ALL
+      
+      -- Recursive: Move up the management chain
+      SELECT 
+          e.employee_id,
+          e.name,
+          e.department,
+          e.manager_id,
+          rc.level + 1,
+          CAST(e.name || ' -> ' || rc.chain AS VARCHAR(1000))
+      FROM Employees e
+      JOIN ReportingChain rc ON e.employee_id = rc.manager_id
+  )
+  SELECT 
+      level,
+      name,
+      department,
+      chain as management_chain
+  FROM ReportingChain
+  ORDER BY level DESC;`,
+
+              `-- Materialized view for real-time dashboard (refresh every hour)
+  CREATE MATERIALIZED VIEW mv_sales_dashboard AS
+  WITH MonthlySales AS (
+      SELECT 
+          DATE_TRUNC('month', sale_date) as sale_month,
+          region,
+          salesperson_id,
+          SUM(amount) as monthly_sales,
+          COUNT(*) as order_count
+      FROM Sales
+      GROUP BY DATE_TRUNC('month', sale_date), region, salesperson_id
+  ),
+  SalespersonPerformance AS (
+      SELECT 
+          ms.sale_month,
+          ms.region,
+          e.name as salesperson_name,
+          ms.monthly_sales,
+          ms.order_count,
+          RANK() OVER (PARTITION BY ms.sale_month, ms.region ORDER BY ms.monthly_sales DESC) as regional_rank
+      FROM MonthlySales ms
+      JOIN Employees e ON ms.salesperson_id = e.employee_id
+  )
+  SELECT * FROM SalespersonPerformance;
+  
+  -- Query for dashboard
+  SELECT 
+      sale_month,
+      region,
+      salesperson_name,
+      monthly_sales,
+      order_count,
+      regional_rank
+  FROM mv_sales_dashboard
+  WHERE sale_month >= DATE_TRUNC('month', CURRENT_DATE - INTERVAL '6 months')
+  ORDER BY sale_month DESC, region, regional_rank;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What are the key differences between CTEs and temporary tables?",
+                solution:
+                  "<p><strong>CTEs (Common Table Expressions):</strong></p><ul><li>Exist only during query execution</li><li>Not materialized by default (may be re-executed)</li><li>Better for readability and recursive queries</li><li>No statistics collected</li><li>Cannot have indexes</li><li>Limited to single statement scope</li></ul><p><strong>Temporary Tables:</strong></p><ul><li>Physically stored in temp database</li><li>Persist for session or transaction</li><li>Can have indexes and constraints</li><li>Statistics are collected</li><li>Better for heavy reuse in complex queries</li><li>Can be shared across multiple statements</li></ul><p><strong>Rule of thumb:</strong> Use CTEs for query organization, use temp tables when you need to reference the data multiple times or benefit from indexing.</p>",
+              },
+              {
+                question:
+                  "When should you use recursive CTEs versus other hierarchical query methods?",
+                solution:
+                  "<p><strong>Use Recursive CTEs when:</strong></p><ul><li>You need to traverse trees or graphs of unknown depth</li><li>Database doesn't have built-in hierarchical functions</li><li>You need custom logic during traversal</li><li>You want to build paths or collect multiple levels</li></ul><p><strong>Consider alternatives when:</strong></p><ul><li>Fixed depth hierarchies (use multiple JOINs)</li><li>Very large datasets (consider closure tables)</li><li>Frequent hierarchical queries (consider nested sets)</li><li>Oracle databases (use CONNECT BY)</li><li>SQL Server (use hierarchyid data type)</li></ul><p><strong>Performance tip:</strong> Always include termination conditions and consider depth limits to prevent infinite recursion.</p>",
+              },
+              {
+                question:
+                  "What are the trade-offs of using materialized views?",
+                solution:
+                  "<p><strong>Advantages of Materialized Views:</strong></p><ul><li>Dramatically faster query performance</li><li>Reduce load on base tables</li><li>Precompute complex aggregations</li><li>Can be indexed for additional speed</li></ul><p><strong>Disadvantages and Considerations:</strong></p><ul><li>Data is not real-time (staleness)</li><li>Storage overhead</li><li>Refresh overhead (can be expensive)</li><li>May need complex refresh strategies</li><li>Application must handle potential inconsistencies</li></ul><p><strong>Best for:</strong> Reporting, dashboards, data that changes infrequently, complex aggregations on large datasets.</p><p><strong>Avoid for:</strong> Real-time transaction processing, frequently updated data, small datasets.</p>",
+              },
+              {
+                question:
+                  "How do you determine which indexes to create and which to drop?",
+                solution:
+                  "<p><strong>Create indexes for:</strong></p><ul><li>Columns in WHERE clauses with high selectivity</li><li>Foreign key columns</li><li>Columns in JOIN conditions</li><li>Columns in ORDER BY and GROUP BY</li><li>Frequently queried combinations (composite indexes)</li></ul><p><strong>Consider dropping indexes that:</strong></p><ul><li>Are never used (check usage statistics)</li><li>Have significant overlap with other indexes</li><li>Are on frequently updated tables causing write overhead</li><li>Are on small tables where sequential scan is faster</li></ul><p><strong>Monitoring:</strong> Regularly check index usage statistics, size, and maintenance overhead. Use EXPLAIN ANALYZE to verify index usage in query plans.</p>",
+              },
+              {
+                question:
+                  "What are the most common query performance anti-patterns and how to fix them?",
+                solution:
+                  "<p><strong>Common Anti-patterns and Solutions:</strong></p><ul><li><strong>N+1 Query Problem:</strong> Multiple round trips - Use JOINs or batch queries</li><li><strong>SELECT *:</strong> Unnecessary data transfer - Specify only needed columns</li><li><strong>Functions in WHERE clauses:</strong> Prevents index usage - Rewrite or use expression indexes</li><li><strong>Implicit type conversions:</strong> Inefficient comparisons - Ensure data types match</li><li><strong>Correlated subqueries:</strong> Executed repeatedly - Use JOINs or window functions</li><li><strong>Missing WHERE clauses:</strong> Full table scans - Always filter data early</li><li><strong>Over-normalization:</strong> Excessive JOINs - Consider denormalization for read-heavy workloads</li></ul><p><strong>Always:</strong> Use EXPLAIN ANALYZE, monitor slow queries, and test with realistic data volumes.</p>",
+              },
+            ],
+            links: [
+              "https://www.postgresql.org/docs/current/queries-with.html",
+              "https://learn.microsoft.com/en-us/sql/t-sql/queries/with-common-table-expression-transact-sql?view=sql-server-ver16",
+              "https://dev.mysql.com/doc/refman/8.0/en/with.html",
+              "https://www.postgresql.org/docs/current/rules-materializedviews.html",
+              "https://use-the-index-luke.com/",
+            ],
+          },
+          {
+            topic: "SQL Window Functions",
+            tags: [
+              "ROW_NUMBER",
+              "RANK",
+              "DENSE_RANK",
+              "NTILE",
+              "PARTITION BY",
+              "OVER",
+              "LEAD",
+              "LAG",
+            ],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       Window functions perform calculations across a set of table rows that are somehow related to the current row. Unlike regular aggregate functions, window functions do not cause rows to become grouped into a single output row — they retain their separate identities. Window functions are essential for complex analytical queries, rankings, running totals, and moving averages.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Sample Tables for Examples
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Let's create sample tables to demonstrate window functions:
+     </p>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Sales Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +----------+-------------+------------+--------+---------------------+
+  | sale_id  | salesperson | region     | amount | sale_date           |
+  +----------+-------------+------------+--------+---------------------+
+  | 1        | John        | North      | 5000   | 2024-01-15          |
+  | 2        | Jane        | South      | 7500   | 2024-01-16          |
+  | 3        | Bob         | North      | 3000   | 2024-01-17          |
+  | 4        | Alice       | East       | 9000   | 2024-01-18          |
+  | 5        | John        | North      | 6000   | 2024-01-19          |
+  | 6        | Jane        | South      | 8500   | 2024-01-20          |
+  | 7        | Bob         | North      | 4000   | 2024-01-21          |
+  | 8        | Alice       | East       | 9500   | 2024-01-22          |
+  | 9        | Mike        | West       | 7000   | 2024-01-23          |
+  | 10       | Sarah       | West       | 8000   | 2024-01-24          |
+  +----------+-------------+------------+--------+---------------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <div style="margin-top: 1rem;">
+       <strong>Employees Table:</strong>
+       <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+         <pre><code>
+  +------------+-----------+------------+--------+---------------------+
+  | employee_id| name      | department | salary | hire_date           |
+  +------------+-----------+------------+--------+---------------------+
+  | 1          | John Doe  | IT         | 60000  | 2020-05-15          |
+  | 2          | Jane Smith| HR         | 55000  | 2021-08-22          |
+  | 3          | Bob Johnson| IT        | 75000  | 2019-11-30          |
+  | 4          | Alice Brown| Finance   | 65000  | 2022-03-10          |
+  | 5          | Mike Wilson| IT        | 70000  | 2023-01-05          |
+  | 6          | Sara Davis| Finance    | 58000  | 2021-12-01          |
+  | 7          | Tom Miller| HR         | 52000  | 2022-09-15          |
+  | 8          | Lisa Taylor| IT        | 68000  | 2020-07-20          |
+  +------------+-----------+------------+--------+---------------------+
+         </code></pre>
+       </div>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Window Function Syntax Overview
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       The basic syntax for window functions includes the OVER() clause which defines the window or set of rows for the function to operate on:
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  function_name([arguments]) OVER (
+      [PARTITION BY partition_expression]
+      [ORDER BY sort_expression [ASC | DESC]]
+      [frame_clause]
+  )
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       1. Ranking Functions
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       ROW_NUMBER() - Assigns unique sequential integers
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Assigns a unique sequential integer to each row within the partition, starting from 1.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Simple row numbering
+  SELECT 
+      salesperson,
+      amount,
+      ROW_NUMBER() OVER (ORDER BY amount DESC) as rank
+  FROM Sales;
+  
+  -- Row number by region
+  SELECT 
+      salesperson,
+      region,
+      amount,
+      ROW_NUMBER() OVER (PARTITION BY region ORDER BY amount DESC) as regional_rank
+  FROM Sales;
+  
+  -- Top 3 sales per region
+  SELECT * FROM (
+      SELECT 
+          salesperson,
+          region,
+          amount,
+          ROW_NUMBER() OVER (PARTITION BY region ORDER BY amount DESC) as regional_rank
+      FROM Sales
+  ) ranked
+  WHERE regional_rank <= 3;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       RANK() - Ranking with gaps for ties
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Assigns a rank to each row within the partition, with the same rank for ties and gaps in the sequence.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Rank sales by amount (with gaps for ties)
+  SELECT 
+      salesperson,
+      amount,
+      RANK() OVER (ORDER BY amount DESC) as sales_rank
+  FROM Sales;
+  
+  -- Rank within each region
+  SELECT 
+      salesperson,
+      region,
+      amount,
+      RANK() OVER (PARTITION BY region ORDER BY amount DESC) as regional_rank
+  FROM Sales;
+  
+  -- Employee salary ranking by department
+  SELECT 
+      name,
+      department,
+      salary,
+      RANK() OVER (PARTITION BY department ORDER BY salary DESC) as salary_rank
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       DENSE_RANK() - Ranking without gaps for ties
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Similar to RANK(), but without gaps in the ranking sequence when there are ties.
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Dense rank sales by amount (no gaps for ties)
+  SELECT 
+      salesperson,
+      amount,
+      DENSE_RANK() OVER (ORDER BY amount DESC) as sales_rank
+  FROM Sales;
+  
+  -- Compare RANK vs DENSE_RANK
+  SELECT 
+      salesperson,
+      amount,
+      RANK() OVER (ORDER BY amount DESC) as rank_with_gaps,
+      DENSE_RANK() OVER (ORDER BY amount DESC) as dense_rank_no_gaps
+  FROM Sales;
+  
+  -- Department-wise dense ranking
+  SELECT 
+      name,
+      department,
+      salary,
+      DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) as dept_salary_rank
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       NTILE() - Divide rows into buckets
+     </h5>
+     <p style="line-height: 1.75; margin-top: 0.5rem;">
+       Divides rows into a specified number of approximately equal groups (buckets).
+     </p>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Divide sales into 4 quartiles
+  SELECT 
+      salesperson,
+      amount,
+      NTILE(4) OVER (ORDER BY amount DESC) as quartile
+  FROM Sales;
+  
+  -- Performance quartiles by region
+  SELECT 
+      salesperson,
+      region,
+      amount,
+      NTILE(4) OVER (PARTITION BY region ORDER BY amount DESC) as regional_quartile
+  FROM Sales;
+  
+  -- Salary quartiles by department
+  SELECT 
+      name,
+      department,
+      salary,
+      NTILE(4) OVER (PARTITION BY department ORDER BY salary DESC) as salary_quartile
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       2. PARTITION BY Clause
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       The PARTITION BY clause divides the result set into partitions to which the window function is applied independently.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Partitioning Examples
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Sales ranking within each region
+  SELECT 
+      salesperson,
+      region,
+      amount,
+      ROW_NUMBER() OVER (PARTITION BY region ORDER BY amount DESC) as regional_rank,
+      RANK() OVER (PARTITION BY region ORDER BY amount DESC) as regional_rank_with_ties
+  FROM Sales;
+  
+  -- Multiple partitions
+  SELECT 
+      salesperson,
+      region,
+      sale_date,
+      amount,
+      ROW_NUMBER() OVER (PARTITION BY region, DATE_TRUNC('month', sale_date) ORDER BY amount DESC) as monthly_regional_rank
+  FROM Sales;
+  
+  -- Department-wise salary analysis
+  SELECT 
+      name,
+      department,
+      salary,
+      RANK() OVER (PARTITION BY department ORDER BY salary DESC) as dept_rank,
+      salary - AVG(salary) OVER (PARTITION BY department) as diff_from_dept_avg
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       3. Aggregate Functions as Window Functions
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Regular aggregate functions can be used as window functions to calculate running totals, moving averages, and cumulative sums.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Running Totals and Cumulative Sums
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Running total of sales
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      SUM(amount) OVER (ORDER BY sale_date) as running_total
+  FROM Sales;
+  
+  -- Running total by salesperson
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      SUM(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) as personal_running_total
+  FROM Sales;
+  
+  -- Cumulative average
+  SELECT 
+      sale_date,
+      amount,
+      AVG(amount) OVER (ORDER BY sale_date) as cumulative_avg
+  FROM Sales;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Partitioned Aggregates
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Department averages without grouping
+  SELECT 
+      name,
+      department,
+      salary,
+      AVG(salary) OVER (PARTITION BY department) as dept_avg_salary,
+      salary - AVG(salary) OVER (PARTITION BY department) as diff_from_avg
+  FROM Employees;
+  
+  -- Regional sales statistics
+  SELECT 
+      salesperson,
+      region,
+      amount,
+      AVG(amount) OVER (PARTITION BY region) as region_avg,
+      MAX(amount) OVER (PARTITION BY region) as region_max,
+      MIN(amount) OVER (PARTITION BY region) as region_min
+  FROM Sales;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       4. Value Functions (LEAD and LAG)
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       LEAD and LAG functions access data from subsequent or previous rows in the same result set without using self-joins.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       LAG() - Access previous row values
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Compare with previous sale
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      LAG(amount) OVER (ORDER BY sale_date) as previous_amount,
+      amount - LAG(amount) OVER (ORDER BY sale_date) as amount_change
+  FROM Sales;
+  
+  -- Compare with previous sale by same salesperson
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      LAG(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) as prev_personal_sale,
+      LAG(sale_date) OVER (PARTITION BY salesperson ORDER BY sale_date) as prev_sale_date
+  FROM Sales;
+  
+  -- Multiple previous values with offset
+  SELECT 
+      sale_date,
+      amount,
+      LAG(amount, 1) OVER (ORDER BY sale_date) as prev_1,
+      LAG(amount, 2) OVER (ORDER BY sale_date) as prev_2,
+      LAG(amount, 3) OVER (ORDER BY sale_date) as prev_3
+  FROM Sales;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       LEAD() - Access subsequent row values
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Compare with next sale
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      LEAD(amount) OVER (ORDER BY sale_date) as next_amount,
+      LEAD(amount) OVER (ORDER BY sale_date) - amount as next_change
+  FROM Sales;
+  
+  -- Days between consecutive sales
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      LEAD(sale_date) OVER (PARTITION BY salesperson ORDER BY sale_date) as next_sale_date,
+      DATEDIFF(LEAD(sale_date) OVER (PARTITION BY salesperson ORDER BY sale_date), sale_date) as days_until_next_sale
+  FROM Sales;
+  
+  -- Default value for NULL (when no next row)
+  SELECT 
+      sale_date,
+      amount,
+      LEAD(amount, 1, 0) OVER (ORDER BY sale_date) as next_amount_with_default
+  FROM Sales;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       5. Window Frame Clauses
+     </h4>
+  
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Window frame clauses define which rows to include in the window relative to the current row. This is essential for moving averages and rolling calculations.
+     </p>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Frame Clause Syntax
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  ROWS BETWEEN start_point AND end_point
+  
+  -- Common frame specifications:
+  ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW  -- All previous + current
+  ROWS BETWEEN 2 PRECEDING AND 1 FOLLOWING          -- 2 before to 1 after
+  ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING  -- Current to all following
+  ROWS BETWEEN 3 PRECEDING AND CURRENT ROW           -- Last 3 + current
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Moving Averages and Rolling Calculations
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- 3-day moving average
+  SELECT 
+      sale_date,
+      amount,
+      AVG(amount) OVER (
+          ORDER BY sale_date 
+          ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+      ) as moving_avg_3day
+  FROM Sales;
+  
+  -- Cumulative sum (all previous + current)
+  SELECT 
+      sale_date,
+      amount,
+      SUM(amount) OVER (
+          ORDER BY sale_date 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) as cumulative_sum
+  FROM Sales;
+  
+  -- Rolling sum of last 2 sales by salesperson
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      SUM(amount) OVER (
+          PARTITION BY salesperson 
+          ORDER BY sale_date 
+          ROWS BETWEEN 1 PRECEDING AND CURRENT ROW
+      ) as last_2_sum
+  FROM Sales;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Real-World Business Use Cases
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Sales Performance Analysis
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Comprehensive sales performance report
+  SELECT 
+      salesperson,
+      region,
+      amount,
+      -- Rankings
+      ROW_NUMBER() OVER (ORDER BY amount DESC) as overall_rank,
+      RANK() OVER (PARTITION BY region ORDER BY amount DESC) as regional_rank,
+      -- Percentiles
+      NTILE(4) OVER (ORDER BY amount DESC) as performance_quartile,
+      -- Comparisons
+      amount - LAG(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) as growth_from_previous,
+      -- Running totals
+      SUM(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) as ytd_sales
+  FROM Sales
+  ORDER BY overall_rank;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Employee Salary Analytics
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Comprehensive salary analysis
+  SELECT 
+      name,
+      department,
+      salary,
+      -- Department rankings
+      ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as dept_rank,
+      DENSE_RANK() OVER (PARTITION BY department ORDER BY salary DESC) as dept_dense_rank,
+      -- Salary comparisons
+      salary - LAG(salary) OVER (PARTITION BY department ORDER BY salary DESC) as diff_from_higher_paid,
+      LEAD(salary) OVER (PARTITION BY department ORDER BY salary DESC) - salary as diff_from_lower_paid,
+      -- Percentiles
+      NTILE(4) OVER (PARTITION BY department ORDER BY salary DESC) as salary_quartile,
+      -- Department statistics
+      AVG(salary) OVER (PARTITION BY department) as dept_avg_salary,
+      MAX(salary) OVER (PARTITION BY department) as dept_max_salary,
+      ROUND(salary * 100.0 / AVG(salary) OVER (PARTITION BY department), 2) as percent_of_dept_avg
+  FROM Employees
+  ORDER BY department, dept_rank;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Customer Behavior Analysis
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Customer purchase patterns (assuming we have customer_id and order_date)
+  SELECT 
+      customer_id,
+      order_date,
+      amount,
+      -- Time between purchases
+      DATEDIFF(
+          order_date, 
+          LAG(order_date) OVER (PARTITION BY customer_id ORDER BY order_date)
+      ) as days_since_last_purchase,
+      -- Running customer lifetime value
+      SUM(amount) OVER (
+          PARTITION BY customer_id 
+          ORDER BY order_date 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) as customer_lifetime_value,
+      -- Customer purchase sequence
+      ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) as purchase_number,
+      -- Moving average of last 3 purchases
+      AVG(amount) OVER (
+          PARTITION BY customer_id 
+          ORDER BY order_date 
+          ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+      ) as moving_avg_3_purchases
+  FROM Sales
+  ORDER BY customer_id, order_date;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Advanced Window Function Patterns
+     </h4>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Gap and Island Problems
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Identifying consecutive sequences (islands)
+  WITH sequenced_data AS (
+      SELECT 
+          sale_date,
+          amount,
+          sale_date - INTERVAL (ROW_NUMBER() OVER (ORDER BY sale_date)) DAY as group_id
+      FROM Sales
+  )
+  SELECT 
+      MIN(sale_date) as island_start,
+      MAX(sale_date) as island_end,
+      COUNT(*) as consecutive_days
+  FROM sequenced_data
+  GROUP BY group_id
+  HAVING COUNT(*) > 1;
+       </code></pre>
+     </div>
+  
+     <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+       Calculating Percentages of Total
+     </h5>
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- Salesperson contribution to total
+  SELECT 
+      salesperson,
+      amount,
+      ROUND(amount * 100.0 / SUM(amount) OVER (), 2) as percent_of_total,
+      ROUND(amount * 100.0 / SUM(amount) OVER (PARTITION BY region), 2) as percent_of_region
+  FROM Sales;
+  
+  -- Department salary distribution
+  SELECT 
+      department,
+      salary,
+      ROUND(salary * 100.0 / SUM(salary) OVER (PARTITION BY department), 2) as percent_of_dept_total
+  FROM Employees;
+       </code></pre>
+     </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Performance Considerations and Best Practices
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+       <li style="margin-top: 0.5rem;">
+         <strong>Use appropriate indexes</strong> - Index columns used in PARTITION BY and ORDER BY clauses
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Avoid unnecessary sorting</strong> - Window functions require sorting, so use them judiciously
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Consider frame specifications carefully</strong> - Unbounded preceding can be expensive on large datasets
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Use CTEs for complex windowing</strong> - Break down complex queries with Common Table Expressions
+       </li>
+       <li style="margin-top: 0.5rem;">
+         <strong>Test with realistic data volumes</strong> - Window functions can have different performance characteristics at scale
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Database-Specific Notes
+     </h4>
+  
+     <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+       <pre><code>
+  -- PostgreSQL specific: WINDOW clause for reusing window definitions
+  SELECT 
+      salesperson,
+      amount,
+      ROW_NUMBER() OVER w as rank,
+      SUM(amount) OVER w as running_total
+  FROM Sales
+  WINDOW w AS (PARTITION BY region ORDER BY amount DESC);
+  
+  -- MySQL 8.0+ supports all standard window functions
+  -- SQL Server has excellent window function support
+  -- Oracle has extensive window function capabilities
+       </code></pre>
+     </div>
+  </div>`,
+            examples: [
+              `-- Comprehensive sales leaderboard with multiple rankings
+  SELECT 
+      salesperson,
+      region,
+      amount,
+      -- Different ranking methods
+      ROW_NUMBER() OVER (ORDER BY amount DESC) as row_num_rank,
+      RANK() OVER (ORDER BY amount DESC) as rank_with_gaps,
+      DENSE_RANK() OVER (ORDER BY amount DESC) as dense_rank_no_gaps,
+      -- Regional rankings
+      ROW_NUMBER() OVER (PARTITION BY region ORDER BY amount DESC) as regional_rank,
+      -- Percentiles
+      NTILE(4) OVER (ORDER BY amount DESC) as performance_quartile,
+      -- Comparisons with previous
+      LAG(amount) OVER (ORDER BY amount DESC) as next_lower_amount,
+      amount - LAG(amount) OVER (ORDER BY amount DESC) as gap_from_next,
+      -- Running totals
+      SUM(amount) OVER (ORDER BY amount DESC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) as cumulative_total
+  FROM Sales
+  ORDER BY amount DESC;`,
+
+              `-- Employee compensation analysis with window functions
+  SELECT 
+      name,
+      department,
+      salary,
+      -- Department rankings and statistics
+      ROW_NUMBER() OVER (PARTITION BY department ORDER BY salary DESC) as dept_salary_rank,
+      AVG(salary) OVER (PARTITION BY department) as dept_avg_salary,
+      MAX(salary) OVER (PARTITION BY department) as dept_max_salary,
+      MIN(salary) OVER (PARTITION BY department) as dept_min_salary,
+      -- Salary comparisons
+      salary - AVG(salary) OVER (PARTITION BY department) as diff_from_dept_avg,
+      ROUND((salary * 100.0) / AVG(salary) OVER (PARTITION BY department), 2) as percent_of_dept_avg,
+      -- Company-wide perspective
+      RANK() OVER (ORDER BY salary DESC) as company_wide_rank,
+      NTILE(4) OVER (ORDER BY salary DESC) as company_quartile,
+      -- Previous and next salaries in department
+      LAG(salary) OVER (PARTITION BY department ORDER BY salary DESC) as next_higher_salary,
+      LEAD(salary) OVER (PARTITION BY department ORDER BY salary DESC) as next_lower_salary
+  FROM Employees
+  ORDER BY department, dept_salary_rank;`,
+
+              `-- Time-series analysis with window functions
+  SELECT 
+      sale_date,
+      salesperson,
+      amount,
+      -- Time-based calculations
+      LAG(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) as previous_sale,
+      amount - LAG(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) as sale_growth,
+      -- Moving averages
+      AVG(amount) OVER (
+          ORDER BY sale_date 
+          ROWS BETWEEN 2 PRECEDING AND CURRENT ROW
+      ) as moving_avg_3day,
+      -- Running totals
+      SUM(amount) OVER (
+          PARTITION BY salesperson 
+          ORDER BY sale_date 
+          ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+      ) as ytd_sales,
+      -- Performance trends
+      CASE 
+          WHEN amount > LAG(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) 
+          THEN 'Improving'
+          WHEN amount < LAG(amount) OVER (PARTITION BY salesperson ORDER BY sale_date) 
+          THEN 'Declining'
+          ELSE 'Stable'
+      END as performance_trend
+  FROM Sales
+  ORDER BY salesperson, sale_date;`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between ROW_NUMBER(), RANK(), and DENSE_RANK()?",
+                solution:
+                  "<p><strong>ROW_NUMBER()</strong> assigns a unique sequential integer to each row, starting from 1. No ties - each row gets a distinct number.</p><p><strong>RANK()</strong> assigns the same rank to tied values, but leaves gaps in the ranking sequence. For example: 1, 2, 2, 4, 5</p><p><strong>DENSE_RANK()</strong> assigns the same rank to tied values without gaps in the sequence. For example: 1, 2, 2, 3, 4</p><p><strong>Use Case:</strong> Use ROW_NUMBER() when you need unique identifiers, RANK() for competition rankings with gaps, DENSE_RANK() for tier-based rankings without gaps.</p>",
+              },
+              {
+                question:
+                  "When should you use PARTITION BY in window functions?",
+                solution:
+                  "<p>Use PARTITION BY when you want to perform calculations within subgroups of your data. It divides the result set into partitions and the window function is applied to each partition separately.</p><p><strong>Examples:</strong></p><ul><li>Rank employees within each department</li><li>Calculate running totals for each customer</li><li>Find the top salesperson in each region</li></ul><p><strong>Without PARTITION BY:</strong> The window function operates over the entire result set</p><p><strong>With PARTITION BY:</strong> The window function resets for each partition group</p>",
+              },
+              {
+                question:
+                  "How do LEAD() and LAG() functions work, and what are their common use cases?",
+                solution:
+                  "<p><strong>LAG()</strong> accesses data from previous rows in the same result set. It looks backward.</p><p><strong>LEAD()</strong> accesses data from subsequent rows in the same result set. It looks forward.</p><p><strong>Common Use Cases:</strong></p><ul><li>Calculating growth rates (current vs previous period)</li><li>Finding time gaps between events</li><li>Identifying consecutive sequences</li><li>Calculating running differences</li></ul><p><strong>Example:</strong> LAG(sales, 1) OVER (ORDER BY month) gets the previous month's sales</p><p><strong>Syntax:</strong> Both functions take an optional offset (default 1) and default value for NULLs.</p>",
+              },
+              {
+                question:
+                  "What are window frame clauses and when are they used?",
+                solution:
+                  "<p>Window frame clauses define which rows to include in the window relative to the current row. They are specified using ROWS BETWEEN or RANGE BETWEEN.</p><p><strong>Common Frame Specifications:</strong></p><ul><li>ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW - All previous rows + current</li><li>ROWS BETWEEN 2 PRECEDING AND 1 FOLLOWING - 2 before to 1 after current</li><li>ROWS BETWEEN 3 PRECEDING AND CURRENT ROW - Last 3 rows + current</li></ul><p><strong>Use Cases:</strong></p><ul><li>Moving averages (last N periods)</li><li>Cumulative sums (running totals)</li><li>Rolling calculations</li><li>Expanding window analyses</li></ul><p>Frame clauses only work with aggregate window functions and require an ORDER BY clause.</p>",
+              },
+              {
+                question:
+                  "How do window functions differ from GROUP BY aggregates?",
+                solution:
+                  "<p><strong>GROUP BY Aggregates:</strong></p><ul><li>Collapse multiple rows into single summary rows</li><li>Lose individual row details</li><li>Can only include grouped columns or aggregates in SELECT</li><li>Create a summarized view of data</li></ul><p><strong>Window Functions:</strong></p><ul><li>Preserve all individual rows in the result set</li><li>Add calculated columns alongside original data</li><li>Can include any columns from the underlying tables</li><li>Provide analytical context without collapsing data</li></ul><p><strong>Key Difference:</strong> GROUP BY reduces row count, window functions maintain row count while adding computed values.</p>",
+              },
+            ],
+            links: [
+              "https://www.postgresql.org/docs/current/tutorial-window.html",
+              "https://learn.microsoft.com/en-us/sql/t-sql/queries/select-over-clause-transact-sql?view=sql-server-ver16",
+              "https://dev.mysql.com/doc/refman/8.0/en/window-functions.html",
+              "https://mode.com/sql-tutorial/sql-window-functions/",
+            ],
+          },
+          {
+            topic: "Data Warehousing & Analytics - Comprehensive Guide",
+            tags: [
+              "Star Schema",
+              "Snowflake Schema",
+              "OLTP",
+              "OLAP",
+              "Partitioning",
+              "ETL",
+              "Data Warehouse",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Data warehousing and analytics involve specialized database design patterns and processes optimized for reporting, analysis, and business intelligence. Unlike transactional systems, data warehouses are designed for read-heavy workloads and complex queries across large historical datasets.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Sample Business Scenario
+   </h4>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     We'll use a retail sales analytics example throughout this guide to demonstrate data warehousing concepts. Our business needs to analyze sales performance across dimensions like time, products, customers, and regions.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     1. OLTP vs OLAP Systems
+   </h4>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Understanding the fundamental differences between Online Transaction Processing (OLTP) and Online Analytical Processing (OLAP) systems is crucial for proper database design.
+   </p>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     OLTP (Online Transaction Processing)
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- OLTP Database Example: E-commerce Transaction System
+CREATE TABLE customers (
+    customer_id INT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE,
+    password_hash VARCHAR(255),
+    first_name VARCHAR(100),
+    last_name VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT REFERENCES customers(customer_id),
+    order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) CHECK (status IN ('pending', 'confirmed', 'shipped', 'delivered')),
+    total_amount DECIMAL(10,2),
+    shipping_address TEXT
+);
+
+CREATE TABLE order_items (
+    order_item_id INT PRIMARY KEY,
+    order_id INT REFERENCES orders(order_id),
+    product_id INT,
+    quantity INT,
+    unit_price DECIMAL(10,2)
+);
+
+-- Typical OLTP Operations:
+-- INSERT INTO orders VALUES (1001, 501, NOW(), 'pending', 199.99, '123 Main St');
+-- UPDATE orders SET status = 'confirmed' WHERE order_id = 1001;
+-- SELECT * FROM orders WHERE customer_id = 501 AND order_date >= CURRENT_DATE;
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     OLAP (Online Analytical Processing)
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- OLAP Database Example: Sales Data Warehouse
+CREATE TABLE fact_sales (
+    sales_key BIGINT PRIMARY KEY,
+    date_key INT,
+    product_key INT,
+    customer_key INT,
+    store_key INT,
+    sales_amount DECIMAL(15,2),
+    quantity_sold INT,
+    cost_amount DECIMAL(15,2),
+    profit_amount DECIMAL(15,2)
+);
+
+CREATE TABLE dim_date (
+    date_key INT PRIMARY KEY,
+    full_date DATE,
+    day_of_week INT,
+    month INT,
+    quarter INT,
+    year INT,
+    is_weekend BOOLEAN,
+    holiday_name VARCHAR(50)
+);
+
+CREATE TABLE dim_product (
+    product_key INT PRIMARY KEY,
+    product_name VARCHAR(255),
+    category_name VARCHAR(100),
+    subcategory_name VARCHAR(100),
+    brand_name VARCHAR(100),
+    supplier_name VARCHAR(100)
+);
+
+-- Typical OLAP Operations:
+-- SELECT d.year, d.quarter, SUM(f.sales_amount) as total_sales
+-- FROM fact_sales f
+-- JOIN dim_date d ON f.date_key = d.date_key
+-- GROUP BY d.year, d.quarter
+-- ORDER BY d.year, d.quarter;
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     OLTP vs OLAP Comparison
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
++---------------------+--------------------------------+--------------------------------+
+| Aspect              | OLTP                           | OLAP                           |
++---------------------+--------------------------------+--------------------------------+
+| Purpose             | Run business operations        | Support business intelligence  |
+| Data Source         | Operational systems            | Consolidated from multiple OLTP|
+| Data Content        | Current, detailed data         | Historical, summarized data    |
+| Data Model          | Normalized (3NF)               | Denormalized (star/snowflake)  |
+| Query Pattern       | Simple, frequent, short        | Complex, ad-hoc, long-running  |
+| Data Volume         | MB to GB                       | GB to TB+                      |
+| Write Pattern       | Many small writes              | Batch loads, few large writes  |
+| Read Pattern        | Many point lookups             | Full table scans, aggregates   |
+| Users               | Clerks, customers, operators   | Analysts, executives, managers |
+| Performance Metric  | Transactions per second        | Query response time            |
+| Example Systems     | E-commerce, banking, ERP      | Data warehouses, data marts    |
++---------------------+--------------------------------+--------------------------------+
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     2. Star Schema Design
+   </h4>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     The Star Schema is the simplest and most common data warehouse schema. It features a central fact table surrounded by dimension tables, forming a star-like structure.
+   </p>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Star Schema Components
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Fact Table: Contains measurable business metrics
+CREATE TABLE fact_sales (
+    sales_key BIGSERIAL PRIMARY KEY,
+    date_key INT NOT NULL,
+    product_key INT NOT NULL,
+    customer_key INT NOT NULL,
+    store_key INT NOT NULL,
+    promotion_key INT,
+    -- Measures (numeric values to aggregate)
+    sales_amount DECIMAL(15,2) NOT NULL,
+    quantity_sold INT NOT NULL,
+    unit_cost DECIMAL(15,2) NOT NULL,
+    discount_amount DECIMAL(15,2) DEFAULT 0,
+    -- Foreign keys to dimension tables
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key),
+    FOREIGN KEY (product_key) REFERENCES dim_product(product_key),
+    FOREIGN KEY (customer_key) REFERENCES dim_customer(customer_key),
+    FOREIGN KEY (store_key) REFERENCES dim_store(store_key),
+    FOREIGN KEY (promotion_key) REFERENCES dim_promotion(promotion_key)
+);
+
+-- Dimension Table: Time dimension
+CREATE TABLE dim_date (
+    date_key INT PRIMARY KEY,
+    full_date DATE NOT NULL UNIQUE,
+    day_number INT,          -- 1-31
+    day_name VARCHAR(9),     -- Monday, Tuesday, etc.
+    week_number INT,         -- 1-53
+    month_number INT,        -- 1-12
+    month_name VARCHAR(9),   -- January, February, etc.
+    quarter_number INT,      -- 1-4
+    quarter_name VARCHAR(6), -- Q1, Q2, etc.
+    year_number INT,         -- 2024, 2025, etc.
+    is_weekend BOOLEAN,
+    is_holiday BOOLEAN,
+    holiday_name VARCHAR(50)
+);
+
+-- Dimension Table: Product dimension
+CREATE TABLE dim_product (
+    product_key INT PRIMARY KEY,
+    product_id INT,              -- Natural key from source system
+    product_name VARCHAR(255) NOT NULL,
+    product_description TEXT,
+    category_name VARCHAR(100) NOT NULL,
+    subcategory_name VARCHAR(100),
+    brand_name VARCHAR(100),
+    supplier_name VARCHAR(100),
+    unit_price DECIMAL(10,2),
+    cost_price DECIMAL(10,2),
+    is_active BOOLEAN DEFAULT TRUE,
+    valid_from DATE NOT NULL,
+    valid_to DATE DEFAULT '9999-12-31',
+    current_flag BOOLEAN DEFAULT TRUE
+);
+
+-- Dimension Table: Customer dimension
+CREATE TABLE dim_customer (
+    customer_key INT PRIMARY KEY,
+    customer_id INT,              -- Natural key from source system
+    customer_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    phone VARCHAR(20),
+    address_line1 VARCHAR(255),
+    city_name VARCHAR(100),
+    state_province VARCHAR(100),
+    country_name VARCHAR(100),
+    postal_code VARCHAR(20),
+    customer_segment VARCHAR(50),
+    registration_date DATE,
+    valid_from DATE NOT NULL,
+    valid_to DATE DEFAULT '9999-12-31',
+    current_flag BOOLEAN DEFAULT TRUE
+);
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Star Schema Query Examples
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Monthly sales by product category
+SELECT 
+    d.year_number,
+    d.month_name,
+    p.category_name,
+    SUM(f.sales_amount) as total_sales,
+    SUM(f.quantity_sold) as total_quantity,
+    COUNT(DISTINCT f.customer_key) as unique_customers
+FROM fact_sales f
+JOIN dim_date d ON f.date_key = d.date_key
+JOIN dim_product p ON f.product_key = p.product_key
+WHERE d.year_number = 2024
+GROUP BY d.year_number, d.month_name, p.category_name
+ORDER BY d.year_number, d.month_number, total_sales DESC;
+
+-- Customer lifetime value analysis
+SELECT 
+    c.customer_segment,
+    COUNT(DISTINCT c.customer_key) as customer_count,
+    SUM(f.sales_amount) as total_revenue,
+    AVG(f.sales_amount) as avg_customer_value,
+    MAX(f.sales_amount) as max_customer_value
+FROM fact_sales f
+JOIN dim_customer c ON f.customer_key = c.customer_key
+GROUP BY c.customer_segment
+ORDER BY total_revenue DESC;
+
+-- Seasonal sales patterns
+SELECT 
+    d.quarter_name,
+    d.month_name,
+    AVG(f.sales_amount) as avg_daily_sales,
+    SUM(f.sales_amount) as total_sales
+FROM fact_sales f
+JOIN dim_date d ON f.date_key = d.date_key
+WHERE d.year_number BETWEEN 2022 AND 2024
+GROUP BY d.quarter_name, d.month_name, d.month_number
+ORDER BY d.month_number;
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     3. Snowflake Schema Design
+   </h4>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     The Snowflake Schema is a normalized version of the Star Schema where dimension tables are further normalized into multiple related tables, forming a snowflake-like structure.
+   </p>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Snowflake Schema Components
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Fact Table (same as star schema)
+CREATE TABLE fact_sales (
+    sales_key BIGSERIAL PRIMARY KEY,
+    date_key INT NOT NULL,
+    product_key INT NOT NULL,
+    customer_key INT NOT NULL,
+    store_key INT NOT NULL,
+    sales_amount DECIMAL(15,2) NOT NULL,
+    quantity_sold INT NOT NULL,
+    -- Foreign keys
+    FOREIGN KEY (date_key) REFERENCES dim_date(date_key),
+    FOREIGN KEY (product_key) REFERENCES dim_product(product_key),
+    FOREIGN KEY (customer_key) REFERENCES dim_customer(customer_key),
+    FOREIGN KEY (store_key) REFERENCES dim_store(store_key)
+);
+
+-- Normalized Product Dimension
+CREATE TABLE dim_product (
+    product_key INT PRIMARY KEY,
+    product_id INT,
+    product_name VARCHAR(255) NOT NULL,
+    product_description TEXT,
+    subcategory_key INT,           -- Reference to subcategory
+    brand_key INT,                 -- Reference to brand
+    supplier_key INT,              -- Reference to supplier
+    unit_price DECIMAL(10,2),
+    cost_price DECIMAL(10,2),
+    is_active BOOLEAN DEFAULT TRUE,
+    valid_from DATE NOT NULL,
+    valid_to DATE DEFAULT '9999-12-31',
+    FOREIGN KEY (subcategory_key) REFERENCES dim_product_subcategory(subcategory_key),
+    FOREIGN KEY (brand_key) REFERENCES dim_brand(brand_key),
+    FOREIGN KEY (supplier_key) REFERENCES dim_supplier(supplier_key)
+);
+
+-- Product Subcategory Dimension
+CREATE TABLE dim_product_subcategory (
+    subcategory_key INT PRIMARY KEY,
+    subcategory_name VARCHAR(100) NOT NULL,
+    subcategory_description TEXT,
+    category_key INT,              -- Reference to category
+    FOREIGN KEY (category_key) REFERENCES dim_product_category(category_key)
+);
+
+-- Product Category Dimension
+CREATE TABLE dim_product_category (
+    category_key INT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL,
+    category_description TEXT,
+    department_key INT,            -- Reference to department
+    FOREIGN KEY (department_key) REFERENCES dim_department(department_key)
+);
+
+-- Brand Dimension
+CREATE TABLE dim_brand (
+    brand_key INT PRIMARY KEY,
+    brand_name VARCHAR(100) NOT NULL,
+    brand_description TEXT
+);
+
+-- Supplier Dimension
+CREATE TABLE dim_supplier (
+    supplier_key INT PRIMARY KEY,
+    supplier_name VARCHAR(100) NOT NULL,
+    contact_name VARCHAR(100),
+    phone VARCHAR(20),
+    email VARCHAR(255)
+);
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Snowflake Schema Query Examples
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Sales by department and brand (requires multiple joins)
+SELECT 
+    dc.department_name,
+    db.brand_name,
+    SUM(f.sales_amount) as total_sales,
+    AVG(f.sales_amount) as avg_sale_amount
+FROM fact_sales f
+JOIN dim_product dp ON f.product_key = dp.product_key
+JOIN dim_product_subcategory dps ON dp.subcategory_key = dps.subcategory_key
+JOIN dim_product_category dpc ON dps.category_key = dpc.category_key
+JOIN dim_department dc ON dpc.department_key = dc.department_key
+JOIN dim_brand db ON dp.brand_key = db.brand_key
+WHERE f.date_key BETWEEN 20240101 AND 20241231
+GROUP BY dc.department_name, db.brand_name
+ORDER BY total_sales DESC;
+
+-- Supplier performance analysis
+SELECT 
+    ds.supplier_name,
+    dpc.category_name,
+    COUNT(DISTINCT f.product_key) as product_count,
+    SUM(f.quantity_sold) as total_units_sold,
+    SUM(f.sales_amount) as total_revenue
+FROM fact_sales f
+JOIN dim_product dp ON f.product_key = dp.product_key
+JOIN dim_supplier ds ON dp.supplier_key = ds.supplier_key
+JOIN dim_product_subcategory dps ON dp.subcategory_key = dps.subcategory_key
+JOIN dim_product_category dpc ON dps.category_key = dpc.category_key
+GROUP BY ds.supplier_name, dpc.category_name
+ORDER BY total_revenue DESC;
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Star vs Snowflake Schema Comparison
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
++-------------------------+------------------------------------+------------------------------------+
+| Aspect                  | Star Schema                        | Snowflake Schema                  |
++-------------------------+------------------------------------+------------------------------------+
+| Structure               | Denormalized dimensions            | Normalized dimensions             |
+| Number of Tables        | Fewer tables                       | More tables                       |
+| Query Complexity        | Simpler queries, fewer JOINs       | More complex queries, more JOINs  |
+| Query Performance       | Generally faster                   | Can be slower due to more JOINs   |
+| Storage Efficiency      | More storage (data redundancy)     | Less storage (normalized)         |
+| Data Integrity          | Lower (redundant data)             | Higher (normalized)               |
+| ETL Complexity          | Simpler ETL process                | More complex ETL process          |
+| Maintenance             | Easier to maintain                 | More complex maintenance          |
+| Flexibility             | Less flexible for changes          | More flexible for changes         |
+| Best For                | Simple analytics, ad-hoc queries   | Complex hierarchies, large teams  |
+| Business User Friendly  | More friendly                      | Less friendly                     |
++-------------------------+------------------------------------+------------------------------------+
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     4. Table Partitioning
+   </h4>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Partitioning divides large tables into smaller, more manageable pieces while maintaining logical unity. This dramatically improves query performance and maintenance operations.
+   </p>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Range Partitioning by Date
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Create partitioned fact table (PostgreSQL syntax)
+CREATE TABLE fact_sales_partitioned (
+    sales_key BIGSERIAL,
+    date_key INT NOT NULL,
+    product_key INT NOT NULL,
+    customer_key INT NOT NULL,
+    store_key INT NOT NULL,
+    sales_amount DECIMAL(15,2) NOT NULL,
+    quantity_sold INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) PARTITION BY RANGE (date_key);
+
+-- Create monthly partitions for 2024
+CREATE TABLE fact_sales_202401 PARTITION OF fact_sales_partitioned
+    FOR VALUES FROM (20240101) TO (20240201);
+
+CREATE TABLE fact_sales_202402 PARTITION OF fact_sales_partitioned
+    FOR VALUES FROM (20240201) TO (20240301);
+
+CREATE TABLE fact_sales_202403 PARTITION OF fact_sales_partitioned
+    FOR VALUES FROM (20240301) TO (20240401);
+
+-- Create indexes on each partition
+CREATE INDEX idx_fact_sales_202401_date ON fact_sales_202401(date_key);
+CREATE INDEX idx_fact_sales_202402_date ON fact_sales_202402(date_key);
+CREATE INDEX idx_fact_sales_202403_date ON fact_sales_202403(date_key);
+
+-- Query that benefits from partition pruning
+EXPLAIN ANALYZE
+SELECT 
+    SUM(sales_amount) as total_sales,
+    COUNT(*) as transaction_count
+FROM fact_sales_partitioned
+WHERE date_key BETWEEN 20240101 AND 20240131;  -- Only scans January partition
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     List Partitioning by Region
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- List partitioning for regional data
+CREATE TABLE fact_sales_region_partitioned (
+    sales_key BIGSERIAL,
+    date_key INT NOT NULL,
+    product_key INT NOT NULL,
+    customer_key INT NOT NULL,
+    store_key INT NOT NULL,
+    region_code VARCHAR(10) NOT NULL,
+    sales_amount DECIMAL(15,2) NOT NULL
+) PARTITION BY LIST (region_code);
+
+-- Create regional partitions
+CREATE TABLE fact_sales_north PARTITION OF fact_sales_region_partitioned
+    FOR VALUES IN ('NORTH', 'NORTHEAST', 'NORTHWEST');
+
+CREATE TABLE fact_sales_south PARTITION OF fact_sales_region_partitioned
+    FOR VALUES IN ('SOUTH', 'SOUTHEAST', 'SOUTHWEST');
+
+CREATE TABLE fact_sales_central PARTITION OF fact_sales_region_partitioned
+    FOR VALUES IN ('CENTRAL', 'MIDWEST');
+
+CREATE TABLE fact_sales_west PARTITION OF fact_sales_region_partitioned
+    FOR VALUES IN ('WEST', 'PACIFIC');
+
+-- Query specific regions
+SELECT 
+    region_code,
+    SUM(sales_amount) as regional_sales
+FROM fact_sales_region_partitioned
+WHERE region_code IN ('NORTH', 'NORTHEAST')  -- Only scans north partitions
+GROUP BY region_code;
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Partition Management Operations
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Add new partition for upcoming month
+CREATE TABLE fact_sales_202404 PARTITION OF fact_sales_partitioned
+    FOR VALUES FROM (20240401) TO (20240501);
+
+-- Detach old partition for archiving
+ALTER TABLE fact_sales_partitioned 
+DETACH PARTITION fact_sales_202301;
+
+-- Attach existing table as partition
+CREATE TABLE fact_sales_202312 (LIKE fact_sales_partitioned);
+ALTER TABLE fact_sales_partitioned 
+ATTACH PARTITION fact_sales_202312 
+FOR VALUES FROM (20231201) TO (20240101);
+
+-- Partition maintenance: Vacuum and analyze
+VACUUM (VERBOSE, ANALYZE) fact_sales_202401;
+
+-- Check partition information
+SELECT 
+    partition_name,
+    partition_position,
+    tablespace_name,
+    num_rows
+FROM information_schema.table_partitions
+WHERE table_name = 'fact_sales_partitioned';
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     5. ETL (Extract, Transform, Load) Basics
+   </h4>
+
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     ETL is the process of extracting data from source systems, transforming it to fit business rules and data warehouse schema, and loading it into the target data warehouse.
+   </p>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     ETL Process Overview
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- 1. EXTRACT: Get data from source systems
+-- Extract from OLTP database
+CREATE TABLE stg_orders AS
+SELECT 
+    order_id,
+    customer_id,
+    order_date,
+    total_amount,
+    status
+FROM production.orders 
+WHERE order_date >= '2024-01-01';
+
+-- Extract from CSV files
+COPY stg_customers FROM '/data/customers_2024.csv' WITH CSV HEADER;
+
+-- Extract from APIs (pseudo-code)
+-- Python: requests.get('https://api.sales.com/v1/transactions')
+
+-- 2. TRANSFORM: Clean, validate, and prepare data
+CREATE TABLE stg_sales_transformed AS
+SELECT 
+    order_id,
+    customer_id,
+    DATE(order_date) as sale_date,
+    total_amount as sales_amount,
+    CASE 
+        WHEN status = 'delivered' THEN 'COMPLETED'
+        WHEN status IN ('shipped', 'processing') THEN 'IN_PROGRESS'
+        ELSE 'PENDING'
+    END as sale_status,
+    -- Data validation
+    CASE 
+        WHEN total_amount < 0 THEN 0 
+        ELSE total_amount 
+    END as validated_amount,
+    -- Data enrichment
+    EXTRACT(YEAR FROM order_date) as sale_year,
+    EXTRACT(MONTH FROM order_date) as sale_month
+FROM stg_orders
+WHERE order_date IS NOT NULL 
+  AND customer_id IS NOT NULL 
+  AND total_amount IS NOT NULL;
+
+-- 3. LOAD: Load into data warehouse tables
+-- Slowly Changing Dimension Type 2 (historical tracking)
+INSERT INTO dim_customer (
+    customer_id, customer_name, email, city_name, 
+    valid_from, valid_to, current_flag
+)
+SELECT 
+    customer_id,
+    customer_name,
+    email,
+    city_name,
+    CURRENT_DATE as valid_from,
+    '9999-12-31' as valid_to,
+    TRUE as current_flag
+FROM stg_customers_new
+ON CONFLICT (customer_id) 
+DO UPDATE SET 
+    current_flag = FALSE,
+    valid_to = CURRENT_DATE - INTERVAL '1 day'
+WHERE dim_customer.current_flag = TRUE 
+  AND (dim_customer.customer_name != EXCLUDED.customer_name 
+    OR dim_customer.email != EXCLUDED.email 
+    OR dim_customer.city_name != EXCLUDED.city_name);
+
+-- Fact table load
+INSERT INTO fact_sales (
+    date_key, product_key, customer_key, store_key,
+    sales_amount, quantity_sold
+)
+SELECT 
+    d.date_key,
+    p.product_key,
+    c.customer_key,
+    s.store_key,
+    st.sales_amount,
+    st.quantity
+FROM stg_sales_transformed st
+JOIN dim_date d ON st.sale_date = d.full_date
+JOIN dim_product p ON st.product_id = p.product_id AND p.current_flag = TRUE
+JOIN dim_customer c ON st.customer_id = c.customer_id AND c.current_flag = TRUE
+JOIN dim_store s ON st.store_id = s.store_id AND s.current_flag = TRUE;
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Incremental ETL Processing
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Track last successful ETL run
+CREATE TABLE etl_audit (
+    process_name VARCHAR(100) PRIMARY KEY,
+    last_successful_run TIMESTAMP,
+    records_processed INT,
+    status VARCHAR(20)
+);
+
+-- Incremental extract based on last run
+CREATE OR REPLACE FUNCTION incremental_load_sales()
+RETURNS VOID AS $$
+DECLARE
+    last_run TIMESTAMP;
+    new_records INT;
+BEGIN
+    -- Get last successful run time
+    SELECT last_successful_run INTO last_run
+    FROM etl_audit 
+    WHERE process_name = 'sales_fact_load';
+    
+    -- Default to beginning of time if first run
+    IF last_run IS NULL THEN
+        last_run := '1900-01-01'::TIMESTAMP;
+    END IF;
+    
+    -- Extract only new or modified records
+    CREATE TEMP TABLE stg_new_sales AS
+    SELECT *
+    FROM source_sales
+    WHERE last_modified > last_run
+       OR created_date > last_run;
+    
+    -- Transform and load
+    INSERT INTO fact_sales (...)
+    SELECT ... FROM stg_new_sales;
+    
+    -- Get count of processed records
+    GET DIAGNOSTICS new_records = ROW_COUNT;
+    
+    -- Update audit trail
+    INSERT INTO etl_audit (process_name, last_successful_run, records_processed, status)
+    VALUES ('sales_fact_load', CURRENT_TIMESTAMP, new_records, 'SUCCESS')
+    ON CONFLICT (process_name) 
+    DO UPDATE SET 
+        last_successful_run = EXCLUDED.last_successful_run,
+        records_processed = EXCLUDED.records_processed,
+        status = EXCLUDED.status;
+    
+    -- Cleanup
+    DROP TABLE stg_new_sales;
+END;
+$$ LANGUAGE plpgsql;
+     </code></pre>
+   </div>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Data Quality Checks in ETL
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Data validation during ETL
+CREATE TABLE etl_error_log (
+    error_id SERIAL PRIMARY KEY,
+    process_name VARCHAR(100),
+    error_type VARCHAR(50),
+    error_description TEXT,
+    record_data JSONB,
+    error_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Validate source data before processing
+INSERT INTO etl_error_log (process_name, error_type, error_description, record_data)
+SELECT 
+    'sales_extract' as process_name,
+    'NULL_VALUE' as error_type,
+    'Customer ID is null' as error_description,
+    row_to_json(source_sales) as record_data
+FROM source_sales
+WHERE customer_id IS NULL;
+
+INSERT INTO etl_error_log (process_name, error_type, error_description, record_data)
+SELECT 
+    'sales_extract' as process_name,
+    'INVALID_AMOUNT' as error_type,
+    'Sales amount is negative' as error_description,
+    row_to_json(source_sales) as record_data
+FROM source_sales
+WHERE sales_amount < 0;
+
+-- Process only valid records
+CREATE TABLE stg_valid_sales AS
+SELECT *
+FROM source_sales
+WHERE customer_id IS NOT NULL
+  AND sales_amount >= 0
+  AND sale_date IS NOT NULL
+  AND sale_date <= CURRENT_DATE;
+     </code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices for Data Warehousing
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: decimal;">
+     <li style="margin-top: 0.5rem;">
+       <strong>Design for query performance</strong> - Optimize for read operations, not writes
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Use surrogate keys</strong> - Avoid business keys in fact table relationships
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Implement proper indexing</strong> - Foreign keys in fact tables, natural keys in dimensions
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Partition large fact tables</strong> - Typically by date for time-series data
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Handle slowly changing dimensions</strong> - Choose appropriate SCD types (1, 2, or 3)
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Build comprehensive date dimension</strong> - Include all possible date attributes
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Implement data quality checks</strong> - Validate data at each ETL stage
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Maintain data lineage</strong> - Track data from source to consumption
+     </li>
+     <li style="margin-top: 0.5rem;">
+       <strong>Monitor and optimize regularly</strong> - ETL performance, query performance, storage
+     </li>
+   </ol>
+
+   <h5 style="margin-top: 1rem; font-size: 1.1rem; font-weight: 600;">
+     Data Warehouse Monitoring Queries
+   </h5>
+   <div style="background: #f5f5f5; padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+     <pre><code>
+-- Monitor data warehouse size and growth
+SELECT 
+    schemaname,
+    tablename,
+    pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as total_size,
+    pg_size_pretty(pg_relation_size(schemaname||'.'||tablename)) as table_size,
+    pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename) - 
+                   pg_relation_size(schemaname||'.'||tablename)) as index_size
+FROM pg_tables
+WHERE schemaname = 'dw_schema'
+ORDER BY pg_total_relation_size(schemaname||'.'||tablename) DESC;
+
+-- Check ETL process status and timing
+SELECT 
+    process_name,
+    last_successful_run,
+    records_processed,
+    status,
+    CURRENT_TIMESTAMP - last_successful_run as time_since_last_run
+FROM etl_audit
+ORDER BY last_successful_run DESC;
+
+-- Analyze query performance on fact tables
+SELECT 
+    query,
+    calls,
+    total_time,
+    mean_time,
+    rows
+FROM pg_stat_statements
+WHERE query LIKE '%fact_sales%'
+ORDER BY total_time DESC
+LIMIT 10;
+     </code></pre>
+   </div>
+</div>`,
+            examples: [
+              `-- Complete Star Schema Implementation for Retail Analytics
+-- Dimension Tables
+CREATE TABLE dim_date (
+    date_key INT PRIMARY KEY,
+    full_date DATE UNIQUE NOT NULL,
+    day_of_week INT,          -- 1=Sunday, 7=Saturday
+    day_name VARCHAR(9),
+    week_of_year INT,
+    month_number INT,
+    month_name VARCHAR(9),
+    quarter_number INT,
+    quarter_name VARCHAR(6),
+    year_number INT,
+    is_weekend BOOLEAN,
+    is_holiday BOOLEAN,
+    holiday_name VARCHAR(50)
+);
+
+CREATE TABLE dim_product (
+    product_key SERIAL PRIMARY KEY,
+    product_id INT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    category_name VARCHAR(100) NOT NULL,
+    subcategory_name VARCHAR(100),
+    brand_name VARCHAR(100),
+    supplier_name VARCHAR(100),
+    unit_price DECIMAL(10,2),
+    cost_price DECIMAL(10,2),
+    is_active BOOLEAN DEFAULT TRUE,
+    valid_from DATE NOT NULL,
+    valid_to DATE DEFAULT '9999-12-31',
+    current_flag BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE dim_customer (
+    customer_key SERIAL PRIMARY KEY,
+    customer_id INT NOT NULL,
+    customer_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255),
+    city VARCHAR(100),
+    state VARCHAR(100),
+    country VARCHAR(100),
+    customer_segment VARCHAR(50),
+    registration_date DATE,
+    valid_from DATE NOT NULL,
+    valid_to DATE DEFAULT '9999-12-31',
+    current_flag BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE dim_store (
+    store_key SERIAL PRIMARY KEY,
+    store_id INT NOT NULL,
+    store_name VARCHAR(255) NOT NULL,
+    city VARCHAR(100),
+    state VARCHAR(100),
+    country VARCHAR(100),
+    region VARCHAR(50),
+    store_type VARCHAR(50),
+    opening_date DATE,
+    valid_from DATE NOT NULL,
+    valid_to DATE DEFAULT '9999-12-31',
+    current_flag BOOLEAN DEFAULT TRUE
+);
+
+-- Partitioned Fact Table
+CREATE TABLE fact_sales (
+    sales_key BIGSERIAL,
+    date_key INT NOT NULL REFERENCES dim_date(date_key),
+    product_key INT NOT NULL REFERENCES dim_product(product_key),
+    customer_key INT NOT NULL REFERENCES dim_customer(customer_key),
+    store_key INT NOT NULL REFERENCES dim_store(store_key),
+    sales_amount DECIMAL(15,2) NOT NULL,
+    quantity_sold INT NOT NULL,
+    unit_cost DECIMAL(15,2) NOT NULL,
+    discount_amount DECIMAL(15,2) DEFAULT 0
+) PARTITION BY RANGE (date_key);
+
+-- Create monthly partitions
+CREATE TABLE fact_sales_2023q1 PARTITION OF fact_sales
+    FOR VALUES FROM (20230101) TO (20230401);
+CREATE TABLE fact_sales_2023q2 PARTITION OF fact_sales
+    FOR VALUES FROM (20230401) TO (20230701);
+
+-- Sample analytical queries
+-- Monthly sales trend by category
+SELECT 
+    d.year_number,
+    d.month_name,
+    p.category_name,
+    SUM(f.sales_amount) as total_sales,
+    SUM(f.quantity_sold) as total_quantity,
+    COUNT(DISTINCT f.customer_key) as unique_customers
+FROM fact_sales f
+JOIN dim_date d ON f.date_key = d.date_key
+JOIN dim_product p ON f.product_key = p.product_key
+WHERE d.year_number = 2023
+GROUP BY d.year_number, d.month_name, p.category_name, d.month_number
+ORDER BY d.year_number, d.month_number, total_sales DESC;`,
+
+              `-- ETL Process for Loading Sales Data
+-- Step 1: Extract from source systems
+CREATE TABLE stg_sales_source AS
+SELECT 
+    o.order_id,
+    o.customer_id,
+    o.order_date,
+    oi.product_id,
+    oi.quantity,
+    oi.unit_price,
+    oi.unit_price * oi.quantity as sales_amount,
+    p.cost_price,
+    c.customer_name,
+    c.city,
+    p.product_name,
+    p.category_name
+FROM source_orders o
+JOIN source_order_items oi ON o.order_id = oi.order_id
+JOIN source_products p ON oi.product_id = p.product_id
+JOIN source_customers c ON o.customer_id = c.customer_id
+WHERE o.order_date >= '2023-01-01';
+
+-- Step 2: Transform and validate data
+CREATE TABLE stg_sales_cleaned AS
+SELECT 
+    order_id,
+    customer_id,
+    order_date,
+    product_id,
+    -- Data validation and cleaning
+    CASE WHEN quantity < 0 THEN 0 ELSE quantity END as quantity,
+    CASE WHEN unit_price < 0 THEN 0 ELSE unit_price END as unit_price,
+    CASE WHEN sales_amount < 0 THEN 0 ELSE sales_amount END as sales_amount,
+    COALESCE(cost_price, 0) as unit_cost,
+    -- Standardize text data
+    UPPER(TRIM(customer_name)) as customer_name,
+    INITCAP(TRIM(city)) as city,
+    INITCAP(TRIM(product_name)) as product_name,
+    INITCAP(TRIM(category_name)) as category_name
+FROM stg_sales_source
+WHERE order_date IS NOT NULL 
+  AND customer_id IS NOT NULL 
+  AND product_id IS NOT NULL;
+
+-- Step 3: Load into data warehouse
+-- Load dimension tables (SCD Type 2)
+INSERT INTO dim_customer (customer_id, customer_name, city, valid_from, current_flag)
+SELECT 
+    customer_id,
+    customer_name,
+    city,
+    CURRENT_DATE,
+    TRUE
+FROM stg_sales_cleaned sc
+WHERE NOT EXISTS (
+    SELECT 1 FROM dim_customer dc 
+    WHERE dc.customer_id = sc.customer_id 
+    AND dc.current_flag = TRUE
+    AND dc.customer_name = sc.customer_name 
+    AND dc.city = sc.city
+);
+
+-- Load fact table
+INSERT INTO fact_sales (date_key, product_key, customer_key, store_key, 
+                       sales_amount, quantity_sold, unit_cost)
+SELECT 
+    d.date_key,
+    p.product_key,
+    c.customer_key,
+    s.store_key,
+    sc.sales_amount,
+    sc.quantity,
+    sc.unit_cost
+FROM stg_sales_cleaned sc
+JOIN dim_date d ON sc.order_date = d.full_date
+JOIN dim_product p ON sc.product_id = p.product_id AND p.current_flag = TRUE
+JOIN dim_customer c ON sc.customer_id = c.customer_id AND c.current_flag = TRUE
+JOIN dim_store s ON s.store_id = 1 AND s.current_flag = TRUE;  -- Default store`,
+
+              `-- Advanced Analytics with Window Functions in Data Warehouse
+-- Customer 360 Analysis
+WITH CustomerMetrics AS (
+    SELECT 
+        c.customer_key,
+        c.customer_name,
+        c.customer_segment,
+        COUNT(DISTINCT f.date_key) as shopping_days,
+        SUM(f.sales_amount) as lifetime_value,
+        AVG(f.sales_amount) as avg_order_value,
+        MAX(f.sales_amount) as largest_order,
+        MIN(f.sale_date) as first_purchase_date,
+        MAX(f.sale_date) as last_purchase_date
+    FROM fact_sales f
+    JOIN dim_customer c ON f.customer_key = c.customer_key
+    JOIN dim_date d ON f.date_key = d.date_key
+    GROUP BY c.customer_key, c.customer_name, c.customer_segment
+),
+CustomerSegmentation AS (
+    SELECT 
+        *,
+        NTILE(5) OVER (ORDER BY lifetime_value DESC) as value_segment,
+        NTILE(5) OVER (ORDER BY shopping_days DESC) as frequency_segment,
+        CASE 
+            WHEN last_purchase_date >= CURRENT_DATE - INTERVAL '30 days' THEN 'Active'
+            WHEN last_purchase_date >= CURRENT_DATE - INTERVAL '90 days' THEN 'Warm'
+            ELSE 'Cold'
+        END as recency_segment
+    FROM CustomerMetrics
+)
+SELECT 
+    value_segment,
+    frequency_segment,
+    recency_segment,
+    COUNT(*) as customer_count,
+    AVG(lifetime_value) as avg_lifetime_value,
+    AVG(shopping_days) as avg_shopping_frequency
+FROM CustomerSegmentation
+GROUP BY value_segment, frequency_segment, recency_segment
+ORDER BY value_segment, frequency_segment, recency_segment;`,
+            ],
+            questions: [
+              {
+                question:
+                  "When should you choose a Star Schema over a Snowflake Schema?",
+                solution:
+                  "<p><strong>Choose Star Schema when:</strong></p><ul><li>Query performance is the highest priority</li><li>Business users will write ad-hoc queries</li><li>Dimension tables are relatively small</li><li>Data redundancy is acceptable for performance gains</li><li>You have simple hierarchies that don't change often</li><li>ETL development time needs to be minimized</li></ul><p><strong>Choose Snowflake Schema when:</strong></p><ul><li>Storage efficiency is important</li><li>You have complex, multi-level hierarchies</li><li>Dimension tables are very large and normalization saves space</li><li>Data integrity and consistency are critical</li><li>You have many shared dimensions across multiple fact tables</li><li>Your team is comfortable with complex SQL queries</li></ul><p><strong>Modern trend:</strong> Start with Star Schema for simplicity, then normalize specific dimensions if they become too large or complex.</p>",
+              },
+              {
+                question:
+                  "What are the key differences between OLTP and OLAP database design?",
+                solution:
+                  "<p><strong>OLTP Design Characteristics:</strong></p><ul><li>Highly normalized (3rd Normal Form or higher)</li><li>Optimized for fast writes and point reads</li><li>Many tables with complex relationships</li><li>Focus on data integrity and transaction consistency</li><li>Indexes on foreign keys and frequently searched columns</li><li>Small transactions with immediate consistency</li></ul><p><strong>OLAP Design Characteristics:</strong></p><ul><li>Denormalized (star/snowflake schemas)</li><li>Optimized for complex reads and aggregations</li><li>Fewer tables with simple relationships</li><li>Focus on query performance and analytics</li><li>Aggressive indexing and partitioning strategies</li><li>Batch loads with eventual consistency acceptable</li></ul><p><strong>Key Insight:</strong> OLTP systems record what happened, OLAP systems help understand why it happened and predict what might happen next.</p>",
+              },
+              {
+                question:
+                  "How does table partitioning improve data warehouse performance?",
+                solution:
+                  "<p><strong>Partitioning benefits include:</strong></p><ul><li><strong>Partition Pruning:</strong> Query optimizer eliminates partitions not needed for query</li><li><strong>Improved Manageability:</strong> Maintenance operations on smaller pieces</li><li><strong>Better I/O Performance:</strong> Data is physically organized by partition key</li><li><strong>Parallel Processing:</strong> Partitions can be processed concurrently</li><li><strong>Easier Data Lifecycle Management:</strong> Old partitions can be archived or dropped</li></ul><p><strong>Common Partitioning Strategies:</strong></p><ul><li><strong>Range Partitioning:</strong> By date ranges (most common)</li><li><strong>List Partitioning:</strong> By discrete values (region, category)</li><li><strong>Hash Partitioning:</strong> For even distribution across partitions</li></ul><p><strong>Best Practice:</strong> Partition fact tables by time, typically by month or quarter, as most analytical queries filter by time periods.</p>",
+              },
+              {
+                question: "What are the main stages of a robust ETL process?",
+                solution:
+                  "<p><strong>1. Extraction:</strong></p><ul><li>Identify data sources and extraction methods</li><li>Handle incremental vs full extracts</li><li>Manage source system connectivity and APIs</li><li>Log extraction metrics and errors</li></ul><p><strong>2. Transformation:</strong></p><ul><li>Data cleansing and validation</li><li>Data type conversion and standardization</li><li>Business rule application</li><li>Data enrichment and derivation</li><li>Handling of slowly changing dimensions</li><li>Data quality checks and error handling</li></ul><p><strong>3. Loading:</strong></p><ul><li>Dimension table loading (SCD logic)</li><li>Fact table loading with surrogate keys</li><li>Incremental vs full load strategies</li><li>Transaction management and rollback capabilities</li><li>Performance optimization (bulk loading, indexing)</li></ul><p><strong>4. Monitoring and Maintenance:</strong></p><ul><li>ETL job scheduling and dependency management</li><li>Error handling and alerting</li><li>Performance monitoring and optimization</li><li>Data quality reporting and reconciliation</li></ul>",
+              },
+              {
+                question:
+                  "What are Slowly Changing Dimensions and how are they handled?",
+                solution:
+                  "<p><strong>Type 1 - Overwrite:</strong> Update existing record with new values (no history)</p><ul><li>Use when historical accuracy isn't important</li><li>Simplest to implement</li><li>Example: Correcting spelling errors in customer names</li></ul><p><strong>Type 2 - Add New Record:</strong> Create new record with new values, expire old record</p><ul><li>Maintains complete history</li><li>Most common approach in data warehousing</li><li>Requires valid_from and valid_to dates, current_flag</li><li>Example: Customer address changes over time</li></ul><p><strong>Type 3 - Add New Column:</strong> Add columns to store previous values</p><ul><li>Limited history (only previous value)</li><li>Use when you need limited historical tracking</li><li>Example: Storing current and previous sales territories</li></ul><p><strong>Hybrid Approaches:</strong></p><ul><li>Type 4 - Mini-dimension: Separate table for frequently changing attributes</li><li>Type 6 - Hybrid: Combination of Type 1, 2, and 3</li></ul><p><strong>Best Practice:</strong> Use Type 2 for most dimensions as it provides complete historical tracking while maintaining query simplicity.</p>",
+              },
+            ],
+            links: [
+              "https://www.kimballgroup.com/data-warehouse-business-intelligence-resources/kimball-techniques/dimensional-modeling-techniques/",
+              "https://learn.microsoft.com/en-us/sql/relational-databases/partitions/partitioned-tables-and-indexes?view=sql-server-ver16",
+              "https://www.stitchdata.com/resources/etl/",
+              "https://docs.snowflake.com/en/user-guide/intro-key-concepts.html",
+              "https://aws.amazon.com/data-warehouse/",
+            ],
           },
         ],
       },

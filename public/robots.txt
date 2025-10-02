@@ -1,4 +1,14 @@
+# *
 User-agent: *
 Allow: /
 
+# *
+User-agent: *
+Disallow: /api/
+Disallow: /test/
+
+# Host
+Host: https://interview-nerd-git-master-ank61s-projects.vercel.app
+
+# Sitemaps
 Sitemap: https://interview-nerd-git-master-ank61s-projects.vercel.app/sitemap.xml
