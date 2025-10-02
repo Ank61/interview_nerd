@@ -24,6 +24,7 @@ export default function Document() {
         <meta name="twitter:image" content="/vercel.svg" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <script src="https://fpyf8.com/88/tag.min.js" data-zone="175368" async data-cfasync="false"></script>
       {/* Google Tag Manager Script */}
       <Script
         async
