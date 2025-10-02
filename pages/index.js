@@ -940,10 +940,10 @@ export default function Home() {
                 <div className="absolute inset-0 bg-gradient-to-br from-orange-50/50 to-red-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl p-2 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={rabbitmq} width={70} height={70} alt="rabbitmq" />
+                    <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl pr-2 pl-2 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <Image src={rabbitmq} width={60} height={60} alt="rabbitmq" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors">
                       RabbitMQ
                     </CardTitle>
                   </div>
@@ -1013,14 +1013,14 @@ export default function Home() {
               onClick={() => router.push("/category/python")}
               className="cursor-pointer group"
             >
-              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-purple-300 relative overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-yellow-50/50 to-yellow-50/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-yellow-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-yellow-30/50 to-yellow-30/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
-                    <div className="bg-gradient-to-br from-yellow-100 to-yellow-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={python} width={60} height={60} alt="python" />
+                    <div className="bg-gradient-to-br from-yellow-50 to-yellow-50 rounded-2xl pr-1 pl-1 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <Image src={python} width={80} height={80} alt="python" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700 transition-colors">
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-700 transition-colors">
                       Python
                     </CardTitle>
                   </div>
