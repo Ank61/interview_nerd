@@ -2,7 +2,7 @@
 export const playgroundQuestions = {
   beginner: [
     {
-      id: 'js-1',
+      id: '1',
       title: 'Two Sum',
       difficulty: 'easy',
       description: 'Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.',
@@ -48,7 +48,7 @@ console.log(twoSum([3, 2, 4], 6)); // Expected: [1, 2]`,
       ]
     },
     {
-      id: 'js-2',
+      id: '2',
       title: 'Reverse String',
       difficulty: 'easy',
       description: 'Write a function that reverses a string. The input string is given as an array of characters s.',
@@ -80,8 +80,8 @@ console.log(test1); // Expected: ["o","l","l","e","h"]`,
     }
 }`,
       testCases: [
-        { input: [["h","e","l","l","o"]], expected: ["o","l","l","e","h"] },
-        { input: [["H","a","n","n","a","h"]], expected: ["h","a","n","n","a","H"] }
+        { input: [["h", "e", "l", "l", "o"]], expected: ["o", "l", "l", "e", "h"] },
+        { input: [["H", "a", "n", "n", "a", "h"]], expected: ["h", "a", "n", "n", "a", "H"] }
       ],
       tags: ['string', 'two-pointers'],
       timeComplexity: 'O(n)',
@@ -92,7 +92,7 @@ console.log(test1); // Expected: ["o","l","l","e","h"]`,
       ]
     },
     {
-      id: 'js-3',
+      id: '3',
       title: 'Palindrome Check',
       difficulty: 'easy',
       description: 'Write a function to check if a given string is a palindrome (reads the same forwards and backwards).',
@@ -142,7 +142,7 @@ console.log(isPalindrome("hello")); // Expected: false`,
   ],
   advanced: [
     {
-      id: 'js-4',
+      id: '4',
       title: 'Valid Parentheses',
       difficulty: 'medium',
       description: 'Given a string s containing just the characters \'(\', \')\', \'{\', \'}\', \'[\' and \']\', determine if the input string is valid.',
@@ -202,7 +202,7 @@ console.log(isValid("(]")); // Expected: false`,
       ]
     },
     {
-      id: 'js-5',
+      id: '5',
       title: 'Binary Tree Traversal',
       difficulty: 'medium',
       description: 'Implement in-order traversal of a binary tree using JavaScript.',
@@ -240,7 +240,7 @@ console.log(inorderTraversal(root)); // Expected: [1, 3, 2]`,
     return result;
 }`,
       testCases: [
-        { input: [{'val': 1, 'left': null, 'right': {'val': 2, 'left': {'val': 3, 'left': null, 'right': null}, 'right': null}}], expected: [1, 3, 2] }
+        { input: [{ 'val': 1, 'left': null, 'right': { 'val': 2, 'left': { 'val': 3, 'left': null, 'right': null }, 'right': null } }], expected: [1, 3, 2] }
       ],
       tags: ['binary-tree', 'recursion', 'traversal'],
       timeComplexity: 'O(n)',
@@ -251,7 +251,7 @@ console.log(inorderTraversal(root)); // Expected: [1, 3, 2]`,
       ]
     },
     {
-      id: 'js-6',
+      id: '6',
       title: 'Merge Intervals',
       difficulty: 'hard',
       description: 'Given a collection of intervals, merge all overlapping intervals.',
@@ -288,8 +288,8 @@ console.log(mergeIntervals([[1,4],[4,5]])); // Expected: [[1,5]]`,
     return merged;
 }`,
       testCases: [
-        { input: [[[1,3],[2,6],[8,10],[15,18]]], expected: [[1,6],[8,10],[15,18]] },
-        { input: [[[1,4],[4,5]]], expected: [[1,5]] }
+        { input: [[[1, 3], [2, 6], [8, 10], [15, 18]]], expected: [[1, 6], [8, 10], [15, 18]] },
+        { input: [[[1, 4], [4, 5]]], expected: [[1, 5]] }
       ],
       tags: ['intervals', 'sorting', 'greedy'],
       timeComplexity: 'O(n log n)',

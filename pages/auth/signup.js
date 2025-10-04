@@ -28,14 +28,90 @@ export default function Signup() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   if (formData.password !== formData.confirmPassword) {
+  //     setError("Passwords don't match!");
+  //     return;
+  //   }
+
+  //   if (!formData.agreeToTerms) {
+  //     setError("Please agree to the terms and conditions");
+  //     return;
+  //   }
+
+  //   setIsLoading(true);
+  //   setError("");
+
+  //   try {
+  //     const response = await fetch('/api/auth/register', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify({
+  //         name: formData.name,
+  //         email: formData.email,
+  //         password: formData.password,
+  //       }),
+  //     });
+
+  //     const data = await response.json();
+
+  //     if (!response.ok) {
+  //       throw new Error(data.message || 'Registration failed');
+  //     }
+
+  //     // Auto-login after successful registration
+  //     const result = await signIn("credentials", {
+  //       email: formData.email,
+  //       password: formData.password,
+  //       redirect: false,
+  //     });
+
+  //     if (result?.error) {
+  //       setError(result.error);
+  //     } else {
+  //       router.push("/");
+  //     }
+  //   } catch (error) {
+  //     setError(error.message || "An error occurred during registration");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // const handleGoogleSignup = async () => {
+  //   setIsLoading(true);
+  //   setError("");
+
+  //   try {
+  //     const result = await signIn("google", {
+  //       callbackUrl: "/",
+  //       redirect: false,
+  //     });
+
+  //     if (result?.error) {
+  //       setError(result.error);
+  //     } else if (result?.url) {
+  //       router.push(result.url);
+  //     }
+  //   } catch (error) {
+  //     setError("An error occurred during Google signup");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       setError("Passwords don't match!");
       return;
     }
-    
+
     if (!formData.agreeToTerms) {
       setError("Please agree to the terms and conditions");
       return;
@@ -72,12 +148,16 @@ export default function Signup() {
 
       if (result?.error) {
         setError(result.error);
+        setIsLoading(false);
+      } else if (result?.ok) {
+        // Use window.location for hard redirect to ensure session loads
+        window.location.href = "/";
       } else {
-        router.push("/");
+        setError("Registration successful but login failed. Please try logging in.");
+        setIsLoading(false);
       }
     } catch (error) {
       setError(error.message || "An error occurred during registration");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -87,19 +167,12 @@ export default function Signup() {
     setError("");
 
     try {
-      const result = await signIn("google", {
+      await signIn("google", {
         callbackUrl: "/",
-        redirect: false,
       });
-
-      if (result?.error) {
-        setError(result.error);
-      } else if (result?.url) {
-        router.push(result.url);
-      }
+      // Google sign-in will handle redirect automatically
     } catch (error) {
       setError("An error occurred during Google signup");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -107,8 +180,8 @@ export default function Signup() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       {/* Back to Home Button */}
-      <Link 
-        href="/" 
+      <Link
+        href="/"
         className="absolute top-6 left-6 flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors font-medium"
       >
         <ArrowLeft className="w-4 h-4" />
@@ -123,7 +196,7 @@ export default function Signup() {
         >
           <Card className="border border-gray-200 shadow-lg bg-white">
             <CardHeader className="space-y-1 text-center pb-6">
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ duration: 0.5, delay: 0.2 }}
@@ -131,8 +204,8 @@ export default function Signup() {
               >
                 <div className="p-2 rounded-lg bg-blue-50">
                   <svg width="32" height="32" fill="none" viewBox="0 0 48 48" className="text-blue-600">
-                    <circle cx="24" cy="24" r="24" fill="#2563eb" fillOpacity="0.08"/>
-                    <path d="M24 14v12l8 4" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="24" cy="24" r="24" fill="#2563eb" fillOpacity="0.08" />
+                    <path d="M24 14v12l8 4" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <span className="font-bold text-xl text-gray-900">Interview Nerd</span>
@@ -159,10 +232,10 @@ export default function Signup() {
                     {error}
                   </div>
                 )}
-                
-                <Button 
-                  variant="outline" 
-                  className="w-full h-12 border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 font-medium" 
+
+                <Button
+                  variant="outline"
+                  className="w-full h-12 border-2 border-gray-300 hover:border-blue-400 hover:bg-blue-50 transition-all duration-300 font-medium"
                   onClick={handleGoogleSignup}
                   disabled={isLoading}
                 >
@@ -186,7 +259,7 @@ export default function Signup() {
                   </svg>
                   Continue with Google
                 </Button>
-                
+
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center">
                     <div className="w-full border-t border-gray-200" />
@@ -197,8 +270,8 @@ export default function Signup() {
                 </div>
               </motion.div>
 
-              <motion.form 
-                onSubmit={handleSubmit} 
+              <motion.form
+                onSubmit={handleSubmit}
                 className="space-y-5"
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -229,7 +302,7 @@ export default function Signup() {
                     required
                   />
                 </div>
-                
+
                 <div className="space-y-2">
                   <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
                   <div className="relative">
@@ -305,9 +378,9 @@ export default function Signup() {
                   </Label>
                 </div>
 
-                <Button 
-                  type="submit" 
-                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5" 
+                <Button
+                  type="submit"
+                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                   disabled={isLoading}
                 >
                   {isLoading ? (
@@ -321,7 +394,7 @@ export default function Signup() {
                 </Button>
               </motion.form>
 
-              <motion.div 
+              <motion.div
                 className="text-center text-sm pt-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

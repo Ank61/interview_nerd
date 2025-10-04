@@ -5,6 +5,7 @@ import Image from "next/image";
 import react from "../images/react.png";
 import next from "../images/next.png";
 import node from "../images/node_logo.png";
+import mongodb from "../images/mongodb.png";
 import python from "../images/python1.png";
 import js from "../images/js_logo.png";
 import ts from "../images/ts.png";
@@ -39,9 +40,10 @@ import {
   ChevronDown,
   Settings,
   FileText,
+  Trophy,
 } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Home() {
   const router = useRouter();
@@ -49,10 +51,19 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isMobileToolsOpen, setIsMobileToolsOpen] = useState(false);
   const [isToolsDropdownOpen, setIsToolsDropdownOpen] = useState(false);
-
+  const [currentPage, setCurrentPage] = useState(0);
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  // Auto-scroll for MCQ carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => (prev + 1) % 2); // 2 pages total (7 items, 4 per page)
+    }, 10000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -1004,7 +1015,7 @@ export default function Home() {
               </Card>
             </motion.div>
 
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
@@ -1034,10 +1045,168 @@ export default function Home() {
                   </p>
                 </CardContent>
               </Card>
-            </motion.div>
+            </motion.div> */}
           </div>
         </div>
       </section>
+
+
+      {/* MCQ Practice Section with Carousel */}
+      <section className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 py-16">
+        <div className="container mx-auto px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <div className="inline-flex items-center gap-2 bg-white/10 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Trophy className="w-4 h-4" />
+              Test Your Knowledge
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              MCQ Practice Tests
+            </h2>
+            <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
+              Challenge yourself with multiple-choice questions across various technologies.
+              Track your progress and master every topic!
+            </p>
+          </motion.div>
+
+          <div className="relative px-24">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[
+                { name: 'JavaScript', category: 'Javascript', color: 'from-yellow-100 to-orange-100', icon: js, questions: 400, topics: 'ES6+, Async, Closures' },
+                { name: 'TypeScript', category: 'Typescript', color: 'from-blue-100 to-indigo-100', icon: ts, questions: 400, topics: 'Types, Interfaces, Generics' },
+                { name: 'React', category: 'React', color: 'from-cyan-100 to-blue-100', icon: react, questions: 348, topics: 'Hooks, State, Components' },
+                { name: 'Node.js', category: 'Node', color: 'from-green-100 to-emerald-100', icon: node, questions: 200, topics: 'Express, APIs, Middleware' },
+                { name: 'SQL', category: 'SQL', color: 'from-orange-100 to-red-100', icon: '🗄️', questions: 400, topics: 'Queries, Joins, Optimization' },
+                { name: 'MongoDB', category: 'MongoDB', color: 'from-green-100 to-teal-100', icon: mongodb, questions: 400, topics: 'Aggregation, Queries, Schema' },
+                { name: 'OOP', category: 'OOP', color: 'from-purple-100 to-pink-100', icon: '🎯', questions: 400, topics: 'Classes, Inheritance, Polymorphism' },
+              ]
+                .slice(currentPage * 4, currentPage * 4 + 4)
+                .map((tech, index) => (
+                  <motion.div
+                    key={tech.category}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    whileHover={{ scale: 1.05, y: -5 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => router.push(`/practice-mcq/${tech.category}`)}
+                    className="cursor-pointer group"
+                  >
+                    <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
+                      <div className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                      <CardHeader className="pb-4 relative z-10">
+                        <div className="flex flex-col items-center text-center">
+                          <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                            {tech.name === 'SQL' ? <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="#4f46e5"
+                                className="w-12 h-12"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                                />
+                              </svg>
+                            </div> : tech.name === 'SQL' ? <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="#4f46e5"
+                                className="w-12 h-12"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                                />
+                              </svg>
+                            </div> : tech.name === 'OOP' ? <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="#9333ea"
+                                className="w-12 h-12"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
+                                />
+                              </svg>
+                            </div> : <div className={`bg-gradient-to-br ${tech.color} rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}><Image src={tech.icon} width={48} height={48} alt={tech.name} /></div>}
+                          </div>
+                          <CardTitle className="text-xl font-bold text-gray-900 mb-0">
+                            {tech.name}
+                          </CardTitle>
+                        </div>
+                      </CardHeader>
+                      <CardContent className="pt-0 text-center relative z-10">
+                        <div className="flex items-center justify-center gap-4 mb-0">
+                          <div className="flex items-center gap-1 text-gray-600">
+                            <FileText className="w-4 h-4" />
+                            <span className="text-sm font-semibold">{tech.questions} MCQs</span>
+                          </div>
+                        </div>
+                        <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                          {tech.topics}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+            </div>
+
+            {/* Page Indicators */}
+            <div className="flex justify-center gap-2 mt-8">
+              {[0, 1].map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${currentPage === page
+                    ? 'bg-white w-8'
+                    : 'bg-white/30 hover:bg-white/60'
+                    }`}
+                  aria-label={`Go to page ${page + 1}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+        {/* </section> */}
+        {/* Bottom CTA */}
+        {/* <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="text-center mt-12"
+        >
+          <Link
+            href="/practice-mcq/Javascript"
+            className="inline-flex items-center gap-2 bg-white text-purple-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1"
+          >
+            <Trophy className="w-5 h-5" />
+            Explore All MCQ Tests
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </motion.div> */}
+        {/* </div> */}
+      </section >
+
 
       {/* Major Components Section */}
       <section className="container mx-auto px-4 py-16 bg-gray-50">
@@ -1115,32 +1284,6 @@ export default function Home() {
                 <CardHeader className="pb-4">
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl p-6 mb-4 shadow-md transform transition-transform duration-300 hover:scale-105 flex items-center justify-center">
-                      {/* <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="#7C3AED"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="w-10 h-10"
-                        class="lucide lucide-monitor-cog-icon lucide-monitor-cog"
-                      >
-                        <path d="M12 17v4" />
-                        <path d="m14.305 7.53.923-.382" />
-                        <path d="m15.228 4.852-.923-.383" />
-                        <path d="m16.852 3.228-.383-.924" />
-                        <path d="m16.852 8.772-.383.923" />
-                        <path d="m19.148 3.228.383-.924" />
-                        <path d="m19.53 9.696-.382-.924" />
-                        <path d="m20.772 4.852.924-.383" />
-                        <path d="m20.772 7.148.924.383" />
-                        <path d="M22 13v2a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7" />
-                        <path d="M8 21h8" />
-                        <circle cx="18" cy="6" r="3" />
-                      </svg> */}
                       <MonitorCog className="w-9 h-9 text-purple-800" />
                     </div>
                     <CardTitle className="text-xl font-bold text-gray-900 mb-2">
@@ -1415,6 +1558,12 @@ export default function Home() {
         </div>
       </section>
 
+      <style jsx>{`
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+`}</style>
+
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-16">
         <div className="max-w-4xl mx-auto text-center">
@@ -1625,6 +1774,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
+    </div >
   );
 }

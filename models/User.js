@@ -382,6 +382,56 @@ const userSchema = new mongoose.Schema(
       ],
       default: [],
     },
+    sqlProgress: {
+      completedQuestions: [{
+        questionId: String,
+        category: String,
+        difficulty: String,
+        query: String,
+        isCorrect: Boolean,
+        completedAt: Date,
+        lastAttempt: Date,
+        attempts: {
+          type: Number,
+          default: 1
+        }
+      }],
+      categoryProgress: {
+        type: Map,
+        of: {
+          total: { type: Number, default: 0 },
+          easy: { type: Number, default: 0 },
+          medium: { type: Number, default: 0 },
+          hard: { type: Number, default: 0 },
+          lastPracticed: Date
+        }
+      }
+    },
+    mongoProgress: {
+      completedQuestions: [{
+        questionId: String,
+        category: String,
+        difficulty: String,
+        query: String,
+        isCorrect: Boolean,
+        completedAt: Date,
+        lastAttempt: Date,
+        attempts: {
+          type: Number,
+          default: 1
+        }
+      }],
+      categoryProgress: {
+        type: Map,
+        of: {
+          total: { type: Number, default: 0 },
+          Easy: { type: Number, default: 0 },
+          Medium: { type: Number, default: 0 },
+          Hard: { type: Number, default: 0 },
+          lastPracticed: Date
+        }
+      }
+    },
   },
   {
     timestamps: true,

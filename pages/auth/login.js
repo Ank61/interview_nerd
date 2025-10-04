@@ -17,6 +17,52 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
+  //   setError("");
+
+  //   try {
+  //     const result = await signIn("credentials", {
+  //       email,
+  //       password,
+  //       redirect: false,
+  //     });
+
+  //     if (result?.error) {
+  //       setError(result.error);
+  //     } else {
+  //       router.push("/");
+  //     }
+  //   } catch (error) {
+  //     setError("An error occurred during login");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // const handleGoogleLogin = async () => {
+  //   setIsLoading(true);
+  //   setError("");
+
+  //   try {
+  //     const result = await signIn("google", {
+  //       callbackUrl: "/",
+  //       redirect: false,
+  //     });
+
+  //     if (result?.error) {
+  //       setError(result.error);
+  //     } else if (result?.url) {
+  //       router.push(result.url);
+  //     }
+  //   } catch (error) {
+  //     setError("An error occurred during Google login");
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -31,12 +77,16 @@ export default function Login() {
 
       if (result?.error) {
         setError(result.error);
+        setIsLoading(false);
+      } else if (result?.ok) {
+        // Use window.location for hard redirect to ensure session loads
+        window.location.href = "/";
       } else {
-        router.push("/");
+        setError("An unexpected error occurred");
+        setIsLoading(false);
       }
     } catch (error) {
       setError("An error occurred during login");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -46,23 +96,15 @@ export default function Login() {
     setError("");
 
     try {
-      const result = await signIn("google", {
+      await signIn("google", {
         callbackUrl: "/",
-        redirect: false,
       });
-
-      if (result?.error) {
-        setError(result.error);
-      } else if (result?.url) {
-        router.push(result.url);
-      }
+      // Google sign-in will handle redirect automatically
     } catch (error) {
       setError("An error occurred during Google login");
-    } finally {
       setIsLoading(false);
     }
   };
-
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       {/* Back to Home Button */}
