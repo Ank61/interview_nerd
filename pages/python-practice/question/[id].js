@@ -67,7 +67,7 @@ export default function PythonQuestionPage() {
         setError("Question not found");
       }
     }
-  }, [id, isQuestionCompleted]);
+  }, [id]);
 
   // Auto-adjust textarea height
   useEffect(() => {
@@ -165,6 +165,9 @@ export default function PythonQuestionPage() {
   const submitSolution = async () => {
     if (!question || !code.trim()) return;
     setLoading(true);
+    setError("");
+    setSubmissionResult(null);
+
     try {
       const executionResult = await pythonExecutor.execute(code);
       if (executionResult.success) {
@@ -175,12 +178,14 @@ export default function PythonQuestionPage() {
         const isCorrect = expectedOutput
           ? userOutput === expectedOutput
           : !!userOutput;
+
         setSubmissionResult({
           isCorrect,
           userOutput,
           expectedOutput,
           userCode: code,
         });
+
         if (isCorrect) {
           await saveProgress(
             question.id,
@@ -199,8 +204,9 @@ export default function PythonQuestionPage() {
       }
     } catch (err) {
       setSubmissionResult({ isCorrect: false, error: err.message });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -355,6 +361,20 @@ export default function PythonQuestionPage() {
                 {question.description}
               </p>
             </div>
+
+            {/* Expected Output */}
+            {question.expectedOutput && (
+              <div className="mb-6">
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">
+                  Expected Output
+                </h3>
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                  <pre className="whitespace-pre-wrap text-sm font-mono text-gray-900">
+                    {String(question.expectedOutput)}
+                  </pre>
+                </div>
+              </div>
+            )}
 
             {/* Hint & Solution */}
             <div className="space-y-3">

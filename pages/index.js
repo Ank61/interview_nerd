@@ -126,9 +126,7 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() =>
-                          session
-                            ? router.push("/sql-practice")
-                            : router.push("/auth/login")
+                          router.push("/sql-practice")
                         }
                         className="w-full justify-start text-gray-600 hover:text-indigo-700 hover:bg-indigo-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
@@ -141,9 +139,7 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() =>
-                          session
-                            ? router.push("/mongodb-practice")
-                            : router.push("/auth/login")
+                          router.push("/mongodb-practice")
                         }
                         className="w-full justify-start text-gray-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
@@ -158,9 +154,7 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() =>
-                          session
-                            ? router.push("/python-practice")
-                            : router.push("/auth/login")
+                          router.push("/python-practice")
                         }
                         className="w-full justify-start text-gray-600 hover:text-yellow-700 hover:bg-yellow-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
@@ -173,9 +167,7 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() =>
-                          session
-                            ? router.push("/playground")
-                            : router.push("/auth/login")
+                          router.push("/playground")
                         }
                         className="w-full justify-start text-gray-600 hover:text-purple-700 hover:bg-purple-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
@@ -291,9 +283,10 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          session
-                            ? router.push("/sql-practice")
-                            : router.push("/auth/login");
+                          // session
+                          // ? 
+                          router.push("/sql-practice")
+                          // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
                         className="w-full justify-start text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-2 py-2"
@@ -305,9 +298,10 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          session
-                            ? router.push("/mongodb-practice")
-                            : router.push("/auth/login");
+                          // session
+                          // ? router.push("/mongodb-practice")
+                          router.push("/mongodb-practice")
+                          // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
                         className="w-full justify-start text-green-600 hover:text-green-700 font-medium flex items-center gap-2 py-2"
@@ -319,9 +313,10 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          session
-                            ? router.push("/python-practice")
-                            : router.push("/auth/login");
+                          // session
+                          // ?
+                          router.push("/python-practice")
+                          // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
                         className="w-full justify-start text-yellow-600 hover:text-yellow-700 font-medium flex items-center gap-2 py-2"
@@ -333,9 +328,10 @@ export default function Home() {
                         variant="ghost"
                         size="sm"
                         onClick={() => {
-                          session
-                            ? router.push("/playground")
-                            : router.push("/auth/login");
+                          // session
+                          // ? router.push("/playground")
+                          router.push("/playground")
+                          // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
                         className="w-full justify-start text-purple-600 hover:text-purple-700 font-medium flex items-center gap-2 py-2"
@@ -486,13 +482,11 @@ export default function Home() {
             <Button
               size="lg"
               onClick={() =>
-                session
-                  ? router.push("/category/Javascript")
-                  : router.push("/auth/login")
+                router.push("/category/Javascript")
               }
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
-              {session ? "Continue Learning" : "Start Free Trial"}{" "}
+              Start Free Trial{" "}
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button
@@ -553,9 +547,7 @@ export default function Home() {
                   <Button
                     size="sm"
                     onClick={() =>
-                      session
-                        ? router.push("/playground")
-                        : router.push("/auth/login")
+                      router.push("/playground")
                     }
                     className="bg-white text-purple-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
@@ -616,9 +608,7 @@ export default function Home() {
                   <Button
                     size="sm"
                     onClick={() =>
-                      session
-                        ? router.push("/mongodb-practice")
-                        : router.push("/auth/login")
+                      router.push("/mongodb-practice")
                     }
                     className="bg-white text-green-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
@@ -654,62 +644,6 @@ export default function Home() {
                 </div>
               </motion.div>
             </div>
-
-            {/* <div className="grid md:grid-cols-3 gap-8 mb-12">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <Brain className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Adaptive AI
-                  </h3>
-                  <p className="text-blue-100 text-sm">
-                    Smart algorithm adjusts difficulty based on your performance
-                    and learning patterns
-                  </p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <Database className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Real Datasets
-                  </h3>
-                  <p className="text-blue-100 text-sm">
-                    Practice with realistic data scenarios including e-commerce,
-                    HR, and library systems
-                  </p>
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.3 }}
-                className="text-center"
-              >
-                <div className="bg-white/10 rounded-2xl p-6 mb-4 backdrop-blur-sm">
-                  <TrendingUp className="w-12 h-12 text-white mx-auto mb-4" />
-                  <h3 className="text-xl font-bold text-white mb-2">
-                    Progress Tracking
-                  </h3>
-                  <p className="text-blue-100 text-sm">
-                    Track your coding skills, success rates, and improvement
-                    over time
-                  </p>
-                </div>
-              </motion.div>
-            </div> */}
           </div>
         </div>
       </section>
@@ -1390,9 +1324,10 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
               onClick={() =>
-                session
-                  ? router.push("/playground")
-                  : router.push("/auth/login")
+                // session
+                // ? 
+                router.push("/playground")
+                // : router.push("/auth/login")
               }
             >
               <div className="p-3 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg mb-4">

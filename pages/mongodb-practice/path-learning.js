@@ -14,11 +14,11 @@ export default function MongoDBPathLearning() {
     const router = useRouter();
     const { progress, getCategoryProgress } = useMongoProgress();
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Get unique categories with question counts
     const allQuestions = [...mongoQuestions.beginner, ...mongoQuestions.advanced];

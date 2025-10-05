@@ -54,11 +54,11 @@ export default function TestingMode() {
 
     const timerRef = useRef(null);
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Initialize playground on mount
     useEffect(() => {

@@ -14,11 +14,11 @@ export default function PythonPathLearning() {
     const router = useRouter();
     const { progress, getCategoryProgress } = usePythonProgress();
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Get unique categories with question counts
     // Get unique categories with question counts

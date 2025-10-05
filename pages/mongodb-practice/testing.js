@@ -19,11 +19,11 @@ export default function MongoDBPracticeTesting() {
     const [difficultyFilter, setDifficultyFilter] = useState("all");
     const [collectionFilter, setCollectionFilter] = useState("all");
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Combine all questions
     const allQuestions = [...mongoQuestions.beginner, ...mongoQuestions.advanced];

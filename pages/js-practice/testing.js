@@ -19,11 +19,11 @@ export default function JSPracticeTesting() {
     const [difficultyFilter, setDifficultyFilter] = useState("all");
     const [topicFilter, setTopicFilter] = useState("all");
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     const getDifficultyColor = (difficulty) => {
         switch (difficulty) {

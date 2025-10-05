@@ -14,11 +14,11 @@ export default function JSPathLearning() {
     const router = useRouter();
     const { progress, getTopicProgress } = useJSProgress();
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Get unique topics with question counts
     const topics = {};

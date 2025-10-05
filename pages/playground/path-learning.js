@@ -86,11 +86,11 @@ export default function PathLearningMode() {
 
     const timerRef = useRef(null);
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Load progress from localStorage
     useEffect(() => {
@@ -438,10 +438,10 @@ export default function PathLearningMode() {
                                         <div
                                             key={topic.id}
                                             className={`p-4 border rounded-lg transition-all ${isUnlocked
-                                                    ? currentTopic?.id === topic.id
-                                                        ? "border-yellow-500 bg-yellow-50 cursor-pointer"
-                                                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer"
-                                                    : "border-gray-200 bg-gray-100 opacity-60 cursor-not-allowed"
+                                                ? currentTopic?.id === topic.id
+                                                    ? "border-yellow-500 bg-yellow-50 cursor-pointer"
+                                                    : "border-gray-200 hover:border-gray-300 hover:bg-gray-50 cursor-pointer"
+                                                : "border-gray-200 bg-gray-100 opacity-60 cursor-not-allowed"
                                                 }`}
                                             onClick={() => isUnlocked && selectTopic(topic)}
                                         >
@@ -503,8 +503,8 @@ export default function PathLearningMode() {
                                             <div
                                                 key={qId}
                                                 className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedQuestion?.id === qId
-                                                        ? "border-yellow-500 bg-yellow-50"
-                                                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                                                    ? "border-yellow-500 bg-yellow-50"
+                                                    : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                                                     }`}
                                                 onClick={() => selectQuestion(question)}
                                             >
@@ -797,8 +797,8 @@ export default function PathLearningMode() {
                                                             <div
                                                                 key={index}
                                                                 className={`p-3 rounded-lg border ${test.passed
-                                                                        ? "bg-green-50 border-green-200"
-                                                                        : "bg-red-50 border-red-200"
+                                                                    ? "bg-green-50 border-green-200"
+                                                                    : "bg-red-50 border-red-200"
                                                                     }`}
                                                             >
                                                                 <div className="flex items-center justify-between">

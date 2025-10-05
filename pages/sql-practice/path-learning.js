@@ -15,11 +15,11 @@ export default function SQLPathLearning() {
     const router = useRouter();
     const { progress, getCategoryProgress } = useSQLProgress();
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Get unique categories with question counts
     const categories = {};
