@@ -16,11 +16,11 @@ export default function CategoryTopicsPage() {
     const { data: session, status } = useSession();
     const { isQuestionCompleted } = useSQLProgress();
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Filter questions by category
     const categoryQuestions = category

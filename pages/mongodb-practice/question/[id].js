@@ -47,11 +47,11 @@ export default function MongoDBQuestionPage() {
     const [leftWidth, setLeftWidth] = useState(40); // percentage
     const [topHeight, setTopHeight] = useState(50); // percentage
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     useEffect(() => {
         if (id) {

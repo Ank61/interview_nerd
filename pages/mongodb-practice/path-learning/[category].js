@@ -15,11 +15,11 @@ export default function CategoryTopicsPage() {
     const { data: session, status } = useSession();
     const { isQuestionCompleted } = useMongoProgress();
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     // Filter questions by category (collection)
     const allQuestions = [...mongoQuestions.beginner, ...mongoQuestions.advanced];

@@ -23,11 +23,11 @@ export default function PythonCategoryPage() {
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/login");
-    }
-  }, [status, router]);
+  // useEffect(() => {
+  //   if (status === "unauthenticated") {
+  //     router.push("/auth/login");
+  //   }
+  // }, [status, router]);
 
   useEffect(() => {
     if (category && pythonQuestions) {

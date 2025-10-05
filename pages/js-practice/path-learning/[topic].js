@@ -16,11 +16,11 @@ export default function JSTopicQuestions() {
     const { isQuestionCompleted } = useJSProgress();
     const [questions, setQuestions] = useState([]);
 
-    useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/login");
-        }
-    }, [status, router]);
+    // useEffect(() => {
+    //     if (status === "unauthenticated") {
+    //         router.push("/auth/login");
+    //     }
+    // }, [status, router]);
 
     useEffect(() => {
         if (topic) {
