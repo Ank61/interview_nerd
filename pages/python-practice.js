@@ -1,13 +1,30 @@
-
 import { useState, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import { motion } from "framer-motion";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Code2, GraduationCap, Zap, User, Settings, BookOpen, Target, ArrowRight } from "lucide-react";
+import {
+  Code2,
+  GraduationCap,
+  Zap,
+  User,
+  Settings,
+  BookOpen,
+  Target,
+  ArrowRight,
+  CheckCircle,
+  Sparkles,
+  TrendingUp,
+} from "lucide-react";
 
 export default function PythonPractice() {
   const { data: session, status } = useSession();
@@ -19,7 +36,10 @@ export default function PythonPractice() {
     <div className="min-h-screen bg-gray-50">
       <Head>
         <title>Python Practice - Interview Nerd</title>
-        <meta name="description" content="Practice Python programming with interactive exercises" />
+        <meta
+          name="description"
+          content="Practice Python programming with interactive exercises"
+        />
       </Head>
 
       {/* Header */}
@@ -42,11 +62,16 @@ export default function PythonPractice() {
               </div>
 
               <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
-                <button onClick={() => router.push("/")} className="hover:text-gray-700 transition-colors">
+                <button
+                  onClick={() => router.push("/")}
+                  className="hover:text-gray-700 transition-colors"
+                >
                   Home
                 </button>
                 <span>/</span>
-                <span className="text-gray-900 font-medium">Python Practice</span>
+                <span className="text-gray-900 font-medium">
+                  Python Practice
+                </span>
               </nav>
             </div>
 
@@ -68,9 +93,12 @@ export default function PythonPractice() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-12 text-center"
         >
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Python Practice</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-4">
+            Python Practice
+          </h1>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Master Python programming with our interactive exercises and challenges.
+            Master Python programming with our interactive exercises and
+            challenges.
           </p>
         </motion.div>
 
@@ -107,8 +135,50 @@ export default function PythonPractice() {
               </CardHeader>
               <CardContent className="space-y-6 relative z-10">
                 <p className="text-gray-700 text-center leading-relaxed">
-                  Learn Python step by step through carefully organized topics. Track your progress and build expertise systematically.
+                  Learn Python step by step through carefully organized topics.
+                  Track your progress and build expertise systematically.
                 </p>
+                <div className="space-y-3 bg-blue-50/50 rounded-xl p-4 border border-blue-100">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center mt-0.5">
+                      <CheckCircle size={14} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">
+                        Fundamentals
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        Syntax, variables, control flow, functions
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center mt-0.5">
+                      <TrendingUp size={14} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">
+                        Data Structures
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        Lists, dicts, sets, tuples, comprehensions
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600 flex items-center justify-center mt-0.5">
+                      <Sparkles size={14} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">
+                        Advanced Concepts
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        OOP, modules, error handling, file I/O
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 <Button
                   className="w-full mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={(e) => {
@@ -155,8 +225,50 @@ export default function PythonPractice() {
               </CardHeader>
               <CardContent className="space-y-6 relative z-10">
                 <p className="text-gray-700 text-center leading-relaxed">
-                  Challenge yourself with practice tests that simulate real-world scenarios and interview questions.
+                  Challenge yourself with practice tests that simulate
+                  real-world scenarios and interview questions.
                 </p>
+                <div className="space-y-3 bg-purple-50/50 rounded-xl p-4 border border-purple-100">
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center mt-0.5">
+                      <Code2 size={14} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">
+                        Full Access
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        Practice questions from beginner to advanced
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center mt-0.5">
+                      <Zap size={14} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">
+                        No Restrictions
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        Solve any question in any order
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-purple-600 flex items-center justify-center mt-0.5">
+                      <Target size={14} className="text-white" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900 text-sm">
+                        Your Pace
+                      </p>
+                      <p className="text-xs text-gray-600">
+                        Focus on areas you want to strengthen
+                      </p>
+                    </div>
+                  </div>
+                </div>
                 <Button
                   className="w-full mt-6 bg-purple-600 hover:bg-purple-700 text-white font-semibold py-5 text-base shadow-lg hover:shadow-xl transition-all duration-300"
                   onClick={(e) => {
