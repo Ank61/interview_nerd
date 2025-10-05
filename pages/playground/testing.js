@@ -253,7 +253,7 @@ export default function TestingMode() {
     return (
         <div className="min-h-screen bg-gray-50">
             <Head>
-                <title>Testing Mode - JavaScript Playground | Interview Nerd</title>
+                <title>Practice Questions - JavaScript Playground | Interview Nerd</title>
                 <meta name="description" content="Practice JavaScript coding challenges in testing mode" />
             </Head>
 
@@ -292,7 +292,7 @@ export default function TestingMode() {
                                     Playground
                                 </button>
                                 <span>/</span>
-                                <span className="text-gray-900 font-medium">Testing Mode</span>
+                                <span className="text-gray-900 font-medium">Practice Questions</span>
                             </nav>
                         </div>
 
@@ -358,8 +358,8 @@ export default function TestingMode() {
                                                 <div
                                                     key={question.id}
                                                     className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedQuestion?.id === question.id
-                                                            ? "border-yellow-500 bg-yellow-50"
-                                                            : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                                                        ? "border-yellow-500 bg-yellow-50"
+                                                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                                                         }`}
                                                     onClick={() => selectQuestion(question)}
                                                 >
@@ -389,8 +389,8 @@ export default function TestingMode() {
                                                 <div
                                                     key={question.id}
                                                     className={`p-3 border rounded-lg cursor-pointer transition-colors ${selectedQuestion?.id === question.id
-                                                            ? "border-yellow-500 bg-yellow-50"
-                                                            : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                                                        ? "border-yellow-500 bg-yellow-50"
+                                                        : "border-gray-200 hover:border-gray-300 hover:bg-gray-50"
                                                         }`}
                                                     onClick={() => selectQuestion(question)}
                                                 >
@@ -674,8 +674,8 @@ export default function TestingMode() {
                                                         <div
                                                             key={index}
                                                             className={`p-3 rounded-lg border ${test.passed
-                                                                    ? "bg-green-50 border-green-200"
-                                                                    : "bg-red-50 border-red-200"
+                                                                ? "bg-green-50 border-green-200"
+                                                                : "bg-red-50 border-red-200"
                                                                 }`}
                                                         >
                                                             <div className="flex items-center justify-between">

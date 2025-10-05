@@ -82,7 +82,7 @@ export default function PlaygroundMode() {
                   Home
                 </button>
                 <span>/</span>
-                <span className="text-gray-900 font-medium">JavaScript Playground</span>
+                <span className="text-gray-900 font-medium">JavaScript Practice</span>
               </nav>
             </div>
 
@@ -148,7 +148,7 @@ export default function PlaygroundMode() {
                       </motion.div>
                     </div>
                     <CardTitle className="text-2xl sm:text-3xl text-center font-bold text-gray-900 mb-2">
-                      Path Learning
+                      Learn Concepts
                     </CardTitle>
                     <CardDescription className="text-center text-base text-gray-600">
                       Structured learning with progressive topics
@@ -196,7 +196,7 @@ export default function PlaygroundMode() {
                         router.push("/js-practice/path-learning");
                       }}
                     >
-                      Start Path Learning
+                      Concepts
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
                   </CardContent>
@@ -229,7 +229,7 @@ export default function PlaygroundMode() {
                       </motion.div>
                     </div>
                     <CardTitle className="text-2xl sm:text-3xl text-center font-bold text-gray-900 mb-2">
-                      Testing Mode
+                      Practice Questions
                     </CardTitle>
                     <CardDescription className="text-center text-base text-gray-600">
                       Free practice with all questions available
@@ -277,7 +277,7 @@ export default function PlaygroundMode() {
                         router.push("/js-practice/testing");
                       }}
                     >
-                      Start Testing
+                      Questions
                       <ArrowRight className="ml-2 w-5 h-5" />
                     </Button>
                   </CardContent>

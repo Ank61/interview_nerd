@@ -123,7 +123,7 @@ export default function MongoDBPracticeTesting() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-8"
                 >
-                    <h1 className="text-3xl font-bold text-gray-900 mb-2">MongoDB Testing Mode</h1>
+                    <h1 className="text-3xl font-bold text-gray-900 mb-2">MongoDB Practice Questions</h1>
                     <p className="text-gray-600">Practice any question without restrictions</p>
                 </motion.div>
 

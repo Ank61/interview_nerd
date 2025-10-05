@@ -141,65 +141,11 @@ export default function MongoDBPathLearning() {
                     animate={{ opacity: 1, y: 0 }}
                     className="mb-12 text-center"
                 >
-                    {/* <div className="flex items-center justify-center mb-4">
-                        <Target className="w-12 h-12 text-green-600" />
-                    </div> */}
                     <h1 className="text-4xl font-bold text-gray-900 mb-4">MongoDB Learning Path</h1>
                     <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                         Master MongoDB concepts step by step. Choose a category to start your learning journey.
                     </p>
                 </motion.div>
-
-                {/* Stats Overview */}
-                {/* <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12"
-                >
-                    <Card className="border-2 border-green-200 bg-gradient-to-br from-green-50 to-white">
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-green-600 mb-1">Total Categories</p>
-                                    <p className="text-3xl font-bold text-gray-900">{categoryList.length}</p>
-                                </div>
-                                <div className="p-3 bg-green-100 rounded-lg">
-                                    <BookOpen className="w-8 h-8 text-green-600" />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="border-2 border-emerald-200 bg-gradient-to-br from-emerald-50 to-white">
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-emerald-600 mb-1">Total Questions</p>
-                                    <p className="text-3xl font-bold text-gray-900">{allQuestions.length}</p>
-                                </div>
-                                <div className="p-3 bg-emerald-100 rounded-lg">
-                                    <Target className="w-8 h-8 text-emerald-600" />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    <Card className="border-2 border-teal-200 bg-gradient-to-br from-teal-50 to-white">
-                        <CardContent className="p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <p className="text-sm font-medium text-teal-600 mb-1">Your Progress</p>
-                                    <p className="text-3xl font-bold text-gray-900">0%</p>
-                                </div>
-                                <div className="p-3 bg-teal-100 rounded-lg">
-                                    <Award className="w-8 h-8 text-teal-600" />
-                                </div>
-                            </div>
-                        </CardContent>
-                    </Card>
-                </motion.div> */}
-
                 {/* Categories Grid */}
                 <div className="mb-8">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6">Choose Your Learning Path</h2>
