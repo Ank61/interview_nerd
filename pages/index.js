@@ -115,8 +115,9 @@ export default function Home() {
                   <Settings className="w-4 h-4" />
                   <span>Tools</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${isToolsDropdownOpen ? "rotate-180" : ""
-                      }`}
+                    className={`w-4 h-4 transition-transform duration-200 ${
+                      isToolsDropdownOpen ? "rotate-180" : ""
+                    }`}
                   />
                 </button>
                 {isToolsDropdownOpen && (
@@ -125,9 +126,7 @@ export default function Home() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() =>
-                          router.push("/sql-practice")
-                        }
+                        onClick={() => router.push("/sql-practice")}
                         className="w-full justify-start text-gray-600 hover:text-indigo-700 hover:bg-indigo-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
                         <DatabaseZap className="w-5 h-5 text-indigo-700" />
@@ -138,9 +137,7 @@ export default function Home() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() =>
-                          router.push("/mongodb-practice")
-                        }
+                        onClick={() => router.push("/mongodb-practice")}
                         className="w-full justify-start text-gray-600 hover:text-green-700 hover:bg-green-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
                         <Database className="w-5 h-5 text-green-700" />
@@ -153,9 +150,7 @@ export default function Home() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() =>
-                          router.push("/python-practice")
-                        }
+                        onClick={() => router.push("/python-practice")}
                         className="w-full justify-start text-gray-600 hover:text-yellow-700 hover:bg-yellow-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
                         <FileCode2 className="w-5 h-5 text-yellow-700" />
@@ -166,9 +161,7 @@ export default function Home() {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() =>
-                          router.push("/playground")
-                        }
+                        onClick={() => router.push("/playground")}
                         className="w-full justify-start text-gray-600 hover:text-purple-700 hover:bg-purple-50 font-medium flex items-center gap-3 px-4 py-3 rounded-none hover:rounded-lg mx-2"
                       >
                         <Code className="w-5 h-5 text-purple-700" />
@@ -273,8 +266,9 @@ export default function Home() {
                       Tools
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 transition-transform duration-200 ${isMobileToolsOpen ? "rotate-180" : ""
-                        }`}
+                      className={`w-4 h-4 transition-transform duration-200 ${
+                        isMobileToolsOpen ? "rotate-180" : ""
+                      }`}
                     />
                   </button>
                   {isMobileToolsOpen && (
@@ -284,8 +278,8 @@ export default function Home() {
                         size="sm"
                         onClick={() => {
                           // session
-                          // ? 
-                          router.push("/sql-practice")
+                          // ?
+                          router.push("/sql-practice");
                           // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
@@ -300,7 +294,7 @@ export default function Home() {
                         onClick={() => {
                           // session
                           // ? router.push("/mongodb-practice")
-                          router.push("/mongodb-practice")
+                          router.push("/mongodb-practice");
                           // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
@@ -315,7 +309,7 @@ export default function Home() {
                         onClick={() => {
                           // session
                           // ?
-                          router.push("/python-practice")
+                          router.push("/python-practice");
                           // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
@@ -330,7 +324,7 @@ export default function Home() {
                         onClick={() => {
                           // session
                           // ? router.push("/playground")
-                          router.push("/playground")
+                          router.push("/playground");
                           // : router.push("/auth/login");
                           setIsMobileMenuOpen(false);
                         }}
@@ -481,13 +475,10 @@ export default function Home() {
           >
             <Button
               size="lg"
-              onClick={() =>
-                router.push("/category/Javascript")
-              }
+              onClick={() => router.push("/category/Javascript")}
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold px-8 py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
             >
-              Start Free Trial{" "}
-              <ArrowRight className="ml-2 w-5 h-5" />
+              Start Free Trial <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button
               variant="outline"
@@ -546,9 +537,7 @@ export default function Home() {
                   </p>
                   <Button
                     size="sm"
-                    onClick={() =>
-                      router.push("/playground")
-                    }
+                    onClick={() => router.push("/playground")}
                     className="bg-white text-purple-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
                     <Play className="mr-2 w-4 h-4" />
@@ -607,9 +596,7 @@ export default function Home() {
                   </p>
                   <Button
                     size="sm"
-                    onClick={() =>
-                      router.push("/mongodb-practice")
-                    }
+                    onClick={() => router.push("/mongodb-practice")}
                     className="bg-white text-green-600 font-semibold px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-300"
                   >
                     <Database className="mr-2 w-4 h-4" />
@@ -886,7 +873,12 @@ export default function Home() {
                 <CardHeader className="pb-4 relative z-10">
                   <div className="flex flex-col items-center text-center">
                     <div className="bg-gradient-to-br from-orange-100 to-red-100 rounded-2xl pr-2 pl-2 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                      <Image src={rabbitmq} width={60} height={60} alt="rabbitmq" />
+                      <Image
+                        src={rabbitmq}
+                        width={60}
+                        height={60}
+                        alt="rabbitmq"
+                      />
                     </div>
                     <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-700 transition-colors">
                       RabbitMQ
@@ -984,9 +976,8 @@ export default function Home() {
         </div>
       </section>
 
-
       {/* MCQ Practice Section with Carousel */}
-      <section className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 py-16">
+      <section className="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 py-16">
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1003,21 +994,70 @@ export default function Home() {
               MCQ Practice Tests
             </h2>
             <p className="text-xl text-white/90 max-w-3xl mx-auto leading-relaxed">
-              Challenge yourself with multiple-choice questions across various technologies.
-              Track your progress and master every topic!
+              Challenge yourself with multiple-choice questions across various
+              technologies. Track your progress and master every topic!
             </p>
           </motion.div>
 
           <div className="relative px-24">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {[
-                { name: 'JavaScript', category: 'Javascript', color: 'from-yellow-100 to-orange-100', icon: js, questions: 400, topics: 'ES6+, Async, Closures' },
-                { name: 'TypeScript', category: 'Typescript', color: 'from-blue-100 to-indigo-100', icon: ts, questions: 400, topics: 'Types, Interfaces, Generics' },
-                { name: 'React', category: 'React', color: 'from-cyan-100 to-blue-100', icon: react, questions: 348, topics: 'Hooks, State, Components' },
-                { name: 'Node.js', category: 'Node', color: 'from-green-100 to-emerald-100', icon: node, questions: 200, topics: 'Express, APIs, Middleware' },
-                { name: 'SQL', category: 'SQL', color: 'from-orange-100 to-red-100', icon: '🗄️', questions: 400, topics: 'Queries, Joins, Optimization' },
-                { name: 'MongoDB', category: 'MongoDB', color: 'from-green-100 to-teal-100', icon: mongodb, questions: 400, topics: 'Aggregation, Queries, Schema' },
-                { name: 'OOP', category: 'OOP', color: 'from-purple-100 to-pink-100', icon: '🎯', questions: 400, topics: 'Classes, Inheritance, Polymorphism' },
+                {
+                  name: "JavaScript",
+                  category: "Javascript",
+                  color: "from-yellow-100 to-orange-100",
+                  icon: js,
+                  questions: 400,
+                  topics: "ES6+, Async, Closures",
+                },
+                {
+                  name: "TypeScript",
+                  category: "Typescript",
+                  color: "from-blue-100 to-indigo-100",
+                  icon: ts,
+                  questions: 400,
+                  topics: "Types, Interfaces, Generics",
+                },
+                {
+                  name: "React",
+                  category: "React",
+                  color: "from-cyan-100 to-blue-100",
+                  icon: react,
+                  questions: 348,
+                  topics: "Hooks, State, Components",
+                },
+                {
+                  name: "Node.js",
+                  category: "Node",
+                  color: "from-green-100 to-emerald-100",
+                  icon: node,
+                  questions: 200,
+                  topics: "Express, APIs, Middleware",
+                },
+                {
+                  name: "SQL",
+                  category: "SQL",
+                  color: "from-orange-100 to-red-100",
+                  icon: "🗄️",
+                  questions: 400,
+                  topics: "Queries, Joins, Optimization",
+                },
+                {
+                  name: "MongoDB",
+                  category: "MongoDB",
+                  color: "from-green-100 to-teal-100",
+                  icon: mongodb,
+                  questions: 400,
+                  topics: "Aggregation, Queries, Schema",
+                },
+                {
+                  name: "OOP",
+                  category: "OOP",
+                  color: "from-purple-100 to-pink-100",
+                  icon: "🎯",
+                  questions: 400,
+                  topics: "Classes, Inheritance, Polymorphism",
+                },
               ]
                 .slice(currentPage * 4, currentPage * 4 + 4)
                 .map((tech, index) => (
@@ -1028,60 +1068,81 @@ export default function Home() {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     whileHover={{ scale: 1.05, y: -5 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => router.push(`/practice-mcq/${tech.category}`)}
+                    onClick={() =>
+                      router.push(`/practice-mcq/${tech.category}`)
+                    }
                     className="cursor-pointer group"
                   >
                     <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 relative overflow-hidden">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`} />
+                      <div
+                        className={`absolute inset-0 bg-gradient-to-br ${tech.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}
+                      />
                       <CardHeader className="pb-4 relative z-10">
                         <div className="flex flex-col items-center text-center">
                           <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                            {tech.name === 'SQL' ? <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="#4f46e5"
-                                className="w-12 h-12"
+                            {tech.name === "SQL" ? (
+                              <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="#4f46e5"
+                                  className="w-12 h-12"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                                  />
+                                </svg>
+                              </div>
+                            ) : tech.name === "SQL" ? (
+                              <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="#4f46e5"
+                                  className="w-12 h-12"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                                  />
+                                </svg>
+                              </div>
+                            ) : tech.name === "OOP" ? (
+                              <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="#9333ea"
+                                  className="w-12 h-12"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
+                                  />
+                                </svg>
+                              </div>
+                            ) : (
+                              <div
+                                className={`bg-gradient-to-br ${tech.color} rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}
                               >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
+                                <Image
+                                  src={tech.icon}
+                                  width={48}
+                                  height={48}
+                                  alt={tech.name}
                                 />
-                              </svg>
-                            </div> : tech.name === 'SQL' ? <div className="bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="#4f46e5"
-                                className="w-12 h-12"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"
-                                />
-                              </svg>
-                            </div> : tech.name === 'OOP' ? <div className="bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="#9333ea"
-                                className="w-12 h-12"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5"
-                                />
-                              </svg>
-                            </div> : <div className={`bg-gradient-to-br ${tech.color} rounded-2xl p-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg`}><Image src={tech.icon} width={48} height={48} alt={tech.name} /></div>}
+                              </div>
+                            )}
                           </div>
                           <CardTitle className="text-xl font-bold text-gray-900 mb-0">
                             {tech.name}
@@ -1092,7 +1153,9 @@ export default function Home() {
                         <div className="flex items-center justify-center gap-4 mb-0">
                           <div className="flex items-center gap-1 text-gray-600">
                             <FileText className="w-4 h-4" />
-                            <span className="text-sm font-semibold">{tech.questions} MCQs</span>
+                            <span className="text-sm font-semibold">
+                              {tech.questions} MCQs
+                            </span>
                           </div>
                         </div>
                         <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
@@ -1110,10 +1173,11 @@ export default function Home() {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${currentPage === page
-                    ? 'bg-white w-8'
-                    : 'bg-white/30 hover:bg-white/60'
-                    }`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    currentPage === page
+                      ? "bg-white w-8"
+                      : "bg-white/30 hover:bg-white/60"
+                  }`}
                   aria-label={`Go to page ${page + 1}`}
                 />
               ))}
@@ -1139,8 +1203,7 @@ export default function Home() {
           </Link>
         </motion.div> */}
         {/* </div> */}
-      </section >
-
+      </section>
 
       {/* Major Components Section */}
       <section className="container mx-auto px-4 py-16 bg-gray-50">
@@ -1323,10 +1386,11 @@ export default function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.1 }}
               className="bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-6 flex flex-col items-center shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer"
-              onClick={() =>
-                // session
-                // ? 
-                router.push("/playground")
+              onClick={
+                () =>
+                  // session
+                  // ?
+                  router.push("/playground")
                 // : router.push("/auth/login")
               }
             >
@@ -1494,10 +1558,10 @@ export default function Home() {
       </section>
 
       <style jsx>{`
-  .scrollbar-hide::-webkit-scrollbar {
-    display: none;
-  }
-`}</style>
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 py-16">
@@ -1709,6 +1773,6 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div >
+    </div>
   );
 }

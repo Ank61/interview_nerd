@@ -93143,9 +93143,15 @@ END;`,
             ],
           },
           {
-            "topic": "Transaction Control: BEGIN, COMMIT, ROLLBACK",
-            "tags": ["BEGIN TRANSACTION", "COMMIT", "ROLLBACK", "SAVEPOINT", "Transaction Control"],
-            "explanation": `<div>
+            topic: "Transaction Control: BEGIN, COMMIT, ROLLBACK",
+            tags: [
+              "BEGIN TRANSACTION",
+              "COMMIT",
+              "ROLLBACK",
+              "SAVEPOINT",
+              "Transaction Control",
+            ],
+            explanation: `<div>
      <p style="line-height: 1.75; margin-top: 1.5rem;">
        Transaction control statements are fundamental to maintaining data integrity in SQL databases. They allow you to group multiple operations into atomic units of work that either completely succeed or completely fail, ensuring database consistency.
      </p>
@@ -94067,7 +94073,7 @@ END;`,
        </code></pre>
      </div>
   </div>`,
-            "examples": [
+            examples: [
               `-- Complete Banking Transaction Example
   CREATE OR REPLACE FUNCTION complete_bank_transaction(
       p_from_account INT,
@@ -94304,42 +94310,59 @@ END;`,
       fees_collected := v_total_fees;
       RETURN NEXT;
   END;
-  $$ LANGUAGE plpgsql;`
+  $$ LANGUAGE plpgsql;`,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What is the difference between COMMIT and ROLLBACK, and when should you use each?",
-                "solution": "<p><strong>COMMIT:</strong> Makes all changes in the current transaction permanent. Use COMMIT when all operations in the transaction have completed successfully and you want to save the changes to the database.</p><p><strong>ROLLBACK:</strong> Undoes all changes in the current transaction. Use ROLLBACK when an error occurs, business rules are violated, or you need to cancel the transaction for any reason.</p><p><strong>Key Differences:</strong></p><ul><li>COMMIT persists changes; ROLLBACK discards them</li><li>COMMIT makes changes visible to other transactions; ROLLBACK hides them</li><li>After COMMIT, changes cannot be undone; after ROLLBACK, it's as if the transaction never happened</li></ul><p><strong>Best Practice:</strong> Always include error handling that performs ROLLBACK on failures, and only COMMIT when all operations succeed.</p>"
+                question:
+                  "What is the difference between COMMIT and ROLLBACK, and when should you use each?",
+                solution:
+                  "<p><strong>COMMIT:</strong> Makes all changes in the current transaction permanent. Use COMMIT when all operations in the transaction have completed successfully and you want to save the changes to the database.</p><p><strong>ROLLBACK:</strong> Undoes all changes in the current transaction. Use ROLLBACK when an error occurs, business rules are violated, or you need to cancel the transaction for any reason.</p><p><strong>Key Differences:</strong></p><ul><li>COMMIT persists changes; ROLLBACK discards them</li><li>COMMIT makes changes visible to other transactions; ROLLBACK hides them</li><li>After COMMIT, changes cannot be undone; after ROLLBACK, it's as if the transaction never happened</li></ul><p><strong>Best Practice:</strong> Always include error handling that performs ROLLBACK on failures, and only COMMIT when all operations succeed.</p>",
               },
               {
-                "question": "How do savepoints work and what are their practical use cases?",
-                "solution": "<p><strong>Savepoints</strong> allow you to set markers within a transaction that you can roll back to without affecting the entire transaction.</p><p><strong>How they work:</strong></p><ol><li>Create a savepoint with SAVEPOINT name</li><li>Perform operations</li><li>If needed, rollback to the savepoint with ROLLBACK TO SAVEPOINT name</li><li>Operations after the savepoint are undone, but previous operations remain</li></ol><p><strong>Practical Use Cases:</strong></p><ul><li><strong>Complex business processes:</strong> Rollback failed steps while keeping successful ones</li><li><strong>Conditional logic:</strong> Try different approaches and rollback unsuccessful attempts</li><li><strong>Error recovery:</strong> Handle errors in specific steps without losing entire transaction</li><li><strong>Testing scenarios:</strong> Try operations and rollback if they don't meet criteria</li></ul><p><strong>Example:</strong> In order processing, if payment fails, rollback to before payment but keep inventory reservation.</p>"
+                question:
+                  "How do savepoints work and what are their practical use cases?",
+                solution:
+                  "<p><strong>Savepoints</strong> allow you to set markers within a transaction that you can roll back to without affecting the entire transaction.</p><p><strong>How they work:</strong></p><ol><li>Create a savepoint with SAVEPOINT name</li><li>Perform operations</li><li>If needed, rollback to the savepoint with ROLLBACK TO SAVEPOINT name</li><li>Operations after the savepoint are undone, but previous operations remain</li></ol><p><strong>Practical Use Cases:</strong></p><ul><li><strong>Complex business processes:</strong> Rollback failed steps while keeping successful ones</li><li><strong>Conditional logic:</strong> Try different approaches and rollback unsuccessful attempts</li><li><strong>Error recovery:</strong> Handle errors in specific steps without losing entire transaction</li><li><strong>Testing scenarios:</strong> Try operations and rollback if they don't meet criteria</li></ul><p><strong>Example:</strong> In order processing, if payment fails, rollback to before payment but keep inventory reservation.</p>",
               },
               {
-                "question": "What are the risks of long-running transactions and how can you avoid them?",
-                "solution": "<p><strong>Risks of Long-Running Transactions:</strong></p><ul><li><strong>Lock contention:</strong> Locks are held for extended periods, blocking other transactions</li><li><strong>Resource consumption:</strong> Database resources (memory, log space) are tied up</li><li><strong>Timeout issues:</strong> May exceed database or application timeouts</li><li><strong>Data staleness:</strong> Other transactions see outdated data</li><li><strong>Deadlock susceptibility:</strong> Higher chance of deadlocks with prolonged lock holding</li></ul><p><strong>Avoidance Strategies:</strong></p><ul><li><strong>Keep transactions short:</strong> Do minimal work within transactions</li><li><strong>Avoid user interaction:</strong> Never wait for user input within a transaction</li><li><strong>Use appropriate isolation levels:</strong> Lower isolation levels reduce locking</li><li><strong>Break large operations:</strong> Process in smaller batches with separate transactions</li><li><strong>Monitor and alert:</strong> Set up monitoring for long-running transactions</li><li><strong>Use read-only transactions:</strong> For reporting, use READ ONLY transactions</li><li><strong>Optimize queries:</strong> Ensure operations within transactions are efficient</li></ul>"
+                question:
+                  "What are the risks of long-running transactions and how can you avoid them?",
+                solution:
+                  "<p><strong>Risks of Long-Running Transactions:</strong></p><ul><li><strong>Lock contention:</strong> Locks are held for extended periods, blocking other transactions</li><li><strong>Resource consumption:</strong> Database resources (memory, log space) are tied up</li><li><strong>Timeout issues:</strong> May exceed database or application timeouts</li><li><strong>Data staleness:</strong> Other transactions see outdated data</li><li><strong>Deadlock susceptibility:</strong> Higher chance of deadlocks with prolonged lock holding</li></ul><p><strong>Avoidance Strategies:</strong></p><ul><li><strong>Keep transactions short:</strong> Do minimal work within transactions</li><li><strong>Avoid user interaction:</strong> Never wait for user input within a transaction</li><li><strong>Use appropriate isolation levels:</strong> Lower isolation levels reduce locking</li><li><strong>Break large operations:</strong> Process in smaller batches with separate transactions</li><li><strong>Monitor and alert:</strong> Set up monitoring for long-running transactions</li><li><strong>Use read-only transactions:</strong> For reporting, use READ ONLY transactions</li><li><strong>Optimize queries:</strong> Ensure operations within transactions are efficient</li></ul>",
               },
               {
-                "question": "What is the difference between auto-commit mode and explicit transaction mode?",
-                "solution": "<p><strong>Auto-commit Mode:</strong></p><ul><li>Each SQL statement is automatically committed as a separate transaction</li><li>Default behavior in most database clients and tools</li><li>No explicit BEGIN/COMMIT/ROLLBACK needed</li><li>Simple but can lead to inconsistent states if multiple operations fail</li></ul><p><strong>Explicit Transaction Mode:</strong></p><ul><li>You control transaction boundaries with BEGIN/COMMIT/ROLLBACK</li><li>Multiple statements grouped into a single atomic unit</li><li>All operations succeed or fail together</li><li>More complex but ensures data consistency</li></ul><p><strong>When to use each:</strong></p><ul><li><strong>Auto-commit:</strong> Simple single-statement operations, ad-hoc queries, reporting</li><li><strong>Explicit transactions:</strong> Financial operations, batch processing, multi-step business processes, any scenario requiring atomicity</li></ul><p><strong>Switching between modes:</strong> Most databases allow you to disable auto-commit (SET AUTOCOMMIT=0) for explicit transaction control.</p>"
+                question:
+                  "What is the difference between auto-commit mode and explicit transaction mode?",
+                solution:
+                  "<p><strong>Auto-commit Mode:</strong></p><ul><li>Each SQL statement is automatically committed as a separate transaction</li><li>Default behavior in most database clients and tools</li><li>No explicit BEGIN/COMMIT/ROLLBACK needed</li><li>Simple but can lead to inconsistent states if multiple operations fail</li></ul><p><strong>Explicit Transaction Mode:</strong></p><ul><li>You control transaction boundaries with BEGIN/COMMIT/ROLLBACK</li><li>Multiple statements grouped into a single atomic unit</li><li>All operations succeed or fail together</li><li>More complex but ensures data consistency</li></ul><p><strong>When to use each:</strong></p><ul><li><strong>Auto-commit:</strong> Simple single-statement operations, ad-hoc queries, reporting</li><li><strong>Explicit transactions:</strong> Financial operations, batch processing, multi-step business processes, any scenario requiring atomicity</li></ul><p><strong>Switching between modes:</strong> Most databases allow you to disable auto-commit (SET AUTOCOMMIT=0) for explicit transaction control.</p>",
               },
               {
-                "question": "How do you handle transaction errors and ensure proper cleanup?",
-                "solution": "<p><strong>Error Handling Strategies:</strong></p><ol><li><strong>Use try-catch blocks:</strong> Wrap transaction code in error handling structures</li><li><strong>Always rollback on errors:</strong> Ensure ROLLBACK is called in exception handlers</li><li><strong>Use savepoints for partial recovery:</strong> Allow rolling back failed steps while keeping successful ones</li><li><strong>Log errors appropriately:</strong> Record errors for debugging while maintaining transaction integrity</li><li><strong>Implement retry logic:</strong> For transient errors, retry the transaction</li></ol><p><strong>Proper Cleanup Example:</strong></p><pre><code>BEGIN TRANSACTION;\nBEGIN TRY\n    -- Operations here\n    COMMIT;\nEND TRY\nBEGIN CATCH\n    IF @@TRANCOUNT > 0\n        ROLLBACK;\n    -- Log error, notify, etc.\nEND CATCH</code></pre><p><strong>Best Practices:</strong></p><ul><li>Always check if a transaction is active before rolling back</li><li>Release resources (cursors, temporary objects) in finally blocks</li><li>Use transaction scoping to ensure proper cleanup</li><li>Test error scenarios to verify cleanup works correctly</li></ul>"
-              }
+                question:
+                  "How do you handle transaction errors and ensure proper cleanup?",
+                solution:
+                  "<p><strong>Error Handling Strategies:</strong></p><ol><li><strong>Use try-catch blocks:</strong> Wrap transaction code in error handling structures</li><li><strong>Always rollback on errors:</strong> Ensure ROLLBACK is called in exception handlers</li><li><strong>Use savepoints for partial recovery:</strong> Allow rolling back failed steps while keeping successful ones</li><li><strong>Log errors appropriately:</strong> Record errors for debugging while maintaining transaction integrity</li><li><strong>Implement retry logic:</strong> For transient errors, retry the transaction</li></ol><p><strong>Proper Cleanup Example:</strong></p><pre><code>BEGIN TRANSACTION;\nBEGIN TRY\n    -- Operations here\n    COMMIT;\nEND TRY\nBEGIN CATCH\n    IF @@TRANCOUNT > 0\n        ROLLBACK;\n    -- Log error, notify, etc.\nEND CATCH</code></pre><p><strong>Best Practices:</strong></p><ul><li>Always check if a transaction is active before rolling back</li><li>Release resources (cursors, temporary objects) in finally blocks</li><li>Use transaction scoping to ensure proper cleanup</li><li>Test error scenarios to verify cleanup works correctly</li></ul>",
+              },
             ],
-            "links": [
+            links: [
               "https://www.postgresql.org/docs/current/tutorial-transactions.html",
               "https://dev.mysql.com/doc/refman/8.0/en/commit.html",
               "https://learn.microsoft.com/en-us/sql/t-sql/language-elements/begin-transaction-transact-sql?view=sql-server-ver16",
               "https://docs.oracle.com/cd/B19306_01/server.102/b14200/statements_10001.htm",
-              "https://www.sqlshack.com/transaction-control-in-sql-server/"
-            ]
+              "https://www.sqlshack.com/transaction-control-in-sql-server/",
+            ],
           },
           {
-            "topic": "Transactions - ACID Properties",
-            "tags": ["ACID", "Transactions", "Concurrency", "Isolation Levels", "Locking", "Deadlocks"],
-            "explanation": `<div>
+            topic: "Transactions: ACID Properties",
+            tags: [
+              "ACID",
+              "Transactions",
+              "Concurrency",
+              "Isolation Levels",
+              "Locking",
+              "Deadlocks",
+            ],
+            explanation: `<div>
      <p style="line-height: 1.75; margin-top: 1.5rem;">
        Transactions and concurrency control are fundamental concepts in database systems that ensure data integrity and consistency when multiple operations occur simultaneously. The ACID properties provide the foundation for reliable database transactions in multi-user environments.
      </p>
@@ -95166,7 +95189,7 @@ END;`,
        </code></pre>
      </div>
   </div>`,
-            "examples": [
+            examples: [
               `-- Complete banking transaction with all ACID properties
   CREATE OR REPLACE FUNCTION process_bank_transfer(
       p_from_account INT,
@@ -95330,37 +95353,47 @@ END;`,
       
       RETURN v_success;
   END;
-  $$ LANGUAGE plpgsql;`
+  $$ LANGUAGE plpgsql;`,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are the ACID properties and why are they important in database systems?",
-                "solution": "<p><strong>ACID Properties:</strong></p><ul><li><strong>Atomicity:</strong> Transactions are all-or-nothing. Either all operations complete successfully, or none do. Prevents partial updates.</li><li><strong>Consistency:</strong> Transactions bring the database from one valid state to another, maintaining all rules and constraints.</li><li><strong>Isolation:</strong> Concurrent transactions don't interfere with each other. Each transaction sees a consistent view of the database.</li><li><strong>Durability:</strong> Committed transactions survive system failures. Changes are permanent once committed.</li></ul><p><strong>Importance:</strong> ACID properties ensure data integrity, reliability, and predictability in multi-user database environments. They prevent data corruption, lost updates, and inconsistent states that could occur in concurrent access scenarios.</p>"
+                question:
+                  "What are the ACID properties and why are they important in database systems?",
+                solution:
+                  "<p><strong>ACID Properties:</strong></p><ul><li><strong>Atomicity:</strong> Transactions are all-or-nothing. Either all operations complete successfully, or none do. Prevents partial updates.</li><li><strong>Consistency:</strong> Transactions bring the database from one valid state to another, maintaining all rules and constraints.</li><li><strong>Isolation:</strong> Concurrent transactions don't interfere with each other. Each transaction sees a consistent view of the database.</li><li><strong>Durability:</strong> Committed transactions survive system failures. Changes are permanent once committed.</li></ul><p><strong>Importance:</strong> ACID properties ensure data integrity, reliability, and predictability in multi-user database environments. They prevent data corruption, lost updates, and inconsistent states that could occur in concurrent access scenarios.</p>",
               },
               {
-                "question": "What are the different transaction isolation levels and when should you use each?",
-                "solution": "<p><strong>Isolation Levels:</strong></p><ul><li><strong>READ UNCOMMITTED:</strong> Allows dirty reads. Use for non-critical data where performance is paramount.</li><li><strong>READ COMMITTED:</strong> Prevents dirty reads. Good balance for most applications. Default in many databases.</li><li><strong>REPEATABLE READ:</strong> Prevents dirty and non-repeatable reads. Use when you need consistent reads within a transaction.</li><li><strong>SERIALIZABLE:</strong> Prevents all concurrency issues. Use for financial transactions or when absolute consistency is required.</li></ul><p><strong>Choosing the right level:</strong> Consider your application's consistency requirements vs performance needs. Start with READ COMMITTED and increase isolation only when necessary due to concurrency issues.</p>"
+                question:
+                  "What are the different transaction isolation levels and when should you use each?",
+                solution:
+                  "<p><strong>Isolation Levels:</strong></p><ul><li><strong>READ UNCOMMITTED:</strong> Allows dirty reads. Use for non-critical data where performance is paramount.</li><li><strong>READ COMMITTED:</strong> Prevents dirty reads. Good balance for most applications. Default in many databases.</li><li><strong>REPEATABLE READ:</strong> Prevents dirty and non-repeatable reads. Use when you need consistent reads within a transaction.</li><li><strong>SERIALIZABLE:</strong> Prevents all concurrency issues. Use for financial transactions or when absolute consistency is required.</li></ul><p><strong>Choosing the right level:</strong> Consider your application's consistency requirements vs performance needs. Start with READ COMMITTED and increase isolation only when necessary due to concurrency issues.</p>",
               },
               {
-                "question": "How do deadlocks occur and what strategies can prevent them?",
-                "solution": "<p><strong>Deadlock Causes:</strong> Occur when two or more transactions are waiting for each other to release locks, creating a circular dependency.</p><p><strong>Prevention Strategies:</strong></p><ul><li><strong>Consistent Lock Ordering:</strong> Always acquire locks in the same order across all transactions</li><li><strong>Lock Timeouts:</strong> Set maximum wait time for locks to avoid indefinite waiting</li><li><strong>Keep Transactions Short:</strong> Minimize lock duration to reduce contention</li><li><strong>Use Lower Isolation Levels:</strong> When appropriate, use levels with less locking</li><li><strong>Application-level Retry Logic:</strong> Implement retry mechanisms for deadlock victims</li></ul><p><strong>Detection:</strong> Most databases automatically detect deadlocks and abort one of the transactions (the 'victim').</p>"
+                question:
+                  "How do deadlocks occur and what strategies can prevent them?",
+                solution:
+                  "<p><strong>Deadlock Causes:</strong> Occur when two or more transactions are waiting for each other to release locks, creating a circular dependency.</p><p><strong>Prevention Strategies:</strong></p><ul><li><strong>Consistent Lock Ordering:</strong> Always acquire locks in the same order across all transactions</li><li><strong>Lock Timeouts:</strong> Set maximum wait time for locks to avoid indefinite waiting</li><li><strong>Keep Transactions Short:</strong> Minimize lock duration to reduce contention</li><li><strong>Use Lower Isolation Levels:</strong> When appropriate, use levels with less locking</li><li><strong>Application-level Retry Logic:</strong> Implement retry mechanisms for deadlock victims</li></ul><p><strong>Detection:</strong> Most databases automatically detect deadlocks and abort one of the transactions (the 'victim').</p>",
               },
               {
-                "question": "What is the difference between optimistic and pessimistic locking?",
-                "solution": "<p><strong>Pessimistic Locking:</strong></p><ul><li>Assumes conflicts will occur</li><li>Locks data during read/write operations</li><li>Prevents other transactions from accessing locked data</li><li>Better for high-contention scenarios</li><li>Examples: SELECT FOR UPDATE, SELECT FOR SHARE</li></ul><p><strong>Optimistic Locking:</strong></p><ul><li>Assumes conflicts are rare</li><li>Doesn't lock data during reads</li><li>Checks for conflicts during updates (using version numbers/timestamps)</li><li>Requires retry logic for conflicts</li><li>Better for low-contention scenarios</li><li>Example: Version columns with conditional updates</li></ul><p><strong>Choice depends on:</strong> Contention level, performance requirements, and application complexity.</p>"
+                question:
+                  "What is the difference between optimistic and pessimistic locking?",
+                solution:
+                  "<p><strong>Pessimistic Locking:</strong></p><ul><li>Assumes conflicts will occur</li><li>Locks data during read/write operations</li><li>Prevents other transactions from accessing locked data</li><li>Better for high-contention scenarios</li><li>Examples: SELECT FOR UPDATE, SELECT FOR SHARE</li></ul><p><strong>Optimistic Locking:</strong></p><ul><li>Assumes conflicts are rare</li><li>Doesn't lock data during reads</li><li>Checks for conflicts during updates (using version numbers/timestamps)</li><li>Requires retry logic for conflicts</li><li>Better for low-contention scenarios</li><li>Example: Version columns with conditional updates</li></ul><p><strong>Choice depends on:</strong> Contention level, performance requirements, and application complexity.</p>",
               },
               {
-                "question": "How does Write-Ahead Logging (WAL) ensure durability in database systems?",
-                "solution": "<p><strong>Write-Ahead Logging (WAL) Principle:</strong> Changes must be written to the transaction log before they are written to the main database files.</p><p><strong>WAL Process:</strong></p><ol><li>Transaction makes changes to data in memory</li><li>Changes are written to WAL (transaction log) on disk</li><li>Once WAL is safely written, transaction is considered committed</li><li>Changes are later written to main database files (can be asynchronous)</li></ol><p><strong>Durability Guarantee:</strong> Even if the database crashes after commit but before changes reach main files, the system can recover by replaying the WAL.</p><p><strong>Benefits:</strong> Better performance (sequential writes to log), crash recovery, and point-in-time recovery capabilities.</p>"
-              }
+                question:
+                  "How does Write-Ahead Logging (WAL) ensure durability in database systems?",
+                solution:
+                  "<p><strong>Write-Ahead Logging (WAL) Principle:</strong> Changes must be written to the transaction log before they are written to the main database files.</p><p><strong>WAL Process:</strong></p><ol><li>Transaction makes changes to data in memory</li><li>Changes are written to WAL (transaction log) on disk</li><li>Once WAL is safely written, transaction is considered committed</li><li>Changes are later written to main database files (can be asynchronous)</li></ol><p><strong>Durability Guarantee:</strong> Even if the database crashes after commit but before changes reach main files, the system can recover by replaying the WAL.</p><p><strong>Benefits:</strong> Better performance (sequential writes to log), crash recovery, and point-in-time recovery capabilities.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://www.postgresql.org/docs/current/transaction-iso.html",
               "https://dev.mysql.com/doc/refman/8.0/en/innodb-transaction-model.html",
               "https://learn.microsoft.com/en-us/sql/relational-databases/sql-server-transaction-locking-and-row-versioning-guide?view=sql-server-ver16",
               "https://www.geeksforgeeks.org/acid-properties-in-dbms/",
-              "https://medium.com/@mena.meseha/understanding-database-isolation-levels-8c99b82c7dba"
-            ]
+              "https://medium.com/@mena.meseha/understanding-database-isolation-levels-8c99b82c7dba",
+            ],
           },
           {
             topic: "Advanced Query Optimization Techniques",
@@ -97035,7 +97068,7 @@ END;`,
             ],
           },
           {
-            topic: "Data Warehousing & Analytics - Comprehensive Guide",
+            topic: "Data Warehousing & Analytics",
             tags: [
               "Star Schema",
               "Snowflake Schema",
