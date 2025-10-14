@@ -9,6 +9,10 @@ import {
   Server,
   Shield,
   Zap,
+  BookCheck,
+  User,
+  Settings,
+  Home,
 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -300,7 +304,7 @@ export default function ComponentPage({ componentData, componentName }) {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white border-b border-gray-200">
+      {/* <header className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center gap-4">
             <Button
@@ -325,6 +329,52 @@ export default function ComponentPage({ componentData, componentName }) {
                 <p className="text-sm text-gray-600">Major Topics & Concepts</p>
               </div>
             </div>
+          </div>
+        </div>
+      </header> */}
+
+      <header className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+        <div className="w-full px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            {/* Left side - Logo and Navigation */}
+            <div className="flex items-center space-x-8">
+              <div
+                className="flex items-center space-x-3 cursor-pointer"
+                onClick={() => router.push("/")}
+              >
+                <div
+                  className="p-2 rounded-lg"
+                  style={{ backgroundColor: "#f3f4f6" }}
+                >
+                  <BookOpen
+                    size={24}
+                    style={{ color: "#374151" }}
+                  />
+                </div>
+                <div>
+                  <h1 className="hidden lg:block text-xl font-bold text-gray-900">
+                    Interview Nerd
+                  </h1>
+                </div>
+              </div>
+
+              {/* Breadcrumb */}
+              <nav className="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+                <button
+                  onClick={() => router.push("/")}
+                  className="hover:text-gray-700 transition-colors"
+                >
+                  {/* <Home size={16} className="inline mr-1" /> */}
+                  Home
+                </button>
+                <span>/</span>
+                <span className="text-gray-900 font-medium">System Design</span>
+              </nav>
+            </div>
+
+            {/* Right side - Actions */}
+            {/* <div className="flex items-center space-x-4">
+            </div> */}
           </div>
         </div>
       </header>
@@ -384,7 +434,7 @@ export default function ComponentPage({ componentData, componentName }) {
         </div>
 
         {/* Stats Section */}
-        <div className="mt-16 max-w-4xl mx-auto">
+        {/* <div className="mt-16 max-w-4xl mx-auto">
           <div className="bg-white rounded-lg border border-gray-200 p-8">
             <h2 className="text-xl font-bold text-gray-900 mb-6 text-center">
               Component Overview
@@ -418,7 +468,7 @@ export default function ComponentPage({ componentData, componentName }) {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </main>
     </div>
   );

@@ -7,6 +7,7 @@ import next from "../images/next.png";
 import node from "../images/node_logo.png";
 import mongodb from "../images/mongodb.png";
 import python from "../images/python1.png";
+import redis from "../images/redis.png";
 import js from "../images/js_logo.png";
 import ts from "../images/ts.png";
 import rabbitmq from "../images/rabitt.png";
@@ -115,9 +116,8 @@ export default function Home() {
                   <Settings className="w-4 h-4" />
                   <span>Tools</span>
                   <ChevronDown
-                    className={`w-4 h-4 transition-transform duration-200 ${
-                      isToolsDropdownOpen ? "rotate-180" : ""
-                    }`}
+                    className={`w-4 h-4 transition-transform duration-200 ${isToolsDropdownOpen ? "rotate-180" : ""
+                      }`}
                   />
                 </button>
                 {isToolsDropdownOpen && (
@@ -266,9 +266,8 @@ export default function Home() {
                       Tools
                     </span>
                     <ChevronDown
-                      className={`w-4 h-4 transition-transform duration-200 ${
-                        isMobileToolsOpen ? "rotate-180" : ""
-                      }`}
+                      className={`w-4 h-4 transition-transform duration-200 ${isMobileToolsOpen ? "rotate-180" : ""
+                        }`}
                     />
                   </button>
                   {isMobileToolsOpen && (
@@ -941,7 +940,7 @@ export default function Home() {
               </Card>
             </motion.div>
 
-            {/* <motion.div
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.8 }}
@@ -971,7 +970,39 @@ export default function Home() {
                   </p>
                 </CardContent>
               </Card>
-            </motion.div> */}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.8 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => router.push("/category/redis")}
+              className="cursor-pointer group"
+            >
+              <Card className="h-full bg-white border border-gray-200 rounded-xl shadow-md group-hover:shadow-2xl transition-all duration-500 hover:border-red-300 relative overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-red-30/50 to-red-30/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <CardHeader className="pb-4 relative z-10">
+                  <div className="flex flex-col items-center text-center">
+                    <div className="bg-gradient-to-br from-red-50 to-red-50 rounded-2xl pr-1 pl-1 pt-4 pb-4 mb-4 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300 shadow-lg">
+                      <Image src={redis} width={80} height={80} alt="python" />
+                    </div>
+                    <CardTitle className="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-700 transition-colors">
+                      Redis
+                    </CardTitle>
+                  </div>
+                </CardHeader>
+                <CardContent className="pt-0 text-center relative z-10">
+                  <div className="text-3xl font-bold text-red-600 mb-3 group-hover:scale-110 transition-transform">
+                    25
+                  </div>
+                  <p className="text-sm text-gray-600 leading-relaxed group-hover:text-gray-700">
+                    Data structures, algorithms, and problem-solving
+                  </p>
+                </CardContent>
+              </Card>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -1173,11 +1204,10 @@ export default function Home() {
                 <button
                   key={page}
                   onClick={() => setCurrentPage(page)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    currentPage === page
-                      ? "bg-white w-8"
-                      : "bg-white/30 hover:bg-white/60"
-                  }`}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${currentPage === page
+                    ? "bg-white w-8"
+                    : "bg-white/30 hover:bg-white/60"
+                    }`}
                   aria-label={`Go to page ${page + 1}`}
                 />
               ))}

@@ -26,6 +26,7 @@ export default function Learn({
   nextTopic,
   theme,
   category,
+  example
 }) {
   const router = useRouter();
   const [hydrated, setHydrated] = React.useState(false);
@@ -575,6 +576,26 @@ export default function Learn({
                   )}
                 </div>
 
+                {category === "redis" && example?.length > 0 && (
+                  <div className="p-6 sm:p-8">
+                    <h2 className="text-xl font-bold mb-4">Example</h2>
+                    {example.map((item, index) => (
+                      <div
+                        key={index}
+                        className="prose prose-sm sm:prose-base lg:prose-lg max-w-none w-full prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-code:text-gray-800 prose-pre:bg-gray-50 prose-pre:border prose-pre:border-gray-200 prose-pre:overflow-x-auto"
+                        style={{
+                          maxWidth: "100%",
+                          overflowWrap: "break-word",
+                          wordWrap: "break-word",
+                          wordBreak: "break-word",
+                          overflowX: "hidden",
+                        }}
+                        dangerouslySetInnerHTML={{ __html: item }}
+                      />
+                    ))}
+                  </div>
+                )}
+
                 {/* Action Buttons */}
                 <div className="px-6 pb-6 sm:px-8">
                   <div className="flex flex-col sm:flex-row gap-4 pt-4 border-t border-gray-100">
@@ -649,6 +670,7 @@ export async function getStaticProps({ params }) {
   let nextTopic = null;
   let explanation = "";
   let category = "";
+  let example = "";
 
   prepareData.forEach((item) => {
     if (item.type) {
@@ -669,12 +691,13 @@ export async function getStaticProps({ params }) {
             if (next) {
               nextTopic = next.topic;
             }
+            example = conceptItem.examples || "";
           }
         });
       });
     }
   });
-  console.log("catogory 3", category);
+
   return {
     props: {
       topic: selected,
@@ -682,6 +705,7 @@ export async function getStaticProps({ params }) {
       nextTopic: nextTopic || "",
       theme: themeColor,
       category: category,
+      example
     },
   };
 }
