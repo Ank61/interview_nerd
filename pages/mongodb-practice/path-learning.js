@@ -9,14 +9,16 @@ import {
   User,
   Settings,
   ChevronRight,
-  ShoppingBag,
-  Users,
-  Package,
-  Star,
-  FileText,
-  MessageSquare,
-  Lock,
-  BarChart3,
+  Database,
+  Edit3,
+  Calculator,
+  Type,
+  Calendar,
+  GitBranch,
+  Layers,
+  Globe,
+  Terminal,
+  Filter,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { mongoQuestions } from "@/data/mongoDatasets";
@@ -33,65 +35,157 @@ export default function MongoDBPathLearning() {
   //     }
   // }, [status, router]);
 
-  // Get unique categories with question counts
-  const allQuestions = [...mongoQuestions.beginner, ...mongoQuestions.advanced];
+  // MongoDB operation categories with keywords
+  const operationCategories = {
+    "Query Operations": {
+      keywords: ["find", "findOne", "count", "distinct"],
+      description: "Basic query operations: find, findOne, countDocuments, distinct",
+      icon: Filter,
+      color: "from-blue-50 to-blue-100",
+      borderColor: "border-blue-200",
+      iconColor: "text-blue-700",
+    },
+    "Aggregation Pipeline": {
+      keywords: ["aggregate", "$group", "$match", "$project", "$sort", "$limit"],
+      description: "Aggregation: $group, $match, $project, $sort, $limit, $skip",
+      icon: Database,
+      color: "from-purple-50 to-purple-100",
+      borderColor: "border-purple-200",
+      iconColor: "text-purple-700",
+    },
+    "Write Operations": {
+      keywords: ["insert", "update", "delete", "replace", "$addToSet", "$pull", "$inc", "$mul"],
+      description: "insertOne, insertMany, updateOne, updateMany, replaceOne, deleteMany, $addToSet, $pull",
+      icon: Edit3,
+      color: "from-green-50 to-green-100",
+      borderColor: "border-green-200",
+      iconColor: "text-green-700",
+    },
+    "Arithmetic Operations": {
+      keywords: ["$add", "$subtract", "$multiply", "$divide"],
+      description: "$add, $subtract, $multiply, $divide",
+      icon: Calculator,
+      color: "from-yellow-50 to-yellow-100",
+      borderColor: "border-yellow-200",
+      iconColor: "text-yellow-700",
+    },
+    "String Operations": {
+      keywords: ["$concat", "$split", "$toUpper", "$toLower", "$size"],
+      description: "$concat, $split, $toUpper, $toLower, $size",
+      icon: Type,
+      color: "from-pink-50 to-pink-100",
+      borderColor: "border-pink-200",
+      iconColor: "text-pink-700",
+    },
+    "Date Operations": {
+      keywords: ["$year", "$month", "$dayOfWeek", "Date"],
+      description: "$year, $month, $dayOfWeek with date calculations",
+      icon: Calendar,
+      color: "from-indigo-50 to-indigo-100",
+      borderColor: "border-indigo-200",
+      iconColor: "text-indigo-700",
+    },
+    "Conditional Operations": {
+      keywords: ["$cond", "$ifNull", "$switch"],
+      description: "$cond, $ifNull, $switch with complex logic",
+      icon: GitBranch,
+      color: "from-red-50 to-red-100",
+      borderColor: "border-red-200",
+      iconColor: "text-red-700",
+    },
+    "Array Operations": {
+      keywords: ["$map", "$filter", "$reduce", "$unwind"],
+      description: "$map, $filter, $reduce with transformations",
+      icon: Layers,
+      color: "from-teal-50 to-teal-100",
+      borderColor: "border-teal-200",
+      iconColor: "text-teal-700",
+    },
+    "System Variables": {
+      keywords: ["$$NOW", "$$ROOT", "$$CURRENT"],
+      description: "$$NOW, $$ROOT, $$CURRENT",
+      icon: Terminal,
+      color: "from-orange-50 to-orange-100",
+      borderColor: "border-orange-200",
+      iconColor: "text-orange-700",
+    },
+    "Geospatial": {
+      keywords: ["$geoNear", "$geoWithin", "$centerSphere", "coordinates"],
+      description: "$geoNear, $geoWithin, $centerSphere",
+      icon: Globe,
+      color: "from-cyan-50 to-cyan-100",
+      borderColor: "border-cyan-200",
+      iconColor: "text-cyan-700",
+    },
+    "Administrative": {
+      keywords: ["stats", "explain", "createIndex", "getIndexes"],
+      description: "stats(), explain(), createIndex(), getIndexes()",
+      icon: Settings,
+      color: "from-gray-50 to-gray-100",
+      borderColor: "border-gray-200",
+      iconColor: "text-gray-700",
+    },
+  };
+
+  // Categorize questions by operation type
+  const allQuestions = [
+    ...mongoQuestions.beginner,
+    ...mongoQuestions.advanced,
+    ...(mongoQuestions.expert || []),
+  ];
+
   const categories = {};
 
-  allQuestions.forEach((question) => {
-    const category = question.collection || "General";
-    if (!categories[category]) {
-      categories[category] = {
-        name: category,
-        questions: [],
-        Easy: 0,
-        Medium: 0,
-        Hard: 0,
-      };
-    }
-    categories[category].questions.push(question);
-    categories[category][question.difficulty]++;
+  // Initialize categories
+  Object.keys(operationCategories).forEach((catName) => {
+    categories[catName] = {
+      name: catName,
+      ...operationCategories[catName],
+      questions: [],
+      Easy: 0,
+      Medium: 0,
+      Hard: 0,
+      Expert: 0,
+    };
   });
 
-  const categoryList = Object.values(categories).sort(
-    (a, b) => b.questions.length - a.questions.length
-  );
+  // Categorize each question
+  allQuestions.forEach((question) => {
+    const solution = question.solution.toLowerCase();
+    const title = question.title.toLowerCase();
+    const hint = (question.hint || "").toLowerCase();
 
-  const getCategoryIcon = (category) => {
-    switch ((category || "").toLowerCase()) {
-      case "products":
-        return ShoppingBag;
-      case "users":
-        return Users;
-      case "orders":
-        return Package;
-      case "reviews":
-        return Star;
-      case "posts":
-        return FileText;
-      case "comments":
-        return MessageSquare;
-      case "sessions":
-        return Lock;
-      case "events":
-        return BarChart3;
-      default:
-        return BookOpen;
+    let categorized = false;
+
+    // Check each category's keywords
+    for (const [catName, catInfo] of Object.entries(operationCategories)) {
+      const matchesKeyword = catInfo.keywords.some(
+        (keyword) =>
+          solution.includes(keyword.toLowerCase()) ||
+          title.includes(keyword.toLowerCase()) ||
+          hint.includes(keyword.toLowerCase())
+      );
+
+      if (matchesKeyword) {
+        categories[catName].questions.push(question);
+        categories[catName][question.difficulty]++;
+        categorized = true;
+        break; // Only add to first matching category
+      }
     }
-  };
 
-  const getCategoryColor = (category) => {
-    const colors = {
-      products: "from-blue-50 to-blue-100",
-      users: "from-purple-50 to-purple-100",
-      orders: "from-green-50 to-green-100",
-      reviews: "from-yellow-50 to-yellow-100",
-      posts: "from-pink-50 to-pink-100",
-      comments: "from-indigo-50 to-indigo-100",
-      sessions: "from-red-50 to-red-100",
-      events: "from-teal-50 to-teal-100",
-    };
-    return colors[category] || "from-gray-50 to-gray-100";
-  };
+    // If no category matched, add to Query Operations as default
+    if (!categorized) {
+      categories["Query Operations"].questions.push(question);
+      categories["Query Operations"][question.difficulty]++;
+    }
+  });
+
+  // Filter out empty categories and sort by question count
+  const categoryList = Object.values(categories)
+    .filter((cat) => cat.questions.length > 0)
+    .sort((a, b) => b.questions.length - a.questions.length);
+
 
   if (status === "loading") {
     return (
@@ -216,17 +310,12 @@ export default function MongoDBPathLearning() {
                       <div className="flex items-start justify-between mb-4">
                         <div className="flex items-center gap-3">
                           <div
-                            className={`w-12 h-12 rounded-lg bg-green-50 border border-green-100 flex items-center justify-center`}
+                            className={`w-12 h-12 rounded-lg bg-gradient-to-br ${category.color} border ${category.borderColor} flex items-center justify-center`}
                           >
-                            {(() => {
-                              const Icon = getCategoryIcon(category.name);
-                              return (
-                                <Icon className="w-6 h-6 text-green-700" />
-                              );
-                            })()}
+                            <category.icon className={`w-6 h-6 ${category.iconColor}`} />
                           </div>
                           <div>
-                            <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-600 transition-colors capitalize">
+                            <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-600 transition-colors">
                               {category.name}
                             </h3>
                             <p className="text-sm text-gray-500">
@@ -238,9 +327,14 @@ export default function MongoDBPathLearning() {
                         <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-green-600 group-hover:translate-x-1 transition-all" />
                       </div>
 
+                      {/* Category Description */}
+                      <p className="text-xs text-gray-600 mb-3">
+                        {category.description}
+                      </p>
+
                       {/* Difficulty Breakdown */}
                       <div className="space-y-2">
-                        <div className="flex gap-2">
+                        <div className="flex flex-wrap gap-2">
                           {category.Easy > 0 && (
                             <Badge className="text-xs font-medium border text-green-600 bg-green-50 border-green-200">
                               {category.Easy} Easy
@@ -256,6 +350,11 @@ export default function MongoDBPathLearning() {
                               {category.Hard} Hard
                             </Badge>
                           )}
+                          {category.Expert > 0 && (
+                            <Badge className="text-xs font-medium border text-purple-600 bg-purple-50 border-purple-200">
+                              {category.Expert} Expert
+                            </Badge>
+                          )}
                         </div>
                       </div>
 
@@ -263,9 +362,7 @@ export default function MongoDBPathLearning() {
                       <div className="mt-4">
                         <div className="w-full bg-gray-200 rounded-full h-2">
                           <div
-                            className={`h-2 rounded-full bg-gradient-to-r ${getCategoryColor(
-                              category.name
-                            )}`}
+                            className={`h-2 rounded-full bg-gradient-to-r ${category.color}`}
                             style={{ width: `${progressPercent}%` }}
                           ></div>
                         </div>

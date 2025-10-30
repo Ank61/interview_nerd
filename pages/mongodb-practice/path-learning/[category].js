@@ -21,10 +21,66 @@ export default function CategoryTopicsPage() {
     //     }
     // }, [status, router]);
 
-    // Filter questions by category (collection)
-    const allQuestions = [...mongoQuestions.beginner, ...mongoQuestions.advanced];
-    const categoryQuestions = category
-        ? allQuestions.filter(q => q.collection === decodeURIComponent(category))
+    // MongoDB operation categories with keywords (same as main page)
+    const operationCategories = {
+        "Query Operations": {
+            keywords: ["find", "findOne", "count", "distinct"],
+        },
+        "Aggregation Pipeline": {
+            keywords: ["aggregate", "$group", "$match", "$project", "$sort", "$limit"],
+        },
+        "Write Operations": {
+            keywords: ["insert", "update", "delete", "replace", "$addToSet", "$pull", "$inc", "$mul"],
+        },
+        "Arithmetic Operations": {
+            keywords: ["$add", "$subtract", "$multiply", "$divide"],
+        },
+        "String Operations": {
+            keywords: ["$concat", "$split", "$toUpper", "$toLower", "$size"],
+        },
+        "Date Operations": {
+            keywords: ["$year", "$month", "$dayOfWeek", "Date"],
+        },
+        "Conditional Operations": {
+            keywords: ["$cond", "$ifNull", "$switch"],
+        },
+        "Array Operations": {
+            keywords: ["$map", "$filter", "$reduce", "$unwind"],
+        },
+        "System Variables": {
+            keywords: ["$$NOW", "$$ROOT", "$$CURRENT"],
+        },
+        "Geospatial": {
+            keywords: ["$geoNear", "$geoWithin", "$centerSphere", "coordinates"],
+        },
+        "Administrative": {
+            keywords: ["stats", "explain", "createIndex", "getIndexes"],
+        },
+    };
+
+    // Filter questions by operation category
+    const allQuestions = [
+        ...mongoQuestions.beginner,
+        ...mongoQuestions.advanced,
+        ...(mongoQuestions.expert || []),
+    ];
+
+    const decodedCategory = category ? decodeURIComponent(category) : "";
+    const categoryInfo = operationCategories[decodedCategory];
+
+    const categoryQuestions = category && categoryInfo
+        ? allQuestions.filter((question) => {
+            const solution = question.solution.toLowerCase();
+            const title = question.title.toLowerCase();
+            const hint = (question.hint || "").toLowerCase();
+
+            return categoryInfo.keywords.some(
+                (keyword) =>
+                    solution.includes(keyword.toLowerCase()) ||
+                    title.includes(keyword.toLowerCase()) ||
+                    hint.includes(keyword.toLowerCase())
+            );
+        })
         : [];
 
     const getDifficultyColor = (difficulty) => {
@@ -35,6 +91,8 @@ export default function CategoryTopicsPage() {
                 return "text-yellow-600 bg-yellow-50 border-yellow-200";
             case "Hard":
                 return "text-red-600 bg-red-50 border-red-200";
+            case "Expert":
+                return "text-purple-600 bg-purple-50 border-purple-200";
             default:
                 return "text-gray-600 bg-gray-50 border-gray-200";
         }
@@ -114,9 +172,16 @@ export default function CategoryTopicsPage() {
                     className="mb-6"
                 >
                     <div className="mb-6">
-                        <h1 className="text-3xl font-bold text-gray-900 mb-2 capitalize">{decodeURIComponent(category)} Questions</h1>
+                        <button
+                            onClick={() => router.push("/mongodb-practice/path-learning")}
+                            className="flex items-center gap-2 text-green-600 hover:text-green-700 mb-4 transition-colors"
+                        >
+                            <ChevronLeft className="w-4 h-4" />
+                            Back to Categories
+                        </button>
+                        <h1 className="text-3xl font-bold text-gray-900 mb-2">{decodedCategory} Questions</h1>
                         <p className="text-gray-600">
-                            Master {decodeURIComponent(category)} concepts with {categoryQuestions.length} practice questions
+                            Master {decodedCategory} concepts with {categoryQuestions.length} practice questions
                         </p>
                     </div>
                 </motion.div>

@@ -148,14 +148,32 @@ export default function MongoDBQuestionPage() {
                 if (expectedResult.success) {
                     const expectedData = expectedResult.result;
 
-                    // Compare results
+                    // Compare results with proper normalization
                     const normalizeResult = (result) => {
+                        // Sort object keys recursively for consistent comparison
+                        const sortObjectKeys = (obj) => {
+                            if (obj === null || obj === undefined) return obj;
+                            if (typeof obj !== 'object') return obj;
+                            if (Array.isArray(obj)) return obj.map(sortObjectKeys);
+
+                            return Object.keys(obj)
+                                .sort()
+                                .reduce((sorted, key) => {
+                                    sorted[key] = sortObjectKeys(obj[key]);
+                                    return sorted;
+                                }, {});
+                        };
+
                         if (Array.isArray(result)) {
-                            return JSON.stringify(result.slice(0, 10).map(item =>
-                                typeof item === 'object' ? JSON.stringify(item) : item
-                            ).sort());
+                            // Sort array of objects by their stringified representation
+                            const normalized = result.map(sortObjectKeys);
+                            const sorted = normalized.sort((a, b) =>
+                                JSON.stringify(a).localeCompare(JSON.stringify(b))
+                            );
+                            return JSON.stringify(sorted);
                         }
-                        return JSON.stringify(result);
+
+                        return JSON.stringify(sortObjectKeys(result));
                     };
 
                     const isCorrect = normalizeResult(userResult) === normalizeResult(expectedData);
