@@ -23,7 +23,7 @@ export default function MongoDBQuestionPage() {
     const router = useRouter();
     const { id } = router.query;
     const { data: session, status } = useSession();
-    const mongoExecutor = new MongoExecutor();
+    const [mongoExecutor] = useState(() => new MongoExecutor());
     const { saveProgress, isQuestionCompleted } = useMongoProgress();
     const [isCompleted, setIsCompleted] = useState(false);
 
@@ -47,33 +47,18 @@ export default function MongoDBQuestionPage() {
     const [leftWidth, setLeftWidth] = useState(40); // percentage
     const [topHeight, setTopHeight] = useState(50); // percentage
 
-    // useEffect(() => {
-    //     if (status === "unauthenticated") {
-    //         router.push("/auth/login");
-    //     }
-    // }, [status, router]);
-
     useEffect(() => {
         if (id) {
             const allQuestions = [...mongoQuestions.beginner, ...mongoQuestions.advanced];
             const foundQuestion = allQuestions.find(q => q.id === parseInt(id));
             if (foundQuestion) {
                 setQuestion(foundQuestion);
-                setQuery(`db.${foundQuestion.collection}.find()`);
+                // setQuery(`db.${foundQuestion.collection}.find()`);
                 setIsCompleted(isQuestionCompleted(foundQuestion.id.toString()));
             }
         }
     }, [id, isQuestionCompleted]);
 
-    // Auto-adjust textarea height
-    useEffect(() => {
-        if (textareaRef.current) {
-            textareaRef.current.style.height = 'auto';
-            textareaRef.current.style.height = `${Math.max(100, textareaRef.current.scrollHeight)}px`;
-        }
-    }, [query]);
-
-    // Vertical resizer (left-right)
     const handleVerticalMouseDown = (e) => {
         e.preventDefault();
         const startX = e.clientX;
@@ -459,13 +444,14 @@ export default function MongoDBQuestionPage() {
                                 </Button>
                             </div>
                         </div>
-                        <div className="flex-1 overflow-auto p-4 h-full">
+                        <div className="flex-1 overflow-auto p-4">
                             <textarea
                                 ref={textareaRef}
                                 value={query}
                                 onChange={(e) => setQuery(e.target.value)}
                                 placeholder="// Write your MongoDB query here..."
-                                className="w-full h-full p-4 bg-gray-50 text-gray-900 font-mono text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none placeholder-gray-400"
+                                className="w-full min-h-full p-4 bg-gray-50 text-gray-900 font-mono text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 resize-none placeholder-gray-400"
+                                style={{ minHeight: '200px' }}
                                 onKeyDown={(e) => {
                                     if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) {
                                         e.preventDefault();

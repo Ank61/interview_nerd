@@ -49,12 +49,6 @@ export default function SQLQuestionPage() {
   const [leftWidth, setLeftWidth] = useState(40); // percentage
   const [topHeight, setTopHeight] = useState(50); // percentage
 
-  // useEffect(() => {
-  //     if (status === "unauthenticated") {
-  //         router.push("/auth/login");
-  //     }
-  // }, [status, router]);
-
   useEffect(() => {
     if (id) {
       const foundQuestion = sqlQuestions.find((q) => q.id === parseInt(id));
@@ -516,11 +510,10 @@ export default function SQLQuestionPage() {
             <div className="flex-1 overflow-auto p-4 bg-white">
               {submissionResult && (
                 <div
-                  className={`mb-4 p-4 rounded-lg border ${
-                    submissionResult.isCorrect
+                  className={`mb-4 p-4 rounded-lg border ${submissionResult.isCorrect
                       ? "bg-green-50 border-green-200"
                       : "bg-red-50 border-red-200"
-                  }`}
+                    }`}
                 >
                   <div className="flex items-center gap-2 mb-2">
                     {submissionResult.isCorrect ? (
