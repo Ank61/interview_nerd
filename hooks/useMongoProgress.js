@@ -102,7 +102,10 @@ export const useMongoProgress = () => {
     };
 
     const getCategoryProgress = (category) => {
-        return progress.categoryProgress[category] || { total: 0, Easy: 0, Medium: 0, Hard: 0 };
+        if (progress?.categoryProgress?.[category]) {
+            return progress?.categoryProgress[category];
+        }
+        return { total: 0, Easy: 0, Medium: 0, Hard: 0 };
     };
 
     return {
