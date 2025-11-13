@@ -10482,6 +10482,743 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
             questions: [{}],
             links: [""],
           },
+          {
+            "topic": "React Optimizations",
+            "tags": ["React", "Performance", "Optimization", "Memoization", "Rendering"],
+            "explanation": `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     React optimizations are techniques used to improve the performance of React applications by reducing unnecessary re-renders, optimizing component updates, and efficiently managing resources. These optimizations help create faster, more responsive applications with better user experience and reduced memory usage.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Optimize React Applications?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Faster Rendering:</span> Reduce unnecessary re-renders and improve application responsiveness.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Better User Experience:</span> Smoother animations and interactions.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Reduced Memory Usage:</span> Efficient memory management for large applications.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Improved Bundle Size:</span> Smaller initial load through code splitting.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Scalability:</span> Better performance as application grows in complexity.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Optimization Techniques
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">React.memo():</span> Prevents unnecessary re-renders of functional components by memoizing the component.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">// Without React.memo - re-renders on every parent update
+function UserProfile({ user }) {
+  console.log('UserProfile rendered');
+  return <div>{user.name} - {user.email}</div>;
+}
+
+// With React.memo - only re-renders when props change
+const OptimizedUserProfile = React.memo(function UserProfile({ user }) {
+  console.log('OptimizedUserProfile rendered');
+  return <div>{user.name} - {user.email}</div>;
+});
+
+// Custom comparison function
+const CustomMemoComponent = React.memo(
+  function Component({ data, settings }) {
+    return <div>{data.name} - {settings.theme}</div>;
+  },
+  (prevProps, nextProps) => {
+    // Return true if props are equal (skip re-render)
+    return prevProps.data.id === nextProps.data.id &&
+           prevProps.settings.theme === nextProps.settings.theme;
+  }
+);</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">useMemo():</span> Memoizes expensive calculations to avoid recomputation on every render.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import { useMemo } from 'react';
+
+function ProductList({ products, filter }) {
+  // Without useMemo - filters on every render
+  // const filteredProducts = products.filter(p => p.category === filter);
+  
+  // With useMemo - only recalculates when dependencies change
+  const filteredProducts = useMemo(() => {
+    console.log('Filtering products...');
+    return products.filter(p => p.category === filter);
+  }, [products, filter]);
+
+  // Expensive calculation
+  const statistics = useMemo(() => {
+    console.log('Calculating statistics...');
+    return {
+      total: products.length,
+      average: products.reduce((sum, p) => sum + p.price, 0) / products.length,
+      expensive: products.filter(p => p.price > 100).length
+    };
+  }, [products]);
+
+  return (
+    <div>
+      <p>Total: {statistics.total}, Avg: $ {statistics.average.toFixed(2)}</p>
+      {filteredProducts.map(product => (
+        <div key={product.id}>{product.name}</div>
+      ))}
+    </div>
+  );
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">useCallback():</span> Memoizes function references to prevent unnecessary re-renders.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import { useCallback, useState } from 'react';
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+  const [items, setItems] = useState([]);
+
+  // Without useCallback - new function on every render
+  // const addItem = (item) => setItems(prev => [...prev, item]);
+  
+  // With useCallback - stable function reference
+  const addItem = useCallback((item) => {
+    setItems(prev => [...prev, item]);
+  }, []);
+
+  const removeItem = useCallback((id) => {
+    setItems(prev => prev.filter(item => item.id !== id));
+  }, []);
+
+  return (
+    <div>
+      <button onClick={() => setCount(c => c + 1)}>Count: {count}</button>
+      <ChildComponent onAdd={addItem} onRemove={removeItem} />
+    </div>
+  );
+}
+
+const ChildComponent = React.memo(({ onAdd, onRemove }) => {
+  console.log('ChildComponent rendered');
+  return <div>Child Component</div>;
+});</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Splitting:</span> Dynamically load components to reduce initial bundle size.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import { lazy, Suspense } from 'react';
+
+// Lazy load heavy components
+const HeavyChart = lazy(() => import('./HeavyChart'));
+const Dashboard = lazy(() => import('./Dashboard'));
+const Settings = lazy(() => import('./Settings'));
+
+function App() {
+  const [showChart, setShowChart] = useState(false);
+
+  return (
+    <div>
+      {/* Route-based code splitting */}
+      <Suspense fallback={<div>Loading Dashboard...</div>}>
+        <Dashboard />
+      </Suspense>
+
+      {/* Conditional lazy loading */}
+      {showChart && (
+        <Suspense fallback={<div>Loading Chart...</div>}>
+          <HeavyChart />
+        </Suspense>
+      )}
+    </div>
+  );
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtualization:</span> Render only visible items in long lists.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import { FixedSizeList } from 'react-window';
+
+function VirtualizedList({ items }) {
+  const Row = ({ index, style }) => (
+    <div style={style}>
+      {items[index].name} - {items[index].description}
+    </div>
+  );
+
+  return (
+    <FixedSizeList
+      height={400}
+      itemCount={items.length}
+      itemSize={50}
+      width="100%"
+    >
+      {Row}
+    </FixedSizeList>
+  );
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Proper Key Usage:</span> Use stable keys for list items.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">// BAD - Using index as key
+function BadList({ items }) {
+  return (
+    <ul>
+      {items.map((item, index) => (
+        <li key={index}>{item.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+// GOOD - Using unique ID as key
+function GoodList({ items }) {
+  return (
+    <ul>
+      {items.map((item) => (
+        <li key={item.id}>{item.name}</li>
+      ))}
+    </ul>
+  );
+}</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Optimization Techniques
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">useTransition():</span> Mark non-urgent state updates.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import { useState, useTransition } from 'react';
+
+function SearchComponent() {
+  const [isPending, startTransition] = useTransition();
+  const [input, setInput] = useState('');
+  const [results, setResults] = useState([]);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setInput(value); // Urgent update
+    
+    startTransition(() => {
+      // Non-urgent update
+      const filtered = largeDataset.filter(item => 
+        item.includes(value)
+      );
+      setResults(filtered);
+    });
+  };
+
+  return (
+    <div>
+      <input value={input} onChange={handleChange} />
+      {isPending && <div>Loading...</div>}
+      <ul>
+        {results.map(result => <li key={result}>{result}</li>)}
+      </ul>
+    </div>
+  );
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">useDeferredValue():</span> Defer rendering of non-urgent values.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import { useState, useDeferredValue, useMemo } from 'react';
+
+function ProductSearch({ searchTerm }) {
+  const deferredSearchTerm = useDeferredValue(searchTerm);
+  
+  const products = useMemo(() => {
+    return allProducts.filter(p =>
+      p.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
+    );
+  }, [deferredSearchTerm]);
+
+  return (
+    <div>
+      {searchTerm !== deferredSearchTerm && <div>Updating...</div>}
+      {products.map(product => (
+        <ProductCard key={product.id} product={product} />
+      ))}
+    </div>
+  );
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Context Optimization:</span> Prevent unnecessary re-renders.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">// Split contexts to avoid unnecessary re-renders
+const UserContext = createContext();
+const ThemeContext = createContext();
+
+function AppProvider({ children }) {
+  const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState('light');
+
+  const userValue = useMemo(() => ({ user, setUser }), [user]);
+  const themeValue = useMemo(() => ({ theme, setTheme }), [theme]);
+
+  return (
+    <UserContext.Provider value={userValue}>
+      <ThemeContext.Provider value={themeValue}>
+        {children}
+      </ThemeContext.Provider>
+    </UserContext.Provider>
+  );
+}</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Optimized Data Table
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">import React, { useMemo, useCallback, memo } from 'react';
+
+// Optimized table row component
+const TableRow = memo(({ user, onEdit, onDelete }) => {
+  console.log('Rendering row for:', user.id);
+  
+  return (
+    <tr>
+      <td>{user.name}</td>
+      <td>{user.email}</td>
+      <td>{user.role}</td>
+      <td>
+        <button onClick={() => onEdit(user.id)}>Edit</button>
+        <button onClick={() => onDelete(user.id)}>Delete</button>
+      </td>
+    </tr>
+  );
+});
+
+function UserTable({ users, searchTerm, sortBy }) {
+  // Memoized filtered and sorted data
+  const processedUsers = useMemo(() => {
+    console.log('Processing users...');
+    let filtered = users;
+    
+    if (searchTerm) {
+      filtered = users.filter(user =>
+        user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+    
+    return filtered.sort((a, b) => {
+      if (sortBy === 'name') return a.name.localeCompare(b.name);
+      if (sortBy === 'email') return a.email.localeCompare(b.email);
+      return 0;
+    });
+  }, [users, searchTerm, sortBy]);
+
+  // Memoized callbacks
+  const handleEdit = useCallback((userId) => {
+    console.log('Edit user:', userId);
+  }, []);
+
+  const handleDelete = useCallback((userId) => {
+    console.log('Delete user:', userId);
+  }, []);
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {processedUsers.map(user => (
+          <TableRow
+            key={user.id}
+            user={user}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+export default React.memo(UserTable);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Monitoring
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">import { Profiler } from 'react';
+
+function onRenderCallback(
+  id,
+  phase,
+  actualDuration,
+  baseDuration,
+  startTime,
+  commitTime,
+  interactions
+) {
+  console.log(\`\${id} (\${phase}) took \${actualDuration}ms\`);
+  
+  // Log slow renders
+  if (actualDuration > 16) { // 60fps threshold
+    console.warn(\`Slow render in \${id}: \${actualDuration}ms\`);
+  }
+}
+
+function App() {
+  return (
+    <Profiler id="App" onRender={onRenderCallback}>
+      <YourAppComponent />
+    </Profiler>
+  );
+}</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Use Cases
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Large Lists:</span> Use virtualization and proper keys for lists with 100+ items.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Expensive Calculations:</span> Use useMemo for complex computations and data transformations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Frequent Re-renders:</span> Use React.memo and useCallback for components that render often.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Heavy Components:</span> Use code splitting for components not needed immediately.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Real-time Updates:</span> Use useTransition for non-urgent state updates.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Characteristics
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">React.memo:</span> O(1) comparison, prevents re-renders when props don't change.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">useMemo/useCallback:</span> O(N) dependency comparison, saves computation time.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtualization:</span> O(1) per visible item, regardless of total list size.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Code Splitting:</span> Reduces initial bundle size, defers loading of non-critical code.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Measure First:</span> Use React DevTools Profiler to identify actual bottlenecks.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoid Premature Optimization:</span> Don't optimize components that don't have performance issues.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use Production Build:</span> Always test performance with production builds.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Bundle Analysis:</span> Regularly analyze bundle size and eliminate large dependencies.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Management:</span> Clean up event listeners and intervals in useEffect.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Optimization Patterns
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memoized Components:</span> Use React.memo for pure functional components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Stable Callbacks:</span> Use useCallback for functions passed as props.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Computed Values:</span> Use useMemo for derived state and expensive calculations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lazy Loading:</span> Split code by routes and features.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Virtual Scrolling:</span> For large lists, render only visible items.
+     </li>
+   </ol>
+</div>
+`,
+            "examples": [
+              `// Complete React Optimization Example
+import React, { 
+  useState, 
+  useEffect, 
+  useMemo, 
+  useCallback, 
+  memo,
+  useTransition,
+  useDeferredValue,
+  Profiler 
+} from 'react';
+
+// Custom hook for debouncing
+function useDebounce(value, delay) {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => clearTimeout(handler);
+  }, [value, delay]);
+
+  return debouncedValue;
+}
+
+// Optimized Search Component
+const SearchResults = memo(({ results, onSelect }) => {
+  console.log('SearchResults rendered');
+  
+  return (
+    <div>
+      {results.map(result => (
+        <div 
+          key={result.id} 
+          onClick={() => onSelect(result)}
+          style={{ padding: '8px', border: '1px solid #ccc', margin: '4px' }}
+        >
+          {result.name}
+        </div>
+      ))}
+    </div>
+  );
+});
+
+function OptimizedSearch() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [allData, setAllData] = useState([]);
+  const [isPending, startTransition] = useTransition();
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
+  const deferredSearchTerm = useDeferredValue(debouncedSearchTerm);
+
+  // Memoized filtered results
+  const filteredResults = useMemo(() => {
+    console.log('Filtering results...');
+    if (!deferredSearchTerm) return allData;
+    
+    return allData.filter(item =>
+      item.name.toLowerCase().includes(deferredSearchTerm.toLowerCase())
+    );
+  }, [allData, deferredSearchTerm]);
+
+  // Memoized statistics
+  const statistics = useMemo(() => ({
+    total: allData.length,
+    filtered: filteredResults.length,
+    matchPercentage: (filteredResults.length / allData.length * 100).toFixed(1)
+  }), [allData, filteredResults]);
+
+  // Memoized callbacks
+  const handleSearchChange = useCallback((e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+  }, []);
+
+  const handleSelectItem = useCallback((item) => {
+    console.log('Selected:', item);
+  }, []);
+
+  const loadData = useCallback(async () => {
+    // Simulate API call
+    const mockData = Array.from({ length: 1000 }, (_, i) => ({
+      id: i + 1,
+      name: \`Item \${i + 1}\`,
+      category: \`Category \${(i % 5) + 1}\`
+    }));
+    
+    startTransition(() => {
+      setAllData(mockData);
+    });
+  }, []);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <h1>Optimized Search Example</h1>
+      
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleSearchChange}
+        placeholder="Search items..."
+        style={{ padding: '8px', width: '300px' }}
+      />
+      
+      {isPending && <div style={{ color: 'blue' }}>Loading data...</div>}
+      
+      <div style={{ margin: '10px 0' }}>
+        <strong>Statistics:</strong> {statistics.total} total, {statistics.filtered} filtered ({statistics.matchPercentage}%)
+      </div>
+      
+      <SearchResults 
+        results={filteredResults} 
+        onSelect={handleSelectItem} 
+      />
+    </div>
+  );
+}
+
+// Performance monitoring wrapper
+function withProfiler(WrappedComponent, id) {
+  return function ProfilerWrapper(props) {
+    const onRender = (id, phase, actualDuration, baseDuration) => {
+      if (actualDuration > 10) {
+        console.warn(\`\${id} took \${actualDuration.toFixed(2)}ms to \${phase}\`);
+      }
+    };
+
+    return (
+      <Profiler id={id} onRender={onRender}>
+        <WrappedComponent {...props} />
+      </Profiler>
+    );
+  };
+}
+
+export default withProfiler(OptimizedSearch, 'OptimizedSearch');`,
+              `// Virtualized List with Custom Hooks
+import { FixedSizeList } from 'react-window';
+import { useMemo, useCallback, memo } from 'react';
+
+// Custom hook for list virtualization
+function useVirtualizedList(items, itemHeight = 50) {
+  const itemData = useMemo(() => ({ items, itemHeight }), [items, itemHeight]);
+
+  const Row = memo(({ index, style, data }) => {
+    const item = data.items[index];
+    
+    return (
+      <div style={style}>
+        <div style={{ 
+          padding: '10px', 
+          borderBottom: '1px solid #eee',
+          height: data.itemHeight - 1
+        }}>
+          <strong>{item.name}</strong>
+          <br />
+          <span>{item.description}</span>
+        </div>
+      </div>
+    );
+  });
+
+  const ListComponent = useCallback(({ height = 400, width = '100%' }) => (
+    <FixedSizeList
+      height={height}
+      itemCount={items.length}
+      itemSize={itemHeight}
+      width={width}
+      itemData={itemData}
+    >
+      {Row}
+    </FixedSizeList>
+  ), [items.length, itemHeight, itemData]);
+
+  return ListComponent;
+}
+
+// Usage example
+function LargeDataView({ data }) {
+  const VirtualizedList = useVirtualizedList(data, 60);
+
+  const processedData = useMemo(() => {
+    return data.map(item => ({
+      ...item,
+      name: item.name.toUpperCase(),
+      description: item.description.substring(0, 100)
+    }));
+  }, [data]);
+
+  return (
+    <div>
+      <h2>Virtualized List ({processedData.length} items)</h2>
+      <VirtualizedList height={500} />
+    </div>
+  );
+}
+
+export default memo(LargeDataView);`
+            ],
+            "questions": [
+              {
+                "question": "When should you use React.memo vs useMemo?",
+                "solution": "<p>Use React.memo for optimizing functional components to prevent re-renders when props don't change. Use useMemo for memoizing expensive calculations or derived data within a component. React.memo wraps the entire component, while useMemo memoizes a specific value. For example, use React.memo on a UserList component that receives users prop, and use useMemo inside that component to compute filteredUsers from the users prop.</p>"
+              },
+              {
+                "question": "What's the difference between useCallback and useMemo?",
+                "solution": "<p>useCallback memoizes functions, while useMemo memoizes values. useCallback returns the same function instance between renders if dependencies don't change, preventing unnecessary re-renders in child components. useMemo returns the memoized computed value. Use useCallback for functions passed as props, and useMemo for expensive calculations or object/array transformations.</p>"
+              },
+              {
+                "question": "How does code splitting improve React performance?",
+                "solution": "<p>Code splitting improves performance by reducing the initial bundle size. Instead of loading all JavaScript at once, the application is split into smaller chunks that are loaded on demand. This results in faster initial page loads, better time-to-interactive metrics, and reduced memory usage. Use React.lazy() with Suspense for route-based splitting and dynamic imports for feature-based splitting.</p>"
+              },
+              {
+                "question": "When should you use useTransition and useDeferredValue?",
+                "solution": "<p>Use useTransition for marking non-urgent state updates that can be interrupted, like filtering large lists or updating search results. Use useDeferredValue for deferring the rendering of non-urgent values, like search terms in heavy components. Both help keep the UI responsive during expensive operations by allowing React to prioritize more important updates.</p>"
+              },
+              {
+                "question": "What are the common performance pitfalls in React?",
+                "solution": "<p>Common pitfalls include: 1) Creating new objects/arrays in render causing unnecessary re-renders, 2) Not using proper keys in lists, 3) Overusing context causing widespread re-renders, 4) Not cleaning up effects leading to memory leaks, 5) Rendering large lists without virtualization, and 6) Including unnecessary code in the main bundle. Always profile and measure before optimizing.</p>"
+              }
+            ],
+            "links": [
+              "https://react.dev/reference/react/memo",
+              "https://react.dev/reference/react/useMemo",
+              "https://react.dev/reference/react/useCallback",
+              "https://react.dev/reference/react/lazy",
+              "https://react.dev/reference/react/Profiler",
+              "https://react.dev/reference/react/useTransition",
+              "https://react.dev/reference/react/useDeferredValue"
+            ]
+          }
         ],
       },
     ],
@@ -88414,7 +89151,7 @@ SET STATISTICS TIME OFF;`,
             ],
           },
           {
-            topic: "SQL Aggregations ",
+            topic: "SQL Aggregations",
             tags: ["COUNT", "SUM", "AVG", "MIN", "MAX", "GROUP BY", "HAVING"],
             explanation: `<div>
      <p style="line-height: 1.75; margin-top: 1.5rem;">
@@ -89464,7 +90201,7 @@ SET STATISTICS TIME OFF;`,
             ],
           },
           {
-            topic: "SQL Date/Time Functions",
+            topic: "SQL Date Time Functions",
             tags: [
               "NOW()",
               "CURDATE()",
@@ -103624,7 +104361,7 @@ console.log('Trending items:', trending);
           {
             "topic": "Redis Hashes",
             "tags": ["hashes", "object-storage", "field-value", "hset", "hget", "memory-optimization"],
-            "explanation": `< div >
+            "explanation": `
      <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
        Redis Hashes are field-value maps that provide an efficient way to store objects with multiple attributes. They are perfect for representing objects like user profiles, product catalogs, or configuration settings, allowing you to access, update, or retrieve individual fields without transferring the entire object.
      </p>
