@@ -973,16 +973,7 @@ export const mongoQuestions = {
       collection: "users",
       question: "Create a full name in uppercase by concatenating firstName and lastName for all users.",
       hint: "Use $concat and $toUpper in aggregation",
-      solution: `db.users.aggregate([
-  {$project: {
-    username: 1,
-    fullNameUpper: {
-      $toUpper: {
-        $concat: ["$firstName", " ", "$lastName"]
-      }
-    }
-  }}
-])`,
+      solution: `db.users.aggregate([{$project: {username: 1, fullNameUpper: {$toUpper: {$concat: ["$firstName", " ", "$lastName"]}}}}])`,
       expectedResult: "Full names in uppercase format"
     },
     {
@@ -993,15 +984,7 @@ export const mongoQuestions = {
       collection: "users",
       question: "Extract the domain name from user email addresses.",
       hint: "Use $split operator to split email by '@' and get second element",
-      solution: `db.users.aggregate([
-  {$project: {
-    username: 1,
-    email: 1,
-    domain: {
-      $arrayElemAt: [{$split: ["$email", "@"]}, 1]
-    }
-  }}
-])`,
+      solution: `db.users.aggregate([{$project: {username: 1,email: 1,domain: {$arrayElemAt: [{$split: ["$email", "@"]}, 1]}}}])`,
       expectedResult: "Email domains extracted"
     },
 
