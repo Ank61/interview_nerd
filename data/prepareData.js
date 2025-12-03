@@ -10195,20 +10195,1624 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
         label: "Advance",
         concepts: [
           {
-            topic: "Error Boundaries Advanced",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            "topic": "Error Boundaries Advanced",
+            "tags": ["React", "Error Handling", "Error Boundaries", "Fallback UI", "Component Lifecycle"],
+            "explanation": `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Error Boundaries are React components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed. They are React's way of handling errors gracefully in the component tree and preventing entire applications from breaking due to a single component failure.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use Error Boundaries?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Graceful Error Handling:</span> Prevent entire app crashes from single component errors.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Better User Experience:</span> Show helpful error messages instead of broken UI.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Recovery:</span> Allow users to retry actions or continue using unaffected parts.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Monitoring:</span> Capture and log errors for debugging and monitoring.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Isolated Failures:</span> Contain errors to specific sections of your application.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Error Boundary Implementation
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Basic Error Boundary:</span> Class component with getDerivedStateFromError and componentDidCatch.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import React from 'react';
+
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { 
+      hasError: false,
+      error: null,
+      errorInfo: null
+    };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render shows the fallback UI
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    // Log error to reporting service
+    console.error('Error caught by boundary:', error, errorInfo);
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    });
+    
+    // Send to error reporting service
+    this.logErrorToService(error, errorInfo);
+  }
+
+  logErrorToService = (error, errorInfo) => {
+    // Example: Send to error reporting service
+    if (this.props.errorService) {
+      this.props.errorService.report(error, errorInfo);
+    }
+  };
+
+  handleRetry = () => {
+    this.setState({ 
+      hasError: false,
+      error: null,
+      errorInfo: null 
+    });
+  };
+
+  render() {
+    if (this.state.hasError) {
+      // Custom fallback UI
+      return this.props.fallback || (
+        <div style={{ padding: '20px', border: '1px solid #ff6b6b', borderRadius: '8px' }}>
+          <h2>Something went wrong.</h2>
+          <details style={{ whiteSpace: 'pre-wrap' }}>
+            {this.state.error && this.state.error.toString()}
+            <br />
+            {this.state.errorInfo.componentStack}
+          </details>
+          <button onClick={this.handleRetry} style={{ marginTop: '10px' }}>
+            Try Again
+          </button>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+export default ErrorBoundary;</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Advanced Error Boundary with Context:</span> Global error handling with React Context.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import React, { createContext, useContext } from 'react';
+
+const ErrorContext = createContext();
+
+export const useError = () => {
+  const context = useContext(ErrorContext);
+  if (!context) {
+    throw new Error('useError must be used within an ErrorProvider');
+  }
+  return context;
+};
+
+export class AdvancedErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      errors: [],
+      hasError: false
+    };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    const errorDetails = {
+      id: Date.now(),
+      error,
+      errorInfo,
+      timestamp: new Date().toISOString(),
+      componentStack: errorInfo.componentStack
+    };
+
+    this.setState(prevState => ({
+      errors: [...prevState.errors, errorDetails]
+    }));
+
+    // Notify context consumers
+    if (this.props.onError) {
+      this.props.onError(errorDetails);
+    }
+  }
+
+  clearError = (errorId) => {
+    this.setState(prevState => ({
+      errors: prevState.errors.filter(error => error.id !== errorId),
+      hasError: prevState.errors.length <= 1
+    }));
+  };
+
+  clearAllErrors = () => {
+    this.setState({ errors: [], hasError: false });
+  };
+
+  render() {
+    const contextValue = {
+      errors: this.state.errors,
+      clearError: this.clearError,
+      clearAllErrors: this.clearAllErrors,
+      reportError: (error) => {
+        const errorDetails = {
+          id: Date.now(),
+          error,
+          timestamp: new Date().toISOString()
+        };
+        this.setState(prevState => ({
+          errors: [...prevState.errors, errorDetails],
+          hasError: true
+        }));
+      }
+    };
+
+    if (this.state.hasError) {
+      return (
+        <ErrorContext.Provider value={contextValue}>
+          {this.props.fallback ? (
+            this.props.fallback
+          ) : (
+            <div>
+              <h2>Application Error</h2>
+              <ErrorList errors={this.state.errors} onClear={this.clearError} />
+              <button onClick={this.clearAllErrors}>Clear All Errors</button>
+            </div>
+          )}
+        </ErrorContext.Provider>
+      );
+    }
+
+    return (
+      <ErrorContext.Provider value={contextValue}>
+        {this.props.children}
+      </ErrorContext.Provider>
+    );
+  }
+}
+
+const ErrorList = ({ errors, onClear }) => (
+  <div>
+    {errors.map(error => (
+      <div key={error.id} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #ccc' }}>
+        <h4>{error.error.toString()}</h4>
+        <p>Time: {error.timestamp}</p>
+        <button onClick={() => onClear(error.id)}>Dismiss</button>
+      </div>
+    ))}
+  </div>
+);</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">HOC Error Boundary:</span> Higher-Order Component for error handling.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import React from 'react';
+
+function withErrorBoundary(WrappedComponent, errorComponent) {
+  return class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.state = { hasError: false, error: null };
+    }
+
+    static getDerivedStateFromError(error) {
+      return { hasError: true, error };
+    }
+
+    componentDidCatch(error, errorInfo) {
+      console.error('Error in component:', error, errorInfo);
+    }
+
+    handleReset = () => {
+      this.setState({ hasError: false, error: null });
+    };
+
+    render() {
+      if (this.state.hasError) {
+        if (errorComponent) {
+          return React.createElement(errorComponent, {
+            error: this.state.error,
+            onReset: this.handleReset,
+            ...this.props
+          });
+        }
+        
+        return (
+          <div>
+            <h3>Something went wrong in {WrappedComponent.displayName || WrappedComponent.name}</h3>
+            <button onClick={this.handleReset}>Reset Component</button>
+          </div>
+        );
+      }
+
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+}
+
+// Usage
+const MyComponent = ({ data }) => {
+  if (!data) throw new Error('Data is required!');
+  return <div>{data}</div>;
+};
+
+const MyComponentWithErrorBoundary = withErrorBoundary(MyComponent, ({ error, onReset }) => (
+  <div>
+    <h3>Component Error: {error.message}</h3>
+    <button onClick={onReset}>Retry</button>
+  </div>
+));</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Nested Error Boundaries
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">import React from 'react';
+import ErrorBoundary from './ErrorBoundary';
+
+// Component that might throw errors
+const UserProfile = ({ user }) => {
+  if (!user) {
+    throw new Error('User data is missing!');
+  }
+  return <div>Welcome, {user.name}!</div>;
+};
+
+const PaymentForm = ({ onSubmit }) => {
+  const handleSubmit = () => {
+    // Simulate payment error
+    throw new Error('Payment processing failed!');
+  };
+  
+  return (
+    <form onSubmit={handleSubmit}>
+      <button type="submit">Pay Now</button>
+    </form>
+  );
+};
+
+const ProductList = ({ products }) => {
+  if (products.length === 0) {
+    throw new Error('No products available!');
+  }
+  
+  return (
+    <div>
+      {products.map(product => (
+        <div key={product.id}>{product.name}</div>
+      ))}
+    </div>
+  );
+};
+
+function App() {
+  const [user, setUser] = React.useState(null);
+  const [products, setProducts] = React.useState([]);
+
+  return (
+    <div>
+      {/* Global error boundary for entire app */}
+      <ErrorBoundary 
+        fallback={<div>App crashed! Please refresh.</div>}
+      >
+        <header>My Application</header>
+        
+        {/* Error boundary for user section */}
+        <ErrorBoundary 
+          fallback={
+            <div>
+              <h3>User section error</h3>
+              <button onClick={() => setUser({ name: 'Guest' })}>
+                Continue as Guest
+              </button>
+            </div>
+          }
+        >
+          <UserProfile user={user} />
+        </ErrorBoundary>
+
+        {/* Error boundary for products section */}
+        <ErrorBoundary 
+          fallback={
+            <div>
+              <h3>Products unavailable</h3>
+              <button onClick={() => setProducts([{ id: 1, name: 'Sample Product' }])}>
+                Load Sample Products
+              </button>
+            </div>
+          }
+        >
+          <ProductList products={products} />
+        </ErrorBoundary>
+
+        {/* Error boundary for payment section */}
+        <ErrorBoundary 
+          fallback={
+            <div style={{ color: 'red' }}>
+              Payment system temporarily unavailable. Please try again later.
+            </div>
+          }
+        >
+          <PaymentForm />
+        </ErrorBoundary>
+      </ErrorBoundary>
+    </div>
+  );
+}
+
+export default App;</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Error Boundary Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Strategic Placement:</span> Place error boundaries at key component tree levels.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Granular Boundaries:</span> Use multiple error boundaries for different app sections.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Recovery:</span> Provide ways to reset error state and retry.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Reporting:</span> Integrate with error monitoring services.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">User-Friendly Messages:</span> Show helpful, non-technical error messages.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What Error Boundaries Catch
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Render Errors:</span> Errors during rendering.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Lifecycle Methods:</span> Errors in constructor, render, and lifecycle methods.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Event Handlers:</span> Errors in React event handlers.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     What Error Boundaries Don't Catch
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Event Handlers:</span> Use try/catch for async event handlers.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Async Code:</span> Errors in setTimeout, promises, async/await.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Server Side Rendering:</span> SSR errors.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Boundary Itself:</span> Errors within the error boundary component.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced Patterns
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Error Boundary with Suspense:</span> Combine with React Suspense for data fetching.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route-Level Boundaries:</span> Error boundaries for specific routes.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Feature-Based Boundaries:</span> Boundaries around specific features.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Third-Party Integration:</span> Integrate with Sentry, LogRocket, etc.
+     </li>
+   </ol>
+</div>
+`,
+            "examples": [
+              `// Complete Error Boundary Implementation with Recovery
+import React, { Component } from 'react';
+
+class AdvancedErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hasError: false,
+      error: null,
+      errorInfo: null,
+      errorCount: 0,
+      lastErrorTime: null
+    };
+  }
+
+  static getDerivedStateFromError(error) {
+    return { 
+      hasError: true,
+      errorCount: prevState => prevState.errorCount + 1,
+      lastErrorTime: new Date().toISOString()
+    };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    this.setState({
+      error: error,
+      errorInfo: errorInfo
+    });
+
+    // Log to external service
+    this.logError(error, errorInfo);
+    
+    // Check if we should give up after too many errors
+    if (this.state.errorCount >= this.props.maxErrors) {
+      this.setState({ shouldGiveUp: true });
+    }
+  }
+
+  logError = (error, errorInfo) => {
+    const errorData = {
+      message: error.message,
+      stack: error.stack,
+      componentStack: errorInfo.componentStack,
+      timestamp: new Date().toISOString(),
+      userAgent: navigator.userAgent,
+      url: window.location.href
+    };
+
+    // Send to error reporting service
+    if (this.props.onError) {
+      this.props.onError(errorData);
+    }
+
+    // Also log to console in development
+    if (process.env.NODE_ENV === 'development') {
+      console.group('Error Boundary Caught Error');
+      console.error('Error:', error);
+      console.error('Error Info:', errorInfo);
+      console.groupEnd();
+    }
+  };
+
+  handleRetry = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null
+    });
+
+    // Call retry callback if provided
+    if (this.props.onRetry) {
+      this.props.onRetry();
+    }
+  };
+
+  handleReset = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null,
+      errorCount: 0,
+      shouldGiveUp: false
+    });
+
+    // Call reset callback if provided
+    if (this.props.onReset) {
+      this.props.onReset();
+    }
+  };
+
+  render() {
+    if (this.state.shouldGiveUp) {
+      return (
+        <div style={styles.criticalError}>
+          <h2>🚨 Critical Application Error</h2>
+          <p>Too many errors occurred. Please refresh the page.</p>
+          <button 
+            onClick={() => window.location.reload()}
+            style={styles.button}
+          >
+            Refresh Page
+          </button>
+        </div>
+      );
+    }
+
+    if (this.state.hasError) {
+      // Custom fallback UI
+      if (this.props.fallback) {
+        return React.cloneElement(this.props.fallback, {
+          error: this.state.error,
+          errorInfo: this.state.errorInfo,
+          onRetry: this.handleRetry,
+          onReset: this.handleReset
+        });
+      }
+
+      return (
+        <div style={styles.errorContainer}>
+          <div style={styles.errorHeader}>
+            <h2>⚠️ Something went wrong</h2>
+            <p>Error #{this.state.errorCount}</p>
+          </div>
+          
+          <div style={styles.errorDetails}>
+            <details style={styles.details}>
+              <summary>Error Details (for developers)</summary>
+              <pre style={styles.pre}>
+                {this.state.error && this.state.error.toString()}
+                {'\n\n'}
+                {this.state.errorInfo.componentStack}
+              </pre>
+            </details>
+          </div>
+
+          <div style={styles.actions}>
+            <button onClick={this.handleRetry} style={styles.primaryButton}>
+              Try Again
+            </button>
+            <button onClick={this.handleReset} style={styles.secondaryButton}>
+              Reset Component
+            </button>
+            {this.props.showReport && (
+              <button 
+                onClick={() => this.props.onReport(this.state.error)}
+                style={styles.reportButton}
+              >
+                Report Issue
+              </button>
+            )}
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
+// Default props
+AdvancedErrorBoundary.defaultProps = {
+  maxErrors: 5,
+  showReport: false,
+  fallback: null
+};
+
+const styles = {
+  errorContainer: {
+    padding: '20px',
+    border: '2px solid #ff6b6b',
+    borderRadius: '8px',
+    backgroundColor: '#fff5f5',
+    margin: '10px 0'
+  },
+  errorHeader: {
+    marginBottom: '15px'
+  },
+  details: {
+    margin: '10px 0',
+    cursor: 'pointer'
+  },
+  pre: {
+    whiteSpace: 'pre-wrap',
+    fontSize: '12px',
+    backgroundColor: '#f8f9fa',
+    padding: '10px',
+    borderRadius: '4px',
+    overflow: 'auto',
+    maxHeight: '200px'
+  },
+  actions: {
+    display: 'flex',
+    gap: '10px',
+    marginTop: '15px'
+  },
+  button: {
+    padding: '8px 16px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer'
+  },
+  primaryButton: {
+    backgroundColor: '#4CAF50',
+    color: 'white'
+  },
+  secondaryButton: {
+    backgroundColor: '#6c757d',
+    color: 'white'
+  },
+  reportButton: {
+    backgroundColor: '#ffc107',
+    color: 'black'
+  },
+  criticalError: {
+    padding: '40px',
+    textAlign: 'center',
+    backgroundColor: '#ffebee',
+    border: '2px solid #f44336',
+    borderRadius: '8px'
+  }
+};
+
+export default AdvancedErrorBoundary;`,
+              `// Usage Examples with Different Error Boundary Strategies
+import React, { useState } from 'react';
+import AdvancedErrorBoundary from './AdvancedErrorBoundary';
+
+// Example components that might throw errors
+const UnstableComponent = ({ shouldThrow }) => {
+  if (shouldThrow) {
+    throw new Error('This component crashed intentionally!');
+  }
+  return <div>Stable Component</div>;
+};
+
+const AsyncErrorComponent = () => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      // Simulate API call that might fail
+      await new Promise((resolve, reject) => {
+        setTimeout(() => {
+          if (Math.random() > 0.5) {
+            reject(new Error('API call failed!'));
+          } else {
+            resolve({ data: 'Success!' });
+          }
+        }, 1000);
+      });
+      setData('Data loaded successfully!');
+    } catch (error) {
+      // This won't be caught by error boundary - use state instead
+      setData('Error: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div>
+      <button onClick={fetchData} disabled={loading}>
+        {loading ? 'Loading...' : 'Fetch Data (Might Fail)'}
+      </button>
+      {data && <p>{data}</p>}
+    </div>
+  );
+};
+
+// Custom fallback component
+const CustomFallback = ({ error, onRetry, onReset }) => (
+  <div style={{ 
+    padding: '20px', 
+    backgroundColor: '#e3f2fd',
+    border: '1px solid #2196f3',
+    borderRadius: '8px'
+  }}>
+    <h3>Custom Error Handler</h3>
+    <p><strong>Error:</strong> {error.message}</p>
+    <div>
+      <button onClick={onRetry}>Retry Operation</button>
+      <button onClick={onReset} style={{ marginLeft: '10px' }}>
+        Reset Component
+      </button>
+    </div>
+  </div>
+);
+
+function App() {
+  const [throwError, setThrowError] = useState(false);
+  const [componentKey, setComponentKey] = useState(0);
+
+  const handleGlobalError = (errorData) => {
+    // Send to error reporting service
+    console.log('Global error:', errorData);
+  };
+
+  const handleRetry = () => {
+    console.log('Retrying operation...');
+    setThrowError(false);
+  };
+
+  const handleReset = () => {
+    console.log('Resetting component...');
+    setComponentKey(prev => prev + 1);
+    setThrowError(false);
+  };
+
+  return (
+    <div>
+      <h1>Error Boundary Examples</h1>
+      
+      {/* Global error boundary */}
+      <AdvancedErrorBoundary 
+        onError={handleGlobalError}
+        onRetry={handleRetry}
+        onReset={handleReset}
+        showReport={true}
+        onReport={(error) => {
+          console.log('Reporting error:', error);
+          alert('Error reported to support team!');
+        }}
+        fallback={<div>Global fallback: App crashed!</div>}
+      >
+        {/* Section with custom fallback */}
+        <AdvancedErrorBoundary 
+          fallback={<CustomFallback />}
+          onRetry={() => setThrowError(false)}
+        >
+          <div>
+            <h2>Section 1: Unstable Component</h2>
+            <button onClick={() => setThrowError(true)}>
+              Crash This Section
+            </button>
+            <UnstableComponent shouldThrow={throwError} />
+          </div>
+        </AdvancedErrorBoundary>
+
+        {/* Section with default fallback */}
+        <AdvancedErrorBoundary>
+          <div>
+            <h2>Section 2: Async Operations</h2>
+            <AsyncErrorComponent />
+          </div>
+        </AdvancedErrorBoundary>
+
+        {/* Section that resets on error */}
+        <AdvancedErrorBoundary 
+          key={componentKey}
+          onReset={() => setComponentKey(prev => prev + 1)}
+        >
+          <div>
+            <h2>Section 3: Resettable Component</h2>
+            <p>This section will completely reset on error</p>
+            <button onClick={() => { throw new Error('Manual error!'); }}>
+              Throw Manual Error
+            </button>
+          </div>
+        </AdvancedErrorBoundary>
+      </AdvancedErrorBoundary>
+    </div>
+  );
+}
+
+export default App;`
+            ],
+            "questions": [
+              {
+                "question": "What are the limitations of Error Boundaries in React?",
+                "solution": "<p>Error Boundaries have several limitations: 1) They only catch errors in the render phase, lifecycle methods, and constructors of child components. 2) They don't catch errors in event handlers (use try/catch instead). 3) They don't catch errors in asynchronous code (setTimeout, promises). 4) They don't catch errors in the error boundary itself. 5) They don't work with server-side rendering. 6) They can't catch errors in error boundaries higher up in the tree.</p>"
+              },
+              {
+                "question": "How do you implement error recovery in Error Boundaries?",
+                "solution": "<p>Error recovery can be implemented by: 1) Providing a retry mechanism that resets the error state. 2) Using a key prop to force remounting of problematic components. 3) Implementing fallback data or default states. 4) Allowing users to refresh specific sections. 5) Providing alternative UI flows. The key is to update state to clear the error and give the component another chance to render successfully.</p>"
+              },
+              {
+                "question": "When should you use multiple Error Boundaries vs a single global one?",
+                "solution": "<p>Use multiple Error Boundaries when you want to isolate failures to specific sections of your app. This prevents the entire application from crashing due to one component's error. Use a global Error Boundary as a safety net for unexpected errors. Best practice is to use both: specific boundaries for known problematic areas and a global boundary to catch everything else. This provides both granular error handling and overall application stability.</p>"
+              },
+              {
+                "question": "How can you test Error Boundaries in your application?",
+                "solution": "<p>Test Error Boundaries by: 1) Creating test components that throw errors. 2) Using testing libraries like Jest and React Testing Library. 3) Simulating errors in different lifecycle methods. 4) Verifying the fallback UI is displayed. 5) Testing error recovery mechanisms. 6) Mocking error reporting services. 7) Testing both expected and unexpected error scenarios to ensure robust error handling.</p>"
+              },
+              {
+                "question": "What's the difference between getDerivedStateFromError and componentDidCatch?",
+                "solution": "<p>getDerivedStateFromError is a static method called during the render phase to update state and show fallback UI. It should be pure and only used to derive state from errors. componentDidCatch is called during the commit phase and is used for side effects like logging errors, reporting to services, or performing cleanup. Use getDerivedStateFromError to control what users see, and componentDidCatch for error handling logic and monitoring.</p>"
+              }
+            ],
+            "links": [
+              "https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary",
+              "https://reactjs.org/docs/error-boundaries.html",
+              "https://www.npmjs.com/package/react-error-boundary",
+              "https://kentcdodds.com/blog/use-react-error-boundary-to-handle-errors-in-react",
+              "https://www.smashingmagazine.com/2020/06/react-error-handling-reporting-error-boundaries/"
+            ]
           },
           {
-            topic: "UseMemo Hook ",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
+            "topic": "UseMemo Hook",
+            "tags": ["React", "Hooks", "Performance", "Memoization", "Optimization"],
+            "explanation": `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     The useMemo hook is a React performance optimization tool that memoizes expensive computations. It returns a memoized value that only changes when one of its dependencies has changed. This prevents expensive calculations from running on every render, significantly improving performance for compute-intensive operations.
+   </p>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Why Use useMemo?
+   </h4>
+
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Performance Optimization:</span> Skip expensive recalculations on every render.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Stable References:</span> Return the same object/array reference between renders.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Prevent Unnecessary Re-renders:</span> When passed as props to memoized components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Computational Efficiency:</span> Optimize complex transformations and calculations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Management:</span> Avoid creating new objects unnecessarily.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     useMemo Syntax and Usage
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Basic Usage:</span> Memoize expensive calculations.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">import { useMemo } from 'react';
+
+function ExpensiveComponent({ items, filter }) {
+  // Without useMemo - runs on every render
+  // const filteredItems = items.filter(item => item.category === filter);
+  
+  // With useMemo - only recalculates when dependencies change
+  const filteredItems = useMemo(() => {
+    console.log('Filtering items...');
+    return items.filter(item => item.category === filter);
+  }, [items, filter]); // Dependencies array
+
+  return (
+    <div>
+      {filteredItems.map(item => (
+        <div key={item.id}>{item.name}</div>
+      ))}
+    </div>
+  );
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Complex Calculations:</span> Memoize heavy computations.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">function FinancialCalculator({ transactions, period }) {
+  const financialSummary = useMemo(() => {
+    console.log('Calculating financial summary...');
+    
+    const total = transactions.reduce((sum, t) => sum + t.amount, 0);
+    const average = total / transactions.length;
+    const max = Math.max(...transactions.map(t => t.amount));
+    const min = Math.min(...transactions.map(t => t.amount));
+    
+    // Simulate heavy computation
+    const complexAnalysis = performComplexAnalysis(transactions, period);
+    
+    return {
+      total,
+      average,
+      max,
+      min,
+      analysis: complexAnalysis
+    };
+  }, [transactions, period]); // Recalculate when transactions or period change
+
+  return (
+    <div>
+      <p>Total: $ {financialSummary.total}</p>
+      <p>Average: $ {financialSummary.average.toFixed(2)}</p>
+    </div>
+  );
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Object/Array Stabilization:</span> Prevent unnecessary re-renders.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">function UserSettings({ user, theme }) {
+  // Without useMemo - new object on every render
+  // const settings = { user, theme, timestamp: Date.now() };
+  
+  // With useMemo - same object reference between renders
+  const settings = useMemo(() => ({
+    user,
+    theme,
+    timestamp: Date.now()
+  }), [user, theme]); // Only new object when user or theme changes
+
+  return <ChildComponent settings={settings} />;
+}
+
+const ChildComponent = React.memo(({ settings }) => {
+  console.log('ChildComponent rendered');
+  return <div>Theme: {settings.theme}</div>;
+});</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Advanced useMemo Patterns
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memoizing Callbacks with useMemo:</span> Alternative to useCallback.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">function ParentComponent() {
+  const [count, setCount] = useState(0);
+  
+  // Equivalent to useCallback
+  const handleClick = useMemo(() => {
+    return () => {
+      console.log('Button clicked, count:', count);
+      setCount(c => c + 1);
+    };
+  }, [count]); // Recreate when count changes
+
+  return <button onClick={handleClick}>Increment</button>;
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Conditional Memoization:</span> Skip computation based on conditions.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">function SmartComponent({ data, shouldCompute }) {
+  const computedValue = useMemo(() => {
+    if (!shouldCompute) {
+      return null; // Skip expensive computation
+    }
+    
+    console.log('Performing expensive computation...');
+    return expensiveComputation(data);
+  }, [data, shouldCompute]); // Only compute when shouldCompute is true
+
+  return <div>{computedValue}</div>;
+}</code></pre>
+      </div>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memoizing Multiple Values:</span> Return complex computed state.
+      <div style="padding: 2px; border-radius: 8px; font-size: 14px; margin-top: 0.5rem;">
+        <pre><code className="language-javascript">function Dashboard({ users, transactions, dateRange }) {
+  const dashboardData = useMemo(() => {
+    const activeUsers = users.filter(user => user.isActive);
+    const totalRevenue = transactions.reduce((sum, t) => sum + t.amount, 0);
+    const averageTransaction = totalRevenue / transactions.length;
+    
+    const filteredTransactions = transactions.filter(t => 
+      t.date >= dateRange.start && t.date <= dateRange.end
+    );
+
+    return {
+      activeUsers,
+      totalRevenue,
+      averageTransaction,
+      filteredTransactions,
+      summary: generateSummary(activeUsers, filteredTransactions)
+    };
+  }, [users, transactions, dateRange]);
+
+  return (
+    <div>
+      <UserStats users={dashboardData.activeUsers} />
+      <RevenueChart transactions={dashboardData.filteredTransactions} />
+    </div>
+  );
+}</code></pre>
+      </div>
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Practical Example: Data Processing Pipeline
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">import { useMemo } from 'react';
+
+function DataProcessor({ rawData, filters, sortConfig }) {
+  // Complete data processing pipeline with useMemo
+  const processedData = useMemo(() => {
+    console.log('Processing data pipeline...');
+    
+    // Step 1: Filter data
+    let filtered = rawData;
+    if (filters.search) {
+      filtered = filtered.filter(item =>
+        item.name.toLowerCase().includes(filters.search.toLowerCase())
+      );
+    }
+    if (filters.category) {
+      filtered = filtered.filter(item => item.category === filters.category);
+    }
+
+    // Step 2: Sort data
+    let sorted = [...filtered];
+    if (sortConfig.key) {
+      sorted.sort((a, b) => {
+        if (a[sortConfig.key] < b[sortConfig.key]) return sortConfig.direction === 'asc' ? -1 : 1;
+        if (a[sortConfig.key] > b[sortConfig.key]) return sortConfig.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+
+    // Step 3: Calculate statistics
+    const stats = {
+      total: rawData.length,
+      filtered: filtered.length,
+      categories: [...new Set(filtered.map(item => item.category))],
+      priceRange: {
+        min: Math.min(...filtered.map(item => item.price)),
+        max: Math.max(...filtered.map(item => item.price))
+      }
+    };
+
+    // Step 4: Group data (expensive operation)
+    const groupedData = filtered.reduce((groups, item) => {
+      const category = item.category;
+      if (!groups[category]) groups[category] = [];
+      groups[category].push(item);
+      return groups;
+    }, {});
+
+    return {
+      displayedData: sorted,
+      statistics: stats,
+      groupedData,
+      timestamp: Date.now()
+    };
+  }, [rawData, filters, sortConfig]); // Re-run when any of these change
+
+  return (
+    <div>
+      <DataSummary stats={processedData.statistics} />
+      <DataTable data={processedData.displayedData} />
+      <DataCharts groupedData={processedData.groupedData} />
+    </div>
+  );
+}
+
+// Memoized child components
+const DataSummary = React.memo(({ stats }) => {
+  console.log('DataSummary rendered');
+  return (
+    <div>
+      <p>Showing {stats.filtered} of {stats.total} items</p>
+    </div>
+  );
+});
+
+const DataTable = React.memo(({ data }) => {
+  console.log('DataTable rendered');
+  return (
+    <table>
+      <tbody>
+        {data.map(item => (
+          <tr key={item.id}>
+            <td>{item.name}</td>
+            <td>{item.price}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+});</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     useMemo vs useCallback vs React.memo
+   </h4>
+   <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+     <pre><code className="language-javascript">// useMemo - for values
+const expensiveValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+// useCallback - for functions
+const callback = useCallback(() => doSomething(a, b), [a, b]);
+
+// React.memo - for components
+const MemoizedComponent = React.memo(MyComponent);
+
+// useMemo can mimic useCallback
+const callbackWithUseMemo = useMemo(() => () => doSomething(a, b), [a, b]);</code></pre>
+   </div>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When to Use useMemo
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Expensive Calculations:</span> Complex math, data processing, algorithms.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Object/Array Creation:</span> When passing to memoized components.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Data Transformations:</span> Filtering, sorting, mapping large datasets.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">API Response Processing:</span> Formatting and normalizing API data.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     When NOT to Use useMemo
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Simple Calculations:</span> Basic math or simple transformations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Frequent Changes:</span> When dependencies change every render.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Premature Optimization:</span> Before identifying actual bottlenecks.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Small Datasets:</span> When performance impact is negligible.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Performance Characteristics
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Memory Overhead:</span> Stores cached value in memory.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dependency Comparison:</span> Shallow compares dependency array.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Computation Time:</span> Only runs when dependencies change.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Render Optimization:</span> Prevents child component re-renders.
+     </li>
+   </ol>
+
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Profile First:</span> Use React DevTools to identify bottlenecks.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Correct Dependencies:</span> Include all values used in the calculation.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Avoid Large Objects:</span> Don't memoize entire large datasets unnecessarily.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Use with React.memo:</span> Combine for optimal performance.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Empty Dependency Array:</span> Use [] for values that should never change.
+     </li>
+   </ol>
+</div>
+`,
+            "examples": [
+              `// Complete useMemo Examples with Performance Monitoring
+import React, { useMemo, useState, useEffect } from 'react';
+
+// Simulate expensive computation
+const expensiveComputation = (data, complexity = 1000) => {
+  console.log('Running expensive computation...');
+  let result = 0;
+  for (let i = 0; i < complexity; i++) {
+    result += Math.sqrt(data) * Math.sin(i);
+  }
+  return result;
+};
+
+// Example 1: Basic useMemo with dependency tracking
+function BasicUseMemoExample() {
+  const [count, setCount] = useState(0);
+  const [multiplier, setMultiplier] = useState(1);
+  const [renderCount, setRenderCount] = useState(0);
+
+  // Track renders
+  useEffect(() => {
+    setRenderCount(prev => prev + 1);
+  });
+
+  // Expensive calculation - memoized
+  const expensiveValue = useMemo(() => {
+    return expensiveComputation(count * multiplier, 5000);
+  }, [count, multiplier]); // Only recalculate when count or multiplier changes
+
+  // Simple calculation - not memoized (cheap)
+  const simpleValue = count * 10;
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px' }}>
+      <h3>Basic useMemo Example</h3>
+      <p>Render count: {renderCount}</p>
+      
+      <div>
+        <label>
+          Count: {count}
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={count}
+            onChange={(e) => setCount(Number(e.target.value))}
+          />
+        </label>
+      </div>
+
+      <div>
+        <label>
+          Multiplier: {multiplier}
+          <input
+            type="range"
+            min="1"
+            max="10"
+            value={multiplier}
+            onChange={(e) => setMultiplier(Number(e.target.value))}
+          />
+        </label>
+      </div>
+
+      <div style={{ marginTop: '20px' }}>
+        <p><strong>Memoized Expensive Value:</strong> {expensiveValue.toFixed(2)}</p>
+        <p><strong>Simple Value (not memoized):</strong> {simpleValue}</p>
+      </div>
+
+      <button onClick={() => setCount(0)}>Reset</button>
+    </div>
+  );
+}
+
+// Example 2: useMemo with objects and React.memo
+const UserCard = React.memo(({ user, settings }) => {
+  console.log('UserCard rendered for:', user.name);
+  
+  return (
+    <div style={{ 
+      padding: '10px', 
+      border: '1px solid #ddd', 
+      margin: '5px',
+      backgroundColor: settings.theme === 'dark' ? '#333' : '#fff',
+      color: settings.theme === 'dark' ? '#fff' : '#000'
+    }}>
+      <h4>{user.name}</h4>
+      <p>Email: {user.email}</p>
+      <p>Role: {user.role}</p>
+    </div>
+  );
+});
+
+function ObjectMemoExample() {
+  const [users, setUsers] = useState([]);
+  const [theme, setTheme] = useState('light');
+  const [filter, setFilter] = useState('');
+
+  // Memoized filtered users
+  const filteredUsers = useMemo(() => {
+    console.log('Filtering users...');
+    return users.filter(user =>
+      user.name.toLowerCase().includes(filter.toLowerCase()) ||
+      user.email.toLowerCase().includes(filter.toLowerCase())
+    );
+  }, [users, filter]);
+
+  // Memoized settings object (stable reference)
+  const settings = useMemo(() => ({
+    theme,
+    timestamp: Date.now(),
+    features: ['search', 'filter', 'sort']
+  }), [theme]);
+
+  // Add sample users
+  useEffect(() => {
+    const sampleUsers = [
+      { id: 1, name: 'John Doe', email: 'john@example.com', role: 'admin' },
+      { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'user' },
+      { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'user' },
+      { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'moderator' }
+    ];
+    setUsers(sampleUsers);
+  }, []);
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px' }}>
+      <h3>Object Memoization Example</h3>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <input
+          type="text"
+          placeholder="Filter users..."
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          style={{ marginRight: '10px' }}
+        />
+        
+        <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+          <option value="light">Light Theme</option>
+          <option value="dark">Dark Theme</option>
+        </select>
+      </div>
+
+      <div>
+        <h4>Users ({filteredUsers.length})</h4>
+        {filteredUsers.map(user => (
+          <UserCard 
+            key={user.id} 
+            user={user} 
+            settings={settings} 
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// Example 3: Complex data processing with useMemo
+function DataProcessingExample() {
+  const [rawData, setRawData] = useState([]);
+  const [sortBy, setSortBy] = useState('name');
+  const [sortDirection, setSortDirection] = useState('asc');
+
+  // Generate sample data
+  useEffect(() => {
+    const generateData = () => {
+      const categories = ['Electronics', 'Books', 'Clothing', 'Food'];
+      return Array.from({ length: 1000 }, (_, i) => ({
+        id: i + 1,
+        name: \`Product \${i + 1}\`,
+        category: categories[i % categories.length],
+        price: Math.random() * 1000,
+        rating: Math.floor(Math.random() * 5) + 1,
+        sales: Math.floor(Math.random() * 1000)
+      }));
+    };
+    setRawData(generateData());
+  }, []);
+
+  // Complex data processing pipeline - fully memoized
+  const processedData = useMemo(() => {
+    console.log('Processing data...');
+    const startTime = performance.now();
+
+    // 1. Sort data
+    const sorted = [...rawData].sort((a, b) => {
+      const aVal = a[sortBy];
+      const bVal = b[sortBy];
+      
+      if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+      if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    // 2. Calculate statistics
+    const stats = {
+      totalProducts: rawData.length,
+      totalValue: rawData.reduce((sum, item) => sum + item.price, 0),
+      averagePrice: rawData.reduce((sum, item) => sum + item.price, 0) / rawData.length,
+      categoryCount: [...new Set(rawData.map(item => item.category))].length,
+      topRated: Math.max(...rawData.map(item => item.rating))
+    };
+
+    // 3. Group by category
+    const byCategory = rawData.reduce((acc, item) => {
+      if (!acc[item.category]) acc[item.category] = [];
+      acc[item.category].push(item);
+      return acc;
+    }, {});
+
+    // 4. Price distribution
+    const priceRanges = {
+      under100: rawData.filter(item => item.price < 100).length,
+      '100-500': rawData.filter(item => item.price >= 100 && item.price < 500).length,
+      '500-1000': rawData.filter(item => item.price >= 500 && item.price <= 1000).length
+    };
+
+    const processingTime = performance.now() - startTime;
+    console.log(\`Data processing took \${processingTime.toFixed(2)}ms\`);
+
+    return {
+      displayedData: sorted.slice(0, 50), // Show first 50 for performance
+      statistics: stats,
+      groupedData: byCategory,
+      priceRanges,
+      processingTime
+    };
+  }, [rawData, sortBy, sortDirection]);
+
+  return (
+    <div style={{ padding: '20px', border: '1px solid #ccc', margin: '10px' }}>
+      <h3>Complex Data Processing Example</h3>
+      
+      <div style={{ marginBottom: '20px' }}>
+        <label>
+          Sort by:
+          <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+            <option value="name">Name</option>
+            <option value="price">Price</option>
+            <option value="rating">Rating</option>
+            <option value="sales">Sales</option>
+          </select>
+        </label>
+
+        <label style={{ marginLeft: '10px' }}>
+          Direction:
+          <select value={sortDirection} onChange={(e) => setSortDirection(e.target.value)}>
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </select>
+        </label>
+      </div>
+
+      <div style={{ display: 'flex', gap: '20px' }}>
+        <div style={{ flex: 1 }}>
+          <h4>Statistics</h4>
+          <ul>
+            <li>Total Products: {processedData.statistics.totalProducts}</li>
+            <li>Average Price: $ {processedData.statistics.averagePrice.toFixed(2)}</li>
+            <li>Categories: {processedData.statistics.categoryCount}</li>
+            <li>Top Rating: {processedData.statistics.topRated}/5</li>
+          </ul>
+
+          <h4>Price Ranges</h4>
+          <ul>
+            <li>Under $100: {processedData.priceRanges.under100}</li>
+            <li>$100-500: {processedData.priceRanges['100-500']}</li>
+            <li>$500-1000: {processedData.priceRanges['500-1000']}</li>
+          </ul>
+
+          <p><small>Processing time: {processedData.processingTime.toFixed(2)}ms</small></p>
+        </div>
+
+        <div style={{ flex: 2 }}>
+          <h4>Products (first 50)</h4>
+          <div style={{ maxHeight: '400px', overflow: 'auto' }}>
+            {processedData.displayedData.map(item => (
+              <div key={item.id} style={{ 
+                padding: '5px', 
+                borderBottom: '1px solid #eee',
+                display: 'flex',
+                justifyContent: 'space-between'
+              }}>
+                <span>{item.name}</span>
+                <span>$ {item.price.toFixed(2)}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Main App component
+function UseMemoExamplesApp() {
+  return (
+    <div>
+      <h1>useMemo Hook Examples</h1>
+      <BasicUseMemoExample />
+      <ObjectMemoExample />
+      <DataProcessingExample />
+    </div>
+  );
+}
+
+export default UseMemoExamplesApp;`,
+              `// Custom useMemo Hook with Debugging
+import { useMemo, useRef } from 'react';
+
+// Custom useMemo with debugging
+function useDebugMemo(factory, deps, label = 'Unknown') {
+  const countRef = useRef(0);
+  const prevDepsRef = useRef(deps);
+  
+  const value = useMemo(() => {
+    countRef.current++;
+    console.log(\`[useDebugMemo] \${label}: Computing (run #\${countRef.current})\`);
+    console.log(\`[useDebugMemo] \${label}: Previous deps:\`, prevDepsRef.current);
+    console.log(\`[useDebugMemo] \${label}: Current deps:\`, deps);
+    
+    const result = factory();
+    console.log(\`[useDebugMemo] \${label}: Result:\`, result);
+    
+    prevDepsRef.current = deps;
+    return result;
+  }, deps);
+
+  return value;
+}
+
+// Usage example with custom debug hook
+function DebuggableComponent({ data, filter, sortBy }) {
+  const processedData = useDebugMemo(() => {
+    // Simulate expensive processing
+    return data
+      .filter(item => item.name.includes(filter))
+      .sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+  }, [data, filter, sortBy], 'DataProcessing');
+
+  const statistics = useDebugMemo(() => ({
+    total: data.length,
+    filtered: processedData.length,
+    matchRate: (processedData.length / data.length * 100).toFixed(1) + '%'
+  }), [data.length, processedData.length], 'Statistics');
+
+  return (
+    <div>
+      <h3>Statistics: {statistics.matchRate}</h3>
+      <div>
+        {processedData.slice(0, 5).map(item => (
+          <div key={item.id}>{item.name}</div>
+        ))}
+      </div>
+    </div>
+  );
+}`
+            ],
+            "questions": [
+              {
+                "question": "What's the difference between useMemo and useEffect?",
+                "solution": "<p>useMemo is for memoizing values and computations during render, while useEffect is for side effects after render. useMemo returns a value synchronously and runs during rendering, whereas useEffect runs asynchronously after the render is committed to the screen. Use useMemo for expensive calculations that should be cached, and useEffect for operations like API calls, subscriptions, or DOM manipulations.</p>"
+              },
+              {
+                "question": "When should you avoid using useMemo?",
+                "solution": "<p>Avoid useMemo when: 1) The computation is cheap and fast. 2) The dependencies change on every render anyway. 3) You're memoizing very large objects that consume significant memory. 4) It's used prematurely without actual performance issues. 5) For simple value assignments or basic arithmetic. Always measure performance before adding useMemo to ensure it provides actual benefits.</p>"
+              },
+              {
+                "question": "How does useMemo help with React.memo optimization?",
+                "solution": "<p>useMemo provides stable object/array references that prevent unnecessary re-renders in React.memo components. When you pass memoized values as props to React.memo components, the component only re-renders when the props actually change. Without useMemo, new object/array references are created on every render, causing React.memo to always re-render even if the data is functionally the same.</p>"
+              },
+              {
+                "question": "What happens if you forget dependencies in useMemo?",
+                "solution": "<p>If you forget dependencies in useMemo, the memoized value might become stale and not update when needed. This can lead to bugs where the UI shows outdated information. The eslint-plugin-react-hooks package includes an exhaustive-deps rule that warns about missing dependencies. Always include all values from the component scope that are used in the memoized calculation to ensure correctness.</p>"
+              },
+              {
+                "question": "Can useMemo be used for functions? How does it compare to useCallback?",
+                "solution": "<p>Yes, useMemo can be used for functions by returning a function from the factory: <code>useMemo(() => () => {...}, deps)</code>. This is functionally equivalent to useCallback. However, useCallback is more semantic and clearer for function memoization. useMemo is more general-purpose for any type of value, while useCallback is specifically designed for functions and makes the code more readable.</p>"
+              }
+            ],
+            "links": [
+              "https://react.dev/reference/react/useMemo",
+              "https://kentcdodds.com/blog/usememo-and-usecallback",
+              "https://dmitripavlutin.com/react-usememo-hook/",
+              "https://www.joshwcomeau.com/react/usememo-and-usecallback/",
+              "https://reactjs.org/docs/hooks-reference.html#usememo"
+            ]
           },
           {
             topic: "UseCallback Hook",
@@ -10316,46 +11920,6 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
           },
           {
             topic: "Snapshot Testing",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "End-to-End Testing",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "Concurrent Mode",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "React.lazy()",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "Code Splitting",
-            tags: [""],
-            explanation: "<></>",
-            examples: [""],
-            questions: [{}],
-            links: [""],
-          },
-          {
-            topic: "Virtualization",
             tags: [""],
             explanation: "<></>",
             examples: [""],
@@ -102355,22 +103919,22 @@ class TagManager {
   }
 
   async addTags(itemId, tags) {
-    const key = \`tags:item:\${itemId}\`;
+    const key = \`tags:item:\$ {itemId}\`;
     return await this.client.sAdd(key, tags);
   }
 
   async removeTags(itemId, tags) {
-    const key = \`tags:item:\${itemId}\`;
+    const key = \`tags:item:\$ {itemId}\`;
     return await this.client.sRem(key, tags);
   }
 
   async getTags(itemId) {
-    const key = \`tags:item:\${itemId}\`;
+    const key = \`tags:item:\$ {itemId}\`;
     return await this.client.sMembers(key);
   }
 
   async hasTag(itemId, tag) {
-    const key = \`tags:item:\${itemId}\`;
+    const key = \`tags:item:\$ {itemId}\`;
     return await this.client.sIsMember(key, tag);
   }
 
@@ -102389,21 +103953,21 @@ class TagManager {
   }
 
   async getCommonTags(itemId1, itemId2) {
-    const key1 = \`tags:item:\${itemId1}\`;
-    const key2 = \`tags:item:\${itemId2}\`;
+    const key1 = \`tags:item:\$ {itemId1}\`;
+    const key2 = \`tags:item:\$ {itemId2}\`;
     return await this.client.sInter([key1, key2]);
   }
 
   async getUniqueTags(itemId1, itemId2) {
     // Tags in item1 but not in item2
-    const key1 = \`tags:item:\${itemId1}\`;
-    const key2 = \`tags:item:\${itemId2}\`;
+    const key1 = \`tags:item:\$ {itemId1}\`;
+    const key2 = \`tags:item:\$ {itemId2}\`;
     return await this.client.sDiff([key1, key2]);
   }
 
   async tagItem(itemId, tag) {
     // Two-way relationship: item->tags and tag->items
-    const itemKey = \`tags:item:\${itemId}\`;
+    const itemKey = \`tags:item:\$ {itemId}\`;
     const tagKey = \`items:tag:\${tag}\`;
     
     await this.client.sAdd(itemKey, tag);
@@ -102411,7 +103975,7 @@ class TagManager {
   }
 
   async untagItem(itemId, tag) {
-    const itemKey = \`tags:item:\${itemId}\`;
+    const itemKey = \`tags:item:\$ {itemId}\`;
     const tagKey = \`items:tag:\${tag}\`;
     
     await this.client.sRem(itemKey, tag);
@@ -102419,12 +103983,12 @@ class TagManager {
   }
 
   async getTagCount(itemId) {
-    const key = \`tags:item:\${itemId}\`;
+    const key = \`tags:item:\$ {itemId}\`;
     return await this.client.sCard(key);
   }
 
   async getRandomTags(itemId, count = 1) {
-    const key = \`tags:item:\${itemId}\`;
+    const key = \`tags:item:\$ {itemId}\`;
     return await this.client.sRandMember(key, count);
   }
 }
@@ -103555,7 +105119,7 @@ class RecommendationEngine {
     await this.client.sAdd(\\\`user:\${userId}:\${interactionType}\\\`, itemId);
     
     // Item -> Users (inverted index)
-    await this.client.sAdd(\\\`item:\${itemId}:\${interactionType}\\\`, userId);
+    await this.client.sAdd(\\\`item:\$ {itemId}:\${interactionType}\\\`, userId);
   }
 
   // Collaborative Filtering: Users who liked this also liked...
@@ -103571,7 +105135,7 @@ class RecommendationEngine {
     for (const itemId of userItems) {
       // Find other users who viewed same item
       const similarUsers = await this.client.sMembers(
-        \\\`item:\${itemId}:view\\\`
+        \\\`item:\$ {itemId}:view\\\`
       );
       
       // Get items those users also viewed
@@ -103612,7 +105176,7 @@ class RecommendationEngine {
     // For each item this user viewed
     for (const itemId of userItems) {
       // Find other users who viewed it
-      const viewers = await this.client.sMembers(\\\`item:\${itemId}:view\\\`);
+      const viewers = await this.client.sMembers(\\\`item:\$ {itemId}:view\\\`);
       
       for (const otherUserId of viewers) {
         if (otherUserId === userId) continue;
@@ -106848,7 +108412,7 @@ const client = redis.createClient();
 // Tagging System Implementation
 class TaggingSystem {
   async addTags(itemId, tags) {
-    const key = \`item:\${itemId}:tags\`;
+    const key = \`item:\$ {itemId}:tags\`;
     await client.sAdd(key, tags);
     
     // Also maintain reverse index: tag -> items
@@ -106858,7 +108422,7 @@ class TaggingSystem {
   }
 
   async removeTags(itemId, tags) {
-    const key = \`item:\${itemId}:tags\`;
+    const key = \`item:\$ {itemId}:tags\`;
     await client.sRem(key, tags);
     
     for (const tag of tags) {
@@ -106867,11 +108431,11 @@ class TaggingSystem {
   }
 
   async getTags(itemId) {
-    return await client.sMembers(\`item:\${itemId}:tags\`);
+    return await client.sMembers(\`item:\$ {itemId}:tags\`);
   }
 
   async hasTag(itemId, tag) {
-    const exists = await client.sIsMember(\`item:\${itemId}:tags\`, tag);
+    const exists = await client.sIsMember(\`item:\$ {itemId}:tags\`, tag);
     return exists === 1;
   }
 
