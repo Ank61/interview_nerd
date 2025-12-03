@@ -10483,9 +10483,15 @@ return &lt;form onSubmit={handleFormSubmit}&gt;Submit&lt;/form&gt;;
             links: [""],
           },
           {
-            "topic": "React Optimizations",
-            "tags": ["React", "Performance", "Optimization", "Memoization", "Rendering"],
-            "explanation": `<div>
+            topic: "React Optimizations",
+            tags: [
+              "React",
+              "Performance",
+              "Optimization",
+              "Memoization",
+              "Rendering",
+            ],
+            explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
      React optimizations are techniques used to improve the performance of React applications by reducing unnecessary re-renders, optimizing component updates, and efficiently managing resources. These optimizations help create faster, more responsive applications with better user experience and reduced memory usage.
    </p>
@@ -10982,7 +10988,7 @@ function App() {
    </ol>
 </div>
 `,
-            "examples": [
+            examples: [
               `// Complete React Optimization Example
 import React, { 
   useState, 
@@ -11185,40 +11191,47 @@ function LargeDataView({ data }) {
   );
 }
 
-export default memo(LargeDataView);`
+export default memo(LargeDataView);`,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "When should you use React.memo vs useMemo?",
-                "solution": "<p>Use React.memo for optimizing functional components to prevent re-renders when props don't change. Use useMemo for memoizing expensive calculations or derived data within a component. React.memo wraps the entire component, while useMemo memoizes a specific value. For example, use React.memo on a UserList component that receives users prop, and use useMemo inside that component to compute filteredUsers from the users prop.</p>"
+                question: "When should you use React.memo vs useMemo?",
+                solution:
+                  "<p>Use React.memo for optimizing functional components to prevent re-renders when props don't change. Use useMemo for memoizing expensive calculations or derived data within a component. React.memo wraps the entire component, while useMemo memoizes a specific value. For example, use React.memo on a UserList component that receives users prop, and use useMemo inside that component to compute filteredUsers from the users prop.</p>",
               },
               {
-                "question": "What's the difference between useCallback and useMemo?",
-                "solution": "<p>useCallback memoizes functions, while useMemo memoizes values. useCallback returns the same function instance between renders if dependencies don't change, preventing unnecessary re-renders in child components. useMemo returns the memoized computed value. Use useCallback for functions passed as props, and useMemo for expensive calculations or object/array transformations.</p>"
+                question:
+                  "What's the difference between useCallback and useMemo?",
+                solution:
+                  "<p>useCallback memoizes functions, while useMemo memoizes values. useCallback returns the same function instance between renders if dependencies don't change, preventing unnecessary re-renders in child components. useMemo returns the memoized computed value. Use useCallback for functions passed as props, and useMemo for expensive calculations or object/array transformations.</p>",
               },
               {
-                "question": "How does code splitting improve React performance?",
-                "solution": "<p>Code splitting improves performance by reducing the initial bundle size. Instead of loading all JavaScript at once, the application is split into smaller chunks that are loaded on demand. This results in faster initial page loads, better time-to-interactive metrics, and reduced memory usage. Use React.lazy() with Suspense for route-based splitting and dynamic imports for feature-based splitting.</p>"
+                question: "How does code splitting improve React performance?",
+                solution:
+                  "<p>Code splitting improves performance by reducing the initial bundle size. Instead of loading all JavaScript at once, the application is split into smaller chunks that are loaded on demand. This results in faster initial page loads, better time-to-interactive metrics, and reduced memory usage. Use React.lazy() with Suspense for route-based splitting and dynamic imports for feature-based splitting.</p>",
               },
               {
-                "question": "When should you use useTransition and useDeferredValue?",
-                "solution": "<p>Use useTransition for marking non-urgent state updates that can be interrupted, like filtering large lists or updating search results. Use useDeferredValue for deferring the rendering of non-urgent values, like search terms in heavy components. Both help keep the UI responsive during expensive operations by allowing React to prioritize more important updates.</p>"
+                question:
+                  "When should you use useTransition and useDeferredValue?",
+                solution:
+                  "<p>Use useTransition for marking non-urgent state updates that can be interrupted, like filtering large lists or updating search results. Use useDeferredValue for deferring the rendering of non-urgent values, like search terms in heavy components. Both help keep the UI responsive during expensive operations by allowing React to prioritize more important updates.</p>",
               },
               {
-                "question": "What are the common performance pitfalls in React?",
-                "solution": "<p>Common pitfalls include: 1) Creating new objects/arrays in render causing unnecessary re-renders, 2) Not using proper keys in lists, 3) Overusing context causing widespread re-renders, 4) Not cleaning up effects leading to memory leaks, 5) Rendering large lists without virtualization, and 6) Including unnecessary code in the main bundle. Always profile and measure before optimizing.</p>"
-              }
+                question: "What are the common performance pitfalls in React?",
+                solution:
+                  "<p>Common pitfalls include: 1) Creating new objects/arrays in render causing unnecessary re-renders, 2) Not using proper keys in lists, 3) Overusing context causing widespread re-renders, 4) Not cleaning up effects leading to memory leaks, 5) Rendering large lists without virtualization, and 6) Including unnecessary code in the main bundle. Always profile and measure before optimizing.</p>",
+              },
             ],
-            "links": [
+            links: [
               "https://react.dev/reference/react/memo",
               "https://react.dev/reference/react/useMemo",
               "https://react.dev/reference/react/useCallback",
               "https://react.dev/reference/react/lazy",
               "https://react.dev/reference/react/Profiler",
               "https://react.dev/reference/react/useTransition",
-              "https://react.dev/reference/react/useDeferredValue"
-            ]
-          }
+              "https://react.dev/reference/react/useDeferredValue",
+            ],
+          },
         ],
       },
     ],
@@ -98900,9 +98913,9 @@ ORDER BY value_segment, frequency_segment, recency_segment;`,
     lightColor: "#FEF2F2",
     type: [
       {
-        "id": 1,
-        "label": "Beginner",
-        "concepts": [
+        id: 1,
+        label: "Beginner",
+        concepts: [
           {
             topic: "Redis Introduction",
             tags: ["In-Memory", "NoSQL", "Cache", "Data Structures"],
@@ -99908,12 +99921,14 @@ app.post('/api/posts', async (req, res) => {
             ],
             questions: [
               {
-                question: "What is the difference between Redis and traditional databases like MySQL or PostgreSQL?",
+                question:
+                  "What is the difference between Redis and traditional databases like MySQL or PostgreSQL?",
                 solution:
                   "<p>The fundamental difference is storage location and design philosophy. Redis stores all data in RAM (memory) for extremely fast access with sub-millisecond latency, while traditional databases store data on disk. Redis is optimized for simple data access patterns using keys and specialized data structures, whereas SQL databases excel at complex queries with joins, aggregations, and transactions across multiple tables. Redis uses a schema-less approach with flexible data structures, while SQL databases enforce strict schemas. Redis is best for caching, real-time operations, and session management where speed is critical. Traditional databases are better for complex analytical queries, large datasets that don't fit in memory, and scenarios requiring ACID transactions with strong consistency guarantees. In practice, many applications use both: Redis for hot data and caching, and traditional databases for persistent storage.</p>",
               },
               {
-                question: "How does Redis persist data if it's in-memory? What happens during a restart?",
+                question:
+                  "How does Redis persist data if it's in-memory? What happens during a restart?",
                 solution: `<p>Redis offers two complementary persistence mechanisms to prevent data loss:</p>
              <ol>
                <li><strong>RDB (Redis Database) Snapshots:</strong> Creates point-in-time binary snapshots of the entire dataset at configured intervals (e.g., every 15 minutes if 100 keys changed). It's space-efficient and fast for backups. However, you may lose data between snapshots if Redis crashes. The snapshot process uses fork() to create a child process, so it doesn't block the main Redis process.</li>
@@ -99922,17 +99937,20 @@ app.post('/api/posts', async (req, res) => {
              <p>You can enable both mechanisms simultaneously for maximum data safety - Redis will use the AOF for recovery since it's more up-to-date. For pure caching scenarios where data loss is acceptable, you can disable persistence entirely to maximize performance. When Redis restarts, it automatically loads data from the persistence files based on your configuration.</p>`,
               },
               {
-                question: "When should I use Redis over Memcached or other caching solutions?",
+                question:
+                  "When should I use Redis over Memcached or other caching solutions?",
                 solution:
                   "<p>Choose Redis when you need more than simple key-value caching. Redis offers rich data structures (lists, sets, sorted sets, hashes, streams) that eliminate the need for serialization/deserialization and complex application logic. Use Redis if you need persistence options to survive restarts, pub/sub messaging for real-time notifications, atomic operations on complex data types, Lua scripting for server-side computations, geospatial queries, or replication/clustering for high availability. Redis is also better for scenarios like leaderboards (sorted sets), queues (lists), rate limiting (counters with TTL), session management (hashes), and real-time analytics. Use Memcached only if you need pure LRU caching with minimal features and slightly lower memory overhead per key. Redis is more actively developed, has better documentation, stronger community support, and more client libraries. The performance difference is negligible for most use cases, but Redis provides significantly more functionality, making it the preferred choice for modern applications.</p>",
               },
               {
-                question: "How does Redis handle memory when it runs out of RAM?",
+                question:
+                  "How does Redis handle memory when it runs out of RAM?",
                 solution:
                   "<p>Redis provides several eviction policies that you configure with the 'maxmemory-policy' setting. When Redis reaches the maxmemory limit, it applies the chosen policy: (1) <strong>noeviction</strong> - Returns errors on write operations, useful when you want guaranteed storage; (2) <strong>allkeys-lru</strong> - Evicts least recently used keys from all keys, good for general caching; (3) <strong>allkeys-lfu</strong> - Evicts least frequently used keys (Redis 4.0+), better for identifying rarely accessed data; (4) <strong>volatile-lru/lfu/ttl</strong> - Only evicts keys with expiration set, using LRU, LFU, or shortest TTL; (5) <strong>allkeys-random</strong> - Randomly evicts keys; (6) <strong>volatile-random</strong> - Randomly evicts keys with TTL. You should monitor memory usage using the INFO memory command and set maxmemory to about 75-80% of available RAM to leave room for overhead. For datasets larger than available memory, use Redis Cluster to shard data across multiple nodes, or use Redis as a pure cache with appropriate eviction policies.</p>",
               },
               {
-                question: "What's the difference between Redis replication and Redis Cluster?",
+                question:
+                  "What's the difference between Redis replication and Redis Cluster?",
                 solution:
                   "<p><strong>Redis Replication</strong> is a master-replica setup where one master accepts writes and multiple replicas copy all data from the master. Replicas can handle read operations to distribute read load, but all data is duplicated on every node. It provides high availability with Redis Sentinel for automatic failover, but doesn't solve the problem of datasets larger than a single machine's memory. Replication is asynchronous by default. <strong>Redis Cluster</strong> is a distributed system that automatically shards (partitions) data across multiple master nodes using hash slots (16,384 slots divided among masters). Each master can have replicas for redundancy. Cluster enables horizontal scaling beyond single-machine memory limits and provides automatic failover without Sentinel. However, it has limitations: no multi-key operations across different hash slots, and more complex setup. Use replication when your dataset fits in memory and you need read scalability or high availability. Use Cluster when you need to scale beyond single-machine memory or want automatic sharding with high availability built-in.</p>",
               },
@@ -99948,7 +99966,13 @@ app.post('/api/posts', async (req, res) => {
           },
           {
             topic: "Redis Strings",
-            tags: ["Strings", "Counters", "Bitmaps", "Bitfields", "Binary-Safe"],
+            tags: [
+              "Strings",
+              "Counters",
+              "Bitmaps",
+              "Bitfields",
+              "Binary-Safe",
+            ],
             explanation: `<div>
              <p style="line-height: 1.75; margin-top: 1.5rem;">
                Redis Strings are the most basic and versatile data type in Redis. Despite being called "strings," they are binary-safe, meaning they can store any kind of data including text, integers, floats, serialized objects, images, or even binary data. Strings can be up to 512MB in size and support a rich set of operations beyond simple get/set.
@@ -100413,7 +100437,7 @@ app.post('/api/posts', async (req, res) => {
           }
           </code>
           </pre>
-          </div>`
+          </div>`,
             ],
             questions: [
               {
@@ -100436,10 +100460,11 @@ app.post('/api/posts', async (req, res) => {
           
           # Store compressed JSON
           SET cache:large:data "<gzipped json>"
-                </code></pre>`
+                </code></pre>`,
               },
               {
-                question: "When should I use bitmaps instead of sets or regular counters?",
+                question:
+                  "When should I use bitmaps instead of sets or regular counters?",
                 solution: `<p>Use bitmaps when you need to track binary states (present/absent, true/false) for items with numeric IDs, especially when the ID space is dense (sequential or mostly sequential).</p>
                 <p><strong>Use Bitmaps when:</strong></p>
                 <ul>
@@ -100462,10 +100487,11 @@ app.post('/api/posts', async (req, res) => {
                   <li>Need atomic increment/decrement operations</li>
                   <li>Values can be greater than 1</li>
                 </ul>
-                <p><strong>Memory comparison:</strong> For 1 million flags, a bitmap uses ~122KB while a set uses ~40MB - that's 99.7% memory savings!</p>`
+                <p><strong>Memory comparison:</strong> For 1 million flags, a bitmap uses ~122KB while a set uses ~40MB - that's 99.7% memory savings!</p>`,
               },
               {
-                question: "How do I implement distributed rate limiting with Redis strings?",
+                question:
+                  "How do I implement distributed rate limiting with Redis strings?",
                 solution: `<p>Distributed rate limiting can be implemented using Redis counters with atomic INCR operations and expiration. Here's a complete implementation:</p>
                 <pre><code className="language-javascript">
           // Fixed Window Rate Limiter
@@ -100560,7 +100586,7 @@ app.post('/api/posts', async (req, res) => {
             return { allowed: false, tokens: 0 };
           }
                 </code></pre>
-                <p>The fixed window approach is simplest but can allow burst traffic at window boundaries. The sliding window provides more accurate rate limiting but uses slightly more memory.</p>`
+                <p>The fixed window approach is simplest but can allow burst traffic at window boundaries. The sliding window provides more accurate rate limiting but uses slightly more memory.</p>`,
               },
               {
                 question: "What are bitfields and when should I use them?",
@@ -100593,8 +100619,8 @@ app.post('/api/posts', async (req, res) => {
           # Multiple sensor readings (4 sensors, 12-bit each)
           BITFIELD device:sensors SET u12 0 2048 SET u12 12 1024 SET u12 24 3072 SET u12 36 512
                 </code></pre>
-                <p><strong>Memory Savings Example:</strong> Storing 1000 player stats (3 values each) using bitfields uses ~3KB, while using separate keys would use ~100KB+ due to Redis overhead.</p>`
-              }
+                <p><strong>Memory Savings Example:</strong> Storing 1000 player stats (3 values each) using bitfields uses ~3KB, while using separate keys would use ~100KB+ due to Redis overhead.</p>`,
+              },
             ],
             links: [
               "https://redis.io/docs/data-types/strings/",
@@ -100603,12 +100629,18 @@ app.post('/api/posts', async (req, res) => {
               "https://redis.io/commands/bitfield/",
               "https://redis.io/docs/manual/patterns/twitter-clone/",
               "https://redis.io/docs/manual/patterns/distributed-locks/",
-              "https://medium.com/@stockholmux/learn-redis-the-hard-way-in-production-rate-limiting-with-redis-counters-9c042c97e0b8"
-            ]
+              "https://medium.com/@stockholmux/learn-redis-the-hard-way-in-production-rate-limiting-with-redis-counters-9c042c97e0b8",
+            ],
           },
           {
             topic: "Redis Lists",
-            tags: ["Lists", "Queues", "Stacks", "Blocking Operations", "Circular Lists"],
+            tags: [
+              "Lists",
+              "Queues",
+              "Stacks",
+              "Blocking Operations",
+              "Circular Lists",
+            ],
             explanation: `<div>
     <p style="line-height: 1.75; margin-top: 1.5rem;">
       Redis Lists are ordered collections of strings, sorted by insertion order. They are implemented as linked lists, making them extremely efficient for operations at the head and tail, regardless of list size. Lists support pushing and popping elements from both ends, making them ideal for implementing queues, stacks, and many other data structures.
@@ -101470,11 +101502,12 @@ setInterval(async () => {
 const allServers = await balancer.getAllServers();
 console.log('All servers:', allServers);
       </code></pre>
-    </div>`
+    </div>`,
             ],
             questions: [
               {
-                question: "What's the difference between RPOPLPUSH and LMOVE, and when should I use each?",
+                question:
+                  "What's the difference between RPOPLPUSH and LMOVE, and when should I use each?",
                 solution: `<p>Both commands atomically move elements between lists, but they have different capabilities and use cases.</p>
       <p><strong>RPOPLPUSH:</strong></p>
       <ul>
@@ -101501,10 +101534,11 @@ LMOVE queue1 queue2 LEFT LEFT    # Move head to head
 LMOVE queue1 queue2 RIGHT RIGHT  # Move tail to tail
       </code></pre>
       <p><strong>Use RPOPLPUSH when:</strong> You need backward compatibility or only need the standard right-to-left movement.</p>
-      <p><strong>Use LMOVE when:</strong> You need Redis 6.2+ and want flexibility in movement direction or more complex rotation patterns.</p>`
+      <p><strong>Use LMOVE when:</strong> You need Redis 6.2+ and want flexibility in movement direction or more complex rotation patterns.</p>`,
               },
               {
-                question: "How do I implement a priority queue using Redis Lists?",
+                question:
+                  "How do I implement a priority queue using Redis Lists?",
                 solution: `<p>Redis doesn't have a native priority queue, but you can implement one using multiple lists for different priority levels or use Sorted Sets for more complex priority schemes.</p>
       <p><strong>Method 1: Multiple Lists (Simple, Fast)</strong></p>
       <pre><code className="language-javascript">
@@ -101584,10 +101618,11 @@ if (jobs.length) {
   const job = JSON.parse(jobs[0]);
   await client.zRem('priority:queue', jobs[0]);
 }
-      </code></pre>`
+      </code></pre>`,
               },
               {
-                question: "How can I prevent memory issues with unbounded lists?",
+                question:
+                  "How can I prevent memory issues with unbounded lists?",
                 solution: `<p>Unbounded lists can grow indefinitely and consume all available memory. Here are strategies to prevent this:</p>
       <p><strong>1. Use LTRIM for Capped Lists</strong></p>
       <pre><code className="language-javascript">
@@ -101654,10 +101689,11 @@ setInterval(async () => {
   }
 }, 3600000); // Every hour
       </code></pre>
-      <p><strong>Best Practice:</strong> Always cap lists that can grow indefinitely, monitor queue depths, and set appropriate TTLs for temporary data.</p>`
+      <p><strong>Best Practice:</strong> Always cap lists that can grow indefinitely, monitor queue depths, and set appropriate TTLs for temporary data.</p>`,
               },
               {
-                question: "What's the best way to implement a reliable job queue that handles failures?",
+                question:
+                  "What's the best way to implement a reliable job queue that handles failures?",
                 solution: `<p>A reliable job queue must handle worker crashes, network failures, and processing errors. Here's a comprehensive implementation:</p>
       <pre><code className="language-javascript">
 class ReliableJobQueue {
@@ -101849,8 +101885,8 @@ setInterval(async () => {
         <li>Stuck job recovery</li>
         <li>Processing timeouts</li>
         <li>Comprehensive error handling</li>
-      </ul>`
-              }
+      </ul>`,
+              },
             ],
             links: [
               "https://redis.io/docs/data-types/lists/",
@@ -101859,12 +101895,18 @@ setInterval(async () => {
               "https://redis.io/commands/blpop/",
               "https://redis.io/docs/manual/patterns/distributed-locks/",
               "https://redislabs.com/ebook/part-2-core-concepts/chapter-6-application-components-in-redis/6-4-task-queues/",
-              "https://github.com/OptimalBits/bull"
-            ]
+              "https://github.com/OptimalBits/bull",
+            ],
           },
           {
             topic: "Redis Sets",
-            tags: ["Sets", "Set Operations", "Unique Values", "Membership", "Set Algebra"],
+            tags: [
+              "Sets",
+              "Set Operations",
+              "Unique Values",
+              "Membership",
+              "Set Algebra",
+            ],
             explanation: `<div>
     <p style="line-height: 1.75; margin-top: 1.5rem;">
       Redis Sets are unordered collections of unique strings. They are perfect for representing relationships, tracking unique items, and performing set algebra operations like unions, intersections, and differences. Sets are implemented using hash tables, providing O(1) lookups and insertions regardless of set size.
@@ -103118,11 +103160,12 @@ const segments = await analytics.getUserSegmentation({
 });
 console.log('Segments:', segments);
       </code></pre>
-    </div>`
+    </div>`,
             ],
             questions: [
               {
-                question: "When should I use Sets instead of Lists or Sorted Sets?",
+                question:
+                  "When should I use Sets instead of Lists or Sorted Sets?",
                 solution: `<p>Choose the right data structure based on your specific requirements:</p>
       <p><strong>Use Sets when:</strong></p>
       <ul>
@@ -103158,10 +103201,11 @@ SISMEMBER users:online "user123"
 # Sorted Sets: O(log N) membership test
 ZSCORE leaderboard "player123"
       </code></pre>
-      <p><strong>Memory Overhead:</strong> Sets use more memory than bitmaps for dense numeric IDs but less than lists (no ordering overhead) and less than sorted sets (no scores stored).</p>`
+      <p><strong>Memory Overhead:</strong> Sets use more memory than bitmaps for dense numeric IDs but less than lists (no ordering overhead) and less than sorted sets (no scores stored).</p>`,
               },
               {
-                question: "How do I efficiently implement multi-criteria filtering with Sets?",
+                question:
+                  "How do I efficiently implement multi-criteria filtering with Sets?",
                 solution: `<p>Multi-criteria filtering is one of the most powerful uses of Redis Sets. Use set intersections to find items matching ALL criteria, and unions for items matching ANY criteria.</p>
       <p><strong>Method 1: Pre-computed Index Sets</strong></p>
       <pre><code className="language-javascript">
@@ -103314,7 +103358,7 @@ const results = await cachedFilter(
         <li>Cache frequently used filter combinations</li>
         <li>Use SINTERCARD (Redis 7.0+) if you only need the count</li>
         <li>Clean up temporary sets to avoid memory leaks</li>
-      </ul>`
+      </ul>`,
               },
               {
                 question: "How can I avoid SMEMBERS blocking on large sets?",
@@ -103493,10 +103537,11 @@ for await (const userId of streamSetMembers('huge:user:set')) {
         <li>Set appropriate COUNT hint (100-1000) based on member size</li>
         <li>Use SCARD first to check set size before deciding approach</li>
         <li>Consider caching frequently accessed large sets</li>
-      </ul>`
+      </ul>`,
               },
               {
-                question: "What's the best way to implement a recommendation system using Sets?",
+                question:
+                  "What's the best way to implement a recommendation system using Sets?",
                 solution: `<p>Redis Sets are excellent for building recommendation systems using collaborative filtering and set operations. Here's a comprehensive implementation:</p>
       <pre><code className="language-javascript">
 class RecommendationEngine {
@@ -103749,8 +103794,8 @@ console.log('Trending items:', trending);
         <li>Use sorted sets for trending items (better for time-based decay)</li>
         <li>Precompute recommendations for active users during off-peak hours</li>
         <li>Use Lua scripts to reduce network round trips</li>
-      </ul>`
-              }
+      </ul>`,
+              },
             ],
             links: [
               "https://redis.io/docs/data-types/sets/",
@@ -103760,13 +103805,19 @@ console.log('Trending items:', trending);
               "https://redis.io/commands/sdiff/",
               "https://redis.io/commands/sscan/",
               "https://redis.io/docs/manual/patterns/twitter-clone/",
-              "https://redis.com/blog/redis-sets-explained/"
-            ]
+              "https://redis.com/blog/redis-sets-explained/",
+            ],
           },
           {
-            "topic": "Redis Sorted Sets",
-            "tags": ["sorted-sets", "ranking", "time-series", "priority-queues", "zset"],
-            "explanation": `< div >
+            topic: "Redis Sorted Sets",
+            tags: [
+              "sorted-sets",
+              "ranking",
+              "time-series",
+              "priority-queues",
+              "zset",
+            ],
+            explanation: `< div >
      <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
        Redis Sorted Sets (ZSETs) are one of the most powerful and versatile data structures in Redis. They combine the uniqueness of Sets with the ordering capability of Lists by associating each member with a score. This enables efficient ranking, range queries, and priority-based operations with logarithmic time complexity.
      </p>
@@ -104054,7 +104105,7 @@ console.log('Trending items:', trending);
        <p style="margin: 0.5rem 0 0 0; line-height: 1.6;"><strong>Solution:</strong> Use Sorted Sets for global leaderboards (ZADD, ZREVRANGE), player skill ratings (ZSCORE, ZRANK), matchmaking queues (ZRANGEBYSCORE for similar skill), and achievement tracking with timestamps.</p>
      </div>
   </div > `,
-            "examples": [
+            examples: [
               `
   < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
     <pre><code className="language-javascript">
@@ -104185,12 +104236,13 @@ console.log('Trending items:', trending);
     </code>
     </pre>
   </div >
-  `
+  `,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are the practical differences between using Redis Sorted Sets versus Redis Streams for time-series data, and when should you choose one over the other?",
-                "solution": `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
+                question:
+                  "What are the practical differences between using Redis Sorted Sets versus Redis Streams for time-series data, and when should you choose one over the other?",
+                solution: `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
     <h4 style="margin-top: 0;">Sorted Sets vs Streams for Time-Series Data</h4>
     
     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0;">
@@ -104262,11 +104314,12 @@ console.log('Trending items:', trending);
         <li><strong>Hybrid approach:</strong> Use Streams for ingestion and Sorted Sets for querying when both are needed</li>
       </ul>
     </div>
-  </div > `
+  </div > `,
               },
               {
-                "question": "How does Redis handle members with identical scores in Sorted Sets, and what strategies can be used to ensure deterministic ordering?",
-                "solution": `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
+                question:
+                  "How does Redis handle members with identical scores in Sorted Sets, and what strategies can be used to ensure deterministic ordering?",
+                solution: `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
     <h4 style="margin-top: 0;">Handling Identical Scores in Sorted Sets</h4>
     
     <h5 style="margin: 1rem 0 0.5rem 0;">Redis Default Behavior</h5>
@@ -104346,22 +104399,29 @@ console.log('Trending items:', trending);
     <div style="background: #fff3cd; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
       <strong>Best Practice:</strong> For most applications, using composite scores (primary.secondary) provides the best balance of performance and flexibility. Ensure your secondary criteria are properly normalized to avoid overlapping with different primary scores.
     </div>
-  </div > `
-              }
+  </div > `,
+              },
             ],
-            "links": [
+            links: [
               "https://redis.io/docs/data-types/sorted-sets/",
               "https://redis.io/commands/zadd/",
               "https://redis.io/commands/zrange/",
               "https://redis.io/commands/zrangebyscore/",
               "https://redis.io/commands/zunionstore/",
-              "https://redis.io/commands/zinterstore/"
-            ]
+              "https://redis.io/commands/zinterstore/",
+            ],
           },
           {
-            "topic": "Redis Hashes",
-            "tags": ["hashes", "object-storage", "field-value", "hset", "hget", "memory-optimization"],
-            "explanation": `
+            topic: "Redis Hashes",
+            tags: [
+              "hashes",
+              "object-storage",
+              "field-value",
+              "hset",
+              "hget",
+              "memory-optimization",
+            ],
+            explanation: `
      <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
        Redis Hashes are field-value maps that provide an efficient way to store objects with multiple attributes. They are perfect for representing objects like user profiles, product catalogs, or configuration settings, allowing you to access, update, or retrieve individual fields without transferring the entire object.
      </p>
@@ -104666,7 +104726,7 @@ console.log('Trending items:', trending);
        </div>
      </div>
   </div > `,
-            "examples": [
+            examples: [
               `
   < div style = "padding: 2px; border-radius: 8px; font-size: 14px;" >
     <pre><code className="language-javascript">
@@ -104840,12 +104900,13 @@ console.log('Trending items:', trending);
     </code>
     </pre>
   </div >
-  `
+  `,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are the memory implications of using HGETALL on large Redis Hashes, and what are the recommended alternatives for iterating through large hash objects?",
-                "solution": `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
+                question:
+                  "What are the memory implications of using HGETALL on large Redis Hashes, and what are the recommended alternatives for iterating through large hash objects?",
+                solution: `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
     <h4 style="margin-top: 0;">HGETALL Performance and Alternatives for Large Hashes</h4>
     
     <h5 style="margin: 1rem 0 0.5rem 0;">HGETALL Limitations with Large Hashes</h5>
@@ -104917,11 +104978,12 @@ console.log('Trending items:', trending);
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break
       </div>
     </div>
-  </div > `
+  </div > `,
               },
               {
-                "question": "How does Redis optimize memory usage for small hashes using ziplist encoding, and what configuration parameters control this optimization?",
-                "solution": `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
+                question:
+                  "How does Redis optimize memory usage for small hashes using ziplist encoding, and what configuration parameters control this optimization?",
+                solution: `< div style = "background: #f8f9fa; padding: 1.5rem; border-radius: 8px;" >
     <h4 style="margin-top: 0;">Ziplist Encoding for Memory Optimization</h4>
     
     <h5 style="margin: 1rem 0 0.5rem 0;">Ziplist Structure and Benefits</h5>
@@ -105023,17 +105085,17 @@ console.log('Trending items:', trending);
       </div>
       <p style="margin: 0.5rem 0 0 0;">Adjust configuration based on monitoring data and performance requirements.</p>
     </div>
-  </div > `
-              }
+  </div > `,
+              },
             ],
-            "links": [
+            links: [
               "https://redis.io/docs/data-types/hashes/",
               "https://redis.io/commands/hset/",
               "https://redis.io/commands/hget/",
               "https://redis.io/commands/hgetall/",
               "https://redis.io/commands/hscan/",
-              "https://redis.io/topics/memory-optimization"
-            ]
+              "https://redis.io/topics/memory-optimization",
+            ],
           },
           {
             topic: "Redis Specialized Data Structures",
@@ -105343,7 +105405,7 @@ console.log('Trending items:', trending);
     </code>
     </pre>
           </div >
-  `
+  `,
             ],
             questions: [
               {
@@ -105362,10 +105424,11 @@ console.log('Trending items:', trending);
                   <li>You need to store the actual member values</li>
                   <li>You need set operations like intersection, union with other data</li>
                   <li>Sparse data (few items relative to ID range)</li>
-                </ul>`
+                </ul>`,
               },
               {
-                question: "What's the trade-off of using HyperLogLog for counting?",
+                question:
+                  "What's the trade-off of using HyperLogLog for counting?",
                 solution: `< p > HyperLogLog provides approximate counting with a standard error of 0.81 %, using only 12KB of memory regardless of the number of unique elements.The trade - off is accuracy for memory efficiency.</p >
                 <p><strong>Advantages:</strong></p>
                 <ul>
@@ -105381,7 +105444,7 @@ console.log('Trending items:', trending);
                   <li>Cannot remove elements once added</li>
                   <li>Not suitable when exact counts are required</li>
                 </ul>
-                <p>Use HyperLogLog when approximate counts are acceptable and memory efficiency is important, such as counting unique visitors, page views, or distinct events in analytics systems.</p>`
+                <p>Use HyperLogLog when approximate counts are acceptable and memory efficiency is important, such as counting unique visitors, page views, or distinct events in analytics systems.</p>`,
               },
               {
                 question: "How do Redis Streams differ from Pub/Sub?",
@@ -105422,10 +105485,11 @@ console.log('Trending items:', trending);
                     </tr>
                   </tbody>
                 </table>
-                <p style="margin-top: 1rem;">Use Streams when you need guaranteed delivery, message history, and multiple consumers processing the same messages. Use Pub/Sub for simple real-time broadcasting where message loss is acceptable.</p>`
+                <p style="margin-top: 1rem;">Use Streams when you need guaranteed delivery, message history, and multiple consumers processing the same messages. Use Pub/Sub for simple real-time broadcasting where message loss is acceptable.</p>`,
               },
               {
-                question: "Can you provide a real-world example using Geospatial indexes?",
+                question:
+                  "Can you provide a real-world example using Geospatial indexes?",
                 solution: `< p > Here's a practical example of building a ride-sharing app's driver - matching system using Redis Geospatial indexes:</p>
                 <pre><code className="language-javascript">
           // Add available drivers to the geospatial index
@@ -105468,8 +105532,8 @@ console.log('Trending items:', trending);
             });
           }
                 </code></pre>
-                <p>This system efficiently finds the 5 nearest drivers within 5km of the user's location, with sub-millisecond query performance even with thousands of active drivers.</p>`
-              }
+                <p>This system efficiently finds the 5 nearest drivers within 5km of the user's location, with sub-millisecond query performance even with thousands of active drivers.</p>`,
+              },
             ],
             links: [
               "https://redis.io/docs/data-types/bitmaps/",
@@ -105477,8 +105541,8 @@ console.log('Trending items:', trending);
               "https://redis.io/docs/data-types/geospatial/",
               "https://redis.io/docs/data-types/streams/",
               "https://redis.io/docs/data-types/",
-              "https://medium.com/@stockholmux/redis-streams-in-action-part-1-intro-and-overview-135f66d3ab58"
-            ]
+              "https://medium.com/@stockholmux/redis-streams-in-action-part-1-intro-and-overview-135f66d3ab58",
+            ],
           },
           {
             topic: "Basic Redis Commands & Operations",
@@ -105698,12 +105762,14 @@ async function counterExample() {
             ],
             questions: [
               {
-                question: "What is the difference between DEL and UNLINK commands?",
+                question:
+                  "What is the difference between DEL and UNLINK commands?",
                 solution:
                   "<p>DEL is a blocking command that removes keys synchronously, which can cause performance issues with large keys. UNLINK is non-blocking and removes keys asynchronously in a different thread, making it safer for production use when deleting large data structures. UNLINK returns immediately while the actual deletion happens in the background.</p>",
               },
               {
-                question: "When should you use EXPIRE vs setting expiration with SET?",
+                question:
+                  "When should you use EXPIRE vs setting expiration with SET?",
                 solution:
                   "<p>Use the EX or PX options with SET when creating a new key with expiration in a single atomic operation (e.g., SET key value EX 3600). Use EXPIRE as a separate command when you need to add or modify the expiration time of an existing key. The SET option is more efficient as it's a single operation, while EXPIRE requires a separate command.</p>",
               },
@@ -105718,7 +105784,8 @@ async function counterExample() {
             <p style="margin-top: 0.5rem;">You can use PTTL to get the result in milliseconds instead of seconds.</p>`,
               },
               {
-                question: "Why should you avoid using KEYS command in production?",
+                question:
+                  "Why should you avoid using KEYS command in production?",
                 solution:
                   "<p>The KEYS command blocks the Redis server while it scans through all keys in the database to find matches. This can cause significant performance degradation in production environments with large datasets. Instead, use the SCAN command, which iteratively returns keys in chunks without blocking the server, allowing other operations to proceed concurrently.</p>",
               },
@@ -105732,7 +105799,12 @@ async function counterExample() {
           },
           {
             topic: "String Operations",
-            tags: ["Strings", "Counters", "Atomic Operations", "Text Manipulation"],
+            tags: [
+              "Strings",
+              "Counters",
+              "Atomic Operations",
+              "Text Manipulation",
+            ],
             explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem;">
      Redis strings are the most basic data type in Redis, representing sequences of bytes. Despite being called "strings", they can store any kind of data including text, integers, floats, serialized objects, and even binary data like images. String values can be up to 512 MB in size.
@@ -105983,7 +106055,8 @@ async function trackEvent(eventName) {
             ],
             questions: [
               {
-                question: "What happens if you use INCR on a non-integer value?",
+                question:
+                  "What happens if you use INCR on a non-integer value?",
                 solution:
                   "<p>If you try to use INCR or DECR on a key that contains a value that cannot be represented as an integer, Redis will return an error: '(error) ERR value is not an integer or out of range'. The operation will fail and the value will remain unchanged. Always ensure the key contains a valid integer before using increment/decrement operations.</p>",
               },
@@ -106458,17 +106531,20 @@ async function stackExample() {
                   "<p>LPUSH inserts elements at the head (left/beginning) of the list, while RPUSH inserts elements at the tail (right/end) of the list. When using LPUSH, the most recently added element becomes the first element (index 0). With RPUSH, newly added elements are appended to the end. The choice depends on your use case: use LPUSH for stacks or when you want newest items first (like activity feeds), and RPUSH for queues where you want to maintain insertion order.</p>",
               },
               {
-                question: "How do you implement a FIFO queue using Redis Lists?",
+                question:
+                  "How do you implement a FIFO queue using Redis Lists?",
                 solution:
                   "<p>To implement a FIFO (First In, First Out) queue, use RPUSH to add items to the tail of the list and LPOP to remove items from the head. This ensures that the first item added is the first one removed. For example: RPUSH queue:jobs 'task1', RPUSH queue:jobs 'task2', then LPOP queue:jobs returns 'task1'. For a more robust queue with blocking capability, use BRPOP instead of LPOP, which waits for items to become available rather than returning immediately when the list is empty.</p>",
               },
               {
-                question: "Why is LRANGE more efficient than multiple LINDEX calls?",
+                question:
+                  "Why is LRANGE more efficient than multiple LINDEX calls?",
                 solution:
                   "<p>LRANGE retrieves multiple elements in a single operation with O(S+N) complexity, where S is the start offset and N is the number of elements. Multiple LINDEX calls would require separate network round-trips for each element, resulting in higher latency and network overhead. Additionally, LINDEX has O(N) complexity for each call where N is the traversal distance. For retrieving consecutive elements, LRANGE is significantly more efficient both in terms of time complexity and network communication.</p>",
               },
               {
-                question: "What happens when you LPOP or RPOP from an empty list?",
+                question:
+                  "What happens when you LPOP or RPOP from an empty list?",
                 solution:
                   "<p>When you call LPOP or RPOP on an empty list or a non-existent key, Redis returns nil (null). The key is not created, and no error is thrown. This behavior allows you to safely poll empty queues. If you want to wait for elements instead of getting nil immediately, use the blocking variants BLPOP or BRPOP, which will wait for a specified timeout until an element becomes available or the timeout expires.</p>",
               },
@@ -106986,17 +107062,20 @@ async function findCommonInterestsExample(user1Id, user2Id) {
             ],
             questions: [
               {
-                question: "What is the difference between SMEMBERS and SISMEMBER?",
+                question:
+                  "What is the difference between SMEMBERS and SISMEMBER?",
                 solution:
                   "<p>SMEMBERS returns all members of a set as an array and has O(N) complexity, making it expensive for large sets. SISMEMBER checks if a specific member exists in the set and returns 1 (true) or 0 (false) with O(1) complexity. Use SISMEMBER when you only need to check membership, and reserve SMEMBERS for small sets or when you actually need all members. For iterating through large sets, use SSCAN instead of SMEMBERS to avoid blocking the server.</p>",
               },
               {
-                question: "How do you find common elements between multiple sets?",
+                question:
+                  "How do you find common elements between multiple sets?",
                 solution:
                   "<p>Use the SINTER command followed by multiple set keys to find the intersection (common elements). For example: SINTER set1 set2 set3 returns only elements that exist in all three sets. The time complexity is O(N*M) where N is the cardinality of the smallest set and M is the number of sets. If you need to use the result multiple times, use SINTERSTORE to save the intersection to a new key, avoiding repeated computation.</p>",
               },
               {
-                question: "When should you use SDIFF versus SINTER for set comparisons?",
+                question:
+                  "When should you use SDIFF versus SINTER for set comparisons?",
                 solution:
                   "<p>Use SINTER when you want elements common to all sets (intersection), such as finding users who like both Product A AND Product B. Use SDIFF when you want elements in the first set but not in subsequent sets (difference), such as finding users who like Product A but NOT Product B. SDIFF is particularly useful for exclusion queries like 'find users who have permission X but not permission Y' or 'new visitors who didn't visit yesterday'.</p>",
               },
@@ -107006,7 +107085,8 @@ async function findCommonInterestsExample(user1Id, user2Id) {
                   "<p>SRANDMEMBER returns random elements without removing them from the set, while SPOP removes elements. Use SRANDMEMBER when you need random sampling but want to preserve the set, such as showing random product recommendations, selecting random items for display, or A/B testing user groups. Use SPOP when you need to consume elements, such as distributing tasks, selecting lottery winners, or implementing a random draw where each element can only be selected once.</p>",
               },
               {
-                question: "How can you implement a simple recommendation system using Redis Sets?",
+                question:
+                  "How can you implement a simple recommendation system using Redis Sets?",
                 solution:
                   "<p>Store user interests or item tags as sets. For collaborative filtering, find users with similar interests using SINTER to identify common tags, then use SDIFF to recommend items they have that the target user doesn't. For example: SINTER user:123:interests user:456:interests finds common interests. Then SDIFF user:456:interests user:123:interests shows what user456 likes that user123 doesn't, which could be recommendations. You can also use SUNION to aggregate all interests from similar users for broader recommendations.</p>",
               },
@@ -107018,9 +107098,17 @@ async function findCommonInterestsExample(user1Id, user2Id) {
             ],
           },
           {
-            "topic": "Hash Operations",
-            "tags": ["hash-operations", "hset", "hget", "hmget", "hgetall", "hincrby", "field-operations"],
-            "explanation": `<div>
+            topic: "Hash Operations",
+            tags: [
+              "hash-operations",
+              "hset",
+              "hget",
+              "hmget",
+              "hgetall",
+              "hincrby",
+              "field-operations",
+            ],
+            explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
      Redis Hash operations provide powerful tools for manipulating field-value pairs within hash objects. Each operation serves specific use cases with different performance characteristics, from single-field updates to batch operations and atomic counters.
    </p>
@@ -107392,7 +107480,7 @@ async function findCommonInterestsExample(user1Id, user2Id) {
      <p style="margin: 0.5rem 0 0 0; line-height: 1.6;"><strong>Solution:</strong> Use HSET for user profile updates, HMGET for retrieving user preferences, HINCRBY for atomic counter updates (page views, cart additions), and HGETALL for small configuration hashes. Avoid HGETALL for large user activity hashes, using HSCAN instead.</p>
    </div>
 </div>`,
-            "examples": [
+            examples: [
               `# =================================
 # REDIS HASH OPERATIONS EXAMPLES
 # =================================
@@ -107544,12 +107632,13 @@ name, email, age = HMGET user:1001 name email age
 
 # Even better for multiple updates: HSET with multiple fields
 HSET user:1001 name "Alice" email "alice@example.com" age 29
-# Single command for multiple updates`
+# Single command for multiple updates`,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are the performance implications of using HGETALL versus HMGET for retrieving data from large Redis hashes, and when should you choose one over the other?",
-                "solution": `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                question:
+                  "What are the performance implications of using HGETALL versus HMGET for retrieving data from large Redis hashes, and when should you choose one over the other?",
+                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
   <h4 style="margin-top: 0;">HGETALL vs HMGET Performance Analysis</h4>
   
   <h5 style="margin: 1rem 0 0.5rem 0;">Performance Characteristics Comparison</h5>
@@ -107649,11 +107738,12 @@ HSET user:1001 name "Alice" email "alice@example.com" age 29
       <li><strong>Unknown fields needed:</strong> HSCAN is your only option for large hashes</li>
     </ul>
   </div>
-</div>`
+</div>`,
               },
               {
-                "question": "How does HINCRBY ensure atomicity in concurrent environments, and what are the practical implications for building distributed systems?",
-                "solution": `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                question:
+                  "How does HINCRBY ensure atomicity in concurrent environments, and what are the practical implications for building distributed systems?",
+                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
   <h4 style="margin-top: 0;">HINCRBY Atomicity and Distributed Systems</h4>
   
   <h5 style="margin: 1rem 0 0.5rem 0;">Atomic Operation Guarantees</h5>
@@ -107759,22 +107849,31 @@ HSET user:1001 name "Alice" email "alice@example.com" age 29
   <div style="background: #d4edda; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
     <strong>Best Practice:</strong> Always use HINCRBY for counter operations in distributed systems. It eliminates race conditions without requiring complex locking mechanisms and provides predictable performance under concurrent access patterns.
   </div>
-</div>`
-              }
+</div>`,
+              },
             ],
-            "links": [
+            links: [
               "https://redis.io/commands/hset/",
               "https://redis.io/commands/hget/",
               "https://redis.io/commands/hmget/",
               "https://redis.io/commands/hgetall/",
               "https://redis.io/commands/hincrby/",
-              "https://redis.io/topics/pipelining"
-            ]
+              "https://redis.io/topics/pipelining",
+            ],
           },
           {
-            "topic": "Sorted Set Operations",
-            "tags": ["sorted-set-operations", "zadd", "zrange", "zrank", "zincrby", "zrem", "ranking", "leaderboards"],
-            "explanation": `<div>
+            topic: "Sorted Set Operations",
+            tags: [
+              "sorted-set-operations",
+              "zadd",
+              "zrange",
+              "zrank",
+              "zincrby",
+              "zrem",
+              "ranking",
+              "leaderboards",
+            ],
+            explanation: `<div>
    <p style="line-height: 1.75; margin-top: 1.5rem; font-size: 1.1rem;">
      Redis Sorted Set operations provide powerful tools for managing ordered collections with scores. These operations enable efficient ranking systems, leaderboards, range queries, and priority queues with logarithmic time complexity for most operations.
    </p>
@@ -108148,7 +108247,7 @@ HSET user:1001 name "Alice" email "alice@example.com" age 29
      <p style="margin: 0.5rem 0 0 0; line-height: 1.6;"><strong>Solution:</strong> Use ZADD for initial player registration, ZINCRBY for atomic score updates during gameplay, ZRANGE for leaderboard displays, ZRANK for individual player positioning, and ZREM for player removal or cleanup. Implement pagination with ZRANGE to handle large player bases efficiently.</p>
    </div>
 </div>`,
-            "examples": [
+            examples: [
               `# =================================
 # REDIS SORTED SET OPERATIONS EXAMPLES
 # =================================
@@ -108309,12 +108408,13 @@ ZRANGE empty:sorted:set 0 -1                    # Returns: (empty list or set)
 ZRANK empty:sorted:set "any:member"             # Returns: (nil)
 
 # Handling invalid scores
-ZADD leaderboard "not_a_number" "player:test"   # Returns: error`
+ZADD leaderboard "not_a_number" "player:test"   # Returns: error`,
             ],
-            "questions": [
+            questions: [
               {
-                "question": "What are the performance differences between using ZADD with INCR option versus ZINCRBY for score updates, and when should you choose one over the other?",
-                "solution": `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                question:
+                  "What are the performance differences between using ZADD with INCR option versus ZINCRBY for score updates, and when should you choose one over the other?",
+                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
   <h4 style="margin-top: 0;">ZADD INCR vs ZINCRBY Performance Analysis</h4>
   
   <h5 style="margin: 1rem 0 0.5rem 0;">Technical Comparison</h5>
@@ -108416,11 +108516,12 @@ ZADD leaderboard "not_a_number" "player:test"   # Returns: error`
   <div style="background: #d1ecf1; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
     <strong>Recommendation:</strong> Use ZINCRBY for simple increment operations as it clearly communicates intent. Use ZADD with INCR when you need to combine increment operations with other ZADD options like NX, XX, or CH for conditional logic.
   </div>
-</div>`
+</div>`,
               },
               {
-                "question": "How does Redis handle members with identical scores in sorted sets, and what strategies can be used to ensure deterministic ordering for ranking systems?",
-                "solution": `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
+                question:
+                  "How does Redis handle members with identical scores in sorted sets, and what strategies can be used to ensure deterministic ordering for ranking systems?",
+                solution: `<div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px;">
   <h4 style="margin-top: 0;">Handling Identical Scores and Deterministic Ordering</h4>
   
   <h5 style="margin: 1rem 0 0.5rem 0;">Redis Default Behavior for Ties</h5>
@@ -108543,20 +108644,2525 @@ ZADD leaderboard "not_a_number" "player:test"   # Returns: error`
   <div style="background: #d4edda; padding: 1rem; border-radius: 4px; margin-top: 1rem;">
     <strong>Best Practice:</strong> For most ranking systems, use composite scores with floating-point precision for tie-breaking. This approach maintains Redis's efficient ordering while providing deterministic results. Ensure your secondary criteria are properly normalized to avoid interfering with different primary score ranges.
   </div>
-</div>`
-              }
+</div>`,
+              },
             ],
-            "links": [
+            links: [
               "https://redis.io/commands/zadd/",
               "https://redis.io/commands/zrange/",
               "https://redis.io/commands/zrank/",
               "https://redis.io/commands/zincrby/",
               "https://redis.io/commands/zrem/",
-              "https://redis.io/topics/data-types-sorted-sets"
-            ]
+              "https://redis.io/topics/data-types-sorted-sets",
+            ],
           },
-        ]
+        ],
       },
-    ]
+    ],
+  },
+  {
+    id: 13,
+    category: "nest",
+    themeBgColor: "#FFF0F5",
+    textColor: "#8B0045",
+    topicColor: "#8B0045",
+    lightColor: "#FFF0F5",
+    type: [
+      {
+        id: 1,
+        label: "Beginner",
+        concepts: [
+          {
+            topic: "NestJS Architecture",
+            tags: ["Framework", "TypeScript", "Modular", "Enterprise"],
+            explanation: `<div>
+     <p style="line-height: 1.75; margin-top: 1.5rem;">
+       NestJS is a progressive Node.js framework built with TypeScript that provides a robust architecture for building efficient, scalable, and maintainable server-side applications. Created by Kamil Myśliwiec in 2017, NestJS combines elements of Object-Oriented Programming (OOP), Functional Programming (FP), and Functional Reactive Programming (FRP). It's heavily inspired by Angular's architecture, making it instantly familiar to Angular developers while providing a structured approach to Node.js development. Under the hood, NestJS uses Express by default (with optional Fastify support) but abstracts the implementation details, allowing you to write platform-agnostic code.
+     </p>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Why Use NestJS?
+     </h4>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">TypeScript First:</span> Built with TypeScript from the ground up, providing strong typing, better IDE support, and catching errors at compile-time rather than runtime. TypeScript is optional but highly recommended.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Modular Architecture:</span> Organizes code into cohesive modules that encapsulate related functionality, promoting separation of concerns and making large applications manageable and testable.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Powerful Dependency Injection:</span> Built-in IoC (Inversion of Control) container manages dependencies automatically, making code more testable and reducing coupling between components.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Decorator-Based Syntax:</span> Uses TypeScript decorators extensively for clean, declarative code that's easy to read and maintain. Decorators define routes, inject dependencies, apply middleware, and more.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Enterprise-Ready:</span> Comes with built-in support for testing, microservices, GraphQL, WebSockets, caching, validation, serialization, authentication, and more - everything needed for production applications.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Platform Agnostic:</span> Abstracts HTTP implementation (Express/Fastify), allowing you to switch platforms without rewriting business logic. Perfect for microservices and REST APIs.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Outstanding Documentation:</span> Comprehensive official documentation with examples, recipes, and guides covering almost every use case.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Active Ecosystem:</span> Rich ecosystem with official packages for databases (TypeORM, Mongoose, Prisma), authentication (Passport), GraphQL, microservices, and more.
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       NestJS Architecture - Core Concepts
+     </h4>
+     
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       NestJS follows a layered architecture with clear separation of concerns. The request flows through multiple layers: Middleware → Guards → Interceptors (before) → Pipes → Controller → Service → Interceptors (after) → Filters (if exception). Each layer has a specific responsibility, making the code predictable and maintainable.
+     </p>
+  
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Modules:</span> The fundamental building blocks that organize application structure. Each module encapsulates related controllers, providers, and imports. Modules can import other modules, export providers for reuse, and define dependencies clearly.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Controllers:</span> Handle incoming HTTP requests and return responses. Controllers are responsible for routing, request validation, and delegating business logic to services. They use decorators like @Controller, @Get, @Post for defining routes.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Providers (Services):</span> The core business logic layer. Providers can be services, repositories, factories, helpers, or any value that can be injected. They're marked with @Injectable() and managed by NestJS's DI container.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Middleware:</span> Functions executed before route handlers. Used for logging, authentication, CORS, body parsing, etc. Can modify request/response objects and call next() to pass control.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Guards:</span> Determine whether a request should be handled by the route handler based on runtime conditions (authentication, authorization, roles). Execute after middleware but before interceptors.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Interceptors:</span> Powerful feature for transforming results, handling exceptions, extending behavior, and implementing cross-cutting concerns like logging, caching, and timeouts. Can execute logic before and after handler execution.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Pipes:</span> Transform and validate incoming data before it reaches the route handler. Used for data transformation (string to number) and validation (using class-validator).
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600; font-size: 1.1rem;">Exception Filters:</span> Handle exceptions thrown during request processing. Can catch specific exceptions and transform them into appropriate HTTP responses.
+       </li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Basic NestJS Application Structure
+     </h4>
+     <div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+  // main.ts - Application entry point
+  import { NestFactory } from '@nestjs/core';
+  import { ValidationPipe } from '@nestjs/common';
+  import { AppModule } from './app.module';
+  
+  async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+    
+    // Enable global validation pipe
+    app.useGlobalPipes(new ValidationPipe({
+      whitelist: true, // Strip properties not in DTO
+      forbidNonWhitelisted: true, // Throw error for unknown properties
+      transform: true, // Transform to DTO class instances
+    }));
+    
+    // Enable CORS
+    app.enableCors();
+    
+    // Set global prefix
+    app.setGlobalPrefix('api/v1');
+    
+    await app.listen(3000);
+    console.log(\`Application is running on: \${await app.getUrl()}\`);
   }
+  bootstrap();
+  
+  // app.module.ts - Root module
+  import { Module } from '@nestjs/common';
+  import { ConfigModule } from '@nestjs/config';
+  import { UsersModule } from './users/users.module';
+  import { ProductsModule } from './products/products.module';
+  import { AuthModule } from './auth/auth.module';
+  import { DatabaseModule } from './database/database.module';
+  
+  @Module({
+    imports: [
+      // Configuration module
+      ConfigModule.forRoot({
+        isGlobal: true, // Make config available globally
+        envFilePath: '.env',
+      }),
+      DatabaseModule,
+      AuthModule,
+      UsersModule,
+      ProductsModule,
+    ],
+    controllers: [],
+    providers: [],
+  })
+  export class AppModule {}
+  
+  // users/users.module.ts - Feature module
+  import { Module } from '@nestjs/common';
+  import { TypeOrmModule } from '@nestjs/typeorm';
+  import { UsersController } from './users.controller';
+  import { UsersService } from './users.service';
+  import { User } from './entities/user.entity';
+  
+  @Module({
+    imports: [
+      TypeOrmModule.forFeature([User]), // Register entity for this module
+    ],
+    controllers: [UsersController],
+    providers: [UsersService],
+    exports: [UsersService], // Export service for use in other modules
+  })
+  export class UsersModule {}
+  
+  // users/entities/user.entity.ts - Entity
+  import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+  
+  @Entity('users')
+  export class User {
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
+  
+    @Column({ unique: true })
+    email: string;
+  
+    @Column()
+    password: string;
+  
+    @Column()
+    firstName: string;
+  
+    @Column()
+    lastName: string;
+  
+    @Column({ default: true })
+    isActive: boolean;
+  
+    @CreateDateColumn()
+    createdAt: Date;
+  }
+  
+  // users/dto/create-user.dto.ts - Data Transfer Object
+  import { IsEmail, IsString, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
+  
+  export class CreateUserDto {
+    @IsEmail()
+    @IsNotEmpty()
+    email: string;
+  
+    @IsString()
+    @MinLength(8)
+    @MaxLength(20)
+    password: string;
+  
+    @IsString()
+    @IsNotEmpty()
+    firstName: string;
+  
+    @IsString()
+    @IsNotEmpty()
+    lastName: string;
+  }
+  
+  // users/dto/update-user.dto.ts
+  import { PartialType } from '@nestjs/mapped-types';
+  import { CreateUserDto } from './create-user.dto';
+  
+  export class UpdateUserDto extends PartialType(CreateUserDto) {
+    // All fields from CreateUserDto are now optional
+  }
+  
+  // users/users.controller.ts - Controller
+  import {
+    Controller,
+    Get,
+    Post,
+    Body,
+    Patch,
+    Param,
+    Delete,
+    Query,
+    UseGuards,
+    HttpCode,
+    HttpStatus,
+  } from '@nestjs/common';
+  import { UsersService } from './users.service';
+  import { CreateUserDto } from './dto/create-user.dto';
+  import { UpdateUserDto } from './dto/update-user.dto';
+  import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+  import { RolesGuard } from '../auth/guards/roles.guard';
+  import { Roles } from '../auth/decorators/roles.decorator';
+  
+  @Controller('users')
+  @UseGuards(JwtAuthGuard) // Apply to all routes in this controller
+  export class UsersController {
+    constructor(private readonly usersService: UsersService) {}
+  
+    @Post()
+    @HttpCode(HttpStatus.CREATED)
+    create(@Body() createUserDto: CreateUserDto) {
+      return this.usersService.create(createUserDto);
+    }
+  
+    @Get()
+    @UseGuards(RolesGuard)
+    @Roles('admin') // Only admins can access
+    findAll(@Query('page') page: number = 1, @Query('limit') limit: number = 10) {
+      return this.usersService.findAll(page, limit);
+    }
+  
+    @Get(':id')
+    findOne(@Param('id') id: string) {
+      return this.usersService.findOne(id);
+    }
+  
+    @Patch(':id')
+    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+      return this.usersService.update(id, updateUserDto);
+    }
+  
+    @Delete(':id')
+    @UseGuards(RolesGuard)
+    @Roles('admin')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    remove(@Param('id') id: string) {
+      return this.usersService.remove(id);
+    }
+  }
+  
+  // users/users.service.ts - Service
+  import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+  import { InjectRepository } from '@nestjs/typeorm';
+  import { Repository } from 'typeorm';
+  import { User } from './entities/user.entity';
+  import { CreateUserDto } from './dto/create-user.dto';
+  import { UpdateUserDto } from './dto/update-user.dto';
+  import * as bcrypt from 'bcrypt';
+  
+  @Injectable()
+  export class UsersService {
+    constructor(
+      @InjectRepository(User)
+      private usersRepository: Repository<User>,
+    ) {}
+  
+    async create(createUserDto: CreateUserDto): Promise<User> {
+      // Check if user exists
+      const existingUser = await this.usersRepository.findOne({
+        where: { email: createUserDto.email },
+      });
+  
+      if (existingUser) {
+        throw new ConflictException('User with this email already exists');
+      }
+  
+      // Hash password
+      const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+  
+      // Create user
+      const user = this.usersRepository.create({
+        ...createUserDto,
+        password: hashedPassword,
+      });
+  
+      return this.usersRepository.save(user);
+    }
+  
+    async findAll(page: number, limit: number): Promise<{ data: User[]; total: number }> {
+      const [data, total] = await this.usersRepository.findAndCount({
+        skip: (page - 1) * limit,
+        take: limit,
+        order: { createdAt: 'DESC' },
+      });
+  
+      return { data, total };
+    }
+  
+    async findOne(id: string): Promise<User> {
+      const user = await this.usersRepository.findOne({ where: { id } });
+  
+      if (!user) {
+        throw new NotFoundException(\`User with ID \${id} not found\`);
+      }
+  
+      return user;
+    }
+  
+    async findByEmail(email: string): Promise<User | null> {
+      return this.usersRepository.findOne({ where: { email } });
+    }
+  
+    async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+      const user = await this.findOne(id);
+  
+      if (updateUserDto.password) {
+        updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
+      }
+  
+      Object.assign(user, updateUserDto);
+      return this.usersRepository.save(user);
+    }
+  
+    async remove(id: string): Promise<void> {
+      const user = await this.findOne(id);
+      await this.usersRepository.remove(user);
+    }
+  }
+  </code></pre>
+    </div>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Request Flow in NestJS
+     </h4>
+     <p style="line-height: 1.75; margin-top: 1rem;">
+       Understanding the request lifecycle is crucial for interviews. When a request comes in:
+     </p>
+     <ol style="margin-top: 1rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;"><strong>Middleware:</strong> Global → Module-specific (logging, CORS, body parsing)</li>
+       <li style="margin-top: 0.5rem;"><strong>Guards:</strong> Global → Controller → Route (authentication, authorization)</li>
+       <li style="margin-top: 0.5rem;"><strong>Interceptors (before):</strong> Global → Controller → Route (logging, transformation)</li>
+       <li style="margin-top: 0.5rem;"><strong>Pipes:</strong> Global → Controller → Route → Parameter (validation, transformation)</li>
+       <li style="margin-top: 0.5rem;"><strong>Route Handler:</strong> Controller method executes, calls service</li>
+       <li style="margin-top: 0.5rem;"><strong>Service:</strong> Business logic execution</li>
+       <li style="margin-top: 0.5rem;"><strong>Interceptors (after):</strong> Route → Controller → Global (response transformation)</li>
+       <li style="margin-top: 0.5rem;"><strong>Exception Filters:</strong> If any exception occurs (error handling)</li>
+       <li style="margin-top: 0.5rem;"><strong>Response:</strong> Final response sent to client</li>
+     </ol>
+  
+     <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+       Key Advantages
+     </h4>
+     <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Testability:</span> Dependency injection makes unit testing trivial. Every component can be mocked and tested in isolation.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Scalability:</span> Modular architecture allows teams to work on different modules independently. Easy to scale horizontally with microservices.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Maintainability:</span> Clear separation of concerns, consistent code structure, and strong typing reduce bugs and make refactoring easier.
+       </li>
+       <li style="margin-top: 0.5rem;">
+        <span style="font-weight: 600;">Developer Experience:</span> Excellent CLI for generating boilerplate, hot reload, extensive documentation, and active community support.
+       </li>
+     </ol>
+  </div>
+  `,
+            examples: [
+              `<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+        <pre><code className="language-typescript">
+  // EXAMPLE 1: Complete CRUD with Authentication
+  // auth/auth.module.ts
+  import { Module } from '@nestjs/common';
+  import { JwtModule } from '@nestjs/jwt';
+  import { PassportModule } from '@nestjs/passport';
+  import { ConfigModule, ConfigService } from '@nestjs/config';
+  import { AuthService } from './auth.service';
+  import { AuthController } from './auth.controller';
+  import { JwtStrategy } from './strategies/jwt.strategy';
+  import { UsersModule } from '../users/users.module';
+  
+  @Module({
+    imports: [
+      UsersModule,
+      PassportModule,
+      JwtModule.registerAsync({
+        imports: [ConfigModule],
+        useFactory: async (configService: ConfigService) => ({
+          secret: configService.get<string>('JWT_SECRET'),
+          signOptions: { expiresIn: '1d' },
+        }),
+        inject: [ConfigService],
+      }),
+    ],
+    controllers: [AuthController],
+    providers: [AuthService, JwtStrategy],
+    exports: [AuthService],
+  })
+  export class AuthModule {}
+  
+  // auth/auth.service.ts
+  import { Injectable, UnauthorizedException } from '@nestjs/common';
+  import { JwtService } from '@nestjs/jwt';
+  import { UsersService } from '../users/users.service';
+  import * as bcrypt from 'bcrypt';
+  
+  @Injectable()
+  export class AuthService {
+    constructor(
+      private usersService: UsersService,
+      private jwtService: JwtService,
+    ) {}
+  
+    async validateUser(email: string, password: string): Promise<any> {
+      const user = await this.usersService.findByEmail(email);
+      
+      if (!user) {
+        throw new UnauthorizedException('Invalid credentials');
+      }
+  
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+      
+      if (!isPasswordValid) {
+        throw new UnauthorizedException('Invalid credentials');
+      }
+  
+      const { password: _, ...result } = user;
+      return result;
+    }
+  
+    async login(user: any) {
+      const payload = { email: user.email, sub: user.id };
+      
+      return {
+        access_token: this.jwtService.sign(payload),
+        user: {
+          id: user.id,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      };
+    }
+  
+    async register(createUserDto: any) {
+      const user = await this.usersService.create(createUserDto);
+      return this.login(user);
+    }
+  }
+  
+  // auth/strategies/jwt.strategy.ts
+  import { Injectable, UnauthorizedException } from '@nestjs/common';
+  import { PassportStrategy } from '@nestjs/passport';
+  import { ExtractJwt, Strategy } from 'passport-jwt';
+  import { ConfigService } from '@nestjs/config';
+  import { UsersService } from '../../users/users.service';
+  
+  @Injectable()
+  export class JwtStrategy extends PassportStrategy(Strategy) {
+    constructor(
+      private configService: ConfigService,
+      private usersService: UsersService,
+    ) {
+      super({
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        ignoreExpiration: false,
+        secretOrKey: configService.get<string>('JWT_SECRET'),
+      });
+    }
+  
+    async validate(payload: any) {
+      const user = await this.usersService.findOne(payload.sub);
+      
+      if (!user) {
+        throw new UnauthorizedException();
+      }
+  
+      return { id: user.id, email: user.email };
+    }
+  }
+  
+  // auth/guards/jwt-auth.guard.ts
+  import { Injectable } from '@nestjs/common';
+  import { AuthGuard } from '@nestjs/passport';
+  
+  @Injectable()
+  export class JwtAuthGuard extends AuthGuard('jwt') {}
+  
+  // EXAMPLE 2: Custom Decorators
+  // auth/decorators/current-user.decorator.ts
+  import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+  
+  export const CurrentUser = createParamDecorator(
+    (data: unknown, ctx: ExecutionContext) => {
+      const request = ctx.switchToHttp().getRequest();
+      return request.user;
+    },
+  );
+  
+  // auth/decorators/roles.decorator.ts
+  import { SetMetadata } from '@nestjs/common';
+  
+  export const ROLES_KEY = 'roles';
+  export const Roles = (...roles: string[]) => SetMetadata(ROLES_KEY, roles);
+  
+  // auth/decorators/public.decorator.ts
+  import { SetMetadata } from '@nestjs/common';
+  
+  export const IS_PUBLIC_KEY = 'isPublic';
+  export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
+  
+  // Usage in controller
+  @Controller('posts')
+  @UseGuards(JwtAuthGuard)
+  export class PostsController {
+    @Get()
+    @Public() // This route is public
+    findAll() {
+      return this.postsService.findAll();
+    }
+  
+    @Post()
+    create(@CurrentUser() user: any, @Body() createPostDto: CreatePostDto) {
+      return this.postsService.create(user.id, createPostDto);
+    }
+  
+    @Delete(':id')
+    @Roles('admin') // Only admins can delete
+    remove(@Param('id') id: string) {
+      return this.postsService.remove(id);
+    }
+  }
+  
+  // EXAMPLE 3: Guards with Roles
+  // auth/guards/roles.guard.ts
+  import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+  import { Reflector } from '@nestjs/core';
+  import { ROLES_KEY } from '../decorators/roles.decorator';
+  
+  @Injectable()
+  export class RolesGuard implements CanActivate {
+    constructor(private reflector: Reflector) {}
+  
+    canActivate(context: ExecutionContext): boolean {
+      const requiredRoles = this.reflector.getAllAndOverride<string[]>(ROLES_KEY, [
+        context.getHandler(),
+        context.getClass(),
+      ]);
+  
+      if (!requiredRoles) {
+        return true; // No roles required
+      }
+  
+      const { user } = context.switchToHttp().getRequest();
+      return requiredRoles.some((role) => user.roles?.includes(role));
+    }
+  }
+  
+  // EXAMPLE 4: Interceptors
+  // common/interceptors/logging.interceptor.ts
+  import {
+    Injectable,
+    NestInterceptor,
+    ExecutionContext,
+    CallHandler,
+    Logger,
+  } from '@nestjs/common';
+  import { Observable } from 'rxjs';
+  import { tap } from 'rxjs/operators';
+  
+  @Injectable()
+  export class LoggingInterceptor implements NestInterceptor {
+    private readonly logger = new Logger(LoggingInterceptor.name);
+  
+    intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+      const request = context.switchToHttp().getRequest();
+      const { method, url } = request;
+      const now = Date.now();
+  
+      return next.handle().pipe(
+        tap(() => {
+          const response = context.switchToHttp().getResponse();
+          const { statusCode } = response;
+          const delay = Date.now() - now;
+          
+          this.logger.log(\`\${method} \${url} \${statusCode} - \${delay}ms\`);
+        }),
+      );
+    }
+  }
+  
+  // common/interceptors/transform.interceptor.ts
+  import {
+    Injectable,
+    NestInterceptor,
+    ExecutionContext,
+    CallHandler,
+  } from '@nestjs/common';
+  import { Observable } from 'rxjs';
+  import { map } from 'rxjs/operators';
+  
+  export interface Response<T> {
+    success: boolean;
+    data: T;
+    timestamp: string;
+  }
+  
+  @Injectable()
+  export class TransformInterceptor<T>
+    implements NestInterceptor<T, Response<T>> {
+    intercept(
+      context: ExecutionContext,
+      next: CallHandler,
+    ): Observable<Response<T>> {
+      return next.handle().pipe(
+        map((data) => ({
+          success: true,
+          data,
+          timestamp: new Date().toISOString(),
+        })),
+      );
+    }
+  }
+  
+  // Apply globally in main.ts
+  app.useGlobalInterceptors(new LoggingInterceptor());
+  app.useGlobalInterceptors(new TransformInterceptor());
+  
+  // EXAMPLE 5: Exception Filters
+  // common/filters/http-exception.filter.ts
+  import {
+    ExceptionFilter,
+    Catch,
+    ArgumentsHost,
+    HttpException,
+    HttpStatus,
+    Logger,
+  } from '@nestjs/common';
+  import { Request, Response } from 'express';
+  
+  @Catch(HttpException)
+  export class HttpExceptionFilter implements ExceptionFilter {
+    private readonly logger = new Logger(HttpExceptionFilter.name);
+  
+    catch(exception: HttpException, host: ArgumentsHost) {
+      const ctx = host.switchToHttp();
+      const response = ctx.getResponse<Response>();
+      const request = ctx.getRequest<Request>();
+      const status = exception.getStatus();
+      const exceptionResponse = exception.getResponse();
+  
+      const errorResponse = {
+        success: false,
+        statusCode: status,
+        timestamp: new Date().toISOString(),
+        path: request.url,
+        method: request.method,
+        message:
+          typeof exceptionResponse === 'string'
+            ? exceptionResponse
+            : (exceptionResponse as any).message || 'Internal server error',
+      };
+  
+      this.logger.error(
+        \`\${request.method} \${request.url}\`,
+        JSON.stringify(errorResponse),
+      );
+  
+      response.status(status).json(errorResponse);
+    }
+  }
+  
+  // Apply globally
+  app.useGlobalFilters(new HttpExceptionFilter());
+  
+  // EXAMPLE 6: Pipes for Validation
+  // common/pipes/parse-int.pipe.ts
+  import { PipeTransform, Injectable, ArgumentMetadata, BadRequestException } from '@nestjs/common';
+  
+  @Injectable()
+  export class ParseIntPipe implements PipeTransform<string, number> {
+    transform(value: string, metadata: ArgumentMetadata): number {
+      const val = parseInt(value, 10);
+      
+      if (isNaN(val)) {
+        throw new BadRequestException('Validation failed: must be a number');
+      }
+      
+      return val;
+    }
+  }
+  
+  // Usage
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.findOne(id);
+  }
+  
+  // Built-in ValidationPipe with class-validator
+  import { IsEmail, IsString, MinLength, IsOptional, IsEnum } from 'class-validator';
+  
+  export class CreateUserDto {
+    @IsEmail()
+    email: string;
+  
+    @IsString()
+    @MinLength(8)
+    password: string;
+  
+    @IsString()
+    firstName: string;
+  
+    @IsString()
+    lastName: string;
+  
+    @IsOptional()
+    @IsEnum(['user', 'admin'])
+    role?: string;
+  }
+  
+  // EXAMPLE 7: Dynamic Modules
+  // database/database.module.ts
+  import { Module, DynamicModule } from '@nestjs/common';
+  import { TypeOrmModule } from '@nestjs/typeorm';
+  
+  export interface DatabaseOptions {
+    type: 'postgres' | 'mysql' | 'sqlite';
+    host?: string;
+    port?: number;
+    username?: string;
+    password?: string;
+    database: string;
+  }
+  
+  @Module({})
+  export class DatabaseModule {
+    static forRoot(options: DatabaseOptions): DynamicModule {
+      return {
+        module: DatabaseModule,
+        imports: [
+          TypeOrmModule.forRoot({
+            ...options,
+            entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+            synchronize: process.env.NODE_ENV !== 'production',
+          }),
+        ],
+        exports: [TypeOrmModule],
+      };
+    }
+  
+    static forRootAsync(options: any): DynamicModule {
+      return {
+        module: DatabaseModule,
+        imports: [
+          TypeOrmModule.forRootAsync({
+            useFactory: options.useFactory,
+            inject: options.inject,
+          }),
+        ],
+        exports: [TypeOrmModule],
+      };
+    }
+  }
+  
+  // Usage
+  @Module({
+    imports: [
+      DatabaseModule.forRoot({
+        type: 'postgres',
+        host: 'localhost',
+        port: 5432,
+        username: 'postgres',
+        password: 'password',
+        database: 'mydb',
+}),
+],
+})
+export class AppModule {}
+// EXAMPLE 8: Middleware
+// common/middleware/logger.middleware.ts
+import { Injectable, NestMiddleware, Logger } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+private logger = new Logger('HTTP');
+use(request: Request, response: Response, next: NextFunction): void {
+const { ip, method, originalUrl } = request;
+const userAgent = request.get('user-agent') || '';
+response.on('finish', () => {
+  const { statusCode } = response;
+  const contentLength = response.get('content-length');
+
+  this.logger.log(
+    \`\${method} \${originalUrl} \${statusCode} \${contentLength} - \${userAgent} \${ip}\`,
+  );
+});
+
+next();
+}
+}
+// Apply in module
+export class AppModule implements NestModule {
+configure(consumer: MiddlewareConsumer) {
+consumer
+.apply(LoggerMiddleware)
+.forRoutes('*'); // Apply to all routes
+}
+}
+// EXAMPLE 9: Testing
+// users/users.service.spec.ts
+import { Test, TestingModule } from '@nestjs/testing';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UsersService } from './users.service';
+import { User } from './entities/user.entity';
+const mockRepository = {
+findOne: jest.fn(),
+create: jest.fn(),
+save: jest.fn(),
+find: jest.fn(),
+};
+describe('UsersService', () => {
+let service: UsersService;
+let repository: Repository<User>;
+beforeEach(async () => {
+const module: TestingModule = await Test.createTestingModule({
+providers: [
+UsersService,
+{
+provide: getRepositoryToken(User),
+useValue: mockRepository,
+},
+],
+}).compile();
+service = module.get<UsersService>(UsersService);
+repository = module.get<Repository<User>>(getRepositoryToken(User));
+});
+it('should be defined', () => {
+expect(service).toBeDefined();
+});
+describe('findOne', () => {
+it('should return a user', async () => {
+const user = { id: '1', email: 'test@example.com' };
+mockRepository.findOne.mockResolvedValue(user);
+  const result = await service.findOne('1');
+  
+  expect(result).toEqual(user);
+  expect(mockRepository.findOne).toHaveBeenCalledWith({ where: { id: '1' } });
+});
+
+it('should throw NotFoundException when user not found', async () => {
+  mockRepository.findOne.mockResolvedValue(null);
+
+  await expect(service.findOne('1')).rejects.toThrow(NotFoundException);
+});
+});
+});
+</code></pre>
+</div>
+`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is Dependency Injection in NestJS and how does it work?",
+                solution:
+                  "<p>Dependency Injection (DI) is a design pattern where dependencies are provided to a class rather than the class creating them itself. NestJS has a built-in IoC (Inversion of Control) container that manages the lifecycle of providers and resolves dependencies automatically. When you mark a class with @Injectable(), NestJS registers it in the DI container. When another class needs this dependency, you declare it in the constructor, and NestJS automatically injects the instance. For example, if a controller needs a service, you simply add it to the constructor: constructor(private usersService: UsersService) {}. NestJS creates a single instance (singleton by default) and injects it wherever needed. This makes testing easier (you can mock dependencies), reduces coupling, and follows SOLID principles. The DI container handles the entire lifecycle: instantiation, dependency resolution, and cleanup. You can also control the scope (DEFAULT/SINGLETON, REQUEST, TRANSIENT) to change how instances are created and shared.</p>",
+              },
+              {
+                question:
+                  "Explain the difference between Guards, Interceptors, and Middleware in NestJS.",
+                solution:
+                  "<p><strong>Middleware:</strong> Functions that execute before the route handler and have access to request/response objects. They can modify these objects, execute code, end the request-response cycle, or call next(). Used for logging, CORS, body parsing, authentication. Execute in the order they're applied. Limited to HTTP context.</p><p><strong>Guards:</strong> Determine whether a request should be handled by the route handler based on runtime conditions (permissions, roles, ACL). Execute after middleware but before interceptors. Have access to ExecutionContext which provides details about the current request. Return a boolean or throw an exception. Perfect for authentication and authorization. Can access metadata set by decorators using Reflector.</p><p><strong>Interceptors:</strong> Most powerful and versatile. Can execute logic before AND after the method execution. Have access to ExecutionContext and CallHandler. Can transform the result, bind extra logic, extend behavior, override functions. Used for response transformation, caching, logging with timing, timeout handling, exception mapping. Work with RxJS observables, allowing powerful stream operations.</p><p><strong>Execution Order:</strong> Middleware → Guards → Interceptors (before) → Pipes → Route Handler → Interceptors (after) → Exception Filters. Key difference: Guards determine IF a request should be processed, Interceptors can modify HOW it's processed.</p>",
+              },
+              {
+                question:
+                  "What are Pipes in NestJS and what are their use cases?",
+                solution:
+                  "<p>Pipes are classes annotated with @Injectable() that implement the PipeTransform interface. They operate on the arguments being processed by a controller route handler before the handler is called. Pipes have two primary use cases: (1) <strong>Transformation:</strong> Transform input data to the desired form (e.g., string to integer), and (2) <strong>Validation:</strong> Validate input data and throw an exception if invalid. NestJS provides several built-in pipes: ValidationPipe (validates using class-validator decorators), ParseIntPipe, ParseBoolPipe, ParseArrayPipe, ParseUUIDPipe, ParseEnumPipe, DefaultValuePipe. You can apply pipes at different levels: parameter (@Param('id', ParseIntPipe)), method (@UsePipes(ValidationPipe)), controller (@UsePipes(ValidationPipe) on class), or globally (app.useGlobalPipes()). The ValidationPipe is especially powerful when combined with class-validator and class-transformer. It can automatically transform plain objects to DTO instances, strip undefined properties (whitelist: true), throw errors for extra properties (forbidNonWhitelisted: true), and transform types based on TypeScript metadata. Custom pipes are easy to create by implementing the transform() method.</p>",
+              },
+              {
+                question:
+                  "Explain the module system in NestJS. What are imports, exports, and providers?",
+                solution:
+                  "<p>Modules are classes annotated with @Module() decorator that organize the application structure. Every NestJS app has at least one root module (AppModule). The @Module() decorator takes an object with four properties:</p><p><strong>Providers:</strong> The services, repositories, factories, helpers that will be instantiated by the NestJS injector and can be injected within this module. These are the dependencies that can be shared across the module.</p><p><strong>Controllers:</strong> The set of controllers defined in this module that handle HTTP requests.</p><p><strong>Imports:</strong> The list of imported modules that export providers needed in this module. If ModuleA imports ModuleB, ModuleA can use providers that ModuleB exports.</p><p><strong>Exports:</strong> The subset of providers from this module that should be available to other modules that import this module. Only exported providers can be injected in other modules. You can export either the provider itself or the entire imported module.</p><p>For example: UserModule exports UserService → AuthModule imports UserModule → Now AuthModule can inject and use UserService. This creates a clear dependency graph and enables code reusability. Modules can be dynamic (forRoot/forRootAsync pattern) for runtime configuration, global (@Global() decorator to make providers available everywhere without importing), or feature modules (domain-specific functionality grouped together).</p>",
+              },
+              {
+                question:
+                  "What is ExecutionContext and how is it used in Guards and Interceptors?",
+                solution:
+                  "<p>ExecutionContext is an abstraction over the incoming request that provides additional context about the current execution. It extends ArgumentsHost and provides methods to get details about the controller, handler, and request being processed. This makes guards and interceptors platform-agnostic - they can work with HTTP, WebSockets, Microservices, or GraphQL.</p><p>Key methods: (1) <strong>switchToHttp():</strong> Returns HttpArgumentsHost with getRequest(), getResponse(), getNext() methods to access Express/Fastify objects; (2) <strong>getClass():</strong> Returns the Controller class being executed; (3) <strong>getHandler():</strong> Returns the route handler method being executed; (4) <strong>getArgs():</strong> Returns an array of arguments passed to the handler; (5) <strong>switchToRpc() / switchToWs():</strong> For microservices and WebSockets context.</p><p>ExecutionContext is crucial for implementing cross-cutting concerns like logging, authorization, and caching in a platform-agnostic way. For example, in a guard, you can use context.getHandler() to get the route handler and then use Reflector to extract metadata (like required roles) attached to it via decorators. This allows you to make dynamic authorization decisions based on metadata. In interceptors, you can use ExecutionContext to determine what type of request you're handling and transform the response accordingly.</p>",
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/",
+              "https://docs.nestjs.com/first-steps",
+              "https://docs.nestjs.com/modules",
+              "https://docs.nestjs.com/controllers",
+              "https://docs.nestjs.com/providers",
+              "https://docs.nestjs.com/fundamentals/dependency-injection",
+            ],
+          },
+          {
+            topic: "Modules in NestJS",
+            tags: ["Organization", "Encapsulation", "Reusability", "DI"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Modules are the fundamental building blocks of NestJS applications. They provide a way to organize code into cohesive, reusable chunks with clear boundaries and dependencies. Each module encapsulates a closely related set of capabilities, forming a modular architecture that scales naturally with application complexity. Think of modules as organizational units that group related controllers, providers, and other modules together, much like folders organize files in a file system. Every NestJS application has at least one module - the root module (AppModule) - which serves as the entry point for the application's dependency graph. From there, you can create feature modules, shared modules, global modules, and dynamic modules to structure your application logically.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Module Anatomy
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     A module is defined using the @Module() decorator, which takes a configuration object with four key properties:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">providers:</span> An array of providers (services, repositories, factories, helpers) that will be instantiated by the NestJS injector. These providers will be available for injection within this module. This is where you define your business logic, data access layer, and utility services.
+      <br/><em>Example: [UsersService, UsersRepository, EmailService]</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">controllers:</span> An array of controllers that handle HTTP requests. Controllers contain route handlers and delegate business logic to providers. Each controller defines a set of related endpoints.
+      <br/><em>Example: [UsersController, ProfileController]</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">imports:</span> An array of imported modules whose exported providers should be available in this module. This creates module dependencies and allows code reuse. If ModuleA imports ModuleB, then ModuleA can inject any providers that ModuleB exports.
+      <br/><em>Example: [TypeOrmModule, ConfigModule, AuthModule]</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">exports:</span> An array of providers or imported modules that should be available to other modules that import this module. Only exported providers can be injected outside the module. This controls the module's public API.
+      <br/><em>Example: [UsersService] - makes UsersService available to importing modules</em>
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Modules
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Feature Modules:</span> Organize code by domain or feature (users, products, orders). Each feature module encapsulates everything related to that feature. This is the most common type and follows domain-driven design principles. Feature modules should be self-contained and reusable.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Shared Modules:</span> Contain providers that are used across multiple modules (logging, configuration, utilities). Export these providers so other modules can use them. Helps avoid code duplication and ensures consistency. Usually imported by many feature modules.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Global Modules:</span> Decorated with @Global(), making their providers available everywhere without explicit imports. Use sparingly for truly global services like configuration, database connections, or logging. Reduces boilerplate but can hide dependencies, so use judiciously.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dynamic Modules:</span> Configured at runtime using static methods (forRoot, forRootAsync, forFeature). Accept configuration options and return DynamicModule objects. Perfect for libraries and configurable modules like database connections, where configuration depends on runtime values or environment.
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Module Resolution and Dependency Injection
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     When NestJS bootstraps your application, it creates a dependency graph starting from the root module. It recursively instantiates all imported modules, resolves providers, and builds the DI container. Providers are singletons by default (one instance shared across the application), but you can change the scope to REQUEST or TRANSIENT. The module system ensures proper encapsulation - private providers in a module cannot be injected elsewhere unless explicitly exported. This prevents tight coupling and makes the codebase more maintainable.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">One feature per module:</span> Keep modules focused on a single domain or feature. Don't create mega-modules that do everything.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Explicit exports:</span> Only export what's necessary. Keep internal implementation details private.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Avoid circular dependencies:</span> If Module A imports Module B and vice versa, use forwardRef() or restructure your modules.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Use shared modules for common functionality:</span> Create a SharedModule or CommonModule for utilities used everywhere.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Keep root module clean:</span> Import feature modules into AppModule, but keep AppModule itself minimal.
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// EXAMPLE 1: Feature Module
+// users/users.module.ts
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+import { User } from './entities/user.entity';
+import { UsersRepository } from './users.repository';
+@Module({
+imports: [
+// Import TypeOrmModule for User entity
+TypeOrmModule.forFeature([User]),
+],
+controllers: [UsersController],
+providers: [
+UsersService,
+UsersRepository, // Custom repository
+],
+exports: [
+UsersService, // Export so other modules can inject UsersService
+],
+})
+export class UsersModule {}
+// Now AuthModule can import UsersModule and inject UsersService
+// auth/auth.module.ts
+import { Module } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
+import { UsersModule } from '../users/users.module'; // Import the module
+@Module({
+imports: [UsersModule], // Import UsersModule to access UsersService
+controllers: [AuthController],
+providers: [AuthService],
+exports: [AuthService],
+})
+export class AuthModule {}
+// auth/auth.service.ts
+import { Injectable } from '@nestjs/common';
+import { UsersService } from '../users/users.service'; // Can now inject
+@Injectable()
+export class AuthService {
+constructor(
+private usersService: UsersService, // Injected from UsersModule
+) {}
+async validateUser(email: string, password: string) {
+const user = await this.usersService.findByEmail(email);
+// Validation logic...
+return user;
+}
+}
+// EXAMPLE 2: Shared Module
+// shared/shared.module.ts
+import { Module, Global } from '@nestjs/common';
+import { LoggerService } from './services/logger.service';
+import { UtilsService } from './services/utils.service';
+import { EmailService } from './services/email.service';
+@Module({
+providers: [
+LoggerService,
+UtilsService,
+EmailService,
+],
+exports: [
+// Export all services so other modules can use them
+LoggerService,
+UtilsService,
+EmailService,
+],
+})
+export class SharedModule {}
+// Any module that needs these services must import SharedModule
+// products/products.module.ts
+import { Module } from '@nestjs/common';
+import { SharedModule } from '../shared/shared.module';
+import { ProductsController } from './products.controller';
+import { ProductsService } from './products.service';
+@Module({
+imports: [SharedModule], // Import to use LoggerService, etc.
+controllers: [ProductsController],
+providers: [ProductsService],
+})
+export class ProductsModule {}
+// products/products.service.ts
+import { Injectable } from '@nestjs/common';
+import { LoggerService } from '../shared/services/logger.service';
+@Injectable()
+export class ProductsService {
+constructor(
+private logger: LoggerService, // Injected from SharedModule
+) {}
+async findAll() {
+this.logger.log('Fetching all products');
+// Logic...
+}
+}
+// EXAMPLE 3: Global Module
+// common/common.module.ts
+import { Module, Global } from '@nestjs/common';
+import { ConfigService } from './services/config.service';
+import { DatabaseService } from './services/database.service';
+import { LoggerService } from './services/logger.service';
+@Global() // Make this module global
+@Module({
+providers: [ConfigService, DatabaseService, LoggerService],
+exports: [ConfigService, DatabaseService, LoggerService],
+})
+export class CommonModule {}
+// Now ANY module can inject ConfigService without importing CommonModule
+// users/users.service.ts
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '../common/services/config.service';
+@Injectable()
+export class UsersService {
+constructor(
+private configService: ConfigService, // Available without importing CommonModule
+) {
+const dbHost = this.configService.get('DB_HOST');
+}
+}
+// BUT you must import CommonModule in AppModule once
+// app.module.ts
+import { Module } from '@nestjs/common';
+import { CommonModule } from './common/common.module';
+import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
+@Module({
+imports: [
+CommonModule, // Import once, available everywhere
+UsersModule,
+ProductsModule,
+],
+})
+export class AppModule {}
+// EXAMPLE 4: Dynamic Module - Basic forRoot pattern
+// cache/cache.module.ts
+import { Module, DynamicModule } from '@nestjs/common';
+import { CacheService } from './cache.service';
+export interface CacheModuleOptions {
+ttl: number;
+max: number;
+isGlobal?: boolean;
+}
+@Module({})
+export class CacheModule {
+static forRoot(options: CacheModuleOptions): DynamicModule {
+return {
+module: CacheModule,
+global: options.isGlobal ?? false,
+providers: [
+{
+provide: 'CACHE_OPTIONS',
+useValue: options,
+},
+CacheService,
+],
+exports: [CacheService],
+};
+}
+}
+// cache/cache.service.ts
+import { Injectable, Inject } from '@nestjs/common';
+import { CacheModuleOptions } from './cache.module';
+@Injectable()
+export class CacheService {
+private cache = new Map();
+constructor(
+@Inject('CACHE_OPTIONS') private options: CacheModuleOptions,
+) {
+console.log('Cache configured with TTL:', this.options.ttl);
+}
+set(key: string, value: any) {
+this.cache.set(key, value);
+setTimeout(() => this.cache.delete(key), this.options.ttl * 1000);
+}
+get(key: string) {
+return this.cache.get(key);
+}
+}
+// Usage in AppModule
+@Module({
+imports: [
+CacheModule.forRoot({
+ttl: 60, // 60 seconds
+max: 100,
+isGlobal: true,
+}),
+],
+})
+export class AppModule {}
+// EXAMPLE 5: Dynamic Module - Advanced forRootAsync pattern
+// database/database.module.ts
+import { Module, DynamicModule, Provider } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
+export interface DatabaseModuleAsyncOptions {
+useFactory: (...args: any[]) => Promise<any> | any;
+inject?: any[];
+imports?: any[];
+}
+@Module({})
+export class DatabaseModule {
+// Synchronous configuration
+static forRoot(options: any): DynamicModule {
+return {
+module: DatabaseModule,
+imports: [TypeOrmModule.forRoot(options)],
+exports: [TypeOrmModule],
+};
+}
+// Asynchronous configuration (for environment variables, etc.)
+static forRootAsync(options: DatabaseModuleAsyncOptions): DynamicModule {
+return {
+module: DatabaseModule,
+imports: [
+...(options.imports || []),
+TypeOrmModule.forRootAsync({
+useFactory: options.useFactory,
+inject: options.inject || [],
+}),
+],
+exports: [TypeOrmModule],
+};
+}
+}
+// Usage with ConfigService
+@Module({
+imports: [
+ConfigModule.forRoot({ isGlobal: true }),
+DatabaseModule.forRootAsync({
+imports: [ConfigModule],
+useFactory: (configService: ConfigService) => ({
+type: 'postgres',
+host: configService.get('DB_HOST'),
+port: configService.get('DB_PORT'),
+username: configService.get('DB_USERNAME'),
+password: configService.get('DB_PASSWORD'),
+database: configService.get('DB_NAME'),
+entities: [__dirname + '/**/*.entity{.ts,.js}'],
+synchronize: configService.get('NODE_ENV') !== 'production',
+}),
+inject: [ConfigService],
+}),
+],
+})
+export class AppModule {}
+// EXAMPLE 6: Module Re-exporting
+// Sometimes you want to re-export an imported module
+// core/core.module.ts
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommonModule } from '../common/common.module';
+@Module({
+imports: [
+ConfigModule.forRoot({ isGlobal: true }),
+TypeOrmModule.forRoot({ /* config */ }),
+CommonModule,
+],
+exports: [
+// Re-export imported modules
+ConfigModule,
+TypeOrmModule,
+CommonModule,
+],
+})
+export class CoreModule {}
+// Now other modules can import CoreModule instead of individual modules
+@Module({
+imports: [CoreModule], // Gets ConfigModule, TypeOrmModule, CommonModule
+})
+export class UsersModule {}
+// EXAMPLE 7: Handling Circular Dependencies with forwardRef
+// Sometimes you have circular dependencies: A needs B, B needs A
+// users/users.module.ts
+import { Module, forwardRef } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { PostsModule } from '../posts/posts.module';
+@Module({
+imports: [
+forwardRef(() => PostsModule), // Use forwardRef to break circular dependency
+],
+providers: [UsersService],
+exports: [UsersService],
+})
+export class UsersModule {}
+// posts/posts.module.ts
+import { Module, forwardRef } from '@nestjs/common';
+import { PostsService } from './posts.service';
+import { UsersModule } from '../users/users.module';
+@Module({
+imports: [
+forwardRef(() => UsersModule), // Use forwardRef here too
+],
+providers: [PostsService],
+exports: [PostsService],
+})
+export class PostsModule {}
+// EXAMPLE 8: Module with Custom Providers
+// email/email.module.ts
+import { Module } from '@nestjs/common';
+import { EmailService } from './email.service';
+// Factory provider
+const emailConfigFactory = {
+provide: 'EMAIL_CONFIG',
+useFactory: () => ({
+host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+port: parseInt(process.env.EMAIL_PORT) || 587,
+secure: process.env.EMAIL_SECURE === 'true',
+}),
+};
+// Class provider with custom token
+const emailTransportProvider = {
+provide: 'EMAIL_TRANSPORT',
+useClass: EmailService,
+};
+// Value provider
+const emailTemplatesProvider = {
+provide: 'EMAIL_TEMPLATES',
+useValue: {
+welcome: 'Welcome to our app!',
+resetPassword: 'Reset your password',
+},
+};
+@Module({
+providers: [
+EmailService,
+emailConfigFactory,
+emailTransportProvider,
+emailTemplatesProvider,
+],
+exports: [EmailService, 'EMAIL_CONFIG'],
+})
+export class EmailModule {}
+// Injecting custom providers
+import { Injectable, Inject } from '@nestjs/common';
+@Injectable()
+export class SomeService {
+constructor(
+@Inject('EMAIL_CONFIG') private emailConfig: any,
+@Inject('EMAIL_TEMPLATES') private templates: any,
+) {
+console.log('Email host:', this.emailConfig.host);
+console.log('Templates:', this.templates);
+}
+}
+// EXAMPLE 9: Testing Modules
+// users/users.module.spec.ts
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersModule } from './users.module';
+import { UsersService } from './users.service';
+import { UsersController } from './users.controller';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+describe('UsersModule', () => {
+let module: TestingModule;
+beforeEach(async () => {
+module = await Test.createTestingModule({
+imports: [UsersModule],
+})
+.overrideProvider(getRepositoryToken(User))
+.useValue({
+// Mock repository
+find: jest.fn(),
+findOne: jest.fn(),
+save: jest.fn(),
+})
+.compile();
+});
+it('should be defined', () => {
+expect(module).toBeDefined();
+});
+it('should have UsersService', () => {
+const service = module.get<UsersService>(UsersService);
+expect(service).toBeDefined();
+});
+it('should have UsersController', () => {
+const controller = module.get<UsersController>(UsersController);
+expect(controller).toBeDefined();
+});
+});
+</code></pre>
+</div>
+`,
+            ],
+            questions: [
+              {
+                question:
+                  "What happens if you don't export a provider from a module?",
+                solution:
+                  "<p>If you don't export a provider from a module, it becomes private to that module and cannot be injected in other modules, even if they import the module. For example, if UsersModule has UsersService as a provider but doesn't export it, and AuthModule imports UsersModule, AuthModule still cannot inject UsersService - you'll get a dependency resolution error at runtime. This is by design for encapsulation. Only providers listed in the 'exports' array of the @Module() decorator are part of the module's public API. To make UsersService available to other modules, you must explicitly add it to the exports array: exports: [UsersService]. This gives you fine-grained control over what's public vs private in your module. It's a key feature of NestJS's dependency injection system that enforces proper boundaries and prevents tight coupling.</p>",
+              },
+            ],
+          },
+          {
+            topic: "Controllers in NestJS",
+            tags: ["Routing", "HTTP", "Endpoints", "Request Handling"],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Controllers in NestJS are responsible for handling incoming HTTP requests and returning responses to the client. They serve as the entry point for your application's routes and define the API endpoints that clients can interact with. Using TypeScript decorators, controllers map HTTP methods (GET, POST, PUT, DELETE, etc.) to specific handler methods, creating a clean, declarative, and type-safe routing system. Controllers follow the principle of separation of concerns by delegating business logic to providers (services) and focusing solely on handling HTTP requests and responses. They act as the bridge between the external world (clients) and your application's business logic.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Core Concepts
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route Definition:</span> Controllers use decorators like @Controller(), @Get(), @Post(), @Put(), @Delete(), @Patch(), @Options(), and @Head() to define routes. The @Controller() decorator takes an optional path prefix that applies to all routes in that controller.
+      <br/><em>Example: @Controller('users') makes all routes in this controller start with /users</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Request Handling:</span> Handler methods are decorated with HTTP method decorators that specify the endpoint path. These methods can extract request data using parameter decorators like @Body(), @Param(), @Query(), @Headers(), and @Req().
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Dependency Injection:</span> Controllers can inject providers (services) through constructor injection. This is the primary way controllers access business logic and data.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Response Handling:</span> Controller methods can return values directly (which NestJS serializes to JSON), use @Res() to manually handle the response, or return Observables/Promises for asynchronous operations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Status Codes:</span> Use @HttpCode() decorator to set HTTP status codes, or let NestJS automatically set appropriate codes (200 for GET, 201 for POST, etc.).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Request Validation:</span> Use validation pipes (like ValidationPipe) with DTOs (Data Transfer Objects) to validate incoming request data.
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Parameter Decorators
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     NestJS provides powerful parameter decorators to extract data from incoming requests:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Body():</span> Extracts the request body. Often used with DTO classes for validation.
+      <br/><em>create(@Body() createUserDto: CreateUserDto)</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Param():</span> Extracts route parameters from the URL path.
+      <br/><em>findOne(@Param('id') id: string)</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Query():</span> Extracts query string parameters.
+      <br/><em>findAll(@Query('page') page: number)</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Headers():</span> Extracts specific headers from the request.
+      <br/><em>getHeader(@Headers('authorization') auth: string)</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Req() / @Request():</span> Provides access to the complete request object (Express or Fastify).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Res() / @Response():</span> Provides access to the response object for manual control (use with caution as it disables NestJS's standard response handling).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Ip():</span> Extracts the client's IP address.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">@Session():</span> Provides access to session data (when using sessions).
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Route Wildcards and Patterns
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     NestJS supports route patterns and wildcards similar to Express:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Wildcards:</span> Use * as a wildcard in route paths.
+      <br/><em>@Get('ab*cd') matches 'abcd', 'ab_cd', 'abXcd', etc.</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Route Parameters:</span> Define parameters in the route path using :paramName.
+      <br/><em>@Get(':id') extracts the id parameter</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Multiple Parameters:</span> Routes can have multiple parameters.
+      <br/><em>@Get(':userId/orders/:orderId')</em>
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Request Lifecycle and Middleware
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Controllers participate in NestJS's request lifecycle. When a request arrives, it passes through middleware, guards, interceptors, and pipes before reaching the controller handler. After the handler executes, the response passes back through interceptors and filters. This layered architecture allows for cross-cutting concerns like authentication, logging, validation, and error handling to be applied consistently across all controllers.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Thin Controllers:</span> Keep controllers thin. They should only handle HTTP-specific concerns (routing, request/response handling) and delegate business logic to services.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Use DTOs:</span> Always use Data Transfer Objects with validation for request bodies to ensure data integrity and security.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Consistent Response Formats:</span> Use interceptors to ensure consistent response formats across all endpoints.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Proper Status Codes:</span> Return appropriate HTTP status codes for different operations (200, 201, 204, 400, 401, 403, 404, 500).
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Avoid @Res() for Simple Responses:</span> Let NestJS handle responses automatically when possible; only use @Res() when you need manual control over the response.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Group Related Routes:</span> Organize related endpoints in the same controller with meaningful path prefixes.
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// EXAMPLE 1: Basic CRUD Controller
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+  HttpCode,
+  HttpStatus,
+  ParseIntPipe,
+  UsePipes,
+  ValidationPipe,
+  UseGuards,
+  UseInterceptors,
+  CacheInterceptor,
+} from '@nestjs/common';
+import { UsersService } from './users.service';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { Roles } from '../auth/decorators/roles.decorator';
+import { Public } from '../auth/decorators/public.decorator';
+
+@Controller('users')
+@UseGuards(JwtAuthGuard) // Apply guard to all routes in this controller
+@UseInterceptors(CacheInterceptor) // Apply interceptor to all routes
+export class UsersController {
+  constructor(private readonly usersService: UsersService) {}
+
+  @Post()
+  @HttpCode(HttpStatus.CREATED) // Set HTTP status code to 201
+  @UsePipes(new ValidationPipe({ transform: true })) // Validate and transform request body
+  create(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.create(createUserDto);
+  }
+
+  @Get()
+  @UseGuards(RolesGuard) // Apply additional guard
+  @Roles('admin') // Only admins can access
+  findAll(
+    @Query('page', ParseIntPipe) page: number = 1,
+    @Query('limit', ParseIntPipe) limit: number = 10,
+    @Query('search') search?: string,
+  ) {
+    return this.usersService.findAll({ page, limit, search });
+  }
+
+  @Get(':id')
+  @Public() // This route is public (bypasses JwtAuthGuard)
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(id);
+  }
+
+  @Get('email/:email')
+  findByEmail(@Param('email') email: string) {
+    return this.usersService.findByEmail(email);
+  }
+
+  @Patch(':id')
+  update(
+    @Param('id') id: string,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.update(id, updateUserDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT) // 204 No Content
+  @Roles('admin')
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(id);
+  }
+}
+
+// EXAMPLE 2: Controller with Custom Decorators
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Req,
+  Res,
+  Headers,
+  Ip,
+  Session,
+  HostParam,
+} from '@nestjs/common';
+import { Request, Response } from 'express';
+import { CurrentUser } from '../auth/decorators/current-user.decorator';
+import { User } from './entities/user.entity';
+
+@Controller('profile')
+export class ProfileController {
+  @Get('me')
+  getProfile(@CurrentUser() user: User) {
+    // Custom decorator extracts user from request
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
+  }
+
+  @Get('headers')
+  getHeaders(@Headers('user-agent') userAgent: string) {
+    return { userAgent };
+  }
+
+  @Get('ip')
+  getIp(@Ip() ip: string) {
+    return { ip };
+  }
+
+  @Get('host')
+  getHost(@HostParam() host: string) {
+    return { host };
+  }
+
+  // Manual response handling (use sparingly)
+  @Get('manual')
+  manualResponse(@Res() res: Response) {
+    return res.status(200).json({
+      message: 'Manual response',
+      timestamp: new Date().toISOString(),
+    });
+  }
+
+  // Access to full request object
+  @Get('request-info')
+  requestInfo(@Req() req: Request) {
+    return {
+      method: req.method,
+      url: req.url,
+      headers: req.headers,
+      ip: req.ip,
+    };
+  }
+}
+
+// EXAMPLE 3: Controller with Route Parameters and Wildcards
+@Controller('products')
+export class ProductsController {
+  // Basic route with parameter
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return \`Product \${id}\`;
+  }
+
+  // Multiple parameters
+  @Get(':category/:id')
+  findByCategory(
+    @Param('category') category: string,
+    @Param('id') id: string,
+  ) {
+    return \`Product \${id} in category \${category}\`;
+  }
+
+  // Wildcard route
+  @Get('search/*')
+  search(@Param('0') path: string) {
+    return \`Searching for: \${path}\`;
+  }
+
+  // Optional parameter in query
+  @Get()
+  findAll(@Query('sort') sort?: string) {
+    return sort ? \`Sorted by \${sort}\` : 'All products';
+  }
+}
+
+// EXAMPLE 4: Controller with File Upload
+import {
+  Post,
+  UploadedFile,
+  UploadedFiles,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
+@Controller('upload')
+export class UploadController {
+  @Post('single')
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, callback) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+        const ext = extname(file.originalname);
+        callback(null, \`\${file.fieldname}-\${uniqueSuffix}\${ext}\`);
+      },
+    }),
+    limits: {
+      fileSize: 5 * 1024 * 1024, // 5MB
+    },
+  }))
+  uploadFile(
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return {
+      filename: file.filename,
+      originalname: file.originalname,
+      size: file.size,
+      mimetype: file.mimetype,
+    };
+  }
+
+  @Post('multiple')
+  @UseInterceptors(FilesInterceptor('files', 10)) // Max 10 files
+  uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
+    return files.map(file => ({
+      filename: file.filename,
+      originalname: file.originalname,
+    }));
+  }
+}
+
+// EXAMPLE 5: Controller with Different HTTP Methods
+@Controller('tasks')
+export class TasksController {
+  @Get()
+  findAll() {
+    return 'Get all tasks';
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return \`Get task \${id}\`;
+  }
+
+  @Post()
+  create(@Body() createTaskDto: any) {
+    return 'Create task';
+  }
+
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateTaskDto: any) {
+    return \`Update task \${id}\`;
+  }
+
+  @Patch(':id')
+  partialUpdate(@Param('id') id: string, @Body() updateTaskDto: any) {
+    return \`Partially update task \${id}\`;
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return \`Delete task \${id}\`;
+  }
+
+  @Head(':id')
+  head(@Param('id') id: string) {
+    // HEAD request - same as GET but without body
+  }
+
+  @Options()
+  options() {
+    // OPTIONS request for CORS
+    return {
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    };
+  }
+}
+
+// EXAMPLE 6: Controller with Async Operations
+@Controller('async')
+export class AsyncController {
+  @Get('promise')
+  async getWithPromise(): Promise<any> {
+    // Async/await with Promise
+    const data = await Promise.resolve({ message: 'From promise' });
+    return data;
+  }
+
+  @Get('observable')
+  getWithObservable(): Observable<any> {
+    // RxJS Observable
+    return of({ message: 'From observable' }).pipe(delay(1000));
+  }
+
+  @Get('stream')
+  getStream(@Res() res: Response) {
+    // Stream response
+    const stream = createReadStream('./large-file.txt');
+    stream.pipe(res);
+  }
+}
+
+// EXAMPLE 7: Controller with Custom Response Formats
+import { Serialize } from '../interceptors/serialize.interceptor';
+import { UserDto } from './dto/user.dto';
+
+@Controller('serialized')
+export class SerializedController {
+  @Get()
+  @Serialize(UserDto) // Custom serialization interceptor
+  findAll() {
+    return this.usersService.findAll();
+  }
+
+  @Get(':id')
+  @Serialize(UserDto)
+  findOne(@Param('id') id: string) {
+    return this.usersService.findOne(id);
+  }
+}
+
+// EXAMPLE 8: Controller Versioning
+@Controller({
+  path: 'users',
+  version: '1', // API version
+})
+export class UsersControllerV1 {
+  @Get()
+  findAllV1() {
+    return 'Users V1';
+  }
+}
+
+@Controller({
+  path: 'users',
+  version: '2',
+})
+export class UsersControllerV2 {
+  @Get()
+  findAllV2() {
+    return 'Users V2 with enhanced features';
+  }
+}
+
+// EXAMPLE 9: Controller Testing
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersController } from './users.controller';
+import { UsersService } from './users.service';
+
+describe('UsersController', () => {
+  let controller: UsersController;
+  let service: UsersService;
+
+  const mockUsersService = {
+    create: jest.fn(),
+    findAll: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    remove: jest.fn(),
+  };
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      controllers: [UsersController],
+      providers: [
+        {
+          provide: UsersService,
+          useValue: mockUsersService,
+        },
+      ],
+    }).compile();
+
+    controller = module.get<UsersController>(UsersController);
+    service = module.get<UsersService>(UsersService);
+  });
+
+  it('should be defined', () => {
+    expect(controller).toBeDefined();
+  });
+
+  describe('create', () => {
+    it('should create a user', async () => {
+      const createUserDto = { name: 'John', email: 'john@example.com' };
+      const result = { id: '1', ...createUserDto };
+      
+      mockUsersService.create.mockResolvedValue(result);
+
+      expect(await controller.create(createUserDto)).toBe(result);
+      expect(mockUsersService.create).toHaveBeenCalledWith(createUserDto);
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return an array of users', async () => {
+      const result = [{ id: '1', name: 'John' }];
+      mockUsersService.findAll.mockResolvedValue(result);
+
+      expect(await controller.findAll(1, 10)).toBe(result);
+    });
+  });
+});
+</code></pre>
+</div>
+`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between @Param(), @Query(), and @Body() decorators in NestJS controllers?",
+                solution:
+                  "<p><strong>@Param():</strong> Extracts route parameters from the URL path. For example, in a route like <code>GET /users/:id</code>, <code>@Param('id')</code> would extract the value of <code>id</code> from the URL. Route parameters are part of the path structure and are required for the route to match.</p><p><strong>@Query():</strong> Extracts query string parameters from the URL. These are optional parameters that come after the <code>?</code> in the URL. For example, in <code>GET /users?page=1&limit=10</code>, <code>@Query('page')</code> would extract <code>1</code> and <code>@Query('limit')</code> would extract <code>10</code>. Query parameters are used for filtering, sorting, pagination, and other optional operations.</p><p><strong>@Body():</strong> Extracts the request body from HTTP requests that have a body (POST, PUT, PATCH). This is typically used to receive JSON or form data sent by the client. The body is parsed according to the content type (JSON by default in NestJS). Often used with DTOs (Data Transfer Objects) for validation and type safety.</p><p>Key differences: <code>@Param()</code> is for required path segments, <code>@Query()</code> is for optional URL parameters, and <code>@Body()</code> is for request payload data. Understanding when to use each is crucial for designing clean, RESTful APIs.</p>",
+              },
+              {
+                question:
+                  "How does NestJS handle asynchronous operations in controllers?",
+                solution:
+                  "<p>NestJS controllers support asynchronous operations in several ways, making it easy to work with promises, async/await, and RxJS observables:</p><p><strong>1. Async/Await with Promises:</strong> Controller methods can be marked as <code>async</code> and return promises. NestJS automatically waits for the promise to resolve and sends the result as the response.</p><p><strong>2. RxJS Observables:</strong> Methods can return Observables, and NestJS subscribes automatically, sending the emitted value as the response. This is useful for streaming, real-time operations, or when working with libraries that use Observables.</p><p><strong>3. Manual Response Handling:</strong> Using <code>@Res()</code> decorator, you can manually handle the response, which is useful for streaming files or custom response formats.</p><p><strong>4. Built-in Error Handling:</strong> NestJS automatically catches errors from async operations and passes them to exception filters, making error handling consistent across synchronous and asynchronous code.</p><p>Best practice is to use async/await for most cases as it's more readable and integrates well with NestJS's dependency injection and lifecycle. For reactive programming or streaming, Observables are the better choice.</p>",
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/controllers",
+              "https://docs.nestjs.com/controllers#route-parameters",
+              "https://docs.nestjs.com/controllers#request-object",
+              "https://docs.nestjs.com/controllers#async-await",
+            ],
+          },
+          {
+            topic: "Providers in NestJS",
+            tags: [
+              "Services",
+              "Dependency Injection",
+              "Business Logic",
+              "Injectable",
+            ],
+            explanation: `<div>
+   <p style="line-height: 1.75; margin-top: 1.5rem;">
+     Providers are a fundamental concept in NestJS that enable dependency injection (DI) and encapsulate the business logic of your application. In NestJS, a provider is any class that can be injected as a dependency - this includes services, repositories, factories, helpers, and even values. Providers are marked with the <code>@Injectable()</code> decorator and are managed by NestJS's built-in Dependency Injection (DI) container. The DI container is responsible for creating instances of providers, resolving their dependencies, and managing their lifecycle. This inversion of control (IoC) pattern makes your code more modular, testable, and maintainable by decoupling classes from their dependencies.
+   </p>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Types of Providers
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Class Providers (Services):</span> The most common type. These are classes marked with <code>@Injectable()</code> that contain business logic, data access, or utility functions. They can be injected into controllers, other services, or any class managed by the DI container.
+      <br/><em>Example: UserService, AuthService, EmailService</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Value Providers:</span> Simple values or objects that can be injected. Useful for configuration constants, API keys, or mock implementations during testing.
+      <br/><em>Example: { provide: 'API_KEY', useValue: '12345' }</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Factory Providers:</span> Functions that create and return a provider instance. Useful when you need dynamic creation logic or conditional instantiation based on runtime values.
+      <br/><em>Example: { provide: 'CONNECTION', useFactory: () => createConnection() }</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Existing Providers (Aliases):</span> Create an alias for an existing provider. Useful for backward compatibility or providing multiple ways to inject the same service.
+      <br/><em>Example: { provide: 'AliasService', useExisting: UserService }</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Async Providers:</span> Factories that return promises or observables. NestJS waits for the async operation to complete before making the provider available.
+      <br/><em>Example: { provide: 'ASYNC_DATA', useFactory: async () => await fetchData() }</em>
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Provider Scopes
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     NestJS provides three scopes for providers that control how instances are created and shared:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">DEFAULT (Singleton):</span> A single instance is created and shared across the entire application. This is the default scope and is suitable for most services (stateless services, repositories, utilities).
+      <br/><em>@Injectable({ scope: Scope.DEFAULT })</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">REQUEST:</span> A new instance is created for each incoming request. All classes that depend on this provider receive the same instance for that request, but different requests get different instances. Useful for request-specific data (user context, request ID).
+      <br/><em>@Injectable({ scope: Scope.REQUEST })</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">TRANSIENT:</span> A new instance is created each time the provider is injected. No instance sharing occurs. Useful when you need fresh state for each consumer or to avoid side effects.
+      <br/><em>@Injectable({ scope: Scope.TRANSIENT })</em>
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Dependency Injection Patterns
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Constructor Injection:</span> The most common and recommended pattern. Dependencies are declared as parameters in the constructor, and NestJS automatically injects them.
+      <br/><em>constructor(private usersService: UsersService) {}</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Property Injection:</span> Less common, but possible using the <code>@Inject()</code> decorator on class properties. Useful when you can't use constructor injection (e.g., base classes).
+      <br/><em>@Inject('CONFIG') private config: Config;</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Method Injection:</span> Inject dependencies into specific methods using parameter decorators. Rarely used but available for special cases.
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Custom Providers and Injection Tokens
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     NestJS uses injection tokens to identify providers. By default, the token is the class name, but you can use custom tokens for more flexibility:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">String Tokens:</span> Use strings as tokens for non-class providers.
+      <br/><em>{ provide: 'DATABASE_CONNECTION', useClass: DatabaseService }</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Symbol Tokens:</span> Use Symbols for unique tokens that avoid naming collisions.
+      <br/><em>{ provide: Symbol('LOGGER'), useClass: LoggerService }</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">Class Tokens:</span> The default - the class itself serves as the token.
+      <br/><em>{ provide: UsersService, useClass: UsersService }</em>
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Provider Lifecycle
+   </h4>
+   <p style="line-height: 1.75; margin-top: 1rem;">
+     Providers have lifecycle hooks that allow you to execute code at specific points:
+   </p>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">OnModuleInit:</span> Called once the module has been initialized and all providers are instantiated.
+      <br/><em>Implement onModuleInit() method</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">OnApplicationBootstrap:</span> Called once the application has fully started.
+      <br/><em>Implement onApplicationBootstrap() method</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">OnModuleDestroy:</span> Called when the module is being destroyed (cleanup).
+      <br/><em>Implement onModuleDestroy() method</em>
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600; font-size: 1.1rem;">OnApplicationShutdown:</span> Called when the application is shutting down.
+      <br/><em>Implement onApplicationShutdown() method</em>
+     </li>
+   </ol>
+   <h4 style="margin-top: 1.5rem; font-size: 1.25rem; font-weight: 600; letter-spacing: -0.025em;">
+     Best Practices
+   </h4>
+   <ol style="margin-top: 1.5rem; margin-left: 1.5rem; list-style-type: number;">
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Single Responsibility:</span> Each provider should have a single, well-defined responsibility. Split large services into smaller, focused providers.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Depend on Abstractions:</span> Program to interfaces rather than concrete implementations. This makes testing easier and allows for flexible implementations.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Use Appropriate Scope:</span> Default scope for stateless services, REQUEST scope for request-specific data, TRANSIENT for services that need fresh instances.
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Avoid Circular Dependencies:</span> Structure your providers to avoid circular dependencies. If unavoidable, use forwardRef().
+     </li>
+     <li style="margin-top: 0.5rem;">
+      <span style="font-weight: 600;">Lazy Loading:</span> Use lazy providers for expensive initialization that might not be needed immediately.
+     </li>
+   </ol>
+</div>
+`,
+            examples: [
+              `<div style="padding: 2px; border-radius: 8px; font-size: 14px;">
+      <pre><code className="language-typescript">
+// EXAMPLE 1: Basic Service Provider
+import { Injectable, Inject } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
+
+@Injectable() // Marks this class as a provider
+export class UsersService {
+  constructor(
+    @InjectRepository(User) // Custom injection decorator
+    private usersRepository: Repository<User>,
+    
+    @Inject('CONFIG') // Injecting a custom provider
+    private config: any,
+    
+    @Inject('LOGGER') // Another custom provider
+    private logger: any,
+  ) {}
+
+  async create(createUserDto: CreateUserDto): Promise<User> {
+    this.logger.log('Creating user');
+    const user = this.usersRepository.create(createUserDto);
+    return this.usersRepository.save(user);
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find();
+  }
+
+  async findOne(id: string): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) {
+      throw new Error('User not found');
+    }
+    return user;
+  }
+
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+    await this.usersRepository.update(id, updateUserDto);
+    return this.findOne(id);
+  }
+
+  async remove(id: string): Promise<void> {
+    await this.usersRepository.delete(id);
+  }
+}
+
+// EXAMPLE 2: Custom Provider Registration
+import { Module } from '@nestjs/common';
+import { UsersService } from './users.service';
+import { LoggerService } from './logger.service';
+import { ConfigService } from './config.service';
+
+@Module({
+  providers: [
+    // Class provider (standard)
+    UsersService,
+    
+    // Class provider with custom token
+    {
+      provide: 'LOGGER_SERVICE',
+      useClass: LoggerService,
+    },
+    
+    // Value provider
+    {
+      provide: 'API_KEY',
+      useValue: process.env.API_KEY || 'default-key',
+    },
+    
+    // Factory provider
+    {
+      provide: 'DATABASE_CONNECTION',
+      useFactory: () => {
+        return createConnection({
+          host: 'localhost',
+          port: 5432,
+          database: 'test',
+        });
+      },
+    },
+    
+    // Async factory provider
+    {
+      provide: 'ASYNC_CONFIG',
+      useFactory: async () => {
+        const config = await fetchRemoteConfig();
+        return config;
+      },
+    },
+    
+    // Alias provider
+    {
+      provide: 'ALIAS_LOGGER',
+      useExisting: LoggerService,
+    },
+    
+    // Provider with dependencies
+    {
+      provide: 'CONFIGURED_SERVICE',
+      useFactory: (config: ConfigService) => {
+        return new ConfiguredService(config.getOptions());
+      },
+      inject: [ConfigService], // Dependencies for the factory
+    },
+  ],
+  exports: ['API_KEY', UsersService], // Export providers for other modules
+})
+export class UsersModule {}
+
+// EXAMPLE 3: Provider with Scope
+import { Injectable, Scope, Inject } from '@nestjs/common';
+
+@Injectable({ scope: Scope.DEFAULT }) // Singleton (default)
+export class SingletonService {
+  constructor() {
+    console.log('SingletonService created');
+  }
+  
+  getData() {
+    return 'Singleton data';
+  }
+}
+
+@Injectable({ scope: Scope.REQUEST }) // New instance per request
+export class RequestScopedService {
+  private requestId: string;
+  
+  constructor(@Inject('REQUEST_ID') requestId: string) {
+    this.requestId = requestId;
+    console.log(\`RequestScopedService created for request \${requestId}\`);
+  }
+  
+  getRequestId() {
+    return this.requestId;
+  }
+}
+
+@Injectable({ scope: Scope.TRANSIENT }) // New instance each injection
+export class TransientService {
+  private instanceId: string;
+  
+  constructor() {
+    this.instanceId = Math.random().toString(36).substr(2, 9);
+    console.log(\`TransientService created with ID: \${this.instanceId}\`);
+  }
+  
+  getInstanceId() {
+    return this.instanceId;
+  }
+}
+
+// EXAMPLE 4: Provider with Lifecycle Hooks
+import { Injectable, OnModuleInit, OnApplicationBootstrap, OnModuleDestroy, OnApplicationShutdown } from '@nestjs/common';
+
+@Injectable()
+export class LifecycleService implements OnModuleInit, OnApplicationBootstrap, OnModuleDestroy, OnApplicationShutdown {
+  onModuleInit() {
+    console.log('Module initialized - LifecycleService is ready');
+    // Initialize connections, load configuration, etc.
+  }
+  
+  onApplicationBootstrap() {
+    console.log('Application bootstrapped - All modules are ready');
+    // Start background jobs, connect to external services, etc.
+  }
+  
+  onModuleDestroy() {
+    console.log('Module destroying - cleaning up resources');
+    // Close connections, stop timers, etc.
+  }
+  
+  onApplicationShutdown(signal?: string) {
+    console.log(\`Application shutting down with signal: \${signal}\`);
+    // Final cleanup, save state, notify other services, etc.
+  }
+  
+  doSomething() {
+    return 'Working...';
+  }
+}
+
+// EXAMPLE 5: Abstract Provider Pattern
+// Define an interface
+export interface PaymentGateway {
+  processPayment(amount: number): Promise<boolean>;
+  refundPayment(transactionId: string): Promise<boolean>;
+}
+
+// Concrete implementation 1
+@Injectable()
+export class StripePaymentGateway implements PaymentGateway {
+  async processPayment(amount: number): Promise<boolean> {
+    // Stripe payment logic
+    console.log(\`Processing \${amount} via Stripe\`);
+    return true;
+  }
+  
+  async refundPayment(transactionId: string): Promise<boolean> {
+    // Stripe refund logic
+    return true;
+  }
+}
+
+// Concrete implementation 2
+@Injectable()
+export class PayPalPaymentGateway implements PaymentGateway {
+  async processPayment(amount: number): Promise<boolean> {
+    // PayPal payment logic
+    console.log(\`Processing \${amount} via PayPal\`);
+    return true;
+  }
+  
+  async refundPayment(transactionId: string): Promise<boolean> {
+    // PayPal refund logic
+    return true;
+  }
+}
+
+// Service that depends on the interface
+@Injectable()
+export class OrderService {
+  constructor(
+    @Inject('PAYMENT_GATEWAY')
+    private paymentGateway: PaymentGateway,
+  ) {}
+  
+  async checkout(orderId: string, amount: number) {
+    const success = await this.paymentGateway.processPayment(amount);
+    if (success) {
+      return { success: true, message: 'Payment processed' };
+    }
+    throw new Error('Payment failed');
+  }
+}
+
+// Module configuration
+@Module({
+  providers: [
+    OrderService,
+    StripePaymentGateway,
+    PayPalPaymentGateway,
+    {
+      provide: 'PAYMENT_GATEWAY',
+      useClass: process.env.PAYMENT_PROVIDER === 'paypal' 
+        ? PayPalPaymentGateway 
+        : StripePaymentGateway,
+    },
+  ],
+})
+export class OrdersModule {}
+
+// EXAMPLE 6: Provider with Custom Decorator
+import { Injectable, Inject } from '@nestjs/common';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
+
+// Custom decorator for easy injection
+export const InjectCache = () => Inject(CACHE_MANAGER);
+
+@Injectable()
+export class CachedService {
+  constructor(
+    @InjectCache() // Using custom decorator
+    private cacheManager: Cache,
+  ) {}
+  
+  async getWithCache(key: string, fetchFn: () => Promise<any>, ttl = 60) {
+    const cached = await this.cacheManager.get(key);
+    if (cached) {
+      return cached;
+    }
+    
+    const data = await fetchFn();
+    await this.cacheManager.set(key, data, ttl * 1000);
+    return data;
+  }
+}
+
+// EXAMPLE 7: Provider Testing with Mocks
+import { Test, TestingModule } from '@nestjs/testing';
+import { UsersService } from './users.service';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+
+describe('UsersService', () => {
+  let service: UsersService;
+  
+  const mockRepository = {
+    create: jest.fn(),
+    save: jest.fn(),
+    find: jest.fn(),
+    findOne: jest.fn(),
+    update: jest.fn(),
+    delete: jest.fn(),
+  };
+  
+  const mockConfig = {
+    get: jest.fn(),
+  };
+  
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        UsersService,
+        {
+          provide: getRepositoryToken(User),
+          useValue: mockRepository,
+        },
+        {
+          provide: 'CONFIG',
+          useValue: mockConfig,
+        },
+      ],
+    }).compile();
+    
+    service = module.get<UsersService>(UsersService);
+  });
+  
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+  
+  describe('create', () => {
+    it('should create a user', async () => {
+      const createUserDto = { name: 'John', email: 'john@example.com' };
+      const savedUser = { id: '1', ...createUserDto };
+      
+      mockRepository.create.mockReturnValue(createUserDto);
+      mockRepository.save.mockResolvedValue(savedUser);
+      
+      const result = await service.create(createUserDto);
+      
+      expect(result).toEqual(savedUser);
+      expect(mockRepository.create).toHaveBeenCalledWith(createUserDto);
+      expect(mockRepository.save).toHaveBeenCalledWith(createUserDto);
+    });
+  });
+});
+
+// EXAMPLE 8: Lazy Providers
+import { Injectable, LazyModuleLoader } from '@nestjs/common';
+
+@Injectable()
+export class LazyService {
+  constructor(private lazyModuleLoader: LazyModuleLoader) {}
+  
+  async lazyOperation() {
+    // Dynamically load a module only when needed
+    const { UsersModule } = await import('./users/users.module');
+    const moduleRef = await this.lazyModuleLoader.load(() => UsersModule);
+    
+    const usersService = moduleRef.get(UsersService);
+    return usersService.findAll();
+  }
+}
+
+// EXAMPLE 9: Provider with Configuration
+import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+
+@Injectable()
+export class DatabaseService {
+  private connection: any;
+  
+  constructor(private configService: ConfigService) {
+    this.initialize();
+  }
+  
+  private initialize() {
+    const host = this.configService.get<string>('DB_HOST');
+    const port = this.configService.get<number>('DB_PORT');
+    const database = this.configService.get<string>('DB_NAME');
+    
+    console.log(\`Connecting to database: \${host}:\${port}/\${database}\`);
+    // Initialize connection
+  }
+  
+  async query(sql: string, params: any[] = []) {
+    // Execute query
+    return { rows: [] };
+  }
+  
+  async close() {
+    // Close connection
+  }
+}
+
+// Module registration with configuration
+@Module({
+  imports: [ConfigModule.forRoot()],
+  providers: [DatabaseService],
+  exports: [DatabaseService],
+})
+export class DatabaseModule {}
+</code></pre>
+</div>
+`,
+            ],
+            questions: [
+              {
+                question:
+                  "What is the difference between @Injectable() scope DEFAULT, REQUEST, and TRANSIENT in NestJS?",
+                solution:
+                  "<p><strong>DEFAULT (Singleton) Scope:</strong> A single instance of the provider is created when the application starts and is shared across the entire application. All consumers receive the same instance. This is the default scope and is ideal for stateless services, repositories, utilities, and services that don't hold request-specific data. It's the most efficient as instances are reused.</p><p><strong>REQUEST Scope:</strong> A new instance is created for each incoming HTTP request. All classes that depend on this provider within the same request receive the same instance, but different requests get different instances. This is useful for services that need request-specific data like user context, request ID, or transaction management. Note that REQUEST-scoped providers cannot be injected into middleware as middleware runs before the request context is established.</p><p><strong>TRANSIENT Scope:</strong> A new instance is created each time the provider is injected. No instance sharing occurs, even within the same request. This is useful when you need completely fresh state for each consumer, want to avoid side effects, or when the service holds temporary data. It's less efficient than singleton but provides better isolation.</p><p>Choosing the right scope is important for performance and correctness. Use DEFAULT for most services, REQUEST for request-specific data, and TRANSIENT only when necessary for isolation.</p>",
+              },
+              {
+                question:
+                  "How does NestJS resolve dependencies when multiple providers have the same token?",
+                solution:
+                  "<p>When multiple providers are registered with the same injection token in NestJS, the last registered provider wins and is used for injection. This behavior allows for:</p><p><strong>1. Provider Overriding:</strong> You can override providers in testing by registering a mock with the same token. The testing module will use your mock instead of the real service.</p><p><strong>2. Environment-Specific Implementations:</strong> You can register different implementations based on environment variables or configuration.</p><p><strong>3. Module-Level Overrides:</strong> Importing modules can override providers from imported modules if they provide the same token.</p><p>Example: If you register <code>{ provide: 'LOGGER', useClass: ConsoleLogger }</code> and then <code>{ provide: 'LOGGER', useClass: FileLogger }</code>, <code>FileLogger</code> will be injected because it was registered last. This is particularly useful in testing:</p><p><strong>Testing Example:</strong> <code>Test.createTestingModule({ providers: [ { provide: UsersService, useClass: MockUsersService } ] })</code> will override the real <code>UsersService</code> with <code>MockUsersService</code> for all injections in the test context.</p><p>However, be cautious with this feature as it can lead to confusing behavior if overused. Document overrides clearly and use meaningful provider tokens to avoid conflicts.</p>",
+              },
+            ],
+            links: [
+              "https://docs.nestjs.com/providers",
+              "https://docs.nestjs.com/fundamentals/custom-providers",
+              "https://docs.nestjs.com/fundamentals/injection-scopes",
+              "https://docs.nestjs.com/fundamentals/dependency-injection",
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
